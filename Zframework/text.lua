@@ -106,7 +106,7 @@ function TEXT.show(text,x,y,font,style,spd,stop)
         text=gc.newText(FONT.get(int(font/5)*5 or 40),text),         --String
         x=x or 0,                                                    --X
         y=y or 0,                                                    --Y
-        spd=(spd or 1)/60,                                           --Timing speed(1=last 1 sec)
+        spd=(spd or 1),                                              --Timing speed(1=last 1 sec)
         stop=stop,                                                   --Stop time(sustained text)
         draw=assert(textFX[style or'appear'],"no text type:"..style),--Draw method
     })
@@ -117,18 +117,18 @@ function TEXT.getText(text,x,y,font,style,spd,stop)--Another version of TEXT.sho
         text=gc.newText(FONT.get(int(font/5)*5 or 40),text),
         x=x or 0,
         y=y or 0,
-        spd=(spd or 1)/60,
+        spd=(spd or 1),
         stop=stop,
         draw=textFX[style or'appear']or error("unavailable type:"..style),
     }
 end
-function TEXT.update(list)
+function TEXT.update(dt,list)
     if not list then
         list=texts
     end
     for i=#list,1,-1 do
         local t=list[i]
-        t.c=t.c+t.spd
+        t.c=t.c+t.spd*dt
         if t.stop then
             if t.c>t.stop then
                 t.c=t.stop

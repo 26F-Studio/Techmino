@@ -616,14 +616,14 @@ function love.run()
         STEP()
         VOC.update()
         BG.update(dt)
-        TEXT_update()
+        TEXT_update(dt)
         MES_update(dt)
         WS_update(dt)
-        TASK_update()
+        TASK_update(dt)
         SYSFX_update(dt)
         if SCN.update then SCN.update(dt)end
-        if SCN.swapping then SCN.swapUpdate()end
-        WIDGET_update()
+        if SCN.swapping then SCN.swapUpdate(dt)end
+        WIDGET_update(dt)
 
         --DRAW
         if not MINI()then

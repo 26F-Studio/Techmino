@@ -163,12 +163,12 @@ function scene.keyDown(key)
     end
 end
 
-function scene.update()
+function scene.update(dt)
     if not LOADED then
         loading=loadingThread()
         progress=progress+1
     else
-        t1,t2=t1+1,t2+1
+        t1,t2=t1+dt*60,t2+dt*60
     end
 end
 

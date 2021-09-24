@@ -59,13 +59,13 @@ local text={
 }
 
 function text:reset()end
-function text:update()
+function text:update(dt)
     if self.hideF and self.hideF()then
         if self.alpha>0 then
-            self.alpha=self.alpha-.125
+            self.alpha=max(self.alpha-dt*7.5,0)
         end
     elseif self.alpha<1 then
-        self.alpha=self.alpha+.125
+        self.alpha=min(self.alpha+dt*7.5,1)
     end
 end
 function text:draw()
@@ -154,12 +154,12 @@ end
 function button:getCenter()
     return self.x+self.w*.5,self.y+self.h*.5
 end
-function button:update()
+function button:update(dt)
     local ATV=self.ATV
     if WIDGET.sel==self then
-        if ATV<8 then self.ATV=ATV+1 end
+        if ATV<8 then self.ATV=min(ATV+dt*60,8)end
     else
-        if ATV>0 then self.ATV=ATV-.5 end
+        if ATV>0 then self.ATV=max(ATV-dt*30,0)end
     end
 end
 function button:draw()
@@ -282,12 +282,12 @@ end
 function key:getCenter()
     return self.x+self.w*.5,self.y+self.h*.5
 end
-function key:update()
+function key:update(dt)
     local ATV=self.ATV
     if WIDGET.sel==self then
-        if ATV<4 then self.ATV=ATV+1 end
+        if ATV<4 then self.ATV=min(ATV+dt*60,4)end
     else
-        if ATV>0 then self.ATV=ATV-.5 end
+        if ATV>0 then self.ATV=max(ATV-dt*30,0)end
     end
 end
 function key:draw()
@@ -389,18 +389,18 @@ end
 function switch:getCenter()
     return self.x,self.y
 end
-function switch:update()
-    local atv=self.ATV
+function switch:update(dt)
+    local ATV=self.ATV
     if WIDGET.sel==self then
-        if atv<8 then self.ATV=atv+1 end
+        if ATV<8 then self.ATV=min(ATV+dt*60,8)end
     else
-        if atv>0 then self.ATV=atv-.5 end
+        if ATV>0 then self.ATV=max(ATV-dt*30,0)end
     end
     local chk=self.CHK
     if self:disp()then
-        if chk<6 then self.CHK=chk+1 end
+        if chk<6 then self.CHK=min(chk+dt*60,6)end
     else
-        if chk>0 then self.CHK=chk-1 end
+        if chk>0 then self.CHK=max(chk-dt*60,0)end
     end
 end
 function switch:draw()
@@ -492,22 +492,16 @@ end
 function slider:getCenter()
     return self.x+self.w*(self.pos/self.unit),self.y
 end
-function slider:update()
-    local atv=self.ATV
+function slider:update(dt)
+    local ATV=self.ATV
     if self.TAT>0 then
-        self.TAT=self.TAT-1
+        self.TAT=max(self.TAT-dt*60,0)
     end
     if WIDGET.sel==self then
-        if atv<6 then
-            atv=atv+1
-            self.ATV=atv
-        end
+        if ATV<6 then self.ATV=min(ATV+dt*60,6)end
         self.TAT=180
     else
-        if atv>0 then
-            atv=atv-.5
-            self.ATV=atv
-        end
+        if ATV>0 then self.ATV=max(ATV-dt*30,0)end
     end
     if not self.hide then
         self.pos=self.pos*.7+self.disp()*.3
@@ -682,16 +676,12 @@ end
 function selector:getCenter()
     return self.x+self.w*.5,self.y+30
 end
-function selector:update()
-    local atv=self.ATV
+function selector:update(dt)
+    local ATV=self.ATV
     if WIDGET.sel==self then
-        if atv<8 then
-            self.ATV=atv+1
-        end
+        if ATV<8 then self.ATV=min(ATV+dt*60,8)end
     else
-        if atv>0 then
-            self.ATV=atv-.5
-        end
+        if ATV>0 then self.ATV=max(ATV-dt*30,0)end
     end
 end
 function selector:draw()
@@ -850,12 +840,12 @@ end
 function inputBox:getCenter()
     return self.x+self.w*.5,self.y
 end
-function inputBox:update()
+function inputBox:update(dt)
     local ATV=self.ATV
     if WIDGET.sel==self then
-        if ATV<3 then self.ATV=ATV+1 end
+        if ATV<3 then self.ATV=min(ATV+dt*60,3)end
     else
-        if ATV>0 then self.ATV=ATV-.25 end
+        if ATV>0 then self.ATV=max(ATV-dt*15,0)end
     end
 end
 function inputBox:draw()
@@ -967,9 +957,9 @@ end
 function textBox:getCenter()
     return self.x+self.w*.5,self.y+self.w
 end
-function textBox:update()
+function textBox:update(dt)
     if self.sure>0 then
-        self.sure=self.sure-1
+        self.sure=max(self.sure-dt,0)
     end
 end
 function textBox:push(t)
@@ -986,7 +976,7 @@ function textBox:press(x,y)
             self:clear()
             self.sure=0
         else
-            self.sure=60
+            self.sure=1
         end
     end
 end
@@ -1476,7 +1466,7 @@ function WIDGET.gamepadPressed(i)
     end
 end
 
-function WIDGET.update()
+function WIDGET.update(dt)
     for _,W in next,WIDGET.active do
         if W.hideF then
             W.hide=W.hideF()
@@ -1484,7 +1474,7 @@ function WIDGET.update()
                 WIDGET.unFocus(true)
             end
         end
-        if W.update then W:update()end
+        if W.update then W:update(dt)end
     end
 end
 local widgetCanvas

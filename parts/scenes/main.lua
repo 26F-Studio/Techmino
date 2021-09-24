@@ -129,7 +129,7 @@ end
 
 function scene.update(dt)
     PLAYERS[1]:update(dt)
-    scrollX=scrollX-2.6
+    scrollX=scrollX-162*dt
     if scrollX<-tip:getWidth()then
         scrollX=tipLength
         tip:set(text.getTip())

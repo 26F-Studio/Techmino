@@ -1826,7 +1826,7 @@ local function _updateMisc(P)
 
     --Update texts
     if P.bonus then
-        TEXT.update(P.bonus)
+        TEXT.update(1/60,P.bonus)
     end
 
     --Update tasks

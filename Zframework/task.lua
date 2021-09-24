@@ -6,14 +6,19 @@ local TASK={}
 function TASK.getCount()
     return #tasks
 end
-function TASK.update()
-    for i=#tasks,1,-1 do
-        local T=tasks[i]
-        if status(T.thread)=='dead'then
-            rem(tasks,i)
-        else
-            assert(resume(T.thread))
+local trigTime=0
+function TASK.update(dt)
+    trigTime=trigTime+dt
+    while trigTime>1/60 do
+        for i=#tasks,1,-1 do
+            local T=tasks[i]
+            if status(T.thread)=='dead'then
+                rem(tasks,i)
+            else
+                assert(resume(T.thread))
+            end
         end
+        trigTime=trigTime-1/60
     end
 end
 function TASK.new(code,...)

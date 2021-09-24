@@ -46,14 +46,14 @@ function SCN.add(name,scene)
     end
 end
 
-function SCN.swapUpdate()
+function SCN.swapUpdate(dt)
     local S=SCN.stat
-    S.time=S.time-1
-    if S.time==S.changeTime then
-        --Scene swapped this moment
+    S.time=S.time-dt
+    if S.time<S.changeTime and S.time+dt>=S.changeTime then
+        --Scene swapped this frame
         SCN.init(S.tar,SCN.cur)
     end
-    if S.time==0 then
+    if S.time<0 then
         SCN.swapping=false
     end
 end
@@ -103,41 +103,65 @@ function SCN.pop()
 end
 
 local swap={
-    none={duration=1,changeTime=0,draw=function()end},
-    flash={duration=8,changeTime=1,draw=function()gc.clear(1,1,1)end},
-    fade={duration=30,changeTime=15,draw=function(t)
-        t=t>15 and 2-t/15 or t/15
-        gc.setColor(0,0,0,t)
-        gc.rectangle('fill',0,0,SCR.w,SCR.h)
-    end},
-    fade_togame={duration=120,changeTime=20,draw=function(t)
-        t=t>20 and(120-t)/100 or t/20
-        gc.setColor(0,0,0,t)
-        gc.rectangle('fill',0,0,SCR.w,SCR.h)
-    end},
-    slowFade={duration=180,changeTime=90,draw=function(t)
-        t=t>90 and 2-t/90 or t/90
-        gc.setColor(0,0,0,t)
-        gc.rectangle('fill',0,0,SCR.w,SCR.h)
-    end},
-    swipeL={duration=30,changeTime=15,draw=function(t)
-        t=t/30
-        gc.setColor(.1,.1,.1,1-abs(t-.5))
-        t=t*t*(3-2*t)*2-1
-        gc.rectangle('fill',t*SCR.w,0,SCR.w,SCR.h)
-    end},
-    swipeR={duration=30,changeTime=15,draw=function(t)
-        t=t/30
-        gc.setColor(.1,.1,.1,1-abs(t-.5))
-        t=t*t*(2*t-3)*2+1
-        gc.rectangle('fill',t*SCR.w,0,SCR.w,SCR.h)
-    end},
-    swipeD={duration=30,changeTime=15,draw=function(t)
-        t=t/30
-        gc.setColor(.1,.1,.1,1-abs(t-.5))
-        t=t*t*(2*t-3)*2+1
-        gc.rectangle('fill',0,t*SCR.h,SCR.w,SCR.h)
-    end},
+    none={
+        duration=0,changeTime=0,
+        draw=function()end
+    },
+    flash={
+        duration=.16,changeTime=.08,
+        draw=function()gc.clear(1,1,1)end
+    },
+    fade={
+        duration=.5,changeTime=.25,
+        draw=function(t)
+            t=t>.25 and 2-t*4 or t*4
+            gc.setColor(0,0,0,t)
+            gc.rectangle('fill',0,0,SCR.w,SCR.h)
+        end
+    },
+    fade_togame={
+        duration=2,changeTime=.5,
+        draw=function(t)
+            t=t>.5 and(2-t)/1.5 or t*.5
+            gc.setColor(0,0,0,t)
+            gc.rectangle('fill',0,0,SCR.w,SCR.h)
+        end
+    },
+    slowFade={
+        duration=3,changeTime=1.5,
+        draw=function(t)
+            t=t>1.5 and (3-t)/1.5 or t/1.5
+            gc.setColor(0,0,0,t)
+            gc.rectangle('fill',0,0,SCR.w,SCR.h)
+        end
+    },
+    swipeL={
+        duration=.5,changeTime=.25,
+        draw=function(t)
+        t=t*2
+            gc.setColor(.1,.1,.1,1-abs(t-.5))
+            t=t*t*(3-2*t)*2-1
+            gc.rectangle('fill',t*SCR.w,0,SCR.w,SCR.h)
+        end
+    },
+    swipeR={
+        duration=.5,changeTime=.25,
+        draw=function(t)
+            t=t*2
+            gc.setColor(.1,.1,.1,1-abs(t-.5))
+            t=t*t*(2*t-3)*2+1
+            gc.rectangle('fill',t*SCR.w,0,SCR.w,SCR.h)
+        end
+    },
+    swipeD={
+        duration=.5,changeTime=.25,
+        draw=function(t)
+            t=t*2
+            gc.setColor(.1,.1,.1,1-abs(t-.5))
+            t=t*t*(2*t-3)*2+1
+            gc.rectangle('fill',0,t*SCR.h,SCR.w,SCR.h)
+        end
+    },
 }--Scene swapping animations
 function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back
     if scenes[tar]then
