@@ -47,13 +47,13 @@ function textFX.drive(t)
         nil,
         nil,nil,
         t.text:getWidth()*.5,t.text:getHeight()*.5,
-        t.c<.3 and (.3-t.c)*2 or 0,0
+        t.c<.3 and(.3-t.c)*2 or 0,0
     )
 end
 function textFX.spin(t)
     draw(
         t.text,t.x,t.y,
-        t.c<.3 and (.3-t.c)^2*4 or t.c<.8 and 0 or (t.c-.8)^2*-4,
+        t.c<.3 and(.3-t.c)^2*4 or t.c<.8 and 0 or(t.c-.8)^2*-4,
         nil,nil,
         t.text:getWidth()*.5,t.text:getHeight()*.5
     )

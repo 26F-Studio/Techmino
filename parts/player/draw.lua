@@ -35,7 +35,7 @@ local dialFrame=TEXTURE.dial.frame
 local dialNeedle=TEXTURE.dial.needle
 local multiple=TEXTURE.multiple
 local playerborder=TEXTURE.playerBorder
-gridLines=TEXTURE.gridLines
+local gridLines=TEXTURE.gridLines
 
 local LDmarks=gc.newSpriteBatch(GC.DO{14,5,{'fRect',0,0,14,5,3}},15,'static')
 for i=0,14 do LDmarks:add(3+20*i,615)end

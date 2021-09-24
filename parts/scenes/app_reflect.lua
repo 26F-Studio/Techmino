@@ -49,7 +49,7 @@ function scene.keyDown(key,isRep)
 end
 function scene.touchDown(x,y)
     scene.keyDown(
-        state==0 and "space"or
+        state==0 and"space"or
         x<640 and
             (y<360 and"q"or"a")or
             (y<360 and"p"or"l")

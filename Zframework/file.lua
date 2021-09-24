@@ -73,7 +73,7 @@ function FILE.clear(path)
     end
 end
 function FILE.clear_s(path)
-    if path==''or (fs.getRealDirectory(path)==SAVEDIR and fs.getInfo(path).type=='directory')then
+    if path==''or(fs.getRealDirectory(path)==SAVEDIR and fs.getInfo(path).type=='directory')then
         for _,name in next,fs.getDirectoryItems(path)do
             name=path..'/'..name
             if fs.getRealDirectory(name)==SAVEDIR then

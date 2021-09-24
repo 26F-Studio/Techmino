@@ -62,10 +62,10 @@ local function _pTouch(x,y)
     end
     if #penPath==0 then
         penMode=
-            pens[curPen]>0 and(FIELD[page][y][x]~=pens[curPen] and 0 or 1)or
+            pens[curPen]>0 and(FIELD[page][y][x]~=pens[curPen]and 0 or 1)or
             pens[curPen]==0 and 1 or
             pens[curPen]==-1 and 0 or
-            pens[curPen]==-2 and (FIELD[page][y][x]<=0 and 0 or 1)
+            pens[curPen]==-2 and(FIELD[page][y][x]<=0 and 0 or 1)
     end
     ins(penPath,{x,y})
 end

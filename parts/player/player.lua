@@ -1818,7 +1818,6 @@ local function _updateFX(P,dt)
 end
 local function update_alive(P)
     local ENV=P.gameEnv
-    local S=P.stat
 
     P.frameRun=P.frameRun+1
     if P.frameRun<=180 then
