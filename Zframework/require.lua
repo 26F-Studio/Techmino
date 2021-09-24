@@ -23,7 +23,6 @@ return function(libName)
 		local rtn = package.loadlib(libName..'.dylib', 'luaopen_'..libName)
 		if rtn then
 			local a = rtn()
-			MES.new('check',name.." lib loaded")
 			return a
 		else
 			MES.new('error',"Cannot load "..libName.." in Mac OS X.")
