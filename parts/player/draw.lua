@@ -390,7 +390,7 @@ local function _drawHold(holdQueue,holdCount,holdTime,skinLib)
             gc_setColor(1,1,1)
             gc_setShader(shader_blockSatur)
             for n=1,#holdQueue do
-                if n==N then gc_setColor(.6,.4,.4)end
+                if n==N then gc_setColor(.7,.5,.5)end
                 local bk,clr=holdQueue[n].bk,holdQueue[n].color
                 local texture=skinLib[clr]
                 local k=min(2.3/#bk,3/#bk[1],.85)
@@ -412,12 +412,12 @@ local function _drawNext(P,repMode)
     local texture=P.skinLib
     gc_translate(488,20)
         gc_setLineWidth(2)
-        local N=ENV.nextCount*72
+        local h=ENV.nextCount*72
         gc_setColor(ENV.nextStartPos>1 and .5 or 0,0,0,.4)
-        gc_rectangle('fill',0,0,100,N+8,5)
+        gc_rectangle('fill',0,0,100,h+8,5)
         gc_setColor(.97,.97,.97)
-        if ENV.holdMode=='swap'then gc_rectangle('fill',1,72*ENV.holdCount+2,50,4)end
-        gc_rectangle('line',0,0,100,N+8,5)
+        if ENV.holdMode=='swap'then gc_rectangle('fill',1,72*ENV.holdCount+4,50,4)end
+        gc_rectangle('line',0,0,100,h+8,5)
         gc_push('transform')
             gc_translate(50,40)
 
@@ -425,30 +425,31 @@ local function _drawNext(P,repMode)
             gc_setLineWidth(6)
             gc_setColor(1,1,1,.2)
             gc_setShader(shader_blockSatur)
-            gc_setColor(1,1,1,.8)
+            local hiding
+            if ENV.holdMode=='swap'then
+                gc_setColor(.7,.5,.5)
+                hiding=true
+            else
+                gc_setColor(1,1,1)
+            end
             local queue=P.nextQueue
-            local hiding=true
-            local startNID=min(ENV.nextStartPos,P.pieceCount+1)
-            N=1
+            local N=1
             while N<=ENV.nextCount and queue[N]do
-                if hiding and N==startNID then
+                if hiding and N>ENV.holdCount-P.holdTime then
                     gc_setColor(1,1,1)
                     hiding=false
                 end
-                if not hiding or repMode then
-                    local bk,sprite=queue[N].bk,texture[queue[N].color]
-                    local k=min(2.3/#bk,3/#bk[1],.85)
-                    gc_scale(k)
-                    for i=1,#bk do for j=1,#bk[1]do
-                        if bk[i][j]then
-                            gc_draw(sprite,30*(j-#bk[1]*.5)-30,-30*(i-#bk*.5))
-                        end
-                    end end
-                    gc_scale(1/k)
-                end
-                if ENV.holdMode=='swap'and N<=ENV.holdCount-P.holdTime then
-                    gc_line(-40,-25,40,25)
-                end
+
+                local bk,sprite=queue[N].bk,texture[queue[N].color]
+                local k=min(2.3/#bk,3/#bk[1],.85)
+                gc_scale(k)
+                for i=1,#bk do for j=1,#bk[1]do
+                    if bk[i][j]then
+                        gc_draw(sprite,30*(j-#bk[1]*.5)-30,-30*(i-#bk*.5))
+                    end
+                end end
+                gc_scale(1/k)
+
                 gc_translate(0,72)
                 N=N+1
             end
@@ -465,14 +466,18 @@ local function _drawNext(P,repMode)
                     local _=minoColor[skinSet[id]]
                     gc_setColor(_[1],_[2],_[3],.2)
                     _=blockImg[id]
-                    local h=_:getHeight()
                     gc_draw(_,-_:getWidth()*10,0,nil,10,nil)
-                    gc_translate(0,10*h+3)
+                    gc_translate(0,10*_:getHeight()+3)
                     n=n+1
                 end
             end
         gc_pop()
 
+        local c=min(ENV.nextStartPos-1,P.pieceCount)
+        if c>0 then
+            gc_setColor(.3,.3,.3,repMode and .8 or 1)
+            gc_rectangle('fill',1,1,98,c*72+4,4)
+        end
         if ENV.bagLine then
             gc_setColor(.8,.8,.8,.8)
             for i=-P.pieceCount%ENV.bagLine,N-1,ENV.bagLine do--i=phase
