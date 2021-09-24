@@ -20,13 +20,14 @@ return function(libName)
             loaded[libName]=true
         end
     elseif SYSTEM=="OS X" then
-		local rtn = package.loadlib(libName, 'luaopen_'..libName)
+		local rtn = package.loadlib(libName..'.dylib', 'luaopen_'..libName)
 		if rtn then
 			local a = rtn()
 			MES.new('check',name.." lib loaded")
 			return a
 		else
 			MES.new('error',"Cannot load "..libName.." in Mac OS X.")
+			return
 		end
     end
     local r1,r2,r3=pcall(require,libName)
