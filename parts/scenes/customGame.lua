@@ -236,18 +236,19 @@ scene.widgetList={
     WIDGET.newButton{name="puzzle",        x=1070,y=540,w=310,h=70,color='lM',font=35,code=pressKey"return2",hideF=function()return not initField end},
     WIDGET.newButton{name="back",          x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=pressKey"escape"},
 
+    --Rule set
+    WIDGET.newSelector{name="eventSet",    x=930, y=740,w=360,color='H',list=sList.eventSet,disp=CUSval('eventSet'),code=CUSsto('eventSet')},
+
     --Special rules
-    WIDGET.newSwitch{name="ospin",         x=850, y=750,lim=210,disp=CUSval('ospin'),    code=CUSrev('ospin')},
-    WIDGET.newSwitch{name="fineKill",      x=850, y=840,lim=210,disp=CUSval('fineKill'), code=CUSrev('fineKill')},
+    WIDGET.newSwitch{name="ospin",         x=850, y=810,lim=210,disp=CUSval('ospin'),    code=CUSrev('ospin')},
+    WIDGET.newSwitch{name="fineKill",      x=850, y=870,lim=210,disp=CUSval('fineKill'), code=CUSrev('fineKill')},
     WIDGET.newSwitch{name="b2bKill",       x=850, y=930,lim=210,disp=CUSval('b2bKill'),  code=CUSrev('b2bKill')},
-    WIDGET.newSwitch{name="easyFresh",     x=1170,y=750,lim=250,disp=CUSval('easyFresh'),code=CUSrev('easyFresh')},
-    WIDGET.newSwitch{name="deepDrop",      x=1170,y=840,lim=250,disp=CUSval('deepDrop'), code=CUSrev('deepDrop')},
+    WIDGET.newSwitch{name="easyFresh",     x=1170,y=810,lim=250,disp=CUSval('easyFresh'),code=CUSrev('easyFresh')},
+    WIDGET.newSwitch{name="deepDrop",      x=1170,y=870,lim=250,disp=CUSval('deepDrop'), code=CUSrev('deepDrop')},
     WIDGET.newSwitch{name="bone",          x=1170,y=930,lim=250,disp=CUSval('bone'),     code=CUSrev('bone')},
 
-    --Rule set
-    WIDGET.newSelector{name="eventSet",    x=310, y=880,w=360,color='H',list=sList.eventSet,disp=CUSval('eventSet'),code=CUSsto('eventSet')},
-
     --Next & Hold
+    WIDGET.newSelector{name="holdMode",    x=310, y=890, w=300,color='lY',list={'hold','swap'},disp=CUSval('holdMode'),code=CUSsto('holdMode')},
     WIDGET.newSlider{name="nextCount",     x=140, y=960, lim=130,w=180,unit=6,disp=CUSval('nextCount'),code=CUSsto('nextCount')},
     WIDGET.newSlider{name="holdCount",     x=140, y=1030,lim=130,w=180,unit=6,disp=CUSval('holdCount'),code=CUSsto('holdCount')},
     WIDGET.newSwitch{name="infHold",       x=560, y=960, lim=200,             disp=CUSval('infHold'),code=CUSrev('infHold'),hideF=function()return CUSTOMENV.holdCount==0 end},

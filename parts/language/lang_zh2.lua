@@ -56,6 +56,14 @@ return{
         mod={
             title="模组",
         },
+        net_newRoom={
+            ospin="O旋",
+            holdMode="暂存模式",
+            nextCount="预览个数",
+            holdCount="暂存个数",
+            infHold="无限暂存",
+            phyHold="物理暂存",
+        },
         setting_control={
             das="首次移动延迟",arr="移动重复延迟",
             sddas="首次软降延迟",sdarr="软降重复延迟",
@@ -67,6 +75,8 @@ return{
         customGame={
             mod="模组(F1)",
 
+            ospin="O旋",
+            holdMode="暂存模式",
             nextCount="预览个数",
             holdCount="暂存个数",
             infHold="无限暂存",

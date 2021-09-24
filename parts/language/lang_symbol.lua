@@ -181,6 +181,7 @@ return{
 
             eventSet="Rule Set",
 
+            holdMode="? [ ]",
             nextCount="→",
             holdCount="[ ]",
             infHold="∞*[ ]",
@@ -370,6 +371,7 @@ return{
 
             eventSet="Rule Set",
 
+            holdMode="? [ ]",
             nextCount="→",
             holdCount="[ ]",
             infHold="∞*[ ]",

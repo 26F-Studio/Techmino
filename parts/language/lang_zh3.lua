@@ -301,6 +301,7 @@ return{
 
             eventSet="规则集",
 
+            holdMode="持有模式",
             nextCount="下一个",
             holdCount="持有",
             infHold="无限持有",
@@ -491,6 +492,7 @@ return{
 
             eventSet="规则集",
 
+            holdMode="持有模式",
             nextCount="下一个",
             holdCount="持有",
             infHold="无限持有",

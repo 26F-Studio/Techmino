@@ -205,6 +205,7 @@ ROOMENV={
 
     --Control
     nextCount=6,
+    holdMode='hold',
     holdCount=1,
     infHold=false,
     phyHold=false,
@@ -249,6 +250,7 @@ SETTING={--Settings
     dascut=0,dropcut=0,
     sddas=0,sdarr=2,
     ihs=true,irs=true,ims=true,
+    holdMode='hold',
     RS='TRS',
     swap=true,
     FTLock=true,

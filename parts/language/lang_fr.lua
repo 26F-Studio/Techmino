@@ -262,6 +262,7 @@ return{
 
             -- eventSet="Rule Set",
 
+            -- holdMode="Hold Mode",
             nextCount="Prévisualisations de pièces",
             holdCount="Réserve",
             infHold="Réserver une fois",
@@ -457,6 +458,7 @@ return{
 
             -- eventSet="Rule Set",
 
+            -- holdMode="Hold Mode",
             nextCount="Prévisualisations de pièces",
             holdCount="Réserve",
             infHold="Réserver une fois",

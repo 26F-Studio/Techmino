@@ -13,8 +13,6 @@ local SFX,BGM,VOC,VIB,SYSFX=SFX,BGM,VOC,VIB,SYSFX
 local FREEROW,TABLE,TEXT,TASK=FREEROW,TABLE,TEXT,TASK
 local PLAYERS,PLY_ALIVE,GAME=PLAYERS,PLY_ALIVE,GAME
 
-local ply_draw=require"parts.player.draw"
-
 --------------------------<FX>--------------------------
 function Player:_showText(text,dx,dy,font,style,spd,stop)
     ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font,style,spd,stop))
@@ -266,15 +264,8 @@ function Player:setHold(count)--Set hold count (false/true as 0/1)
     self.holdTime=count
     while self.holdQueue[count+1]do rem(self.holdQueue)end
 end
-function Player:setNext(next,hidden)--Set next count　(use hidden=true if set env.nextStartPos>1)
+function Player:setNext(next)--Set next count
     self.gameEnv.nextCount=next
-    if next==0 then
-        self.drawNext=NULL
-    elseif not hidden then
-        self.drawNext=ply_draw.drawNext_norm
-    else
-        self.drawNext=ply_draw.drawNext_hidden
-    end
 end
 function Player:setInvisible(time)--Time in frames
     if time<0 then
@@ -813,86 +804,155 @@ local phyHoldKickX={
     [true]={0,-1,1},--X==?.0 tests
     [false]={-.5,.5},--X==?.5 tests
 }
-function Player:hold(ifpre)
+function Player:hold_norm(ifpre)
     local ENV=self.gameEnv
-    if self.holdTime>0 and(ifpre or self.waiting==-1)then
-        if #self.holdQueue<ENV.holdCount and self.nextQueue[1]then--Skip
-            local C=self.cur
-            ins(self.holdQueue,self:getBlock(C.id,C.name,C.color))
+    if #self.holdQueue<ENV.holdCount and self.nextQueue[1]then--Skip
+        local C=self.cur
+        ins(self.holdQueue,self:getBlock(C.id,C.name,C.color))
 
-            local t=self.holdTime
-            self:popNext(true)
-            self.holdTime=t
-        else--Hold
-            local C,H=self.cur,self.holdQueue[1]
+        local t=self.holdTime
+        self:popNext(true)
+        self.holdTime=t
+    else--Hold
+        local C,H=self.cur,self.holdQueue[1]
+        self.ctrlCount=0
 
-            --Finesse check
-            if H and C and H.id==C.id and H.name==C.name then
-                self.ctrlCount=self.ctrlCount+1
-            elseif self.ctrlCount<=1 then
-                self.ctrlCount=0
-            end
+        if ENV.phyHold and C and not ifpre then--Physical hold
+            local x,y=self.curX,self.curY
+            x=x+(#C.bk[1]-#H.bk[1])*.5
+            y=y+(#C.bk-#H.bk)*.5
 
-            if ENV.phyHold and C and not ifpre then--Physical hold
-                local x,y=self.curX,self.curY
-                x=x+(#C.bk[1]-#H.bk[1])*.5
-                y=y+(#C.bk-#H.bk)*.5
-
-                local iki=phyHoldKickX[x==int(x)]
-                for Y=int(y),ceil(y+.5)do
-                    for i=1,#iki do
-                        local X=x+iki[i]
-                        if not self:ifoverlap(H.bk,X,Y)then
-                            x,y=X,Y
-                            goto BREAK_success
-                        end
+            local iki=phyHoldKickX[x==int(x)]
+            for Y=int(y),ceil(y+.5)do
+                for i=1,#iki do
+                    local X=x+iki[i]
+                    if not self:ifoverlap(H.bk,X,Y)then
+                        x,y=X,Y
+                        goto BREAK_success
                     end
                 end
-                --<for-else> All test failed, interrupt with sound
-                    SFX.play('finesseError')
-                    do return end
-                --<for-end>
-                ::BREAK_success::
+            end
+            --<for-else> All test failed, interrupt with sound
+                SFX.play('finesseError')
+                do return end
+            --<for-end>
+            ::BREAK_success::
 
-                self.spinLast=false
+            self.spinLast=false
+
+            local hb=self:getBlock(C.id)
+            hb.name=C.name
+            hb.color=C.color
+            ins(self.holdQueue,hb)
+            self.cur=rem(self.holdQueue,1)
+
+            self.curX,self.curY=x,y
+        else--Normal hold
+            self.spinLast=false
+
+            if C then
                 local hb=self:getBlock(C.id)
-                hb.name=C.name
                 hb.color=C.color
+                hb.name=C.name
                 ins(self.holdQueue,hb)
-                self.cur=rem(self.holdQueue,1)
-                self.curX,self.curY=x,y
-            else--Normal hold
-                self.spinLast=false
+            end
+            self.cur=rem(self.holdQueue,1)
 
-                if C then
-                    local hb=self:getBlock(C.id)
-                    hb.color=C.color
-                    hb.name=C.name
-                    ins(self.holdQueue,hb)
+            self:resetBlock()
+        end
+        self:freshBlock('move')
+        self.dropDelay=ENV.drop
+        self.lockDelay=ENV.lock
+        if self:ifoverlap(self.cur.bk,self.curX,self.curY)then
+            self:lock()
+            self:lose()
+        end
+    end
+
+    self.freshTime=int(min(self.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((self.holdTime+1)/ENV.holdCount),ENV.freshLimit))
+    if not ENV.infHold then
+        self.holdTime=self.holdTime-1
+    end
+
+    if self.sound then
+        SFX.play(ifpre and'prehold'or'hold')
+    end
+
+    self.stat.hold=self.stat.hold+1
+end
+function Player:hold_swap(ifpre)
+    local ENV=self.gameEnv
+    local hid=ENV.holdCount-self.holdTime+1
+    if self.nextQueue[hid]then
+        local C,H=self.cur,self.nextQueue[hid]
+        self.ctrlCount=0
+
+        if ENV.phyHold and C and not ifpre then--Physical hold
+            local x,y=self.curX,self.curY
+            x=x+(#C.bk[1]-#H.bk[1])*.5
+            y=y+(#C.bk-#H.bk)*.5
+
+            local iki=phyHoldKickX[x==int(x)]
+            for Y=int(y),ceil(y+.5)do
+                for i=1,#iki do
+                    local X=x+iki[i]
+                    if not self:ifoverlap(H.bk,X,Y)then
+                        x,y=X,Y
+                        goto BREAK_success
+                    end
                 end
-                self.cur=rem(self.holdQueue,1)
-
-                self:resetBlock()
             end
-            self:freshBlock('move')
-            self.dropDelay=ENV.drop
-            self.lockDelay=ENV.lock
-            if self:ifoverlap(self.cur.bk,self.curX,self.curY)then
-                self:lock()
-                self:lose()
-            end
-        end
+            --<for-else> All test failed, interrupt with sound
+                SFX.play('finesseError')
+                do return end
+            --<for-end>
+            ::BREAK_success::
 
-        self.freshTime=int(min(self.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((self.holdTime+1)/ENV.holdCount),ENV.freshLimit))
-        if not ENV.infHold then
-            self.holdTime=self.holdTime-1
-        end
+            self.spinLast=false
 
-        if self.sound then
-            SFX.play(ifpre and'prehold'or'hold')
-        end
+            local hb=self:getBlock(C.id)
+            hb.name=C.name
+            hb.color=C.color
+            self.cur,self.nextQueue[hid]=self.nextQueue[hid],hb
 
-        self.stat.hold=self.stat.hold+1
+            self.curX,self.curY=x,y
+        else--Normal hold
+            self.spinLast=false
+
+            local hb=self:getBlock(C.id)
+            hb.color=C.color
+            hb.name=C.name
+            self.cur,self.nextQueue[hid]=self.nextQueue[hid],hb
+
+            self:resetBlock()
+        end
+        self:freshBlock('move')
+        self.dropDelay=ENV.drop
+        self.lockDelay=ENV.lock
+        if self:ifoverlap(self.cur.bk,self.curX,self.curY)then
+            self:lock()
+            self:lose()
+        end
+    end
+
+    self.freshTime=int(min(self.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((self.holdTime+1)/ENV.holdCount),ENV.freshLimit))
+    if not ENV.infHold then
+        self.holdTime=self.holdTime-1
+    end
+
+    if self.sound then
+        SFX.play(ifpre and'prehold'or'hold')
+    end
+
+    self.stat.hold=self.stat.hold+1
+end
+function Player:hold(ifpre)
+    if self.holdTime>0 and(ifpre or self.waiting==-1)then
+        if self.gameEnv.holdMode=='hold'then
+            self:hold_norm(ifpre)
+        elseif self.gameEnv.holdMode=='swap'then
+            self:hold_swap(ifpre)
+        end
     end
 end
 

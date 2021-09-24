@@ -300,6 +300,7 @@ return{
 
             eventSet="规则包",
 
+            holdMode="Hold模式",
             nextCount="Next",
             holdCount="Hold",
             infHold="无限Hold",
@@ -490,6 +491,7 @@ return{
 
             eventSet="规则包",
 
+            holdMode="Hold模式",
             nextCount="Next",
             holdCount="Hold",
             infHold="无限Hold",

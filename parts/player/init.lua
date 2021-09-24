@@ -362,7 +362,7 @@ local function _applyGameEnv(P)--Finish gameEnv processing
     )
     P:set20G(P._20G)
     P:setHold(ENV.holdCount)
-    P:setNext(ENV.nextCount,ENV.nextStartPos>1)
+    P:setNext(ENV.nextCount)
     P:setRS(ENV.RS)
 
     if type(ENV.mission)=='table'then

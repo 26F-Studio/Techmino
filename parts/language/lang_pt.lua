@@ -288,6 +288,7 @@ return{
 
             -- eventSet="Rule Set",
 
+            -- holdMode="Hold Mode",
             nextCount="Prox.",
             holdCount="Segurar",
             infHold="Segurar Infinito",
@@ -479,6 +480,7 @@ return{
 
             -- eventSet="Rule Set",
 
+            -- holdMode="Hold Mode",
             nextCount="Prox.",
             holdCount="Segurar",
             infHold="Segurar Infinito",

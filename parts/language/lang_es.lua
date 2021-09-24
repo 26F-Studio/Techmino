@@ -266,6 +266,7 @@ return{
 
             -- eventSet="Rule Set",
 
+            -- holdMode="Hold Mode",
             nextCount="Siguiente",
             holdCount="Reserva",
             infHold="Reserva Inft.",
@@ -455,6 +456,7 @@ return{
 
             -- eventSet="Rule Set",
 
+            -- holdMode="Hold Mode",
             nextCount="Siguiente",
             holdCount="Reserva",
             infHold="Reserva Inft.",
