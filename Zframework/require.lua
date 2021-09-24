@@ -1,7 +1,11 @@
 package.cpath=package.cpath..';'..SAVEDIR..'/lib/lib?.so;'..'?.dylib'
 local loaded={}
 return function(libName)
-    if SYSTEM=='Android'then
+    local require=require
+    if SYSTEM=='OS X'then
+        require=package.loadlib(libName..'.dylib','luaopen_'..libName)
+        libname=nil
+    elseif SYSTEM=='Android'then
         if not loaded[libName]then
             local platform=(function()
                 local p=io.popen('uname -m')
@@ -20,10 +24,10 @@ return function(libName)
             loaded[libName]=true
         end
     end
-    local r1,r2,r3=pcall(require,libName)
-    if r1 and r2 then
-        return r2
+    local success,res=pcall(require,libName)
+    if success and res then
+        return res
     else
-        MES.new('error',"Cannot load "..libName..": "..(r2 or r3))
+        MES.new('error',"Cannot load "..libName..": "..res)
     end
 end

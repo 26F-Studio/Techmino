@@ -178,9 +178,9 @@ jobs:
     - name: Pack Techmino
       run: |
         rm -rf ./squashfs-root/love ./squashfs-root/love.desktop ./squashfs-root/love.svg ./squashfs-root/.DirIcon
-        mv ./build/Linux/love.template ./squashfs-root/love
-        mv ./build/Linux/Techmino.desktop.template ./squashfs-root/Techmino.desktop
-        mv ./build/Linux/icon.png ./squashfs-root/icon.png
+        mv ./.github/build/Linux/love.template ./squashfs-root/love
+        mv ./.github/build/Linux/Techmino.desktop.template ./squashfs-root/Techmino.desktop
+        mv ./.github/build/Linux/icon.png ./squashfs-root/icon.png
         cp ./squashfs-root/icon.png ./squashfs-root/.DirIcon
         chmod 777 ./squashfs-root/love
         mkdir -p ./squashfs-root/usr/share/Techmino
@@ -380,6 +380,7 @@ jobs:
         python3 ./.github/workflows/updateVersion.py -T macOS -N $(lua ./.github/workflows/getVersion.lua -name)
         mv ./Techmino.love ./Techmino.app/Contents/Resources
         mv ./CCloader.dylib ./Techmino.app/Contents/Frameworks
+        mv ./.github/build/macOS/icon.icns ./Techmino.app/Contents/Resources/iconfile.icns
     - name: Codesign executable
       # In secrets:
       #   - MACOS_CERTIFICATE: the *.p12 Developer ID Certificate, encoded in base64

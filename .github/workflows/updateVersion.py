@@ -24,7 +24,7 @@ def updateVersion(args):    #更新版本号
 def updateMacOS(args):  #更新macOS打包信息
     import datetime
     thisYear = str(datetime.datetime.today().year)
-    with open('./build/macOS/info.plist.template', 'r', encoding='utf-8') as file:
+    with open('./.github/build/macOS/info.plist.template', 'r', encoding='utf-8') as file:
         data = file.read()
         data = data\
             .replace('@versionName', args.Name)\
@@ -35,7 +35,7 @@ def updateMacOS(args):  #更新macOS打包信息
 def updateWindows(args):    #更新Windows打包信息
     Version = (args.Name).replace('V', '')
     FileVersion = (f"{Version.replace('.', ',')},0")
-    with open('./build/Windows/Techmino.rc.template', 'r', encoding='utf8') as file:
+    with open('./.github/build/Windows/Techmino.rc.template', 'r', encoding='utf8') as file:
         data = file.read()
         data = data\
             .replace('@FileVersion', FileVersion)\
