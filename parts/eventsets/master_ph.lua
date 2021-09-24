@@ -74,8 +74,8 @@ return
                 P.modeData.target=42
                 SFX.play('reach')
             elseif T==42 then--Stage 4: survive in high speed
-                P:stageComplete(4)
                 if P.garbageBeneath==0 then
+                    P:stageComplete(4)
                     P.waiting=30
                     ENV.lock=11
                     P:setNext(6)
