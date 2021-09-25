@@ -112,6 +112,8 @@ return{
     chatStart="--------Début des logs--------",
     chatHistory="-Nouveaux messages en dessous-",
 
+    -- keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
+
     errorMsg="Une erreur est survenue et Techmino doit redémarrer.\nDes informations concernant l'erreur ont été créées, et vous pouvez les envoyer au créateur.",
 
     modInstruction="",

@@ -122,6 +122,8 @@ return{
     chatStart="------Beginning of log------",
     chatHistory="------New messages below------",
 
+    keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
+
     errorMsg="Techmino ran into a problem and needs to restart.\nYou can send the error log to the developers.",
 
     modInstruction="Choose your modifiers!\nMods allow you to change the game,\nbut they may also crash the game.\nScores will not be saved when using mods.",

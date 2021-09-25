@@ -34,6 +34,12 @@ function scene.keyDown(key,isRep)
     if isRep then return end
     if key=="escape"then
         if selected then
+            selected=false
+        else
+            SCN.back()
+        end
+    elseif key=="backspace"then
+        if selected then
             for k,v in next,keyMap.keyboard do
                 if v==selected then
                     keyMap.keyboard[k]=nil
@@ -42,8 +48,6 @@ function scene.keyDown(key,isRep)
             _freshKeyList()
             selected=false
             SFX.play('finesseError',.5)
-        else
-            SCN.back()
         end
     elseif selected then
         if not forbbidenKeys[key]then
@@ -81,8 +85,9 @@ function scene.gamepadDown(key)
 end
 
 function scene.draw()
-    setFont(15)
+    setFont(20)
     gc.setColor(COLOR.Z)
+    gc.printf(text.keySettingInstruction,540,620,500,'right')
 
     for i=0,20 do
         for j=1,#keyList[i]do
@@ -91,18 +96,23 @@ function scene.draw()
             setFont(font)
             mStr(key,
                 (i>10 and 940 or 210)+100*j,
-                i>10 and 60*(i-10)-23-font*.7 or
-                i>0 and 60*i-23-font*.7 or
-                667-font*.7
+                (
+                    i>10 and 60*(i-10)-23 or
+                    i>0 and 60*i-23 or
+                    667
+                )-font*.7
             )
         end
     end
 
     if selected then
-        gc.setColor(COLOR[TIME()%.26<.13 and'R'or'Y'])
-        local x,y=selected>10 and 910 or 270, selected>10 and 60*(selected-10)-50 or selected>0 and 60*selected-50 or 630
-        setFont(40)gc.print("=",x,y)
-        setFont(10)gc.print("esc?",x,y+40)
+        gc.setLineWidth(3)
+        gc.setColor(COLOR[TIME()%.26<.13 and'F'or'Y'])
+        gc.rectangle('line',
+            selected>10 and 910 or 270,
+            selected>10 and 60*(selected-10)-50 or selected>0 and 60*selected-50 or 640,
+            360,60
+        )
     end
 end
 

@@ -111,6 +111,8 @@ return{
     chatStart="------Comienzo del historial------",
     chatHistory="------Nuevos mensajes------",
 
+    -- keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
+
     errorMsg="Ha ocurrido un error y Techmino necesita reiniciarse.\nSe creó un registro de error, puedes enviarlo al autor.",
 
     -- modInstruction="",
