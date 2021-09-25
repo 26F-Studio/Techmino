@@ -11,41 +11,46 @@ function scene.sceneInit()
     BG.set('bg1')
 end
 
-function scene.update()
-    if wait>0 then
-        wait=wait-1
-        if wait==0 then
-            pos=pos+(das==0 and 2 or 1)*dir
-        else
-            return
-        end
-    end
-    if das>0 then
-        das=das-1
-        if das==0 then
-            if arr==0 then
-                pos=pos+7*dir
-                das=SETTING.das+1
-                arr=SETTING.arr
-                dir=-dir
-                wait=26
+local  trigFrame=0
+function scene.update(dt)
+    trigFrame=trigFrame+dt*60
+    while trigFrame>=1 do
+        trigFrame=trigFrame-1
+        if wait>0 then
+            wait=wait-1
+            if wait==0 then
+                pos=pos+(das==0 and 2 or 1)*dir
             else
-                pos=pos+dir
+                return
             end
         end
-    else
-        arr=arr-1
-        if arr==0 then
-            pos=pos+dir
-            arr=SETTING.arr
-        elseif arr==-1 then
-            pos=dir>0 and 8 or 0
-            arr=SETTING.arr
-        end
-        if pos%8==0 then
-            dir=-dir
-            wait=26
-            das=SETTING.das
+        if das>0 then
+            das=das-1
+            if das==0 then
+                if arr==0 then
+                    pos=pos+7*dir
+                    das=SETTING.das+1
+                    arr=SETTING.arr
+                    dir=-dir
+                    wait=26
+                else
+                    pos=pos+dir
+                end
+            end
+        else
+            arr=arr-1
+            if arr==0 then
+                pos=pos+dir
+                arr=SETTING.arr
+            elseif arr==-1 then
+                pos=dir>0 and 8 or 0
+                arr=SETTING.arr
+            end
+            if pos%8==0 then
+                dir=-dir
+                wait=26
+                das=SETTING.das
+            end
         end
     end
 end

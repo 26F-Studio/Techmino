@@ -240,7 +240,7 @@ function scene.update(dt)
         local P1=PLAYERS[1]
 
         touchMoveLastFrame=false
-        VK.update()
+        VK.update(dt)
 
         --Update players
         for p=1,#PLAYERS do PLAYERS[p]:update(dt)end

@@ -98,7 +98,7 @@ function scene.draw()
     local R=int(r)%7+1
     gc_setColor(1,1,1,1-abs(r%1*2-1))
     gc_draw(TEXTURE.miniBlock[R],680,50,t*10%6.2832,15,15,DSCP[R][0][2]+.5,#BLOCKS[R][0]-DSCP[R][0][1]-.5)
-    gc_draw(TEXTURE.miniBlock[R],680,300,0,15,15,DSCP[R][0][2]+.5,#BLOCKS[R][0]-DSCP[R][0][1]-.5)
+    mDraw(TEXTURE.miniBlock[R],680,300,0,15,15)
 end
 
 scene.widgetList={

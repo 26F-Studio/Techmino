@@ -1,6 +1,7 @@
 local gc=love.graphics
 local gc_draw,gc_setColor,gc_setLineWidth=gc.draw,gc.setColor,gc.setLineWidth
 
+local max=math.max
 local next=next
 
 local SETTING,TIME=SETTING,TIME
@@ -212,11 +213,11 @@ function VK.changeSet(id)
     end
 end
 
-function VK.update()
+function VK.update(dt)
     if SETTING.VKSwitch then
         for _,B in next,keys do
             if B.pressTime>0 then
-                B.pressTime=B.pressTime-1
+                B.pressTime=max(B.pressTime-dt*60,0)
             end
         end
     end

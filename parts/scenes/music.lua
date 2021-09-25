@@ -1,20 +1,22 @@
 local gc=love.graphics
+local gc_setColor,gc_print=gc.setColor,gc.print
 local sin=math.sin
+local setFont=setFont
 
 local author={
     blank="MrZ (old works)",
-    race="MrZ (old works)",
-    infinite="MrZ (old works)",
-    push="MrZ (old works)",
-    way="MrZ (old works)",
-    reason="MrZ (old works)",
+    ["end"]="MrZ (old works)",
     cruelty="MrZ (old works)",
     final="MrZ (old works)",
-    ["end"]="MrZ (old works)",
+    infinite="MrZ (old works)",
+    push="MrZ (old works)",
+    race="MrZ (old works)",
+    reason="MrZ (old works)",
+    way="MrZ (old works)",
     battle="Aether & MrZ",
-    empty="ERM",
-    ["how feeling"]="????",
     moonbeam="Beethoven & MrZ",
+    empty="ERM",
+    ["how feeling"]="V.A.",
     ["secret7th remix"]="柒栎流星",
     ["jazz nihilism"]="Trebor",
 }
@@ -63,46 +65,42 @@ function scene.keyDown(key,isRep)
 end
 
 function scene.draw()
-    gc.setColor(COLOR.Z)
+    gc_setColor(COLOR.Z)
 
+    --Scroller
+    gc.setLineWidth(2)
+    gc.line(316,307,316,482)
     setFont(50)
-    gc.print(bgmList[selected],320,355)
+    gc_print(bgmList[selected],320,355)
     setFont(35)
-    if selected>1 then
-        gc.print(bgmList[selected-1],320,350-30)
-    end
-    if selected<#bgmList then
-        gc.print(bgmList[selected+1],320,350+65)
-    end
+    if selected>1 then gc_print(bgmList[selected-1],320,350-30)end
+    if selected<#bgmList then gc_print(bgmList[selected+1],320,350+65)end
     setFont(20)
-    if selected>2 then
-        gc.print(bgmList[selected-2],320,350-50)
-    end
-    if selected<#bgmList-1 then
-        gc.print(bgmList[selected+2],320,350+110)
-    end
+    if selected>2 then gc_print(bgmList[selected-2],320,350-50)end
+    if selected<#bgmList-1 then gc_print(bgmList[selected+2],320,350+110)end
 
+    --Music player
     gc.draw(TEXTURE.title,840,220,nil,.5,nil,580,118)
     if BGM.nowPlay then
         local t=TIME()
         setFont(45)
-        gc.setColor(sin(t*.5)*.2+.8,sin(t*.7)*.2+.8,sin(t)*.2+.8)
-        gc.print(BGM.nowPlay,710,508)
+        gc_setColor(sin(t*.5)*.2+.8,sin(t*.7)*.2+.8,sin(t)*.2+.8)
+        gc_print(BGM.nowPlay,710,508)
         setFont(35)
-        gc.setColor(1,sin(t*2.6)*.5+.5,sin(t*2.6)*.5+.5)
-        gc.print(author[BGM.nowPlay]or"MrZ",670,465)
+        gc_setColor(1,sin(t*2.6)*.5+.5,sin(t*2.6)*.5+.5)
+        gc_print(author[BGM.nowPlay]or"MrZ",670,465)
 
         local a=-t%2.3/2
         if a<1 then
-            gc.setColor(1,1,1,a)
+            gc_setColor(1,1,1,a)
             gc.draw(TEXTURE.title_color,840,220,nil,.5+.062-.062*a,.5+.126-.126*a,580,118)
         end
 
         setFont(20)
-        gc.setColor(COLOR.Z)
+        gc_setColor(COLOR.Z)
         local cur=BGM.playing:tell()
         local dur=BGM.playing:getDuration()
-        gc.print(STRING.time_simp(cur%dur).." / "..STRING.time_simp(dur),480,626)
+        gc_print(STRING.time_simp(cur%dur).." / "..STRING.time_simp(dur),480,626)
     end
 end
 
@@ -113,7 +111,7 @@ scene.widgetList={
     WIDGET.newSlider{name="slide",x=480,y=600,w=400,
         disp=function()return BGM.playing:tell()/BGM.playing:getDuration()%1 end,
         show=false,
-        code=function(v)BGM.playing:seek(v*BGM.playing:getDuration())end,
+        code=function(v)BGM.seek(v*BGM.playing:getDuration())end,
         hideF=function()return not BGM.nowPlay end
     },
     WIDGET.newSlider{name="bgm",  x=760,y=80,w=400,disp=SETval('bgm'),code=function(v)SETTING.bgm=v BGM.freshVolume()end},

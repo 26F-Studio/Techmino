@@ -72,7 +72,7 @@ function back.draw()
         gc_setColor(c[1],c[2],c[3],.2)
         gc_rectangle('line',S.x,S.y,S.size,S.size)
         gc_setColor(c[1],c[2],c[3],.3)
-        gc_rectangle('fill',S.x,S.y,S.size,S.size)
+        gc_rectangle('fill',S.x+3,S.y+3,S.size-6,S.size-6)
     end
 end
 function back.discard()

@@ -295,7 +295,7 @@ end
 local function _update_common(dt)
     --Update control
     touchMoveLastFrame=false
-    VK.update()
+    VK.update(dt)
 
     --Update players
     for p=1,#PLAYERS do PLAYERS[p]:update(dt)end

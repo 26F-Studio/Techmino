@@ -182,12 +182,8 @@ function scene.update(dt)
     if not(GAME.result or GAME.replaying)then
         GAME.pauseTime=GAME.pauseTime+dt
     end
-    if timer1<50 then
-        timer1=timer1+1
-    end
-    if timer2<25 then
-        timer2=timer2+1
-    end
+    timer1=math.min(timer1+dt*60*.02,1)
+    timer2=math.min(timer2+dt*60*.04,1)
 end
 
 local hexList={1,0,.5,1.732*.5,-.5,1.732*.5}
@@ -196,24 +192,22 @@ local textPos={90,131,-90,131,-200,-25,-90,-181,90,-181,200,-25}
 local dataPos={90,143,-90,143,-200,-13,-90,-169,90,-169,200,-13}
 local tasText=gc.newText(getFont(100),"TAS")
 function scene.draw()
-    local T=timer1*.02
-    local T2=timer2*.04
-    if T<1 or GAME.result then
+    if timer1<1 or GAME.result then
         SCN.scenes.game.draw()
     end
 
     --Dark BG
-    local _=T
+    local _=timer1
     if GAME.result then _=_*.76 end
     gc.setColor(.12,.12,.12,_)
     gc.replaceTransform(SCR.origin)
     gc.rectangle('fill',0,0,SCR.w,SCR.h)
     gc.replaceTransform(SCR.xOy)
 
-    gc.setColor(.97,.97,.97,T)
+    gc.setColor(.97,.97,.97,timer1)
 
     --Result Text
-    mDraw(GAME.result and drawableText[GAME.result]or drawableText.pause,640,70-10*(5-timer1*.1)^1.5)
+    mDraw(GAME.result and drawableText[GAME.result]or drawableText.pause,640,70-10*(5-timer1*5)^1.5)
 
     --Mode Info (outside)
     gc.draw(drawableText.modeName,745-drawableText.modeName:getWidth(),143)
@@ -224,16 +218,16 @@ function scene.draw()
             gc.translate(1050,5)
             local str=text.ranks[GAME.rank]
             setFont(80)
-            gc.setColor(0,0,0,T*.7)
+            gc.setColor(0,0,0,timer1*.7)
             gc.print(str,-5,-4,nil,1.5)
             local L=rankColor[GAME.rank]
-            gc.setColor(L[1],L[2],L[3],T)
+            gc.setColor(L[1],L[2],L[3],timer1)
             gc.print(str,0,0,nil,1.5)
         gc.pop()
     end
 
     if GAME.tasUsed then
-        gc.setColor(.97,.97,.97,T*.08)
+        gc.setColor(.97,.97,.97,timer1*.08)
         mDraw(tasText,870,395,.3,2.6)
     end
 
@@ -246,9 +240,9 @@ function scene.draw()
         --Pause Info (outside)
         setFont(25)
         if GAME.pauseCount>0 then
-            gc.setColor(.97,.97,.97,T*.06)
+            gc.setColor(.97,.97,.97,timer1*.06)
             gc.rectangle('fill',-5,390,620,36,8)
-            gc.setColor(.97,.97,.97,T)
+            gc.setColor(.97,.97,.97,timer1)
             gc.rectangle('line',-5,390,620,36,8)
             mStr(("%s:[%d] %.2fs"):format(text.pauseCount,GAME.pauseCount,GAME.pauseTime),305,389)
         end
@@ -256,9 +250,9 @@ function scene.draw()
         --Pages
         if page==0 then
             --Frame
-            gc.setColor(.97,.97,.97,T2*.06)
+            gc.setColor(.97,.97,.97,timer2*.06)
             gc.rectangle('fill',-5,-5,620,380,8)
-            gc.setColor(.97,.97,.97,T2)
+            gc.setColor(.97,.97,.97,timer2)
             gc.rectangle('line',-5,-5,620,380,8)
 
             --Game statistics
@@ -269,7 +263,7 @@ function scene.draw()
             --Stats
             _=form
             setFont(30)
-            gc.setColor(.97,.97,.97,T2)
+            gc.setColor(.97,.97,.97,timer2)
             for i=1,10 do
                 gc.print(text.pauseStat[i],5,43*(i-1)+2)
                 gc.printf(_[i],210,43*(i-1)+2,500,'right')
@@ -279,12 +273,12 @@ function scene.draw()
             if rank then
                 setFont(40)
                 local c=fnsRankColor[rank]
-                gc.setColor(c[1],c[2],c[3],T2)
+                gc.setColor(c[1],c[2],c[3],timer2)
                 gc.print(rank,405,383)
                 if trophy then
                     setFont(30)
-                    gc.setColor(trophyColor[1],trophyColor[2],trophyColor[3],T2*2-1)
-                    gc.printf(trophy,95-120*(1-T2^.5),390,300,'right')
+                    gc.setColor(trophyColor[1],trophyColor[2],trophyColor[3],timer2*2-1)
+                    gc.printf(trophy,95-120*(1-timer2^.5),390,300,'right')
                 end
             end
             gc.pop()
@@ -296,15 +290,15 @@ function scene.draw()
 
             --Polygon
             gc.push('transform')
-                gc.scale((3-2*T2)*T2)
-                gc.setColor(.97,.97,.97,T2*(.5+.3*sin(TIME()*6.26)))
+                gc.scale((3-2*timer2)*timer2)
+                gc.setColor(.97,.97,.97,timer2*(.5+.3*sin(TIME()*6.26)))
                 GC.regularPolygon('line',0,0,120,6,8)
-                gc.setColor(chartColor[1],chartColor[2],chartColor[3],T2*.626)
+                gc.setColor(chartColor[1],chartColor[2],chartColor[3],timer2*.626)
                 for i=1,9,2 do
                     gc.polygon('fill',0,0,val[i],val[i+1],val[i+2],val[i+3])
                 end
                 gc.polygon('fill',0,0,val[11],val[12],val[1],val[2])
-                gc.setColor(.97,.97,.97,T2)
+                gc.setColor(.97,.97,.97,timer2)
                 for i=1,9,2 do
                     gc.line(val[i],val[i+1],val[i+2],val[i+3])
                 end
@@ -315,11 +309,11 @@ function scene.draw()
             local C
             _=TIME()%6.2832
             if _>3.142 then
-                gc.setColor(.97,.97,.97,-T2*sin(_))
+                gc.setColor(.97,.97,.97,-timer2*sin(_))
                 setFont(35)
                 C,_=text.radar,textPos
             else
-                gc.setColor(.97,.97,.97,T2*sin(_))
+                gc.setColor(.97,.97,.97,timer2*sin(_))
                 setFont(20)
                 C,_=radar,dataPos
             end
@@ -338,21 +332,21 @@ function scene.draw()
     if #GAME.mod>0 then
         gc.setLineWidth(2)
         if scoreValid()then
-            gc.setColor(.7,.7,.7,T)
+            gc.setColor(.7,.7,.7,timer1)
             gc.rectangle('line',-5,-5,500,150,8)
-            gc.setColor(.7,.7,.7,T*.05)
+            gc.setColor(.7,.7,.7,timer1*.05)
             gc.rectangle('fill',-5,-5,500,150,8)
         else
-            gc.setColor(.8,0,0,T)
+            gc.setColor(.8,0,0,timer1)
             gc.rectangle('line',-5,-5,500,150,8)
-            gc.setColor(1,0,0,T*.05)
+            gc.setColor(1,0,0,timer1*.05)
             gc.rectangle('fill',-5,-5,500,150,8)
         end
         setFont(35)
         for _,M in next,MODOPT do
             if M.sel>0 then
                 _=M.color
-                gc.setColor(_[1],_[2],_[3],T)
+                gc.setColor(_[1],_[2],_[3],timer1)
                 mStr(M.id,35+M.no%8*60,math.floor(M.no/8)*45)
             end
         end
