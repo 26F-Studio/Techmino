@@ -22,7 +22,7 @@ function scene.draw()
 
     --Lib used
     setFont(15)
-    gc.print(text.used,50,340)
+    gc.print(text.used,50,325)
 
     --Logo
     local t=TIME()

@@ -12,6 +12,7 @@ local form--Form of clear & spins
 local item--Detail datas
 
 function scene.sceneInit()
+    BG.set()
     local S=STAT
     local X1,X2,Y1,Y2={0,0,0,0},{0,0,0,0},{},{}
     for i=1,7 do
