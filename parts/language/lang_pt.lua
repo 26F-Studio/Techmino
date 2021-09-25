@@ -831,6 +831,7 @@ return{
         ['sprintLock']=         {"Sprint",           "SEM ROTAÇÃO"},
         -- ['sprintSmooth']=       {"Sprint",           "NO FRICTION"},
         ['marathon_bfmax']=     {"Maratona",         "ULTIMATE"},
+        -- ['sprintMD']=           {"Sprint",           "MISDROP"},
 
         ['master_l']=           {"Mestre",           "LUNÁTICO"},
         ['master_u']=           {"Mestre",           "ULTIMATE"},

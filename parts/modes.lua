@@ -123,6 +123,7 @@ return{
     {name='sprintLock'},
     {name='sprintSmooth'},
     {name='marathon_bfmax'},
+    {name='sprintMD'},
 
     --Old
     {name='master_l'},

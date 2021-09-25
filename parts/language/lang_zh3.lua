@@ -842,6 +842,7 @@ return{
         ['sprintLock']=    {"冲刺",            "不轮换"},
         ['sprintSmooth']=  {"冲刺",            "无摩擦"},
         ['marathon_bfmax']={"马拉松赛跑",        "终极"} ,
+        ['sprintMD']=      {"竞速",            "失误"},
 
         ['master_l']=      {"主人",            "疯子"},
         ['master_u']=      {"主人",            "终极"} ,

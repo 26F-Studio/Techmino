@@ -324,7 +324,8 @@ return{
         ['sprintFix']=      {"竞速",         "无移动"},
         ['sprintLock']=     {"竞速",         "无旋转"},
         ['sprintSmooth']=   {"竞速",         "无摩擦"},
-        ['marathon_bfmax']= {"马拉松",       "极限"},
+        ['marathon_bfmax']= {"马拉松",        "极限"},
+        ['sprintMD']=       {"竞速",         "MD"},
 
         ['master_l']=       {"大师",         "疯狂"},
         ['master_u']=       {"大师",         "极限"},

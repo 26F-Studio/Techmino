@@ -47,6 +47,12 @@ function scene.sceneInit()
     end
 end
 
+function scene.mouseDown(x,y)
+    if x>35 and y>515 and x<490 and y<705 then
+        loadGame('sprintMD',true)
+    end
+end
+
 function scene.draw()
     local minoColor,skinSet=minoColor,SETTING.skin
     local A,B=form.A1,form.A2
