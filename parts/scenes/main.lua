@@ -31,7 +31,8 @@ function scene.sceneInit()
     scrollX=tipLength
 
     --Set quick-play-button text
-    scene.widgetList[2]:setObject(text.WidgetText.main.qplay..": "..text.modes[STAT.lastPlay][1])
+    local qpModeName=text.modes[STAT.lastPlay]and text.modes[STAT.lastPlay][1]or"["..STAT.lastPlay.."]"
+    scene.widgetList[2]:setObject(text.WidgetText.main.qplay..": "..qpModeName)
 
     --Create demo player
     destroyPlayers()
