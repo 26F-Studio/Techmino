@@ -24,15 +24,16 @@ return[=[
                 新增小程序:Link,Arithmeic
                 新BGM:Jazz nihilism(用于节日主题,by Trebor)
                 新BGM:Null(用于节日主题)
-                新BGM:of1st(用于前四个隐形模式)
                 新增两个更高速度开始的经典模式(by not-a-normal-bot) #285
                 新增miku语音包(by vocaloidvictory)
                 新增音效包系统(暂无其他可选)
                 所有方块的spin都可以有对应语音
-                新皮肤:shiny(C29H25N3O5)
+                新皮肤:shiny(by C29H25N3O5)
+                新虚拟按键贴图(by C29H25N3O5)
                 新语言:机翻
                 添加一个彩蛋模式
                 添加逻辑追帧(单机可关闭),联网强制启用防止低帧率设备影响其他玩家游戏体验
+                音乐室改为launchpad
                 添加总音量滑条,移除静音按钮
                 添加失去焦点后自动静音的设置 #281
         改动:
