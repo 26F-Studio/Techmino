@@ -52,6 +52,7 @@ function scene.mouseDown(x,y)
         loadGame('sprintMD',true)
     end
 end
+scene.touchDown=scene.mouseDown
 
 function scene.draw()
     local minoColor,skinSet=minoColor,SETTING.skin

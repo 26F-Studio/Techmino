@@ -201,18 +201,9 @@ function scene.draw()
         end
     end
 end
-
-function scene.touchDown(x,y)
-    scene.mouseMove(x,y)
-end
-
-function scene.touchMove(x,y)
-    scene.mouseMove(x,y)
-end
-
-function scene.touchUp(x,y)
-    scene.mouseDown(x,y)
-end
+scene.touchDown=scene.mouseMove
+scene.touchMove=scene.mouseMove
+scene.touchUp=scene.mouseDown
 
 function scene.mouseMove(x,y)
     x,y=int((x-280)/80),int(y/80)

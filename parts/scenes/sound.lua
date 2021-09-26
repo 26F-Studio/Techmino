@@ -111,15 +111,14 @@ local function press(x,y)
     end
 end
 
-function scene.mouseDown(x,y)
-    scene.touchDown(x,y)
-end
 function scene.touchDown(x,y)
     x,y=int((x-pad.x)/80),int((y-pad.y)/80)
     if x>=0 and x<=8 and y>=0 and y<=7 then
         press(x,y+1)
     end
 end
+scene.mouseDown=scene.touchDown
+
 function scene.keyDown(key,isRep)
     if isRep then return end
     if #key==1 then

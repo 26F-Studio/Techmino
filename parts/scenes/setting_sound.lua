@@ -35,9 +35,7 @@ function scene.mouseDown(x,y)
         end
     end
 end
-function scene.touchDown(x,y)
-    scene.mouseDown(x,y)
-end
+scene.touchDown=scene.mouseDown
 
 function scene.update()
     if jump>0 then

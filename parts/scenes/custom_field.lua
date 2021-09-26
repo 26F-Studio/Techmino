@@ -149,8 +149,8 @@ function scene.mouseUp(_,_,k)
 end
 
 function scene.touchDown(x,y)scene.mouseDown(x,y,1)end
-function scene.touchMove(x,y)scene.mouseMove(x,y)end
 function scene.touchUp(x,y)scene.mouseUp(x,y,1)end
+scene.touchMove=scene.mouseMove
 
 function scene.keyDown(key)
     if key=="up"or key=="down"or key=="left"or key=="right"then

@@ -252,9 +252,8 @@ function scene.mouseDown(x,y,k)
         end
     end
 end
-function scene.touchDown(x,y)
-    scene.mouseDown(x,y)
-end
+scene.touchDown=scene.mouseDown
+
 local moveFunc={
     up=moveUp,
     down=moveDown,

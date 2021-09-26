@@ -30,10 +30,7 @@ function scene.mouseDown(x,y)
         end
     end
 end
-
-function scene.touchDown(x,y)
-    scene.mouseDown(x,y)
-end
+scene.touchDown=scene.mouseDown
 
 function scene.keyDown(key,isRep)
     if isRep then return end

@@ -63,13 +63,13 @@ function scene.mouseDown(x,y,k)
         end
     end
 end
-function scene.touchMove(x,y)
-    scene.mouseMove(x,y)
-end
+
+scene.touchMove=scene.mouseMove
 function scene.touchDown(x,y)
     scene.mouseMove(x,y)
     scene.mouseDown(x,y)
 end
+
 function scene.keyDown(key)
     if key=="tab"or key=="delete"then
         if GAME.mod[1]then
