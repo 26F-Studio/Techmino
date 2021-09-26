@@ -175,7 +175,7 @@ local function _newEmptyPlayer(id,mini)
     --User-related
     P.username=""
     P.uid=false
-    P.sid=false
+    P.sid=id
 
     --Block states
     --[[
