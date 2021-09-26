@@ -537,30 +537,14 @@ return{
             now="Reproduciendo:",
 
             bgm="BGM",
-            up="↑",
             play="Reprod.",
-            down="↓",
             sound="SFXs",
         },
         sound={
             title="Sala de SFX",
+            bgm="BGM",
             sfx="SFX",
             voc="Voces",
-
-            move="Mover",
-            lock="Traba",
-            drop="Drop",
-            fall="Caída",
-            rotate="Rotación",
-            rotatekick="Rot. con Kickeo",
-            hold="Reserva",
-            prerotate="Rot. Inicial",
-            prehold="Resv. Inicial",
-
-            _1="Single",
-            _2="Doble",
-            _3="Triple",
-            _4="Techrash",
             music="BGMs",
         },
         login={

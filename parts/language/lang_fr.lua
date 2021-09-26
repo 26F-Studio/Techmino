@@ -540,24 +540,9 @@ return{
         },
         sound={
             title="Salon SE",
+            bgm="Musique",
             sfx="Sons",
             voc="Voix",
-
-            move="Déplacement",
-            lock="Verrouillage",
-            drop="Chute",
-            fall="Tombée",
-            rotate="Rotation",
-            rotatekick="Rot+kick",
-            hold="Réserve",
-            prerotate="Prérotation",
-            prehold="Préréserve",
-            _pc="PC",
-
-            _1="Simple",
-            _2="Double",
-            _3="Triple",
-            _4="Techrash",
             music="Musique",
         },
         login={
