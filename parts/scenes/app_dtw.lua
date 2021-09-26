@@ -180,7 +180,14 @@ function reset()
     freshSelectors()
     time=0
     score=0
-    rollSpeed=6.26
+
+    local t=love.system.getClipboardText()
+    if type(t)=='string'then
+        t=t:lower():match("^s=(%d+)$")
+        t=t and tonumber(t)and tonumber(t)*2
+        t=t and tonumber(t)>6.26 and tonumber(t)<=20 and t
+    end
+    rollSpeed=type(t)=='number'and t or 6.26
 
     pos={}
     while #pos<7 do generator[mode]()end
