@@ -1430,7 +1430,7 @@ do--Player.drop(self)--Place piece
                     end
                     Stat.pc=Stat.pc+1
                     if self.sound then
-                        SFX.play('clear')
+                        SFX.play('pc')
                         VOC.play('perfect_clear',CHN)
                     end
                     piece.pc=true
@@ -1444,7 +1444,7 @@ do--Player.drop(self)--Place piece
                     cscore=cscore+626
                     Stat.hpc=Stat.hpc+1
                     if self.sound then
-                        SFX.play('clear')
+                        SFX.play('pc')
                         VOC.play('half_clear',CHN)
                     end
                     piece.hpc=true

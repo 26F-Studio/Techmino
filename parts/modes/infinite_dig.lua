@@ -14,7 +14,7 @@ local function check_rise(P)
     else
         if L==0 then
             P:_showText(text.awesome,0,-120,80,'beat',.6)
-            SFX.play('clear')
+            SFX.play('pc')
             BG.send(26)
             for _=1,8 do
                 P:garbageRise(13,1,generateLine(P.holeRND:random(10)))
