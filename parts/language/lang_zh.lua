@@ -194,7 +194,7 @@ return{
         "使用LÖVE引擎",
         "",
         "程序: MrZ, Particle_G, [scdhh, FinnTenzor]",
-        "美术: MrZ, Gnyar, ScF, [C29H25N3O5, 旋律星萤, T0722]",
+        "美术: MrZ, Gnyar, ScF, C29H25N3O5, [旋律星萤, T0722]",
         "音乐: MrZ, 柒栎流星, ERM, Trebor, [T0722, Aether]",
         "音效/语音: Miya, Xiaoya, Mono, MrZ",
         "演出: 模电, HBM",
