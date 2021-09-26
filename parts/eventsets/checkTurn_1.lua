@@ -12,7 +12,12 @@ return{
                     minID=math.min(minID,id2)
                 end
             end
-            PLY_ALIVE[minMaxID==1e99 and minID or minMaxID].control=true
+            for i=1,#PLY_ALIVE do
+                if PLY_ALIVE[i].sid==(minMaxID==1e99 and minID or minMaxID)then
+                    PLY_ALIVE[i].control=true
+                    return
+                end
+            end
         end
     end
 }
