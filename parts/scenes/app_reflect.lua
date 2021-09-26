@@ -29,7 +29,7 @@ function scene.keyDown(key,isRep)
             ct=60
         end
     elseif state==2 and #key==1 then
-        key=("qapl"):find(key)
+        key=("qapl"):find(key,nil,true)
         if key then
             --BEAUTIFUL LOGIC BELOW:
 

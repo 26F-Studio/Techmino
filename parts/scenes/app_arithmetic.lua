@@ -152,7 +152,7 @@ end
 function scene.keyDown(key,isRep)
     if isRep then return end
     if key:sub(1,2)=="kp"then key=key:sub(3)end
-    if #key==1 and("0123456789"):find(key)then
+    if #key==1 and("0123456789"):find(key,nil,true)then
         if #input<8 then
             input=input..key
             inputTime=1
