@@ -110,10 +110,9 @@ for _,set in next,virtualkeySet do
 end
 --Virtualkey icons
 local VKIcon={}
-gc.setDefaultFilter('nearest','nearest')
 local VKI=gc.newImage("media/image/virtualkey.png")
-for i=1,20 do VKIcon[i]=GC.DO{36,36,{'draw',VKI,(i-1)%5*-36,math.floor((i-1)*.2)*-36}}end
-gc.setDefaultFilter('linear','linear')
+for i=1,20 do VKIcon[i]=GC.DO{90,90,{'draw',VKI,(i-1)%5*-90,math.floor((i-1)*.2)*-90}}end
+VKI:release()
 
 --In-game virtualkey layout data
 local keys={}for i=1,#VK_org do keys[i]={}end
@@ -241,7 +240,7 @@ function VK.draw()
                 --Icon
                 local _=B.pressTime
                 gc_setColor(1,1,1,a)
-                gc_draw(VKIcon[i],B.x,B.y,nil,r*.024+_*.06,nil,18,18)
+                gc_draw(VKIcon[i],B.x,B.y,nil,r*.01+_*.024,nil,45,45)
 
                 --Ripple
                 if _>0 then
@@ -291,7 +290,7 @@ function VK.preview(selected)
             end
             if SETTING.VKIcon then
                 gc_setColor(1,1,1,SETTING.VKAlpha)
-                gc_draw(VKIcon[i],B.x,B.y,nil,r*.024,nil,18,18)
+                gc_draw(VKIcon[i],B.x,B.y,nil,r*.01,nil,45,45)
             end
         end
     end
