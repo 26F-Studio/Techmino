@@ -1,17 +1,29 @@
 local gc=love.graphics
 local gc_push,gc_pop=gc.push,gc.pop
-local gc_translate,gc_scale=gc.translate,gc.scale
+local gc_translate=gc.translate
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_rectangle,gc_circle=gc.rectangle,gc.circle
 
-local int,max=math.floor,math.max
+local isDown=love.keyboard.isDown
+
+local int,max,min=math.floor,math.max,math.min
 
 local scene={}
 
-local pad={x=140,y=65,k=1,page=1,
-    func={'page1','page2','page3','page4','page5','page6','play','stop'},
-    funcTime={0,0,0,0,0,0,0,0},
-    time={
+local pad
+pad={x=140,y=65,page=1,
+    func={
+        function()pad.page=1 end,
+        function()pad.page=2 end,
+        function()pad.page=3 end,
+        function()pad.page=4 end,
+        function()pad.page=5 end,
+        function()pad.page=6 end,
+        function()BGM.seek(0)BGM.play(BGM.nowPlay)end,
+        function()BGM.stop()end,
+    },
+    funcAlpha=TABLE.new(0,8),
+    alpha={
         {0,0,0,0,0,0,0,0},
         {0,0,0,0,0,0,0,0},
         {0,0,0,0,0,0,0,0},
@@ -84,40 +96,48 @@ local pad={x=140,y=65,k=1,page=1,
     },
 }
 
+local function press(x,y)
+    if x==0 then
+        pad.func[y]()
+        pad.funcAlpha[y]=1
+    else
+        local k=pad[pad.page][y][x]
+        if k.sfx then
+            SFX.play(k.sfx)
+        elseif k.voc then
+            VOC.play(k.voc)
+        end
+        pad.alpha[y][x]=1
+    end
+end
+
 function scene.mouseDown(x,y)
     scene.touchDown(x,y)
 end
 function scene.touchDown(x,y)
-    x,y=int((x-pad.x)*pad.k/80),int((y-pad.y)*pad.k/80+1)
-    print(x,y)
-    if y>=1 and y<=8 then
-        if x==0 then
-            local k=pad.func[y]
-            if k:find('page')then
-                pad.page=tonumber(k:sub(5))
-            elseif k=="play"then
-                BGM.seek(0)
-                BGM.play(BGM.nowPlay)
-            elseif k=="stop"then
-                BGM.stop()
-            end
-            pad.funcTime[y]=1
-        elseif x>=1 and x<=8 then
-            local k=pad[pad.page][y][x]
-            if k.sfx then
-                SFX.play(k.sfx)
-            elseif k.voc then
-                VOC.play(k.voc)
-            end
-            pad.time[y][x]=1
-        end
+    x,y=int((x-pad.x)/80),int((y-pad.y)/80)
+    if x>=0 and x<=8 and y>=0 and y<=7 then
+        press(x,y+1)
     end
 end
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=="1"then
-    elseif key=="2"then
-    elseif key=="3"then
+    if #key==1 then
+        if("12345678"):find(key,nil,true)then
+            press(0,tonumber(key))
+        else
+            key=("hjkluiop"):find(key,nil,true)
+            if key then
+                if isDown("q")then press(key,1)end
+                if isDown("w")then press(key,2)end
+                if isDown("e")then press(key,3)end
+                if isDown("r")then press(key,4)end
+                if isDown("a")then press(key,5)end
+                if isDown("s")then press(key,6)end
+                if isDown("d")then press(key,7)end
+                if isDown("f")then press(key,8)end
+            end
+        end
     elseif key=="tab"then
         SCN.swapTo('music','none')
     elseif key=="escape"then
@@ -127,14 +147,20 @@ end
 
 function scene.update(dt)
     for y=1,8 do
-        if pad.funcTime[y]>0 then
-            pad.funcTime[y]=max(pad.funcTime[y]-dt*2,0)
+        if pad.funcAlpha[y]>0 then
+            pad.funcAlpha[y]=max(pad.funcAlpha[y]-dt*2,0)
         end
     end
-    for y=1,8 do
-        for x=1,8 do
-            if pad.time[y][x]>0 then
-                pad.time[y][x]=max(pad.time[y][x]-dt*4,0)
+    for y=1,8 do for x=1,8 do
+        if pad.alpha[y][x]>0 then
+            pad.alpha[y][x]=max(pad.alpha[y][x]-dt*4,0)
+        end
+    end end
+    for i=1,8 do
+        if isDown(("qwerasdf"):sub(i,i))then
+            local L=pad.alpha[i]
+            for j=1,8 do
+                pad.alpha[i][j]=min(L[j]+dt*10,max(L[j],.4))
             end
         end
     end
@@ -142,9 +168,9 @@ end
 
 function scene.draw()
     local white=COLOR.Z
+
     gc_push('transform')
     gc_translate(pad.x,pad.y)
-    gc_scale(pad.k)
     gc_setLineWidth(2)
 
     --Pad frame
@@ -155,35 +181,33 @@ function scene.draw()
     for y=1,8 do
         gc_setColor(white)
         gc_circle('line',40,(y-1)*80+40,34)
-        if pad.funcTime[y]>0 then
-            gc_setColor(1,1,1,pad.funcTime[y]*.7)
+        if pad.funcAlpha[y]>0 then
+            gc_setColor(1,1,1,pad.funcAlpha[y]*.7)
             gc_circle('fill',40,(y-1)*80+40,34)
         end
     end
-    for y=1,8 do
-        for x=1,8 do
-            gc_setColor(white)
-            gc_rectangle('line',x*80+2,(y-1)*80+2,76,76,5)
-            local k=pad[pad.page][y][x]
-            if k.sfx then
-                gc_rectangle('line',x*80+40-10,(y-1)*80+40-10,20,20,2)
-            elseif k.voc then
-                gc_circle('line',x*80+40,(y-1)*80+40,6)
-            end
-            if pad.time[y][x]>0 then
-                gc_setColor(1,1,1,pad.time[y][x]*.7)
-                gc_rectangle('fill',x*80+2,(y-1)*80+2,76,76,5)
-            end
+    for y=1,8 do for x=1,8 do
+        gc_setColor(white)
+        gc_rectangle('line',x*80+2,(y-1)*80+2,76,76,5)
+        local k=pad[pad.page][y][x]
+        if k.sfx then
+            gc_circle('line',x*80+40,(y-1)*80+40,6)
+        elseif k.voc then
+            gc_rectangle('line',x*80+30,(y-1)*80+30,20,20,2)
         end
-    end
+        if pad.alpha[y][x]>0 then
+            gc_setColor(1,1,1,pad.alpha[y][x]*.7)
+            gc_rectangle('fill',x*80+2,(y-1)*80+2,76,76,5)
+        end
+    end end
     gc_pop()
 end
 
 scene.widgetList={
-    WIDGET.newText{name="title",  x=640, y=-5, font=50},
-    WIDGET.newSlider{name="bgm",  x=1000,y=80, lim=130,w=250,disp=SETval('bgm'),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
-    WIDGET.newSlider{name="sfx",  x=1000,y=150,lim=130,w=250,disp=SETval('sfx'),code=SETsto('sfx'),change=function()SFX.play('blip_1')end},
-    WIDGET.newSlider{name="voc",  x=1000,y=220,lim=130,w=250,disp=SETval('voc'),code=SETsto('voc'),change=function()VOC.play('test')end},
+    WIDGET.newText{name="title", x=640,y=-5,font=50},
+    WIDGET.newSlider{name="bgm", x=1000,y=80,lim=130,w=250,disp=SETval('bgm'),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
+    WIDGET.newSlider{name="sfx", x=1000,y=150,lim=130,w=250,disp=SETval('sfx'),code=SETsto('sfx'),change=function()SFX.play('blip_1')end},
+    WIDGET.newSlider{name="voc", x=1000,y=220,lim=130,w=250,disp=SETval('voc'),code=SETsto('voc'),change=function()VOC.play('test')end},
     WIDGET.newButton{name="music",x=1140,y=540,w=170,h=80,font=40,code=pressKey"tab"},
     WIDGET.newButton{name="back", x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
