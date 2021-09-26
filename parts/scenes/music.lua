@@ -57,7 +57,7 @@ function scene.keyDown(key,isRep)
                 BGM.stop()
             end
         elseif key=="tab"then
-            SCN.swapTo('sound','none')
+            SCN.swapTo('launchpad','none')
         elseif key=="escape"then
             SCN.back()
         end

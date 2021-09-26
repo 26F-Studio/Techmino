@@ -585,7 +585,7 @@ return{
             bgm="BGM",
             sound="SFXs",
         },
-        sound={
+        launchpad={
             title="SFX Room",
             bgm="BGM",
             sfx="SFX",

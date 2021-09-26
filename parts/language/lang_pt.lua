@@ -578,7 +578,7 @@ return{
             play="Jogar",
             -- sound="SFXs",
         },
-        sound={
+        launchpad={
             title="Efeito Sonoros",
             bgm="BGM",
             sfx="SFX",

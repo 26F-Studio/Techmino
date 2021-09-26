@@ -540,7 +540,7 @@ return{
             play="Reprod.",
             sound="SFXs",
         },
-        sound={
+        launchpad={
             title="Sala de SFX",
             bgm="BGM",
             sfx="SFX",

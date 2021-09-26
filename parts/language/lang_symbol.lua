@@ -454,7 +454,7 @@ return{
             bgm="#~#",
             sound="=><=",
         },
-        sound={
+        launchpad={
             title="SFX Room",
             bgm="#~#",
             sfx="#!#",

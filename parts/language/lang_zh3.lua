@@ -589,7 +589,7 @@ return{
             bgm="背景音乐",
             sound="特技效果",
         },
-        sound={
+        launchpad={
             title="特技效果",
             bgm="背景音乐",
             sfx="特技效果",

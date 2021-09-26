@@ -538,7 +538,7 @@ return{
             bgm="Musique",
             -- sound="SFXs",
         },
-        sound={
+        launchpad={
             title="Salon SE",
             bgm="Musique",
             sfx="Sons",

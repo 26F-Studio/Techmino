@@ -575,7 +575,7 @@ return{
             bgm="BGM",
             sound="音效室",
         },
-        sound={
+        launchpad={
             title="音效室",
             bgm="音乐",
             sfx="音效",

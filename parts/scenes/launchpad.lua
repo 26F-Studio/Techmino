@@ -121,7 +121,9 @@ scene.mouseDown=scene.touchDown
 
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if #key==1 then
+    if key=="z"or key=="x"then
+        love.mousepressed(love.mouse.getPosition())
+    elseif #key==1 then
         if("12345678"):find(key,nil,true)then
             press(0,tonumber(key))
         else
