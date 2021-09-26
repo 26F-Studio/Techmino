@@ -2104,7 +2104,7 @@ local function update_alive(P)
     _updateMisc(P)
     -- P:setPosition(640-150-(30*(P.curX+P.cur.sc[2])-15),30*(P.curY+P.cur.sc[1])+15-300+(ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0))
 end
-local function update_remote_alive(P,dt)
+local function update_remote_alive(P)
     local frameRate=(P.stream[#P.stream-1]or 0)-P.frameRun
     frameRate=
         frameRate<26 and 1 or
@@ -2152,7 +2152,7 @@ local function update_remote_alive(P,dt)
                 end
                 P.streamProgress=P.streamProgress+2
             else--No event now, run one frame
-                update_alive(P,dt/frameRate)
+                update_alive(P,1/60)
                 P.stat.time=P.frameRun/60
             end
         else--Pause state, no actions, quit loop
