@@ -241,8 +241,8 @@ BGM.init((function()
     return L
 end)())
 VOC.init{
-    'zspin','sspin','jspin','lspin','tspin','ospin','ispin','pspin','qspin','fspin','espin','uspin','vspin','wspin','xspin','rspin','yspin','nspin','hspin',
-    'single','double','triple','techrash',
+    'zspin','sspin','jspin','lspin','tspin','ospin','ispin','pspin','qspin','fspin','espin','uspin','vspin','wspin','xspin','rspin','yspin','nspin','hspin','cspin',
+    'single','double','triple','techrash','pentacrash','hexacrash',
     'mini','b2b','b3b',
     'perfect_clear','half_clear',
     'win','lose','bye',

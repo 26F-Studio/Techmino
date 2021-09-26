@@ -69,15 +69,15 @@ function scene.draw()
 
     --Scroller
     gc.setLineWidth(2)
-    gc.line(316,307,316,482)
+    gc.line(315,307,315,482)
     setFont(50)
     gc_print(bgmList[selected],320,355)
     setFont(35)
-    if selected>1 then gc_print(bgmList[selected-1],320,350-30)end
-    if selected<#bgmList then gc_print(bgmList[selected+1],320,350+65)end
+    if selected>1 then gc_print(bgmList[selected-1],322,350-30)end
+    if selected<#bgmList then gc_print(bgmList[selected+1],322,350+65)end
     setFont(20)
-    if selected>2 then gc_print(bgmList[selected-2],320,350-50)end
-    if selected<#bgmList-1 then gc_print(bgmList[selected+2],320,350+110)end
+    if selected>2 then gc_print(bgmList[selected-2],322,350-50)end
+    if selected<#bgmList-1 then gc_print(bgmList[selected+2],322,350+110)end
 
     --Music player
     gc.draw(TEXTURE.title,840,220,nil,.5,nil,580,118)
