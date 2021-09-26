@@ -202,7 +202,12 @@ function scene.update(dt)
         end
         ct=ct-1
         if ct==0 then
-            score=0
+            local t=love.system.getClipboardText()
+            if type(t)=='string'then
+                t=t:lower():match("^s=(%d+)$")
+                t=t and tonumber(t)and tonumber(t)>0 and tonumber(t)<=8000 and int(tonumber(t))
+            end
+            score=type(t)=='number'and t or 0
             life=1000
             play,menu=true,false
             inv=90
