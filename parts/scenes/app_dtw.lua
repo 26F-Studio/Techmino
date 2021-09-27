@@ -185,7 +185,7 @@ function reset()
     if type(t)=='string'then
         t=t:lower():match("^s=(%d+)$")
         t=t and tonumber(t)and tonumber(t)*2
-        t=t and tonumber(t)>6.26 and tonumber(t)<=20 and t
+        t=t and tonumber(t)>=0 and tonumber(t)<=60 and t
     end
     rollSpeed=type(t)=='number'and t or 6.26
 
