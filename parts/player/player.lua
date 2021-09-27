@@ -1067,7 +1067,7 @@ do--Player.drop(self)--Place piece
     local spinVoice={'zspin','sspin','jspin','lspin','tspin','ospin','ispin','zspin','sspin','pspin','qspin','fspin','espin','tspin','uspin','vspin','wspin','xspin','jspin','lspin','rspin','yspin','nspin','hspin','ispin','ispin','cspin','ispin','ospin'}
     local clearVoice={'single','double','triple','techrash','pentacrash','hexacrash'}
     local spinSFX={[0]='spin_0','spin_1','spin_2'}
-    local clearSFX={'clear_1','clear_2','clear_3'}
+    local clearSFX={'clear_1','clear_2','clear_3','clear_4','clear_5','clear_6'}
     local renSFX={}for i=1,11 do renSFX[i]='ren_'..i end
     local finesseList={
         {
@@ -1515,7 +1515,7 @@ do--Player.drop(self)--Place piece
 
             --SFX & Vibrate
             if self.sound then
-                SFX.play(clearSFX[cc]or'clear_4')
+                SFX.play(clearSFX[cc])
                 SFX.play(renSFX[min(cmb,11)])
                 if cmb>14 then
                     SFX.play('ren_mega',(cmb-10)*.1)
