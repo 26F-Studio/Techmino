@@ -102,11 +102,8 @@ local function press(x,y)
         pad.funcAlpha[y]=1
     else
         local k=pad[pad.page][y][x]
-        if k.sfx then
-            SFX.play(k.sfx)
-        elseif k.voc then
-            VOC.play(k.voc)
-        end
+        if k.sfx then SFX.play(k.sfx,k.vol)end
+        if k.voc then VOC.play(k.voc)end
         pad.alpha[y][x]=1
     end
 end
