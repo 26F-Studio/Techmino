@@ -193,6 +193,11 @@ function Player:newTask(code,...)
     end
 end
 
+function Player:startStreaming(streamData)
+    self.stream=streamData
+    self.streamProgress=1
+end
+
 function Player:setPosition(x,y,size)
     size=size or 1
     self.x,self.y,self.size=x,y,size
@@ -1903,6 +1908,8 @@ local function update_alive(P)
         return true
     end
 
+    if P.timing then P.stat.frame=P.stat.frame+1 end
+
     --Calculate key speed
     do
         local v=0
@@ -2102,62 +2109,54 @@ local function update_alive(P)
     end
 
     _updateMisc(P)
-    -- P:setPosition(640-150-(30*(P.curX+P.cur.sc[2])-15),30*(P.curY+P.cur.sc[1])+15-300+(ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0))
+    --[[
+        P:setPosition(
+            640-150-(30*(P.curX+P.cur.sc[2])-15),
+            30*(P.curY+P.cur.sc[1])+15-300+(
+                ENV.smooth and P.ghoY~=P.curY and
+                (P.dropDelay/ENV.drop-1)*30
+                or 0
+            )
+        )
+    ]]
 end
-local function update_remote_alive(P)
-    local frameRate=(P.stream[#P.stream-1]or 0)-P.frameRun
-    frameRate=
-        frameRate<26 and 1 or
-        frameRate<50 and 2 or
-        frameRate<80 and 3 or
-        frameRate<120 and 5 or
-        frameRate<160 and 7 or
-        frameRate<200 and 10 or
-        20
-    for _=1,frameRate do
-        local eventTime=P.stream[P.streamProgress]
-        if eventTime then--Normal state, event forward
-            if P.frameRun==eventTime then--Event time, execute action, read next so don't update immediately
-                local event=P.stream[P.streamProgress+1]
-                if event==0 then--Just wait
-                elseif event<=32 then--Press key
-                    P:pressKey(event)
-                elseif event<=64 then--Release key
-                    P:releaseKey(event-32)
-                elseif event>0x2000000000000 then--Sending lines
-                    local sid=event%0x100
-                    local amount=int(event/0x100)%0x100
-                    local time=int(event/0x10000)%0x10000
-                    local line=int(event/0x100000000)%0x10000
-                    for _,p in next,PLY_ALIVE do
-                        if p.sid==sid then
-                            P:attack(p,amount,time,line,true)
-                            P:createBeam(p,amount)
-                            break
-                        end
-                    end
-                elseif event>0x1000000000000 then--Receiving lines
-                    local sid=event%0x100
-                    for _,p in next,PLY_ALIVE do
-                        if p.sid==sid then
-                            P:receive(
-                                p,
-                                int(event/0x100)%0x100,--amount
-                                int(event/0x10000)%0x10000,--time
-                                int(event/0x100000000)%0x10000--line
-                            )
-                            break
-                        end
-                    end
+local function update_streaming(P)
+    local eventTime=P.stream[P.streamProgress]
+    while eventTime and P.frameRun==eventTime do
+        local event=P.stream[P.streamProgress+1]
+        if event==0 then--Just wait
+        elseif event<=32 then--Press key
+            P:pressKey(event)
+        elseif event<=64 then--Release key
+            P:releaseKey(event-32)
+        elseif event>0x2000000000000 then--Sending lines
+            local sid=event%0x100
+            local amount=int(event/0x100)%0x100
+            local time=int(event/0x10000)%0x10000
+            local line=int(event/0x100000000)%0x10000
+            for _,p in next,PLY_ALIVE do
+                if p.sid==sid then
+                    P:attack(p,amount,time,line,true)
+                    P:createBeam(p,amount)
+                    break
                 end
-                P.streamProgress=P.streamProgress+2
-            else--No event now, run one frame
-                update_alive(P,1/60)
-                P.stat.time=P.frameRun/60
             end
-        else--Pause state, no actions, quit loop
-            break
+        elseif event>0x1000000000000 then--Receiving lines
+            local sid=event%0x100
+            for _,p in next,PLY_ALIVE do
+                if p.sid==sid then
+                    P:receive(
+                        p,
+                        int(event/0x100)%0x100,--amount
+                        int(event/0x10000)%0x10000,--time
+                        int(event/0x100000000)%0x10000--line
+                    )
+                    break
+                end
+            end
         end
+        P.streamProgress=P.streamProgress+2
+        eventTime=P.stream[P.streamProgress]
     end
 end
 local function update_dead(P)
@@ -2210,28 +2209,42 @@ function Player:_die()
     end
 end
 function Player:update(dt)
-    if self.type=='remote'and self.alive then
-        update_remote_alive(self,dt)
-    else
-        self.trigFrame=self.trigFrame+(self.gameEnv.FTLock and dt*60 or 1)
-        if self.alive then
-            if self.timing then
-                local S=self.stat
-                S.frame=S.frame+1
-                S.time=S.time+dt
-            end
-            while self.trigFrame>=1 do
-                update_alive(self)
-                self.trigFrame=self.trigFrame-1
-            end
-            if self.type=='computer'then
-                self.bot:update(dt)
-            end
-        else
-            while self.trigFrame>=1 do
+    self.trigFrame=self.trigFrame+(self.gameEnv.FTLock and dt*60 or 1)
+    if self.alive then
+        local S=self.stat
+        if self.timing then S.time=S.time+dt end
+        if self.type=='computer'then
+            self.bot:update(dt)
+        end
+        while self.trigFrame>=1 do
+            if self.alive then
+                if self.streamProgress then
+                    S.time=self.frameRun/60
+                    local frameDelta=self.type=='remote'and (self.stream[#self.stream-1]or 0)-self.frameRun or 0
+                    for _=1,
+                        frameDelta<26 and 1 or
+                        frameDelta<50 and 2 or
+                        frameDelta<80 and 3 or
+                        frameDelta<120 and 5 or
+                        frameDelta<160 and 7 or
+                        frameDelta<200 and 10 or
+                        20
+                    do
+                        update_streaming(self)
+                        update_alive(self)
+                    end
+                else
+                    update_alive(self)
+                end
+            else
                 update_dead(self)
-                self.trigFrame=self.trigFrame-1
             end
+            self.trigFrame=self.trigFrame-1
+        end
+    else
+        while self.trigFrame>=1 do
+            update_dead(self)
+            self.trigFrame=self.trigFrame-1
         end
     end
     _updateFX(self,dt)

@@ -525,7 +525,7 @@ do--function resetGameData(args)
     local gameSetting={
         --Tuning
         'das','arr','dascut','dropcut','sddas','sdarr',
-        'ihs','irs','ims','RS','swap',
+        'ihs','irs','ims','RS','swap','FTLock',
 
         --System
         'skin','face',
@@ -557,7 +557,7 @@ do--function resetGameData(args)
         if args:find'r'then
             GAME.frameStart=0
             GAME.recording=false
-            GAME.replaying=1
+            GAME.replaying=true
         else
             GAME.frameStart=args:find'n'and 0 or 150-SETTING.reTime*15
             GAME.seed=seed or math.random(1046101471,2662622626)

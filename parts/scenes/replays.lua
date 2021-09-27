@@ -60,6 +60,7 @@ local function _playRep(fileName)
         loadGame(rep.mode,true)
         resetGameData('r')
         PLAYERS[1].username=rep.player
+        PLAYERS[1]:startStreaming(GAME.rep)
         GAME.init=false
         GAME.saved=true
         GAME.fromRepMenu=true

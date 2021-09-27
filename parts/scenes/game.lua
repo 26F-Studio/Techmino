@@ -275,23 +275,6 @@ function scene.gamepadUp(key)
     end
 end
 
-local function _update_replay(repPtr)
-    local P1=PLAYERS[1]
-    local L=GAME.rep
-    while P1.frameRun==L[repPtr]do
-        local key=L[repPtr+1]
-        if key==0 then--Just wait
-        elseif key<=32 then--Press key
-            P1:pressKey(key)
-            VK.press(key)
-        elseif key<=64 then--Release key
-            P1:releaseKey(key-32)
-            VK.release(key-32)
-        end
-        repPtr=repPtr+2
-    end
-    GAME.replaying=repPtr
-end
 local function _update_common(dt)
     --Update control
     touchMoveLastFrame=false
@@ -312,9 +295,6 @@ function scene.update(dt)
     trigGameRate=trigGameRate+gameRate
     while trigGameRate>=1 do
         trigGameRate=trigGameRate-1
-        if GAME.replaying then
-            _update_replay(GAME.replaying)
-        end
         _update_common(dt)
     end
 end

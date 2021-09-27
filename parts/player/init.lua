@@ -146,6 +146,8 @@ local function _newEmptyPlayer(id,mini)
     P.frameRun=GAME.frameStart--Frame run, mainly for replay
     P.endCounter=0--Used after gameover
     P.dropTime={}for i=1,10 do P.dropTime[i]=-1e99 end P.dropSpeed=0
+    P.stream={}
+    P.streamProgress=false--1 to start play recording
 
     --Randomizers
     P.seqRND=love.math.newRandomGenerator(GAME.seed)
@@ -457,9 +459,7 @@ function PLY.newRemotePlayer(id,mini,ply)
     P.type='remote'
 
     P.draw=ply_draw.norm
-
-    P.stream={}
-    P.streamProgress=1
+    P:startStreaming()
 
     netPLY.setPlayerObj(ply,P)
     P.uid=ply.uid
