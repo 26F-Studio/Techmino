@@ -9,6 +9,7 @@ return{
 
     --Control
     nextCount=6,
+    holdMode='hold',
     holdCount=1,
     infHold=true,
     phyHold=false,
