@@ -4,7 +4,7 @@ return{
         mStr(100-P.stat.dig,63,265)
     end,
     dropPiece=function(P)
-        for _=1,math.min(100,100-P.stat.dig)-P.garbageBeneath do
+        for _=1,math.min(10,100-P.stat.dig)-P.garbageBeneath do
             P:garbageRise(21,1,P:getHolePos())
         end
         if P.stat.dig==100 then
