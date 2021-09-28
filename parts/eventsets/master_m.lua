@@ -6,6 +6,7 @@ return
     lock=15,
     wait=6,
     fall=2,
+    freshLimit=15,
     mesDisp=function(P)
         PLY.draw.drawProgress(P.stat.row,P.modeData.target)
         PLY.draw.drawTargetLine(P,200-P.stat.row)

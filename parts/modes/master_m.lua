@@ -1,5 +1,5 @@
 return{
-    color=COLOR.green,
+    color=COLOR.lSea,
     env={
         noInitSZO=true,
         eventSet='master_m',
