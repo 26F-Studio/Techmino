@@ -316,7 +316,7 @@ eventSetList={
     'backfire_120','backfire_60','backfire_30','backfire_0',
     'checkAttack_100',
     'checkLine_10','checkLine_20','checkLine_40','checkLine_100','checkLine_200','checkLine_400','checkLine_1000',
-    'classic_h','classic_l','classic_u',
+    'classic_e','classic_h','classic_u',
     'defender_n','defender_l',
     'dig_10l','dig_40l','dig_100l','dig_400l',
     'dig_h','dig_u',
