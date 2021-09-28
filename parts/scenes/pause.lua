@@ -150,6 +150,7 @@ function scene.keyDown(key,isRep)
     elseif key=="p"then
         if(GAME.result or GAME.replaying)and #PLAYERS==1 then
             resetGameData('r')
+            PLAYERS[1]:startStreaming(GAME.rep)
             SCN.swapTo('game','none')
         end
     elseif key=="o"then
