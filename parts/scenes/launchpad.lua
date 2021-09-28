@@ -84,17 +84,20 @@ pad={x=140,y=65,page=1,
         {{},{},{},{},{},{},{},{}},
         {{},{},{},{},{},{},{},{}},
     },
-    {
-        {{},{},{},{},{},{},{},{}},
-        {{},{},{},{},{},{},{},{}},
-        {{},{},{},{},{},{},{},{}},
-        {{},{},{},{},{},{},{},{}},
-        {{},{},{},{},{},{},{},{}},
-        {{},{},{},{},{},{},{},{}},
-        {{},{},{},{},{},{},{},{}},
-        {{},{},{},{},{},{},{},{}},
-    },
+    (function()--BGM page
+        local L=BGM.getList()
+        local B={}
+        for y=1,8 do
+            B[y]={}
+            for x=1,8 do
+                local i=8*(y-1)+x
+                B[y][x]=L[i]and{bgm=L[i]}or{}
+            end
+        end
+        return B
+    end)(),
 }
+
 
 local function press(x,y)
     if x==0 then
@@ -104,6 +107,7 @@ local function press(x,y)
         local k=pad[pad.page][y][x]
         if k.sfx then SFX.play(k.sfx,k.vol)end
         if k.voc then VOC.play(k.voc)end
+        if k.bgm then BGM.play(k.bgm)end
         pad.alpha[y][x]=1
     end
 end
@@ -188,11 +192,9 @@ function scene.draw()
         gc_setColor(white)
         gc_rectangle('line',x*80+2,(y-1)*80+2,76,76,5)
         local k=pad[pad.page][y][x]
-        if k.sfx then
-            gc_circle('line',x*80+40,(y-1)*80+40,6)
-        elseif k.voc then
-            gc_rectangle('line',x*80+30,(y-1)*80+30,20,20,2)
-        end
+        if k.sfx then gc_circle('line',x*80+40,(y-1)*80+40,6)end
+        if k.voc then gc_rectangle('line',x*80+30,(y-1)*80+30,20,20,1)end
+        if k.bgm then gc_rectangle('line',x*80+20,(y-1)*80+20,40,40,2)end
         if pad.alpha[y][x]>0 then
             gc_setColor(1,1,1,pad.alpha[y][x]*.7)
             gc_rectangle('fill',x*80+2,(y-1)*80+2,76,76,5)
