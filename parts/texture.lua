@@ -91,7 +91,7 @@ end
 
 TEXTURE.title_color=NSC(1160,236)--Title image (colored)
 do
-    local titleColor={COLOR.lP,COLOR.lC,COLOR.lB,COLOR.lO,COLOR.lF,COLOR.lM,COLOR.lG,COLOR.lY}
+    local titleColor={COLOR.P,COLOR.F,COLOR.V,COLOR.A,COLOR.M,COLOR.N,COLOR.W,COLOR.Y}
 
     for i=1,8 do
         local triangles=love.math.triangulate(title[i])
@@ -108,7 +108,7 @@ do
             gc.polygon('fill',triangles[j])
         end
 
-        gc.setColor(.2+.8*titleColor[i][1],.2+.8*titleColor[i][2],.2+.8*titleColor[i][3],.5)
+        gc.setColor(.2+.8*titleColor[i][1],.2+.8*titleColor[i][2],.2+.8*titleColor[i][3],.3)
         gc.translate(-4,-4)
         for j=1,#triangles do
             gc.polygon('fill',triangles[j])
