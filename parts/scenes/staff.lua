@@ -20,28 +20,23 @@ end
 
 function scene.mouseDown(x,y)
     local T=40*math.min(time,45)
-    if not GAME.playing then
-        if x>230 and x<1050 then
-            if math.abs(y-800+T)<70 then
-                loadGame('sprintLock',true)
-            elseif math.abs(y-2160+T)<70 then
-                loadGame('sprintFix',true)
-            end
+    if x>230 and x<1050 then
+        if math.abs(y-800+T)<70 then
+            loadGame('sprintLock',true)
+        elseif math.abs(y-2160+T)<70 then
+            loadGame('sprintFix',true)
         end
     end
 end
 scene.touchDown=scene.mouseDown
 
-function scene.keyDown(key,isRep)
-    if isRep then return end
+function scene.keyDown(key)
     if key=="escape"then
         SCN.back()
-    elseif not GAME.playing then
-        if key=="l"then
-            loadGame('sprintLock',true)
-        elseif key=="f"then
-            loadGame('sprintFix',true)
-        end
+    elseif key=="l"then
+        loadGame('sprintLock',true)
+    elseif key=="f"then
+        loadGame('sprintFix',true)
     end
 end
 

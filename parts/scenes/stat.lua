@@ -53,6 +53,13 @@ function scene.mouseDown(x,y)
     end
 end
 scene.touchDown=scene.mouseDown
+function scene.keyDown(key)
+    if key=="escape"then
+        SCN.back()
+    elseif love.keyboard.isDown("M")and love.keyboard.isDown("D")then
+        loadGame('sprintMD',true)
+    end
+end
 
 function scene.draw()
     local minoColor,skinSet=minoColor,SETTING.skin

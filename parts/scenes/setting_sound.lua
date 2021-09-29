@@ -22,7 +22,7 @@ function scene.sceneBack()
 end
 
 function scene.mouseDown(x,y)
-    if x>780 and x<980 and y>470 and jump==0 then
+    if x>780 and x<980 and y>470 and y<720 and jump==0 then
         jump=10
         local t=TIME()-last
         if t>1 then
@@ -36,6 +36,14 @@ function scene.mouseDown(x,y)
     end
 end
 scene.touchDown=scene.mouseDown
+
+function scene.keyDown(key)
+    if key=="escape"then
+        SCN.back()
+    elseif key=="space"then
+        scene.mouseDown(942,626)
+    end
+end
 
 function scene.update()
     if jump>0 then
