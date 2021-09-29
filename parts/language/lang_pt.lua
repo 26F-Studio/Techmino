@@ -770,6 +770,7 @@ return{
         -- ['sprintSmooth']=       {"Sprint",           "NO FRICTION"},
         ['marathon_bfmax']=     {"Maratona",         "ULTIMATE"},
         -- ['sprintMD']=           {"Sprint",           "MISDROP"},
+        -- ['sprintSym']=          {"Sprint",           "SYMMETRY"},
 
         ['master_l']=           {"Mestre",           "LUNÁTICO"},
         ['master_u']=           {"Mestre",           "ULTIMATE"},

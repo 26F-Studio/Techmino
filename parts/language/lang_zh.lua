@@ -784,6 +784,7 @@ return{
         ['sprintSmooth']=   {"竞速",        "无摩擦"},
         ['marathon_bfmax']= {"马拉松",       "极限"},
         ['sprintMD']=       {"竞速",        "MD"},
+        ['sprintSym']=      {"竞速",        "对称"},
 
         ['master_l']=       {"大师",        "疯狂"},
         ['master_u']=       {"大师",        "极限"},

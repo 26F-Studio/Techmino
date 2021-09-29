@@ -124,6 +124,7 @@ return{
     {name='sprintSmooth'},
     {name='marathon_bfmax'},
     {name='sprintMD'},
+    {name='sprintSym'},
 
     --Old
     {name='master_l'},
