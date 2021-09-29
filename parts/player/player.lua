@@ -2212,14 +2212,12 @@ function Player:update(dt)
     self.trigFrame=self.trigFrame+(self.gameEnv.FTLock and dt*60 or 1)
     if self.alive then
         local S=self.stat
-        if self.timing then S.time=S.time+dt end
         if self.type=='computer'then
             self.bot:update(dt)
         end
         while self.trigFrame>=1 do
             if self.alive then
                 if self.streamProgress then
-                    S.time=self.frameRun/60
                     local frameDelta=self.type=='remote'and (self.stream[#self.stream-1]or 0)-self.frameRun or 0
                     for _=1,
                         frameDelta<26 and 1 or
@@ -2233,7 +2231,9 @@ function Player:update(dt)
                         update_streaming(self)
                         update_alive(self)
                     end
+                    S.time=self.stat.frame/60
                 else
+                    if self.timing then S.time=S.time+dt end
                     update_alive(self)
                 end
             else
