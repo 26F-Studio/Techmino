@@ -139,6 +139,8 @@ function VK.touch(id,x,y)
     local B=keys[id]
     B.isDown=true
     B.pressTime=10
+    SFX.play('virtualKey',SETTING.VKSFX)
+    if SETTING.vib>0 then VIB(SETTING.vib+SETTING.VKVIB)end
 
     if SETTING.VKTrack then
         --Auto follow
@@ -160,8 +162,6 @@ function VK.touch(id,x,y)
             end
         end
     end
-    SFX.play('virtualKey',SETTING.VKSFX)
-    VIB(SETTING.VKVIB)
 end
 
 function VK.press(id)

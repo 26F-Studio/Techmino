@@ -47,7 +47,7 @@ scene.widgetList={
     WIDGET.newSwitch{name="hide",  x=1150, y=200, lim=400,              font=40,disp=SETval('VKSwitch'),code=SETrev('VKSwitch')},
     WIDGET.newSwitch{name="icon",  x=1150, y=300, lim=400,              font=40,disp=SETval('VKIcon'),code=SETrev('VKIcon'),hideF=_notShow},
     WIDGET.newSlider{name="sfx",   x=830,  y=380, lim=160,w=400,        font=35,change=function()SFX.play('virtualKey',SETTING.VKSFX)end,disp=SETval('VKSFX'),code=SETsto('VKSFX'),hideF=_notShow},
-    WIDGET.newSlider{name="vib",   x=830,  y=450, lim=160,w=400,unit=6, font=35,change=function()VIB(SETTING.VKVIB)end,disp=SETval('VKVIB'),code=SETsto('VKVIB'),hideF=_notShow},
+    WIDGET.newSlider{name="vib",   x=830,  y=450, lim=160,w=400,unit=6, font=35,change=function()if SETTING.vib>0 then VIB(SETTING.vib+SETTING.VKVIB)end end,disp=SETval('VKVIB'),code=SETsto('VKVIB'),hideF=_notShow},
     WIDGET.newSlider{name="alpha", x=830,  y=520, lim=160,w=400,        font=40,disp=SETval('VKAlpha'),code=SETsto('VKAlpha'),hideF=_notShow},
 
     WIDGET.newSwitch{name="track", x=360,  y=720, lim=250,              font=35,disp=SETval('VKTrack'),code=SETrev('VKTrack'),hideF=_notShow},

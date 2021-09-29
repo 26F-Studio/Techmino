@@ -13,6 +13,7 @@ local SFX,BGM,VOC,VIB,SYSFX=SFX,BGM,VOC,VIB,SYSFX
 local FREEROW,TABLE,TEXT,TASK=FREEROW,TABLE,TEXT,TASK
 local PLAYERS,PLY_ALIVE,GAME=PLAYERS,PLY_ALIVE,GAME
 
+local SETTING=SETTING
 --------------------------<FX>--------------------------
 function Player:_showText(text,dx,dy,font,style,spd,stop)
     ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font,style,spd,stop))
@@ -1520,7 +1521,7 @@ do--Player.drop(self)--Place piece
                 if cmb>14 then
                     SFX.play('ren_mega',(cmb-10)*.1)
                 end
-                VIB(cc+1)
+                if SETTING.vib>0 then VIB(SETTING.vib+cc+1)end
             end
         else--No lines clear
             cmb=0
@@ -2479,7 +2480,7 @@ function Player:act_hardDrop()
                 self.spinLast=false
                 if self.sound then
                     SFX.play('drop',nil,self:getCenterX()*.15)
-                    VIB(1)
+                    if SETTING.vib>0 then VIB(SETTING.vib+1)end
                 end
             end
             if ENV.shakeFX then
