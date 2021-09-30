@@ -60,6 +60,7 @@ return{
     ai_fixed="AI与固定序列不兼容",
     ai_prebag="AI与具有非四格拼板的自定义序列不兼容",
     ai_mission="AI与自定义任务不兼容",
+    --ai_swapHold="不能同时开启AI和交换Hold",
     switchSpawnSFX="请打开繁殖特技效果",
     ranks={"D","C","B","A","S"},
     needRestart="请重试以使更改生效",
