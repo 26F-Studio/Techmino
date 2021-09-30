@@ -24,7 +24,7 @@ return{
     ai_fixed="不能同时开启电脑玩家和固定序列",
     ai_prebag="不能同时开启电脑玩家和含有非四连块的自定义序列",
     ai_mission="不能同时开启电脑玩家和自定义任务",
-    ai_swapHold="不能同时开启AI和交换Hold",
+    ai_swapHold="不能同时开启电脑玩家和交换Hold",
 
     ranks={"差","可","中","良","优"},
 
