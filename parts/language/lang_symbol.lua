@@ -37,6 +37,7 @@ return{
     ai_fixed="X!!!",
     ai_prebag="X!!!",
     ai_mission="X!!!",
+    ai_swapHold="X!!!",
     needRestart="!!*#R#*!!",
 
     saveDone="~~~",
