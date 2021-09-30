@@ -71,6 +71,10 @@ function scene.keyDown(key,isRep)
                 MES.new('error',text.ai_mission)
                 return
             end
+            if CUSTOMENV.holdMode=='swap' then
+                MES.new('error',text.ai_swapHold)
+                return
+            end
         end
         if key=="return2"or kb.isDown("lalt","lctrl","lshift")then
             if initField then
