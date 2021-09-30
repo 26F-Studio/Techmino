@@ -56,7 +56,8 @@ return{
 
     page="Page:",
 
-    ai_fixed="AI is incompatible with fixed sequences",
+    cc_fixed="CC is incompatible with fixed sequences",
+    cc_swap="CC is incompatible with swap holdmode",
     ai_prebag="AI is incompatible with custom sequences which have non-tetromino",
     ai_mission="AI is incompatible with custom missions",
     switchSpawnSFX="Please turn on the block spawn SFX!",

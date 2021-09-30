@@ -21,7 +21,8 @@ return{
     finesse_ap="完美极简",
     finesse_fc="全连击",
 
-    ai_fixed="不能同时开启电脑玩家和固定序列",
+    cc_fixed="不能同时开启CC和固定序列",
+    cc_swap="不能同时开启CC和swap的暂存模式",
     ai_prebag="不能同时开启电脑玩家和含有非四连块的自定义序列",
     ai_mission="不能同时开启电脑玩家和自定义任务",
 

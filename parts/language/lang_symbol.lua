@@ -34,7 +34,8 @@ return{
 
     page=":",
 
-    ai_fixed="X!!!",
+    cc_fixed="CC X!!!",
+    cc_swap="CC X!!!",
     ai_prebag="X!!!",
     ai_mission="X!!!",
     needRestart="!!*#R#*!!",

@@ -46,7 +46,8 @@ return{
 
     page="Página:",
 
-    ai_fixed="La IA no es compatible con secuencias de piezas prefijadas.",
+    -- cc_fixed="CC is incompatible with fixed sequences",
+    -- cc_swap="CC is incompatible with swap holdmode",
     ai_prebag="La IA no es compatible con piezas que no sean Tetrominos.",
     ai_mission="La IA no es compatible con misiones personalizadas.",
     switchSpawnSFX="Habilita los sonidos de aparición de las piezas ;)",

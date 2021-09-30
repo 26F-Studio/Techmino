@@ -55,9 +55,15 @@ function scene.keyDown(key,isRep)
     if isRep then return end
     if key=="return"or key=="return2"then
         if CUSTOMENV.opponent~="X"then
-            if CUSTOMENV.opponent:sub(1,2)=='CC'and CUSTOMENV.sequence=="fixed"then
-                MES.new('error',text.ai_fixed)
-                return
+            if CUSTOMENV.opponent:sub(1,2)=='CC'then
+                if CUSTOMENV.sequence=='fixed'then
+                    MES.new('error',text.cc_fixed)
+                    return
+                end
+                if CUSTOMENV.holdMode=='swap'then
+                    MES.new('error',text.cc_swap)
+                    return
+                end
             end
             if #BAG>0 then
                 for _=1,#BAG do

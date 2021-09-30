@@ -57,7 +57,8 @@ return{
 
     page="第页:",
 
-    ai_fixed="AI与固定序列不兼容",
+    cc_fixed="CC与固定序列不兼容",
+    cc_swap="CC与交换保持模式不兼容",
     ai_prebag="AI与具有非四格拼板的自定义序列不兼容",
     ai_mission="AI与自定义任务不兼容",
     switchSpawnSFX="请打开繁殖特技效果",

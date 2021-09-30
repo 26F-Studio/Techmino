@@ -56,7 +56,8 @@ return{
 
     page="页面:",
 
-    ai_fixed="不能同时开启AI和固定序列",
+    cc_fixed="不能同时开启CC和固定序列",
+    cc_swap="不能同时开启CC和swap的暂存模式",
     ai_prebag="不能同时开启AI和含有非四连块的自定义序列",
     ai_mission="不能同时开启AI和自定义任务",
     switchSpawnSFX="请开启方块出生音效",
