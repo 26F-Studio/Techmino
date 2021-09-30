@@ -49,6 +49,7 @@ return{
     ai_fixed="La IA no es compatible con secuencias de piezas prefijadas.",
     ai_prebag="La IA no es compatible con piezas que no sean Tetrominos.",
     ai_mission="La IA no es compatible con misiones personalizadas.",
+    --ai_swapHold="AI is incompatible with swap hold",
     switchSpawnSFX="Habilita los sonidos de aparición de las piezas ;)",
     needRestart="Reinicia Techmino para que los cambios tengan efecto.",
 
