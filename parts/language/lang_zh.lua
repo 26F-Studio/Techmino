@@ -59,6 +59,7 @@ return{
     ai_fixed="不能同时开启AI和固定序列",
     ai_prebag="不能同时开启AI和含有非四连块的自定义序列",
     ai_mission="不能同时开启AI和自定义任务",
+    ai_swapHold="不能同时开启AI和交换Hold",
     switchSpawnSFX="请开启方块出生音效",
     ranks={"D","C","B","A","S"},
     needRestart="重新开始以生效",
