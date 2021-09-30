@@ -59,6 +59,7 @@ return{
     ai_fixed="AI is incompatible with fixed sequences",
     ai_prebag="AI is incompatible with custom sequences which have non-tetromino",
     ai_mission="AI is incompatible with custom missions",
+    ai_swapHold="AI is incompatible with swap hold",
     switchSpawnSFX="Please turn on the block spawn SFX!",
     ranks={"D","C","B","A","S"},
     needRestart="Restart to apply all changes",
