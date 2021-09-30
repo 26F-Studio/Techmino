@@ -183,7 +183,7 @@ function reset()
 
     local t=love.system.getClipboardText()
     if type(t)=='string'then
-        t=t:lower():match("^s=(%d+)$")
+        t=t:lower():match("^s=(.+)")
         t=t and tonumber(t)and tonumber(t)*2
         t=t and tonumber(t)>=0 and tonumber(t)<=60 and t
     end
