@@ -1,8 +1,13 @@
 local gc,tc=love.graphics,love.touch
+local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
+local gc_draw,gc_line=gc.draw,gc.line
+local gc_circle,gc_print=gc.circle,gc.print
+
 local sin=math.sin
+
 local SCR,VK=SCR,VK
-local GAME=GAME
-local PLAYERS=PLAYERS
+local GAME,PLAYERS=GAME,PLAYERS
+local setFont,mStr=setFont,mStr
 
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
@@ -305,17 +310,17 @@ local function _drawAtkPointer(x,y)
     local a=t*3%1*.8
     t=sin(t*20)
 
-    gc.setColor(.2,.7+t*.2,1,.6+t*.4)
-    gc.circle('fill',x,y,25,6)
+    gc_setColor(.2,.7+t*.2,1,.6+t*.4)
+    gc_circle('fill',x,y,25,6)
 
-    gc.setColor(0,.6,1,.8-a)
-    gc.circle('line',x,y,30*(1+a),6)
+    gc_setColor(0,.6,1,.8-a)
+    gc_circle('line',x,y,30*(1+a),6)
 end
 function scene.draw()
     local tas=GAME.tasUsed
     if tas then
         setFont(100)
-        gc.setColor(.4,.4,.4,.5)
+        gc_setColor(.4,.4,.4,.5)
         mDraw(tasText,640,360,nil,5)
     end
 
@@ -332,11 +337,11 @@ function scene.draw()
     --Attacking & Being attacked
     if GAME.modeEnv.royaleMode then
         local P=PLAYERS[1]
-        gc.setLineWidth(5)
-        gc.setColor(.8,1,0,.2)
+        gc_setLineWidth(5)
+        gc_setColor(.8,1,0,.2)
         for i=1,#P.atker do
             local p=P.atker[i]
-            gc.line(p.centerX,p.centerY,P.x+300*P.size,P.y+620*P.size)
+            gc_line(p.centerX,p.centerY,P.x+300*P.size,P.y+620*P.size)
         end
         if P.atkMode~=4 then
             if P.atking then
@@ -351,15 +356,23 @@ function scene.draw()
     end
 
     --Mode info
-    gc.setColor(1,1,1,.8)
-    gc.draw(drawableText.modeName,modeTextPos,10)
+    gc_setColor(1,1,1,.82)
+    gc_draw(drawableText.modeName,modeTextPos,10)
+    local M=GAME.curMode
+    if M then
+        if M.score and M.records[1]then
+            setFont(15)
+            gc_setColor(1,1,1,.6)
+            gc_print(M.scoreDisp(M.records[1]),modeTextPos,45)
+        end
+    end
 
     --Replaying
     if replaying or tas then
         setFont(20)
-        gc.setColor(1,1,TIME()%.8>.4 and 1 or 0)
+        gc_setColor(1,1,TIME()%.8>.4 and 1 or 0)
         mStr(text[replaying and'replaying'or'tasUsing'],770,6)
-        gc.setColor(1,1,1,.8)
+        gc_setColor(1,1,1,.8)
         mStr(("%s   %sf"):format(repRateStrings[gameRate],PLAYERS[1].frameRun),770,31)
     end
 
