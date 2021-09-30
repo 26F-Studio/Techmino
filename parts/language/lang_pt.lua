@@ -50,6 +50,7 @@ return{
     ai_fixed="A inteligência é incompatível com sequências fixas.",
     --ai_prebag="The AI is incompatible with custom sequences which have nontetromino.", inteligência é incompatível com sequências fixas.",
     ai_mission="A inteligência é incompatível com missões costumizadas.",
+    --ai_swapHold="AI is incompatible with swap hold",
     switchSpawnSFX="Switch on spawn SFX to play",
     needRestart="Funciona após reiniciar",
 
