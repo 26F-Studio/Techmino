@@ -57,8 +57,8 @@ return{
 
     page="第页:",
 
-    ai_fixed="人工智能是不符合固定的序列",
-    ai_prebag="人工智能与非四氨基的自定义序列是不兼容的",
+    cc_fixed="立方厘米是不符合固定的序列",
+    cc_swap="立方厘米是不兼容互换持有模式",
     ai_mission="人工智能与定制任务不兼容",
     switchSpawnSFX="请打开块派生自解压!",
     ranks={"D","C","B","A","S"},
