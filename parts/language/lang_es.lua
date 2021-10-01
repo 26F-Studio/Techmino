@@ -193,7 +193,6 @@ return{
             custom="Personalizado",
             setting="Opciones",
             stat="Estadísticas",
-            music="Música y SFX",
             dict="Zictionary",
             replays="Grabaciones",
         },

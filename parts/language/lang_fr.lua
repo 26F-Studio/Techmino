@@ -193,7 +193,6 @@ return{
             -- custom="Mode perso.",
             setting="Paramètres",
             stat="Statistiques",
-            -- music="Music & SE",
             dict="Zictionary",
             -- replays="Replays",
         },

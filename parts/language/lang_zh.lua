@@ -227,7 +227,6 @@ return{
             custom="自定义",
             setting="设置",
             stat="统计信息",
-            music="音乐&音效",
             dict="小Z词典",
             replays="录像回放",
         },

@@ -110,7 +110,6 @@ return{
             custom="_?!",
             setting="_?_",
             stat="=___",
-            music="~~~ & =><=",
             dict="z",
             replays="=~~~",
         },
