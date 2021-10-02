@@ -103,9 +103,8 @@ for _,v in next,fs.getDirectoryItems('parts/shaders')do
     end
 end
 
-require'parts.list'
-require'parts.globalTables'
-require'parts.gametoolfunc'
+require'parts.gameTables'
+require'parts.gameFuncs'
 
 FREEROW=    require'parts.freeRow'
 DATA=       require'parts.data'
