@@ -90,7 +90,7 @@ return{
     {"Ascension",
         "asc ascension",
         "game",
-        "Or ASC for short. A cross-platform web-based Tetris game (may take some time when first loading the game). The game uses its own rotation system (ASC) and has plently of single-player modes.",
+        "Or ASC for short. A cross-platform web-based Tetris game (may take some time when first loading the game). The game uses its own rotation system (ASC) and has plenty of single-player modes.",
         "https://asc.winternebs.com",
     },
     {"Jstris",
