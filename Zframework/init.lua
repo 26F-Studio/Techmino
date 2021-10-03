@@ -69,11 +69,6 @@ local gc_replaceTransform,gc_present=gc.replaceTransform,gc.present
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_draw,gc_line,gc_circle,gc_print=gc.draw,gc.line,gc.circle,gc.print
 
-local mStr=mStr
-
-local int,rnd,sin=math.floor,math.random,math.sin
-local ins,rem=table.insert,table.remove
-
 local WIDGET,SCR,SCN=WIDGET,SCR,SCN
 local xOy=SCR.xOy
 local ITP=xOy.inverseTransformPoint
@@ -141,8 +136,8 @@ function love.mousepressed(x,y,k,touch)
         print(("(%d,%d)<-%d,%d ~~(%d,%d)<-%d,%d"):format(
             mx,my,
             mx-lastX,my-lastY,
-            int(mx/10)*10,int(my/10)*10,
-            int((mx-lastX)/10)*10,int((my-lastY)/10)*10
+            math.floor(mx/10)*10,math.floor(my/10)*10,
+            math.floor((mx-lastX)/10)*10,math.floor((my-lastY)/10)*10
         ))
     end
     if SCN.swapping then return end
@@ -233,7 +228,7 @@ local function noDevkeyPressed(key)
     elseif key=="f4"then
         if GAME.playing and not GAME.net then
             for _=1,8 do
-                local P=PLY_ALIVE[rnd(#PLY_ALIVE)]
+                local P=PLY_ALIVE[math.random(#PLY_ALIVE)]
                 if P and P~=PLAYERS[1]then
                     P.lastRecv=PLAYERS[1]
                     P:lose()
@@ -313,13 +308,13 @@ function love.textinput(texts)
 end
 
 function love.joystickadded(JS)
-    ins(joysticks,JS)
+    table.insert(joysticks,JS)
     MES.new('info',"Joystick added")
 end
 function love.joystickremoved(JS)
     local i=TABLE.find(joysticks,JS)
     if i then
-        rem(joysticks,i)
+        table.remove(joysticks,i)
         MES.new('info',"Joystick removed")
     end
 end
@@ -459,7 +454,7 @@ function love.errorhandler(msg)
     if LOADED and #ERRDATA<3 then
         BG.set('none')
         local scn=SCN and SCN.cur or"NULL"
-        ins(ERRDATA,{mes=err,scene=scn})
+        table.insert(ERRDATA,{mes=err,scene=scn})
 
         --Write messages to log file
         love.filesystem.append('conf/error.log',
@@ -537,8 +532,8 @@ local wsBottomImage do
         {'fRect',60,0,18,18},
     }
     for i=0,59 do
-        ins(L,{'setCL',1,1,1,i*.005})
-        ins(L,{'fRect',i,0,1,18})
+        table.insert(L,{'setCL',1,1,1,i*.005})
+        table.insert(L,{'fRect',i,0,1,18})
     end
     wsBottomImage=GC.DO(L)
 end
@@ -681,7 +676,7 @@ function love.run()
                         gc_print("Voices  "..VOC.getQueueCount(),safeX+5,-100)
 
                         --Update & draw frame time
-                        ins(frameTimeList,1,dt)rem(frameTimeList,126)
+                        table.insert(frameTimeList,1,dt)table.remove(frameTimeList,126)
                         gc_setColor(1,1,1,.3)
                         for i=1,#frameTimeList do
                             gc.rectangle('fill',150+2*i,-20,2,-frameTimeList[i]*4000)
@@ -693,7 +688,7 @@ function love.run()
                             gc_setLineWidth(1)
                             gc_line(x,0,x,SCR.h)
                             gc_line(0,y,SCR.w,y)
-                            local t=int(mx+.5)..","..int(my+.5)
+                            local t=math.floor(mx+.5)..","..math.floor(my+.5)
                             gc.setColor(COLOR.D)
                             gc_print(t,x+1,y)
                             gc_print(t,x+1,y-1)
@@ -710,7 +705,7 @@ function love.run()
                                 if status=='dead'then
                                     gc_draw(ws_deadImg,-20,20*i-140)
                                 elseif status=='connecting'then
-                                    gc_setColor(1,1,1,.5+.3*sin(time*6.26))
+                                    gc_setColor(1,1,1,.5+.3*math.sin(time*6.26))
                                     gc_draw(ws_connectingImg,-20,20*i-140)
                                 elseif status=='running'then
                                     gc_draw(ws_runningImg,-20,20*i-140)
