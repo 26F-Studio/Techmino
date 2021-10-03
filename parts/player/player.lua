@@ -195,7 +195,7 @@ function Player:newTask(code,...)
 end
 
 function Player:startStreaming(streamData)
-    self.stream=streamData
+    self.stream=streamData or self.stream
     self.streamProgress=1
 end
 
