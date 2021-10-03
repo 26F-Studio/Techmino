@@ -44,35 +44,6 @@ end
 
 --Load modules
 Z=require'Zframework'
-do
-    local normImg=GC.DO{16,16,
-        {'fCirc',8,8,4},
-        {'setCL',1,1,1,.7},
-        {'fCirc',8,8,6},
-    }
-    local holdImg=GC.DO{16,16,
-        {'setLW',2},
-        {'dCirc',8,8,7},
-        {'fCirc',8,8,3},
-    }
-    local min,int,abs=math.min,math.floor,math.abs
-    local gc_setColor,gc_draw=love.graphics.setColor,love.graphics.draw
-    local ms=love.mouse
-    Z.setCursor(function(time,x,y)
-        if not SETTING.sysCursor then
-            local R=int((time+1)/2)%7+1
-            _=minoColor[SETTING.skin[R]]
-            gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
-            _=DSCP[R][0]
-            gc_draw(TEXTURE.miniBlock[R],x,y,time%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
-            gc_setColor(1,1,1)
-            gc_draw(ms.isDown(1)and holdImg or normImg,x,y,nil,nil,nil,8,8)
-        end
-    end)
-end
-Z.setIfPowerInfo(function()
-    return SETTING.powerInfo and LOADED
-end)
 
 FONT.init('parts/fonts/puhui.ttf')
     setFont=FONT.set
@@ -119,6 +90,38 @@ RSlist=     require'parts.RSlist'DSCP=RSlist.TRS.centerPos
 PLY=        require'parts.player'
 netPLY=     require'parts.netPlayer'
 MODES=      require'parts.modes'
+
+--Init Zframework
+do
+    local normImg=GC.DO{16,16,
+        {'fCirc',8,8,4},
+        {'setCL',1,1,1,.7},
+        {'fCirc',8,8,6},
+    }
+    local holdImg=GC.DO{16,16,
+        {'setLW',2},
+        {'dCirc',8,8,7},
+        {'fCirc',8,8,3},
+    }
+    local min,int,abs=math.min,math.floor,math.abs
+    local gc_setColor,gc_draw=love.graphics.setColor,love.graphics.draw
+    local ms=love.mouse
+    Z.setCursor(function(time,x,y)
+        if not SETTING.sysCursor then
+            local R=int((time+1)/2)%7+1
+            _=minoColor[SETTING.skin[R]]
+            gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
+            _=DSCP[R][0]
+            gc_draw(TEXTURE.miniBlock[R],x,y,time%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
+            gc_setColor(1,1,1)
+            gc_draw(ms.isDown(1)and holdImg or normImg,x,y,nil,nil,nil,8,8)
+        end
+    end)
+end
+Z.setIfPowerInfo(function()
+    return SETTING.powerInfo and LOADED
+end)
+Z.setOnQuit(destroyPlayers)
 
 --Load settings and statistics
 TABLE.cover (FILE.load('conf/user')or{},USER)

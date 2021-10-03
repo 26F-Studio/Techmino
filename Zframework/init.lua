@@ -489,7 +489,6 @@ function love.errorhandler(msg)
             love.event.pump()
             for E,a,b in love.event.poll()do
                 if E=='quit'or a=='escape'then
-                    destroyPlayers()
                     return true
                 elseif E=='resize'then
                     SCR.resize(a,b)
@@ -559,6 +558,7 @@ local function drawCursor(_,x,y)
     gc_circle(ms.isDown(1)and'fill'or'line',x,y,6)
 end
 local function showPowerInfo()return true end
+local onQuit=NULL
 
 function love.run()
     local love=love
@@ -602,7 +602,7 @@ function love.run()
             if love[N]then
                 love[N](a,b,c,d,e)
             elseif N=='quit'then
-                destroyPlayers()
+                onQuit()
                 return a or true
             end
         end
@@ -757,4 +757,5 @@ function Z.setIfPowerInfo(func)showPowerInfo=func end
 --Warning: color and line width is uncertain value, set it in the function.
 function Z.setCursor(func)drawCursor=func end
 
+function Z.setOnQuit(func)onQuit=type(func)=='function'and func or NULL end
 return Z
