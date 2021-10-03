@@ -16,8 +16,10 @@ function LANG.init(defaultLang,langList,publicText,pretreatFunc)
     end
 
     --Set public text
-    for _,L in next,langList do
-        for key,list in next,publicText do L[key]=list end
+    if publicText then
+        for _,L in next,langList do
+            for key,list in next,publicText do L[key]=list end
+        end
     end
 
     --Fallback to default language
@@ -28,8 +30,10 @@ function LANG.init(defaultLang,langList,publicText,pretreatFunc)
     end
 
     --Custom pretreatment for each language
-    for _,L in next,langList do
-        pretreatFunc(L)
+    if pretreatFunc then
+        for _,L in next,langList do
+            pretreatFunc(L)
+        end
     end
 
     function LANG.get(l)
