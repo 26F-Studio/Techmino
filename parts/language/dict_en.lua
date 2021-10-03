@@ -4,7 +4,8 @@ return{
     {"Translator Note 1",
         "",
         "help",
-        "This translation of the TetroDictionary is provided by me, User670 (Discord: User670#9501).\n\nThe translation may not completely reflect the contents of the original Chinese text.\n\nCorrected by C29H25N3O5."
+        "This translation of the TetroDictionary is provided by the Techmino community.\n\nThe translation may not completely reflect the contents of the original Chinese text.\n\nTo view the list of contributors or make contributions, feel free to visit the GitHub page.",
+	"https://github.com/26F-Studio/Techmino/blob/main/parts/language/dict_en.lua"
     },
     {"Official Website",
         "official website homepage",
@@ -443,7 +444,7 @@ return{
     {"Tetrominos' Colors",
         "colour hue tint tetromino tetrimino",
         "term",
-        "Many modern Tetris games use the same color scheme for the tetrominoes. The colors are:\nZ–red, S–green, J–blue, L–orange, T–purple, O–yellow, and I–cyan.\n\nTechmino also uses this \"standard\" coloring for the tetrominoes.",
+        "The Tetris Company has defined a set of colors for each tetromino for modern official Tetris games, namely:\nZ–red, S–green, J–blue, L–orange, T–purple, O–yellow, and I–cyan.\n\nMany, but not all, unofficial games also use this set of colors. Techmino uses this set of colors by default.",
     },
     {"IRS",
         "irs initialrotationsystem",
