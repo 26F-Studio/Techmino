@@ -62,9 +62,6 @@ function scene.keyDown(key)
         if cur>0 then
             rem(BAG,cur)
             cur=cur-1
-            if cur>0 and BAG[cur]==BAG[cur+1]then
-                scene.keyDown("right")
-            end
         end
     elseif key=="delete"then
         if sure>.3 then
@@ -142,7 +139,7 @@ function scene.draw()
     local count=1
     setFont(25)
     repeat
-        if L[i]==L[i-1]then
+        if L[i]==L[i-1]and i-1~=cur then
             count=count+1
         else
             if count>1 then
