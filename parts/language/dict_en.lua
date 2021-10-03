@@ -443,7 +443,7 @@ return{
     {"Tetrominos' Colors",
         "colour hue tint tetromino tetrimino",
         "term",
-        "Many modern Tetris games use the same color scheme for the tetrominoes. The colors are:\nZ–red, S–green, J–blue, L–orange, T–purple, O–yellow, and I–cyan.\n\Techmino also uses this \"standard\" coloring for the tetrominoes.",
+        "Many modern Tetris games use the same color scheme for the tetrominoes. The colors are:\nZ–red, S–green, J–blue, L–orange, T–purple, O–yellow, and I–cyan.\n\nTechmino also uses this \"standard\" coloring for the tetrominoes.",
     },
     {"IRS",
         "irs initialrotationsystem",
