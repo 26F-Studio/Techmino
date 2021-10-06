@@ -5,17 +5,10 @@
 --
 ------------------------------------------------------------------------------
 
-local libpath = SYSTEM=='Android'and(SAVEDIR..'/lib/libssl.so')or'ssl.dll'
-local r1,r2,r3= package.loadlib(libpath, "luaopen_ssl_core")
-if not r1 then
-   MES.new('error',r2)
-   MES.new('error',r3)
-   return nil
-end
-local core    = r1()
-local context = package.loadlib(libpath, "luaopen_ssl_context")()
-local x509    = package.loadlib(libpath, "luaopen_ssl_x509")()
-local config  = package.loadlib(libpath, "luaopen_ssl_config")()
+local core    = require"ssl.core"
+local context = require"ssl.context"
+local x509    = require"ssl.x509"
+local config  = require"ssl.config"
 
 local unpack  = table.unpack or unpack
 

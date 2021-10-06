@@ -475,6 +475,7 @@ end
 table.sort(REPLAY,function(a,b)return a.fileName>b.fileName end)
 
 if SYSTEM=='Android'then
+    package.cpath=package.cpath..';'..SAVEDIR..'/lib/lib?.so'
     local platform='arm64-v8a'
     love.filesystem.write(
         'lib/libssl.so',
