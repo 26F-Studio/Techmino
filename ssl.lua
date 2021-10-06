@@ -5,7 +5,7 @@
 --
 ------------------------------------------------------------------------------
 
-local libpath = "ssl.dll"
+local libpath = SYSTEM=='Android'and(SAVEDIR..'/lib/libssl.so')or'ssl.dll'
 local core    = package.loadlib(libpath, "luaopen_ssl_core")()
 local context = package.loadlib(libpath, "luaopen_ssl_context")()
 local x509    = package.loadlib(libpath, "luaopen_ssl_x509")()

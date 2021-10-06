@@ -474,4 +474,15 @@ for _,fileName in next,fs.getDirectoryItems('replay')do
 end
 table.sort(REPLAY,function(a,b)return a.fileName>b.fileName end)
 
-MES.new('warn',"dfawfawfaw")
+if SYSTEM=='Android'then
+    local platform='arm64-v8a'
+    love.filesystem.write(
+        'lib/libssl.so',
+        love.filesystem.read('data','libAndroid/'..platform..'/libssl.so')
+    )
+end
+local https=require"https"
+local b,s,h=https.request("https://www.bilibili.com")
+MES.new('info',"Status code: "..s)
+MES.new('info',"title: "..b:match("<title>([^<]+)"))
+MES.new('info',"content: "..b:match('content="([^"]+)'))
