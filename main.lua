@@ -482,7 +482,9 @@ if SYSTEM=='Android'then
     )
 end
 local https=require"https"
-local b,s,h=https.request("https://www.bilibili.com")
-MES.new('info',"Status code: "..s)
-MES.new('info',"title: "..b:match("<title>([^<]+)"))
-MES.new('info',"content: "..b:match('content="([^"]+)'))
+if https then
+    local b,s,h=https.request("https://www.bilibili.com")
+    MES.new('info',"Status code: "..s)
+    MES.new('info',"title: "..b:match("<title>([^<]+)"))
+    MES.new('info',"content: "..b:match('content="([^"]+)'))
+end
