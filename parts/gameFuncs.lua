@@ -183,7 +183,7 @@ end
 function setField(P,page)
     local F=FIELD[page]
     local height=0
-    for y=20,1,-1 do
+    for y=#F,1,-1 do
         if notEmptyLine(F[y])then
             height=y
             break
