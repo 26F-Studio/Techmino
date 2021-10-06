@@ -5,7 +5,7 @@ return{
         applyCustomGame()
 
         for y=1,20 do
-            if solidLine(FIELD[1][y])then
+            if notEmptyLine(FIELD[1][y])then
                 --Switch clear sprint mode on
                 GAME.modeEnv.dropPiece=require'parts.eventsets.checkClearBoard'.dropPiece
                 goto BREAK_clearMode
