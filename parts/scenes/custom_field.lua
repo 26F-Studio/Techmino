@@ -184,7 +184,6 @@ function scene.keyDown(key)
         demo=not demo
     elseif key=="k"then
         ins(FIELD[page],1,{21,21,21,21,21,21,21,21,21,21})
-        FIELD[page][21]=nil
         SFX.play('blip')
     elseif key=="l"then
         local F=FIELD[page]
