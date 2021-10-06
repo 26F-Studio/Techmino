@@ -4,15 +4,12 @@ return{
     load=function()
         applyCustomGame()
 
-        for y=1,20 do
-            if notEmptyLine(FIELD[1][y])then
-                --Switch clear sprint mode on
-                GAME.modeEnv.dropPiece=require'parts.eventsets.checkClearBoard'.dropPiece
-                goto BREAK_clearMode
-            end
+        --Switch clear sprint mode on
+        if #FIELD[1]>0 then
+            GAME.modeEnv.dropPiece=require'parts.eventsets.checkClearBoard'.dropPiece
+        else
+            GAME.modeEnv.dropPiece=NULL
         end
-        GAME.modeEnv.dropPiece=NULL
-        ::BREAK_clearMode::
         PLY.newPlayer(1)
         local AItype=GAME.modeEnv.opponent:sub(1,2)
         local AIlevel=tonumber(GAME.modeEnv.opponent:sub(-1))

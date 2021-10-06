@@ -8,7 +8,7 @@ return{
         dropPiece=function(P)
             local D=P.modeData
             local F=FIELD[D.finished+1]
-            for y=1,20 do
+            for y=1,#F do
                 local L=P.field[y]
                 for x=1,10 do
                     local a,b=F[y][x],L and L[x]or 0
@@ -42,7 +42,7 @@ return{
                 local mark=TEXTURE.puzzleMark
                 local F=FIELD[P.modeData.finished+1]
                 gc_setColor(1,1,1)
-                for y=1,20 do for x=1,10 do
+                for y=1,#F do for x=1,10 do
                     local T=F[y][x]
                     if T~=0 then
                         gc_draw(mark[T],30*x-30,600-30*y)

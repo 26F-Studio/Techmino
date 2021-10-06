@@ -60,32 +60,21 @@ function DATA.pasteSequence(str)
     return true
 end
 
-function DATA.newBoard(f)--Generate a new board
-    if f then
-        return TABLE.shift(f)
-    else
-        local F={}
-        for i=1,20 do F[i]={0,0,0,0,0,0,0,0,0,0}end
-        return F
+local fieldMeta={__index=function(self,h)
+    for i=#self+1,h do
+        self[i]={0,0,0,0,0,0,0,0,0,0}
     end
+    return self[h]
+end}
+function DATA.newBoard(f)--Generate a new board
+    return setmetatable(f and TABLE.shift(f)or{},fieldMeta)
 end
 function DATA.copyBoard(page)--Copy the [page] board
     local F=FIELD[page or 1]
     local str=""
-    local H=0
-
-    for y=20,1,-1 do
-        for x=1,10 do
-            if F[y][x]~=0 then
-                H=y
-                goto BREAK_topFound
-            end
-        end
-    end
-    ::BREAK_topFound::
 
     --Encode field
-    for y=1,H do
+    for y=1,#F do
         local S=""
         local L=F[y]
         for x=1,10 do
@@ -142,12 +131,6 @@ function DATA.pasteBoard(str,page)--Paste [str] data to [page] board
             fX=1
         end
         p=p+1
-    end
-
-    for y=fY,20 do
-        for x=1,10 do
-            F[y][x]=0
-        end
     end
 
     return true

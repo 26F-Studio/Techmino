@@ -2,13 +2,6 @@ local gc,kb,sys=love.graphics,love.keyboard,love.system
 local int=math.floor
 local CUSTOMENV=CUSTOMENV
 
-local function _notAir(L)
-    for i=1,10 do
-        if L[i]>0 then
-            return true
-        end
-    end
-end
 local sList={
     visible={"show","easy","slow","medium","fast","none"},
     freshLimit={0,1,2,4,6,8,10,12,15,30,1e99},
@@ -30,22 +23,11 @@ local sList={
 local scene={}
 
 local sure
-local initField
-local function _freshMiniFieldVisible()
-    initField=false
-    for y=1,20 do
-        if _notAir(FIELD[1][y])then
-            initField=true
-            return
-        end
-    end
-end
 function scene.sceneInit()
     sure=0
     destroyPlayers()
     BG.set(CUSTOMENV.bg)
     BGM.play(CUSTOMENV.bgm)
-    _freshMiniFieldVisible()
 end
 function scene.sceneBack()
     BGM.play()
@@ -79,7 +61,7 @@ function scene.keyDown(key,isRep)
             end
         end
         if key=="return2"or kb.isDown("lalt","lctrl","lshift")then
-            if initField then
+            if #FIELD[1]>0 then
                 FILE.save(CUSTOMENV,'conf/customEnv')
                 loadGame('custom_puzzle',true)
             end
@@ -97,7 +79,6 @@ function scene.keyDown(key,isRep)
         if sure>.3 then
             TABLE.cut(FIELD)TABLE.cut(BAG)TABLE.cut(MISSION)
             FIELD[1]=DATA.newBoard()
-            _freshMiniFieldVisible()
             TABLE.clear(CUSTOMENV)
             TABLE.complete(require"parts.customEnv0",CUSTOMENV)
             for _,W in next,scene.widgetList do W:reset()end
@@ -135,7 +116,6 @@ function scene.keyDown(key,isRep)
         for i=4,#args do
             if args[i]:find("%S")and not DATA.pasteBoard(args[i],i-3)and i<#args then goto THROW_fail end
         end
-        _freshMiniFieldVisible()
         MES.new('check',text.importSuccess)
         do return end
         ::THROW_fail::MES.new('error',text.dataCorrupted)
@@ -162,7 +142,7 @@ function scene.draw()
     end
 
     --Field content
-    if initField then
+    if #FIELD[1]>0 then
         gc.push('transform')
         gc.translate(330,240)
         gc.scale(.5)
@@ -172,7 +152,7 @@ function scene.draw()
         local F=FIELD[1]
         local cross=TEXTURE.puzzleMark[-1]
         local texture=SKIN.lib[SETTING.skinSet]
-        for y=1,20 do for x=1,10 do
+        for y=1,#F do for x=1,10 do
             local B=F[y][x]
             if B>0 then
                 gc.draw(texture[B],30*x-30,600-30*y)
@@ -240,7 +220,7 @@ scene.widgetList={
     WIDGET.newButton{name="copy",          x=1070,y=300,w=310,h=70,color='lR',font=25,code=pressKey"cC"},
     WIDGET.newButton{name="paste",         x=1070,y=380,w=310,h=70,color='lB',font=25,code=pressKey"cV"},
     WIDGET.newButton{name="clear",         x=1070,y=460,w=310,h=70,color='lY',font=35,code=pressKey"return"},
-    WIDGET.newButton{name="puzzle",        x=1070,y=540,w=310,h=70,color='lM',font=35,code=pressKey"return2",hideF=function()return not initField end},
+    WIDGET.newButton{name="puzzle",        x=1070,y=540,w=310,h=70,color='lM',font=35,code=pressKey"return2",hideF=function()return #FIELD[1]==0 end},
     WIDGET.newButton{name="back",          x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=pressKey"escape"},
 
     --Rule set

@@ -16,6 +16,12 @@ local penX,penY
 local demo--If show x
 local page
 
+local function isEmpty(L)
+    for i=1,#L do
+        if L[i]~=0 then return end
+    end
+    return true
+end
 local penKey={
     ["1"]=1,["2"]=2,["3"]=3,["4"]=4,["5"]=5,["6"]=6,["7"]=7,["8"]=8,
     q=9,w=10,e=11,r=12,t=13,y=14,u=15,i=16,
@@ -100,13 +106,19 @@ local function _pDraw()
         C=0
     end
 
+    local F=FIELD[page]
     if C then
         for i=1,l do
-            FIELD[page][penPath[i][2]][penPath[i][1]]=C
+            F[penPath[i][2]][penPath[i][1]]=C
         end
     end
     penPath={}
     penMode=0
+
+    while #F>0 and isEmpty(F[#F])do
+        rem(F)
+    end
+    print(#F)
 end
 
 function scene.sceneInit()
@@ -174,7 +186,7 @@ function scene.keyDown(key)
         end
     elseif key=="delete"then
         if sure>.3 then
-            for y=1,20 do for x=1,10 do FIELD[page][y][x]=0 end end
+            FIELD[page]=DATA.newBoard()
             sure=0
             SFX.play('finesseError',.7)
         else
@@ -187,19 +199,18 @@ function scene.keyDown(key)
         SFX.play('blip')
     elseif key=="l"then
         local F=FIELD[page]
+        local cleared=false
         for i=20,1,-1 do
             for j=1,10 do
                 if F[i][j]<=0 then goto CONTINUE_notFull end
             end
+            cleared=true
             SYSFX.newShade(3,200,660-30*i,300,30)
             SYSFX.newRectRipple(3,200,660-30*i,300,30)
             rem(F,i)
             ::CONTINUE_notFull::
         end
-        if #F~=20 then
-            repeat
-                F[#F+1]={0,0,0,0,0,0,0,0,0,0}
-            until#F==20
+        if cleared then
             SFX.play('clear_3',.8)
             SFX.play('fall',.8)
         end
@@ -279,7 +290,7 @@ function scene.draw()
     local cross=TEXTURE.puzzleMark[-1]
     local F=FIELD[page]
     local texture=SKIN.lib[SETTING.skinSet]
-    for y=1,20 do for x=1,10 do
+    for y=1,#F do for x=1,10 do
         local B=F[y][x]
         if B>0 then
             gc.draw(texture[B],30*x-30,600-30*y)
