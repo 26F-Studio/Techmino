@@ -173,7 +173,7 @@ end
 function generateLine(hole)
     return 1023-2^(hole-1)
 end
-function solidLine(L)
+function notEmptyLine(L)
     for i=1,10 do
         if L[i]>0 then
             return true
@@ -184,17 +184,17 @@ function setField(P,page)
     local F=FIELD[page]
     local height=0
     for y=20,1,-1 do
-        if solidLine(F[y])then
+        if notEmptyLine(F[y])then
             height=y
             break
         end
     end
     local t=P.showTime*3
     for y=1,height do
-        local solid=solidLine(F[y])
-        P.field[y]=FREEROW.get(0,solid)
+        local notEmpty=notEmptyLine(F[y])
+        P.field[y]=FREEROW.get(0,notEmpty)
         P.visTime[y]=FREEROW.get(t)
-        if solid then
+        if notEmpty then
             for x=1,10 do
                 P.field[y][x]=F[y][x]
             end
