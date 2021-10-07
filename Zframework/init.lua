@@ -239,8 +239,8 @@ local function noDevkeyPressed(key)
         print(WIDGET.getSelected()or"no widget selected")
     elseif key=="f6"then
         for k,v in next,_G do print(k,v)end
-    elseif key=="f7"and love._openConsole then
-        love._openConsole()
+    elseif key=="f7"and love["_openConsole"]then
+        love["_openConsole"]()
     elseif key=="f8"then
         devMode=nil MES.new('info',"DEBUG OFF",.2)
     elseif key=="f9"then
