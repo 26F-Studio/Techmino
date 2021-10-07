@@ -45,7 +45,7 @@ end
 --Load modules
 Z=require'Zframework'
 
-FONT.init('parts/fonts/proportional.ttf')
+FONT.init('parts/fonts/puhui.ttf')
     setFont=FONT.set
     getFont=FONT.get
 SCR.setSize(1280,720)--Initialize Screen size
