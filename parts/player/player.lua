@@ -2292,6 +2292,13 @@ function Player:win(result)
         self.modeData.place=1
         self:changeAtk()
     end
+    if result=='finish'then
+        for i=#PLY_ALIVE,1,-1 do
+            if PLY_ALIVE[i]~=self then
+                PLY_ALIVE[i]:lose()
+            end
+        end
+    end
     if self.type=='human'then
         GAME.result=result or'gamewin'
         SFX.play('win')
