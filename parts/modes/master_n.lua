@@ -3,7 +3,7 @@ return{
     env={
         noTele=true,
         das=10,arr=3,
-        noInitSZO=true,
+        sequence="bagES",
         freshLimit=15,
         eventSet='master_n',
         bg='bg1',bgm='secret8th',

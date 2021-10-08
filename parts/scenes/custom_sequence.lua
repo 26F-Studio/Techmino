@@ -191,7 +191,7 @@ scene.widgetList={
     WIDGET.newText{name="subTitle",x=530,y=50,font=35,align='L',color='H'},
 
     WIDGET.newSelector{name="sequence",x=1080,y=60,w=200,color='Y',
-        list={'bag','his','hisPool','c2','rnd','mess','reverb','loop','fixed'},
+        list={'bag','bagES','his','hisPool','c2','rnd','mess','reverb','loop','fixed'},
         disp=CUSval('sequence'),code=CUSsto('sequence')
     },
 

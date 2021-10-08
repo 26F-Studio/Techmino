@@ -5,7 +5,7 @@ return{
         das=5,arr=1,
         freshLimit=15,
         easyFresh=false,bone=true,
-        noInitSZO=true,
+        sequence="bagES",
         eventSet='master_final',
         bg='lightning',bgm='rectification',
     },

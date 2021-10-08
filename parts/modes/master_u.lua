@@ -5,7 +5,7 @@ return{
         noTele=true,
         das=6,arr=1,
         freshLimit=15,
-        noInitSZO=true,
+        sequence="bagES",
         eventSet='master_u',
         bg='bg2',bgm='secret7th',
     },

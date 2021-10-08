@@ -20,6 +20,43 @@ local seqGenerators={
             yield()
         end
     end,
+    bagES=function(P,seq0)
+        local rndGen=P.seqRND
+        local len=#seq0
+        local bag=TABLE.shift(seq0)
+        do--Get a good first-bag
+            --Shuffle
+            for i=1,len-1 do ins(bag,rem(bag,rndGen:random(len-i+1)))end
+            --Skip Uncomfortable minoes
+            for _=1,len-1 do
+                if
+                    bag[1]<3 or bag[1]==6 or
+                    bag[1]==8 or bag[1]==9 or
+                    bag[1]==12 or bag[1]==13 or
+                    bag[1]==17 or bag[1]==18 or
+                    bag[1]==23 or bag[1]==24
+                then
+                    ins(bag,rem(bag,1))
+                else
+                    break
+                end
+            end
+            --Finish
+            for i=1,len do P:getNext(bag[i])end
+        end
+        bag={}
+        while true do
+            while #P.nextQueue<12 do
+                if #bag==0 then
+                    for i=1,len do
+                        bag[i]=seq0[len-i+1]
+                    end
+                end
+                P:getNext(rem(bag,rndGen:random(#bag)))
+            end
+            yield()
+        end
+    end,
     his=function(P,seq0)
         local rndGen=P.seqRND
         local len=#seq0

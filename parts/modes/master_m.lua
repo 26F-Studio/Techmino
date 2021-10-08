@@ -1,7 +1,7 @@
 return{
     color=COLOR.lSea,
     env={
-        noInitSZO=true,
+        sequence="bagES",
         eventSet='master_m',
         bg='bg2',bgm='super7th',
     },

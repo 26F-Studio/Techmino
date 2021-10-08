@@ -3,7 +3,7 @@ return{
     env={
         noTele=true,
         mindas=7,minarr=1,minsdarr=1,
-        noInitSZO=true,
+        sequence="bagES",
         eventSet='marathon_n',
         bg='bg2',bgm='push',
     },
