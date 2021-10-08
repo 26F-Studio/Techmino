@@ -200,14 +200,14 @@ function scene.update()
     end
 end
 
---noRank/D/C/B/A/S
+--noRank/B/A/S/U/X
 local baseRankColor={
     [0]={0,0,0,.3},
-    {.4,.1,.1,.3},
-    {.4,.35,.3,.3},
-    {.6,.4,.2,.3},
-    {.7,.75,.85,.3},
+    {.2,.4,.6,.3},
+    {.6,.85,.65,.3},
     {.85,.8,.3,.3},
+    {.85,.5,.4,.3},
+    {.85,.3,.8,.3},
 }
 local rankColor=rankColor
 local function _drawModeShape(M,S,drawType)

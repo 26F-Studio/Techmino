@@ -61,7 +61,7 @@ return{
     ai_prebag="不能同时开启AI和含有非四连块的自定义序列",
     ai_mission="不能同时开启AI和自定义任务",
     switchSpawnSFX="请开启方块出生音效",
-    ranks={"D","C","B","A","S"},
+    ranks={"B","A","S","U","X"},
     needRestart="重新开始以生效",
 
     saveDone="保存成功!",

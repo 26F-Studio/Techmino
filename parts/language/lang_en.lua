@@ -61,7 +61,7 @@ return{
     ai_prebag="AI is incompatible with custom sequences which have non-tetromino",
     ai_mission="AI is incompatible with custom missions",
     switchSpawnSFX="Please turn on the block spawn SFX!",
-    ranks={"D","C","B","A","S"},
+    ranks={"B","A","S","U","X"},
     needRestart="Restart to apply all changes",
 
     saveDone="Data saved",

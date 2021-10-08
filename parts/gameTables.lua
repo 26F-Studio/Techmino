@@ -330,11 +330,11 @@ eventSetList={
     'ultra',
 }
 rankColor={
-    {.6,.3,.3},
-    {.7,.5,.3},
-    {.9,.7,.5},
-    {.6,.9,1},
+    {.5,.7,.9},
+    {.5,1,.6},
     {.95,.95,.5},
+    {1,.5,.4},
+    {.95,.5,.95},
 }
 minoColor={
     COLOR.R,COLOR.F,COLOR.O,COLOR.Y,COLOR.L,COLOR.J,COLOR.G,COLOR.A,

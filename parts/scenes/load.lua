@@ -28,11 +28,11 @@ local loadingThread=coroutine.wrap(function()
 
     YIELD('loadModeIcon')
     local modeIcons={}
-    modeIcons.marathon=GC.DO{32,32,
+    modeIcons.marathon=GC.DO{64,64,
         {'move',3,1},
-        {'fRect',10,4,-2,23},
-        {'fPoly',10,4,24,10,10,16.5},
-        {'fRect',4,24,10,3},
+        {'fRect',20,8,-4,46},
+        {'fPoly',20,6,48,20,20,33},
+        {'fRect',8,48,20,6},
     }
     modeIcons.infinite=GC.DO{64,64,
         {'setLW',4},
