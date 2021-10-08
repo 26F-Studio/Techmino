@@ -68,8 +68,8 @@ local levels={
         b=int(b/a)
         return a.."*"..b,a*b
     end,nil,nil,nil,nil,
-    function()-- <*> [,100]
-        local a,b=rnd(16,62),rnd(16,62)
+    function()-- <*> [,1000]
+        local a,b=rnd(4,8),rnd(42,96)
         return a.."*"..b,a*b
     end,nil,nil,
     function()-- </> [,100]
