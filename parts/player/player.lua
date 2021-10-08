@@ -839,7 +839,7 @@ function Player:hold_norm(ifpre)
                 end
             end
             --<for-else> All test failed, interrupt with sound
-                SFX.play('finesseError')
+                SFX.play('drop_cancel')
                 do return end
             --<for-end>
             ::BREAK_success::
