@@ -17,7 +17,6 @@ jobs:
     - name: Install lua
       run: |
         sudo apt-get update -y
-        sudo apt-get upgrade -y
         sudo apt-get install lua5.3 -y
     - name: Get Version
       id: actual-get-version
@@ -34,7 +33,6 @@ jobs:
     - name: Get URL
       id: get-url
       run: |
-        pip install requests
         echo "::set-output name=url::https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$(python ./.github/workflows/getLatest.py -P)"
 
   build-windows:
