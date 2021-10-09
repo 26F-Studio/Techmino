@@ -9,6 +9,9 @@ on:
 jobs:
   get-version:
     runs-on: ubuntu-20.04
+    outputs:
+      version:
+        value: ${{ steps.actual-get-version.outputs.version }}
     steps:
     - uses: actions/checkout@v2
     - name: Install lua
@@ -17,6 +20,7 @@ jobs:
         sudo apt-get upgrade -y
         sudo apt-get install lua5.3 -y
     - name: Get Version
+      id: actual-get-version
       run: |
         echo "::set-output name=version::$(lua ./.github/workflows/getVersion.lua -name)"
 
