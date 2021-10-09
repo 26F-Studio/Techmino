@@ -1,5 +1,4 @@
 local ins,rem=table.insert,table.remove
-local ceil=math.ceil
 local yield=YIELD
 
 local seqGenerators={
@@ -30,8 +29,7 @@ local seqGenerators={
             --Skip Uncomfortable minoes
             for _=1,len-1 do
                 if
-                    bag[1]<3 or bag[1]==6 or
-                    bag[1]==8 or bag[1]==9 or
+                    bag[1]==1 or bag[1]==2 or bag[1]==6 or bag[1]==8 or bag[1]==9 or
                     bag[1]==12 or bag[1]==13 or
                     bag[1]==17 or bag[1]==18 or
                     bag[1]==23 or bag[1]==24
@@ -60,7 +58,7 @@ local seqGenerators={
     his=function(P,seq0)
         local rndGen=P.seqRND
         local len=#seq0
-        local hisLen=ceil(len*.5)
+        local hisLen=math.ceil(len*.5)
         local history=TABLE.new(0,hisLen)
         while true do
             while #P.nextQueue<12 do
@@ -87,7 +85,7 @@ local seqGenerators={
     hisPool=function(P,seq0)
         local rndGen=P.seqRND
         local len=#seq0
-        local hisLen=ceil(len*.5)
+        local hisLen=math.ceil(len*.5)
         local history=TABLE.new(0,hisLen)--Indexes of mino-index
 
         local poolLen=5*len
@@ -159,8 +157,7 @@ local seqGenerators={
     c2=function(P,seq0)
         local rndGen=P.seqRND
         local len=#seq0
-        local weight={}
-        for i=1,len do weight[i]=0 end
+        local weight=TABLE.new(0,len)
 
         while true do
             while #P.nextQueue<12 do
