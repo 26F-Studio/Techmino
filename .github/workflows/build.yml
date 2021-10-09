@@ -10,8 +10,7 @@ jobs:
   get-version:
     runs-on: ubuntu-20.04
     outputs:
-      version:
-        value: ${{ steps.actual-get-version.outputs.version }}
+      version: ${{ steps.actual-get-version.outputs.version }}
     steps:
     - uses: actions/checkout@v2
     - name: Install lua
