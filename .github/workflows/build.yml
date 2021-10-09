@@ -99,7 +99,6 @@ jobs:
         echo "CommitID=${CommitID}" >> $GITHUB_ENV
     - name: Get Version
       run: |
-        Version=$(lua ./.github/workflows/getVersion.lua -name)
         echo "Version=${{needs.get-version.outputs.version}}" >> $GITHUB_ENV
     - name: Update Conf
       run: |
