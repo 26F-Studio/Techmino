@@ -1601,7 +1601,7 @@ do--Player.drop(self)--Place piece
 
         --Check height limit
         if cc==0 and #self.field>ENV.heightLimit then
-            self:lose()
+            finish='lose'
         end
 
         --Update stat
@@ -1627,11 +1627,11 @@ do--Player.drop(self)--Place piece
         end
         local n=C.name
         if dospin then
-            _=Stat.spin[n]    _[cc+1]=_[cc+1]+1--Spin[1~25][0~4]
+            _=Stat.spin[n]  _[cc+1]=_[cc+1]+1--Spin[1~25][0~4]
             _=Stat.spins    _[cc+1]=_[cc+1]+1--Spin[0~4]
         elseif cc>0 then
-            _=Stat.clear[n]    _[cc]=_[cc]+1--Clear[1~25][1~5]
-            _=Stat.clears    _[cc]=_[cc]+1--Clear[1~5]
+            _=Stat.clear[n] _[cc]=_[cc]+1--Clear[1~25][1~5]
+            _=Stat.clears   _[cc]=_[cc]+1--Clear[1~5]
         end
 
         if finish then
