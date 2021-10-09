@@ -59,8 +59,12 @@ end
 local function _nextDir(i)
     SETTING.face[i]=(SETTING.face[i]+1)%4
     minoRot0[i]=minoRot0[i]+1.5707963
-    if minoRot0[5]>62 and not GAME.playing then
-        loadGame('marathon_bfmax',true)
+    if not GAME.playing then
+        if minoRot0[5]>62 then
+            loadGame('marathon_bfmax',true)
+        elseif minoRot0[7]>62 then
+            loadGame('techrash_u',true)
+        end
     end
     SFX.play('rotate')
 end
