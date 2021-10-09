@@ -14,6 +14,7 @@ jobs:
     - name: Install lua
       run: |
         sudo apt-get update -y
+        sudo apt-get upgrade -y
         sudo apt-get install lua5.3 -y
     - name: Get Version
       run: |
