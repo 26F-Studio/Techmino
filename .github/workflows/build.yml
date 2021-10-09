@@ -10,7 +10,8 @@ jobs:
   get-version:
     runs-on: ubuntu-20.04
     outputs:
-      version: ${{ steps.actual-get-version.outputs.version }}
+      name: ${{ steps.actual-get-version.outputs.name }}
+      code: ${{ steps.actual-get-version.outputs.code }}
     steps:
     - uses: actions/checkout@v2
     - name: Install lua
@@ -21,7 +22,8 @@ jobs:
     - name: Get Version
       id: actual-get-version
       run: |
-        echo "::set-output name=version::$(lua ./.github/workflows/getVersion.lua -name)"
+        echo "::set-output name=name::$(lua ./.github/workflows/getVersion.lua -name)"
+        echo "::set-output name=code::$(lua ./.github/workflows/getVersion.lua -code)"
 
   build-windows:
     runs-on: windows-latest
@@ -37,7 +39,7 @@ jobs:
         python .\.github\workflows\updateVersion.py -T Conf
     - name: Update Version
       run: |
-        python .\.github\workflows\updateVersion.py -T ${{ needs.get-version.outputs.version }} -H ${{ env.CommitID }}
+        python .\.github\workflows\updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ env.CommitID }}
     - name: Download love
       run: |
         curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
@@ -70,7 +72,7 @@ jobs:
         del .\love-11.3-win64\readme.txt
         move .\ColdClear\cold_clear.dll .\love-11.3-win64
         move .\ColdClear\CCloader.dll .\love-11.3-win64
-        python .\.github\workflows\updateVersion.py -T Windows -N ${{ needs.get-version.outputs.version }}
+        python .\.github\workflows\updateVersion.py -T Windows -N ${{ needs.get-version.outputs.name }}
         cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action delete -mask ICONGROUP,,'
         cmd /c '.\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile'
         cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\.github\build\Windows\icon_snapshot.ico" -mask ICONGROUP,1,'
@@ -78,7 +80,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-version.outputs.version }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Windows
+        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Windows
         path: love-11.3-win64
 
   build-linux:
@@ -95,7 +97,7 @@ jobs:
         python3 ./.github/workflows/updateVersion.py -T Conf
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.version }} -H ${{ env.CommitID }}
+        python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ env.CommitID }}
     - name: Download AppImageKit
       run: |
         curl -OL https://github.com/AppImage/AppImageKit/releases/download/13/appimagetool-x86_64.AppImage
@@ -130,7 +132,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-version.outputs.version }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Linux
+        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Linux
         path: Techmino.AppImage
 
   build-android:
@@ -151,7 +153,7 @@ jobs:
         python3 ./.github/workflows/updateVersion.py -T Conf
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.version }} -H ${{ env.CommitID }}
+        python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ env.CommitID }}
     - name: Clone love-android
       run: |
         git clone --recurse-submodules https://github.com/26F-Studio/love-android
@@ -190,7 +192,7 @@ jobs:
         mv ./ColdClear/android_armv7/libs/armeabi-v7a/libCCloader.so ./libAndroid/armeabi-v7a
         7z a -tzip ./love-android/app/src/main/assets/game.love ./document ./media ./parts ./Zframework ./libAndroid ./conf.lua ./main.lua ./version.lua
         echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ./love-android/app/android.keystore
-        python3 ./.github/workflows/updateVersion.py -T AndroidSnapshot -C $(lua ./.github/workflows/getVersion.lua -code) -N ${{ needs.get-version.outputs.version }} -S ${{ secrets.KEY_STORE_PASSWORD }} -A ${{ secrets.ALIAS }} -K ${{ secrets.KEY_PASSWORD }}
+        python3 ./.github/workflows/updateVersion.py -T AndroidSnapshot -C ${{ needs.get-version.outputs.code }} -N ${{ needs.get-version.outputs.name }} -S ${{ secrets.KEY_STORE_PASSWORD }} -A ${{ secrets.ALIAS }} -K ${{ secrets.KEY_PASSWORD }}
         chmod 777 ./love-android/gradlew
         cd ./love-android/
         ./gradlew assembleRelease
@@ -198,7 +200,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-version.outputs.version }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Android
+        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Android
         path: ./love-android/app/build/outputs/apk/release/Techmino_Snapshot.apk
 
   build-macOS:
@@ -215,7 +217,7 @@ jobs:
         python3 ./.github/workflows/updateVersion.py -T Conf
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.version }} -H ${{ env.CommitID }}
+        python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ env.CommitID }}
     - name: Pack love
       run: |
         7z a -tzip ./Techmino.love ./document ./media ./parts ./Zframework ./conf.lua ./main.lua ./version.lua
@@ -233,7 +235,7 @@ jobs:
         unzip macOS.zip
     - name: Modify template
       run: |
-        python3 ./.github/workflows/updateVersion.py -T macOS -N $(lua ./.github/workflows/getVersion.lua -name)
+        python3 ./.github/workflows/updateVersion.py -T macOS -N ${{ needs.get-version.outputs.name }}
         mv ./Techmino.love ./Techmino.app/Contents/Resources
         mv ./CCloader.dylib ./Techmino.app/Contents/Frameworks
         mv ./.github/build/macOS/icon_snapshot.icns ./Techmino.app/Contents/Resources/iconfile.icns
@@ -258,5 +260,5 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-version.outputs.version }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_macOS
+        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_macOS
         path: Techmino.zip
