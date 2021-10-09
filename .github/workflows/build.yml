@@ -30,11 +30,12 @@ jobs:
     outputs:
       url: ${{ steps.get-url.outputs.url }}
     steps:
+    - uses: actions/checkout@v2
     - name: Get URL
       id: get-url
       run: |
         pip install requests
-        echo "::set-output name=url::https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$(python .\.github\workflows\getLatest.py -P)"
+        echo "::set-output name=url::https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$(python ./.github/workflows/getLatest.py -P)"
 
   build-windows:
     runs-on: windows-latest
