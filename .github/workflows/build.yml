@@ -25,9 +25,20 @@ jobs:
         echo "::set-output name=name::$(lua ./.github/workflows/getVersion.lua -name)"
         echo "::set-output name=code::$(lua ./.github/workflows/getVersion.lua -code)"
 
+  get-cc-url:
+    runs-on: ubuntu-20.04
+    outputs:
+      url: ${{ steps.get-url.outputs.url }}
+    steps:
+    - name: Get URL
+      id: get-url
+      run: |
+        pip install requests
+        echo "::set-output name=url::https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$(python .\.github\workflows\getLatest.py -P)"
+
   build-windows:
     runs-on: windows-latest
-    needs: get-version
+    needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
     - name: Get CommitID
@@ -48,9 +59,7 @@ jobs:
         7z x .\love-11.3-win64.zip
     - name: Download ColdClear
       run: |
-        pip install requests
-        $CCVersion=python .\.github\workflows\getLatest.py -P
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/win64.zip
+        curl -OL ${{ needs.get-cc-url.outputs.url }}/win64.zip
     - name: Unpack ColdClear
       run: |
         7z x .\win64.zip -oColdClear
@@ -85,7 +94,7 @@ jobs:
 
   build-linux:
     runs-on: ubuntu-20.04
-    needs: get-version
+    needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
     - name: Get CommitID
@@ -110,8 +119,7 @@ jobs:
         ./love-11.3-x86_64.AppImage --appimage-extract
     - name: Download ColdClear
       run: |
-        CCVersion=$(python3 ./.github/workflows/getLatest.py -P)
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/linux.zip
+        curl -OL ${{ needs.get-cc-url.outputs.url }}/linux.zip
     - name: Unpack ColdClear
       run: |
         7z x ./linux.zip -oColdClear
@@ -137,7 +145,7 @@ jobs:
 
   build-android:
     runs-on: ubuntu-20.04
-    needs: get-version
+    needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-java@v2
@@ -172,9 +180,8 @@ jobs:
         export ANDROID_HOME=$(pwd)
     - name: Download ColdClear
       run: |
-        CCVersion=$(python3 ./.github/workflows/getLatest.py -P)
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/android_aarch64.zip
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/android_armv7.zip
+        curl -OL ${{ needs.get-cc-url.outputs.url }}/android_aarch64.zip
+        curl -OL ${{ needs.get-cc-url.outputs.url }}/android_armv7.zip
     - name: Unpack ColdClear
       run: |
         7z x ./android_aarch64.zip -oColdClear/android_aarch64
@@ -205,7 +212,7 @@ jobs:
 
   build-macOS:
     runs-on: macos-10.15
-    needs: get-version
+    needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
     - name: Get CommitID
@@ -229,9 +236,7 @@ jobs:
         7z x ./Techmino.app.zip
     - name: Get CCloader
       run: |
-        pip3 install requests
-        CCVersion=$(python3 ./.github/workflows/getLatest.py -P)
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/macOS.zip
+        curl -OL ${{ needs.get-cc-url.outputs.url }}/macOS.zip
         unzip macOS.zip
     - name: Modify template
       run: |
