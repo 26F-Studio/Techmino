@@ -7,6 +7,18 @@ on:
     branches: [ main, ci* ]
 
 jobs:
+  get-version:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Install lua
+      run: |
+        sudo apt-get update -y
+        sudo apt-get upgrade -y
+        sudo apt-get install lua5.3 -y
+    - name: Get Version
+      run: |
+        echo "::set-output name=version::$(lua ./.github/workflows/getVersion.lua -name)"
+
   build-windows:
     runs-on: windows-latest
     steps:
@@ -77,17 +89,12 @@ jobs:
 
   build-linux:
     runs-on: ubuntu-20.04
+    needs: get-version
     steps:
     - uses: actions/checkout@v2
-    - name: Install lua
-      run: |
-        sudo apt-get update -y
-        sudo apt-get upgrade -y
-        sudo apt-get install lua5.3 -y
     - name: Get CommitID
       run: |
-        CommitID=$(git rev-parse --short "${{ GITHUB.SHA }}")
-        echo "CommitID=${CommitID}" >> $GITHUB_ENV
+        echo "CommitID=${{needs.get-version.outputs.version}}" >> $GITHUB_ENV
     - name: Get Version
       run: |
         Version=$(lua ./.github/workflows/getVersion.lua -name)
