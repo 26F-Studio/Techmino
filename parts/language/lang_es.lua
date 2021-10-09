@@ -71,7 +71,7 @@ return{
 
     noScore="Sin puntajes aún.",
     modeLocked="Bloqueado",
-    unlockHint="Consigue Rango D o superior en modos previos para desbloquear.",
+    unlockHint="Consigue Rango B o superior en modos previos para desbloquear.",
     highScore="Mejores puntajes",
     newRecord="¡Nuevo Récord!",
 

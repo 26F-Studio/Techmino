@@ -82,7 +82,7 @@ return{
 
     noScore="No scores",
     modeLocked="Locked",
-    unlockHint="Achieve Rank D or above in the preceding modes to unlock",
+    unlockHint="Achieve Rank B or above in the preceding modes to unlock",
     highScore="High Scores",
     newRecord="New Record!",
 

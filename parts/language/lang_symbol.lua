@@ -58,7 +58,7 @@ return{
 
     noScore="?_____?",
     modeLocked="XXXXX",
-    unlockHint="\\D/!",
+    unlockHint="\\B/!",
     highScore="__&:",
     newRecord="^!!!^",
 

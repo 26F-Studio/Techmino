@@ -83,7 +83,7 @@ return{
 
     noScore="还没有分数",
     modeLocked="锁定",
-    unlockHint="在先决条件模式下达到D级或更高级别以解锁",
+    unlockHint="在先决条件模式下达到B级或更高级别以解锁",
     highScore="个人最好成绩",
     newRecord="新纪录!",
 

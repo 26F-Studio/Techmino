@@ -72,7 +72,7 @@ return{
 
     noScore="Aucun score",
     -- modeLocked="Locked",
-    -- unlockHint="Achieve Rank D or above in prerequisite modes to unlock.",
+    -- unlockHint="Achieve Rank B or above in prerequisite modes to unlock.",
     highScore="Records personnels",
     newRecord="Nouveau record !",
 
