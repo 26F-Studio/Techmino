@@ -10,6 +10,7 @@ jobs:
   get-version:
     runs-on: ubuntu-20.04
     steps:
+    - uses: actions/checkout@v2
     - name: Install lua
       run: |
         sudo apt-get update -y
@@ -94,11 +95,12 @@ jobs:
     - uses: actions/checkout@v2
     - name: Get CommitID
       run: |
-        echo "CommitID=${{needs.get-version.outputs.version}}" >> $GITHUB_ENV
+        CommitID=$(git rev-parse --short "${{ GITHUB.SHA }}")
+        echo "CommitID=${CommitID}" >> $GITHUB_ENV
     - name: Get Version
       run: |
         Version=$(lua ./.github/workflows/getVersion.lua -name)
-        echo "Version=${Version}" >> $GITHUB_ENV
+        echo "Version=${{needs.get-version.outputs.version}}" >> $GITHUB_ENV
     - name: Update Conf
       run: |
         python3 ./.github/workflows/updateVersion.py -T Conf
