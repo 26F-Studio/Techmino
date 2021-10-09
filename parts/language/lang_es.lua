@@ -732,6 +732,7 @@ return{
         ['marathon_bfmax']= {"Maratón",                 "Supremo"},
         -- ['sprintMD']=       {"Sprint",                  "MISDROP"},
         -- ['sprintSym']=      {"Sprint",                  "SYMMETRY"},
+        -- ['techrash_u']=     {"Techrash",                "ULTIMATE"},
 
         ['master_l']=       {"Master",                  "Lunático"},
         ['master_u']=       {"Master",                  "Supremo"},

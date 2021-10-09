@@ -1,0 +1,36 @@
+local gc=love.graphics
+
+return{
+    mesDisp=function(P)
+        setFont(60)
+        mStr(P.modeData.techrash,63,250)
+        mText(drawableText.techrash,63,315)
+        PLY.draw.applyField(P)
+        local L=P.modeData.history
+        for i=1,#L do
+            gc.setColor(1,.5,.5,.24)
+            gc.rectangle('fill',30*L[i]-30,0,30,600)
+        end
+        PLY.draw.cancelField(P)
+    end,
+    dropPiece=function(P)
+        local C=P.lastPiece
+        if C.row>0 then
+            if C.row==4 then
+                if TABLE.find(P.modeData.history,C.curX)then
+                    P:showText("STACK",0,-140,40,'flicker',.3)
+                    P:lose()
+                else
+                    P.modeData.techrash=P.modeData.techrash+1
+                    table.insert(P.modeData.history,1,C.curX)
+                    P.modeData.history[9]=nil
+                end
+            else
+                P:lose()
+            end
+        end
+    end,
+    task=function(P)
+        P.modeData.history={}
+    end,
+}

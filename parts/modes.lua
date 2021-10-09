@@ -125,6 +125,7 @@ return{
     {name='marathon_bfmax'},
     {name='sprintMD'},
     {name='sprintSym'},
+    {name='techrash_u'},
 
     --Old
     {name='master_l'},

@@ -783,6 +783,7 @@ return{
         ['marathon_bfmax']={"马拉松赛跑",        "终极"} ,
         ['sprintMD']=      {"竞速",            "误滴"},
         ['sprintSym']=     {"竞速",            "对称性"},
+        ['techrash_u']=    {"消四",            "极限"},
 
         ['master_l']=      {"主人",            "疯子"},
         ['master_u']=      {"主人",            "终极"} ,
