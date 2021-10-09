@@ -30,8 +30,8 @@ local loadingThread=coroutine.wrap(function()
     local modeIcons={}
     modeIcons.marathon=GC.DO{64,64,
         {'move',3,1},
-        {'fRect',20,8,-4,46},
-        {'fPoly',20,6,48,20,20,33},
+        {'fRect',20,6,-4,42},
+        {'fPoly',20,6,48,20,20,34},
         {'fRect',8,48,20,6},
     }
     modeIcons.infinite=GC.DO{64,64,
@@ -86,12 +86,7 @@ local loadingThread=coroutine.wrap(function()
     YIELD('loadMode')
     for _,M in next,MODES do
         M.records=FILE.load("record/"..M.name..".rec")or M.score and{}
-        if M.icon then
-            if not modeIcons[M.icon]then
-                modeIcons[M.icon]=gc.newImage("media/image/modeicon/"..M.icon..".png")
-            end
-            M.icon=modeIcons[M.icon]
-        end
+        M.icon=M.icon and modeIcons[M.icon]or gc.newImage("media/image/modeicon/"..M.icon..".png")
     end
     if not MODES[STAT.lastPlay]then
         STAT.lastPlay='sprint_10l'
