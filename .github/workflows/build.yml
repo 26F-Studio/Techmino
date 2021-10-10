@@ -50,14 +50,13 @@ jobs:
     - name: Update Version
       run: |
         python .\.github\workflows\updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ env.CommitID }}
-    - uses: ./.github/actions/curl-7zx
+    - uses: ./.github/actions/get-unzip
       with:
         url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
-    - uses: ./.github/actions/curl-7zx
+    - uses: ./.github/actions/get-unzip
       with:
         url: ${{ needs.get-cc-url.outputs.url }}/win64.zip
-        dir: ColdClear
-    - uses: ./.github/actions/curl-7zx
+    - uses: ./.github/actions/get-unzip
       with:
         url: http://www.angusj.com/resourcehacker/resource_hacker.zip
     - name: Pack Techmino
@@ -70,8 +69,8 @@ jobs:
         del .\love-11.3-win64\love.ico
         del .\love-11.3-win64\changes.txt
         del .\love-11.3-win64\readme.txt
-        move .\ColdClear\cold_clear.dll .\love-11.3-win64
-        move .\ColdClear\CCloader.dll .\love-11.3-win64
+        move .\cold_clear.dll .\love-11.3-win64
+        move .\CCloader.dll .\love-11.3-win64
         python .\.github\workflows\updateVersion.py -T Windows -N ${{ needs.get-version.outputs.name }}
         cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action delete -mask ICONGROUP,,'
         cmd /c '.\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile'
@@ -108,12 +107,9 @@ jobs:
       run: |
         chmod 777 ./love-11.3-x86_64.AppImage
         ./love-11.3-x86_64.AppImage --appimage-extract
-    - name: Download ColdClear
-      run: |
-        curl -OL ${{ needs.get-cc-url.outputs.url }}/linux.zip
-    - name: Unpack ColdClear
-      run: |
-        7z x ./linux.zip -oColdClear
+    - uses: ./.github/actions/get-unzip
+      with:
+        url: ${{ needs.get-cc-url.outputs.url }}/linux.zip
     - name: Pack Techmino
       run: |
         rm -rf ./squashfs-root/love ./squashfs-root/love.desktop ./squashfs-root/love.svg ./squashfs-root/.DirIcon
@@ -124,8 +120,8 @@ jobs:
         chmod 777 ./squashfs-root/love
         mkdir -p ./squashfs-root/usr/share/Techmino
         mv ./document ./media ./parts ./Zframework ./conf.lua ./main.lua ./version.lua ./squashfs-root/usr/share/Techmino
-        mv ./ColdClear/CCloader.so ./squashfs-root/usr/share/Techmino
-        mv ./ColdClear/libcold_clear.so ./squashfs-root/usr/lib
+        mv ./CCloader.so ./squashfs-root/usr/share/Techmino
+        mv ./libcold_clear.so ./squashfs-root/usr/lib
         chmod 777 ./appimagetool-x86_64.AppImage
         ./appimagetool-x86_64.AppImage ./squashfs-root ./Techmino.AppImage
     - name: Upload
@@ -158,36 +154,33 @@ jobs:
         git clone --recurse-submodules https://github.com/26F-Studio/love-android
         cd ./love-android
         git checkout --recurse-submodules CI
-    - name: Download androidSDK
-      run: |
-        wget -O commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
-    - name: Unpack androidSDK
-      run: |
-        unzip ./commandlinetools.zip
+    - uses: ./.github/actions/get-unzip
+      with:
+        url: https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
     - name: Install SDK NDK
       run: |
         yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "platforms;android-30"
         yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "ndk;21.3.6528147"
         export ANDROID_HOME=$(pwd)
-    - name: Download ColdClear
-      run: |
-        curl -OL ${{ needs.get-cc-url.outputs.url }}/android_aarch64.zip
-        curl -OL ${{ needs.get-cc-url.outputs.url }}/android_armv7.zip
-    - name: Unpack ColdClear
-      run: |
-        7z x ./android_aarch64.zip -oColdClear/android_aarch64
-        7z x ./android_armv7.zip -oColdClear/android_armv7
+    - uses: ./.github/actions/get-unzip
+      with:
+        url: ${{ needs.get-cc-url.outputs.url }}/android_aarch64.zip
+        dir: ColdClear/arm64-v8a
+    - uses: ./.github/actions/get-unzip
+      with:
+        url: ${{ needs.get-cc-url.outputs.url }}/android_armv7.zip
+        dir: ColdClear/armeabi-v7a
     - name: Pack Techmino
       run: |
         mkdir -p ./love-android/app/src/main/assets
         mkdir -p ./love-android/app/libs/arm64-v8a
         mkdir -p ./love-android/app/libs/armeabi-v7a
-        mv ./ColdClear/android_aarch64/love-11.3-android/lib/arm64-v8a/libcold_clear.so ./love-android/app/libs/arm64-v8a
-        mv ./ColdClear/android_armv7/love-11.3-android/lib/armeabi-v7a/libcold_clear.so ./love-android/app/libs/armeabi-v7a
+        mv ./ColdClear/arm64-v8a/love-11.3-android/lib/arm64-v8a/libcold_clear.so ./love-android/app/libs/arm64-v8a
+        mv ./ColdClear/armeabi-v7a/love-11.3-android/lib/armeabi-v7a/libcold_clear.so ./love-android/app/libs/armeabi-v7a
         mkdir -p ./libAndroid/arm64-v8a
         mkdir -p ./libAndroid/armeabi-v7a
-        mv ./ColdClear/android_aarch64/libs/arm64-v8a/libCCloader.so ./libAndroid/arm64-v8a
-        mv ./ColdClear/android_armv7/libs/armeabi-v7a/libCCloader.so ./libAndroid/armeabi-v7a
+        mv ./ColdClear/arm64-v8a/libs/arm64-v8a/libCCloader.so ./libAndroid/arm64-v8a
+        mv ./ColdClear/armeabi-v7a/libs/armeabi-v7a/libCCloader.so ./libAndroid/armeabi-v7a
         7z a -tzip ./love-android/app/src/main/assets/game.love ./document ./media ./parts ./Zframework ./libAndroid ./conf.lua ./main.lua ./version.lua
         echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ./love-android/app/android.keystore
         python3 ./.github/workflows/updateVersion.py -T AndroidSnapshot -C ${{ needs.get-version.outputs.code }} -N ${{ needs.get-version.outputs.name }} -S ${{ secrets.KEY_STORE_PASSWORD }} -A ${{ secrets.ALIAS }} -K ${{ secrets.KEY_PASSWORD }}
@@ -219,16 +212,12 @@ jobs:
     - name: Pack love
       run: |
         7z a -tzip ./Techmino.love ./document ./media ./parts ./Zframework ./conf.lua ./main.lua ./version.lua
-    - name: Download template
-      run: |
-        curl -OL https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.app.zip
-    - name: Unpack template
-      run: |
-        7z x ./Techmino.app.zip
-    - name: Get CCloader
-      run: |
-        curl -OL ${{ needs.get-cc-url.outputs.url }}/macOS.zip
-        unzip macOS.zip
+    - uses: ./.github/actions/get-unzip
+      with:
+        url: https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.app.zip
+    - uses: ./.github/actions/get-unzip
+      with:
+        url: ${{ needs.get-cc-url.outputs.url }}/macOS.zip
     - name: Modify template
       run: |
         python3 ./.github/workflows/updateVersion.py -T macOS -N ${{ needs.get-version.outputs.name }}
