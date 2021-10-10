@@ -79,23 +79,19 @@ jobs:
     needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-java@v2
-      with:
-        distribution: 'adopt'
-        java-version: '8'
     - uses: ./.github/actions/snapshot-update
       with:
         commit: ${{ needs.get-version.outputs.commit }}
     - uses: ./.github/actions/build-android
       with:
+        type: Snapshot
         cc-url: ${{ needs.get-cc-url.outputs.url }}
-    - name: pack Techmino
-      run: |
-        echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ./love-android/app/android.keystore
-        python3 ./.github/workflows/updateVersion.py -T AndroidSnapshot -C ${{ needs.get-version.outputs.code }} -N ${{ needs.get-version.outputs.name }} -S ${{ secrets.KEY_STORE_PASSWORD }} -A ${{ secrets.ALIAS }} -K ${{ secrets.KEY_PASSWORD }}
-        chmod 777 ./love-android/gradlew
-        cd ./love-android/
-        ./gradlew assembleRelease
+        code: ${{ needs.get-version.outputs.code }}
+        name: ${{ needs.get-version.outputs.name }}
+        SIGNING_KEY: secrets.SIGNING_KEY
+        KEY_STORE_PASSWORD: secrets.KEY_STORE_PASSWORD
+        ALIAS: secrets.ALIAS
+        KEY_PASSWORD: secrets.KEY_PASSWORD
     - name: rename apk
       run: mv ./app/build/outputs/apk/release/app-release.apk ./app/build/outputs/apk/release/Techmino_Snapshot.apk
     - name: Upload
