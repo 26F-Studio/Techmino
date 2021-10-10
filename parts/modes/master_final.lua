@@ -1,10 +1,6 @@
 return{
     color=COLOR.lGray,
     env={
-        noTele=true,
-        das=5,arr=1,
-        freshLimit=15,
-        easyFresh=false,bone=true,
         sequence="bagES",
         eventSet='master_final',
         bg='lightning',bgm='rectification',

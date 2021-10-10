@@ -7,6 +7,8 @@ return{
     lock=rush_lock[1],
     wait=rush_wait[1],
     fall=rush_fall[1],
+    noTele=true,
+    das=10,arr=3,
     mesDisp=function(P)
         PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
     end,

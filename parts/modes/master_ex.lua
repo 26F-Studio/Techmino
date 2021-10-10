@@ -3,13 +3,6 @@ local sectionName={"D","C","B","A","A+","S-","S","S+","S+","SS","SS","U","U","X"
 return{
     color=COLOR.lBlue,
     env={
-        noTele=true,
-        minarr=1,
-        nextCount=3,
-        sequence='hisPool',
-        visible='fast',
-        freshLimit=15,
-        noInitSZO=true,
         eventSet='master_ex',
         bg='blockspace',bgm='hope',
     },

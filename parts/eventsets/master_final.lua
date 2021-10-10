@@ -1,8 +1,10 @@
 return{
-    drop=0,
-    lock=12,
-    wait=10,
-    fall=10,
+    drop=0,lock=12,
+    wait=10,fall=10,
+    noTele=true,
+    das=5,arr=1,
+    freshLimit=15,
+    easyFresh=false,bone=true,
     mesDisp=function(P)
         PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
     end,

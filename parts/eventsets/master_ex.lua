@@ -3,10 +3,15 @@ local sectionName={"D","C","B","A","A+","S-","S","S+","S+","SS","SS","U","U","X"
 local passPoint=16
 
 return{
-    drop=0,
-    lock=15,
-    wait=15,
-    fall=6,
+    drop=0,lock=15,
+    wait=15,fall=6,
+    noTele=true,
+    minarr=1,
+    nextCount=3,
+    sequence='hisPool',
+    visible='fast',
+    freshLimit=15,
+    noInitSZO=true,
     mesDisp=function(P)
         local h=(3600-P.stat.frame)/10
         if h>0 then

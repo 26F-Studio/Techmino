@@ -127,10 +127,6 @@ return{
     {name='sprintSym'},
     {name='techrash_u'},
 
-    --Old
-    {name='master_l'},
-    {name='master_u'},
-
     --Special
     {name='custom_puzzle'},
     {name='custom_clear'},

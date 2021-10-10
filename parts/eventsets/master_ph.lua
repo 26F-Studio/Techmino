@@ -1,9 +1,15 @@
 return
 {
-    drop=0,
-    lock=15,
-    wait=10,
-    fall=10,
+    drop=0,lock=15,
+    wait=10,fall=10,
+    noTele=true,
+    das=5,arr=1,
+    nextCount=2,
+    sequence='his',
+    mission={4,4,4,64},
+    missionKill=true,
+    freshLimit=12,
+    noInitSZO=true,
     mesDisp=function(P)
         PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
     end,

@@ -1,14 +1,6 @@
 return{
     color=COLOR.black,
     env={
-        noTele=true,
-        das=5,arr=1,
-        nextCount=2,
-        sequence='his',
-        mission={4,4,4,64},
-        missionKill=true,
-        freshLimit=12,
-        noInitSZO=true,
         eventSet='master_ph',
         bg='blockspace',bgm='super7th',
     },

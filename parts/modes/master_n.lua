@@ -1,8 +1,6 @@
 return{
     color=COLOR.red,
     env={
-        noTele=true,
-        das=10,arr=3,
         sequence="bagES",
         freshLimit=15,
         eventSet='master_n',
