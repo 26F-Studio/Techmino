@@ -112,21 +112,11 @@ jobs:
     - uses: ./.github/actions/snapshot-update
       with:
         commit: ${{ needs.get-version.outputs.commit }}
-    - uses: ./.github/actions/build-love
-    - name: Download template
-      uses: ./.github/actions/get-unzip
+    - uses: ./.github/actions/build-macos
       with:
-        url: https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.app.zip
-    - name: Download ColdClear
-      uses: ./.github/actions/get-unzip
-      with:
-        url: ${{ needs.get-cc-url.outputs.url }}/macOS.zip
-    - name: Modify template
-      run: |
-        python3 ./.github/workflows/updateVersion.py -T macOS -N ${{ needs.get-version.outputs.name }}
-        mv ./Techmino.love ./Techmino.app/Contents/Resources
-        mv ./CCloader.dylib ./Techmino.app/Contents/Frameworks
-        mv ./.github/build/macOS/icon_snapshot.icns ./Techmino.app/Contents/Resources/iconfile.icns
+        cc-url: ${{ needs.get-cc-url.outputs.url }}/macOS.zip
+        name: ${{ needs.get-version.outputs.name }}
+        icon: ./.github/build/macOS/icon_snapshot.icns
     - name: Codesign executable
       # In secrets:
       #   - MACOS_CERTIFICATE: the *.p12 Developer ID Certificate, encoded in base64

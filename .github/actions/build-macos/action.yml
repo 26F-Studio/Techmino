@@ -1,0 +1,28 @@
+name: 'build Mac OS'
+description: 'build Mac OS package'
+inputs:
+  cc-url:
+    required: true
+  name:
+    required: true
+  icon:
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - uses: ./.github/actions/build-love
+    - name: Download template
+      uses: ./.github/actions/get-unzip
+      with:
+        url: https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.app.zip
+    - name: Download ColdClear
+      uses: ./.github/actions/get-unzip
+      with:
+        url: ${{ inputs.cc-url }}
+    - name: Modify template
+      shell: bash
+      run: |
+        python3 ./.github/workflows/updateVersion.py -T macOS -N ${{ inputs.name }}
+        mv ./Techmino.love ./Techmino.app/Contents/Resources
+        mv ./CCloader.dylib ./Techmino.app/Contents/Frameworks
+        mv ${{ inputs.icon }} ./Techmino.app/Contents/Resources/iconfile.icns
