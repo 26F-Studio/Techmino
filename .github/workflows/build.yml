@@ -98,6 +98,13 @@ jobs:
     - uses: ./.github/actions/build-android
       with:
         cc-url: ${{ needs.get-cc-url.outputs.url }}
+    - name: pack Techmino
+      run: |
+        echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ./love-android/app/android.keystore
+        python3 ./.github/workflows/updateVersion.py -T AndroidSnapshot -C ${{ needs.get-version.outputs.code }} -N ${{ needs.get-version.outputs.name }} -S ${{ secrets.KEY_STORE_PASSWORD }} -A ${{ secrets.ALIAS }} -K ${{ secrets.KEY_PASSWORD }}
+        chmod 777 ./love-android/gradlew
+        cd ./love-android/
+        ./gradlew assembleRelease
     - name: rename apk
       run: mv ./app/build/outputs/apk/release/app-release.apk ./app/build/outputs/apk/release/Techmino_Snapshot.apk
     - name: Upload
