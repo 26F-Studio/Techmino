@@ -189,12 +189,12 @@ jobs:
         python3 ./.github/workflows/updateVersion.py -T Version
     - uses: ./.github/actions/build-love
       with:
-        path: Techmino.a${{ needs.get-version.outputs.Version }}.love
+        path: Techmino.a${{ needs.get-version.outputs.release }}.love
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
         name: ${{ needs.get-version.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-version.outputs.Version }}.love
+        files: Techmino.a${{ needs.get-version.outputs.release }}.love
 
   Add-Release-note:
     runs-on: ubuntu-20.04
