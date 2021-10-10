@@ -1,21 +1,15 @@
 name: 'Hello World'
 description: 'Greet someone'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  url:
     required: true
-    default: 'World'
-outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.random-number-generator.outputs.random-id }}
+  dir:
+    required: false
+    default: '.'
 runs:
   using: "composite"
   steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}.
+    - run: curl -L ${{ inputs.url }} -o temp.zip
       shell: bash
-    - id: random-number-generator
-      run: echo "::set-output name=random-id::$(echo $RANDOM)"
-      shell: bash
-    - run: ${{ github.action_path }}/goodbye.sh
+    - run: 7z x temp.zip -o${{ inputs.dir }}
       shell: bash

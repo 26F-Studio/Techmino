@@ -51,24 +51,15 @@ jobs:
       run: |
         python .\.github\workflows\updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ env.CommitID }}
     - uses: ./.github/actions/curl-7zx
-    - name: Download love
-      run: |
-        curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
-    - name: Unpack love
-      run: |
-        7z x .\love-11.3-win64.zip
-    - name: Download ColdClear
-      run: |
-        curl -OL ${{ needs.get-cc-url.outputs.url }}/win64.zip
-    - name: Unpack ColdClear
-      run: |
-        7z x .\win64.zip -oColdClear
-    - name: Download ResourceHacker
-      run: |
-        curl -OL http://www.angusj.com/resourcehacker/resource_hacker.zip
-    - name: Unpack ResourceHacker
-      run: |
-        7z x .\resource_hacker.zip
+      with:
+        url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
+    - uses: ./.github/actions/curl-7zx
+      with:
+        url: ${{ needs.get-cc-url.outputs.url }}/win64.zip
+        dir: ColdClear
+    - uses: ./.github/actions/curl-7zx
+      with:
+        url: http://www.angusj.com/resourcehacker/resource_hacker.zip
     - name: Pack Techmino
       run: |
         7z a -tzip .\Techmino.love .\document .\media .\parts .\Zframework .\conf.lua .\main.lua .\version.lua
