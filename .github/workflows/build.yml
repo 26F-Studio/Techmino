@@ -47,7 +47,7 @@ jobs:
         python .\.github\workflows\updateVersion.py -T Conf
     - name: Update Version
       run: |
-        python .\.github\workflows\updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ needs.get-version.outputs.commit }}
+        python .\.github\workflows\updateVersion.py -T Version -H ${{ needs.get-version.outputs.commit }}
     - uses: ./.github/actions/build-windows
       with:
         love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
@@ -70,7 +70,7 @@ jobs:
         python3 ./.github/workflows/updateVersion.py -T Conf
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ needs.get-version.outputs.commit }}
+        python3 ./.github/workflows/updateVersion.py -T Version -H ${{ needs.get-version.outputs.commit }}
     - uses: ./.github/actions/build-linux
       with:
         cc-url: ${{ needs.get-cc-url.outputs.url }}/linux.zip
@@ -94,7 +94,7 @@ jobs:
         python3 ./.github/workflows/updateVersion.py -T Conf
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ needs.get-version.outputs.commit }}
+        python3 ./.github/workflows/updateVersion.py -T Version -H ${{ needs.get-version.outputs.commit }}
     - name: Clone love-android
       run: |
         git clone --recurse-submodules https://github.com/26F-Studio/love-android
@@ -156,7 +156,7 @@ jobs:
         python3 ./.github/workflows/updateVersion.py -T Conf
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ needs.get-version.outputs.commit }}
+        python3 ./.github/workflows/updateVersion.py -T Version -H ${{ needs.get-version.outputs.commit }}
     - uses: ./.github/actions/build-love
     - name: Download template
       uses: ./.github/actions/get-unzip
