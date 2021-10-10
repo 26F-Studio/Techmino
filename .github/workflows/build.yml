@@ -12,6 +12,7 @@ jobs:
     outputs:
       name: ${{ steps.actual-get-version.outputs.name }}
       code: ${{ steps.actual-get-version.outputs.code }}
+      commit: ${{ steps.actual-get-version.outputs.commit }}
     steps:
     - uses: actions/checkout@v2
     - name: Install lua
@@ -23,6 +24,7 @@ jobs:
       run: |
         echo "::set-output name=name::$(lua ./.github/workflows/getVersion.lua -name)"
         echo "::set-output name=code::$(lua ./.github/workflows/getVersion.lua -code)"
+        echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
 
   get-cc-url:
     runs-on: ubuntu-20.04
@@ -40,16 +42,12 @@ jobs:
     needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
-    - name: Get CommitID
-      run: |
-        $CommitID=git rev-parse --short "${{ GITHUB.SHA }}"
-        echo "CommitID=${CommitID}" >> $env:GITHUB_ENV
     - name: Update Conf
       run: |
         python .\.github\workflows\updateVersion.py -T Conf
     - name: Update Version
       run: |
-        python .\.github\workflows\updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ env.CommitID }}
+        python .\.github\workflows\updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ needs.get-version.outputs.commit }}
     - uses: ./.github/actions/build-windows
       with:
         love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
@@ -59,7 +57,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Windows
+        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-version.outputs.commit }}_Windows
         path: love
 
   build-linux:
@@ -67,23 +65,19 @@ jobs:
     needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
-    - name: Get CommitID
-      run: |
-        CommitID=$(git rev-parse --short "${{ GITHUB.SHA }}")
-        echo "CommitID=${CommitID}" >> $GITHUB_ENV
     - name: Update Conf
       run: |
         python3 ./.github/workflows/updateVersion.py -T Conf
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ env.CommitID }}
+        python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ needs.get-version.outputs.commit }}
     - uses: ./.github/actions/build-linux
       with:
         cc-url: ${{ needs.get-cc-url.outputs.url }}/linux.zip
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Linux
+        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-version.outputs.commit }}_Linux
         path: Techmino.AppImage
 
   build-android:
@@ -95,16 +89,12 @@ jobs:
       with:
         distribution: 'adopt'
         java-version: '8'
-    - name: Get CommitID
-      run: |
-        CommitID=$(git rev-parse --short "${{ GITHUB.SHA }}")
-        echo "CommitID=${CommitID}" >> $GITHUB_ENV
     - name: Update Conf
       run: |
         python3 ./.github/workflows/updateVersion.py -T Conf
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ env.CommitID }}
+        python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ needs.get-version.outputs.commit }}
     - name: Clone love-android
       run: |
         git clone --recurse-submodules https://github.com/26F-Studio/love-android
@@ -153,7 +143,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Android
+        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-version.outputs.commit }}_Android
         path: ./love-android/app/build/outputs/apk/release/Techmino_Snapshot.apk
 
   build-macOS:
@@ -161,16 +151,12 @@ jobs:
     needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
-    - name: Get CommitID
-      run: |
-        CommitID=$(git rev-parse --short "${{ GITHUB.SHA }}")
-        echo "CommitID=${CommitID}" >> $GITHUB_ENV
     - name: Update Conf
       run: |
         python3 ./.github/workflows/updateVersion.py -T Conf
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ env.CommitID }}
+        python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ needs.get-version.outputs.commit }}
     - uses: ./.github/actions/build-love
     - name: Download template
       uses: ./.github/actions/get-unzip
@@ -207,5 +193,5 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_macOS
+        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-version.outputs.commit }}_macOS
         path: Techmino.zip

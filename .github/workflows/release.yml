@@ -13,6 +13,7 @@ jobs:
       code: ${{ steps.actual-get-version.outputs.code }}
       release: ${{ steps.actual-get-version.outputs.release }}
       updateTitle: ${{ steps.actual-get-version.outputs.updateTitle }}
+      commit: ${{ steps.actual-get-version.outputs.commit }}
     steps:
     - uses: actions/checkout@v2
     - name: Install lua
@@ -26,6 +27,7 @@ jobs:
         echo "::set-output name=code::$(lua ./.github/workflows/getVersion.lua -code)"
         echo "::set-output name=release::$(lua ./.github/workflows/getVersion.lua -release)"
         echo "::set-output name=updateTitle::$(lua ./.github/workflows/getVersion.lua -updateTitle)"
+        echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
 
   get-cc-url:
     runs-on: ubuntu-20.04
