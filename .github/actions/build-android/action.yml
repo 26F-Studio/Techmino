@@ -9,6 +9,7 @@ runs:
   using: "composite"
   steps:
     - name: Clone love-android
+      shell: bash
       run: |
         git clone --recurse-submodules https://github.com/26F-Studio/love-android
         cd ./love-android
@@ -18,6 +19,7 @@ runs:
       with:
         url: https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
     - name: Install SDK NDK
+      shell: bash
       run: |
         yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "platforms;android-30"
         yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "ndk;21.3.6528147"
@@ -36,6 +38,7 @@ runs:
       with:
         path: love-android/app/src/main/assets/game.love
     - name: Pack Techmino
+      shell: bash
       run: |
         mkdir -p ./love-android/app/src/main/assets
         mkdir -p ./love-android/app/libs/arm64-v8a
