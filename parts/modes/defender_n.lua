@@ -1,8 +1,6 @@
 return{
     color=COLOR.green,
     env={
-        drop=30,lock=60,
-        fall=10,
         nextCount=3,
         freshLimit=15,
         pushSpeed=1,
