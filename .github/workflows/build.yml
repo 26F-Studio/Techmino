@@ -50,37 +50,17 @@ jobs:
     - name: Update Version
       run: |
         python .\.github\workflows\updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ env.CommitID }}
-    - uses: ./.github/actions/get-unzip
+    - uses: ./.github/actions/build-windows
       with:
-        url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
-    - uses: ./.github/actions/get-unzip
-      with:
-        url: ${{ needs.get-cc-url.outputs.url }}/win64.zip
-    - uses: ./.github/actions/get-unzip
-      with:
-        url: http://www.angusj.com/resourcehacker/resource_hacker.zip
-    - name: Pack Techmino
-      run: |
-        7z a -tzip .\Techmino.love .\document .\media .\parts .\Zframework .\conf.lua .\main.lua .\version.lua
-        cmd /c copy /b .\love-11.3-win64\love.exe + .\Techmino.love .\love-11.3-win64\Techmino.exe
-        del .\love-11.3-win64\love.exe
-        del .\love-11.3-win64\lovec.exe
-        del .\love-11.3-win64\game.ico
-        del .\love-11.3-win64\love.ico
-        del .\love-11.3-win64\changes.txt
-        del .\love-11.3-win64\readme.txt
-        move .\cold_clear.dll .\love-11.3-win64
-        move .\CCloader.dll .\love-11.3-win64
-        python .\.github\workflows\updateVersion.py -T Windows -N ${{ needs.get-version.outputs.name }}
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action delete -mask ICONGROUP,,'
-        cmd /c '.\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile'
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\.github\build\Windows\icon_snapshot.ico" -mask ICONGROUP,1,'
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\Techmino.res" -mask VERSIONINFO,1,'
+        love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
+        love-dir: love-11.3-win64
+        cc-url: ${{ needs.get-cc-url.outputs.url }}/win64.zip
+        version: ${{ needs.get-version.outputs.name }}
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
         name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Windows
-        path: love-11.3-win64
+        path: love
 
   build-linux:
     runs-on: ubuntu-20.04
@@ -107,7 +87,8 @@ jobs:
       run: |
         chmod 777 ./love-11.3-x86_64.AppImage
         ./love-11.3-x86_64.AppImage --appimage-extract
-    - uses: ./.github/actions/get-unzip
+    - name: Download ColdClear
+      uses: ./.github/actions/get-unzip
       with:
         url: ${{ needs.get-cc-url.outputs.url }}/linux.zip
     - name: Pack Techmino
@@ -154,7 +135,8 @@ jobs:
         git clone --recurse-submodules https://github.com/26F-Studio/love-android
         cd ./love-android
         git checkout --recurse-submodules CI
-    - uses: ./.github/actions/get-unzip
+    - name: Download androidSDK
+      uses: ./.github/actions/get-unzip
       with:
         url: https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
     - name: Install SDK NDK
@@ -162,14 +144,19 @@ jobs:
         yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "platforms;android-30"
         yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "ndk;21.3.6528147"
         export ANDROID_HOME=$(pwd)
-    - uses: ./.github/actions/get-unzip
+    - name: Download ColdClear arm64-v8a
+      uses: ./.github/actions/get-unzip
       with:
         url: ${{ needs.get-cc-url.outputs.url }}/android_aarch64.zip
         dir: ColdClear/arm64-v8a
-    - uses: ./.github/actions/get-unzip
+    - name: Download ColdClear armeabi-v7a
+      uses: ./.github/actions/get-unzip
       with:
         url: ${{ needs.get-cc-url.outputs.url }}/android_armv7.zip
         dir: ColdClear/armeabi-v7a
+    - uses: ./.github/actions/build-love
+      with:
+        path: love-android/app/src/main/assets/game.love
     - name: Pack Techmino
       run: |
         mkdir -p ./love-android/app/src/main/assets
@@ -181,7 +168,7 @@ jobs:
         mkdir -p ./libAndroid/armeabi-v7a
         mv ./ColdClear/arm64-v8a/libs/arm64-v8a/libCCloader.so ./libAndroid/arm64-v8a
         mv ./ColdClear/armeabi-v7a/libs/armeabi-v7a/libCCloader.so ./libAndroid/armeabi-v7a
-        7z a -tzip ./love-android/app/src/main/assets/game.love ./document ./media ./parts ./Zframework ./libAndroid ./conf.lua ./main.lua ./version.lua
+        7z a -tzip love-android/app/src/main/assets/game.love libAndroid
         echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ./love-android/app/android.keystore
         python3 ./.github/workflows/updateVersion.py -T AndroidSnapshot -C ${{ needs.get-version.outputs.code }} -N ${{ needs.get-version.outputs.name }} -S ${{ secrets.KEY_STORE_PASSWORD }} -A ${{ secrets.ALIAS }} -K ${{ secrets.KEY_PASSWORD }}
         chmod 777 ./love-android/gradlew
@@ -209,13 +196,13 @@ jobs:
     - name: Update Version
       run: |
         python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ env.CommitID }}
-    - name: Pack love
-      run: |
-        7z a -tzip ./Techmino.love ./document ./media ./parts ./Zframework ./conf.lua ./main.lua ./version.lua
-    - uses: ./.github/actions/get-unzip
+    - uses: ./.github/actions/build-love
+    - name: Download template
+      uses: ./.github/actions/get-unzip
       with:
         url: https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.app.zip
-    - uses: ./.github/actions/get-unzip
+    - name: Download ColdClear
+      uses: ./.github/actions/get-unzip
       with:
         url: ${{ needs.get-cc-url.outputs.url }}/macOS.zip
     - name: Modify template

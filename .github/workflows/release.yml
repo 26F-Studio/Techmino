@@ -6,137 +6,81 @@ on:
     - '*'
 
 jobs:
-  build-windows-x64:
-    runs-on: windows-latest
+  get-version:
+    runs-on: ubuntu-20.04
+    outputs:
+      name: ${{ steps.actual-get-version.outputs.name }}
+      code: ${{ steps.actual-get-version.outputs.code }}
+      release: ${{ steps.actual-get-version.outputs.release }}
+      updateTitle: ${{ steps.actual-get-version.outputs.updateTitle }}
     steps:
     - uses: actions/checkout@v2
-    - name: Download lua
+    - name: Install lua
       run: |
-        curl -OL https://nchc.dl.sourceforge.net/project/luabinaries/5.4.2/Tools%20Executables/lua-5.4.2_Win64_bin.zip
-    - name: Unpack lua
+        sudo apt-get update -y
+        sudo apt-get install lua5.3 -y
+    - name: Get Version
+      id: actual-get-version
       run: |
-        7z x .\lua-5.4.2_Win64_bin.zip -olua
-        rename-Item '.\lua\lua54.exe' -NewName 'lua.exe'
+        echo "::set-output name=name::$(lua ./.github/workflows/getVersion.lua -name)"
+        echo "::set-output name=code::$(lua ./.github/workflows/getVersion.lua -code)"
+        echo "::set-output name=release::$(lua ./.github/workflows/getVersion.lua -release)"
+        echo "::set-output name=updateTitle::$(lua ./.github/workflows/getVersion.lua -updateTitle)"
+
+  get-cc-url:
+    runs-on: ubuntu-20.04
+    outputs:
+      url: ${{ steps.get-url.outputs.url }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get URL
+      id: get-url
+      run: |
+        echo "::set-output name=url::https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$(python ./.github/workflows/getLatest.py -P)"
+
+  build-windows-x64:
+    runs-on: windows-latest
+    needs: [get-version, get-cc-url]
+    steps:
+    - uses: actions/checkout@v2
     - name: Update Version
       run: |
-        python .\.github\workflows\updateVersion.py -T Version
-    - name: Get Version
-      run: |
-        $Version=.\lua\lua.exe .\.github\workflows\getVersion.lua -release
-        echo "Version=${Version}" >> $env:GITHUB_ENV
-    - name: Get ReleaseTitle
-      run: |
-        $Title=.\lua\lua.exe .\.github\workflows\getVersion.lua -updateTitle
-        echo "Title=${Title}" >> $env:GITHUB_ENV
-    - name: Download love
-      run: |
-        curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
-    - name: Unpack love
-      run: |
-        7z x .\love-11.3-win64.zip
-    - name: Download ColdClear
-      run: |
-        pip install requests
-        $CCVersion=python .\.github\workflows\getLatest.py
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/win64.zip
-    - name: Unpack ColdClear
-      run: |
-        7z x .\win64.zip -oColdClear
-    - name: Download ResourceHacker
-      run: |
-        curl -OL http://www.angusj.com/resourcehacker/resource_hacker.zip
-    - name: Unpack ResourceHacker
-      run: |
-        7z x .\resource_hacker.zip
+        python .\.github\workflows\updateVersion.py -T ${{ needs.get-version.outputs.release }}
+    - uses: ./.github/actions/build-windows
+      with:
+        love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
+        love-dir: love-11.3-win64
+        cc-url: ${{ needs.get-cc-url.outputs.url }}/win64.zip
+        version: ${{ needs.get-version.outputs.release }}
     - name: Pack Techmino
-      run: |
-        7z a -tzip .\Techmino.love .\document .\media .\parts .\Zframework .\conf.lua .\main.lua .\version.lua
-        cmd /c copy /b .\love-11.3-win64\love.exe + .\Techmino.love .\love-11.3-win64\Techmino.exe
-        del .\love-11.3-win64\love.exe
-        del .\love-11.3-win64\lovec.exe
-        del .\love-11.3-win64\game.ico
-        del .\love-11.3-win64\love.ico
-        del .\love-11.3-win64\changes.txt
-        del .\love-11.3-win64\readme.txt
-        move .\ColdClear\cold_clear.dll .\love-11.3-win64
-        move .\ColdClear\CCloader.dll .\love-11.3-win64
-        python .\.github\workflows\updateVersion.py -T Windows -N ${{ env.Version }}
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action delete -mask ICONGROUP,,'
-        cmd /c '.\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile'
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\build\Windows\icon.ico" -mask ICONGROUP,1,'
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\Techmino.res" -mask VERSIONINFO,1,'
-        7z a -tzip .\Techmino.a${{ env.Version }}.Win64.zip .\love-11.3-win64\
+      run: 7z a -tzip .\Techmino.a${{ needs.get-version.outputs.release }}.Win64.zip .\love
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ env.Title }}
-        files: Techmino.a${{ env.Version }}.Win64.zip
+        name: ${{ needs.get-version.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-version.outputs.release }}.Win64.zip
 
   build-windows-x86:
     runs-on: windows-latest
+    needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
-    - name: Download lua
-      run: |
-        curl -OL https://nchc.dl.sourceforge.net/project/luabinaries/5.4.2/Tools%20Executables/lua-5.4.2_Win64_bin.zip
-    - name: Unpack lua
-      run: |
-        7z x .\lua-5.4.2_Win64_bin.zip -olua
-        rename-Item '.\lua\lua54.exe' -NewName 'lua.exe'
     - name: Update Version
       run: |
-        python .\.github\workflows\updateVersion.py -T Version
-    - name: Get Version
-      run: |
-        $Version=.\lua\lua.exe .\.github\workflows\getVersion.lua -release
-        echo "Version=${Version}" >> $env:GITHUB_ENV
-    - name: Get ReleaseTitle
-      run: |
-        $Title=.\lua\lua.exe .\.github\workflows\getVersion.lua -updateTitle
-        echo "Title=${Title}" >> $env:GITHUB_ENV
-    - name: Download love
-      run: |
-        curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win32.zip
-    - name: Unpack love
-      run: |
-        7z x .\love-11.3-win32.zip
-    - name: Download ColdClear
-      run: |
-        pip install requests
-        $CCVersion=python .\.github\workflows\getLatest.py
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/win32.zip
-    - name: Unpack ColdClear
-      run: |
-        7z x .\win32.zip -oColdClear
-    - name: Download ResourceHacker
-      run: |
-        curl -OL http://www.angusj.com/resourcehacker/resource_hacker.zip
-    - name: Unpack ResourceHacker
-      run: |
-        7z x .\resource_hacker.zip
+        python .\.github\workflows\updateVersion.py -T ${{ needs.get-version.outputs.release }}
+    - uses: ./.github/actions/build-windows
+      with:
+        love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win32.zip
+        love-dir: love-11.3-win32
+        cc-url: ${{ needs.get-cc-url.outputs.url }}/win32.zip
+        version: ${{ needs.get-version.outputs.release }}
     - name: Pack Techmino
-      run: |
-        7z a -tzip .\Techmino.love .\document .\media .\parts .\Zframework .\conf.lua .\main.lua .\version.lua
-        cmd /c copy /b .\love-11.3-win32\love.exe + .\Techmino.love .\love-11.3-win32\Techmino.exe
-        del .\love-11.3-win32\love.exe
-        del .\love-11.3-win32\lovec.exe
-        del .\love-11.3-win32\game.ico
-        del .\love-11.3-win32\love.ico
-        del .\love-11.3-win32\changes.txt
-        del .\love-11.3-win32\readme.txt
-        move .\ColdClear\cold_clear.dll .\love-11.3-win32
-        move .\ColdClear\CCloader.dll .\love-11.3-win32
-        python .\.github\workflows\updateVersion.py -T Windows -N ${{ env.Version }}
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win32\Techmino.exe -save .\love-11.3-win32\Techmino.exe -action delete -mask ICONGROUP,,'
-        cmd /c '.\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile'
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win32\Techmino.exe -save .\love-11.3-win32\Techmino.exe -action addoverwrite -res ".\build\Windows\icon.ico" -mask ICONGROUP,1,'
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win32\Techmino.exe -save .\love-11.3-win32\Techmino.exe -action addoverwrite -res ".\Techmino.res" -mask VERSIONINFO,1,'
-        7z a -tzip .\Techmino.a${{ env.Version }}.Win32.zip .\love-11.3-win32\
+      run: 7z a -tzip .\Techmino.a${{ needs.get-version.outputs.release }}.Win32.zip .\love
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ env.Title }}
-        files: Techmino.a${{ env.Version }}.Win32.zip
+        name: ${{ needs.get-version.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-version.outputs.release }}.Win32.zip
 
   build-linux:
     runs-on: ubuntu-20.04
