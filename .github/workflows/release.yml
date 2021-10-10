@@ -84,60 +84,21 @@ jobs:
 
   build-linux:
     runs-on: ubuntu-20.04
+    needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
-    - name: Install lua
-      run: |
-        sudo apt-get update -y
-        sudo apt-get upgrade -y
-        sudo apt-get install lua5.3 -y
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T Version
-    - name: Get Version
-      run: |
-        Version=$(lua ./.github/workflows/getVersion.lua -release)
-        echo "Version=${Version}" >> $GITHUB_ENV
-    - name: Get ReleaseTitle
-      run: |
-        Title=$(lua ./.github/workflows/getVersion.lua -updateTitle)
-        echo "Title=${Title}" >> $GITHUB_ENV
-    - name: Download AppImageKit
-      run: |
-        curl -OL https://github.com/AppImage/AppImageKit/releases/download/13/appimagetool-x86_64.AppImage
-    - name: Download love
-      run: |
-        curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-x86_64.AppImage
-    - name: Unpack love
-      run: |
-        chmod 777 ./love-11.3-x86_64.AppImage
-        ./love-11.3-x86_64.AppImage --appimage-extract
-    - name: Download ColdClear
-      run: |
-        CCVersion=$(python3 ./.github/workflows/getLatest.py)
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/linux.zip
-    - name: Unpack ColdClear
-      run: |
-        7z x ./linux.zip -oColdClear
-    - name: Pack Techmino
-      run: |
-        rm -rf ./squashfs-root/love ./squashfs-root/love.desktop ./squashfs-root/love.svg ./squashfs-root/.DirIcon
-        mv ./.github/build/Linux/love.template ./squashfs-root/love
-        mv ./.github/build/Linux/Techmino.desktop.template ./squashfs-root/Techmino.desktop
-        mv ./.github/build/Linux/icon.png ./squashfs-root/icon.png
-        cp ./squashfs-root/icon.png ./squashfs-root/.DirIcon
-        chmod 777 ./squashfs-root/love
-        mkdir -p ./squashfs-root/usr/share/Techmino
-        mv ./document ./media ./parts ./Zframework ./conf.lua ./main.lua ./version.lua ./squashfs-root/usr/share/Techmino
-        mv ./ColdClear/CCloader.so ./squashfs-root/usr/share/Techmino
-        mv ./ColdClear/libcold_clear.so ./squashfs-root/usr/lib
-        chmod 777 ./appimagetool-x86_64.AppImage
-        ./appimagetool-x86_64.AppImage ./squashfs-root ./Techmino.a${{ env.Version }}.AppImage
+        python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.release }}
+    - uses: ./.github/actions/build-linux
+      with:
+        cc-url: ${{ needs.get-cc-url.outputs.url }}/linux.zip
+        filename: Techmino.a${{ needs.get-version.outputs.release }}.AppImage
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ env.Title }}
-        files: Techmino.a${{ env.Version }}.AppImage
+        name: ${{ needs.get-version.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-version.outputs.release }}.AppImage
 
   build-android:
     runs-on: ubuntu-20.04
