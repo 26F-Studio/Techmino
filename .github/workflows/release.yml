@@ -116,10 +116,10 @@ jobs:
         cc-url: ${{ needs.get-cc-url.outputs.url }}
         code: ${{ needs.get-version.outputs.code }}
         name: ${{ needs.get-version.outputs.name }}
-        SIGNING_KEY: secrets.SIGNING_KEY
-        KEY_STORE_PASSWORD: secrets.KEY_STORE_PASSWORD
-        ALIAS: secrets.ALIAS
-        KEY_PASSWORD: secrets.KEY_PASSWORD
+        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+        ALIAS: ${{ secrets.ALIAS }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
     - name: rename apk
       run: mv ./app/build/outputs/apk/release/app-release.apk ./app/build/outputs/apk/release/Techmino.a${{ needs.get-version.outputs.Version }}.apk
     - name: Release
@@ -145,10 +145,10 @@ jobs:
         cc-url: ${{ needs.get-cc-url.outputs.url }}
         code: ${{ needs.get-version.outputs.code }}
         name: ${{ needs.get-version.outputs.name }}
-        SIGNING_KEY: secrets.SIGNING_KEY
-        KEY_STORE_PASSWORD: secrets.KEY_STORE_PASSWORD
-        ALIAS: secrets.ALIAS
-        KEY_PASSWORD: secrets.KEY_PASSWORD
+        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+        ALIAS: ${{ secrets.ALIAS }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
     - name: rename apk
       run: mv ./app/build/outputs/apk/release/app-release.apk ./app/build/outputs/apk/release/Techmino.a${{ needs.get-version.outputs.Version }}.mini.apk
     - name: Release
@@ -170,6 +170,8 @@ jobs:
         cc-url: ${{ needs.get-cc-url.outputs.url }}/macOS.zip
         name: ${{ needs.get-version.outputs.name }}
         icon: ./.github/build/macOS/icon.icns
+        MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+        MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
     - name: Pack Techmino
       run: |
         zip -r -y Techmino.a${{ needs.get-version.outputs.Version }}.macOS.zip Techmino.app ".github/build/macOS/打不开？Can’t open the App？.pdf"

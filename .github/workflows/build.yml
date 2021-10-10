@@ -88,10 +88,10 @@ jobs:
         cc-url: ${{ needs.get-cc-url.outputs.url }}
         code: ${{ needs.get-version.outputs.code }}
         name: ${{ needs.get-version.outputs.name }}
-        SIGNING_KEY: secrets.SIGNING_KEY
-        KEY_STORE_PASSWORD: secrets.KEY_STORE_PASSWORD
-        ALIAS: secrets.ALIAS
-        KEY_PASSWORD: secrets.KEY_PASSWORD
+        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+        ALIAS: ${{ secrets.ALIAS }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
     - name: rename apk
       run: mv ./app/build/outputs/apk/release/app-release.apk ./app/build/outputs/apk/release/Techmino_Snapshot.apk
     - name: Upload
