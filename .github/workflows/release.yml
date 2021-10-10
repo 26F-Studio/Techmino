@@ -167,36 +167,24 @@ jobs:
 
   build-macOS:
     runs-on: macos-10.15
+    needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
-    - name: Install lua
-      run: |
-        curl -OL http://www.lua.org/ftp/lua-5.4.3.tar.gz
-        tar zxf lua-5.4.3.tar.gz
-        cd lua-5.4.3
-        make macosx
-        sudo make install
     - name: Update Version
       run: |
         python3 ./.github/workflows/updateVersion.py -T Version
-    - name: Pack love
-      run: |
-        7z a -tzip ./Techmino.love ./document ./media ./parts ./Zframework ./conf.lua ./main.lua ./version.lua
+    - uses: ./.github/actions/build-love
     - name: Download template
-      run: |
-        curl -OL https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.app.zip
-    - name: Unpack template
-      run: |
-        7z x ./Techmino.app.zip
+      uses: ./.github/actions/get-unzip
+      with:
+        url: https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.app.zip
     - name: Get CCloader
-      run: |
-        pip3 install requests
-        CCVersion=$(python3 ./.github/workflows/getLatest.py)
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/macOS.zip
-        unzip macOS.zip
+      uses: ./.github/actions/get-unzip
+      with:
+        url: ${{ needs.get-cc-url.outputs.url }}/macOS.zip
     - name: Modify template
       run: |
-        python3 ./.github/workflows/updateVersion.py -T macOS -N $(lua ./.github/workflows/getVersion.lua -name)
+        python3 ./.github/workflows/updateVersion.py -T macOS -N ${{ needs.get-version.outputs.name }}
         mv ./Techmino.love ./Techmino.app/Contents/Resources
         mv ./CCloader.dylib ./Techmino.app/Contents/Frameworks
         mv ./.github/build/macOS/icon.icns ./Techmino.app/Contents/Resources/iconfile.icns
@@ -226,27 +214,15 @@ jobs:
 
   build-love:
     runs-on: ubuntu-20.04
+    needs: get-version
     steps:
     - uses: actions/checkout@v2
-    - name: Install lua
-      run: |
-        sudo apt-get update -y
-        sudo apt-get upgrade -y
-        sudo apt-get install lua5.3 -y
     - name: Update Version
       run: |
         python3 ./.github/workflows/updateVersion.py -T Version
-    - name: Get Version
-      run: |
-        Version=$(lua ./.github/workflows/getVersion.lua -release)
-        echo "Version=${Version}" >> $GITHUB_ENV
-    - name: Get ReleaseTitle
-      run: |
-        Title=$(lua ./.github/workflows/getVersion.lua -updateTitle)
-        echo "Title=${Title}" >> $GITHUB_ENV
-    - name: Pack Techmino
-      run: |
-        7z a -tzip ./Techmino.a${{ needs.get-version.outputs.Version }}.love ./document ./media ./parts ./Zframework ./conf.lua ./main.lua ./version.lua
+    - uses: ./.github/actions/build-love
+      with:
+        path: Techmino.a${{ needs.get-version.outputs.Version }}.love
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
@@ -255,6 +231,7 @@ jobs:
 
   Add-Release-note:
     runs-on: ubuntu-20.04
+    needs: get-version
     steps:
     - uses: actions/checkout@v2
     - name: Install lua
@@ -262,10 +239,6 @@ jobs:
         sudo apt-get update -y
         sudo apt-get upgrade -y
         sudo apt-get install lua5.3 -y
-    - name: Get ReleaseTitle
-      run: |
-        Title=$(lua ./.github/workflows/getVersion.lua -updateTitle)
-        echo "Title=${Title}" >> $GITHUB_ENV
     - name: Get ReleaseNote
       run: |
         lua ./.github/workflows/getVersion.lua -updateNote > updateNote.txt

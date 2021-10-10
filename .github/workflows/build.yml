@@ -42,12 +42,9 @@ jobs:
     needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
-    - name: Update Conf
-      run: |
-        python .\.github\workflows\updateVersion.py -T Conf
-    - name: Update Version
-      run: |
-        python .\.github\workflows\updateVersion.py -T Version -H ${{ needs.get-version.outputs.commit }}
+    - uses: ./.github/actions/snapshot-update
+      with:
+        commit: ${{ needs.git-version.outputs.commit }}
     - uses: ./.github/actions/build-windows
       with:
         love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
@@ -65,12 +62,9 @@ jobs:
     needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
-    - name: Update Conf
-      run: |
-        python3 ./.github/workflows/updateVersion.py -T Conf
-    - name: Update Version
-      run: |
-        python3 ./.github/workflows/updateVersion.py -T Version -H ${{ needs.get-version.outputs.commit }}
+    - uses: ./.github/actions/snapshot-update
+      with:
+        commit: ${{ needs.git-version.outputs.commit }}
     - uses: ./.github/actions/build-linux
       with:
         cc-url: ${{ needs.get-cc-url.outputs.url }}/linux.zip
@@ -89,12 +83,9 @@ jobs:
       with:
         distribution: 'adopt'
         java-version: '8'
-    - name: Update Conf
-      run: |
-        python3 ./.github/workflows/updateVersion.py -T Conf
-    - name: Update Version
-      run: |
-        python3 ./.github/workflows/updateVersion.py -T Version -H ${{ needs.get-version.outputs.commit }}
+    - uses: ./.github/actions/snapshot-update
+      with:
+        commit: ${{ needs.git-version.outputs.commit }}
     - uses: ./.github/actions/build-android
       with:
         cc-url: ${{ needs.get-cc-url.outputs.url }}
@@ -118,12 +109,9 @@ jobs:
     needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
-    - name: Update Conf
-      run: |
-        python3 ./.github/workflows/updateVersion.py -T Conf
-    - name: Update Version
-      run: |
-        python3 ./.github/workflows/updateVersion.py -T Version -H ${{ needs.get-version.outputs.commit }}
+    - uses: ./.github/actions/snapshot-update
+      with:
+        commit: ${{ needs.git-version.outputs.commit }}
     - uses: ./.github/actions/build-love
     - name: Download template
       uses: ./.github/actions/get-unzip

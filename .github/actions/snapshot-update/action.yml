@@ -1,0 +1,12 @@
+name: 'update for a snapshot'
+description: 'common update logic for snapshot'
+inputs:
+  commit:
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        python3 ./.github/workflows/updateVersion.py -T Conf
+        python3 ./.github/workflows/updateVersion.py -T Version -H ${{ inputs.commit }}
