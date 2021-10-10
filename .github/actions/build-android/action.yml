@@ -66,8 +66,6 @@ runs:
         mv ./ColdClear/arm64-v8a/libs/arm64-v8a/libCCloader.so ./libAndroid/arm64-v8a
         mv ./ColdClear/armeabi-v7a/libs/armeabi-v7a/libCCloader.so ./libAndroid/armeabi-v7a
         7z a -tzip love-android/app/src/main/assets/game.love libAndroid
-    - name: pack Techmino
-      run: |
         echo "${{ inputs.SIGNING_KEY }}" | base64 -d > ./love-android/app/android.keystore
         python3 ./.github/workflows/updateVersion.py -T Android${{ inputs.type }} -C ${{ inputs.code }} -N ${{ inputs.name }} -S ${{ inputs.KEY_STORE_PASSWORD }} -A ${{ inputs.ALIAS }} -K ${{ inputs.KEY_PASSWORD }}
         chmod 777 ./love-android/gradlew
