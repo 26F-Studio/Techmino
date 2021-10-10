@@ -18,7 +18,7 @@ runs:
         url: ${{ inputs.love-url }}
     - name: move love
       shell: bash
-      run: mv ${{ input.love-dir }} love
+      run: mv ${{ inputs.love-dir }} love
     - name: Download ColdClear
       uses: ./.github/actions/get-unzip
       with:
