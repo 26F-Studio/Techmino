@@ -50,6 +50,7 @@ jobs:
     - name: Update Version
       run: |
         python .\.github\workflows\updateVersion.py -T ${{ needs.get-version.outputs.name }} -H ${{ env.CommitID }}
+    - uses: .\.github\actions\curl-7zx
     - name: Download love
       run: |
         curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
