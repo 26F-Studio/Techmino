@@ -91,7 +91,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T ${{ needs.get-version.outputs.release }}
+        python3 ./.github/workflows/updateVersion.py -T Version
     - uses: ./.github/actions/build-linux
       with:
         cc-url: ${{ needs.get-cc-url.outputs.url }}/linux.zip
@@ -114,61 +114,20 @@ jobs:
     - name: Update Version
       run: |
         python3 ./.github/workflows/updateVersion.py -T Version
-    - name: Get ReleaseTitle
-      run: |
-        Title=$(lua ./.github/workflows/getVersion.lua -updateTitle)
-        echo "Title=${Title}" >> $GITHUB_ENV
-    - name: Clone love-android
-      run: |
-        git clone --recurse-submodules https://github.com/26F-Studio/love-android
-        cd ./love-android
-        git checkout --recurse-submodules CI
-    - name: Download androidSDK
-      run: |
-        wget -O commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
-    - name: Unpack androidSDK
-      run: |
-        unzip ./commandlinetools.zip
-    - name: Install SDK NDK
-      run: |
-        yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "platforms;android-30"
-        yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "ndk;21.3.6528147"
-        export ANDROID_HOME=$(pwd)
-    - name: Download ColdClear
-      run: |
-        CCVersion=$(python3 ./.github/workflows/getLatest.py)
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/android_aarch64.zip
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/android_armv7.zip
-    - name: Unpack ColdClear
-      run: |
-        7z x ./android_aarch64.zip -oColdClear/android_aarch64
-        7z x ./android_armv7.zip -oColdClear/android_armv7
-    - name: Pack Techmino
-      run: |
-        mkdir -p ./love-android/app/src/main/assets
-        mkdir -p ./love-android/app/libs/arm64-v8a
-        mkdir -p ./love-android/app/libs/armeabi-v7a
-        mv ./ColdClear/android_aarch64/love-11.3-android/lib/arm64-v8a/libcold_clear.so ./love-android/app/libs/arm64-v8a
-        mv ./ColdClear/android_armv7/love-11.3-android/lib/armeabi-v7a/libcold_clear.so ./love-android/app/libs/armeabi-v7a
-        mkdir -p ./libAndroid/arm64-v8a
-        mkdir -p ./libAndroid/armeabi-v7a
-        mv ./ColdClear/android_aarch64/libs/arm64-v8a/libCCloader.so ./libAndroid/arm64-v8a
-        mv ./ColdClear/android_armv7/libs/armeabi-v7a/libCCloader.so ./libAndroid/armeabi-v7a
-        7z a -tzip ./love-android/app/src/main/assets/game.love ./document ./media ./parts ./Zframework ./libAndroid ./conf.lua ./main.lua ./version.lua
-        echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ./love-android/app/android.keystore
-        python3 ./.github/workflows/updateVersion.py -T AndroidRelease -C $(lua ./.github/workflows/getVersion.lua -code) -N $(lua ./.github/workflows/getVersion.lua -name) -S ${{ secrets.KEY_STORE_PASSWORD }} -A ${{ secrets.ALIAS }} -K ${{ secrets.KEY_PASSWORD }}
-        chmod 777 ./love-android/gradlew
-        cd ./love-android/
-        ./gradlew assembleRelease
-        mv ./app/build/outputs/apk/release/app-release.apk ./app/build/outputs/apk/release/Techmino.a${{ env.Version }}.apk
+    - uses: ./.github/actions/build-android
+      with:
+        cc-url: ${{ needs.get-cc-url.outputs.url }}
+    - name: rename apk
+      run: mv ./app/build/outputs/apk/release/app-release.apk ./app/build/outputs/apk/release/Techmino.a${{ needs.get-version.outputs.Version }}.apk
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ env.Title }}
-        files: ./love-android/app/build/outputs/apk/release/Techmino.a${{ env.Version }}.apk
+        name: ${{ needs.get-version.outputs.updateTitle }}
+        files: ./love-android/app/build/outputs/apk/release/Techmino.a${{ needs.get-version.outputs.Version }}.apk
 
   build-android-mini:
     runs-on: ubuntu-20.04
+    needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-java@v2
@@ -183,25 +142,15 @@ jobs:
     - name: Update Version
       run: |
         python3 ./.github/workflows/updateVersion.py -T Version
-    - name: Get Version
-      run: |
-        Version=$(lua ./.github/workflows/getVersion.lua -release)
-        echo "Version=${Version}" >> $GITHUB_ENV
-    - name: Get ReleaseTitle
-      run: |
-        Title=$(lua ./.github/workflows/getVersion.lua -updateTitle)
-        echo "Title=${Title}" >> $GITHUB_ENV
     - name: Clone love-android
       run: |
         git clone --recurse-submodules https://github.com/26F-Studio/love-android
         cd ./love-android
         git checkout --recurse-submodules CI
     - name: Download androidSDK
-      run: |
-        wget -O commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
-    - name: Unpack androidSDK
-      run: |
-        unzip ./commandlinetools.zip
+      uses: ./.github/actions/get-unzip
+      with:
+        url: https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
     - name: Install SDK NDK
       run: |
         yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "platforms;android-30"
@@ -230,12 +179,12 @@ jobs:
         chmod 777 ./love-android/gradlew
         cd ./love-android/
         ./gradlew assembleRelease
-        mv ./app/build/outputs/apk/release/app-release.apk ./app/build/outputs/apk/release/Techmino.a${{ env.Version }}.mini.apk
+        mv ./app/build/outputs/apk/release/app-release.apk ./app/build/outputs/apk/release/Techmino.a${{ needs.get-version.outputs.Version }}.mini.apk
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ env.Title }}
-        files: ./love-android/app/build/outputs/apk/release/Techmino.a${{ env.Version }}.mini.apk
+        name: ${{ needs.get-version.outputs.updateTitle }}
+        files: ./love-android/app/build/outputs/apk/release/Techmino.a${{ needs.get-version.outputs.Version }}.mini.apk
 
   build-macOS:
     runs-on: macos-10.15
@@ -251,14 +200,6 @@ jobs:
     - name: Update Version
       run: |
         python3 ./.github/workflows/updateVersion.py -T Version
-    - name: Get Version
-      run: |
-        Version=$(lua ./.github/workflows/getVersion.lua -release)
-        echo "Version=${Version}" >> $GITHUB_ENV
-    - name: Get ReleaseTitle
-      run: |
-        Title=$(lua ./.github/workflows/getVersion.lua -updateTitle)
-        echo "Title=${Title}" >> $GITHUB_ENV
     - name: Pack love
       run: |
         7z a -tzip ./Techmino.love ./document ./media ./parts ./Zframework ./conf.lua ./main.lua ./version.lua
@@ -297,12 +238,12 @@ jobs:
         /usr/bin/codesign --force --deep -s 79B81FC5EA155243C973B5417B0996501F00EF55 ./Techmino.app -v
     - name: Pack Techmino
       run: |
-        zip -r -y Techmino.a${{ env.Version }}.macOS.zip Techmino.app ".github/build/macOS/打不开？Can’t open the App？.pdf"
+        zip -r -y Techmino.a${{ needs.get-version.outputs.Version }}.macOS.zip Techmino.app ".github/build/macOS/打不开？Can’t open the App？.pdf"
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ env.Title }}
-        files: Techmino.a${{ env.Version }}.macOS.zip
+        name: ${{ needs.get-version.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-version.outputs.Version }}.macOS.zip
 
   build-love:
     runs-on: ubuntu-20.04
@@ -326,12 +267,12 @@ jobs:
         echo "Title=${Title}" >> $GITHUB_ENV
     - name: Pack Techmino
       run: |
-        7z a -tzip ./Techmino.a${{ env.Version }}.love ./document ./media ./parts ./Zframework ./conf.lua ./main.lua ./version.lua
+        7z a -tzip ./Techmino.a${{ needs.get-version.outputs.Version }}.love ./document ./media ./parts ./Zframework ./conf.lua ./main.lua ./version.lua
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ env.Title }}
-        files: Techmino.a${{ env.Version }}.love
+        name: ${{ needs.get-version.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-version.outputs.Version }}.love
 
   Add-Release-note:
     runs-on: ubuntu-20.04
@@ -352,5 +293,5 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ env.Title }}
+        name: ${{ needs.get-version.outputs.updateTitle }}
         body_path: ./updateNote.txt
