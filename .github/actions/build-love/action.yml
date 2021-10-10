@@ -7,5 +7,5 @@ input:
 runs:
   using: "composite"
   steps:
-    - run: 7z a -tzip ${{ input.path }} document media parts Zframework conf.lua main.lua version.lua
+    - run: 7z a -tzip ${{ inputs.path }} document media parts Zframework conf.lua main.lua version.lua
       shell: bash
