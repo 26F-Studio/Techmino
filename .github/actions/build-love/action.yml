@@ -2,7 +2,7 @@ name: 'build love'
 description: 'build love file'
 input:
   path:
-    required: false
+    required: true
     default: Techmino.love
 runs:
   using: "composite"
