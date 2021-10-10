@@ -1,6 +1,6 @@
 name: 'build love'
 description: 'build love file'
-input:
+inputs:
   path:
     required: true
     default: Techmino.love
