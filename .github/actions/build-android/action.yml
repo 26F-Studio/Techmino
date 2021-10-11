@@ -30,16 +30,6 @@ runs:
         git clone --recurse-submodules https://github.com/26F-Studio/love-android
         cd ./love-android
         git checkout --recurse-submodules CI
-    - name: Download androidSDK
-      uses: ./.github/actions/get-unzip
-      with:
-        url: https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
-    - name: Install SDK NDK
-      shell: bash
-      run: |
-        yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "platforms;android-30"
-        yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "ndk;21.3.6528147"
-        export ANDROID_HOME=$(pwd)
     - name: Download ColdClear arm64-v8a
       uses: ./.github/actions/get-unzip
       with:
@@ -53,7 +43,7 @@ runs:
     - uses: ./.github/actions/build-love
       with:
         path: love-android/app/src/main/assets/game.love
-    - name: Pack Techmino
+    - name: Prepare Assets
       shell: bash
       run: |
         mkdir -p ./love-android/app/src/main/assets
@@ -68,6 +58,9 @@ runs:
         7z a -tzip love-android/app/src/main/assets/game.love libAndroid
         echo "${{ inputs.SIGNING_KEY }}" | base64 -d > ./love-android/app/android.keystore
         python3 ./.github/workflows/updateVersion.py -T Android${{ inputs.type }} -C ${{ inputs.code }} -N ${{ inputs.name }} -S ${{ inputs.KEY_STORE_PASSWORD }} -A ${{ inputs.ALIAS }} -K ${{ inputs.KEY_PASSWORD }}
+    - name: Build Techmino
+      shell: bash
+      run: |
         chmod 777 ./love-android/gradlew
         cd ./love-android/
         ./gradlew assembleRelease
