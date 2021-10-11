@@ -9,6 +9,8 @@ inputs:
     required: true
   version:
     required: true
+  icon:
+    required: true
 runs:
   using: "composite"
   steps:
@@ -43,5 +45,5 @@ runs:
         python .\.github\workflows\updateVersion.py -T Windows -N ${{ inputs.version }}
         cmd /c '.\ResourceHacker.exe -open .\love\Techmino.exe -save .\love\Techmino.exe -action delete -mask ICONGROUP,,'
         cmd /c '.\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile'
-        cmd /c '.\ResourceHacker.exe -open .\love\Techmino.exe -save .\love\Techmino.exe -action addoverwrite -res ".\.github\build\Windows\icon_snapshot.ico" -mask ICONGROUP,1,'
+        cmd /c '.\ResourceHacker.exe -open .\love\Techmino.exe -save .\love\Techmino.exe -action addoverwrite -res "${{ inputs.icon }}" -mask ICONGROUP,1,'
         cmd /c '.\ResourceHacker.exe -open .\love\Techmino.exe -save .\love\Techmino.exe -action addoverwrite -res ".\Techmino.res" -mask VERSIONINFO,1,'

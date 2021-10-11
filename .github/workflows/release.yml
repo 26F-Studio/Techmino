@@ -54,6 +54,7 @@ jobs:
         love-dir: love-11.3-win64
         cc-url: ${{ needs.get-cc-url.outputs.url }}/win64.zip
         version: ${{ needs.get-version.outputs.release }}
+        icon: .\.github\build\Windows\icon.ico
     - name: Pack Techmino
       run: 7z a -tzip .\Techmino.a${{ needs.get-version.outputs.release }}.Win64.zip .\love
     - name: Release
@@ -76,6 +77,7 @@ jobs:
         love-dir: love-11.3-win32
         cc-url: ${{ needs.get-cc-url.outputs.url }}/win32.zip
         version: ${{ needs.get-version.outputs.release }}
+        icon: .\.github\build\Windows\icon.ico
     - name: Pack Techmino
       run: 7z a -tzip .\Techmino.a${{ needs.get-version.outputs.release }}.Win32.zip .\love
     - name: Release
@@ -96,6 +98,7 @@ jobs:
       with:
         cc-url: ${{ needs.get-cc-url.outputs.url }}/linux.zip
         file-path: Techmino.a${{ needs.get-version.outputs.release }}.AppImage
+        icon: .github/build/Linux/icon.png
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
