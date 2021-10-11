@@ -93,7 +93,7 @@ jobs:
         ALIAS: ${{ secrets.ALIAS }}
         KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
     - name: rename apk
-      run: mv ./app/build/outputs/apk/release/app-release.apk ./app/build/outputs/apk/release/Techmino_Snapshot.apk
+      run: mv ./love-android/app/build/outputs/apk/release/app-release.apk ./love-android/app/build/outputs/apk/release/Techmino_Snapshot.apk
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
