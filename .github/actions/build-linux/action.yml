@@ -3,7 +3,7 @@ description: 'build Linux package'
 inputs:
   cc-url:
     required: true
-  filename:
+  file-path:
     required: false
     default: Techmino.AppImage
 runs:
@@ -37,4 +37,4 @@ runs:
         mv ./CCloader.so ./squashfs-root/usr/share/Techmino
         mv ./libcold_clear.so ./squashfs-root/usr/lib
         chmod 777 ./appimagetool-x86_64.AppImage
-        ./appimagetool-x86_64.AppImage ./squashfs-root ${{ inputs.filename }}
+        ./appimagetool-x86_64.AppImage ./squashfs-root ${{ inputs.file-path }}

@@ -88,7 +88,7 @@ jobs:
         cc-url: ${{ needs.get-cc-url.outputs.url }}
         code: ${{ needs.get-version.outputs.code }}
         name: ${{ needs.get-version.outputs.name }}
-        apk-path: Techmino_Snapshot.apk
+        file-path: Techmino_Snapshot.apk
         SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
         ALIAS: ${{ secrets.ALIAS }}
@@ -114,11 +114,8 @@ jobs:
         icon: ./.github/build/macOS/icon_snapshot.icns
         MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
         MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
-    - name: Pack Techmino
-      run: |
-        zip -r -y Techmino.zip Techmino.app
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
         name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-version.outputs.commit }}_macOS
-        path: Techmino.zip
+        path: Techmino.app

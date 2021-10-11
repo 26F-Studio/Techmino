@@ -95,7 +95,7 @@ jobs:
     - uses: ./.github/actions/build-linux
       with:
         cc-url: ${{ needs.get-cc-url.outputs.url }}/linux.zip
-        filename: Techmino.a${{ needs.get-version.outputs.release }}.AppImage
+        file-path: Techmino.a${{ needs.get-version.outputs.release }}.AppImage
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
@@ -116,7 +116,7 @@ jobs:
         cc-url: ${{ needs.get-cc-url.outputs.url }}
         code: ${{ needs.get-version.outputs.code }}
         name: ${{ needs.get-version.outputs.name }}
-        apk-path: Techmino.a${{ needs.get-version.outputs.Version }}.apk
+        file-path: Techmino.a${{ needs.get-version.outputs.Version }}.apk
         SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
         ALIAS: ${{ secrets.ALIAS }}
@@ -144,7 +144,7 @@ jobs:
         cc-url: ${{ needs.get-cc-url.outputs.url }}
         code: ${{ needs.get-version.outputs.code }}
         name: ${{ needs.get-version.outputs.name }}
-        apk-path: Techmino.a${{ needs.get-version.outputs.Version }}.mini.apk
+        file-path: Techmino.a${{ needs.get-version.outputs.Version }}.mini.apk
         SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
         ALIAS: ${{ secrets.ALIAS }}
@@ -189,7 +189,7 @@ jobs:
         python3 ./.github/workflows/updateVersion.py -T Version
     - uses: ./.github/actions/build-love
       with:
-        path: Techmino.a${{ needs.get-version.outputs.release }}.love
+        file-path: Techmino.a${{ needs.get-version.outputs.release }}.love
     - name: Release
       uses: softprops/action-gh-release@v1
       with:

@@ -9,7 +9,7 @@ inputs:
     required: true
   name:
     required: true
-  apk-path:
+  file-path:
     required: true
   SIGNING_KEY:
     required: true
@@ -44,7 +44,7 @@ runs:
         dir: ColdClear/armeabi-v7a
     - uses: ./.github/actions/build-love
       with:
-        path: love-android/app/src/main/assets/game.love
+        file-path: love-android/app/src/main/assets/game.love
     - name: Prepare Assets
       shell: bash
       run: |
@@ -68,4 +68,4 @@ runs:
         ./gradlew assembleRelease
     - name: rename apk
       shell: bash
-      run: mv ./love-android/app/build/outputs/apk/release/app-release.apk ${{ inputs.apk-path }}
+      run: mv ./love-android/app/build/outputs/apk/release/app-release.apk ${{ inputs.file-path }}
