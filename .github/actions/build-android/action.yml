@@ -9,6 +9,8 @@ inputs:
     required: true
   name:
     required: true
+  apk-path:
+    required: true
   SIGNING_KEY:
     required: true
   KEY_STORE_PASSWORD:
@@ -64,3 +66,5 @@ runs:
         chmod 777 ./love-android/gradlew
         cd ./love-android/
         ./gradlew assembleRelease
+    - name: rename apk
+      run: mv ./love-android/app/build/outputs/apk/release/app-release.apk ${{ inputs.apk-path }}

@@ -88,17 +88,16 @@ jobs:
         cc-url: ${{ needs.get-cc-url.outputs.url }}
         code: ${{ needs.get-version.outputs.code }}
         name: ${{ needs.get-version.outputs.name }}
+        apk-path: Techmino_Snapshot.apk
         SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
         ALIAS: ${{ secrets.ALIAS }}
         KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-    - name: rename apk
-      run: mv ./love-android/app/build/outputs/apk/release/app-release.apk ./love-android/app/build/outputs/apk/release/Techmino_Snapshot.apk
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
         name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-version.outputs.commit }}_Android
-        path: ./love-android/app/build/outputs/apk/release/Techmino_Snapshot.apk
+        path: ./Techmino_Snapshot.apk
 
   build-macOS:
     runs-on: macos-10.15
