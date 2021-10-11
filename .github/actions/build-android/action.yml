@@ -29,9 +29,7 @@ runs:
     - name: Clone love-android
       shell: bash
       run: |
-        git clone --recurse-submodules https://github.com/26F-Studio/love-android
-        cd ./love-android
-        git checkout --recurse-submodules CI
+        git clone --recurse-submodules https://github.com/26F-Studio/love-android -b CI --depth 1 --shallow-submodules
     - name: Download ColdClear arm64-v8a
       uses: ./.github/actions/get-unzip
       with:
