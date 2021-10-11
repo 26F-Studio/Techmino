@@ -67,4 +67,5 @@ runs:
         cd ./love-android/
         ./gradlew assembleRelease
     - name: rename apk
+      shell: bash
       run: mv ./love-android/app/build/outputs/apk/release/app-release.apk ${{ inputs.apk-path }}
