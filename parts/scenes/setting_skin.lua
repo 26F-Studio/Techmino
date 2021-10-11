@@ -62,6 +62,8 @@ local function _nextDir(i)
     if not GAME.playing then
         if minoRot0[5]>62 then
             loadGame('marathon_bfmax',true)
+        elseif minoRot0[6]>62 then
+            loadGame('techrash_n',true)
         elseif minoRot0[7]>62 then
             loadGame('techrash_u',true)
         end
