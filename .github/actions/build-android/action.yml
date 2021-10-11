@@ -30,37 +30,42 @@ runs:
       shell: bash
       run: |
         git clone --recurse-submodules https://github.com/26F-Studio/love-android -b CI --depth 1 --shallow-submodules
+    - uses: ./.github/actions/build-love
+      with:
+        file-path: love-android/app/src/main/assets/game.love
     - name: Download ColdClear arm64-v8a
       uses: ./.github/actions/get-unzip
       with:
         url: ${{ inputs.cc-url }}/android_aarch64.zip
         dir: ColdClear/arm64-v8a
+    - name: Process ColdClear arm64-v8a
+      shell: bash
+      run: |
+        mkdir -p love-android/app/libs/arm64-v8a
+        mv ColdClear/arm64-v8a/love-11.3-android/lib/arm64-v8a/libcold_clear.so love-android/app/libs/arm64-v8a
+        mkdir -p libAndroid/arm64-v8a
+        mv ColdClear/arm64-v8a/libs/arm64-v8a/libCCloader.so libAndroid/arm64-v8a
     - name: Download ColdClear armeabi-v7a
       uses: ./.github/actions/get-unzip
       with:
         url: ${{ inputs.cc-url }}/android_armv7.zip
         dir: ColdClear/armeabi-v7a
-    - uses: ./.github/actions/build-love
-      with:
-        file-path: love-android/app/src/main/assets/game.love
-    - name: Prepare Assets
+    - name: Process ColdClear armeabi-v7a
       shell: bash
       run: |
-        mkdir -p love-android/app/src/main/assets
-        mkdir -p love-android/app/libs/arm64-v8a
         mkdir -p love-android/app/libs/armeabi-v7a
-        mv ColdClear/arm64-v8a/love-11.3-android/lib/arm64-v8a/libcold_clear.so love-android/app/libs/arm64-v8a
         mv ColdClear/armeabi-v7a/love-11.3-android/lib/armeabi-v7a/libcold_clear.so love-android/app/libs/armeabi-v7a
-        mkdir -p libAndroid/arm64-v8a
         mkdir -p libAndroid/armeabi-v7a
-        mv ColdClear/arm64-v8a/libs/arm64-v8a/libCCloader.so libAndroid/arm64-v8a
         mv ColdClear/armeabi-v7a/libs/armeabi-v7a/libCCloader.so libAndroid/armeabi-v7a
+    - name: Pack ColdClear
+      shell: bash
+      run: |
         7z a -tzip love-android/app/src/main/assets/game.love libAndroid
-        echo "${{ inputs.SIGNING_KEY }}" | base64 -d > love-android/app/android.keystore
-        python3 .github/workflows/updateVersion.py -T Android${{ inputs.type }} -C ${{ inputs.code }} -N ${{ inputs.name }} -S ${{ inputs.KEY_STORE_PASSWORD }} -A ${{ inputs.ALIAS }} -K ${{ inputs.KEY_PASSWORD }}
     - name: Build Techmino
       shell: bash
       run: |
+        echo "${{ inputs.SIGNING_KEY }}" | base64 -d > love-android/app/android.keystore
+        python3 .github/workflows/updateVersion.py -T Android${{ inputs.type }} -C ${{ inputs.code }} -N ${{ inputs.name }} -S ${{ inputs.KEY_STORE_PASSWORD }} -A ${{ inputs.ALIAS }} -K ${{ inputs.KEY_PASSWORD }}
         chmod 777 love-android/gradlew
         cd love-android/
         ./gradlew assembleRelease
