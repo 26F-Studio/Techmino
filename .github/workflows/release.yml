@@ -23,10 +23,10 @@ jobs:
     - name: Get Version
       id: actual-get-version
       run: |
-        echo "::set-output name=name::$(lua ./.github/workflows/getVersion.lua -name)"
-        echo "::set-output name=code::$(lua ./.github/workflows/getVersion.lua -code)"
-        echo "::set-output name=release::$(lua ./.github/workflows/getVersion.lua -release)"
-        echo "::set-output name=updateTitle::$(lua ./.github/workflows/getVersion.lua -updateTitle)"
+        echo "::set-output name=name::$(lua .github/workflows/getVersion.lua -name)"
+        echo "::set-output name=code::$(lua .github/workflows/getVersion.lua -code)"
+        echo "::set-output name=release::$(lua .github/workflows/getVersion.lua -release)"
+        echo "::set-output name=updateTitle::$(lua .github/workflows/getVersion.lua -updateTitle)"
         echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
 
   get-cc-url:
@@ -38,7 +38,7 @@ jobs:
     - name: Get URL
       id: get-url
       run: |
-        echo "::set-output name=url::https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$(python ./.github/workflows/getLatest.py)"
+        echo "::set-output name=url::https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$(python .github/workflows/getLatest.py)"
 
   build-windows-x64:
     runs-on: windows-latest
@@ -91,7 +91,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T Version
+        python3 .github/workflows/updateVersion.py -T Version
     - uses: ./.github/actions/build-linux
       with:
         cc-url: ${{ needs.get-cc-url.outputs.url }}/linux.zip
@@ -109,7 +109,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T Version
+        python3 .github/workflows/updateVersion.py -T Version
     - uses: ./.github/actions/build-android
       with:
         type: Release
@@ -125,7 +125,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         name: ${{ needs.get-version.outputs.updateTitle }}
-        files: ./Techmino.a${{ needs.get-version.outputs.Version }}.apk
+        files: Techmino.a${{ needs.get-version.outputs.Version }}.apk
 
   build-android-mini:
     runs-on: ubuntu-20.04
@@ -134,10 +134,10 @@ jobs:
     - uses: actions/checkout@v2
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T Version
+        python3 .github/workflows/updateVersion.py -T Version
     - name: remove media
       run: |
-        rm -rf ./media/music ./media/effect ./media/vocal
+        rm -rf media/music media/effect media/vocal
     - uses: ./.github/actions/build-android
       with:
         type: Release
@@ -153,7 +153,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         name: ${{ needs.get-version.outputs.updateTitle }}
-        files: ./Techmino.a${{ needs.get-version.outputs.Version }}.mini.apk
+        files: Techmino.a${{ needs.get-version.outputs.Version }}.mini.apk
 
   build-macOS:
     runs-on: macos-10.15
@@ -162,12 +162,12 @@ jobs:
     - uses: actions/checkout@v2
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T Version
+        python3 .github/workflows/updateVersion.py -T Version
     - uses: ./.github/actions/build-macos
       with:
         cc-url: ${{ needs.get-cc-url.outputs.url }}/macOS.zip
         name: ${{ needs.get-version.outputs.name }}
-        icon: ./.github/build/macOS/icon.icns
+        icon: .github/build/macOS/icon.icns
         MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
         MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
     - name: Pack Techmino
@@ -186,7 +186,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T Version
+        python3 .github/workflows/updateVersion.py -T Version
     - uses: ./.github/actions/build-love
       with:
         file-path: Techmino.a${{ needs.get-version.outputs.release }}.love
@@ -208,9 +208,9 @@ jobs:
         sudo apt-get install lua5.3 -y
     - name: Get ReleaseNote
       run: |
-        lua ./.github/workflows/getVersion.lua -updateNote > updateNote.txt
+        lua .github/workflows/getVersion.lua -updateNote > updateNote.txt
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
         name: ${{ needs.get-version.outputs.updateTitle }}
-        body_path: ./updateNote.txt
+        body_path: updateNote.txt

@@ -8,5 +8,5 @@ runs:
   steps:
     - shell: bash
       run: |
-        python3 ./.github/workflows/updateVersion.py -T Conf
-        python3 ./.github/workflows/updateVersion.py -T Version -H ${{ inputs.commit }}
+        python3 .github/workflows/updateVersion.py -T Conf
+        python3 .github/workflows/updateVersion.py -T Version -H ${{ inputs.commit }}

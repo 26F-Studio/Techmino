@@ -22,8 +22,8 @@ jobs:
     - name: Get Version
       id: actual-get-version
       run: |
-        echo "::set-output name=name::$(lua ./.github/workflows/getVersion.lua -name)"
-        echo "::set-output name=code::$(lua ./.github/workflows/getVersion.lua -code)"
+        echo "::set-output name=name::$(lua .github/workflows/getVersion.lua -name)"
+        echo "::set-output name=code::$(lua .github/workflows/getVersion.lua -code)"
         echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
 
   get-cc-url:
@@ -35,7 +35,7 @@ jobs:
     - name: Get URL
       id: get-url
       run: |
-        echo "::set-output name=url::https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$(python ./.github/workflows/getLatest.py -P)"
+        echo "::set-output name=url::https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$(python .github/workflows/getLatest.py -P)"
 
   build-windows:
     runs-on: windows-latest
@@ -97,7 +97,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-version.outputs.commit }}_Android
-        path: ./Techmino_Snapshot.apk
+        path: Techmino_Snapshot.apk
 
   build-macOS:
     runs-on: macos-10.15
@@ -111,7 +111,7 @@ jobs:
       with:
         cc-url: ${{ needs.get-cc-url.outputs.url }}/macOS.zip
         name: ${{ needs.get-version.outputs.name }}
-        icon: ./.github/build/macOS/icon_snapshot.icns
+        icon: .github/build/macOS/icon_snapshot.icns
         MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
         MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
     - name: Upload
