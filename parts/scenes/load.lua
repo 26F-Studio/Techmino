@@ -88,31 +88,6 @@ local loadingThread=coroutine.wrap(function()
         M.records=FILE.load("record/"..M.name..".rec")or M.score and{}
         M.icon=M.icon and(modeIcons[M.icon]or gc.newImage("media/image/modeicon/"..M.icon..".png"))
     end
-    if not MODES[STAT.lastPlay]then
-        STAT.lastPlay='sprint_10l'
-    end
-    local editFlag
-    for name,rank in next,RANKS do
-        local M=MODES[name]
-        if type(rank)~='number'then
-            RANKS[name]=nil
-            editFlag=true
-        elseif M and M.unlock and rank>0 then
-            for _,unlockName in next,M.unlock do
-                if not RANKS[unlockName]then
-                    RANKS[unlockName]=0
-                    editFlag=true
-                end
-            end
-        end
-        if not(M and M.x)then
-            RANKS[name]=nil
-            editFlag=true
-        end
-    end
-    if editFlag then
-        saveProgress()
-    end
 
     YIELD('loadOther')
     STAT.run=STAT.run+1

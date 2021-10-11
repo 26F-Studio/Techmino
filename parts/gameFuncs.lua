@@ -312,6 +312,10 @@ end
 function loadGame(mode,ifQuickPlay,ifNet)--Load a mode and go to game scene
     freshDate()
     if legalGameTime()then
+        if not MODES[mode]and love.filesystem.getRealDirectory('parts/modes/'..mode)~=SAVEDIR then
+            MODES[mode]=require('parts.modes.'..mode)
+            MODES[mode].name=mode
+        end
         if MODES[mode].score then
             STAT.lastPlay=mode
         end

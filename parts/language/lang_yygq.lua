@@ -270,17 +270,6 @@ return{
         ['infinite']=       {"无尽",         "",         "真的有人会玩这个?"},
         ['infinite_dig']=   {"无尽:挖掘",      "",        "闲得慌就来挖"},
 
-        ['sprintFix']=      {"竞速",         "无移动"},
-        ['sprintLock']=     {"竞速",         "无旋转"},
-        ['sprintSmooth']=   {"竞速",         "无摩擦"},
-        ['marathon_bfmax']= {"马拉松",        "极限"},
-        ['sprintMD']=       {"竞速",         "MD"},
-        ['sprintSym']=      {"竞速",         "对称"},
-        ['techrash_u']=     {"消四",         "极限"},
-
-        ['master_l']=       {"大师",         "疯狂"},
-        ['master_u']=       {"大师",         "极限"},
-
         ['custom_clear']=   {"自定义",       "普通"},
         ['custom_puzzle']=  {"自定义",       "拼图"},
     },

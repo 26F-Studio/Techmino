@@ -775,17 +775,6 @@ return{
         ['infinite']=      {'infinite',           "",          "Just a sandbox"},
         ['infinite_dig']=  {"Infinite: Dig",      "",          "Dig-diggin'-dug"},
 
-        ['sprintFix']=     {"Sprint",            "NO LEFT/RIGHT"},
-        ['sprintLock']=    {"Sprint",            "NO ROTATIONS"},
-        ['sprintSmooth']=  {"Sprint",            "NO FRICTION"},
-        ['marathon_bfmax']={"Marathon",          "ULTIMATE"},
-        ['sprintMD']=      {"Sprint",            "MISDROP"},
-        ['sprintSym']=     {"Sprint",            "SYMMETRY"},
-        ['techrash_u']=    {"Techrash",          "ULTIMATE"},
-
-        ['master_l']=      {"Master",            "LUNATIC"},
-        ['master_u']=      {"Master",            "ULTIMATE"},
-
         ['custom_clear']=  {"Custom",            "NORMAL"},
         ['custom_puzzle']= {"Custom",            "PUZZLE"},
     },

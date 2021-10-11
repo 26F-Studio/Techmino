@@ -304,9 +304,10 @@ end
 --Load mode files
 for i=1,#MODES do
     local m=MODES[i]--Mode template
-    local M=require('parts.modes.'..m.name)--Mode file
-    for k,v in next,m do M[k]=v end
-    MODES[m.name],MODES[i]=M
+    if fs.getRealDirectory('parts/modes/'..m.name)~=SAVEDIR then
+        TABLE.complete(require('parts.modes.'..m.name),MODES[i])
+        MODES[m.name],MODES[i]=MODES[i]
+    end
 end
 
 --Update data
@@ -388,12 +389,31 @@ do
     if RANKS.master_l then RANKS.master_n,RANKS.master_l=RANKS.master_l needSave=true end
     if RANKS.master_u then RANKS.master_h,RANKS.master_u=RANKS.master_u needSave=true end
     for _,v in next,VK_org do v.color=nil end
-    for k in next,RANKS do
-        if type(k)=='number'then
-            RANKS[k]=nil
+    for name,rank in next,RANKS do
+        if type(name)=='number'or type(rank)~='number'then
+            RANKS[name]=nil
             needSave=true
+        else
+            local M=MODES[name]
+            if M and M.unlock and rank>0 then
+                for _,unlockName in next,M.unlock do
+                    if not RANKS[unlockName]then
+                        RANKS[unlockName]=0
+                        needSave=true
+                    end
+                end
+            end
+            if not(M and M.x)then
+                RANKS[name]=nil
+                needSave=true
+            end
         end
     end
+    if not MODES[STAT.lastPlay]then
+        STAT.lastPlay='sprint_10l'
+        needSave=true
+    end
+
     for k,v in next,oldModeNameTable do
         if RANKS[k]then
             RANKS[v]=RANKS[k]

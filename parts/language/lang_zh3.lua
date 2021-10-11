@@ -777,17 +777,6 @@ return{
         ['infinite']=      {"无限",             "",           "这只是一个沙箱"},
         ['infinite_dig']=  {"无限:挖掘",         "",           "挖,挖,挖"},
 
-        ['sprintFix']=     {"冲刺",            "没有左/右"},
-        ['sprintLock']=    {"冲刺",            "不轮换"},
-        ['sprintSmooth']=  {"冲刺",            "无摩擦"},
-        ['marathon_bfmax']={"马拉松赛跑",        "终极"} ,
-        ['sprintMD']=      {"竞速",            "误滴"},
-        ['sprintSym']=     {"竞速",            "对称性"},
-        ['techrash_u']=    {"消四",            "极限"},
-
-        ['master_l']=      {"主人",            "疯子"},
-        ['master_u']=      {"主人",            "终极"} ,
-
         ['custom_clear']=  {"习俗",            "正常"} ,
         ['custom_puzzle']= {"习俗",            "令人费解的"},
     },

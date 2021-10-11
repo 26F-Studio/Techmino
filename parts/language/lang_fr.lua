@@ -730,17 +730,6 @@ return{
         ['infinite']=      {"Infini",        "",             "Mode tranquile."},
         ['infinite_dig']=  {"Infini : Dig",  "",             "Creuser, creuser, creuser."},
 
-        ['sprintFix']=     {"Sprint",        "Sans gauche/droite"},
-        ['sprintLock']=    {"Sprint",        "Sans rotation"},
-        -- ['sprintSmooth']=  {"Sprint",        "NO FRICTION"},
-        ['marathon_bfmax']={"Marathon",      "ULTIME"},
-        -- ['sprintMD']=      {"Sprint",        "MISDROP"},
-        -- ['sprintSym']=     {"Sprint",        "SYMMETRY"},
-        -- ['techrash_u']=    {"Techrash",        "ULTIMATE"},
-
-        ['master_l']=      {"Master",        "LUNATIQUE"},
-        ['master_u']=      {"Master",        "ULTIME"},
-
         ['custom_clear']=  {"Perso.",        "NORMAL"},
         ['custom_puzzle']= {"Perso.",        "PUZZLE"},
     },

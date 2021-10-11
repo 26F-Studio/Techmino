@@ -118,15 +118,6 @@ return{
     {name='infinite',      x=-1000,     y=-400,     size=40,shape=1,icon='infinite'},
     {name='infinite_dig',  x=-800,      y=-400,     size=40,shape=1,icon="dig"},
 
-    --Secret
-    {name='sprintFix'},
-    {name='sprintLock'},
-    {name='sprintSmooth'},
-    {name='marathon_bfmax'},
-    {name='sprintMD'},
-    {name='sprintSym'},
-    {name='techrash_u'},
-
     --Special
     {name='custom_puzzle'},
     {name='custom_clear'},
