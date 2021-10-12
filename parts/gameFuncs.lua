@@ -254,7 +254,7 @@ function scoreValid()--Check if any unranked mods are activated
             return false
         end
     end
-    if GAME.tasUsed then
+    if GAME.playing and GAME.tasUsed then
         return false
     end
     return true

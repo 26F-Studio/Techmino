@@ -2,6 +2,10 @@ local gc=love.graphics
 local kb=love.keyboard
 local ins,rem=table.insert,table.remove
 
+local scene={}
+
+local selected--Mod selected
+
 local function _modComp(a,b)
     return a.no<b.no
 end
@@ -35,14 +39,12 @@ local function _toggleMod(M,back)
         SFX.play('move')
         SFX.play('lock',.6)
     end
+    scene.widgetList.unranked.hide=scoreValid()
 end
-
-local scene={}
-
-local selected--Mod selected
 
 function scene.sceneInit()
     selected=false
+    scene.widgetList.unranked.hide=scoreValid()
     BG.set('tunnel')
 end
 
@@ -76,6 +78,7 @@ function scene.keyDown(key)
             while GAME.mod[1]do
                 rem(GAME.mod).sel=0
             end
+            scene.widgetList.unranked.hide=scoreValid()
             SFX.play('hold')
         end
     elseif #key==1 then
@@ -153,7 +156,7 @@ end
 
 scene.widgetList={
     WIDGET.newText{name="title",   x=80,y=50,font=70,align='L'},
-    WIDGET.newText{name="unranked",x=1200,y=60,color='Y',font=50,align='R',hideF=function()return scoreValid()end},
+    WIDGET.newText{name="unranked",x=1200,y=60,color='Y',font=50,align='R'},
     WIDGET.newButton{name="reset", x=1140,y=540,w=170,h=80,font=25,code=pressKey"tab"},
     WIDGET.newButton{name="back",  x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
