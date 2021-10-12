@@ -69,6 +69,20 @@ function STRING.time(t)
     end
 end
 
+function STRING.hexToUTF8(str)--[LOW PERFORMENCE] hex unicode to UTF8
+    assert(type(str)=='string',"Wrong input: "..tostring(str))
+    local n=tonumber(str,16)
+    assert(n and n==int(n),"Wrong unicode str: "..str)
+    if n<2^7 then return char(n)
+    elseif n<2^11 then return char(128+64+int(n/2^6),128+n%2^6)
+    elseif n<2^16 then return char(128+64+32+int(n/2^12),128+int(n/2^6)%2^6,128+n%2^6)
+    elseif n<2^21 then return char(128+64+32+16+int(n/2^18),128+int(n/2^12)%2^6,128+int(n/2^6)%2^6,128+n%2^6)
+    elseif n<2^26 then return char(128+64+32+16+8+int(n/2^24),128+int(n/2^18)%2^6,128+int(n/2^12)%2^6,128+int(n/2^6)%2^6,128+n%2^6)
+    elseif n<2^31 then return char(128+64+32+16+8+4+int(n/2^30),128+int(n/2^24)%2^6,128+int(n/2^18)%2^6,128+int(n/2^12)%2^6,128+int(n/2^6)%2^6,128+n%2^6)
+    else error("Wrong unicode str: "..str)
+    end
+end
+
 do--function STRING.bigInt(t)
     local lg=math.log10
     local units={"","K","M","B","T","Qa","Qt","Sx","Sp","Oc","No"}
