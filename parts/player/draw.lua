@@ -459,12 +459,11 @@ local function _drawNext(P,repMode)
             if repMode then
                 gc_translate(50,-28)
                 local blockImg=TEXTURE.miniBlock
-                local skinSet=ENV.skin
                 local n=N
                 while n<=12 and queue[n]do
                     local id=queue[n].id
-                    local _=minoColor[skinSet[id]]
-                    gc_setColor(_[1],_[2],_[3],.2)
+                    local _=minoColor[queue[n].color]
+                    gc_setColor(_[1],_[2],_[3],.26)
                     _=blockImg[id]
                     gc_draw(_,-_:getWidth()*10,0,nil,10,nil)
                     gc_translate(0,10*_:getHeight()+3)
