@@ -121,6 +121,25 @@ end
 Z.setIfPowerInfo(function()
     return SETTING.powerInfo and LOADED
 end)
+Z.setOnFnKeys({
+    function()MES.new('check',PROFILE.switch()and"profile start!"or"profile report copied!")end,
+    function()MES.new('info',("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s"):format(SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))end,
+    function()MES.new('error',"挂了")end,
+    function()
+        if GAME.playing and not GAME.net then
+            for _=1,8 do
+                local P=PLY_ALIVE[math.random(#PLY_ALIVE)]
+                if P and P~=PLAYERS[1]then
+                    P.lastRecv=PLAYERS[1]
+                    P:lose()
+                end
+            end
+        end
+    end,
+    function()print(WIDGET.getSelected()or"no widget selected")end,
+    function()for k,v in next,_G do print(k,v)end end,
+    function()if love["_openConsole"]then love["_openConsole"]()end end,
+})
 Z.setOnQuit(destroyPlayers)
 
 --Load settings and statistics

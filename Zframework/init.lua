@@ -218,39 +218,20 @@ function love.touchreleased(id,x,y)
     end
 end
 
+local fnKey={NULL,NULL,NULL,NULL}
 local function noDevkeyPressed(key)
-    if key=="f1"then
-        MES.new('check',PROFILE.switch()and"profile start!"or"profile report copied!")
-    elseif key=="f2"then
-        MES.new('info',("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s"):format(SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))
-    elseif key=="f3"then
-        MES.new('error',"挂了")
-    elseif key=="f4"then
-        if GAME.playing and not GAME.net then
-            for _=1,8 do
-                local P=PLY_ALIVE[math.random(#PLY_ALIVE)]
-                if P and P~=PLAYERS[1]then
-                    P.lastRecv=PLAYERS[1]
-                    P:lose()
-                end
-            end
-        end
-    elseif key=="f5"then
-        print(WIDGET.getSelected()or"no widget selected")
-    elseif key=="f6"then
-        for k,v in next,_G do print(k,v)end
-    elseif key=="f7"and love["_openConsole"]then
-        love["_openConsole"]()
-    elseif key=="f8"then
-        devMode=nil MES.new('info',"DEBUG OFF",.2)
-    elseif key=="f9"then
-        devMode=1   MES.new('info',"DEBUG 1")
-    elseif key=="f10"then
-        devMode=2   MES.new('info',"DEBUG 2")
-    elseif key=="f11"then
-        devMode=3   MES.new('info',"DEBUG 3")
-    elseif key=="f12"then
-        devMode=4   MES.new('info',"DEBUG 4")
+    if key=="f1"then      fnKey[1]()
+    elseif key=="f2"then  fnKey[2]()
+    elseif key=="f3"then  fnKey[3]()
+    elseif key=="f4"then  fnKey[4]()
+    elseif key=="f5"then  fnKey[5]()
+    elseif key=="f6"then  fnKey[6]()
+    elseif key=="f7"then  fnKey[7]()
+    elseif key=="f8"then  devMode=nil MES.new('info',"DEBUG OFF",.2)
+    elseif key=="f9"then  devMode=1   MES.new('info',"DEBUG 1")
+    elseif key=="f10"then devMode=2   MES.new('info',"DEBUG 2")
+    elseif key=="f11"then devMode=3   MES.new('info',"DEBUG 3")
+    elseif key=="f12"then devMode=4   MES.new('info',"DEBUG 4")
     elseif devMode==2 then
         local W=WIDGET.sel
         if W then
@@ -756,6 +737,13 @@ function Z.setIfPowerInfo(func)showPowerInfo=func end
 
 --Warning: color and line width is uncertain value, set it in the function.
 function Z.setCursor(func)drawCursor=func end
+
+--Change F1~F7 events of devmode (F8 mode)
+function Z.setOnFnKeys(list)
+    for i=1,7 do
+        fnKey[i]=type(list[i])=='function'and list[i]or NULL
+    end
+end
 
 function Z.setOnQuit(func)onQuit=type(func)=='function'and func or NULL end
 return Z
