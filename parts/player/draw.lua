@@ -460,7 +460,7 @@ local function _drawNext(P,repMode)
                 gc_translate(50,-28)
                 local blockImg=TEXTURE.miniBlock
                 local n=N
-                while n<=12 and queue[n]do
+                while n<=10 and queue[n]do
                     local id=queue[n].id
                     local _=minoColor[queue[n].color]
                     gc_setColor(_[1],_[2],_[3],.26)
