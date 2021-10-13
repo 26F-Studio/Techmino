@@ -1,6 +1,6 @@
 local data=love.data
 local STRING={}
-local tostring=tostring
+local assert,tostring,tonumber=assert,tostring,tonumber
 local int,format=math.floor,string.format
 local find,sub,upper=string.find,string.sub,string.upper
 local char,byte=string.char,string.byte
@@ -69,17 +69,15 @@ function STRING.time(t)
     end
 end
 
-function STRING.hexToUTF8(str)--[LOW PERFORMENCE] hex unicode to UTF8
-    assert(type(str)=='string',"Wrong input: "..tostring(str))
-    local n=tonumber(str,16)
-    assert(n and n==int(n),"Wrong unicode str: "..str)
+function STRING.UTF8(n)--Simple utf8 coding
+    assert(type(n)=='number',"Wrong type ("..type(n)..")")
+    assert(n>=0 and n<2^31,"Out of range ("..n..")")
     if n<2^7 then return char(n)
-    elseif n<2^11 then return char(128+64+int(n/2^6),128+n%2^6)
-    elseif n<2^16 then return char(128+64+32+int(n/2^12),128+int(n/2^6)%2^6,128+n%2^6)
-    elseif n<2^21 then return char(128+64+32+16+int(n/2^18),128+int(n/2^12)%2^6,128+int(n/2^6)%2^6,128+n%2^6)
-    elseif n<2^26 then return char(128+64+32+16+8+int(n/2^24),128+int(n/2^18)%2^6,128+int(n/2^12)%2^6,128+int(n/2^6)%2^6,128+n%2^6)
-    elseif n<2^31 then return char(128+64+32+16+8+4+int(n/2^30),128+int(n/2^24)%2^6,128+int(n/2^18)%2^6,128+int(n/2^12)%2^6,128+int(n/2^6)%2^6,128+n%2^6)
-    else error("Wrong unicode str: "..str)
+    elseif n<2^11 then return char(192+int(n/2^06),128+n%2^6)
+    elseif n<2^16 then return char(224+int(n/2^12),128+int(n/2^06)%2^6,128+n%2^6)
+    elseif n<2^21 then return char(240+int(n/2^18),128+int(n/2^12)%2^6,128+int(n/2^06)%2^6,128+n%2^6)
+    elseif n<2^26 then return char(248+int(n/2^24),128+int(n/2^18)%2^6,128+int(n/2^12)%2^6,128+int(n/2^06)%2^6,128+n%2^6)
+    elseif n<2^31 then return char(252+int(n/2^30),128+int(n/2^24)%2^6,128+int(n/2^18)%2^6,128+int(n/2^12)%2^6,128+int(n/2^06)%2^6,128+n%2^6)
     end
 end
 
