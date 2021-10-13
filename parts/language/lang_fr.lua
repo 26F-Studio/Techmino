@@ -631,10 +631,6 @@ return{
             -- upload="Upload to cloud",
             -- download="Download from cloud",
         },
-        error={
-            console="Console",
-            quit="Quit",
-        },
     },
     modes={
         ['sprint_10l']=    {"Sprint",          "10L",         "Nettoyez 10 lignes !"},

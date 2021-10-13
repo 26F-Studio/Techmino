@@ -114,8 +114,8 @@ scene.widgetList={
             selected=false
         end},
     WIDGET.newSelector{name="snap", x=750,y=90,w=200,h=80,color='Y',list={1,10,20,40,60,80},disp=function()return snapUnit end,code=function(i)snapUnit=i end},
-    WIDGET.newButton{name="option", x=530,y=190,w=200,h=80,fText=TEXTURE.more,code=function()SCN.go('setting_touchSwitch')end},
-    WIDGET.newButton{name="back",   x=750,y=190,w=200,h=80,fText=TEXTURE.back,code=backScene},
+    WIDGET.newButton{name="option", x=530,y=190,w=200,h=80,font=60,fText=CHAR.icon.menu,code=function()SCN.go('setting_touchSwitch')end},
+    WIDGET.newButton{name="back",   x=750,y=190,w=200,h=80,font=60,fText=CHAR.icon.back,code=backScene},
     WIDGET.newKey{name="save1",     x=475,y=290,w=90,h=70,code=_save1},
     WIDGET.newKey{name="load1",     x=585,y=290,w=90,h=70,code=_load1},
     WIDGET.newKey{name="save2",     x=695,y=290,w=90,h=70,code=_save2},

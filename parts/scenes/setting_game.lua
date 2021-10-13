@@ -58,7 +58,7 @@ scene.widgetList={
                 end
             end
         end},
-    WIDGET.newButton{name="back",      x=1140, y=640, w=170,h=80,fText=TEXTURE.back,code=backScene},
+    WIDGET.newButton{name="back",      x=1140, y=640, w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

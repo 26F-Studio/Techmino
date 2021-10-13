@@ -55,7 +55,7 @@ scene.widgetList={
     WIDGET.newSlider{name="tchW",  x=140,  y=860, w=1000,               font=35,disp=SETval('VKTchW'),code=function(i)SETTING.VKTchW=i SETTING.VKCurW=math.max(SETTING.VKCurW,i)end,hideF=_notTrack},
     WIDGET.newSlider{name="curW",  x=140,  y=930, w=1000,               font=35,disp=SETval('VKCurW'),code=function(i)SETTING.VKCurW=i SETTING.VKTchW=math.min(SETTING.VKTchW,i)end,hideF=_notTrack},
 
-    WIDGET.newButton{name="back",  x=1140, y=640, w=170,h=80,fText=TEXTURE.back,code=backScene},
+    WIDGET.newButton{name="back",  x=1140, y=640, w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

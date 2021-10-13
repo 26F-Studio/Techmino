@@ -36,7 +36,7 @@ scene.widgetList={
     passwordBox,
     WIDGET.newSwitch{name="keepPW",  x=900, y=420,disp=function()return savePW end,code=function()savePW=not savePW end},
     WIDGET.newKey{name="login",      x=1140,y=540,w=170,h=80,font=40,code=_login},
-    WIDGET.newButton{name="back",    x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
+    WIDGET.newButton{name="back",    x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

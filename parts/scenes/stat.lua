@@ -127,7 +127,7 @@ scene.widgetList={
         end
     },
     WIDGET.newButton{name="save",x=820,y=640,w=250,h=80,font=25,code=goScene'savedata'},
-    WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
+    WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

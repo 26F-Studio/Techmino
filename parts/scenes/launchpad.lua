@@ -223,7 +223,7 @@ scene.widgetList={
     WIDGET.newSlider{name="voc",  x=1000,y=220,lim=130,w=250,disp=SETval('voc'),code=SETsto('voc'),change=function()VOC.play('test')end},
     WIDGET.newSwitch{name="label",x=1200,y=290,lim=160,disp=function()return showLabel end,code=pressKey"space",},
     WIDGET.newButton{name="music",x=1140,y=540,w=170,h=80,font=40,code=pressKey"tab"},
-    WIDGET.newButton{name="back", x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
+    WIDGET.newButton{name="back", x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

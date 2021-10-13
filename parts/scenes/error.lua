@@ -39,8 +39,8 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newKey{name="console",x=940,y=640,w=170,h=80,font=35,code=goScene'app_console'},
-    WIDGET.newKey{name="quit",x=1140,y=640,w=170,h=80,font=35,code=backScene},
+    WIDGET.newKey{name="console",x=940,y=640,w=170,h=80,font=65,fText=CHAR.icon.console,code=goScene'app_console'},
+    WIDGET.newKey{name="quit",x=1140,y=640,w=170,h=80,font=40,fText=CHAR.icon.thick_cross,code=backScene},
 }
 
 return scene

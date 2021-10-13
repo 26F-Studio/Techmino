@@ -628,10 +628,6 @@ return{
             upload="Subir a la nube",
             download="Descargar de la nube",
         },
-        error={
-            console="Consola",
-            quit="Salir",
-        },
     },
     modes={
         ['sprint_10l']=     {"Sprint",                  "10L",           "¡Limpia 10 líneas!"},

@@ -306,7 +306,7 @@ scene.widgetList={
     WIDGET.newSwitch{name="next", x=240,y=235,lim=200,font=40,disp=function()return nexts end,code=pressKey"q",hideF=function()return state==1 end},
     WIDGET.newSwitch{name="invis",x=240,y=305,lim=200,font=40,disp=function()return invis end,code=pressKey"w",hideF=function()return state==1 end},
     WIDGET.newSwitch{name="fast", x=240,y=375,lim=200,font=30,disp=function()return fast end,code=pressKey"e",hideF=function()return state==1 end},
-    WIDGET.newButton{name="back", x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
+    WIDGET.newButton{name="back", x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

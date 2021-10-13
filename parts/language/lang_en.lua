@@ -539,12 +539,7 @@ return{
         custom_sequence={
             title="Custom Game",
             subTitle="Sequence",
-
             sequence="Sequence",
-
-            Z="Z",S="S",J="J",L="L",T="T",O="O",I="I",left="←",right="→",ten="→→",backsp="<X",reset="Reset",
-            Z5="Z5",S5="S5",P="P",Q="Q",F="F",E="E",T5="T5",U="U",I3="I3",C="C",rnd="Rand",
-            V="V",W="W",X="X",J5="J5",L5="L5",R="R",Y="Y",N="N",H="H",I5="I5",I2="I2",O1="O1",
             copy="Copy",paste="Paste",
         },
         custom_mission={
@@ -558,10 +553,6 @@ return{
             Z2="Z2",S2="S2",J2="J2",L2="L2",T2="T2",O2="O2",I2="I2",
             Z3="Z3",S3="S3",J3="J3",L3="L3",T3="T3",O3="O3",I3="I3",
             O4="O4",I4="I4",
-            left="←",right="→",
-            ten="→→",
-            backsp="<X",
-            reset="R",
             copy="Copy",
             paste="Paste",
             mission="Force Mission",
@@ -675,10 +666,6 @@ return{
             notLogin="[Login to access cloud save]",
             upload="Upload to Cloud",
             download="Download from Cloud",
-        },
-        error={
-            console="Console",
-            quit="Quit",
         },
     },
     modes={

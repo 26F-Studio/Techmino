@@ -541,12 +541,7 @@ return{
         custom_sequence={
             title="定制游戏",
             subTitle="序列",
-
             sequence="序列",
-
-            Z="Z",S="s",J="J",L="L",T="T",O="O",I="我",left="←",right="→",ten="→→",backsp="<X",reset="重置",
-            Z5="Z5",S5="S5",P="P",Q="Q",F="F",E="E",T5="T5",U="U",I3="I3",C="C",rnd="兰德",
-            V="v",W="W",X="X",J5="J5",L5="L5",R="R",Y="Y",N="N",H="H",I5="I5",I2="I2",O1="O1",
             copy="复制",paste="粘贴",
         },
         custom_mission={
@@ -560,10 +555,6 @@ return{
             Z2="Z2",S2="S2",J2="J2",L2="L2",T2="T2",O2="氧气",I2="I2",
             Z3="Z3",S3="S3",J3="J3",L3="L3",T3="T3",O3="臭氧",I3="I3",
             O4="O4",I4="I4",
-            left="←",right="→",
-            ten="→→",
-            backsp="<X",
-            reset="R",
             copy="复制",
             paste="粘贴",
             mission="使命",
@@ -677,10 +668,6 @@ return{
             notLogin="[登录访问云保存]",
             upload="上传到云",
             download="从云端下载",
-        },
-        error={
-            console="安慰",
-            quit="辞职",
         },
     },
     modes={

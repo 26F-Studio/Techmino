@@ -163,97 +163,6 @@ TEXTURE.sure=GC.DO{48,64,
     {'fRect',18,53,11,11},
 }
 
-TEXTURE.setting=GC.DO{64,64,
-    {'setLW',8},
-    {'dCirc',32,32,18},
-    {'setLW',10},
-    {'line',52,32,64,32},
-    {'line',32,52,32,64},
-    {'line',12,32,0,32},
-    {'line',32,12,32,0},
-    {'line',45,45,55,55},
-    {'line',19,45,9,55},
-    {'line',19,19,9,9},
-    {'line',45,19,55,9},
-}
-
-TEXTURE.music=GC.DO{64,64,
-    {'setLW',6},
-    {'line',19,9,60,7},
-    {'setLW',2},
-    {'line',20,9,20,49},
-    {'line',59,7,59,47},
-    {'fElps',11,49,11,8},
-    {'fElps',50,47,11,8},
-}
-
-TEXTURE.mute=GC.DO{64,64,
-    {'mDraw',TEXTURE.music,32,32,0,.9},
-    {'setLW',4},
-    {'line',6,6,57,57},
-}
-
-TEXTURE.language=GC.DO{64,64,
-    {'setLW',2},
-    {'dCirc',32,32,30},
-    {'line',2,31,62,31},
-    {'line',31,2,31,62},
-    {'dArc',10,31,40,-.8,.8},
-    {'dArc',53,31,40,2.3,3.9},
-}
-
-TEXTURE.info=GC.DO{50,50,
-    {'setLW',3},
-    {'dCirc',25,25,22},
-    {'fRect',22,11,6,6},
-    {'fRect',22,20,6,20},
-}
-
-TEXTURE.question=GC.DO{50,50,
-    {'setLW',3},
-    {'dCirc',25,25,22},
-    {'setFT',40},
-    {'mText','?',26,-1},
-}
-
-TEXTURE.more=GC.DO{60,15,
-    {'fCirc',10,7,6},
-    {'fCirc',30,7,6},
-    {'fCirc',50,7,6},
-}
-
-TEXTURE.back=GC.DO{60,55,
-    {'setLW',6},
-    {'line',11,10,40,10},
-    {'line',10,40,40,40},
-    {'dArc',40,25,15,-1.6,1.6},
-    {'setLW',4},
-    {'line',20,50,10,40,20,30},
-}
-
-TEXTURE.quit=GC.DO{50,50,
-    {'setCL',1,1,1},
-    {'draw',GC.DO{50,50,
-        {'setLW',7},
-        {'line',5,5,45,45},
-        {'line',5,45,45,5},
-    }}
-}
-
-TEXTURE.quit_small=GC.DO{30,30,
-    {'setCL',1,1,1},
-    {'draw',GC.DO{30,30,
-        {'setLW',4},
-        {'line',2,2,28,28},
-        {'line',2,28,28,2},
-    }}
-}
-
-TEXTURE.game={--In-game icons
-    restart=GC.DO{32,32,{'setLW',3},{'dArc',16,16,11,.7,5.5},{'setLW',2.5},{'line',21,.7,24,8,16,11}},
-    pause=GC.DO{18,23,{'fRect',0,0,3,23},{'fRect',15,0,3,23}},
-}
-
 TEXTURE.rep={--Replay speed buttons
     rep0=GC.DO{50,50,{'fRect',11,8,8,34},{'fRect',31,8,8,34}},
     repP8=GC.DO{50,50,{'setFT',15},{'mText',"0.125x",25,15}},
@@ -265,4 +174,5 @@ TEXTURE.rep={--Replay speed buttons
 }
 
 gc.setCanvas()
+setmetatable(TEXTURE,{__index=function(_,i)error(i)end})
 return TEXTURE

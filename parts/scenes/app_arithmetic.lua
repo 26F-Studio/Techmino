@@ -215,7 +215,7 @@ scene.widgetList={
     WIDGET.newKey{name="7",x=540,y=320,w=90,font=60,fText="7",code=pressKey"7"},
     WIDGET.newKey{name="8",x=640,y=320,w=90,font=60,fText="8",code=pressKey"8"},
     WIDGET.newKey{name="9",x=740,y=320,w=90,font=60,fText="9",code=pressKey"9"},
-    WIDGET.newButton{name="back",x=1200,y=660,w=110,h=60,fText=TEXTURE.back,code=pressKey"escape"},
+    WIDGET.newButton{name="back",x=1200,y=660,w=110,h=60,font=60,fText=CHAR.icon.back,code=pressKey"escape"},
 }
 
 return scene
