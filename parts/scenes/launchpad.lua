@@ -194,22 +194,23 @@ function scene.draw()
         end
     end
     setFont(10)
+    gc_setColor(white)
     for y=1,8 do for x=1,8 do
-        gc_setColor(white)
         gc_rectangle('line',x*80+2,(y-1)*80+2,76,76,5)
         local k=pad[pad.page][y][x]
         if showLabel then
-            if k.sfx then mStr(k.sfx,x*80+40,y*80-30)gc_circle('line',x*80+40,(y-1)*80+40,6)end
+            if k.sfx then mStr(k.sfx,x*80+40,y*80-30)gc_circle('fill',x*80+40,(y-1)*80+40,6)end
             if k.voc then mStr(k.voc,x*80+40,y*80-17)gc_rectangle('line',x*80+30,(y-1)*80+30,20,20,1)end
-            if k.bgm then mStr(k.bgm,x*80+40,y*80-76)gc_rectangle('line',x*80+20,(y-1)*80+20,40,40,2)end
+            if k.bgm then mStr(k.bgm,x*80+40,y*80-76)gc_rectangle('fill',x*80+20,(y-1)*80+15,50,5,2)end
         else
-            if k.sfx then gc_circle('line',x*80+40,(y-1)*80+40,6)end
+            if k.sfx then gc_circle('fill',x*80+40,(y-1)*80+40,6)end
             if k.voc then gc_rectangle('line',x*80+30,(y-1)*80+30,20,20,1)end
-            if k.bgm then gc_rectangle('line',x*80+20,(y-1)*80+20,40,40,2)end
+            if k.bgm then gc_rectangle('fill',x*80+20,(y-1)*80+15,50,5,2)end
         end
         if pad.alpha[y][x]>0 then
             gc_setColor(1,1,1,pad.alpha[y][x]*.7)
             gc_rectangle('fill',x*80+2,(y-1)*80+2,76,76,5)
+            gc_setColor(white)
         end
     end end
     gc_pop()
