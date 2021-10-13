@@ -76,6 +76,7 @@ end
 
 require'parts.gameTables'
 require'parts.gameFuncs'
+CHAR=require'parts.char'
 
 FREEROW=    require'parts.freeRow'
 DATA=       require'parts.data'
