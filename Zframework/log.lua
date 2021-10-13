@@ -8,6 +8,7 @@ end
 
 local LOG=setmetatable({logs=logs},{
     __call=function(_,message)
+        print(message)
         log(message)
     end
 })
