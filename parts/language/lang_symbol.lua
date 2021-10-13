@@ -460,6 +460,7 @@ return{
             sfx="#!#",
             voc="~~~",
             music="~~~",
+            label="...",
         },
         login={
             title="Log in",

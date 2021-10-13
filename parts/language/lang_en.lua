@@ -593,6 +593,7 @@ return{
             sfx="SFX",
             voc="VOC",
             music="BGMs",
+            label="label",
         },
         login={
             title="Sign In",

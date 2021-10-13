@@ -584,6 +584,7 @@ return{
             sfx="SFX",
             voc="VOZ",
             -- music="BGMs",
+            -- label="label",
         },
         login={
             title="Log in",

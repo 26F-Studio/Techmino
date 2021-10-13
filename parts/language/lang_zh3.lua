@@ -595,6 +595,7 @@ return{
             sfx="特技效果",
             voc="声音",
             music="音乐培训室",
+            label="标签",
         },
         login={
             title="登录",

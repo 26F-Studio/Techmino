@@ -8,6 +8,8 @@ local isDown=love.keyboard.isDown
 
 local int,max,min=math.floor,math.max,math.min
 
+local mStr=mStr
+
 local scene={}
 
 local pad
@@ -98,6 +100,7 @@ pad={x=140,y=65,page=1,
     end)(),
 }
 
+local showLabel
 
 local function press(x,y)
     if x==0 then
@@ -142,6 +145,8 @@ function scene.keyDown(key,isRep)
         end
     elseif key=="tab"then
         SCN.swapTo('music','none')
+    elseif key=="space"then
+        showLabel=not showLabel
     elseif key=="escape"then
         SCN.back()
     end
@@ -188,13 +193,20 @@ function scene.draw()
             gc_circle('fill',40,(y-1)*80+40,34)
         end
     end
+    setFont(10)
     for y=1,8 do for x=1,8 do
         gc_setColor(white)
         gc_rectangle('line',x*80+2,(y-1)*80+2,76,76,5)
         local k=pad[pad.page][y][x]
-        if k.sfx then gc_circle('line',x*80+40,(y-1)*80+40,6)end
-        if k.voc then gc_rectangle('line',x*80+30,(y-1)*80+30,20,20,1)end
-        if k.bgm then gc_rectangle('line',x*80+20,(y-1)*80+20,40,40,2)end
+        if showLabel then
+            if k.sfx then mStr(k.sfx,x*80+40,y*80-30)gc_circle('line',x*80+40,(y-1)*80+40,6)end
+            if k.voc then mStr(k.voc,x*80+40,y*80-17)gc_rectangle('line',x*80+30,(y-1)*80+30,20,20,1)end
+            if k.bgm then mStr(k.bgm,x*80+40,y*80-76)gc_rectangle('line',x*80+20,(y-1)*80+20,40,40,2)end
+        else
+            if k.sfx then gc_circle('line',x*80+40,(y-1)*80+40,6)end
+            if k.voc then gc_rectangle('line',x*80+30,(y-1)*80+30,20,20,1)end
+            if k.bgm then gc_rectangle('line',x*80+20,(y-1)*80+20,40,40,2)end
+        end
         if pad.alpha[y][x]>0 then
             gc_setColor(1,1,1,pad.alpha[y][x]*.7)
             gc_rectangle('fill',x*80+2,(y-1)*80+2,76,76,5)
@@ -204,10 +216,11 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newText{name="title", x=640,y=-5,font=50},
-    WIDGET.newSlider{name="bgm", x=1000,y=80,lim=130,w=250,disp=SETval('bgm'),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
-    WIDGET.newSlider{name="sfx", x=1000,y=150,lim=130,w=250,disp=SETval('sfx'),code=SETsto('sfx'),change=function()SFX.play('blip_1')end},
-    WIDGET.newSlider{name="voc", x=1000,y=220,lim=130,w=250,disp=SETval('voc'),code=SETsto('voc'),change=function()VOC.play('test')end},
+    WIDGET.newText{name="title",  x=640, y=-5,font=50},
+    WIDGET.newSlider{name="bgm",  x=1000,y=80,lim=130,w=250,disp=SETval('bgm'),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
+    WIDGET.newSlider{name="sfx",  x=1000,y=150,lim=130,w=250,disp=SETval('sfx'),code=SETsto('sfx'),change=function()SFX.play('blip_1')end},
+    WIDGET.newSlider{name="voc",  x=1000,y=220,lim=130,w=250,disp=SETval('voc'),code=SETsto('voc'),change=function()VOC.play('test')end},
+    WIDGET.newSwitch{name="label",x=1200,y=290,lim=160,disp=function()return showLabel end,code=pressKey"space",},
     WIDGET.newButton{name="music",x=1140,y=540,w=170,h=80,font=40,code=pressKey"tab"},
     WIDGET.newButton{name="back", x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
