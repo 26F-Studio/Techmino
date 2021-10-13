@@ -37,7 +37,7 @@ function scene.sceneInit()
     --Create demo player
     destroyPlayers()
     GAME.modeEnv=NONE
-    GAME.seed=math.random(2e6)
+    GAME.setting={}
     PLY.newDemoPlayer(1)
     PLAYERS[1]:setPosition(520,140,.8)
 end
