@@ -544,6 +544,7 @@ return{
             sfx="Sons",
             voc="Voix",
             music="Musique",
+            -- label="label",
         },
         login={
             title="Connexion",

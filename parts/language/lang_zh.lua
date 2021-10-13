@@ -581,6 +581,7 @@ return{
             sfx="音效",
             voc="语音",
             music="音乐室",
+            label="标签",
         },
         about={
             staff="制作人员",
