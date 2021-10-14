@@ -152,7 +152,7 @@ TABLE.cover (FILE.load('conf/key')or{},keyMap)
 TABLE.cover (FILE.load('conf/virtualkey')or{},VK_org)
 
 --Initialize fields, sequence, missions, gameEnv for cutsom game
-local fieldData=FILE.load('conf/customBoards')
+local fieldData=FILE.load('conf/customBoards','string')
 if fieldData then
     fieldData=STRING.split(fieldData,"!")
     for i=1,#fieldData do
@@ -161,11 +161,11 @@ if fieldData then
 else
     FIELD[1]=DATA.newBoard()
 end
-local sequenceData=FILE.load('conf/customSequence')
+local sequenceData=FILE.load('conf/customSequence','string')
 if sequenceData then
     DATA.pasteSequence(sequenceData)
 end
-local missionData=FILE.load('conf/customMissions')
+local missionData=FILE.load('conf/customMissions','string')
 if missionData then
     DATA.pasteMission(missionData)
 end

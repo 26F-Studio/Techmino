@@ -90,7 +90,7 @@ function scene.keyDown(key)
         local rep=listBox:getSel()
         if rep then
             if rep.available and rep.fileName then
-                local repStr=FILE.load(rep.fileName)
+                local repStr=FILE.load(rep.fileName,'string')
                 if repStr then
                     love.system.setClipboardText(love.data.encode('string','base64',repStr))
                     MES.new('info',text.exportSuccess)

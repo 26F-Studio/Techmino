@@ -85,7 +85,7 @@ local loadingThread=coroutine.wrap(function()
 
     YIELD('loadMode')
     for _,M in next,MODES do
-        M.records=FILE.load("record/"..M.name..".rec")or M.score and{}
+        M.records=FILE.load("record/"..M.name..".rec",'luaon')or M.score and{}
         M.icon=M.icon and(modeIcons[M.icon]or gc.newImage("media/image/modeicon/"..M.icon..".png"))
     end
 
