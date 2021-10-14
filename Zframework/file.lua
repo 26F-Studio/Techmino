@@ -1,27 +1,30 @@
 local fs=love.filesystem
 local FILE={}
-function FILE.load(name)
+function FILE.load(name,mode)
     if fs.getInfo(name)then
         local F=fs.newFile(name)
         if F:open'r'then
             local s=F:read()
             F:close()
-            if s:sub(1,6)=="return"then
+            if mode=='luaon'or not mode and s:sub(1,6)=="return{"then
                 s=loadstring(s)
                 if s then
                     setfenv(s,{})
                     return s()
                 end
-            elseif s:sub(1,1)=="["or s:sub(1,1)=="{"then
+            elseif mode=='json'or not mode and s:sub(1,1)=="["and s:sub(-1)=="]"or s:sub(1,1)=="{"and s:sub(-1)=="}"then
                 local res=JSON.decode(s)
                 if res then
                     return res
                 end
-            else
+            elseif mode=='string'or not mode then
                 return s
+            else
+                MES.new("No file loading mode called "..tostring(mode))
             end
+        else
+            MES.new('error',name.." "..text.loadError)
         end
-        MES.new('error',name.." "..text.loadError)
     end
 end
 function FILE.save(data,name,mode)
