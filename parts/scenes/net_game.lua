@@ -38,6 +38,10 @@ end
 local function _quit()
     if TIME()-lastBackTime<1 then
         NET.signal_quit()
+        if SCN.stack[#SCN.stack-1]=='net_newRoom'then
+            SCN.pop()
+        end
+        SCN.back()
     else
         lastBackTime=TIME()
         MES.new('info',text.sureQuit)
