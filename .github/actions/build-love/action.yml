@@ -1,0 +1,11 @@
+name: 'build love'
+description: 'build love file'
+inputs:
+  file-path:
+    required: true
+    default: Techmino.love
+runs:
+  using: "composite"
+  steps:
+    - run: 7z a -tzip ${{ inputs.file-path }} document media parts Zframework conf.lua main.lua version.lua
+      shell: bash

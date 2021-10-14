@@ -6,436 +6,202 @@ on:
     - '*'
 
 jobs:
-  build-windows-x64:
-    runs-on: windows-latest
+  get-version:
+    runs-on: ubuntu-20.04
+    outputs:
+      name: ${{ steps.actual-get-version.outputs.name }}
+      code: ${{ steps.actual-get-version.outputs.code }}
+      release: ${{ steps.actual-get-version.outputs.release }}
+      updateTitle: ${{ steps.actual-get-version.outputs.updateTitle }}
+      commit: ${{ steps.actual-get-version.outputs.commit }}
     steps:
     - uses: actions/checkout@v2
-    - name: Download lua
+    - name: Install lua
       run: |
-        curl -OL https://nchc.dl.sourceforge.net/project/luabinaries/5.4.2/Tools%20Executables/lua-5.4.2_Win64_bin.zip
-    - name: Unpack lua
+        sudo apt-get update -y
+        sudo apt-get install lua5.3 -y
+    - name: Get Version
+      id: actual-get-version
       run: |
-        7z x .\lua-5.4.2_Win64_bin.zip -olua
-        rename-Item '.\lua\lua54.exe' -NewName 'lua.exe'
+        echo "::set-output name=name::$(lua .github/workflows/getVersion.lua -name)"
+        echo "::set-output name=code::$(lua .github/workflows/getVersion.lua -code)"
+        echo "::set-output name=release::$(lua .github/workflows/getVersion.lua -release)"
+        echo "::set-output name=updateTitle::$(lua .github/workflows/getVersion.lua -updateTitle)"
+        echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
+
+  get-cc-url:
+    runs-on: ubuntu-20.04
+    outputs:
+      url: ${{ steps.get-url.outputs.url }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get URL
+      id: get-url
+      run: |
+        echo "::set-output name=url::https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$(python .github/workflows/getLatest.py)"
+
+  build-windows-x64:
+    runs-on: windows-latest
+    needs: [get-version, get-cc-url]
+    steps:
+    - uses: actions/checkout@v2
     - name: Update Version
       run: |
         python .\.github\workflows\updateVersion.py -T Version
-    - name: Get Version
-      run: |
-        $Version=.\lua\lua.exe .\.github\workflows\getVersion.lua -release
-        echo "Version=${Version}" >> $env:GITHUB_ENV
-    - name: Get ReleaseTitle
-      run: |
-        $Title=.\lua\lua.exe .\.github\workflows\getVersion.lua -updateTitle
-        echo "Title=${Title}" >> $env:GITHUB_ENV
-    - name: Download love
-      run: |
-        curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
-    - name: Unpack love
-      run: |
-        7z x .\love-11.3-win64.zip
-    - name: Download ColdClear
-      run: |
-        pip install requests
-        $CCVersion=python .\.github\workflows\getLatest.py
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/win64.zip
-    - name: Unpack ColdClear
-      run: |
-        7z x .\win64.zip -oColdClear
-    - name: Download ResourceHacker
-      run: |
-        curl -OL http://www.angusj.com/resourcehacker/resource_hacker.zip
-    - name: Unpack ResourceHacker
-      run: |
-        7z x .\resource_hacker.zip
+    - uses: ./.github/actions/build-windows
+      with:
+        love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
+        love-dir: love-11.3-win64
+        cc-url: ${{ needs.get-cc-url.outputs.url }}/win64.zip
+        version: ${{ needs.get-version.outputs.release }}
+        icon: .\.github\build\Windows\icon.ico
     - name: Pack Techmino
-      run: |
-        7z a -tzip .\Techmino.love .\document .\media .\parts .\Zframework .\conf.lua .\main.lua .\version.lua
-        cmd /c copy /b .\love-11.3-win64\love.exe + .\Techmino.love .\love-11.3-win64\Techmino.exe
-        del .\love-11.3-win64\love.exe
-        del .\love-11.3-win64\lovec.exe
-        del .\love-11.3-win64\game.ico
-        del .\love-11.3-win64\love.ico
-        del .\love-11.3-win64\changes.txt
-        del .\love-11.3-win64\readme.txt
-        move .\ColdClear\cold_clear.dll .\love-11.3-win64
-        move .\ColdClear\CCloader.dll .\love-11.3-win64
-        python .\.github\workflows\updateVersion.py -T Windows -N ${{ env.Version }}
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action delete -mask ICONGROUP,,'
-        cmd /c '.\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile'
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\build\Windows\icon.ico" -mask ICONGROUP,1,'
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\Techmino.res" -mask VERSIONINFO,1,'
-        7z a -tzip .\Techmino.a${{ env.Version }}.Win64.zip .\love-11.3-win64\
+      run: 7z a -tzip .\Techmino.a${{ needs.get-version.outputs.release }}.Win64.zip .\love
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ env.Title }}
-        files: Techmino.a${{ env.Version }}.Win64.zip
+        name: ${{ needs.get-version.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-version.outputs.release }}.Win64.zip
 
   build-windows-x86:
     runs-on: windows-latest
+    needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
-    - name: Download lua
-      run: |
-        curl -OL https://nchc.dl.sourceforge.net/project/luabinaries/5.4.2/Tools%20Executables/lua-5.4.2_Win64_bin.zip
-    - name: Unpack lua
-      run: |
-        7z x .\lua-5.4.2_Win64_bin.zip -olua
-        rename-Item '.\lua\lua54.exe' -NewName 'lua.exe'
     - name: Update Version
       run: |
         python .\.github\workflows\updateVersion.py -T Version
-    - name: Get Version
-      run: |
-        $Version=.\lua\lua.exe .\.github\workflows\getVersion.lua -release
-        echo "Version=${Version}" >> $env:GITHUB_ENV
-    - name: Get ReleaseTitle
-      run: |
-        $Title=.\lua\lua.exe .\.github\workflows\getVersion.lua -updateTitle
-        echo "Title=${Title}" >> $env:GITHUB_ENV
-    - name: Download love
-      run: |
-        curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win32.zip
-    - name: Unpack love
-      run: |
-        7z x .\love-11.3-win32.zip
-    - name: Download ColdClear
-      run: |
-        pip install requests
-        $CCVersion=python .\.github\workflows\getLatest.py
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/win32.zip
-    - name: Unpack ColdClear
-      run: |
-        7z x .\win32.zip -oColdClear
-    - name: Download ResourceHacker
-      run: |
-        curl -OL http://www.angusj.com/resourcehacker/resource_hacker.zip
-    - name: Unpack ResourceHacker
-      run: |
-        7z x .\resource_hacker.zip
+    - uses: ./.github/actions/build-windows
+      with:
+        love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win32.zip
+        love-dir: love-11.3-win32
+        cc-url: ${{ needs.get-cc-url.outputs.url }}/win32.zip
+        version: ${{ needs.get-version.outputs.release }}
+        icon: .\.github\build\Windows\icon.ico
     - name: Pack Techmino
-      run: |
-        7z a -tzip .\Techmino.love .\document .\media .\parts .\Zframework .\conf.lua .\main.lua .\version.lua
-        cmd /c copy /b .\love-11.3-win32\love.exe + .\Techmino.love .\love-11.3-win32\Techmino.exe
-        del .\love-11.3-win32\love.exe
-        del .\love-11.3-win32\lovec.exe
-        del .\love-11.3-win32\game.ico
-        del .\love-11.3-win32\love.ico
-        del .\love-11.3-win32\changes.txt
-        del .\love-11.3-win32\readme.txt
-        move .\ColdClear\cold_clear.dll .\love-11.3-win32
-        move .\ColdClear\CCloader.dll .\love-11.3-win32
-        python .\.github\workflows\updateVersion.py -T Windows -N ${{ env.Version }}
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win32\Techmino.exe -save .\love-11.3-win32\Techmino.exe -action delete -mask ICONGROUP,,'
-        cmd /c '.\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile'
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win32\Techmino.exe -save .\love-11.3-win32\Techmino.exe -action addoverwrite -res ".\build\Windows\icon.ico" -mask ICONGROUP,1,'
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win32\Techmino.exe -save .\love-11.3-win32\Techmino.exe -action addoverwrite -res ".\Techmino.res" -mask VERSIONINFO,1,'
-        7z a -tzip .\Techmino.a${{ env.Version }}.Win32.zip .\love-11.3-win32\
+      run: 7z a -tzip .\Techmino.a${{ needs.get-version.outputs.release }}.Win32.zip .\love
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ env.Title }}
-        files: Techmino.a${{ env.Version }}.Win32.zip
+        name: ${{ needs.get-version.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-version.outputs.release }}.Win32.zip
 
   build-linux:
     runs-on: ubuntu-20.04
+    needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
-    - name: Install lua
-      run: |
-        sudo apt-get update -y
-        sudo apt-get upgrade -y
-        sudo apt-get install lua5.3 -y
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T Version
-    - name: Get Version
-      run: |
-        Version=$(lua ./.github/workflows/getVersion.lua -release)
-        echo "Version=${Version}" >> $GITHUB_ENV
-    - name: Get ReleaseTitle
-      run: |
-        Title=$(lua ./.github/workflows/getVersion.lua -updateTitle)
-        echo "Title=${Title}" >> $GITHUB_ENV
-    - name: Download AppImageKit
-      run: |
-        curl -OL https://github.com/AppImage/AppImageKit/releases/download/13/appimagetool-x86_64.AppImage
-    - name: Download love
-      run: |
-        curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-x86_64.AppImage
-    - name: Unpack love
-      run: |
-        chmod 777 ./love-11.3-x86_64.AppImage
-        ./love-11.3-x86_64.AppImage --appimage-extract
-    - name: Download ColdClear
-      run: |
-        CCVersion=$(python3 ./.github/workflows/getLatest.py)
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/linux.zip
-    - name: Unpack ColdClear
-      run: |
-        7z x ./linux.zip -oColdClear
-    - name: Pack Techmino
-      run: |
-        rm -rf ./squashfs-root/love ./squashfs-root/love.desktop ./squashfs-root/love.svg ./squashfs-root/.DirIcon
-        mv ./.github/build/Linux/love.template ./squashfs-root/love
-        mv ./.github/build/Linux/Techmino.desktop.template ./squashfs-root/Techmino.desktop
-        mv ./.github/build/Linux/icon.png ./squashfs-root/icon.png
-        cp ./squashfs-root/icon.png ./squashfs-root/.DirIcon
-        chmod 777 ./squashfs-root/love
-        mkdir -p ./squashfs-root/usr/share/Techmino
-        mv ./document ./media ./parts ./Zframework ./conf.lua ./main.lua ./version.lua ./squashfs-root/usr/share/Techmino
-        mv ./ColdClear/CCloader.so ./squashfs-root/usr/share/Techmino
-        mv ./ColdClear/libcold_clear.so ./squashfs-root/usr/lib
-        chmod 777 ./appimagetool-x86_64.AppImage
-        ./appimagetool-x86_64.AppImage ./squashfs-root ./Techmino.a${{ env.Version }}.AppImage
+        python3 .github/workflows/updateVersion.py -T Version
+    - uses: ./.github/actions/build-linux
+      with:
+        cc-url: ${{ needs.get-cc-url.outputs.url }}/linux.zip
+        file-path: Techmino.a${{ needs.get-version.outputs.release }}.AppImage
+        icon: .github/build/Linux/icon.png
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ env.Title }}
-        files: Techmino.a${{ env.Version }}.AppImage
+        name: ${{ needs.get-version.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-version.outputs.release }}.AppImage
 
   build-android:
     runs-on: ubuntu-20.04
+    needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-java@v2
-      with:
-        distribution: 'adopt'
-        java-version: '8'
-    - name: Install lua
-      run: |
-        sudo apt-get update -y
-        sudo apt-get upgrade -y
-        sudo apt-get install lua5.3 -y
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T Version
-    - name: Get Version
-      run: |
-        Version=$(lua ./.github/workflows/getVersion.lua -release)
-        echo "Version=${Version}" >> $GITHUB_ENV
-    - name: Get ReleaseTitle
-      run: |
-        Title=$(lua ./.github/workflows/getVersion.lua -updateTitle)
-        echo "Title=${Title}" >> $GITHUB_ENV
-    - name: Clone love-android
-      run: |
-        git clone --recurse-submodules https://github.com/26F-Studio/love-android
-        cd ./love-android
-        git checkout --recurse-submodules CI
-    - name: Download androidSDK
-      run: |
-        wget -O commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
-    - name: Unpack androidSDK
-      run: |
-        unzip ./commandlinetools.zip
-    - name: Install SDK NDK
-      run: |
-        yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "platforms;android-30"
-        yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "ndk;21.3.6528147"
-        export ANDROID_HOME=$(pwd)
-    - name: Download ColdClear
-      run: |
-        CCVersion=$(python3 ./.github/workflows/getLatest.py)
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/android_aarch64.zip
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/android_armv7.zip
-    - name: Unpack ColdClear
-      run: |
-        7z x ./android_aarch64.zip -oColdClear/android_aarch64
-        7z x ./android_armv7.zip -oColdClear/android_armv7
-    - name: Pack Techmino
-      run: |
-        mkdir -p ./love-android/app/src/main/assets
-        mkdir -p ./love-android/app/libs/arm64-v8a
-        mkdir -p ./love-android/app/libs/armeabi-v7a
-        mv ./ColdClear/android_aarch64/love-11.3-android/lib/arm64-v8a/libcold_clear.so ./love-android/app/libs/arm64-v8a
-        mv ./ColdClear/android_armv7/love-11.3-android/lib/armeabi-v7a/libcold_clear.so ./love-android/app/libs/armeabi-v7a
-        mkdir -p ./libAndroid/arm64-v8a
-        mkdir -p ./libAndroid/armeabi-v7a
-        mv ./ColdClear/android_aarch64/libs/arm64-v8a/libCCloader.so ./libAndroid/arm64-v8a
-        mv ./ColdClear/android_armv7/libs/armeabi-v7a/libCCloader.so ./libAndroid/armeabi-v7a
-        7z a -tzip ./love-android/app/src/main/assets/game.love ./document ./media ./parts ./Zframework ./libAndroid ./conf.lua ./main.lua ./version.lua
-        echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ./love-android/app/android.keystore
-        python3 ./.github/workflows/updateVersion.py -T AndroidRelease -C $(lua ./.github/workflows/getVersion.lua -code) -N $(lua ./.github/workflows/getVersion.lua -name) -S ${{ secrets.KEY_STORE_PASSWORD }} -A ${{ secrets.ALIAS }} -K ${{ secrets.KEY_PASSWORD }}
-        chmod 777 ./love-android/gradlew
-        cd ./love-android/
-        ./gradlew assembleRelease
-        mv ./app/build/outputs/apk/release/app-release.apk ./app/build/outputs/apk/release/Techmino.a${{ env.Version }}.apk
+        python3 .github/workflows/updateVersion.py -T Version
+    - uses: ./.github/actions/build-android
+      with:
+        type: Release
+        cc-url: ${{ needs.get-cc-url.outputs.url }}
+        code: ${{ needs.get-version.outputs.code }}
+        name: ${{ needs.get-version.outputs.name }}
+        file-path: Techmino.a${{ needs.get-version.outputs.Version }}.apk
+        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+        ALIAS: ${{ secrets.ALIAS }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ env.Title }}
-        files: ./love-android/app/build/outputs/apk/release/Techmino.a${{ env.Version }}.apk
+        name: ${{ needs.get-version.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-version.outputs.Version }}.apk
 
   build-android-mini:
     runs-on: ubuntu-20.04
+    needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-java@v2
-      with:
-        distribution: 'adopt'
-        java-version: '8'
-    - name: Install lua
-      run: |
-        sudo apt-get update -y
-        sudo apt-get upgrade -y
-        sudo apt-get install lua5.3 -y
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T Version
-    - name: Get Version
+        python3 .github/workflows/updateVersion.py -T Version
+    - name: remove media
       run: |
-        Version=$(lua ./.github/workflows/getVersion.lua -release)
-        echo "Version=${Version}" >> $GITHUB_ENV
-    - name: Get ReleaseTitle
-      run: |
-        Title=$(lua ./.github/workflows/getVersion.lua -updateTitle)
-        echo "Title=${Title}" >> $GITHUB_ENV
-    - name: Clone love-android
-      run: |
-        git clone --recurse-submodules https://github.com/26F-Studio/love-android
-        cd ./love-android
-        git checkout --recurse-submodules CI
-    - name: Download androidSDK
-      run: |
-        wget -O commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
-    - name: Unpack androidSDK
-      run: |
-        unzip ./commandlinetools.zip
-    - name: Install SDK NDK
-      run: |
-        yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "platforms;android-30"
-        yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "ndk;21.3.6528147"
-        export ANDROID_HOME=$(pwd)
-    - name: Download ColdClear
-      run: |
-        CCVersion=$(python3 ./.github/workflows/getLatest.py)
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/android_aarch64.zip
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/android_armv7.zip
-    - name: Unpack ColdClear
-      run: |
-        7z x ./android_aarch64.zip -oColdClear/android_aarch64
-        7z x ./android_armv7.zip -oColdClear/android_armv7
-    - name: Pack Techmino
-      run: |
-        mkdir -p ./love-android/app/src/main/assets
-        mkdir -p ./love-android/app/libs/arm64-v8a
-        mv ./ColdClear/android_aarch64/love-11.3-android/lib/arm64-v8a/libcold_clear.so ./love-android/app/libs/arm64-v8a
-        mkdir -p ./libAndroid/arm64-v8a
-        mv ./ColdClear/android_aarch64/libs/arm64-v8a/libCCloader.so ./libAndroid/arm64-v8a
-        rm -rf ./media/music ./media/effect ./media/vocal
-        7z a -tzip ./love-android/app/src/main/assets/game.love ./document ./media ./parts ./Zframework ./libAndroid ./conf.lua ./main.lua ./version.lua
-        echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ./love-android/app/android.keystore
-        python3 ./.github/workflows/updateVersion.py -T AndroidRelease -C $(lua ./.github/workflows/getVersion.lua -code) -N $(lua ./.github/workflows/getVersion.lua -name) -S ${{ secrets.KEY_STORE_PASSWORD }} -A ${{ secrets.ALIAS }} -K ${{ secrets.KEY_PASSWORD }}
-        chmod 777 ./love-android/gradlew
-        cd ./love-android/
-        ./gradlew assembleRelease
-        mv ./app/build/outputs/apk/release/app-release.apk ./app/build/outputs/apk/release/Techmino.a${{ env.Version }}.mini.apk
+        rm -rf media/music media/effect media/vocal
+    - uses: ./.github/actions/build-android
+      with:
+        type: Release
+        cc-url: ${{ needs.get-cc-url.outputs.url }}
+        code: ${{ needs.get-version.outputs.code }}
+        name: ${{ needs.get-version.outputs.name }}
+        file-path: Techmino.a${{ needs.get-version.outputs.Version }}.mini.apk
+        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+        ALIAS: ${{ secrets.ALIAS }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ env.Title }}
-        files: ./love-android/app/build/outputs/apk/release/Techmino.a${{ env.Version }}.mini.apk
+        name: ${{ needs.get-version.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-version.outputs.Version }}.mini.apk
 
   build-macOS:
     runs-on: macos-10.15
+    needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
-    - name: Install lua
-      run: |
-        curl -OL http://www.lua.org/ftp/lua-5.4.3.tar.gz
-        tar zxf lua-5.4.3.tar.gz
-        cd lua-5.4.3
-        make macosx
-        sudo make install
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T Version
-    - name: Get Version
-      run: |
-        Version=$(lua ./.github/workflows/getVersion.lua -release)
-        echo "Version=${Version}" >> $GITHUB_ENV
-    - name: Get ReleaseTitle
-      run: |
-        Title=$(lua ./.github/workflows/getVersion.lua -updateTitle)
-        echo "Title=${Title}" >> $GITHUB_ENV
-    - name: Pack love
-      run: |
-        7z a -tzip ./Techmino.love ./document ./media ./parts ./Zframework ./conf.lua ./main.lua ./version.lua
-    - name: Download template
-      run: |
-        curl -OL https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.app.zip
-    - name: Unpack template
-      run: |
-        7z x ./Techmino.app.zip
-    - name: Get CCloader
-      run: |
-        pip3 install requests
-        CCVersion=$(python3 ./.github/workflows/getLatest.py)
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/macOS.zip
-        unzip macOS.zip
-    - name: Modify template
-      run: |
-        python3 ./.github/workflows/updateVersion.py -T macOS -N $(lua ./.github/workflows/getVersion.lua -name)
-        mv ./Techmino.love ./Techmino.app/Contents/Resources
-        mv ./CCloader.dylib ./Techmino.app/Contents/Frameworks
-        mv ./.github/build/macOS/icon.icns ./Techmino.app/Contents/Resources/iconfile.icns
-    - name: Codesign executable
-      # In secrets:
-      #   - MACOS_CERTIFICATE: the *.p12 Developer ID Certificate, encoded in base64
-      #   - MACOS_CERTIFICATE_PWD: The password
-      env:
+        python3 .github/workflows/updateVersion.py -T Version
+    - uses: ./.github/actions/build-macos
+      with:
+        cc-url: ${{ needs.get-cc-url.outputs.url }}/macOS.zip
+        name: ${{ needs.get-version.outputs.name }}
+        icon: .github/build/macOS/icon.icns
         MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
         MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
-      run: |
-        echo $MACOS_CERTIFICATE | base64 --decode > certificate.p12
-        security create-keychain -p Techminohaowan build.keychain
-        security default-keychain -s build.keychain
-        security unlock-keychain -p Techminohaowan build.keychain
-        security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
-        security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k Techminohaowan build.keychain
-        /usr/bin/codesign --force --deep -s 79B81FC5EA155243C973B5417B0996501F00EF55 ./Techmino.app -v
     - name: Pack Techmino
       run: |
-        zip -r -y Techmino.a${{ env.Version }}.macOS.zip Techmino.app ".github/build/macOS/打不开？Can’t open the App？.pdf"
+        zip -r -y Techmino.a${{ needs.get-version.outputs.Version }}.macOS.zip Techmino.app ".github/build/macOS/打不开？Can’t open the App？.pdf"
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ env.Title }}
-        files: Techmino.a${{ env.Version }}.macOS.zip
+        name: ${{ needs.get-version.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-version.outputs.Version }}.macOS.zip
 
   build-love:
     runs-on: ubuntu-20.04
+    needs: get-version
     steps:
     - uses: actions/checkout@v2
-    - name: Install lua
-      run: |
-        sudo apt-get update -y
-        sudo apt-get upgrade -y
-        sudo apt-get install lua5.3 -y
     - name: Update Version
       run: |
-        python3 ./.github/workflows/updateVersion.py -T Version
-    - name: Get Version
-      run: |
-        Version=$(lua ./.github/workflows/getVersion.lua -release)
-        echo "Version=${Version}" >> $GITHUB_ENV
-    - name: Get ReleaseTitle
-      run: |
-        Title=$(lua ./.github/workflows/getVersion.lua -updateTitle)
-        echo "Title=${Title}" >> $GITHUB_ENV
-    - name: Pack Techmino
-      run: |
-        7z a -tzip ./Techmino.a${{ env.Version }}.love ./document ./media ./parts ./Zframework ./conf.lua ./main.lua ./version.lua
+        python3 .github/workflows/updateVersion.py -T Version
+    - uses: ./.github/actions/build-love
+      with:
+        file-path: Techmino.a${{ needs.get-version.outputs.release }}.love
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ env.Title }}
-        files: Techmino.a${{ env.Version }}.love
+        name: ${{ needs.get-version.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-version.outputs.release }}.love
 
   Add-Release-note:
     runs-on: ubuntu-20.04
+    needs: get-version
     steps:
     - uses: actions/checkout@v2
     - name: Install lua
@@ -443,15 +209,11 @@ jobs:
         sudo apt-get update -y
         sudo apt-get upgrade -y
         sudo apt-get install lua5.3 -y
-    - name: Get ReleaseTitle
-      run: |
-        Title=$(lua ./.github/workflows/getVersion.lua -updateTitle)
-        echo "Title=${Title}" >> $GITHUB_ENV
     - name: Get ReleaseNote
       run: |
-        lua ./.github/workflows/getVersion.lua -updateNote > updateNote.txt
+        lua .github/workflows/getVersion.lua -updateNote > updateNote.txt
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ env.Title }}
-        body_path: ./updateNote.txt
+        name: ${{ needs.get-version.outputs.updateTitle }}
+        body_path: updateNote.txt
