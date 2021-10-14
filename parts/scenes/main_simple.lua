@@ -23,7 +23,7 @@ scene.widgetList={
     WIDGET.newButton{name="setting", x=1000,y=400,w=120,font=90,fText=CHAR.icon.settings,code=goScene'setting_game'},
     WIDGET.newButton{name="lang",    x=1000,y=560,w=120,font=90,fText=CHAR.icon.language,code=goScene'lang'},
     WIDGET.newButton{name="manual",  x=1160,y=400,w=120,fText=TEXTURE.sure,code=goScene'manual'},
-    WIDGET.newButton{name="quit",    x=1160,y=560,w=120,font=60,fText=CHAR.icon.thick_cross,code=function()VOC.play('bye')SCN.swapTo('quit','slowFade')end},
+    WIDGET.newButton{name="quit",    x=1160,y=560,w=120,font=60,fText=CHAR.icon.cross_thick,code=function()VOC.play('bye')SCN.swapTo('quit','slowFade')end},
 }
 
 return scene

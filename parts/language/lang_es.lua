@@ -406,10 +406,6 @@ return{
         setting_touch={
             default="Por Defecto",
             snap="Snap",
-            save1="Save1",
-            load1="Load1",
-            save2="Save2",
-            load2="Load2",
             size="Tamaño",
             shape="Forma",
         },
@@ -487,13 +483,9 @@ return{
             subTitle="Tablero",
 
             any="Borrar",
-            space="×",
             pushLine="Añadir Línea (K)",
             delLine="Borrar Línea (L)",
 
-            copy="Copiar",
-            paste="Pegar",
-            clear="Limpiar",
             demo="No Mostrar X",
 
             newPage="Nueva pág. (N)",
@@ -505,17 +497,11 @@ return{
             title="Juego Personalizado",
             subTitle="Secuencia",
             sequence="Secuencia",
-            reset="Reiniciar",
-            rnd="Al azar",
-            copy="Copiar",
-            paste="Pegar",
         },
         custom_mission={
             title="Juego Personalizado",
             subTitle="Misiones",
 
-            copy="Copiar",
-            paste="Pegar",
             mission="Forzar misión",
         },
         about={

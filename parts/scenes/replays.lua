@@ -158,10 +158,10 @@ end
 
 scene.widgetList={
     listBox,
-    WIDGET.newButton{name="export",x=200,y=640,w=70,color='lG',code=pressKey"cC",fText=GC.DO{50,50,{'fRect',8,44,34,4},{'fRect',22,17,6,23},{'fPoly',25,5,10,20,40,20}}},
-    WIDGET.newButton{name="import",x=300,y=640,w=70,color='lN',code=pressKey"cV",fText=GC.DO{50,50,{'fRect',8,44,34,4},{'fRect',22,5,6,23},{'fPoly',25,40,10,25,40,25}}},
+    WIDGET.newButton{name="export",x=200,y=640,w=70,color='lG',code=pressKey"cC",font=50,fText=CHAR.icon.export},
+    WIDGET.newButton{name="import",x=300,y=640,w=70,color='lN',code=pressKey"cV",font=50,fText=CHAR.icon.import},
     WIDGET.newButton{name="play",  x=700,y=640,w=170,h=80,color='lY',code=pressKey"return",font=65,fText=CHAR.icon.play},
-    WIDGET.newButton{name="delete",x=850,y=640,w=80,h=80,color='lR',code=pressKey"delete",font=40,fText=CHAR.icon.thick_cross},
+    WIDGET.newButton{name="delete",x=850,y=640,w=80,h=80,color='lR',code=pressKey"delete",font=40,fText=CHAR.icon.cross_thick},
     WIDGET.newButton{name="back",  x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 

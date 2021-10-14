@@ -406,10 +406,6 @@ return{
         setting_touch={
             default="Par défaut",
             snap="Snap",
-            -- save1="Save1",
-            -- load1="Load1",
-            -- save2="Save2",
-            -- load2="Load2",
             size="Taille",
             -- shape="Shape",
         },
@@ -488,15 +484,11 @@ return{
             subTitle="Matrice",
 
             any="Effacer",
-            space="×",
             -- smart="Smart",
 
             push="Ajouter ligne (K)",
             del="Supprimer ligne (L)",
 
-            copy="Copier",
-            paste="Coller",
-            clear="Nettoyer",
             demo="Masquer les ×",
 
             newPg="Nouvelle Page(N)",
@@ -507,19 +499,12 @@ return{
         custom_sequence={
             title="Mode personnalisée",
             subTitle="Séquence",
-
             sequence="Séquence",
-            reset="Réinitialiser",
-            rnd="Aléatoire",
-            copy="Copier",
-            paste="Coller",
         },
         custom_mission={
             title="Mode personnalisé",
             subTitle="Mission",
 
-            copy="Copier",
-            paste="Coller",
             mission="Dorcer la mission",
         },
         dict={

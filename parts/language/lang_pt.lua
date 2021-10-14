@@ -430,10 +430,6 @@ return{
         setting_touch={
             default="Default",
             snap="Encaixo",
-            -- save1="Save1",
-            -- load1="Load1",
-            -- save2="Save2",
-            -- load2="Load2",
             size="Tamanho",
             -- shape="Shape",
         },
@@ -510,15 +506,11 @@ return{
             subTitle="Tabuleiro",
 
             any="Apagar",
-            space="×",
             -- smart="Smart",
 
             push="Add Linha(K)",
             del="Del Linha(L)",
 
-            copy="Copiar",
-            paste="Colar",
-            clear="Limpar",
             demo="Não mostrar ×",
 
             newPg="Nova Página(N)",
@@ -530,7 +522,6 @@ return{
             title="Jogo Custom",
             subTitle="Sequência",
             sequence="Sequência",
-            copy="Copiar",paste="Colar",
         },
         custom_mission={
             title="Jogo Custom",
@@ -543,8 +534,6 @@ return{
             Z2="Z2",S2="S2",J2="J2",L2="L2",T2="T2",O2="O2",I2="I2",
             Z3="Z3",S3="S3",J3="J3",L3="L3",T3="T3",O3="O3",I3="I3",
             O4="O4",I4="I4",
-            copy="Copiar",
-            paste="Colar",
             mission="Forçar Missão",
         },
         about={

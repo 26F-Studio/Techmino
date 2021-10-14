@@ -441,10 +441,6 @@ return{
         setting_touch={
             default="Default",
             snap="Snap to Grid",
-            save1="Save 1",
-            load1="Load 1",
-            save2="Save 2",
-            load2="Load 2",
             size="Size",
             shape="Shape",
         },
@@ -520,15 +516,11 @@ return{
             subTitle="Field",
 
             any="Erase",
-            space="×",
             smart="Smart",
 
             push="Add Line(K)",
             del="Del Line(L)",
 
-            copy="Copy",
-            paste="Paste",
-            clear="Clear",
             demo="Don't Show ×",
 
             newPg="New Page(N)",
@@ -540,7 +532,6 @@ return{
             title="Custom Game",
             subTitle="Sequence",
             sequence="Sequence",
-            copy="Copy",paste="Paste",
         },
         custom_mission={
             title="Custom Game",
@@ -553,8 +544,6 @@ return{
             Z2="Z2",S2="S2",J2="J2",L2="L2",T2="T2",O2="O2",I2="I2",
             Z3="Z3",S3="S3",J3="J3",L3="L3",T3="T3",O3="O3",I3="I3",
             O4="O4",I4="I4",
-            copy="Copy",
-            paste="Paste",
             mission="Force Mission",
         },
         about={

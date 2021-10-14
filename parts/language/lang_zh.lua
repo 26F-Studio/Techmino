@@ -441,10 +441,6 @@ return{
         setting_touch={
             default="默认组合",
             snap="吸附",
-            save1="保存1",
-            load1="读取1",
-            save2="保存2",
-            load2="读取2",
             size="大小",
             shape="形状",
         },
@@ -521,15 +517,11 @@ return{
             subTitle="场地",
 
             any="不定",
-            space="×",
             smart="智能",
 
             push="增加一行(K)",
             del="消除行(L)",
 
-            copy="复制",
-            paste="粘贴",
-            clear="清除",
             demo="不显示×",
 
             newPg="新页面(N)",
@@ -541,7 +533,6 @@ return{
             title="自定义游戏",
             subTitle="序列",
             sequence="序列",
-            copy="复制",paste="粘贴",
         },
         custom_mission={
             title="自定义游戏",
@@ -554,8 +545,6 @@ return{
             Z2="Z2",S2="S2",J2="J2",L2="L2",T2="T2",O2="O2",I2="I2",
             Z3="Z3",S3="S3",J3="J3",L3="L3",T3="T3",O3="O3",I3="I3",
             O4="O4",I4="I4",
-            copy="复制",
-            paste="粘贴",
             mission="强制任务",
         },
         music={

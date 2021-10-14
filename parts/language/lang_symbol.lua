@@ -319,10 +319,6 @@ return{
         setting_touch={
             default="$0",
             snap="_ _",
-            save1=">1",
-            load1="1>",
-            save2=">2",
-            load2="2>",
             size="←→",
             shape="@?",
         },
@@ -399,15 +395,11 @@ return{
             subTitle="!@#$%^&* [##]",
 
             any="_",
-            space="×",
             smart="~",
 
             push="↑↑↑↑↑(K)",
             del="==X==(L)",
 
-            copy="→__",
-            paste="__→",
-            clear="XXX",
             demo="X ×",
 
             newPg="+[_](N)",
@@ -418,19 +410,12 @@ return{
         custom_sequence={
             title="!@#$%^&*",
             subTitle="Sequence",
-
             sequence="$=",
-            reset="R",
-            rnd="R",
-            copy="→__",
-            paste="__→",
         },
         custom_mission={
             title="!@#$%^&*",
             subTitle="(!)",
 
-            copy="→__",
-            paste="__→",
             mission="Force mission",
         },
         about={
