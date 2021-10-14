@@ -161,7 +161,7 @@ return{
         "Creado con LÖVE",
         "",
         "Programación: MrZ, Particle_G, [scdhh, FinnTenzor]",
-        "Artistas: MrZ, Gnyar, ScF, C29H25N3O5, [旋律星萤, T0722]",
+        "Artistas: MrZ, Gnyar, C29H25N3O5, ScF, [旋律星萤, T0722]",
         "Música: MrZ, 柒栎流星, ERM, Trebor, [T0722, Aether]",
         "Voces/Sonidos: Miya, Xiaoya, Mono, MrZ, Trebor",
         "Performance: 模电, HBM",

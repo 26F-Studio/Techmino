@@ -161,7 +161,7 @@ return{
         "Powered by LÖVE",
         "",
         "Programme : MrZ, Particle_G, [scdhh, FinnTenzor]",
-        "Art : MrZ, Gnyar, ScF, C29H25N3O5, [旋律星萤, T0722]",
+        "Art : MrZ, Gnyar, C29H25N3O5, ScF, [旋律星萤, T0722]",
         "Musique : MrZ, 柒栎流星, ERM, Trebor, [T0722, Aether]",
         "Voix & Sons: Miya, Xiaoya, Mono, MrZ, Trebor",
         "Performance: 模电, HBM",
