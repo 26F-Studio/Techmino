@@ -64,6 +64,10 @@ function scene.keyDown(key,isRep)
                 SFX.play('finesseError')
             end
         end
+    elseif key=="left"or key=="right"then
+        if state==0 then
+            scene.widgetList.level:scroll(key=="left"and -1 or 1)
+        end
     elseif key=="space"then
         progress=1
         mistake=0
