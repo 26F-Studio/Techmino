@@ -91,13 +91,13 @@ scene.widgetList={
     WIDGET.newButton{name="next6",    x=830,y=440,w=80,h=65,fText="↓",code=function()_nextSkin(6)end},
     WIDGET.newButton{name="next7",    x=970,y=440,w=80,h=65,fText="↓",code=function()_nextSkin(7)end},
 
-    WIDGET.newButton{name="spin1",    x=130,y=540,w=80,h=65,code=function()_nextDir(1)end},
-    WIDGET.newButton{name="spin2",    x=270,y=540,w=80,h=65,code=function()_nextDir(2)end},
-    WIDGET.newButton{name="spin3",    x=410,y=540,w=80,h=65,code=function()_nextDir(3)end},
-    WIDGET.newButton{name="spin4",    x=550,y=540,w=80,h=65,code=function()_nextDir(4)end},
-    WIDGET.newButton{name="spin5",    x=690,y=540,w=80,h=65,code=function()_nextDir(5)end},
-    WIDGET.newButton{name="spin6",    x=825,y=540,w=80,h=65,code=function()_nextDir(6)end},
-    WIDGET.newButton{name="spin7",    x=970,y=540,w=80,h=65,code=function()_nextDir(7)end},
+    WIDGET.newButton{name="spin1",    x=130,y=540,w=80,h=65,code=function()_nextDir(1)end,font=50,fText=CHAR.icon.retry_spin},
+    WIDGET.newButton{name="spin2",    x=270,y=540,w=80,h=65,code=function()_nextDir(2)end,font=50,fText=CHAR.icon.retry_spin},
+    WIDGET.newButton{name="spin3",    x=410,y=540,w=80,h=65,code=function()_nextDir(3)end,font=50,fText=CHAR.icon.retry_spin},
+    WIDGET.newButton{name="spin4",    x=550,y=540,w=80,h=65,code=function()_nextDir(4)end,font=50,fText=CHAR.icon.retry_spin},
+    WIDGET.newButton{name="spin5",    x=690,y=540,w=80,h=65,code=function()_nextDir(5)end,font=50,fText=CHAR.icon.retry_spin},
+    WIDGET.newButton{name="spin6",    x=825,y=540,w=80,h=65,code=function()_nextDir(6)end,font=50,fText=CHAR.icon.retry_spin},
+    WIDGET.newButton{name="spin7",    x=970,y=540,w=80,h=65,code=function()_nextDir(7)end,font=50,fText=CHAR.icon.retry_spin},
 
     WIDGET.newButton{name="skinR",    x=200,y=640,w=220,h=80,color='lV',font=35,
         code=function()

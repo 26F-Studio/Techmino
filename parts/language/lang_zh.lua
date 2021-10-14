@@ -434,7 +434,6 @@ return{
         setting_skin={
             skinSet="方块皮肤",
             title="外观设置",
-            spin1="R",spin2="R",spin3="R",spin4="R",spin5="R",spin6="R",spin7="R",
             skinR="重置配色",
             faceR="重置方向",
         },

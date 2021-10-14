@@ -206,7 +206,7 @@ scene.widgetList={
     WIDGET.newKey{name="right", x=760,y=460,w=80,color='lG',font=55,code=pressKey"right",fText=CHAR.key.right},
     WIDGET.newKey{name="ten",   x=840,y=460,w=80,color='lG',font=55,code=pressKey"ten",fText=CHAR.key.macTab},
     WIDGET.newKey{name="backsp",x=920,y=460,w=80,color='lY',font=55,code=pressKey"backspace",fText=CHAR.key.backspace_or_delete},
-    WIDGET.newKey{name="reset", x=1000,y=460,w=80,color='lY',font=60,code=pressKey"delete",fText=CHAR.key.clear},
+    WIDGET.newKey{name="reset", x=1000,y=460,w=80,color='lY',font=50,code=pressKey"delete",fText=CHAR.icon.trash},
 
     WIDGET.newKey{name="Z5",    x=120,y=550,w=80,color='lH',font=65,code=pressKey(8),fText=CHAR.mino.Z5},
     WIDGET.newKey{name="S5",    x=200,y=550,w=80,color='lH',font=65,code=pressKey(9),fText=CHAR.mino.S5},

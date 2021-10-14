@@ -236,7 +236,7 @@ scene.widgetList={
     WIDGET.newKey{name="right",     x=900, y=440,w=90,      color='lG',font=55,code=pressKey"right",    fText=CHAR.key.right},
     WIDGET.newKey{name="ten",       x=1000,y=440,w=90,      color='lG',font=55,code=pressKey"ten",      fText=CHAR.key.macTab},
     WIDGET.newKey{name="backsp",    x=1000,y=540,w=90,      color='lY',font=55,code=pressKey"backspace",fText=CHAR.key.backspace_or_delete},
-    WIDGET.newKey{name="reset",     x=1000,y=640,w=90,      color='lY',font=60,code=pressKey"delete",   fText=CHAR.key.clear},
+    WIDGET.newKey{name="reset",     x=1000,y=640,w=90,      color='lY',font=50,code=pressKey"delete",   fText=CHAR.icon.trash},
     WIDGET.newButton{name="copy",   x=1140,y=440,w=170,h=80,color='lR',font=50,code=pressKey"cC",       fText=CHAR.icon.export,hideF=function()return #MISSION==0 end},
     WIDGET.newButton{name="paste",  x=1140,y=540,w=170,h=80,color='lB',font=50,code=pressKey"cV",       fText=CHAR.icon.import},
     WIDGET.newSwitch{name="mission",x=1150,y=340,lim=280,disp=CUSval('missionKill'),code=CUSrev('missionKill')},

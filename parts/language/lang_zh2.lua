@@ -70,9 +70,6 @@ return{
             sddas="首次软降延迟",sdarr="软降重复延迟",
             ihs="提前暂存",
         },
-        setting_skin={
-            spin1="转",spin2="转",spin3="转",spin4="转",spin5="转",spin6="转",spin7="转",
-        },
         customGame={
             mod="模组(F1)",
 

@@ -434,7 +434,6 @@ return{
         setting_skin={
             skinSet="Block Skin",
             title="Layout Settings",
-            spin1="R",spin2="R",spin3="R",spin4="R",spin5="R",spin6="R",spin7="R",
             skinR="Reset Colors",
             faceR="Reset Dir.",
         },
