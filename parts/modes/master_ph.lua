@@ -2,7 +2,7 @@ return{
     color=COLOR.black,
     env={
         eventSet='master_ph',
-        bg='blockspace',bgm='super7th',
+        bg='blockspace',bgm='race remix',
     },
     slowMark=true,
     score=function(P)return{P.result=='win'and 260 or P.modeData.pt,P.stat.time}end,

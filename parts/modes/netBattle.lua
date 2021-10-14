@@ -20,6 +20,7 @@ return{
         GAME.modeEnv.task=marginTask
 
         local L=TABLE.copy(netPLY.list)
+        print("#1:"..#L)
         local N=1
         for i,p in next,L do
             if p.uid==USER.uid then
@@ -37,6 +38,10 @@ return{
                 PLY.newRemotePlayer(N,false,p)
                 N=N+1
             end
+        end
+        print("N:"..N)
+        for i=1,#PLAYERS do
+            print("(s)id:"..PLAYERS[i].id.."("..PLAYERS[i].sid..")")
         end
     end,
 }

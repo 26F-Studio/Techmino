@@ -19,6 +19,8 @@ local author={
     ["how feeling"]="V.A.",
     ["secret7th remix"]="柒栎流星",
     ["jazz nihilism"]="Trebor",
+    ["race remix"]="柒栎流星",
+    ["sakura"]="ZUN & C29H25N3O5",
 }
 
 local scene={}

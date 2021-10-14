@@ -6,7 +6,7 @@ return{
         drop=60,lock=60,
         fall=20,
         eventSet='ultra',
-        bg='fan',bgm='memory',
+        bg='fan',bgm='sakura',
     },
     slowMark=true,
     score=function(P)return{P.stat.score}end,

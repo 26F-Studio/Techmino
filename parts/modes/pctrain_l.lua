@@ -9,7 +9,7 @@ return{
         freshLimit=15,
         RS="SRS",
         eventSet='pctrain_l',
-        bg='rgb',bgm='oxygen',
+        bg='rgb',bgm='memory',
     },
     score=function(P)return{P.stat.pc,P.stat.time}end,
     scoreDisp=function(D)return D[1].." PCs   "..STRING.time(D[2])end,
