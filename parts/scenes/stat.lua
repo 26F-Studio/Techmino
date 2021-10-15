@@ -1,9 +1,10 @@
 local gc=love.graphics
+local gc_translate=gc.translate
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_draw,gc_line=gc.draw,gc.line
 local gc_print=gc.print
 
-local abs,int,sin=math.abs,math.floor,math.sin
+local int,sin=math.floor,math.sin
 local mStr=mStr
 
 local scene={}
@@ -61,59 +62,71 @@ function scene.keyDown(key)
     end
 end
 
-function scene.draw()
-    local minoColor,skinSet=minoColor,SETTING.skin
-    local A,B=form.A1,form.A2
+local minoChars={
+    CHAR.mino.Z,
+    CHAR.mino.S,
+    CHAR.mino.J,
+    CHAR.mino.L,
+    CHAR.mino.T,
+    CHAR.mino.O,
+    CHAR.mino.I,
+}
+local spinChars={
+    CHAR.icon.num0InSpin,
+    CHAR.icon.num1InSpin,
+    CHAR.icon.num2InSpin,
+    CHAR.icon.num3InSpin,
+}
 
-    setFont(25)
+function scene.draw()
+    local t=TIME()
+    gc_draw(TEXTURE.title,260,615,.2+.04*sin(t*3),.4,nil,580,118)
+
+    gc_setColor(COLOR.Z)
+    setFont(20)
+    for i=1,11 do
+        gc_print(item[i],760,40*i+10)
+    end
+
+    local A,B=form.A1,form.A2
+    gc_translate(60,80)
+    gc_setLineWidth(2)
+    gc.rectangle('line',0,0,560,160,5)
+    gc.rectangle('line',0,240,560,160,5)
+    for x=1,6 do
+        x=80*x
+        gc_line(x,0,x,160)
+        gc_line(x,240,x,400)
+    end
+    for y=1,3 do
+        gc_line(0,40*y,560,40*y)
+        gc_line(0,240+40*y,560,240+40*y)
+    end
+
     for x=1,7 do
-        gc_setColor(minoColor[skinSet[x]])
-        mStr(text.block[x],80*x,43)
-        mStr(text.block[x],80*x,283)
+        gc_setColor(minoColor[SETTING.skin[x]])
+        setFont(70)
+        mStr(minoChars[x],80*x-40,-70)
+        mStr(minoChars[x],80*x-40,170)
+        setFont(25)
         for y=1,4 do
-            mStr(A[x][y],80*x,43+40*y)
-            mStr(B[x][y],80*x,283+40*y)
+            mStr(A[x][y],80*x-40,-37+40*y)
+            mStr(B[x][y],80*x-40,203+40*y)
         end
-        mStr(form.Y1[x],80*x,243)
-        mStr(form.Y2[x],80*x,483)
+        mStr(form.Y1[x],80*x-40,163)
+        mStr(form.Y2[x],80*x-40,403)
     end
 
     A,B=form.X1,form.X2
     for y=1,4 do
-        gc_setColor(.5,.5,.5)
-        gc_print(y-1,620,43+40*y)
-        gc_print(y,620,283+40*y)
-        gc_setColor(1,1,1)
-        mStr(A[y],680,43+40*y)
-        mStr(B[y],680,283+40*y)
+        gc_setColor(COLOR.Z)
+        gc_print(spinChars[y],-33,-37+40*y)
+        gc_print(y,-28,203+40*y)
+        gc_setColor(COLOR.H)
+        mStr(A[y],612,-37+40*y)
+        mStr(B[y],612,203+40*y)
     end
-
-    setFont(20)
-    for i=1,11 do
-        gc_print(item[i],740,40*i+10)
-    end
-
-    gc_setLineWidth(2)
-    gc.rectangle('line',40,80,560,160,5)
-    gc.rectangle('line',40,320,560,160,5)
-    for x=1,6 do
-        x=80*x+40
-        gc_line(x,80,x,240)
-        gc_line(x,320,x,480)
-    end
-    for y=1,3 do
-        gc_line(40,80+40*y,600,80+40*y)
-        gc_line(40,320+40*y,600,320+40*y)
-    end
-
-    local t=TIME()
-    gc_draw(TEXTURE.title,260,615,.2+.04*sin(t*3),.4,nil,580,118)
-
-    local r=t*2
-    local R=int(r)%7+1
-    gc_setColor(1,1,1,1-abs(r%1*2-1))
-    gc_draw(TEXTURE.miniBlock[R],680,50,t*10%6.2832,15,15,DSCP[R][0][2]+.5,#BLOCKS[R][0]-DSCP[R][0][1]-.5)
-    mDraw(TEXTURE.miniBlock[R],680,300,0,15,15)
+    gc_translate(-60,-80)
 end
 
 scene.widgetList={
