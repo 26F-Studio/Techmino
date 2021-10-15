@@ -154,15 +154,6 @@ TEXTURE.dial={
     }
 }
 
-TEXTURE.sure=GC.DO{48,64,
-    {'fRect',0,0,10,27},
-    {'fRect',0,0,48,10},
-    {'fRect',38,10,10,15},
-    {'fRect',19,25,29,9},
-    {'fRect',19,25,9,22},
-    {'fRect',18,53,11,11},
-}
-
 TEXTURE.rep={--Replay speed buttons
     rep0=GC.DO{50,50,{'fRect',11,8,8,34},{'fRect',31,8,8,34}},
     repP8=GC.DO{50,50,{'setFT',15},{'mText',"0.125x",25,15}},

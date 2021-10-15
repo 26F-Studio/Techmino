@@ -69,6 +69,7 @@ function scene.keyDown(key)
             SFX.play('finesseError',.7)
         else
             sure=1
+            MES.new('info',text.sureReset)
         end
     elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
         if #MISSION>0 then
@@ -183,12 +184,6 @@ function scene.draw()
     --Draw cursor
     gc.setColor(1,1,.4,.6+.4*sin(TIME()*6.26))
     gc.line(cx-5,cy-20,cx-5,cy+20)
-
-    --Confirm reset
-    if sure>0 then
-        gc.setColor(1,1,1,sure)
-        mDraw(TEXTURE.sure,1000,640,nil,.9)
-    end
 end
 
 scene.widgetList={

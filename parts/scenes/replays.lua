@@ -134,6 +134,7 @@ function scene.keyDown(key)
                 SFX.play('finesseError',.7)
             else
                 sure=1
+                MES.new('info',text.sureReset)
             end
         end
     elseif key=="escape"then
@@ -146,14 +147,6 @@ end
 function scene.update(dt)
     if sure>0 then
         sure=sure-dt
-    end
-end
-
-function scene.draw()
-    --Confirm delete
-    if sure>0 then
-        gc_setColor(1,1,1,sure)
-        mDraw(TEXTURE.sure,930,640,nil,.9)
     end
 end
 

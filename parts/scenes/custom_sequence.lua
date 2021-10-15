@@ -73,6 +73,7 @@ function scene.keyDown(key)
             SFX.play('finesseError',.7)
         else
             sure=1
+            MES.new('info',text.sureReset)
         end
     elseif key=="="then
         local l={1,2,3,4,5,6,7}
@@ -179,12 +180,6 @@ function scene.draw()
     --Draw cursor
     gc_setColor(.5,1,.5,.6+.4*sin(TIME()*6.26))
     gc.line(cx-5,cy-20,cx-5,cy+20)
-
-    --Confirm reset
-    if sure>0 then
-        gc_setColor(1,1,1,sure)
-        mDraw(TEXTURE.sure,1000,460,nil,.8)
-    end
 end
 
 scene.widgetList={

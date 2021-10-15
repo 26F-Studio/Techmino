@@ -2,6 +2,7 @@ local C=COLOR
 return{
     fallback='en',
     sureQuit="Aparte novamente para sair",
+    -- sureReset="Press again to reset",
     newDay="[Anti-vício] Novo dia, um começo novo!",
     playedLong="[Anti-vício] Você andou jogando bastante hoje. Certifique-se de fazer pausas.",
     playedTooMuch="[Anti-vício] Você esteve jogando demais hoje! Você não pode jogar mais.",
