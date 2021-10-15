@@ -161,7 +161,6 @@ TEXTURE.rep={--Replay speed buttons
     rep1=GC.DO{50,50,{'setFT',30},{'mText',"1x",25,3}},
     rep2=GC.DO{50,50,{'setFT',30},{'mText',"2x",25,3}},
     rep5=GC.DO{50,50,{'setFT',30},{'mText',"5x",25,3}},
-    step=GC.DO{50,50,{'setFT',30},{'fRect',12,7,4,36},{'setLW',4},{'line',25,14,41,25,25,36}},
 }
 
 gc.setCanvas()
