@@ -11,6 +11,7 @@ return{
         finish="按任意按钮开始!",
     },
     sureQuit="再次按退出",
+    sureReset="再次按下可重置",
     newDay="新的一天,新的开始!",
     playedLong="你已经玩了很长时间了。一定要好好休息!",
     playedTooMuch="你玩得太久了!玩方块游戏很有趣,但现在是休息的时候了。",

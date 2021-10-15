@@ -3,6 +3,8 @@ local kb=love.keyboard
 
 local sin=math.sin
 local ins,rem=table.insert,table.remove
+local setFont=setFont
+local gc_setColor,gc_print=gc.setColor,gc.print
 
 local scene={}
 
@@ -71,6 +73,7 @@ function scene.keyDown(key)
             SFX.play('finesseError',.7)
         else
             sure=1
+            MES.new('info',text.sureReset)
         end
     elseif key=="="then
         local l={1,2,3,4,5,6,7}
@@ -122,45 +125,44 @@ function scene.update(dt)
     end
 end
 
+local blockCharWidth={}for i=1,#BLOCKCHARS do blockCharWidth[i]=gc.newText(FONT.get(60),BLOCKCHARS[i]):getWidth()end
 function scene.draw()
     --Draw frame
-    gc.setColor(COLOR.Z)
+    gc_setColor(COLOR.Z)
     gc.setLineWidth(2)
     gc.rectangle('line',100,110,1080,260,5)
 
     --Draw sequence
-    local miniBlock=TEXTURE.miniBlock
-    local libColor=minoColor
-    local set=SETTING.skin
-    local L=BAG
+    local minoColor=minoColor
+    local skinSetting=SETTING.skin
+    local BAG=BAG
     local x,y=120,136--Next block pos
     local cx,cy=120,136--Cursor-center pos
-    local i,j=1,#L
+    local i,j=1,#BAG
     local count=1
-    setFont(25)
     repeat
-        if L[i]==L[i-1]and i-1~=cur then
+        if BAG[i]==BAG[i-1]and i-1~=cur then
             count=count+1
         else
             if count>1 then
-                gc.setColor(COLOR.Z)
-                gc.print("×",x-5,y-14)
-                gc.print(count,x+10,y-13)
-                x=x+(count<10 and 33 or 45)
+                setFont(25)
+                gc_setColor(COLOR.Z)
+                gc_print("×"..count,x,y-14)
+                x=x+(count<10 and 34 or count<100 and 47 or 60)
                 count=1
                 if i==cur+1 then
                     cx,cy=x,y
                 end
             end
             if x>1060 then
-                x,y=120,y+50
-                if y>1260 then break end
+                x,y=120,y+40
+                if y>1290 then break end
             end
             if i<=j then
-                local B=miniBlock[L[i]]
-                gc.setColor(libColor[set[L[i]]])
-                gc.draw(B,x,y,nil,15,15,0,B:getHeight()*.5)
-                x=x+B:getWidth()*15+10
+                setFont(60)
+                gc_setColor(minoColor[skinSetting[BAG[i]]])
+                gc_print(BLOCKCHARS[BAG[i]],x,y-40)
+                x=x+blockCharWidth[BAG[i]]
             end
         end
 
@@ -172,18 +174,12 @@ function scene.draw()
 
     --Draw lenth
     setFont(40)
-    gc.setColor(COLOR.Z)
-    gc.print(#L,120,310)
+    gc_setColor(COLOR.Z)
+    gc_print(#BAG,120,310)
 
     --Draw cursor
-    gc.setColor(.5,1,.5,.6+.4*sin(TIME()*6.26))
+    gc_setColor(.5,1,.5,.6+.4*sin(TIME()*6.26))
     gc.line(cx-5,cy-20,cx-5,cy+20)
-
-    --Confirm reset
-    if sure>0 then
-        gc.setColor(1,1,1,sure)
-        mDraw(TEXTURE.sure,1000,460,nil,.8)
-    end
 end
 
 scene.widgetList={

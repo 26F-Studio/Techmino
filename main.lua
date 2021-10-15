@@ -74,9 +74,9 @@ for _,v in next,fs.getDirectoryItems('parts/shaders')do
     end
 end
 
+CHAR=require'parts.char'
 require'parts.gameTables'
 require'parts.gameFuncs'
-CHAR=require'parts.char'
 
 FREEROW=    require'parts.freeRow'
 DATA=       require'parts.data'
@@ -289,13 +289,7 @@ LANG.init('zh',
         --3. Add a button in parts/scenes/setting_lang.lua;
     },
     {
-        block={
-            "Z","S","J","L","T","O","I",
-            "Z5","S5","P","Q","F","E",
-            "T5","U","V","W","X",
-            "J5","L5","R","Y","N","H","I5",
-            "I3","C","I2","O1"
-        },
+        block=BLOCKNAMES
     },
     (function()
         local tipMeta={__call=function(L)return L[math.random(#L)]end}

@@ -191,6 +191,7 @@ function scene.keyDown(key)
             SFX.play('finesseError',.7)
         else
             sure=1
+            MES.new('info',text.sureReset)
         end
     elseif key=="j"then
         demo=not demo
@@ -437,12 +438,6 @@ function scene.draw()
             end
         end
     gc.translate(-560,-475)
-
-    --Confirm reset
-    if sure>0 then
-        gc.setColor(1,1,1,sure)
-        mDraw(TEXTURE.sure,990,530,nil,1.2)
-    end
 
     --Block name
     setFont(55)

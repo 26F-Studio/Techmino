@@ -92,6 +92,7 @@ function scene.keyDown(key,isRep)
             BGM.play(CUSTOMENV.bgm)
         else
             sure=1
+            MES.new('info',text.sureReset)
         end
     elseif key=="f1"then
         SCN.go('mod','swipeD')
@@ -176,11 +177,6 @@ function scene.draw()
     gc.setColor(COLOR.Z)
     gc.print(CUSTOMENV.sequence,610,250)
 
-    --Confirm reset
-    if sure>0 then
-        gc.setColor(1,1,1,sure)
-        gc.draw(TEXTURE.sure,920,50)
-    end
     gc.translate(0,WIDGET.scrollPos)
 end
 
