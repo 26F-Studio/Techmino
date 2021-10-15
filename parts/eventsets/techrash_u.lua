@@ -8,7 +8,7 @@ return{
         PLY.draw.applyField(P)
         local L=P.modeData.history
         for i=1,#L do
-            gc.setColor(1,.5,.5,.24)
+            gc.setColor(1,.3,.3,.45-i*.04)
             gc.rectangle('fill',30*L[i]-30,0,30,600)
         end
         PLY.draw.cancelField(P)
