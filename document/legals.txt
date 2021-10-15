@@ -1,4 +1,4 @@
-TECHMINO © 2019~2021 26F Studio. Some rights reserved.
+TECHMINO © 2019-2021 26F Studio. Some rights reserved.
 TECHMINO and "26F Studio" are trademarks of 26F Studio.
 The TECHMINO game and source code are under a GNU Lesser General Public License Version 3.
 
@@ -21,5 +21,7 @@ JetBrains Mono is copyrighted by the JetBrains Mono Project authors. JetBrains M
 GoldWave is a registered trademark of GoldWave, Inc.
 
 Linux is a registered trademark of Linus Torvalds. 
+
+Touhou Project © Team Shanghai Alice 2002-2021.
 
 All other trademarks are the property of their respective owners.
