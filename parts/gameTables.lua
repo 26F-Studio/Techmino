@@ -179,6 +179,14 @@ do--drawableText
         noScore=T(45),highScore=T(30),modeLocked=T(45),
     }
 end
+BLOCKNAMES={
+    "Z","S","J","L","T","O","I",
+    "Z5","S5","P","Q","F","E",
+    "T5","U","V","W","X",
+    "J5","L5","R","Y","N","H","I5",
+    "I3","C","I2","O1"
+}
+BLOCKCHARS={}for i=1,#BLOCKNAMES do BLOCKCHARS[i]=CHAR.mino[BLOCKNAMES[i]]end
 do--BLOCKS
     local O,_=true,false
     BLOCKS={
