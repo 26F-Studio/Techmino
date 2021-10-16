@@ -97,7 +97,10 @@ netPLY=     require'parts.netPlayer'
 MODES=      require'parts.modes'
 
 --Init Zframework
-do
+Z.setIfPowerInfo(function()
+    return SETTING.powerInfo and LOADED
+end)
+do--Z.setCursor
     local normImg=GC.DO{16,16,
         {'fCirc',8,8,4},
         {'setCL',1,1,1,.7},
@@ -123,9 +126,6 @@ do
         end
     end)
 end
-Z.setIfPowerInfo(function()
-    return SETTING.powerInfo and LOADED
-end)
 Z.setOnFnKeys({
     function()MES.new('check',PROFILE.switch()and"profile start!"or"profile report copied!")end,
     function()MES.new('info',("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s"):format(SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))end,
@@ -145,6 +145,44 @@ Z.setOnFnKeys({
     function()for k,v in next,_G do print(k,v)end end,
     function()if love["_openConsole"]then love["_openConsole"]()end end,
 })
+do--Z.setOnFocus
+    local function task_autoSoundOff()
+        while true do
+            coroutine.yield()
+            local v=love.audio.getVolume()
+            love.audio.setVolume(math.max(v-.05,0))
+            if v==0 then return end
+        end
+    end
+    local function task_autoSoundOn()
+        while true do
+            coroutine.yield()
+            local v=love.audio.getVolume()
+            if v<SETTING.mainVol then
+                love.audio.setVolume(math.min(v+.05,SETTING.mainVol,1))
+            else
+                return
+            end
+        end
+    end
+    Z.setOnFocus(function(f)
+        if f then
+            love.timer.step()
+            if SETTING.autoMute then
+                TASK.removeTask_code(task_autoSoundOff)
+                TASK.new(task_autoSoundOn)
+            end
+        else
+            if SCN.cur=='game'and SETTING.autoPause then
+                pauseGame()
+            end
+            if SETTING.autoMute then
+                TASK.removeTask_code(task_autoSoundOn)
+                TASK.new(task_autoSoundOff)
+            end
+        end
+    end)
+end
 Z.setOnQuit(destroyPlayers)
 
 --Load settings and statistics
