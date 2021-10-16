@@ -46,7 +46,7 @@ runs:
     - name: Download ColdClear armeabi-v7a
       uses: ./.github/actions/get-cc
       with:
-        url: android_armv7
+        arch: android_armv7
         dir: ColdClear/armeabi-v7a
     - name: Process ColdClear armeabi-v7a
       shell: bash
