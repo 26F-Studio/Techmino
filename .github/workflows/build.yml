@@ -17,7 +17,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install lua
       run: |
-        sudo apt-get update -y
         sudo apt-get install lua5.3 -y
     - name: Get Version
       id: actual-get-version
