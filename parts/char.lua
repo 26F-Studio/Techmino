@@ -119,6 +119,7 @@ local L={
         rankE=          0xF00BA,
         rankF=          0xF00BB,
         rankZ=          0xF00BC,
+        rankS=          0xF00C2,
         speedOneEights= 0xF00BD,
         speedOneHalf=   0xF00BE,
         speedOne=       0xF00BF,
