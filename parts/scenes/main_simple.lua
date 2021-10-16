@@ -22,7 +22,7 @@ scene.widgetList={
     WIDGET.newButton{name="marathon",x=640,y=480,w=260,font=50,code=function()loadGame('marathon_n',true)end},
     WIDGET.newButton{name="setting", x=1000,y=400,w=120,font=90,fText=CHAR.icon.settings,code=goScene'setting_game'},
     WIDGET.newButton{name="lang",    x=1000,y=560,w=120,font=90,fText=CHAR.icon.language,code=goScene'lang'},
-    WIDGET.newButton{name="manual",  x=1160,y=400,w=120,font=90,fText=CHAR.key.winMenu,code=goScene'dict'},
+    WIDGET.newButton{name="dict",    x=1160,y=400,w=120,font=90,fText=CHAR.icon.zBook,code=goScene'dict'},
     WIDGET.newButton{name="quit",    x=1160,y=560,w=120,font=80,fText=CHAR.key.macEsc,code=function()VOC.play('bye')SCN.swapTo('quit','slowFade')end},
 }
 

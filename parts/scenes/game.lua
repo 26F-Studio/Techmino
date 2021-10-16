@@ -380,13 +380,13 @@ function scene.draw()
     drawWarning()
 end
 scene.widgetList={
-    WIDGET.newKey{name="rep0",   x=40,y=50,w=60, code=_rep0,    fText=TEXTURE.rep.rep0},
-    WIDGET.newKey{name="repP8",  x=105,y=50,w=60,code=_repP8,   fText=TEXTURE.rep.repP8},
-    WIDGET.newKey{name="repP2",  x=170,y=50,w=60,code=_repP2,   fText=TEXTURE.rep.repP2},
-    WIDGET.newKey{name="rep1",   x=235,y=50,w=60,code=_rep1,    fText=TEXTURE.rep.rep1},
-    WIDGET.newKey{name="rep2",   x=300,y=50,w=60,code=_rep2,    fText=TEXTURE.rep.rep2},
-    WIDGET.newKey{name="rep5",   x=365,y=50,w=60,code=_rep5,    fText=TEXTURE.rep.rep5},
-    WIDGET.newKey{name="step",   x=430,y=50,w=60,code=_step,    font=35,fText=CHAR.icon.nextFrame},
+    WIDGET.newKey{name="rep0",   x=40,y=50,w=60, code=_rep0,    font=40,fText=CHAR.icon.pause},
+    WIDGET.newKey{name="repP8",  x=105,y=50,w=60,code=_repP8,   font=40,fText=CHAR.icon.speedOneEights},
+    WIDGET.newKey{name="repP2",  x=170,y=50,w=60,code=_repP2,   font=40,fText=CHAR.icon.speedOneHalf},
+    WIDGET.newKey{name="rep1",   x=235,y=50,w=60,code=_rep1,    font=40,fText=CHAR.icon.speedOne},
+    WIDGET.newKey{name="rep2",   x=300,y=50,w=60,code=_rep2,    font=40,fText=CHAR.icon.speedTwo},
+    WIDGET.newKey{name="rep5",   x=365,y=50,w=60,code=_rep5,    font=40,fText=CHAR.icon.speedFive},
+    WIDGET.newKey{name="step",   x=430,y=50,w=60,code=_step,    font=40,fText=CHAR.icon.nextFrame},
     WIDGET.newKey{name="restart",x=0,y=45,w=60,  code=_restart, font=40,fText=CHAR.icon.retry_spin},
     WIDGET.newKey{name="pause",  x=0,y=45,w=60,  code=pauseGame,font=40,fText=CHAR.icon.pause},
 }

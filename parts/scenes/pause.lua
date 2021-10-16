@@ -217,7 +217,7 @@ function scene.draw()
     if GAME.rank>0 then
         gc.push('transform')
             gc.translate(1050,5)
-            local str=text.ranks[GAME.rank]
+            local str=RANKCHARS[GAME.rank]
             setFont(80)
             gc.setColor(0,0,0,timer1*.7)
             gc.print(str,-5,-4,nil,1.5)

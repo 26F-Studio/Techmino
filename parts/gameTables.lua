@@ -180,13 +180,14 @@ do--drawableText
     }
 end
 BLOCKNAMES={
-    "Z","S","J","L","T","O","I",
-    "Z5","S5","P","Q","F","E",
-    "T5","U","V","W","X",
-    "J5","L5","R","Y","N","H","I5",
-    "I3","C","I2","O1"
+    'Z','S','J','L','T','O','I',
+    'Z5','S5','P','Q','F','E',
+    'T5','U','V','W','X',
+    'J5','L5','R','Y','N','H','I5',
+    'I3','C','I2','O1'
 }
 BLOCKCHARS={}for i=1,#BLOCKNAMES do BLOCKCHARS[i]=CHAR.mino[BLOCKNAMES[i]]end
+RANKCHARS={'B','A','S','U','X'}for i=1,#RANKCHARS do RANKCHARS[i]=CHAR.icon['rank'..RANKCHARS[i]]end
 do--BLOCKS
     local O,_=true,false
     BLOCKS={

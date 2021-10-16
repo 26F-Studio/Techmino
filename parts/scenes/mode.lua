@@ -269,7 +269,7 @@ function scene.draw()
 
             --Rank
             if unlocked==1 then
-                name=text.ranks[rank]
+                name=RANKCHARS[rank]
                 if name then
                     gc_setColor(0,0,0,.8)
                     mStr(name,M.x+M.size*.7,M.y-50-M.size*.7)

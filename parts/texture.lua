@@ -154,15 +154,6 @@ TEXTURE.dial={
     }
 }
 
-TEXTURE.rep={--Replay speed buttons
-    rep0=GC.DO{50,50,{'fRect',11,8,8,34},{'fRect',31,8,8,34}},
-    repP8=GC.DO{50,50,{'setFT',15},{'mText',"0.125x",25,15}},
-    repP2=GC.DO{50,50,{'setFT',25},{'mText',"0.5x",25,8}},
-    rep1=GC.DO{50,50,{'setFT',30},{'mText',"1x",25,3}},
-    rep2=GC.DO{50,50,{'setFT',30},{'mText',"2x",25,3}},
-    rep5=GC.DO{50,50,{'setFT',30},{'mText',"5x",25,3}},
-}
-
 gc.setCanvas()
 setmetatable(TEXTURE,{__index=function(_,i)error(i)end})
 return TEXTURE

@@ -63,7 +63,6 @@ return{
     ai_prebag="AI与具有非四格拼板的自定义序列不兼容",
     ai_mission="AI与自定义使命不兼容",
     switchSpawnSFX="请打开繁殖特技效果",
-    ranks={"B","A","S","U","X"},
     needRestart="请重试以使更改生效",
 
     saveDone="保存的数据",

@@ -180,7 +180,8 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newText{name="title",  x=20,y=5,font=70,align='L'},
+    WIDGET.newText{name="book",   x=20,y=15,font=70,align='L',fText=CHAR.icon.zBook},
+    WIDGET.newText{name="title",  x=100,y=15,font=70,align='L'},
     inputBox,
     WIDGET.newKey{name="link",    x=1150,y=655,w=200,h=80,font=35,code=pressKey"link",hideF=function()return not url end},
     WIDGET.newKey{name="up",      x=1130,y=460,w=60,h=90,font=35,fText="↑",code=pressKey"up",hide=not MOBILE},

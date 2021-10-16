@@ -49,8 +49,6 @@ return{
     noPassword="注册会不会?",
     diffPassword="字不认识?",
 
-    ranks={"菜","可","好","强","您"},
-
     createRoomSuccessed="创好了",
     started="开了",
     spectating="看戏中",
