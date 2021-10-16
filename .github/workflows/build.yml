@@ -102,7 +102,7 @@ jobs:
         path: Techmino_Snapshot.apk
 
   build-macOS:
-    runs-on: macos-10.15
+    runs-on: macos-11
     needs: [get-version, get-cc-url]
     steps:
     - uses: actions/checkout@v2
@@ -115,9 +115,34 @@ jobs:
         name: ${{ needs.get-version.outputs.name }}
         icon: .github/build/macOS/icon_snapshot.icns
         MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+        MACOS_CERTIFICATE_ID: ${{ secrets.MACOS_CERTIFICATE_ID }}
         MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
         name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-version.outputs.commit }}_macOS
-        path: Techmino.app
+        path: Techmino-macOS
+
+  build-iOS:
+    runs-on: macos-11
+    needs: [get-version, get-cc-url]
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: ./.github/actions/snapshot-update
+      with:
+        commit: ${{ needs.get-version.outputs.commit }}
+
+    - uses: ./.github/actions/build-ios
+      with:
+        cc-url: ${{ needs.get-cc-url.outputs.url }}/iOS.zip
+        name: ${{ needs.get-version.outputs.name }}
+        MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+        MACOS_CERTIFICATE_ID: ${{ secrets.MACOS_CERTIFICATE_ID }}
+        MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-version.outputs.commit }}_iOS
+        path: Techmino-iOS

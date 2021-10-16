@@ -32,6 +32,14 @@ def updateMacOS(args):  #更新macOS打包信息
     with open('./Techmino.app/Contents/info.plist', 'w+', encoding='utf-8') as file:
         file.write(data)
 
+def updateIOS(args):  #更新macOS打包信息
+    with open('./ios.app/info.plist', 'r', encoding='utf-8') as file:
+        data = file.read()
+        data = data.replace('0.16.1', args.Name)
+
+    with open('./ios.app/info.plist', 'w+', encoding='utf-8') as file:
+        file.write(data)
+
 def updateWindows(args):    #更新Windows打包信息
     Version = (args.Name).replace('V', '')
     FileVersion = (f"{Version.replace('.', ',')},0")
@@ -91,6 +99,8 @@ if __name__ == '__main__':
         updateWindows(args)
     elif args.Type == 'macOS':
         updateMacOS(args)
+    elif args.Type == 'iOS':
+        updateIOS(args)
     elif args.Type == 'AndroidRelease':
         updateAndroid(args, 'Release')
     elif args.Type == 'AndroidSnapshot':

@@ -1,11 +1,9 @@
-name: 'build Mac OS'
-description: 'build Mac OS package'
+name: 'build iOS'
+description: 'build iOS package'
 inputs:
   cc-url:
     required: true
   name:
-    required: true
-  icon:
     required: true
   MACOS_CERTIFICATE:
     required: true
@@ -21,7 +19,7 @@ runs:
     - name: Download template
       uses: ./.github/actions/get-unzip
       with:
-        url: https://github.com/26F-Studio/Techmino-CI-template/releases/download/1.0/macos.app.zip
+        url: https://github.com/26F-Studio/Techmino-CI-template/releases/download/1.0/ios.app.zip
 
     - name: Download ColdClear
       uses: ./.github/actions/get-unzip
@@ -31,10 +29,10 @@ runs:
     - name: Modify template
       shell: bash
       run: |
-        python3 .github/workflows/updateVersion.py -T macOS -N ${{ inputs.name }}
-        mv Techmino.love macos.app/Contents/Resources
-        mv CCloader.dylib macos.app/Contents/Frameworks
-        mv ${{ inputs.icon }} macos.app/Contents/Resources/iconfile.icns
+        python3 .github/workflows/updateVersion.py -T iOS -N ${{ inputs.name }}
+        mv Techmino.love ios.app
+        mv CCloader.dylib ios.app
+
     - name: Codesign executable
       # In secrets:
       #   - MACOS_CERTIFICATE: the *.p12 Developer ID Certificate, encoded in base64
@@ -47,10 +45,10 @@ runs:
         security unlock-keychain -p Techminohaowan build.keychain
         security import certificate.p12 -k build.keychain -P ${{ inputs.MACOS_CERTIFICATE_PWD }} -T /usr/bin/codesign
         security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k Techminohaowan build.keychain
-        /usr/bin/codesign --force --deep -s ${{ inputs.MACOS_CERTIFICATE_ID }} macos.app -v
+        /usr/bin/codesign --force --deep -s ${{ inputs.MACOS_CERTIFICATE_ID }} ios.app -v
 
     - name: Rename and Pack app
       shell: bash
       run: |
-        mkdir Techmino-macOS
-        mv macos.app Techmino-ios/Techmino.app
+        mkdir Techmino-iOS
+        mv ios.app Techmino-ios/Techmino.app
