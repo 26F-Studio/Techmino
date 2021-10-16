@@ -101,6 +101,7 @@ jobs:
         name: ${{ needs.get-version.outputs.name }}
         icon: .github/build/macOS/icon_snapshot.icns
         MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+        MACOS_CERTIFICATE_ID: ${{ secrets.MACOS_CERTIFICATE_ID }}
         MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
     - name: Upload
       uses: actions/upload-artifact@v2
