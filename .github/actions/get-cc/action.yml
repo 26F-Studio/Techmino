@@ -18,7 +18,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: curl -L https://github.com/${{ inputs.repo }}/releases/download/$(if [ "${{ inputs.tag }}" == "" ]; then curl -w '%{url_effective}' -I -L -s -S https://github.com/${{ inputs.repo }}/releases/latest -o /dev/null | grep '\<[^/]*$' -o else echo ${{ inputs.tag }})/${{ inputs.arch }}.zip -o ${{ inputs.temp-file }}
+    - run: curl -L https://github.com/${{ inputs.repo }}/releases/download/$(if [ "${{ inputs.tag }}" == "" ]; then curl -w '%{url_effective}' -I -L -s -S https://github.com/${{ inputs.repo }}/releases/latest -o /dev/null | grep -o '\<[^/]*$'; else echo ${{ inputs.tag }}; fi)/${{ inputs.arch }}.zip -o ${{ inputs.temp-file }}
       shell: bash
     - run: 7z x ${{ inputs.temp-file }} -o${{ inputs.dir }}
       shell: bash
