@@ -36,7 +36,7 @@ math.randomseed(os.time()*626)
 love.setDeprecationOutput(false)
 love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
-if SYSTEM=='Android'or SYSTEM=='iOS'then
+if MOBILE then
     local w,h,f=love.window.getMode()
     f.resizable=false
     love.window.setMode(w,h,f)
