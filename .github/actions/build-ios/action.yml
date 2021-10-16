@@ -30,8 +30,8 @@ runs:
       shell: bash
       run: |
         python3 .github/workflows/updateVersion.py -T iOS -N ${{ inputs.name }}
-        mv Techmino.love ios.app
-        mv CCloader.dylib ios.app
+        mv Techmino.love Techmino.app
+        mv CCloader.dylib Techmino.app
 
     - name: Codesign executable
       # In secrets:
@@ -45,10 +45,10 @@ runs:
         security unlock-keychain -p Techminohaowan build.keychain
         security import certificate.p12 -k build.keychain -P ${{ inputs.MACOS_CERTIFICATE_PWD }} -T /usr/bin/codesign
         security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k Techminohaowan build.keychain
-        /usr/bin/codesign --force --deep -s ${{ inputs.MACOS_CERTIFICATE_ID }} ios.app -v
+        /usr/bin/codesign --force --deep -s ${{ inputs.MACOS_CERTIFICATE_ID }} Techmino.app -v
 
     - name: Rename and Pack app
       shell: bash
       run: |
         mkdir Techmino-iOS
-        mv ios.app Techmino-ios/Techmino.app
+        mv Techmino.app Techmino-iOS/Techmino.app
