@@ -18,7 +18,7 @@ runs:
       with:
         url: https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.app.zip
     - name: Download ColdClear
-      uses: ./.github/actions/get-unzip
+      uses: ./.github/actions/get-cc
       with:
         arch: macOS
     - name: Modify template
