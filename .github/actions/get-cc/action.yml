@@ -1,0 +1,28 @@
+name: 'get cc'
+description: 'download cc into specific dir'
+inputs:
+  tag:
+    required: false
+    default: latest
+  arch:
+    required: true
+  dir:
+    required: false
+    default: '.'
+  repo:
+    required: false
+    default: 26F-Studio/cold_clear_ai_love2d_wrapper
+  temp-file:
+    required: false
+    default: temp.zip
+runs:
+  using: "composite"
+  steps:
+    - run: curl -L https://github.com/${{ inputs.repo }}/releases/download/${{ inputs.tag }}/${{ inputs.arch }}.zip -o ${{ inputs.temp-file }}
+      shell: bash
+      if: inputs.tag != 'latest'
+    - run: curl -L $(curl -w '%{url_effective}' -I -L -s -S https://github.com/${{ inputs.repo }}/releases/latest -o /dev/null | sed 's!/tag/!/download/!g')/${{ inputs.arch }}.zip -o ${{ inputs.temp-file }}
+      shell: bash
+      if: inputs.tag == 'latest'
+    - run: 7z x ${{ inputs.temp-file }} -o${{ inputs.dir }}
+      shell: bash

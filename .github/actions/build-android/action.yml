@@ -3,8 +3,6 @@ description: 'build Android package'
 inputs:
   type:
     required: true
-  cc-url:
-    required: true
   code:
     required: true
   name:
@@ -36,7 +34,7 @@ runs:
     - name: Download ColdClear arm64-v8a
       uses: ./.github/actions/get-unzip
       with:
-        url: ${{ inputs.cc-url }}/android_aarch64.zip
+        arch: android_aarch64
         dir: ColdClear/arm64-v8a
     - name: Process ColdClear arm64-v8a
       shell: bash
@@ -48,7 +46,7 @@ runs:
     - name: Download ColdClear armeabi-v7a
       uses: ./.github/actions/get-unzip
       with:
-        url: ${{ inputs.cc-url }}/android_armv7.zip
+        url: android_armv7
         dir: ColdClear/armeabi-v7a
     - name: Process ColdClear armeabi-v7a
       shell: bash

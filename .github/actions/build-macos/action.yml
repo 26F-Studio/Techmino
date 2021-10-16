@@ -1,8 +1,6 @@
 name: 'build Mac OS'
 description: 'build Mac OS package'
 inputs:
-  cc-url:
-    required: true
   name:
     required: true
   icon:
@@ -22,7 +20,7 @@ runs:
     - name: Download ColdClear
       uses: ./.github/actions/get-unzip
       with:
-        url: ${{ inputs.cc-url }}
+        arch: macOS
     - name: Modify template
       shell: bash
       run: |

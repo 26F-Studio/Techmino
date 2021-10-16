@@ -6,34 +6,31 @@ on:
     - '*'
 
 jobs:
-  get-version:
+  get-info:
     runs-on: ubuntu-20.04
     outputs:
-      name: ${{ steps.actual-get-version.outputs.name }}
-      code: ${{ steps.actual-get-version.outputs.code }}
-      release: ${{ steps.actual-get-version.outputs.release }}
-      updateTitle: ${{ steps.actual-get-version.outputs.updateTitle }}
-      commit: ${{ steps.actual-get-version.outputs.commit }}
-      cc-url: ${{ steps.actual-get-version.outputs.cc-url }}
+      name: ${{ steps.actual-get-info.outputs.name }}
+      code: ${{ steps.actual-get-info.outputs.code }}
+      release: ${{ steps.actual-get-info.outputs.release }}
+      updateTitle: ${{ steps.actual-get-info.outputs.updateTitle }}
+      commit: ${{ steps.actual-get-info.outputs.commit }}
     steps:
     - uses: actions/checkout@v2
     - name: Install lua
       run: |
-        sudo apt-get update -y
         sudo apt-get install lua5.3 -y
     - name: Get Version
-      id: actual-get-version
+      id: actual-get-info
       run: |
         echo "::set-output name=name::$(lua .github/workflows/getVersion.lua -name)"
         echo "::set-output name=code::$(lua .github/workflows/getVersion.lua -code)"
         echo "::set-output name=release::$(lua .github/workflows/getVersion.lua -release)"
         echo "::set-output name=updateTitle::$(lua .github/workflows/getVersion.lua -updateTitle)"
         echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
-        echo "::set-output name=cc-url::$(curl -w '%{url_effective}' -I -L -s -S https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/latest -o /dev/null | sed 's!/tag/!/download/!g')"
 
   build-windows-x64:
     runs-on: windows-latest
-    needs: get-version
+    needs: get-info
     steps:
     - uses: actions/checkout@v2
     - name: Update Version
@@ -43,20 +40,20 @@ jobs:
       with:
         love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
         love-dir: love-11.3-win64
-        cc-url: ${{ needs.get-version.outputs.cc-url }}/win64.zip
-        version: ${{ needs.get-version.outputs.release }}
+        arch: win64
+        version: ${{ needs.get-info.outputs.release }}
         icon: .\.github\build\Windows\icon.ico
     - name: Pack Techmino
-      run: 7z a -tzip .\Techmino.a${{ needs.get-version.outputs.release }}.Win64.zip .\love
+      run: 7z a -tzip .\Techmino.a${{ needs.get-info.outputs.release }}.Win64.zip .\love
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ needs.get-version.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-version.outputs.release }}.Win64.zip
+        name: ${{ needs.get-info.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-info.outputs.release }}.Win64.zip
 
   build-windows-x86:
     runs-on: windows-latest
-    needs: get-version
+    needs: get-info
     steps:
     - uses: actions/checkout@v2
     - name: Update Version
@@ -66,20 +63,20 @@ jobs:
       with:
         love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win32.zip
         love-dir: love-11.3-win32
-        cc-url: ${{ needs.get-version.outputs.cc-url }}/win32.zip
-        version: ${{ needs.get-version.outputs.release }}
+        arch: win32
+        version: ${{ needs.get-info.outputs.release }}
         icon: .\.github\build\Windows\icon.ico
     - name: Pack Techmino
-      run: 7z a -tzip .\Techmino.a${{ needs.get-version.outputs.release }}.Win32.zip .\love
+      run: 7z a -tzip .\Techmino.a${{ needs.get-info.outputs.release }}.Win32.zip .\love
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ needs.get-version.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-version.outputs.release }}.Win32.zip
+        name: ${{ needs.get-info.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-info.outputs.release }}.Win32.zip
 
   build-linux:
     runs-on: ubuntu-20.04
-    needs: get-version
+    needs: get-info
     steps:
     - uses: actions/checkout@v2
     - name: Update Version
@@ -87,18 +84,17 @@ jobs:
         python3 .github/workflows/updateVersion.py -T Version
     - uses: ./.github/actions/build-linux
       with:
-        cc-url: ${{ needs.get-version.outputs.cc-url }}/linux.zip
-        file-path: Techmino.a${{ needs.get-version.outputs.release }}.AppImage
+        file-path: Techmino.a${{ needs.get-info.outputs.release }}.AppImage
         icon: .github/build/Linux/icon.png
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ needs.get-version.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-version.outputs.release }}.AppImage
+        name: ${{ needs.get-info.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-info.outputs.release }}.AppImage
 
   build-android:
     runs-on: ubuntu-20.04
-    needs: get-version
+    needs: get-info
     steps:
     - uses: actions/checkout@v2
     - name: Update Version
@@ -107,10 +103,9 @@ jobs:
     - uses: ./.github/actions/build-android
       with:
         type: Release
-        cc-url: ${{ needs.get-version.outputs.cc-url }}
-        code: ${{ needs.get-version.outputs.code }}
-        name: ${{ needs.get-version.outputs.name }}
-        file-path: Techmino.a${{ needs.get-version.outputs.Version }}.apk
+        code: ${{ needs.get-info.outputs.code }}
+        name: ${{ needs.get-info.outputs.name }}
+        file-path: Techmino.a${{ needs.get-info.outputs.Version }}.apk
         SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
         ALIAS: ${{ secrets.ALIAS }}
@@ -118,12 +113,12 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ needs.get-version.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-version.outputs.Version }}.apk
+        name: ${{ needs.get-info.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-info.outputs.Version }}.apk
 
   build-android-mini:
     runs-on: ubuntu-20.04
-    needs: get-version
+    needs: get-info
     steps:
     - uses: actions/checkout@v2
     - name: Update Version
@@ -135,10 +130,9 @@ jobs:
     - uses: ./.github/actions/build-android
       with:
         type: Release
-        cc-url: ${{ needs.get-version.outputs.cc-url }}
-        code: ${{ needs.get-version.outputs.code }}
-        name: ${{ needs.get-version.outputs.name }}
-        file-path: Techmino.a${{ needs.get-version.outputs.Version }}.mini.apk
+        code: ${{ needs.get-info.outputs.code }}
+        name: ${{ needs.get-info.outputs.name }}
+        file-path: Techmino.a${{ needs.get-info.outputs.Version }}.mini.apk
         SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
         ALIAS: ${{ secrets.ALIAS }}
@@ -146,12 +140,12 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ needs.get-version.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-version.outputs.Version }}.mini.apk
+        name: ${{ needs.get-info.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-info.outputs.Version }}.mini.apk
 
   build-macOS:
     runs-on: macos-10.15
-    needs: get-version
+    needs: get-info
     steps:
     - uses: actions/checkout@v2
     - name: Update Version
@@ -159,23 +153,22 @@ jobs:
         python3 .github/workflows/updateVersion.py -T Version
     - uses: ./.github/actions/build-macos
       with:
-        cc-url: ${{ needs.get-version.outputs.cc-url }}/macOS.zip
-        name: ${{ needs.get-version.outputs.name }}
+        name: ${{ needs.get-info.outputs.name }}
         icon: .github/build/macOS/icon.icns
         MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
         MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
     - name: Pack Techmino
       run: |
-        zip -r -y Techmino.a${{ needs.get-version.outputs.Version }}.macOS.zip Techmino.app ".github/build/macOS/打不开？Can’t open the App？.pdf"
+        zip -r -y Techmino.a${{ needs.get-info.outputs.Version }}.macOS.zip Techmino.app ".github/build/macOS/打不开？Can’t open the App？.pdf"
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ needs.get-version.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-version.outputs.Version }}.macOS.zip
+        name: ${{ needs.get-info.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-info.outputs.Version }}.macOS.zip
 
   build-love:
     runs-on: ubuntu-20.04
-    needs: get-version
+    needs: get-info
     steps:
     - uses: actions/checkout@v2
     - name: Update Version
@@ -183,16 +176,16 @@ jobs:
         python3 .github/workflows/updateVersion.py -T Version
     - uses: ./.github/actions/build-love
       with:
-        file-path: Techmino.a${{ needs.get-version.outputs.release }}.love
+        file-path: Techmino.a${{ needs.get-info.outputs.release }}.love
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ needs.get-version.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-version.outputs.release }}.love
+        name: ${{ needs.get-info.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-info.outputs.release }}.love
 
   Add-Release-note:
     runs-on: ubuntu-20.04
-    needs: get-version
+    needs: get-info
     steps:
     - uses: actions/checkout@v2
     - name: Install lua
@@ -206,5 +199,5 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ needs.get-version.outputs.updateTitle }}
+        name: ${{ needs.get-info.outputs.updateTitle }}
         body_path: updateNote.txt
