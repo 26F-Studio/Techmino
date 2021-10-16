@@ -13,6 +13,7 @@ jobs:
       name: ${{ steps.actual-get-version.outputs.name }}
       code: ${{ steps.actual-get-version.outputs.code }}
       commit: ${{ steps.actual-get-version.outputs.commit }}
+      cc-url: ${{ steps.actual-get-version.outputs.cc-url }}
     steps:
     - uses: actions/checkout@v2
     - name: Install lua
@@ -25,21 +26,11 @@ jobs:
         echo "::set-output name=name::$(lua .github/workflows/getVersion.lua -name)"
         echo "::set-output name=code::$(lua .github/workflows/getVersion.lua -code)"
         echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
-
-  get-cc-url:
-    runs-on: ubuntu-20.04
-    outputs:
-      url: ${{ steps.get-url.outputs.url }}
-    steps:
-    - uses: actions/checkout@v2
-    - name: Get URL
-      id: get-url
-      run: |
-        echo "::set-output name=url::https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$(python .github/workflows/getLatest.py -P)"
+        echo "::set-output name=cc-url::$(curl -w '%{url_effective}' -I -L -s -S https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/latest -o /dev/null | sed 's!/tag/!/download/!g')"
 
   build-windows:
     runs-on: windows-latest
-    needs: [get-version, get-cc-url]
+    needs: get-version
     steps:
     - uses: actions/checkout@v2
     - uses: ./.github/actions/snapshot-update
@@ -49,7 +40,7 @@ jobs:
       with:
         love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
         love-dir: love-11.3-win64
-        cc-url: ${{ needs.get-cc-url.outputs.url }}/win64.zip
+        cc-url: ${{ needs.get-version.outputs.cc-url }}/win64.zip
         version: ${{ needs.get-version.outputs.name }}
         icon: .\.github\build\Windows\icon_snapshot.ico
     - name: Upload
@@ -60,7 +51,7 @@ jobs:
 
   build-linux:
     runs-on: ubuntu-20.04
-    needs: [get-version, get-cc-url]
+    needs: get-version
     steps:
     - uses: actions/checkout@v2
     - uses: ./.github/actions/snapshot-update
@@ -68,7 +59,7 @@ jobs:
         commit: ${{ needs.get-version.outputs.commit }}
     - uses: ./.github/actions/build-linux
       with:
-        cc-url: ${{ needs.get-cc-url.outputs.url }}/linux.zip
+        cc-url: ${{ needs.get-version.outputs.cc-url }}/linux.zip
         icon: .github/build/Linux/icon_snapshot.png
     - name: Upload
       uses: actions/upload-artifact@v2
@@ -78,7 +69,7 @@ jobs:
 
   build-android:
     runs-on: ubuntu-20.04
-    needs: [get-version, get-cc-url]
+    needs: get-version
     steps:
     - uses: actions/checkout@v2
     - uses: ./.github/actions/snapshot-update
@@ -87,7 +78,7 @@ jobs:
     - uses: ./.github/actions/build-android
       with:
         type: Snapshot
-        cc-url: ${{ needs.get-cc-url.outputs.url }}
+        cc-url: ${{ needs.get-version.outputs.cc-url }}
         code: ${{ needs.get-version.outputs.code }}
         name: ${{ needs.get-version.outputs.name }}
         file-path: Techmino_Snapshot.apk
@@ -103,7 +94,7 @@ jobs:
 
   build-macOS:
     runs-on: macos-10.15
-    needs: [get-version, get-cc-url]
+    needs: get-version
     steps:
     - uses: actions/checkout@v2
     - uses: ./.github/actions/snapshot-update
@@ -111,7 +102,7 @@ jobs:
         commit: ${{ needs.get-version.outputs.commit }}
     - uses: ./.github/actions/build-macos
       with:
-        cc-url: ${{ needs.get-cc-url.outputs.url }}/macOS.zip
+        cc-url: ${{ needs.get-version.outputs.cc-url }}/macOS.zip
         name: ${{ needs.get-version.outputs.name }}
         icon: .github/build/macOS/icon_snapshot.icns
         MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
