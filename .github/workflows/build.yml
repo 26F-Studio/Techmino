@@ -102,8 +102,11 @@ jobs:
         MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
         MACOS_CERTIFICATE_ID: ${{ secrets.MACOS_CERTIFICATE_ID }}
         MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+    - name: Pack Techmino
+      run: |
+        zip -r -y Techmino.zip Techmino.app
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
         name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-version.outputs.commit }}_macOS
-        path: Techmino.app
+        path: Techmino.zip
