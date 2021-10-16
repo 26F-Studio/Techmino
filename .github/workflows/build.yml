@@ -7,19 +7,19 @@ on:
     branches: [ main, ci* ]
 
 jobs:
-  get-version:
+  get-info:
     runs-on: ubuntu-20.04
     outputs:
-      name: ${{ steps.actual-get-version.outputs.name }}
-      code: ${{ steps.actual-get-version.outputs.code }}
-      commit: ${{ steps.actual-get-version.outputs.commit }}
+      name: ${{ steps.actual-get-info.outputs.name }}
+      code: ${{ steps.actual-get-info.outputs.code }}
+      commit: ${{ steps.actual-get-info.outputs.commit }}
     steps:
     - uses: actions/checkout@v2
     - name: Install lua
       run: |
         sudo apt-get install lua5.3 -y
     - name: Get Version
-      id: actual-get-version
+      id: actual-get-info
       run: |
         echo "::set-output name=name::$(lua .github/workflows/getVersion.lua -name)"
         echo "::set-output name=code::$(lua .github/workflows/getVersion.lua -code)"
@@ -27,55 +27,55 @@ jobs:
 
   build-windows:
     runs-on: windows-latest
-    needs: get-version
+    needs: get-info
     steps:
     - uses: actions/checkout@v2
     - uses: ./.github/actions/snapshot-update
       with:
-        commit: ${{ needs.get-version.outputs.commit }}
+        commit: ${{ needs.get-info.outputs.commit }}
     - uses: ./.github/actions/build-windows
       with:
         love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
         love-dir: love-11.3-win64
         arch: win64
-        version: ${{ needs.get-version.outputs.name }}
+        version: ${{ needs.get-info.outputs.name }}
         icon: .\.github\build\Windows\icon_snapshot.ico
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-version.outputs.commit }}_Windows
+        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Windows
         path: love
 
   build-linux:
     runs-on: ubuntu-20.04
-    needs: get-version
+    needs: get-info
     steps:
     - uses: actions/checkout@v2
     - uses: ./.github/actions/snapshot-update
       with:
-        commit: ${{ needs.get-version.outputs.commit }}
+        commit: ${{ needs.get-info.outputs.commit }}
     - uses: ./.github/actions/build-linux
       with:
         icon: .github/build/Linux/icon_snapshot.png
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-version.outputs.commit }}_Linux
+        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Linux
         path: Techmino.AppImage
 
   build-android:
     runs-on: ubuntu-20.04
-    needs: get-version
+    needs: get-info
     steps:
     - uses: actions/checkout@v2
     - uses: ./.github/actions/snapshot-update
       with:
-        commit: ${{ needs.get-version.outputs.commit }}
+        commit: ${{ needs.get-info.outputs.commit }}
     - uses: ./.github/actions/build-android
       with:
         type: Snapshot
-        code: ${{ needs.get-version.outputs.code }}
-        name: ${{ needs.get-version.outputs.name }}
+        code: ${{ needs.get-info.outputs.code }}
+        name: ${{ needs.get-info.outputs.name }}
         file-path: Techmino_Snapshot.apk
         SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
@@ -84,20 +84,20 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-version.outputs.commit }}_Android
+        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Android
         path: Techmino_Snapshot.apk
 
   build-macOS:
     runs-on: macos-10.15
-    needs: get-version
+    needs: get-info
     steps:
     - uses: actions/checkout@v2
     - uses: ./.github/actions/snapshot-update
       with:
-        commit: ${{ needs.get-version.outputs.commit }}
+        commit: ${{ needs.get-info.outputs.commit }}
     - uses: ./.github/actions/build-macos
       with:
-        name: ${{ needs.get-version.outputs.name }}
+        name: ${{ needs.get-info.outputs.name }}
         icon: .github/build/macOS/icon_snapshot.icns
         MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
         MACOS_CERTIFICATE_ID: ${{ secrets.MACOS_CERTIFICATE_ID }}
@@ -108,5 +108,5 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-version.outputs.commit }}_macOS
+        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_macOS
         path: Techmino.zip
