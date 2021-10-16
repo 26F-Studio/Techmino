@@ -32,12 +32,12 @@ def updateMacOS(args):  #更新macOS打包信息
     with open('./Techmino.app/Contents/info.plist', 'w+', encoding='utf-8') as file:
         file.write(data)
 
-def updateIOS(args):  #更新macOS打包信息
-    with open('./Techmino.app/info.plist', 'r', encoding='utf-8') as file:
+def updateIOS(args):  #更新iOS打包信息
+    with open('./Techmino.app/info.plist', 'rb') as file:
         data = file.read()
-        data = data.replace('0.16.1', args.Name)
+        data = data.replace(b'0.16.1', args.Name.encode(encoding='utf-8'))
 
-    with open('./Techmino.app/info.plist', 'w+', encoding='utf-8') as file:
+    with open('./Techmino.app/info.plist', 'wb') as file:
         file.write(data)
 
 def updateWindows(args):    #更新Windows打包信息
