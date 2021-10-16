@@ -1,6 +1,6 @@
 local gc=love.graphics
-local mStr=mStr
 local ins=table.insert
+local mStr=GC.mStr
 
 local scene={}
 

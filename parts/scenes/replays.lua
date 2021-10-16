@@ -4,7 +4,7 @@ local gc_rectangle=gc.rectangle
 local gc_print,gc_printf=gc.print,gc.printf
 
 local kb=love.keyboard
-local setFont=setFont
+local setFont=FONT.set
 
 local listBox=WIDGET.newListBox{name="list",x=50,y=50,w=1200,h=520,lineH=40,drawF=function(rep,id,ifSel)
     if ifSel then

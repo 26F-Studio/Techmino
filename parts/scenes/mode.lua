@@ -12,7 +12,7 @@ local mt=love.math
 local max,min=math.max,math.min
 local int,abs=math.floor,math.abs
 
-local setFont=setFont
+local setFont=FONT.set
 
 local mapCam={
     sel=false,--Selected mode ID

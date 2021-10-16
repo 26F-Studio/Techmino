@@ -8,7 +8,7 @@ local isDown=love.keyboard.isDown
 
 local int,max,min=math.floor,math.max,math.min
 
-local mStr=mStr
+local mStr=GC.mStr
 
 local scene={}
 

@@ -1,7 +1,7 @@
 local gc=love.graphics
 local gc_setColor,gc_print=gc.setColor,gc.print
 local sin=math.sin
-local setFont=setFont
+local setFont=FONT.set
 
 local author={
     blank="MrZ (old works)",

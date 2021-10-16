@@ -7,7 +7,7 @@ local sin=math.sin
 
 local SCR,VK=SCR,VK
 local GAME,PLAYERS=GAME,PLAYERS
-local setFont,mStr=setFont,mStr
+local setFont,mStr=FONT.set,GC.mStr
 
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false

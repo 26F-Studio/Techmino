@@ -3,7 +3,7 @@ local gc,kb,tc=love.graphics,love.keyboard,love.touch
 local gc_setColor=gc.setColor
 local gc_print,gc_printf=gc.print,gc.printf
 local gc_draw=gc.draw
-local setFont,mStr=setFont,mStr
+local setFont,mStr=FONT.set,GC.mStr
 
 local ins=table.insert
 

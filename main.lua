@@ -44,12 +44,16 @@ end
 
 --Load modules
 Z=require'Zframework'
-
 FONT.init('parts/fonts/proportional.ttf')
-    setFont=FONT.set
-    getFont=FONT.get
 SCR.setSize(1280,720)--Initialize Screen size
 BGM.setChange(function(name)MES.new('music',text.nowPlaying..name,5)end)
+
+--Create shortcuts
+setFont=FONT.set
+getFont=FONT.get
+mStr=GC.mStr
+mText=GC.simpX
+mDraw=GC.draw
 
 --Delete all naked files (from too old version)
 FILE.clear('')

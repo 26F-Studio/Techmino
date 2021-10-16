@@ -18,7 +18,7 @@ local sub,ins,rem=string.sub,table.insert,table.remove
 local mDraw,mDraw_X,mDraw_Y=GC.draw,GC.simpX,GC.simpY
 local xOy=SCR.xOy
 local FONT=FONT
-local mStr=mStr
+local mStr=GC.mStr
 
 local downArrowIcon=GC.DO{40,25,{'fPoly',0,0,20,25,40,0}}
 local upArrowIcon=GC.DO{40,25,{'fPoly',0,25,20,0,40,25}}

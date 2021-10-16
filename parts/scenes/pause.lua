@@ -2,7 +2,7 @@ local gc=love.graphics
 local sin,log=math.sin,math.log10
 
 local GAME,SCR=GAME,SCR
-local setFont,mStr=setFont,mStr
+local setFont,mStr=FONT.set,GC.mStr
 
 local fnsRankColor={
     Z=COLOR.lY,
@@ -214,16 +214,15 @@ function scene.draw()
     gc.draw(drawableText.modeName,745-drawableText.modeName:getWidth(),143)
 
     --Level rank
-    if GAME.rank>0 then
+    if RANKCHARS[GAME.rank]then
         gc.push('transform')
             gc.translate(1050,5)
-            local str=RANKCHARS[GAME.rank]
             setFont(80)
             gc.setColor(0,0,0,timer1*.7)
-            gc.print(str,-5,-4,nil,1.5)
+            gc.print(RANKCHARS[GAME.rank],-5,-4,nil,1.5)
             local L=rankColor[GAME.rank]
             gc.setColor(L[1],L[2],L[3],timer1)
-            gc.print(str,0,0,nil,1.5)
+            gc.print(RANKCHARS[GAME.rank],0,0,nil,1.5)
         gc.pop()
     end
 
