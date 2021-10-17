@@ -16,13 +16,12 @@ return{
     comp=function(a,b)return a[1]<b[1]end,
     getRank=function(P)
         if P.result=='win'then
-            local T=P.stat.time
+            local L=P.life
             return
-            T<=60 and 5 or
-            T<=90 and 4 or
-            T<=130 and 3 or
-            T<=200 and 2 or
-            1
+            L>=2 and 5 or
+            L>=1 and 4 or
+            L>=0 and 3 or
+            2
         end
     end,
 }
