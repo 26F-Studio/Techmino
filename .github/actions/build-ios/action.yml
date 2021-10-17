@@ -17,24 +17,31 @@ runs:
     - name: Download template
       uses: ./.github/actions/get-unzip
       with:
-        url: https://github.com/26F-Studio/Techmino-CI-template/releases/download/1.0/ios.app.zip
+        url: https://github.com/26F-Studio/Techmino-CI-template/releases/download/1.0/Techmino-iOS.zip
 
     - name: Download ColdClear
       uses: ./.github/actions/get-cc
       with:
         arch: iOS
 
-    - name: Modify template
+    # - name: Modify template
+    #   shell: bash
+    #   run: |
+    #     plutil -convert xml1 ./Techmino.app/info.plist
+    #     python3 .github/workflows/updateVersion.py -T iOS -N ${{ inputs.name }}
+    #     plutil -convert binary1 ./Techmino.app/info.plist
+    #     mv Techmino.love Techmino.app
+    #     mv CCloader.dylib Techmino.app
+    #     chmod +x CCloader.dylib
+    #     chmod +x Techmino
+    #     chmod +x Techmino.love
+
+    - name: Build project
       shell: bash
       run: |
-        plutil -convert xml1 ./Techmino.app/info.plist
-        python3 .github/workflows/updateVersion.py -T iOS -N ${{ inputs.name }}
-        plutil -convert binary1 ./Techmino.app/info.plist
-        mv Techmino.love Techmino.app
-        mv CCloader.dylib Techmino.app
-        chmod +x CCloader.dylib
-        chmod +x Techmino
-        chmod +x Techmino.love
+        xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj -scheme Techmino -configuration Distribution
+
+
 
     - name: Codesign executable
       # In secrets:
