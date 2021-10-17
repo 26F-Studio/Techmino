@@ -19,9 +19,7 @@ return{
             return
             L>=2 and 5 or
             L>=1 and 4 or
-            L>=0 and 3 or
-            2
+            3
         end
-
     end,
 }
