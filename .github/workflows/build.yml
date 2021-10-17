@@ -88,7 +88,7 @@ jobs:
   #       path: Techmino_Snapshot.apk
 
   # build-macOS:
-  #   runs-on: macos-10.15
+  #   runs-on: macos-11
   #   needs: get-info
   #   steps:
   #   - uses: actions/checkout@v2
