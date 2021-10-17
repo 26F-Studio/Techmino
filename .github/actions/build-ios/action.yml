@@ -50,7 +50,7 @@ runs:
       shell: bash
       run: |
         security unlock-keychain -p Techminohaowan build.keychain
-        xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj -scheme Techmino -configuration Distribution -allowProvisioningUpdates
+        xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj -scheme Techmino -configuration Distribution PROVISIONING_PROFILE_SPECIFIER=${{ inputs.MACOS_CERTIFICATE_ID }}
 
     - name: Codesign executable
       # In secrets:
