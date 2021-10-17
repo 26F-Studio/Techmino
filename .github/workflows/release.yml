@@ -160,7 +160,8 @@ jobs:
         MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
     - name: Pack Techmino
       run: |
-        zip -r -y Techmino.a${{ needs.get-info.outputs.release }}.macOS.zip Techmino.app ".github/build/macOS/打不开？Can’t open the App？.pdf"
+        cp ".github/build/macOS/打不开？Can’t open the App？.pdf" ./
+        zip -r -y Techmino.a${{ needs.get-info.outputs.release }}.macOS.zip Techmino.app "./打不开？Can’t open the App？.pdf"
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
