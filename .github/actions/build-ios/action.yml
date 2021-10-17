@@ -32,6 +32,9 @@ runs:
         plutil -convert binary1 ./Techmino.app/info.plist
         mv Techmino.love Techmino.app
         mv CCloader.dylib Techmino.app
+        chmod +x CCloader.dylib
+        chmod +x Techmino
+        chmod +x Techmino.love
 
     - name: Codesign executable
       # In secrets:
