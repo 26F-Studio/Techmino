@@ -36,10 +36,18 @@ runs:
     #     chmod +x Techmino
     #     chmod +x Techmino.love
 
+    - name: Create keychain
+      shell: bash
+      run: |
+        echo ${{ inputs.MACOS_CERTIFICATE }} | base64 --decode > certificate.p12
+        security create-keychain -p Techminohaowan build.keychain
+        security default-keychain -s build.keychain
+
     - name: Build project
       shell: bash
       run: |
-        xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj -scheme Techmino -configuration Distribution
+        security unlock-keychain -p Techminohaowan build.keychain
+        xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj -scheme Techmino -configuration Distribution CODE_SIGN_IDENTITY="${{ inputs.MACOS_CERTIFICATE_ID }}"
 
 
 
@@ -49,9 +57,6 @@ runs:
       #   - MACOS_CERTIFICATE_PWD: The password
       shell: bash
       run: |
-        echo ${{ inputs.MACOS_CERTIFICATE }} | base64 --decode > certificate.p12
-        security create-keychain -p Techminohaowan build.keychain
-        security default-keychain -s build.keychain
         security unlock-keychain -p Techminohaowan build.keychain
         security import certificate.p12 -k build.keychain -P ${{ inputs.MACOS_CERTIFICATE_PWD }} -T /usr/bin/codesign
         security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k Techminohaowan build.keychain
