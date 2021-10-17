@@ -1,9 +1,9 @@
 if arg[1]=="-code"then
-    print(require"version".apkCode)
+    print((require"version").apkCode)
 elseif arg[1]=="-name"then
-    print((require"version".string:gsub("@DEV","")))
+    print((require"version").string:gsub("@DEV",""))
 elseif arg[1]=="-release"then
-    print((require"version".string:gsub("V","")))
+    print((require"version").string:gsub("V","",1):gsub("@DEV",""))
 elseif arg[1]=="-updateTitle"then
     local note=require"parts.updateLog"
     local p1=note:find("\n%d")+1
