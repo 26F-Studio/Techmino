@@ -11,7 +11,7 @@ local SCR,VK,NET,netPLY=SCR,VK,NET,netPLY
 local PLAYERS,GAME=PLAYERS,GAME
 
 local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=560}
-local inputBox=WIDGET.newInputBox{name="input",x=340,y=660,w=600,h=50}
+local inputBox=WIDGET.newInputBox{name="input",x=340,y=660,w=600,h=50,limit=256}
 
 local playing
 local lastUpstreamTime

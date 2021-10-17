@@ -35,7 +35,7 @@ local function _hidePW()
     local R=roomList:getSel()
     return not R or not R.private
 end
-local passwordBox=WIDGET.newInputBox{name="password",x=350,y=505,w=500,h=50,secret=true,hideF=_hidePW}
+local passwordBox=WIDGET.newInputBox{name="password",x=350,y=505,w=500,h=50,secret=true,hideF=_hidePW,limit=64}
 
 --[[roomList[n]={
     rid="qwerty",
