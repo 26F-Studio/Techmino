@@ -904,7 +904,7 @@ function inputBox:keypress(k)
         self.value=t
     end
 end
-function WIDGET.newInputBox(D)--name,x,y,w[,h][,font=30][,secret][,regex],hide
+function WIDGET.newInputBox(D)--name,x,y,w[,h][,font=30][,secret][,regex][,limit],hide
     local _={
         name=  D.name or"_",
 
@@ -1426,7 +1426,7 @@ end
 function WIDGET.textinput(texts)
     local W=WIDGET.sel
     if W and W.type=='inputBox'then
-        if not W.regex or texts:match(W.regex)then
+        if(not W.regex or texts:match(W.regex))and #texts<=W.limit then
             WIDGET.sel.value=WIDGET.sel.value..texts
             SFX.play('move')
         else
