@@ -327,6 +327,7 @@ return{
             sysCursor="Use System Cursor",
             autoPause="Pause When Unfocused",
             swap="Key Combination (Change Atk Mode)",
+            autoLogin="Auto Login on Start",
             autoSave="Auto Save New Records",
             simpMode="Simplistic Mode",
         },

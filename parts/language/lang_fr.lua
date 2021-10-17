@@ -292,6 +292,7 @@ return{
             -- sysCursor="Use system cursor",
             autoPause="Mettre en pause en cas de perte de focus",
             swap="Combinaison de touches (changer le mode d'attaque)",
+            -- autoLogin="Auto Login on Start",
             -- autoSave="Auto save new-best",
             -- simpMode="Simple mode",
         },

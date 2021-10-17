@@ -614,6 +614,7 @@ do--Userdata tables
         menuPos='middle',
         fine=false,
         autoSave=false,
+        autoLogin=true,
         simpMode=false,
         sysCursor=true,
         locale='zh',

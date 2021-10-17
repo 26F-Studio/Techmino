@@ -317,6 +317,7 @@ return{
             -- sysCursor="Use system cursor",
             autoPause="Pausar quando foco for perco",
             swap="Combinação de tecla(Mudar modo de atk)",
+            -- autoLogin="Auto Login on Start",
             -- autoSave="Auto save new-best",
             -- simpMode="Simple mode",
         },

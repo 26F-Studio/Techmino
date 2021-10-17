@@ -295,6 +295,7 @@ return{
             -- sysCursor="Use system cursor",
             autoPause="Pausar cuando la ventana no está enfocada",
             swap="Combinación de Teclas (Cambiar Modo de Ataque)",
+            -- autoLogin="Auto Login on Start",
             autoSave="Autograbar Récords",
             simpMode="Modo Sencillo",
         },

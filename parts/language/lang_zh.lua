@@ -328,6 +328,7 @@ return{
             sysCursor="使用系统光标",
             autoPause="失去焦点自动暂停",
             swap="组合键切换攻击模式",
+            autoLogin="启动时自动登录",
             autoSave="破纪录自动保存",
             simpMode="简洁模式",
         },

@@ -208,6 +208,7 @@ return{
             sysCursor="?→*",
             autoPause="A||",
             swap="=+=+=",
+            autoLogin="#Log in#",
             autoSave="!!!>%",
             simpMode=".",
         },
