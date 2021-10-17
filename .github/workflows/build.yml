@@ -113,18 +113,17 @@ jobs:
 
   build-iOS:
     runs-on: macos-11
-    needs: [get-version, get-cc-url]
+    needs: get-info
     steps:
     - uses: actions/checkout@v2
 
     - uses: ./.github/actions/snapshot-update
       with:
-        commit: ${{ needs.get-version.outputs.commit }}
+        commit: ${{ needs.get-info.outputs.commit }}
 
     - uses: ./.github/actions/build-ios
       with:
-        cc-url: ${{ needs.get-cc-url.outputs.url }}/iOS.zip
-        name: ${{ needs.get-version.outputs.name }}
+        name: ${{ needs.get-info.outputs.name }}
         MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
         MACOS_CERTIFICATE_ID: ${{ secrets.MACOS_CERTIFICATE_ID }}
         MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
@@ -132,5 +131,5 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-version.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-version.outputs.commit }}_iOS
+        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-version.outputs.commit }}_iOS
         path: Techmino-iOS

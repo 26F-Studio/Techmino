@@ -22,9 +22,9 @@ runs:
         url: https://github.com/26F-Studio/Techmino-CI-template/releases/download/1.0/ios.app.zip
 
     - name: Download ColdClear
-      uses: ./.github/actions/get-unzip
+      uses: ./.github/actions/get-cc
       with:
-        url: ${{ inputs.cc-url }}
+        arch: iOS
 
     - name: Modify template
       shell: bash
