@@ -1,13 +1,13 @@
 name: 'build Mac OS'
 description: 'build Mac OS package'
 inputs:
-  cc-url:
-    required: true
   name:
     required: true
   icon:
     required: true
   MACOS_CERTIFICATE:
+    required: true
+  MACOS_CERTIFICATE_ID:
     required: true
   MACOS_CERTIFICATE_PWD:
     required: true
@@ -20,9 +20,9 @@ runs:
       with:
         url: https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.app.zip
     - name: Download ColdClear
-      uses: ./.github/actions/get-unzip
+      uses: ./.github/actions/get-cc
       with:
-        url: ${{ inputs.cc-url }}
+        arch: macOS
     - name: Modify template
       shell: bash
       run: |
@@ -42,4 +42,4 @@ runs:
         security unlock-keychain -p Techminohaowan build.keychain
         security import certificate.p12 -k build.keychain -P ${{ inputs.MACOS_CERTIFICATE_PWD }} -T /usr/bin/codesign
         security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k Techminohaowan build.keychain
-        /usr/bin/codesign --force --deep -s 79B81FC5EA155243C973B5417B0996501F00EF55 Techmino.app -v
+        /usr/bin/codesign --force --deep -s ${{ inputs.MACOS_CERTIFICATE_ID }} Techmino.app -v

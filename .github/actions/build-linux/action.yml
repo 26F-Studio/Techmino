@@ -1,8 +1,6 @@
 name: 'build Linux'
 description: 'build Linux package'
 inputs:
-  cc-url:
-    required: true
   file-path:
     required: false
     default: Techmino.AppImage
@@ -22,9 +20,9 @@ runs:
         chmod 777 love-11.3-x86_64.AppImage
         ./love-11.3-x86_64.AppImage --appimage-extract
     - name: Download ColdClear
-      uses: ./.github/actions/get-unzip
+      uses: ./.github/actions/get-cc
       with:
-        url: ${{ inputs.cc-url }}
+        arch: linux
     - name: Pack Techmino
       shell: bash
       run: |
