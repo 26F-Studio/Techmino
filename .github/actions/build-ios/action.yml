@@ -29,7 +29,9 @@ runs:
     - name: Modify template
       shell: bash
       run: |
+        plutil -convert xml1 ./Techmino.app/info.plist
         python3 .github/workflows/updateVersion.py -T iOS -N ${{ inputs.name }}
+        plutil -convert binary1 ./Techmino.app/info.plist
         mv Techmino.love Techmino.app
         mv CCloader.dylib Techmino.app
 
