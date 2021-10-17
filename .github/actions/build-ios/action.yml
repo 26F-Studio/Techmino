@@ -1,8 +1,6 @@
 name: 'build iOS'
 description: 'build iOS package'
 inputs:
-  cc-url:
-    required: true
   name:
     required: true
   MACOS_CERTIFICATE:
