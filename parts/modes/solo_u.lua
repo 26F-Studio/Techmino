@@ -4,7 +4,6 @@ return{
         life=2,
         drop=60,lock=60,
         freshLimit=15,
-        bufferLimit=20,
         bg='bg2',bgm='battle',
     },
     load=function()
