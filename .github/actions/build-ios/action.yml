@@ -49,7 +49,7 @@ runs:
       shell: bash
       run: |
         security unlock-keychain -p Techminohaowan build.keychain
-        xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj -scheme Techmino -configuration Distribution
+        xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj -scheme Techmino -configuration Distribution -allowProvisioningUpdates
 
     - name: Codesign executable
       # In secrets:
