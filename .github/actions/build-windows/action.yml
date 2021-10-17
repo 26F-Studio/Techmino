@@ -5,7 +5,7 @@ inputs:
     required: true
   love-dir:
     required: true
-  cc-url:
+  arch:
     required: true
   version:
     required: true
@@ -22,9 +22,9 @@ runs:
       shell: bash
       run: mv ${{ inputs.love-dir }} love
     - name: Download ColdClear
-      uses: ./.github/actions/get-unzip
+      uses: ./.github/actions/get-cc
       with:
-        url: ${{ inputs.cc-url }}
+        arch: ${{ inputs.arch }}
     - name: Download ResourceHacker
       uses: ./.github/actions/get-unzip
       with:

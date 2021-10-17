@@ -3,8 +3,6 @@ description: 'build Android package'
 inputs:
   type:
     required: true
-  cc-url:
-    required: true
   code:
     required: true
   name:
@@ -34,9 +32,9 @@ runs:
       with:
         file-path: love-android/app/src/main/assets/game.love
     - name: Download ColdClear arm64-v8a
-      uses: ./.github/actions/get-unzip
+      uses: ./.github/actions/get-cc
       with:
-        url: ${{ inputs.cc-url }}/android_aarch64.zip
+        arch: android_aarch64
         dir: ColdClear/arm64-v8a
     - name: Process ColdClear arm64-v8a
       shell: bash
@@ -46,9 +44,9 @@ runs:
         mkdir -p libAndroid/arm64-v8a
         mv ColdClear/arm64-v8a/libs/arm64-v8a/libCCloader.so libAndroid/arm64-v8a
     - name: Download ColdClear armeabi-v7a
-      uses: ./.github/actions/get-unzip
+      uses: ./.github/actions/get-cc
       with:
-        url: ${{ inputs.cc-url }}/android_armv7.zip
+        arch: android_armv7
         dir: ColdClear/armeabi-v7a
     - name: Process ColdClear armeabi-v7a
       shell: bash

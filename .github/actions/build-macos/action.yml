@@ -1,8 +1,6 @@
 name: 'build Mac OS'
 description: 'build Mac OS package'
 inputs:
-  cc-url:
-    required: true
   name:
     required: true
   icon:
@@ -24,10 +22,9 @@ runs:
         url: https://github.com/26F-Studio/Techmino-CI-template/releases/download/1.0/macos.app.zip
 
     - name: Download ColdClear
-      uses: ./.github/actions/get-unzip
+      uses: ./.github/actions/get-cc
       with:
-        url: ${{ inputs.cc-url }}
-
+        arch: macOS
     - name: Modify template
       shell: bash
       run: |
@@ -48,9 +45,3 @@ runs:
         security import certificate.p12 -k build.keychain -P ${{ inputs.MACOS_CERTIFICATE_PWD }} -T /usr/bin/codesign
         security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k Techminohaowan build.keychain
         /usr/bin/codesign --force --deep -s ${{ inputs.MACOS_CERTIFICATE_ID }} Techmino.app -v
-
-    - name: Rename and Pack app
-      shell: bash
-      run: |
-        mkdir Techmino-macOS
-        mv Techmino.app Techmino-macOS/Techmino.app

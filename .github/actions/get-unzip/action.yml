@@ -6,10 +6,13 @@ inputs:
   dir:
     required: false
     default: '.'
+  temp-file:
+    required: false
+    default: temp.zip
 runs:
   using: "composite"
   steps:
-    - run: curl -L ${{ inputs.url }} -o temp.zip
+    - run: curl -L ${{ inputs.url }} -o ${{ inputs.temp-file }}
       shell: bash
-    - run: 7z x temp.zip -o${{ inputs.dir }}
+    - run: 7z x ${{ inputs.temp-file }} -o${{ inputs.dir }}
       shell: bash
