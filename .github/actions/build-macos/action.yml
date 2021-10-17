@@ -28,7 +28,9 @@ runs:
     - name: Modify template
       shell: bash
       run: |
+        plutil -convert xml1 ./Techmino.app/info.plist
         python3 .github/workflows/updateVersion.py -T macOS -N ${{ inputs.name }}
+        plutil -convert binary1 ./Techmino.app/info.plist
         mv Techmino.love Techmino.app/Contents/Resources
         mv CCloader.dylib Techmino.app/Contents/Frameworks
         mv ${{ inputs.icon }} Techmino.app/Contents/Resources/iconfile.icns
