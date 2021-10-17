@@ -5,7 +5,7 @@ local gc_draw,gc_line=gc.draw,gc.line
 local gc_print=gc.print
 
 local int,sin=math.floor,math.sin
-local mStr=mStr
+local mStr=GC.mStr
 
 local scene={}
 

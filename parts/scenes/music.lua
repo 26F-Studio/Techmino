@@ -1,7 +1,7 @@
 local gc=love.graphics
 local gc_setColor,gc_print=gc.setColor,gc.print
 local sin=math.sin
-local setFont=setFont
+local setFont=FONT.set
 
 local author={
     blank="MrZ (old works)",
@@ -116,7 +116,7 @@ scene.widgetList={
         code=function(v)BGM.seek(v*BGM.playing:getDuration())end,
         hideF=function()return not BGM.nowPlay end
     },
-    WIDGET.newSlider{name="bgm",  x=760,y=80,w=400,disp=SETval('bgm'),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
+    WIDGET.newSlider{name="bgm",  x=760,y=80,w=400,disp=SETval('bgm'),code=function(v)SETTING.bgm=v BGM.setVol(SETTING.bgm)end},
     WIDGET.newButton{name="up",   x=200,y=250,w=120,code=pressKey"up",hideF=function()return selected==1 end,font=60,fText=CHAR.key.up},
     WIDGET.newButton{name="play", x=200,y=390,w=120,code=pressKey"space",font=65,fText=CHAR.icon.play_pause},
     WIDGET.newButton{name="down", x=200,y=530,w=120,code=pressKey"down",hideF=function()return selected==#bgmList end,font=60,fText=CHAR.key.down},

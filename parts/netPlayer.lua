@@ -6,7 +6,7 @@ local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
 local rnd,min=math.random,math.min
 local sin,cos=math.sin,math.cos
 local ins,rem=table.insert,table.remove
-local setFont=setFont
+local setFont=FONT.set
 
 local posLists={
     --1~5

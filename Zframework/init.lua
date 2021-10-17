@@ -46,9 +46,6 @@ LIGHT=      require'Zframework.light'
 
 --Love-based modules (complex)
 GC=         require'Zframework.gcExtend'
-    mStr=GC.mStr
-    mText=GC.simpX
-    mDraw=GC.draw
 FONT=       require'Zframework.font'
 TEXT=       require'Zframework.text'
 SYSFX=      require'Zframework.sysFX'
@@ -218,7 +215,7 @@ function love.touchreleased(id,x,y)
     end
 end
 
-local fnKey={NULL,NULL,NULL,NULL}
+local fnKey={NULL,NULL,NULL,NULL,NULL,NULL,NULL}
 local function noDevkeyPressed(key)
     if key=="f1"then      fnKey[1]()
     elseif key=="f2"then  fnKey[2]()
@@ -367,42 +364,9 @@ function love.resize(w,h)
 
     SHADER.warning:send('w',w*SCR.dpi)
 end
-local function task_autoSoundOff()
-    while true do
-        coroutine.yield()
-        local v=love.audio.getVolume()
-        love.audio.setVolume(math.max(v-.05,0))
-        if v==0 then return end
-    end
-end
-local function task_autoSoundOn()
-    while true do
-        coroutine.yield()
-        local v=love.audio.getVolume()
-        if v<SETTING.mainVol then
-            love.audio.setVolume(math.min(v+.05,SETTING.mainVol,1))
-        else
-            return
-        end
-    end
-end
-function love.focus(f)
-    if f then
-        love.timer.step()
-        if SETTING.autoMute then
-            TASK.removeTask_code(task_autoSoundOff)
-            TASK.new(task_autoSoundOn)
-        end
-    else
-        if SCN.cur=='game'and SETTING.autoPause then
-            pauseGame()
-        end
-        if SETTING.autoMute then
-            TASK.removeTask_code(task_autoSoundOn)
-            TASK.new(task_autoSoundOff)
-        end
-    end
-end
+
+local onFocus=NULL
+function love.focus(f)onFocus(f)end
 
 local yield=coroutine.yield
 local function secondLoopThread()
@@ -740,10 +704,12 @@ function Z.setCursor(func)drawCursor=func end
 
 --Change F1~F7 events of devmode (F8 mode)
 function Z.setOnFnKeys(list)
-    for i=1,7 do
-        fnKey[i]=type(list[i])=='function'and list[i]or NULL
-    end
+    assert(type(list)=='table')
+    for i=1,7 do fnKey[i]=type(list[i])=='function'and list[i]or NULL end
 end
 
+function Z.setOnFocus(func)onFocus=type(func)=='function'and func or NULL end
+
 function Z.setOnQuit(func)onQuit=type(func)=='function'and func or NULL end
+
 return Z

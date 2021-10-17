@@ -2214,37 +2214,38 @@ function Player:update(dt)
     if self.alive then
         local S=self.stat
         if self.type=='computer'then self.bot:update(dt)end
+        if self.trigFrame>=1 and self.alive then
+            if self.streamProgress then
+                S.time=self.stat.frame/60
+            elseif self.timing then
+                S.time=S.time+dt
+            end
+        end
         while self.trigFrame>=1 do
-            if self.alive then
-                if self.streamProgress then
-                    local frameDelta
-                    if self.type=='remote'then
-                        frameDelta=(self.stream[#self.stream-1]or 0)-self.frameRun
-                        if frameDelta==0 then frameDelta=nil end
-                    else
-                        frameDelta=0
-                    end
-                    if frameDelta then
-                        for _=1,
-                            frameDelta<26 and 1 or
-                            frameDelta<50 and 2 or
-                            frameDelta<80 and 3 or
-                            frameDelta<120 and 5 or
-                            frameDelta<160 and 7 or
-                            frameDelta<200 and 10 or
-                            20
-                        do
-                            update_streaming(self)
-                            update_alive(self)
-                        end
-                    end
-                    S.time=self.stat.frame/60
+            if self.streamProgress then
+                local frameDelta
+                if self.type=='remote'then
+                    frameDelta=(self.stream[#self.stream-1]or 0)-self.frameRun
+                    if frameDelta==0 then frameDelta=nil end
                 else
-                    if self.timing then S.time=S.time+dt end
-                    update_alive(self)
+                    frameDelta=0
+                end
+                if frameDelta then
+                    for _=1,
+                        frameDelta<26 and 1 or
+                        frameDelta<50 and 2 or
+                        frameDelta<80 and 3 or
+                        frameDelta<120 and 5 or
+                        frameDelta<160 and 7 or
+                        frameDelta<200 and 10 or
+                        20
+                    do
+                        update_streaming(self)
+                        update_alive(self)
+                    end
                 end
             else
-                update_dead(self)
+                update_alive(self)
             end
             self.trigFrame=self.trigFrame-1
         end

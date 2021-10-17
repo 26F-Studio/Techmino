@@ -9,7 +9,7 @@ local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
 
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,sin,modf=math.max,math.min,math.sin,math.modf
-local setFont,mDraw,mStr=setFont,mDraw,mStr
+local setFont,mDraw,mStr=FONT.set,GC.draw,GC.mStr
 local SKIN,TEXTURE,IMG=SKIN,TEXTURE,IMG
 local TEXT,COLOR,GAME,TIME=TEXT,COLOR,GAME,TIME
 local shader_alpha,shader_lighter=SHADER.alpha,SHADER.lighter

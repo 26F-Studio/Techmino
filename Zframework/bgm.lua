@@ -1,9 +1,9 @@
 local BGM={
+    vol=1,
     default=false,
     getList=function()error("Cannot getList before initialize!")end,
     getCount=function()return 0 end,
     play=NULL,
-    freshVolume=NULL,
     stop=NULL,
     onChange=NULL,
     --nowPlay=[str:playing ID]
@@ -13,7 +13,7 @@ local BGM={
 local function task_fadeOut(src)
     while true do
         coroutine.yield()
-        local v=src:getVolume()-.025*SETTING.bgm
+        local v=src:getVolume()-.025*BGM.vol
         src:setVolume(v>0 and v or 0)
         if v<=0 then
             src:pause()
@@ -24,10 +24,10 @@ end
 local function task_fadeIn(src)
     while true do
         coroutine.yield()
-        local v=SETTING.bgm
+        local v=BGM.vol
         v=math.min(v,src:getVolume()+.025*v)
         src:setVolume(v)
-        if v>=SETTING.bgm then
+        if v>=BGM.vol then
             return true
         end
     end
@@ -40,6 +40,10 @@ function BGM.setDefault(bgm)
 end
 function BGM.setChange(func)
     BGM.onChange=func
+end
+function BGM.setVol(v)
+    assert(type(v)=='number'and v>=0 and v<=1)
+    BGM.vol=v
 end
 function BGM.init(list)
     BGM.init=nil
@@ -71,6 +75,18 @@ function BGM.init(list)
             LOG("No BGM: "..name,5)
         end
     end
+    function BGM.setVol(v)
+        assert(type(v)=='number'and v>=0 and v<=1)
+        BGM.vol=v
+        if BGM.playing then
+            if BGM.vol>0 then
+                BGM.playing:setVolume(BGM.vol)
+                BGM.playing:play()
+            elseif BGM.nowPlay then
+                BGM.playing:pause()
+            end
+        end
+    end
     function BGM.loadAll()--Not neccessary, unless you want avoid the lag when playing something for the first time
         for name in next,Sources do
             _load(name)
@@ -79,7 +95,7 @@ function BGM.init(list)
     function BGM.play(name)
         name=name or BGM.default
         if not _load(name)then return end
-        if SETTING.bgm==0 then
+        if BGM.vol==0 then
             BGM.nowPlay=name
             BGM.playing=Sources[name]
             return true
@@ -115,17 +131,6 @@ function BGM.init(list)
             TASK.removeTask_code(task_fadeIn)
             TASK.new(task_fadeIn,BGM.playing)
             BGM.playing:play()
-        end
-    end
-    function BGM.freshVolume()
-        if BGM.playing then
-            local v=SETTING.bgm
-            if v>0 then
-                BGM.playing:setVolume(v)
-                BGM.playing:play()
-            elseif BGM.nowPlay then
-                BGM.playing:pause()
-            end
         end
     end
     function BGM.stop()
