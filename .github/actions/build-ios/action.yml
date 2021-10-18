@@ -58,6 +58,7 @@ runs:
       shell: bash
       run: |
         codesign --force -s ${{inputs.IOS_CERTIFICATE_ID}} CCloader.dylib -v
+        chmod +x CCloader.dylib
 
     - name: Update source codes
       shell: bash
