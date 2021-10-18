@@ -69,7 +69,10 @@ runs:
     - name: Build project
       shell: bash
       run: |
-        xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj -scheme Techmino -configuration Distribution
+        mkdir Techmino-iOS/Build
+        xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj \
+          -scheme Techmino \
+          -configuration Distribution
 
     # - name: Codesign executable
     #   # In secrets:
