@@ -73,10 +73,9 @@ runs:
         xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj \
           -scheme Techmino \
           -configuration Distribution \
-          CONFIGURATION_BUILD_DIR=Techmino-iOS/Build
+          CONFIGURATION_BUILD_DIR=Build
 
-    # - name: Rename and Pack app
-    #   shell: bash
-    #   run: |
-    #     mkdir Techmino-iOS
-    #     mv Techmino.app Techmino-iOS/Techmino.app
+    - name: Pack bare app
+      shell: bash
+      run: |
+        zip -r -y Techmino.zip Techmino-iOS/platform/xcode/Build/Techmino.app

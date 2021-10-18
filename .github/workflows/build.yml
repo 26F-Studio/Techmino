@@ -134,4 +134,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_iOS
-        path: Techmino-iOS
+        path: Techmino.zip
