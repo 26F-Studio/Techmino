@@ -4,7 +4,7 @@ return{
     mesDisp=function(P)
         setFont(60)
         mStr(P.modeData.tsd,63,250)
-        mText(drawableText.tsd,63,315)
+        mText(TEXTOBJ.tsd,63,315)
         local L=P.modeData.history
         if L[1]and L[1]==L[2]and L[1]==L[3]then
             PLY.draw.applyField(P)

@@ -37,9 +37,9 @@ return{
             mStr(P.stat.dig,63,190)
             mStr(P.stat.atk,63,310)
             mStr(("%.2f"):format(P.stat.atk/P.stat.row),63,420)
-            mText(drawableText.line,63,243)
-            mText(drawableText.atk,63,363)
-            mText(drawableText.eff,63,475)
+            mText(TEXTOBJ.line,63,243)
+            mText(TEXTOBJ.atk,63,363)
+            mText(TEXTOBJ.eff,63,475)
         end,
         bg='wing',bgm='dream',
     },

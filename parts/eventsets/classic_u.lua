@@ -16,7 +16,7 @@ return{
         setFont(75)
         local r=P.modeData.target/10
         mStr(r==1 and 29 or("%02x"):format(r*10-20),63,210)
-        mText(drawableText.speedLV,63,290)
+        mText(TEXTOBJ.speedLV,63,290)
         PLY.draw.drawProgress(P.stat.row,P.modeData.target)
     end,
     task=function(P)

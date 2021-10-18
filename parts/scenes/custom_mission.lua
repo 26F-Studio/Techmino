@@ -19,7 +19,7 @@ function scene.sceneBack()
     FILE.save(DATA.copyMission(),'conf/customMissions')
 end
 
-local missionEnum=missionEnum
+local ENUM_MISSION=ENUM_MISSION
 local legalInput={Z=true,S=true,J=true,L=true,T=true,O=true,I=true,A=true,_=true,P=true}
 function scene.keyDown(key)
     if key=="left"then
@@ -106,9 +106,9 @@ function scene.keyDown(key)
         end
 
         input=input..key
-        if missionEnum[input]then
+        if ENUM_MISSION[input]then
             cur=cur+1
-            ins(MISSION,cur,missionEnum[input])
+            ins(MISSION,cur,ENUM_MISSION[input])
             SFX.play('lock')
             input=""
         elseif #input>1 or not legalInput[input]then
@@ -135,7 +135,7 @@ function scene.draw()
     gc.print(input,1200,275)
 
     --Draw targets
-    local libColor=minoColor
+    local libColor=BLOCK_COLORS
     local set=SETTING.skin
     local L=MISSION
     local x,y=100,136--Next block pos
@@ -171,7 +171,7 @@ function scene.draw()
                 else
                     gc.setColor(COLOR.H)
                 end
-                gc.print(missionEnum[L[i]],x,y-25)
+                gc.print(ENUM_MISSION[L[i]],x,y-25)
                 x=x+56
             end
         end

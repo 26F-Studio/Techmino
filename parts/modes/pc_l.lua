@@ -8,7 +8,7 @@ return{
         mesDisp=function(P)
             setFont(60)
             mStr(P.stat.pc,63,340)
-            mText(drawableText.pc,63,410)
+            mText(TEXTOBJ.pc,63,410)
         end,
         eventSet='checkLine_100',
         bg='rgb',bgm='moonbeam',

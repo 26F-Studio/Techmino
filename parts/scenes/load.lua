@@ -161,7 +161,7 @@ function scene.draw()
     else
         gc.setLineWidth(4)
     end
-    local L=title
+    local L=SVG_TITLE
     gc.push('transform')
     gc.translate(126,100)
     for i=1,8 do

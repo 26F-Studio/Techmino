@@ -48,7 +48,7 @@ return{
 
             --Texts
             gc.setColor(.8,.8,.8)
-            mText(drawableText.techrash,63,420)
+            mText(TEXTOBJ.techrash,63,420)
             setFont(75)
             mStr(P.stat.clears[4],63,340)
         end,

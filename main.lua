@@ -117,7 +117,7 @@ do--Z.setCursor
     Z.setCursor(function(time,x,y)
         if not SETTING.sysCursor then
             local R=int((time+1)/2)%7+1
-            _=minoColor[SETTING.skin[R]]
+            _=BLOCK_COLORS[SETTING.skin[R]]
             gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
             _=DSCP[R][0]
             gc_draw(TEXTURE.miniBlock[R],x,y,time%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
@@ -190,8 +190,8 @@ TABLE.cover (FILE.load('conf/user')or{},USER)
 TABLE.cover (FILE.load('conf/unlock')or{},RANKS)
 TABLE.update(FILE.load('conf/settings')or{},SETTING)
 TABLE.update(FILE.load('conf/data')or{},STAT)
-TABLE.cover (FILE.load('conf/key')or{},keyMap)
-TABLE.cover (FILE.load('conf/virtualkey')or{},VK_org)
+TABLE.cover (FILE.load('conf/key')or{},KEY_MAP)
+TABLE.cover (FILE.load('conf/virtualkey')or{},VK_ORG)
 
 --Initialize fields, sequence, missions, gameEnv for cutsom game
 local fieldData=FILE.load('conf/customBoards','string')
@@ -327,7 +327,7 @@ LANG.init('zh',
         --3. Add a button in parts/scenes/setting_lang.lua;
     },
     {
-        block=BLOCKNAMES
+        block=BLOCK_NAMES
     },
     (function()
         local tipMeta={__call=function(L)return L[math.random(#L)]end}
@@ -445,7 +445,7 @@ do
     if not RANKS.sprint_10l then RANKS.sprint_10l=0 end
     if RANKS.master_l then RANKS.master_n,RANKS.master_l=RANKS.master_l needSave=true end
     if RANKS.master_u then RANKS.master_h,RANKS.master_u=RANKS.master_u needSave=true end
-    for _,v in next,VK_org do v.color=nil end
+    for _,v in next,VK_ORG do v.color=nil end
     for name,rank in next,RANKS do
         if type(name)=='number'or type(rank)~='number'then
             RANKS[name]=nil
@@ -471,7 +471,7 @@ do
         needSave=true
     end
 
-    for k,v in next,oldModeNameTable do
+    for k,v in next,MODE_UPDATE_MAP do
         if RANKS[k]then
             RANKS[v]=RANKS[k]
             RANKS[k]=nil
@@ -511,7 +511,7 @@ for _,fileName in next,fs.getDirectoryItems('replay')do
         local date,mode,version,player,seed,setting,mod
         local fileData=fs.read('replay/'..fileName)
         date,   fileData=STRING.readLine(fileData)date=date:gsub("[a-zA-Z]","")
-        mode,   fileData=STRING.readLine(fileData)mode=oldModeNameTable[mode]or mode
+        mode,   fileData=STRING.readLine(fileData)mode=MODE_UPDATE_MAP[mode]or mode
         version,fileData=STRING.readLine(fileData)
         player, fileData=STRING.readLine(fileData)if player=="Local Player"then player="Stacker"end
         local success

@@ -186,7 +186,7 @@ function DATA.pasteMission(str)
             end
         else
             if b>=34 and b<=114 then
-                if missionEnum[reg]then
+                if ENUM_MISSION[reg]then
                     ins(MISSION,reg)
                     reg=b-33
                 else
@@ -390,7 +390,7 @@ function DATA.parseReplayData(fileName,fileData,ifFull)
     if not metaData then goto BREAK_cannotParse end
 
     --Convert ancient replays
-    metaData.mode=oldModeNameTable[metaData.mode]or metaData.mode
+    metaData.mode=MODE_UPDATE_MAP[metaData.mode]or metaData.mode
     if not MODES[metaData.mode]then goto BREAK_cannotParse end
 
     --Create replay object

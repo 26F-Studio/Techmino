@@ -1,6 +1,29 @@
 --Static data tables
-do--title
-    title={
+SFXPACKS={'chiptune'}
+VOCPACKS={'miya','mono','xiaoya','miku'}
+BLOCK_NAMES={
+    'Z','S','J','L','T','O','I',
+    'Z5','S5','P','Q','F','E',
+    'T5','U','V','W','X',
+    'J5','L5','R','Y','N','H','I5',
+    'I3','C','I2','O1'
+}
+BLOCK_CHARS={}for i=1,#BLOCK_NAMES do BLOCK_CHARS[i]=CHAR.mino[BLOCK_NAMES[i]]end
+BLOCK_COLORS={
+    COLOR.R,COLOR.F,COLOR.O,COLOR.Y,COLOR.L,COLOR.J,COLOR.G,COLOR.A,
+    COLOR.C,COLOR.N,COLOR.S,COLOR.B,COLOR.V,COLOR.P,COLOR.M,COLOR.W,
+    COLOR.dH,COLOR.D,COLOR.lY,COLOR.H,COLOR.lH,COLOR.dV,COLOR.dR,COLOR.dG,
+}
+RANK_CHARS={'B','A','S','U','X'}for i=1,#RANK_CHARS do RANK_CHARS[i]=CHAR.icon['rank'..RANK_CHARS[i]]end
+RANK_COLORS={
+    {.5,.7,.9},
+    {.5,1,.6},
+    {.95,.95,.5},
+    {1,.5,.4},
+    {.95,.5,.95},
+}
+do--SVG_TITLE
+    SVG_TITLE={
         {
             53,     60,
             1035,   0,
@@ -115,20 +138,20 @@ do--title
             5878,   463,
         },
     }
-    for _,C in next,title do
+    for _,C in next,SVG_TITLE do
         for i=1,#C do
             C[i]=C[i]*.1626
         end
     end
 end
-do--title_fan
-    title_fan={}
+do--SVG_TITLE_FAN
+    SVG_TITLE_FAN={}
     local sin,cos=math.sin,math.cos
     for i=1,8 do
         local L={}
-        title_fan[i]=L
-        for j=1,#title[i]do
-            L[j]=title[i][j]
+        SVG_TITLE_FAN[i]=L
+        for j=1,#SVG_TITLE[i]do
+            L[j]=SVG_TITLE[i][j]
         end
         for j=1,#L,2 do
             local x,y=L[j],L[j+1]--0<x<3041, 290<y<1280
@@ -138,8 +161,8 @@ do--title_fan
         end
     end
 end
-do--missionEnum
-    missionEnum={
+do--MISSIONENUM
+    ENUM_MISSION={
         _1=01,_2=02,_3=03,_4=04,
         A1=05,A2=06,A3=07,A4=08,
         PC=09,
@@ -152,12 +175,12 @@ do--missionEnum
         I1=71,I2=72,I3=73,I4=74,
     }
     local L={}
-    for k,v in next,missionEnum do L[v]=k end
-    for k,v in next,L do missionEnum[k]=v end
+    for k,v in next,ENUM_MISSION do L[v]=k end
+    for k,v in next,L do ENUM_MISSION[k]=v end
 end
-do--drawableText
+do--TEXTOBJ
     local function T(s,t)return love.graphics.newText(getFont(s),t)end
-    drawableText={
+    TEXTOBJ={
         modeName=T(30),
 
         win=T(120),
@@ -179,15 +202,6 @@ do--drawableText
         noScore=T(45),highScore=T(30),modeLocked=T(45),
     }
 end
-BLOCKNAMES={
-    'Z','S','J','L','T','O','I',
-    'Z5','S5','P','Q','F','E',
-    'T5','U','V','W','X',
-    'J5','L5','R','Y','N','H','I5',
-    'I3','C','I2','O1'
-}
-BLOCKCHARS={}for i=1,#BLOCKNAMES do BLOCKCHARS[i]=CHAR.mino[BLOCKNAMES[i]]end
-RANKCHARS={'B','A','S','U','X'}for i=1,#RANKCHARS do RANKCHARS[i]=CHAR.icon['rank'..RANKCHARS[i]]end
 do--BLOCKS
     local O,_=true,false
     BLOCKS={
@@ -250,7 +264,7 @@ do--BLOCKS
         end
     end
 end
-oldModeNameTable={
+MODE_UPDATE_MAP={
     attacker_hard="attacker_h",
     attacker_ultimate="attacker_u",
     blind_easy="blind_e",
@@ -320,7 +334,7 @@ oldModeNameTable={
     master_phantasm="master_ph",
     master_extra="master_ex",
 }
-eventSetList={
+EVENTSETS={
     'X',
     'attacker_h','attacker_u',
     'backfire_120','backfire_60','backfire_30','backfire_0',
@@ -337,18 +351,6 @@ eventSetList={
     'survivor_e','survivor_n','survivor_h','survivor_l','survivor_u',
     'tsd_e','tsd_h','tsd_u',
     'ultra',
-}
-rankColor={
-    {.5,.7,.9},
-    {.5,1,.6},
-    {.95,.95,.5},
-    {1,.5,.4},
-    {.95,.5,.95},
-}
-minoColor={
-    COLOR.R,COLOR.F,COLOR.O,COLOR.Y,COLOR.L,COLOR.J,COLOR.G,COLOR.A,
-    COLOR.C,COLOR.N,COLOR.S,COLOR.B,COLOR.V,COLOR.P,COLOR.M,COLOR.W,
-    COLOR.dH,COLOR.D,COLOR.lY,COLOR.H,COLOR.lH,COLOR.dV,COLOR.dR,COLOR.dG,
 }
 
 do--Mod data
@@ -681,7 +683,7 @@ do--Userdata tables
         VKIcon=true,--If disp icon
         VKAlpha=.3,
     }
-    keyMap={--Key setting
+    KEY_MAP={--Key setting
         keyboard={
             left=1,right=2,x=3,z=4,c=5,
             up=6,down=7,space=8,a=9,s=10,
@@ -693,7 +695,7 @@ do--Userdata tables
             leftshoulder=0,
         },
     }
-    VK_org={--Virtualkey layout, refresh all VKs' position with this before each game
+    VK_ORG={--Virtualkey layout, refresh all VKs' position with this before each game
         {ava=true,  x=80,      y=720-200,r=80},--moveLeft
         {ava=true,  x=320,     y=720-200,r=80},--moveRight
         {ava=true,  x=1280-80, y=720-200,r=80},--rotRight

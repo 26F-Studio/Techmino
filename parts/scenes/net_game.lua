@@ -151,7 +151,7 @@ function scene.keyDown(key,isRep)
         inputBox:keypress(key)
     elseif playing then
         if noKey or isRep then return end
-        local k=keyMap.keyboard[key]
+        local k=KEY_MAP.keyboard[key]
         if k and k>0 then
             PLAYERS[1]:pressKey(k)
             VK.press(k)
@@ -170,7 +170,7 @@ function scene.keyDown(key,isRep)
 end
 function scene.keyUp(key)
     if not playing or noKey then return end
-    local k=keyMap.keyboard[key]
+    local k=KEY_MAP.keyboard[key]
     if k and k>0 then
         PLAYERS[1]:releaseKey(k)
         VK.release(k)
@@ -181,7 +181,7 @@ function scene.gamepadDown(key)
         scene.keyDown("escape")
     else
         if not playing then return end
-        local k=keyMap.joystick[key]
+        local k=KEY_MAP.joystick[key]
         if k and k>0 then
             PLAYERS[1]:pressKey(k)
             VK.press(k)
@@ -190,7 +190,7 @@ function scene.gamepadDown(key)
 end
 function scene.gamepadUp(key)
     if not playing then return end
-    local k=keyMap.joystick[key]
+    local k=KEY_MAP.joystick[key]
     if k and k>0 then
         PLAYERS[1]:releaseKey(k)
         VK.release(k)

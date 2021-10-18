@@ -3,8 +3,8 @@ return{
         setFont(55)
         mStr(P.modeData.wave,63,200)
         mStr(20+4*math.min(math.floor(P.modeData.wave/10),2),63,320)
-        mText(drawableText.wave,63,260)
-        mText(drawableText.nextWave,63,380)
+        mText(TEXTOBJ.wave,63,260)
+        mText(TEXTOBJ.nextWave,63,380)
     end,
     task=function(P)
         while true do

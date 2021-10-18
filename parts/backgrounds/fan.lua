@@ -15,7 +15,7 @@ local t
 local fan,petal
 function back.init()
     t=0
-    fan=title_fan
+    fan=SVG_TITLE_FAN
     petal={}
 end
 function back.update()

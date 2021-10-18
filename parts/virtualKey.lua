@@ -5,7 +5,7 @@ local max=math.max
 local next=next
 
 local SETTING,TIME=SETTING,TIME
-local VK_org=VK_org
+local VK_ORG=VK_ORG
 
 local skin=1
 local buttonImages={
@@ -115,7 +115,7 @@ for i=1,20 do VKIcon[i]=GC.DO{90,90,{'draw',VKI,(i-1)%5*-90,math.floor((i-1)*.2)
 VKI:release()
 
 --In-game virtualkey layout data
-local keys={}for i=1,#VK_org do keys[i]={}end
+local keys={}for i=1,#VK_ORG do keys[i]={}end
 
 local VK={keys=keys}
 
@@ -144,7 +144,7 @@ function VK.touch(id,x,y)
 
     if SETTING.VKTrack then
         --Auto follow
-        local O=VK_org[id]
+        local O=VK_ORG[id]
         local _FW,_CW=SETTING.VKTchW,1-SETTING.VKCurW
         local _OW=1-_FW-_CW
         --(finger+current+origin)
@@ -186,8 +186,8 @@ function VK.switchKey(id,on)
 end
 
 function VK.restore()
-    for i=1,#VK_org do
-        local B,O=keys[i],VK_org[i]
+    for i=1,#VK_ORG do
+        local B,O=keys[i],VK_ORG[i]
         B.ava=O.ava
         B.x=O.x
         B.y=O.y
@@ -204,10 +204,10 @@ end
 
 function VK.changeSet(id)
     local set=virtualkeySet[id]
-    for i=1,#VK_org do VK_org[i].ava=false end
+    for i=1,#VK_ORG do VK_ORG[i].ava=false end
     for n=1,#set do
         local vk=set[n]
-        local B=VK_org[vk.id]
+        local B=VK_ORG[vk.id]
         B.ava,B.x,B.y,B.r=true,vk.x,vk.y,vk.r
     end
 end
@@ -278,7 +278,7 @@ function VK.preview(selected)
     if not SETTING.VKSwitch then return end
     local buttonImage=buttonImages[skin]
     local holdImage=holdImages[skin]
-    for i,B in next,VK_org do
+    for i,B in next,VK_ORG do
         if B.ava then
             local r=B.r
             gc_setColor(1,1,1,SETTING.VKAlpha)

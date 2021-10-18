@@ -25,7 +25,7 @@ end
 function applyLanguage()
     text=LANG.get(SETTING.locale)
     WIDGET.setLang(text.WidgetText)
-    for k,v in next,drawableText do
+    for k,v in next,TEXTOBJ do
         if text[k]then
             v:set(text[k])
         end
@@ -340,7 +340,7 @@ function loadGame(mode,ifQuickPlay,ifNet)--Load a mode and go to game scene
             SCN.go('net_game','swipeD')
         else
             local modeText=text.modes[mode]or{"["..MODES[mode].name.."]",""}
-            drawableText.modeName:set(modeText[1].."   "..modeText[2])
+            TEXTOBJ.modeName:set(modeText[1].."   "..modeText[2])
             SCN.go('game',ifQuickPlay and'swipeD'or'fade_togame')
             SFX.play('enter')
         end

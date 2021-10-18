@@ -5,8 +5,8 @@ return{
         setFont(45)
         mStr(P.combo,63,310)
         mStr(P.modeData.maxCombo,63,400)
-        mText(drawableText.combo,63,358)
-        mText(drawableText.maxcmb,63,450)
+        mText(TEXTOBJ.combo,63,358)
+        mText(TEXTOBJ.maxcmb,63,450)
     end,
     task=function(P)
         local F=P.field

@@ -26,7 +26,7 @@ local function _updateMenuButtons()
     if GAME.replaying or pos=='right'then
         WIDGET.active.restart.x=1125
         WIDGET.active.pause.x=1195
-        modeTextPos=1100-drawableText.modeName:getWidth()
+        modeTextPos=1100-TEXTOBJ.modeName:getWidth()
     elseif pos=='middle'then
         WIDGET.active.restart.x=360
         WIDGET.active.pause.x=860
@@ -34,7 +34,7 @@ local function _updateMenuButtons()
     elseif pos=='left'then
         WIDGET.active.restart.x=120
         WIDGET.active.pause.x=190
-        modeTextPos=1200-drawableText.modeName:getWidth()
+        modeTextPos=1200-TEXTOBJ.modeName:getWidth()
     end
 end
 local function _updateRepButtons()
@@ -116,7 +116,7 @@ local function _restart()
     _updateRepButtons()
 end
 local function _checkGameKeyDown(key)
-    local k=keyMap.keyboard[key]
+    local k=KEY_MAP.keyboard[key]
     if k then
         if k>0 then
             if noKey then return end
@@ -247,7 +247,7 @@ function scene.keyDown(key,isRep)
 end
 function scene.keyUp(key)
     if noKey then return end
-    local k=keyMap.keyboard[key]
+    local k=KEY_MAP.keyboard[key]
     if k then
         if k>0 then
             PLAYERS[1]:releaseKey(k)
@@ -257,7 +257,7 @@ function scene.keyUp(key)
 end
 function scene.gamepadDown(key)
     if noKey then return end
-    local k=keyMap.joystick[key]
+    local k=KEY_MAP.joystick[key]
     if k then
         if k>0 then
             PLAYERS[1]:pressKey(k)
@@ -271,7 +271,7 @@ function scene.gamepadDown(key)
 end
 function scene.gamepadUp(key)
     if noKey then return end
-    local k=keyMap.joystick[key]
+    local k=KEY_MAP.joystick[key]
     if k then
         if k>0 then
             PLAYERS[1]:releaseKey(k)
@@ -357,7 +357,7 @@ function scene.draw()
 
     --Mode info
     gc_setColor(1,1,1,.82)
-    gc_draw(drawableText.modeName,modeTextPos,10)
+    gc_draw(TEXTOBJ.modeName,modeTextPos,10)
     local M=GAME.curMode
     if M then
         if M.score and M.records[1]then

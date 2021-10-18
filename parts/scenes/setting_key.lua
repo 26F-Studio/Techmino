@@ -9,10 +9,10 @@ local keyList
 
 local function _freshKeyList()
     keyList={}for i=0,20 do keyList[i]={}end
-    for k,v in next,keyMap.keyboard do
+    for k,v in next,KEY_MAP.keyboard do
         ins(keyList[v],{COLOR.lB,k})
     end
-    for k,v in next,keyMap.joystick do
+    for k,v in next,KEY_MAP.joystick do
         ins(keyList[v],{COLOR.lR,k})
     end
 end
@@ -23,7 +23,7 @@ function scene.sceneInit()
     BG.set('none')
 end
 function scene.sceneBack()
-    FILE.save(keyMap,'conf/key')
+    FILE.save(KEY_MAP,'conf/key')
 end
 
 local forbbidenKeys={
@@ -40,9 +40,9 @@ function scene.keyDown(key,isRep)
         end
     elseif key=="backspace"then
         if selected then
-            for k,v in next,keyMap.keyboard do
+            for k,v in next,KEY_MAP.keyboard do
                 if v==selected then
-                    keyMap.keyboard[k]=nil
+                    KEY_MAP.keyboard[k]=nil
                 end
             end
             _freshKeyList()
@@ -51,7 +51,7 @@ function scene.keyDown(key,isRep)
         end
     elseif selected then
         if not forbbidenKeys[key]then
-            keyMap.keyboard[key]=selected
+            KEY_MAP.keyboard[key]=selected
             _freshKeyList()
             selected=false
             SFX.play('reach',.5)
@@ -63,9 +63,9 @@ end
 function scene.gamepadDown(key)
     if key=="back"then
         if selected then
-            for k,v in next,keyMap.joystick do
+            for k,v in next,KEY_MAP.joystick do
                 if v==selected then
-                    keyMap.joystick[k]=nil
+                    KEY_MAP.joystick[k]=nil
                 end
             end
             _freshKeyList()
@@ -75,7 +75,7 @@ function scene.gamepadDown(key)
             SCN.back()
         end
     elseif selected then
-        keyMap.joystick[key]=selected
+        KEY_MAP.joystick[key]=selected
         _freshKeyList()
         selected=false
         SFX.play('reach',.5)

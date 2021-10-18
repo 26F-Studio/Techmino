@@ -342,7 +342,7 @@ function scene.draw()
                     gc.draw(cross,30*penPath[i][1]-30+math.random(-1,1),600-30*penPath[i][2]+math.random(-1,1))
                 end
             else
-                local c=minoColor[pens[curPen]]
+                local c=BLOCK_COLORS[pens[curPen]]
                 gc.setColor(c[1],c[2],c[3],.7+.2*math.sin(TIME()*12.6))
                 for i=1,#penPath do
                     gc.rectangle('line',30*penPath[i][1]-30+2,600-30*penPath[i][2]+2,30-4,30-4,3)
@@ -375,7 +375,7 @@ function scene.draw()
 
         --Left button
         if pens[1]>0 then
-            gc.setColor(minoColor[pens[1]])
+            gc.setColor(BLOCK_COLORS[pens[1]])
             gc.rectangle('fill',5,5,23,30,3)
         elseif pens[1]==-1 then
             gc.setColor(COLOR.Z)
@@ -396,7 +396,7 @@ function scene.draw()
 
         --Right button
         if pens[2]>0 then
-            gc.setColor(minoColor[pens[2]])
+            gc.setColor(BLOCK_COLORS[pens[2]])
             gc.rectangle('fill',52,5,23,30,3)
         elseif pens[2]==-1 then
             gc.setColor(COLOR.Z)
@@ -418,7 +418,7 @@ function scene.draw()
 
         --Middle button
         if pens[3]>0 then
-            gc.setColor(minoColor[pens[3]])
+            gc.setColor(BLOCK_COLORS[pens[3]])
             gc.rectangle('fill',35,2,10,21,3)
         elseif pens[3]==-1 then
             gc.setColor(COLOR.Z)
