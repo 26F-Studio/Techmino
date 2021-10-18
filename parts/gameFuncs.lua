@@ -715,18 +715,15 @@ function drawOnlinePlayerCount()
     gc_printf(("%s: %s/%s/%s"):format(text.onlinePlayerCount,NET.UserCount,NET.PlayCount,NET.StreamCount),-600,80,594,'right')
     gc_pop()
 end
-do--function drawWarning()
-    local shader_warning=SHADER.warning
-    function drawWarning()
-        if SETTING.warn and GAME.warnLVL>0 then
-            gc_push('transform')
-            gc_origin()
-            shader_warning:send('level',GAME.warnLVL)
-            gc_setShader(shader_warning)
-            gc_rectangle('fill',0,0,SCR.w,SCR.h)
-            gc_setShader()
-            gc_pop()
-        end
+function drawWarning()
+    if SETTING.warn and GAME.warnLVL>0 then
+        gc_push('transform')
+        gc_origin()
+        SHADER.warning:send('level',GAME.warnLVL)
+        gc_setShader(SHADER.warning)
+        gc_rectangle('fill',0,0,SCR.w,SCR.h)
+        gc_setShader()
+        gc_pop()
     end
 end
 

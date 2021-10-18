@@ -69,6 +69,10 @@ for _,v in next,{'conf','record','replay','cache','lib'}do
     end
 end
 
+CHAR=require'parts.char'
+require'parts.gameTables'
+require'parts.gameFuncs'
+
 --Load shader files from SOURCE ONLY
 SHADER={}
 for _,v in next,fs.getDirectoryItems('parts/shaders')do
@@ -77,10 +81,6 @@ for _,v in next,fs.getDirectoryItems('parts/shaders')do
         SHADER[name]=love.graphics.newShader('parts/shaders/'..name..'.glsl')
     end
 end
-
-CHAR=require'parts.char'
-require'parts.gameTables'
-require'parts.gameFuncs'
 
 FREEROW=    require'parts.freeRow'
 DATA=       require'parts.data'
