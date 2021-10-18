@@ -33,11 +33,11 @@ def updateMacOS(args):  #更新macOS打包信息
         file.write(data)
 
 def updateIOS(args):  #更新iOS打包信息
-    with open('./Techmino.app/info.plist', 'r') as file:
+    with open('./Techmino-iOS/platform/xcode/Techmino.xcodeproj/project.pbxproj', 'r') as file:
         data = file.read()
-        data = data.replace('0.16.1', args.Name)
+        data = data.replace('__VERSION__', args.Name)
 
-    with open('./Techmino.app/info.plist', 'w') as file:
+    with open('./Techmino-iOS/platform/xcode/Techmino.xcodeproj/project.pbxproj', 'w') as file:
         file.write(data)
 
 def updateWindows(args):    #更新Windows打包信息

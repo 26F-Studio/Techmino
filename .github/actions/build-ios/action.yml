@@ -3,63 +3,85 @@ description: 'build iOS package'
 inputs:
   name:
     required: true
-  MACOS_CERTIFICATE:
+  AAPPLE_DEV_ACCOUNT:
     required: true
-  MACOS_CERTIFICATE_ID:
+  APPLE_DEV_PASSWORD:
     required: true
-  MACOS_CERTIFICATE_PWD:
+  IOS_CERTIFICATE:
     required: true
+  IOS_CERTIFICATE_PWD:
+    required: true
+  IOS_PROFILE:
+    required: true
+  # PROVISIONING_PROFILE:
+  #   required: true
+  # MACOS_CERTIFICATE:
+  #   required: true
+  # MACOS_CERTIFICATE_ID:
+  #   required: true
+  # MACOS_CERTIFICATE_PWD:
+  #   required: true
 runs:
   using: "composite"
   steps:
     - uses: ./.github/actions/build-love
 
-    - name: Download template
-      uses: ./.github/actions/get-unzip
+    - name: Checkout source codes
+      uses: actions/checkout@v2
       with:
-        url: https://github.com/26F-Studio/Techmino-CI-template/releases/download/1.0/Techmino-iOS.zip
+        repository: '26F-Studio/Techmino-iOS'
+        path: 'Techmino-iOS'
 
     - name: Download ColdClear
       uses: ./.github/actions/get-cc
       with:
         arch: iOS
 
-    # - name: Modify template
-    #   shell: bash
-    #   run: |
-    #     plutil -convert xml1 ./Techmino.app/info.plist
-    #     python3 .github/workflows/updateVersion.py -T iOS -N ${{ inputs.name }}
-    #     plutil -convert binary1 ./Techmino.app/info.plist
-    #     mv Techmino.love Techmino.app
-    #     mv CCloader.dylib Techmino.app
-    #     chmod +x CCloader.dylib
-    #     chmod +x Techmino
-    #     chmod +x Techmino.love
+    - name: Update source codes
+      shell: bash
+      run: |
+        mv Techmino.love Techmino-iOS/platform/xcode
+        mv CCloader.dylib Techmino-iOS/platform/xcode
+        python3 .github/workflows/updateVersion.py -T iOS -N ${{ inputs.name }}
 
     - name: Create and config keychain
       shell: bash
       run: |
-        echo ${{ inputs.MACOS_CERTIFICATE }} | base64 --decode > certificate.p12
-        security create-keychain -p Techminohaowan build.keychain
+        security create-keychain -p "" build.keychain
+        security list-keychains -s build.keychain
         security default-keychain -s build.keychain
-        security import certificate.p12 -k build.keychain -P ${{ inputs.MACOS_CERTIFICATE_PWD }} -T /usr/bin/codesign
-        security import certificate.p12 -k build.keychain -P ${{ inputs.MACOS_CERTIFICATE_PWD }} -T /usr/bin/xcodebuild
-        security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k Techminohaowan build.keychain
+        security unlock-keychain -p "" build.keychain
+        security set-keychain-settings
+        security import <(echo ${{inputs.IOS_CERTIFICATE}} | base64 --decode) \
+          -f pkcs12 \
+          -k build.keychain \
+          -P ${{inputs.IOS_CERTIFICATE_PWD}} \
+          -T /usr/bin/codesign
+        security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
+
+    - name: Import provisioning profile
+      shell: bash
+      run: |
+        mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+        echo "${{inputs.IOS_PROFILE}}" | base64 --decode > \
+          ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
 
     - name: Build project
       shell: bash
       run: |
-        security unlock-keychain -p Techminohaowan build.keychain
-        xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj -scheme Techmino -configuration Distribution PROVISIONING_PROFILE_SPECIFIER=${{ inputs.MACOS_CERTIFICATE_ID }}
+        xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj -scheme Techmino -configuration Distribution
 
-    - name: Codesign executable
-      # In secrets:
-      #   - MACOS_CERTIFICATE: the *.p12 Developer ID Certificate, encoded in base64
-      #   - MACOS_CERTIFICATE_PWD: The password
-      shell: bash
-      run: |
-        security unlock-keychain -p Techminohaowan build.keychain
-        /usr/bin/codesign --force --deep -s ${{ inputs.MACOS_CERTIFICATE_ID }} Techmino.app -v
+    # - name: Codesign executable
+    #   # In secrets:
+    #   #   - MACOS_CERTIFICATE: the *.p12 Developer ID Certificate, encoded in base64
+    #   #   - MACOS_CERTIFICATE_PWD: The password
+    #   shell: bash
+    #   run: |
+    #     security unlock-keychain -p Techminohaowan build.keychain
+    #     security default-keychain -s build.keychain
+    #     security import certificate.p12 -k build.keychain -P ${{ inputs.MACOS_CERTIFICATE_PWD }} -T /usr/bin/codesign
+    #     security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k Techminohaowan build.keychain
+    #     /usr/bin/codesign --force --deep -s ${{ inputs.MACOS_CERTIFICATE_ID }} Techmino.app -v
 
     - name: Rename and Pack app
       shell: bash
