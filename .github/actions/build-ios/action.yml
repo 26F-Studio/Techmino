@@ -61,6 +61,13 @@ runs:
         mv CCloader.dylib Techmino-iOS/platform/xcode
         python3 .github/workflows/updateVersion.py -T iOS -N ${{ inputs.name }}
 
+    - name: Sign and chmod CCloader
+      shell: bash
+      run: |
+        security unlock-keychain -p "" build.keychain
+        codesign -f -s ${{inputs.IOS_CERTIFICATE_ID}} ./Techmino-iOS/platform/xcode/CCloader.dylib
+        chmod +x ./Techmino-iOS/platform/xcode/CCloader.dylib
+
     - name: Build project
       shell: bash
       run: |
@@ -75,11 +82,4 @@ runs:
       shell: bash
       run: |
         mv Techmino-iOS/platform/xcode/Build/Techmino.app ./
-        chmod +x ./Techmino.app/CCloader.dylib
-
-    - name: Sign CCloader
-      shell: bash
-      run: |
-        security find-identity -v
-        security unlock-keychain -p "" build.keychain
-        codesign -f -s ${{inputs.IOS_CERTIFICATE_ID}} ./Techmino.app/CCloader.dylib
+    
