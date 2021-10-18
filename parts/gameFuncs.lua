@@ -71,6 +71,13 @@ do--function applyXxxSatur(mode)
         SHADER.fieldSatur:send('k',m[2])
     end
 end
+function isSafeFile(file,mes)
+    if love.filesystem.getRealDirectory(file)~=SAVEDIR then
+        return true
+    elseif mes then
+        MES.new('warn',mes)
+    end
+end
 
 --Royale mode
 function randomTarget(P)--Return a random opponent for P

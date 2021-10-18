@@ -72,7 +72,7 @@ end
 --Load shader files from SOURCE ONLY
 SHADER={}
 for _,v in next,fs.getDirectoryItems('parts/shaders')do
-    if fs.getRealDirectory('parts/shaders/'..v)~=SAVEDIR then
+    if isSafeFile('parts/shaders/'..v)then
         local name=v:sub(1,-6)
         SHADER[name]=love.graphics.newShader('parts/shaders/'..name..'.glsl')
     end
@@ -285,10 +285,8 @@ SKIN.init{
 SFX.init((function()
     local L={}
     for _,v in next,fs.getDirectoryItems('media/effect/chiptune/')do
-        if fs.getRealDirectory('media/effect/chiptune/'..v)~=SAVEDIR then
+        if isSafeFile('media/effect/chiptune/'..v,"Dangerous file : %SAVE%/media/effect/chiptune/"..v)then
             table.insert(L,v:sub(1,-5))
-        else
-            MES.new('warn',"Dangerous file : %SAVE%/media/effect/chiptune/"..v)
         end
     end
     return L
@@ -296,10 +294,8 @@ end)())
 BGM.init((function()
     local L={}
     for _,v in next,fs.getDirectoryItems('media/music')do
-        if fs.getRealDirectory('media/music/'..v)~=SAVEDIR then
+        if isSafeFile('media/music/'..v,"Dangerous file : %SAVE%/media/music/"..v)then
             table.insert(L,{name=v:sub(1,-5),path='media/music/'..v})
-        else
-            MES.new('warn',"Dangerous file : %SAVE%/media/music/"..v)
         end
     end
     return L
@@ -342,16 +338,14 @@ LANG.init('zh',
 )
 --Load background files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems('parts/backgrounds')do
-    if fs.getRealDirectory('parts/backgrounds/'..v)~=SAVEDIR then
-        if v:sub(-3)=='lua'then
-            local name=v:sub(1,-5)
-            BG.add(name,require('parts.backgrounds.'..name))
-        end
+    if isSafeFile('parts/backgrounds/'..v)and v:sub(-3)=='lua'then
+        local name=v:sub(1,-5)
+        BG.add(name,require('parts.backgrounds.'..name))
     end
 end
 --Load scene files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems('parts/scenes')do
-    if fs.getRealDirectory('parts/scenes/'..v)~=SAVEDIR then
+    if isSafeFile('parts/scenes/'..v)then
         local sceneName=v:sub(1,-5)
         SCN.add(sceneName,require('parts.scenes.'..sceneName))
         LANG.addScene(sceneName)
@@ -360,7 +354,7 @@ end
 --Load mode files
 for i=1,#MODES do
     local m=MODES[i]--Mode template
-    if fs.getRealDirectory('parts/modes/'..m.name)~=SAVEDIR then
+    if isSafeFile('parts/modes/'..m.name)then
         TABLE.complete(require('parts.modes.'..m.name),MODES[i])
         MODES[m.name],MODES[i]=MODES[i]
     end
