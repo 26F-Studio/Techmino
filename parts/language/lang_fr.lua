@@ -117,6 +117,7 @@ return{
     -- keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
 
     errorMsg="Une erreur est survenue et Techmino doit redémarrer.\nDes informations concernant l'erreur ont été créées, et vous pouvez les envoyer au créateur.",
+    -- tryAnotherBuild="[Invalid UTF-8] If you are on Windows, try downloading Techmino-win32 or Techmino-win64 (different from what you are using now).",
 
     modInstruction="",
     modInfo={},-- See lang_en.lua

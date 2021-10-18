@@ -374,7 +374,11 @@ local function secondLoopThread()
     repeat yield()until mainLoop()
 end
 function love.errorhandler(msg)
-    if not msg then msg="Unknown error" end
+    if type(msg)~='string'then
+        msg="Unknown error"
+    elseif msg:find("Invaild UTF-8")and text then
+        msg=text.tryAnotherBuild
+    end
 
     --Generate error message
     local err={"Error:"..msg}
