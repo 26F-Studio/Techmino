@@ -72,22 +72,11 @@ runs:
         mkdir Techmino-iOS/Build
         xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj \
           -scheme Techmino \
-          -configuration Distribution
+          -configuration Distribution \
+          CONFIGURATION_BUILD_DIR=Techmino-iOS/Build
 
-    # - name: Codesign executable
-    #   # In secrets:
-    #   #   - MACOS_CERTIFICATE: the *.p12 Developer ID Certificate, encoded in base64
-    #   #   - MACOS_CERTIFICATE_PWD: The password
+    # - name: Rename and Pack app
     #   shell: bash
     #   run: |
-    #     security unlock-keychain -p Techminohaowan build.keychain
-    #     security default-keychain -s build.keychain
-    #     security import certificate.p12 -k build.keychain -P ${{ inputs.MACOS_CERTIFICATE_PWD }} -T /usr/bin/codesign
-    #     security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k Techminohaowan build.keychain
-    #     /usr/bin/codesign --force --deep -s ${{ inputs.MACOS_CERTIFICATE_ID }} Techmino.app -v
-
-    - name: Rename and Pack app
-      shell: bash
-      run: |
-        mkdir Techmino-iOS
-        mv Techmino.app Techmino-iOS/Techmino.app
+    #     mkdir Techmino-iOS
+    #     mv Techmino.app Techmino-iOS/Techmino.app
