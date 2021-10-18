@@ -125,6 +125,10 @@ local L={
         speedOne=       0xF00BF,
         speedTwo=       0xF00C0,
         speedFive=      0xF00C1,
+        bone=           0xF00C3,
+        invis=          0xF00C4,
+        bomb=           0xF00C5,
+        garbage=        0xF00C6,
     },
     key={--F0100~F017F
         macCmd=                 0xF0100,
