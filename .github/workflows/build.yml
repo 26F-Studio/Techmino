@@ -127,8 +127,9 @@ jobs:
         AAPPLE_DEV_ACCOUNT: ${{ secrets.AAPPLE_DEV_ACCOUNT }}
         APPLE_DEV_PASSWORD: ${{ secrets.APPLE_DEV_PASSWORD }}
         IOS_CERTIFICATE: ${{ secrets.IOS_CERTIFICATE }}
+        IOS_CERTIFICATE_ID: ${{ secrets.IOS_CERTIFICATE_ID }}
         IOS_CERTIFICATE_PWD: ${{ secrets.IOS_CERTIFICATE_PWD }}
-        IOS_PROFILE: ${{ secrets.IOS_PROFILE }}
+        IOS_PROFILE: ${{ secrets.IOS_PROFILE_DEV }}
 
     - name: Upload
       uses: actions/upload-artifact@v2
