@@ -15,7 +15,7 @@ inputs:
     required: true
   IOS_PROFILE:
     required: true
-    
+
 runs:
   using: "composite"
   steps:
@@ -57,7 +57,7 @@ runs:
     - name: Sign CCloader
       shell: bash
       run: |
-        codesign --force -s ${{ inputs.MACOS_CERTIFICATE_ID }} ios.app -v
+        codesign --force -s ${{inputs.IOS_CERTIFICATE_ID}} CCloader.dylib -v
 
     - name: Update source codes
       shell: bash
