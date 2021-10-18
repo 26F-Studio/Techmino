@@ -201,7 +201,9 @@ end
 function love.touchreleased(id,x,y)
     if SCN.swapping then return end
     x,y=ITP(xOy,x,y)
+    MES.new('info',"//")
     if id==touching then
+        MES.new('info',x.." "..y)
         WIDGET.press(x,y,1)
         WIDGET.release(x,y)
         WIDGET.cursorMove(x,y)
