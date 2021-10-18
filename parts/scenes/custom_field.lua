@@ -471,14 +471,14 @@ scene.widgetList={
     WIDGET.newButton{name="b15",    x=1060,y=210,w=76,fText="",color='M',code=_setPen(15)},--B15
     WIDGET.newButton{name="b16",    x=1140,y=210,w=76,fText="",color='W',code=_setPen(16)},--B16
 
-    WIDGET.newButton{name="b17",    x=580, y=290,w=76,fText="[  ]",color='dH',code=_setPen(17)},--BONE
-    WIDGET.newButton{name="b18",    x=660, y=290,w=76,fText="N",   color='D', code=_setPen(18)},--HIDE
-    WIDGET.newButton{name="b19",    x=740, y=290,w=76,fText="B",   color='lY',code=_setPen(19)},--BOMB
-    WIDGET.newButton{name="b20",    x=820, y=290,w=76,fText="_",   color='H', code=_setPen(20)},--GB1
-    WIDGET.newButton{name="b21",    x=900, y=290,w=76,fText="_",   color='lH',code=_setPen(21)},--GB2
-    WIDGET.newButton{name="b22",    x=980, y=290,w=76,fText="_",   color='dV',code=_setPen(22)},--GB3
-    WIDGET.newButton{name="b23",    x=1060,y=290,w=76,fText="_",   color='dR',code=_setPen(23)},--GB4
-    WIDGET.newButton{name="b24",    x=1140,y=290,w=76,fText="_",   color='dG',code=_setPen(24)},--GB5
+    WIDGET.newButton{name="b17",    x=580, y=290,w=76,font=40,fText=CHAR.icon.bone,   color='dH',code=_setPen(17)},--BONE
+    WIDGET.newButton{name="b18",    x=660, y=290,w=76,font=40,fText=CHAR.icon.invis,  color='D', code=_setPen(18)},--HIDE
+    WIDGET.newButton{name="b19",    x=740, y=290,w=76,font=40,fText=CHAR.icon.bomb,   color='lY',code=_setPen(19)},--BOMB
+    WIDGET.newButton{name="b20",    x=820, y=290,w=76,font=40,fText=CHAR.icon.garbage,color='H', code=_setPen(20)},--GB1
+    WIDGET.newButton{name="b21",    x=900, y=290,w=76,font=40,fText=CHAR.icon.garbage,color='lH',code=_setPen(21)},--GB2
+    WIDGET.newButton{name="b22",    x=980, y=290,w=76,font=40,fText=CHAR.icon.garbage,color='dV',code=_setPen(22)},--GB3
+    WIDGET.newButton{name="b23",    x=1060,y=290,w=76,font=40,fText=CHAR.icon.garbage,color='dR',code=_setPen(23)},--GB4
+    WIDGET.newButton{name="b24",    x=1140,y=290,w=76,font=40,fText=CHAR.icon.garbage,color='dG',code=_setPen(24)},--GB5
 
     WIDGET.newButton{name="any",    x=600, y=400,w=120,color='lH',      font=40,code=_setPen(0)},
     WIDGET.newButton{name="space",  x=730, y=400,w=120,color='H',       font=55,code=_setPen(-1),fText=CHAR.icon.cross_thick},
