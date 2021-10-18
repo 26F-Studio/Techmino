@@ -54,12 +54,6 @@ runs:
         echo "${{inputs.IOS_PROFILE}}" | base64 --decode > \
           ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
 
-    - name: Sign CCloader
-      shell: bash
-      run: |
-        codesign --force -s ${{inputs.IOS_CERTIFICATE_ID}} CCloader.dylib -v
-        chmod +x CCloader.dylib
-
     - name: Update source codes
       shell: bash
       run: |
@@ -77,8 +71,15 @@ runs:
           -quiet \
           CONFIGURATION_BUILD_DIR=Build
 
-    - name: Pack bare app
+    - name: Arrange build
       shell: bash
       run: |
         mv Techmino-iOS/platform/xcode/Build/Techmino.app ./
-        zip -r -y Techmino.zip Techmino.app
+        chmod +x ./Techmino.app/CCloader.dylib
+
+    - name: Sign CCloader
+      shell: bash
+      run: |
+        security find-identity -v
+        security unlock-keychain -p "" build.keychain
+        codesign -f -s ${{inputs.IOS_CERTIFICATE_ID}} ./Techmino.app/CCloader.dylib
