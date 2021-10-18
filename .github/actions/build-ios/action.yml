@@ -72,7 +72,7 @@ runs:
         mkdir Techmino-iOS/Build
         xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj \
           -scheme Techmino \
-          -configuration Distribution \
+          -configuration Release \
           -quiet \
           CONFIGURATION_BUILD_DIR=Build
 
