@@ -179,6 +179,7 @@ function love.wheelmoved(x,y)
 end
 
 function love.touchpressed(id,x,y)
+    print(tostring(id),x,y)
     mouseShow=false
     if SCN.swapping then return end
     if not touching then
@@ -201,7 +202,7 @@ end
 function love.touchreleased(id,x,y)
     if SCN.swapping then return end
     x,y=ITP(xOy,x,y)
-    MES.new('info',"//"..tostring(id).." "..tostring(touching))
+    print(tostring(id),x,y)
     if id==touching then
         WIDGET.press(x,y,1)
         WIDGET.release(x,y)
