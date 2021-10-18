@@ -115,6 +115,7 @@ return{
     -- keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
 
     errorMsg="Um erro ocorreu e Techmino precisa reiniciar.\nInformação do erro foi criada, e você pode mandar ao autor.",
+    -- tryAnotherBuild="[Invalid UTF-8] If you are on Windows, try downloading Techmino-win32 or Techmino-win64 (different from what you are using now).",
 
     modInstruction="Selecione mods (modificadores) para usar!\nMods irão modificar o jogo em formas diferentes\n(e possivelmente quebrar o jogo de formas estranhas).\nAlguns mods irão fazer seu jogo unranked.",
     modInfo={

@@ -5,8 +5,8 @@ return{
         setFont(55)
         mStr(P.modeData.wave,63,200)
         mStr(P.modeData.rpm,63,320)
-        mText(drawableText.wave,63,260)
-        mText(drawableText.rpm,63,380)
+        mText(TEXTOBJ.wave,63,260)
+        mText(TEXTOBJ.rpm,63,380)
     end,
     task=function(P)
         while true do

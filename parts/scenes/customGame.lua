@@ -16,7 +16,7 @@ local sList={
     lock={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
     wait={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
     fall={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
-    eventSet=eventSetList,
+    eventSet=EVENTSETS,
     holdMode={'hold','swap'},
 }
 

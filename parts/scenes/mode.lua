@@ -209,7 +209,6 @@ local baseRankColor={
     {.85,.5,.4,.3},
     {.85,.3,.8,.3},
 }
-local rankColor=rankColor
 local function _drawModeShape(M,S,drawType)
     if M.shape==1 then--Rectangle
         gc_rectangle(drawType,M.x-S,M.y-S,2*S,2*S)
@@ -269,11 +268,11 @@ function scene.draw()
 
             --Rank
             if unlocked==1 then
-                name=RANKCHARS[rank]
+                name=RANK_CHARS[rank]
                 if name then
                     gc_setColor(0,0,0,.8)
                     mStr(name,M.x+M.size*.7,M.y-50-M.size*.7)
-                    gc_setColor(rankColor[rank])
+                    gc_setColor(RANK_COLORS[rank])
                     mStr(name,M.x+M.size*.7+4,M.y-50-M.size*.7-4)
                 end
             end
@@ -295,13 +294,13 @@ function scene.draw()
             gc_draw(IMG.ctrlSpeedLimit,1230,50,nil,.4)
         end
         if M.score then
-            mText(drawableText.highScore,1100,240)
+            mText(TEXTOBJ.highScore,1100,240)
             gc_setColor(.3,.3,.3,.7)
             gc_rectangle('fill',940,290,320,280,5)--Highscore board
             local L=M.records
             gc_setColor(1,1,1)
             if visibleModes[sel]==2 then
-                mText(drawableText.modeLocked,1100,370)
+                mText(TEXTOBJ.modeLocked,1100,370)
             elseif L[1]then
                 for i=1,#L do
                     local t=M.scoreDisp(L[i])
@@ -315,7 +314,7 @@ function scene.draw()
                     end
                 end
             else
-                mText(drawableText.noScore,1100,370)
+                mText(TEXTOBJ.noScore,1100,370)
             end
         end
     end

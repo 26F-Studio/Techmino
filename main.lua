@@ -69,18 +69,18 @@ for _,v in next,{'conf','record','replay','cache','lib'}do
     end
 end
 
+CHAR=require'parts.char'
+require'parts.gameTables'
+require'parts.gameFuncs'
+
 --Load shader files from SOURCE ONLY
 SHADER={}
 for _,v in next,fs.getDirectoryItems('parts/shaders')do
-    if fs.getRealDirectory('parts/shaders/'..v)~=SAVEDIR then
+    if isSafeFile('parts/shaders/'..v)then
         local name=v:sub(1,-6)
         SHADER[name]=love.graphics.newShader('parts/shaders/'..name..'.glsl')
     end
 end
-
-CHAR=require'parts.char'
-require'parts.gameTables'
-require'parts.gameFuncs'
 
 FREEROW=    require'parts.freeRow'
 DATA=       require'parts.data'
@@ -117,7 +117,7 @@ do--Z.setCursor
     Z.setCursor(function(time,x,y)
         if not SETTING.sysCursor then
             local R=int((time+1)/2)%7+1
-            _=minoColor[SETTING.skin[R]]
+            _=BLOCK_COLORS[SETTING.skin[R]]
             gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
             _=DSCP[R][0]
             gc_draw(TEXTURE.miniBlock[R],x,y,time%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
@@ -190,8 +190,8 @@ TABLE.cover (FILE.load('conf/user')or{},USER)
 TABLE.cover (FILE.load('conf/unlock')or{},RANKS)
 TABLE.update(FILE.load('conf/settings')or{},SETTING)
 TABLE.update(FILE.load('conf/data')or{},STAT)
-TABLE.cover (FILE.load('conf/key')or{},keyMap)
-TABLE.cover (FILE.load('conf/virtualkey')or{},VK_org)
+TABLE.cover (FILE.load('conf/key')or{},KEY_MAP)
+TABLE.cover (FILE.load('conf/virtualkey')or{},VK_ORG)
 
 --Initialize fields, sequence, missions, gameEnv for cutsom game
 local fieldData=FILE.load('conf/customBoards','string')
@@ -285,10 +285,8 @@ SKIN.init{
 SFX.init((function()
     local L={}
     for _,v in next,fs.getDirectoryItems('media/effect/chiptune/')do
-        if fs.getRealDirectory('media/effect/chiptune/'..v)~=SAVEDIR then
+        if isSafeFile('media/effect/chiptune/'..v,"Dangerous file : %SAVE%/media/effect/chiptune/"..v)then
             table.insert(L,v:sub(1,-5))
-        else
-            MES.new('warn',"Dangerous file : %SAVE%/media/effect/chiptune/"..v)
         end
     end
     return L
@@ -296,10 +294,8 @@ end)())
 BGM.init((function()
     local L={}
     for _,v in next,fs.getDirectoryItems('media/music')do
-        if fs.getRealDirectory('media/music/'..v)~=SAVEDIR then
+        if isSafeFile('media/music/'..v,"Dangerous file : %SAVE%/media/music/"..v)then
             table.insert(L,{name=v:sub(1,-5),path='media/music/'..v})
-        else
-            MES.new('warn',"Dangerous file : %SAVE%/media/music/"..v)
         end
     end
     return L
@@ -331,7 +327,7 @@ LANG.init('zh',
         --3. Add a button in parts/scenes/setting_lang.lua;
     },
     {
-        block=BLOCKNAMES
+        block=BLOCK_NAMES
     },
     (function()
         local tipMeta={__call=function(L)return L[math.random(#L)]end}
@@ -342,16 +338,14 @@ LANG.init('zh',
 )
 --Load background files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems('parts/backgrounds')do
-    if fs.getRealDirectory('parts/backgrounds/'..v)~=SAVEDIR then
-        if v:sub(-3)=='lua'then
-            local name=v:sub(1,-5)
-            BG.add(name,require('parts.backgrounds.'..name))
-        end
+    if isSafeFile('parts/backgrounds/'..v)and v:sub(-3)=='lua'then
+        local name=v:sub(1,-5)
+        BG.add(name,require('parts.backgrounds.'..name))
     end
 end
 --Load scene files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems('parts/scenes')do
-    if fs.getRealDirectory('parts/scenes/'..v)~=SAVEDIR then
+    if isSafeFile('parts/scenes/'..v)then
         local sceneName=v:sub(1,-5)
         SCN.add(sceneName,require('parts.scenes.'..sceneName))
         LANG.addScene(sceneName)
@@ -360,9 +354,16 @@ end
 --Load mode files
 for i=1,#MODES do
     local m=MODES[i]--Mode template
-    if fs.getRealDirectory('parts/modes/'..m.name)~=SAVEDIR then
+    if isSafeFile('parts/modes/'..m.name)then
         TABLE.complete(require('parts.modes.'..m.name),MODES[i])
         MODES[m.name],MODES[i]=MODES[i]
+    end
+end
+for _,v in next,fs.getDirectoryItems('parts/modes')do
+    if isSafeFile('parts/modes/'..v)and not MODES[v:sub(1,-5)]then
+        local M={name=v:sub(1,-5)}
+        TABLE.complete(require('parts.modes.'..M.name),M)
+        MODES[M.name]=M
     end
 end
 
@@ -444,7 +445,7 @@ do
     if not RANKS.sprint_10l then RANKS.sprint_10l=0 end
     if RANKS.master_l then RANKS.master_n,RANKS.master_l=RANKS.master_l needSave=true end
     if RANKS.master_u then RANKS.master_h,RANKS.master_u=RANKS.master_u needSave=true end
-    for _,v in next,VK_org do v.color=nil end
+    for _,v in next,VK_ORG do v.color=nil end
     for name,rank in next,RANKS do
         if type(name)=='number'or type(rank)~='number'then
             RANKS[name]=nil
@@ -470,7 +471,7 @@ do
         needSave=true
     end
 
-    for k,v in next,oldModeNameTable do
+    for k,v in next,MODE_UPDATE_MAP do
         if RANKS[k]then
             RANKS[v]=RANKS[k]
             RANKS[k]=nil
@@ -510,7 +511,7 @@ for _,fileName in next,fs.getDirectoryItems('replay')do
         local date,mode,version,player,seed,setting,mod
         local fileData=fs.read('replay/'..fileName)
         date,   fileData=STRING.readLine(fileData)date=date:gsub("[a-zA-Z]","")
-        mode,   fileData=STRING.readLine(fileData)mode=oldModeNameTable[mode]or mode
+        mode,   fileData=STRING.readLine(fileData)mode=MODE_UPDATE_MAP[mode]or mode
         version,fileData=STRING.readLine(fileData)
         player, fileData=STRING.readLine(fileData)if player=="Local Player"then player="Stacker"end
         local success

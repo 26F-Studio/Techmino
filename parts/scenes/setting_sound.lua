@@ -91,9 +91,9 @@ scene.widgetList={
     WIDGET.newSwitch{name="autoMute", x=1150,y=180,lim=380,disp=SETval('autoMute'),code=SETrev('autoMute')},
     WIDGET.newSwitch{name="fine",     x=1150,y=250,lim=380,disp=SETval('fine'),code=function()SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play('finesseError',.6)end end},
 
-    WIDGET.newSelector{name="sfxPack",x=1100,y=330,w=200,color='lV',list={'chiptune'},disp=function()return sfxPack end,code=function(i)sfxPack=i end},
+    WIDGET.newSelector{name="sfxPack",x=1100,y=330,w=200,color='lV',list=SFXPACKS,disp=function()return sfxPack end,code=function(i)sfxPack=i end},
     WIDGET.newButton{name="apply",    x=1100,y=400,w=180,h=60,code=function()SETTING.sfxPack=sfxPack SFX.load('media/effect/'..sfxPack..'/')end,hideF=function()return SETTING.sfxPack==sfxPack end},
-    WIDGET.newSelector{name="vocPack",x=1100,y=470,w=200,color='lV',list={'miya','mono','xiaoya','miku'},disp=function()return vocPack end,code=function(i)vocPack=i end},
+    WIDGET.newSelector{name="vocPack",x=1100,y=470,w=200,color='lV',list=VOCPACKS,disp=function()return vocPack end,code=function(i)vocPack=i end},
     WIDGET.newButton{name="apply",    x=1100,y=540,w=180,h=60,code=function()SETTING.vocPack=vocPack VOC.load('media/vocal/'..vocPack..'/')end,hideF=function()return SETTING.vocPack==vocPack end},
     WIDGET.newButton{name="back",     x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }

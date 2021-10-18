@@ -117,9 +117,4 @@ return{
     {name='ultra',         x=-1000,     y=-600,     size=40,shape=1,icon="ultra"},
     {name='infinite',      x=-1000,     y=-400,     size=40,shape=1,icon='infinite'},
     {name='infinite_dig',  x=-800,      y=-400,     size=40,shape=1,icon="dig"},
-
-    --Special
-    {name='custom_puzzle'},
-    {name='custom_clear'},
-    {name="netBattle"},
 }

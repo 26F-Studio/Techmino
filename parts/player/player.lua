@@ -172,7 +172,7 @@ function Player:createBeam(R,send)
         else x2,y2=R.x+308*R.size,R.y+450*R.size
         end
 
-        local c=minoColor[color]
+        local c=BLOCK_COLORS[color]
         local r,g,b=c[1]*2,c[2]*2,c[3]*2
 
         local a=GAME.modeEnv.royaleMode and not(self.type=='human'or R.type=='human')and .2 or 1

@@ -125,7 +125,7 @@ function scene.update(dt)
     end
 end
 
-local blockCharWidth={}for i=1,#BLOCKCHARS do blockCharWidth[i]=gc.newText(FONT.get(60),BLOCKCHARS[i]):getWidth()end
+local blockCharWidth={}for i=1,#BLOCK_CHARS do blockCharWidth[i]=gc.newText(FONT.get(60),BLOCK_CHARS[i]):getWidth()end
 function scene.draw()
     --Draw frame
     gc_setColor(COLOR.Z)
@@ -133,7 +133,7 @@ function scene.draw()
     gc.rectangle('line',100,110,1080,260,5)
 
     --Draw sequence
-    local minoColor=minoColor
+    local BLOCK_COLORS=BLOCK_COLORS
     local skinSetting=SETTING.skin
     local BAG=BAG
     local x,y=120,136--Next block pos
@@ -160,8 +160,8 @@ function scene.draw()
             end
             if i<=j then
                 setFont(60)
-                gc_setColor(minoColor[skinSetting[BAG[i]]])
-                gc_print(BLOCKCHARS[BAG[i]],x,y-40)
+                gc_setColor(BLOCK_COLORS[skinSetting[BAG[i]]])
+                gc_print(BLOCK_CHARS[BAG[i]],x,y-40)
                 x=x+blockCharWidth[BAG[i]]
             end
         end

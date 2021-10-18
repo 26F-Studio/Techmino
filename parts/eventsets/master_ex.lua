@@ -19,9 +19,9 @@ return{
             gc.rectangle('fill',0,475-h,125,h,4)
             gc.setColor(COLOR.Z)
         end
-        mText(drawableText.line,63,310)
-        mText(drawableText.techrash,63,420)
-        mText(drawableText.grade,63,180)
+        mText(TEXTOBJ.line,63,310)
+        mText(TEXTOBJ.techrash,63,420)
+        mText(TEXTOBJ.grade,63,180)
         setFont(20)
         mStr(("%.1f"):format(P.modeData.rankPoint/10),63,208)
         setFont(55)

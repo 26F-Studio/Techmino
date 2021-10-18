@@ -71,7 +71,6 @@ local xOy=SCR.xOy
 local ITP=xOy.inverseTransformPoint
 
 local mx,my,mouseShow=-20,-20,false
-local touching--First touching ID(userdata)
 joysticks={}
 
 local devMode
@@ -181,8 +180,8 @@ end
 function love.touchpressed(id,x,y)
     mouseShow=false
     if SCN.swapping then return end
-    if not touching then
-        touching=id
+    if not SCN.mainTouchID then
+        SCN.mainTouchID=id
         WIDGET.unFocus(true)
         love.touchmoved(id,x,y,0,0)
     end
@@ -201,12 +200,12 @@ end
 function love.touchreleased(id,x,y)
     if SCN.swapping then return end
     x,y=ITP(xOy,x,y)
-    if id==touching then
+    if id==SCN.mainTouchID then
         WIDGET.press(x,y,1)
         WIDGET.release(x,y)
         WIDGET.cursorMove(x,y)
         WIDGET.unFocus()
-        touching=false
+        SCN.mainTouchID=false
     end
     if SCN.touchUp then SCN.touchUp(x,y)end
     if(x-lastX)^2+(y-lastY)^2<62 then
@@ -374,7 +373,11 @@ local function secondLoopThread()
     repeat yield()until mainLoop()
 end
 function love.errorhandler(msg)
-    if not msg then msg="Unknown error" end
+    if type(msg)~='string'then
+        msg="Unknown error"
+    elseif msg:find("Invaild UTF-8")and text then
+        msg=text.tryAnotherBuild
+    end
 
     --Generate error message
     local err={"Error:"..msg}

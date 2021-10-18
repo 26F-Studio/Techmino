@@ -238,8 +238,8 @@ function NET.uploadSave()
             {section=1,data=STRING.packTable(STAT)},
             {section=2,data=STRING.packTable(RANKS)},
             {section=3,data=STRING.packTable(SETTING)},
-            {section=4,data=STRING.packTable(keyMap)},
-            {section=5,data=STRING.packTable(VK_org)},
+            {section=4,data=STRING.packTable(KEY_MAP)},
+            {section=5,data=STRING.packTable(VK_ORG)},
             {section=6,data=STRING.packTable(FILE.load('conf/vkSave1'))},
             {section=7,data=STRING.packTable(FILE.load('conf/vkSave2'))},
         }..'}}')
@@ -282,11 +282,11 @@ function NET.loadSavedData(sections)
         success=success and saveSettings()
         applySettings()
 
-        TABLE.cover(NET.cloudData.keyMap,keyMap)
-        success=success and FILE.save(keyMap,'conf/key')
+        TABLE.cover(NET.cloudData.keyMap,KEY_MAP)
+        success=success and FILE.save(KEY_MAP,'conf/key')
 
-        TABLE.cover(NET.cloudData.VK_org,VK_org)
-        success=success and FILE.save(VK_org,'conf/virtualkey')
+        TABLE.cover(NET.cloudData.VK_org,VK_ORG)
+        success=success and FILE.save(VK_ORG,'conf/virtualkey')
 
         success=success and FILE.save(NET.cloudData.vkSave1,'conf/vkSave1')
         success=success and FILE.save(NET.cloudData.vkSave2,'conf/vkSave2')

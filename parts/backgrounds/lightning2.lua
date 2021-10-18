@@ -4,7 +4,7 @@ local int,rnd=math.floor,math.random
 local back={}
 
 local t
-local colorLib=minoColor
+local colorLib=BLOCK_COLORS
 local blocks=BLOCKS
 local scs=RSlist.TRS.centerPos
 function back.init()
