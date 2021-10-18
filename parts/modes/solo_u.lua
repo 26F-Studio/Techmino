@@ -4,7 +4,6 @@ return{
         life=2,
         drop=60,lock=60,
         freshLimit=15,
-        bufferLimit=20,
         bg='bg2',bgm='battle',
     },
     load=function()
@@ -16,13 +15,11 @@ return{
     comp=function(a,b)return a[1]<b[1]end,
     getRank=function(P)
         if P.result=='win'then
-            local T=P.stat.time
+            local L=P.life
             return
-            T<=80 and 5 or
-            T<=110 and 4 or
-            T<=150 and 3 or
-            T<=240 and 2 or
-            1
+            L>=2 and 5 or
+            L>=1 and 4 or
+            3
         end
     end,
 }

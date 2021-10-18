@@ -105,7 +105,7 @@ jobs:
         type: Release
         code: ${{ needs.get-info.outputs.code }}
         name: ${{ needs.get-info.outputs.name }}
-        file-path: Techmino.a${{ needs.get-info.outputs.Version }}.apk
+        file-path: Techmino.a${{ needs.get-info.outputs.release }}.apk
         SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
         ALIAS: ${{ secrets.ALIAS }}
@@ -114,7 +114,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         name: ${{ needs.get-info.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-info.outputs.Version }}.apk
+        files: Techmino.a${{ needs.get-info.outputs.release }}.apk
 
   build-android-mini:
     runs-on: ubuntu-20.04
@@ -132,7 +132,7 @@ jobs:
         type: Release
         code: ${{ needs.get-info.outputs.code }}
         name: ${{ needs.get-info.outputs.name }}
-        file-path: Techmino.a${{ needs.get-info.outputs.Version }}.mini.apk
+        file-path: Techmino.a${{ needs.get-info.outputs.release }}.mini.apk
         SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
         ALIAS: ${{ secrets.ALIAS }}
@@ -141,7 +141,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         name: ${{ needs.get-info.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-info.outputs.Version }}.mini.apk
+        files: Techmino.a${{ needs.get-info.outputs.release }}.mini.apk
 
   build-macOS:
     runs-on: macos-10.15
@@ -160,12 +160,13 @@ jobs:
         MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
     - name: Pack Techmino
       run: |
-        zip -r -y Techmino.a${{ needs.get-info.outputs.Version }}.macOS.zip Techmino.app ".github/build/macOS/打不开？Can’t open the App？.pdf"
+        cp ".github/build/macOS/打不开？Can’t open the App？.pdf" ./
+        zip -r -y Techmino.a${{ needs.get-info.outputs.release }}.macOS.zip Techmino.app "./打不开？Can’t open the App？.pdf"
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
         name: ${{ needs.get-info.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-info.outputs.Version }}.macOS.zip
+        files: Techmino.a${{ needs.get-info.outputs.release }}.macOS.zip
 
   build-love:
     runs-on: ubuntu-20.04

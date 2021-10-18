@@ -122,6 +122,7 @@ function scene.keyUp(key)
 end
 
 function scene.update(dt)
+    if dt>.06 then dt=.06 end
     dt=dt*600
 
     --Update cubes' position
