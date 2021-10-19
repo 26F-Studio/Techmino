@@ -450,10 +450,10 @@ do--function freshPlayerPosition(sudden)
         --18~31
         (function()
             local L={{340,75,1}}
-            for i=1,5 do ins(L,{10,    -100+135*i,.18})end
-            for i=1,5 do ins(L,{120,-100+135*i,.18})end
-            for i=1,5 do ins(L,{230,-100+135*i,.18})end
-            for i=1,5 do ins(L,{940,-100+135*i,.18})end
+            for i=1,5 do ins(L,{10,  -100+135*i,.18})end
+            for i=1,5 do ins(L,{120, -100+135*i,.18})end
+            for i=1,5 do ins(L,{230, -100+135*i,.18})end
+            for i=1,5 do ins(L,{940, -100+135*i,.18})end
             for i=1,5 do ins(L,{1050,-100+135*i,.18})end
             for i=1,5 do ins(L,{1160,-100+135*i,.18})end
             return L
