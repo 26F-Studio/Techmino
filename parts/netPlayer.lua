@@ -65,13 +65,13 @@ local posLists={
 local posList
 local function _placeSort(a,b)return a.place<b.place end
 
-local netPLY
+local NETPLY
 
 local nullIndex={
     __index=function(self,k)
         MES.traceback()
         MES.new('error',"User not loaded: "..k)
-        netPLY.add{
+        NETPLY.add{
             uid=k,
             username="Stacker",
             sid=-1,
@@ -96,17 +96,17 @@ local function _freshPos()
         posList=posLists[5]
     end
 end
-netPLY={
+NETPLY={
     list=PLYlist,
     map=PLYmap,
     freshPos=_freshPos,
 }
 
-function netPLY.clear()
+function NETPLY.clear()
     TABLE.cut(PLYlist)
     TABLE.clear(PLYmap)
 end
-function netPLY.add(d)
+function NETPLY.add(d)
     local p={
         uid=d.uid,
         username=d.username,
@@ -124,7 +124,7 @@ function netPLY.add(d)
     PLYmap[p.uid]=p
     _freshPos()
 end
-function netPLY.remove(sid)
+function NETPLY.remove(sid)
     for i=1,#PLYlist do
         if PLYlist[i].sid==sid then
             PLYmap[PLYlist[i].uid]=nil
@@ -135,14 +135,14 @@ function netPLY.remove(sid)
     end
 end
 
-function netPLY.getCount()return #PLYlist end
-function netPLY.getSID(uid)return PLYmap[uid].sid end
-function netPLY.getSelfJoinMode()return PLYmap[USER.uid].mode end
-function netPLY.getSelfReady()return PLYmap[USER.uid].mode>0 end
+function NETPLY.getCount()return #PLYlist end
+function NETPLY.getSID(uid)return PLYmap[uid].sid end
+function NETPLY.getSelfJoinMode()return PLYmap[USER.uid].mode end
+function NETPLY.getSelfReady()return PLYmap[USER.uid].mode>0 end
 
-function netPLY.setPlayerObj(ply,p)ply.p=p end
-function netPLY.setConf(uid,config)PLYmap[uid].config=config end
-function netPLY.setJoinMode(uid,ready)
+function NETPLY.setPlayerObj(ply,p)ply.p=p end
+function NETPLY.setConf(uid,config)PLYmap[uid].config=config end
+function NETPLY.setJoinMode(uid,ready)
     for _,p in next,PLYlist do
         if p.uid==uid then
             if p.mode~=ready then
@@ -164,16 +164,16 @@ function netPLY.setJoinMode(uid,ready)
         end
     end
 end
-function netPLY.setConnect(uid)PLYmap[uid].connected=true end
-function netPLY.setPlace(uid,place)PLYmap[uid].place=place end
-function netPLY.setStat(uid,S)
+function NETPLY.setConnect(uid)PLYmap[uid].connected=true end
+function NETPLY.setPlace(uid,place)PLYmap[uid].place=place end
+function NETPLY.setStat(uid,S)
     PLYmap[uid].stat={
         lpm=("%.1f %s"):format(S.row/S.time*60,text.radarData[5]),
         apm=("%.1f %s"):format(S.atk/S.time*60,text.radarData[3]),
         adpm=("%.1f %s"):format((S.atk+S.dig)/S.time*60,text.radarData[2]),
     }
 end
-function netPLY.resetState()
+function NETPLY.resetState()
     for i=1,#PLYlist do
         PLYlist[i].mode=0
         PLYlist[i].connected=false
@@ -181,7 +181,7 @@ function netPLY.resetState()
 end
 
 local selP,mouseX,mouseY
-function netPLY.mouseMove(x,y)
+function NETPLY.mouseMove(x,y)
     selP=nil
     for i=1,#PLYlist do
         local p=PLYlist[i]
@@ -193,7 +193,7 @@ function netPLY.mouseMove(x,y)
     end
 end
 
-function netPLY.update()
+function NETPLY.update()
     for i=1,#PLYlist do
         local p=PLYlist[i]
         local t=posList[i]
@@ -208,7 +208,7 @@ local stencilW,stencilH
 local function _playerFrameStencil()
     gc_rectangle('fill',0,0,stencilW,stencilH)
 end
-function netPLY.draw()
+function NETPLY.draw()
     for i=1,#PLYlist do
         local p=PLYlist[i]
         gc_translate(p.x,p.y)
@@ -290,4 +290,4 @@ function netPLY.draw()
     end
 end
 
-return netPLY
+return NETPLY

@@ -195,19 +195,18 @@ return{
 
             graphic="←Video",
             sound="Sound→",
+            layout="=-=-=",
 
             ctrl="=?=",
             key="=?",
             touch="_?",
             reTime="3-2-1",
             RS="''?",
-            layout="=-=-=",
             menuPos="←M→?",
             sysCursor="?→*",
             autoPause="A||",
-            swap="=+=+=",
-            autoLogin="#Log in#",
             autoSave="!!!>%",
+            autoLogin="#Log in#",
             simpMode=".",
         },
         setting_video={

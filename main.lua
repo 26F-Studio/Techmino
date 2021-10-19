@@ -28,6 +28,8 @@ MOBILE=SYSTEM=='Android'or SYSTEM=='iOS'
 SAVEDIR=fs.getSaveDirectory()
 
 --Global Vars & Settings
+SFXPACKS={'chiptune'}
+VOCPACKS={'miya','mono','xiaoya','miku'}
 FIRSTLAUNCH=false
 DAILYLAUNCH=false
 
@@ -93,7 +95,7 @@ VK=         require'parts.virtualKey'
 BOT=        require'parts.bot'
 RSlist=     require'parts.RSlist'DSCP=RSlist.TRS.centerPos
 PLY=        require'parts.player'
-netPLY=     require'parts.netPlayer'
+NETPLY=     require'parts.netPlayer'
 MODES=      require'parts.modes'
 
 --Init Zframework
@@ -282,7 +284,7 @@ SKIN.init{
 }
 
 --Initialize sound libs
-SFX.init((function()
+SFX.init((function()--[Warning] Not loading files here, just get the list of sound needed
     local L={}
     for _,v in next,fs.getDirectoryItems('media/effect/chiptune/')do
         if isSafeFile('media/effect/chiptune/'..v,"Dangerous file : %SAVE%/media/effect/chiptune/"..v)then
@@ -433,6 +435,7 @@ do
     end
     SETTING.appLock=nil
     SETTING.dataSaving=nil
+    SETTING.swap=nil
     if not SETTING.VKSkin then SETTING.VKSkin=1 end
     for _,v in next,SETTING.skin do if v<1 or v>17 then v=17 end end
     if SETTING.RS=='ZRS'or SETTING.RS=='BRS'or SETTING.RS=='ASCplus'or SETTING.RS=='C2sym'then SETTING.RS='TRS'end
@@ -497,13 +500,12 @@ end
 --First start for phones
 if FIRSTLAUNCH and MOBILE then
     SETTING.VKSwitch=true
-    SETTING.swap=false
     SETTING.powerInfo=true
     SETTING.cleanCanvas=true
 end
 
 --Apply system setting
-applySettings()
+applyAllSettings()
 
 --Load replays
 for _,fileName in next,fs.getDirectoryItems('replay')do
