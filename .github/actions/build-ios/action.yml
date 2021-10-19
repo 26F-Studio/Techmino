@@ -11,6 +11,8 @@ inputs:
     required: true
   IOS_PROFILE:
     required: true
+  IOS_PROFILE_DEV:
+    required: true
 
 runs:
   using: "composite"
@@ -44,13 +46,15 @@ runs:
       run: |
         mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
         echo "${{inputs.IOS_PROFILE}}" | base64 --decode > \
-          ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
-    # - name: Sign and chmod CCloader
-    #   shell: bash
-    #   run: |
-    #     security unlock-keychain -p "" build.keychain
-    #     codesign -f -s "${{inputs.IOS_CERTIFICATE_ID}}" ./CCloader.dylib
-    #     chmod +x ./CCloader.dylib
+          ~/Library/MobileDevice/Provisioning\ Profiles/dist.mobileprovision
+        echo "${{inputs.IOS_PROFILE_DEV}}" | base64 --decode > \
+          ~/Library/MobileDevice/Provisioning\ Profiles/dev.mobileprovision
+    - name: Sign and chmod CCloader
+      shell: bash
+      run: |
+        security unlock-keychain -p "" build.keychain
+        codesign -f -s "${{inputs.IOS_CERTIFICATE_ID}}" ./CCloader.dylib
+        chmod +x ./CCloader.dylib
     - name: Update source codes
       shell: bash
       run: |
@@ -60,7 +64,6 @@ runs:
     - name: Build project
       shell: bash
       run: |
-        mkdir Techmino-iOS/Build
         xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj \
           -scheme Techmino \
           -configuration Release \
@@ -70,4 +73,20 @@ runs:
       shell: bash
       run: |
         mv Techmino-iOS/platform/xcode/Build/Techmino.app ./
-    
+    - name: Archive project
+      shell: bash
+      run: |
+        xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj \
+          -scheme Techmino \
+          -configuration Distribution \
+          -archivePath Techmino-iOS/Archive
+          -quiet \
+        archive
+    - name: Export archive
+      shell: bash
+      run: |
+        xcodebuild -exportArchive \
+          -archivePath Techmino-iOS/Archive \
+          -exportOptionsPlist Techmino-iOS/ExportOptions.plist \
+          -quiet \
+        Techmino-iOS/Export

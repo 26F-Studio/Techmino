@@ -125,7 +125,8 @@ jobs:
         IOS_CERTIFICATE: ${{ secrets.IOS_CERTIFICATE }}
         IOS_CERTIFICATE_ID: ${{ secrets.IOS_CERTIFICATE_ID }}
         IOS_CERTIFICATE_PWD: ${{ secrets.IOS_CERTIFICATE_PWD }}
-        IOS_PROFILE: ${{ secrets.IOS_PROFILE_DEV }}
+        IOS_PROFILE: ${{ secrets.IOS_PROFILE }}
+        IOS_PROFILE_DEV: ${{ secrets.IOS_PROFILE_DEV }}
     - name: Pack Techmino
       run: |
         zip -r -y Techmino.zip Techmino.app
