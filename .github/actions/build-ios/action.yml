@@ -45,12 +45,12 @@ runs:
         mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
         echo "${{inputs.IOS_PROFILE}}" | base64 --decode > \
           ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
-    - name: Sign and chmod CCloader
-      shell: bash
-      run: |
-        security unlock-keychain -p "" build.keychain
-        codesign -f -s ${{inputs.IOS_CERTIFICATE_ID}} ./CCloader.dylib
-        chmod +x ./CCloader.dylib
+    # - name: Sign and chmod CCloader
+    #   shell: bash
+    #   run: |
+    #     security unlock-keychain -p "" build.keychain
+    #     codesign -f -s "${{inputs.IOS_CERTIFICATE_ID}}" ./CCloader.dylib
+    #     chmod +x ./CCloader.dylib
     - name: Update source codes
       shell: bash
       run: |
