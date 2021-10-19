@@ -3,10 +3,6 @@ description: 'build iOS package'
 inputs:
   name:
     required: true
-  AAPPLE_DEV_ACCOUNT:
-    required: true
-  APPLE_DEV_PASSWORD:
-    required: true
   IOS_CERTIFICATE:
     required: true
   IOS_CERTIFICATE_ID:
@@ -20,18 +16,15 @@ runs:
   using: "composite"
   steps:
     - uses: ./.github/actions/build-love
-
     - name: Checkout source codes
       uses: actions/checkout@v2
       with:
         repository: '26F-Studio/Techmino-iOS'
         path: 'Techmino-iOS'
-
     - name: Download CCloader
       uses: ./.github/actions/get-cc
       with:
         arch: iOS
-
     - name: Create and config keychain
       shell: bash
       run: |
@@ -46,28 +39,24 @@ runs:
           -P ${{inputs.IOS_CERTIFICATE_PWD}} \
           -T /usr/bin/codesign
         security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
-
     - name: Import provisioning profile
       shell: bash
       run: |
         mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
         echo "${{inputs.IOS_PROFILE}}" | base64 --decode > \
           ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
-
+    - name: Sign and chmod CCloader
+      shell: bash
+      run: |
+        security unlock-keychain -p "" build.keychain
+        codesign -f -s ${{inputs.IOS_CERTIFICATE_ID}} ./CCloader.dylib
+        chmod +x ./CCloader.dylib
     - name: Update source codes
       shell: bash
       run: |
         mv Techmino.love Techmino-iOS/platform/xcode
         mv CCloader.dylib Techmino-iOS/platform/xcode
         python3 .github/workflows/updateVersion.py -T iOS -N ${{ inputs.name }}
-
-    - name: Sign and chmod CCloader
-      shell: bash
-      run: |
-        security unlock-keychain -p "" build.keychain
-        codesign -f -s ${{inputs.IOS_CERTIFICATE_ID}} ./Techmino-iOS/platform/xcode/CCloader.dylib
-        chmod +x ./Techmino-iOS/platform/xcode/CCloader.dylib
-
     - name: Build project
       shell: bash
       run: |
@@ -77,7 +66,6 @@ runs:
           -configuration Release \
           -quiet \
           CONFIGURATION_BUILD_DIR=Build
-
     - name: Arrange build
       shell: bash
       run: |
