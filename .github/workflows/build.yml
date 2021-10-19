@@ -122,16 +122,25 @@ jobs:
     - uses: ./.github/actions/build-ios
       with:
         name: ${{ needs.get-info.outputs.name }}
-        IOS_CERTIFICATE: ${{ secrets.IOS_CERTIFICATE }}
-        IOS_CERTIFICATE_ID: ${{ secrets.IOS_CERTIFICATE_ID }}
-        IOS_CERTIFICATE_PWD: ${{ secrets.IOS_CERTIFICATE_PWD }}
-        IOS_PROFILE: ${{ secrets.IOS_PROFILE }}
-        IOS_PROFILE_DEV: ${{ secrets.IOS_PROFILE_DEV }}
-    - name: Pack Techmino
-      run: |
-        zip -r -y Techmino.zip Techmino.app
-    - name: Upload
-      uses: actions/upload-artifact@v2
-      with:
-        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_iOS
-        path: Techmino.zip
+        APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
+        DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
+        DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'
+        DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
+        FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
+        FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
+        MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+        GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
+        PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
+        TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+        TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+        APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
+        APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
+        APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
+    # - name: Pack Techmino
+    #   run: |
+    #     zip -r -y Techmino.zip Techmino.app
+    # - name: Upload
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_iOS
+    #     path: Techmino.zip
