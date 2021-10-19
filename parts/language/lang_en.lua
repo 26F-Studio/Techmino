@@ -750,9 +750,15 @@ return{
         ['sprintAtk']=     {"Sprint",            "100 Attack", "Send 100 lines!"},
         ['zen']=           {'Zen',               "200",        "A 200-line run without a time limit"},
         ['ultra']=         {'Ultra',             "EXTRA",      "A 2-minute score attack"},
-        ['infinite']=      {'infinite',           "",          "Just a sandbox"},
-        ['infinite_dig']=  {"Infinite: Dig",      "",          "Dig-diggin'-dug"},
-
+        ['infinite']=      {'infinite',          "",           "Just a sandbox"},
+        ['infinite_dig']=  {"Infinite: Dig",     "",           "Dig-diggin'-dug"},
+        
+        ['sprintMD']=      {"Sprint",            "MISDROP"},
+        ['sprintSmooth']=  {"Sprint",            "FRICTIONLESS"},
+        ['sprintLock']=    {"Sprint",            "NO ROTATION"},
+        ['sprintFix']=     {"Sprint",            "NO LEFT/RIGHT"},
+        ['marathon_bfmax']={"Marathon",          "ULTIMATE"},
+        
         ['custom_clear']=  {"Custom",            "NORMAL"},
         ['custom_puzzle']= {"Custom",            "PUZZLE"},
     },
