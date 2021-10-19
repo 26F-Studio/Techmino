@@ -73,20 +73,19 @@ runs:
       shell: bash
       run: |
         mv Techmino-iOS/platform/xcode/Build/Techmino.app ./
-    - name: Archive project
-      shell: bash
-      run: |
-        xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj \
-          -scheme Techmino \
-          -configuration Distribution \
-          -archivePath Techmino-iOS/Archive
-          -quiet \
-        archive
-    - name: Export archive
-      shell: bash
-      run: |
-        xcodebuild -exportArchive \
-          -archivePath Techmino-iOS/Archive \
-          -exportOptionsPlist Techmino-iOS/ExportOptions.plist \
-          -quiet \
-        Techmino-iOS/Export
+    # - name: Archive project
+    #   shell: bash
+    #   run: |
+    #     xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj \
+    #       -scheme Techmino \
+    #       -configuration Distribution \
+    #       -archivePath Techmino-iOS/Archive
+    #       -quiet \
+    #     archive
+    # - name: Export archive
+    #   shell: bash
+    #   run: |
+    #     xcodebuild -exportArchive \
+    #       -archivePath Techmino-iOS/Archive \
+    #       -exportOptionsPlist Techmino-iOS/ExportOptions.plist \
+    #     Techmino-iOS/Export
