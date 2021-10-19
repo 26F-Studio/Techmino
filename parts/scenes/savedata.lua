@@ -59,7 +59,7 @@ scene.widgetList={
             local D=_parseCB()
             if D then
                 TABLE.update(D,SETTING)
-                applySettings()
+                applyAllSettings()
                 saveSettings()
                 MES.new('check',text.importSuccess)
             else

@@ -1,6 +1,4 @@
 --Static data tables
-SFXPACKS={'chiptune'}
-VOCPACKS={'miya','mono','xiaoya','miku'}
 BLOCK_NAMES={
     'Z','S','J','L','T','O','I',
     'Z5','S5','P','Q','F','E',
@@ -503,7 +501,7 @@ do--Mod data
         M.color=COLOR[M.color]
     end
 end
-do--Game tables
+do--Game data tables
     PLAYERS={}--Players data
     PLY_ALIVE={}
     FIELD={}--Field(s) for custom game

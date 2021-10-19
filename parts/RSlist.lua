@@ -180,7 +180,7 @@ do
                             SFX.play('rotatekick',nil,P:getCenterX()*.15)
                         end
 
-                        --[Warning] field spinSeq is a dirty data, TRS put this var into the block.
+                        --[Warning] Field spinSeq is a dirty data, TRS put this var into the block.
                         C.spinSeq=(C.spinSeq or 0)%100*10+d
                         if C.spinSeq<100 then
                             return end

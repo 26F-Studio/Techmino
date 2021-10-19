@@ -13,6 +13,13 @@ local PLAYERS=PLAYERS
 
 
 --System
+function isSafeFile(file,mes)
+    if love.filesystem.getRealDirectory(file)~=SAVEDIR then
+        return true
+    elseif mes then
+        MES.new('warn',mes)
+    end
+end
 function saveStats()
     return FILE.save(STAT,'conf/data')
 end
@@ -31,28 +38,15 @@ function applyLanguage()
         end
     end
 end
-function applySettings()
-    love.window.setFullscreen(SETTING.fullscreen)
-    love.audio.setVolume(SETTING.mainVol)
-    love.mouse.setVisible(SETTING.sysCursor)
-    VK.setShape(SETTING.VKSkin)
-    BGM.setVol(SETTING.bgm)
-    SFX.setVol(SETTING.sfx)
-    VOC.setVol(SETTING.voc)
-    applyBlockSatur(SETTING.blockSatur)
-    applyFieldSatur(SETTING.fieldSatur)
-    applyLanguage()
-end
-function switchCursor()
-    SETTING.sysCursor=not SETTING.sysCursor
+function applyCursor()
     love.mouse.setVisible(SETTING.sysCursor)
 end
-function switchFullscreen()
+function applyFullscreen()
     SETTING.fullscreen=not SETTING.fullscreen
     love.window.setFullscreen(SETTING.fullscreen)
     love.resize(gc.getWidth(),gc.getHeight())
 end
-do--function applyXxxSatur(mode)
+do--function applyBlockSatur,applyFieldSatur(mode)
     local saturateValues={
         normal={0,1},
         soft={.2,.7},
@@ -71,12 +65,17 @@ do--function applyXxxSatur(mode)
         SHADER.fieldSatur:send('k',m[2])
     end
 end
-function isSafeFile(file,mes)
-    if love.filesystem.getRealDirectory(file)~=SAVEDIR then
-        return true
-    elseif mes then
-        MES.new('warn',mes)
-    end
+function applyAllSettings()
+    love.window.setFullscreen(SETTING.fullscreen)
+    love.audio.setVolume(SETTING.mainVol)
+    VK.setShape(SETTING.VKSkin)
+    BGM.setVol(SETTING.bgm)
+    SFX.setVol(SETTING.sfx)
+    VOC.setVol(SETTING.voc)
+    applyBlockSatur(SETTING.blockSatur)
+    applyFieldSatur(SETTING.fieldSatur)
+    applyLanguage()
+    applyCursor()
 end
 
 --Royale mode

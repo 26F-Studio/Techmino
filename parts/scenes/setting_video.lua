@@ -71,7 +71,7 @@ scene.widgetList={
     WIDGET.newSwitch{name="clickFX",      x=950,y=980,lim=360,disp=SETval('clickFX'),               code=SETrev('clickFX')},
     WIDGET.newSwitch{name="power",        x=950,y=1070,lim=360,disp=SETval('powerInfo'),            code=SETrev('powerInfo')},
     WIDGET.newSwitch{name="clean",        x=950,y=1160,lim=360,disp=SETval('cleanCanvas'),          code=SETrev('cleanCanvas')},
-    WIDGET.newSwitch{name="fullscreen",   x=950,y=1250,lim=360,disp=SETval('fullscreen'),           code=switchFullscreen},
+    WIDGET.newSwitch{name="fullscreen",   x=950,y=1250,lim=360,disp=SETval('fullscreen'),           code=function()SETTING.fullscreen=not SETTING.fullscreen applyFullscreen()end},
     WIDGET.newSwitch{name="bg",           x=950,y=1340,lim=360,disp=SETval('bg'),
         code=function()
             BG.set('none')

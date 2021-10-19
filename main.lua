@@ -28,6 +28,8 @@ MOBILE=SYSTEM=='Android'or SYSTEM=='iOS'
 SAVEDIR=fs.getSaveDirectory()
 
 --Global Vars & Settings
+SFXPACKS={'chiptune'}
+VOCPACKS={'miya','mono','xiaoya','miku'}
 FIRSTLAUNCH=false
 DAILYLAUNCH=false
 
@@ -93,7 +95,7 @@ VK=         require'parts.virtualKey'
 BOT=        require'parts.bot'
 RSlist=     require'parts.RSlist'DSCP=RSlist.TRS.centerPos
 PLY=        require'parts.player'
-netPLY=     require'parts.netPlayer'
+NETPLY=     require'parts.netPlayer'
 MODES=      require'parts.modes'
 
 --Init Zframework
@@ -282,7 +284,7 @@ SKIN.init{
 }
 
 --Initialize sound libs
-SFX.init((function()
+SFX.init((function()--[Warning] Not loading files here, just get the list of sound needed
     local L={}
     for _,v in next,fs.getDirectoryItems('media/effect/chiptune/')do
         if isSafeFile('media/effect/chiptune/'..v,"Dangerous file : %SAVE%/media/effect/chiptune/"..v)then
@@ -503,7 +505,7 @@ if FIRSTLAUNCH and MOBILE then
 end
 
 --Apply system setting
-applySettings()
+applyAllSettings()
 
 --Load replays
 for _,fileName in next,fs.getDirectoryItems('replay')do

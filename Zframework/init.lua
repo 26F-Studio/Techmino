@@ -258,7 +258,8 @@ function love.keypressed(key,_,isRep)
         devMode=1
         MES.new('info',"DEBUG ON",.2)
     elseif key=="f11"then
-        switchFullscreen()
+        SETTING.fullscreen=not SETTING.fullscreen
+        applyFullscreen()
         saveSettings()
     elseif not SCN.swapping then
         if SCN.keyDown then
@@ -702,7 +703,7 @@ local Z={}
 
 function Z.setIfPowerInfo(func)showPowerInfo=func end
 
---Warning: color and line width is uncertain value, set it in the function.
+--[Warning] Color and line width is uncertain value, set it in the function.
 function Z.setCursor(func)drawCursor=func end
 
 --Change F1~F7 events of devmode (F8 mode)

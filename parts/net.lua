@@ -280,7 +280,7 @@ function NET.loadSavedData(sections)
 
         TABLE.cover(NET.cloudData.SETTING,SETTING)
         success=success and saveSettings()
-        applySettings()
+        applyAllSettings()
 
         TABLE.cover(NET.cloudData.keyMap,KEY_MAP)
         success=success and FILE.save(KEY_MAP,'conf/key')
@@ -524,10 +524,10 @@ function NET.updateWS_play()
                     elseif res.action==2 then--Player join
                         if res.type=='Self'then
                             --Enter new room
-                            netPLY.clear()
+                            NETPLY.clear()
                             if d.players then
                                 for _,p in next,d.players do
-                                    netPLY.add{
+                                    NETPLY.add{
                                         uid=p.uid,
                                         username=p.username,
                                         sid=p.sid,
@@ -555,7 +555,7 @@ function NET.updateWS_play()
                             loadGame('netBattle',true,true)
                         else
                             --Load other players
-                            netPLY.add{
+                            NETPLY.add{
                                 uid=d.uid,
                                 username=d.username,
                                 sid=d.sid,
@@ -578,7 +578,7 @@ function NET.updateWS_play()
                             end
                             SCN.back()
                         else
-                            netPLY.remove(d.sid)
+                            NETPLY.remove(d.sid)
                             _removePlayer(PLAYERS,d.sid)
                             _removePlayer(PLY_ALIVE,d.sid)
                             if SCN.cur=='net_game'then
@@ -590,9 +590,9 @@ function NET.updateWS_play()
                             SCN.socketRead('talk',d)
                         end
                     elseif res.action==5 then--Player change settings
-                        netPLY.setConf(d.uid,d.config)
+                        NETPLY.setConf(d.uid,d.config)
                     elseif res.action==6 then--Player change join mode
-                        netPLY.setJoinMode(d.uid,d.mode)
+                        NETPLY.setJoinMode(d.uid,d.mode)
                     elseif res.action==7 then--All Ready
                         SFX.play('reach',.6)
                         NET.roomReadyState='allReady'
@@ -608,15 +608,15 @@ function NET.updateWS_play()
                         for _,p in next,d.result do
                             for _,P in next,PLAYERS do
                                 if P.uid==p.uid then
-                                    netPLY.setStat(p.uid,P.stat)
-                                    netPLY.setPlace(p.uid,p.place)
+                                    NETPLY.setStat(p.uid,P.stat)
+                                    NETPLY.setPlace(p.uid,p.place)
                                     break
                                 end
                             end
                         end
 
-                        netPLY.resetState()
-                        netPLY.freshPos()
+                        NETPLY.resetState()
+                        NETPLY.freshPos()
                         NET.roomState.start=false
                         if NET.spectate then
                             NET.signal_setMode(2)
@@ -657,10 +657,10 @@ function NET.updateWS_stream()
                         if res.type=='Self'then
                             NET.seed=d.seed
                             NET.spectate=d.spectate
-                            netPLY.setConnect(d.uid)
+                            NETPLY.setConnect(d.uid)
                             for _,p in next,d.connected do
                                 if not p.spectate then
-                                    netPLY.setConnect(p.uid)
+                                    NETPLY.setConnect(p.uid)
                                 end
                             end
                             if d.spectate then
@@ -677,9 +677,9 @@ function NET.updateWS_stream()
                             end
                         else
                             if d.spectate then
-                                netPLY.setJoinMode(d.uid,2)
+                                NETPLY.setJoinMode(d.uid,2)
                             else
-                                netPLY.setConnect(d.uid)
+                                NETPLY.setConnect(d.uid)
                             end
                         end
                     elseif res.action==3 then--Player leave
