@@ -77,7 +77,7 @@ runs:
       shell: bash
       run: |
         mv Techmino.love Techmino-iOS/platform/xcode
-        mv CCloader.dylib Techmino-iOS/platform/xcode
+        mv libCCloader.a Techmino-iOS/platform/xcode
         python3 .github/workflows/updateVersion.py -T iOS -N ${{ inputs.name }}
     - name: Run fastlane
       uses: maierj/fastlane-action@v2.0.1
