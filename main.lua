@@ -433,6 +433,7 @@ do
     end
     SETTING.appLock=nil
     SETTING.dataSaving=nil
+    SETTING.swap=nil
     if not SETTING.VKSkin then SETTING.VKSkin=1 end
     for _,v in next,SETTING.skin do if v<1 or v>17 then v=17 end end
     if SETTING.RS=='ZRS'or SETTING.RS=='BRS'or SETTING.RS=='ASCplus'or SETTING.RS=='C2sym'then SETTING.RS='TRS'end
@@ -497,7 +498,6 @@ end
 --First start for phones
 if FIRSTLAUNCH and MOBILE then
     SETTING.VKSwitch=true
-    SETTING.swap=false
     SETTING.powerInfo=true
     SETTING.cleanCanvas=true
 end

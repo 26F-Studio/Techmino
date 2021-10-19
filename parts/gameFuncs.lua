@@ -497,7 +497,7 @@ do--function dumpBasicConfig()
     local gameSetting={
         --Tuning
         'das','arr','dascut','dropcut','sddas','sdarr',
-        'ihs','irs','ims','RS','swap',
+        'ihs','irs','ims','RS',
 
         --System
         'skin','face',
@@ -539,7 +539,7 @@ do--function resetGameData(args)
     local gameSetting={
         --Tuning
         'das','arr','dascut','dropcut','sddas','sdarr',
-        'ihs','irs','ims','RS','swap','FTLock',
+        'ihs','irs','ims','RS','FTLock',
 
         --System
         'skin','face',

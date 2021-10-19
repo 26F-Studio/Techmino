@@ -282,19 +282,18 @@ return{
 
             graphic="←Vidéo",
             sound="Son→",
+            layout="Disposition",
 
             ctrl="Paramètres de contrôle",
             key="Touches",
             touch="Boutons virtuels",
             reTime="Délai de démarrage",
             RS="Système de rotation",
-            layout="Disposition",
             -- menuPos="Menu button pos.",
             -- sysCursor="Use system cursor",
             autoPause="Mettre en pause en cas de perte de focus",
-            swap="Combinaison de touches (changer le mode d'attaque)",
-            -- autoLogin="Auto Login on Start",
             -- autoSave="Auto save new-best",
+            -- autoLogin="Auto Login on Start",
             -- simpMode="Simple mode",
         },
         setting_video={

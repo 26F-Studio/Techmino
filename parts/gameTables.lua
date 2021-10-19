@@ -606,7 +606,6 @@ do--Userdata tables
         ihs=true,irs=true,ims=true,
         holdMode='hold',
         RS='TRS',
-        swap=true,
         FTLock=true,
 
         --System
