@@ -72,3 +72,7 @@ runs:
           APPLE_KEY_ID: '${{ inputs.APPLE_KEY_ID }}'
           APPLE_ISSUER_ID: '${{ inputs.APPLE_ISSUER_ID }}'
           APPLE_KEY_CONTENT: '${{ inputs.APPLE_KEY_CONTENT }}'
+    - name: Move ipa
+      shell: bash
+      run: |
+        mv Techmino-iOS/platform/xcode/Techmino.ipa Techmino.ipa
