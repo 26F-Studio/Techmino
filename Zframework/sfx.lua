@@ -1,29 +1,67 @@
-local rem=table.remove
+local type,assert=type,assert
+local ins,rem=table.insert,table.remove
 
 local sfxList={}
+local packSetting={}
 local Sources={}
 local volume=1
 local stereo=1
+
+local noteName={
+    C=1,c=1,
+    D=3,d=3,
+    E=5,e=5,
+    F=6,f=6,
+    G=8,g=8,
+    A=10,a=10,
+    B=12,b=12,
+}
+local function _getTuneHeight(tune)
+    local octave=tonumber(tune:sub(-1,-1))
+    if octave then
+        local tuneHeight=noteName[tune:sub(1,1)]
+        if tuneHeight then
+            tuneHeight=tuneHeight+(octave-1)*12
+            local s=tune:sub(2,2)
+            if s=='s'or s=='#'then
+                tuneHeight=tuneHeight+1
+            elseif s=='f'or s=='b'then
+                tuneHeight=tuneHeight-1
+            end
+            return tuneHeight
+        end
+    end
+end
 
 local SFX={}
 
 function SFX.init(list)
     assert(type(list)=='table',"Initialize SFX lib with a list of filenames!")
-    sfxList=list
+    for i=1,#list do ins(sfxList,list[i])end
 end
 function SFX.load(path)
-    if not sfxList then
-        error("Cannot load before init!")
-    else
-        for i=1,#sfxList do
-            local fullPath=path..sfxList[i]..'.ogg'
-            if love.filesystem.getInfo(fullPath)then
-                Sources[sfxList[i]]={love.audio.newSource(fullPath,'static')}
-            else
-                LOG("No SFX: "..sfxList[i]..'.ogg',.1)
-            end
+    for i=1,#sfxList do
+        local fullPath=path..sfxList[i]..'.ogg'
+        if love.filesystem.getInfo(fullPath)then
+            Sources[sfxList[i]]={love.audio.newSource(fullPath,'static')}
+        else
+            LOG("No SFX: "..sfxList[i]..'.ogg',.1)
         end
     end
+end
+function SFX.loadSample(pack)
+    assert(type(pack)=='table',"Usage: SFX.loadsample([table])")
+    assert(pack.name,"No field: name")
+    assert(pack.path,"No field: path")
+    packSetting[pack.name]={
+        base=_getTuneHeight(pack.base)or 37,
+    }
+    local num=1
+    while love.filesystem.getInfo(pack.path..'/'..num..'.ogg')do
+        Sources[pack.name..num]={love.audio.newSource(pack.path..'/'..num..'.ogg','static')}
+        num=num+1
+    end
+    LOG("Pack "..pack.name.." loaded, "..(num-1).." files")
 end
 
 function SFX.getCount()
@@ -38,6 +76,12 @@ function SFX.setStereo(v)
     stereo=v
 end
 
+function SFX.playSample(pack,tune,vol)
+    if type(tune)=='string'then
+        tune=_getTuneHeight(tune)-packSetting[pack].base+1
+        SFX.play(pack..tune,vol)
+    end
+end
 function SFX.play(name,vol,pos)
     if volume==0 or vol==0 then return end
     local S=Sources[name]--Source list
