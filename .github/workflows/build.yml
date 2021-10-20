@@ -138,6 +138,7 @@ jobs:
         APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
         APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
         APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
+        PROJECT_BUILD_NUMBER: '${{ github.run_id }}.${{ github.run_number }}'
     - name: Upload
       uses: actions/upload-artifact@v2
       with:

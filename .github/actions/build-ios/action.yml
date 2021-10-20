@@ -31,6 +31,8 @@ inputs:
     required: true
   APPLE_KEY_CONTENT:
     required: true
+  PROJECT_BUILD_NUMBER:
+    required: true
 
 runs:
   using: "composite"
@@ -72,7 +74,7 @@ runs:
           APPLE_KEY_ID: '${{ inputs.APPLE_KEY_ID }}'
           APPLE_ISSUER_ID: '${{ inputs.APPLE_ISSUER_ID }}'
           APPLE_KEY_CONTENT: '${{ inputs.APPLE_KEY_CONTENT }}'
-          PROJECT_BUILD_NUMBER: '${{ env.GITHUB_RUN_ID }}.${{ env.GITHUB_RUN_NUMBER }}'
+          PROJECT_BUILD_NUMBER: '${{ inputs.PROJECT_BUILD_NUMBER }}'
     - name: Move ipa
       shell: bash
       run: |
