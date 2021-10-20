@@ -1517,7 +1517,7 @@ do--Player.drop(self)--Place piece
             --SFX & Vibrate
             if self.sound then
                 SFX.play(clearSFX[cc])
-                SFX.play(renSFX[min(cmb,11)])
+                SFX.play(renSFX[min(cmb,11)],.75)
                 if cmb>14 then
                     SFX.play('ren_mega',(cmb-10)*.1)
                 end
