@@ -22,6 +22,7 @@ jobs:
       id: actual-get-info
       run: |
         echo "::set-output name=name::$(lua .github/workflows/getVersion.lua -name)"
+        echo "::set-output name=apkCode::$(lua .github/workflows/getVersion.lua -apkCode)"
         echo "::set-output name=code::$(lua .github/workflows/getVersion.lua -code)"
         echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
 
@@ -74,7 +75,7 @@ jobs:
     - uses: ./.github/actions/build-android
       with:
         type: Snapshot
-        code: ${{ needs.get-info.outputs.code }}
+        apkCode: ${{ needs.get-info.outputs.apkCode }}
         name: ${{ needs.get-info.outputs.name }}
         file-path: Techmino_Snapshot.apk
         SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
@@ -122,6 +123,7 @@ jobs:
     - uses: ./.github/actions/build-ios
       with:
         name: ${{ needs.get-info.outputs.name }}
+        code: ${{ needs.get-info.outputs.code }}
         APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
         DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
         DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'

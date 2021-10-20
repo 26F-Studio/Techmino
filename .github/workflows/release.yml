@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-20.04
     outputs:
       name: ${{ steps.actual-get-info.outputs.name }}
+      apkCode: ${{ steps.actual-get-info.outputs.apkCode }}
       code: ${{ steps.actual-get-info.outputs.code }}
       release: ${{ steps.actual-get-info.outputs.release }}
       updateTitle: ${{ steps.actual-get-info.outputs.updateTitle }}
@@ -23,6 +24,7 @@ jobs:
       id: actual-get-info
       run: |
         echo "::set-output name=name::$(lua .github/workflows/getVersion.lua -name)"
+        echo "::set-output name=apkCode::$(lua .github/workflows/getVersion.lua -apkCode)"
         echo "::set-output name=code::$(lua .github/workflows/getVersion.lua -code)"
         echo "::set-output name=release::$(lua .github/workflows/getVersion.lua -release)"
         echo "::set-output name=updateTitle::$(lua .github/workflows/getVersion.lua -updateTitle)"
@@ -103,7 +105,7 @@ jobs:
     - uses: ./.github/actions/build-android
       with:
         type: Release
-        code: ${{ needs.get-info.outputs.code }}
+        apkCode: ${{ needs.get-info.outputs.apkCode }}
         name: ${{ needs.get-info.outputs.name }}
         file-path: Techmino.a${{ needs.get-info.outputs.release }}.apk
         SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
@@ -130,7 +132,7 @@ jobs:
     - uses: ./.github/actions/build-android
       with:
         type: Release
-        code: ${{ needs.get-info.outputs.code }}
+        apkCode: ${{ needs.get-info.outputs.apkCode }}
         name: ${{ needs.get-info.outputs.name }}
         file-path: Techmino.a${{ needs.get-info.outputs.release }}.mini.apk
         SIGNING_KEY: ${{ secrets.SIGNING_KEY }}

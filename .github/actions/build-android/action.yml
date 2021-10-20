@@ -3,7 +3,7 @@ description: 'build Android package'
 inputs:
   type:
     required: true
-  code:
+  apkCode:
     required: true
   name:
     required: true
@@ -63,7 +63,7 @@ runs:
       shell: bash
       run: |
         echo "${{ inputs.SIGNING_KEY }}" | base64 -d > love-android/app/android.keystore
-        python3 .github/workflows/updateVersion.py -T Android${{ inputs.type }} -C ${{ inputs.code }} -N ${{ inputs.name }} -S ${{ inputs.KEY_STORE_PASSWORD }} -A ${{ inputs.ALIAS }} -K ${{ inputs.KEY_PASSWORD }}
+        python3 .github/workflows/updateVersion.py -T Android${{ inputs.type }} -C ${{ inputs.apkCode }} -N ${{ inputs.name }} -S ${{ inputs.KEY_STORE_PASSWORD }} -A ${{ inputs.ALIAS }} -K ${{ inputs.KEY_PASSWORD }}
         chmod 777 love-android/gradlew
         cd love-android/
         ./gradlew assembleRelease
