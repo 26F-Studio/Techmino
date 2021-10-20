@@ -2,6 +2,7 @@ local C=COLOR
 return{
     loadText={
         loadSFX="加载音效资源",
+        loadSample="加载乐器采样",
         loadVoice="加载语音资源",
         loadFont="缓存字体资源",
         loadModeIcon="加载模式图标",

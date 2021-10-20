@@ -23,6 +23,10 @@ local loadingThread=coroutine.wrap(function()
     end
     YIELD()
     YIELD('loadSFX')SFX.load('media/effect/'..SETTING.sfxPack..'/')
+    YIELD('loadSample')
+        SFX.loadSample{name='bass',path='media/sample/bass',base='A2'}
+        SFX.loadSample{name='lead',path='media/sample/lead',base='A3'}
+        SFX.loadSample{name='bell',path='media/sample/bell',base='A4'}
     YIELD('loadVoice')VOC.load('media/vocal/'..SETTING.vocPack..'/')
     YIELD('loadFont')for i=1,17 do getFont(15+5*i)end
 
