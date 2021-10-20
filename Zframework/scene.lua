@@ -4,6 +4,7 @@ local abs=math.abs
 local scenes={}
 
 local SCN={
+    mainTouchID=nil,     --First touching ID(userdata)
     cur='NULL',          --Current scene name
     swapping=false,      --If Swapping
     stat={
@@ -52,6 +53,7 @@ function SCN.swapUpdate(dt)
     if S.time<S.changeTime and S.time+dt>=S.changeTime then
         --Scene swapped this frame
         SCN.init(S.tar,SCN.cur)
+        SCN.mainTouchID=nil
     end
     if S.time<0 then
         SCN.swapping=false

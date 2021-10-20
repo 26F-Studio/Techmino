@@ -62,15 +62,6 @@ function scene.keyDown(key)
     end
 end
 
-local minoChars={
-    CHAR.mino.Z,
-    CHAR.mino.S,
-    CHAR.mino.J,
-    CHAR.mino.L,
-    CHAR.mino.T,
-    CHAR.mino.O,
-    CHAR.mino.I,
-}
 local spinChars={
     CHAR.icon.num0InSpin,
     CHAR.icon.num1InSpin,
@@ -104,10 +95,10 @@ function scene.draw()
     end
 
     for x=1,7 do
-        gc_setColor(minoColor[SETTING.skin[x]])
+        gc_setColor(BLOCK_COLORS[SETTING.skin[x]])
         setFont(70)
-        mStr(minoChars[x],80*x-40,-70)
-        mStr(minoChars[x],80*x-40,170)
+        mStr(BLOCK_CHARS[x],80*x-40,-70)
+        mStr(BLOCK_CHARS[x],80*x-40,170)
         setFont(25)
         for y=1,4 do
             mStr(A[x][y],80*x-40,-37+40*y)

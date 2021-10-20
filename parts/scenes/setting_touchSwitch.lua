@@ -14,8 +14,8 @@ function scene.draw()
     end
 end
 
-local function _VKAdisp(n)return function()return VK_org[n].ava end end
-local function _VKAcode(n)return function()VK_org[n].ava=not VK_org[n].ava end end
+local function _VKAdisp(n)return function()return VK_ORG[n].ava end end
+local function _VKAcode(n)return function()VK_ORG[n].ava=not VK_ORG[n].ava end end
 local function _notShow()return not SETTING.VKSwitch end
 local function _notTrack()return not(SETTING.VKSwitch and SETTING.VKTrack)end
 
@@ -42,8 +42,8 @@ scene.widgetList={
     WIDGET.newSwitch{name="b19",   x=580,  y=560, lim=230,disp=_VKAdisp(19),code=_VKAcode(19)},
     WIDGET.newSwitch{name="b20",   x=580,  y=620, lim=230,disp=_VKAdisp(20),code=_VKAcode(20)},
 
-    WIDGET.newButton{name="norm",  x=840,  y=80,  w=240,h=80,           font=35,code=function()for i=1,20 do VK_org[i].ava=i<11 end end},
-    WIDGET.newButton{name="pro",   x=1120, y=80,  w=240,h=80,           font=35,code=function()for i=1,20 do VK_org[i].ava=true end end},
+    WIDGET.newButton{name="norm",  x=840,  y=80,  w=240,h=80,           font=35,code=function()for i=1,20 do VK_ORG[i].ava=i<11 end end},
+    WIDGET.newButton{name="pro",   x=1120, y=80,  w=240,h=80,           font=35,code=function()for i=1,20 do VK_ORG[i].ava=true end end},
     WIDGET.newSwitch{name="hide",  x=1150, y=200, lim=400,              font=40,disp=SETval('VKSwitch'),code=SETrev('VKSwitch')},
     WIDGET.newSwitch{name="icon",  x=1150, y=300, lim=400,              font=40,disp=SETval('VKIcon'),code=SETrev('VKIcon'),hideF=_notShow},
     WIDGET.newSlider{name="sfx",   x=830,  y=380, lim=160,w=400,        font=35,change=function()SFX.play('virtualKey',SETTING.VKSFX)end,disp=SETval('VKSFX'),code=SETsto('VKSFX'),hideF=_notShow},

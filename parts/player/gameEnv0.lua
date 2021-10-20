@@ -3,7 +3,6 @@ return{
     dascut=0,dropcut=0,
     sddas=2,sdarr=2,
     ihs=true,irs=true,ims=true,
-    swap=true,
     FTLock=true,
 
     ghostType='gray',

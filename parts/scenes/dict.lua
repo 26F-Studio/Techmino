@@ -1,6 +1,6 @@
 local gc=love.graphics
 
-local inputBox=WIDGET.newInputBox{name="input",x=20,y=110,w=726,h=60,font=40}
+local inputBox=WIDGET.newInputBox{name="input",x=20,y=110,w=726,h=60,font=40,limit=32}
 local int,abs=math.floor,math.abs
 local min,sin=math.min,math.sin
 local ins=table.insert

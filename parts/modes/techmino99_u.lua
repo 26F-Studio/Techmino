@@ -1,15 +1,6 @@
 local function selectTarget(P)
-    if SETTING.swap then
-        for i=1,#P.keyPressing do
-            if P.keyPressing[i]then
-                P.keyPressing[i]=false
-            end
-        end
-        P.keyPressing[9]=true
-    else
-        P:changeAtkMode(P.atkMode<3 and P.atkMode+2 or 5-P.atkMode)
-        P.swappingAtkMode=30
-    end
+    P:changeAtkMode(P.atkMode<3 and P.atkMode+2 or 5-P.atkMode)
+    P.swappingAtkMode=30
 end
 
 return{

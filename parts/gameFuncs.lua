@@ -13,6 +13,13 @@ local PLAYERS=PLAYERS
 
 
 --System
+function isSafeFile(file,mes)
+    if love.filesystem.getRealDirectory(file)~=SAVEDIR then
+        return true
+    elseif mes then
+        MES.new('warn',mes)
+    end
+end
 function saveStats()
     return FILE.save(STAT,'conf/data')
 end
@@ -25,34 +32,21 @@ end
 function applyLanguage()
     text=LANG.get(SETTING.locale)
     WIDGET.setLang(text.WidgetText)
-    for k,v in next,drawableText do
+    for k,v in next,TEXTOBJ do
         if text[k]then
             v:set(text[k])
         end
     end
 end
-function applySettings()
-    love.window.setFullscreen(SETTING.fullscreen)
-    love.audio.setVolume(SETTING.mainVol)
-    love.mouse.setVisible(SETTING.sysCursor)
-    VK.setShape(SETTING.VKSkin)
-    BGM.setVol(SETTING.bgm)
-    SFX.setVol(SETTING.sfx)
-    VOC.setVol(SETTING.voc)
-    applyBlockSatur(SETTING.blockSatur)
-    applyFieldSatur(SETTING.fieldSatur)
-    applyLanguage()
-end
-function switchCursor()
-    SETTING.sysCursor=not SETTING.sysCursor
+function applyCursor()
     love.mouse.setVisible(SETTING.sysCursor)
 end
-function switchFullscreen()
+function applyFullscreen()
     SETTING.fullscreen=not SETTING.fullscreen
     love.window.setFullscreen(SETTING.fullscreen)
     love.resize(gc.getWidth(),gc.getHeight())
 end
-do--function applyXxxSatur(mode)
+do--function applyBlockSatur,applyFieldSatur(mode)
     local saturateValues={
         normal={0,1},
         soft={.2,.7},
@@ -70,6 +64,18 @@ do--function applyXxxSatur(mode)
         SHADER.fieldSatur:send('b',m[1])
         SHADER.fieldSatur:send('k',m[2])
     end
+end
+function applyAllSettings()
+    love.window.setFullscreen(SETTING.fullscreen)
+    love.audio.setVolume(SETTING.mainVol)
+    VK.setShape(SETTING.VKSkin)
+    BGM.setVol(SETTING.bgm)
+    SFX.setVol(SETTING.sfx)
+    VOC.setVol(SETTING.voc)
+    applyBlockSatur(SETTING.blockSatur)
+    applyFieldSatur(SETTING.fieldSatur)
+    applyLanguage()
+    applyCursor()
 end
 
 --Royale mode
@@ -333,7 +339,7 @@ function loadGame(mode,ifQuickPlay,ifNet)--Load a mode and go to game scene
             SCN.go('net_game','swipeD')
         else
             local modeText=text.modes[mode]or{"["..MODES[mode].name.."]",""}
-            drawableText.modeName:set(modeText[1].."   "..modeText[2])
+            TEXTOBJ.modeName:set(modeText[1].."   "..modeText[2])
             SCN.go('game',ifQuickPlay and'swipeD'or'fade_togame')
             SFX.play('enter')
         end
@@ -443,10 +449,10 @@ do--function freshPlayerPosition(sudden)
         --18~31
         (function()
             local L={{340,75,1}}
-            for i=1,5 do ins(L,{10,    -100+135*i,.18})end
-            for i=1,5 do ins(L,{120,-100+135*i,.18})end
-            for i=1,5 do ins(L,{230,-100+135*i,.18})end
-            for i=1,5 do ins(L,{940,-100+135*i,.18})end
+            for i=1,5 do ins(L,{10,  -100+135*i,.18})end
+            for i=1,5 do ins(L,{120, -100+135*i,.18})end
+            for i=1,5 do ins(L,{230, -100+135*i,.18})end
+            for i=1,5 do ins(L,{940, -100+135*i,.18})end
             for i=1,5 do ins(L,{1050,-100+135*i,.18})end
             for i=1,5 do ins(L,{1160,-100+135*i,.18})end
             return L
@@ -490,7 +496,7 @@ do--function dumpBasicConfig()
     local gameSetting={
         --Tuning
         'das','arr','dascut','dropcut','sddas','sdarr',
-        'ihs','irs','ims','RS','swap',
+        'ihs','irs','ims','RS',
 
         --System
         'skin','face',
@@ -532,7 +538,7 @@ do--function resetGameData(args)
     local gameSetting={
         --Tuning
         'das','arr','dascut','dropcut','sddas','sdarr',
-        'ihs','irs','ims','RS','swap','FTLock',
+        'ihs','irs','ims','RS','FTLock',
 
         --System
         'skin','face',
@@ -708,18 +714,15 @@ function drawOnlinePlayerCount()
     gc_printf(("%s: %s/%s/%s"):format(text.onlinePlayerCount,NET.UserCount,NET.PlayCount,NET.StreamCount),-600,80,594,'right')
     gc_pop()
 end
-do--function drawWarning()
-    local shader_warning=SHADER.warning
-    function drawWarning()
-        if SETTING.warn and GAME.warnLVL>0 then
-            gc_push('transform')
-            gc_origin()
-            shader_warning:send('level',GAME.warnLVL)
-            gc_setShader(shader_warning)
-            gc_rectangle('fill',0,0,SCR.w,SCR.h)
-            gc_setShader()
-            gc_pop()
-        end
+function drawWarning()
+    if SETTING.warn and GAME.warnLVL>0 then
+        gc_push('transform')
+        gc_origin()
+        SHADER.warning:send('level',GAME.warnLVL)
+        gc_setShader(SHADER.warning)
+        gc_rectangle('fill',0,0,SCR.w,SCR.h)
+        gc_setShader()
+        gc_pop()
     end
 end
 

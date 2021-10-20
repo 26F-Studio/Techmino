@@ -127,6 +127,7 @@ return{
     keySettingInstruction="按绑定键\n退出:取消\n退格:删除",
 
     errorMsg="技术米诺遇到问题,需要重新启动。\n您可以将错误日志发送给开发人员。",
+    tryAnotherBuild="[无效UTF-8]如果您在Windows上,请尝试下载Techmino-win32或Techmino-win64(与您现在使用的不同)",
 
     modInstruction="选择你的修改器\n多重器官衰竭允许您更改游戏。\n它们也可能以奇怪的方式破坏游戏。\n请注意,多重器官衰竭将导致您的游戏取消排名!",
     modInfo={
@@ -318,18 +319,18 @@ return{
             title="游戏设置",
             graphic="←视频",
             sound="声音→",
+            layout="布局",
 
             ctrl="控制设置",
             key="键映射",
             touch="触摸设置",
             reTime="启动延迟",
             RS="轮换制",
-            layout="布局",
             menuPos="菜单按钮位置",
             sysCursor="使用系统游标",
             autoPause="心不在焉",
-            swap="组合键(更改攻击模式)",
             autoSave="自动保存新的最佳",
+            autoLogin="启动时自动登录",
             simpMode="简单化风格",
         },
         setting_video={
@@ -771,7 +772,7 @@ return{
         "1下一个1等待!",
         "1下一个6等待!",
         "20克实际上是一个全新的游戏规则",
-        "40直线冲刺世界纪录:14.915秒，重置_",
+        "40直线冲刺世界纪录:14.915秒,重置_",
         "6下一个1等待!",
         "6下一个6等一下?!",
         "成就系统即将推出!",

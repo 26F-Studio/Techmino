@@ -151,7 +151,7 @@ local readThread=coroutine.wrap(function()
         if op==8 then--8=close
             CHN_push(readCHN,8)--close
             if type(res)=='string'then
-                CHN_push(readCHN,res:sub(3))--Warning: 2 bytes close code at start so :sub(3)
+                CHN_push(readCHN,res:sub(3))--[Warning] 2 bytes close code at start so :sub(3)
             else
                 CHN_push(readCHN,"WS closed")
             end

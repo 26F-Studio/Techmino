@@ -4,7 +4,7 @@ return{
     mesDisp=function(P)
         setFont(60)
         mStr(P.modeData.tsd,63,250)
-        mText(drawableText.tsd,63,315)
+        mText(TEXTOBJ.tsd,63,315)
         PLY.draw.applyField(P)
         local L=P.modeData.history
         for i=1,#L do

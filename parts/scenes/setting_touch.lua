@@ -1,6 +1,6 @@
 local gc,ms=love.graphics,love.mouse
 local int,sin=math.floor,math.sin
-local VK_org=VK_org
+local VK_ORG=VK_ORG
 
 local scene={}
 
@@ -9,23 +9,23 @@ local snapUnit=1
 local selected--Button selected
 
 local function _save1()
-    FILE.save(VK_org,'conf/vkSave1')
+    FILE.save(VK_ORG,'conf/vkSave1')
 end
 local function _load1()
     local D=FILE.load('conf/vkSave1')
     if D then
-        TABLE.update(D,VK_org)
+        TABLE.update(D,VK_ORG)
     else
         MES.new('error',text.noFile)
     end
 end
 local function _save2()
-    FILE.save(VK_org,'conf/vkSave2')
+    FILE.save(VK_ORG,'conf/vkSave2')
 end
 local function _load2()
     local D=FILE.load('conf/vkSave2')
     if D then
-        TABLE.update(D,VK_org)
+        TABLE.update(D,VK_ORG)
     else
         MES.new('error',text.noFile)
     end
@@ -37,13 +37,13 @@ function scene.sceneInit()
     selected=false
 end
 function scene.sceneBack()
-    FILE.save(VK_org,'conf/virtualkey')
+    FILE.save(VK_ORG,'conf/virtualkey')
 end
 
 local function _onVK_org(x,y)
     local dist,nearest=1e10
-    for K=1,#VK_org do
-        local B=VK_org[K]
+    for K=1,#VK_ORG do
+        local B=VK_ORG[K]
         if B.ava then
             local d1=(x-B.x)^2+(y-B.y)^2
             if d1<B.r^2 then
@@ -73,13 +73,13 @@ function scene.touchDown(x,y)
 end
 function scene.touchUp()
     if selected then
-        local B=VK_org[selected]
+        local B=VK_ORG[selected]
         B.x,B.y=int(B.x/snapUnit+.5)*snapUnit,int(B.y/snapUnit+.5)*snapUnit
     end
 end
 function scene.touchMove(_,_,dx,dy)
     if selected and not WIDGET.isFocus()then
-        local B=VK_org[selected]
+        local B=VK_ORG[selected]
         B.x,B.y=B.x+dx,B.y+dy
     end
 end
@@ -122,11 +122,11 @@ scene.widgetList={
     WIDGET.newKey{name="load2",     x=805,y=290,w=90,h=70,code=_load2,font=45,fText=CHAR.icon.loadTwo},
     WIDGET.newSlider{name="size",   x=440,y=370,w=460,unit=19,font=40,show="vkSize",
         disp=function()
-            return VK_org[selected].r/10-1
+            return VK_ORG[selected].r/10-1
         end,
         code=function(v)
             if selected then
-                VK_org[selected].r=(v+1)*10
+                VK_ORG[selected].r=(v+1)*10
             end
         end,
         hideF=function()

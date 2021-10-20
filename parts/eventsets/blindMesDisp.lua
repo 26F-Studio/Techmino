@@ -2,7 +2,7 @@ local gc=love.graphics
 
 return{
     mesDisp=function(P)
-        mText(drawableText.techrash,63,420)
+        mText(TEXTOBJ.techrash,63,420)
         setFont(75)
         mStr(P.stat.clears[4],63,340)
         PLY.draw.applyField(P)

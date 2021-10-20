@@ -112,7 +112,7 @@ return{
         "在线对战网页方块点击即玩(推荐使用电脑)(服务器在国外可能很卡)有几个基础单机模式和1v1排位。",
         "https://nuketris.herokuapp.com/",
     },
-    {"World Wide Combo",
+    {"Worldwide Combos",
         "网页 wwc worldwidecombo",
         "game",
         "简称WWC，网页全世界匹配制1对1方块点击即玩(服务器在国外可能很卡)",

@@ -31,14 +31,14 @@ do
     for i=1,17 do
         TEXTURE.puzzleMark[i]=GC.DO{30,30,
             {'setLW',2},
-            {'setCL',minoColor[i][1],minoColor[i][2],minoColor[i][3],.7},
+            {'setCL',BLOCK_COLORS[i][1],BLOCK_COLORS[i][2],BLOCK_COLORS[i][3],.7},
             {'dRect',5,5,20,20},
             {'dRect',10,10,10,10},
         }
     end
     for i=18,24 do
         TEXTURE.puzzleMark[i]=GC.DO{30,30,
-            {'setCL',minoColor[i]},
+            {'setCL',BLOCK_COLORS[i]},
             {'dRect',7,7,16,16},
         }
     end
@@ -72,13 +72,13 @@ gc.setDefaultFilter('linear','linear')
 TEXTURE.title=NSC(1160,236)--Title image (Middle: 580,118)
 do
     for i=1,8 do
-        local triangles=love.math.triangulate(title[i])
+        local triangles=love.math.triangulate(SVG_TITLE[i])
 
         gc.translate(12*i,i==1 and 8 or 14)
 
         gc.setLineWidth(16)
         gc.setColor(COLOR.Z)
-        gc.polygon('line',title[i])
+        gc.polygon('line',SVG_TITLE[i])
 
         gc.setColor(.2,.2,.2)
         for j=1,#triangles do
@@ -94,13 +94,13 @@ do
     local titleColor={COLOR.P,COLOR.F,COLOR.V,COLOR.A,COLOR.M,COLOR.N,COLOR.W,COLOR.Y}
 
     for i=1,8 do
-        local triangles=love.math.triangulate(title[i])
+        local triangles=love.math.triangulate(SVG_TITLE[i])
 
         gc.translate(12*i,i==1 and 8 or 14)
 
         gc.setLineWidth(16)
         gc.setColor(COLOR.Z)
-        gc.polygon('line',title[i])
+        gc.polygon('line',SVG_TITLE[i])
 
         gc.setLineWidth(4)
         gc.setColor(COLOR.D)

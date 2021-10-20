@@ -7,11 +7,11 @@ local setFont,mStr=FONT.set,GC.mStr
 
 local ins=table.insert
 
-local SCR,VK,NET,netPLY=SCR,VK,NET,netPLY
+local SCR,VK,NET,NETPLY=SCR,VK,NET,NETPLY
 local PLAYERS,GAME=PLAYERS,GAME
 
 local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=560}
-local inputBox=WIDGET.newInputBox{name="input",x=340,y=660,w=600,h=50}
+local inputBox=WIDGET.newInputBox{name="input",x=340,y=660,w=600,h=50,limit=256}
 
 local playing
 local lastUpstreamTime
@@ -89,9 +89,9 @@ function scene.sceneBack()
 end
 
 scene.mouseDown=NULL
-function scene.mouseMove(x,y)netPLY.mouseMove(x,y)end
+function scene.mouseMove(x,y)NETPLY.mouseMove(x,y)end
 function scene.touchDown(x,y)
-    if not playing then netPLY.mouseMove(x,y)return end
+    if not playing then NETPLY.mouseMove(x,y)return end
     if noTouch then return end
 
     local t=VK.on(x,y)
@@ -151,14 +151,14 @@ function scene.keyDown(key,isRep)
         inputBox:keypress(key)
     elseif playing then
         if noKey or isRep then return end
-        local k=keyMap.keyboard[key]
+        local k=KEY_MAP.keyboard[key]
         if k and k>0 then
             PLAYERS[1]:pressKey(k)
             VK.press(k)
         end
     elseif not _hideReadyUI()then
         if key=="space"then
-            if netPLY.getSelfJoinMode()==0 then
+            if NETPLY.getSelfJoinMode()==0 then
                 (kb.isDown("lctrl","rctrl","lalt","ralt")and _setSpectate or _setReady)()
             else
                 _setCancel()
@@ -170,7 +170,7 @@ function scene.keyDown(key,isRep)
 end
 function scene.keyUp(key)
     if not playing or noKey then return end
-    local k=keyMap.keyboard[key]
+    local k=KEY_MAP.keyboard[key]
     if k and k>0 then
         PLAYERS[1]:releaseKey(k)
         VK.release(k)
@@ -181,7 +181,7 @@ function scene.gamepadDown(key)
         scene.keyDown("escape")
     else
         if not playing then return end
-        local k=keyMap.joystick[key]
+        local k=KEY_MAP.joystick[key]
         if k and k>0 then
             PLAYERS[1]:pressKey(k)
             VK.press(k)
@@ -190,7 +190,7 @@ function scene.gamepadDown(key)
 end
 function scene.gamepadUp(key)
     if not playing then return end
-    local k=keyMap.joystick[key]
+    local k=KEY_MAP.joystick[key]
     if k and k>0 then
         PLAYERS[1]:releaseKey(k)
         VK.release(k)
@@ -224,7 +224,7 @@ function scene.socketRead(cmd,d)
             lastUpstreamTime=0
             upstreamProgress=1
             resetGameData('n',NET.seed)
-            netPLY.mouseMove(0,0)
+            NETPLY.mouseMove(0,0)
         else
             MES.new('warn',"Redundant [Go]")
         end
@@ -269,7 +269,7 @@ function scene.update(dt)
             lastUpstreamTime=PLAYERS[1].alive and P1.frameRun or 1e99
         end
     else
-        netPLY.update()
+        NETPLY.update()
     end
     if newMessageTimer>0 then
         newMessageTimer=newMessageTimer-1
@@ -296,7 +296,7 @@ function scene.draw()
         end
     else
         --Users
-        netPLY.draw()
+        NETPLY.draw()
 
         --Ready & Set mark
         setFont(50)
@@ -316,7 +316,7 @@ function scene.draw()
         setFont(25)
         gc_printf(NET.roomState.roomInfo.name,0,685,1270,'right')
         setFont(40)
-        gc_print(netPLY.getCount().."/"..NET.roomState.capacity,70,655)
+        gc_print(NETPLY.getCount().."/"..NET.roomState.capacity,70,655)
         if NET.roomState.private then
             gc_draw(IMG.lock,30,668)
         end
@@ -338,8 +338,8 @@ function scene.draw()
         gc_print("M",430,10)
     end
 end
-local function _hideF_ingame()return _hideReadyUI()or netPLY.getSelfReady()end
-local function _hideF_ingame2()return _hideReadyUI()or not netPLY.getSelfReady()end
+local function _hideF_ingame()return _hideReadyUI()or NETPLY.getSelfReady()end
+local function _hideF_ingame2()return _hideReadyUI()or not NETPLY.getSelfReady()end
 scene.widgetList={
     textBox,
     inputBox,

@@ -3,7 +3,7 @@ return{
     mesDisp=function(P)
         setFont(60)
         mStr(P.stat.pc,63,340)
-        mText(drawableText.pc,63,410)
+        mText(TEXTOBJ.pc,63,410)
     end,
     dropPiece=function(P)
         if P.lastPiece.pc and P.stat.row%4==0 then

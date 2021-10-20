@@ -117,6 +117,7 @@ return{
     -- keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
 
     errorMsg="Une erreur est survenue et Techmino doit redémarrer.\nDes informations concernant l'erreur ont été créées, et vous pouvez les envoyer au créateur.",
+    -- tryAnotherBuild="[Invalid UTF-8] If you are on Windows, try downloading Techmino-win32 or Techmino-win64 (different from what you are using now).",
 
     modInstruction="",
     modInfo={},-- See lang_en.lua
@@ -281,18 +282,18 @@ return{
 
             graphic="←Vidéo",
             sound="Son→",
+            layout="Disposition",
 
             ctrl="Paramètres de contrôle",
             key="Touches",
             touch="Boutons virtuels",
             reTime="Délai de démarrage",
             RS="Système de rotation",
-            layout="Disposition",
             -- menuPos="Menu button pos.",
             -- sysCursor="Use system cursor",
             autoPause="Mettre en pause en cas de perte de focus",
-            swap="Combinaison de touches (changer le mode d'attaque)",
             -- autoSave="Auto save new-best",
+            -- autoLogin="Auto Login on Start",
             -- simpMode="Simple mode",
         },
         setting_video={

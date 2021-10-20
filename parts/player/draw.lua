@@ -14,7 +14,7 @@ local SKIN,TEXTURE,IMG=SKIN,TEXTURE,IMG
 local TEXT,COLOR,GAME,TIME=TEXT,COLOR,GAME,TIME
 local shader_alpha,shader_lighter=SHADER.alpha,SHADER.lighter
 local shader_fieldSatur,shader_blockSatur=SHADER.fieldSatur,SHADER.blockSatur
-local drawableText,missionEnum,minoColor=drawableText,missionEnum,minoColor
+local TEXTOBJ,ENUM_MISSION,BLOCK_COLORS=TEXTOBJ,ENUM_MISSION,BLOCK_COLORS
 
 local PLAYERS,PLY_ALIVE=PLAYERS,PLY_ALIVE
 
@@ -212,7 +212,7 @@ local drawGhost={
         end end
     end,
     colorCell=function(CB,curX,ghoY,alpha,_,clr)
-        clr=minoColor[clr]
+        clr=BLOCK_COLORS[clr]
         gc_setColor(clr[1],clr[2],clr[3],alpha)
         for i=1,#CB do for j=1,#CB[1]do
             if CB[i][j]then
@@ -229,7 +229,7 @@ local drawGhost={
         end end
     end,
     colorLine=function(CB,curX,ghoY,alpha,_,clr)
-        clr=minoColor[clr]
+        clr=BLOCK_COLORS[clr]
         gc_setColor(clr[1],clr[2],clr[3],alpha)
         gc_setLineWidth(4)
         for i=1,#CB do for j=1,#CB[1]do
@@ -462,7 +462,7 @@ local function _drawNext(P,repMode)
                 local n=N
                 while n<=10 and queue[n]do
                     local id=queue[n].id
-                    local _=minoColor[queue[n].color]
+                    local _=BLOCK_COLORS[queue[n].color]
                     gc_setColor(_[1],_[2],_[3],.26)
                     _=blockImg[id]
                     gc_draw(_,-_:getWidth()*10,0,nil,10,nil)
@@ -546,14 +546,14 @@ local function _drawMission(curMission,L,missionkill)
     else
         gc_setColor(.97,.97,.97)
     end
-    gc_print(missionEnum[L[curMission]],85,110)
+    gc_print(ENUM_MISSION[L[curMission]],85,110)
 
     --Draw next mission
     setFont(20)
     for i=1,3 do
         local m=L[curMission+i]
         if m then
-            m=missionEnum[m]
+            m=ENUM_MISSION[m]
             gc_print(m,87-28*i,117)
         else
             break
@@ -609,7 +609,7 @@ function draw.drawRoyaleInfo(P)
     setFont(35)
     mStr(#PLY_ALIVE.."/"..#PLAYERS,63,175)
     mStr(P.modeData.ko,80,215)
-    gc_draw(drawableText.ko,60-drawableText.ko:getWidth(),222)
+    gc_draw(TEXTOBJ.ko,60-TEXTOBJ.ko:getWidth(),222)
     setFont(20)
     gc_setColor(1,.5,0,.6)
     gc_print(P.badge,103,227)
@@ -878,7 +878,7 @@ function draw.small(P)
         --Draw result
         if P.result then
             gc_setColor(1,1,1,min(P.endCounter,60)*.01)
-            setFont(20)mDraw(drawableText[P.result],30,60,nil,P.size)
+            setFont(20)mDraw(TEXTOBJ[P.result],30,60,nil,P.size)
             setFont(15)mStr(P.modeData.place,30,82)
         end
         gc_pop()
@@ -933,7 +933,7 @@ function draw.demo(P)
             local N=1
             while P.holdQueue[N]do
                 local id=P.holdQueue[N].id
-                local _=minoColor[skinSet[id]]
+                local _=BLOCK_COLORS[skinSet[id]]
                 gc_setColor(_[1],_[2],_[3],.3)
                 _=blockImg[id]
                 gc_draw(_,15,40*N-10,nil,16,nil,0,_:getHeight()*.5)
@@ -944,7 +944,7 @@ function draw.demo(P)
             N=1
             while N<=ENV.nextCount and P.nextQueue[N]do
                 local id=P.nextQueue[N].id
-                local _=minoColor[skinSet[id]]
+                local _=BLOCK_COLORS[skinSet[id]]
                 gc_setColor(_[1],_[2],_[3],.3)
                 _=blockImg[id]
                 gc_draw(_,285,40*N-10,nil,16,nil,_:getWidth(),_:getHeight()*.5)

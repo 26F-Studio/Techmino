@@ -1,11 +1,11 @@
 local ROOMENV=ROOMENV
 
 local roomName=WIDGET.newText{name="roomName",       x=40,y=115,align='L'}
-local roomNameBox=WIDGET.newInputBox{                x=40,y=160,w=540,h=60}
+local roomNameBox=WIDGET.newInputBox{                x=40,y=160,w=540,h=60,limit=64}
 local password=WIDGET.newText{name="password",       x=40,y=255,align='L'}
-local passwordBox=WIDGET.newInputBox{                x=40,y=300,w=540,h=60}
+local passwordBox=WIDGET.newInputBox{                x=40,y=300,w=540,h=60,limit=64}
 local description=WIDGET.newText{name="description", x=650,y=55,align='L'}
-local descriptionBox=WIDGET.newInputBox    {         x=650,y=100,w=550,h=160,font=25}
+local descriptionBox=WIDGET.newInputBox{             x=650,y=100,w=550,h=160,font=25,limit=256}
 
 local sList={
     visible={"show","easy","slow","medium","fast","none"},
@@ -20,7 +20,7 @@ local sList={
     lock={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
     wait={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
     fall={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
-    eventSet=eventSetList,
+    eventSet=EVENTSETS,
 }
 
 local scene={}

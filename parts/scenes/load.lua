@@ -93,7 +93,9 @@ local loadingThread=coroutine.wrap(function()
     STAT.run=STAT.run+1
 
     --Connect to server
-    NET.wsconn_app()
+    if SETTING.autoLogin then
+        NET.wsconn_app()
+    end
 
     SFX.play('enter',.8)
     SFX.play('welcome')
@@ -159,7 +161,7 @@ function scene.draw()
     else
         gc.setLineWidth(4)
     end
-    local L=title
+    local L=SVG_TITLE
     gc.push('transform')
     gc.translate(126,100)
     for i=1,8 do

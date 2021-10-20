@@ -208,21 +208,21 @@ function scene.draw()
     gc.setColor(.97,.97,.97,timer1)
 
     --Result Text
-    mDraw(GAME.result and drawableText[GAME.result]or drawableText.pause,640,70-10*(5-timer1*5)^1.5)
+    mDraw(GAME.result and TEXTOBJ[GAME.result]or TEXTOBJ.pause,640,70-10*(5-timer1*5)^1.5)
 
     --Mode Info (outside)
-    gc.draw(drawableText.modeName,745-drawableText.modeName:getWidth(),143)
+    gc.draw(TEXTOBJ.modeName,745-TEXTOBJ.modeName:getWidth(),143)
 
     --Level rank
-    if RANKCHARS[GAME.rank]then
+    if RANK_CHARS[GAME.rank]then
         gc.push('transform')
             gc.translate(1050,5)
             setFont(80)
             gc.setColor(0,0,0,timer1*.7)
-            gc.print(RANKCHARS[GAME.rank],-5,-4,nil,1.5)
-            local L=rankColor[GAME.rank]
+            gc.print(RANK_CHARS[GAME.rank],-5,-4,nil,1.5)
+            local L=RANK_COLORS[GAME.rank]
             gc.setColor(L[1],L[2],L[3],timer1)
-            gc.print(RANKCHARS[GAME.rank],0,0,nil,1.5)
+            gc.print(RANK_CHARS[GAME.rank],0,0,nil,1.5)
         gc.pop()
     end
 

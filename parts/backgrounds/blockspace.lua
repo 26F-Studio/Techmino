@@ -20,7 +20,7 @@ function back.update()
         local r=rnd(29)
         ins(mino,{
             block=TEXTURE.miniBlock[r],
-            color=minoColor[SETTING.skin[r]],
+            color=BLOCK_COLORS[SETTING.skin[r]],
             ang=6.2832*rnd(),
             rotate=6.2832*rnd(),
             vr=.05-rnd()*.1,

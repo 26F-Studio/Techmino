@@ -17,7 +17,7 @@ function back.update()
         ins(mino,{
             bid=r,
             block=TEXTURE.miniBlock[r],
-            color=minoColor[SETTING.skin[r]],
+            color=BLOCK_COLORS[SETTING.skin[r]],
             x=SCR.w*rnd(),
             y=SCR.h*-.05,
             k=SCR.rad/100,

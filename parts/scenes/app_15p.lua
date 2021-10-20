@@ -13,7 +13,7 @@ local color,invis='color1'
 local slide,pathVis,revKB
 
 local function ifGaming()return state==1 end
-local colorSelector=WIDGET.newSelector{name="color",x=150,y=240,w=200,list={'color1','rainbow','color2','gray','black'},color='lY',disp=function()return color end,    code=function(v)if state~=1 then color=v end end,hideF=ifGaming}
+local colorSelector=WIDGET.newSelector{name="color",x=150,y=240,w=200,list={'color1','rainbow','color2','gray','black'},color='lY',disp=function()return color end,code=function(v)if state~=1 then color=v end end,hideF=ifGaming}
 
 function scene.sceneInit()
     BG.set('rainbow2')

@@ -64,8 +64,6 @@ return{
 
     replayBroken=">x.",
 
-    errorMsg="T&chm1n0 ^@n 1nt0 @ p^0bl&m @nd n&&d$ t0 ^&$t@^t.\nY0u c@n $&nd th& &^^0^ l0g t0 th& d&v$.",
-
     pauseStat={
         "~:",
         "=/''/[ ]:",
@@ -197,18 +195,18 @@ return{
 
             graphic="←Video",
             sound="Sound→",
+            layout="=-=-=",
 
             ctrl="=?=",
             key="=?",
             touch="_?",
             reTime="3-2-1",
             RS="''?",
-            layout="=-=-=",
             menuPos="←M→?",
             sysCursor="?→*",
             autoPause="A||",
-            swap="=+=+=",
             autoSave="!!!>%",
+            autoLogin="#Log in#",
             simpMode=".",
         },
         setting_video={

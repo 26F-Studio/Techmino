@@ -23,7 +23,7 @@ scene.widgetList={
     WIDGET.newButton{name="unlock",   x=190,y=170,w=280,h=100,color='lY',code=function()_dumpCB(RANKS)end},
     WIDGET.newButton{name="data",     x=490,y=170,w=280,h=100,color='lY',code=function()_dumpCB(STAT)end},
     WIDGET.newButton{name="setting",  x=790,y=170,w=280,h=100,color='lY',code=function()_dumpCB(SETTING)end},
-    WIDGET.newButton{name="vk",       x=1090,y=170,w=280,h=100,color='lY',code=function()_dumpCB(VK_org)end},
+    WIDGET.newButton{name="vk",       x=1090,y=170,w=280,h=100,color='lY',code=function()_dumpCB(VK_ORG)end},
 
     WIDGET.newText{name="import",     x=55,y=265,color='lR',align='L',font=50},
     WIDGET.newButton{name="unlock",   x=190,y=390,w=280,h=100,color='lR',
@@ -31,7 +31,7 @@ scene.widgetList={
             local D=_parseCB()
             if D then
                 TABLE.cover(D,RANKS)
-                for k,v in next,oldModeNameTable do
+                for k,v in next,MODE_UPDATE_MAP do
                     if RANKS[k]then
                         RANKS[v]=RANKS[k]
                         RANKS[k]=nil
@@ -59,7 +59,7 @@ scene.widgetList={
             local D=_parseCB()
             if D then
                 TABLE.update(D,SETTING)
-                applySettings()
+                applyAllSettings()
                 saveSettings()
                 MES.new('check',text.importSuccess)
             else
@@ -70,8 +70,8 @@ scene.widgetList={
         code=function()
             local D=_parseCB()
             if D then
-                TABLE.update(D,VK_org)
-                FILE.save(VK_org,'conf/virtualkey')
+                TABLE.update(D,VK_ORG)
+                FILE.save(VK_ORG,'conf/virtualkey')
                 MES.new('check',text.importSuccess)
             else
                 MES.new('error',text.dataCorrupted)

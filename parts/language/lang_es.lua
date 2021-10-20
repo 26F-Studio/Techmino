@@ -116,6 +116,7 @@ return{
     -- keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
 
     errorMsg="Ha ocurrido un error y Techmino necesita reiniciarse.\nSe creó un registro de error, puedes enviarlo al autor.",
+    -- tryAnotherBuild="[Invalid UTF-8] If you are on Windows, try downloading Techmino-win32 or Techmino-win64 (different from what you are using now).",
 
     -- modInstruction="",
     -- modInfo={},--See lang_en.lua
@@ -284,18 +285,18 @@ return{
             title="Ajustes del Juego",
             graphic="←Video",
             sound="Sonido→",
+            layout="Diseño",
 
             ctrl="Sensibilidad",
             key="Teclas",
             touch="Controles Táctiles",
             reTime="Retraso de Inicio",
             RS="Sistema de Rotación",
-            layout="Diseño",
             menuPos="Pos. del Botón de Menú",
             -- sysCursor="Use system cursor",
             autoPause="Pausar cuando la ventana no está enfocada",
-            swap="Combinación de Teclas (Cambiar Modo de Ataque)",
             autoSave="Autograbar Récords",
+            -- autoLogin="Auto Login on Start",
             simpMode="Modo Sencillo",
         },
         setting_video={

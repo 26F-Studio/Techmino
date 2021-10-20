@@ -1,5 +1,5 @@
-local emailBox=WIDGET.newInputBox{name="email",x=380,y=200,w=500,h=60}
-local passwordBox=WIDGET.newInputBox{name="password",x=380,y=300,w=620,h=60,secret=true,regex="[ -~]"}
+local emailBox=WIDGET.newInputBox{name="email",x=380,y=200,w=500,h=60,limit=128}
+local passwordBox=WIDGET.newInputBox{name="password",x=380,y=300,w=620,h=60,secret=true,regex="[ -~]",limit=64}
 
 local savePW=false
 
