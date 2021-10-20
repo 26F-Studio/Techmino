@@ -15,10 +15,12 @@ runs:
   using: "composite"
   steps:
     - uses: ./.github/actions/build-love
+
     - name: Download template
       uses: ./.github/actions/get-unzip
       with:
-        url: https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.app.zip
+        url: https://github.com/26F-Studio/Techmino-CI-template/releases/download/1.0/macos.app.zip
+
     - name: Download ColdClear
       uses: ./.github/actions/get-cc
       with:
@@ -44,4 +46,3 @@ runs:
         security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k Techminohaowan build.keychain
         /usr/bin/codesign --force --deep -s ${{ inputs.MACOS_CERTIFICATE_ID }} Techmino.app -v
         security delete-keychain build.keychain
-
