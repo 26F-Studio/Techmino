@@ -656,15 +656,16 @@ local selector={
 function selector:reset()
     self.ATV=0
     local V,L=self.disp(),self.list
-    local i=TABLE.find(L,V)
-    if i then
-        self.select=i
-        self.selText=self.list[i]
-    else
-        self.select=0
-        self.selText=""
-        MES.new('error',"Selector "..self.name.." dead, disp= "..tostring(V))
+    for i=1,#L do
+        if L[i]==V then
+            self.select=i
+            self.selText=self.list[i]
+            return
+        end
     end
+    self.select=0
+    self.selText=""
+    MES.new('error',"Selector "..self.name.." dead, disp= "..tostring(V))
 end
 function selector:isAbove(x,y)
     return
