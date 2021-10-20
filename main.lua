@@ -56,6 +56,7 @@ getFont=FONT.get
 mStr=GC.mStr
 mText=GC.simpX
 mDraw=GC.draw
+Snd=SFX.playSample
 
 --Delete all naked files (from too old version)
 FILE.clear('')
