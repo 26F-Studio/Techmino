@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-20.04
     outputs:
       name: ${{ steps.actual-get-info.outputs.name }}
+      apkCode: ${{ steps.actual-get-info.outputs.apkCode }}
       code: ${{ steps.actual-get-info.outputs.code }}
       commit: ${{ steps.actual-get-info.outputs.commit }}
     steps:
@@ -123,7 +124,6 @@ jobs:
     - uses: ./.github/actions/build-ios
       with:
         name: ${{ needs.get-info.outputs.name }}
-        code: ${{ needs.get-info.outputs.code }}
         APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
         DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
         DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'

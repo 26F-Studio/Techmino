@@ -3,8 +3,6 @@ description: 'build iOS package'
 inputs:
   name:
     required: true
-  code:
-    required: true
   APP_STORE_CONNECT_TEAM_ID:
     required: true
   DEVELOPER_APP_ID:
@@ -74,7 +72,7 @@ runs:
           APPLE_KEY_ID: '${{ inputs.APPLE_KEY_ID }}'
           APPLE_ISSUER_ID: '${{ inputs.APPLE_ISSUER_ID }}'
           APPLE_KEY_CONTENT: '${{ inputs.APPLE_KEY_CONTENT }}'
-          PROJECT_BUILD_NUMBER: '${{ inputs.code }}.$GITHUB_RUN_ID'
+          PROJECT_BUILD_NUMBER: '${GITHUB_RUN_ID}.${GITHUB_RUN_NUMBER}'
     - name: Move ipa
       shell: bash
       run: |
