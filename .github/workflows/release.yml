@@ -146,29 +146,29 @@ jobs:
   #       files: Techmino.a${{ needs.get-info.outputs.release }}.mini.apk
 
   # build-macOS:
-    runs-on: macos-10.15
-    needs: get-info
-    steps:
-    - uses: actions/checkout@v2
-    - name: Update Version
-      run: |
-        python3 .github/workflows/updateVersion.py -T Version
-    - uses: ./.github/actions/build-macos
-      with:
-        name: ${{ needs.get-info.outputs.name }}
-        icon: .github/build/macOS/icon.icns
-        MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
-        MACOS_CERTIFICATE_ID: ${{ secrets.MACOS_CERTIFICATE_ID }}
-        MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
-    - name: Pack Techmino
-      run: |
-        cp ".github/build/macOS/打不开？Can’t open the App？.pdf" ./
-        zip -r -y Techmino.a${{ needs.get-info.outputs.release }}.macOS.zip Techmino.app "./打不开？Can’t open the App？.pdf"
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      with:
-        name: ${{ needs.get-info.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-info.outputs.release }}.macOS.zip
+  #   runs-on: macos-10.15
+  #   needs: get-info
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Update Version
+  #     run: |
+  #       python3 .github/workflows/updateVersion.py -T Version
+  #   - uses: ./.github/actions/build-macos
+  #     with:
+  #       name: ${{ needs.get-info.outputs.name }}
+  #       icon: .github/build/macOS/icon.icns
+  #       MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+  #       MACOS_CERTIFICATE_ID: ${{ secrets.MACOS_CERTIFICATE_ID }}
+  #       MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+  #   - name: Pack Techmino
+  #     run: |
+  #       cp ".github/build/macOS/打不开？Can’t open the App？.pdf" ./
+  #       zip -r -y Techmino.a${{ needs.get-info.outputs.release }}.macOS.zip Techmino.app "./打不开？Can’t open the App？.pdf"
+  #   - name: Release
+  #     uses: softprops/action-gh-release@v1
+  #     with:
+  #       name: ${{ needs.get-info.outputs.updateTitle }}
+  #       files: Techmino.a${{ needs.get-info.outputs.release }}.macOS.zip
 
   build-iOS:
     runs-on: macos-latest
