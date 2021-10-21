@@ -6,6 +6,7 @@ local gc_setShader=gc.setShader
 local gc_draw,gc_rectangle,gc_line,gc_printf=gc.draw,gc.rectangle,gc.line,gc.printf
 
 local ins,rem=table.insert,table.remove
+local rnd=math.random
 
 local SETTING,GAME,SCR=SETTING,GAME,SCR
 local PLAYERS=PLAYERS
@@ -80,7 +81,6 @@ end
 
 --Royale mode
 function randomTarget(P)--Return a random opponent for P
-    local rnd=math.random
     if #PLY_ALIVE>1 then
         local R
         repeat
@@ -179,6 +179,13 @@ end
 
 
 --Game
+function coin(a,b)
+    if rnd()<.5 then
+        return a
+    else
+        return b
+    end
+end
 function generateLine(hole)
     return 1023-2^(hole-1)
 end
