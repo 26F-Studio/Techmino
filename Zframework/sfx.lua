@@ -79,10 +79,20 @@ function SFX.setStereo(v)
     stereo=v
 end
 
-function SFX.playSample(pack,tune,vol)
-    if type(tune)=='string'then
-        tune=_getTuneHeight(tune)-packSetting[pack].base+1
-        SFX.play(pack..tune,vol)
+function SFX.playSample(pack,...)
+    if ... then
+        local arg={...}
+        local vol
+        if type(arg[#arg])=='number'then vol=rem(arg)end
+        for i=1,#arg do
+            if type(arg[i])=='number'then
+                vol=arg[i]
+            else
+                local tune=arg[i]
+                tune=_getTuneHeight(tune)-packSetting[pack].base+1
+                SFX.play(pack..tune,vol)
+            end
+        end
     end
 end
 function SFX.play(name,vol,pos)
