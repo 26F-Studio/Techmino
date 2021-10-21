@@ -70,9 +70,11 @@ runs:
           PROJECT_BUILD_NUMBER: '${{ inputs.PROJECT_BUILD_NUMBER }}'
     - name: Rename release ipa
       if: ${{ inputs.type == 'release' }}
+      shell: bash
       run: |
         mv Techmino-iOS/platform/xcode/Techmino_Distribution_app-store.ipa Techmino.ipa
     - name: Rename develop ipa
       if: ${{ inputs.type == 'dev' }}
+      shell: bash
       run: |
         mv Techmino-iOS/platform/xcode/Techmino\ Dev_Distribution_app-store.ipa Techmino.ipa
