@@ -69,4 +69,4 @@ runs:
     - name: Rename ipa
       shell: bash
       run: |
-        mv Techmino-iOS/platform/xcode/Techmino\ Dev_Distribution_app-store.ipa Techmino.ipa
+        mv Techmino-iOS/platform/xcode/Techmino\ Dev_Distribution_ad-hoc.ipa Techmino.ipa
