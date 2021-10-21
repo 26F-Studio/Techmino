@@ -43,7 +43,6 @@ function applyCursor()
     love.mouse.setVisible(SETTING.sysCursor)
 end
 function applyFullscreen()
-    SETTING.fullscreen=not SETTING.fullscreen
     love.window.setFullscreen(SETTING.fullscreen)
     love.resize(gc.getWidth(),gc.getHeight())
 end
