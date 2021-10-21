@@ -6,7 +6,7 @@ local gc_setShader=gc.setShader
 local gc_draw,gc_rectangle,gc_line,gc_printf=gc.draw,gc.rectangle,gc.line,gc.printf
 
 local ins,rem=table.insert,table.remove
-local rnd=math.random
+local int,rnd=math.floor,math.random
 
 local SETTING,GAME,SCR=SETTING,GAME,SCR
 local PLAYERS=PLAYERS
@@ -668,16 +668,20 @@ end
 
 --Game draw
 do--function drawSelfProfile()
+    local lvColor={COLOR.J,COLOR.A,COLOR.C,COLOR.N,COLOR.S,COLOR.V,COLOR.P,COLOR.M,COLOR.W,COLOR.R,COLOR.O,COLOR.Y}
     local lvIcon=setmetatable({},{__index=function(self,lv)
-        local img={25,25}
+        local c=lvColor[int((lv-1)/26)+1]or COLOR.Z
 
-        ins(img,{"clear",0,0,0})
-        ins(img,{"setLW",4})
-        ins(img,{"setCL",.5,.8,1})
-        ins(img,{"dRect",2,2,21,21,2})
-        --TODO: draw with lv
-
-        img=GC.DO(img)
+        local img=GC.DO{25,25,
+            {"clear",0,0,0,0},
+            {"setLW",2},
+            {"setCL",c[1],c[2],c[3],.6},
+            {"fRect",2,2,21,21,2},
+            {"setCL",c},
+            {"dRect",2,2,21,21,2},
+            {"setCL",COLOR.Z},
+            {"mText",(lv-1)%26+1,13,-1},
+        }
         rawset(self,lv,img)
         return img
     end})
