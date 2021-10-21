@@ -55,7 +55,7 @@ runs:
     - name: Run fastlane
       uses: maierj/fastlane-action@v2.0.1
       with:
-        lane: 'alpha'
+        lane: 'upload'
         subdirectory: 'Techmino-iOS/platform/xcode'
       env:
           APP_STORE_CONNECT_TEAM_ID: '${{ inputs.APP_STORE_CONNECT_TEAM_ID }}'
