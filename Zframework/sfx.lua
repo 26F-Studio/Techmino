@@ -40,14 +40,17 @@ function SFX.init(list)
     for i=1,#list do ins(sfxList,list[i])end
 end
 function SFX.load(path)
+    local c=0
     for i=1,#sfxList do
         local fullPath=path..sfxList[i]..'.ogg'
         if love.filesystem.getInfo(fullPath)then
             Sources[sfxList[i]]={love.audio.newSource(fullPath,'static')}
+            c=c+1
         else
             LOG("No SFX: "..sfxList[i]..'.ogg',.1)
         end
     end
+    LOG(c.."/"..#sfxList.." SFX files loaded")
 end
 function SFX.loadSample(pack)
     assert(type(pack)=='table',"Usage: SFX.loadsample([table])")
@@ -61,7 +64,7 @@ function SFX.loadSample(pack)
         Sources[pack.name..num]={love.audio.newSource(pack.path..'/'..num..'.ogg','static')}
         num=num+1
     end
-    LOG("Pack "..pack.name.." loaded, "..(num-1).." files")
+    LOG((num-1).." "..pack.name.." samples loaded")
 end
 
 function SFX.getCount()

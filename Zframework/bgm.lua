@@ -1,5 +1,7 @@
+local Sources={}
+local volume=1
+
 local BGM={
-    vol=1,
     default=false,
     getList=function()error("Cannot getList before initialize!")end,
     getCount=function()return 0 end,
@@ -13,7 +15,7 @@ local BGM={
 local function task_fadeOut(src)
     while true do
         coroutine.yield()
-        local v=src:getVolume()-.025*BGM.vol
+        local v=src:getVolume()-.025*volume
         src:setVolume(v>0 and v or 0)
         if v<=0 then
             src:pause()
@@ -24,10 +26,10 @@ end
 local function task_fadeIn(src)
     while true do
         coroutine.yield()
-        local v=BGM.vol
+        local v=volume
         v=math.min(v,src:getVolume()+.025*v)
         src:setVolume(v)
-        if v>=BGM.vol then
+        if v>=volume then
             return true
         end
     end
@@ -43,11 +45,10 @@ function BGM.setChange(func)
 end
 function BGM.setVol(v)
     assert(type(v)=='number'and v>=0 and v<=1)
-    BGM.vol=v
+    volume=v
 end
 function BGM.init(list)
     BGM.init=nil
-    local Sources={}
 
     local simpList={}
     for _,v in next,list do
@@ -57,6 +58,7 @@ function BGM.init(list)
     table.sort(simpList)
     function BGM.getList()return simpList end
     local count=#simpList
+    LOG(count.." BGM files loaded")
     function BGM.getCount()return count end
 
     local function _load(name)
@@ -77,10 +79,10 @@ function BGM.init(list)
     end
     function BGM.setVol(v)
         assert(type(v)=='number'and v>=0 and v<=1)
-        BGM.vol=v
+        volume=v
         if BGM.playing then
-            if BGM.vol>0 then
-                BGM.playing:setVolume(BGM.vol)
+            if volume>0 then
+                BGM.playing:setVolume(volume)
                 BGM.playing:play()
             elseif BGM.nowPlay then
                 BGM.playing:pause()
@@ -95,7 +97,7 @@ function BGM.init(list)
     function BGM.play(name)
         name=name or BGM.default
         if not _load(name)then return end
-        if BGM.vol==0 then
+        if volume==0 then
             BGM.nowPlay=name
             BGM.playing=Sources[name]
             return true
