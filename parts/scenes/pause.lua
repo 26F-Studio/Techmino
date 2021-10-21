@@ -4,17 +4,6 @@ local sin,log=math.sin,math.log10
 local GAME,SCR=GAME,SCR
 local setFont,mStr=FONT.set,GC.mStr
 
-local fnsRankColor={
-    Z=COLOR.lY,
-    S=COLOR.lH,
-    A=COLOR.N,
-    B=COLOR.lG,
-    C=COLOR.M,
-    D=COLOR.dG,
-    E=COLOR.R,
-    F=COLOR.dR,
-}
-
 local scene={}
 
 local page
@@ -100,7 +89,7 @@ function scene.sceneInit(org)
 
     if P1.result=='win'and P1.stat.piece>4 then
         local acc=P1.stat.finesseRate*.2/P1.stat.piece
-        rank=
+        rank=CHAR.icon['rank'..(
             acc==1. and"Z"or
             acc>.97 and"S"or
             acc>.94 and"A"or
@@ -109,6 +98,7 @@ function scene.sceneInit(org)
             acc>.50 and"D"or
             acc>.30 and"E"or
             "F"
+        )]
         if acc==1 then
             trophy=text.finesse_ap
             trophyColor=COLOR.Y
@@ -272,8 +262,7 @@ function scene.draw()
             --Finesse rank & trophy
             if rank then
                 setFont(40)
-                local c=fnsRankColor[rank]
-                gc.setColor(c[1],c[2],c[3],timer2)
+                gc.setColor(.7,.7,.7,timer2)
                 gc.print(rank,405,383)
                 if trophy then
                     setFont(30)
