@@ -617,7 +617,8 @@ do--function resetGameData(args)
         if GAME.setting.allowMod then
             TASK.new(task_showMods)
         end
-        SFX.play('ready')
+        Snd('bass','A2')
+        Snd('lead','A3')
         collectgarbage()
     end
 end

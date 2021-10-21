@@ -31,6 +31,8 @@ inputs:
     required: true
   APPLE_KEY_CONTENT:
     required: true
+  PROJECT_BUILD_NUMBER:
+    required: true
 
 runs:
   using: "composite"
@@ -45,34 +47,6 @@ runs:
       uses: ./.github/actions/get-cc
       with:
         arch: iOS
-    # - name: Create and config keychain
-    #   shell: bash
-    #   run: |
-    #     security create-keychain -p "" build.keychain
-    #     security list-keychains -s build.keychain
-    #     security default-keychain -s build.keychain
-    #     security unlock-keychain -p "" build.keychain
-    #     security set-keychain-settings
-    #     security import <(echo ${{inputs.IOS_CERTIFICATE}} | base64 --decode) \
-    #       -f pkcs12 \
-    #       -k build.keychain \
-    #       -P ${{inputs.IOS_CERTIFICATE_PWD}} \
-    #       -T /usr/bin/codesign
-    #     security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
-    # - name: Import provisioning profile
-    #   shell: bash
-    #   run: |
-    #     mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-    #     echo "${{inputs.IOS_PROFILE}}" | base64 --decode > \
-    #       ~/Library/MobileDevice/Provisioning\ Profiles/dist.mobileprovision
-    #     echo "${{inputs.IOS_PROFILE_DEV}}" | base64 --decode > \
-    #       ~/Library/MobileDevice/Provisioning\ Profiles/dev.mobileprovision
-    # - name: Sign and chmod CCloader
-    #   shell: bash
-    #   run: |
-    #     security unlock-keychain -p "" build.keychain
-    #     codesign -f -s "${{inputs.IOS_CERTIFICATE_ID}}" ./CCloader.dylib
-    #     chmod +x ./CCloader.dylib
     - name: Update source codes
       shell: bash
       run: |
@@ -100,31 +74,8 @@ runs:
           APPLE_KEY_ID: '${{ inputs.APPLE_KEY_ID }}'
           APPLE_ISSUER_ID: '${{ inputs.APPLE_ISSUER_ID }}'
           APPLE_KEY_CONTENT: '${{ inputs.APPLE_KEY_CONTENT }}'
-    # - name: Build project
-    #   shell: bash
-    #   run: |
-    #     xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj \
-    #       -scheme Techmino \
-    #       -configuration Release \
-    #       -quiet \
-    #       CONFIGURATION_BUILD_DIR=Build
-    # - name: Arrange build
-    #   shell: bash
-    #   run: |
-    #     mv Techmino-iOS/platform/xcode/Build/Techmino.app ./
-    # - name: Archive project
-    #   shell: bash
-    #   run: |
-    #     xcodebuild -project Techmino-iOS/platform/xcode/Techmino.xcodeproj \
-    #       -scheme Techmino \
-    #       -configuration Distribution \
-    #       -archivePath Techmino-iOS/Archive
-    #       -quiet \
-    #     archive
-    # - name: Export archive
-    #   shell: bash
-    #   run: |
-    #     xcodebuild -exportArchive \
-    #       -archivePath Techmino-iOS/Archive \
-    #       -exportOptionsPlist Techmino-iOS/ExportOptions.plist \
-    #     Techmino-iOS/Export
+          PROJECT_BUILD_NUMBER: '${{ inputs.PROJECT_BUILD_NUMBER }}'
+    - name: Move ipa
+      shell: bash
+      run: |
+        mv Techmino-iOS/platform/xcode/Techmino.ipa Techmino.ipa

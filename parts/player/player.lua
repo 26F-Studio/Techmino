@@ -1517,7 +1517,7 @@ do--Player.drop(self)--Place piece
             --SFX & Vibrate
             if self.sound then
                 SFX.play(clearSFX[cc])
-                SFX.play(renSFX[min(cmb,11)])
+                SFX.play(renSFX[min(cmb,11)],.75)
                 if cmb>14 then
                     SFX.play('ren_mega',(cmb-10)*.1)
                 end
@@ -1887,17 +1887,28 @@ local function update_alive(P)
 
     P.frameRun=P.frameRun+1
     if P.frameRun<=180 then
-        if P.frameRun==180 then
+        if P.frameRun==60 then
             if P.id==1 then
-                SFX.play('start')
+                Snd('bass','G2')
+                Snd('lead','A3')
+                Snd('lead','D4')
+            end
+        elseif P.frameRun==120 then
+            if P.id==1 then
+                Snd('bass','A2')
+                Snd('lead','B3')
+                Snd('lead','E4')
+            end
+        elseif P.frameRun==180 then
+            if P.id==1 then
+                Snd('bass','A3')
+                Snd('lead','A3')
+                Snd('lead','E4')
+                Snd('lead','A4')
             end
             P.control=true
             P.timing=true
             P:popNext()
-        elseif P.frameRun==60 or P.frameRun==120 then
-            if P.id==1 then
-                SFX.play('ready')
-            end
         end
         if P.movDir~=0 then
             if P.moving<P.gameEnv.das then

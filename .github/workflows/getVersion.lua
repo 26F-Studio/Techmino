@@ -1,6 +1,9 @@
-if arg[1]=="-code"then
+if arg[1]=="-apkCode"then
     local code=require"version".apkCode
     print(code)
+elseif arg[1]=="-code"then
+    local str=require"version".code
+    print(str)
 elseif arg[1]=="-name"then
     local str=require"version".string:gsub("@DEV","")
     print(str)

@@ -3,6 +3,7 @@ return{
     fallback='zh',
     loadText={
         loadSFX="加载音效",
+        loadSample="装载仪器样品",
         loadVoice="加载语音包",
         loadFont="加载字体",
         loadModeIcon="加载模式图标",

@@ -1,6 +1,7 @@
 return{
     loadText={
         loadSFX="音效",
+        loadSample="乐器",
         loadVoice="语音",
         loadFont="字体",
         loadModeIcon="模式图标",

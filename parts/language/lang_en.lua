@@ -2,6 +2,7 @@ local C=COLOR
 return{
     loadText={
         loadSFX="Loading sound effects",
+        loadSample="Loading instrument samples",
         loadVoice="Loading voice packs",
         loadFont="Loading fonts",
         loadModeIcon="Loading mode icons",
