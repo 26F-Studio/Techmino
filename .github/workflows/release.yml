@@ -170,6 +170,41 @@ jobs:
         name: ${{ needs.get-info.outputs.updateTitle }}
         files: Techmino.a${{ needs.get-info.outputs.release }}.macOS.zip
 
+  build-iOS:
+    runs-on: macos-latest
+    needs: get-info
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ./.github/actions/snapshot-update
+      with:
+        commit: ${{ needs.get-info.outputs.commit }}
+    - uses: ./.github/actions/build-ios
+      with:
+        name: ${{ needs.get-info.outputs.name }}
+        type: 'release'
+        DEVELOPER_APP_ID: '${{ secrets.APP_ID_RELEASE }}'
+        DEVELOPER_APP_IDENTIFIER: '${{ secrets.APP_IDENTIFIER_RELEASE }}'
+        FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
+        MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+        GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
+        PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER_RELEASE }}'
+        TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+        TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+        APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
+        APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
+        APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
+        PROJECT_BUILD_NUMBER: '${{ needs.get-info.outputs.code }}.${{ github.run_number }}'
+        PILOT_CHANGE_LOG: '${{ github.event.commits[0].message }}'
+    - name: Rename ipa
+      shell: bash
+      run: |
+        mv Techmino.ipa Techmino.a${{ needs.get-info.outputs.release }}.ipa
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        name: ${{ needs.get-info.outputs.updateTitle }}
+        files: Techmino.a${{ needs.get-info.outputs.release }}.ipa
+
   build-love:
     runs-on: ubuntu-20.04
     needs: get-info

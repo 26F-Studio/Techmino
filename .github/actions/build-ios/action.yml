@@ -3,17 +3,13 @@ description: 'build iOS package'
 inputs:
   name:
     required: true
-  APP_STORE_CONNECT_TEAM_ID:
+  type:
     required: true
   DEVELOPER_APP_ID:
     required: true
   DEVELOPER_APP_IDENTIFIER:
     required: true
-  DEVELOPER_PORTAL_TEAM_ID:
-    required: true
   FASTLANE_APPLE_ID:
-    required: true
-  FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD:
     required: true
   MATCH_PASSWORD:
     required: true
@@ -32,6 +28,8 @@ inputs:
   APPLE_KEY_CONTENT:
     required: true
   PROJECT_BUILD_NUMBER:
+    required: true
+  PILOT_CHANGE_LOG:
     required: true
 
 runs:
@@ -57,15 +55,12 @@ runs:
     - name: Run fastlane
       uses: maierj/fastlane-action@v2.0.1
       with:
-        lane: 'alpha'
+        lane: '${{ inputs.type }}'
         subdirectory: 'Techmino-iOS/platform/xcode'
       env:
-          APP_STORE_CONNECT_TEAM_ID: '${{ inputs.APP_STORE_CONNECT_TEAM_ID }}'
           DEVELOPER_APP_ID: '${{ inputs.DEVELOPER_APP_ID }}'
           DEVELOPER_APP_IDENTIFIER: '${{ inputs.DEVELOPER_APP_IDENTIFIER }}'
-          DEVELOPER_PORTAL_TEAM_ID: '${{ inputs.DEVELOPER_PORTAL_TEAM_ID }}'
           FASTLANE_APPLE_ID: '${{ inputs.FASTLANE_APPLE_ID }}'
-          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ inputs.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
           MATCH_PASSWORD: '${{ inputs.MATCH_PASSWORD }}'
           GIT_AUTHORIZATION: '${{ inputs.GIT_AUTHORIZATION }}'
           PROVISIONING_PROFILE_SPECIFIER: '${{ inputs.PROVISIONING_PROFILE_SPECIFIER }}'
@@ -75,7 +70,9 @@ runs:
           APPLE_ISSUER_ID: '${{ inputs.APPLE_ISSUER_ID }}'
           APPLE_KEY_CONTENT: '${{ inputs.APPLE_KEY_CONTENT }}'
           PROJECT_BUILD_NUMBER: '${{ inputs.PROJECT_BUILD_NUMBER }}'
+          PILOT_CHANGE_LOG: '${{ inputs.PILOT_CHANGE_LOG }}'
     - name: Move ipa
       shell: bash
       run: |
         mv Techmino-iOS/platform/xcode/Techmino.ipa Techmino.ipa
+        
