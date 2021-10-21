@@ -30,7 +30,6 @@ function scene.draw()
     gc.pop()
 end
 
-scene.widgetScrollHeight=200
 scene.widgetList={
     WIDGET.newText{name="title",       x=640,y=15,font=80},
 
