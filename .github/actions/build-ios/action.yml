@@ -3,6 +3,8 @@ description: 'build iOS package'
 inputs:
   name:
     required: true
+  type:
+    required: true
   DEVELOPER_APP_ID:
     required: true
   DEVELOPER_APP_IDENTIFIER:
@@ -51,7 +53,7 @@ runs:
     - name: Run fastlane
       uses: maierj/fastlane-action@v2.0.1
       with:
-        lane: 'dev'
+        lane: '${{ inputs.type }}'
         subdirectory: 'Techmino-iOS/platform/xcode'
       env:
           DEVELOPER_APP_ID: '${{ inputs.DEVELOPER_APP_ID }}'
@@ -66,7 +68,3 @@ runs:
           APPLE_ISSUER_ID: '${{ inputs.APPLE_ISSUER_ID }}'
           APPLE_KEY_CONTENT: '${{ inputs.APPLE_KEY_CONTENT }}'
           PROJECT_BUILD_NUMBER: '${{ inputs.PROJECT_BUILD_NUMBER }}'
-    - name: Rename ipa
-      shell: bash
-      run: |
-        mv Techmino-iOS/platform/xcode/Techmino\ Dev_Distribution_ad-hoc.ipa Techmino.ipa
