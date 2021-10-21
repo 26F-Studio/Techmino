@@ -30,122 +30,122 @@ jobs:
         echo "::set-output name=updateTitle::$(lua .github/workflows/getVersion.lua -updateTitle)"
         echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
 
-  build-windows-x64:
-    runs-on: windows-latest
-    needs: get-info
-    steps:
-    - uses: actions/checkout@v2
-    - name: Update Version
-      run: |
-        python .\.github\workflows\updateVersion.py -T Version
-    - uses: ./.github/actions/build-windows
-      with:
-        love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
-        love-dir: love-11.3-win64
-        arch: win64
-        version: ${{ needs.get-info.outputs.release }}
-        icon: .\.github\build\Windows\icon.ico
-    - name: Pack Techmino
-      run: 7z a -tzip .\Techmino.a${{ needs.get-info.outputs.release }}.Win64.zip .\love
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      with:
-        name: ${{ needs.get-info.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-info.outputs.release }}.Win64.zip
+  # build-windows-x64:
+  #   runs-on: windows-latest
+  #   needs: get-info
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Update Version
+  #     run: |
+  #       python .\.github\workflows\updateVersion.py -T Version
+  #   - uses: ./.github/actions/build-windows
+  #     with:
+  #       love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
+  #       love-dir: love-11.3-win64
+  #       arch: win64
+  #       version: ${{ needs.get-info.outputs.release }}
+  #       icon: .\.github\build\Windows\icon.ico
+  #   - name: Pack Techmino
+  #     run: 7z a -tzip .\Techmino.a${{ needs.get-info.outputs.release }}.Win64.zip .\love
+  #   - name: Release
+  #     uses: softprops/action-gh-release@v1
+  #     with:
+  #       name: ${{ needs.get-info.outputs.updateTitle }}
+  #       files: Techmino.a${{ needs.get-info.outputs.release }}.Win64.zip
 
-  build-windows-x86:
-    runs-on: windows-latest
-    needs: get-info
-    steps:
-    - uses: actions/checkout@v2
-    - name: Update Version
-      run: |
-        python .\.github\workflows\updateVersion.py -T Version
-    - uses: ./.github/actions/build-windows
-      with:
-        love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win32.zip
-        love-dir: love-11.3-win32
-        arch: win32
-        version: ${{ needs.get-info.outputs.release }}
-        icon: .\.github\build\Windows\icon.ico
-    - name: Pack Techmino
-      run: 7z a -tzip .\Techmino.a${{ needs.get-info.outputs.release }}.Win32.zip .\love
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      with:
-        name: ${{ needs.get-info.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-info.outputs.release }}.Win32.zip
+  # build-windows-x86:
+  #   runs-on: windows-latest
+  #   needs: get-info
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Update Version
+  #     run: |
+  #       python .\.github\workflows\updateVersion.py -T Version
+  #   - uses: ./.github/actions/build-windows
+  #     with:
+  #       love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win32.zip
+  #       love-dir: love-11.3-win32
+  #       arch: win32
+  #       version: ${{ needs.get-info.outputs.release }}
+  #       icon: .\.github\build\Windows\icon.ico
+  #   - name: Pack Techmino
+  #     run: 7z a -tzip .\Techmino.a${{ needs.get-info.outputs.release }}.Win32.zip .\love
+  #   - name: Release
+  #     uses: softprops/action-gh-release@v1
+  #     with:
+  #       name: ${{ needs.get-info.outputs.updateTitle }}
+  #       files: Techmino.a${{ needs.get-info.outputs.release }}.Win32.zip
 
-  build-linux:
-    runs-on: ubuntu-20.04
-    needs: get-info
-    steps:
-    - uses: actions/checkout@v2
-    - name: Update Version
-      run: |
-        python3 .github/workflows/updateVersion.py -T Version
-    - uses: ./.github/actions/build-linux
-      with:
-        file-path: Techmino.a${{ needs.get-info.outputs.release }}.AppImage
-        icon: .github/build/Linux/icon.png
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      with:
-        name: ${{ needs.get-info.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-info.outputs.release }}.AppImage
+  # build-linux:
+  #   runs-on: ubuntu-20.04
+  #   needs: get-info
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Update Version
+  #     run: |
+  #       python3 .github/workflows/updateVersion.py -T Version
+  #   - uses: ./.github/actions/build-linux
+  #     with:
+  #       file-path: Techmino.a${{ needs.get-info.outputs.release }}.AppImage
+  #       icon: .github/build/Linux/icon.png
+  #   - name: Release
+  #     uses: softprops/action-gh-release@v1
+  #     with:
+  #       name: ${{ needs.get-info.outputs.updateTitle }}
+  #       files: Techmino.a${{ needs.get-info.outputs.release }}.AppImage
 
-  build-android:
-    runs-on: ubuntu-20.04
-    needs: get-info
-    steps:
-    - uses: actions/checkout@v2
-    - name: Update Version
-      run: |
-        python3 .github/workflows/updateVersion.py -T Version
-    - uses: ./.github/actions/build-android
-      with:
-        type: Release
-        apkCode: ${{ needs.get-info.outputs.apkCode }}
-        name: ${{ needs.get-info.outputs.name }}
-        file-path: Techmino.a${{ needs.get-info.outputs.release }}.apk
-        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-        KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
-        ALIAS: ${{ secrets.ALIAS }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      with:
-        name: ${{ needs.get-info.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-info.outputs.release }}.apk
+  # build-android:
+  #   runs-on: ubuntu-20.04
+  #   needs: get-info
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Update Version
+  #     run: |
+  #       python3 .github/workflows/updateVersion.py -T Version
+  #   - uses: ./.github/actions/build-android
+  #     with:
+  #       type: Release
+  #       apkCode: ${{ needs.get-info.outputs.apkCode }}
+  #       name: ${{ needs.get-info.outputs.name }}
+  #       file-path: Techmino.a${{ needs.get-info.outputs.release }}.apk
+  #       SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+  #       KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+  #       ALIAS: ${{ secrets.ALIAS }}
+  #       KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+  #   - name: Release
+  #     uses: softprops/action-gh-release@v1
+  #     with:
+  #       name: ${{ needs.get-info.outputs.updateTitle }}
+  #       files: Techmino.a${{ needs.get-info.outputs.release }}.apk
 
-  build-android-mini:
-    runs-on: ubuntu-20.04
-    needs: get-info
-    steps:
-    - uses: actions/checkout@v2
-    - name: Update Version
-      run: |
-        python3 .github/workflows/updateVersion.py -T Version
-    - name: remove media
-      run: |
-        rm -rf media/music media/effect media/vocal
-    - uses: ./.github/actions/build-android
-      with:
-        type: Release
-        apkCode: ${{ needs.get-info.outputs.apkCode }}
-        name: ${{ needs.get-info.outputs.name }}
-        file-path: Techmino.a${{ needs.get-info.outputs.release }}.mini.apk
-        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-        KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
-        ALIAS: ${{ secrets.ALIAS }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      with:
-        name: ${{ needs.get-info.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-info.outputs.release }}.mini.apk
+  # build-android-mini:
+  #   runs-on: ubuntu-20.04
+  #   needs: get-info
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Update Version
+  #     run: |
+  #       python3 .github/workflows/updateVersion.py -T Version
+  #   - name: remove media
+  #     run: |
+  #       rm -rf media/music media/effect media/vocal
+  #   - uses: ./.github/actions/build-android
+  #     with:
+  #       type: Release
+  #       apkCode: ${{ needs.get-info.outputs.apkCode }}
+  #       name: ${{ needs.get-info.outputs.name }}
+  #       file-path: Techmino.a${{ needs.get-info.outputs.release }}.mini.apk
+  #       SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+  #       KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+  #       ALIAS: ${{ secrets.ALIAS }}
+  #       KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+  #   - name: Release
+  #     uses: softprops/action-gh-release@v1
+  #     with:
+  #       name: ${{ needs.get-info.outputs.updateTitle }}
+  #       files: Techmino.a${{ needs.get-info.outputs.release }}.mini.apk
 
-  build-macOS:
+  # build-macOS:
     runs-on: macos-10.15
     needs: get-info
     steps:
@@ -170,38 +170,73 @@ jobs:
         name: ${{ needs.get-info.outputs.updateTitle }}
         files: Techmino.a${{ needs.get-info.outputs.release }}.macOS.zip
 
-  build-love:
-    runs-on: ubuntu-20.04
+  build-iOS:
+    runs-on: macos-latest
     needs: get-info
     steps:
     - uses: actions/checkout@v2
-    - name: Update Version
-      run: |
-        python3 .github/workflows/updateVersion.py -T Version
-    - uses: ./.github/actions/build-love
+    - uses: ./.github/actions/snapshot-update
       with:
-        file-path: Techmino.a${{ needs.get-info.outputs.release }}.love
+        commit: ${{ needs.get-info.outputs.commit }}
+    - uses: ./.github/actions/build-ios
+      with:
+        name: ${{ needs.get-info.outputs.name }}
+        type: 'release'
+        DEVELOPER_APP_ID: '${{ secrets.APP_ID_RELEASE }}'
+        DEVELOPER_APP_IDENTIFIER: '${{ secrets.APP_IDENTIFIER_RELEASE }}'
+        FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
+        MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+        GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
+        PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER_RELEASE }}'
+        TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+        TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+        APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
+        APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
+        APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
+        PROJECT_BUILD_NUMBER: '${{ needs.get-info.outputs.code }}.${{ github.run_number }}'
+        PILOT_CHANGE_LOG: '${{ github.event.commits[0].message }}'
+    - name: Rename ipa
+      shell: bash
+      run: |
+        mv Techmino.ipa Techmino.a${{ needs.get-info.outputs.release }}.ipa
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
         name: ${{ needs.get-info.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-info.outputs.release }}.love
+        files: Techmino.a${{ needs.get-info.outputs.release }}.ipa
 
-  Add-Release-note:
-    runs-on: ubuntu-20.04
-    needs: get-info
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install lua
-      run: |
-        sudo apt-get update -y
-        sudo apt-get upgrade -y
-        sudo apt-get install lua5.3 -y
-    - name: Get ReleaseNote
-      run: |
-        lua .github/workflows/getVersion.lua -updateNote > updateNote.txt
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      with:
-        name: ${{ needs.get-info.outputs.updateTitle }}
-        body_path: updateNote.txt
+  # build-love:
+  #   runs-on: ubuntu-20.04
+  #   needs: get-info
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Update Version
+  #     run: |
+  #       python3 .github/workflows/updateVersion.py -T Version
+  #   - uses: ./.github/actions/build-love
+  #     with:
+  #       file-path: Techmino.a${{ needs.get-info.outputs.release }}.love
+  #   - name: Release
+  #     uses: softprops/action-gh-release@v1
+  #     with:
+  #       name: ${{ needs.get-info.outputs.updateTitle }}
+  #       files: Techmino.a${{ needs.get-info.outputs.release }}.love
+
+  # Add-Release-note:
+  #   runs-on: ubuntu-20.04
+  #   needs: get-info
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Install lua
+  #     run: |
+  #       sudo apt-get update -y
+  #       sudo apt-get upgrade -y
+  #       sudo apt-get install lua5.3 -y
+  #   - name: Get ReleaseNote
+  #     run: |
+  #       lua .github/workflows/getVersion.lua -updateNote > updateNote.txt
+  #   - name: Release
+  #     uses: softprops/action-gh-release@v1
+  #     with:
+  #       name: ${{ needs.get-info.outputs.updateTitle }}
+  #       body_path: updateNote.txt
