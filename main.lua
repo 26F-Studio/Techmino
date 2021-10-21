@@ -317,13 +317,13 @@ VOC.init{
 LANG.init('zh',
     {
         zh=require'parts.language.lang_zh',
-        zh2=require'parts.language.lang_zh2',
+        zh_full=require'parts.language.lang_zh_full',
         en=require'parts.language.lang_en',
         fr=require'parts.language.lang_fr',
         es=require'parts.language.lang_es',
         pt=require'parts.language.lang_pt',
-        grass=require'parts.language.lang_zh3',
-        yygq=require'parts.language.lang_yygq',
+        zh_grass=require'parts.language.lang_zh_grass',
+        zh_yygq=require'parts.language.lang_yygq',
         symbol=require'parts.language.lang_symbol',
         --1. Add language file to LANG folder;
         --2. Require it;

@@ -1,4 +1,4 @@
-return{
+return{fallback='zh',
     loadText={
         loadSFX="音效",
         loadSample="乐器",
