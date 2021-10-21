@@ -623,8 +623,8 @@ do--function resetGameData(args)
         if GAME.setting.allowMod then
             TASK.new(task_showMods)
         end
-        Snd('bass','A2')
-        Snd('lead','A3')
+        Snd('bass','A3')
+        Snd('lead','A4')
         collectgarbage()
     end
 end

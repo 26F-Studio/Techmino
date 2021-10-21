@@ -1889,22 +1889,22 @@ local function update_alive(P)
     if P.frameRun<=180 then
         if P.frameRun==60 then
             if P.id==1 then
-                Snd('bass','G2')
-                Snd('lead','A3')
-                Snd('lead','D4')
+                Snd('bass','F3')
+                Snd('lead','A4')
+                Snd('lead','D5')
             end
         elseif P.frameRun==120 then
             if P.id==1 then
-                Snd('bass','A2')
-                Snd('lead','B3')
-                Snd('lead','E4')
+                Snd('bass','G3')
+                Snd('lead','B4')
+                Snd('lead','E5')
             end
         elseif P.frameRun==180 then
             if P.id==1 then
                 Snd('bass','A3')
-                Snd('lead','A3')
-                Snd('lead','E4')
                 Snd('lead','A4')
+                Snd('lead','E5')
+                Snd('lead','A5')
             end
             P.control=true
             P.timing=true
