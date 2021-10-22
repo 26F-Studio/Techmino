@@ -163,7 +163,6 @@ function royaleLevelup()
         P.gameEnv.drop=spd
     end
     if GAME.curMode.name:find("_u")then
-        local int=math.floor
         for i=1,#PLY_ALIVE do
             local P=PLY_ALIVE[i]
             P.gameEnv.drop=int(P.gameEnv.drop*.3)
