@@ -4,6 +4,7 @@ on:
   push:
     tags:
     - '*'
+    branches: [ ci* ]
 
 jobs:
   get-info:
