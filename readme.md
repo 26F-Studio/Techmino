@@ -10,3 +10,5 @@
 Collections of modern block game rules, combined with some new things.
 
 [官网(建设中) Official website (WIP)](http://home.techmino.org)
+
+[维基(建设中) Github wiki](https://github.com/26F-Studio/Techmino/wiki)
