@@ -253,7 +253,7 @@ IMG.init{
         'media/image/lanterns/6.png',
     },
 }
-SKIN.init{
+SKIN.load{
     {name="crystal_scf",path='media/image/skin/crystal_scf.png'},
     {name="matte_mrz",path='media/image/skin/matte_mrz.png'},
     {name="shiny_cho",path='media/image/skin/shiny_cho.png'},
