@@ -3,10 +3,11 @@ name: Techmino Release CI
 on:
   push:
     tags:
-    - '*'
+      - '*'
 
 jobs:
   get-info:
+    if: startWith(github.event.base_ref, 'ref/heads/pre')
     runs-on: ubuntu-20.04
     outputs:
       name: ${{ steps.actual-get-info.outputs.name }}
@@ -156,10 +157,16 @@ jobs:
     - uses: ./.github/actions/build-macos
       with:
         name: ${{ needs.get-info.outputs.name }}
+        type: 'release'
         icon: .github/build/macOS/icon.icns
-        MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
-        MACOS_CERTIFICATE_ID: ${{ secrets.MACOS_CERTIFICATE_ID }}
-        MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+        DEVELOPER_APP_IDENTIFIER: '${{ secrets.APP_IDENTIFIER_RELEASE }}'
+        MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+        GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
+        TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+        TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+        APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
+        APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
+        APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
     - name: Pack Techmino
       run: |
         cp ".github/build/macOS/打不开？Can’t open the App？.pdf" ./
