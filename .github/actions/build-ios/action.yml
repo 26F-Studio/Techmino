@@ -71,4 +71,8 @@ runs:
           APPLE_KEY_CONTENT: '${{ inputs.APPLE_KEY_CONTENT }}'
           PROJECT_BUILD_NUMBER: '${{ inputs.PROJECT_BUILD_NUMBER }}'
           PILOT_CHANGE_LOG: '${{ inputs.PILOT_CHANGE_LOG }}'
+    - name: Move ipa
+      shell: bash
+      run: |
+        mv Techmino-iOS/platform/xcode/Techmino.ipa Techmino.ipa
         
