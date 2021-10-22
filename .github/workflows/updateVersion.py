@@ -30,15 +30,7 @@ def updateMacOS(args):  #更新macOS打包信息
         data = data\
             .replace('@versionName', args.Name)\
             .replace('@thisYear', thisYear)
-    with open('./Techmino.app/Contents/info.plist', 'w+', encoding='utf-8') as file:
-        file.write(data)
-
-def updateIOS(args):  #更新iOS打包信息
-    with open('./Techmino-iOS/platform/xcode/Techmino.xcodeproj/project.pbxproj', 'r') as file:
-        data = file.read()
-        data = data.replace('__VERSION__', re.search(r'([0-9]+\.[0-9]+\.[0-9]+)', args.Name, re.I).group(1))
-
-    with open('./Techmino-iOS/platform/xcode/Techmino.xcodeproj/project.pbxproj', 'w') as file:
+    with open('./Techmino-macOS/Techmino.app/Contents/info.plist', 'w+', encoding='utf-8') as file:
         file.write(data)
 
 def updateWindows(args):    #更新Windows打包信息
@@ -100,8 +92,6 @@ if __name__ == '__main__':
         updateWindows(args)
     elif args.Type == 'macOS':
         updateMacOS(args)
-    elif args.Type == 'iOS':
-        updateIOS(args)
     elif args.Type == 'AndroidRelease':
         updateAndroid(args, 'Release')
     elif args.Type == 'AndroidSnapshot':
