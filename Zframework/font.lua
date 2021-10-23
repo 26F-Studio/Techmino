@@ -25,8 +25,8 @@ function FONT.reset()
     end
 end
 
-function FONT.init(mainFont,secFont)
-    assert(love.filesystem.getInfo(mainFont))
+function FONT.load(mainFont,secFont)
+    assert(love.filesystem.getInfo(mainFont),"Font file '"..mainFont.."' not exist!")
     mainFont=love.filesystem.newFile(mainFont)
     if secFont and love.filesystem.getInfo(secFont)then
         secFont=love.filesystem.newFile(secFont)

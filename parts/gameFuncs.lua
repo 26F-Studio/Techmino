@@ -685,7 +685,7 @@ do--function drawSelfProfile()
         return img
     end})
     local name
-    local textObject,scaleK,width,offY
+    local textObj,scaleK,width,offY
     function drawSelfProfile()
         local selfAvatar=USERS.getAvatar(USER.uid)
         gc_push('transform')
@@ -701,12 +701,12 @@ do--function drawSelfProfile()
         --Draw username
         if name~=USERS.getUsername(USER.uid)then
             name=USERS.getUsername(USER.uid)
-            textObject=gc.newText(getFont(30),name)
-            width=textObject:getWidth()
+            textObj=gc.newText(getFont(30),name)
+            width=textObj:getWidth()
             scaleK=210/math.max(width,210)
-            offY=textObject:getHeight()/2
+            offY=textObj:getHeight()/2
         end
-        gc_draw(textObject,-82,26,nil,scaleK,nil,width,offY)
+        gc_draw(textObj,-82,26,nil,scaleK,nil,width,offY)
 
         --Draw lv. & xp.
         gc_draw(lvIcon[USER.lv],-295,50)
