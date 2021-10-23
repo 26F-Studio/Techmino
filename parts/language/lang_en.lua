@@ -65,6 +65,7 @@ return{
     switchSpawnSFX="Please turn on the block spawn SFX!",
     needRestart="Restart to apply all changes",
 
+    copyDone="Copied!",
     saveDone="Data saved",
     saveError="Failed to save:",
     saveError_duplicate="Duplicated filename",

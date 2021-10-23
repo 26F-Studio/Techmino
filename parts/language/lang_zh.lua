@@ -65,6 +65,7 @@ return{
     switchSpawnSFX="请开启方块出生音效",
     needRestart="重新开始以生效",
 
+    copyDone="复制成功!",
     saveDone="保存成功!",
     saveError="保存失败:",
     saveError_duplicate="文件名重复",

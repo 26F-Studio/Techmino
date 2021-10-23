@@ -1,6 +1,7 @@
 local gc=love.graphics
 
 local inputBox=WIDGET.newInputBox{name="input",x=20,y=110,w=762,h=60,font=40,limit=32}
+local copyButton=WIDGET.newKey{name="copy",x=940,y=655,w=200,h=80,font=35,code=pressKey"cC"}
 local int,abs=math.floor,math.abs
 local min,sin=math.min,math.sin
 local ins=table.insert
@@ -35,6 +36,7 @@ local function _clearResult()
     TABLE.cut(result)
     selected,scrollPos=1,0
     waiting,lastSearch=0,false
+    copyButton.hide=false
 end
 local function _search()
     local input=inputBox:getText():lower()
@@ -82,6 +84,7 @@ function scene.keyDown(key)
             if selected<scrollPos+1 then
                 scrollPos=scrollPos-1
             end
+            copyButton.hide=false
         end
     elseif key=="down"then
         if selected and selected<#_getList()then
@@ -89,6 +92,7 @@ function scene.keyDown(key)
             if selected>scrollPos+15 then
                 scrollPos=selected-15
             end
+            copyButton.hide=false
         end
     elseif key=="left"or key=="pageup"then
         for _=1,12 do scene.keyDown("up")end
@@ -114,6 +118,8 @@ function scene.keyDown(key)
         local t=_getList()[selected]
         t=t[1]..":\n"..t[4]..(t[5]and"\n[ "..t[5].." ]\n"or"\n")..text.dictNote
         love.system.setClipboardText(t)
+        copyButton.hide=true
+        MES.new('info',text.copyDone)
         return
     else
         return
@@ -180,7 +186,7 @@ function scene.draw()
         local r=TIME()*2
         local R=int(r)%7+1
         gc.setColor(1,1,1,1-abs(r%1*2-1))
-        gc.draw(TEXTURE.miniBlock[R],785,140,TIME()*10%6.2832,15,15,DSCP[R][0][2]+.5,#BLOCKS[R][0]-DSCP[R][0][1]-.5)
+        gc.draw(TEXTURE.miniBlock[R],821,140,TIME()*10%6.2832,15,15,DSCP[R][0][2]+.5,#BLOCKS[R][0]-DSCP[R][0][1]-.5)
     end
 end
 
@@ -188,7 +194,7 @@ scene.widgetList={
     WIDGET.newText{name="book",   x=20,y=15,font=70,align='L',fText=CHAR.icon.zBook},
     WIDGET.newText{name="title",  x=100,y=15,font=70,align='L'},
     inputBox,
-    WIDGET.newKey{name="copy",    x=1170,y=140,w=160,h=50,font=25,code=pressKey"cC"},
+    copyButton,
     WIDGET.newKey{name="link",    x=1150,y=655,w=200,h=80,font=35,code=pressKey"link",hideF=function()return not url end},
     WIDGET.newKey{name="up",      x=1130,y=460,w=60,h=90,font=35,fText="↑",code=pressKey"up"},
     WIDGET.newKey{name="down",    x=1130,y=560,w=60,h=90,font=35,fText="↓",code=pressKey"down"},

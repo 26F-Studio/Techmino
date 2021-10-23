@@ -55,6 +55,7 @@ return{
     switchSpawnSFX="Switch on spawn SFX to play",
     needRestart="Funciona após reiniciar",
 
+    -- copyDone="Copied!",
     saveDone="Data Salva",
     saveError="Falha ao salvar:",
     -- saveError_duplicate="Duplicate filename",

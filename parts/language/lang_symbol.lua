@@ -40,6 +40,7 @@ return{
     ai_mission="X!!!",
     needRestart="!!*#R#*!!",
 
+    -- copyDone="Copied!",
     saveDone="~~~",
     saveError="x!:",
     saveError_duplicate="X←→X ?",

@@ -66,6 +66,7 @@ return{
     switchSpawnSFX="请打开繁殖特技效果",
     needRestart="请重试以使更改生效",
 
+    copyDone="收到了!",
     saveDone="保存的数据",
     saveError="未能保存:",
     saveError_duplicate="重复文件名",

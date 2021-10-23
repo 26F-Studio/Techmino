@@ -55,6 +55,7 @@ return{
     switchSpawnSFX="Activez les effets sonores d'apparition des pièces pour jouer",
     needRestart="Fonctionnera dès la prochaine partie",
 
+    -- copyDone="Copied!",
     saveDone="Données sauvegardées",
     saveError="Sauvegarde échouée : ",
     -- saveError_duplicate="Duplicate filename",

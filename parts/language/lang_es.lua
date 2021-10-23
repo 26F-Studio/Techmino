@@ -54,6 +54,7 @@ return{
     switchSpawnSFX="Habilita los sonidos de aparición de las piezas ;)",
     needRestart="Reinicia Techmino para que los cambios tengan efecto.",
 
+    -- copyDone="Copied!",
     saveDone="Datos guardados",
     saveError="Error al guardar:",
     saveError_duplicate="Archivo ya existente",
