@@ -30,8 +30,10 @@ runs:
     - name: Checkout template
       uses: actions/checkout@v2
       with:
+        # TODO change ref
         repository: '26F-Studio/Techmino-macOS'
         path: 'Techmino-macOS'
+        ref: 'dmg'
     - name: Download ColdClear
       uses: ./.github/actions/get-cc
       with:
@@ -79,19 +81,54 @@ runs:
         lane: 'make_safe'
         subdirectory: 'Techmino-macOS'
       env:
-          APPLE_KEY_ID: '${{ inputs.APPLE_KEY_ID }}'
-          APPLE_ISSUER_ID: '${{ inputs.APPLE_ISSUER_ID }}'
-          APPLE_KEY_CONTENT: '${{ inputs.APPLE_KEY_CONTENT }}'
-    - name: Check codesign
+        # TODO: Bundle ID
+        APPLE_KEY_ID: '${{ inputs.APPLE_KEY_ID }}'
+        APPLE_ISSUER_ID: '${{ inputs.APPLE_ISSUER_ID }}'
+        APPLE_KEY_CONTENT: '${{ inputs.APPLE_KEY_CONTENT }}'
+        NOTARIZE_OBJECT: 'Techmino.app'
+        BUNDLE_ID: 'org.26f-studio.Techmino.dev'
+    - name: Create DMG file
       shell: bash
       run: |
-        codesign -dvvv Techmino-macOS/Techmino.app
-    - name: Check for access
+        brew install create-dmg
+        create-dmg \
+          --volname "Techmino for MacOS" \
+          --volicon "./.github/build/macOS/icon.icns" \
+          --window-pos 200 120 \
+          --window-size 800 400 \
+          --icon-size 100 \
+          --icon "Techmino.app" 200 190 \
+          --hide-extension "Techmino.app" \
+          --app-drop-link 600 185 \
+          "Techmino-macOS/Techmino-macOS.dmg" \
+          "Techmino-macOS/Techmino.app/"
+    - name: Codesign DMG
       shell: bash
       run: |
-        spctl --assess -vv Techmino-macOS/Techmino.app
-    - name: Ditto zip
+        security unlock-keychain -p ${{ inputs.TEMP_KEYCHAIN_PASSWORD }} \
+        ~/Library/Keychains/${{ inputs.TEMP_KEYCHAIN_USER }}-db
+
+        [[ $(security find-identity) =~ ([0-9A-F]{40}) ]]
+
+        codesign --timestamp --force --strict --deep -v \
+        --options runtime \
+        -s ${BASH_REMATCH[1]} \
+        --entitlements Techmino-macOS/love.entitlements \
+        Techmino-macOS/Techmino-macOS.dmg
+    - name: Fastlane notarize
+      uses: maierj/fastlane-action@v2.0.1
+      with:
+        lane: 'make_safe'
+        subdirectory: 'Techmino-macOS'
+      env:
+        # TODO: Bundle ID
+        APPLE_KEY_ID: '${{ inputs.APPLE_KEY_ID }}'
+        APPLE_ISSUER_ID: '${{ inputs.APPLE_ISSUER_ID }}'
+        APPLE_KEY_CONTENT: '${{ inputs.APPLE_KEY_CONTENT }}'
+        NOTARIZE_OBJECT: 'Techmino-macOS.dmg'
+        BUNDLE_ID: 'org.26f-studio.Techmino.dev'
+    - name: Finalize
       shell: bash
       run: |
-        ditto Techmino-macOS/Techmino.app  Archive/
-        ditto -c Archive Techmino.zip
+        mv Techmino-macOS/Techmino-macOS.dmg Techmino.dmg
+        spctl -a -t open --context context:primary-signature -vv Techmino.dmg

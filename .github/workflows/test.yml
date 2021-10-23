@@ -114,7 +114,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_macOS
-        path: Techmino.zip
+        path: Techmino.dmg
 
   # build-iOS:
   #   runs-on: macos-latest
