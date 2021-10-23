@@ -33,7 +33,7 @@ runs:
         cp squashfs-root/icon.png squashfs-root/.DirIcon
         chmod 777 squashfs-root/love
         mkdir -p squashfs-root/usr/share/Techmino
-        mv document media parts Zframework conf.lua main.lua version.lua squashfs-root/usr/share/Techmino
+        mv media parts Zframework conf.lua main.lua version.lua squashfs-root/usr/share/Techmino
         mv CCloader.so squashfs-root/usr/share/Techmino
         mv libcold_clear.so squashfs-root/usr/lib
         chmod 777 appimagetool-x86_64.AppImage
