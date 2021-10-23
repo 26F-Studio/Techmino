@@ -89,6 +89,8 @@ return{
 
     replayBroken="无法加载该录像",
 
+    dictNote="==复制于小z词典==",
+
     getNoticeFail="拉取公告失败",
     oldVersion="最新版本$1可以下载了!",
     needUpdate="请更新游戏!",
@@ -571,6 +573,7 @@ return{
         },
         dict={
             title="小Z方块词典",
+            copy="复制页面",
             link="打开链接",
         },
         stat={

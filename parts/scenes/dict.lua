@@ -1,6 +1,6 @@
 local gc=love.graphics
 
-local inputBox=WIDGET.newInputBox{name="input",x=20,y=110,w=726,h=60,font=40,limit=32}
+local inputBox=WIDGET.newInputBox{name="input",x=20,y=110,w=762,h=60,font=40,limit=32}
 local int,abs=math.floor,math.abs
 local min,sin=math.min,math.sin
 local ins=table.insert
@@ -110,6 +110,11 @@ function scene.keyDown(key)
         else
             SCN.back()
         end
+    elseif key=="c"and love.keyboard.isDown("lctrl","rctrl")or key=="cC"then
+        local t=_getList()[selected]
+        t=t[1]..":\n"..t[4]..(t[5]and"\n[ "..t[5].." ]\n"or"\n")..text.dictNote
+        love.system.setClipboardText(t)
+        return
     else
         return
     end
@@ -183,11 +188,12 @@ scene.widgetList={
     WIDGET.newText{name="book",   x=20,y=15,font=70,align='L',fText=CHAR.icon.zBook},
     WIDGET.newText{name="title",  x=100,y=15,font=70,align='L'},
     inputBox,
+    WIDGET.newKey{name="copy",    x=1170,y=140,w=160,h=50,font=25,code=pressKey"cC"},
     WIDGET.newKey{name="link",    x=1150,y=655,w=200,h=80,font=35,code=pressKey"link",hideF=function()return not url end},
-    WIDGET.newKey{name="up",      x=1130,y=460,w=60,h=90,font=35,fText="↑",code=pressKey"up",hide=not MOBILE},
-    WIDGET.newKey{name="down",    x=1130,y=560,w=60,h=90,font=35,fText="↓",code=pressKey"down",hide=not MOBILE},
-    WIDGET.newKey{name="pageup",  x=1210,y=460,w=80,h=90,font=35,fText="↑↑",code=pressKey"pageup",hide=not MOBILE},
-    WIDGET.newKey{name="pagedown",x=1210,y=560,w=80,h=90,font=35,fText="↓↓",code=pressKey"pagedown",hide=not MOBILE},
+    WIDGET.newKey{name="up",      x=1130,y=460,w=60,h=90,font=35,fText="↑",code=pressKey"up"},
+    WIDGET.newKey{name="down",    x=1130,y=560,w=60,h=90,font=35,fText="↓",code=pressKey"down"},
+    WIDGET.newKey{name="pageup",  x=1210,y=460,w=80,h=90,font=35,fText="↑↑",code=pressKey"pageup"},
+    WIDGET.newKey{name="pagedown",x=1210,y=560,w=80,h=90,font=35,fText="↓↓",code=pressKey"pagedown"},
     WIDGET.newButton{name="back", x=1165,y=60,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 

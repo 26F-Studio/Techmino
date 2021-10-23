@@ -79,6 +79,8 @@ return{
 
     -- replayBroken="Cannot load replay",
 
+    -- dictNote="==Copied from TetroDictionary==",
+
     getNoticeFail="Echec de l'obtention de la notice",
     oldVersion="La version $1 est disponible !",
     -- versionNotMatch="Version do not match!",
@@ -510,6 +512,7 @@ return{
         },
         dict={
             title="TetroDictionary",
+            -- copy="Copy page",
             link="Ouvrir URL",
         },
         stat={

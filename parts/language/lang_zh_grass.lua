@@ -557,6 +557,7 @@ return{
         },
         dict={
             title="四联词典",
+            copy="复印页",
             link="打开网页",
         },
         stat={

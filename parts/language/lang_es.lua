@@ -78,6 +78,8 @@ return{
 
     replayBroken="No se puede cargar la repetición",
 
+    -- dictNote="==Copied from TetroDictionary==",
+
     getNoticeFail="Error al buscar novedades.",
     oldVersion="¡Está disponible la nueva versión $1!",
     versionNotMatch="¡Las versiones no coinciden!",
@@ -513,6 +515,7 @@ return{
         },
         dict={
             title="TetroDictionary",
+            -- copy="Copy page",
             link="Abrir URL",
         },
         stat={

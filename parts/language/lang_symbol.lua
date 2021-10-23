@@ -64,6 +64,8 @@ return{
 
     replayBroken=">x.",
 
+    -- dictNote="==Copied from TetroDictionary==",
+
     pauseStat={
         "~:",
         "=/''/[ ]:",
@@ -423,6 +425,7 @@ return{
         },
         dict={
             title="TetroDictionary",
+            copy=":→__",
             link="~~e>>",
         },
         stat={

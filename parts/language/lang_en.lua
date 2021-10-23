@@ -89,6 +89,8 @@ return{
 
     replayBroken="Cannot load replay",
 
+    dictNote="==Copied from TetroDictionary==",
+
     getNoticeFail="Failed to fetch announcements",
     oldVersion="Version $1 is now available",
     needUpdate="Newer version required!",
@@ -554,6 +556,7 @@ return{
         },
         dict={
             title="TetroDictionary",
+            copy="Copy page",
             link="Open URL",
         },
         stat={
