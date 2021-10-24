@@ -395,7 +395,7 @@ return{
             voc="语音",
 
             autoMute="失去焦点自动静音",
-            fine="极简操作提示音",
+            fine="非极简操作时播放提示音",
             sfxPack="音效包",
             vocPack="语音包",
             apply="应用",
