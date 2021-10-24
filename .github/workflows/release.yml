@@ -167,7 +167,7 @@ jobs:
         APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
         APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
         APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
-        BUNDLE_ID: 'org.26f-studio.Techmino'
+        BUNDLE_ID: 'org.26f-studio.Techmino.release'
     - name: Pack Techmino
       run: |
         mv Techmino.dmg Techmino.a${{ needs.get-info.outputs.release }}.macOS.dmg
