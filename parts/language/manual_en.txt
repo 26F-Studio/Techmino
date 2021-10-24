@@ -1,4 +1,3 @@
-return STRING.split([=[
 Gameplay:
         The system will provide you with tetrominoes (4-block pieces),
         with a total of 7 types, and the player needs to control them
@@ -89,4 +88,3 @@ Custom mode:
                 regular colored cells have to be made of the corresponding block;
                 garbage-colored cells can be any block but not air.
     Once you make the shape, you will win.
-]=],"\n")

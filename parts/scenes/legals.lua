@@ -1,7 +1,12 @@
 local scene={}
 function scene.sceneInit()
     BG.set('cubes')
-    WIDGET.active.texts:setTexts(STRING.split(love.filesystem.read("legals.md"),'\n'))
+    local fileData=love.filesystem.read("legals.md")
+    if fileData then
+        WIDGET.active.texts:setTexts(STRING.split(fileData,'\n'))
+    else
+        WIDGET.active.texts:setTexts{"[legals.md not found]"}
+    end
 end
 
 function scene.wheelMoved(_,y)

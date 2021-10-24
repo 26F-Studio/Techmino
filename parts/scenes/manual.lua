@@ -2,7 +2,13 @@ local scene={}
 
 function scene.sceneInit()
     BG.set('cubes')
-    WIDGET.active.texts:setTexts(require("parts.language.manual_"..(SETTING.locale:find'zh'and'zh'or'en')))
+    local fileData=love.filesystem.read('parts/language/manual_'..(SETTING.locale:find'zh'and'zh'or'en')..'.txt')
+    if fileData then
+        WIDGET.active.texts:setTexts(STRING.split(fileData,'\n'))
+    else
+        WIDGET.active.texts:setTexts{"[manual file not found]"}
+    end
+
 end
 
 function scene.wheelMoved(_,y)
