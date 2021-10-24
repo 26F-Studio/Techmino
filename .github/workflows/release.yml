@@ -157,17 +157,15 @@ jobs:
     - uses: ./.github/actions/build-macos
       with:
         name: ${{ needs.get-info.outputs.name }}
-        type: 'release'
         icon: .github/build/macOS/icon.icns
-        DEVELOPER_APP_IDENTIFIER: '${{ secrets.APP_IDENTIFIER_RELEASE }}'
-        MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
-        GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
-        TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
-        TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
-        APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
-        APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
-        APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
-        BUNDLE_ID: 'org.26f-studio.Techmino.release'
+        APPLE_API_ID: '${{ secrets.APPLE_API_ID }}'
+        APPLE_API_ISSUER: '${{ secrets.APPLE_API_ISSUER }}'
+        APPLE_API_KEY: '${{ secrets.APPLE_API_KEY }}'
+        APPLE_APP_IDENTIFIER: '${{ secrets.APPLE_APP_IDENTIFIER }}'
+        APPLE_KEYCHAIN_NAME: '${{ secrets.APPLE_KEYCHAIN_NAME }}'
+        APPLE_KEYCHAIN_PWD: '${{ secrets.APPLE_KEYCHAIN_PWD }}'
+        FASTLANE_MATCH_PWD: '${{ secrets.FASTLANE_MATCH_PWD }}'
+        FASTLANE_MATCH_TOKEN: '${{ secrets.FASTLANE_MATCH_TOKEN }}'
     - name: Pack Techmino
       run: |
         mv Techmino.dmg Techmino.a${{ needs.get-info.outputs.release }}.macOS.dmg

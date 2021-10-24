@@ -3,28 +3,34 @@ description: 'build Mac OS package'
 inputs:
   name:
     required: true
-  type:
-    required: true
+    description: "Version name"
   icon:
     required: true
-  DEVELOPER_APP_IDENTIFIER:
+    description: "App icons (.icns)"
+  APPLE_API_ID:
     required: true
-  MATCH_PASSWORD:
+    description: "API key ID"
+  APPLE_API_ISSUER:
     required: true
-  GIT_AUTHORIZATION:
+    description: "API issuer ID"
+  APPLE_API_KEY:
     required: true
-  TEMP_KEYCHAIN_PASSWORD:
+    description: "API key content"
+  APPLE_APP_IDENTIFIER:
     required: true
-  TEMP_KEYCHAIN_USER:
+    description: "Bundle ID"
+  APPLE_KEYCHAIN_NAME:
     required: true
-  APPLE_KEY_ID:
+    description: "Temporary keychain name"
+  APPLE_KEYCHAIN_PWD:
     required: true
-  APPLE_ISSUER_ID:
+    description: "Temporary keychain password"
+  FASTLANE_MATCH_PWD:
     required: true
-  APPLE_KEY_CONTENT:
+    description: "Fastlane Match description password"
+  FASTLANE_MATCH_TOKEN:
     required: true
-  BUNDLE_ID:
-    required: true
+    description: "Fastlane Match Github token"
 runs:
   using: "composite"
   steps:
@@ -44,18 +50,21 @@ runs:
         lane: 'get_cert'
         subdirectory: 'Techmino-macOS'
       env:
-          DEVELOPER_APP_IDENTIFIER: '${{ inputs.DEVELOPER_APP_IDENTIFIER }}'
-          MATCH_PASSWORD: '${{ inputs.MATCH_PASSWORD }}'
-          GIT_AUTHORIZATION: '${{ inputs.GIT_AUTHORIZATION }}'
-          TEMP_KEYCHAIN_PASSWORD: '${{ inputs.TEMP_KEYCHAIN_PASSWORD }}'
-          TEMP_KEYCHAIN_USER: '${{ inputs.TEMP_KEYCHAIN_USER }}'
-          APPLE_KEY_ID: '${{ inputs.APPLE_KEY_ID }}'
-          APPLE_ISSUER_ID: '${{ inputs.APPLE_ISSUER_ID }}'
-          APPLE_KEY_CONTENT: '${{ inputs.APPLE_KEY_CONTENT }}'
+          API_ID: '${{ inputs.APPLE_API_ID }}'
+          API_ISSUER: '${{ inputs.APPLE_API_ISSUER }}'
+          API_KEY: '${{ inputs.APPLE_API_KEY }}'
+          APP_IDENTIFIER: '${{ inputs.APPLE_APP_IDENTIFIER }}'
+          KEYCHAIN_NAME: '${{ inputs.APPLE_KEYCHAIN_NAME }}'
+          KEYCHAIN_PWD: '${{ inputs.APPLE_KEYCHAIN_PWD }}'
+          MATCH_PASSWORD: '${{ inputs.FASTLANE_MATCH_PWD }}'
+          MATCH_TOKEN: '${{ inputs.FASTLANE_MATCH_TOKEN }}'
     - name: Modify template
       shell: bash
       run: |
-        python3 .github/workflows/updateVersion.py -T macOS_${{ inputs.type }} -N ${{ inputs.name }}
+        python3 .github/workflows/updateVersion.py -T macOS \
+        -N ${{ inputs.name }} \
+        -B ${{ inputs.APPLE_APP_IDENTIFIER }}
+
         mv Techmino.love Techmino-macOS/Techmino.app/Contents/Resources
         mv CCloader.dylib Techmino-macOS/Techmino.app/Contents/Frameworks
         mv ${{ inputs.icon }} Techmino-macOS/Techmino.app/Contents/Resources/iconfile.icns
@@ -81,11 +90,11 @@ runs:
         lane: 'make_safe'
         subdirectory: 'Techmino-macOS'
       env:
-        APPLE_KEY_ID: '${{ inputs.APPLE_KEY_ID }}'
-        APPLE_ISSUER_ID: '${{ inputs.APPLE_ISSUER_ID }}'
-        APPLE_KEY_CONTENT: '${{ inputs.APPLE_KEY_CONTENT }}'
+        API_ID: '${{ inputs.APPLE_API_ID }}'
+        API_ISSUER: '${{ inputs.APPLE_API_ISSUER }}'
+        API_KEY: '${{ inputs.APPLE_API_KEY }}'
+        APP_IDENTIFIER: '${{ inputs.APPLE_APP_IDENTIFIER }}'
         NOTARIZE_OBJECT: 'Techmino.app'
-        BUNDLE_ID: '${{ inputs.BUNDLE_ID }}'
     - name: Create DMG file
       shell: bash
       run: |
@@ -120,11 +129,11 @@ runs:
         lane: 'make_safe'
         subdirectory: 'Techmino-macOS'
       env:
-        APPLE_KEY_ID: '${{ inputs.APPLE_KEY_ID }}'
-        APPLE_ISSUER_ID: '${{ inputs.APPLE_ISSUER_ID }}'
-        APPLE_KEY_CONTENT: '${{ inputs.APPLE_KEY_CONTENT }}'
+        API_ID: '${{ inputs.APPLE_API_ID }}'
+        API_ISSUER: '${{ inputs.APPLE_API_ISSUER }}'
+        API_KEY: '${{ inputs.APPLE_API_KEY }}'
+        APP_IDENTIFIER: '${{ inputs.APPLE_APP_IDENTIFIER }}'
         NOTARIZE_OBJECT: 'Techmino-macOS.dmg'
-        BUNDLE_ID: '${{ inputs.BUNDLE_ID }}'
     - name: Finalize
       shell: bash
       run: |

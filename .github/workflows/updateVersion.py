@@ -22,7 +22,7 @@ def updateVersion(args):    #更新版本号
         file.flush()
         file.write(data)
 
-def updateMacOS(args, type):  #更新macOS打包信息
+def updateMacOS(args):  #更新macOS打包信息
     import datetime
     thisYear = str(datetime.datetime.today().year)
     with open('./.github/build/macOS/info.plist.template', 'r', encoding='utf-8') as file:
@@ -30,7 +30,7 @@ def updateMacOS(args, type):  #更新macOS打包信息
         data = data\
             .replace('@versionName', args.Name[1:])\
             .replace('@thisYear', thisYear)\
-            .replace('@buildType', type)
+            .replace('@bundleId', args.Bundle)
     with open('./Techmino-macOS/Techmino.app/Contents/info.plist', 'w+', encoding='utf-8') as file:
         file.write(data)
 
@@ -78,6 +78,7 @@ def updateAndroid(args, edition):    #更新Android打包信息
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='用于CI更新程序各类信息')
     parser.add_argument('-T', '--Type', type=str, help = '更新的种类')
+    parser.add_argument('-B', '--Bundle', type=str, help = '应用包名')
     parser.add_argument('-H', '--Hash', type=str, default = False, help = 'Github提交Hash')
     parser.add_argument('-C', '--Code', type=str, default = False, help = 'versionCode')
     parser.add_argument('-N', '--Name', type=str, default = False, help = 'versionName')
@@ -91,10 +92,8 @@ if __name__ == '__main__':
         updateVersion(args)
     elif args.Type == 'Windows':
         updateWindows(args)
-    elif args.Type == 'macOS_release':
-        updateMacOS(args, 'release')
-    elif args.Type == 'macOS_dev':
-        updateMacOS(args, 'dev')
+    elif args.Type == 'macOS':
+        updateMacOS(args)
     elif args.Type == 'AndroidRelease':
         updateAndroid(args, 'Release')
     elif args.Type == 'AndroidSnapshot':

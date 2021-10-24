@@ -82,11 +82,10 @@ runs:
           APP_IDENTIFIER: '${{ inputs.APPLE_APP_IDENTIFIER }}'
           APP_PROFILE: '${{ inputs.APPLE_APP_PROFILE }}'
           DEVELOPER_ACCOUNT: '${{ inputs.APPLE_DEVELOPER_ACCOUNT }}'
-          MATCH_PWD: '${{ inputs.FASTLANE_MATCH_PWD }}'
-          MATCH_TOKEN: '${{ inputs.FASTLANE_MATCH_TOKEN }}'
           KEYCHAIN_NAME: '${{ inputs.APPLE_KEYCHAIN_NAME }}'
           KEYCHAIN_PWD: '${{ inputs.APPLE_KEYCHAIN_PWD }}'
-          
+          MATCH_PASSWORD: '${{ inputs.FASTLANE_MATCH_PWD }}'
+          MATCH_TOKEN: '${{ inputs.FASTLANE_MATCH_TOKEN }}'
     - name: Move ipa
       shell: bash
       run: |
