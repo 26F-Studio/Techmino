@@ -3,46 +3,139 @@ description: 'build Mac OS package'
 inputs:
   name:
     required: true
+    description: "Version name"
   icon:
     required: true
-  MACOS_CERTIFICATE:
+    description: "App icons (.icns)"
+  APPLE_API_ID:
     required: true
-  MACOS_CERTIFICATE_ID:
+    description: "API key ID"
+  APPLE_API_ISSUER:
     required: true
-  MACOS_CERTIFICATE_PWD:
+    description: "API issuer ID"
+  APPLE_API_KEY:
     required: true
+    description: "API key content"
+  APPLE_APP_IDENTIFIER:
+    required: true
+    description: "Bundle ID"
+  APPLE_KEYCHAIN_NAME:
+    required: true
+    description: "Temporary keychain name"
+  APPLE_KEYCHAIN_PWD:
+    required: true
+    description: "Temporary keychain password"
+  FASTLANE_MATCH_PWD:
+    required: true
+    description: "Fastlane Match description password"
+  FASTLANE_MATCH_TOKEN:
+    required: true
+    description: "Fastlane Match Github token"
 runs:
   using: "composite"
   steps:
     - uses: ./.github/actions/build-love
-
-    - name: Download template
-      uses: ./.github/actions/get-unzip
+    - name: Checkout template
+      uses: actions/checkout@v2
       with:
-        url: https://github.com/26F-Studio/Techmino-CI-template/releases/download/1.0/macos.app.zip
-
+        repository: '26F-Studio/Techmino-macOS'
+        path: 'Techmino-macOS'
     - name: Download ColdClear
       uses: ./.github/actions/get-cc
       with:
         arch: macOS
+    - name: Fastlane match
+      uses: maierj/fastlane-action@v2.0.1
+      with:
+        lane: 'get_cert'
+        subdirectory: 'Techmino-macOS'
+      env:
+          API_ID: '${{ inputs.APPLE_API_ID }}'
+          API_ISSUER: '${{ inputs.APPLE_API_ISSUER }}'
+          API_KEY: '${{ inputs.APPLE_API_KEY }}'
+          APP_IDENTIFIER: '${{ inputs.APPLE_APP_IDENTIFIER }}'
+          KEYCHAIN_NAME: '${{ inputs.APPLE_KEYCHAIN_NAME }}'
+          KEYCHAIN_PWD: '${{ inputs.APPLE_KEYCHAIN_PWD }}'
+          MATCH_PASSWORD: '${{ inputs.FASTLANE_MATCH_PWD }}'
+          MATCH_TOKEN: '${{ inputs.FASTLANE_MATCH_TOKEN }}'
     - name: Modify template
       shell: bash
       run: |
-        python3 .github/workflows/updateVersion.py -T macOS -N ${{ inputs.name }}
-        mv Techmino.love Techmino.app/Contents/Resources
-        mv CCloader.dylib Techmino.app/Contents/Frameworks
-        mv ${{ inputs.icon }} Techmino.app/Contents/Resources/iconfile.icns
+        python3 .github/workflows/updateVersion.py -T macOS \
+        -N ${{ inputs.name }} \
+        -B ${{ inputs.APPLE_APP_IDENTIFIER }}
+
+        mv Techmino.love Techmino-macOS/Techmino.app/Contents/Resources
+        mv CCloader.dylib Techmino-macOS/Techmino.app/Contents/Frameworks
+        mv ${{ inputs.icon }} Techmino-macOS/Techmino.app/Contents/Resources/iconfile.icns
+
+        chmod +x Techmino-macOS/Techmino.app/Contents/Frameworks/CCloader.dylib
+        chmod +x Techmino-macOS/Techmino.app/Contents/MacOS/love
     - name: Codesign executable
-      # In secrets:
-      #   - MACOS_CERTIFICATE: the *.p12 Developer ID Certificate, encoded in base64
-      #   - MACOS_CERTIFICATE_PWD: The password
       shell: bash
       run: |
-        echo ${{ inputs.MACOS_CERTIFICATE }} | base64 --decode > certificate.p12
-        security create-keychain -p Techminohaowan build.keychain
-        security default-keychain -s build.keychain
-        security unlock-keychain -p Techminohaowan build.keychain
-        security import certificate.p12 -k build.keychain -P ${{ inputs.MACOS_CERTIFICATE_PWD }} -T /usr/bin/codesign
-        security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k Techminohaowan build.keychain
-        /usr/bin/codesign --force --deep -s ${{ inputs.MACOS_CERTIFICATE_ID }} Techmino.app -v
-        security delete-keychain build.keychain
+        security unlock-keychain -p ${{ inputs.TEMP_KEYCHAIN_PASSWORD }} \
+        ~/Library/Keychains/${{ inputs.TEMP_KEYCHAIN_USER }}-db
+
+        [[ $(security find-identity) =~ ([0-9A-F]{40}) ]]
+
+        codesign --timestamp --force --strict --deep -v \
+        --options runtime \
+        -s ${BASH_REMATCH[1]} \
+        --entitlements Techmino-macOS/love.entitlements \
+        Techmino-macOS/Techmino.app
+    - name: Fastlane notarize
+      uses: maierj/fastlane-action@v2.0.1
+      with:
+        lane: 'make_safe'
+        subdirectory: 'Techmino-macOS'
+      env:
+        API_ID: '${{ inputs.APPLE_API_ID }}'
+        API_ISSUER: '${{ inputs.APPLE_API_ISSUER }}'
+        API_KEY: '${{ inputs.APPLE_API_KEY }}'
+        APP_IDENTIFIER: '${{ inputs.APPLE_APP_IDENTIFIER }}'
+        NOTARIZE_OBJECT: 'Techmino.app'
+    - name: Create DMG file
+      shell: bash
+      run: |
+        brew install create-dmg
+        create-dmg \
+          --volname "Techmino for MacOS" \
+          --volicon "./.github/build/macOS/icon.icns" \
+          --window-pos 200 120 \
+          --window-size 800 400 \
+          --icon-size 100 \
+          --icon "Techmino.app" 200 190 \
+          --hide-extension "Techmino.app" \
+          --app-drop-link 600 185 \
+          "Techmino-macOS/Techmino-macOS.dmg" \
+          "Techmino-macOS/Techmino.app/"
+    - name: Codesign DMG
+      shell: bash
+      run: |
+        security unlock-keychain -p ${{ inputs.TEMP_KEYCHAIN_PASSWORD }} \
+        ~/Library/Keychains/${{ inputs.TEMP_KEYCHAIN_USER }}-db
+
+        [[ $(security find-identity) =~ ([0-9A-F]{40}) ]]
+
+        codesign --timestamp --force --strict --deep -v \
+        --options runtime \
+        -s ${BASH_REMATCH[1]} \
+        --entitlements Techmino-macOS/love.entitlements \
+        Techmino-macOS/Techmino-macOS.dmg
+    - name: Fastlane notarize
+      uses: maierj/fastlane-action@v2.0.1
+      with:
+        lane: 'make_safe'
+        subdirectory: 'Techmino-macOS'
+      env:
+        API_ID: '${{ inputs.APPLE_API_ID }}'
+        API_ISSUER: '${{ inputs.APPLE_API_ISSUER }}'
+        API_KEY: '${{ inputs.APPLE_API_KEY }}'
+        APP_IDENTIFIER: '${{ inputs.APPLE_APP_IDENTIFIER }}'
+        NOTARIZE_OBJECT: 'Techmino-macOS.dmg'
+    - name: Finalize
+      shell: bash
+      run: |
+        mv Techmino-macOS/Techmino-macOS.dmg Techmino.dmg
+        spctl -a -t open --context context:primary-signature -vv Techmino.dmg

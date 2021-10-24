@@ -3,36 +3,49 @@ description: 'build iOS package'
 inputs:
   name:
     required: true
-  APP_STORE_CONNECT_TEAM_ID:
+    description: "Version name"
+  type:
     required: true
-  DEVELOPER_APP_ID:
+    description: "Build type"
+  APPLE_API_ID:
     required: true
-  DEVELOPER_APP_IDENTIFIER:
+    description: "API key ID"
+  APPLE_API_ISSUER:
     required: true
-  DEVELOPER_PORTAL_TEAM_ID:
+    description: "API issuer ID"
+  APPLE_API_KEY:
     required: true
-  FASTLANE_APPLE_ID:
+    description: "API key content"
+  APPLE_APP_BUILD:
     required: true
-  FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD:
+    description: "Build number"
+  APPLE_APP_CHANGELOG:
     required: true
-  MATCH_PASSWORD:
+    description: "Changelog"
+  APPLE_APP_ID:
     required: true
-  GIT_AUTHORIZATION:
+    description: "AppStore Apple ID"
+  APPLE_APP_IDENTIFIER:
     required: true
-  PROVISIONING_PROFILE_SPECIFIER:
+    description: "Bundle ID"
+  APPLE_APP_PROFILE:
     required: true
-  TEMP_KEYCHAIN_PASSWORD:
+    description: "Provisioning Profile specifer"
+  APPLE_DEVELOPER_ACCOUNT:
     required: true
-  TEMP_KEYCHAIN_USER:
+    description: "Apple Developer account"
+  APPLE_KEYCHAIN_NAME:
     required: true
-  APPLE_KEY_ID:
+    description: "Temporary keychain name"
+  APPLE_KEYCHAIN_PWD:
     required: true
-  APPLE_ISSUER_ID:
+    description: "Temporary keychain password"
+  FASTLANE_MATCH_PWD:
     required: true
-  APPLE_KEY_CONTENT:
+    description: "Fastlane Match description password"
+  FASTLANE_MATCH_TOKEN:
     required: true
-  PROJECT_BUILD_NUMBER:
-    required: true
+    description: "Fastlane Match Github token"
 
 runs:
   using: "composite"
@@ -57,25 +70,24 @@ runs:
     - name: Run fastlane
       uses: maierj/fastlane-action@v2.0.1
       with:
-        lane: 'alpha'
+        lane: '${{ inputs.type }}'
         subdirectory: 'Techmino-iOS/platform/xcode'
       env:
-          APP_STORE_CONNECT_TEAM_ID: '${{ inputs.APP_STORE_CONNECT_TEAM_ID }}'
-          DEVELOPER_APP_ID: '${{ inputs.DEVELOPER_APP_ID }}'
-          DEVELOPER_APP_IDENTIFIER: '${{ inputs.DEVELOPER_APP_IDENTIFIER }}'
-          DEVELOPER_PORTAL_TEAM_ID: '${{ inputs.DEVELOPER_PORTAL_TEAM_ID }}'
-          FASTLANE_APPLE_ID: '${{ inputs.FASTLANE_APPLE_ID }}'
-          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ inputs.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
-          MATCH_PASSWORD: '${{ inputs.MATCH_PASSWORD }}'
-          GIT_AUTHORIZATION: '${{ inputs.GIT_AUTHORIZATION }}'
-          PROVISIONING_PROFILE_SPECIFIER: '${{ inputs.PROVISIONING_PROFILE_SPECIFIER }}'
-          TEMP_KEYCHAIN_PASSWORD: '${{ inputs.TEMP_KEYCHAIN_PASSWORD }}'
-          TEMP_KEYCHAIN_USER: '${{ inputs.TEMP_KEYCHAIN_USER }}'
-          APPLE_KEY_ID: '${{ inputs.APPLE_KEY_ID }}'
-          APPLE_ISSUER_ID: '${{ inputs.APPLE_ISSUER_ID }}'
-          APPLE_KEY_CONTENT: '${{ inputs.APPLE_KEY_CONTENT }}'
-          PROJECT_BUILD_NUMBER: '${{ inputs.PROJECT_BUILD_NUMBER }}'
+          API_ID: '${{ inputs.APPLE_API_ID }}'
+          API_ISSUER: '${{ inputs.APPLE_API_ISSUER }}'
+          API_KEY: '${{ inputs.APPLE_API_KEY }}'
+          APP_BUILD: '${{ inputs.APPLE_APP_BUILD }}'
+          APP_CHANGELOG: '${{ inputs.APPLE_APP_CHANGELOG }}'
+          APP_ID: '${{ inputs.APPLE_APP_ID }}'
+          APP_IDENTIFIER: '${{ inputs.APPLE_APP_IDENTIFIER }}'
+          APP_PROFILE: '${{ inputs.APPLE_APP_PROFILE }}'
+          DEVELOPER_ACCOUNT: '${{ inputs.APPLE_DEVELOPER_ACCOUNT }}'
+          KEYCHAIN_NAME: '${{ inputs.APPLE_KEYCHAIN_NAME }}'
+          KEYCHAIN_PWD: '${{ inputs.APPLE_KEYCHAIN_PWD }}'
+          MATCH_PASSWORD: '${{ inputs.FASTLANE_MATCH_PWD }}'
+          MATCH_TOKEN: '${{ inputs.FASTLANE_MATCH_TOKEN }}'
     - name: Move ipa
       shell: bash
       run: |
         mv Techmino-iOS/platform/xcode/Techmino.ipa Techmino.ipa
+        
