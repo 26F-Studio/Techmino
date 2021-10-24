@@ -40,6 +40,14 @@ JetBrains Mono is copyrighted by the JetBrains Mono Project authors. JetBrains M
 
 
 
+N3TWORK is a registered trademark of N3TWORK Inc. © 2021 N3TWORK Inc.
+
+
+
+"EA" and "Electronic Arts" are registered trademark of Electronic Arts Inc. © 2021 Electronic Arts Inc.
+
+
+
 GoldWave is a registered trademark of GoldWave, Inc.
 
 
