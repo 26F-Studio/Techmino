@@ -189,19 +189,19 @@ jobs:
       with:
         name: ${{ needs.get-info.outputs.name }}
         type: 'release'
-        DEVELOPER_APP_ID: '${{ secrets.APP_ID_RELEASE }}'
-        DEVELOPER_APP_IDENTIFIER: '${{ secrets.APP_IDENTIFIER_RELEASE }}'
-        FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
-        MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
-        GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
-        PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER_RELEASE }}'
-        TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
-        TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
-        APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
-        APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
-        APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
-        PROJECT_BUILD_NUMBER: '${{ needs.get-info.outputs.code }}.${{ github.run_number }}'
-        PILOT_CHANGE_LOG: '${{ github.event.commits[0].message }}'
+        APPLE_API_ID: '${{ secrets.APPLE_API_ID }}'
+        APPLE_API_ISSUER: '${{ secrets.APPLE_API_ISSUER }}'
+        APPLE_API_KEY: '${{ secrets.APPLE_API_KEY }}'
+        APPLE_APP_BUILD: '${{ needs.get-info.outputs.code }}.${{ github.run_number }}'
+        APPLE_APP_CHANGELOG: '${{ github.event.commits[0].message }}'
+        APPLE_APP_ID: '${{ secrets.APPLE_APP_ID }}'
+        APPLE_APP_IDENTIFIER: '${{ secrets.APPLE_APP_IDENTIFIER }}'
+        APPLE_APP_PROFILE: '${{ secrets.APPLE_APP_PROFILE }}'
+        APPLE_DEVELOPER_ACCOUNT: '${{ secrets.APPLE_DEVELOPER_ACCOUNT }}'
+        APPLE_KEYCHAIN_NAME: '${{ secrets.APPLE_KEYCHAIN_NAME }}'
+        APPLE_KEYCHAIN_PWD: '${{ secrets.APPLE_KEYCHAIN_PWD }}'
+        FASTLANE_MATCH_PWD: '${{ secrets.FASTLANE_MATCH_PWD }}'
+        FASTLANE_MATCH_TOKEN: '${{ secrets.FASTLANE_MATCH_TOKEN }}'
     - name: Rename ipa
       shell: bash
       run: |
