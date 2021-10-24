@@ -553,6 +553,7 @@ return{
         about={
             staff="Staff",
             his="History",
+            legals="Legals",
             qq="Author's QQ",
         },
         dict={

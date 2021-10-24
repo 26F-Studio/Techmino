@@ -422,6 +422,7 @@ return{
         about={
             staff="Orz",
             his="_&_",
+            legals="™",
             qq="_@_",
         },
         dict={

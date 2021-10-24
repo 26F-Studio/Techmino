@@ -122,6 +122,7 @@ return{fallback='zh',
         about={
             staff="游戏谁写的",
             his="黑历史",
+            legals="没人关心的东西",
             qq="QQ对线",
         },
         register={

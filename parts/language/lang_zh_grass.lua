@@ -554,7 +554,8 @@ return{
         about={
             staff="工作人员",
             his="历史",
-            qq="作者qq",
+            legals="法律",
+            qq="作者QQ",
         },
         dict={
             title="四联词典",

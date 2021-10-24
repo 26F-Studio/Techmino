@@ -602,6 +602,7 @@ return{
         about={
             staff="Staff",
             his="History",
+            -- legals="Legals",
             qq="QQ du créateur",
         },
         app_link={
