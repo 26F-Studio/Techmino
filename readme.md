@@ -2,7 +2,7 @@
 
 ![platform](https://img.shields.io/badge/platform-windows%20%7C%20linux%20%7C%20android%20%7C%20macos%20%7C%20ios-brightgreen.svg)
 
-[![Techmino Develop CI](https://github.com/26F-Studio/Techmino/actions/workflows/dev.yml/badge.svg)](https://github.com/26F-Studio/Techmino/actions/workflows/dev.yml) [![Techmino Release CI](https://github.com/26F-Studio/Techmino/actions/workflows/release.yml/badge.svg)](https://github.com/26F-Studio/Techmino/actions/workflows/release.yml)
+[![Techmino Develop CI](https://github.com/26F-Studio/Techmino/actions/workflows/dev.yml/badge.svg)](https://github.com/26F-Studio/Techmino/actions/workflows/dev.yml) [![Techmino Test CI](https://github.com/26F-Studio/Techmino/actions/workflows/test.yml/badge.svg)](https://github.com/26F-Studio/Techmino/actions/workflows/test.yml) [![Techmino Release CI](https://github.com/26F-Studio/Techmino/actions/workflows/release.yml/badge.svg)](https://github.com/26F-Studio/Techmino/actions/workflows/release.yml)
 
 《Techmino:方块研究所》——Github & Gitee 官方仓库 Official Repository
 
