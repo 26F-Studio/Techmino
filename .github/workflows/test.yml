@@ -1,4 +1,4 @@
-name: Techmino Develop CI
+name: Techmino Test CI
 
 on:
   push:
