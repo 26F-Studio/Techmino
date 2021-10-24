@@ -99,10 +99,10 @@ jobs:
         commit: ${{ needs.get-info.outputs.commit }}
     - uses: ./.github/actions/build-macos
       with:
-        name: '${{ needs.get-info.outputs.name }}'
-        type: 'dev'
+        name: ${{ needs.get-info.outputs.name }}
+        type: 'snapshot'
         icon: .github/build/macOS/icon_snapshot.icns
-        DEVELOPER_APP_IDENTIFIER: '${{ secrets.APP_IDENTIFIER_DEV }}'
+        DEVELOPER_APP_IDENTIFIER: '${{ secrets.APP_IDENTIFIER_RELEASE }}'
         MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
         GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
         TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
@@ -110,14 +110,12 @@ jobs:
         APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
         APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
         APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
-    - name: Pack Techmino
-      run: |
-        zip -r -y Techmino.zip Techmino.app
+        BUNDLE_ID: 'org.26f-studio.Techmino.dev'
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
         name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_macOS
-        path: Techmino.zip
+        path: Techmino.dmg
 
   build-iOS:
     runs-on: macos-latest

@@ -23,6 +23,8 @@ inputs:
     required: true
   APPLE_KEY_CONTENT:
     required: true
+  BUNDLE_ID:
+    required: true
 runs:
   using: "composite"
   steps:
@@ -30,10 +32,8 @@ runs:
     - name: Checkout template
       uses: actions/checkout@v2
       with:
-        # TODO change ref
         repository: '26F-Studio/Techmino-macOS'
         path: 'Techmino-macOS'
-        ref: 'dmg'
     - name: Download ColdClear
       uses: ./.github/actions/get-cc
       with:
@@ -81,12 +81,11 @@ runs:
         lane: 'make_safe'
         subdirectory: 'Techmino-macOS'
       env:
-        # TODO: Bundle ID
         APPLE_KEY_ID: '${{ inputs.APPLE_KEY_ID }}'
         APPLE_ISSUER_ID: '${{ inputs.APPLE_ISSUER_ID }}'
         APPLE_KEY_CONTENT: '${{ inputs.APPLE_KEY_CONTENT }}'
         NOTARIZE_OBJECT: 'Techmino.app'
-        BUNDLE_ID: 'org.26f-studio.Techmino.dev'
+        BUNDLE_ID: '${{ inputs.BUNDLE_ID }}'
     - name: Create DMG file
       shell: bash
       run: |
@@ -121,12 +120,11 @@ runs:
         lane: 'make_safe'
         subdirectory: 'Techmino-macOS'
       env:
-        # TODO: Bundle ID
         APPLE_KEY_ID: '${{ inputs.APPLE_KEY_ID }}'
         APPLE_ISSUER_ID: '${{ inputs.APPLE_ISSUER_ID }}'
         APPLE_KEY_CONTENT: '${{ inputs.APPLE_KEY_CONTENT }}'
         NOTARIZE_OBJECT: 'Techmino-macOS.dmg'
-        BUNDLE_ID: 'org.26f-studio.Techmino.dev'
+        BUNDLE_ID: '${{ inputs.BUNDLE_ID }}'
     - name: Finalize
       shell: bash
       run: |

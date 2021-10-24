@@ -167,10 +167,10 @@ jobs:
         APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
         APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
         APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
+        BUNDLE_ID: 'org.26f-studio.Techmino'
     - name: Pack Techmino
       run: |
-        cp ".github/build/macOS/打不开？Can’t open the App？.pdf" ./
-        zip -r -y Techmino.a${{ needs.get-info.outputs.release }}.macOS.zip Techmino.app "./打不开？Can’t open the App？.pdf"
+        mv Techmino.dmg Techmino.a${{ needs.get-info.outputs.release }}.macOS.dmg
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
