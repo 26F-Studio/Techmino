@@ -103,11 +103,12 @@ runs:
           --volname "Techmino for MacOS" \
           --volicon "./.github/build/macOS/icon.icns" \
           --window-pos 200 120 \
-          --window-size 800 400 \
+          --window-size 600 338 \
           --icon-size 100 \
-          --icon "Techmino.app" 200 190 \
+          --icon "Techmino.app" 135 120 \
+          --background ".github/build/macOS/dmg-background.png"
           --hide-extension "Techmino.app" \
-          --app-drop-link 600 185 \
+          --app-drop-link 375 120 \
           "Techmino-macOS/Techmino-macOS.dmg" \
           "Techmino-macOS/Techmino.app/"
     - name: Codesign DMG
