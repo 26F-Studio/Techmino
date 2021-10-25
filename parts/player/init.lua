@@ -477,6 +477,7 @@ function PLY.newAIPlayer(id,AIdata,mini)
     P.gameEnv.face={0,0,0,0,0,0,0}
     P.gameEnv.skin={1,7,11,3,14,4,9}
     _applyGameEnv(P)
+    AIdata._20G=P._20G
     P:loadAI(AIdata)
 end
 function PLY.newPlayer(id,mini)
