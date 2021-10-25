@@ -106,7 +106,7 @@ runs:
           --window-size 600 338 \
           --icon-size 100 \
           --icon "Techmino.app" 135 120 \
-          --background ".github/build/macOS/backgroundImage.tiff"
+          --background ".github/build/macOS/backgroundImage.tiff" \
           --hide-extension "Techmino.app" \
           --app-drop-link 375 120 \
           "Techmino-macOS/Techmino-macOS.dmg" \
