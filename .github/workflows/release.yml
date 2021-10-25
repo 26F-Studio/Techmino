@@ -7,7 +7,7 @@ on:
 
 jobs:
   get-info:
-    if: startWith(github.event.base_ref, 'ref/heads/pre')
+    if: startsWith(github.event.base_ref, 'ref/heads/pre')
     runs-on: ubuntu-20.04
     outputs:
       name: ${{ steps.actual-get-info.outputs.name }}
@@ -195,9 +195,9 @@ jobs:
         APPLE_APP_ID: '${{ secrets.APPLE_APP_ID }}'
         APPLE_APP_IDENTIFIER: '${{ secrets.APPLE_APP_IDENTIFIER }}'
         APPLE_APP_PROFILE: '${{ secrets.APPLE_APP_PROFILE }}'
-        APPLE_DEVELOPER_ACCOUNT: '${{ secrets.APPLE_DEVELOPER_ACCOUNT }}'
         APPLE_KEYCHAIN_NAME: '${{ secrets.APPLE_KEYCHAIN_NAME }}'
         APPLE_KEYCHAIN_PWD: '${{ secrets.APPLE_KEYCHAIN_PWD }}'
+        FASTLANE_DISCORD_WEBHOOK: '${{ secrets.FASTLANE_DISCORD_WEBHOOK }}'
         FASTLANE_MATCH_PWD: '${{ secrets.FASTLANE_MATCH_PWD }}'
         FASTLANE_MATCH_TOKEN: '${{ secrets.FASTLANE_MATCH_TOKEN }}'
     - name: Rename ipa
