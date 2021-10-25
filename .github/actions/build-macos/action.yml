@@ -101,12 +101,12 @@ runs:
         brew install create-dmg
         create-dmg \
           --volname "Techmino for MacOS" \
-          --volicon "./.github/build/macOS/icon.icns" \
+          --volicon "./.github/build/macOS/Techminodisk.icns" \
           --window-pos 200 120 \
           --window-size 600 338 \
           --icon-size 100 \
           --icon "Techmino.app" 135 120 \
-          --background ".github/build/macOS/dmg-background.png"
+          --background ".github/build/macOS/backgroundImage.tiff"
           --hide-extension "Techmino.app" \
           --app-drop-link 375 120 \
           "Techmino-macOS/Techmino-macOS.dmg" \
