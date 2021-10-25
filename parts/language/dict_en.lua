@@ -205,10 +205,10 @@ return{
         "game",
         "*Windows | Single-player?*\nLocal 1-vs-1 game, mainly plays turn-based mode. You can write your own bot for it (though you need to learn its API if you do).\nMisamino is also the name of its built-in bot. Said bot is also the core for the Puyo Puyo Tetris bot, Zetris.",
     },
-    {"Tetris Tour",
-        "huanyouji tour mobile phone",
+    {"Tetris Journey",
+        "huanyouji tetrisjourney mobile phone",
         "game",
-        "An official mobile Tetris game developed by Tencent (available only in China).  It has level mode, battle mode, and some single-player modes. You can customize the sizes and positions of the virtual keys but you cannot adjust DAS or ARR.\n The battle mode lasts for 2 minutes and if both player did not top out, the one who sent more attacks wins."
+        "An official mobile Tetris game developed by Tencent (available only in China). It has level mode, battle mode, and some single-player modes. You can customize the sizes and positions of the virtual keys but you cannot adjust DAS or ARR.\n The battle mode lasts for 2 minutes and if both player did not top out, the one who sent more attacks wins."
     },
     {"Tetris Blitz",
         "blitz ea mobile phone",
