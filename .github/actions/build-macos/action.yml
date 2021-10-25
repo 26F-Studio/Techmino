@@ -105,10 +105,10 @@ runs:
           --window-pos 200 120 \
           --window-size 800 456 \
           --icon-size 100 \
-          --icon "Techmino.app" 236 205 \
+          --icon "Techmino.app" 239 203 \
           --background ".github/build/macOS/backgroundImage.tiff" \
           --hide-extension "Techmino.app" \
-          --app-drop-link 566 205 \
+          --app-drop-link 565 203 \
           "Techmino-macOS/Techmino-macOS.dmg" \
           "Techmino-macOS/Techmino.app/"
     # - name: Codesign DMG
