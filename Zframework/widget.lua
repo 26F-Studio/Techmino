@@ -10,6 +10,7 @@ local gc_rectangle=gc.rectangle
 local gc_print,gc_printf=gc.print,gc.printf
 
 local kb=love.keyboard
+local timer=love.timer.getTime
 
 local next=next
 local int,ceil,abs=math.floor,math.ceil,math.abs
@@ -571,8 +572,8 @@ function slider:drag(x)
     if p~=P then
         self.code(P)
     end
-    if self.change and TIME()-self.lastTime>.5 then
-        self.lastTime=TIME()
+    if self.change and timer()-self.lastTime>.5 then
+        self.lastTime=timer()
         self.change()
     end
 end
@@ -586,8 +587,8 @@ function slider:scroll(n)
     local P=n==-1 and max(p-u,0)or min(p+u,self.unit)
     if p==P or not P then return end
     self.code(P)
-    if self.change and TIME()-self.lastTime>.18 then
-        self.lastTime=TIME()
+    if self.change and timer()-self.lastTime>.18 then
+        self.lastTime=timer()
         self.change()
     end
 end
@@ -697,7 +698,7 @@ function selector:draw()
 
     --Arrow
     gc_setColor(1,1,1,.2+ATV*.1)
-    local t=(TIME()%.5)^.5
+    local t=(timer()%.5)^.5
     if self.select>1 then
         gc_draw(smallerThen,x+6,y+33)
         if ATV>0 then
@@ -1457,8 +1458,8 @@ function WIDGET.gamepadPressed(i)
                 local P=i=="left"and(p>0 and p-1)or p<W.unit and p+1
                 if p==P or not P then return end
                 W.code(P)
-                if W.change and TIME()-W.lastTime>.18 then
-                    W.lastTime=TIME()
+                if W.change and timer()-W.lastTime>.18 then
+                    W.lastTime=timer()
                     W.change()
                 end
             end
