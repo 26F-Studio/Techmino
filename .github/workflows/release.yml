@@ -8,7 +8,7 @@ on:
 
 jobs:
   get-info:
-    if: startsWith(github.event.base_ref, 'ref/heads/pre')
+    # if: startsWith(github.event.base_ref, 'ref/heads/pre')
     runs-on: ubuntu-20.04
     outputs:
       name: ${{ steps.actual-get-info.outputs.name }}
