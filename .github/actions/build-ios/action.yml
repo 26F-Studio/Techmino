@@ -46,7 +46,6 @@ inputs:
   FASTLANE_MATCH_TOKEN:
     required: true
     description: "Fastlane Match Github token"
-
 runs:
   using: "composite"
   steps:
@@ -66,7 +65,6 @@ runs:
         mv Techmino.love Techmino-iOS/platform/xcode
         mv libcold_clear.a Techmino-iOS/platform/xcode
         mv libCCloader.a Techmino-iOS/platform/xcode
-        python3 .github/workflows/updateVersion.py -T iOS -N ${{ inputs.name }}
     - name: Run fastlane
       uses: maierj/fastlane-action@v2.0.1
       with:
@@ -81,6 +79,7 @@ runs:
           APP_ID: '${{ inputs.APPLE_APP_ID }}'
           APP_IDENTIFIER: '${{ inputs.APPLE_APP_IDENTIFIER }}'
           APP_PROFILE: '${{ inputs.APPLE_APP_PROFILE }}'
+          APP_VERSION: '${{ inputs.name }}'
           DEVELOPER_ACCOUNT: '${{ inputs.APPLE_DEVELOPER_ACCOUNT }}'
           KEYCHAIN_NAME: '${{ inputs.APPLE_KEYCHAIN_NAME }}'
           KEYCHAIN_PWD: '${{ inputs.APPLE_KEYCHAIN_PWD }}'

@@ -1,10 +1,10 @@
-name: Techmino Develop CI
+name: Techmino Test CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ pre* ]
   pull_request:
-    branches: [ main ]
+    branches: [ pre* ]
 
 jobs:
   get-info:
@@ -13,6 +13,7 @@ jobs:
       name: ${{ steps.actual-get-info.outputs.name }}
       apkCode: ${{ steps.actual-get-info.outputs.apkCode }}
       code: ${{ steps.actual-get-info.outputs.code }}
+      release: ${{ steps.actual-get-info.outputs.release }}
       commit: ${{ steps.actual-get-info.outputs.commit }}
     steps:
     - uses: actions/checkout@v2
@@ -25,6 +26,7 @@ jobs:
         echo "::set-output name=name::$(lua .github/workflows/getVersion.lua -name)"
         echo "::set-output name=apkCode::$(lua .github/workflows/getVersion.lua -apkCode)"
         echo "::set-output name=code::$(lua .github/workflows/getVersion.lua -code)"
+        echo "::set-output name=release::$(lua .github/workflows/getVersion.lua -release)"
         echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
 
   build-windows:
@@ -45,7 +47,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Windows
+        name: Techmino.pre${{ needs.get-info.outputs.release }}_${{ needs.get-info.outputs.commit }}.Windows
         path: love
 
   build-linux:
@@ -62,7 +64,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Linux
+        name: Techmino.pre${{ needs.get-info.outputs.release }}_${{ needs.get-info.outputs.commit }}.Linux
         path: Techmino.AppImage
 
   build-android:
@@ -86,7 +88,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Android
+        name: Techmino.pre${{ needs.get-info.outputs.release }}_${{ needs.get-info.outputs.commit }}.Android
         path: Techmino_Snapshot.apk
 
   build-macOS:
@@ -112,7 +114,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_macOS
+        name: Techmino.pre${{ needs.get-info.outputs.release }}_${{ needs.get-info.outputs.commit }}.macOS
         path: Techmino.dmg
 
   build-iOS:
@@ -126,11 +128,11 @@ jobs:
     - uses: ./.github/actions/build-ios
       with:
         name: ${{ needs.get-info.outputs.name }}
-        type: 'dev'
+        type: 'test'
         APPLE_API_ID: '${{ secrets.APPLE_API_ID }}'
         APPLE_API_ISSUER: '${{ secrets.APPLE_API_ISSUER }}'
         APPLE_API_KEY: '${{ secrets.APPLE_API_KEY }}'
-        APPLE_APP_BUILD: '${{ needs.get-info.outputs.code }}.0.${{ github.run_number }}.${{ github.run_attempt }}'
+        APPLE_APP_BUILD: '${{ needs.get-info.outputs.code }}.1.${{ github.run_number }}.${{ github.run_attempt }}'
         APPLE_APP_CHANGELOG: '${{ github.event.commits[0].message }}'
         APPLE_APP_ID: '${{ secrets.APPLE_APP_ID }}'
         APPLE_APP_IDENTIFIER: '${{ secrets.APPLE_APP_IDENTIFIER }}'
@@ -143,5 +145,5 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_iOS
+        name: Techmino.pre${{ needs.get-info.outputs.release }}_${{ needs.get-info.outputs.commit }}.iOS
         path: "Techmino.ipa"
