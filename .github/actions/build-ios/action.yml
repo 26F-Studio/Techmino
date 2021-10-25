@@ -31,15 +31,15 @@ inputs:
   APPLE_APP_PROFILE:
     required: true
     description: "Provisioning Profile specifer"
-  APPLE_DEVELOPER_ACCOUNT:
-    required: true
-    description: "Apple Developer account"
   APPLE_KEYCHAIN_NAME:
     required: true
     description: "Temporary keychain name"
   APPLE_KEYCHAIN_PWD:
     required: true
     description: "Temporary keychain password"
+  FASTLANE_DISCORD_WEBHOOK:
+    required: true
+    description: "Fastlane Discord webhook"
   FASTLANE_MATCH_PWD:
     required: true
     description: "Fastlane Match description password"
@@ -80,7 +80,7 @@ runs:
           APP_IDENTIFIER: '${{ inputs.APPLE_APP_IDENTIFIER }}'
           APP_PROFILE: '${{ inputs.APPLE_APP_PROFILE }}'
           APP_VERSION: '${{ inputs.name }}'
-          DEVELOPER_ACCOUNT: '${{ inputs.APPLE_DEVELOPER_ACCOUNT }}'
+          DISCORD_WEBHOOK: '${{ inputs.FASTLANE_DISCORD_WEBHOOK }}'
           KEYCHAIN_NAME: '${{ inputs.APPLE_KEYCHAIN_NAME }}'
           KEYCHAIN_PWD: '${{ inputs.APPLE_KEYCHAIN_PWD }}'
           MATCH_PASSWORD: '${{ inputs.FASTLANE_MATCH_PWD }}'
