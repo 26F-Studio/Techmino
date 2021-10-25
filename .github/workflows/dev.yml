@@ -1,14 +1,10 @@
 name: Techmino Develop CI
 
 on:
-  # push:
-  #   branches: [ main ]
-  # pull_request:
-  #   branches: [ main ]
   push:
-    branches: [ dmg-* ]
+    branches: [ main ]
   pull_request:
-    branches: [ dmg-* ]
+    branches: [ main ]
 
 jobs:
   get-info:
@@ -31,67 +27,67 @@ jobs:
         echo "::set-output name=code::$(lua .github/workflows/getVersion.lua -code)"
         echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
 
-  # build-windows:
-  #   runs-on: windows-latest
-  #   needs: get-info
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - uses: ./.github/actions/snapshot-update
-  #     with:
-  #       commit: ${{ needs.get-info.outputs.commit }}
-  #   - uses: ./.github/actions/build-windows
-  #     with:
-  #       love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
-  #       love-dir: love-11.3-win64
-  #       arch: win64
-  #       version: ${{ needs.get-info.outputs.name }}
-  #       icon: .\.github\build\Windows\icon_snapshot.ico
-  #   - name: Upload
-  #     uses: actions/upload-artifact@v2
-  #     with:
-  #       name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Windows
-  #       path: love
+  build-windows:
+    runs-on: windows-latest
+    needs: get-info
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ./.github/actions/snapshot-update
+      with:
+        commit: ${{ needs.get-info.outputs.commit }}
+    - uses: ./.github/actions/build-windows
+      with:
+        love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
+        love-dir: love-11.3-win64
+        arch: win64
+        version: ${{ needs.get-info.outputs.name }}
+        icon: .\.github\build\Windows\icon_snapshot.ico
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Windows
+        path: love
 
-  # build-linux:
-  #   runs-on: ubuntu-20.04
-  #   needs: get-info
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - uses: ./.github/actions/snapshot-update
-  #     with:
-  #       commit: ${{ needs.get-info.outputs.commit }}
-  #   - uses: ./.github/actions/build-linux
-  #     with:
-  #       icon: .github/build/Linux/icon_snapshot.png
-  #   - name: Upload
-  #     uses: actions/upload-artifact@v2
-  #     with:
-  #       name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Linux
-  #       path: Techmino.AppImage
+  build-linux:
+    runs-on: ubuntu-20.04
+    needs: get-info
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ./.github/actions/snapshot-update
+      with:
+        commit: ${{ needs.get-info.outputs.commit }}
+    - uses: ./.github/actions/build-linux
+      with:
+        icon: .github/build/Linux/icon_snapshot.png
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Linux
+        path: Techmino.AppImage
 
-  # build-android:
-  #   runs-on: ubuntu-20.04
-  #   needs: get-info
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - uses: ./.github/actions/snapshot-update
-  #     with:
-  #       commit: ${{ needs.get-info.outputs.commit }}
-  #   - uses: ./.github/actions/build-android
-  #     with:
-  #       type: Snapshot
-  #       apkCode: ${{ needs.get-info.outputs.apkCode }}
-  #       name: ${{ needs.get-info.outputs.name }}
-  #       file-path: Techmino_Snapshot.apk
-  #       SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-  #       KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
-  #       ALIAS: ${{ secrets.ALIAS }}
-  #       KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-  #   - name: Upload
-  #     uses: actions/upload-artifact@v2
-  #     with:
-  #       name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Android
-  #       path: Techmino_Snapshot.apk
+  build-android:
+    runs-on: ubuntu-20.04
+    needs: get-info
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ./.github/actions/snapshot-update
+      with:
+        commit: ${{ needs.get-info.outputs.commit }}
+    - uses: ./.github/actions/build-android
+      with:
+        type: Snapshot
+        apkCode: ${{ needs.get-info.outputs.apkCode }}
+        name: ${{ needs.get-info.outputs.name }}
+        file-path: Techmino_Snapshot.apk
+        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+        ALIAS: ${{ secrets.ALIAS }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Android
+        path: Techmino_Snapshot.apk
 
   build-macOS:
     runs-on: macos-10.15
@@ -119,33 +115,33 @@ jobs:
         name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_macOS
         path: Techmino.dmg
 
-  # build-iOS:
-  #   runs-on: macos-latest
-  #   needs: get-info
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - uses: ./.github/actions/snapshot-update
-  #     with:
-  #       commit: ${{ needs.get-info.outputs.commit }}
-  #   - uses: ./.github/actions/build-ios
-  #     with:
-  #       name: ${{ needs.get-info.outputs.name }}
-  #       type: 'dev'
-  #       APPLE_API_ID: '${{ secrets.APPLE_API_ID }}'
-  #       APPLE_API_ISSUER: '${{ secrets.APPLE_API_ISSUER }}'
-  #       APPLE_API_KEY: '${{ secrets.APPLE_API_KEY }}'
-  #       APPLE_APP_BUILD: '${{ needs.get-info.outputs.code }}.0.${{ github.run_number }}.${{ github.run_attempt }}'
-  #       APPLE_APP_CHANGELOG: '${{ github.event.commits[0].message }}'
-  #       APPLE_APP_ID: '${{ secrets.APPLE_APP_ID }}'
-  #       APPLE_APP_IDENTIFIER: '${{ secrets.APPLE_APP_IDENTIFIER }}'
-  #       APPLE_APP_PROFILE: '${{ secrets.APPLE_APP_PROFILE }}'
-  #       APPLE_DEVELOPER_ACCOUNT: '${{ secrets.APPLE_DEVELOPER_ACCOUNT }}'
-  #       APPLE_KEYCHAIN_NAME: '${{ secrets.APPLE_KEYCHAIN_NAME }}'
-  #       APPLE_KEYCHAIN_PWD: '${{ secrets.APPLE_KEYCHAIN_PWD }}'
-  #       FASTLANE_MATCH_PWD: '${{ secrets.FASTLANE_MATCH_PWD }}'
-  #       FASTLANE_MATCH_TOKEN: '${{ secrets.FASTLANE_MATCH_TOKEN }}'
-  #   - name: Upload
-  #     uses: actions/upload-artifact@v2
-  #     with:
-  #       name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_iOS
-  #       path: "Techmino.ipa"
+  build-iOS:
+    runs-on: macos-latest
+    needs: get-info
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ./.github/actions/snapshot-update
+      with:
+        commit: ${{ needs.get-info.outputs.commit }}
+    - uses: ./.github/actions/build-ios
+      with:
+        name: ${{ needs.get-info.outputs.name }}
+        type: 'dev'
+        APPLE_API_ID: '${{ secrets.APPLE_API_ID }}'
+        APPLE_API_ISSUER: '${{ secrets.APPLE_API_ISSUER }}'
+        APPLE_API_KEY: '${{ secrets.APPLE_API_KEY }}'
+        APPLE_APP_BUILD: '${{ needs.get-info.outputs.code }}.0.${{ github.run_number }}.${{ github.run_attempt }}'
+        APPLE_APP_CHANGELOG: '${{ github.event.commits[0].message }}'
+        APPLE_APP_ID: '${{ secrets.APPLE_APP_ID }}'
+        APPLE_APP_IDENTIFIER: '${{ secrets.APPLE_APP_IDENTIFIER }}'
+        APPLE_APP_PROFILE: '${{ secrets.APPLE_APP_PROFILE }}'
+        APPLE_DEVELOPER_ACCOUNT: '${{ secrets.APPLE_DEVELOPER_ACCOUNT }}'
+        APPLE_KEYCHAIN_NAME: '${{ secrets.APPLE_KEYCHAIN_NAME }}'
+        APPLE_KEYCHAIN_PWD: '${{ secrets.APPLE_KEYCHAIN_PWD }}'
+        FASTLANE_MATCH_PWD: '${{ secrets.FASTLANE_MATCH_PWD }}'
+        FASTLANE_MATCH_TOKEN: '${{ secrets.FASTLANE_MATCH_TOKEN }}'
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_iOS
+        path: "Techmino.ipa"

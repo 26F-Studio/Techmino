@@ -44,20 +44,20 @@ runs:
       uses: ./.github/actions/get-cc
       with:
         arch: macOS
-    # - name: Fastlane match
-    #   uses: maierj/fastlane-action@v2.0.1
-    #   with:
-    #     lane: 'get_cert'
-    #     subdirectory: 'Techmino-macOS'
-    #   env:
-    #       API_ID: '${{ inputs.APPLE_API_ID }}'
-    #       API_ISSUER: '${{ inputs.APPLE_API_ISSUER }}'
-    #       API_KEY: '${{ inputs.APPLE_API_KEY }}'
-    #       APP_IDENTIFIER: '${{ inputs.APPLE_APP_IDENTIFIER }}'
-    #       KEYCHAIN_NAME: '${{ inputs.APPLE_KEYCHAIN_NAME }}'
-    #       KEYCHAIN_PWD: '${{ inputs.APPLE_KEYCHAIN_PWD }}'
-    #       MATCH_PASSWORD: '${{ inputs.FASTLANE_MATCH_PWD }}'
-    #       MATCH_TOKEN: '${{ inputs.FASTLANE_MATCH_TOKEN }}'
+    - name: Fastlane match
+      uses: maierj/fastlane-action@v2.0.1
+      with:
+        lane: 'get_cert'
+        subdirectory: 'Techmino-macOS'
+      env:
+          API_ID: '${{ inputs.APPLE_API_ID }}'
+          API_ISSUER: '${{ inputs.APPLE_API_ISSUER }}'
+          API_KEY: '${{ inputs.APPLE_API_KEY }}'
+          APP_IDENTIFIER: '${{ inputs.APPLE_APP_IDENTIFIER }}'
+          KEYCHAIN_NAME: '${{ inputs.APPLE_KEYCHAIN_NAME }}'
+          KEYCHAIN_PWD: '${{ inputs.APPLE_KEYCHAIN_PWD }}'
+          MATCH_PASSWORD: '${{ inputs.FASTLANE_MATCH_PWD }}'
+          MATCH_TOKEN: '${{ inputs.FASTLANE_MATCH_TOKEN }}'
     - name: Modify template
       shell: bash
       run: |
@@ -71,30 +71,30 @@ runs:
 
         chmod +x Techmino-macOS/Techmino.app/Contents/Frameworks/CCloader.dylib
         chmod +x Techmino-macOS/Techmino.app/Contents/MacOS/love
-    # - name: Codesign executable
-    #   shell: bash
-    #   run: |
-    #     security unlock-keychain -p ${{ inputs.TEMP_KEYCHAIN_PASSWORD }} \
-    #     ~/Library/Keychains/${{ inputs.TEMP_KEYCHAIN_USER }}-db
+    - name: Codesign executable
+      shell: bash
+      run: |
+        security unlock-keychain -p ${{ inputs.TEMP_KEYCHAIN_PASSWORD }} \
+        ~/Library/Keychains/${{ inputs.TEMP_KEYCHAIN_USER }}-db
 
-    #     [[ $(security find-identity) =~ ([0-9A-F]{40}) ]]
+        [[ $(security find-identity) =~ ([0-9A-F]{40}) ]]
 
-    #     codesign --timestamp --force --strict --deep -v \
-    #     --options runtime \
-    #     -s ${BASH_REMATCH[1]} \
-    #     --entitlements Techmino-macOS/love.entitlements \
-    #     Techmino-macOS/Techmino.app
-    # - name: Fastlane notarize
-    #   uses: maierj/fastlane-action@v2.0.1
-    #   with:
-    #     lane: 'make_safe'
-    #     subdirectory: 'Techmino-macOS'
-    #   env:
-    #     API_ID: '${{ inputs.APPLE_API_ID }}'
-    #     API_ISSUER: '${{ inputs.APPLE_API_ISSUER }}'
-    #     API_KEY: '${{ inputs.APPLE_API_KEY }}'
-    #     APP_IDENTIFIER: '${{ inputs.APPLE_APP_IDENTIFIER }}'
-    #     NOTARIZE_OBJECT: 'Techmino.app'
+        codesign --timestamp --force --strict --deep -v \
+        --options runtime \
+        -s ${BASH_REMATCH[1]} \
+        --entitlements Techmino-macOS/love.entitlements \
+        Techmino-macOS/Techmino.app
+    - name: Fastlane notarize
+      uses: maierj/fastlane-action@v2.0.1
+      with:
+        lane: 'make_safe'
+        subdirectory: 'Techmino-macOS'
+      env:
+        API_ID: '${{ inputs.APPLE_API_ID }}'
+        API_ISSUER: '${{ inputs.APPLE_API_ISSUER }}'
+        API_KEY: '${{ inputs.APPLE_API_KEY }}'
+        APP_IDENTIFIER: '${{ inputs.APPLE_APP_IDENTIFIER }}'
+        NOTARIZE_OBJECT: 'Techmino.app'
     - name: Create DMG file
       shell: bash
       run: |
@@ -111,32 +111,32 @@ runs:
           --app-drop-link 565 203 \
           "Techmino-macOS/Techmino-macOS.dmg" \
           "Techmino-macOS/Techmino.app/"
-    # - name: Codesign DMG
-    #   shell: bash
-    #   run: |
-    #     security unlock-keychain -p ${{ inputs.TEMP_KEYCHAIN_PASSWORD }} \
-    #     ~/Library/Keychains/${{ inputs.TEMP_KEYCHAIN_USER }}-db
+    - name: Codesign DMG
+      shell: bash
+      run: |
+        security unlock-keychain -p ${{ inputs.TEMP_KEYCHAIN_PASSWORD }} \
+        ~/Library/Keychains/${{ inputs.TEMP_KEYCHAIN_USER }}-db
 
-    #     [[ $(security find-identity) =~ ([0-9A-F]{40}) ]]
+        [[ $(security find-identity) =~ ([0-9A-F]{40}) ]]
 
-    #     codesign --timestamp --force --strict --deep -v \
-    #     --options runtime \
-    #     -s ${BASH_REMATCH[1]} \
-    #     --entitlements Techmino-macOS/love.entitlements \
-    #     Techmino-macOS/Techmino-macOS.dmg
-    # - name: Fastlane notarize
-    #   uses: maierj/fastlane-action@v2.0.1
-    #   with:
-    #     lane: 'make_safe'
-    #     subdirectory: 'Techmino-macOS'
-    #   env:
-    #     API_ID: '${{ inputs.APPLE_API_ID }}'
-    #     API_ISSUER: '${{ inputs.APPLE_API_ISSUER }}'
-    #     API_KEY: '${{ inputs.APPLE_API_KEY }}'
-    #     APP_IDENTIFIER: '${{ inputs.APPLE_APP_IDENTIFIER }}'
-    #     NOTARIZE_OBJECT: 'Techmino-macOS.dmg'
+        codesign --timestamp --force --strict --deep -v \
+        --options runtime \
+        -s ${BASH_REMATCH[1]} \
+        --entitlements Techmino-macOS/love.entitlements \
+        Techmino-macOS/Techmino-macOS.dmg
+    - name: Fastlane notarize
+      uses: maierj/fastlane-action@v2.0.1
+      with:
+        lane: 'make_safe'
+        subdirectory: 'Techmino-macOS'
+      env:
+        API_ID: '${{ inputs.APPLE_API_ID }}'
+        API_ISSUER: '${{ inputs.APPLE_API_ISSUER }}'
+        API_KEY: '${{ inputs.APPLE_API_KEY }}'
+        APP_IDENTIFIER: '${{ inputs.APPLE_APP_IDENTIFIER }}'
+        NOTARIZE_OBJECT: 'Techmino-macOS.dmg'
     - name: Finalize
       shell: bash
       run: |
         mv Techmino-macOS/Techmino-macOS.dmg Techmino.dmg
-    # spctl -a -t open --context context:primary-signature -vv Techmino.dmg
+        spctl -a -t open --context context:primary-signature -vv Techmino.dmg
