@@ -349,9 +349,9 @@ function love.directorydropped(dir)
 end
 local lastGCtime=0
 function love.lowmemory()
-    if TIME()-lastGCtime>6.26 then
+    if love.timer.getTime()-lastGCtime>6.26 then
         collectgarbage()
-        lastGCtime=TIME()
+        lastGCtime=love.timer.getTime()
         MES.new('check',"[auto GC] low MEM 设备内存过低")
     end
 end
@@ -524,10 +524,10 @@ function love.run()
     local FPS,MINI=love.timer.getFPS,love.window.isMinimized
     local PUMP,POLL=love.event.pump,love.event.poll
 
-    local TIME,SETTING,VERSION=TIME,SETTING,VERSION
+    local timer,SETTING,VERSION=love.timer.getTime,SETTING,VERSION
 
     local frameTimeList={}
-    local lastFrame=TIME()
+    local lastFrame=timer()
     local lastFreshPow=lastFrame
     local FCT=0--Framedraw counter, from 0~99
 
@@ -541,7 +541,7 @@ function love.run()
     return function()
         local _
 
-        local time=TIME()
+        local time=timer()
         local dt=time-lastFrame
         lastFrame=time
 
@@ -693,9 +693,9 @@ function love.run()
         end
 
         --Keep 60fps
-        _=TIME()-lastFrame
+        _=timer()-lastFrame
         if _<.0162 then WAIT(.0162-_)end
-        while TIME()-lastFrame<1/60 do end
+        while timer()-lastFrame<1/60 do end
     end
 end
 
