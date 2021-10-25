@@ -103,12 +103,12 @@ runs:
           --volname "Techmino for MacOS" \
           --volicon "./.github/build/macOS/Techminodisk.icns" \
           --window-pos 200 120 \
-          --window-size 600 400 \
+          --window-size 864 559 \
           --icon-size 100 \
-          --icon "Techmino.app" 260 240 \
+          --icon "Techmino.app" 236 205 \
           --background ".github/build/macOS/backgroundImage.tiff" \
           --hide-extension "Techmino.app" \
-          --app-drop-link 450 240 \
+          --app-drop-link 566 205 \
           "Techmino-macOS/Techmino-macOS.dmg" \
           "Techmino-macOS/Techmino.app/"
     # - name: Codesign DMG
@@ -139,4 +139,4 @@ runs:
       shell: bash
       run: |
         mv Techmino-macOS/Techmino-macOS.dmg Techmino.dmg
-        spctl -a -t open --context context:primary-signature -vv Techmino.dmg
+    # spctl -a -t open --context context:primary-signature -vv Techmino.dmg
