@@ -976,7 +976,7 @@ return{
     {"控制台",
         "console cmd commamd minglinghang kongzhitai",
         "command",
-        "目前进入控制台的方式是在主菜单 点特定位置/按键盘某个键 数次",
+        "目前进入控制台的方式是在主菜单 点特定位置/按键盘某个键 数次\n\n进入之后输入help并回车获取更多信息\n来探索计算机更底层的操作和Techmino的隐藏内容吧！",
     },
     {"重置设置",
         "reset setting chongzhi qingkong shezhi",
