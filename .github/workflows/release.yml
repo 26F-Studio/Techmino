@@ -190,7 +190,7 @@ jobs:
         APPLE_API_ID: '${{ secrets.APPLE_API_ID }}'
         APPLE_API_ISSUER: '${{ secrets.APPLE_API_ISSUER }}'
         APPLE_API_KEY: '${{ secrets.APPLE_API_KEY }}'
-        APPLE_APP_BUILD: '${{ needs.get-info.outputs.code }}.2.${{ github.run_number }}.${{ github.run_attempt }}'
+        APPLE_APP_BUILD: '${{ needs.get-info.outputs.code }}.0.${{ github.run_number }}.${{ github.run_attempt }}'
         APPLE_APP_CHANGELOG: '${{ github.event.commits[0].message }}'
         APPLE_APP_ID: '${{ secrets.APPLE_APP_ID }}'
         APPLE_APP_IDENTIFIER: '${{ secrets.APPLE_APP_IDENTIFIER }}'
