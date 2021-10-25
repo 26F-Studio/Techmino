@@ -44,11 +44,16 @@ if MOBILE then
     love.window.setMode(w,h,f)
 end
 
+local _LOADTIMELIST_={}
+local _LOADTIME_=TIME()
+
 --Load modules
 Z=require'Zframework'
 FONT.load('parts/fonts/proportional.ttf')
 SCR.setSize(1280,720)--Initialize Screen size
 BGM.setChange(function(name)MES.new('music',text.nowPlaying..name,5)end)
+
+table.insert(_LOADTIMELIST_,("Load Zframework: %.3fs"):format(TIME()-_LOADTIME_))
 
 --Create shortcuts
 setFont=FONT.set
@@ -98,6 +103,8 @@ RSlist=     require'parts.RSlist'DSCP=RSlist.TRS.centerPos
 PLY=        require'parts.player'
 NETPLY=     require'parts.netPlayer'
 MODES=      require'parts.modes'
+
+table.insert(_LOADTIMELIST_,("Load Parts: %.3fs"):format(TIME()-_LOADTIME_))
 
 --Init Zframework
 Z.setIfPowerInfo(function()
@@ -339,6 +346,9 @@ LANG.init('zh',
         end
     end)()
 )
+
+table.insert(_LOADTIMELIST_,("Initialize Parts: %.3fs"):format(TIME()-_LOADTIME_))
+
 --Load background files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems('parts/backgrounds')do
     if isSafeFile('parts/backgrounds/'..v)and v:sub(-3)=='lua'then
@@ -369,6 +379,8 @@ for _,v in next,fs.getDirectoryItems('parts/modes')do
         MODES[M.name]=M
     end
 end
+
+table.insert(_LOADTIMELIST_,("Load Files: %.3fs"):format(TIME()-_LOADTIME_))
 
 --Update data
 do
@@ -553,3 +565,7 @@ for _,fileName in next,fs.getDirectoryItems('replay')do
     table.insert(REPLAY,rep)
 end
 table.sort(REPLAY,function(a,b)return a.fileName>b.fileName end)
+
+table.insert(_LOADTIMELIST_,("Initialize Data: %.3fs"):format(TIME()-_LOADTIME_))
+
+for i=1,#_LOADTIMELIST_ do print(_LOADTIMELIST_[i])end

@@ -58,7 +58,7 @@ function BGM.init(list)
     table.sort(simpList)
     function BGM.getList()return simpList end
     local count=#simpList
-    LOG(count.." BGM files loaded")
+    LOG(count.." BGM files added")
     function BGM.getCount()return count end
 
     local function _load(name)
