@@ -16,7 +16,7 @@ return{
     {"To New Players",
         "guide newbie noob",
         "help",
-        "To new players that want to get better at the game:\n\tTwo principles:\n\t1. find a version with good controls (e.g. Techmino, Tetr.io, Tetris Online, Jstris, Tetr.js). Do not use those version used for programming practice.\n\t2. Build foundations in your skills (stable Tetrises using next queue to aid decisions), don't go for fancy T-Spins from the start.\n\n\tTwo main techniques:\n\t1. familiarize yourself with spawn locations of pieces, and the controls to move the piece into each location\n\t2. Plan ahead of where to put the pieces\nWe recommend that you read this article titled \"Words to newbies from a Tetris Pro\" (Click \"Open URL\". In Simplified Chinese)",
+        "To new players that want to get better at the game:\n\tTwo principles:\n\t1. find a version with good controls (e.g. Techmino, Tetr.io, Tetris Online, Jstris, Tetr.js). Do not use those version used for programming practice.\n\t2. Build foundations in your skills (stable Techrashes using next queue to aid decisions), don't go for fancy T-Spins from the start.\n\n\tTwo main techniques:\n\t1. familiarize yourself with spawn locations of pieces, and the controls to move the piece into each location\n\t2. Plan ahead of where to put the pieces\nWe recommend that you read this article titled \"Words to newbies from a Tetris Pro\" (Click \"Open URL\". In Simplified Chinese)",
         "https://bilibili.com/read/cv2352939",
     },
     {"Hard Drop Wiki",
@@ -332,7 +332,7 @@ return{
     {"Tetris",
         "tetris",
         "term",
-        "The name of the game (and its trademark). Also the name for clearing 4 lines at one time in official games.\nCoined from Tetra (greek for \"four\") and Tennis (favorite sport of Alexey Pajitnov, the creator of Tetris).",
+        "The name of the game (and its trademark). Also the name for clearing 4 lines at one time in official games.\nCoined from Tetra (greek for \"four\") and Tennis (favorite sport of the creator of Tetris).",--Thanks to Alexey Pajitnov!
     },
     {"All Clear",
         "pc perfectclear ac allclear",

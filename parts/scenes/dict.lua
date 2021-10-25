@@ -11,7 +11,6 @@ local scene={}
 
 local dict--Dict list
 local result--Result Lable
-local url
 
 local lastTickInput
 local waiting--Searching animation timer
@@ -31,10 +30,22 @@ local typeColor={
     english=COLOR.B,
     name=COLOR.lV,
 }
+local function _scanDict(D)
+    local c=CHAR.zChan.thinking
+    for i=1,#D do
+        local O=D[i]
+        O.title,O[1]=O[1]:gsub("[Tt]etris",c)
+        O.keywords,O[2]=O[2]
+        O.type,O[3]=O[3]
+        O.content,O[4]=O[4]:gsub("[Tt]etris",c)
+        O.url,O[5]=O[5]
+    end
+end
 local function _getList()return result[1]and result or dict end
 local function _clearResult()
     TABLE.cut(result)
-    selected,scrollPos=1,0
+    selected=1
+    scrollPos=0
     waiting,lastSearch=0,false
     copyButton.hide=false
 end
@@ -43,7 +54,7 @@ local function _search()
     _clearResult()
     local first
     for i=1,#dict do
-        local pos=find(dict[i][2],input,nil,true)
+        local pos=find(dict[i].keywords,input,nil,true)
         if pos==1 and not first then
             ins(result,1,dict[i])
             first=true
@@ -54,16 +65,17 @@ local function _search()
     if #result>0 then
         SFX.play('reach')
     end
-    url=_getList()[selected][5]
     lastSearch=input
 end
 
 function scene.sceneInit()
     dict=require("parts.language.dict_"..(SETTING.locale:find'zh'and'zh'or'en'))
+    if dict[1][1]then
+        _scanDict(dict)
+    end
 
     inputBox:clear()
     result={}
-    url=dict[1][5]
 
     waiting=0
     selected=1
@@ -99,7 +111,7 @@ function scene.keyDown(key)
     elseif key=="right"or key=="pagedown"then
         for _=1,12 do scene.keyDown("down")end
     elseif key=="link"then
-        love.system.openURL(url)
+        love.system.openURL(_getList()[selected].url)
     elseif key=="delete"then
         if inputBox:hasText()then
             _clearResult()
@@ -116,7 +128,7 @@ function scene.keyDown(key)
         end
     elseif key=="c"and love.keyboard.isDown("lctrl","rctrl")or key=="cC"then
         local t=_getList()[selected]
-        t=t[1]..":\n"..t[4]..(t[5]and"\n[ "..t[5].." ]\n"or"\n")..text.dictNote
+        t=t.title..":\n"..t.content..(t.url and"\n[ "..t.url.." ]\n"or"\n")..text.dictNote
         love.system.setClipboardText(t)
         copyButton.hide=true
         MES.new('info',text.copyDone)
@@ -124,7 +136,6 @@ function scene.keyDown(key)
     else
         return
     end
-    url=_getList()[selected][5]
 end
 
 function scene.update(dt)
@@ -150,7 +161,7 @@ end
 function scene.draw()
     local list=_getList()
     gc.setColor(COLOR.Z)
-    local t=list[selected][4]
+    local t=list[selected].content
     setFont(
         #t>900 and 15 or
         #t>600 and 20 or
@@ -169,12 +180,12 @@ function scene.draw()
         i=i+scrollPos
         local item=list[i]
         gc.setColor(COLOR.D)
-        gc.print(item[1],29,y-1)
-        gc.print(item[1],29,y+1)
-        gc.print(item[1],31,y-1)
-        gc.print(item[1],31,y+1)
-        gc.setColor(typeColor[item[3]])
-        gc.print(item[1],30,y)
+        gc.print(item.title,29,y-1)
+        gc.print(item.title,29,y+1)
+        gc.print(item.title,31,y-1)
+        gc.print(item.title,31,y+1)
+        gc.setColor(typeColor[item.type])
+        gc.print(item.title,30,y)
     end
 
     gc.setLineWidth(2)
@@ -195,7 +206,7 @@ scene.widgetList={
     WIDGET.newText{name="title",  x=100,y=15,font=70,align='L'},
     inputBox,
     copyButton,
-    WIDGET.newKey{name="link",    x=1150,y=655,w=200,h=80,font=35,code=pressKey"link",hideF=function()return not url end},
+    WIDGET.newKey{name="link",    x=1150,y=655,w=200,h=80,font=35,code=pressKey"link",hideF=function()return not _getList()[selected].url end},
     WIDGET.newKey{name="up",      x=1130,y=460,w=60,h=90,font=35,fText="↑",code=pressKey"up",hide=not MOBILE},
     WIDGET.newKey{name="down",    x=1130,y=560,w=60,h=90,font=35,fText="↓",code=pressKey"down",hide=not MOBILE},
     WIDGET.newKey{name="pageup",  x=1210,y=460,w=80,h=90,font=35,fText="↑↑",code=pressKey"pageup",hide=not MOBILE},
