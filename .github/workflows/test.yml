@@ -142,8 +142,6 @@ jobs:
         APPLE_KEYCHAIN_PWD: '${{ secrets.APPLE_KEYCHAIN_PWD }}'
         FASTLANE_MATCH_PWD: '${{ secrets.FASTLANE_MATCH_PWD }}'
         FASTLANE_MATCH_TOKEN: '${{ secrets.FASTLANE_MATCH_TOKEN }}'
-        FASTLANE_REPORT_EMAIL: '${{ secrets.FASTLANE_REPORT_EMAIL }}'
-        FASTLANE_REPORT_PWD: '${{ secrets.FASTLANE_REPORT_PWD }}'
     - name: Upload
       uses: actions/upload-artifact@v2
       with:

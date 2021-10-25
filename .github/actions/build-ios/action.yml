@@ -46,12 +46,6 @@ inputs:
   FASTLANE_MATCH_TOKEN:
     required: true
     description: "Fastlane Match Github token"
-  FASTLANE_REPORT_EMAIL:
-    required: false
-    description: "Fastlane Report email"
-  FASTLANE_REPORT_PWD:
-    required: false
-    description: "Fastlane Report password"
 runs:
   using: "composite"
   steps:
@@ -91,8 +85,6 @@ runs:
           KEYCHAIN_PWD: '${{ inputs.APPLE_KEYCHAIN_PWD }}'
           MATCH_PASSWORD: '${{ inputs.FASTLANE_MATCH_PWD }}'
           MATCH_TOKEN: '${{ inputs.FASTLANE_MATCH_TOKEN }}'
-          FASTLANE_REPORT_EMAIL: '${{ inputs.FASTLANE_REPORT_EMAIL }}'
-          FASTLANE_REPORT_PWD: '${{ inputs.FASTLANE_REPORT_PWD }}'
     - name: Move ipa
       shell: bash
       run: |
