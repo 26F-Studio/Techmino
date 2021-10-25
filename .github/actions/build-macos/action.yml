@@ -103,7 +103,7 @@ runs:
           --volname "Techmino for MacOS" \
           --volicon "./.github/build/macOS/Techminodisk.icns" \
           --window-pos 200 120 \
-          --window-size 864 559 \
+          --window-size 800 456 \
           --icon-size 100 \
           --icon "Techmino.app" 236 205 \
           --background ".github/build/macOS/backgroundImage.tiff" \
