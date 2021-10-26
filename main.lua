@@ -343,6 +343,13 @@ LANG.init('zh',
         local tipMeta={__call=function(L)return L[math.random(#L)]end}
         return function(L)
             if type(rawget(L,'getTip'))=='table'then setmetatable(L.getTip,tipMeta)end
+            setmetatable(L,{__index=function(self,k)
+                local mes="No Text ("..SETTING.locale.."): "..k
+                LOG(mes)
+                MES.new('warn',mes)
+                self[k]=CHAR.zChan.thinking
+                return self[k]
+            end})
         end
     end)()
 )
