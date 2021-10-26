@@ -431,7 +431,7 @@ local DemoEnv={
     life=1e99,
     allowMod=false,
     fine=false,
-    FTLock=true,
+    FTLock=false,
 }
 function PLY.newDemoPlayer(id)
     local P=_newEmptyPlayer(id)
