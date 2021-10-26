@@ -46,7 +46,7 @@ scene.widgetList={
     WIDGET.newButton{name="data",     x=490,y=390,w=280,h=100,color='lR',
         code=function()
             local D=_parseCB()
-            if D and D.version==STAT.version then
+            if D then
                 TABLE.update(D,STAT)
                 saveStats()
                 MES.new('check',text.importSuccess)

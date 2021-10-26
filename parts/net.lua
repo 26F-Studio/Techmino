@@ -270,31 +270,27 @@ function NET.loadSavedData(sections)
             NET.cloudData.vkSave2=STRING.unpackTable(sec.data)
         end
     end
-    if STAT.version==NET.cloudData.STAT.version then
-        local success=true
-        TABLE.cover(NET.cloudData.STAT,STAT)
-        success=success and saveStats()
+    local success=true
+    TABLE.cover(NET.cloudData.STAT,STAT)
+    success=success and saveStats()
 
-        TABLE.cover(NET.cloudData.RANKS,RANKS)
-        success=success and saveProgress()
+    TABLE.cover(NET.cloudData.RANKS,RANKS)
+    success=success and saveProgress()
 
-        TABLE.cover(NET.cloudData.SETTING,SETTING)
-        success=success and saveSettings()
-        applyAllSettings()
+    TABLE.cover(NET.cloudData.SETTING,SETTING)
+    success=success and saveSettings()
+    applyAllSettings()
 
-        TABLE.cover(NET.cloudData.keyMap,KEY_MAP)
-        success=success and FILE.save(KEY_MAP,'conf/key')
+    TABLE.cover(NET.cloudData.keyMap,KEY_MAP)
+    success=success and FILE.save(KEY_MAP,'conf/key')
 
-        TABLE.cover(NET.cloudData.VK_org,VK_ORG)
-        success=success and FILE.save(VK_ORG,'conf/virtualkey')
+    TABLE.cover(NET.cloudData.VK_org,VK_ORG)
+    success=success and FILE.save(VK_ORG,'conf/virtualkey')
 
-        success=success and FILE.save(NET.cloudData.vkSave1,'conf/vkSave1')
-        success=success and FILE.save(NET.cloudData.vkSave2,'conf/vkSave2')
-        if success then
-            MES.new('check',text.saveDone)
-        end
-    else
-        MES.new('error',text.versionNotMatch,1)
+    success=success and FILE.save(NET.cloudData.vkSave1,'conf/vkSave1')
+    success=success and FILE.save(NET.cloudData.vkSave2,'conf/vkSave2')
+    if success then
+        MES.new('check',text.saveDone)
     end
 end
 
