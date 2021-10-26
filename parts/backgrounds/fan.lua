@@ -1,4 +1,4 @@
---UUZ's fan
+--Yuyuko's fan
 local gc=love.graphics
 local gc_clear,gc_origin,gc_replaceTransform=gc.clear,gc.origin,gc.replaceTransform
 local gc_translate=gc.translate

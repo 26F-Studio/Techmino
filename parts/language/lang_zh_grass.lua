@@ -248,7 +248,7 @@ return{
             unranked="未分级",
         },
         pause={
-            setting="设置",
+            setting="设置(S)",
             replay="重播(P)",
             save="保存(O)",
             resume="恢复(esc)",

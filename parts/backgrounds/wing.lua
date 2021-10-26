@@ -13,7 +13,7 @@ local wingColor={
     {.5,.5,1.,.3},
     {.3,.8,.9,.3},
 }
-local wingHeight={.41,.42,.43,.44,.45,.46,.47,.48}
+local wingHeight={.572,.536,.472,.405,.307,.402,.457,.367}
 function back.init()
     crystal_img=GC.DO{42,118,
         {'setCL',.93,.93,.93},
@@ -47,14 +47,21 @@ function back.update()
 end
 function back.draw()
     gc.clear(.06,.06,.06)
-    gc.setColor(.12,.08,.05)
-    gc.setLineWidth(6)
-    for i=1,7 do
-        local B1,B2=crystals[i],crystals[i+1]
-        gc.line(B1.x,B1.y,B2.x,B2.y)
-        B1,B2=crystals[i+8],crystals[i+9]
-        gc.line(B1.x,B1.y,B2.x,B2.y)
-    end
+    gc.setColor(.12,.12,.12)
+    gc.setLineWidth(0.02*SCR.h)
+    gc.line(0.018*SCR.w,0.567*SCR.h,0.101*SCR.w,0.512*SCR.h)
+    gc.line(0.202*SCR.w,0.369*SCR.h,0.099*SCR.w,0.514*SCR.h)
+    gc.line(0.201*SCR.w,0.371*SCR.h,0.260*SCR.w,0.212*SCR.h)
+    gc.line(0.247*SCR.w,0.257*SCR.h,0.307*SCR.w,0.383*SCR.h)
+    gc.line(0.352*SCR.w,0.436*SCR.h,0.305*SCR.w,0.381*SCR.h)
+    gc.line(0.344*SCR.w,0.437*SCR.h,0.401*SCR.w,0.307*SCR.h)
+    gc.line(0.982*SCR.w,0.567*SCR.h,0.899*SCR.w,0.512*SCR.h)
+    gc.line(0.798*SCR.w,0.369*SCR.h,0.901*SCR.w,0.514*SCR.h)
+    gc.line(0.799*SCR.w,0.371*SCR.h,0.740*SCR.w,0.212*SCR.h)
+    gc.line(0.753*SCR.w,0.257*SCR.h,0.693*SCR.w,0.383*SCR.h)
+    gc.line(0.648*SCR.w,0.436*SCR.h,0.695*SCR.w,0.381*SCR.h)
+    gc.line(0.656*SCR.w,0.437*SCR.h,0.599*SCR.w,0.307*SCR.h)
+
     local k=SCR.k
     for i=1,8 do
         gc.setColor(wingColor[i])
