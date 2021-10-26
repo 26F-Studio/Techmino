@@ -568,4 +568,4 @@ table.sort(REPLAY,function(a,b)return a.fileName>b.fileName end)
 
 table.insert(_LOADTIMELIST_,("Initialize Data: %.3fs"):format(TIME()-_LOADTIME_))
 
-for i=1,#_LOADTIMELIST_ do print(_LOADTIMELIST_[i])end
+for i=1,#_LOADTIMELIST_ do LOG(_LOADTIMELIST_[i])end
