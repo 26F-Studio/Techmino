@@ -3,7 +3,7 @@ local ins=table.insert
 local logs={os.date("Techmino logs  %Y/%m/%d %A")}
 
 local function log(message)
-    ins(logs,os.date("%H:%M:%S")..message)
+    ins(logs,os.date("[%H:%M:%S] ")..message)
 end
 
 local LOG=setmetatable({logs=logs},{
