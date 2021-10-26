@@ -18,17 +18,17 @@ local function _register()
 end
 
 scene.widgetList={
-    WIDGET.newText{name="title",        x=80,  y=50,font=70,align='L'},
-    WIDGET.newButton{name="login",      x=1140,y=100,w=170,h=80,color='lY',code=function()SCN.swapTo('login','swipeL')end},
-    WIDGET.newInputBox{name="username", x=380, y=200,w=500,h=60,regex="[0-9A-Za-z_]",limit=64},
-    WIDGET.newInputBox{name="email",    x=380, y=300,w=626,h=60,limit=128},
-    WIDGET.newInputBox{name="password", x=380, y=400,w=626,h=60,secret=true,regex="[ -~]",limit=64},
-    WIDGET.newInputBox{name="password2",x=380, y=500,w=626,h=60,secret=true,regex="[ -~]",limit=64},
+    WIDGET.newText{name='title',        x=80,  y=50,font=70,align='L'},
+    WIDGET.newButton{name='login',      x=1140,y=100,w=170,h=80,color='lY',code=function()SCN.swapTo('login','swipeL')end},
+    WIDGET.newInputBox{name='username', x=380, y=200,w=500,h=60,regex="[0-9A-Za-z_]",limit=64},
+    WIDGET.newInputBox{name='email',    x=380, y=300,w=626,h=60,limit=128},
+    WIDGET.newInputBox{name='password', x=380, y=400,w=626,h=60,secret=true,regex="[ -~]",limit=64},
+    WIDGET.newInputBox{name='password2',x=380, y=500,w=626,h=60,secret=true,regex="[ -~]",limit=64},
 
-    WIDGET.newKey{name="register",      x=640, y=640,w=300,h=80,font=40,code=_register,hideF=function()return NET.getlock('register')end},
-    WIDGET.newText{name="registering",  x=640, y=605,font=50,hideF=function()return not NET.getlock('register')end},
+    WIDGET.newKey{name='register',      x=640, y=640,w=300,h=80,font=40,code=_register,hideF=function()return NET.getlock('register')end},
+    WIDGET.newText{name='registering',  x=640, y=605,font=50,hideF=function()return not NET.getlock('register')end},
 
-    WIDGET.newButton{name="back",       x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='back',       x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

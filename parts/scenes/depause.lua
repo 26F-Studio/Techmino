@@ -48,7 +48,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newKey{name="pause",x=0,y=45,w=60,code=pauseGame,font=40,fText=CHAR.icon.pause},
+    WIDGET.newKey{name='pause',x=0,y=45,w=60,code=pauseGame,font=40,fText=CHAR.icon.pause},
 }
 
 return scene

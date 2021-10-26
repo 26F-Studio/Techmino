@@ -184,20 +184,20 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name="offline",x=-1200,y=210,w=800,h=100,color='lR',font=45,align='R',edge=30,code=pressKey"1"},
-    WIDGET.newButton{name="qplay",  x=-1200,y=330,w=800,h=100,color='lM',font=40,align='R',edge=30,code=pressKey"q"},
-    WIDGET.newButton{name="online", x=-1200,y=450,w=800,h=100,color='lV',font=45,align='R',edge=30,code=pressKey"a"},
-    WIDGET.newButton{name="custom", x=-1200,y=570,w=800,h=100,color='lS',font=45,align='R',edge=30,code=pressKey"z"},
+    WIDGET.newButton{name='offline',x=-1200,y=210,w=800,h=100,color='lR',font=45,align='R',edge=30,code=pressKey"1"},
+    WIDGET.newButton{name='qplay',  x=-1200,y=330,w=800,h=100,color='lM',font=40,align='R',edge=30,code=pressKey"q"},
+    WIDGET.newButton{name='online', x=-1200,y=450,w=800,h=100,color='lV',font=45,align='R',edge=30,code=pressKey"a"},
+    WIDGET.newButton{name='custom', x=-1200,y=570,w=800,h=100,color='lS',font=45,align='R',edge=30,code=pressKey"z"},
 
-    WIDGET.newButton{name="setting",x=2480,y=210,w=800,h=100, color='lO',font=40,align='L',edge=30,code=pressKey"-"},
-    WIDGET.newButton{name="stat",   x=2480,y=330,w=800,h=100, color='lL',font=40,align='L',edge=30,code=pressKey"p"},
-    WIDGET.newButton{name="dict",   x=2480,y=450,w=800,h=100, color='lG',font=40,align='L',edge=30,code=pressKey"l"},
-    WIDGET.newButton{name="replays",x=2480,y=570,w=800,h=100, color='lC',font=40,align='L',edge=30,code=pressKey","},
+    WIDGET.newButton{name='setting',x=2480,y=210,w=800,h=100, color='lO',font=40,align='L',edge=30,code=pressKey"-"},
+    WIDGET.newButton{name='stat',   x=2480,y=330,w=800,h=100, color='lL',font=40,align='L',edge=30,code=pressKey"p"},
+    WIDGET.newButton{name='dict',   x=2480,y=450,w=800,h=100, color='lG',font=40,align='L',edge=30,code=pressKey"l"},
+    WIDGET.newButton{name='replays',x=2480,y=570,w=800,h=100, color='lC',font=40,align='L',edge=30,code=pressKey","},
 
-    WIDGET.newButton{name="music",  x=120,y=80,w=100,         color='lO',code=pressKey"2",font=70,fText=CHAR.icon.music},
-    WIDGET.newButton{name="lang",   x=280,y=80,w=100,         color='lN',code=pressKey"3",font=70,fText=CHAR.icon.language},
-    WIDGET.newButton{name="about",  x=-110,y=670,w=600,h=70,  color='lB',align='R',edge=20,code=pressKey"x",font=50,fText=CHAR.icon.info},
-    WIDGET.newButton{name="manual", x=1390,y=670,w=600,h=70,  color='lR',align='L',edge=20,code=pressKey"m",font=50,fText=CHAR.icon.help},
+    WIDGET.newButton{name='music',  x=120,y=80,w=100,         color='lO',code=pressKey"2",font=70,fText=CHAR.icon.music},
+    WIDGET.newButton{name='lang',   x=280,y=80,w=100,         color='lN',code=pressKey"3",font=70,fText=CHAR.icon.language},
+    WIDGET.newButton{name='about',  x=-110,y=670,w=600,h=70,  color='lB',align='R',edge=20,code=pressKey"x",font=50,fText=CHAR.icon.info},
+    WIDGET.newButton{name='manual', x=1390,y=670,w=600,h=70,  color='lR',align='L',edge=20,code=pressKey"m",font=50,fText=CHAR.icon.help},
 }
 
 return scene

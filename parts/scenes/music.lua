@@ -107,21 +107,21 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newText{name="title",  x=30,y=30,font=80,align='L'},
-    WIDGET.newText{name="arrow",  x=270,y=360,font=45,align='L'},
-    WIDGET.newText{name="now",    x=700,y=500,font=50,align='R',hideF=function()return not BGM.nowPlay end},
-    WIDGET.newSlider{name="slide",x=480,y=600,w=400,
+    WIDGET.newText{name='title',  x=30,y=30,font=80,align='L'},
+    WIDGET.newText{name='arrow',  x=270,y=360,font=45,align='L'},
+    WIDGET.newText{name='now',    x=700,y=500,font=50,align='R',hideF=function()return not BGM.nowPlay end},
+    WIDGET.newSlider{name='slide',x=480,y=600,w=400,
         disp=function()return BGM.playing:tell()/BGM.playing:getDuration()%1 end,
         show=false,
         code=function(v)BGM.seek(v*BGM.playing:getDuration())end,
         hideF=function()return not BGM.nowPlay end
     },
-    WIDGET.newSlider{name="bgm",  x=760,y=80,w=400,disp=SETval('bgm'),code=function(v)SETTING.bgm=v BGM.setVol(SETTING.bgm)end},
-    WIDGET.newButton{name="up",   x=200,y=250,w=120,code=pressKey"up",hideF=function()return selected==1 end,font=60,fText=CHAR.key.up},
-    WIDGET.newButton{name="play", x=200,y=390,w=120,code=pressKey"space",font=65,fText=CHAR.icon.play_pause},
-    WIDGET.newButton{name="down", x=200,y=530,w=120,code=pressKey"down",hideF=function()return selected==#bgmList end,font=60,fText=CHAR.key.down},
-    WIDGET.newButton{name="sound",x=1140,y=540,w=170,h=80,font=40,code=pressKey"tab"},
-    WIDGET.newButton{name="back", x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newSlider{name='bgm',  x=760,y=80,w=400,disp=SETval('bgm'),code=function(v)SETTING.bgm=v BGM.setVol(SETTING.bgm)end},
+    WIDGET.newButton{name='up',   x=200,y=250,w=120,code=pressKey"up",hideF=function()return selected==1 end,font=60,fText=CHAR.key.up},
+    WIDGET.newButton{name='play', x=200,y=390,w=120,code=pressKey"space",font=65,fText=CHAR.icon.play_pause},
+    WIDGET.newButton{name='down', x=200,y=530,w=120,code=pressKey"down",hideF=function()return selected==#bgmList end,font=60,fText=CHAR.key.down},
+    WIDGET.newButton{name='sound',x=1140,y=540,w=170,h=80,font=40,code=pressKey"tab"},
+    WIDGET.newButton{name='back', x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

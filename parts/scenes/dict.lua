@@ -1,7 +1,7 @@
 local gc=love.graphics
 
-local inputBox=WIDGET.newInputBox{name="input",x=20,y=110,w=762,h=60,font=40,limit=32}
-local copyButton=WIDGET.newKey{name="copy",x=940,y=655,w=200,h=80,font=35,code=pressKey"cC"}
+local inputBox=WIDGET.newInputBox{name='input',x=20,y=110,w=762,h=60,font=40,limit=32}
+local copyButton=WIDGET.newKey{name='copy',x=940,y=655,w=200,h=80,font=35,code=pressKey"cC"}
 local int,abs=math.floor,math.abs
 local min,sin=math.min,math.sin
 local ins=table.insert
@@ -202,16 +202,16 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newText{name="book",   x=20,y=15,font=70,align='L',fText=CHAR.icon.zBook},
-    WIDGET.newText{name="title",  x=100,y=15,font=70,align='L'},
+    WIDGET.newText{name='book',   x=20,y=15,font=70,align='L',fText=CHAR.icon.zBook},
+    WIDGET.newText{name='title',  x=100,y=15,font=70,align='L'},
     inputBox,
     copyButton,
-    WIDGET.newKey{name="link",    x=1150,y=655,w=200,h=80,font=35,code=pressKey"link",hideF=function()return not _getList()[selected].url end},
-    WIDGET.newKey{name="up",      x=1130,y=460,w=60,h=90,font=35,fText="↑",code=pressKey"up",hide=not MOBILE},
-    WIDGET.newKey{name="down",    x=1130,y=560,w=60,h=90,font=35,fText="↓",code=pressKey"down",hide=not MOBILE},
-    WIDGET.newKey{name="pageup",  x=1210,y=460,w=80,h=90,font=35,fText="↑↑",code=pressKey"pageup",hide=not MOBILE},
-    WIDGET.newKey{name="pagedown",x=1210,y=560,w=80,h=90,font=35,fText="↓↓",code=pressKey"pagedown",hide=not MOBILE},
-    WIDGET.newButton{name="back", x=1165,y=60,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newKey{name='link',    x=1150,y=655,w=200,h=80,font=35,code=pressKey"link",hideF=function()return not _getList()[selected].url end},
+    WIDGET.newKey{name='up',      x=1130,y=460,w=60,h=90,font=35,fText="↑",code=pressKey"up",hide=not MOBILE},
+    WIDGET.newKey{name='down',    x=1130,y=560,w=60,h=90,font=35,fText="↓",code=pressKey"down",hide=not MOBILE},
+    WIDGET.newKey{name='pageup',  x=1210,y=460,w=80,h=90,font=35,fText="↑↑",code=pressKey"pageup",hide=not MOBILE},
+    WIDGET.newKey{name='pagedown',x=1210,y=560,w=80,h=90,font=35,fText="↓↓",code=pressKey"pagedown",hide=not MOBILE},
+    WIDGET.newButton{name='back', x=1165,y=60,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

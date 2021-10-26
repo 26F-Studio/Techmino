@@ -31,24 +31,24 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newText{name="title",       x=640,y=15,font=80},
+    WIDGET.newText{name='title',       x=640,y=15,font=80},
 
-    WIDGET.newButton{name="graphic",   x=200,  y=80,  w=240,h=80,color='lC',font=35,code=swapScene('setting_video','swipeR')},
-    WIDGET.newButton{name="sound",     x=1080, y=80,  w=240,h=80,color='lC',font=35,code=swapScene('setting_sound','swipeL')},
+    WIDGET.newButton{name='graphic',   x=200,  y=80,  w=240,h=80,color='lC',font=35,code=swapScene('setting_video','swipeR')},
+    WIDGET.newButton{name='sound',     x=1080, y=80,  w=240,h=80,color='lC',font=35,code=swapScene('setting_sound','swipeL')},
 
-    WIDGET.newButton{name="layout",    x=250,  y=540, w=200,h=70,color='lR',font=35,code=goScene'setting_skin'},
+    WIDGET.newButton{name='layout',    x=250,  y=540, w=200,h=70,color='lR',font=35,code=goScene'setting_skin'},
 
-    WIDGET.newButton{name="ctrl",      x=290,  y=220, w=320,h=80,color='lY',font=35,code=goScene'setting_control'},
-    WIDGET.newButton{name="key",       x=640,  y=220, w=320,h=80,color='lG',font=35,code=goScene'setting_key'},
-    WIDGET.newButton{name="touch",     x=990,  y=220, w=320,h=80,color='lB',font=35,code=goScene'setting_touch'},
-    WIDGET.newSlider{name="reTime",    x=330,  y=320, w=300,lim=180,unit=10,disp=SETval('reTime'),   code=SETsto('reTime'),show=function(S)return(.5+S.disp()*.25).."s"end},
-    WIDGET.newSelector{name="RS",      x=300,  y=420, w=300,color='S',      disp=SETval('RS'),       code=SETsto('RS'),list={'TRS','SRS','SRS_plus','SRS_X','BiRS','ARS_Z','ASC','ASC_plus','C2','C2_sym','Classic','Classic_plus','None','None_plus'}},
-    WIDGET.newSelector{name="menuPos", x=980,  y=320, w=300,color='O',      disp=SETval('menuPos'),  code=SETsto('menuPos'),list={'left','middle','right'}},
-    WIDGET.newSwitch{name="sysCursor" ,x=1060, y=390, lim=580,              disp=SETval('sysCursor'),code=function()SETTING.sysCursor=not SETTING.sysCursor applyCursor()end},
-    WIDGET.newSwitch{name="autoPause", x=1060, y=450, lim=580,              disp=SETval('autoPause'),code=SETrev('autoPause')},
-    WIDGET.newSwitch{name="autoSave",  x=1060, y=500, lim=580,              disp=SETval('autoSave'), code=SETrev('autoSave')},
-    WIDGET.newSwitch{name="autoLogin", x=960,  y=580, lim=480,              disp=SETval('autoLogin'),code=SETrev('autoLogin')},
-    WIDGET.newSwitch{name="simpMode",  x=960,  y=640, lim=480,              disp=SETval('simpMode'),
+    WIDGET.newButton{name='ctrl',      x=290,  y=220, w=320,h=80,color='lY',font=35,code=goScene'setting_control'},
+    WIDGET.newButton{name='key',       x=640,  y=220, w=320,h=80,color='lG',font=35,code=goScene'setting_key'},
+    WIDGET.newButton{name='touch',     x=990,  y=220, w=320,h=80,color='lB',font=35,code=goScene'setting_touch'},
+    WIDGET.newSlider{name='reTime',    x=330,  y=320, w=300,lim=180,unit=10,disp=SETval('reTime'),   code=SETsto('reTime'),show=function(S)return(.5+S.disp()*.25).."s"end},
+    WIDGET.newSelector{name='RS',      x=300,  y=420, w=300,color='S',      disp=SETval('RS'),       code=SETsto('RS'),list={'TRS','SRS','SRS_plus','SRS_X','BiRS','ARS_Z','ASC','ASC_plus','C2','C2_sym','Classic','Classic_plus','None','None_plus'}},
+    WIDGET.newSelector{name='menuPos', x=980,  y=320, w=300,color='O',      disp=SETval('menuPos'),  code=SETsto('menuPos'),list={'left','middle','right'}},
+    WIDGET.newSwitch{name='sysCursor' ,x=1060, y=390, lim=580,              disp=SETval('sysCursor'),code=function()SETTING.sysCursor=not SETTING.sysCursor applyCursor()end},
+    WIDGET.newSwitch{name='autoPause', x=1060, y=450, lim=580,              disp=SETval('autoPause'),code=SETrev('autoPause')},
+    WIDGET.newSwitch{name='autoSave',  x=1060, y=500, lim=580,              disp=SETval('autoSave'), code=SETrev('autoSave')},
+    WIDGET.newSwitch{name='autoLogin', x=960,  y=580, lim=480,              disp=SETval('autoLogin'),code=SETrev('autoLogin')},
+    WIDGET.newSwitch{name='simpMode',  x=960,  y=640, lim=480,              disp=SETval('simpMode'),
         code=function()
             SETTING.simpMode=not SETTING.simpMode
             for i=1,#SCN.stack,2 do
@@ -58,7 +58,7 @@ scene.widgetList={
                 end
             end
         end},
-    WIDGET.newButton{name="back",      x=1140, y=640, w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='back',      x=1140, y=640, w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

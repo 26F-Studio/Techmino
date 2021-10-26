@@ -25,7 +25,7 @@ local reset=error--function, defined later
 local bgm="secret7th"
 local tileColor="black"
 local mode="Normal"
-local modeSelector=WIDGET.newSelector{name="mode",x=150,y=220,w=290,
+local modeSelector=WIDGET.newSelector{name='mode',x=150,y=220,w=290,
     list={
         "Normal",
         "Split",
@@ -41,12 +41,12 @@ local modeSelector=WIDGET.newSelector{name="mode",x=150,y=220,w=290,
         "Quadstream",
     },disp=function()return mode end,code=function(m)mode=m reset()end
 }
-local bgmSelector=WIDGET.newSelector{name="bgm",x=150,y=290,w=290,list=BGM.getList(),disp=function()return bgm end,code=function(i)bgm=i BGM.play(i)end}
-local colorSelector=WIDGET.newSelector{name="color",x=150,y=360,w=290,
+local bgmSelector=WIDGET.newSelector{name='bgm',x=150,y=290,w=290,list=BGM.getList(),disp=function()return bgm end,code=function(i)bgm=i BGM.play(i)end}
+local colorSelector=WIDGET.newSelector{name='color',x=150,y=360,w=290,
     list={"black","dGray","gray","lGray","dRed","red","lRed","dFire","fire","lFire","dOrange","orange","lOrange","dYellow","yellow","lYellow","dLime","lime","lLime","dJade","jade","lJade","dGreen","green","lGreen","dAqua","aqua","lAqua","dCyan","cyan","lCyan","dNavy","navy","lNavy","dSea","sea","lSea","dBlue","blue","lBlue","dViolet","violet","lViolet","dPurple","purple","lPurple","dMagenta","magenta","lMagenta","dWine","wine","lWine"},
     disp=function()return tileColor end,code=function(m)tileColor=m end
 }
-local arcadeSwitch=WIDGET.newSwitch{name="arcade",x=240,y=430,lim=200,font=40,disp=function()return arcade end,code=pressKey"e"}
+local arcadeSwitch=WIDGET.newSwitch{name='arcade',x=240,y=430,lim=200,font=40,disp=function()return arcade end,code=pressKey"e"}
 local function freshSelectors()
     local f=state~=0
     modeSelector.hide=f
@@ -380,10 +380,10 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name="reset",x=155,y=100,w=180,h=100,color='lG',font=40,code=pressKey"r"},
+    WIDGET.newButton{name='reset',x=155,y=100,w=180,h=100,color='lG',font=40,code=pressKey"r"},
     modeSelector,bgmSelector,colorSelector,
     arcadeSwitch,
-    WIDGET.newButton{name="back", x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='back', x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

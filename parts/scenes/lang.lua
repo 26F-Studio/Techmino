@@ -34,7 +34,7 @@ scene.widgetList={
     WIDGET.newButton{x=200,y=550,w=200,h=120,fText=langList.zh_grass,color='lG',code=function()_setLang('zh_grass')end},
     WIDGET.newButton{x=420,y=550,w=200,h=120,fText=langList.zh_yygq, color='D', code=function()_setLang('zh_yygq')end},
     WIDGET.newButton{x=640,y=550,w=200,h=120,fText=langList.symbol,  color='dH',code=function()_setLang('symbol')end},
-    WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='back',x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

@@ -3,8 +3,8 @@ local kb=love.keyboard
 local ins,rem=table.insert,table.remove
 local C=COLOR
 
-local inputBox=WIDGET.newInputBox{name="input",x=40,y=650,w=1200,h=50}
-local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=610,font=25,lineH=25,fix=true}
+local inputBox=WIDGET.newInputBox{name='input',x=40,y=650,w=1200,h=50}
+local outputBox=WIDGET.newTextBox{name='output',x=40,y=30,w=1200,h=610,font=25,lineH=25,fix=true}
 
 local function log(str)outputBox:push(str)end
 log{C.lP,"Techmino Console"}
@@ -653,7 +653,7 @@ local commands={}do
                 commands.cls.code()
                 outputBox:clear()
                 outputBox.h=500
-                local button=WIDGET.newButton{name="bye",x=640,y=615,w=426,h=100,code=function()
+                local button=WIDGET.newButton{name='bye',x=640,y=615,w=426,h=100,code=function()
                     TASK.new(function()
                         WIDGET.active.bye.hide=true
                         for _=1,30 do coroutine.yield()end

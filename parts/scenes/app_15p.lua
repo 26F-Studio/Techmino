@@ -13,7 +13,7 @@ local color,invis='color1'
 local slide,pathVis,revKB
 
 local function ifGaming()return state==1 end
-local colorSelector=WIDGET.newSelector{name="color",x=150,y=240,w=200,list={'color1','rainbow','color2','gray','black'},color='lY',disp=function()return color end,code=function(v)if state~=1 then color=v end end,hideF=ifGaming}
+local colorSelector=WIDGET.newSelector{name='color',x=150,y=240,w=200,list={'color1','rainbow','color2','gray','black'},color='lY',disp=function()return color end,code=function(v)if state~=1 then color=v end end,hideF=ifGaming}
 
 function scene.sceneInit()
     BG.set('rainbow2')
@@ -309,13 +309,13 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name="reset",  x=160, y=100,w=180,h=100,color='lG',font=40,code=pressKey"space"},
+    WIDGET.newButton{name='reset',  x=160, y=100,w=180,h=100,color='lG',font=40,code=pressKey"space"},
     colorSelector,
-    WIDGET.newSwitch{name="invis",  x=240, y=330,lim=200,font=40,disp=function()return invis end,  code=pressKey"w",hideF=ifGaming},
-    WIDGET.newSwitch{name="slide",  x=240, y=420,lim=200,font=40,disp=function()return slide end,  code=pressKey"e",hideF=ifGaming},
-    WIDGET.newSwitch{name="pathVis",x=240, y=510,lim=200,font=40,disp=function()return pathVis end,code=pressKey"r",hideF=function()return state==1 or not slide end},
-    WIDGET.newSwitch{name="revKB",  x=240, y=600,lim=200,font=40,disp=function()return revKB end,  code=pressKey"t",hideF=ifGaming},
-    WIDGET.newButton{name="back",   x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newSwitch{name='invis',  x=240, y=330,lim=200,font=40,disp=function()return invis end,  code=pressKey"w",hideF=ifGaming},
+    WIDGET.newSwitch{name='slide',  x=240, y=420,lim=200,font=40,disp=function()return slide end,  code=pressKey"e",hideF=ifGaming},
+    WIDGET.newSwitch{name='pathVis',x=240, y=510,lim=200,font=40,disp=function()return pathVis end,code=pressKey"r",hideF=function()return state==1 or not slide end},
+    WIDGET.newSwitch{name='revKB',  x=240, y=600,lim=200,font=40,disp=function()return revKB end,  code=pressKey"t",hideF=ifGaming},
+    WIDGET.newButton{name='back',   x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

@@ -400,9 +400,9 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name="reset",x=80,y=60,w=110,h=60,color='lG',code=pressKey"r",hideF=function()return state==0 end},
-    WIDGET.newSwitch{name="invis",x=100,y=140,lim=80,disp=function()return invis end,code=pressKey"q",hideF=function()return state==1 end},
-    WIDGET.newButton{name="back",x=1200,y=660,w=110,font=50,fText=CHAR.icon.back,code=pressKey"escape"},
+    WIDGET.newButton{name='reset',x=80,y=60,w=110,h=60,color='lG',code=pressKey"r",hideF=function()return state==0 end},
+    WIDGET.newSwitch{name='invis',x=100,y=140,lim=80,disp=function()return invis end,code=pressKey"q",hideF=function()return state==1 end},
+    WIDGET.newButton{name='back',x=1200,y=660,w=110,font=50,fText=CHAR.icon.back,code=pressKey"escape"},
 }
 
 return scene

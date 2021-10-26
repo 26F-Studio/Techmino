@@ -217,13 +217,13 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newText{name="title",  x=640, y=-5,font=50},
-    WIDGET.newSlider{name="bgm",  x=1000,y=80, lim=130,w=250,disp=SETval('bgm'),code=function(v)SETTING.bgm=v BGM.setVol(SETTING.bgm)end},
-    WIDGET.newSlider{name="sfx",  x=1000,y=150,lim=130,w=250,disp=SETval('sfx'),code=function(v)SETTING.sfx=v SFX.setVol(SETTING.sfx)end},
-    WIDGET.newSlider{name="voc",  x=1000,y=220,lim=130,w=250,disp=SETval('voc'),code=function(v)SETTING.voc=v VOC.setVol(SETTING.voc)end},
-    WIDGET.newSwitch{name="label",x=1200,y=290,lim=160,disp=function()return showLabel end,code=pressKey"space",},
-    WIDGET.newButton{name="music",x=1140,y=540,w=170,h=80,font=40,code=pressKey"tab"},
-    WIDGET.newButton{name="back", x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newText{name='title',  x=640, y=-5,font=50},
+    WIDGET.newSlider{name='bgm',  x=1000,y=80, lim=130,w=250,disp=SETval('bgm'),code=function(v)SETTING.bgm=v BGM.setVol(SETTING.bgm)end},
+    WIDGET.newSlider{name='sfx',  x=1000,y=150,lim=130,w=250,disp=SETval('sfx'),code=function(v)SETTING.sfx=v SFX.setVol(SETTING.sfx)end},
+    WIDGET.newSlider{name='voc',  x=1000,y=220,lim=130,w=250,disp=SETval('voc'),code=function(v)SETTING.voc=v VOC.setVol(SETTING.voc)end},
+    WIDGET.newSwitch{name='label',x=1200,y=290,lim=160,disp=function()return showLabel end,code=pressKey"space",},
+    WIDGET.newButton{name='music',x=1140,y=540,w=170,h=80,font=40,code=pressKey"tab"},
+    WIDGET.newButton{name='back', x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

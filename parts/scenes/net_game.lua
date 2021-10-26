@@ -10,8 +10,8 @@ local ins=table.insert
 local SCR,VK,NET,NETPLY=SCR,VK,NET,NETPLY
 local PLAYERS,GAME=PLAYERS,GAME
 
-local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=560}
-local inputBox=WIDGET.newInputBox{name="input",x=340,y=660,w=600,h=50,limit=256}
+local textBox=WIDGET.newTextBox{name='texts',x=340,y=80,w=600,h=560}
+local inputBox=WIDGET.newInputBox{name='input',x=340,y=660,w=600,h=50,limit=256}
 
 local playing
 local lastUpstreamTime
@@ -343,12 +343,12 @@ local function _hideF_ingame2()return _hideReadyUI()or not NETPLY.getSelfReady()
 scene.widgetList={
     textBox,
     inputBox,
-    WIDGET.newKey{name="setting", x=1200,y=160,w=90,h=90,font=60,fText=CHAR.icon.settings,code=_gotoSetting,hideF=_hideF_ingame},
-    WIDGET.newKey{name="ready",   x=1060,y=510,w=360,h=90,color='lG',font=35, code=_setReady,hideF=_hideF_ingame},
-    WIDGET.newKey{name="spectate",x=1060,y=610,w=360,h=90,color='lO',font=35, code=_setSpectate,hideF=_hideF_ingame},
-    WIDGET.newKey{name="cancel",  x=1060,y=560,w=360,h=120,color='lH',font=40,code=_setCancel,hideF=_hideF_ingame2},
-    WIDGET.newKey{name="chat",    x=390,y=45,w=60,fText="···",                code=_switchChat},
-    WIDGET.newKey{name="quit",    x=890,y=45,w=60,font=30,fText=CHAR.icon.cross_thick,code=_quit},
+    WIDGET.newKey{name='setting', x=1200,y=160,w=90,h=90,font=60,fText=CHAR.icon.settings,code=_gotoSetting,hideF=_hideF_ingame},
+    WIDGET.newKey{name='ready',   x=1060,y=510,w=360,h=90,color='lG',font=35, code=_setReady,hideF=_hideF_ingame},
+    WIDGET.newKey{name='spectate',x=1060,y=610,w=360,h=90,color='lO',font=35, code=_setSpectate,hideF=_hideF_ingame},
+    WIDGET.newKey{name='cancel',  x=1060,y=560,w=360,h=120,color='lH',font=40,code=_setCancel,hideF=_hideF_ingame2},
+    WIDGET.newKey{name='chat',    x=390,y=45,w=60,fText="···",                code=_switchChat},
+    WIDGET.newKey{name='quit',    x=890,y=45,w=60,font=30,fText=CHAR.icon.cross_thick,code=_quit},
 }
 
 return scene
