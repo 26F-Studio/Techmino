@@ -100,6 +100,34 @@ function scene.sceneInit()
     BG.set('rainbow')
 end
 
+function scene.mouseMove(x,y)
+    x,y=int((x-280)/80),int(y/80)
+    curX,curx=int(x/3)+int(y/3)*3+1,x%3+y%3*3+1
+    if
+        x<0 or x>8 or
+        y<0 or y>8 or
+        curX<1 or curX>9 or
+        curx<1 or curx>9 or
+        score[curX]or
+        not(target==curX or not target)or
+        board[curX][curx]or
+        gameover
+    then
+        curX,curx=nil
+    end
+end
+
+function scene.mouseDown(x,y)
+    scene.mouseMove(x,y)
+    if curX then
+        place(curX,curx)
+    end
+end
+
+scene.touchDown=scene.mouseMove
+scene.touchMove=scene.mouseMove
+scene.touchUp=scene.mouseDown
+
 function scene.draw()
     gc.push('transform')
     --origin pos:0,140; scale:4
@@ -199,33 +227,6 @@ function scene.draw()
             gc.line(160-45,160-45,160+45,160+45)
             gc.line(160-45,160+45,160+45,160-45)
         end
-    end
-end
-scene.touchDown=scene.mouseMove
-scene.touchMove=scene.mouseMove
-scene.touchUp=scene.mouseDown
-
-function scene.mouseMove(x,y)
-    x,y=int((x-280)/80),int(y/80)
-    curX,curx=int(x/3)+int(y/3)*3+1,x%3+y%3*3+1
-    if
-        x<0 or x>8 or
-        y<0 or y>8 or
-        curX<1 or curX>9 or
-        curx<1 or curx>9 or
-        score[curX]or
-        not(target==curX or not target)or
-        board[curX][curx]or
-        gameover
-    then
-        curX,curx=nil
-    end
-end
-
-function scene.mouseDown(x,y)
-    scene.mouseMove(x,y)
-    if curX then
-        place(curX,curx)
     end
 end
 
