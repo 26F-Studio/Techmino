@@ -26,22 +26,7 @@ end
 
 scene.mouseDown=NULL
 function scene.keyDown(key)
-    if key:byte()>=48 and key:byte()<=57 then
-        if sym=="="then
-            val=key
-            sym=false
-        elseif sym and not reg then
-            reg=val
-            val=key
-        else
-            if #val<14 then
-                if val=="0"then
-                    val=""
-                end
-                val=val..key
-            end
-        end
-    elseif key:sub(1,2)=="kp"then
+    if key:sub(1,2)=="kp"then
         scene.keyDown(key:sub(3))
     elseif key=="."then
         if sym=="="then
@@ -85,10 +70,25 @@ function scene.keyDown(key)
     elseif key=="/"then
         _autoReturn()
         sym="/"
+    elseif key:byte()>=48 and key:byte()<=57 then
+        if sym=="="then
+            val=key
+            sym=false
+        elseif sym and not reg then
+            reg=val
+            val=key
+        else
+            if #val<14 then
+                if val=="0"then
+                    val=""
+                end
+                val=val..key
+            end
+        end
     elseif key=="return"then
-        val=val:gsub("e","")
+        val=val:gsub("e$","")
         if sym and reg then
-            reg=reg:gsub("e","")
+            reg=reg:gsub("e$","")
             val=
                 sym=="+"and tostring((tonumber(reg)or 0)+tonumber(val))or
                 sym=="-"and tostring((tonumber(reg)or 0)-tonumber(val))or
