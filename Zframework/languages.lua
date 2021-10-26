@@ -47,7 +47,7 @@ function LANG.init(defaultLang,langList,publicText,pretreatFunc)
     function LANG.addScene(name)
         for _,L in next,langList do
             if L.WidgetText and not L.WidgetText[name]then
-                L.WidgetText[name]={back=L.back}
+                L.WidgetText[name]={}
             end
         end
     end
