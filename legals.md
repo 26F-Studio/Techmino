@@ -3,7 +3,7 @@ TECHMINO and "26F Studio" are trademarks of 26F Studio.
 The TECHMINO game and source code are under a GNU Lesser General Public License Version 3.
 
 
-TECHMINO is not a fan game. TECHMINO and 26F Studio are not affiliated  with Tetris Holding, LLC or The Tetris Company, Inc. in any way.
+TECHMINO is not a fan game of Tetris. TECHMINO and 26F Studio are not affiliated with Tetris Holding, LLC or The Tetris Company, Inc. in any way.
 
 
 "Tetris" is the registered trademark of The Tetris Holding, LLC, licensed to The Tetris Company, Inc.
@@ -30,11 +30,13 @@ JetBrains Mono is copyrighted by the JetBrains Mono Project authors. JetBrains M
 "PlayStation", "PS", "PlayStation Family Mark", "PS logo", "DualSense" and "Play Has No Limits" are registered trademarks or trademarks of Sony Interactive Entertainment Inc. "SONY" is a registered trademark of Sony Corporation. © 2021 Sony Interactive Entertainment LLC.
 
 
-
 N3TWORK is a registered trademark of N3TWORK Inc. © 2021 N3TWORK Inc.
 
 
-"EA" and "Electronic Arts" are registered trademark of Electronic Arts Inc. © 2021 Electronic Arts Inc.
+"EA" and "Electronic Arts" are registered trademarks of Electronic Arts Inc. © 2021 Electronic Arts Inc.
+
+
+Oculus Quest is a registered trademark of Facebook Technologies, LLC. © Facebook, Inc.
 
 
 GoldWave is a registered trademark of GoldWave, Inc.
@@ -46,4 +48,4 @@ Linux is a registered trademark of Linus Torvalds.
 Touhou Project © Team Shanghai Alice 2002-2021.
 
 
-All other trademarks are the property of their respective owners.
+All other trademarks are the properties of their respective owners.
