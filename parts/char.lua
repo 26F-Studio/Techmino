@@ -129,6 +129,7 @@ local L={
         invis=          0xF00C4,
         bomb=           0xF00C5,
         garbage=        0xF00C6,
+        copy=           0xF00C7,
     },
     key={--F0100~F017F
         macCmd=                 0xF0100,
