@@ -30,11 +30,13 @@ JetBrains Mono is copyrighted by the JetBrains Mono Project authors. JetBrains M
 "PlayStation", "PS", "PlayStation Family Mark", "PS logo", "DualSense" and "Play Has No Limits" are registered trademarks or trademarks of Sony Interactive Entertainment Inc. "SONY" is a registered trademark of Sony Corporation. © 2021 Sony Interactive Entertainment LLC.
 
 
-
 N3TWORK is a registered trademark of N3TWORK Inc. © 2021 N3TWORK Inc.
 
 
 "EA" and "Electronic Arts" are registered trademark of Electronic Arts Inc. © 2021 Electronic Arts Inc.
+
+
+Oculus Quest is a register trademark of Facebook Technologies, LLC. © Facebook, Inc.
 
 
 GoldWave is a registered trademark of GoldWave, Inc.
