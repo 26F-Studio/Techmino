@@ -31,14 +31,17 @@ local typeColor={
     name=COLOR.lV,
 }
 local function _scanDict(D)
+    if not D[1][1]then return end
     local c=CHAR.zChan.thinking
+    local cut=TABLE.cut
     for i=1,#D do
         local O=D[i]
-        O.title,O[1]=O[1]:gsub("[Tt]etris",c)
-        O.keywords,O[2]=O[2]
-        O.type,O[3]=O[3]
-        O.content,O[4]=O[4]:gsub("[Tt]etris",c)
-        O.url,O[5]=O[5]
+        O.title=O[1]:gsub("[Tt]etris",c)
+        O.keywords=O[2]
+        O.type=O[3]
+        O.content=O[4]:gsub("[Tt]etris",c)
+        O.url=O[5]
+        cut(O)
     end
 end
 local function _getList()return result[1]and result or dict end
@@ -70,9 +73,7 @@ end
 
 function scene.sceneInit()
     dict=require("parts.language.dict_"..(SETTING.locale:find'zh'and'zh'or'en'))
-    if dict[1][1]then
-        _scanDict(dict)
-    end
+    _scanDict(dict)
 
     inputBox:clear()
     result={}

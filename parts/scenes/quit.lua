@@ -13,7 +13,7 @@ function scene.sceneInit()
         SETTING.powerInfo=false
         SETTING.tapFX=false
         VERSION.string=""
-        MES.new('error',"Please quit with HOME button on iOS",1e99)
+        MES.new('error',"Please swipe up or press Home button to quit Techmino on iOS",1e99)
     end
 end
 

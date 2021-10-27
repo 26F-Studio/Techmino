@@ -34,7 +34,7 @@ function applyLanguage()
     text=LANG.get(SETTING.locale)
     WIDGET.setLang(text.WidgetText)
     for k,v in next,TEXTOBJ do
-        if text[k]then
+        if rawget(text,k)then
             v:set(text[k])
         end
     end
