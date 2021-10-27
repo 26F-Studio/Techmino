@@ -359,12 +359,10 @@ function scene.draw()
     gc_setColor(1,1,1,.82)
     gc_draw(TEXTOBJ.modeName,modeTextPos,10)
     local M=GAME.curMode
-    if M then
-        if M.score and M.records[1]then
-            setFont(15)
-            gc_setColor(1,1,1,.6)
-            gc_print(M.scoreDisp(M.records[1]),modeTextPos,45)
-        end
+    if M and M.score and M.records[1]then
+        setFont(15)
+        gc_setColor(1,1,1,.6)
+        gc_print(M.scoreDisp(M.records[1]),modeTextPos,45)
     end
 
     --Replaying
