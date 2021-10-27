@@ -2,9 +2,8 @@ name: Techmino Test CI
 
 on:
   push:
-    branches: [ pre* ]
-  pull_request:
-    branches: [ pre* ]
+    tags:
+      - 'pre*'
 
 jobs:
   get-info:
