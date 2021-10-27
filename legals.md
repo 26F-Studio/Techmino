@@ -3,7 +3,7 @@ TECHMINO and "26F Studio" are trademarks of 26F Studio.
 The TECHMINO game and source code are under a GNU Lesser General Public License Version 3.
 
 
-TECHMINO is not a fan game. TECHMINO and 26F Studio are not affiliated with Tetris Holding, LLC or The Tetris Company, Inc. in any way.
+TECHMINO is not a fan game of Tetris. TECHMINO and 26F Studio are not affiliated with Tetris Holding, LLC or The Tetris Company, Inc. in any way.
 
 
 "Tetris" is the registered trademark of The Tetris Holding, LLC, licensed to The Tetris Company, Inc.
