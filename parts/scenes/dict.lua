@@ -1,7 +1,6 @@
 local gc=love.graphics
 
 local inputBox=WIDGET.newInputBox{name='input',x=20,y=110,w=762,h=60,font=40,limit=32}
-local copyButton=WIDGET.newKey{name='copy',x=940,y=655,w=200,h=80,font=35,code=pressKey"cC"}
 local int,abs=math.floor,math.abs
 local min,sin=math.min,math.sin
 local ins=table.insert
@@ -50,7 +49,7 @@ local function _clearResult()
     selected=1
     scrollPos=0
     waiting,lastSearch=0,false
-    copyButton.hide=false
+    scene.widgetList.copy.hide=false
 end
 local function _search()
     local input=inputBox:getText():lower()
@@ -97,7 +96,7 @@ function scene.keyDown(key)
             if selected<scrollPos+1 then
                 scrollPos=scrollPos-1
             end
-            copyButton.hide=false
+            scene.widgetList.copy.hide=false
         end
     elseif key=="down"then
         if selected and selected<#_getList()then
@@ -105,7 +104,7 @@ function scene.keyDown(key)
             if selected>scrollPos+15 then
                 scrollPos=selected-15
             end
-            copyButton.hide=false
+            scene.widgetList.copy.hide=false
         end
     elseif key=="left"or key=="pageup"then
         for _=1,12 do scene.keyDown("up")end
@@ -131,7 +130,7 @@ function scene.keyDown(key)
         local t=_getList()[selected]
         t=t.title..":\n"..t.content..(t.url and"\n[ "..t.url.." ]\n"or"\n")..text.dictNote
         love.system.setClipboardText(t)
-        copyButton.hide=true
+        scene.widgetList.copy.hide=true
         MES.new('info',text.copyDone)
         return
     else
@@ -206,12 +205,12 @@ scene.widgetList={
     WIDGET.newText{name='book',   x=20,y=15,font=70,align='L',fText=CHAR.icon.zBook},
     WIDGET.newText{name='title',  x=100,y=15,font=70,align='L'},
     inputBox,
-    copyButton,
-    WIDGET.newKey{name='link',    x=1150,y=655,w=200,h=80,font=35,code=pressKey"link",hideF=function()return not _getList()[selected].url end},
-    WIDGET.newKey{name='up',      x=1130,y=460,w=60,h=90,font=35,fText="↑",code=pressKey"up",hide=not MOBILE},
-    WIDGET.newKey{name='down',    x=1130,y=560,w=60,h=90,font=35,fText="↓",code=pressKey"down",hide=not MOBILE},
-    WIDGET.newKey{name='pageup',  x=1210,y=460,w=80,h=90,font=35,fText="↑↑",code=pressKey"pageup",hide=not MOBILE},
-    WIDGET.newKey{name='pagedown',x=1210,y=560,w=80,h=90,font=35,fText="↓↓",code=pressKey"pagedown",hide=not MOBILE},
+    WIDGET.newKey{name='link',    x=1120,y=655,w=80,font=55,fText=CHAR.icon.globe, code=pressKey"link",hideF=function()return not _getList()[selected].url end},
+    WIDGET.newKey{name='copy',    x=1210,y=655,w=80,font=50,fText=CHAR.icon.copy,  code=pressKey"cC"},
+    WIDGET.newKey{name='up',      x=1120,y=475,w=80,font=50,fText=CHAR.key.up,     code=pressKey"up",hide=not MOBILE},
+    WIDGET.newKey{name='down',    x=1120,y=565,w=80,font=50,fText=CHAR.key.down,   code=pressKey"down",hide=not MOBILE},
+    WIDGET.newKey{name='pageup',  x=1210,y=475,w=80,font=50,fText=CHAR.icon.toUp,  code=pressKey"pageup",hide=not MOBILE},
+    WIDGET.newKey{name='pagedown',x=1210,y=565,w=80,font=50,fText=CHAR.icon.toDown,code=pressKey"pagedown",hide=not MOBILE},
     WIDGET.newButton{name='back', x=1165,y=60,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 

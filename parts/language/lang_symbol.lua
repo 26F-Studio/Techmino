@@ -427,8 +427,6 @@ return{
         },
         dict={
             title="TetroDictionary",
-            copy=":→__",
-            link="~~e>>",
         },
         stat={
             path="%$%",

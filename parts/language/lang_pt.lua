@@ -548,8 +548,6 @@ return{
         },
         dict={
             title="TetroDictionary",
-            -- copy="Copy page",
-            link="Abrir URL",
         },
         stat={
             path="Abrir Pasta De Data",

@@ -575,8 +575,6 @@ return{
         },
         dict={
             title="小Z方块词典",
-            copy="复制页面",
-            link="打开链接",
         },
         stat={
             path="打开存储目录",

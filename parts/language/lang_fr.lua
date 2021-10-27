@@ -513,8 +513,6 @@ return{
         },
         dict={
             title="TetroDictionary",
-            -- copy="Copy page",
-            link="Ouvrir URL",
         },
         stat={
             path="Ouvrir dossier des données",
