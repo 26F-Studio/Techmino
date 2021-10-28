@@ -14,9 +14,9 @@ BLOCK_COLORS={
 }
 RANK_CHARS={'B','A','S','U','X'}for i=1,#RANK_CHARS do RANK_CHARS[i]=CHAR.icon['rank'..RANK_CHARS[i]]end
 RANK_COLORS={
-    {.5,.7,.9},
-    {.5,1,.6},
-    {.95,.95,.5},
+    {.8,.86,.9},
+    {.6,.9,.7},
+    {.93,.93,.65},
     {1,.5,.4},
     {.95,.5,.95},
 }
