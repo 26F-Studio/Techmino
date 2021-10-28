@@ -9,21 +9,23 @@ return{fallback='zh',
         loadOther="其他",
         finish="走你",
     },
-    playedLong="今天玩很久了,给我注意点",
-    playedTooMuch="特么再玩小心眼睛瞎掉,爬",
+    playedLong="玩很久了, 给我注意点",
+    playedTooMuch="特么再敢玩眼睛瞎掉, 爬!",
 
     royale_remain="剩 $1 人",
-    cmb={nil,"1连","2连","3连","4连","5连","6连","7连","8连","9连","10连!","11连!","12连!","13连!","14连!","15连!","16连!","17连!","18连!","19连!","MEGACMB"},
+    cmb={nil,"1连","2连","3连","4连","5连","6连","7连","8连","9连","10连!","11连!","12连!","13连!","14连!","15连!","16连!","17连!","18连!","19连!","Very 连"},
     spin="旋",
     clear={"消一","消二","消三","消四","卧槽","离谱"},
     mini="矬",b2b="牛逼",b3b="很牛逼",
-    PC="消干净了",HPC="消挺干净",
+    PC="消干净了",HPC="消了半截",
 
     great="不错的",
     awesome="您很强",
     almost="太舒服了",
     continue="您继续",
     maxspeed="速度封顶",
+    missionFailed="任务不会看?",
+
 
     speedLV="速度等级",
     piece="块数",line="行数",atk="攻",eff="效",
@@ -45,6 +47,12 @@ return{fallback='zh',
     finesse_ap="您",
     finesse_fc="全连",
 
+    switchSpawnSFX="不开音效玩个锤子",
+
+    noScore="没分",
+    modeLocked="没解锁",
+    unlockHint="B都打不到还想玩?",
+
     noUsername="别闹。",
     wrongEmail="别乱输。",
     noPassword="注册会不会?",
@@ -53,6 +61,9 @@ return{fallback='zh',
     createRoomSuccessed="创好了",
     started="开了",
     spectating="看戏中",
+
+    errorMsg="Techmino不想运行, 并丢下了一个蓝屏。\n我们已收集了一堆奇怪信息，你可以随时和作者对线。",
+    tryAnotherBuild="自己电脑是32位还是64位都不知道?",
 
     stat={
         "开了几次:",
@@ -67,9 +78,13 @@ return{fallback='zh',
         "消光/消半截:",
         "多余操作/极简率:",
     },
+
+    support="打钱",
+
+
     WidgetText={
         setting_game={
-            title="游戏设置",
+            title="改游戏",
 
             graphic="←改画面",
             sound="改声音→",
@@ -81,7 +96,7 @@ return{fallback='zh',
         setting_video={
             title="改画面",
             sound="←改声音",
-            game="游戏设置→",
+            game="改游戏→",
 
             block="方块可见",
             ghost="阴影",
@@ -96,7 +111,7 @@ return{fallback='zh',
         setting_sound={
             title="改声音",
 
-            game="←游戏设置",
+            game="←改游戏",
             graphic="改画面→",
 
             mainVol="总",
@@ -122,7 +137,7 @@ return{fallback='zh',
         about={
             staff="游戏谁写的",
             his="黑历史",
-            legals="没人关心的东西",
+            legals="正经人谁看啊",
             qq="QQ对线",
         },
         register={
@@ -240,7 +255,7 @@ return{fallback='zh',
         ['defender_l']=     {"防守",         "疯狂",      "防守练习"},
         ['dig_h']=          {"挖掘",         "困难",      "挖掘练习"},
         ['dig_u']=          {"挖掘",         "极限",      "挖掘练习"},
-        ['bigbang']=        {"大爆炸",       "简单",      "All-spin 入门教程\n施工中"},
+        ['bigbang']=        {"大爆炸",       "简单",      "All-spin入门\n还没做好"},
         ['c4wtrain_n']=     {"C4W练习",      "普通",      "无 限 连 击"},
         ['c4wtrain_l']=     {"C4W练习",      "疯狂",      "无 限 连 击"},
         ['pctrain_n']=      {"全清训练",      "普通",      "随便打打"},
