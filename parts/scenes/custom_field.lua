@@ -115,10 +115,7 @@ local function _pDraw()
     penPath={}
     penMode=0
 
-    while #F>0 and isEmpty(F[#F])do
-        rem(F)
-    end
-    print(#F)
+    while #F>0 and isEmpty(F[#F])do rem(F)end
 end
 
 function scene.sceneInit()
@@ -201,7 +198,7 @@ function scene.keyDown(key)
     elseif key=="l"then
         local F=FIELD[page]
         local cleared=false
-        for i=20,1,-1 do
+        for i=#F,1,-1 do
             for j=1,10 do
                 if F[i][j]<=0 then goto CONTINUE_notFull end
             end
