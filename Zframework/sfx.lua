@@ -1,5 +1,4 @@
-local type,assert=type,assert
-local ins,rem=table.insert,table.remove
+local type,rem=type,table.remove
 
 local sfxList={}
 local packSetting={}
@@ -37,7 +36,7 @@ local SFX={}
 
 function SFX.init(list)
     assert(type(list)=='table',"Initialize SFX lib with a list of filenames!")
-    for i=1,#list do ins(sfxList,list[i])end
+    for i=1,#list do table.insert(sfxList,list[i])end
 end
 function SFX.load(path)
     local c=0
@@ -57,7 +56,7 @@ function SFX.loadSample(pack)
     assert(pack.name,"No field: name")
     assert(pack.path,"No field: path")
     packSetting[pack.name]={
-        base=_getTuneHeight(pack.base)or 37,
+        base=(_getTuneHeight(pack.base)or 37)+1,
     }
     local num=1
     while love.filesystem.getInfo(pack.path..'/'..num..'.ogg')do
@@ -79,7 +78,7 @@ function SFX.setStereo(v)
     stereo=v
 end
 
-function SFX.playSample(pack,...)
+function SFX.playSample(pack,...)--vol-2, sampSet1, vol-3, sampSet2, vol-1
     if ... then
         local arg={...}
         local vol
@@ -89,7 +88,7 @@ function SFX.playSample(pack,...)
                 vol=arg[i]
             else
                 local tune=arg[i]
-                tune=_getTuneHeight(tune)-packSetting[pack].base+1
+                tune=_getTuneHeight(tune)-packSetting[pack].base
                 SFX.play(pack..tune,vol)
             end
         end
