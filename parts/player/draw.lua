@@ -37,6 +37,67 @@ local multiple=TEXTURE.multiple
 local playerborder=TEXTURE.playerBorder
 local gridLines=TEXTURE.gridLines
 
+local seqGenBanner=setmetatable({
+    none=GC.DO{1,1},
+    bag=GC.DO{100,10,
+        {'fRect',35,2,-2,6},
+        {'fRect',40,4,20,2},
+        {'fRect',65,2,2,6},
+    },
+    bagES=GC.DO{100,10,
+        {'fRect',35,2,-2,6},
+        {'fRect',40,4,20,2},
+        {'fRect',65,2,2,6},
+        {'fCirc',40,5,3},
+    },
+    his=GC.DO{100,10,
+        {'fRect',15,3,2,7},
+        {'fRect',20,3,2,7},
+        {'fRect',25,3,2,7},
+        {'fRect',30,3,2,7},
+    },
+    hisPool=GC.DO{100,10,
+        {'fRect',15,3,2,7},
+        {'fRect',20,3,2,7},
+        {'fRect',25,3,2,7},
+        {'fRect',30,3,2,7},
+        {'fRect',60,5,25,2},
+    },
+    c2=GC.DO{100,10,
+        {'fRect',20-1,5-1,2,2},
+        {'fRect',30-2,5-2,4,4},
+        {'fRect',40-1,5-1,2,2},
+        {'fRect',50-2,5-2,4,4},
+        {'fRect',60-1,5-1,2,2},
+        {'fRect',70-2,5-2,4,4},
+        {'fRect',80-1,5-1,2,2},
+    },
+    rnd=GC.DO{100,10,
+        {'fRect',30-3,1,6,6},
+        {'fRect',70-3,1,6,6},
+    },
+    mess=GC.DO{100,10,
+        {'setLW',2},
+        {'dRect',30-3,1,6,6},
+        {'dRect',70-3,1,6,6},
+    },
+    reverb=GC.DO{100,10,
+        {'fRect',25,1,30,2},
+        {'fRect',20,4,60,2},
+        {'fRect',45,7,30,2},
+    },
+    loop=GC.DO{100,10,
+        {'fRect',25,4,20,2},
+        {'fRect',55,4,20,2},
+    },
+    fixed=GC.DO{100,10,
+        {'fRect',40,4,20,2},
+    },
+},{__index=function(self,k)
+    self[k]=self.none
+    return self.none
+end})
+
 local LDmarks=gc.newSpriteBatch(GC.DO{14,5,{'fRect',0,0,14,5,3}},15,'static')
 for i=0,14 do LDmarks:add(3+20*i,615)end
 
@@ -415,6 +476,8 @@ local function _drawNext(P,repMode)
         local h=ENV.nextCount*72
         gc_setColor(ENV.nextStartPos>1 and .5 or 0,0,0,.4)
         gc_rectangle('fill',0,0,100,h+8,5)
+        gc_setColor(1,1,1,.626)
+        gc_draw(seqGenBanner[ENV.sequence],0,-11)
         gc_setColor(.97,.97,.97)
         if ENV.holdMode=='swap'then gc_rectangle('fill',1,72*ENV.holdCount+4,50,4)end
         gc_rectangle('line',0,0,100,h+8,5)
