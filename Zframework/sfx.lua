@@ -56,7 +56,7 @@ function SFX.loadSample(pack)
     assert(pack.name,"No field: name")
     assert(pack.path,"No field: path")
     packSetting[pack.name]={
-        base=(_getTuneHeight(pack.base)or 37)+1,
+        base=(_getTuneHeight(pack.base)or 37)-1,
     }
     local num=1
     while love.filesystem.getInfo(pack.path..'/'..num..'.ogg')do
