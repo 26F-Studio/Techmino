@@ -636,6 +636,16 @@ return{
         "term",
         "The delay between block touching the ground and locking down (i.e. can no longer be controlled, and the next piece spawns).\nModern Tetris games often have forgiving lockdown delay mechanics where you can reset this delay by moving or rotating (up to 15 times), and you can sometimes stall for time by doing this. Classic Tetris games often have a far less forgiving lockdown delay.",
     },
+    {"ARE",
+        "are delay",
+        "term",
+        "",--TODO
+    },
+    {"line ARE",
+        "line are delay",
+        "term",
+        "",--TODO
+    },
     {"Finesse",
         "finesse",
         "term",
@@ -690,6 +700,21 @@ return{
         "history hisgenerator",
         "term",
         "A way to generate pieces, notably used in Tetris: The Grand Master games. Every time a random Tetromino is selected, but if this Tetromino is the same as one of the few previous pieces, then reroll until a different piece is rolled or until a reroll limit is reached.\nFor example, a \"his 4 roll 6\" (h4r6) generator rerolls when the piece is the same as one of the 4 previous pieces and rerolls up to 6 times.\nThere are other variations as well, such as \"his4 roll6 pool35\", which further reduces the randomness of the piece sequence.\n\nIn Techmino, the max. reroll count is half of the sequence length, rounded up.",
+    },
+    {"HisPool generator",
+        "hisPool history pool",
+        "term",
+        "",--TODO
+    },
+    {"bagES generator",
+        "bages",
+        "term",
+        "*Techmino-exclusive*\n",--TODO
+    },
+    {"Reverb generator",
+        "reverb",
+        "term",
+        "*Techmino-exclusive*\n",--TODO
     },
     {"Hypertapping",
         "hypertapping",
