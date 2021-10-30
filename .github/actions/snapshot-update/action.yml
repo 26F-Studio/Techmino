@@ -6,7 +6,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - shell: python3
+    - shell: python
       run: |
         import sys
         print(sys.version)
@@ -17,7 +17,7 @@ runs:
           file.truncate()
           file.flush()
           file.write(data)
-    - shell: python3
+    - shell: python
       run: |
         with open('version.lua', 'r+', encoding='utf-8') as file:
           data = file.read()
