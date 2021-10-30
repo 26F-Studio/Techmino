@@ -1,15 +1,18 @@
-name: 'update for a snapshot'
-description: 'common update logic for snapshot'
+name: 'update version'
+description: 'common update logic for snapshot and release'
 inputs:
   commit:
+    required: false
+  type:
     required: true
 runs:
   using: "composite"
   steps:
     - shell: python
+      name: update snapshot saving folder
       run: |
-        import sys
-        print(sys.version)
+        if '${{ inputs.type }}'.lower() != 'snapshot':
+          exit(0)
         with open('conf.lua', 'r+', encoding='utf-8') as file:
           data = file.read()
           data = data.replace("t.identity='Techmino'--Saving folder", "t.identity='Techmino_Snapshot'--Saving folder")
@@ -21,7 +24,7 @@ runs:
       run: |
         with open('version.lua', 'r+', encoding='utf-8') as file:
           data = file.read()
-          data = data.replace('@DEV', '@${{ inputs.commit }}'[0:4])
+          data = data.replace('@DEV', '@${{ inputs.commit }}'[0:4] if commit != '' else '')
           file.seek(0)
           file.truncate()
           file.flush()

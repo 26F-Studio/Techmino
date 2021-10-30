@@ -33,9 +33,10 @@ jobs:
     needs: get-info
     steps:
     - uses: actions/checkout@v2
-    - uses: ./.github/actions/snapshot-update
+    - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
+        type: snapshot
     - uses: ./.github/actions/build-windows
       with:
         love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
@@ -54,9 +55,10 @@ jobs:
     needs: get-info
     steps:
     - uses: actions/checkout@v2
-    - uses: ./.github/actions/snapshot-update
+    - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
+        type: snapshot
     - uses: ./.github/actions/build-linux
       with:
         icon: .github/build/Linux/icon_snapshot.png
@@ -71,9 +73,10 @@ jobs:
     needs: get-info
     steps:
     - uses: actions/checkout@v2
-    - uses: ./.github/actions/snapshot-update
+    - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
+        type: snapshot
     - uses: ./.github/actions/build-android
       with:
         type: Snapshot
@@ -95,9 +98,10 @@ jobs:
     needs: get-info
     steps:
     - uses: actions/checkout@v2
-    - uses: ./.github/actions/snapshot-update
+    - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
+        type: snapshot
     - uses: ./.github/actions/build-macos
       with:
         name: ${{ needs.get-info.outputs.name }}
@@ -121,9 +125,10 @@ jobs:
     needs: get-info
     steps:
     - uses: actions/checkout@v2
-    - uses: ./.github/actions/snapshot-update
+    - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
+        type: snapshot
     - uses: ./.github/actions/build-ios
       with:
         name: ${{ needs.get-info.outputs.name }}
