@@ -6,7 +6,23 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - shell: bash
+    - shell: python3
       run: |
-        python3 .github/workflows/updateVersion.py -T Conf
-        python3 .github/workflows/updateVersion.py -T Version -H ${{ inputs.commit }}
+        import sys
+        print(sys.version)
+        with open('conf.lua', 'r+', encoding='utf-8') as file:
+          data = file.read()
+          data = data.replace("t.identity='Techmino'--Saving folder", "t.identity='Techmino_Snapshot'--Saving folder")
+          file.seek(0)
+          file.truncate()
+          file.flush()
+          file.write(data)
+    - shell: python3
+      run: |
+        with open('version.lua', 'r+', encoding='utf-8') as file:
+          data = file.read()
+          data = data.replace('@DEV', '@${{ inputs.commit }}'[0:4])
+          file.seek(0)
+          file.truncate()
+          file.flush()
+          file.write(data)
