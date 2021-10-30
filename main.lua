@@ -382,8 +382,11 @@ end
 for _,v in next,fs.getDirectoryItems('parts/modes')do
     if isSafeFile('parts/modes/'..v)and not MODES[v:sub(1,-5)]then
         local M={name=v:sub(1,-5)}
-        TABLE.complete(require('parts.modes.'..M.name),M)
-        MODES[M.name]=M
+        local modeData=require('parts.modes.'..M.name)
+        if modeData.env then
+            TABLE.complete(modeData,M)
+            MODES[M.name]=M
+        end
     end
 end
 
@@ -576,3 +579,5 @@ table.sort(REPLAY,function(a,b)return a.fileName>b.fileName end)
 table.insert(_LOADTIMELIST_,("Initialize Data: %.3fs"):format(TIME()-_LOADTIME_))
 
 for i=1,#_LOADTIMELIST_ do LOG(_LOADTIMELIST_[i])end
+
+for k,v in next,MODES do print(k,v)end
