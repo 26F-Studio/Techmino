@@ -1,7 +1,16 @@
 NONE={}function NULL()end
 EDITING=""
 LOADED=false
+TEST_MODE=false
 ERRDATA={}
+
+--Test script
+--[[
+    Yield a number to sleep for that many frames, otherwise just do it!
+    We will set the script after we load stuff.
+--]]
+TESTS = nil
+TEST_SLEEP = 0
 
 --Pure lua modules (basic)
 COLOR=      require'Zframework.color'
@@ -400,6 +409,12 @@ function love.errorhandler(msg)
     love.audio.stop()
     gc.reset()
 
+    --In test mode, we fail early
+    if TEST_MODE then
+        print("\27[91m\27[1mAutomatic Test Failed :(\27[0m\nWe are in test mode, so we error out. The error message is:\n"..msg.."\27[91m\nAborting\27[0m")
+        love.event.quit(1)
+    end
+
     if LOADED and #ERRDATA<3 then
         BG.set('none')
         local scn=SCN and SCN.cur or"NULL"
@@ -532,6 +547,14 @@ function love.run()
     local FCT=0--Framedraw counter, from 0~99
 
     love.resize(gc.getWidth(),gc.getHeight())
+
+    -- Argument parsing
+    -- TODO: currently very simple, only support one argument
+    for i, c in ipairs(arg) do
+        if c=='--test' then
+            TEST_MODE = true
+        end
+    end
 
     --Scene Launch
     while #SCN.stack>0 do SCN.pop()end
@@ -689,6 +712,18 @@ function love.run()
                 WAIT(.1)
             elseif devMode==4 then
                 WAIT(.5)
+            end
+        end
+
+        --Execute testing tasks
+        if TEST_MODE then
+            if TEST_SLEEP > 0 then
+                TEST_SLEEP = TEST_SLEEP - 1
+            else
+                TEST_SLEEP = TESTS()
+                if TEST_SLEEP == nil then
+                    love.event.quit(0)
+                end
             end
         end
 

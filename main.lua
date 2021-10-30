@@ -576,3 +576,19 @@ table.sort(REPLAY,function(a,b)return a.fileName>b.fileName end)
 table.insert(_LOADTIMELIST_,("Initialize Data: %.3fs"):format(TIME()-_LOADTIME_))
 
 for i=1,#_LOADTIMELIST_ do LOG(_LOADTIMELIST_[i])end
+
+TESTS = coroutine.wrap(function()
+    print("\27[92m\27[1mAutomatic Test Started\27[0m")
+    YIELD(60)
+    MES.new('check', 'Test mode engaged!!')
+    for i, mode in pairs(MODES) do
+        if i == 'PCbase' or i == 'PClist' or i == 'netBattle' then else
+        print("Scanning mode "..mode.name)
+        loadGame(mode.name)
+        YIELD(120)
+        SCN.back()
+        YIELD(30)
+        end
+    end
+    print("\27[92m\27[1mAutomatic Test Passed :)\27[0m")
+end)
