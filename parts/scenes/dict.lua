@@ -134,7 +134,10 @@ function scene.keyDown(key)
         MES.new('info',text.copyDone)
         return
     else
-        return
+        if not WIDGET.isFocus(inputBox)then
+            WIDGET.focus(inputBox)
+        end
+        WIDGET.keyPressed(key)
     end
 end
 
