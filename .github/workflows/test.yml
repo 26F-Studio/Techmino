@@ -138,6 +138,7 @@ jobs:
         APPLE_APP_PROFILE: '${{ secrets.APPLE_APP_PROFILE }}'
         APPLE_KEYCHAIN_NAME: '${{ secrets.APPLE_KEYCHAIN_NAME }}'
         APPLE_KEYCHAIN_PWD: '${{ secrets.APPLE_KEYCHAIN_PWD }}'
+        FASTLANE_ACTION_ID: '${{ github.run_id }}'
         FASTLANE_DISCORD_WEBHOOK: '${{ secrets.FASTLANE_DISCORD_WEBHOOK }}'
         FASTLANE_MATCH_PWD: '${{ secrets.FASTLANE_MATCH_PWD }}'
         FASTLANE_MATCH_TOKEN: '${{ secrets.FASTLANE_MATCH_TOKEN }}'

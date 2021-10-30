@@ -27,93 +27,93 @@ jobs:
         echo "::set-output name=code::$(lua .github/workflows/getVersion.lua -code)"
         echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
 
-  build-windows:
-    runs-on: windows-latest
-    needs: get-info
-    steps:
-    - uses: actions/checkout@v2
-    - uses: ./.github/actions/snapshot-update
-      with:
-        commit: ${{ needs.get-info.outputs.commit }}
-    - uses: ./.github/actions/build-windows
-      with:
-        love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
-        love-dir: love-11.3-win64
-        arch: win64
-        version: ${{ needs.get-info.outputs.name }}
-        icon: .\.github\build\Windows\icon_snapshot.ico
-    - name: Upload
-      uses: actions/upload-artifact@v2
-      with:
-        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Windows
-        path: love
+  # build-windows:
+  #   runs-on: windows-latest
+  #   needs: get-info
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - uses: ./.github/actions/snapshot-update
+  #     with:
+  #       commit: ${{ needs.get-info.outputs.commit }}
+  #   - uses: ./.github/actions/build-windows
+  #     with:
+  #       love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
+  #       love-dir: love-11.3-win64
+  #       arch: win64
+  #       version: ${{ needs.get-info.outputs.name }}
+  #       icon: .\.github\build\Windows\icon_snapshot.ico
+  #   - name: Upload
+  #     uses: actions/upload-artifact@v2
+  #     with:
+  #       name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Windows
+  #       path: love
 
-  build-linux:
-    runs-on: ubuntu-20.04
-    needs: get-info
-    steps:
-    - uses: actions/checkout@v2
-    - uses: ./.github/actions/snapshot-update
-      with:
-        commit: ${{ needs.get-info.outputs.commit }}
-    - uses: ./.github/actions/build-linux
-      with:
-        icon: .github/build/Linux/icon_snapshot.png
-    - name: Upload
-      uses: actions/upload-artifact@v2
-      with:
-        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Linux
-        path: Techmino.AppImage
+  # build-linux:
+  #   runs-on: ubuntu-20.04
+  #   needs: get-info
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - uses: ./.github/actions/snapshot-update
+  #     with:
+  #       commit: ${{ needs.get-info.outputs.commit }}
+  #   - uses: ./.github/actions/build-linux
+  #     with:
+  #       icon: .github/build/Linux/icon_snapshot.png
+  #   - name: Upload
+  #     uses: actions/upload-artifact@v2
+  #     with:
+  #       name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Linux
+  #       path: Techmino.AppImage
 
-  build-android:
-    runs-on: ubuntu-20.04
-    needs: get-info
-    steps:
-    - uses: actions/checkout@v2
-    - uses: ./.github/actions/snapshot-update
-      with:
-        commit: ${{ needs.get-info.outputs.commit }}
-    - uses: ./.github/actions/build-android
-      with:
-        type: Snapshot
-        apkCode: ${{ needs.get-info.outputs.apkCode }}
-        name: ${{ needs.get-info.outputs.name }}
-        file-path: Techmino_Snapshot.apk
-        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-        KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
-        ALIAS: ${{ secrets.ALIAS }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-    - name: Upload
-      uses: actions/upload-artifact@v2
-      with:
-        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Android
-        path: Techmino_Snapshot.apk
+  # build-android:
+  #   runs-on: ubuntu-20.04
+  #   needs: get-info
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - uses: ./.github/actions/snapshot-update
+  #     with:
+  #       commit: ${{ needs.get-info.outputs.commit }}
+  #   - uses: ./.github/actions/build-android
+  #     with:
+  #       type: Snapshot
+  #       apkCode: ${{ needs.get-info.outputs.apkCode }}
+  #       name: ${{ needs.get-info.outputs.name }}
+  #       file-path: Techmino_Snapshot.apk
+  #       SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+  #       KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+  #       ALIAS: ${{ secrets.ALIAS }}
+  #       KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+  #   - name: Upload
+  #     uses: actions/upload-artifact@v2
+  #     with:
+  #       name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Android
+  #       path: Techmino_Snapshot.apk
 
-  build-macOS:
-    runs-on: macos-10.15
-    needs: get-info
-    steps:
-    - uses: actions/checkout@v2
-    - uses: ./.github/actions/snapshot-update
-      with:
-        commit: ${{ needs.get-info.outputs.commit }}
-    - uses: ./.github/actions/build-macos
-      with:
-        name: ${{ needs.get-info.outputs.name }}
-        icon: .github/build/macOS/icon_snapshot.icns
-        APPLE_API_ID: '${{ secrets.APPLE_API_ID }}'
-        APPLE_API_ISSUER: '${{ secrets.APPLE_API_ISSUER }}'
-        APPLE_API_KEY: '${{ secrets.APPLE_API_KEY }}'
-        APPLE_APP_IDENTIFIER: '${{ secrets.APPLE_APP_IDENTIFIER }}'
-        APPLE_KEYCHAIN_NAME: '${{ secrets.APPLE_KEYCHAIN_NAME }}'
-        APPLE_KEYCHAIN_PWD: '${{ secrets.APPLE_KEYCHAIN_PWD }}'
-        FASTLANE_MATCH_PWD: '${{ secrets.FASTLANE_MATCH_PWD }}'
-        FASTLANE_MATCH_TOKEN: '${{ secrets.FASTLANE_MATCH_TOKEN }}'
-    - name: Upload
-      uses: actions/upload-artifact@v2
-      with:
-        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_macOS
-        path: Techmino.dmg
+  # build-macOS:
+  #   runs-on: macos-10.15
+  #   needs: get-info
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - uses: ./.github/actions/snapshot-update
+  #     with:
+  #       commit: ${{ needs.get-info.outputs.commit }}
+  #   - uses: ./.github/actions/build-macos
+  #     with:
+  #       name: ${{ needs.get-info.outputs.name }}
+  #       icon: .github/build/macOS/icon_snapshot.icns
+  #       APPLE_API_ID: '${{ secrets.APPLE_API_ID }}'
+  #       APPLE_API_ISSUER: '${{ secrets.APPLE_API_ISSUER }}'
+  #       APPLE_API_KEY: '${{ secrets.APPLE_API_KEY }}'
+  #       APPLE_APP_IDENTIFIER: '${{ secrets.APPLE_APP_IDENTIFIER }}'
+  #       APPLE_KEYCHAIN_NAME: '${{ secrets.APPLE_KEYCHAIN_NAME }}'
+  #       APPLE_KEYCHAIN_PWD: '${{ secrets.APPLE_KEYCHAIN_PWD }}'
+  #       FASTLANE_MATCH_PWD: '${{ secrets.FASTLANE_MATCH_PWD }}'
+  #       FASTLANE_MATCH_TOKEN: '${{ secrets.FASTLANE_MATCH_TOKEN }}'
+  #   - name: Upload
+  #     uses: actions/upload-artifact@v2
+  #     with:
+  #       name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_macOS
+  #       path: Techmino.dmg
 
   build-iOS:
     runs-on: macos-latest
@@ -137,6 +137,7 @@ jobs:
         APPLE_APP_PROFILE: '${{ secrets.APPLE_APP_PROFILE }}'
         APPLE_KEYCHAIN_NAME: '${{ secrets.APPLE_KEYCHAIN_NAME }}'
         APPLE_KEYCHAIN_PWD: '${{ secrets.APPLE_KEYCHAIN_PWD }}'
+        FASTLANE_ACTION_ID: '${{ github.run_id }}'
         FASTLANE_DISCORD_WEBHOOK: '${{ secrets.FASTLANE_DISCORD_WEBHOOK }}'
         FASTLANE_MATCH_PWD: '${{ secrets.FASTLANE_MATCH_PWD }}'
         FASTLANE_MATCH_TOKEN: '${{ secrets.FASTLANE_MATCH_TOKEN }}'

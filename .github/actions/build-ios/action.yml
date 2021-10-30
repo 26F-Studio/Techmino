@@ -40,6 +40,9 @@ inputs:
   FASTLANE_DISCORD_WEBHOOK:
     required: true
     description: "Fastlane Discord webhook"
+  FASTLANE_ACTION_ID:
+    required: true
+    description: "Fastlane Action ID"
   FASTLANE_MATCH_PWD:
     required: true
     description: "Fastlane Match description password"
@@ -71,6 +74,7 @@ runs:
         lane: '${{ inputs.type }}'
         subdirectory: 'Techmino-iOS/platform/xcode'
       env:
+          ACTION_ID: '${{ inputs.FASTLANE_ACTION_ID }}'
           API_ID: '${{ inputs.APPLE_API_ID }}'
           API_ISSUER: '${{ inputs.APPLE_API_ISSUER }}'
           API_KEY: '${{ inputs.APPLE_API_KEY }}'
