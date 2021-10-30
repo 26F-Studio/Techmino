@@ -12,7 +12,7 @@ local setFont,mStr=FONT.set,GC.mStr
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
 local trigGameRate,gameRate
-local modeTextPos
+local modeTextPos,modeTextWidK
 
 local replaying
 local repRateStrings={[0]="pause",[.125]="0.125x",[.5]="0.5x",[1]="1x",[2]="2x",[5]="5x"}
@@ -23,10 +23,14 @@ local function _updateMenuButtons()
     WIDGET.active.restart.hide=replaying
 
     local pos=(GAME.tasUsed or replaying)and'right'or SETTING.menuPos
-    if GAME.replaying or pos=='right'then
+    modeTextWidK=math.min(280/TEXTOBJ.modeName:getWidth(),1)
+    if GAME.replaying then
+        WIDGET.active.pause.x=1195
+        modeTextPos=1185-TEXTOBJ.modeName:getWidth()*modeTextWidK
+    elseif pos=='right'then
         WIDGET.active.restart.x=1125
         WIDGET.active.pause.x=1195
-        modeTextPos=1100-TEXTOBJ.modeName:getWidth()
+        modeTextPos=1115-TEXTOBJ.modeName:getWidth()*modeTextWidK
     elseif pos=='middle'then
         WIDGET.active.restart.x=360
         WIDGET.active.pause.x=860
@@ -34,7 +38,7 @@ local function _updateMenuButtons()
     elseif pos=='left'then
         WIDGET.active.restart.x=120
         WIDGET.active.pause.x=190
-        modeTextPos=1200-TEXTOBJ.modeName:getWidth()
+        modeTextPos=1200-TEXTOBJ.modeName:getWidth()*modeTextWidK
     end
 end
 local function _updateRepButtons()
@@ -357,7 +361,7 @@ function scene.draw()
 
     --Mode info
     gc_setColor(1,1,1,.82)
-    gc_draw(TEXTOBJ.modeName,modeTextPos,10)
+    gc_draw(TEXTOBJ.modeName,modeTextPos,10,0,modeTextWidK,1)
     local M=GAME.curMode
     if M and M.score and M.records[1]then
         setFont(15)
