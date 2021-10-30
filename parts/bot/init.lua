@@ -50,9 +50,6 @@ local botMeta={__index=_undefMethod}
 local BOT={}
 
 local AISpeed={60,50,40,30,20,14,10,6,4,3}
--- For CC bot:
--- TODO you still need to switch20G() at the right time.
--- since it's not cc-specific I'm not dealing with it for now
 --[[
     arg={
         next: number of nexts
