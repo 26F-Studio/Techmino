@@ -11,6 +11,7 @@ runs:
     - shell: python
       name: update snapshot saving folder
       run: |
+        from io import open
         if '${{ inputs.type }}'.lower() != 'snapshot':
           exit(0)
         with open('conf.lua', 'r+', encoding='utf-8') as file:
@@ -22,9 +23,10 @@ runs:
           file.write(data)
     - shell: python
       run: |
+        from io import open
         with open('version.lua', 'r+', encoding='utf-8') as file:
           data = file.read()
-          data = data.replace('@DEV', '@${{ inputs.commit }}'[0:4] if ${{ inputs.commit }} != '' else '')
+          data = data.replace('@DEV', '@${{ inputs.commit }}'[0:4] if '${{ inputs.commit }}' != '' else '')
           file.seek(0)
           file.truncate()
           file.flush()
