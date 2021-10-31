@@ -382,8 +382,11 @@ end
 for _,v in next,fs.getDirectoryItems('parts/modes')do
     if isSafeFile('parts/modes/'..v)and not MODES[v:sub(1,-5)]then
         local M={name=v:sub(1,-5)}
-        TABLE.complete(require('parts.modes.'..M.name),M)
-        MODES[M.name]=M
+        local modeData=require('parts.modes.'..M.name)
+        if modeData.env then
+            TABLE.complete(modeData,M)
+            MODES[M.name]=M
+        end
     end
 end
 
