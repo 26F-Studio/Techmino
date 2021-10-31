@@ -581,6 +581,7 @@ TESTS = coroutine.wrap(function()
     print("\27[92m\27[1mAutomatic Test Started\27[0m")
     YIELD(60)
     MES.new('check', 'Test mode engaged!!')
+    love.event.quit(1) --Test whether we can correctly handle errors
     for i, mode in pairs(MODES) do
         if i == 'PCbase' or i == 'PClist' or i == 'netBattle' then else
         print("Scanning mode "..mode.name)
