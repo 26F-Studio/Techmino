@@ -1,0 +1,33 @@
+name: 'Automatic Test'
+description: 'Check for obvious errors.'
+
+runs:
+  using: "composite"
+  steps:
+  - uses: actions/checkout@v2
+  - uses: ./.github/actions/build-love
+    with:
+      file-path: Techmino.love
+  - name: Download love
+    run: |
+      curl -L https://github.com/love2d/love/releases/download/11.3/love-11.3-linux-x86_64.tar.gz | tar xz
+  - name: Prepare PulseAudio
+    run: |
+      sudo apt-get update
+      sudo apt-get install pulseaudio pulseaudio-utils pavucontrol alsa-oss alsa-utils -y
+  - name: Run automated test
+    uses: GabrielBB/xvfb-action@v1
+    with:
+      run: |
+        if [ ./dest/love Techmino.love --test ]; then
+          echo "Passed" > .github/workflows/automatic-test/result.txt
+        else
+          exit 1 # xvfb seems to return 0 even if the test failed
+        fi
+  - name: Finish
+    run: |
+      if [ -f .github/workflows/automatic-test/result.txt ]; then
+        exit 0
+      else
+        exit 1
+      fi
