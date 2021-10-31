@@ -59,11 +59,41 @@ runs:
       shell: bash
       run: |
         7z a -tzip love-android/app/src/main/assets/game.love libAndroid
+    - name: update Android information
+      shell: python
+      run: |
+        if '${{ inputs.type }}' == 'Release':
+          appName = 'Techmino'
+          packageName = 'org.love2d.MrZ.Techmino'
+          edition = 'release'
+        elif '${{ inputs.type }}' == 'Snapshot':
+          appName = 'Techmino_Snapshot'
+          packageName = 'org.love2d.MrZ.Techmino.Snapshot'
+          edition = 'snapshot'
+        with open('./love-android/app/src/main/AndroidManifest.xml', "r+", encoding='utf-8') as file:
+          data = file.read()
+          data = data\
+            .replace('@appName', appName)\
+            .replace('@edition', edition)
+          file.seek(0)
+          file.truncate()
+          file.write(data)
+        with open("./love-android/app/build.gradle", "r+", encoding='utf-8') as file:
+          data = file.read()
+          data = data\
+            .replace('@packageName', packageName)\
+            .replace('@versionCode', '${{ inputs.apkCode }}')\
+            .replace('@versionName', '${{ inputs.name }}')\
+            .replace('@storePassword', '${{ inputs.KEY_STORE_PASSWORD }}')\
+            .replace('@keyAlias', '${{ inputs.ALIAS }}')\
+            .replace('@keyPassword', '${{ inputs.KEY_PASSWORD }}')
+          file.seek(0)
+          file.truncate()
+          file.write(data)
     - name: Build Techmino
       shell: bash
       run: |
         echo "${{ inputs.SIGNING_KEY }}" | base64 -d > love-android/app/android.keystore
-        python3 .github/workflows/updateVersion.py -T Android${{ inputs.type }} -C ${{ inputs.apkCode }} -N ${{ inputs.name }} -S ${{ inputs.KEY_STORE_PASSWORD }} -A ${{ inputs.ALIAS }} -K ${{ inputs.KEY_PASSWORD }}
         chmod 777 love-android/gradlew
         cd love-android/
         ./gradlew assembleRelease
