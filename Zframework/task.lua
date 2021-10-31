@@ -23,7 +23,7 @@ function TASK.update(dt)
 end
 function TASK.new(code,...)
     local thread=coroutine.create(code)
-    resume(thread,...)
+    assert(resume(thread,...))
     if status(thread)~='dead'then
         tasks[#tasks+1]={
             thread=thread,
