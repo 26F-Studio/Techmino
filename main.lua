@@ -585,7 +585,7 @@ TESTS = coroutine.wrap(function()
     YIELD(60)
     MES.new('check', 'Test mode engaged!!')
     for i, mode in pairs(MODES) do
-        if i == 'PCbase' or i == 'PClist' or i == 'netBattle' then else
+        if i == 'netBattle' then else
         print("Scanning mode "..mode.name)
         loadGame(mode.name)
         YIELD(120)
