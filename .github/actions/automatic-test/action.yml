@@ -21,16 +21,4 @@ runs:
     uses: GabrielBB/xvfb-action@v1
     with:
       run: |
-        if [ ./dest/love Techmino.love --test ]; then
-          echo "Passed" > .github/workflows/automatic-test/result.txt
-        else
-          exit 1 # xvfb seems to return 0 even if the test failed
-        fi
-  - name: Finish
-    shell: bash
-    run: |
-      if [ -f .github/workflows/automatic-test/result.txt ]; then
-        exit 0
-      else
-        exit 1
-      fi
+        ./dest/love Techmino.love --test
