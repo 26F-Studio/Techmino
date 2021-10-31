@@ -3,6 +3,7 @@ description: 'Check for obvious errors.'
 
 runs:
   using: "composite"
+  shell: bash
   steps:
   - uses: actions/checkout@v2
   - uses: ./.github/actions/build-love
