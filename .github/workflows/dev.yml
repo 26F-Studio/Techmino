@@ -117,6 +117,7 @@ jobs:
 
   build-iOS:
     runs-on: macos-latest
+    if: (!startsWith( github.ref , 'refs/heads/ci-')) || startsWith( github.ref , 'refs/heads/ci-ios-')
     needs: get-info
     steps:
     - uses: actions/checkout@v2
