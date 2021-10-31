@@ -580,4 +580,35 @@ table.insert(_LOADTIMELIST_,("Initialize Data: %.3fs"):format(TIME()-_LOADTIME_)
 
 for i=1,#_LOADTIMELIST_ do LOG(_LOADTIMELIST_[i])end
 
-for k,v in next,MODES do print(k,v)end
+if TABLE.find(arg,'--test')then
+    TASK.new(function()
+        while not LOADED do YIELD()end
+
+        print("\27[92m\27[1mAutomatic Test Started\27[0m")
+        BGM.setVol(0)SFX.setVol(0)
+        love.keypressed('space')
+        while SCN.swapping do YIELD()end
+
+        for k,mode in next,MODES do
+            if k~='netBattle'then
+                print("Scanning mode: "..mode.name)
+                loadGame(mode.name.."a",true)
+                while SCN.swapping do YIELD()end
+                SCN.back()
+                while SCN.swapping do YIELD()end
+            end
+        end
+        print("\27[92m\27[1mAutomatic Test Passed :)\27[0m")
+        for _=1,60 do YIELD()end
+        love.event.quit(0)
+    end)
+    TASK.new(function()
+        while true do
+            YIELD()
+            if ERRDATA[1]then break end
+        end
+        print("\27[91m\27[1mAutomatic Test Failed :(\27[0m\nThe error message is:\n"..table.concat(ERRDATA[1].mes,"\n").."\27[91m\nAborting\27[0m")
+        for _=1,60 do YIELD()end
+        love.event.quit(1)
+    end)
+end
