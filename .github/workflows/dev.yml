@@ -26,12 +26,21 @@ jobs:
         echo "::set-output name=apkCode::$(lua .github/workflows/getVersion.lua -apkCode)"
         echo "::set-output name=code::$(lua .github/workflows/getVersion.lua -code)"
         echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
-    - name: Run headless test
-      uses: GabrielBB/xvfb-action@v1
+
+  automatic-test:
+    runs-on: ubuntu-20.04
+    needs: get-info
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ./.github/actions/build-love
       with:
-        run: |
-          echo "Testing :)"
-          false
+        file-path: Techmino.love
+    - name: Download love
+      run: |
+        curl -L https://github.com/love2d/love/releases/download/11.3/love-11.3-linux-x86_64.tar.gz | tar xz
+    - name: Run automated test
+      run: |
+        ./dest/love Techmino.love --test
 
   build-windows:
     runs-on: windows-latest
