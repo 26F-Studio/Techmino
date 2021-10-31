@@ -41,7 +41,7 @@ jobs:
     - name: Prepare PulseAudio
       run: |
         sudo apt-get update
-        sudo apt-get install pulseaudio pulseaudio-utils -y
+        sudo apt-get install pulseaudio pulseaudio-utils pavucontrol alsa-oss alsa-utils -y
     - name: Run automated test
       uses: GabrielBB/xvfb-action@v1
       with:
