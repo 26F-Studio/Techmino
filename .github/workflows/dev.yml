@@ -39,8 +39,10 @@ jobs:
       run: |
         curl -L https://github.com/love2d/love/releases/download/11.3/love-11.3-linux-x86_64.tar.gz | tar xz
     - name: Run automated test
-      run: |
-        ./dest/love Techmino.love --test
+      uses: GabrielBB/xvfb-action@v1
+      with:
+        run: |
+          ./dest/love Techmino.love --test
 
   build-windows:
     runs-on: windows-latest
