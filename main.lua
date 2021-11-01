@@ -443,6 +443,14 @@ do
         fs.remove('record/round_l.rec')
         fs.remove('record/round_u.rec')
     end
+    if STAT.version<1604 then
+        RANKS.stack_e=nil
+        RANKS.stack_h=nil
+        RANKS.stack_u=nil
+        fs.remove('record/stack_e.rec')
+        fs.remove('record/stack_h.rec')
+        fs.remove('record/stack_u.rec')
+    end
     if RANKS.stack_20l then
         RANKS.stack_20l=nil
         RANKS.stack_40l=nil
