@@ -842,9 +842,9 @@ return{
         "\"TechminOS\"",
         "\"Techmino.app\" will damage your computer. You should move it to the Bin.",
         "TetroDictionary is now available in English.",
-        "The names that appeared in the background of the Staff page is a list of our sponsors."
+        "The names that appeared in the background of the Staff page is a list of our sponsors.",
         "The stacker future is yours in Techmino!",
-        "There are several hidden modes in the game than cannot be entered using the map.",
+        "There are several hidden modes in the game that cannot be entered using the map.",
         "There is a total of 18 different pentominoes.",
         "There is a total of 7 different tetrominoes.",
         "Try using multiple Hold Queues!",
