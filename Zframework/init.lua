@@ -9,6 +9,7 @@ TABLE=      require'Zframework.tableExtend'
 STRING=     require'Zframework.stringExtend'
 PROFILE=    require'Zframework.profile'
 JSON=       require'Zframework.json'
+TESTING=    require'Zframework.testing'
 do--Add pcall & MES for JSON lib
     local encode,decode=JSON.encode,JSON.decode
     JSON.encode=function(val)
