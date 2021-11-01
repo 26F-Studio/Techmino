@@ -30,6 +30,18 @@ runs:
       with:
         url: http://www.angusj.com/resourcehacker/resource_hacker.zip
     - uses: ./.github/actions/build-love
+    - name: update Windows template
+      shell: python
+      run: |
+        Version = '${{ inputs.version }}'.replace('V', '')
+        FileVersion = (f"{Version.replace('.', ',')},0")
+        with open('./.github/build/Windows/Techmino.rc.template', 'r', encoding='utf8') as file:
+          data = file.read()
+          data = data\
+            .replace('@FileVersion', FileVersion)\
+            .replace('@Version', Version)
+        with open('Techmino.rc', 'w+', encoding='utf8') as file:
+          file.write(data)
     - name: Pack Techmino
       shell: pwsh
       run: |
@@ -42,7 +54,6 @@ runs:
         del .\love\readme.txt
         move .\cold_clear.dll .\love
         move .\CCloader.dll .\love
-        python .\.github\workflows\updateVersion.py -T Windows -N ${{ inputs.version }}
         cmd /c '.\ResourceHacker.exe -open .\love\Techmino.exe -save .\love\Techmino.exe -action delete -mask ICONGROUP,,'
         cmd /c '.\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile'
         cmd /c '.\ResourceHacker.exe -open .\love\Techmino.exe -save .\love\Techmino.exe -action addoverwrite -res "${{ inputs.icon }}" -mask ICONGROUP,1,'
