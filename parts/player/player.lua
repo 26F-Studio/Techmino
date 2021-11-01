@@ -1888,24 +1888,11 @@ local function update_alive(P)
     P.frameRun=P.frameRun+1
     if P.frameRun<=180 then
         if P.frameRun==60 then
-            if P.id==1 then
-                Snd('bass','F3')
-                Snd('lead','A4')
-                Snd('lead','D5')
-            end
+            if P.id==1 then playReadySFX(2)end
         elseif P.frameRun==120 then
-            if P.id==1 then
-                Snd('bass','G3')
-                Snd('lead','B4')
-                Snd('lead','E5')
-            end
+            if P.id==1 then playReadySFX(1)end
         elseif P.frameRun==180 then
-            if P.id==1 then
-                Snd('bass','A3')
-                Snd('lead','A4')
-                Snd('lead','E5')
-                Snd('lead','A5')
-            end
+            if P.id==1 then playReadySFX(0)end
             P.control=true
             P.timing=true
             P:popNext()

@@ -173,7 +173,25 @@ function royaleLevelup()
         end
     end
 end
-
+function playReadySFX(i)
+    if i==3 then
+        Snd('bass','A3')
+        Snd('lead','A4')
+    elseif i==2 then
+        Snd('bass','F3')
+        Snd('lead','A4')
+        Snd('lead','D5')
+    elseif i==1 then
+        Snd('bass','G3')
+        Snd('lead','B4')
+        Snd('lead','E5')
+    elseif i==0 then
+        Snd('bass','A3')
+        Snd('lead','A4')
+        Snd('lead','E5')
+        Snd('lead','A5')
+    end
+end
 
 
 --Game
@@ -622,8 +640,7 @@ do--function resetGameData(args)
         if GAME.setting.allowMod then
             TASK.new(task_showMods)
         end
-        Snd('bass','A3')
-        Snd('lead','A4')
+        playReadySFX(3)
         collectgarbage()
     end
 end

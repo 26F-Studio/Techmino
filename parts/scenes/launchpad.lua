@@ -37,7 +37,13 @@ pad={x=140,y=65,page=1,
         {0,0,0,0,0,0,0,0},
     },
     {
-        {{},                  {},                       {},                 {},              {sfx='move'},   {sfx='lock'},   {sfx='drop'},   {sfx='fall'},},
+        {
+            {samp={tag='ready3',func=function()playReadySFX(3)end}},
+            {samp={tag='ready2',func=function()playReadySFX(2)end}},
+            {samp={tag='ready1',func=function()playReadySFX(1)end}},
+            {samp={tag='start',func=function()playReadySFX(0)end}},
+            {sfx='move'},{sfx='lock'},{sfx='drop'},{sfx='fall'},
+        },
         {{sfx='hold'},        {sfx='prehold'},          {},                 {},              {sfx='clear_1'},{sfx='clear_2'},{sfx='clear_3'},{sfx='clear_4'}},
         {{sfx='prerotate'},   {sfx='rotate'},           {sfx='rotatekick'}, {},              {voc='single'}, {voc='double'}, {voc='triple'}, {voc='techrash'}},
         {{sfx='finesseError'},{sfx='finesseError_long'},{sfx='drop_cancel'},{},              {sfx='spin_0'}, {sfx='spin_1'}, {sfx='spin_2'}, {sfx='spin_3'}},
@@ -108,6 +114,7 @@ local function press(x,y)
         pad.funcAlpha[y]=1
     else
         local k=pad[pad.page][y][x]
+        if k.samp then k.samp.func()end
         if k.sfx then SFX.play(k.sfx,k.vol)end
         if k.voc then VOC.play(k.voc)end
         if k.bgm then BGM.play(k.bgm)end
@@ -201,10 +208,12 @@ function scene.draw()
         if showLabel then
             if k.sfx then mStr(k.sfx,x*80+40,y*80-30)gc_circle('fill',x*80+40,(y-1)*80+40,6)end
             if k.voc then mStr(k.voc,x*80+40,y*80-17)gc_rectangle('line',x*80+30,(y-1)*80+30,20,20,1)end
+            if k.samp then mStr(k.samp.tag,x*80+40,y*80-30)gc_rectangle('fill',x*80+10,(y-1)*80+35,60,5,1)end
             if k.bgm then mStr(k.bgm,x*80+40,y*80-78)gc_rectangle('fill',x*80+20,(y-1)*80+15,40,5,2)end
         else
             if k.sfx then gc_circle('fill',x*80+40,(y-1)*80+40,6)end
             if k.voc then gc_rectangle('line',x*80+30,(y-1)*80+30,20,20,1)end
+            if k.samp then gc_rectangle('fill',x*80+10,(y-1)*80+35,60,5,1)end
             if k.bgm then gc_rectangle('fill',x*80+20,(y-1)*80+15,40,5,2)end
         end
         if pad.alpha[y][x]>0 then
