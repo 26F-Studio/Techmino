@@ -592,7 +592,7 @@ if TABLE.find(arg,'--test')then
         for k,mode in next,MODES do
             if k~='netBattle'then
                 print("Scanning mode: "..mode.name)
-                loadGame(mode.name.."a",true)
+                loadGame(mode.name,true)
                 while SCN.swapping do YIELD()end
                 SCN.back()
                 while SCN.swapping do YIELD()end
