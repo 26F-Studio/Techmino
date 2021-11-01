@@ -29,7 +29,7 @@ runs:
           commitHash = '${{ inputs.commit }}'
           commitHash = commitHash[0:4] if commitHash != '' else '????'
           data = file.read()
-          data = re.sub('(\d)"', r'\1@' + commitHash + '"', data)
+          data = re.sub('(\d)"', r'\1@' + commitHash + '"', data, 1)
           file.seek(0)
           file.truncate()
           file.flush()
