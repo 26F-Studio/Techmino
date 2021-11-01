@@ -943,23 +943,29 @@ return{
     },
 
     --Other
+    {"Github Repository",
+        "githubrepository sourcecode",
+        "other",
+        "Techmino's Github repository. Stars are appreciated.",
+        "https://github.com/26F-Studio/Techmino",
+    },
     {"Communities",
         "community communities",
         "other",
         "Join Tetris communities and talk with other players!\n\nChina: [QQ] Tetris Research: 112897780\nGlobal: [Discord] Hard Drop: discord.gg/harddrop (click \"Open URL\").",
         "https://discord.gg/harddrop"
     },
+    {"Mew",
+        "mew tieba forum",
+        "help",
+        "",--TODO
+        "https://mew.fun/n/tetris",
+    },
     {"Tetris OL Servers",
         "tetrisonline servers",
         "other",
         "Google \"Tetris Online Poland\" for the Poland server.\nClick \"Open URL\" for information about the Tetris Online Study server.",
         "http://teatube.ltd/tos",
-    },
-    {"Github Repository",
-        "githubrepository sourcecode",
-        "other",
-        "Techmino's Github repository. Stars are appreciated.",
-        "https://github.com/26F-Studio/Techmino",
     },
 
     --Savedata managing
