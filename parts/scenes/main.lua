@@ -14,10 +14,10 @@ local widgetX0={
 }
 local enterConsole=coroutine.wrap(function()
     while true do
-        Snd('bell',.3,'A4',.5,'E5',1,coin('A5','B5'))YIELD()
-        Snd('bell',.3,'A4',.5,'F5',1,coin('C6','D6'))YIELD()
-        Snd('bell',.3,'A4',.5,'G5',1,coin('E6','G6'))YIELD()
-        Snd('bell',.3,'A4',.5,'A5',1,'A6')SFX.play('ren_mega')SCN.go('app_console')YIELD()
+        Snd('bell',.6,'A4',.7,'E5',1,coin('A5','B5'))YIELD()
+        Snd('bell',.6,'A4',.7,'F5',1,coin('C6','D6'))YIELD()
+        Snd('bell',.6,'A4',.7,'G5',1,coin('E6','G6'))YIELD()
+        Snd('bell',.6,'A4',.7,'A5',1,'A6')SFX.play('ren_mega')SCN.go('app_console')YIELD()
     end
 end)
 function scene.sceneInit()
