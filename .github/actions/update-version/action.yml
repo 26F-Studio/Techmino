@@ -24,9 +24,12 @@ runs:
     - shell: python
       run: |
         from io import open
+        import re
         with open('version.lua', 'r+', encoding='utf-8') as file:
+          commitHash = '${{ inputs.commit }}'
+          commitHash = commitHash[0:4] if commitHash != '' else '????'
           data = file.read()
-          data = data.replace('@DEV', '@${{ inputs.commit }}'[0:4] if '${{ inputs.commit }}' != '' else '')
+          data = re.sub('(\d)"', r'\1@' + commitHash + '"', data)
           file.seek(0)
           file.truncate()
           file.flush()

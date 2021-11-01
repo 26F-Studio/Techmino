@@ -5,10 +5,10 @@ elseif arg[1]=="-code"then
     local str=require"version".code
     print(str)
 elseif arg[1]=="-name"then
-    local str=require"version".string:gsub("@DEV","")
+    local str=require"version".string
     print(str)
 elseif arg[1]=="-release"then
-    local str=require"version".string:gsub("V","",1):gsub("@DEV","")
+    local str=require"version".string:gsub("V","",1)
     print(str)
 elseif arg[1]=="-updateTitle"then
     local note=require"parts.updateLog"
