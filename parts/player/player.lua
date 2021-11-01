@@ -622,37 +622,36 @@ function Player:lock()
 end
 
 function Player:checkClear(field,start,height,CB,CX)
-    local cc=0
-    if self.gameEnv.fillClear then
-        for i=1,height do
-            local h=start+i-2
+    local cc,gbcc=0,0
+    for i=1,height do
+        local h=start+i-2
 
-            --Bomb trigger (optional, must with CB)
-            if CB and h>0 and field[h]and self.clearedRow[cc]~=h then
-                for x=1,#CB[1]do
-                    if CB[i][x]and field[h][CX+x-1]==19 then
-                        cc=cc+1
-                        self.clearingRow[cc]=h-cc+1
-                        self.clearedRow[cc]=h
-                        break
-                    end
+        --Bomb trigger (optional, must with CB)
+        if CB and h>0 and field[h]and self.clearedRow[cc]~=h then
+            for x=1,#CB[1]do
+                if CB[i][x]and field[h][CX+x-1]==19 then
+                    cc=cc+1
+                    self.clearingRow[cc]=h-cc+1
+                    self.clearedRow[cc]=h
+                    break
                 end
             end
-
-            h=h+1
-            --Row filled
-            for x=1,10 do
-                if field[h][x]<=0 then
-                    goto CONTINUE_notFull
-                end
-            end
-            cc=cc+1
-            ins(self.clearingRow,h-cc+1)
-            ins(self.clearedRow,h)
-            ::CONTINUE_notFull::
         end
+
+        h=h+1
+        --Row filled
+        for x=1,10 do
+            if field[h][x]<=0 then
+                goto CONTINUE_notFull
+            end
+        end
+        cc=cc+1
+        if field[h].garbage then gbcc=gbcc+1 end
+        ins(self.clearingRow,h-cc+1)
+        ins(self.clearedRow,h)
+        ::CONTINUE_notFull::
     end
-    return cc
+    return cc,gbcc
 end
 function Player:roofCheck()
     local CB=self.cur.bk
@@ -673,13 +672,29 @@ function Player:roofCheck()
     end
     return false
 end
+function Player:removeClearedLines()
+    for i=#self.clearedRow,1,-1 do
+        local h=self.clearedRow[i]
+        if self.field[h].garbage then
+            self.garbageBeneath=self.garbageBeneath-1
+        end
+        FREEROW.discard(rem(self.field,h))
+        FREEROW.discard(rem(self.visTime,h))
+    end
+end
 function Player:removeTopClearingFX()
     for i=#self.clearingRow,1,-1 do
         if self.clearingRow[i]>#self.field then
             rem(self.clearingRow)
         else
-            return
+            break
         end
+    end
+    if self.clearingRow[1]then
+        self.falling=self.gameEnv.fall
+        return false
+    else
+        return true
     end
 end
 function Player:checkMission(piece,mission)
@@ -1225,7 +1240,10 @@ do--Player.drop(self)--Place piece
         end
 
         --Check line clear
-        cc=cc+self:checkClear(self.field,CY,#CB,CB,CX)
+        if self.gameEnv.fillClear then
+            local _cc,_gbcc=self:checkClear(self.field,CY,#CB,CB,CX)
+            cc,gbcc=cc+_cc,gbcc+_gbcc
+        end
 
         --Create clearing FX
         for i=1,cc do
@@ -1257,25 +1275,10 @@ do--Player.drop(self)--Place piece
         local finesse=CY>ENV.fieldH-2 or self:roofCheck()
 
         --Remove rows need to be cleared
-        if cc>0 then
-            for i=cc,1,-1 do
-                _=self.clearedRow[i]
-                if self.field[_].garbage then
-                    self.garbageBeneath=self.garbageBeneath-1
-                    gbcc=gbcc+1
-                end
-                FREEROW.discard(rem(self.field,_))
-                FREEROW.discard(rem(self.visTime,_))
-            end
-        end
+        self:removeClearedLines()
 
-        --Cancel top clearing FX
-        self:removeTopClearingFX()
-        if self.clearingRow[1]then
-            self.falling=ENV.fall
-        else
-            clear=true
-        end
+        --Cancel top clearing FX & get clear flag
+        clear=self:removeTopClearingFX()
 
         --Finesse check (control)
         local finePts
