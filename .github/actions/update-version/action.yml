@@ -27,9 +27,10 @@ runs:
         import re
         with open('version.lua', 'r+', encoding='utf-8') as file:
           commitHash = '${{ inputs.commit }}'
-          commitHash = commitHash[0:4] if commitHash != '' else '????'
+          if commitHash != '':
+            commitHash = '@' + commitHash[0:4]
           data = file.read()
-          data = re.sub('(\d)"', r'\1@' + commitHash + '"', data, 1)
+          data = re.sub('(\d)"', r'\1' + commitHash + '"', data, 1)
           file.seek(0)
           file.truncate()
           file.flush()
