@@ -799,6 +799,12 @@ local commands={}do
             "Usage: tas <on|off>",
         },
     }
+    commands.tip={
+        code=function()
+            log(text.getTip())
+        end,
+        description="Show a random tip",
+    }
 
     --Network
     commands.switchhost={
