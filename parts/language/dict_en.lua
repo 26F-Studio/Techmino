@@ -958,7 +958,7 @@ return{
     {"Mew",
         "mew tieba forum",
         "help",
-        "",--TODO
+        "The Mew forum owned by Chinese Tetris Research Community, and was founded in the second half of 2021. Mew is a Chinese social media that can be thought of a combination of Discord and Reddit, with many channels in a big community. Users can chat in the channels or submit posts to the channel. Mew also has a function called \"Library\" which allows storing documentations systematically. The Tetris Mew forum is currently under construction and not too much contents are available (2/Nov/2021).",
         "https://mew.fun/n/tetris",
     },
     {"Tetris OL Servers",
