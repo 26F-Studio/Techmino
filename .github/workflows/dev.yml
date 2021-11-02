@@ -27,6 +27,12 @@ jobs:
         echo "::set-output name=code::$(lua .github/workflows/getVersion.lua -code)"
         echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
 
+  automatic-test:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ./.github/actions/automatic-test
+
   build-windows:
     runs-on: windows-latest
     needs: get-info
@@ -121,6 +127,7 @@ jobs:
 
   build-iOS:
     runs-on: macos-latest
+    if: (!startsWith( github.ref , 'refs/heads/ci-')) || startsWith( github.ref , 'refs/heads/ci-ios-')
     needs: get-info
     steps:
     - uses: actions/checkout@v2
