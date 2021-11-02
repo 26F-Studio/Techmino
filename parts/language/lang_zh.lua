@@ -556,7 +556,7 @@ return{
             arrow="→",
             now="正在播放:",
 
-            bgm="BGM",
+            bgm="音乐",
             sound="音效室",
         },
         launchpad={
