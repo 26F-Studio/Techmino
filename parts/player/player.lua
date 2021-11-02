@@ -621,7 +621,7 @@ function Player:lock()
     end
 end
 
-function Player:checkClear(field,start,height,CB,CX)
+function Player:_checkClear(field,start,height,CB,CX)
     local cc,gbcc=0,0
     for i=1,height do
         local h=start+i-2
@@ -653,7 +653,7 @@ function Player:checkClear(field,start,height,CB,CX)
     end
     return cc,gbcc
 end
-function Player:roofCheck()
+function Player:_roofCheck()
     local CB=self.cur.bk
     for x=1,#CB[1]do
         local y=#CB
@@ -672,7 +672,7 @@ function Player:roofCheck()
     end
     return false
 end
-function Player:removeClearedLines()
+function Player:_removeClearedLines()
     for i=#self.clearedRow,1,-1 do
         local h=self.clearedRow[i]
         if self.field[h].garbage then
@@ -681,6 +681,18 @@ function Player:removeClearedLines()
         FREEROW.discard(rem(self.field,h))
         FREEROW.discard(rem(self.visTime,h))
     end
+end
+function Player:clearFilledLines(start,height)
+    local _cc,_gbcc=self:_checkClear(self.field,start,height)
+    if _cc>0 then
+        playClearSFX(_cc)
+        self:showText(text.clear[min(_cc,21)],0,0,60,'beat',.4)
+        self:_removeClearedLines()
+        self.falling=self.gameEnv.fall
+        self.stat.row=self.stat.row+_cc
+        self.stat.dig=self.stat.dig+_gbcc
+    end
+    return _cc,_gbcc
 end
 function Player:removeTopClearingFX()
     for i=#self.clearingRow,1,-1 do
@@ -710,7 +722,7 @@ function Player:checkMission(piece,mission)
     return false
 end
 
-local spawnSFX_name={}for i=1,7 do spawnSFX_name[i]='spawn_'..i end
+local spawnSFX_name={'spawn_1','spawn_2','spawn_3','spawn_4','spawn_5','spawn_6','spawn_7'}
 function Player:resetBlock()--Reset Block's position and execute I*S
     local C=self.cur
     local sc=C.RS.centerPos[C.id][C.dir]
@@ -1083,7 +1095,6 @@ do--Player.drop(self)--Place piece
     local spinVoice={'zspin','sspin','jspin','lspin','tspin','ospin','ispin','zspin','sspin','pspin','qspin','fspin','espin','tspin','uspin','vspin','wspin','xspin','jspin','lspin','rspin','yspin','nspin','hspin','ispin','ispin','cspin','ispin','ospin'}
     local clearVoice={'single','double','triple','techrash','pentacrash','hexacrash'}
     local spinSFX={[0]='spin_0','spin_1','spin_2'}
-    local clearSFX={'clear_1','clear_2','clear_3','clear_4','clear_5','clear_6'}
     local renSFX={}for i=1,11 do renSFX[i]='ren_'..i end
     local finesseList={
         {
@@ -1241,7 +1252,7 @@ do--Player.drop(self)--Place piece
 
         --Check line clear
         if self.gameEnv.fillClear then
-            local _cc,_gbcc=self:checkClear(self.field,CY,#CB,CB,CX)
+            local _cc,_gbcc=self:_checkClear(self.field,CY,#CB,CB,CX)
             cc,gbcc=cc+_cc,gbcc+_gbcc
         end
 
@@ -1272,10 +1283,10 @@ do--Player.drop(self)--Place piece
         end
 
         --Finesse: roof check
-        local finesse=CY>ENV.fieldH-2 or self:roofCheck()
+        local finesse=CY>ENV.fieldH-2 or self:_roofCheck()
 
         --Remove rows need to be cleared
-        self:removeClearedLines()
+        self:_removeClearedLines()
 
         --Cancel top clearing FX & get clear flag
         clear=self:removeTopClearingFX()
@@ -1519,7 +1530,7 @@ do--Player.drop(self)--Place piece
 
             --SFX & Vibrate
             if self.sound then
-                SFX.play(clearSFX[cc])
+                playClearSFX(cc)
                 SFX.play(renSFX[min(cmb,11)],.75)
                 if cmb>14 then
                     SFX.play('ren_mega',(cmb-10)*.1)
@@ -2283,7 +2294,7 @@ function Player:revive()
     SYSFX.newShade(1.4,self.fieldX,self.fieldY,300*self.size,610*self.size)
     SYSFX.newRectRipple(2,self.fieldX,self.fieldY,300*self.size,610*self.size)
     SYSFX.newRipple(2,self.x+(475+25*(self.life<3 and self.life or 0)+12)*self.size,self.y+(595+12)*self.size,20)
-    SFX.play('clear_3')
+    playClearSFX(3)
     SFX.play('emit')
 end
 function Player:win(result)

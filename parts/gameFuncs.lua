@@ -10,6 +10,7 @@ local int,rnd=math.floor,math.random
 
 local SETTING,GAME,SCR=SETTING,GAME,SCR
 local PLAYERS=PLAYERS
+local playSFX=SFX.play
 
 
 
@@ -170,6 +171,28 @@ function royaleLevelup()
                 P.curY=P.ghoY
                 P:set20G(true)
             end
+        end
+    end
+end
+
+--Sound shortcuts
+function playClearSFX(cc)
+    if cc<=0 or cc%1~=0 then return end
+    if cc<=4 then
+        playSFX('clear_'..cc)
+    elseif cc<=6 then
+        playSFX('clear_5')
+    else
+        playSFX('clear_6',.4)
+        if cc<=9 then      Snd('bass','A3','E4')
+        elseif cc<=12 then Snd('bass','A3','E4','A4')
+        elseif cc<=14 then Snd('bass',.8,'A3','E4')Snd('lead','A4','E5')
+        elseif cc<=16 then Snd('bass',.8,'A3','G4')Snd('lead','B4','G5')
+        elseif cc==17 then Snd('bass',.8,'A3','A4')Snd('lead','E5','G5')
+        elseif cc==18 then Snd('bass',.7,'A4')Snd('lead',.8,'C4','G5')Snd('bell','D5')
+        elseif cc==19 then Snd('bass',.7,'A4')Snd('lead',.8,'A4','E5')Snd('bell','B5')
+        elseif cc==20 then Snd('bass',.7,'A4')Snd('lead',.8,'A4','E4')Snd('bell','D5','B5','G6')
+        else               Snd('bass',.7,'A4')Snd('lead',.8,'A4','E4')Snd('bell','B5','E6','A6')
         end
     end
 end
@@ -364,7 +387,7 @@ function loadGame(mode,ifQuickPlay,ifNet)--Load a mode and go to game scene
             local modeText=text.modes[mode]or{"["..MODES[mode].name.."]",""}
             TEXTOBJ.modeName:set(modeText[1].."   "..modeText[2])
             SCN.go('game',ifQuickPlay and'swipeD'or'fade_togame')
-            SFX.play('enter')
+            playSFX('enter')
         end
     end
 end
@@ -428,7 +451,7 @@ function gameOver()--Save record
                         P:_showText(text.newRecord,0,-100,100,'beat',.5)
                         if SETTING.autoSave and DATA.saveReplay()then
                             GAME.saved=true
-                            SFX.play('connected')
+                            playSFX('connected')
                             MES.new('check',text.saveDone)
                         end
                     end
