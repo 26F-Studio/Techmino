@@ -1,13 +1,12 @@
---Utils for testing
-local testing={}
+local TEST={}
 
 --Wait for the scene swapping animation to finish
-function testing.switchSCN()
+function TEST.switchSCN()
     while SCN.swapping do YIELD()end
 end
 
-function testing.sleep(frames)
+function TEST.wait(frames)
     for _=1,frames do YIELD()end
 end
 
-return testing
+return TEST
