@@ -3,7 +3,6 @@ return{
     env={
         drop=60,lock=60,
         wait=0,fall=50,
-        fieldH=21,
         highCam=false,
         garbageSpeed=30,
         seqData={1,2,3,4,5,6,7,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25},
