@@ -682,19 +682,6 @@ function Player:_removeClearedLines()
         FREEROW.discard(rem(self.visTime,h))
     end
 end
-function Player:clearFilledLines(start,height)
-    local _cc,_gbcc=self:_checkClear(self.field,start,height)
-    if _cc>0 then
-        playClearSFX(_cc)
-        self:showText(text.clear[min(_cc,21)],0,0,75,'beat',.4)
-        if _cc>6 then self:showText(text.cleared:gsub("$1",_cc),0,55,30,'zoomout',.4)end
-        self:_removeClearedLines()
-        self.falling=self.gameEnv.fall
-        self.stat.row=self.stat.row+_cc
-        self.stat.dig=self.stat.dig+_gbcc
-    end
-    return _cc,_gbcc
-end
 function Player:removeTopClearingFX()
     for i=#self.clearingRow,1,-1 do
         if self.clearingRow[i]>#self.field then
@@ -1075,8 +1062,17 @@ function Player:cancel(N)--Cancel Garbage
     end
     return off
 end
-do--Player.drop(self)--Place piece
-    local clearSCR={80,200,400}--Techrash:1K; B2Bmul:1.3/1.8
+
+--Player.drop(self)--Place piece
+--Player:clearFilledLines(start,height)
+do
+    local clearSCR=setmetatable({--B2Bmul:1.3/1.8
+        80,200,400,1000,--1~4
+        1500,2000,2300,2600,3000,3400,--5~10
+        3800,4200,4600,5000,5500,6000,--11~16
+        6500,7000,7500,8000,--17~20
+        10000,11500,13000,14500,16000--21~25
+    },{__index=function(self,k)self[k]=20000 return 20000 end})
     local spinSCR={
         {200,750,1300,2000},--Z
         {200,750,1300,2000},--S
@@ -1382,7 +1378,7 @@ do--Player.drop(self)--Place piece
                     VOC.play(spinVoice[C.name],CHN)
                 end
             elseif cc>=4 then
-                cscore=cc==4 and 1000 or cc==5 and 1500 or 2000
+                cscore=clearSCR[cc]
                 if self.b2b>800 then
                     self:showText(text.b3b..text.clear[cc],0,-30,50,'fly')
                     atk=4*cc-10
@@ -1661,6 +1657,21 @@ do--Player.drop(self)--Place piece
         else
             self:triggerDropEvents()
         end
+    end
+
+    function Player:clearFilledLines(start,height)
+        local _cc,_gbcc=self:_checkClear(self.field,start,height)
+        if _cc>0 then
+            playClearSFX(_cc)
+            self:showText(text.clear[min(_cc,21)],0,0,75,'beat',.4)
+            if _cc>6 then self:showText(text.cleared:gsub("$1",_cc),0,55,30,'zoomout',.4)end
+            self:_removeClearedLines()
+            self.falling=self.gameEnv.fall
+            self.stat.row=self.stat.row+_cc
+            self.stat.dig=self.stat.dig+_gbcc
+            self.stat.score=self.stat.score+clearSCR[cc]
+        end
+        return _cc,_gbcc
     end
 end
 function Player:loadAI(data)--Load AI params

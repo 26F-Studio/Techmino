@@ -183,7 +183,7 @@ function playClearSFX(cc)
     elseif cc<=6 then
         playSFX('clear_5')
     else
-        playSFX('clear_6',.4)
+        playSFX('clear_6',.6)
         if cc<=9 then      Snd('bass','A3','E4')
         elseif cc<=12 then Snd('bass','A3','E4','A4')
         elseif cc<=14 then Snd('bass',.8,'A3','E4')Snd('lead','A4','E5')
