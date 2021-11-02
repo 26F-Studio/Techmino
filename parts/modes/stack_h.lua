@@ -7,7 +7,7 @@ return{
         highCam=false,
         garbageSpeed=30,
         seqData={1,2,3,4,5,6,7,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25},
-        eventSet='stack_50',
+        eventSet='stack_h',
         bg='blockrain',bgm='there',
     },
     score=function(P)return{P.stat.row,P.stat.time}end,
@@ -20,7 +20,7 @@ return{
         L>=70 and 4 or
         L>=60 and 3 or
         L>=50 and 2 or
-        L>=40 and 1 or
+        L>=35 and 1 or
         L>=20 and 0
     end,
 }

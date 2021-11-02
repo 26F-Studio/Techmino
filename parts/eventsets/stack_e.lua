@@ -1,5 +1,10 @@
 return{
     fillClear=false,
+    mesDisp=function(P)
+        setFont(60)
+        mStr(P.stat.row,63,280)
+        mText(TEXTOBJ.line,63,350)
+    end,
     dropPiece=function(P)
         if #P.field>P.gameEnv.fieldH then
             local cc=P:clearFilledLines(P.garbageBeneath+1,#P.field-P.garbageBeneath)

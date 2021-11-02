@@ -6,7 +6,7 @@ return{
         garbageSpeed=30,
         highCam=false,
         seqData={1,2,3,4,5,6,7},
-        eventSet='stack_100',
+        eventSet='stack_e',
         bg='blockrain',bgm='there',
     },
     score=function(P)return{P.stat.row,P.stat.time}end,
@@ -16,10 +16,10 @@ return{
         local L=P.stat.row
         return
         L>=200 and 5 or
-        L>=180 and 4 or
-        L>=160 and 3 or
-        L>=130 and 2 or
-        L>=100 and 1 or
-        L>=70 and 0
+        L>=175 and 4 or
+        L>=150 and 3 or
+        L>=120 and 2 or
+        L>=90 and 1 or
+        L>=30 and 0
     end,
 }
