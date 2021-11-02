@@ -50,8 +50,8 @@ pad={x=140,y=65,page=1,
             {samp={tag='clear_2',func=function()playClearSFX(2)end}},
             {samp={tag='clear_3',func=function()playClearSFX(3)end}},
             {samp={tag='clear_4',func=function()playClearSFX(4)end}},
-            {samp={tag='clear_5',func=function()playClearSFX(5)end}},
-            {samp={tag='clear_6',func=function()playClearSFX(6)end}},
+            {samp={tag='clear_7',func=function()playClearSFX(7)end}},
+            {samp={tag='clear_10',func=function()playClearSFX(10)end}},
         },
         {{sfx='prerotate'},   {sfx='rotate'},           {sfx='rotatekick'}, {},              {voc='single'}, {voc='double'}, {voc='triple'}, {voc='techrash'}},
         {{sfx='finesseError'},{sfx='finesseError_long'},{sfx='drop_cancel'},{},              {sfx='spin_0'}, {sfx='spin_1'}, {sfx='spin_2'}, {sfx='spin_3'}},
@@ -84,8 +84,8 @@ pad={x=140,y=65,page=1,
             {samp={tag='clear_2',func=function()playClearSFX(2)end}},
             {samp={tag='clear_3',func=function()playClearSFX(3)end}},
             {samp={tag='clear_4',func=function()playClearSFX(4)end}},
-            {samp={tag='clear_5',func=function()playClearSFX(5)end}},
-            {samp={tag='clear_6',func=function()playClearSFX(6)end}},
+            {samp={tag='clear_7',func=function()playClearSFX(7)end}},
+            {samp={tag='clear_10',func=function()playClearSFX(10)end}},
         },
         {{voc='mini'},   {voc='b2b'},    {voc='b3b'},   {voc='perfect_clear'}, {voc='half_clear'},        {sfx='finesseError'},     {sfx='finesseError_long'}, {sfx='drop_cancel'},},
         {{voc='zspin'},  {voc='sspin'},  {voc='jspin'}, {voc='lspin'},         {voc='tspin'},             {voc='ospin'},            {voc='ispin'},             {}},
@@ -253,12 +253,12 @@ function scene.draw()
         gc_rectangle('line',x*80+2,(y-1)*80+2,76,76,5)
         local k=pad[pad.page][y][x]
         if showLabel then
-            if k.sfx then mStr(k.sfx,x*80+40,y*80-30)gc_circle('fill',x*80+40,(y-1)*80+40,6)end
+            if k.sfx then mStr(k.sfx,x*80+40,y*80-30)gc_circle('line',x*80+40,(y-1)*80+40,5)end
             if k.voc then mStr(k.voc,x*80+40,y*80-17)gc_rectangle('line',x*80+30,(y-1)*80+30,20,20,1)end
             if k.samp then mStr(k.samp.tag,x*80+40,y*80-30)gc_rectangle('fill',x*80+10,(y-1)*80+35,60,5,1)end
             if k.bgm then mStr(k.bgm,x*80+40,y*80-78)gc_rectangle('fill',x*80+20,(y-1)*80+15,40,5,2)end
         else
-            if k.sfx then gc_circle('fill',x*80+40,(y-1)*80+40,6)end
+            if k.sfx then gc_circle('line',x*80+40,(y-1)*80+40,5)end
             if k.voc then gc_rectangle('line',x*80+30,(y-1)*80+30,20,20,1)end
             if k.samp then gc_rectangle('fill',x*80+10,(y-1)*80+35,60,5,1)end
             if k.bgm then gc_rectangle('fill',x*80+20,(y-1)*80+15,40,5,2)end

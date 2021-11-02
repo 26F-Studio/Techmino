@@ -181,14 +181,24 @@ function playClearSFX(cc)
     if cc<=4 then
         playSFX('clear_'..cc)
     elseif cc<=6 then
-        playSFX('clear_5')
+        playSFX('clear_4')
+    elseif cc<=12 then
+        playSFX('clear_4',.8)
+        if cc<=9 then
+            Snd('bass','A3','E4')
+        else
+            Snd('bass','A3','E4','A4')
+        end
+    elseif cc<=16 then
+        playSFX('clear_5',.7)
+        if cc<=14 then
+            Snd('bass',.8,'A3','E4')Snd('lead','A4','E5')
+        else
+            Snd('bass',.8,'A3','G4')Snd('lead','B4','G5')
+        end
     else
         playSFX('clear_6',.6)
-        if cc<=9 then      Snd('bass','A3','E4')
-        elseif cc<=12 then Snd('bass','A3','E4','A4')
-        elseif cc<=14 then Snd('bass',.8,'A3','E4')Snd('lead','A4','E5')
-        elseif cc<=16 then Snd('bass',.8,'A3','G4')Snd('lead','B4','G5')
-        elseif cc==17 then Snd('bass',.8,'A3','A4')Snd('lead','E5','G5')
+        if cc==17 then Snd('bass',.8,'A3','A4')Snd('lead','E5','G5')
         elseif cc==18 then Snd('bass',.7,'A4')Snd('lead',.8,'C4','G5')Snd('bell','D5')
         elseif cc==19 then Snd('bass',.7,'A4')Snd('lead',.8,'A4','E5')Snd('bell','B5')
         elseif cc==20 then Snd('bass',.7,'A4')Snd('lead',.8,'A4','E4')Snd('bell','D5','B5','G6')
