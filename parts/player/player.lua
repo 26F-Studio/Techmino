@@ -686,8 +686,8 @@ function Player:clearFilledLines(start,height)
     local _cc,_gbcc=self:_checkClear(self.field,start,height)
     if _cc>0 then
         playClearSFX(_cc)
-        self:showText(text.clear[min(_cc,21)],0,0,60,'beat',.4)
-        if _cc>6 then self:showText(text.cleared:gsub("$1",_cc),0,50,25,'fly',.4)end
+        self:showText(text.clear[min(_cc,21)],0,0,75,'beat',.4)
+        if _cc>6 then self:showText(text.cleared:gsub("$1",_cc),0,55,30,'zoomout',.4)end
         self:_removeClearedLines()
         self.falling=self.gameEnv.fall
         self.stat.row=self.stat.row+_cc
