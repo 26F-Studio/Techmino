@@ -5,10 +5,15 @@ local sin=math.sin
 local selRS
 local minoRot={0,0,0,0,0,0,0}
 local minoRot0={}
+local selEggMode
+
+local playEgg=WIDGET.newButton{name='playEgg',  x=1140,y=540,w=140,h=65,color='lP',font=60,fText=CHAR.icon.rankZ,code=function()loadGame(selEggMode,true)end}
 
 local scene={}
 
 function scene.sceneInit()
+    selEggMode=false
+    scene.widgetList.playEgg.hide=true
     BG.set()
     selRS=RSlist[SETTING.RS]
     for i=1,7 do
@@ -59,14 +64,18 @@ end
 local function _nextDir(i)
     SETTING.face[i]=(SETTING.face[i]+1)%4
     minoRot0[i]=minoRot0[i]+1.5707963
-    if not GAME.playing then
+    if not selEggMode and not GAME.playing then
         if minoRot0[5]>62 then
-            loadGame('marathon_bfmax',true)
+            selEggMode='marathon_bfmax'
+            playEgg.color=COLOR.dR
         elseif minoRot0[6]>62 then
-            loadGame('techrash_n',true)
+            selEggMode='techrash_n'
+            playEgg.color=COLOR.lP
         elseif minoRot0[7]>62 then
-            loadGame('techrash_u',true)
+            selEggMode='techrash_u'
+            playEgg.color=COLOR.lY
         end
+        playEgg.hide=not selEggMode
     end
     SFX.play('rotate')
 end
@@ -115,6 +124,7 @@ scene.widgetList={
             SFX.play('hold')
         end},
     WIDGET.newButton{name='back',     x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
+    playEgg,
 }
 
 return scene
