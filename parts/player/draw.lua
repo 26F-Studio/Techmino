@@ -627,20 +627,29 @@ local function _drawStartCounter(time)
     time=179-time
     gc_push('transform')
         gc_translate(300,300)
+        local r,g,b
         local num=int(time/60)+1
         local d=time%60
         if num==3 then
-            gc_setColor(.7,.8,.98)
+            r,g,b=.7,.8,.98
             if d>45 then gc_rotate((d-45)^2*.00355)end
         elseif num==2 then
-            gc_setColor(.98,.85,.75)
+            r,g,b=.98,.85,.75
             if d>45 then gc_scale(1+(d/15-3)^2,1)end
         elseif num==1 then
-            gc_setColor(1,.7,.7)
+            r,g,b=1,.7,.7
             if d>45 then gc_scale(1,1+(d/15-3)^2)end
         end
-        if d<20 then gc_scale((d/20)^.4)end
         setFont(100)
+
+        gc_setColor(r,g,b,d/60)
+        gc_push('transform')
+            gc_scale((1.5-d/60*.6)^1.5)
+            mStr(num,0,-70)
+        gc_pop()
+
+        gc_setColor(r,g,b)
+        gc_scale(min(d/20,1)^.4)
         mStr(num,0,-70)
     gc_pop()
 end
