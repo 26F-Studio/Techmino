@@ -61,7 +61,7 @@ function back.draw()
         gc.setColor(wingColor[i])
         local B=crystals[i]
         gc.draw(crystal_img,B.x,B.y,B.a,k,k,21,0)
-        B=crystals[17-i]
+        B=crystals[8+i]
         gc.draw(crystal_img,B.x,B.y,B.a,-k,k,21,0)
     end
 end
