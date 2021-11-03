@@ -658,16 +658,26 @@ local draw={}
 draw.drawGhost=drawGhost
 draw.applyField=_applyField
 draw.cancelField=_cancelField
-function draw.drawTargetLine(P,r)
-    if r<=20+(P.fieldBeneath+P.fieldUp+10)/30 and r>0 then
+function draw.drawTargetLine(P,h)
+    if h<=20+(P.fieldBeneath+P.fieldUp+10)/30 and h>0 then
         gc_setLineWidth(3)
-        gc_setColor(1,r>10 and 0 or .2+.8*rnd(),.5)
+        gc_setColor(1,h>10 and 0 or .2+.8*rnd(),.5)
         _applyField(P)
-        r=600-30*r
+        h=600-30*h
         if P.falling~=-1 then
-            r=r-#P.clearingRow*(P.gameEnv.smooth and(P.falling/(P.gameEnv.fall+1))^1.6*30 or 30)
+            h=h-#P.clearingRow*(P.gameEnv.smooth and(P.falling/(P.gameEnv.fall+1))^1.6*30 or 30)
         end
-        gc_line(0,r,300,r)
+        gc_line(0,h,300,h)
+        _cancelField()
+    end
+end
+function draw.drawMarkLine(P,h,r,g,b,a)
+    if h<=20+(P.fieldBeneath+P.fieldUp+10)/30 and h>0 then
+        gc_setLineWidth(4)
+        gc_setColor(r,g,b,a)
+        _applyField(P)
+        h=600-30*h
+        gc_line(0,h,300,h)
         _cancelField()
     end
 end
