@@ -14,6 +14,7 @@ jobs:
       code: ${{ steps.actual-get-info.outputs.code }}
       release: ${{ steps.actual-get-info.outputs.release }}
       updateTitle: ${{ steps.actual-get-info.outputs.updateTitle }}
+      updateNote: ${{ steps.actual-get-info.outputs.updateNote }}
       commit: ${{ steps.actual-get-info.outputs.commit }}
     steps:
     - uses: actions/checkout@v2
@@ -23,11 +24,16 @@ jobs:
     - name: Get Version
       id: actual-get-info
       run: |
+        UPDATE_NOTE=$(lua .github/workflows/getVersion.lua -updateNote)
+        UPDATE_NOTE="${UPDATE_NOTE//'%'/'%25'}"
+        UPDATE_NOTE="${UPDATE_NOTE//$'\n'/'%0A'}"
+        UPDATE_NOTE="${UPDATE_NOTE//$'\r'/'%0D'}"
         echo "::set-output name=name::$(lua .github/workflows/getVersion.lua -name)"
         echo "::set-output name=apkCode::$(lua .github/workflows/getVersion.lua -apkCode)"
         echo "::set-output name=code::$(lua .github/workflows/getVersion.lua -code)"
         echo "::set-output name=release::$(lua .github/workflows/getVersion.lua -release)"
         echo "::set-output name=updateTitle::$(lua .github/workflows/getVersion.lua -updateTitle)"
+        echo "::set-output name=updateNote::$UPDATE_NOTE"
         echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
 
   build-windows-x64:
@@ -176,7 +182,7 @@ jobs:
         APPLE_API_ISSUER: '${{ secrets.APPLE_API_ISSUER }}'
         APPLE_API_KEY: '${{ secrets.APPLE_API_KEY }}'
         APPLE_APP_BUILD: '${{ needs.get-info.outputs.code }}.0.${{ github.run_number }}.${{ github.run_attempt }}'
-        APPLE_APP_CHANGELOG: '${{ github.event.commits[0].message }}'
+        APPLE_APP_CHANGELOG: '${{ needs.get-info.outputs.updateNote }}'
         APPLE_APP_ID: '${{ secrets.APPLE_APP_ID }}'
         APPLE_APP_IDENTIFIER: '${{ secrets.APPLE_APP_IDENTIFIER }}'
         APPLE_APP_PROFILE: '${{ secrets.APPLE_APP_PROFILE }}'
@@ -216,16 +222,8 @@ jobs:
     needs: get-info
     steps:
     - uses: actions/checkout@v2
-    - name: Install lua
-      run: |
-        sudo apt-get update -y
-        sudo apt-get upgrade -y
-        sudo apt-get install lua5.3 -y
-    - name: Get ReleaseNote
-      run: |
-        lua .github/workflows/getVersion.lua -updateNote > updateNote.txt
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
         name: ${{ needs.get-info.outputs.updateTitle }}
-        body_path: updateNote.txt
+        body: ${{ needs.get-info.outputs.updateNote }}
