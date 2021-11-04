@@ -166,7 +166,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         name: ${{ needs.get-info.outputs.updateTitle }}
-        files: Techmino.a${{ needs.get-info.outputs.release }}.macOS.zip
+        files: Techmino.a${{ needs.get-info.outputs.release }}.macOS.dmg
 
   build-iOS:
     runs-on: macos-latest
