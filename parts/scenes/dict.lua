@@ -20,7 +20,7 @@ local lastSearch--Last searched string
 
 local typeColor={
     help=COLOR.Y,
-    other=COLOR.lO,
+    org=COLOR.lF,
     game=COLOR.lC,
     term=COLOR.lR,
     setup=COLOR.lY,
