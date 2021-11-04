@@ -8,16 +8,12 @@ return{
     },
     getRank=function(P)
         local L=P.stat.row
-        if L<40 then
-            return
-            L>25 and 2 or
-            L>10 and 1 or
-            L>2 and 0
-        end
-        local T=P.stat.time
         return
-        T<=60 and 5 or
-        T<=100 and 4 or
-        3
+        L>=40 and 5 or
+        L>=32 and 4 or
+        L>=24 and 3 or
+        L>=16 and 2 or
+        L>=10 and 1 or
+        L>=5 and 0
     end,
 }
