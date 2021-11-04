@@ -1,4 +1,3 @@
-local C=COLOR
 return{
     fallback='zh',
     loadText={
@@ -132,7 +131,7 @@ return{
     keySettingInstruction="點擊來設置鍵位\n按esc來取消選中\n按退格鍵來清除選中",
 
     errorMsg="Techmino遇到問題，需要重新啟動。\n我們已經收集了一些錯誤信息，你可以反饋給作者。",
-    tryAnotherBuild="[無效的 UTF-8] 如果你使用的是Windows操作系統，請嘗試下載Techmino-win32或Techmino-win64（與你現在使用的不同的版本）。",
+    tryAnotherBuild="[無效的 UTF-8] 如果你使用的是Windows作業系統，請嘗試下載Techmino-win32或Techmino-win64（與你現在使用的不同的版本）。",
 
     modInstruction="選擇你想使用的Mod！\n不同的Mod會以不同的方式改變遊戲規則(可能導致遊戲異常)\n快來開發新玩法或挑戰自我吧！\n提醒：開啟Mod會使成績無效，你可以使用鍵盤開關Mod，按下shift反向",
     modInfo={
@@ -192,7 +191,7 @@ return{
         "",
         "使用LÖVE引擎",
         "錯誤或者建議請附帶截圖發送到內測群或者作者電郵~",
-        "僅透過內測QQ群/discord群進行免費下載/更新",
+        "僅透過內測QQ群/discord伺服器進行免費下載/更新",
         "從其他渠道獲得遊戲皆有被修改/加入廣告/植入病毒的風險，程序只申請了振動&網路權限！",
         "若由於被修改的本遊戲產生的各種損失作者概不負責（我怎麼負責啊跟我有什麼關係）",
         "請從正規途徑獲得最新版，遊戲現為免費，不過有讚賞當然感謝啦~ 記得備註用戶名，方便記錄！",
@@ -354,13 +353,13 @@ return{
             grid="网格不透明度",
             lineNum="行號透明度",
 
-            lockFX="鎖定特技",
-            dropFX="下落特技",
-            moveFX="移動特技",
-            clearFX="清除特技",
-            splashFX="噴濺特技",
-            shakeFX="晃動特技",
-            atkFX="攻擊特技",
+            lockFX="鎖定特效",
+            dropFX="下落特效",
+            moveFX="移動特效",
+            clearFX="清除特效",
+            splashFX="噴濺特效",
+            shakeFX="晃動特效",
+            atkFX="攻擊特效",
 
             frame="渲染幀率(%)",
             FTlock="跳幀",
@@ -373,7 +372,7 @@ return{
             highCam="屏幕滾動",
             warn="死亡預警",
 
-            clickFX="點擊特技",
+            clickFX="點擊特效",
             power="電量顯示",
             clean="渲染優化",
             fullscreen="全屏幕",
@@ -456,7 +455,7 @@ return{
             b9="功能鍵1:", b10="功能鍵2:", b11="左瞬移:", b12="右瞬移:",
             b13="軟降到底:", b14="軟降一格:", b15="軟降四格:", b16="軟降十格:",
             b17="落在最左:", b18="落在最右:", b19="列在最左:", b20="列在最右:",
-            
+
             norm="標準",
             pro="專業",
             hide="顯示虛擬擊鍵",
