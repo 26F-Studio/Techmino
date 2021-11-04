@@ -325,6 +325,7 @@ LANG.init('zh',
     {
         zh=require'parts.language.lang_zh',
         zh_full=require'parts.language.lang_zh_full',
+        zh_trad=require'parts.language.lang_zh_trad',
         en=require'parts.language.lang_en',
         fr=require'parts.language.lang_fr',
         es=require'parts.language.lang_es',
@@ -334,7 +335,7 @@ LANG.init('zh',
         symbol=require'parts.language.lang_symbol',
         --1. Add language file to LANG folder;
         --2. Require it;
-        --3. Add a button in parts/scenes/setting_lang.lua;
+        --3. Add a button in parts/scenes/lang.lua;
     },
     {
         block=BLOCK_NAMES
