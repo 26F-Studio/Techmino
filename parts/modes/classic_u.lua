@@ -5,7 +5,7 @@ return{
         smooth=false,
         face={0,0,2,2,2,0,0},
         eventSet='classic_u',
-        bg='rgb',bgm='magicblock',
+        bg='rgb',bgm='1989',
     },
     slowMark=true,
     score=function(P)return{P.stat.score,P.stat.row}end,
