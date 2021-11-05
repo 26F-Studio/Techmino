@@ -600,7 +600,7 @@ return{
             registering="等待回应...",
         },
         account={
-            title="账户",
+            title="帐户",
         },
         app_15p={
             reset="洗牌",

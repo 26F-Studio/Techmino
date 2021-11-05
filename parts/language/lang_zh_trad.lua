@@ -74,7 +74,7 @@ return{
     exportSuccess="導出成功",
     importSuccess="導入成功",
     dataCorrupted="數據損壞",
-    pasteWrongPlace="提醒：可能粘貼錯地方了",
+    pasteWrongPlace="提醒：可能黏貼錯地方了",
     noFile="文件未找到",
 
     nowPlaying="正在播放:",
@@ -481,7 +481,7 @@ return{
             bgm="音樂",
 
             copy="拷貝場地+序列+任務",
-            paste="粘貼場地+序列+任務",
+            paste="黏貼場地+序列+任務",
             clear="開始-清除",
             puzzle="開始-拼圖",
 
