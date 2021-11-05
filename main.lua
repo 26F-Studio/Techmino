@@ -589,6 +589,7 @@ table.insert(_LOADTIMELIST_,("Initialize Data: %.3fs"):format(TIME()-_LOADTIME_)
 
 for i=1,#_LOADTIMELIST_ do LOG(_LOADTIMELIST_[i])end
 
+--Launch testing task if launch param received
 if TABLE.find(arg,'--test')then
     TASK.new(function()
         while not LOADED do YIELD()end
@@ -596,19 +597,19 @@ if TABLE.find(arg,'--test')then
         LOG("\27[92m\27[1mAutomatic Test Started\27[0m")
         BGM.setVol(0)SFX.setVol(0)
         love.keypressed('space')
-        TEST.switchSCN()
+        TEST.yieldUntilNextScene()
 
         for k,mode in next,MODES do
             if k~='netBattle'then
                 LOG("Scanning mode: "..mode.name)
                 loadGame(mode.name,true)
-                TEST.switchSCN()
+                TEST.yieldUntilNextScene()
                 SCN.back()
-                TEST.switchSCN()
+                TEST.yieldUntilNextScene()
             end
         end
         LOG("\27[92m\27[1mAutomatic Test Passed :)\27[0m")
-        TEST.wait(60)
+        TEST.yieldN(60)
         love.event.quit(0)
     end)
     TASK.new(function()
@@ -617,7 +618,7 @@ if TABLE.find(arg,'--test')then
             if ERRDATA[1]then break end
         end
         LOG("\27[91m\27[1mAutomatic Test Failed :(\27[0m\nThe error message is:\n"..table.concat(ERRDATA[1].mes,"\n").."\27[91m\nAborting\27[0m")
-        TEST.wait(60)
+        TEST.yieldN(60)
         love.event.quit(1)
     end)
 end
