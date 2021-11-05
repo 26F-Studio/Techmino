@@ -167,7 +167,7 @@ return{
     {"Tetris Mind Bender",
         "tetris online official gem",
         "game",
-        "Another Tetris game from tetris.com. It introduced “Mind Bender” minoes on the basis of marathon mode. Clearing a line with a Mind Bender mino will give you either a good or bad effect.",
+        "Another Tetris game from tetris.com. It introduced \"Mind Bender\" minoes on the basis of marathon mode. Clearing a line with a Mind Bender mino will give you either a good or bad effect.",
     },
 
     {"TGM",
@@ -439,7 +439,7 @@ return{
     {"Orientation",
         "orientation direction 0r2l 02 20 rl lr",
         "term",
-        "",--TODO
+        "In SRS and SRS-like rotation systems, there are standard notations describing the orientations of the minoes:\n 0 for Original orientation; R for right, or 90° clockwise; L for left, or 90° counterclockwise; 2 for spin twice (180°). For example, 0→L means rotating counterclockwise from original orientation (0) to L; 0→R means rotating clockwise from original orientation (0) to R; 2→R means rotating counterclockwise from 2 (180°) to R.",
     },
     {"ARS",
         "ars arikrotationsystem atarirotationsystem",
@@ -555,7 +555,7 @@ return{
     {"Deepdrop",
         "deepdrop shenjiang",
         "term",
-        "",--TODO
+        "*Techmino exclusive*\n\nA special function that allows minoes to teleport through the wall to enter a hole. When the mino hits the bottom, pressing the soft drop button again will enable the deep drop. if there is a hole that fits the shape of the mino, it will teleport into this hole immediately/nThis mechanism is especially useful for AI because it allows AI to disregard the differences between different rotation systems.",
     },
     {"Misdrop",
         "md misdrop",
@@ -1123,10 +1123,10 @@ return{
         "help",
         "Starting from here, all but one term are China-specific (the not-China term is Diao) and are less relevant for the global community.\n\"Virtual content creator\" refers to people who produce content online under a fictional persona, and appear as a motion-controlled animated character on screens. Basically \"Virtual YouTuber\" but not platform-specific."
     },
-    {"TetroDictionary",--TODO EDITTED
+    {"TetroDictionary",
         "zictionary tetrodictionary littlez",
         "name",
-        "(or Zictionary for short) The name of this thing.\nUsed to be a chatbot that serves for the same function, and mostly uses the same list of keywords.",
+        "(or Zictionary for short) The name of this dictionary!\nIt includes brief introductions on many common terms in Tetris.\nIt used to be a chatbot in our QQ group, which was used to answer new player's FAQs. The entries in the Tetrodictionary were also inherited from the database in the chatbot.",
     },
     {"MrZ",
         "mrz_26",
