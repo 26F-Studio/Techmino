@@ -14,7 +14,7 @@ return{
         pushSpeed=2,
         freshLimit=15,
         eventSet='royale',
-        bg='rainbow',bgm='magicblock',
+        bg='rainbow',bgm='rockblock',
     },
     load=function()
         ROYALEDATA.powerUp={2,5,10,20}

@@ -4,7 +4,7 @@ return{
         mindas=7,minarr=1,minsdarr=1,
         keyCancel={6},
         eventSet='rhythm_e',
-        bg='bg2',bgm='push',
+        bg='bg2',bgm='magicblock',
     },
     slowMark=true,
     score=function(P)return{math.min(P.stat.row,200),P.stat.time}end,

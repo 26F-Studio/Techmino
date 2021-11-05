@@ -21,6 +21,7 @@ local author={
     ["jazz nihilism"]="Trebor",
     ["race remix"]="柒栎流星",
     ["sakura"]="ZUN & C29H25N3O5",
+    ["1989"]="C29H25N3O5",
 }
 
 local scene={}
