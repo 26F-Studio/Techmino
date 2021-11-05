@@ -552,6 +552,11 @@ return{
         "term",
         "Like *hold*, swap your current piece and the first piece of next queue. You can also only perform this once per piece in most cases.",
     },
+    {"Deepdrop",
+        "deepdrop shenjiang",
+        "term",
+        "",--TODO
+    },
     {"Misdrop",
         "md misdrop",
         "term",
