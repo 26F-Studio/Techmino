@@ -6,7 +6,7 @@ return{
         visible='fast',
         mesDisp=require"parts.eventsets.blindMesDisp".mesDisp,
         eventSet='checkLine_200',
-        bg='glow',bgm='push',
+        bg='glow',bgm='sugar fairy',
     },
     score=function(P)return{math.min(P.stat.row,200),P.stat.time}end,
     scoreDisp=function(D)return D[1].." Lines   "..STRING.time(D[2])end,
