@@ -15,6 +15,7 @@ return
         if P.stat.row>=P.modeData.target then
             if P.modeData.target>200 then
 				P:set20G(true)
+				P.gameEnv.lock=P.gameEnv.lock-1
             else
 				P.gameEnv.drop=dropSpeed[P.modeData.target/10]
             end
