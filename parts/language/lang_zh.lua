@@ -1053,7 +1053,7 @@ return{
         "iOS设备使用键盘控制可能会有问题，还是先只用触屏吧",
         "l-=-1",
         "Let-The-Bass-Kick！",
-        "lim x→c f(x)/g(x)=lim x→c f'(x)/g'(x)".
+        "lim x→c f(x)/g(x)=lim x→c f'(x)/g'(x)",
         "MrZ是谁啊",
         "pps-0.01",
         "S△ABC=√(h(h-a)(h-b)(h-c))，h=(a+b+c)/2",
