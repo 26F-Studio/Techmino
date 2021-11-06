@@ -6,8 +6,8 @@ return{
     {name='sprint_400l',   x=-400,      y=0,        size=40,shape=1,icon="sprint3",     unlock={'sprint_1000l'}},
     {name='sprint_1000l',  x=-600,      y=0,        size=40,shape=1,icon="sprint3"},
 
-    {name='sprintPenta',   x=210,       y=-150,     size=40,shape=3,icon="sprint2"},
-    {name='sprintMPH',     x=210,       y=-330,     size=40,shape=3,icon="sprint2"},
+    {name='sprintPenta',   x=180,       y=-160,     size=40,shape=3,icon="sprint2"},
+    {name='sprintMPH',     x=220,       y=-340,     size=40,shape=3,icon="sprint2"},
 
     {name='drought_n',     x=-400,      y=200,      size=40,shape=1,icon="drought",     unlock={'drought_l'}},
     {name='drought_l',     x=-600,      y=200,      size=40,shape=1,icon="drought"},
@@ -92,7 +92,9 @@ return{
     {name='pc_l',          x=1100,      y=-110,     size=40,shape=3,icon="pc"},
     {name='pc_inf',        x=1100,      y=-250,     size=40,shape=2,icon="pc"},
 
-    {name='sprintAtk',     x=500,       y=-150,     size=40,shape=1,icon="sprint2",     unlock={'tech_n','tech_finesse','tsd_e','backfire_n'}},
+    {name='sprintAtk',     x=530,       y=-150,     size=40,shape=1,icon="sprint2",     unlock={'sprintEff','tech_n','tech_finesse','tsd_e','backfire_n'}},
+
+    {name='sprintEff',     x=360,       y=-150,     size=40,shape=1,icon="sprint2"},
 
     {name='tech_n',        x=400,       y=50,       size=40,shape=1,icon="tech",        unlock={'tech_n_plus','tech_h'}},
     {name='tech_n_plus',   x=200,       y=20,       size=40,shape=3,icon="tech"},

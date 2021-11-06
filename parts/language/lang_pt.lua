@@ -742,6 +742,7 @@ return{
         -- ['backfire_l']=         {"Backfire",         "LUNATIC",      "Self-send garbages"},
         -- ['backfire_u']=         {"Backfire",         "ULTIMATE",     "Self-send garbages"},
         -- ['sprintAtk']=          {"Sprint",           "100 Attack",   "Send 100 lines!"},
+        -- ['sprintEff']=          {"Sprint",           "Efficiency",   "Send more attack in 40lines!"},
         ['zen']=                {'Zen',              "200",          "200 linhas sem um limite de tempo."},
         ['ultra']=              {'Ultra',            "EXTRA",        "Pegue a maior pontuação em 2 minutos."},
         ['infinite']=           {"Infinito",          "",            "Modo Sandbox."},
