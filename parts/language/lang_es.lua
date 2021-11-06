@@ -714,6 +714,7 @@ return{
         ['ultra']=          {'Ultra',                   "Extra",         "¡Consigue el mayor puntaje posible en 2 minutos!"},
         ['infinite']=       {"Infinito",                 "",             "Modo Sandbox."},
         ['infinite_dig']=   {"Infinito: Queso",          "",             "Limpia, limpia, más limpia que tú."},
+		['marathon_inf']=   {"Maratón",                  "Infinito",     "Infinito maratón."},
 
         ['custom_clear']=   {"Personalizado",           "Normal"},
         ['custom_puzzle']=  {"Personalizado",           "Puzzle"},

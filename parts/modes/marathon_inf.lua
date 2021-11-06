@@ -1,0 +1,10 @@
+return{
+    color=COLOR.white,
+    env={
+        noTele=true,
+        mindas=7,minarr=1,minsdarr=1,
+        sequence="bagES",
+        eventSet='marathon_inf',
+        bg='bg2',bgm='push',
+    },
+}

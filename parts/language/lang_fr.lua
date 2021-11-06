@@ -716,6 +716,7 @@ return{
         ['ultra']=         {'Ultra',         "EXTRA",        "2 minutes pour avoir le meilleur score."},
         ['infinite']=      {"Infini",        "",             "Mode tranquile."},
         ['infinite_dig']=  {"Infini : Dig",  "",             "Creuser, creuser, creuser."},
+		['marathon_inf']=  {"Marathon",      "Infini",       "Infini marathon."},
 
         ['custom_clear']=  {"Perso.",        "NORMAL"},
         ['custom_puzzle']= {"Perso.",        "PUZZLE"},
