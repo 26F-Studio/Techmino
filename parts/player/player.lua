@@ -1675,7 +1675,7 @@ do
             self.falling=self.gameEnv.fall
             self.stat.row=self.stat.row+_cc
             self.stat.dig=self.stat.dig+_gbcc
-            self.stat.score=self.stat.score+clearSCR[cc]
+            self.stat.score=self.stat.score+clearSCR[_cc]
         end
         return _cc,_gbcc
     end
