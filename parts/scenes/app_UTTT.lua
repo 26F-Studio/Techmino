@@ -57,7 +57,7 @@ local function full(L)
 end
 local function place(X,x)
     board[X][x]=round
-    SFX.play('move')
+    SFX.play('touch')
     lastX,lastx=X,x
     curX,curx=nil
     placeTime=TIME()

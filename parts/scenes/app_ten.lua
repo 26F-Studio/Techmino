@@ -211,7 +211,7 @@ function scene.update()
                     SFX.play('fail')
                 else
                     fallingTimer=fast and 4 or 5
-                    SFX.play('move')
+                    SFX.play('touch')
                 end
             end
         elseif fast and(

@@ -50,7 +50,7 @@ function scene.keyDown(key,isRep)
                 progress=progress+1
                 frameKeyCount=frameKeyCount+1
                 TEXT.show(key:upper(),rnd(320,960),rnd(100,240),90,'score',2.6)
-                SFX.play('move')
+                SFX.play('touch')
                 if progress==2 then
                     state=1
                     startTime=TIME()

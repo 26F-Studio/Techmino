@@ -124,7 +124,7 @@ local function tapBoard(x,y,key)
                 SFX.play('win')
                 return
             end
-            SFX.play('move')
+            SFX.play('touch')
         end
     end
 end

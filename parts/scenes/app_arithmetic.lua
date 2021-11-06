@@ -157,7 +157,7 @@ function scene.keyDown(key,isRep)
             input=input..key
             inputTime=1
             check(tonumber(input))
-            SFX.play('move')
+            SFX.play('touch')
         end
     elseif key=="-"then
         if #input<8 then

@@ -313,7 +313,7 @@ function scene.keyDown(key,isRep)
                 TEXT.show(arrows[key],640,360,80,'beat',3)
                 move=move+1
                 if not autoPressing then
-                    SFX.play('move')
+                    SFX.play('touch')
                 end
             end
         end
