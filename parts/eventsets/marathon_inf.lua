@@ -1,10 +1,28 @@
-local dropSpeed={50,40,30,24,18,14,10,8,6,5,4,3,2,1,1,.5,.5,.25,.125,0}
+local dropSpeed={
+    50,42,35,30,25,20,16,13,11,10,
+    9,8,7,6,5,5,4,4,3,3,
+    3,2,2,2,2,1,1,1,1,1,
+    .5,.5,.5,.5,.25,.25,.25,.125,.125,--Total 39 numbers, switch to 20G when reach 400 lines
+}
+local lockDelay={
+    57,54,51,48,46,44,42,40,38,36,
+    34,32,30,28,26,25,24,23,22,21,
+    20,20,19,19,18,18,17,17,16,16,
+    15,15,14,14,13,13,13,12,12,12,
+    11,11,11,11,11,10,10,10,10,10,
+    09,09,09,09,09,09,08,08,08,08,
+    08,08,08,08,07,07,07,07,07,07,
+    07,07,06,06,06,06,06,06,06,06,
+    05,05,05,05,05,05,05,05,05,05,
+    04,04,04,04,04,04,04,04,04,04,
+    03,03,03,03,03,03,03,03,03,03,
+    02,02,02,02,02,02,02,02,02,02,
+}
 
 return
 {
-    drop=60,
-    wait=8,
-    fall=20,
+    drop=60,lock=60,
+    wait=8,fall=20,
     mesDisp=function(P)
         PLY.draw.drawProgress(P.stat.row,P.modeData.target)
     end,
@@ -13,13 +31,14 @@ return
     end,
     dropPiece=function(P)
         if P.stat.row>=P.modeData.target then
-            if P.modeData.target>200 then
-				P:set20G(true)
-				P.gameEnv.lock=P.gameEnv.lock-1
+            if P.modeData.target<400 then
+                P.gameEnv.drop=dropSpeed[P.modeData.target/10]
+            elseif P.modeData.target==400 then
+                P:set20G(true)
             else
-				P.gameEnv.drop=dropSpeed[P.modeData.target/10]
+                P.gameEnv.lock=lockDelay[(P.modeData.target-400)/10]or 1
             end
-			P.modeData.target=P.modeData.target+10
+            P.modeData.target=P.modeData.target+10
             SFX.play('reach')
         end
     end
