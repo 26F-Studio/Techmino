@@ -24,6 +24,9 @@ The Apple logo, "Apple Inc.," iOS, iPadOS, macOS, iPhone, and Mac are registered
 Alibaba Sans is copyrighted by Alibaba Group Holding Limited. Alibaba is a trademark of Alibaba Group Holding Limited in the People’s Republic of China and other countries or regions.
 
 
+IBM Plex is copyrighted by the International Business Machines Corporation. IBM and IBM Plex are trademarks of IBM Corp, registered in many jurisdictions worldwide. IBM Plex is licensed under the SIL Open Font License.
+
+
 JetBrains Mono is copyrighted by the JetBrains Mono Project authors. JetBrains Mono is a trademark of JetBrains s.r.o. JetBrains Mono is licensed under the SIL Open Font License, Version 1.1.
 
 
