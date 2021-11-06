@@ -36,7 +36,7 @@ local function _toggleMod(M,back)
         SFX.play('move',.6)
         SFX.play('lock')
     else
-        SFX.play('move')
+        SFX.play('touch')
         SFX.play('lock',.6)
     end
     scene.widgetList.unranked.hide=scoreValid()

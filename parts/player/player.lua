@@ -603,6 +603,12 @@ function Player:freshBlock(mode)--string mode: push/move/fresh/newBlock
             end
         end
     end
+
+    --Play sound if touch ground
+    if mode=='move'and self.sound and self.curY==self.ghoY then
+        SFX.play('touch')
+    end
+
 end
 function Player:lock()
     local CB=self.cur.bk
@@ -2110,6 +2116,8 @@ local function update_alive(P)
 
                 if P.ghoY~=P.curY then
                     P.dropDelay=ENV.drop
+                elseif P.sound then
+                    SFX.play('touch')
                 end
             else
                 P.lockDelay=P.lockDelay-1
@@ -2437,9 +2445,6 @@ function Player:act_moveLeft(auto)
             self:createMoveFX('left')
             self.curX=self.curX-1
             self:freshBlock('move')
-            if self.sound and self.curY==self.ghoY then
-                SFX.play('move')
-            end
             if not auto then
                 self.moving=0
             end
@@ -2466,9 +2471,6 @@ function Player:act_moveRight(auto)
             self:createMoveFX('right')
             self.curX=self.curX+1
             self:freshBlock('move')
-            if self.sound and self.curY==self.ghoY then
-                SFX.play('move')
-            end
             if not auto then
                 self.moving=0
             end

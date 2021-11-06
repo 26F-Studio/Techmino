@@ -435,7 +435,7 @@ end
 function switch:press()
     self.code()
     if self.sound then
-        SFX.play('move')
+        SFX.play('touch')
     end
 end
 function WIDGET.newSwitch(D)--name,x,y[,lim][,fText][,color][,font=30][,sound=true][,disp],code[,hideF][,hide]
@@ -1431,7 +1431,7 @@ function WIDGET.textinput(texts)
     if W and W.type=='inputBox'then
         if(not W.regex or texts:match(W.regex))and(not W.limit or #(WIDGET.sel.value..texts)<=W.limit)then
             WIDGET.sel.value=WIDGET.sel.value..texts
-            SFX.play('move')
+            SFX.play('touch')
         else
             SFX.play('finesseError',.3)
         end
