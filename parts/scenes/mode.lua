@@ -304,7 +304,7 @@ function scene.draw()
             elseif L[1]then
                 for i=1,#L do
                     local t=M.scoreDisp(L[i])
-                    local f=int((30-#t*.4)/5)*5
+                    local f=int((30-#t*.5)/5)*5
                     setFont(f)
                     gc_print(t,955,275+25*i+17-f*.7)
                     _=L[i].date
