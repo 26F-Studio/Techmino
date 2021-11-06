@@ -5,7 +5,7 @@ return{
         nextCount=0,holdCount=0,
         sequence='rnd',
         eventSet='checkLine_40',
-        bg='aura',bgm='waterfall',
+        bg='aura',bgm='magicblock',
     },
     score=function(P)return{P.stat.time,P.stat.piece}end,
     scoreDisp=function(D)return STRING.time(D[1]).."   "..D[2].." Pieces"end,
