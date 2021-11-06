@@ -32,6 +32,12 @@ return
     end,
     dropPiece=function(P)
         if P.stat.row>=P.modeData.target then
+            if P.modeData.target%300==0 then
+                P.gameEnv.wait=P.gameEnv.wait-1
+            end
+            if P.modeData.target%100==0 then
+                P.gameEnv.fall=P.gameEnv.fall-1
+            end
             if P.modeData.target<400 then
                 P.gameEnv.drop=dropSpeed[P.modeData.target/10]
             elseif P.modeData.target==400 then
