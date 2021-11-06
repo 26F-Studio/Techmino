@@ -10,13 +10,14 @@ local lockDelay={
     20,20,19,19,18,18,17,17,16,16,
     15,15,14,14,13,13,13,12,12,12,
     11,11,11,11,11,10,10,10,10,10,
-    09,09,09,09,09,09,08,08,08,08,
-    08,08,08,08,07,07,07,07,07,07,
-    07,07,06,06,06,06,06,06,06,06,
-    05,05,05,05,05,05,05,05,05,05,
-    04,04,04,04,04,04,04,04,04,04,
-    03,03,03,03,03,03,03,03,03,03,
-    02,02,02,02,02,02,02,02,02,02,
+    9,9,9,9,9,9,8,8,8,8,
+    8,8,8,8,7,7,7,7,7,7,
+    7,7,6,6,6,6,6,6,6,6,
+    5,5,5,5,5,5,5,5,5,5,
+    4,4,4,4,4,4,4,4,4,4,
+    3,3,3,3,3,3,3,3,3,3,
+    2,2,2,2,2,2,2,2,2,2,
+    1,1,1,1,1,1,1,1,1,--Finish at 1700
 }
 
 return
@@ -35,8 +36,12 @@ return
                 P.gameEnv.drop=dropSpeed[P.modeData.target/10]
             elseif P.modeData.target==400 then
                 P:set20G(true)
+            elseif P.modeData.target<1700 then
+                P.gameEnv.lock=lockDelay[(P.modeData.target-400)/10]
             else
-                P.gameEnv.lock=lockDelay[(P.modeData.target-400)/10]or 1
+                P.stat.row=1700
+                P:win('finish')
+                return
             end
             P.modeData.target=P.modeData.target+10
             SFX.play('reach')
