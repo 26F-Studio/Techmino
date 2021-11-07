@@ -119,5 +119,5 @@ return{
     {name='ultra',         x=-1200,     y=-600,     size=40,shape=1,icon="ultra"},
     {name='infinite',      x=-1200,     y=-400,     size=40,shape=1,icon='infinite'},
     {name='infinite_dig',  x=-1000,     y=-400,     size=40,shape=1,icon="dig"},
-	{name='marathon_inf',  x=-800,      y=-400,     size=40,shape=1,icon="marathon"}
+    {name='marathon_inf',  x=-800,      y=-400,     size=40,shape=1,icon="marathon"}
 }

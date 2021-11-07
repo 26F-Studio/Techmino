@@ -286,7 +286,7 @@ return{fallback='zh',
         ['ultra']=          {"限时打分",      "挑战",      "2分钟刷分"},
         ['infinite']=       {"无尽",         "",         "真的有人会玩这个?"},
         ['infinite_dig']=   {"无尽:挖掘",      "",        "闲得慌就来挖"},
-		['marathon_inf']=   {"马拉松",        "无尽",      "无尽马拉松"},
+        ['marathon_inf']=   {"马拉松",        "无尽",      "无尽马拉松"},
 
         ['custom_clear']=   {"自定义",       "普通"},
         ['custom_puzzle']=  {"自定义",       "拼图"},
