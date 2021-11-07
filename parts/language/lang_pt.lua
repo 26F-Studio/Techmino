@@ -747,7 +747,7 @@ return{
         ['ultra']=              {'Ultra',            "EXTRA",        "Pegue a maior pontuação em 2 minutos."},
         ['infinite']=           {"Infinito",          "",            "Modo Sandbox."},
         ['infinite_dig']=       {"Infinito:Cave",     "",            "Cava, Cava, Cava."},
-		['marathon_inf']=       {"Maratona",          "Infinito",    "Infinito maratona."},
+        ['marathon_inf']=       {"Maratona",          "Infinito",    "Infinito maratona."},
 
         ['custom_clear']=       {"Custom",           "NORMAL"},
         ['custom_puzzle']=      {"Custom",           "PUZZLE"},
