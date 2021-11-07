@@ -45,8 +45,6 @@ end
 function scene.sceneInit()
     sure=0
     destroyPlayers()
-    BG.set(ROOMENV.bg)
-    BGM.play(ROOMENV.bgm)
 end
 function scene.sceneBack()
     BGM.play()
