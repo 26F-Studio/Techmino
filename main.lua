@@ -143,8 +143,8 @@ Z.setOnFnKeys({
     function()
         if GAME.playing and not GAME.net then
             for _=1,8 do
-                local P=PLY_ALIVE[math.random(#PLY_ALIVE)]
-                if P and P~=PLAYERS[1]then
+                if #PLY_ALIVE>1 then
+                    local P=PLY_ALIVE[math.random(2,#PLY_ALIVE)]
                     P.lastRecv=PLAYERS[1]
                     P:lose()
                 end
@@ -153,7 +153,7 @@ Z.setOnFnKeys({
     end,
     function()print(WIDGET.getSelected()or"no widget selected")end,
     function()for k,v in next,_G do print(k,v)end end,
-    function()if love["_openConsole"]then love["_openConsole"]()end end,
+    function()if love['_openConsole']then love['_openConsole']()end end,
 })
 do--Z.setOnFocus
     local function task_autoSoundOff()
@@ -222,7 +222,7 @@ if missionData then
     DATA.pasteMission(missionData)
 end
 local customData=FILE.load('conf/customEnv')
-if customData and customData.version==VERSION.code then
+if customData and customData['version']==VERSION.code then
     TABLE.complete(customData,CUSTOMENV)
 end
 TABLE.complete(require"parts.customEnv0",CUSTOMENV)
