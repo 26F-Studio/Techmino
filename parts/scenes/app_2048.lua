@@ -261,8 +261,8 @@ local moveFunc={
     right=moveRight,
 }
 local arrows={
-    up="↑",down="↓",left="←",right="→",
-    ["↑"]="up",["↓"]="down",["←"]="left",["→"]="right",
+    up='↑',down='↓',left='←',right='→',
+    ['↑']='up',['↓']='down',['←']='left',['→']='right',
 }
 local function setFocus(n)
     if state~=2 then
