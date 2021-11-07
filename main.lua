@@ -461,16 +461,28 @@ do
         fs.remove('record/stack_100l.rec')
     end
     if STAT.version~=VERSION.code then
+        for k,v in next,MODE_UPDATE_MAP do
+            if RANKS[k]then
+                RANKS[v]=RANKS[k]
+                RANKS[k]=nil
+            end
+            k='record/'..k
+            if fs.getInfo(k..'.dat')then
+                fs.write('record/'..v..'.rec',fs.read(k..'.dat'))
+                fs.remove(k..'.dat')
+            end
+            if fs.getInfo(k..'.rec')then
+                fs.write('record/'..v..'.rec',fs.read(k..'.rec'))
+                fs.remove(k..'.rec')
+            end
+        end
         STAT.version=VERSION.code
         needSave=true
-        love.event.quit('restart')
     end
-    SETTING.appLock=nil
-    SETTING.dataSaving=nil
-    SETTING.swap=nil
+    SETTING.appLock,SETTING.dataSaving,SETTING.swap=nil
     if not SETTING.VKSkin then SETTING.VKSkin=1 end
     for _,v in next,SETTING.skin do if v<1 or v>17 then v=17 end end
-    if SETTING.RS=='ZRS'or SETTING.RS=='BRS'or SETTING.RS=='ASCplus'or SETTING.RS=='C2sym'then SETTING.RS='TRS'end
+    if not RSlist[SETTING.RS]then SETTING.RS='TRS'end
     if SETTING.ghostType=='greyCell'then SETTING.ghostType='grayCell'end
     if type(SETTING.skinSet)=='number'then SETTING.skinSet='crystal_scf'end
     if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then SETTING.frameMul=100 end
@@ -506,26 +518,11 @@ do
         needSave=true
     end
 
-    for k,v in next,MODE_UPDATE_MAP do
-        if RANKS[k]then
-            RANKS[v]=RANKS[k]
-            RANKS[k]=nil
-        end
-        k='record/'..k
-        if fs.getInfo(k..'.dat')then
-            fs.write('record/'..v..'.rec',fs.read(k..'.dat'))
-            fs.remove(k..'.dat')
-        end
-        if fs.getInfo(k..'.rec')then
-            fs.write('record/'..v..'.rec',fs.read(k..'.rec'))
-            fs.remove(k..'.rec')
-        end
-    end
-
     if needSave then
         saveStats()
         saveProgress()
         saveSettings()
+        love.event.quit('restart')
     end
 end
 
