@@ -97,6 +97,34 @@ jobs:
       with:
         name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Android
         path: Techmino_Snapshot.apk
+  
+  build-android-mini:
+    runs-on: ubuntu-20.04
+    needs: get-info
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ./.github/actions/update-version
+      with:
+        commit: ${{ needs.get-info.outputs.commit }}
+        type: snapshot
+    - name: remove media
+      run: |
+        rm -rf media/music media/effect media/vocal
+    - uses: ./.github/actions/build-android
+      with:
+        type: Snapshot
+        apkCode: ${{ needs.get-info.outputs.apkCode }}
+        name: ${{ needs.get-info.outputs.name }}
+        file-path: Techmino_Snapshot_Mini.apk
+        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+        ALIAS: ${{ secrets.ALIAS }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Android_Mini
+        path: Techmino_Snapshot_Mini.apk
 
   build-macOS:
     runs-on: macos-10.15
@@ -157,4 +185,19 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_iOS
-        path: "Techmino.ipa"
+        path: Techmino.ipa
+
+  build-love:
+    runs-on: ubuntu-20.04
+    needs: get-info
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ./.github/actions/update-version
+    - uses: ./.github/actions/build-love
+      with:
+        file-path: Techmino.love
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Love
+        path: Techmino.love
