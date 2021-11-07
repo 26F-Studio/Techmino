@@ -138,7 +138,7 @@ function scene.update()
         if bx<-120 or bx>1400 or by<-40 or by>760 then
             P=bx>640 and p1 or p2
             P.score=P.score+1
-            TEXT.show("+1",bx>1400 and 470 or 810,226,50,'score')
+            TEXT.show("+1",P==p1 and 470 or 810,226,50,'score')
             SFX.play('reach')
 
             state=0

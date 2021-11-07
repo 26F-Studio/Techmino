@@ -51,7 +51,7 @@ function scene.keyDown(key,isRep)
                     move.x=move.x-10
                 end
             end
-            SFX.play('swipe')
+            SFX.play('hold')
             state='drop'
         elseif state=='dead'then
             move.x,move.y,move.l=1e99,0,0

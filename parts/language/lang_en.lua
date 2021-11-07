@@ -757,7 +757,7 @@ return{
         ['ultra']=         {'Ultra',             "EXTRA",      "A 2-minute score attack"},
         ['infinite']=      {'infinite',           "",          "Just a sandbox"},
         ['infinite_dig']=  {"Infinite: Dig",      "",          "Dig-diggin'-dug"},
-		['marathon_inf']=  {"Marathon",           "INFINITE",  "Infinite marathon."},
+        ['marathon_inf']=  {"Marathon",           "INFINITE",  "Infinite marathon."},
 
         ['custom_clear']=  {"Custom",            "NORMAL"},
         ['custom_puzzle']= {"Custom",            "PUZZLE"},
