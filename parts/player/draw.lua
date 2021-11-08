@@ -119,8 +119,15 @@ local function _stencilBoard()gc_rectangle('fill',0,-10,300,610)end
 local function _applyField(P)
     gc_push('transform')
 
-    --Apply fieldOffset
-    local O=P.fieldOff
+    --Apply shaking
+    if P.shakeTimer>0 then
+        local dx=int(P.shakeTimer/2)
+        local dy=int(P.shakeTimer/3)
+        gc_translate(dx^1.6*(dx%2*2-1)*(P.gameEnv.shakeFX+1)/30,dy^1.4*(dy%2*2-1)*(P.gameEnv.shakeFX+1)/30)
+    end
+
+    --Apply swingOffset
+    local O=P.swingOffset
     if P.gameEnv.shakeFX then
         local k=P.gameEnv.shakeFX
         gc_translate(O.x*k+150+150,O.y*k+300)

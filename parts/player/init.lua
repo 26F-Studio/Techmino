@@ -102,11 +102,12 @@ local function _newEmptyPlayer(id,mini)
     end
 
     --Field position
-    P.fieldOff={--Shake FX
+    P.swingOffset={--Shake FX
         x=0,y=0,
         vx=0,vy=0,
         a=0,va=0,
     }
+    P.shakeTimer=0
     P.x,P.y,P.size=0,0,1
     P.frameColor=COLOR.Z
 

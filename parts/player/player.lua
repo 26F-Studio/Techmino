@@ -33,10 +33,15 @@ end
 function Player:_rotateField(dir)
     if self.gameEnv.shakeFX then
         if dir==1 or dir==3 then
-            self.fieldOff.va=self.fieldOff.va+(2-dir)*6e-3
+            self.swingOffset.va=self.swingOffset.va+(2-dir)*6e-3
         else
-            self.fieldOff.va=self.fieldOff.va+self:getCenterX()*3e-3
+            self.swingOffset.va=self.swingOffset.va+self:getCenterX()*3e-3
         end
+    end
+end
+function Player:shakeField(strength)--Range: 1~10
+    if self.gameEnv.shakeFX then
+        self.shakeTimer=max(self.shakeTimer,3*self.gameEnv.shakeFX+int(4*min(max(strength,1),10)))
     end
 end
 function Player:checkTouchSound()
@@ -153,7 +158,7 @@ function Player:createSplashFX(h)
     if self.gameEnv.splashFX then
         local L=self.field[h]
         local size=self.size
-        local y=self.fieldY+size*(self.fieldOff.y+self.fieldBeneath+self.fieldUp+615)-30*h*size
+        local y=self.fieldY+size*(self.swingOffset.y+self.fieldBeneath+self.fieldUp+615)-30*h*size
         for x=1,10 do
             local c=L[x]
             if c>0 then
@@ -577,7 +582,7 @@ function Player:freshBlock(mode)--string mode: push/move/fresh/newBlock
             if self.curY>self.ghoY then
                 self:createDropFX()
                 if ENV.shakeFX then
-                    self.fieldOff.vy=.5
+                    self.swingOffset.vy=.5
                 end
                 self.curY=self.ghoY
             end
@@ -810,7 +815,7 @@ function Player:spin(d,ifpre)
                     self.freshTime=self.freshTime-1
                 end
 
-                --Sound & Field shaking
+                --Sound & Field swinging
                 local sfx
                 if ifpre then
                     sfx='prerotate'
@@ -1853,9 +1858,9 @@ local function _updateMisc(P)
         end
     end
 
-    --Field shaking
+    --Field swinging
     if P.gameEnv.shakeFX then
-        local O=P.fieldOff
+        local O=P.swingOffset
         O.vx=O.vx*.6-abs(O.x)^1.3*(O.x>0 and .1 or -.1)
         O.x=O.x+O.vx
 
@@ -1867,6 +1872,11 @@ local function _updateMisc(P)
         if abs(O.a)<.0006 then
             O.a,O.va=0,0
         end
+    end
+
+    --Field Shaking
+    if P.shakeTimer>0 then
+        P.shakeTimer=P.shakeTimer-1
     end
 
     --Update texts
@@ -2001,7 +2011,7 @@ local function update_alive(P)
                         end
                     end
                     if mov>=das and ENV.shakeFX and P.cur and P:ifoverlap(P.cur.bk,P.curX+1,P.curY)then
-                        P.fieldOff.vx=.5
+                        P.swingOffset.vx=.5
                     end
                 else
                     P.movDir=0
@@ -2026,7 +2036,7 @@ local function update_alive(P)
                         end
                     end
                     if mov>=das and ENV.shakeFX and P.cur and P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then
-                        P.fieldOff.vx=-.5
+                        P.swingOffset.vx=-.5
                     end
                 else
                     P.movDir=0
@@ -2057,7 +2067,7 @@ local function update_alive(P)
                 P:act_insDown()
             end
             if ENV.shakeFX then
-                P.fieldOff.vy=.2
+                P.swingOffset.vy=.2
             end
         end
     else
@@ -2511,8 +2521,8 @@ function Player:act_hardDrop()
                 end
             end
             if ENV.shakeFX then
-                self.fieldOff.vy=.6
-                self.fieldOff.va=self.fieldOff.va+self:getCenterX()*6e-4
+                self.swingOffset.vy=.6
+                self.swingOffset.va=self.swingOffset.va+self:getCenterX()*6e-4
             end
             self.lockDelay=-1
             self:drop()
@@ -2574,7 +2584,7 @@ function Player:act_insLeft(auto)
         self.spinLast=false
     end
     if self.gameEnv.shakeFX then
-        self.fieldOff.vx=-1.5
+        self.swingOffset.vx=-1.5
     end
     if auto then
         if self.ctrlCount==0 then
@@ -2598,7 +2608,7 @@ function Player:act_insRight(auto)
         self.spinLast=false
     end
     if self.gameEnv.shakeFX then
-        self.fieldOff.vx=1.5
+        self.swingOffset.vx=1.5
     end
     if auto then
         if self.ctrlCount==0 then
@@ -2613,7 +2623,7 @@ function Player:act_insDown()
         local ENV=self.gameEnv
         self:createDropFX()
         if ENV.shakeFX then
-            self.fieldOff.vy=.5
+            self.swingOffset.vy=.5
         end
         self.curY=self.ghoY
         self.lockDelay=ENV.lock
