@@ -4,7 +4,7 @@ return{
     {"Translator Note 1",
         "",
         "help",
-        "This translation of the TetroDictionary is provided by me, User670 (Discord: User670#9501).\n\nThe translation may not completely reflect the contents of the original Chinese text.\n\nCorrected by C29H25N3O5.\n\nTo view the list of contributors or make contributions, feel free to visit the GitHub page.",
+        "This translation of the TetroDictionary is provided by me, User670 (Discord: User670#9501).\n\nThe translation may not completely reflect the contents of the original Chinese text.\n\nCorrected by C₂₉H₂₅N₃O₅.\n\nTo view the list of contributors or make contributions, feel free to visit the GitHub page.",
         "https://github.com/26F-Studio/Techmino/blob/main/parts/language/dict_en.lua",
     },
     {"Official Website",

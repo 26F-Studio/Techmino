@@ -20,8 +20,8 @@ local author={
     ["secret7th remix"]="柒栎流星",
     ["jazz nihilism"]="Trebor",
     ["race remix"]="柒栎流星",
-    ["sakura"]="ZUN & C29H25N3O5",
-    ["1989"]="C29H25N3O5",
+    ["sakura"]="ZUN & C₂₉H₂₅N₃O₅",
+    ["1989"]="C₂₉H₂₅N₃O₅",
 }
 
 local scene={}
