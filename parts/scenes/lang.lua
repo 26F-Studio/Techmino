@@ -25,15 +25,16 @@ local function _setLang(lid)
     TEXT.show(langList[lid],640,360,100,'appear',.626)
     collectgarbage()
 end
+
 scene.widgetList={
     WIDGET.newButton{x=271,y=190,w=346,h=120,font=40,   fText=langList.zh,      color='O',code=function()_setLang('zh')end},
     WIDGET.newButton{x=637,y=190,w=346,h=120,font=40,   fText=langList.zh_trad, color='F',code=function()_setLang('zh_trad')end},
     WIDGET.newButton{x=1003,y=190,w=346,h=120,font=40,  fText=langList.zh_full, color='R',code=function()_setLang('zh_full')end},
 
-    WIDGET.newButton{x=225,y=331,w=255,h=120,font=40,   fText=langList.en,      color='Y',code=function()_setLang('en')end},
-    WIDGET.newButton{x=500,y=331,w=255,h=120,font=40,   fText=langList.fr,      color='L',code=function()_setLang('fr')end},
-    WIDGET.newButton{x=775,y=331,w=255,h=120,font=40,   fText=langList.es,      color='J',code=function()_setLang('es')end},
-    WIDGET.newButton{x=1050,y=331,w=255,h=120,font=40,  fText=langList.pt,      color='G',code=function()_setLang('pt')end},
+    WIDGET.newButton{x=225,y=331,w=255,h=120,font=40,   fText=langList.en,      color='L',code=function()_setLang('en')end},
+    WIDGET.newButton{x=500,y=331,w=255,h=120,font=40,   fText=langList.fr,      color='J',code=function()_setLang('fr')end},
+    WIDGET.newButton{x=775,y=331,w=255,h=120,font=40,   fText=langList.es,      color='G',code=function()_setLang('es')end},
+    WIDGET.newButton{x=1050,y=331,w=255,h=120,font=40,  fText=langList.pt,      color='dG',code=function()_setLang('pt')end},
 
     WIDGET.newButton{x=271,y=472,w=346,h=120,font=45,   fText=langList.zh_grass,color='N',code=function()_setLang('zh_grass')end},
     WIDGET.newButton{x=637,y=472,w=346,h=120,font=45,   fText=langList.zh_yygq, color='S',code=function()_setLang('zh_yygq')end},
