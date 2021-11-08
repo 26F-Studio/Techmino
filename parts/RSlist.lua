@@ -686,13 +686,7 @@ do
                                 sfx='prerotate'
                             elseif P:ifoverlap(icb,x,y+1)and P:ifoverlap(icb,x-1,y)and P:ifoverlap(icb,x+1,y)then
                                 sfx='rotatekick'
-                                if P.gameEnv.shakeFX then
-                                    if d==1 or d==3 then
-                                        P.fieldOff.va=P.fieldOff.va+(2-d)*6e-3
-                                    else
-                                        P.fieldOff.va=P.fieldOff.va+P:getCenterX()*3e-3
-                                    end
-                                end
+                                P:_rotateField(d)
                             else
                                 sfx='rotate'
                             end

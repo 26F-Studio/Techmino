@@ -30,6 +30,20 @@ end
 function Player:_createClearingFX(y,spd)--Not used
     ins(self.clearFX,{y,0,spd})
 end
+function Player:_rotateField(dir)
+    if self.gameEnv.shakeFX then
+        if dir==1 or dir==3 then
+            self.fieldOff.va=self.fieldOff.va+(2-dir)*6e-3
+        else
+            self.fieldOff.va=self.fieldOff.va+self:getCenterX()*3e-3
+        end
+    end
+end
+function Player:checkTouchSound()
+    if self.sound and self.curY==self.ghoY then
+        SFX.play('touch')
+    end
+end
 function Player:showText(text,dx,dy,font,style,spd,stop)
     if self.gameEnv.text then
         ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font,style,spd,stop))
@@ -605,10 +619,9 @@ function Player:freshBlock(mode)--string mode: push/move/fresh/newBlock
     end
 
     --Play sound if touch ground
-    if mode=='move'and self.sound and self.curY==self.ghoY then
-        SFX.play('touch')
+    if mode=='move'then
+        self:checkTouchSound()
     end
-
 end
 function Player:lock()
     local CB=self.cur.bk
@@ -803,13 +816,7 @@ function Player:spin(d,ifpre)
                     sfx='prerotate'
                 elseif self:ifoverlap(icb,ix,iy+1)and self:ifoverlap(icb,ix-1,iy)and self:ifoverlap(icb,ix+1,iy)then
                     sfx='rotatekick'
-                    if self.gameEnv.shakeFX then
-                        if d==1 or d==3 then
-                            self.fieldOff.va=self.fieldOff.va+(2-d)*6e-3
-                        else
-                            self.fieldOff.va=self.fieldOff.va+self:getCenterX()*3e-3
-                        end
-                    end
+                    self:_rotateField(d)
                 else
                     sfx='rotate'
                 end
@@ -1849,7 +1856,7 @@ local function _updateMisc(P)
     --Field shaking
     if P.gameEnv.shakeFX then
         local O=P.fieldOff
-        O.vx=O.vx*.7-abs(O.x)^1.3*(O.x>0 and .1 or -.1)
+        O.vx=O.vx*.6-abs(O.x)^1.3*(O.x>0 and .1 or -.1)
         O.x=O.x+O.vx
 
         O.vy=O.vy*.7-abs(O.y)^1.2*(O.y>0 and .1 or -.1)
@@ -1950,13 +1957,9 @@ local function update_alive(P)
 
     if GAME.modeEnv.royaleMode then
         local v=P.swappingAtkMode
-        if P.keyPressing[9]then
-            P.swappingAtkMode=min(v+2,30)
-        else
-            local tar=#P.field>15 and 4 or 8
-            if v~=tar then
-                P.swappingAtkMode=v+(v<tar and 1 or -1)
-            end
+        local tar=#P.field>15 and 4 or 8
+        if v~=tar then
+            P.swappingAtkMode=v+(v<tar and 1 or -1)
         end
     end
 
@@ -2042,7 +2045,7 @@ local function update_alive(P)
     end
 
     --Drop pressed
-    if P.keyPressing[7]and not P.keyPressing[9]then
+    if P.keyPressing[7]then
         P.downing=P.downing+1
         local d=P.downing-ENV.sddas
         if d>1 then
@@ -2116,9 +2119,8 @@ local function update_alive(P)
 
                 if P.ghoY~=P.curY then
                     P.dropDelay=ENV.drop
-                elseif P.sound then
-                    SFX.play('touch')
                 end
+                P:checkTouchSound()
             else
                 P.lockDelay=P.lockDelay-1
                 if P.lockDelay>=0 then
@@ -2435,12 +2437,7 @@ function Player:act_moveLeft(auto)
         self.ctrlCount=self.ctrlCount+1
     end
     self.movDir=-1
-    if self.keyPressing[9]then
-        if self.gameEnv.swap then
-            self:changeAtkMode(1)
-            self.keyPressing[1]=false
-        end
-    elseif self.control and self.waiting==-1 then
+    if self.control and self.waiting==-1 then
         if self.cur and not self:ifoverlap(self.cur.bk,self.curX-1,self.curY)then
             self:createMoveFX('left')
             self.curX=self.curX-1
@@ -2461,12 +2458,7 @@ function Player:act_moveRight(auto)
         self.ctrlCount=self.ctrlCount+1
     end
     self.movDir=1
-    if self.keyPressing[9]then
-        if self.gameEnv.swap then
-            self:changeAtkMode(2)
-            self.keyPressing[2]=false
-        end
-    elseif self.control and self.waiting==-1 then
+    if self.control and self.waiting==-1 then
         if self.cur and not self:ifoverlap(self.cur.bk,self.curX+1,self.curY)then
             self:createMoveFX('right')
             self.curX=self.curX+1
@@ -2505,12 +2497,7 @@ function Player:act_rot180()
 end
 function Player:act_hardDrop()
     local ENV=self.gameEnv
-    if self.keyPressing[9]then
-        if ENV.swap then
-            self:changeAtkMode(3)
-        end
-        self.keyPressing[6]=false
-    elseif self.control and self.waiting==-1 and self.cur then
+    if self.control and self.waiting==-1 and self.cur then
         if self.lastPiece.autoLock and self.frameRun-self.lastPiece.frame<ENV.dropcut then
             SFX.play('drop_cancel',.3)
         else
@@ -2535,30 +2522,25 @@ function Player:act_hardDrop()
 end
 function Player:act_softDrop()
     local ENV=self.gameEnv
-    if self.keyPressing[9]then
-        if ENV.swap then
-            self:changeAtkMode(4)
-        end
-    else
-        self.downing=1
-        if self.control and self.waiting==-1 and self.cur then
-            if self.curY>self.ghoY then
-                self.curY=self.curY-1
-                self:freshBlock('fresh')
-                self.spinLast=false
-            elseif ENV.deepDrop then
-                local CB=self.cur.bk
-                local y=self.curY-1
-                while self:ifoverlap(CB,self.curX,y)and y>0 do
-                    y=y-1
-                end
-                if y>0 then
-                    self.ghoY=y
-                    self:createDropFX()
-                    self.curY=y
-                    self:freshBlock('move')
-                    SFX.play('swipe')
-                end
+    self.downing=1
+    if self.control and self.waiting==-1 and self.cur then
+        if self.curY>self.ghoY then
+            self.curY=self.curY-1
+            self:freshBlock('fresh')
+            self.spinLast=false
+            self:checkTouchSound()
+        elseif ENV.deepDrop then
+            local CB=self.cur.bk
+            local y=self.curY-1
+            while self:ifoverlap(CB,self.curX,y)and y>0 do
+                y=y-1
+            end
+            if y>0 then
+                self.ghoY=y
+                self:createDropFX()
+                self.curY=y
+                self:freshBlock('move')
+                SFX.play('swipe')
             end
         end
     end
@@ -2592,7 +2574,7 @@ function Player:act_insLeft(auto)
         self.spinLast=false
     end
     if self.gameEnv.shakeFX then
-        self.fieldOff.vx=-.5
+        self.fieldOff.vx=-1.5
     end
     if auto then
         if self.ctrlCount==0 then
@@ -2616,7 +2598,7 @@ function Player:act_insRight(auto)
         self.spinLast=false
     end
     if self.gameEnv.shakeFX then
-        self.fieldOff.vx=.5
+        self.fieldOff.vx=1.5
     end
     if auto then
         if self.ctrlCount==0 then
@@ -2637,6 +2619,7 @@ function Player:act_insDown()
         self.lockDelay=ENV.lock
         self.spinLast=false
         self:freshBlock('fresh')
+        self:checkTouchSound()
     end
 end
 function Player:act_down1()
