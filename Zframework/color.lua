@@ -67,11 +67,11 @@ local COLOR={
     dMagenta=   {hsv(0.87, 1.00, 0.56)},
     dWine=      {hsv(0.92, 1.00, 0.56)},
 
-    black=      {hsv(0.64, 0.14, 0.14)},
-    dGray=      {hsv(0.62, 0.15, 0.44)},
-    gray=       {hsv(0.62, 0.17, 0.65)},
-    lGray=      {hsv(0.62, 0.18, 0.86)},
-    white=      {hsv(0.61, 0.08, 0.99)},
+    black=      {hsv(0.04, 0.04, 0.14)},
+    dGray=      {hsv(0.02, 0.05, 0.44)},
+    gray=       {hsv(0.02, 0.05, 0.65)},
+    lGray=      {hsv(0.02, 0.06, 0.86)},
+    white=      {hsv(0.01, 0.02, 0.99)},
 }
 for k,v in next,{
     R='red', F='fire', O='orange', Y='yellow', L='lime', J='jade', G='green', A='aqua', C='cyan', N='navy', S='sea', B='blue', V='violet', P='purple', M='magenta', W='wine',
