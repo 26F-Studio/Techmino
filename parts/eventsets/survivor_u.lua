@@ -24,6 +24,7 @@ return{
                         if D.wave==30 then
                             P:_showText(text.maxspeed,0,-140,100,'appear',.6)
                         end
+                        P:shakeField(9)
                         D.timer=0
                         D.wave=D.wave+1
                     end

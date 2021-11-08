@@ -42,6 +42,7 @@ return{
                             P:_showText(text.maxspeed,0,-140,100,'appear',.6)
                         end
                     end
+                    P:shakeField(10)
                     D.wave=D.wave+1
                 end
             end

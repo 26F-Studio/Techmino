@@ -40,6 +40,7 @@ return{
                         P.dropDelay,P.gameEnv.drop=5,5
                         P:_showText(text.maxspeed,0,-140,100,'appear',.6)
                     end
+                    P:shakeField(3)
                 end
             end
         end

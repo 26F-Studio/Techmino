@@ -500,6 +500,9 @@ function Player:receive(A,send,time,line)
         if self.sound then
             SFX.play(send<4 and'blip_1'or'blip_2',min(send+1,5)*.1)
         end
+        if send>=2 then
+            self:shakeField(send/2)
+        end
     end
 end
 function Player:clearAttackBuffer()

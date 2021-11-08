@@ -89,6 +89,7 @@ return
                     ENV.bone=true
 
                     P.modeData.target=62
+                    SFX.play('reach')
                 else
                     p=41
                 end
@@ -112,6 +113,7 @@ return
                 ENV.fall=4
 
                 P.modeData.target=162
+                SFX.play('reach')
             elseif T==162 then--Stage 7: speed up+++
                 P:stageComplete(7)
                 P.life=P.life+1
@@ -146,6 +148,7 @@ return
                 P.modeData.target=260
                 p=260
                 SFX.play('blip_2')
+                SFX.play('reach')
             else
                 p=260
             end
