@@ -24,8 +24,6 @@ return{
             if FIELD[D.finished+1]then
                 P.waiting=26
                 for _=#P.field,1,-1 do
-                    FREEROW.discard(P.field[_])
-                    FREEROW.discard(P.visTime[_])
                     P.field[_],P.visTime[_]=nil
                 end
                 SYSFX.newShade(1.4,P.absFieldX,P.absFieldY,300*P.size,610*P.size,.3,1,.3)

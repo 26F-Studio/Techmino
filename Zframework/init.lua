@@ -622,9 +622,8 @@ function love.run()
                         --Left-down infos
                         gc_setColor(devColor[devMode])
                         gc_print("MEM     "..gcinfo(),safeX+5,-40)
-                        gc_print("Lines    "..FREEROW.getCount(),safeX+5,-60)
-                        gc_print("Tasks   "..TASK.getCount(),safeX+5,-80)
-                        gc_print("Voices  "..VOC.getQueueCount(),safeX+5,-100)
+                        gc_print("Tasks   "..TASK.getCount(),safeX+5,-60)
+                        gc_print("Voices  "..VOC.getQueueCount(),safeX+5,-80)
 
                         --Update & draw frame time
                         table.insert(frameTimeList,1,dt)table.remove(frameTimeList,126)

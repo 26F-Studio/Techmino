@@ -10,7 +10,7 @@ local assert,ins,rem=assert,table.insert,table.remove
 local resume,yield,status=coroutine.resume,coroutine.yield,coroutine.status
 
 local SFX,BGM,VOC,VIB,SYSFX=SFX,BGM,VOC,VIB,SYSFX
-local FREEROW,TABLE,TEXT,TASK=FREEROW,TABLE,TEXT,TASK
+local FREEROW,TABLE,TEXT,TASK=LINE,TABLE,TEXT,TASK
 local PLAYERS,PLY_ALIVE,GAME=PLAYERS,PLY_ALIVE,GAME
 
 local SETTING=SETTING
@@ -354,8 +354,8 @@ function Player:garbageRise(color,amount,line)--Release n-lines garbage to field
     local _
     local t=self.showTime*2
     for _=1,amount do
-        ins(self.field,1,FREEROW.get(0,true))
-        ins(self.visTime,1,FREEROW.get(t))
+        ins(self.field,1,FREEROW.new(0,true))
+        ins(self.visTime,1,FREEROW.new(t))
         for i=1,10 do
             self.field[1][i]=bit.rshift(line,i-1)%2==1 and color or 0
         end
@@ -388,7 +388,7 @@ function Player:pushLineList(L,mir)--Push some lines to field
     local l=#L
     local S=self.gameEnv.skin
     for i=1,l do
-        local r=FREEROW.get(0)
+        local r=FREEROW.new(0)
         if not mir then
             for j=1,10 do
                 r[j]=S[L[i][j]]or 0
@@ -399,7 +399,7 @@ function Player:pushLineList(L,mir)--Push some lines to field
             end
         end
         ins(self.field,1,r)
-        ins(self.visTime,1,FREEROW.get(20))
+        ins(self.visTime,1,FREEROW.new(20))
     end
     self.fieldBeneath=self.fieldBeneath+30*l
     self.curY=self.curY+l
@@ -636,8 +636,8 @@ function Player:lock()
     for i=1,#CB do
         local y=self.curY+i-1
         if not self.field[y]then
-            self.field[y]=FREEROW.get(0)
-            self.visTime[y]=FREEROW.get(0)
+            self.field[y]=FREEROW.new(0)
+            self.visTime[y]=FREEROW.new(0)
         end
         for j=1,#CB[1]do
             if CB[i][j]then

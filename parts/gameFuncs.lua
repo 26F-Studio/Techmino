@@ -257,8 +257,8 @@ function setField(P,page)
     local t=P.showTime*3
     for y=1,height do
         local notEmpty=notEmptyLine(F[y])
-        P.field[y]=FREEROW.get(0,notEmpty)
-        P.visTime[y]=FREEROW.get(t)
+        P.field[y]=LINE.new(0,notEmpty)
+        P.visTime[y]=LINE.new(t)
         if notEmpty then
             for x=1,10 do
                 P.field[y][x]=F[y][x]
@@ -331,8 +331,8 @@ function destroyPlayers()--Destroy all player objects, restore freerows and free
             P.canvas:release()
         end
         while P.field[1]do
-            FREEROW.discard(rem(P.field))
-            FREEROW.discard(rem(P.visTime))
+            rem(P.field)
+            rem(P.visTime)
         end
     end
     TABLE.cut(PLAYERS)
@@ -668,7 +668,6 @@ do--function resetGameData(args)
             GAME.secDangerous=false
             GAME.stage=1
         end
-        FREEROW.reset(30*#PLAYERS)
         TASK.removeTask_code(task_showMods)
         if GAME.setting.allowMod then
             TASK.new(task_showMods)

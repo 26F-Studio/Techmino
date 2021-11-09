@@ -44,8 +44,7 @@ local function _ifoverlapAI(f,bk,x,y)
         end
     end end
 end
-local discardRow=FREEROW.discard
-local getRow=FREEROW.get
+local getRow,discardRow=LINE.new,LINE.discard
 local function _resetField(f0,f,start)
     for _=#f,start,-1 do
         discardRow(f[_])

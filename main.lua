@@ -90,7 +90,7 @@ for _,v in next,fs.getDirectoryItems('parts/shaders')do
     end
 end
 
-FREEROW=    require'parts.freeRow'
+LINE=       require'parts.line'
 DATA=       require'parts.data'
 
 TEXTURE=    require'parts.texture'

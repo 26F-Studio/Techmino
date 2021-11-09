@@ -11,8 +11,8 @@ return{
     task=function(P)
         local F=P.field
         for i=1,24 do
-            F[i]=FREEROW.get(20)
-            P.visTime[i]=FREEROW.get(20)
+            F[i]=LINE.new(20)
+            P.visTime[i]=LINE.new(20)
             for x=4,7 do F[i][x]=0 end
         end
         if P.holeRND:random()<.6 then

@@ -8,7 +8,7 @@ return{
             while true do
                 YIELD()
                 if not P.nextQueue[1]then
-                    local height=FREEROW.get(0)
+                    local height=TABLE.new(0,10)
                     local max=#P.field
                     if max>0 then
                         --Get heights
@@ -69,8 +69,6 @@ return{
                             for _=1,4 do ins(wei,5)end
                         end
                     end
-
-                    FREEROW.discard(height)
                     P:getNext(wei[P.seqRND:random(#wei)])
                 end
             end

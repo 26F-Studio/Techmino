@@ -6,8 +6,6 @@ return{
             if FIELD[D.finished+1]then
                 P.waiting=26
                 for i=#P.field,1,-1 do
-                    FREEROW.discard(P.field[i])
-                    FREEROW.discard(P.visTime[i])
                     P.field[i],P.visTime[i]=nil
                 end
                 setField(P,D.finished+1)

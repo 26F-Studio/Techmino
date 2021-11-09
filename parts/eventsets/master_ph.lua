@@ -55,8 +55,8 @@ return
                             P.field[i][P.holeRND:random(10)]=0
                         end
                     else
-                        P.field[i]=FREEROW.get(0)
-                        P.visTime[i]=FREEROW.get(30)
+                        P.field[i]=LINE.new(0)
+                        P.visTime[i]=LINE.new(30)
                         for j=1,10 do
                             if P.holeRND:random()>.9 then
                                 P.field[i][j]=P.holeRND:random(16)
