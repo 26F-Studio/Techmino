@@ -91,9 +91,10 @@ end
 
 function scene.draw()
     setFont(15)
-    for i=1,#list do
+    local l=#list
+    for i=1,l do
         gc.setColor(1,1,1,list[i][2]/30)
-        gc.print(list[i][1],20,20*i)
+        gc.print(list[i][1],20,20*(l-i+1))
     end
 end
 
