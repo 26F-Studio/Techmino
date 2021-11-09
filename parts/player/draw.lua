@@ -692,7 +692,7 @@ function draw.drawProgress(s1,s2)
     setFont(40)
     mStr(s1,62,322)
     mStr(s2,62,376)
-    gc_rectangle('fill',24,375,76,4,2)
+    gc_rectangle('fill',15,375,90,4,2)
 end
 function draw.drawRoyaleInfo(P)
     setFont(35)
