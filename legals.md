@@ -2,11 +2,7 @@
 TECHMINO and "26F Studio" are trademarks of 26F Studio.
 The TECHMINO game and source code are under a GNU Lesser General Public License Version 3.
 
-
-TECHMINO is not a fan game of Tetris. TECHMINO and 26F Studio are not affiliated with Tetris Holding, LLC or The Tetris Company, Inc. in any way.
-
-
-"Tetris" is the registered trademark of The Tetris Holding, LLC, licensed to The Tetris Company, Inc.
+"Tetris" is the registered trademark of The Tetris Holding, LLC, licensed to The Tetris Company, Inc. TECHMINO is not a fan game of Tetris. TECHMINO and 26F Studio are not affiliated with Tetris Holding, LLC or The Tetris Company, Inc. in any way.
 
 
 Powered by LÖVE, © 2006-2021 LÖVE Development Team.
@@ -21,7 +17,7 @@ The Apple logo, "Apple Inc.," iOS, iPadOS, macOS, iPhone, and Mac are registered
 "Windows", the Windows logo, "Xbox", Xbox logo, and "Microsoft" are registered trademarks of Microsoft Corporation in the United States of America and other countries or regions.
 
 
-Alibaba Sans is copyrighted by Alibaba Group Holding Limited. Alibaba is a trademark of Alibaba Group Holding Limited in the People’s Republic of China and other countries or regions.
+Source Han Sans is copyrighted by Adobe Inc. Source Han Sans and Abode are registered trademarks of Adobe Inc. in United States and other countries or regions. Source Han Sans is licensed under the SIL Open Font License.
 
 
 IBM Plex is copyrighted by the International Business Machines Corporation. IBM and IBM Plex are trademarks of IBM Corp, registered in many jurisdictions worldwide. IBM Plex is licensed under the SIL Open Font License.
@@ -50,5 +46,5 @@ Linux is a registered trademark of Linus Torvalds.
 
 Touhou Project © Team Shanghai Alice 2002-2021.
 
-
 All other trademarks are the properties of their respective owners.
+
