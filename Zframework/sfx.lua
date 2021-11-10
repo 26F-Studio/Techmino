@@ -88,19 +88,16 @@ function SFX.playSample(pack,...)--vol-2, sampSet1, vol-3, sampSet2, vol-1
             if type(arg[i])=='number'then
                 vol=arg[i]
             else
-                local tune=arg[i]
-                local r=rnd(-1,1)
-                tune=_getTuneHeight(tune)-r
                 local base=packSetting[pack].base
                 local top=packSetting[pack].top
-                if tune<base then
-                    r=base-(tune+r)
-                    tune=base
-                elseif tune>top then
-                    r=(tune+r)-top
-                    tune=top
+                local tune=_getTuneHeight(arg[i])--Absolute tune in number
+                local playTune=tune+rnd(-2,2)
+                if playTune<base then--Too low notes
+                    playTune=base
+                elseif playTune>top then--Too high notes
+                    playTune=top
                 end
-                SFX.play(pack..tune-base,vol,nil,r)
+                SFX.play(pack..playTune-base,vol,nil,tune-playTune)
             end
         end
     end
