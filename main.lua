@@ -104,6 +104,12 @@ PLY=        require'parts.player'
 NETPLY=     require'parts.netPlayer'
 MODES=      require'parts.modes'
 
+setmetatable(TEXTURE,{__index=function(self,k)
+    MES.new('warn',"No texture called: "..k)
+    self[k]=love.graphics.newCanvas(1,1)
+    return self[k]
+end})
+
 table.insert(_LOADTIMELIST_,("Load Parts: %.3fs"):format(TIME()-_LOADTIME_))
 
 --Init Zframework
