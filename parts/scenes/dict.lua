@@ -35,10 +35,10 @@ local function _scanDict(D)
     local cut=TABLE.cut
     for i=1,#D do
         local O=D[i]
-        O.title=O[1]:gsub("[Tt]etris",c)
+        O.title,O.title_Org=O[1]:gsub("[Tt]etris",c),O[1]
         O.keywords=O[2]
         O.type=O[3]
-        O.content=O[4]:gsub("[Tt]etris",c)
+        O.content,O.content_Org=O[4]:gsub("[Tt]etris",c),O[4]
         O.url=O[5]
         cut(O)
     end
@@ -128,7 +128,7 @@ function scene.keyDown(key)
         end
     elseif key=="c"and love.keyboard.isDown("lctrl","rctrl")or key=="cC"then
         local t=_getList()[selected]
-        t=t.title..":\n"..t.content..(t.url and"\n[ "..t.url.." ]\n"or"\n")..text.dictNote
+        t=t.title_Org..":\n"..t.content_Org..(t.url and"\n[ "..t.url.." ]\n"or"\n")..text.dictNote
         love.system.setClipboardText(t)
         scene.widgetList.copy.hide=true
         MES.new('info',text.copyDone)
