@@ -466,6 +466,14 @@ do
         fs.remove('record/stack_40l.rec')
         fs.remove('record/stack_100l.rec')
     end
+    if RANKS.rhythm_e then
+        RANKS.rhythm_e=nil
+        RANKS.rhythm_h=nil
+        RANKS.rhythm_u=nil
+        fs.remove('record/rhythm_e.rec')
+        fs.remove('record/rhythm_h.rec')
+        fs.remove('record/rhythm_u.rec')
+    end
     if STAT.version~=VERSION.code then
         for k,v in next,MODE_UPDATE_MAP do
             if RANKS[k]then
