@@ -164,7 +164,6 @@ function scene.draw()
     else
         gc.setLineWidth(4)
     end
-    local L=SVG_TITLE
     gc.push('transform')
     gc.translate(126,100)
     for i=1,8 do
@@ -177,9 +176,9 @@ function scene.draw()
                 gc.translate(0,math.abs(10-dt)-10)
             end
             gc.setColor(titleColor[i][1],titleColor[i][2],titleColor[i][3],min(t*.025,1)*.2)
-            gc.polygon('fill',L[i])
+            gc.polygon('fill',SVG_TITLE[i])
             gc.setColor(1,1,1,min(t*.025,1))
-            gc.polygon('line',L[i])
+            gc.polygon('line',SVG_TITLE[i])
             gc.pop()
         end
     end
