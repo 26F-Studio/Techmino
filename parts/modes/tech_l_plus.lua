@@ -12,7 +12,6 @@ local function tech_check_hard(P)
 end
 
 return{
-    color=COLOR.dRed,
     env={
         drop=0,lock=60,
         freshLimit=15,

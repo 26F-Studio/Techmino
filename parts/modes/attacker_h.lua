@@ -1,5 +1,4 @@
 return{
-    color=COLOR.magenta,
     env={
         drop=30,lock=60,
         fall=12,

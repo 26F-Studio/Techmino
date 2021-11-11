@@ -1,5 +1,4 @@
 return{
-    color=COLOR.lBlue,
     env={
         drop=60,lock=60,
         eventSet='checkLine_20',

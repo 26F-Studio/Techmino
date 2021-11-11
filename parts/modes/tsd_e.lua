@@ -1,5 +1,4 @@
 return{
-    color=COLOR.green,
     env={
         drop=1e99,lock=1e99,
         infHold=true,

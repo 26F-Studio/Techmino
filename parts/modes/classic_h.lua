@@ -1,5 +1,4 @@
 return{
-    color=COLOR.lBlue,
     env={
         center=0,ghost=0,
         smooth=false,

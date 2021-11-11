@@ -1,5 +1,4 @@
 return{
-    color=COLOR.red,
     env={
         sequence="bagES",
         freshLimit=15,

@@ -1,5 +1,4 @@
 return{
-    color=COLOR.red,
     env={
         life=2,
         drop=60,lock=60,

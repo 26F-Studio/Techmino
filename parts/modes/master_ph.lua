@@ -1,5 +1,4 @@
 return{
-    color=COLOR.black,
     env={
         eventSet='master_ph',
         bg='blockspace',bgm='race remix',

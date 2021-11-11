@@ -26,7 +26,6 @@ local function check_rise(P)
 end
 
 return{
-    color=COLOR.white,
     env={
         drop=1e99,lock=1e99,
         infHold=true,

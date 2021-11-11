@@ -1,5 +1,4 @@
 return{
-    color=COLOR.white,
     env={},
     load=function()
         applyCustomGame()

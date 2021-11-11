@@ -1,5 +1,4 @@
 return{
-    color=COLOR.lGray,
     env={
         noTele=true,
         minarr=1,minsdarr=1,

@@ -9,7 +9,6 @@ local border=GC.DO{334,620,
 local gc=love.graphics
 local sin,min=math.sin,math.min
 return{
-    color=COLOR.red,
     env={
         drop=30,lock=60,
         nextCount=1,

@@ -1,5 +1,4 @@
 return{
-    color=COLOR.lGray,
     env={
         drop=1e99,lock=1e99,
         holdCount=0,
