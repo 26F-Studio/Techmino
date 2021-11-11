@@ -285,10 +285,9 @@ function scene.draw()
         local M=MODES[sel]
         gc_setColor(.5,.5,.5,.8)
         gc_rectangle('fill',920,0,360,720,5)--Info board
-        gc_setColor(M.color)
+        gc_setColor(COLOR.Z)
         setFont(40)mStr(text.modes[sel][1],1100,5)
         setFont(30)mStr(text.modes[sel][2],1100,50)
-        gc_setColor(1,1,1)
         setFont(25)gc_printf(text.modes[sel][3],920,110,360,'center')
         if M.slowMark then
             gc_draw(IMG.ctrlSpeedLimit,1230,50,nil,.4)

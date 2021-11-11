@@ -155,5 +155,4 @@ TEXTURE.dial={
 }
 
 gc.setCanvas()
-setmetatable(TEXTURE,{__index=function(_,i)error(i)end})
 return TEXTURE

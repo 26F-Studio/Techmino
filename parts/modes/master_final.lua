@@ -1,5 +1,4 @@
 return{
-    color=COLOR.lGray,
     env={
         sequence="bagES",
         eventSet='master_final',

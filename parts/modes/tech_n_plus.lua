@@ -12,7 +12,6 @@ local function tech_check_hard(P)
 end
 
 return{
-    color=COLOR.dGreen,
     env={
         infHold=true,
         drop=1e99,lock=1e99,

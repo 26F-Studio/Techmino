@@ -283,7 +283,7 @@ return{
         net_game={
             ready="Estoy Listo",
             spectate="Espectear",
-            cancel="Cancelar",
+            -- cancel="Cancel ready",
         },
         setting_game={
             title="Ajustes del Juego",
@@ -662,9 +662,6 @@ return{
         -- ['master_m']=       {"Master",                  "M21",           "For 20G Masters."},
         ['master_final']=   {"Master",                  "FINAL",         "El verdadero 20G Supremo: el final es inalcanzable."},
         ['master_ex']=      {"GrandMaster",             "EXTRA",         "Para ser un gran maestro, acepta este desafío"},
-        ['rhythm_e']=       {"Al Ritmo",                "Fácil",         "Maratón rítmica de 200 líneas con bajo bpm."},
-        ['rhythm_h']=       {"Al Ritmo",                "Difícil",       "Maratón rítmica de 200 líneas con bpm moderado."},
-        ['rhythm_u']=       {"Al Ritmo",                "Supremo",       "Maratón rítmica de 200 líneas con bpm elevado."},
         ['blind_e']=        {"A Ciegas",                "Parcial",       "Para novatos."},
         ['blind_n']=        {"A Ciegas",                "Total",         "Para jugadores intermedios."},
         ['blind_h']=        {"A Ciegas",                "Inmediato",     "Para jugadores experimentados"},

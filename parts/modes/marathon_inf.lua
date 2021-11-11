@@ -1,5 +1,4 @@
 return{
-    color=COLOR.white,
     env={
         noTele=true,
         mindas=7,minarr=1,minsdarr=1,

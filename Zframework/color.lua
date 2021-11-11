@@ -1,6 +1,6 @@
 local abs=math.abs
 local function hsv(h,s,v,a)
-    if s<=0 then return v,v,v end
+    if s<=0 then return v,v,v,a end
     h=h*6
     local c=v*s
     local x=abs((h-1)%2-1)*c

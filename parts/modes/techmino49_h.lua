@@ -4,7 +4,6 @@ local function selectTarget(P)
 end
 
 return{
-    color=COLOR.magenta,
     env={
         drop=60,lock=60,
         fall=20,

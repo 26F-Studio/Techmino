@@ -1,7 +1,6 @@
 local sectionName={"D","C","B","A","A+","S-","S","S+","S+","SS","SS","U","U","X","X+"}
 
 return{
-    color=COLOR.lBlue,
     env={
         eventSet='master_ex',
         bg='blockspace',bgm='hope',

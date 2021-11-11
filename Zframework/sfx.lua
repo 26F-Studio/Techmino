@@ -1,4 +1,5 @@
 local type,rem=type,table.remove
+local rnd=math.random
 
 local sfxList={}
 local packSetting={}
@@ -55,14 +56,14 @@ function SFX.loadSample(pack)
     assert(type(pack)=='table',"Usage: SFX.loadsample([table])")
     assert(pack.name,"No field: name")
     assert(pack.path,"No field: path")
-    packSetting[pack.name]={
-        base=(_getTuneHeight(pack.base)or 37)-1,
-    }
     local num=1
     while love.filesystem.getInfo(pack.path..'/'..num..'.ogg')do
         Sources[pack.name..num]={love.audio.newSource(pack.path..'/'..num..'.ogg','static')}
         num=num+1
     end
+    local base=(_getTuneHeight(pack.base)or 37)-1
+    local top=base+num-1
+    packSetting[pack.name]={base=base,top=top}
     LOG((num-1).." "..pack.name.." samples loaded")
 end
 
@@ -87,14 +88,21 @@ function SFX.playSample(pack,...)--vol-2, sampSet1, vol-3, sampSet2, vol-1
             if type(arg[i])=='number'then
                 vol=arg[i]
             else
-                local tune=arg[i]
-                tune=_getTuneHeight(tune)-packSetting[pack].base
-                SFX.play(pack..tune,vol)
+                local base=packSetting[pack].base
+                local top=packSetting[pack].top
+                local tune=_getTuneHeight(arg[i])--Absolute tune in number
+                local playTune=tune+rnd(-2,2)
+                if playTune<base then--Too low notes
+                    playTune=base
+                elseif playTune>top then--Too high notes
+                    playTune=top
+                end
+                SFX.play(pack..playTune-base,vol,nil,tune-playTune)
             end
         end
     end
 end
-function SFX.play(name,vol,pos)
+function SFX.play(name,vol,pos,pitch)
     if volume==0 or vol==0 then return end
     local S=Sources[name]--Source list
     if not S then return end
@@ -117,6 +125,7 @@ function SFX.play(name,vol,pos)
         end
     end
     S:setVolume(((vol or 1)*volume)^1.626)
+    S:setPitch(pitch and 1.0594630943592953^pitch or 1)
     S:play()
 end
 function SFX.fplay(name,vol,pos)

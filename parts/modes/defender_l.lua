@@ -1,5 +1,4 @@
 return{
-    color=COLOR.red,
     env={
         nextCount=3,
         freshLimit=15,

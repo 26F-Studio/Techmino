@@ -1,5 +1,4 @@
 return{
-    color=COLOR.red,
     env={
         drop=5,lock=45,
         freshLimit=15,

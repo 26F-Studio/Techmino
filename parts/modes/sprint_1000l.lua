@@ -1,5 +1,4 @@
 return{
-    color=COLOR.lGray,
     env={
         drop=60,lock=60,
         eventSet='checkLine_1000',

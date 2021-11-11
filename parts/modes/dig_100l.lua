@@ -1,5 +1,4 @@
 return{
-    color=COLOR.green,
     env={
         pushSpeed=6,
         eventSet='dig_100l',

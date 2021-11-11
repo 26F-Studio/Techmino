@@ -1,5 +1,4 @@
 return{
-    color=COLOR.green,
     env={
         drop=0,lock=120,
         nextCount=3,

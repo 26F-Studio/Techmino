@@ -104,6 +104,12 @@ PLY=        require'parts.player'
 NETPLY=     require'parts.netPlayer'
 MODES=      require'parts.modes'
 
+setmetatable(TEXTURE,{__index=function(self,k)
+    MES.new('warn',"No texture called: "..k)
+    self[k]=love.graphics.newCanvas(1,1)
+    return self[k]
+end})
+
 table.insert(_LOADTIMELIST_,("Load Parts: %.3fs"):format(TIME()-_LOADTIME_))
 
 --Init Zframework
@@ -459,6 +465,14 @@ do
         fs.remove('record/stack_20l.rec')
         fs.remove('record/stack_40l.rec')
         fs.remove('record/stack_100l.rec')
+    end
+    if RANKS.rhythm_e then
+        RANKS.rhythm_e=nil
+        RANKS.rhythm_h=nil
+        RANKS.rhythm_u=nil
+        fs.remove('record/rhythm_e.rec')
+        fs.remove('record/rhythm_h.rec')
+        fs.remove('record/rhythm_u.rec')
     end
     if STAT.version~=VERSION.code then
         for k,v in next,MODE_UPDATE_MAP do

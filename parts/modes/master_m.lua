@@ -1,5 +1,4 @@
 return{
-    color=COLOR.lSea,
     env={
         sequence="bagES",
         eventSet='master_m',

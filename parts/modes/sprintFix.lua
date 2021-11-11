@@ -1,5 +1,4 @@
 return{
-    color=COLOR.green,
     env={
         drop=60,lock=180,
         keyCancel={1,2,11,12,17,18,19,20},

@@ -1,6 +1,5 @@
 local ins=table.insert
 return{
-    color=COLOR.red,
     env={
         drop=20,lock=60,
         sequence=function(P)
