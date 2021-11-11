@@ -316,7 +316,7 @@ return{
         net_game={
             ready="准备好的",
             spectate="凝视",
-            cancel="取消",
+            cancel="取消准备",
         },
         setting_game={
             title="游戏设置",

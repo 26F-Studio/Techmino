@@ -305,7 +305,7 @@ return{
         net_game={
             -- ready="Ready",
             -- spectate="Spectate",
-            -- cancel="Cancel",
+            -- cancel="Cancel ready",
         },
         setting_game={
             title="Config. de jogo",

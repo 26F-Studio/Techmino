@@ -283,7 +283,7 @@ return{
         net_game={
             ready="Estoy Listo",
             spectate="Espectear",
-            cancel="Cancelar",
+            -- cancel="Cancel ready",
         },
         setting_game={
             title="Ajustes del Juego",

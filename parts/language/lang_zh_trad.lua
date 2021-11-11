@@ -317,7 +317,7 @@ return{
         net_game={
             ready="準備",
             spectate="觀賽",
-            cancel="取消",
+            cancel="取消準備",
         },
         setting_game={
             title="遊戲設置",
