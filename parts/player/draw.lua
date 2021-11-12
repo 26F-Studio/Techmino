@@ -16,7 +16,6 @@ local shader_alpha,shader_lighter=SHADER.alpha,SHADER.lighter
 local shader_fieldSatur,shader_blockSatur=SHADER.fieldSatur,SHADER.blockSatur
 local TEXTOBJ,ENUM_MISSION,BLOCK_COLORS=TEXTOBJ,ENUM_MISSION,BLOCK_COLORS
 
-local PLAYERS,PLY_ALIVE=PLAYERS,PLY_ALIVE
 
 local RCPB={10,33,200,33,105,5,105,60}
 local attackColor={
@@ -693,22 +692,6 @@ function draw.drawProgress(s1,s2)
     mStr(s1,62,322)
     mStr(s2,62,376)
     gc_rectangle('fill',15,375,90,4,2)
-end
-function draw.drawRoyaleInfo(P)
-    setFont(35)
-    mStr(#PLY_ALIVE.."/"..#PLAYERS,63,175)
-    mStr(P.modeData.ko,80,215)
-    gc_draw(TEXTOBJ.ko,60-TEXTOBJ.ko:getWidth(),222)
-    setFont(20)
-    gc_setColor(1,.5,0,.6)
-    gc_print(P.badge,103,227)
-    gc_setColor(.97,.97,.97)
-    setFont(25)
-    mStr(text.powerUp[P.strength],63,290)
-    gc_setColor(1,1,1)
-    for i=1,P.strength do
-        gc_draw(IMG.badgeIcon,16*i+6,260)
-    end
 end
 
 function draw.norm(P,repMode)
