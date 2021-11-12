@@ -304,6 +304,7 @@ local function _applyGameEnv(P)--Finish gameEnv processing
     --Apply events
     ENV.mesDisp=_mergeFuncTable(ENV.mesDisp,{})
     ENV.hook_drop=_mergeFuncTable(ENV.hook_drop,{})
+    ENV.hook_die=_mergeFuncTable(ENV.hook_die,{})
     ENV.task=_mergeFuncTable(ENV.task,{})
 
     --Apply eventSet
@@ -315,6 +316,7 @@ local function _applyGameEnv(P)--Finish gameEnv processing
                     if
                         k=='mesDisp'or
                         k=='hook_drop'or
+                        k=='hook_die'or
                         k=='task'
                     then
                         _mergeFuncTable(v,ENV[k])

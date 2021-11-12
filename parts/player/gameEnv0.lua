@@ -62,6 +62,7 @@ return{
 
     mesDisp={},
     hook_drop={},
+    hook_die={},
     task={},
     eventSet="X",
 
