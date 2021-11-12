@@ -834,7 +834,7 @@ return{
         "Powered by Un..LÖVE",
         "pps-0.01",
         "Server down randomly",
-        "Some requirements to achieve rank S are intentionally set to be difficult for even the best players.",
+        "Some requirements to achieve rank X are intentionally set to be difficult for even the best players.",
         "Soon you'll be able to play against friends and foes all over the world.",
         "Split clear coming soon!",
         "sudo rm -rf /*",
