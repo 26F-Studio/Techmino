@@ -10,7 +10,7 @@ return
     task=function(P)
         P.modeData.target=50
     end,
-    dropPiece=function(P)
+    hook_drop=function(P)
         if P.stat.row>=P.modeData.target then
             if P.modeData.target==50 then
                 P.gameEnv.drop=.25

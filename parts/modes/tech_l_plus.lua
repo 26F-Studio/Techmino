@@ -15,7 +15,7 @@ return{
     env={
         drop=0,lock=60,
         freshLimit=15,
-        dropPiece=tech_check_hard,
+        hook_drop=tech_check_hard,
         eventSet='checkAttack_100',
         bg='matrix',bgm='warped',
     },

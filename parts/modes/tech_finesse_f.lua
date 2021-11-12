@@ -17,7 +17,7 @@ return{
         drop=1e99,lock=60,
         freshLimit=15,
         fineKill=true,
-        dropPiece=tech_check_hard,
+        hook_drop=tech_check_hard,
         bg='flink',bgm='infinite',
     },
     slowMark=true,

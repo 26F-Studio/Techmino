@@ -1,5 +1,5 @@
 return{
-    dropPiece=function(P)
+    hook_drop=function(P)
         if P.garbageBeneath==0 then
             local D=P.modeData
             D.finished=D.finished+1

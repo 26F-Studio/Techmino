@@ -36,7 +36,7 @@ return{
             end
         end
     end,
-    dropPiece=function(P)
+    hook_drop=function(P)
         if P.stat.row>=40 then
             P:win('finish')
         end

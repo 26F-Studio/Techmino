@@ -7,7 +7,7 @@ return{
         mText(TEXTOBJ.line,63,350)
         PLY.draw.drawMarkLine(P,17,.3,1,1,TIME()%.42<.21 and .95 or .6)
     end,
-    dropPiece=function(P)
+    hook_drop=function(P)
         if #P.field>20 then
             local cc=P:clearFilledLines(P.garbageBeneath+1,#P.field-P.garbageBeneath)
             local h=20-cc-P.garbageBeneath-3

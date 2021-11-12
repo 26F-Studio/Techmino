@@ -314,7 +314,7 @@ function Player:setRS(RSname)
 end
 
 function Player:triggerDropEvents()
-    local L=self.gameEnv.dropPiece
+    local L=self.gameEnv.hook_drop
     for i=1,#L do
         L[i](self)
     end
@@ -2333,7 +2333,9 @@ function Player:revive()
     SFX.play('emit')
 end
 function Player:win(result)
-    if self.result then return end
+    if self.result then
+        return
+    end
     self:_die()
     self.result='win'
     if GAME.modeEnv.royaleMode then
@@ -2374,8 +2376,7 @@ function Player:lose(force)
         if self.life>0 then
             self:revive()
             return
-        end
-        if self.type=='remote'then
+        elseif self.type=='remote'then
             self.waiting=1e99
             return
         end

@@ -14,7 +14,7 @@ return{
         mStr(r,63,265)
         PLY.draw.drawTargetLine(P,r)
     end,
-    dropPiece=function(P)
+    hook_drop=function(P)
         local F=P.field
         for y=1,#F do
             local l=F[y]

@@ -6,7 +6,7 @@ return{
         mText(TEXTOBJ.atk,63,243)
         mText(TEXTOBJ.eff,63,363)
     end,
-    dropPiece=function(P)
+    hook_drop=function(P)
         if P.stat.atk>=100 then
             P:win('finish')
         end

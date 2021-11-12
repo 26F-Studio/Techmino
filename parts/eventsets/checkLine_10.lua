@@ -6,7 +6,7 @@ return{
         mStr(r,63,265)
         PLY.draw.drawTargetLine(P,r)
     end,
-    dropPiece=function(P)
+    hook_drop=function(P)
         if P.stat.row>=10 then
             P:win('finish')
         end

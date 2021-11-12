@@ -14,7 +14,7 @@ return
     task=function(P)
         P.modeData.target=10
     end,
-    dropPiece=function(P)
+    hook_drop=function(P)
         if P.stat.row>=P.modeData.target then
             if P.modeData.target==200 then
                 P:win('finish')

@@ -1,5 +1,5 @@
 return{
-    dropPiece=function(P)
+    hook_drop=function(P)
         if P.lastPiece.row==0 then
             P:lose()
         else

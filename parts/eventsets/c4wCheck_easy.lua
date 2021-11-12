@@ -1,5 +1,5 @@
 return{
-    dropPiece=function(P)
+    hook_drop=function(P)
         if P.lastPiece.row>0 then
             for _=1,#P.clearedRow do
                 local h=#P.field

@@ -46,6 +46,6 @@ return{
         mStr(P.stat.pc,63,340)
         mText(TEXTOBJ.pc,63,410)
     end,
-    dropPiece=check,
+    hook_drop=check,
     task=check,
 }
