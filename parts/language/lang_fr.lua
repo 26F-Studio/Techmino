@@ -638,7 +638,6 @@ return{
         ['drought_n']=     {"Drought",         "100L",        "Pas de pièce I !"},
         ['drought_l']=     {"Drought+",        "100L",        "WTF ??!!"},
         -- ['stack_e']=       {"Stack",           "FACILE",      "Pack them!"},
-        -- ['stack_h']=       {"Stack",           "DIFFICILE",   "Pack them!"},
         -- ['stack_u']=       {"Stack",           "ULTIME",      "Pack them!"},
         ['marathon_n']=    {"Marathon",        "NORMAL",      "Marathon de 200 lignes."},
         ['marathon_h']=    {"Marathon",        "DIFFICILE",   "Marathon de 200 lignes à très haute vitesse"},

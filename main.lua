@@ -450,7 +450,7 @@ do
         fs.remove('record/round_l.rec')
         fs.remove('record/round_u.rec')
     end
-    if STAT.version<1604 then
+    if RANKS.stack_e then
         RANKS.stack_e=nil
         RANKS.stack_h=nil
         RANKS.stack_u=nil
