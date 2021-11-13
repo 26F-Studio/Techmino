@@ -46,6 +46,18 @@ function TABLE.cover(new,old)
     end
 end
 
+--For all things in new, push to old
+function TABLE.coverR(new,old)
+    for k,v in next,new do
+        if type(v)=='table'and type(old[k])=='table'then
+            TABLE.coverR(v,old[k])
+        else
+            old[k]=v
+        end
+    end
+end
+
+
 --For all things in new if same type in old, push to old
 function TABLE.update(new,old)
     for k,v in next,new do
