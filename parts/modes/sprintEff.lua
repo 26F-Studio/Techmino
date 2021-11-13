@@ -1,7 +1,7 @@
 return{
     env={
         drop=60,lock=60,
-        eventSet='checkLine_40',
+        eventSet='sprintEff_40',
         bg='bg2',bgm='race',
     },
     score=function(P)return{P.stat.atk/P.stat.row,P.stat.time}end,
