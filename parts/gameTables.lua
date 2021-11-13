@@ -726,6 +726,10 @@ do--Userdata tables
         spin=(function()local L={}for i=1,29 do L[i]={0,0,0,0,0,0,0}end return L end)(),
         pc=0,hpc=0,b2b=0,b3b=0,score=0,
         lastPlay='sprint_10l',--Last played mode ID
+        item=setmetatable({},{__index=function(self,k)
+            self[k]=0
+            return 0
+        end}),
         date=false,
         todayTime=0,
     }
