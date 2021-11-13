@@ -2,9 +2,9 @@ return{
     env={
         drop=10,lock=60,
         freshLimit=15,
-        dropPiece={
-            require'parts.eventsets.backfire_60'.dropPiece,
-            require'parts.eventsets.checkAttack_100'.dropPiece,
+        hook_drop={
+            require'parts.eventsets.backfire_60'.hook_drop,
+            require'parts.eventsets.checkAttack_100'.hook_drop,
         },
         mesDisp=function(P)
             setFont(60)

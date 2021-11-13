@@ -61,7 +61,8 @@ return{
     noInitSZO=false,
 
     mesDisp={},
-    dropPiece={},
+    hook_drop={},
+    hook_die={},
     task={},
     eventSet="X",
 

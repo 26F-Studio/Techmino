@@ -2,7 +2,7 @@ return{
     env={
         drop=60,lock=60,
         eventSet='sprintSym',
-        bg='aura',bgm='waterfall',
+        bg='aura',bgm='there',
     },
     getRank=function(P)
         if P.stat.row<40 then return end

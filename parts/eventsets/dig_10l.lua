@@ -3,7 +3,7 @@ return{
         setFont(55)
         mStr(10-P.stat.dig,63,265)
     end,
-    dropPiece=function(P)
+    hook_drop=function(P)
         if P.stat.dig==10 then
             P:win('finish')
         end

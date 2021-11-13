@@ -5,7 +5,7 @@ return{
         mStr(P.stat.pc,63,340)
         mText(TEXTOBJ.pc,63,410)
     end,
-    dropPiece=function(P)
+    hook_drop=function(P)
         if P.lastPiece.pc and P.stat.row%4==0 then
             P.gameEnv.heightLimit=4
             if P.stat.pc%5==0 then

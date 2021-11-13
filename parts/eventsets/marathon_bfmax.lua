@@ -11,7 +11,7 @@ return{
     task=function(P)
         P.modeData.target=10
     end,
-    dropPiece=function(P)
+    hook_drop=function(P)
         local flag
         local l=P.lastPiece
         if P.combo>1 then flag=true;P:showText("2x",0,-220,40,'flicker',.3)end

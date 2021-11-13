@@ -5,9 +5,9 @@ return{
 
         --Switch clear sprint mode on
         if #FIELD[1]>0 then
-            GAME.modeEnv.dropPiece=require'parts.eventsets.checkClearBoard'.dropPiece
+            GAME.modeEnv.hook_drop=require'parts.eventsets.checkClearBoard'.hook_drop
         else
-            GAME.modeEnv.dropPiece=NULL
+            GAME.modeEnv.hook_drop=NULL
         end
         PLY.newPlayer(1)
         local AItype=GAME.modeEnv.opponent:sub(1,2)

@@ -15,7 +15,7 @@ return{
     env={
         infHold=true,
         drop=1e99,lock=1e99,
-        dropPiece=tech_check_hard,
+        hook_drop=tech_check_hard,
         eventSet='checkAttack_100',
         bg='matrix',bgm='new era',
     },

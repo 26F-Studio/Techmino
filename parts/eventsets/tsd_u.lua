@@ -8,12 +8,12 @@ return{
         PLY.draw.applyField(P)
         local L=P.modeData.history
         for i=1,#L do
-            gc.setColor(1,.3,.3,.3-i*.05)
+            gc.setColor(1,.3,.3,.4-i*.05)
             gc.rectangle('fill',30*L[i]-30,0,30,600)
         end
         PLY.draw.cancelField(P)
     end,
-    dropPiece=function(P)
+    hook_drop=function(P)
         local C=P.lastPiece
         if C.row>0 then
             if C.id==5 and C.row==2 and C.spin then

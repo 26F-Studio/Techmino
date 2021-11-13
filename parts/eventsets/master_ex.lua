@@ -30,7 +30,7 @@ return{
         mStr(P.stat.row,63,230)
         mStr(P.stat.clears[4],63,340)
     end,
-    dropPiece=function(P)
+    hook_drop=function(P)
         if P.modeData.rankPoint<140-passPoint then--If Less then X
             local R=#P.clearedRow
             if R>0 then

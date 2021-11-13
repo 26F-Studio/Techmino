@@ -313,10 +313,13 @@ function Player:setRS(RSname)
     end
 end
 
-function Player:triggerDropEvents()
-    local L=self.gameEnv.dropPiece
-    for i=1,#L do
-        L[i](self)
+function Player:_triggerEvent(eventName)
+    local L=self.gameEnv[eventName]
+    if L[1]then
+        for i=1,#L do
+            L[i](self)
+        end
+        return true
     end
 end
 
@@ -378,8 +381,21 @@ function Player:garbageRise(color,amount,line)--Release n-lines garbage to field
         _=self.dropFX[i]
         _[3],_[5]=_[3]+amount,_[5]+amount
     end
-    if #self.field>self.gameEnv.heightLimit then
+    if
+        #self.field>self.gameEnv.heightLimit and(
+            not self:_triggerEvent('hook_die')or
+            #self.field>self.gameEnv.heightLimit
+        )
+    then
+        self:lock()
         self:lose()
+    end
+
+    if #self.field>self.gameEnv.heightLimit then
+        self:_triggerEvent('hook_die')
+        if #self.field>self.gameEnv.heightLimit then
+            self:lose()
+        end
     end
 end
 
@@ -724,7 +740,7 @@ function Player:removeTopClearingFX()
         return true
     end
 end
-function Player:checkMission(piece,mission)
+function Player:_checkMission(piece,mission)
     if mission<5 then
         return piece.row==mission and not piece.spin
     elseif mission<9 then
@@ -735,6 +751,17 @@ function Player:checkMission(piece,mission)
         return piece.row==mission%10 and piece.name==int(mission/10)and piece.spin
     end
     return false
+end
+function Player:_checkSuffocate()
+    if
+        self:ifoverlap(self.cur.bk,self.curX,self.curY)and(
+            not self:_triggerEvent('hook_die')or
+            self:ifoverlap(self.cur.bk,self.curX,self.curY)
+        )
+    then
+        self:lock()
+        self:lose()
+    end
 end
 
 local spawnSFX_name={'spawn_1','spawn_2','spawn_3','spawn_4','spawn_5','spawn_6','spawn_7'}
@@ -905,10 +932,7 @@ function Player:hold_norm(ifpre)
         self:freshBlock('move')
         self.dropDelay=ENV.drop
         self.lockDelay=ENV.lock
-        if self:ifoverlap(self.cur.bk,self.curX,self.curY)then
-            self:lock()
-            self:lose()
-        end
+        self:_checkSuffocate()
     end
 
     self.freshTime=int(min(self.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((self.holdTime+1)/ENV.holdCount),ENV.freshLimit))
@@ -971,10 +995,7 @@ function Player:hold_swap(ifpre)
         self:freshBlock('move')
         self.dropDelay=ENV.drop
         self.lockDelay=ENV.lock
-        if self:ifoverlap(self.cur.bk,self.curX,self.curY)then
-            self:lock()
-            self:lose()
-        end
+        self:_checkSuffocate()
     end
 
     self.freshTime=int(min(self.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((self.holdTime+1)/ENV.holdCount),ENV.freshLimit))
@@ -1044,10 +1065,7 @@ function Player:popNext(ifhold)--Pop nextQueue to hand
         self.freshTime=ENV.freshLimit
 
         if self.cur then
-            if self:ifoverlap(self.cur.bk,self.curX,self.curY)then
-                self:lock()
-                self:lose()
-            end
+            self:_checkSuffocate()
             self:freshBlock('newBlock')
         end
 
@@ -1608,7 +1626,7 @@ do
 
         --Check clearing task
         if cc>0 and self.curMission then
-            if self:checkMission(piece,ENV.mission[self.curMission])then
+            if self:_checkMission(piece,ENV.mission[self.curMission])then
                 self.curMission=self.curMission+1
                 SFX.play('reach')
                 if self.curMission>#ENV.mission then
@@ -1670,13 +1688,13 @@ do
             if finish=='lose'then
                 self:lose()
             else
-                self:triggerDropEvents()
+                self:_triggerEvent('hook_drop')
                 if finish then
                     self:win(finish)
                 end
             end
         else
-            self:triggerDropEvents()
+            self:_triggerEvent('hook_drop')
         end
     end
 
@@ -2333,7 +2351,9 @@ function Player:revive()
     SFX.play('emit')
 end
 function Player:win(result)
-    if self.result then return end
+    if self.result then
+        return
+    end
     self:_die()
     self.result='win'
     if GAME.modeEnv.royaleMode then
@@ -2374,8 +2394,7 @@ function Player:lose(force)
         if self.life>0 then
             self:revive()
             return
-        end
-        if self.type=='remote'then
+        elseif self.type=='remote'then
             self.waiting=1e99
             return
         end

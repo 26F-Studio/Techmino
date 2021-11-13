@@ -30,7 +30,7 @@ return{
         drop=1e99,lock=1e99,
         infHold=true,
         pushSpeed=1.2,
-        dropPiece=check_rise,
+        hook_drop=check_rise,
         mesDisp=function(P)
             setFont(45)
             mStr(P.stat.dig,63,190)

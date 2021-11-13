@@ -8,7 +8,7 @@ return{
     mesDisp=function(P)
         PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
     end,
-    dropPiece=function(P)
+    hook_drop=function(P)
         local D=P.modeData
 
         local c=#P.clearedRow

@@ -4,7 +4,7 @@ local ply_applyField=PLY.draw.applyField
 return{
     env={
         fkey1=function(P)P.modeData.showMark=1-P.modeData.showMark end,
-        dropPiece=function(P)
+        hook_drop=function(P)
             local D=P.modeData
             local F=FIELD[D.finished+1]
             for y=1,#F do

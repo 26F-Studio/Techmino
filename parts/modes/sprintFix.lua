@@ -3,7 +3,7 @@ return{
         drop=60,lock=180,
         keyCancel={1,2,11,12,17,18,19,20},
         eventSet='checkLine_40',
-        bg='aura',bgm='waterfall',
+        bg='aura',bgm='there',
     },
     getRank=function(P)
         local L=P.stat.row

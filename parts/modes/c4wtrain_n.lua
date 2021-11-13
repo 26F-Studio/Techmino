@@ -2,7 +2,7 @@ return{
     env={
         drop=30,lock=60,infHold=true,
         freshLimit=15,ospin=false,
-        dropPiece=require'parts.eventsets.c4wCheck_easy'.dropPiece,
+        hook_drop=require'parts.eventsets.c4wCheck_easy'.hook_drop,
         eventSet='c4wBase',
         bg='rgb',bgm='oxygen',
     },

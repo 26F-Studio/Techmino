@@ -22,7 +22,7 @@ return{
     task=function(P)
         P.modeData.target=10
     end,
-    dropPiece=function(P)
+    hook_drop=function(P)
         local D=P.modeData
         if P.stat.row>=D.target then
             if D.target==110 then

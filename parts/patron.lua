@@ -118,4 +118,7 @@ return{
     {font=25,name="Trebor"},
     {font=25,name="[w*o]"},
     {font=25,name="蚂蚁"},
+    {font=25,name="小丘"},
+    {font=25,name="[*)]"},
+    {font=25,name="费尔特林"},
 }

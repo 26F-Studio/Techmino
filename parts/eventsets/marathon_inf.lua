@@ -30,7 +30,7 @@ return
     task=function(P)
         P.modeData.target=10
     end,
-    dropPiece=function(P)
+    hook_drop=function(P)
         if P.stat.row>=P.modeData.target then
             if P.modeData.target%300==0 then
                 P.gameEnv.wait=P.gameEnv.wait-1
