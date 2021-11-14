@@ -16,9 +16,9 @@ return{
             if P.stat.frame/60>=warnTime[P.modeData.stage]then
                 if P.modeData.stage<9 then
                     P.modeData.stage=P.modeData.stage+1
-                    SFX.play('ready',.7+P.modeData.stage*.03)
+                    playReadySFX(3,.7+P.modeData.stage*.03)
                 else
-                    SFX.play('start')
+                    playReadySFX(0,.7+P.modeData.stage*.03)
                     P:win('finish')
                     return
                 end
