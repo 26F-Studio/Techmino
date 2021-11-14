@@ -578,7 +578,7 @@ function Player:changeAtk(R)
         self.atking=false
     end
 end
-function Player:freshBlock(mode)--string mode: push/move/fresh/newBlock
+function Player:freshBlock(mode,ifTele)--string mode: push/move/fresh/newBlock
     local ENV=self.gameEnv
     --Fresh ghost
     if(mode=='move'or mode=='newBlock'or mode=='push')and self.cur then
@@ -643,7 +643,7 @@ function Player:freshBlock(mode)--string mode: push/move/fresh/newBlock
     end
 
     --Play sound if touch ground
-    if mode=='move'then
+    if mode=='move'and not ifTele then
         self:checkTouchSound()
     end
 end
@@ -2600,10 +2600,11 @@ function Player:act_insLeft(auto)
     while not self:ifoverlap(self.cur.bk,self.curX-1,self.curY)do
         self:createMoveFX('left')
         self.curX=self.curX-1
-        self:freshBlock('move')
+        self:freshBlock('move',true)
     end
     if self.curX~=x0 then
         self.spinLast=false
+        self:checkTouchSound()
     end
     if self.gameEnv.shakeFX then
         self.swingOffset.vx=-1.5
@@ -2624,10 +2625,11 @@ function Player:act_insRight(auto)
     while not self:ifoverlap(self.cur.bk,self.curX+1,self.curY)do
         self:createMoveFX('right')
         self.curX=self.curX+1
-        self:freshBlock('move')
+        self:freshBlock('move',true)
     end
     if self.curX~=x0 then
         self.spinLast=false
+        self:checkTouchSound()
     end
     if self.gameEnv.shakeFX then
         self.swingOffset.vx=1.5
