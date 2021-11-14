@@ -92,11 +92,13 @@ function SFX.playSample(pack,...)--vol-2, sampSet1, vol-3, sampSet2, vol-1
                 local top=packSetting[pack].top
                 local tune=_getTuneHeight(arg[i])--Absolute tune in number
                 local playTune=tune+rnd(-2,2)
-                if playTune<base then--Too low notes
-                    playTune=base
+                if playTune<=base then--Too low notes
+                    playTune=base+1
                 elseif playTune>top then--Too high notes
                     playTune=top
                 end
+                print('play:',playTune)
+                print('delta',tune-playTune)
                 SFX.play(pack..playTune-base,vol,nil,tune-playTune)
             end
         end

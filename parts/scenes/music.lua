@@ -63,6 +63,11 @@ function scene.keyDown(key,isRep)
             SCN.swapTo('launchpad','none')
         elseif key=="escape"then
             SCN.back()
+        elseif #key==1 and key:find'[0-9a-z]'then
+            for _=1,#bgmList do
+                selected=selected%#bgmList+1
+                if bgmList[selected]:sub(1,1)==key then break end
+            end
         end
     end
 end

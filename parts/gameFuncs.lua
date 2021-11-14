@@ -206,23 +206,23 @@ function playClearSFX(cc)
         end
     end
 end
-function playReadySFX(i)
+function playReadySFX(i,vol)
     if i==3 then
-        Snd('bass','A3')
-        Snd('lead','A4')
+        Snd('bass','A3',vol)
+        Snd('lead','A4',vol)
     elseif i==2 then
-        Snd('bass','F3')
-        Snd('lead','A4')
-        Snd('lead','D5')
+        Snd('bass','F3',vol)
+        Snd('lead','A4',vol)
+        Snd('lead','D5',vol)
     elseif i==1 then
-        Snd('bass','G3')
-        Snd('lead','B4')
-        Snd('lead','E5')
+        Snd('bass','G3',vol)
+        Snd('lead','B4',vol)
+        Snd('lead','E5',vol)
     elseif i==0 then
-        Snd('bass','A3')
-        Snd('lead','A4')
-        Snd('lead','E5')
-        Snd('lead','A5')
+        Snd('bass','A3',vol)
+        Snd('lead','A4',vol)
+        Snd('lead','E5',vol)
+        Snd('lead','A5',vol)
     end
 end
 
