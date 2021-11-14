@@ -102,6 +102,11 @@ function TABLE.find(t,val)
     for i=1,#t do if t[i]==val then return i end end
 end
 
+--Retuen next value of [1~#]
+function TABLE.next(t,val)
+    for i=1,#t do if t[i]==val then return t[i%#t+1]end end
+end
+
 --Find value in whole table
 function TABLE.search(t,val)
     for k,v in next,t do if v==val then return k end end
