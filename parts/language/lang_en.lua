@@ -749,7 +749,7 @@ return{
         ['sprintEff']=     {"Sprint",            "Efficiency", "Send more attack in 40lines!"},
         ['zen']=           {'Zen',               "200",        "A 200-line run without a time limit"},
         ['ultra']=         {'Ultra',             "EXTRA",      "A 2-minute score attack"},
-        ['infinite']=      {'infinite',           "",          "Just a sandbox"},
+        ['infinite']=      {"Infinite",           "",          "Just a sandbox"},
         ['infinite_dig']=  {"Infinite: Dig",      "",          "Dig-diggin'-dug"},
         ['marathon_inf']=  {"Marathon",           "INFINITE",  "Infinite marathon."},
 
