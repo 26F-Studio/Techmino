@@ -56,14 +56,6 @@ jobs:
         with:
           name: ${{ needs.get-info.outputs.updateTitle }}
           files: Techmino_a${{ needs.get-info.outputs.release }}_Win64.zip
-      - name: Upload artifact to server
-        uses: ./.github/actions/upload-artifact
-        with:
-          WEBDAV_USERNAME: ${{ secrets.WEBDAV_USERNAME }}
-          WEBDAV_PASSWORD: ${{ secrets.WEBDAV_PASSWORD }}
-          ARTIFACT_TYPE: release
-          ARTIFACT_PLATFORM: Win64
-          ARTIFACT_NAME: Techmino_a${{ needs.get-info.outputs.release }}_Win64.zip
 
   build-windows-x86:
     runs-on: windows-latest
@@ -85,14 +77,6 @@ jobs:
         with:
           name: ${{ needs.get-info.outputs.updateTitle }}
           files: Techmino_a${{ needs.get-info.outputs.release }}_Win32.zip
-      - name: Upload artifact to server
-        uses: ./.github/actions/upload-artifact
-        with:
-          WEBDAV_USERNAME: ${{ secrets.WEBDAV_USERNAME }}
-          WEBDAV_PASSWORD: ${{ secrets.WEBDAV_PASSWORD }}
-          ARTIFACT_TYPE: release
-          ARTIFACT_PLATFORM: Win32
-          ARTIFACT_NAME: Techmino_a${{ needs.get-info.outputs.release }}_Win32.zip
 
   build-linux:
     runs-on: ubuntu-20.04
@@ -109,14 +93,6 @@ jobs:
         with:
           name: ${{ needs.get-info.outputs.updateTitle }}
           files: Techmino_a${{ needs.get-info.outputs.release }}_Linux.AppImage
-      - name: Upload artifact to server
-        uses: ./.github/actions/upload-artifact
-        with:
-          WEBDAV_USERNAME: ${{ secrets.WEBDAV_USERNAME }}
-          WEBDAV_PASSWORD: ${{ secrets.WEBDAV_PASSWORD }}
-          ARTIFACT_TYPE: release
-          ARTIFACT_PLATFORM: Linux
-          ARTIFACT_NAME: Techmino_a${{ needs.get-info.outputs.release }}_Linux.AppImage
 
   build-android:
     runs-on: ubuntu-20.04
@@ -139,14 +115,6 @@ jobs:
         with:
           name: ${{ needs.get-info.outputs.updateTitle }}
           files: Techmino_a${{ needs.get-info.outputs.release }}_Android.apk
-      - name: Upload artifact to server
-        uses: ./.github/actions/upload-artifact
-        with:
-          WEBDAV_USERNAME: ${{ secrets.WEBDAV_USERNAME }}
-          WEBDAV_PASSWORD: ${{ secrets.WEBDAV_PASSWORD }}
-          ARTIFACT_TYPE: release
-          ARTIFACT_PLATFORM: Android
-          ARTIFACT_NAME: Techmino_a${{ needs.get-info.outputs.release }}_Android.apk
 
   build-macOS:
     runs-on: macos-10.15
@@ -174,14 +142,6 @@ jobs:
         with:
           name: ${{ needs.get-info.outputs.updateTitle }}
           files: Techmino_a${{ needs.get-info.outputs.release }}_MacOS.dmg
-      - name: Upload artifact to server
-        uses: ./.github/actions/upload-artifact
-        with:
-          WEBDAV_USERNAME: ${{ secrets.WEBDAV_USERNAME }}
-          WEBDAV_PASSWORD: ${{ secrets.WEBDAV_PASSWORD }}
-          ARTIFACT_TYPE: release
-          ARTIFACT_PLATFORM: MacOS
-          ARTIFACT_NAME: Techmino_a${{ needs.get-info.outputs.release }}_MacOS.dmg
 
   build-iOS:
     runs-on: macos-latest
@@ -216,14 +176,6 @@ jobs:
         with:
           name: ${{ needs.get-info.outputs.updateTitle }}
           files: Techmino_a${{ needs.get-info.outputs.release }}_iOS.ipa
-      - name: Upload artifact to server
-        uses: ./.github/actions/upload-artifact
-        with:
-          WEBDAV_USERNAME: ${{ secrets.WEBDAV_USERNAME }}
-          WEBDAV_PASSWORD: ${{ secrets.WEBDAV_PASSWORD }}
-          ARTIFACT_TYPE: release
-          ARTIFACT_PLATFORM: iOS
-          ARTIFACT_NAME: Techmino_a${{ needs.get-info.outputs.release }}_iOS.ipa
 
   Add-Release-note:
     runs-on: ubuntu-20.04
