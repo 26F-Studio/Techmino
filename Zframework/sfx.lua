@@ -1,5 +1,5 @@
 local type,rem=type,table.remove
-local rnd=math.random
+local int,rnd=math.floor,math.random
 
 local sfxList={}
 local packSetting={}
@@ -7,7 +7,7 @@ local Sources={}
 local volume=1
 local stereo=1
 
-local noteName={
+local noteVal={
     C=1,c=1,
     D=3,d=3,
     E=5,e=5,
@@ -16,10 +16,11 @@ local noteName={
     A=10,a=10,
     B=12,b=12,
 }
+local noteName={'C','C#','D','D#','E','F','F#','G','G#','A','A#','B'}
 local function _getTuneHeight(tune)
     local octave=tonumber(tune:sub(-1,-1))
     if octave then
-        local tuneHeight=noteName[tune:sub(1,1)]
+        local tuneHeight=noteVal[tune:sub(1,1)]
         if tuneHeight then
             tuneHeight=tuneHeight+(octave-1)*12
             local s=tune:sub(2,2)
@@ -79,6 +80,15 @@ function SFX.setStereo(v)
     stereo=v
 end
 
+function SFX.getNoteName(note)
+    if note<1 then
+        return'---'
+    else
+        note=note-1
+        local octave=int(note/12)+1
+        return noteName[note%12+1]..octave
+    end
+end
 function SFX.playSample(pack,...)--vol-1, sampSet1, vol-2, sampSet2
     if ... then
         local arg={...}
@@ -97,8 +107,6 @@ function SFX.playSample(pack,...)--vol-1, sampSet1, vol-2, sampSet2
                 elseif playTune>top then--Too high notes
                     playTune=top
                 end
-                print('play:',playTune)
-                print('delta',tune-playTune)
                 SFX.play(pack..playTune-base,vol,nil,tune-playTune)
             end
         end
