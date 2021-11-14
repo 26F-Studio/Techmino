@@ -79,18 +79,18 @@ function SFX.setStereo(v)
     stereo=v
 end
 
-function SFX.playSample(pack,...)--vol-2, sampSet1, vol-3, sampSet2, vol-1
+function SFX.playSample(pack,...)--vol-1, sampSet1, vol-2, sampSet2
     if ... then
         local arg={...}
         local vol
-        if type(arg[#arg])=='number'then vol=rem(arg)end
         for i=1,#arg do
-            if type(arg[i])=='number'then
-                vol=arg[i]
+            local a=arg[i]
+            if type(a)=='number'and a<=1 then
+                vol=a
             else
                 local base=packSetting[pack].base
                 local top=packSetting[pack].top
-                local tune=_getTuneHeight(arg[i])--Absolute tune in number
+                local tune=type(a)=='string'and _getTuneHeight(a)or a--Absolute tune in number
                 local playTune=tune+rnd(-2,2)
                 if playTune<=base then--Too low notes
                     playTune=base+1
