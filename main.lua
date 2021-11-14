@@ -205,7 +205,7 @@ Z.setOnQuit(destroyPlayers)
 TABLE.cover (FILE.load('conf/user')or{},USER)
 TABLE.cover (FILE.load('conf/unlock')or{},RANKS)
 TABLE.update(FILE.load('conf/settings')or{},SETTING)
-TABLE.update(FILE.load('conf/data')or{},STAT)
+TABLE.coverR(FILE.load('conf/data')or{},STAT)
 TABLE.cover (FILE.load('conf/key')or{},KEY_MAP)
 TABLE.cover (FILE.load('conf/virtualkey')or{},VK_ORG)
 

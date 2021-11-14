@@ -228,6 +228,9 @@ end
 
 
 --Game
+function getItem(itemName,amount)
+    STAT.item[itemName]=STAT.item[itemName]+(amount or 1)
+end
 function coin(a,b)
     if rnd()<.5 then
         return a
@@ -275,9 +278,11 @@ function freshDate(mode)
     if STAT.date~=date then
         STAT.date=date
         STAT.todayTime=0
+        getItem('zTicket',1)
         if not mode:find'q'then
             MES.new('info',text.newDay)
         end
+        saveStats()
         return true
     end
 end
