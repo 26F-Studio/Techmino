@@ -31,10 +31,6 @@ function scene.draw()
         gc.printf(text.aboutTexts[i],150,35*i+50,1000,'center')
     end
 
-    --Group
-    setFont(20)
-    mStr(text.group,640,480)
-
     --Lib used
     setFont(15)
     gc.print(text.used,50,325)

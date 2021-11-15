@@ -190,7 +190,6 @@ return{
         simple-love-lights [dylhunn]
     ]],
     support="Apoyen al Autor",
-    group="Grupo Oficial de QQ (si no lo hackean) : 913154753",
     WidgetText={
         main={
             offline="1 Jugador",

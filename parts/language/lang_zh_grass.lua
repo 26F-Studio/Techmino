@@ -1,4 +1,3 @@
-local C=COLOR
 return{
     fallback='zh',
     loadText={
@@ -223,7 +222,6 @@ return{
         simple-love-lights [dylhunn]
     ]],
     support="供养作者！",
-    group="加入我们的不谐和:不谐和.gg/f9pUvkh",
     WidgetText={
         main={
             offline="单人",

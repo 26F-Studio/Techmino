@@ -194,7 +194,10 @@ return{
         "Make sure to get the game only from official sources,",
         "as we can't make sure you're safe if you got it elsewhere.",
         "The author is not responsible for any modifications.",
-        "While the game is free, donations are appreciated."
+        "",
+        "While the game is free, donations are appreciated.",
+        "If you are unable to use both WeChat Pay and AliPay,",
+        "you can go to our Pateron page to support us!",
     },
     staff={
         "Author: MrZ  Email: 1046101471@qq.com",
@@ -224,7 +227,6 @@ return{
         simple-love-lights [dylhunn]
     ]],
     support="Support the author",
-    group="Join our Discord: discord.gg/f9pUvkh",
     WidgetText={
         main={
             offline="Single Player",

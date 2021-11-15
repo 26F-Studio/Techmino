@@ -49,7 +49,7 @@ return{
         "https://four.lol",
     },
 
-    --相关组织
+    --相关网页/组织
     {"GitHub仓库",
         "源代码 github git sourcecode yuandaima",
         "org",
@@ -72,6 +72,12 @@ return{
         "org",
         "TO-S的添加方法、说明等关于茶服的一切",
         "http://teatube.ltd/tos",
+    },
+    {"Patreon",
+        "赞助 patreon support zanzhu daqian",
+        "org",
+        "Techmino的Patreon页面，赞助也可以来这里~",
+        "https://www.patreon.com/techmino",
     },
 
     --游戏（题库）
