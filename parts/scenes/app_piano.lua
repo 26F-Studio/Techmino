@@ -19,7 +19,7 @@ function scene.sceneInit()
 end
 
 function scene.touchDown(x,y,k)
-
+    --TODO
 end
 scene.mouseDown=scene.touchDown
 
@@ -41,10 +41,6 @@ function scene.keyDown(key,isRep)
     end
 end
 
-function scene.update(dt)
-
-end
-
 function scene.draw()
     setFont(30)
     gc.print(inst,40,60)
@@ -52,6 +48,6 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name="back", x=1140,y=640,w=170,h=80,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name="back", x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 return scene

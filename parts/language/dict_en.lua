@@ -55,7 +55,7 @@ return{
         "https://tetris.huijiwiki.com",
     },
 
-    --Organizations
+    --Webpages / Organizations
     {"Github Repository",
         "githubrepository sourcecode",
         "org",
@@ -80,7 +80,12 @@ return{
         "Google \"Tetris Online Poland\" for the Poland server.\nClick on the globe icon for information about the Tetris Online Study server.",
         "http://teatube.ltd/tos",
     },
-
+    {"Patreon",
+        "patreon support",
+        "org",
+        "26F Studio's Patreon Page!\nYou can support us here if you don't use WeChat or AliPay",
+        "https://www.patreon.com/techmino",
+    },
     --Games
     {"TTT",
         "ttt tetris trainer tres bien",

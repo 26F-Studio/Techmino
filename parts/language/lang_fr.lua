@@ -190,7 +190,6 @@ return{
         simple-love-lights [dylhunn]
     ]],
     support="Aider le créateur",
-    group="Groupe QQ officiel : 913154753",
     WidgetText={
         main={
             -- offline="Solo",

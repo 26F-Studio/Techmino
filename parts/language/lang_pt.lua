@@ -212,7 +212,6 @@ return{
         simple-love-lights [dylhunn]
     ]],
     support="Support author",
-    group="Junte-se ao nosso Discord: discord.gg/f9pUvkh",
     WidgetText={
         main={
             offline="Solo",

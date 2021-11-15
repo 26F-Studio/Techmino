@@ -224,7 +224,6 @@ return{
         simple-love-lights [dylhunn]
     ]],
     support="支持作者",
-    group="官方QQ群:913154753",
     WidgetText={
         main={
             offline="單人遊戲",

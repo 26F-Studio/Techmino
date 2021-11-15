@@ -15,7 +15,7 @@ return{
     {"游戏官网",
         "official website homepage guanwang",
         "help",
-        "Techmino的官网！\n可以在上面修改头像和个人信息。",
+        "Techmino的官网！\n可以在上面下载游戏本体，或者修改头像以及个人信息。\n\n游戏作者的一些话：强烈不建议在任何公开场合提及甚至宣传本游戏，更不要随便就对外公布我们的官网链接！请务必只在私下里向有基础或真的很有兴趣入坑认真玩的玩家推荐，不然很容易拉低社群质量破坏交流氛围，非常难处理，甚至有可能影响游戏的未来发展。为了保证游戏未来会变得越来越好玩，千万慎重考虑您对游戏的推广方式！感谢您对Techmino的支持！！感谢配合！！！",
         "http://home.techmino.org",
     },
     {"灰机Wiki",
@@ -49,7 +49,7 @@ return{
         "https://four.lol",
     },
 
-    --相关组织
+    --相关网页/组织
     {"GitHub仓库",
         "源代码 github git sourcecode yuandaima",
         "org",
@@ -72,6 +72,12 @@ return{
         "org",
         "TO-S的添加方法、说明等关于茶服的一切",
         "http://teatube.ltd/tos",
+    },
+    {"Patreon",
+        "赞助 patreon support zanzhu daqian",
+        "org",
+        "Techmino的Patreon页面，赞助也可以来这里~",
+        "https://www.patreon.com/techmino",
     },
 
     --游戏（题库）

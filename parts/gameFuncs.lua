@@ -231,13 +231,6 @@ end
 function getItem(itemName,amount)
     STAT.item[itemName]=STAT.item[itemName]+(amount or 1)
 end
-function coin(a,b)
-    if rnd()<.5 then
-        return a
-    else
-        return b
-    end
-end
 function generateLine(hole)
     return 1023-2^(hole-1)
 end

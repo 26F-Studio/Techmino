@@ -616,6 +616,11 @@ local commands={}do
                 scene='app_piano',
                 description="A simple keyboard piano"
             },
+            {
+                code="spin",
+                scene='app_spin',
+                description="???"
+            },
         }
         commands.app={
             code=function(name)
