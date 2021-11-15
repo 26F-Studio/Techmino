@@ -162,7 +162,7 @@ return{
         "et vous n'avez besoin que des permissions de vibration et de communication réseau pour les versions mobiles !",
         "Le créateur n'est pas responsable pour n'importe quel type de perte de données suite à une modification du jeu.",
         "Si vous ne parvenez pas à utiliser à la fois WeChat Pay et AliPay,",
-        "vous pouvez vous rendre sur notre page Pateron pour nous soutenir !",
+        "vous pouvez vous rendre sur notre page Patreon pour nous soutenir !",
     },
     staff={
         "Author: MrZ  E-mail: 1046101471@qq.com",
