@@ -17,7 +17,7 @@ The Apple logo, "Apple Inc.," iOS, iPadOS, macOS, iPhone, and Mac are registered
 "Windows", the Windows logo, "Xbox", Xbox logo, and "Microsoft" are registered trademarks of Microsoft Corporation in the United States of America and other countries or regions.
 
 
-Source Han Sans is copyrighted by Adobe Inc. Source Han Sans and Abode are registered trademarks of Adobe Inc. in United States and other countries or regions. Source Han Sans is licensed under the SIL Open Font License.
+Source Han Sans is copyrighted by Adobe Inc. Source Han Sans and Adobe are registered trademarks of Adobe Inc. in United States and other countries or regions. Source Han Sans is licensed under the SIL Open Font License.
 
 
 IBM Plex is copyrighted by the International Business Machines Corporation. IBM and IBM Plex are trademarks of IBM Corp, registered in many jurisdictions worldwide. IBM Plex is licensed under the SIL Open Font License.
