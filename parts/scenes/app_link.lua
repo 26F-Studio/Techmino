@@ -7,7 +7,6 @@ local setFont,mStr=FONT.set,GC.mStr
 local int,rnd,abs=math.floor,math.random,math.abs
 local max,min=math.max,math.min
 local ins,rem=table.insert,table.remove
-local function sign(a)return a>0 and 1 or a<0 and -1 or 0 end
 
 local levels={
     {c=6,r=3,color=3},
@@ -289,7 +288,7 @@ function scene.update(dt)
     if state==1 then
         time=TIME()-startTime
         comboTime=max(comboTime-dt,0)
-        score1=score1+sign(score-score1)+int((score-score1)*.1+.5)
+        score1=score1+MATH.sign(score-score1)+int((score-score1)*.1+.5)
     end
 
     if sure>0 then sure=sure-dt end

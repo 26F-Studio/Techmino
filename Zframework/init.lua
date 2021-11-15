@@ -4,6 +4,7 @@ LOADED=false
 ERRDATA={}
 
 --Pure lua modules (basic)
+MATH=       require'Zframework.mathExtend'
 COLOR=      require'Zframework.color'
 TABLE=      require'Zframework.tableExtend'
 STRING=     require'Zframework.stringExtend'
