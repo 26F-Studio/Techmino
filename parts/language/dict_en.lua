@@ -83,7 +83,7 @@ return{
     {"Patreon",
         "patreon support",
         "org",
-        "26F Studio's Patreon Page!\nYou can support us here if you don't use WeChat or AliPay",
+        "26F Studio's Patreon Page!\nYou can support us here if you don't use WeChat or AliPay.",
         "https://www.patreon.com/techmino",
     },
     --Games
