@@ -177,12 +177,14 @@ return{
         "Isso é apenas um jogo de blocos, nada de especial.",
         "Joga como C2/IO/JS/WWC/KOS e outros.",
         "",
-        "Feito na Love 2D Engine",
+        "Feito na LÖVE 2D Engine",
         "Por favor mande bugs ou sugestões para o autor.",
         "certifique-se de pegar o jogo de fontes oficiais;",
         "binários obtidos em outros lugares pode conter malware.",
         "O autor não é responsável por qualquer binários modificados",
-        "O jogo é gratis, mas doações são apreciadas."
+        "O jogo é gratis, mas doações são apreciadas.",
+        "Se você não conseguir usar o WeChat Pay e o AliPay,",
+        "pode acessar a página do Patreon para nos ajudar!",
     },
     staff={
         "Author: MrZ E-mail: 1046101471@qq.com",

@@ -197,7 +197,7 @@ return{
         "",
         "While the game is free, donations are appreciated.",
         "If you are unable to use both WeChat Pay and AliPay,",
-        "you can go to our Pateron page to support us!",
+        "you can go to our Patreon page (Link in Zictionary) to support us!",
     },
     staff={
         "Author: MrZ  Email: 1046101471@qq.com",
