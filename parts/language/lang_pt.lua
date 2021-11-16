@@ -466,6 +466,7 @@ return{
             lock="Delay Trava",
             wait="Delay Entrada",
             fall="Delay Linha",
+            -- hang="Death Delay",
 
             bg="Fundo",
             bgm="Música",
