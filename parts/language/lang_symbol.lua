@@ -121,8 +121,8 @@ return{
         "MrZ XXX A→B",
         "",
         "□$X, ↑$↑ XD!",
-        "WeChat, AliPay XXX,",
-        "Patreon : )",
+        "C0, 支 XXX,",
+        "|^O : )",
     },
     WidgetText={
         main={

@@ -29,16 +29,21 @@ local typeColor={
     english=COLOR.B,
     name=COLOR.lV,
 }
+local function _filter(word)
+    local word_org=word
+    if FNSF then word=word:gsub("[Pp]atreon",CHAR.zChan.spark)end
+    word=word:gsub("[Tt]etris",CHAR.zChan.thinking)
+    return word,word_org
+end
 local function _scanDict(D)
     if not D[1][1]then return end
-    local c=CHAR.zChan.thinking
     local cut=TABLE.cut
     for i=1,#D do
         local O=D[i]
-        O.title,O.title_Org=O[1]:gsub("[Tt]etris",c),O[1]
+        O.title,O.title_Org=_filter(O[1])
         O.keywords=O[2]
         O.type=O[3]
-        O.content,O.content_Org=O[4]:gsub("[Tt]etris",c),O[4]
+        O.content,O.content_Org=_filter(O[4])
         O.url=O[5]
         cut(O)
     end
