@@ -29,10 +29,10 @@ local typeColor={
     english=COLOR.B,
     name=COLOR.lV,
 }
-local function _filter(word)
-    local word_org=word
-    if FNSF then word=word:gsub("[Pp]atreon",CHAR.zChan.spark)end
+local function _filter(word_org)
+    local word=word_org
     word=word:gsub("[Tt]etris",CHAR.zChan.thinking)
+    if FNSF then word=word:gsub("[Pp]atreon",CHAR.zChan.qualified)end
     return word,word_org
 end
 local function _scanDict(D)

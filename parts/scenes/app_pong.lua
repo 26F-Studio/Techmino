@@ -39,7 +39,7 @@ end
 
 local function start()
     state=1
-    vx=rnd()>.5 and 6 or -6
+    vx=MATH.coin(6,-6)
     vy=rnd()*6-3
 end
 function scene.keyDown(key,isRep)
