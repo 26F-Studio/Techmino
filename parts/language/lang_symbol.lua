@@ -1,6 +1,23 @@
 return{
     fallback='en',
 
+    loadText={
+        loadSFX="#!#",
+        loadSample="#~#",
+        loadVoice="#<()==)#",
+        loadFont="#Aa#",
+        loadModeIcon="#[ ]#",
+        loadMode="#[…]#",
+        loadOther="#…#",
+        finish="□→",
+    },
+
+    sureQuit="←□",
+    sureReset="□R",
+    newDay="→→!→→",
+    playedLong="→→→→!, XX□XX!",
+    playedTooMuch="→→→→→→→→→→→!, XX□XX!!!!!!!",
+
     atkModeName={"?","(  )","!","←→"},
     royale_remain="$1 ~",
     cmb={nil,"!","!!","!!!","!!!!","!!!!!","!!!!!!","!!!!!!!","!!!!!!!!","!!!!!!!!!","!!!!!!!!!!","!!!!!!!!!!!","!!!!!!!!!!!!","!!!!!!!!!!!!!","!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!!!!",},
@@ -97,12 +114,15 @@ return{
         "□!!~~~,□□□□X",
         "□!!==*/*/*/*/*~",
         "",
-        "Powered by LÖVE",
-        "Any suggestions or bug reports are appreciated!",
-        "Make sure to only obtain the game from official sources;",
-        "We can't make sure you're safe if you got it elsewhere.",
-        "The author is not responsible for any modified binaries.",
-        "While the game is free, donations are appreciated."
+        "!! LÖVE !!",
+        "(≡≡≡)/(XXX↑↑) : )",
+        "↓↓[=]↓↓ OK!",
+        "↓↓……↓↓(!!!)",
+        "MrZ XXX A→B",
+        "",
+        "□$X, ↑$↑ XD!",
+        "WeChat, AliPay XXX,",
+        "Patreon : )",
     },
     WidgetText={
         main={
