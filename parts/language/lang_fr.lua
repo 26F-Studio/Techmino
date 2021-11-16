@@ -444,6 +444,7 @@ return{
             lock="Délai de verrouillage",
             wait="Délai d'apparition",
             fall="Délai de ligne",
+            -- hang="Death Delay",
 
             bg="Arrière-plan",
             bgm="Musique",

@@ -1256,6 +1256,7 @@ do
         piece.curX,piece.curY,piece.dir=self.curX,self.curY,C.dir
         piece.centX,piece.centY=self.curX+sc[2],self.curY+sc[1]
         piece.frame,piece.autoLock=self.frameRun,autoLock
+
         self.waiting=ENV.wait
 
         --Tri-corner spin check
@@ -1639,6 +1640,14 @@ do
                 self:_showText(text.missionFailed,0,140,40,'flicker',.5)
                 SFX.play('finesseError_long',.6)
                 finish='lose'
+            end
+        end
+
+        --Prevent sudden death  if hang>0
+        if ENV.hang>ENV.wait and self.nextQueue[1]then
+            local B=self.nextQueue[1]
+            if self:ifoverlap(B.bk,int(6-#B.bk[1]*.5),int(ENV.fieldH+1-modf(B.RS.centerPos[B.id][B.dir][1]))+ceil(self.fieldBeneath/30))then
+                self.waiting=self.waiting+ENV.hang
             end
         end
 

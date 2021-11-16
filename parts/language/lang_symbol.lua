@@ -1,6 +1,23 @@
 return{
     fallback='en',
 
+    loadText={
+        loadSFX="#!#",
+        loadSample="#~#",
+        loadVoice="#<()==)#",
+        loadFont="#Aa#",
+        loadModeIcon="#[ ]#",
+        loadMode="#[…]#",
+        loadOther="#…#",
+        finish="□→",
+    },
+
+    sureQuit="←□",
+    sureReset="□R",
+    newDay="→→!→→",
+    playedLong="→→→→!, XX□XX!",
+    playedTooMuch="→→→→→→→→→→→!, XX□XX!!!!!!!",
+
     atkModeName={"?","(  )","!","←→"},
     royale_remain="$1 ~",
     cmb={nil,"!","!!","!!!","!!!!","!!!!!","!!!!!!","!!!!!!!","!!!!!!!!","!!!!!!!!!","!!!!!!!!!!","!!!!!!!!!!!","!!!!!!!!!!!!","!!!!!!!!!!!!!","!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!!!!",},
@@ -41,7 +58,7 @@ return{
     ai_mission="X!!!",
     needRestart="!!*#R#*!!",
 
-    -- copyDone="Copied!",
+    copyDone="□□ ✓",
     saveDone="~~~",
     saveError="x!:",
     saveError_duplicate="X←→X ?",
@@ -50,7 +67,7 @@ return{
     importSuccess="~In~",
     dataCorrupted="XXXXX",
     pasteWrongPlace="_?X.",
-    -- noFile="File not found",
+    noFile="□ XX",
 
     nowPlaying="~:",
 
@@ -66,7 +83,7 @@ return{
 
     replayBroken=">x.",
 
-    -- dictNote="==Copied from TetroDictionary==",
+    dictNote="Z → □□",
 
     pauseStat={
         "~:",
@@ -97,12 +114,15 @@ return{
         "□!!~~~,□□□□X",
         "□!!==*/*/*/*/*~",
         "",
-        "Powered by LÖVE",
-        "Any suggestions or bug reports are appreciated!",
-        "Make sure to only obtain the game from official sources;",
-        "We can't make sure you're safe if you got it elsewhere.",
-        "The author is not responsible for any modified binaries.",
-        "While the game is free, donations are appreciated."
+        "✓✓LÖVE✓✓",
+        "(≡≡≡)/(XXX↑↑) :)",
+        "↓↓[=]↓↓✓✓✓",
+        "↓↓……↓↓(!!!)",
+        "MrZ XXX A→B",
+        "",
+        "□$X, ↑$↑ XD!",
+        "WeChat, AliPay XXX,",
+        "Patreon ✓✓✓",
     },
     WidgetText={
         main={
@@ -197,8 +217,8 @@ return{
         setting_game={
             title="%~~%",
 
-            graphic="←Video",
-            sound="Sound→",
+            graphic="←{~~}",
+            sound="(~~)→",
             layout="=-=-=",
 
             ctrl="=?=",
@@ -215,8 +235,8 @@ return{
         },
         setting_video={
             title="{~~}",
-            sound="←Sound",
-            game="Game→",
+            sound="←(~~)",
+            game="%~~%→",
 
             block="==↓==",
             smooth="~~↓~~",
@@ -260,8 +280,8 @@ return{
         setting_sound={
             title="(~~)",
 
-            game="←Game",
-            graphic="Video→",
+            game="←%~~%",
+            graphic="{~~}→",
 
             mainVol="#_#",
             bgm="#~#",
@@ -351,6 +371,7 @@ return{
             lock="↓_",
             wait="→=",
             fall="↓=",
+            hang=":(=",
 
             bg="{~}",
             bgm="(~)",
@@ -514,7 +535,7 @@ return{
         },
     },
     getTip=function()
-        local L="!@#$%^&*()-=_+[]{}\\|;:\'\",<.>/?"
+        local L="!@#$%^&*()-=_+[]{}\\|;:\'\",<.>/?¢£¤¥¦§©¬®°±×÷†‡‰′″⁺⁻⁼₊₋₌ƒ€₹₽№™℮∂∏∑−∕∙√∞∫≈≠≤≥◊Ω∆∠∵∮∈≡∧∨∩∪µ∝⊿∴⊥～＝＞＜＋↑↗→↘↓↙←↖▁▂▃▄▅▆▇█▔▏▎▍▌▋▊▉▕▓●○◎◆◇■□▲▼△▽◥◢◣◤★☆"
         local s=""
         for _=1,math.random(16,26)do
             local p=math.random(#L)
