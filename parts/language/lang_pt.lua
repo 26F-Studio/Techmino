@@ -182,9 +182,9 @@ return{
         "certifique-se de pegar o jogo de fontes oficiais;",
         "binários obtidos em outros lugares pode conter malware.",
         "O autor não é responsável por qualquer binários modificados",
-        "O jogo é gratis, mas doações são apreciadas.",
-        "Se você não conseguir usar o WeChat Pay e o AliPay,",
-        "pode acessar a página do Patreon para nos ajudar!",
+        FNSF and"/"or"O jogo é gratis, mas doações são apreciadas.",
+        FNSF and"/"or"Se você não conseguir usar o WeChat Pay e o AliPay,",
+        FNSF and"/"or"pode acessar a página do P\97\116\114\111\110 para nos ajudar!",
     },
     staff={
         "Author: MrZ E-mail: 1046101471@qq.com",

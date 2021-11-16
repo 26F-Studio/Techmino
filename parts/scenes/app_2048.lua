@@ -90,7 +90,7 @@ local function newTile()
     if nextCD>0 then
         nextTile=1
     else
-        nextTile=rnd()>.1 and 2 or rnd()>.1 and 3 or 4
+        nextTile=MATH.roll(.9)and 2 or MATH.roll(.9)and 3 or 4
         nextCD=rnd(8,12)
     end
 

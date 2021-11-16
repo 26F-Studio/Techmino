@@ -160,9 +160,9 @@ return{
         "Ce jeu est gratuit et est uniquement disponible via discord.gg/f9pUvkh",
         "Ne téléchargez pas ce jeu depuis une autre source au risque d'avoir des virus,",
         "et vous n'avez besoin que des permissions de vibration et de communication réseau pour les versions mobiles !",
-        "Le créateur n'est pas responsable pour n'importe quel type de perte de données suite à une modification du jeu.",
-        "Si vous ne parvenez pas à utiliser à la fois WeChat Pay et AliPay,",
-        "vous pouvez vous rendre sur notre page Patreon pour nous soutenir !",
+        FNSF and"/"or"Le créateur n'est pas responsable pour n'importe quel type de perte de données suite à une modification du jeu.",
+        FNSF and"/"or"Si vous ne parvenez pas à utiliser à la fois WeChat Pay et AliPay,",
+        FNSF and"/"or"vous pouvez vous rendre sur notre page P\97\116\114\111\110 pour nous soutenir !",
     },
     staff={
         "Author: MrZ  E-mail: 1046101471@qq.com",
