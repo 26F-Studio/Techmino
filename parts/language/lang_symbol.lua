@@ -58,7 +58,7 @@ return{
     ai_mission="X!!!",
     needRestart="!!*#R#*!!",
 
-    copyDone="□□ ✓",
+    -- copyDone="Copied!",
     saveDone="~~~",
     saveError="x!:",
     saveError_duplicate="X←→X ?",
@@ -67,7 +67,7 @@ return{
     importSuccess="~In~",
     dataCorrupted="XXXXX",
     pasteWrongPlace="_?X.",
-    noFile="□□ XXX",
+    -- noFile="File not found",
 
     nowPlaying="~:",
 
@@ -83,7 +83,7 @@ return{
 
     replayBroken=">x.",
 
-    dictNote="ZZZZ >>> □□",
+    -- dictNote="==Copied from TetroDictionary==",
 
     pauseStat={
         "~:",
@@ -123,8 +123,6 @@ return{
         "□$X, ↑$↑ XD!",
         "C0, 支 XXX,",
         "|^O : )",
-        "WeChat, AliPay XXX,",
-        "Patreon : )",
     },
     WidgetText={
         main={
@@ -219,8 +217,8 @@ return{
         setting_game={
             title="%~~%",
 
-            graphic="←{~~}",
-            sound="(~~)→",
+            graphic="←Video",
+            sound="Sound→",
             layout="=-=-=",
 
             ctrl="=?=",
@@ -237,8 +235,8 @@ return{
         },
         setting_video={
             title="{~~}",
-            sound="←(~~)",
-            game="%~~%→",
+            sound="←Sound",
+            game="Game→",
 
             block="==↓==",
             smooth="~~↓~~",
@@ -282,8 +280,8 @@ return{
         setting_sound={
             title="(~~)",
 
-            game="←%~~%",
-            graphic="{~~}→",
+            game="←Game",
+            graphic="Video→",
 
             mainVol="#_#",
             bgm="#~#",
