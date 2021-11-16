@@ -160,9 +160,9 @@ return{
         "Descarga disponible únicamente vía el grupo de testeo y discord.gg/f9pUvkh",
         "Descargas desde otros sitios pueden contener malware/viruses, y en smartphones sólo requiere permisos de internet y vibración.",
         "El autor no se responabiliza por daños ocasionados debido a modificaciones del juego.",
-        FNSF and nil or"Por favor descarga las últimas versiones desde los sitios oficiales. El juego es gratuito",
-        FNSF and nil or"Si no puede usar WeChat Pay y AliPay,",
-        FNSF and nil or"puede ir a nuestra página de Patreon para apoyarnos.",
+        FNSF and"/"or"Por favor descarga las últimas versiones desde los sitios oficiales. El juego es gratuito",
+        FNSF and"/"or"Si no puede usar WeChat Pay y AliPay,",
+        FNSF and"/"or"puede ir a nuestra página de P\97\116\114\111\110 para apoyarnos.",
     },
     staff={
         "Autor:MrZ  Email: 1046101471@qq.com",

@@ -194,9 +194,9 @@ return{
         "Make sure to get the game only from official sources,",
         "as we can't make sure you're safe if you got it elsewhere.",
         "The author is not responsible for any modifications.",
-        FNSF and nil or"While the game is free, donations are appreciated.",
-        FNSF and nil or"If you are unable to use both WeChat Pay and AliPay,",
-        FNSF and nil or"you can go to our Patreon page (Link in Zictionary) to support us!",
+        FNSF and"/"or"While the game is free, donations are appreciated.",
+        FNSF and"/"or"If you are unable to use both WeChat Pay and AliPay,",
+        FNSF and"/"or"you can go to our P\97\116\114\111\110 page (Link in Zictionary) to support us!",
     },
     staff={
         "Author: MrZ  Email: 1046101471@qq.com",
