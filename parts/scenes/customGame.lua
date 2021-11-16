@@ -16,6 +16,7 @@ local sList={
     lock={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
     wait={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
     fall={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
+    hang={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
     eventSet=EVENTSETS,
     holdMode={'hold','swap'},
 }
@@ -211,6 +212,7 @@ scene.widgetList={
     WIDGET.newSelector{name='lock',        x=730,y=410,w=260,color='O',list=sList.lock,disp=CUSval('lock'),code=CUSsto('lock')},
     WIDGET.newSelector{name='wait',        x=730,y=520,w=260,color='G',list=sList.wait,disp=CUSval('wait'),code=CUSsto('wait')},
     WIDGET.newSelector{name='fall',        x=730,y=600,w=260,color='G',list=sList.fall,disp=CUSval('fall'),code=CUSsto('fall')},
+    WIDGET.newSelector{name='hang',        x=730,y=680,w=260,color='G',list=sList.hang,disp=CUSval('hang'),code=CUSsto('hang')},
 
     --Copy / Paste / Start
     WIDGET.newButton{name='copy',          x=1070,y=300,w=310,h=70,color='lR',font=25,code=pressKey"cC"},
@@ -220,7 +222,7 @@ scene.widgetList={
     WIDGET.newButton{name='back',          x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=pressKey"escape"},
 
     --Rule set
-    WIDGET.newSelector{name='eventSet',    x=930, y=740,w=360,color='H',list=sList.eventSet,disp=CUSval('eventSet'),code=CUSsto('eventSet')},
+    WIDGET.newSelector{name='eventSet',    x=1050,y=740,w=340,color='H',list=sList.eventSet,disp=CUSval('eventSet'),code=CUSsto('eventSet')},
 
     --Special rules
     WIDGET.newSwitch{name='ospin',         x=850, y=810,lim=210,disp=CUSval('ospin'),    code=CUSrev('ospin')},

@@ -351,6 +351,7 @@ return{
             lock="↓_",
             wait="→=",
             fall="↓=",
+            hang=":(=",
 
             bg="{~}",
             bgm="(~)",

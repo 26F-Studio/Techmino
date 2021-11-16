@@ -478,6 +478,7 @@ return{
             lock="Lock Delay",
             wait="Entry Delay",
             fall="Line Delay",
+            hang="Death Delay",
 
             bg="Background",
             bgm="Music",

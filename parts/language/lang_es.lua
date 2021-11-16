@@ -443,6 +443,7 @@ return{
             lock="Retraso de Bloqueo",
             wait="Retraso de Spawneo",
             fall="Retraso de Línea",
+            -- hang="Death Delay",
 
             bg="Fondo",
             bgm="Música",

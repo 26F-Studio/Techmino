@@ -3,7 +3,7 @@ return{
     dascut=0,dropcut=0,
     sddas=2,sdarr=2,
     ihs=true,irs=true,ims=true,
-    FTLock=true,
+    hang=0,FTLock=true,
 
     ghostType='gray',
     block=true,ghost=.3,center=1,
