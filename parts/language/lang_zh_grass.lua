@@ -475,7 +475,7 @@ return{
             lock="锁定延迟",
             wait="进入延迟",
             fall="线路延迟",
-            hang="死亡延迟",
+            hang="毁灭延迟",
 
             bg="背景",
             bgm="音乐",
