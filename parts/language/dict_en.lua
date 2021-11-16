@@ -261,7 +261,7 @@ return{
         "game",
         "Another mobile Tetris game by EA. It has two control modes – Swipe and One-Touch. It also has a Galaxy Mode besides the Marathon Mode (with gravity mechanism), and the goal of this mode is to clear all Galaxy minoes before the sequence runs out.\n\nThis game is no longer available since April 2020."
     },
-    {"Tetris（N3TWORK）",
+    {"Tetris (N3TWORK)",
         "tetris n3twork mobile phone",
         "game",
         "The latest mobile Tetris from N3TWORK Inc. It has a 3-minute ultra mode, a marathon mode and a Royale mode. The UI is great but its controls are not so good.",
