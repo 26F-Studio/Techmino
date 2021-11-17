@@ -556,7 +556,7 @@ return{
     {"IMS",
         "提前 ims initialmovesystem",
         "term",
-        "Initial Move System\n提前移动系统，方块出现前提前按住移动后，出现时会朝移动方向偏一格，有时可以避免死亡（Techmino限定）。",
+        "Initial Move System\n提前移动系统，方块出现前提前按住移动后，出现时会朝移动方向偏一格，有时可以避免死亡（Techmino限定）。\n注：需要块出现时das已充满",
     },
     {"Next",
         "预览 下一个 next yulan xiayige",

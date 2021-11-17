@@ -540,7 +540,7 @@ return{
     {"IMS",
         "ims initialmovesystem",
         "term",
-        "*Techmino-exclusive*\nInitial Movement System\nHolding a sideways movement key during spawn delay to spawn the piece one block off to the side. Sometimes prevents death.",
+        "*Techmino-exclusive*\nInitial Movement System\nHolding a sideways movement key during spawn delay to spawn the piece one block off to the side. Sometimes prevents death.\nNote that DAS need to be full charged when new piece appear",
     },
     {"Next",
         "nextpreview",
