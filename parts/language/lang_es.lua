@@ -162,7 +162,7 @@ return{
         "El autor no se responabiliza por daños ocasionados debido a modificaciones del juego.",
         FNSF and"/"or"Por favor descarga las últimas versiones desde los sitios oficiales. El juego es gratuito",
         FNSF and"/"or"Si no puede usar WeChat Pay y AliPay,",
-        FNSF and"/"or"puede ir a nuestra página de P\97\116\114\111\110 para apoyarnos.",
+        FNSF and"/"or"puede ir a nuestra página de P\97\116\114\101\111\110 para apoyarnos.",
     },
     staff={
         "Autor:MrZ  Email: 1046101471@qq.com",
@@ -176,7 +176,7 @@ return{
         "Traducción: User670, MattMayuga, Mizu, Mr.Faq, ScF, C₂₉H₂₅N₃O₅",
         "",
         "Agradecimientos:",
-        "Flyz, Big_True, NOT-A-ROBOT, 思竣, yuhao7370",
+        "Flyz, Big_True, NOT_A_ROBOT, 思竣, yuhao7370",
         "Farter, Teatube, 蕴空之灵, T9972, [Todo el Staff de Testeo]",
     },
     used=[[
@@ -335,7 +335,7 @@ return{
             score="Puntaje en Pantalla",
             bufferWarn="Alerta de Búfer",
             showSpike="Contador de Spike",
-            nextPos="Ver Spawn de Pza. Sig.",
+            -- nextPos="Spawn Preview",
             highCam="Cám. Vista Aérea",
             warn="Alerta de Peligro",
 

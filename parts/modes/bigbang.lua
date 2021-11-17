@@ -1,18 +1,23 @@
 return{
     env={
-        drop=1e99,lock=1e99,
+        das=8,arr=1,
+        drop=30,lock=30,
         holdCount=0,
-        task=function(P)
-            while not P.control do YIELD()end
-            P:pressKey(6)
-            P:lose()
-        end,
-        bg='bg1',bgm='new era',
+        eventSet='bigbang',
+        bg='blockhole',bgm='peak',
     },
-    score=function(P)return{P.modeData.event,P.stat.finesseRate*.2/P.stat.piece}end,
-    scoreDisp=function(D)return("%d Stage %.2f%%"):format(D[1],D[2])end,
-    comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]>b[2]end,
-    getRank=function()
-        return 1
+    score=function(P)return{P.stat.pc,P.stat.time}end,
+    scoreDisp=function(D)return D[1].." Stage   "..STRING.time(D[2])end,
+    comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
+    getRank=function(P)
+        do return 1 end
+        local L=P.stat.pc
+        return
+        L>=100 and 5 or
+        L>=70 and 4 or
+        L>=40 and 3 or
+        L>=20 and 2 or
+        L>=10 and 1 or
+        L>=3 and 0
     end,
 }

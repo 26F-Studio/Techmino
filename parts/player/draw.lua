@@ -360,6 +360,18 @@ local function _drawNextPreview(B,fieldH,fieldBeneath)
         end
     end end
 end
+local function _drawHoldPreview(B,fieldH,fieldBeneath)
+    gc_setColor(1,1,1,.3)
+    local y=int(fieldH+1-modf(B.RS.centerPos[B.id][B.dir][1]))+ceil(fieldBeneath/30)+.14
+    B=B.bk
+    local x=int(6-#B[1]*.5)
+    local cross=TEXTURE.puzzleMark[-1]
+    for i=1,#B do for j=1,#B[1]do
+        if B[i][j]then
+            gc_draw(cross,30*(x+j-2),30*(1-y-i))
+        end
+    end end
+end
 local function _drawBuffer(atkBuffer,bufferWarn,atkBufferSum1,atkBufferSum)
     local h=0
     for i=1,#atkBuffer do
@@ -807,8 +819,9 @@ function draw.norm(P,repMode)
             end
 
             --Draw next preview
-            if ENV.nextPos and P.nextQueue[1]then
-                _drawNextPreview(P.nextQueue[1],ENV.fieldH,P.fieldBeneath)
+            if ENV.nextPos then
+                if P.nextQueue[1]then _drawNextPreview(P.nextQueue[1],ENV.fieldH,P.fieldBeneath)end
+                if P.holdQueue[1]then _drawHoldPreview(P.holdQueue[1],ENV.fieldH,P.fieldBeneath)end
             end
 
             --Draw AI's drop destination

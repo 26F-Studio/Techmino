@@ -196,7 +196,7 @@ return{
         "The author is not responsible for any modifications.",
         FNSF and"/"or"While the game is free, donations are appreciated.",
         FNSF and"/"or"If you are unable to use both WeChat Pay and AliPay,",
-        FNSF and"/"or"you can go to our P\97\116\114\111\110 page (Link in Zictionary) to support us!",
+        FNSF and"/"or"you can go to our P\97\116\114\101\111\110 page (Link in Zictionary) to support us!",
     },
     staff={
         "Author: MrZ  Email: 1046101471@qq.com",
@@ -210,7 +210,7 @@ return{
         "Translations: User670, MattMayuga, Mizu, Mr.Faq, ScF, C₂₉H₂₅N₃O₅",
         "",
         "Special Thanks:",
-        "Flyz, Big_True, NOT-A-ROBOT, 思竣, yuhao7370",
+        "Flyz, Big_True, NOT_A_ROBOT, 思竣, yuhao7370",
         "Farter, Teatube, 蕴空之灵, T9972, [All test staff]",
     },
     used=[[
@@ -368,7 +368,7 @@ return{
             score="Score Pop-Ups",
             bufferWarn="Buffer Alerts",
             showSpike="Spike Counter",
-            nextPos="Next Preview",
+            nextPos="Spawn Preview",
             highCam="Screen Scrolling",
             warn="Danger Alerts",
 

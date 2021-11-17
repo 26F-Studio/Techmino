@@ -162,7 +162,7 @@ return{
         "et vous n'avez besoin que des permissions de vibration et de communication réseau pour les versions mobiles !",
         FNSF and"/"or"Le créateur n'est pas responsable pour n'importe quel type de perte de données suite à une modification du jeu.",
         FNSF and"/"or"Si vous ne parvenez pas à utiliser à la fois WeChat Pay et AliPay,",
-        FNSF and"/"or"vous pouvez vous rendre sur notre page P\97\116\114\111\110 pour nous soutenir !",
+        FNSF and"/"or"vous pouvez vous rendre sur notre page P\97\116\114\101\111\110 pour nous soutenir !",
     },
     staff={
         "Author: MrZ  E-mail: 1046101471@qq.com",
@@ -176,7 +176,7 @@ return{
         "Traduction: User670, MattMayuga, Mizu, Mr.Faq, ScF, C₂₉H₂₅N₃O₅",
         "",
         "Merci à:",
-        "Flyz, Big_True, NOT-A-ROBOT, 思竣, yuhao7370",
+        "Flyz, Big_True, NOT_A_ROBOT, 思竣, yuhao7370",
         "Farter, Teatube, 蕴空之灵, T9972, [All test staff]",
     },
     used=[[
@@ -333,7 +333,7 @@ return{
             score="Pop-up de score",
             -- bufferWarn="Buffer Alert",
             -- showSpike="Spike Counter",
-            nextPos="Prévisualisation de position",
+            -- nextPos="Spawn Preview",
             highCam="Vue d'oiseau",
             warn="Alerte de danger",
 

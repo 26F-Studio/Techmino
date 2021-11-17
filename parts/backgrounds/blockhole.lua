@@ -1,4 +1,4 @@
---Blackhole
+--blockhole
 local gc=love.graphics
 local gc_clear,gc_replaceTransform=gc.clear,gc.replaceTransform
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
@@ -51,7 +51,7 @@ function back.draw()
         gc_draw(S.texture,S.d*cos(S.ang),S.d*sin(S.ang),S.rotate,S.size*.026,nil,15,15)
     end
 
-    --Blackhole
+    --blockhole
     gc_setColor(.07,.07,.07)
     gc_circle('fill',0,0,157)
     gc_setLineWidth(6)

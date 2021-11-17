@@ -11,7 +11,7 @@ return{
             mStr(P.stat.atk,63,280)
             mText(TEXTOBJ.atk,63,350)
         end,
-        bg='blackhole',bgm='echo',
+        bg='blockhole',bgm='echo',
     },
     score=function(P)return{math.min(math.floor(P.stat.atk),100),P.stat.time}end,
     scoreDisp=function(D)return D[1].." Attack  "..STRING.time(D[2])end,
