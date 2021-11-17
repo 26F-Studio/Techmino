@@ -823,15 +823,15 @@ return{
         "term",
         "The block skin used by the earliest version of Tetris.\nIn the early times, computers were all using Command Line Interface instead of Graphical User Interface, so at that time a single mino in the game of Tetris is represented using two enclosing square brackets [ ]. It looks kinds of like bones so it is sometimes called the bone blocks.\nIn Techmino, bone blocks are defined as \"A single, fancy block skin that all of the blocks use.\". Different block skins may have different types of bone block styles.",
     },
-    {"Half invisible",
+    {"Semi-invisible",
         "half invisible",
         "term",
-        "",--TODO
+        "Refers to a rule where the tetrominoes will become invisible after a period of time.\nThis time interval is not definite and it is acceptable to describe it as \"disappear after a few seconds\".",
     },
     {"Invisible",
         "invisible",
         "term",
-        "",--TODO
+        "Refers to a rule where blocks will disappear instantly when locked onto the field. \nN.B. It is also acceptable to refer to an invisible mode where a disappearing animation is shown. However, this makes the game a lot easier, so in this game, the invisible mode without such animations is referred to as \"Sudden Invisible\".",
     },
     {"MPH mode",
         "mph",
