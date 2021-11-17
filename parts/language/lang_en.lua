@@ -368,7 +368,7 @@ return{
             score="Score Pop-Ups",
             bufferWarn="Buffer Alerts",
             showSpike="Spike Counter",
-            nextPos="Next Preview",
+            nextPos="Spawn Preview",
             highCam="Screen Scrolling",
             warn="Danger Alerts",
 

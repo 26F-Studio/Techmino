@@ -335,7 +335,7 @@ return{
             score="Puntaje en Pantalla",
             bufferWarn="Alerta de Búfer",
             showSpike="Contador de Spike",
-            nextPos="Ver Spawn de Pza. Sig.",
+            -- nextPos="Spawn Preview",
             highCam="Cám. Vista Aérea",
             warn="Alerta de Peligro",
 

@@ -333,7 +333,7 @@ return{
             score="Pop-up de score",
             -- bufferWarn="Buffer Alert",
             -- showSpike="Spike Counter",
-            nextPos="Prévisualisation de position",
+            -- nextPos="Spawn Preview",
             highCam="Vue d'oiseau",
             warn="Alerte de danger",
 

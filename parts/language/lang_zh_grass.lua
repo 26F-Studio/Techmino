@@ -367,7 +367,7 @@ return{
             score="分数弹出",
             bufferWarn="缓冲区警报",
             showSpike="尖峰计数器",
-            nextPos="下次预览",
+            nextPos="繁殖预览",
             highCam="屏幕滚动",
             warn="危险警报",
 

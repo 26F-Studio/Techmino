@@ -357,7 +357,7 @@ return{
             score="Pop-up de pontos",
             -- bufferWarn="Buffer Alert",
             -- showSpike="Spike Counter",
-            nextPos="Próxima Pos.",
+            -- nextPos="Spawn Preview",
             highCam="Vista Olho-de-pássaro",
             warn="Alerta de perigo",
 
