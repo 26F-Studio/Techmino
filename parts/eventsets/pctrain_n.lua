@@ -26,8 +26,12 @@ local function _check(P)
             P:lose()
         end
     else
-        P:newTask(task_PC)
-        if P.frameRun<180 then P.fieldBeneath=0 end
+        if P.stat.pc>=60 then
+            P:win('finish')
+        else
+            P:newTask(task_PC)
+            if P.frameRun<180 then P.fieldBeneath=0 end
+        end
     end
 end
 return{
