@@ -701,7 +701,7 @@ return{
     {"Death ARE",
         "death are die delay",
         "term",
-        "(Techmino exclusive) When the spawn location of the next piece is blocked by an existing block in the field, a delay will be added in addition to the spawn ARE, and this delay is referred to as the death ARE. This mechanism can be used along with IHS and IRS to prevent death. \nOriginal idea by Not-A-Normal-Bot",
+        "(Techmino exclusive) When the spawn location of the next piece is blocked by an existing block in the field, a delay will be added in addition to the spawn ARE, and this delay is referred to as the death ARE. This mechanism can be used along with IHS and IRS to prevent death. \nOriginal idea by NOT_A_ROBOT",
     },
     {"Finesse",
         "finesse",

@@ -727,7 +727,7 @@ return{
     {"窒息延迟",
         "窒息延迟 choke are delay zhixiyanchi",
         "term",
-        "当前方块锁定后如果下一块的生成位置被阻挡，那么下一块的出块延迟会被再额外加上这个延迟的值，方便使用提前系统来避免死亡\n想法来自Not-A-Normal-Bot",
+        "当前方块锁定后如果下一块的生成位置被阻挡，那么下一块的出块延迟会被再额外加上这个延迟的值，方便使用提前系统来避免死亡\n想法来自NOT_A_ROBOT",
     },
     {"Finesse",
         "极简操作 最简操作 finesse jijiancaozuo zuijiancaozuo",

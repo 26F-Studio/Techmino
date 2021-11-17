@@ -210,7 +210,7 @@ return{
         "翻译: User670，MattMayuga，Mizu，Mr.Faq，ScF，C₂₉H₂₅N₃O₅",
         "",
         "特别感谢:",
-        "Flyz，Big_True，NOT-A-ROBOT，思竣，yuhao7370",
+        "Flyz，Big_True，NOT_A_ROBOT，思竣，yuhao7370",
         "Farter，Teatube，蕴空之灵，T9972，[All test staff]",
     },
     used=[[
