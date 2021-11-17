@@ -4,8 +4,6 @@ return{
         holdCount=0,
         drop=120,lock=180,
         fall=20,
-        sequence='none',
-        RS="SRS",
         eventSet='pctrain_n',
         bg='rgb',bgm='memory',
     },

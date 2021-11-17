@@ -42,6 +42,8 @@ local function _check(P)
     end
 end
 return{
+    sequence='none',
+    RS="SRS",
     mesDisp=function(P)
         setFont(60)
         mStr(P.stat.pc,63,340)
