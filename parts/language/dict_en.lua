@@ -823,6 +823,16 @@ return{
         "term",
         "The block skin used by the earliest version of Tetris.\nIn the early times, computers were all using Command Line Interface instead of Graphical User Interface, so at that time a single mino in the game of Tetris is represented using two enclosing square brackets [ ]. It looks kinds of like bones so it is sometimes called the bone blocks.\nIn Techmino, bone blocks are defined as \"A single, fancy block skin that all of the blocks use.\". Different block skins may have different types of bone block styles.",
     },
+    {"Half invisible",
+        "half invisible",
+        "term",
+        "",--TODO
+    },
+    {"Invisible",
+        "invisible",
+        "term",
+        "",--TODO
+    },
     {"MPH mode",
         "mph",
         "term",
