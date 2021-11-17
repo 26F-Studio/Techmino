@@ -73,11 +73,11 @@ return{
         "TO-S的添加方法、说明等关于茶服的一切",
         "http://teatube.ltd/tos",
     },
-    {"P\97\116\114\111\110",
-        "赞助 p\97\116\114\111\110 support zanzhu daqian",
+    {"P\97\116\114\101\111\110",
+        "赞助 p\97\116\114\101\111\110 support zanzhu daqian",
         "org",
-        "Techmino的P\97\116\114\111\110",
-        FNSF and"https://www.youtube.com/watch?v=DVl0IiUKX_g"or"https://www.p\97\116\114\111\110.com/techmino",
+        "Techmino的P\97\116\114\101\111\110",
+        FNSF and"https://www.youtube.com/watch?v=DVl0IiUKX_g"or"https://www.p\97\116\114\101\111\110.com/techmino",
     },
 
     --游戏（题库）

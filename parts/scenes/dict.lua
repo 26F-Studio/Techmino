@@ -32,7 +32,7 @@ local typeColor={
 local function _filter(word_org)
     local word=word_org
     word=word:gsub("[Tt]etris",CHAR.zChan.thinking)
-    if FNSF then word=word:gsub("[Pp]\97\116\114\111\110",CHAR.zChan.qualified)end
+    if FNSF then word=word:gsub("[Pp]\97\116\114\101\111\110",CHAR.zChan.qualified)end
     return word,word_org
 end
 local function _scanDict(D)
