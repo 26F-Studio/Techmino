@@ -1653,7 +1653,7 @@ do
         end
 
         --Check height limit
-        if cc==0 and #self.field>ENV.heightLimit then
+        if cc==0 and(#self.field>ENV.heightLimit or ENV.lockout and CY>ENV.fieldH)then
             finish='lose'
         end
 
