@@ -2,6 +2,7 @@ local waitSpeed={60,59,58,57,56,55,54,52,50,48,46,44,42,40,38,36,34,32,30}
 
 return
 {
+    das=5,arr=1,
     drop=0,lock=7,
     wait=60,fall=0,
     freshLimit=12,

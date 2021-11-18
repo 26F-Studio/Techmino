@@ -1,6 +1,5 @@
 return{
     env={
-        das=4,arr=1,
         sequence="bagES",
         eventSet='strategy_h',
         bg='bg2',bgm='secret8th',
