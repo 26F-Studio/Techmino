@@ -665,7 +665,7 @@ return{
     {"20G",
         "20g",
         "term",
-        "The fastest falling speed of modern Tetris. In 20G, pieces do not have a falling process and instantly appear on the bottom. This sometimes also limits a piece's sideways movements, as it is not always possible to make a piece climb over a bump or out of a well in 20G.",
+        "",--TODO
     },
     {"Topping out",
         "die death topout toppingout",
