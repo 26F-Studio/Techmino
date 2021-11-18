@@ -1,4 +1,6 @@
-local Sources={}
+local lastLoaded={}
+local maxLoadedCount=3
+local SourceObjList={}
 local volume=1
 
 local BGM={
@@ -37,8 +39,19 @@ end
 local function check_curFadeOut(task,code,src)
     return task.code==code and task.args[1]==src
 end
+local function _tryReleaseSources()
+    while #lastLoaded>maxLoadedCount do
+        local n=lastLoaded[#lastLoaded]
+        SourceObjList[n].source=SourceObjList[n].source:release()and nil
+        table.remove(lastLoaded)
+    end
+end
 function BGM.setDefault(bgm)
     BGM.default=bgm
+end
+function BGM.setMaxSources(count)
+    maxLoadedCount=count
+    _tryReleaseSources()
 end
 function BGM.setChange(func)
     BGM.onChange=func
@@ -53,7 +66,7 @@ function BGM.init(list)
     local simpList={}
     for _,v in next,list do
         table.insert(simpList,v.name)
-        Sources[v.name]=v.path
+        SourceObjList[v.name]={path=v.path,source=false}
     end
     table.sort(simpList)
     function BGM.getList()return simpList end
@@ -61,18 +74,20 @@ function BGM.init(list)
     LOG(count.." BGM files added")
     function BGM.getCount()return count end
 
-    local function _load(name)
-        if type(Sources[name])=='string'then
-            if love.filesystem.getInfo(Sources[name])then
-                Sources[name]=love.audio.newSource(Sources[name],'stream')
-                Sources[name]:setLooping(true)
-                Sources[name]:setVolume(0)
+    local function _tryLoad(name)
+        if SourceObjList[name]then
+            if SourceObjList[name].source then
+                return true
+            elseif love.filesystem.getInfo(SourceObjList[name].path)then
+                SourceObjList[name].source=love.audio.newSource(SourceObjList[name].path,'stream')
+                SourceObjList[name].source:setLooping(true)
+                SourceObjList[name].source:setVolume(0)
+                table.insert(lastLoaded,1,name)
+                _tryReleaseSources()
                 return true
             else
-                LOG("No BGM: "..Sources[name],5)
+                LOG("No BGM: "..SourceObjList[name],5)
             end
-        elseif Sources[name]then
-            return true
         elseif name then
             LOG("No BGM: "..name,5)
         end
@@ -89,30 +104,25 @@ function BGM.init(list)
             end
         end
     end
-    function BGM.loadAll()--Not neccessary, unless you want avoid the lag when playing something for the first time
-        for name in next,Sources do
-            _load(name)
-        end
-    end
     function BGM.play(name)
         name=name or BGM.default
-        if not _load(name)then return end
+        if not _tryLoad(name)then return end
         if volume==0 then
             BGM.nowPlay=name
-            BGM.playing=Sources[name]
+            BGM.playing=SourceObjList[name].source
             return true
         end
-        if name and Sources[name]then
+        if name and SourceObjList[name].source then
             if BGM.nowPlay~=name then
                 if BGM.nowPlay then
                     TASK.new(task_fadeOut,BGM.playing)
                 end
-                TASK.removeTask_iterate(check_curFadeOut,task_fadeOut,Sources[name])
+                TASK.removeTask_iterate(check_curFadeOut,task_fadeOut,SourceObjList[name].source)
                 TASK.removeTask_code(task_fadeIn)
 
-                TASK.new(task_fadeIn,Sources[name])
+                TASK.new(task_fadeIn,SourceObjList[name].source)
                 BGM.nowPlay=name
-                BGM.playing=Sources[name]
+                BGM.playing=SourceObjList[name].source
                 BGM.lastPlayed=BGM.nowPlay
                 BGM.playing:seek(0)
                 BGM.playing:play()
@@ -128,8 +138,8 @@ function BGM.init(list)
     end
     function BGM.continue()
         if BGM.lastPlayed then
-            BGM.nowPlay,BGM.playing=BGM.lastPlayed,Sources[BGM.lastPlayed]
-            TASK.removeTask_iterate(check_curFadeOut,task_fadeOut,Sources[BGM.nowPlay])
+            BGM.nowPlay,BGM.playing=BGM.lastPlayed,SourceObjList[BGM.lastPlayed].source
+            TASK.removeTask_iterate(check_curFadeOut,task_fadeOut,SourceObjList[BGM.nowPlay].source)
             TASK.removeTask_code(task_fadeIn)
             TASK.new(task_fadeIn,BGM.playing)
             BGM.playing:play()
