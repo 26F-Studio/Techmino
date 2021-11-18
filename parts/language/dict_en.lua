@@ -195,6 +195,11 @@ return{
         "game",
         "*Windows | Single-player*\nA game with all modes from TGM which you can use to practice. Has better controls than actual TGM. The world rule is slightly different, however (eg, instant-lock soft drops, and slightly different kick tables)",
     },
+    {"Cambridge",
+        "cambridge",
+        "game",
+        "*Windows, macOS, Linux | Single-player*\nA Lua-based game engine dedicated to creating a robust, easily customizable platform for creating new, custom game modes. It was originally made by Joe Zeng, and starting with version 0.1.5 on October 8, 2020, Milla took over development of the game.\n--Tetris Wiki",
+    },
 
     {"Tetris99",
         "t99 tetris99",
