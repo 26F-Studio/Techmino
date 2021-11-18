@@ -3,9 +3,10 @@ local waitSpeed={15,15,14,14,13,13,12,12,11,11,10,10,9,9,8,8,7,7,7}
 return
 {
     drop=0,
-    wait=60,
+    wait=15,
     fall=0,
 	lock=5,
+	freshLimit=12,
     mesDisp=function(P)
         PLY.draw.drawProgress(P.stat.row,P.modeData.target)
         PLY.draw.drawTargetLine(P,200-P.stat.row)

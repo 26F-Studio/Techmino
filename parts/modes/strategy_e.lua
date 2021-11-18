@@ -1,6 +1,6 @@
 return{
     env={
-        das=4,arr=1,
+        das=5,arr=1,
         sequence="bagES",
         eventSet='strategy_e',
         bg='bg2',bgm='push',
@@ -11,17 +11,12 @@ return{
     comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
     getRank=function(P)
         local L=P.stat.row
-        if L>=200 then
-            local T=P.stat.time
-            return
-            T<=240 and 5 or
-            T<=360 and 4 or
-            3
-        else
-            return
-            L>=150 and 2 or
-            L>=100 and 1 or
-            L>=20 and 0
-        end
+        return
+		L>=200 and 5 or
+		L>=170 and 4 or
+		L>=150 and 3 or
+        L>=120 and 2 or
+        L>=60 and 1 or
+        L>=26 and 0
     end,
 }
