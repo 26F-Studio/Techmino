@@ -309,6 +309,7 @@ return{
 
             eventSet="Rule Set",
 
+            holdMode="Hold Mode",
             nextCount="Next",
             holdCount="Hold",
             infHold="Infinite Hold",
