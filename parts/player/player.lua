@@ -418,8 +418,10 @@ function Player:pushLineList(L,mir)--Push some lines to field
         ins(self.visTime,1,FREEROW.new(20))
     end
     self.fieldBeneath=self.fieldBeneath+30*l
-    self.curY=self.curY+l
-    self.ghoY=self.ghoY+l
+    if self.cur then
+        self.curY=self.curY+l
+        self.ghoY=self.ghoY+l
+    end
     self:freshBlock('push')
 end
 function Player:pushNextList(L,mir)--Push some nexts to nextQueue

@@ -46,8 +46,8 @@ return{
     RS="SRS",
     mesDisp=function(P)
         setFont(60)
-        mStr(P.stat.pc,63,340)
-        mText(TEXTOBJ.pc,63,410)
+        mStr(P.stat.pc,63,260)
+        mText(TEXTOBJ.pc,63,330)
     end,
     hook_drop=_check,
     task=_check,--Just run one time at first to start first level
