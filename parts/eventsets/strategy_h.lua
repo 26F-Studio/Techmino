@@ -2,11 +2,9 @@ local waitSpeed={30,29,28,27,26,25,24,23,22,21,20,19,18,18,17,17,16,16,15}
 
 return
 {
-    drop=0,
-    wait=30,
-    fall=0,
-	lock=6,
-	freshLimit=12,
+    drop=0,lock=6,
+    wait=30,fall=0,
+    freshLimit=12,
     mesDisp=function(P)
         PLY.draw.drawProgress(P.stat.row,P.modeData.target)
         PLY.draw.drawTargetLine(P,200-P.stat.row)
@@ -19,9 +17,9 @@ return
             if P.modeData.target==200 then
                 P:win('finish')
             else
-				if P.modeData.target==100 then
-					P.modeData.lock=5
-				end
+                if P.modeData.target==100 then
+                    P.modeData.lock=5
+                end
                 P.gameEnv.wait=waitSpeed[P.modeData.target/10]
                 P.modeData.target=P.modeData.target+10
                 SFX.play('reach')
