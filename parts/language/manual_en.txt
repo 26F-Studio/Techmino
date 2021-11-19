@@ -7,7 +7,7 @@ Gameplay:
         Play until the end or achieve the level's goal to win.
 
 Rotation system:
-        Uses Techmino's custom rotation system. Too lazy to write the details
+        Uses TRS (Techmino Rotation System) by default. The game allows players to choose other commonly used rotation systems (generally unnecessary)
 
 Spin detection:
         Satisfies "3 corner" rule +2 points
@@ -87,4 +87,4 @@ Custom mode:
                 empty cells can be in any state;
                 regular colored cells have to be made of the corresponding block;
                 garbage-colored cells can be any block but not air.
-    Once you make the shape, you will win.
+        Once you make the shape, you will win.

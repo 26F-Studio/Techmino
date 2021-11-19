@@ -44,8 +44,8 @@ N3TWORK is a registered trademark of N3TWORK Inc. © 2021 N3TWORK Inc.
 
 GoldWave is a registered trademark of GoldWave, Inc.
 
-Linux is a registered trademark of Linus Torvalds. 
+Linux is a registered trademark of Linus Torvalds.
 
 Touhou Project © Team Shanghai Alice 2002-2021.
 
-All other trademarks, logos, and copyrights are the properties of their respective owners. 
+All other trademarks, logos, and copyrights are the properties of their respective owners.
