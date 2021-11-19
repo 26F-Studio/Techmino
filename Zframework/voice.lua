@@ -1,5 +1,7 @@
+local rnd=math.random
+local volume=1
+local diversion=0
 local VOC={
-    vol=1,
     getCount=function()return 0 end,
     getQueueCount=function()return 0 end,
     load=function()error("Cannot load before init!")end,
@@ -7,13 +9,16 @@ local VOC={
     play=NULL,
     update=NULL,
 }
+function VOC.setDiversion(n)
+    assert(type(n)=='number'and n>0 and n<12,'Wrong div')
+    diversion=n
+end
 function VOC.setVol(v)
-    assert(type(v)=='number'and v>=0 and v<=1)
-    VOC.vol=v
+    assert(type(v)=='number'and v>=0 and v<=1,'Wrong volume')
+    volume=v
 end
 function VOC.init(list)
     VOC.init=nil
-    local rnd=math.random
     local rem=table.remove
     local voiceQueue={free=0}
     local bank={}--{vocName1={SRC1s},vocName2={SRC2s},...}
@@ -72,7 +77,7 @@ function VOC.init(list)
         end
 
         function VOC.play(s,chn)
-            if VOC.vol>0 then
+            if volume>0 then
                 local _=Source[s]
                 if not _ then return end
                 if chn then
@@ -95,13 +100,15 @@ function VOC.init(list)
                     end
                 elseif Q.s==1 then--Waiting load source
                     Q[1]=_getVoice(Q[1])
-                    Q[1]:setVolume(VOC.vol)
+                    Q[1]:setVolume(volume)
+                    Q[1]:setPitch(1.0594630943592953^(diversion*(rnd()*2-1)))
                     Q[1]:play()
                     Q.s=Q[2]and 2 or 4
                 elseif Q.s==2 then--Playing 1,ready 2
                     if Q[1]:getDuration()-Q[1]:tell()<.08 then
                         Q[2]=_getVoice(Q[2])
-                        Q[2]:setVolume(VOC.vol)
+                        Q[2]:setVolume(volume)
+                        Q[1]:setPitch(1.0594630943592953^(diversion*(rnd()*2-1)))
                         Q[2]:play()
                         Q.s=3
                     end
