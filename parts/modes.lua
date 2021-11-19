@@ -18,7 +18,7 @@ return{
     {name='dig_400l',      x=-800,      y=-200,     size=40,shape=1,icon="dig_sprint"},
 
     {name='marathon_n',    x=0,         y=-600,     size=60,shape=1,icon="marathon",    unlock={'marathon_h','solo_e','round_e','blind_e','classic_e','survivor_e','bigbang','zen'}},
-    {name='marathon_h',    x=0,         y=-800,     size=50,shape=1,icon="marathon",    unlock={'master_n'}},
+    {name='marathon_h',    x=0,         y=-800,     size=50,shape=1,icon="marathon",    unlock={'master_n','strategy_e'}},
 
     {name='solo_e',        x=-600,      y=-1000,    size=40,shape=1,icon="solo",        unlock={'solo_n'}},
     {name='solo_n',        x=-800,      y=-1000,    size=40,shape=1,icon="solo",        unlock={'solo_h'}},
@@ -39,12 +39,16 @@ return{
     {name='round_l',       x=-1200,     y=-800,     size=40,shape=1,icon="round",       unlock={'round_u'}},
     {name='round_u',       x=-1400,     y=-800,     size=40,shape=1,icon="round"},
 
-    {name='master_n',      x=0,         y=-1000,    size=40,shape=1,icon="master",      unlock={'master_h'}},
-    {name='master_h',      x=0,         y=-1200,    size=40,shape=3,icon="master",      unlock={'master_final','master_ex','master_ph','master_m'}},
+    {name='master_n',      x=0,         y=-1000,    size=40,shape=1,icon="master",      unlock={'master_h','strategy_h'}},
+    {name='master_h',      x=0,         y=-1200,    size=40,shape=3,icon="master",      unlock={'master_final','master_ex','master_ph','master_m','strategy_u'}},
     {name='master_m',      x=150,       y=-1320,    size=30,shape=3,icon="master"},
     {name='master_final',  x=0,         y=-1600,    size=40,shape=2,icon="master"},
     {name='master_ph',     x=-150,      y=-1500,    size=40,shape=2,icon="master"},
     {name='master_ex',     x=150,       y=-1500,    size=40,shape=2,icon="master_ex"},
+
+    {name='strategy_e',    x=-150,      y=-1030,    size=40,shape=3,icon="master"},
+    {name='strategy_h',    x=-200,      y=-1160,    size=35,shape=3,icon="master"},
+    {name='strategy_u',    x=-250,      y=-1290,    size=30,shape=3,icon="master"},
 
     {name='blind_e',       x=150,       y=-700,     size=40,shape=1,icon="hidden",      unlock={'blind_n'}},
     {name='blind_n',       x=150,       y=-800,     size=40,shape=1,icon="hidden",      unlock={'blind_h'}},
@@ -53,9 +57,9 @@ return{
     {name='blind_u',       x=150,       y=-1100,    size=30,shape=3,icon="hidden",      unlock={'blind_wtf'}},
     {name='blind_wtf',     x=150,       y=-1200,    size=25,shape=2,icon="hidden"},
 
-    {name='classic_e',     x=-170,      y=-850,     size=40,shape=1,icon="classic",     unlock={'classic_h'}},
-    {name='classic_h',     x=-180,      y=-1000,     size=35,shape=2,icon="classic",     unlock={'classic_u'}},
-    {name='classic_u',     x=-190,      y=-1150,    size=30,shape=2,icon="classic"},
+    {name='classic_e',     x=-200,      y=-850,     size=40,shape=1,icon="classic",     unlock={'classic_h'}},
+    {name='classic_h',     x=-300,      y=-950,    size=35,shape=2,icon="classic",     unlock={'classic_u'}},
+    {name='classic_u',     x=-400,      y=-1050,    size=30,shape=2,icon="classic"},
 
     {name='survivor_e',    x=300,       y=-600,     size=40,shape=1,icon="survivor",    unlock={'survivor_n'}},
     {name='survivor_n',    x=500,       y=-600,     size=40,shape=1,icon="survivor",    unlock={'survivor_h','attacker_h','defender_n','dig_h'}},

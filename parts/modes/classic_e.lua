@@ -4,7 +4,7 @@ return{
         smooth=false,
         face={0,0,2,2,2,0,0},
         eventSet='classic_e',
-        bg='rgb',bgm='1989',
+        bg='rgb',bgm='1980s',
     },
     slowMark=true,
     score=function(P)return{P.stat.score,P.stat.row}end,

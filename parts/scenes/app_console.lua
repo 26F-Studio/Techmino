@@ -979,7 +979,7 @@ function scene.wheelMoved(_,y)
 end
 
 function scene.keyDown(key)
-    if key=="return"then
+    if key=="return" or key=="kpenter"then
         local input=STRING.trim(inputBox:getText())
         if input==""then return end
 

@@ -387,15 +387,7 @@ function Player:garbageRise(color,amount,line)--Release n-lines garbage to field
             #self.field>self.gameEnv.heightLimit
         )
     then
-        self:lock()
         self:lose()
-    end
-
-    if #self.field>self.gameEnv.heightLimit then
-        self:_triggerEvent('hook_die')
-        if #self.field>self.gameEnv.heightLimit then
-            self:lose()
-        end
     end
 end
 
@@ -418,8 +410,10 @@ function Player:pushLineList(L,mir)--Push some lines to field
         ins(self.visTime,1,FREEROW.new(20))
     end
     self.fieldBeneath=self.fieldBeneath+30*l
-    self.curY=self.curY+l
-    self.ghoY=self.ghoY+l
+    if self.cur then
+        self.curY=self.curY+l
+        self.ghoY=self.ghoY+l
+    end
     self:freshBlock('push')
 end
 function Player:pushNextList(L,mir)--Push some nexts to nextQueue
@@ -1643,7 +1637,7 @@ do
             end
         end
 
-        --Prevent sudden death  if hang>0
+        --Prevent sudden death if hang>0
         if ENV.hang>ENV.wait and self.nextQueue[1]then
             local B=self.nextQueue[1]
             if self:ifoverlap(B.bk,int(6-#B.bk[1]*.5),int(ENV.fieldH+1-modf(B.RS.centerPos[B.id][B.dir][1]))+ceil(self.fieldBeneath/30))then
@@ -1659,7 +1653,7 @@ do
         end
 
         --Check height limit
-        if cc==0 and #self.field>ENV.heightLimit then
+        if cc==0 and(#self.field>ENV.heightLimit or ENV.lockout and CY>ENV.fieldH)then
             finish='lose'
         end
 

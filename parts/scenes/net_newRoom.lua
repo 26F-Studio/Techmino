@@ -94,12 +94,13 @@ scene.widgetList={
     WIDGET.newButton{name='back',           x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 
     --Special rules
-    WIDGET.newSwitch{name='ospin',          x=850, y=750,lim=210,disp=ROOMval('ospin'),    code=ROOMrev('ospin')},
-    WIDGET.newSwitch{name='fineKill',       x=850, y=840,lim=210,disp=ROOMval('fineKill'), code=ROOMrev('fineKill')},
-    WIDGET.newSwitch{name='b2bKill',        x=850, y=930,lim=210,disp=ROOMval('b2bKill'),  code=ROOMrev('b2bKill')},
-    WIDGET.newSwitch{name='easyFresh',      x=1170,y=750,lim=250,disp=ROOMval('easyFresh'),code=ROOMrev('easyFresh')},
-    WIDGET.newSwitch{name='deepDrop',       x=1170,y=840,lim=250,disp=ROOMval('deepDrop'), code=ROOMrev('deepDrop')},
-    WIDGET.newSwitch{name='bone',           x=1170,y=930,lim=250,disp=ROOMval('bone'),     code=ROOMrev('bone')},
+    WIDGET.newSwitch{name='ospin',          x=850, y=760 ,lim=210,disp=ROOMval('ospin'),    code=ROOMrev('ospin')},
+    WIDGET.newSwitch{name='fineKill',       x=850, y=850 ,lim=210,disp=ROOMval('fineKill'), code=ROOMrev('fineKill')},
+    WIDGET.newSwitch{name='b2bKill',        x=850, y=940 ,lim=210,disp=ROOMval('b2bKill'),  code=ROOMrev('b2bKill')},
+    WIDGET.newSwitch{name='lockout',        x=850, y=1030,lim=210,disp=ROOMval('lockout'),  code=ROOMval('lockout')},
+    WIDGET.newSwitch{name='easyFresh',      x=1170,y=760 ,lim=250,disp=ROOMval('easyFresh'),code=ROOMrev('easyFresh')},
+    WIDGET.newSwitch{name='deepDrop',       x=1170,y=850 ,lim=250,disp=ROOMval('deepDrop'), code=ROOMrev('deepDrop')},
+    WIDGET.newSwitch{name='bone',           x=1170,y=940 ,lim=250,disp=ROOMval('bone'),     code=ROOMrev('bone')},
 
     --Rule set
     WIDGET.newSelector{name='eventSet',     x=310,y=880,w=360,color='H',list=sList.eventSet,disp=ROOMval('eventSet'),code=ROOMsto('eventSet')},

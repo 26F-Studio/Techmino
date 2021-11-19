@@ -31,6 +31,7 @@ return{
     drop=60,lock=60,
     wait=0,fall=0,
     bone=false,
+    lockout=false,
     fieldH=20,heightLimit=1e99,
     nextCount=6,nextStartPos=1,
     holdMode='hold',holdCount=1,

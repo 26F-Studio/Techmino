@@ -11,17 +11,18 @@ return[=[
         可调攻击系统; 更多消除方式; 可调场地宽度; 新联网游戏场景切换逻辑
         工程编译到字节码; task-Z(新AI); 自适应UI; 多方块
 
-0.17.0: --TODO
+0.17.0: 硬着陆 Hard Landing
         新增:
                 新模式:大爆炸
+                新模式:策略堆叠(原版设计来自Cambridge游戏, by NOT_A_ROBOT)
         改动:
                 TRS的S/Z添加四个踢墙防止在一些地方卡死
-                生成位置预览开启后hold的生成位置也可见
-                两个pc练习模式添加胜利条件,不再无尽
-                优化pc训练模式体验
-                堆积模式添加8f窒息延迟
+                生成位置预览开启后hold的生成位置也可见 #453
+                优化pc训练模式体验,添加胜利条件,不再无尽
+                堆积模式添加15帧的窒息延迟 #465
         修复:
                 机翻语言超级消除无行数显示 #462
+                竞速-效率左侧信息颜色问题
 
 0.16.5: 新世界 New World
         新增:
@@ -30,7 +31,7 @@ return[=[
                 新增场地抖动特效
                 新增繁中语言,新语言设置菜单布局
                 新BGM:peak(暂未使用)
-                新BGM:1989(用于经典模式,by C₂₉H₂₅N₃O₅)
+                新BGM:1980s(用于经典模式, by C₂₉H₂₅N₃O₅)
                 删除节奏模式(之后会有全新音游模式)
                 音乐室输入首字母自动跳转
                 新增窒息延迟(by NOT_A_ROBOT) #459
@@ -103,9 +104,9 @@ return[=[
                 新旋转系统:ARS_Z,简化复杂的测试逻辑,统一使用{右,左}(i块为{上,上2},五连块风格模仿)
                 新旋转系统:SRS_X,基于SRS,I块和除了PQ的非四连块使用TRS的表
                 新语音包:miku(by vocaloidvictory)
-                新BGM:Jazz nihilism(用于节日主题,by Trebor)
-                新BGM:Race remix(用于大师-ph,by 柒栎流星)
-                新BGM:Sakura(用于限时打分,by C₂₉H₂₅N₃O₅)
+                新BGM:Jazz nihilism(用于节日主题, by Trebor)
+                新BGM:Race remix(用于大师-ph, by 柒栎流星)
+                新BGM:Sakura(用于限时打分, by C₂₉H₂₅N₃O₅)
                 新BGM:Null(用于节日主题)
                 新音效:单次消5/6行
                 新机制:swap(hold的另一种实现)
@@ -279,7 +280,7 @@ return[=[
 0.15.6: 强化装甲 Reinforced Armor
         新增:
                 新BGM:Nil(用于主菜单)
-                新BGM:Secret7th Remix(用于master-ultimate,by 柒栎流星)
+                新BGM:Secret7th Remix(用于master-ultimate, by 柒栎流星)
                 新模式:Attack竞速
                 master-ultimate模式新增500~1000
                 支持调整录像回放速度和逐帧播放
@@ -552,8 +553,8 @@ return[=[
 
 0.14.5: 晨 Morn
         新增:
-                新增BGM:Empty(用于节日主题,by ERM)
-                新增BGM:Battle(用于单挑L/U难度,by Aether)
+                新增BGM:Empty(用于节日主题, by ERM)
+                新增BGM:Battle(用于单挑L/U难度, by Aether)
                 增加玩家个人信息显示框
                 音乐室显示音乐作者
                 新增开5人房的按钮
