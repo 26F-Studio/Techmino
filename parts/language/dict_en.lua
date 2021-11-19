@@ -662,11 +662,6 @@ return{
         "term",
         "A way of stacking where you have a 6-block-wide stack on the left, and a 3-block-wide stack on the right.\nFor a skilled player, this method of stacking might reduce the keypresses needed for stacking, and is a popular Sprint stacking method. The reason why it works has to do with the fact that pieces spawn with a bias to the left.",
     },
-    {"20G",
-        "20g",
-        "term",
-        "",--TODO
-    },
     {"Topping out",
         "die death topout toppingout",
         "term",
@@ -686,7 +681,12 @@ return{
     {"Falling speed",
         "fallingspeed",
         "term",
-        "Falling speed is often described in terms of G, i.e. how many lines it falls in one frame (often assuming 60 frames per second).\nG is a large unit. The speed of Lv 1 in a regular Marathon (one second per line) is 1/60 G, and 1G is about Lv 13 speed. G usually caps at 20G, for there are only 20 (visible) blocks in the matrix's height.",
+        "",--TODO
+    },
+    {"20G",
+        "20g",
+        "term",
+        "",--TODO
     },
     {"Lockdown Delay",
         "lockdelay lockdowndelay lockdowntimer",
