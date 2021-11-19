@@ -72,11 +72,11 @@ function SFX.getCount()
     return #sfxList
 end
 function SFX.setVol(v)
-    assert(type(v)=='number'and v>=0 and v<=1)
+    assert(type(v)=='number'and v>=0 and v<=1,'Wrong volume')
     volume=v
 end
 function SFX.setStereo(v)
-    assert(type(v)=='number'and v>=0 and v<=1)
+    assert(type(v)=='number'and v>=0 and v<=1,'Wrong stereo')
     stereo=v
 end
 

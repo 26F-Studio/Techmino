@@ -57,8 +57,16 @@ function BGM.setChange(func)
     BGM.onChange=func
 end
 function BGM.setVol(v)
-    assert(type(v)=='number'and v>=0 and v<=1)
+    assert(type(v)=='number'and v>=0 and v<=1,'Wrong volume')
     volume=v
+    if BGM.playing then
+        if volume>0 then
+            BGM.playing:setVolume(volume)
+            BGM.playing:play()
+        elseif BGM.nowPlay then
+            BGM.playing:pause()
+        end
+    end
 end
 function BGM.init(list)
     BGM.init=nil
@@ -90,18 +98,6 @@ function BGM.init(list)
             end
         elseif name then
             LOG("No BGM: "..name,5)
-        end
-    end
-    function BGM.setVol(v)
-        assert(type(v)=='number'and v>=0 and v<=1)
-        volume=v
-        if BGM.playing then
-            if volume>0 then
-                BGM.playing:setVolume(volume)
-                BGM.playing:play()
-            elseif BGM.nowPlay then
-                BGM.playing:pause()
-            end
         end
     end
     function BGM.play(name)

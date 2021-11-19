@@ -115,8 +115,9 @@ function scene.keyDown(key)
         for _=1,12 do scene.keyDown("up")end
     elseif key=="right"or key=="pagedown"then
         for _=1,12 do scene.keyDown("down")end
-    elseif key=="link"then
-        love.system.openURL(_getList()[selected].url)
+    elseif key=="application"then
+        local url=_getList()[selected].url
+        if url then love.system.openURL(url)end
     elseif key=="delete"then
         if inputBox:hasText()then
             _clearResult()
@@ -213,7 +214,7 @@ scene.widgetList={
     WIDGET.newText{name='book',   x=20,y=15,font=70,align='L',fText=CHAR.icon.zBook},
     WIDGET.newText{name='title',  x=100,y=15,font=70,align='L'},
     inputBox,
-    WIDGET.newKey{name='link',    x=1120,y=655,w=80,font=55,fText=CHAR.icon.globe, code=pressKey"link",hideF=function()return not _getList()[selected].url end},
+    WIDGET.newKey{name='link',    x=1120,y=655,w=80,font=55,fText=CHAR.icon.globe, code=pressKey"application",hideF=function()return not _getList()[selected].url end},
     WIDGET.newKey{name='copy',    x=1210,y=655,w=80,font=50,fText=CHAR.icon.copy,  code=pressKey"cC"},
     WIDGET.newKey{name='up',      x=1120,y=475,w=80,font=50,fText=CHAR.key.up,     code=pressKey"up",hide=not MOBILE},
     WIDGET.newKey{name='down',    x=1120,y=565,w=80,font=50,fText=CHAR.key.down,   code=pressKey"down",hide=not MOBILE},
