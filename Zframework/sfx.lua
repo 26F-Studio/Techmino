@@ -112,7 +112,7 @@ function SFX.playSample(pack,...)--vol-1, sampSet1, vol-2, sampSet2
         end
     end
 end
-function SFX.play(name,vol,pos,pitch)
+local function _play(name,vol,pos,pitch)
     if volume==0 or vol==0 then return end
     local S=Sources[name]--Source list
     if not S then return end
@@ -134,33 +134,13 @@ function SFX.play(name,vol,pos,pitch)
             S:setPosition(0,0,0)
         end
     end
-    S:setVolume(((vol or 1)*volume)^1.626)
+    S:setVolume(vol^1.626)
     S:setPitch(pitch and 1.0594630943592953^pitch or 1)
     S:play()
 end
-function SFX.fplay(name,vol,pos)
-    local S=Sources[name]--Source list
-    if not S then return end
-    local n=1
-    while S[n]:isPlaying()do
-        n=n+1
-        if not S[n]then
-            S[n]=S[1]:clone()
-            S[n]:seek(0)
-            break
-        end
-    end
-    S=S[n]--AU_SRC
-    if S:getChannelCount()==1 then
-        if pos then
-            pos=pos*stereo
-            S:setPosition(pos,1-pos^2,0)
-        else
-            S:setPosition(0,0,0)
-        end
-    end
-    S:setVolume(vol^1.626)
-    S:play()
+SFX.fplay=_play--Play sounds without apply module's volume setting
+function SFX.play(name,vol,pos,pitch)
+    _play(name,(vol or 1)*volume,pos,pitch)
 end
 function SFX.reset()
     for _,L in next,Sources do
