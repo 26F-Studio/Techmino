@@ -54,6 +54,7 @@ FONT.load('parts/fonts/proportional.ttf')
 SCR.setSize(1280,720)--Initialize Screen size
 BGM.setMaxSources(5)
 BGM.setChange(function(name)MES.new('music',text.nowPlaying..name,5)end)
+VOC.setDiversion(1)
 
 table.insert(_LOADTIMELIST_,("Load Zframework: %.3fs"):format(TIME()-_LOADTIME_))
 
