@@ -40,10 +40,17 @@ local function check_curFadeOut(task,code,src)
     return task.code==code and task.args[1]==src
 end
 local function _tryReleaseSources()
+    local n=#lastLoaded
     while #lastLoaded>maxLoadedCount do
-        local n=lastLoaded[#lastLoaded]
-        SourceObjList[n].source=SourceObjList[n].source:release()and nil
-        table.remove(lastLoaded)
+        local name=lastLoaded[n]
+        if SourceObjList[name].source:isPlaying()then
+            n=n-1
+            if n<=0 then return end
+        else
+            SourceObjList[name].source=SourceObjList[name].source:release()and nil
+            table.remove(lastLoaded,n)
+            return
+        end
     end
 end
 function BGM.setDefault(bgm)
