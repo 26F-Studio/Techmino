@@ -1,4 +1,5 @@
 local find=string.find
+local rem=table.remove
 local next,type=next,type
 local TABLE={}
 
@@ -83,7 +84,7 @@ function TABLE.complete(new,old)
     end
 end
 
---Remove positive integer index of table
+--Remove [1~#] of table
 function TABLE.cut(G)
     for i=1,#G do
         G[i]=nil
@@ -97,15 +98,52 @@ function TABLE.clear(G)
     end
 end
 
+--Remove duplicated value of [1~#]
+function TABLE.trimDuplicate(org)
+    local cache={}
+    for i=1,#org,-1 do
+        if cache[org[i]]then
+            rem(org,i)
+        else
+            cache[org[i]]=true
+        end
+    end
+end
+
+--Discard duplicated value
+function TABLE.remDuplicate(org)
+    local cache={}
+    for k,v in next,org do
+        if cache[v]then
+            org[k]=nil
+        else
+            cache[v]=true
+        end
+    end
+end
+
+
+--Reverse [1~#]
+function TABLE.reverse(org)
+    local l=#org
+    for i=1,math.floor(l/2)do
+        org[i],org[l+1-i]=org[l+1-i],org[i]
+    end
+end
+
+--------------------------
+
 --Find value in [1~#]
 function TABLE.find(t,val)
     for i=1,#t do if t[i]==val then return i end end
 end
 
---Retuen next value of [1~#]
+--Return next value of [1~#] (by value)
 function TABLE.next(t,val)
     for i=1,#t do if t[i]==val then return t[i%#t+1]end end
 end
+
+--------------------------
 
 --Find value in whole table
 function TABLE.search(t,val)
@@ -120,6 +158,8 @@ function TABLE.reIndex(org)
         end
     end
 end
+
+--------------------------
 
 --Dump a simple lua table
 do--function TABLE.dump(L,t)
