@@ -203,7 +203,7 @@ end
 --------------------------<Method>--------------------------
 function Player:newTask(code,...)
     local thread=coroutine.create(code)
-    resume(thread,self,...)
+    assert(resume(thread,self,...))
     if status(thread)~='dead'then
         ins(self.tasks,{
             thread=thread,
