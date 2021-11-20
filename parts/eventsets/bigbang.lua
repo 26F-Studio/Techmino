@@ -1,4 +1,5 @@
 local function task_newBoard(P,init)
+    local targetLine
     local F,L={},{1}
     --TODO
     P:pushNextList(L)
@@ -7,7 +8,7 @@ local function task_newBoard(P,init)
     if not init then for _=1,26 do YIELD()end end
     P.control=true
 
-    P.gameEnv.heightLimit=#F
+    P.gameEnv.heightLimit=targetLine or #F
     P:pushLineList(F)
 end
 local function _check(P)
@@ -23,7 +24,7 @@ local function _check(P)
 end
 return{
     sequence='none',
-    RS="SRS",
+    RS="TRS",
     pushSpeed=5,
     mesDisp=function(P)
         setFont(60)
