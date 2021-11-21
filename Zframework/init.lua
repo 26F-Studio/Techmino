@@ -299,8 +299,6 @@ end
 
 function love.joystickadded(JS)
     local id, instanceid = JS:getID()
-    --joystick_id_instance_mapping[id]=instanceid
-    
     -- analog sticks: -1, 0, 1 for neg, neutral, pos
     -- triggers: 0 for released, 1 for pressed
     joystick_last_known_axis_value[id]={
@@ -378,7 +376,7 @@ function love.gamepadaxis(joystick, axis, value)
         if joystick_last_known_axis_value[id][axis] ~=0 then
             -- If the axis goes from negative to positive (or reverse) within
             -- one single fire of this function, the key release is fired
-            -- first, then the key release of the opposite direction.
+            -- first, then the key press of the opposite direction.
             -- This is to prevent issues with having opposite keys pressed
             -- at the same time.
             if joystick_last_known_axis_value[id][axis] == -1 then
