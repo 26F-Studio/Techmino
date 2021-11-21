@@ -75,6 +75,18 @@ local ITP=xOy.inverseTransformPoint
 
 local mx,my,mouseShow=-20,-20,false
 joysticks={}
+joystick_id_instance_mapping={}
+local joystick_last_known_axis_value={}
+-- You might want to change those to more intuitive names like
+-- "leftstick_up"
+local joystick_key_events_name={
+    leftx={'leftx_neg', 'leftx_pos'},
+    lefty={'lefty_neg', 'lefty_pos'},
+    rightx={'rightx_neg', 'rightx_pos'},
+    righty={'righty_neg', 'righty_pos'},
+    triggerleft='triggerleft',
+    triggerright='triggerright'
+}
 
 local devMode
 
@@ -289,16 +301,121 @@ function love.textinput(texts)
 end
 
 function love.joystickadded(JS)
+    local id, instanceid = JS:getID()
+    --joystick_id_instance_mapping[id]=instanceid
+    
+    -- analog sticks: -1, 0, 1 for neg, neutral, pos
+    -- triggers: 0 for released, 1 for pressed
+    joystick_last_known_axis_value[id]={
+        leftx=0,
+        lefty=0,
+        rightx=0,
+        righty=0,
+        triggerleft=0,
+        triggerright=0
+    }
     table.insert(joysticks,JS)
     MES.new('info',"Joystick added")
 end
 function love.joystickremoved(JS)
     local i=TABLE.find(joysticks,JS)
     if i then
+        local id, instanceid = JS:getID()
+        -- send key events for neutral positions, so that it doesn't
+        -- leave phantom held keys
+        love.gamepadaxis(JS, 'leftx', 0)
+        love.gamepadaxis(JS, 'lefty', 0)
+        love.gamepadaxis(JS, 'rightx', 0)
+        love.gamepadaxis(JS, 'righty', 0)
+        love.gamepadaxis(JS, 'triggerleft', -1)
+        love.gamepadaxis(JS, 'triggerright', -1)
+        -- remove data for last known axis values
+        joystick_last_known_axis_value[id]=nil
         table.remove(joysticks,i)
         MES.new('info',"Joystick removed")
     end
 end
+
+function love.gamepadaxis(joystick, axis, value)
+    -- This function serves as a proxy that sends analog axises events to
+    -- the regular gamepad keypress function.
+    -- This proxy is sensitive to individual joysticks, however, you may
+    -- encounter issues when performing inputs on two different controllers
+    -- at the same time.
+    -- This is because the gamepadpressed and gamepadreleased functions
+    -- don't distinguish different controllers, and is not issue of this
+    -- function.
+    
+    -- This function cannot prevent diagonals because it takes axises one
+    -- at a time. If such feature is to be added, the implementation would
+    -- have to be overhauled to consider both axises on one analog stick
+    -- at the same time.
+    
+    -- The names of the keypresses fired are defined in the `joystick_
+    -- key_events_name` dictionary.
+    
+    -- In production, please hook these to an appropriate settings value
+    local stickSensitivity=0.5
+    local triggerSensitivity=0.5
+    -- conversion is made because trigger values are -1 to +1
+    local triggerThreshold = triggerSensitivity*2-1
+    local id, instanceid = joystick:getID()
+    local newAxisValue
+    if    axis=='leftx'
+       or axis=='lefty'
+       or axis=='rightx'
+       or axis=='righty' then
+        -- doing this because lack of ?: in lua and I can't remember how
+        -- the and-or hack works. Feel free to change that for me
+        if value > stickSensitivity then
+            newAxisValue=1
+        elseif value < -stickSensitivity then
+            newAxisValue=-1
+        else
+            newAxisValue=0
+        end
+        if newAxisValue == joystick_last_known_axis_value[id][axis] then
+            -- nothing changed, no event needs to be fired
+            return
+        end
+        if joystick_last_known_axis_value[id][axis] ~=0 then
+            -- If the axis goes from negative to positive (or reverse) within
+            -- one single fire of this function, the key release is fired
+            -- first, then the key release of the opposite direction.
+            -- This is to prevent issues with having opposite keys pressed
+            -- at the same time.
+            if joystick_last_known_axis_value[id][axis] == -1 then
+                love.gamepadreleased(joystick, joystick_key_events_name[axis][1])
+            else
+                love.gamepadreleased(joystick, joystick_key_events_name[axis][2])
+            end
+        end
+        if newAxisValue == -1 then
+            love.gamepadpressed(joystick, joystick_key_events_name[axis][1])
+        elseif newAxisValue == 1 then
+            love.gamepadpressed(joystick, joystick_key_events_name[axis][2])
+        end
+        joystick_last_known_axis_value[id][axis] = newAxisValue
+    elseif    axis=='triggerleft'
+           or axis=='triggerright' then
+        if value > triggerThreshold then
+            newAxisValue=1
+        else
+            newAxisValue=0
+        end
+        if newAxisValue == joystick_last_known_axis_value[id][axis] then
+            -- nothing changed, no event needs to be fired
+            return
+        end
+        if newAxisValue == 1 then
+            love.gamepadpressed(joystick, joystick_key_events_name[axis])
+        else
+            love.gamepadreleased(joystick, joystick_key_events_name[axis])
+        end
+        joystick_last_known_axis_value[id][axis] = newAxisValue
+    end
+end
+
 local keyMirror={
     dpup='up',
     dpdown='down',
