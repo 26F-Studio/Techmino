@@ -3,6 +3,8 @@ local rnd=math.random
 local int,ceil=math.floor,math.ceil
 local char=string.char
 
+local timing,time
+
 local function b2(i)
     if i==0 then return 0 end
     local s=""
@@ -114,15 +116,25 @@ local levels={
         local a=rnd(17,int(s/2))
         return{COLOR.J,b16(a),COLOR.Z,"+",COLOR.J,b16(s-a)},s
     end,nil,nil,
-    function()return "Coming S∞n"..(rnd()<.5 and""or" "),1e99 end,
+    function()timing=false return "Coming S∞n"..(rnd()<.5 and""or" "),1e99 end,
 }setmetatable(levels,{__index=function(self,k)return self[k-1]end})
 
 local level
 
 local input,inputTime=0,0
 local question,answer
+
 local function newQuestion(lv)
     return levels[lv]()
+end
+
+local function reset()
+    timing=true
+    time=0
+    input=""
+    inputTime=0
+    level=1
+    question,answer=newQuestion(1)
 end
 
 local function check(val)
@@ -142,10 +154,7 @@ end
 local scene={}
 
 function scene.sceneInit()
-    input=""
-    inputTime=0
-    level=1
-    question,answer=newQuestion(1)
+    reset()
     BGM.play('truth')
 end
 
@@ -173,14 +182,15 @@ function scene.keyDown(key,isRep)
     elseif key=="backspace"then
         input=""
         inputTime=0
-    elseif key=="s"then
-        check(answer)
+    elseif key=="r"then
+        reset()
     elseif key=="escape"then
         SCN.back()
     end
 end
 
 function scene.update(dt)
+    if timing then time=time+dt end
     if inputTime>0 then
         inputTime=inputTime-dt
         if inputTime<=0 then
@@ -189,8 +199,11 @@ function scene.update(dt)
     end
 end
 function scene.draw()
-    FONT.set(35)
     gc.setColor(COLOR.Z)
+    FONT.set(45)
+    gc.print(("%.3f"):format(time),1026,70)
+
+    FONT.set(35)
     GC.mStr("["..level.."]",640,30)
 
     FONT.set(100)
@@ -203,6 +216,7 @@ function scene.draw()
 end
 
 scene.widgetList={
+    WIDGET.newButton{name='reset',x=155,y=100,w=180,h=100,color='lG',font=40,code=pressKey"r"},
     WIDGET.newKey{name='X',x=540,y=620,w=90,font=60,fText="X",code=pressKey"backspace"},
     WIDGET.newKey{name='0',x=640,y=620,w=90,font=60,fText="0",code=pressKey"0"},
     WIDGET.newKey{name='-',x=740,y=620,w=90,font=60,fText="-",code=pressKey"-"},

@@ -642,6 +642,9 @@ return{
             reset="Resetar",
             invis="Cego",
         },
+        app_arithmetic={
+            reset="Resetar",
+        },
         savedata={
             -- export="Export to clipboard",
             -- import="Import from clipboard",

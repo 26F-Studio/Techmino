@@ -656,6 +656,9 @@ return{
             reset="重置",
             invis="盲打",
         },
+        app_arithmetic={
+            reset="重置",
+        },
         savedata={
             export="导出到剪切板",
             import="从剪切板导入",

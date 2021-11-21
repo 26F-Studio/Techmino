@@ -612,6 +612,9 @@ return{
             reset="Réinitialiser",
             invis="Aveugler",
         },
+        app_arithmetic={
+            reset="Réinitialiser",
+        },
         savedata={
             -- export="Export to clipboard",
             -- import="Import from clipboard",

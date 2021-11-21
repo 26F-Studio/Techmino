@@ -413,7 +413,6 @@ return{
             ihs="初始持有",
             irs="初始旋转",
             ims="初始运动",
-            reset="重置",
         },
         setting_key={
             a1="向左移动",
@@ -614,7 +613,6 @@ return{
             revKB="逆转",
         },
         app_schulteG={
-            reset="重置",
             rank="大小",
             invis="英维斯",
             disappear="隐藏",
@@ -626,30 +624,25 @@ return{
         app_AtoZ={
             level="水平仪",
             keyboard="键盘",
-            reset="重置",
         },
         app_2048={
-            reset="重置",
             invis="英维斯",
             tapControl="抽头控制",
 
             skip="跳转",
         },
         app_ten={
-            reset="重置",
             next="下一个",
             invis="英维斯",
             fast="快速的",
         },
         app_dtw={
-            reset="重置",
             color="颜色",
             mode="模式",
             bgm="血糖监测",
             arcade="游乐中心",
         },
         app_link={
-            reset="重置",
             invis="英维斯",
         },
         savedata={

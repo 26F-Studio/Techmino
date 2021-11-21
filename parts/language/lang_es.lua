@@ -611,6 +611,9 @@ return{
             reset="Reiniciar",
             invis="A ciegas",
         },
+        app_arithmetic={
+            reset="Reiniciar",
+        },
         savedata={
             export="Exportar al portapapeles",
             import="Importar de portapapeles",

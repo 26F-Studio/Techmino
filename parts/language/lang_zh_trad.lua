@@ -655,6 +655,9 @@ return{
             reset="重設",
             invis="盲打",
         },
+        app_arithmetic={
+            reset="重設",
+        },
         savedata={
             export="導出到剪貼板",
             import="從剪貼板導入",
