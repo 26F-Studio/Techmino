@@ -379,7 +379,7 @@ end
 function love.errorhandler(msg)
     if type(msg)~='string'then
         msg="Unknown error"
-    elseif msg:find("Invaild UTF-8")and text then
+    elseif msg:find("Invalid UTF-8")and text then
         msg=text.tryAnotherBuild
     end
 
