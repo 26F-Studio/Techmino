@@ -75,15 +75,12 @@ local ITP=xOy.inverseTransformPoint
 
 local mx,my,mouseShow=-20,-20,false
 joysticks={}
-joystick_id_instance_mapping={}
 local joystick_last_known_axis_value={}
--- You might want to change those to more intuitive names like
--- "leftstick_up"
 local joystick_key_events_name={
-    leftx={'leftx_neg', 'leftx_pos'},
-    lefty={'lefty_neg', 'lefty_pos'},
-    rightx={'rightx_neg', 'rightx_pos'},
-    righty={'righty_neg', 'righty_pos'},
+    leftx={'leftstick_left', 'leftstick_right'},
+    lefty={'leftstick_up', 'leftstick_down'},
+    rightx={'rightstick_left', 'rightstick_right'},
+    righty={'rightstick_up', 'rightstick_down'},
     triggerleft='triggerleft',
     triggerright='triggerright'
 }
