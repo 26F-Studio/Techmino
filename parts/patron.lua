@@ -1,5 +1,6 @@
 return{
     {font=100,name="☆★白羽★☆"},
+    {font=100,name="[*浩]"},
 
     {font=65,name="那没事了(T6300)"},
     {font=65,name="加油啊,钉钉动了的大哥哥(T3228)"},
@@ -28,6 +29,8 @@ return{
     {font=65,name="怀沙"},
     {font=65,name="星街书婉"},
     {font=65,name="老板来两份薯条"},
+    {font=65,name="[**昆]"},
+    {font=65,name="[**浩]"},
 
     {font=25,name="八零哥"},
     {font=25,name="蕴空之灵"},
@@ -121,4 +124,6 @@ return{
     {font=25,name="小丘"},
     {font=25,name="Techtris"},
     {font=25,name="费尔特林"},
+    {font=25,name="零醇丘卡"},
+    {font=25,name="Hathtiz"},
 }
