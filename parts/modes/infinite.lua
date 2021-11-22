@@ -1,6 +1,7 @@
 return{
     env={
         drop=1e99,lock=1e99,
+        hang=15,
         infHold=true,
         mesDisp=function(P)
             setFont(45)
