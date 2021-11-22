@@ -388,11 +388,11 @@ end
 function love.directorydropped(dir)
     if SCN.directoryDropped then SCN.directoryDropped(dir)end
 end
-local lastGCtime=0
+local autoGCcount=0
 function love.lowmemory()
-    if love.timer.getTime()-lastGCtime>6.26 then
-        collectgarbage()
-        lastGCtime=love.timer.getTime()
+    collectgarbage()
+    if autoGCcount<3 then
+        autoGCcount=autoGCcount+1
         MES.new('check',"[auto GC] low MEM 设备内存过低")
     end
 end
