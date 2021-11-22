@@ -48,7 +48,7 @@ return{
 
     {name='strategy_e',    x=-150,      y=-1030,    size=40,shape=3,icon="master"},
     {name='strategy_h',    x=-200,      y=-1160,    size=35,shape=3,icon="master"},
-    {name='strategy_u',    x=-250,      y=-1290,    size=30,shape=3,icon="master"},
+    {name='strategy_u',    x=-250,      y=-1290,    size=30,shape=2,icon="master"},
 
     {name='blind_e',       x=150,       y=-700,     size=40,shape=1,icon="hidden",      unlock={'blind_n'}},
     {name='blind_n',       x=150,       y=-800,     size=40,shape=1,icon="hidden",      unlock={'blind_h'}},
