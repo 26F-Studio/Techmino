@@ -13,7 +13,7 @@ return{
     holdCount=1,
     infHold=true,
     phyHold=false,
-    hang=0,
+    hang=5,
 
     --Visual
     bone=false,
