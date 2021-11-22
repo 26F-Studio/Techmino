@@ -298,6 +298,15 @@ local jsAxisEventName={
     triggerleft='triggerleft',
     triggerright='triggerright'
 }
+local gamePadKeys={'a','b','x','y','back','guide','start','leftstick','rightstick','leftshoulder','rightshoulder','dpup','dpdown','dpleft','dpright'}
+local dPadToKey={
+    dpup='up',
+    dpdown='down',
+    dpleft='left',
+    dpright='right',
+    start='return',
+    back='escape',
+}
 function love.joystickadded(JS)
     jsState[JS:getID()]={
         _loveJSObj=JS,
@@ -310,6 +319,11 @@ end
 function love.joystickremoved(JS)
     local js=jsState[JS:getID()]
     if js then
+        for i=1,#gamePadKeys do
+            if JS:isGamepadDown(gamePadKeys[i])then
+                love.gamepadreleased(JS,gamePadKeys[i])
+            end
+        end
         love.gamepadaxis(JS,'leftx',0)
         love.gamepadaxis(JS,'lefty',0)
         love.gamepadaxis(JS,'rightx',0)
@@ -320,7 +334,6 @@ function love.joystickremoved(JS)
         MES.new('info',"Joystick removed")
     end
 end
-
 function love.gamepadaxis(JS,axis,val)
     local js=jsState[JS:getID()]
     if js then
@@ -355,15 +368,6 @@ function love.gamepadaxis(JS,axis,val)
         end
     end
 end
-
-local dPadToKey={
-    dpup='up',
-    dpdown='down',
-    dpleft='left',
-    dpright='right',
-    start='return',
-    back='escape',
-}
 function love.gamepadpressed(_,i)
     mouseShow=false
     if SCN.swapping then return end
