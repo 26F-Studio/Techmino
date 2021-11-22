@@ -1,7 +1,6 @@
 NONE={}function NULL()end
 EDITING=""
 LOADED=false
-ERRDATA={}
 
 --Pure lua modules (basic)
 MATH=       require'Zframework.mathExtend'
@@ -74,16 +73,8 @@ local xOy=SCR.xOy
 local ITP=xOy.inverseTransformPoint
 
 local mx,my,mouseShow=-20,-20,false
-joysticks={}
-local joystick_last_known_axis_value={}
-local joystick_key_events_name={
-    leftx={'leftstick_left', 'leftstick_right'},
-    lefty={'leftstick_up', 'leftstick_down'},
-    rightx={'rightstick_left', 'rightstick_right'},
-    righty={'rightstick_up', 'rightstick_down'},
-    triggerleft='triggerleft',
-    triggerright='triggerright'
-}
+local jsState={}--map, joystickID->axisStates: {axisName->axisVal}
+local errData={}--list, each error create {mes={errMes strings},scene=sceneNameStr}
 
 local devMode
 
@@ -297,121 +288,75 @@ function love.textinput(texts)
     WIDGET.textinput(texts)
 end
 
+--analog sticks: -1, 0, 1 for neg, neutral, pos
+--triggers: 0 for released, 1 for pressed
+local jsAxisEventName={
+    leftx={'leftstick_left','leftstick_right'},
+    lefty={'leftstick_up','leftstick_down'},
+    rightx={'rightstick_left','rightstick_right'},
+    righty={'rightstick_up','rightstick_down'},
+    triggerleft='triggerleft',
+    triggerright='triggerright'
+}
 function love.joystickadded(JS)
-    local id, instanceid = JS:getID()
-    -- analog sticks: -1, 0, 1 for neg, neutral, pos
-    -- triggers: 0 for released, 1 for pressed
-    joystick_last_known_axis_value[id]={
-        leftx=0,
-        lefty=0,
-        rightx=0,
-        righty=0,
-        triggerleft=0,
-        triggerright=0
+    jsState[JS:getID()]={
+        _loveJSObj=JS,
+        leftx=0,lefty=0,
+        rightx=0,righty=0,
+        triggerleft=0,triggerright=0
     }
-    table.insert(joysticks,JS)
     MES.new('info',"Joystick added")
 end
 function love.joystickremoved(JS)
-    local i=TABLE.find(joysticks,JS)
-    if i then
-        local id, instanceid = JS:getID()
-        -- send key events for neutral positions, so that it doesn't
-        -- leave phantom held keys
-        love.gamepadaxis(JS, 'leftx', 0)
-        love.gamepadaxis(JS, 'lefty', 0)
-        love.gamepadaxis(JS, 'rightx', 0)
-        love.gamepadaxis(JS, 'righty', 0)
-        love.gamepadaxis(JS, 'triggerleft', -1)
-        love.gamepadaxis(JS, 'triggerright', -1)
-        -- remove data for last known axis values
-        joystick_last_known_axis_value[id]=nil
-        table.remove(joysticks,i)
+    local js=jsState[JS:getID()]
+    if js then
+        love.gamepadaxis(JS,'leftx',0)
+        love.gamepadaxis(JS,'lefty',0)
+        love.gamepadaxis(JS,'rightx',0)
+        love.gamepadaxis(JS,'righty',0)
+        love.gamepadaxis(JS,'triggerleft',-1)
+        love.gamepadaxis(JS,'triggerright',-1)
+        jsState[JS:getID()]=nil
         MES.new('info',"Joystick removed")
     end
 end
 
-function love.gamepadaxis(joystick, axis, value)
-    -- This function serves as a proxy that sends analog axises events to
-    -- the regular gamepad keypress function.
-    -- This proxy is sensitive to individual joysticks, however, you may
-    -- encounter issues when performing inputs on two different controllers
-    -- at the same time.
-    -- This is because the gamepadpressed and gamepadreleased functions
-    -- don't distinguish different controllers, and is not issue of this
-    -- function.
-    
-    -- This function cannot prevent diagonals because it takes axises one
-    -- at a time. If such feature is to be added, the implementation would
-    -- have to be overhauled to consider both axises on one analog stick
-    -- at the same time.
-    
-    -- The names of the keypresses fired are defined in the `joystick_
-    -- key_events_name` dictionary.
-    
-    -- In production, please hook these to an appropriate settings value
-    local stickSensitivity=0.5
-    local triggerSensitivity=0.5
-    -- conversion is made because trigger values are -1 to +1
-    local triggerThreshold = triggerSensitivity*2-1
-    local id, instanceid = joystick:getID()
-    local newAxisValue
-    if    axis=='leftx'
-       or axis=='lefty'
-       or axis=='rightx'
-       or axis=='righty' then
-        -- doing this because lack of ?: in lua and I can't remember how
-        -- the and-or hack works. Feel free to change that for me
-        if value > stickSensitivity then
-            newAxisValue=1
-        elseif value < -stickSensitivity then
-            newAxisValue=-1
-        else
-            newAxisValue=0
-        end
-        if newAxisValue == joystick_last_known_axis_value[id][axis] then
-            -- nothing changed, no event needs to be fired
-            return
-        end
-        if joystick_last_known_axis_value[id][axis] ~=0 then
-            -- If the axis goes from negative to positive (or reverse) within
-            -- one single fire of this function, the key release is fired
-            -- first, then the key press of the opposite direction.
-            -- This is to prevent issues with having opposite keys pressed
-            -- at the same time.
-            if joystick_last_known_axis_value[id][axis] == -1 then
-                love.gamepadreleased(joystick, joystick_key_events_name[axis][1])
-            else
-                love.gamepadreleased(joystick, joystick_key_events_name[axis][2])
+function love.gamepadaxis(JS,axis,val)
+    local js=jsState[JS:getID()]
+    if js then
+        if axis=='leftx'or axis=='lefty'or axis=='rightx'or axis=='righty'then
+            local newVal=--range: [0,1]
+                val>.5 and 1 or
+                val<-.5 and -1 or
+                0
+            if newVal~=js[axis]then
+                if js[axis]==-1 then
+                    love.gamepadreleased(JS,jsAxisEventName[axis][1])
+                elseif js[axis]~=0 then
+                    love.gamepadreleased(JS,jsAxisEventName[axis][2])
+                end
+                if newVal==-1 then
+                    love.gamepadpressed(JS,jsAxisEventName[axis][1])
+                elseif newVal==1 then
+                    love.gamepadpressed(JS,jsAxisEventName[axis][2])
+                end
+                js[axis]=newVal
+            end
+        elseif axis=='triggerleft'or axis=='triggerright'then
+            local newVal=val>0 and 1 or 0--range: [-1,1]
+            if newVal~=js[axis]then
+                if newVal==1 then
+                    love.gamepadpressed(JS,jsAxisEventName[axis])
+                else
+                    love.gamepadreleased(JS,jsAxisEventName[axis])
+                end
+                js[axis]=newVal
             end
         end
-        if newAxisValue == -1 then
-            love.gamepadpressed(joystick, joystick_key_events_name[axis][1])
-        elseif newAxisValue == 1 then
-            love.gamepadpressed(joystick, joystick_key_events_name[axis][2])
-        end
-        joystick_last_known_axis_value[id][axis] = newAxisValue
-    elseif    axis=='triggerleft'
-           or axis=='triggerright' then
-        if value > triggerThreshold then
-            newAxisValue=1
-        else
-            newAxisValue=0
-        end
-        if newAxisValue == joystick_last_known_axis_value[id][axis] then
-            -- nothing changed, no event needs to be fired
-            return
-        end
-        if newAxisValue == 1 then
-            love.gamepadpressed(joystick, joystick_key_events_name[axis])
-        else
-            love.gamepadreleased(joystick, joystick_key_events_name[axis])
-        end
-        joystick_last_known_axis_value[id][axis] = newAxisValue
     end
 end
 
-local keyMirror={
+local dPadToKey={
     dpup='up',
     dpdown='down',
     dpleft='left',
@@ -423,39 +368,16 @@ function love.gamepadpressed(_,i)
     mouseShow=false
     if SCN.swapping then return end
     if SCN.gamepadDown then SCN.gamepadDown(i)
-    elseif SCN.keyDown then SCN.keyDown(keyMirror[i]or i)
+    elseif SCN.keyDown then SCN.keyDown(dPadToKey[i]or i)
     elseif i=="back"then SCN.back()
-    else WIDGET.gamepadPressed(keyMirror[i]or i)
+    else WIDGET.gamepadPressed(dPadToKey[i]or i)
     end
 end
 function love.gamepadreleased(_,i)
     if SCN.swapping then return end
     if SCN.gamepadUp then SCN.gamepadUp(i)end
 end
---[[
-function love.joystickpressed(JS,k)
-    mouseShow=false
-    if SCN.swapping then return end
-    if SCN.gamepadDown then SCN.gamepadDown(i)
-    elseif SCN.keyDown then SCN.keyDown(keyMirror[i]or i)
-    elseif i=="back"then SCN.back()
-    else WIDGET.gamepadPressed(i)
-    end
-end
-function love.joystickreleased(JS,k)
-    if SCN.swapping then return end
-    if SCN.gamepadUp then SCN.gamepadUp(i)
-    end
-end
-function love.joystickaxis(JS,axis,val)
 
-end
-function love.joystickhat(JS,hat,dir)
-
-end
-function love.sendData(data)end
-function love.receiveData(id,data)end
-]]
 function love.filedropped(file)
     if SCN.fileDropped then SCN.fileDropped(file)end
 end
@@ -515,20 +437,20 @@ function love.errorhandler(msg)
     love.audio.stop()
     gc.reset()
 
-    if LOADED and #ERRDATA<3 then
+    if LOADED and #errData<3 then
         BG.set('none')
         local scn=SCN and SCN.cur or"NULL"
-        table.insert(ERRDATA,{mes=err,scene=scn})
+        table.insert(errData,{mes=err,scene=scn})
 
         --Write messages to log file
         love.filesystem.append('conf/error.log',
             os.date("%Y/%m/%d %A %H:%M:%S\n")..
-            #ERRDATA.." crash(es) "..love.system.getOS().."-"..VERSION.string.."  scene: "..scn.."\n"..
+            #errData.." crash(es) "..love.system.getOS().."-"..VERSION.string.."  scene: "..scn.."\n"..
             table.concat(err,"\n",1,c-2).."\n\n"
         )
 
         --Get screencapture
-        gc.captureScreenshot(function(_)ERRDATA[#ERRDATA].shot=gc.newImage(_)end)
+        gc.captureScreenshot(function(_)errData[#errData].shot=gc.newImage(_)end)
         gc.present()
 
         --Create a new mainLoop thread to keep game alive
@@ -651,7 +573,7 @@ function love.run()
     --Scene Launch
     while #SCN.stack>0 do SCN.pop()end
     SCN.push('quit','slowFade')
-    SCN.init(#ERRDATA==0 and'load'or'error')
+    SCN.init(#errData==0 and'load'or'error')
 
     return function()
         local _
@@ -814,6 +736,9 @@ function love.run()
 end
 
 local Z={}
+
+Z.js=jsState
+Z.errData=errData
 
 function Z.setIfPowerInfo(func)showPowerInfo=func end
 

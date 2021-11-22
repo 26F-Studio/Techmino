@@ -629,9 +629,9 @@ if TABLE.find(arg,'--test')then
     TASK.new(function()
         while true do
             YIELD()
-            if ERRDATA[1]then break end
+            if Z.errData[1]then break end
         end
-        LOG("\27[91m\27[1mAutomatic Test Failed :(\27[0m\nThe error message is:\n"..table.concat(ERRDATA[1].mes,"\n").."\27[91m\nAborting\27[0m")
+        LOG("\27[91m\27[1mAutomatic Test Failed :(\27[0m\nThe error message is:\n"..table.concat(Z.errData[1].mes,"\n").."\27[91m\nAborting\27[0m")
         TEST.yieldN(60)
         love.event.quit(1)
     end)

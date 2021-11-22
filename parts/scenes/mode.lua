@@ -162,7 +162,7 @@ function scene.update()
         if kb.isDown("down","s")then   dy=dy-10 F=true end
         if kb.isDown("left","a")then   dx=dx+10 F=true end
         if kb.isDown("right","d")then  dx=dx-10 F=true end
-        local js1=joysticks[1]
+        local js1=Z.js[1]
         if js1 then
             local dir=js1:getAxis(1)
             if dir~="c"then
