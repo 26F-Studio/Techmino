@@ -69,16 +69,16 @@ end
 gc.setDefaultFilter('linear','linear')
 
 
-TEXTURE.title=NSC(1160,236)--Title image (Middle: 580,118)
+TEXTURE.title=NSC(1130,236)--Title image (Middle: 580,118)
 do
-    for i=1,8 do
-        local triangles=love.math.triangulate(SVG_TITLE[i])
+    gc.setLineWidth(12)
+    for i=1,#SVG_TITLE_FILL do
+        local triangles=love.math.triangulate(SVG_TITLE_FILL[i])
 
         gc.translate(12*i,i==1 and 8 or 14)
 
-        gc.setLineWidth(16)
         gc.setColor(COLOR.Z)
-        gc.polygon('line',SVG_TITLE[i])
+        gc.polygon('line',SVG_TITLE_FILL[i])
 
         gc.setColor(.2,.2,.2)
         for j=1,#triangles do
@@ -89,18 +89,18 @@ do
     end
 end
 
-TEXTURE.title_color=NSC(1160,236)--Title image (colored)
+TEXTURE.title_color=NSC(1130,236)--Title image (colored)
 do
     local titleColor={COLOR.P,COLOR.F,COLOR.V,COLOR.A,COLOR.M,COLOR.N,COLOR.W,COLOR.Y}
 
     for i=1,8 do
-        local triangles=love.math.triangulate(SVG_TITLE[i])
+        local triangles=love.math.triangulate(SVG_TITLE_FILL[i])
 
         gc.translate(12*i,i==1 and 8 or 14)
 
-        gc.setLineWidth(16)
+        gc.setLineWidth(12)
         gc.setColor(COLOR.Z)
-        gc.polygon('line',SVG_TITLE[i])
+        gc.polygon('line',SVG_TITLE_FILL[i])
 
         gc.setLineWidth(4)
         gc.setColor(COLOR.D)
@@ -109,11 +109,9 @@ do
         end
 
         gc.setColor(.2+.8*titleColor[i][1],.2+.8*titleColor[i][2],.2+.8*titleColor[i][3],.3)
-        gc.translate(-4,-4)
         for j=1,#triangles do
             gc.polygon('fill',triangles[j])
         end
-        gc.translate(4,4)
 
         gc.translate(-12*i,i==1 and -8 or -14)
     end

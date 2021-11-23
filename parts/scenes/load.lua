@@ -11,6 +11,14 @@ local t1,t2,animeType
 local studioLogo--Studio logo text object
 local logoColor1,logoColor2
 
+local titleTransform={
+    function(t)gc.translate(0,max(50-t,0)^2/25)end,
+    function(t)gc.translate(0,-max(50-t,0)^2/25)end,
+    function(t,i)local d=max(50-t,0)gc.translate(sin(TIME()*3+626*i)*d,cos(TIME()*3+626*i)*d)end,
+    function(t,i)local d=max(50-t,0)gc.translate(sin(TIME()*3+626*i)*d,-cos(TIME()*3+626*i)*d)end,
+    function(t)gc.setColor(1,1,1,min(t*.02,1)+rnd()*.2)end,
+}
+
 local loadingThread=coroutine.wrap(function()
     DAILYLAUNCH=freshDate'q'
     if DAILYLAUNCH then
@@ -113,7 +121,7 @@ function scene.sceneInit()
     progress=0
     maxProgress=10
     t1,t2=0,0--Timer
-    animeType={}for i=1,8 do animeType[i]=rnd(5)end--Random animation type
+    animeType={}for i=1,#SVG_TITLE_FILL do animeType[i]=rnd(#titleTransform)end--Random animation type
 end
 function scene.sceneBack()
     love.event.quit()
@@ -147,13 +155,6 @@ function scene.update(dt)
     end
 end
 
-local titleTransform={
-    function(t)gc.translate(0,max(50-t,0)^2/25)end,
-    function(t)gc.translate(0,-max(50-t,0)^2/25)end,
-    function(t,i)local d=max(50-t,0)gc.translate(sin(TIME()*3+626*i)*d,cos(TIME()*3+626*i)*d)end,
-    function(t,i)local d=max(50-t,0)gc.translate(sin(TIME()*3+626*i)*d,-cos(TIME()*3+626*i)*d)end,
-    function(t)gc.setColor(1,1,1,min(t*.02,1)+rnd()*.2)end,
-}
 local titleColor={COLOR.P,COLOR.F,COLOR.V,COLOR.A,COLOR.M,COLOR.N,COLOR.W,COLOR.Y}
 function scene.draw()
     gc.clear(.08,.08,.084)
@@ -166,7 +167,8 @@ function scene.draw()
     end
     gc.push('transform')
     gc.translate(126,100)
-    for i=1,8 do
+    for i=1,#SVG_TITLE_FILL do
+        local triangles=love.math.triangulate(SVG_TITLE_FILL[i])
         local t=t1-i*15
         if t>0 then
             gc.push('transform')
@@ -176,9 +178,12 @@ function scene.draw()
                 gc.translate(0,math.abs(10-dt)-10)
             end
             gc.setColor(titleColor[i][1],titleColor[i][2],titleColor[i][3],min(t*.025,1)*.2)
-            gc.polygon('fill',SVG_TITLE[i])
+            for j=1,#triangles do
+                gc.polygon('fill',triangles[j])
+            end
             gc.setColor(1,1,1,min(t*.025,1))
-            gc.polygon('line',SVG_TITLE[i])
+            gc.polygon('line',SVG_TITLE_LINE[i])
+            if i==8 then gc.polygon('line',SVG_TITLE_LINE[9])end
             gc.pop()
         end
     end
