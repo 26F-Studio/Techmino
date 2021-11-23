@@ -284,6 +284,8 @@ return{
             lock="Delay Trava",
             wait="Delay Entrada",
             fall="Delay Linha",
+            -- hang="Death Delay",
+            -- hurry="ARE Interruption",
 
             -- capacity="Capacity",
             -- create="Create",
@@ -468,6 +470,7 @@ return{
             wait="Delay Entrada",
             fall="Delay Linha",
             -- hang="Death Delay",
+            -- hurry="ARE Interruption",
 
             bg="Fundo",
             bgm="Música",

@@ -6,6 +6,8 @@ return{
     lock=1e99,
     wait=0,
     fall=0,
+    hang=5,
+    hurry=1e99,
 
     --Control
     nextCount=6,
@@ -13,7 +15,6 @@ return{
     holdCount=1,
     infHold=true,
     phyHold=false,
-    hang=5,
 
     --Visual
     bone=false,

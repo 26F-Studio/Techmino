@@ -3,7 +3,6 @@ return{
     dascut=0,dropcut=0,
     sddas=2,sdarr=2,
     ihs=true,irs=true,ims=true,
-    hang=5,FTLock=true,
 
     ghostType='gray',
     block=true,ghost=.3,center=1,
@@ -30,6 +29,7 @@ return{
 
     drop=60,lock=60,
     wait=0,fall=0,
+    hang=5,hurry=1e99,
     bone=false,
     lockout=false,
     fieldH=20,heightLimit=1e99,
@@ -69,4 +69,5 @@ return{
 
     bg='none',bgm='race',
     allowMod=true,
+    FTLock=true,
 }

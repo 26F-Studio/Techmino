@@ -296,6 +296,8 @@ return{
             lock="锁定延迟",
             wait="出块等待",
             fall="消行延迟",
+            hang="窒息延迟",
+            hurry="ARE打断",
 
             capacity="房间容量",
             create="创建",
@@ -479,6 +481,7 @@ return{
             wait="出块等待",
             fall="消行延迟",
             hang="窒息延迟",
+            hurry="ARE打断",
 
             bg="背景",
             bgm="音乐",

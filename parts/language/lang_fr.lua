@@ -258,6 +258,8 @@ return{
             lock="Délai de verrouillage",
             wait="Délai d'apparition",
             fall="Délai de ligne",
+            -- hang="Death Delay",
+            -- hurry="ARE Interruption",
 
             -- capacity="Capacity",
             -- create="Create",
@@ -446,6 +448,7 @@ return{
             wait="Délai d'apparition",
             fall="Délai de ligne",
             -- hang="Death Delay",
+            -- hurry="ARE Interruption",
 
             bg="Arrière-plan",
             bgm="Musique",

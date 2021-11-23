@@ -296,6 +296,8 @@ return{
             lock="Lock Delay",
             wait="Entry Delay",
             fall="Line Delay",
+            hang="Death Delay",
+            hurry="ARE Interruption",
 
             capacity="Capacity",
             create="Create",
@@ -480,6 +482,7 @@ return{
             wait="Entry Delay",
             fall="Line Delay",
             hang="Death Delay",
+            hurry="ARE Interruption",
 
             bg="Background",
             bgm="Music",

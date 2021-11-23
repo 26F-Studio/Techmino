@@ -12,7 +12,7 @@ local baseBot={
 function baseBot.update(bot)
     local P=bot.P
     local keys=bot.keys
-    if P.control and P.waiting==-1 then
+    if P.control and P.waiting==0 then
         bot.delay=bot.delay-1
         if not keys[1]then
             if bot.runningThread then

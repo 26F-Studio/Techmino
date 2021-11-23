@@ -295,6 +295,8 @@ return{
             lock="鎖定延遲",
             wait="方塊生成等待",
             fall="行清除延遲",
+            hang="死亡延遲",
+            hurry="ARE打斷",
 
             capacity="房間容量",
             create="創建",
@@ -478,6 +480,7 @@ return{
             wait="方塊生成等待",
             fall="行清除延遲",
             hang="死亡延遲",
+            hurry="ARE打斷",
 
             bg="背景",
             bgm="音樂",

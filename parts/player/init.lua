@@ -36,54 +36,6 @@ local function _getNewStatTable()
     end
     return T
 end
-local playerActions={
-    Player.act_moveLeft,  --1
-    Player.act_moveRight, --2
-    Player.act_rotRight,  --3
-    Player.act_rotLeft,   --4
-    Player.act_rot180,    --5
-    Player.act_hardDrop,  --6
-    Player.act_softDrop,  --7
-    Player.act_hold,      --8
-    Player.act_func1,     --9
-    Player.act_func2,     --10
-    Player.act_insLeft,   --11
-    Player.act_insRight,  --12
-    Player.act_insDown,   --13
-    Player.act_down1,     --14
-    Player.act_down4,     --15
-    Player.act_down10,    --16
-    Player.act_dropLeft,  --17
-    Player.act_dropRight, --18
-    Player.act_zangiLeft, --19
-    Player.act_zangiRight,--20
-}
-local function _pressKey(P,keyID)
-    if P.keyAvailable[keyID]and P.alive then
-        P.keyPressing[keyID]=true
-        playerActions[keyID](P)
-        P.stat.key=P.stat.key+1
-    end
-end
-local function _releaseKey(P,keyID)
-    P.keyPressing[keyID]=false
-end
-local function _pressKey_Rec(P,keyID)
-    if P.keyAvailable[keyID]and P.alive then
-        local L=GAME.rep
-        ins(L,P.frameRun)
-        ins(L,keyID)
-        P.keyPressing[keyID]=true
-        playerActions[keyID](P)
-        P.stat.key=P.stat.key+1
-    end
-end
-local function _releaseKey_Rec(P,keyID)
-    local L=GAME.rep
-    ins(L,P.frameRun)
-    ins(L,32+keyID)
-    P.keyPressing[keyID]=false
-end
 local function _newEmptyPlayer(id,mini)
     local P={id=id}
     PLAYERS[id]=P
@@ -91,15 +43,6 @@ local function _newEmptyPlayer(id,mini)
 
     --Inherit functions of Player class
     for k,v in next,Player do P[k]=v end
-
-    --Set key/timer event
-    if P.id==1 and GAME.recording then
-        P.pressKey=_pressKey_Rec
-        P.releaseKey=_releaseKey_Rec
-    else
-        P.pressKey=_pressKey
-        P.releaseKey=_releaseKey
-    end
 
     --Field position
     P.swingOffset={--Shake FX
@@ -195,7 +138,7 @@ local function _newEmptyPlayer(id,mini)
     ]]
     P.movDir,P.moving,P.downing=0,0,0--Last move key,DAS charging,downDAS charging
     P.dropDelay,P.lockDelay=0,0
-    P.waiting,P.falling=-1,-1
+    P.waiting,P.falling=0,0
     P.freshTime=0
     P.spinLast=false
     P.ctrlCount=0--Key press time, for finesse check

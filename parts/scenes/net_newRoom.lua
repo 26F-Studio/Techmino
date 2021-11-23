@@ -20,6 +20,8 @@ local sList={
     lock={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
     wait={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
     fall={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
+    hang={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
+    hurry={0,1,2,3,4,5,6,7,8,10,1e99},
     eventSet=EVENTSETS,
 }
 
@@ -87,6 +89,8 @@ scene.widgetList={
     WIDGET.newSelector{name='lock',         x=730,y=410,w=260,color='O',list=sList.lock,disp=ROOMval('lock'),code=ROOMsto('lock')},
     WIDGET.newSelector{name='wait',         x=730,y=520,w=260,color='G',list=sList.wait,disp=ROOMval('wait'),code=ROOMsto('wait')},
     WIDGET.newSelector{name='fall',         x=730,y=600,w=260,color='G',list=sList.fall,disp=ROOMval('fall'),code=ROOMsto('fall')},
+    WIDGET.newSelector{name='hurry',        x=730,y=680,w=260,color='G',list=sList.hurry,disp=ROOMval('hurry'),code=ROOMval('hurry')},
+    WIDGET.newSelector{name='hang',         x=730,y=760,w=260,color='G',list=sList.hang,disp=ROOMval('hang'),code=ROOMval('hang')},
 
     --Capacity & Create & Back
     WIDGET.newSelector{name='capacity',     x=1070,y=330,w=310,color='lY',list={2,3,4,5,7,10,17,31,49,99},disp=ROOMval('capacity'),code=ROOMsto('capacity')},
@@ -94,16 +98,16 @@ scene.widgetList={
     WIDGET.newButton{name='back',           x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 
     --Special rules
-    WIDGET.newSwitch{name='ospin',          x=850, y=760 ,lim=210,disp=ROOMval('ospin'),    code=ROOMrev('ospin')},
-    WIDGET.newSwitch{name='fineKill',       x=850, y=850 ,lim=210,disp=ROOMval('fineKill'), code=ROOMrev('fineKill')},
-    WIDGET.newSwitch{name='b2bKill',        x=850, y=940 ,lim=210,disp=ROOMval('b2bKill'),  code=ROOMrev('b2bKill')},
+    WIDGET.newSwitch{name='ospin',          x=850, y=850, lim=210,disp=ROOMval('ospin'),    code=ROOMrev('ospin')},
+    WIDGET.newSwitch{name='fineKill',       x=850, y=910, lim=210,disp=ROOMval('fineKill'), code=ROOMrev('fineKill')},
+    WIDGET.newSwitch{name='b2bKill',        x=850, y=970, lim=210,disp=ROOMval('b2bKill'),  code=ROOMrev('b2bKill')},
     WIDGET.newSwitch{name='lockout',        x=850, y=1030,lim=210,disp=ROOMval('lockout'),  code=ROOMval('lockout')},
-    WIDGET.newSwitch{name='easyFresh',      x=1170,y=760 ,lim=250,disp=ROOMval('easyFresh'),code=ROOMrev('easyFresh')},
-    WIDGET.newSwitch{name='deepDrop',       x=1170,y=850 ,lim=250,disp=ROOMval('deepDrop'), code=ROOMrev('deepDrop')},
-    WIDGET.newSwitch{name='bone',           x=1170,y=940 ,lim=250,disp=ROOMval('bone'),     code=ROOMrev('bone')},
+    WIDGET.newSwitch{name='easyFresh',      x=1170,y=850, lim=250,disp=ROOMval('easyFresh'),code=ROOMrev('easyFresh')},
+    WIDGET.newSwitch{name='deepDrop',       x=1170,y=910, lim=250,disp=ROOMval('deepDrop'), code=ROOMrev('deepDrop')},
+    WIDGET.newSwitch{name='bone',           x=1170,y=970, lim=250,disp=ROOMval('bone'),     code=ROOMrev('bone')},
 
     --Rule set
-    WIDGET.newSelector{name='eventSet',     x=310,y=880,w=360,color='H',list=sList.eventSet,disp=ROOMval('eventSet'),code=ROOMsto('eventSet')},
+    WIDGET.newSelector{name='eventSet',     x=1050,y=760,w=340,color='H',list=sList.eventSet,disp=ROOMval('eventSet'),code=ROOMval('eventSet')},
 
     --Next & Hold
     WIDGET.newSlider{name='nextCount',      x=140, y=960, lim=130,w=200,unit=6,disp=ROOMval('nextCount'),code=ROOMsto('nextCount')},

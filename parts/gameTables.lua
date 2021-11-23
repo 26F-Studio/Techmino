@@ -536,13 +536,12 @@ do--Game data tables
     ROOMENV={
         --Room config
         capacity=10,
+        FTLock=true,
 
         --Basic
-        drop=30,
-        lock=60,
-        wait=0,
-        fall=0,
-        FTLock=true,
+        drop=30,lock=60,
+        wait=0,fall=0,
+        hang=5,hurry=1e99,
 
         --Control
         nextCount=6,

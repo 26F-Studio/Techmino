@@ -12,7 +12,7 @@ local dict--Dict list
 local result--Result Lable
 
 local lastTickInput
-local waiting--Searching animation timer
+local searchWait--Searching animation timer
 local selected--Selected option
 local scrollPos--Scroll down length
 
@@ -53,7 +53,7 @@ local function _clearResult()
     TABLE.cut(result)
     selected=1
     scrollPos=0
-    waiting,lastSearch=0,false
+    searchWait,lastSearch=0,false
     scene.widgetList.copy.hide=false
 end
 local function _search()
@@ -82,7 +82,7 @@ function scene.sceneInit()
     inputBox:clear()
     result={}
 
-    waiting=0
+    searchWait=0
     selected=1
     scrollPos=0
 
@@ -153,13 +153,13 @@ function scene.update(dt)
         if #input==0 then
             _clearResult()
         else
-            waiting=.8
+            searchWait=.8
         end
         lastTickInput=input
     end
-    if waiting>0 then
-        waiting=waiting-dt
-        if waiting<=0 then
+    if searchWait>0 then
+        searchWait=searchWait-dt
+        if searchWait<=0 then
             if #input>0 and input~=lastSearch then
                 _search()
             end
@@ -202,7 +202,7 @@ function scene.draw()
     gc.rectangle('line',300,180,958,526,5)
     gc.rectangle('line',20,180,280,526,5)
 
-    if waiting>0 then
+    if searchWait>0 then
         local r=TIME()*2
         local R=int(r)%7+1
         gc.setColor(1,1,1,1-abs(r%1*2-1))

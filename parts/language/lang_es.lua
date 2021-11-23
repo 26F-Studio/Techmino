@@ -262,6 +262,8 @@ return{
             lock="Retraso de Bloqueo",
             wait="Retraso de Spawneo",
             fall="Retraso de Línea",
+            -- hang="Death Delay",
+            -- hurry="ARE Interruption",
 
             capacity="Capacidad",
             create="Crear",
@@ -445,6 +447,7 @@ return{
             wait="Retraso de Spawneo",
             fall="Retraso de Línea",
             -- hang="Death Delay",
+            -- hurry="ARE Interruption",
 
             bg="Fondo",
             bgm="Música",

@@ -294,6 +294,8 @@ return{
             lock="锁定延迟",
             wait="进入延迟",
             fall="线路延迟",
+            hang="毁灭延迟",
+            hurry="是打扰吗",
 
             capacity="容量",
             create="创造",
@@ -477,6 +479,7 @@ return{
             wait="进入延迟",
             fall="线路延迟",
             hang="毁灭延迟",
+            hurry="是打扰吗",
 
             bg="背景",
             bgm="音乐",
@@ -753,7 +756,7 @@ return{
         ['infinite_dig']=  {"无限:挖掘",         "",           "挖，挖，挖"},
         ['marathon_inf']=  {"马拉松",           "无尽",         "无尽马拉松"},
 
-        ['custom_clear']=  {"习俗",            "正常"} ,
+        ['custom_clear']=  {"习俗",            "正常"},
         ['custom_puzzle']= {"习俗",            "令人费解的"},
     },
 }

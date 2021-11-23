@@ -170,7 +170,7 @@ local function _drawField(P,showInvis)
     local V,F=P.visTime,P.field
     local start=int((P.fieldBeneath+P.fieldUp)/30+1)
     local texture=P.skinLib
-    if P.falling==-1 then--Blocks only
+    if P.falling==0 then--Blocks only
         if ENV.upEdge then
             gc_setShader(shader_lighter)
             gc_translate(0,-4)
@@ -782,7 +782,7 @@ function draw.norm(P,repMode)
             _drawFXs(P)
 
             --Draw current block
-            if P.cur and P.waiting==-1 then
+            if P.cur and P.waiting==0 then
                 local C=P.cur
                 local curColor=C.color
 
@@ -997,7 +997,7 @@ function draw.demo(P)
                 gc_translate(0,600)
                 _drawField(P)
                 _drawFXs(P)
-                if P.cur and P.waiting==-1 then
+                if P.cur and P.waiting==0 then
                     if ENV.ghost then
                         drawGhost[ENV.ghostType](P.cur.bk,P.curX,P.ghoY,ENV.ghost,P.skinLib,curColor)
                     end

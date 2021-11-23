@@ -190,6 +190,8 @@ return{
             lock="↓_",
             wait="→=",
             fall="↓=",
+            hang=":(=",
+            hurry="_x",
 
             capacity="<0/?>",
             create=">",
@@ -373,6 +375,7 @@ return{
             wait="→=",
             fall="↓=",
             hang=":(=",
+            hurry="_x",
 
             bg="{~}",
             bgm="(~)",

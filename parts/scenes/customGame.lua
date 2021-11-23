@@ -17,6 +17,7 @@ local sList={
     wait={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
     fall={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
     hang={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
+    hurry={0,1,2,3,4,5,6,7,8,10,1e99},
     eventSet=EVENTSETS,
     holdMode={'hold','swap'},
 }
@@ -212,7 +213,8 @@ scene.widgetList={
     WIDGET.newSelector{name='lock',        x=730,y=410,w=260,color='O',list=sList.lock,disp=CUSval('lock'),code=CUSsto('lock')},
     WIDGET.newSelector{name='wait',        x=730,y=520,w=260,color='G',list=sList.wait,disp=CUSval('wait'),code=CUSsto('wait')},
     WIDGET.newSelector{name='fall',        x=730,y=600,w=260,color='G',list=sList.fall,disp=CUSval('fall'),code=CUSsto('fall')},
-    WIDGET.newSelector{name='hang',        x=730,y=680,w=260,color='G',list=sList.hang,disp=CUSval('hang'),code=CUSsto('hang')},
+    WIDGET.newSelector{name='hurry',       x=730,y=680,w=260,color='G',list=sList.hurry,disp=CUSval('hurry'),code=CUSsto('hurry')},
+    WIDGET.newSelector{name='hang',        x=730,y=760,w=260,color='G',list=sList.hang,disp=CUSval('hang'),code=CUSsto('hang')},
 
     --Copy / Paste / Start
     WIDGET.newButton{name='copy',          x=1070,y=300,w=310,h=70,color='lR',font=25,code=pressKey"cC"},
@@ -222,16 +224,16 @@ scene.widgetList={
     WIDGET.newButton{name='back',          x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=pressKey"escape"},
 
     --Rule set
-    WIDGET.newSelector{name='eventSet',    x=1050,y=740,w=340,color='H',list=sList.eventSet,disp=CUSval('eventSet'),code=CUSsto('eventSet')},
+    WIDGET.newSelector{name='eventSet',    x=1050,y=760,w=340,color='H',list=sList.eventSet,disp=CUSval('eventSet'),code=CUSsto('eventSet')},
 
     --Special rules
-    WIDGET.newSwitch{name='ospin',         x=850, y=820 ,lim=210,disp=CUSval('ospin'),    code=CUSrev('ospin')},
-    WIDGET.newSwitch{name='fineKill',      x=850, y=880 ,lim=210,disp=CUSval('fineKill'), code=CUSrev('fineKill')},
-    WIDGET.newSwitch{name='b2bKill',       x=850, y=940 ,lim=210,disp=CUSval('b2bKill'),  code=CUSrev('b2bKill')},
-    WIDGET.newSwitch{name='lockout',       x=850, y=1000,lim=210,disp=CUSval('lockout'),  code=CUSrev('lockout')},
-    WIDGET.newSwitch{name='easyFresh',     x=1170,y=820 ,lim=250,disp=CUSval('easyFresh'),code=CUSrev('easyFresh')},
-    WIDGET.newSwitch{name='deepDrop',      x=1170,y=880 ,lim=250,disp=CUSval('deepDrop'), code=CUSrev('deepDrop')},
-    WIDGET.newSwitch{name='bone',          x=1170,y=940 ,lim=250,disp=CUSval('bone'),     code=CUSrev('bone')},
+    WIDGET.newSwitch{name='ospin',         x=850, y=830, lim=210,disp=CUSval('ospin'),    code=CUSrev('ospin')},
+    WIDGET.newSwitch{name='fineKill',      x=850, y=890, lim=210,disp=CUSval('fineKill'), code=CUSrev('fineKill')},
+    WIDGET.newSwitch{name='b2bKill',       x=850, y=950, lim=210,disp=CUSval('b2bKill'),  code=CUSrev('b2bKill')},
+    WIDGET.newSwitch{name='lockout',       x=850, y=1010,lim=210,disp=CUSval('lockout'),  code=CUSrev('lockout')},
+    WIDGET.newSwitch{name='easyFresh',     x=1170,y=830, lim=250,disp=CUSval('easyFresh'),code=CUSrev('easyFresh')},
+    WIDGET.newSwitch{name='deepDrop',      x=1170,y=890, lim=250,disp=CUSval('deepDrop'), code=CUSrev('deepDrop')},
+    WIDGET.newSwitch{name='bone',          x=1170,y=950, lim=250,disp=CUSval('bone'),     code=CUSrev('bone')},
 
     --Next & Hold
     WIDGET.newSelector{name='holdMode',    x=310, y=890, w=300,color='lY',list=sList.holdMode,disp=CUSval('holdMode'),code=CUSsto('holdMode')},
