@@ -102,7 +102,7 @@ scene.widgetList={
     WIDGET.newSwitch{name='ospin',          x=850, y=850, lim=210,disp=ROOMval('ospin'),    code=ROOMrev('ospin')},
     WIDGET.newSwitch{name='fineKill',       x=850, y=910, lim=210,disp=ROOMval('fineKill'), code=ROOMrev('fineKill')},
     WIDGET.newSwitch{name='b2bKill',        x=850, y=970, lim=210,disp=ROOMval('b2bKill'),  code=ROOMrev('b2bKill')},
-    WIDGET.newSwitch{name='lockout',        x=850, y=1030,lim=210,disp=ROOMval('lockout'),  code=ROOMval('lockout')},
+    WIDGET.newSwitch{name='lockout',        x=850, y=1030,lim=210,disp=ROOMval('lockout'),  code=ROOMrev('lockout')},
     WIDGET.newSwitch{name='easyFresh',      x=1170,y=850, lim=250,disp=ROOMval('easyFresh'),code=ROOMrev('easyFresh')},
     WIDGET.newSwitch{name='deepDrop',       x=1170,y=910, lim=250,disp=ROOMval('deepDrop'), code=ROOMrev('deepDrop')},
     WIDGET.newSwitch{name='bone',           x=1170,y=970, lim=250,disp=ROOMval('bone'),     code=ROOMrev('bone')},
