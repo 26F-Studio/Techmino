@@ -15,6 +15,7 @@ return{
     newDay="新的一天，新的开始~",
     playedLong="已经玩很久了！注意休息！",
     playedTooMuch="今天玩太久啦！打块好玩但也要适可而止哦~",
+    settingWarn="正在修改不常用设置，小心操作！",
 
     atkModeName={"随机","徽章","击杀","反击"},
     royale_remain="剩余 $1 名玩家",
@@ -332,6 +333,7 @@ return{
             ctrl="控制设置",
             key="键位设置",
             touch="触屏设置",
+            showVK="显示虚拟按键",
             reTime="开局等待时间",
             RS="旋转系统",
             menuPos="菜单按钮位置",
@@ -462,7 +464,6 @@ return{
 
             norm="标准",
             pro="专业",
-            hide="显示虚拟按键",
             icon="图标",
             sfx="按键音效",
             vib="按键振动",

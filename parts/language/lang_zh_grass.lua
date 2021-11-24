@@ -15,6 +15,7 @@ return{
     newDay="新的一天，新的开始！",
     playedLong="你已经玩了很长时间了。一定要好好休息！",
     playedTooMuch="你玩得太久了！玩方块游戏很有趣，但现在是休息的时候了。",
+    settingWarn="修改设置时，请小心！",
 
     atkModeName={"随机的","徽章","击败","攻击者"},
     royale_remain="剩余$1球员",
@@ -330,6 +331,7 @@ return{
             ctrl="控制设置",
             key="键映射",
             touch="触摸设置",
+            showVK="显示虚拟密钥",
             reTime="启动延迟",
             RS="轮换制",
             menuPos="菜单按钮位置",
@@ -460,7 +462,6 @@ return{
 
             norm="正常",
             pro="专业的",
-            hide="显示虚拟密钥",
             icon="偶像",
             sfx="特技效果",
             vib="振动",

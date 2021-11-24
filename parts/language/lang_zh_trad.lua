@@ -15,6 +15,7 @@ return{
     newDay="新的一天，新的開始~",
     playedLong="你玩太久了！注意休息！",
     playedTooMuch="今天玩得太久啦！Techmino好玩但也要注意休息哦~",
+    settingWarn="正在修改不常用設定，小心操作！",
 
     atkModeName={"隨機","徽章","K.O.","反擊"},
     royale_remain="剩下 $1 名玩家",
@@ -331,6 +332,7 @@ return{
             ctrl="控制設置",
             key="鍵位設置",
             touch="觸控設置",
+            showVK="顯示虛擬擊鍵",
             reTime="開局等待時間",
             RS="旋轉系統",
             menuPos="菜單按鈕位置",
@@ -461,7 +463,6 @@ return{
 
             norm="標準",
             pro="專業",
-            hide="顯示虛擬擊鍵",
             icon="圖標",
             sfx="擊鍵音效",
             vib="擊鍵振動",

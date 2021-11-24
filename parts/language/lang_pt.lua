@@ -6,6 +6,7 @@ return{
     newDay="[Anti-vício] Novo dia, um começo novo!",
     playedLong="[Anti-vício] Você andou jogando bastante hoje. Certifique-se de fazer pausas.",
     playedTooMuch="[Anti-vício] Você esteve jogando demais hoje! Você não pode jogar mais.",
+    -- settingWarn="Modifing uncommon setting, be careful!",
 
     atkModeName={"Aleatório","Emblemas","K.O.s","Atacantes"},
     royale_remain="$1 Jogadores restantes",
@@ -320,6 +321,7 @@ return{
             ctrl="Config. controle",
             key="Map. teclas",
             touch="Config. toque",
+            showVK="Mostrar tecla virtual",
             reTime="Demora iniciação",
             RS="Sistema de rotação",
             -- menuPos="Menu button pos.",
@@ -451,7 +453,6 @@ return{
 
             norm="Normal",
             pro="Professional",
-            hide="Mostrar tecla virtual",
             icon="Icone",
             sfx="SFX",
             vib="VIB",

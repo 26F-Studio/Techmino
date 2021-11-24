@@ -5,6 +5,7 @@ return{
     newDay="[Anti-addiction] Nouveau jour, nouveau commencement !",
     playedLong="[Anti-addiction] Vous avez joué pendant un bon bout de temps aujourd'hui. Faites des pauses.",
     playedTooMuch="[Anti-addiction] Vous avez joué trop longtemps ! Vous ne pouvez plus jouer.",
+    -- settingWarn="Modifing uncommon setting, be careful!",
 
     atkModeName={"Aléatoire","Badges","K.O.s faciles","Attaquants"},
     royale_remain="$1 Joueurs restants",
@@ -295,6 +296,7 @@ return{
             ctrl="Paramètres de contrôle",
             key="Touches",
             touch="Boutons virtuels",
+            showVK="Montrer les touches virtuelles",
             reTime="Délai de démarrage",
             RS="Système de rotation",
             -- menuPos="Menu button pos.",
@@ -429,7 +431,6 @@ return{
 
             norm="Normal",
             pro="Professionel",
-            hide="Montrer les touches virtuelles",
             icon="Icône",
             sfx="Sons",
             vib="Vib.",

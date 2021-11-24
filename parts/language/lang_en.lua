@@ -15,6 +15,7 @@ return{
     newDay="A new day, a new beginning!",
     playedLong="You have been playing for a long time. Time to a break!",
     playedTooMuch="You have been playing for far too long! Techmino is fun, but remember to have some rests!",
+    settingWarn="Modifing uncommon setting, be careful!",
 
     atkModeName={"Random","Badges","K.O.s","Attackers"},
     royale_remain="$1 Players Remains",
@@ -332,6 +333,7 @@ return{
             ctrl="Control Settings",
             key="Key Mappings",
             touch="Touch Settings",
+            showVK="Show Virtual Keys",
             reTime="Start Delay",
             RS="Rotation System",
             menuPos="Menu Button Pos.",
@@ -463,7 +465,6 @@ return{
 
             norm="Normal",
             pro="Advanced",
-            hide="Show Virtual Keys",
             icon="Icon",
             sfx="SFX",
             vib="VIB",

@@ -5,6 +5,7 @@ return{
     newDay="[Anti-adicción] ¡Nuevo día, nuevo comienzo!",
     playedLong="[Anti-adicción] Estuviste jugando un buen rato hoy. Recuerda descansar de vez en cuando.",
     playedTooMuch="[Anti-adicción] ¡Has jugado mucho por hoy! No puedes jugar más.",
+    -- settingWarn="Modifing uncommon setting, be careful!",
 
     atkModeName={"Al azar","Medallas","KOs","Atacantes"},
     royale_remain="$1 Jugadores Restantes",
@@ -298,6 +299,7 @@ return{
             ctrl="Sensibilidad",
             key="Teclas",
             touch="Controles Táctiles",
+            showVK="Mostrar Tec. Virtual",
             reTime="Retraso de Inicio",
             RS="Sistema de Rotación",
             menuPos="Pos. del Botón de Menú",
@@ -428,7 +430,6 @@ return{
 
             norm="Normal",
             pro="Profesional",
-            hide="Mostrar Tec. Virtual",
             icon="Ícono",
             sfx="SFX",
             vib="Vibr.",

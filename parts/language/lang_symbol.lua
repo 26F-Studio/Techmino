@@ -227,6 +227,7 @@ return{
             ctrl="=?=",
             key="=?",
             touch="_?",
+            showVK="--?",
             reTime="3-2-1",
             RS="''?",
             menuPos="←M→?",
@@ -356,7 +357,6 @@ return{
 
             norm="-",
             pro="+",
-            hide="--?",
             icon="@?",
             sfx="#!#",
             vib="=~=",

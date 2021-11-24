@@ -62,6 +62,7 @@ local function _nextSkin(i)
     SETTING.skin[i]=SETTING.skin[i]%16+1
 end
 local function _nextDir(i)
+    trySettingWarn()
     SETTING.face[i]=(SETTING.face[i]+1)%4
     minoRot0[i]=minoRot0[i]+1.5707963
     if not selEggMode and not GAME.playing then

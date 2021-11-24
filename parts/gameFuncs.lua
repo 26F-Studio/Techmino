@@ -297,6 +297,15 @@ function legalGameTime()--Check if today's playtime is legal
     end
     return true
 end
+do--function trySettingWarn()
+    local lastWarnTime=0
+    function trySettingWarn()
+        if TIME()-lastWarnTime>2.6 then
+            MES.new('warn',text.settingWarn,5)
+        end
+        lastWarnTime=TIME()
+    end
+end
 
 function mergeStat(stat,delta)--Merge delta stat. to global stat.
     for k,v in next,delta do
@@ -818,13 +827,17 @@ do--function pressKey(k)
 end
 do--CUS/SETXXX(k)
     local CUSTOMENV=CUSTOMENV
+    local warnList={
+        'ims','RS','FTLock','frameMul','highCam',
+        'VKSwitch','VKIcon','VKTrack','VKDodge',
+    }
     function CUSval(k)return function()return CUSTOMENV[k]end end
     function ROOMval(k)return function()return ROOMENV[k]end end
     function SETval(k)return function()return SETTING[k]end end
     function CUSrev(k)return function()CUSTOMENV[k]=not CUSTOMENV[k]end end
     function ROOMrev(k)return function()ROOMENV[k]=not ROOMENV[k]end end
-    function SETrev(k)return function()SETTING[k]=not SETTING[k]end end
+    function SETrev(k)return function()if TABLE.find(warnList,k)then trySettingWarn()end SETTING[k]=not SETTING[k]end end
     function CUSsto(k)return function(i)CUSTOMENV[k]=i end end
     function ROOMsto(k)return function(i)ROOMENV[k]=i end end
-    function SETsto(k)return function(i)SETTING[k]=i end end
+    function SETsto(k)return function(i)if TABLE.find(warnList,k)then trySettingWarn()end SETTING[k]=i end end
 end
