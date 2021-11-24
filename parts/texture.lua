@@ -75,7 +75,7 @@ do
     for i=1,#SVG_TITLE_FILL do
         local triangles=love.math.triangulate(SVG_TITLE_FILL[i])
 
-        gc.translate(12*i,i==1 and 8 or 14)
+        gc.translate(12*i,0)
 
         gc.setColor(COLOR.Z)
         gc.polygon('line',SVG_TITLE_FILL[i])
@@ -85,7 +85,7 @@ do
             gc.polygon('fill',triangles[j])
         end
 
-        gc.translate(-12*i,i==1 and -8 or -14)
+        gc.translate(-12*i,0)
     end
 end
 
@@ -96,7 +96,7 @@ do
     for i=1,8 do
         local triangles=love.math.triangulate(SVG_TITLE_FILL[i])
 
-        gc.translate(12*i,i==1 and 8 or 14)
+        gc.translate(12*i,0)
 
         gc.setLineWidth(12)
         gc.setColor(COLOR.Z)
@@ -113,7 +113,7 @@ do
             gc.polygon('fill',triangles[j])
         end
 
-        gc.translate(-12*i,i==1 and -8 or -14)
+        gc.translate(-12*i,0)
     end
 end
 
