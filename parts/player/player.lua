@@ -201,6 +201,20 @@ end
 --------------------------</FX>--------------------------
 
 --------------------------<Action>--------------------------
+function Player:_deepDrop()
+    local CB=self.cur.bk
+    local y=self.curY-1
+    while self:ifoverlap(CB,self.curX,y)and y>0 do
+        y=y-1
+    end
+    if y>0 then
+        self.ghoY=y
+        self:createDropFX()
+        self.curY=y
+        self:freshBlock('move')
+        SFX.play('swipe')
+    end
+end
 function Player:act_moveLeft(auto)
     if not auto then
         self.ctrlCount=self.ctrlCount+1
@@ -290,7 +304,6 @@ function Player:act_hardDrop()
     end
 end
 function Player:act_softDrop()
-    local ENV=self.gameEnv
     self.downing=1
     if self.control and self.waiting==0 and self.cur then
         if self.curY>self.ghoY then
@@ -298,19 +311,8 @@ function Player:act_softDrop()
             self:freshBlock('fresh')
             self.spinLast=false
             self:checkTouchSound()
-        elseif ENV.deepDrop then
-            local CB=self.cur.bk
-            local y=self.curY-1
-            while self:ifoverlap(CB,self.curX,y)and y>0 do
-                y=y-1
-            end
-            if y>0 then
-                self.ghoY=y
-                self:createDropFX()
-                self.curY=y
-                self:freshBlock('move')
-                SFX.play('swipe')
-            end
+        elseif self.gameEnv.deepdrop then
+            self:_deepdrop()
         end
     end
 end
@@ -392,31 +394,43 @@ function Player:act_insDown()
     end
 end
 function Player:act_down1()
-    if self.cur and self.curY>self.ghoY then
-        self:createMoveFX('down')
-        self.curY=self.curY-1
-        self:freshBlock('fresh')
-        self.spinLast=false
+    if self.cur then
+        if self.curY>self.ghoY then
+            self:createMoveFX('down')
+            self.curY=self.curY-1
+            self:freshBlock('fresh')
+            self.spinLast=false
+        elseif self.gameEnv.deepdrop then
+            self:_deepdrop()
+        end
     end
 end
 function Player:act_down4()
-    if self.cur and self.curY>self.ghoY then
-        local ghoY0=self.ghoY
-        self.ghoY=max(self.curY-4,self.ghoY)
-        self:createDropFX()
-        self.curY,self.ghoY=self.ghoY,ghoY0
-        self:freshBlock('fresh')
-        self.spinLast=false
+    if self.cur then
+        if self.curY>self.ghoY then
+            local ghoY0=self.ghoY
+            self.ghoY=max(self.curY-4,self.ghoY)
+            self:createDropFX()
+            self.curY,self.ghoY=self.ghoY,ghoY0
+            self:freshBlock('fresh')
+            self.spinLast=false
+        elseif self.gameEnv.deepdrop then
+            self:_deepdrop()
+        end
     end
 end
 function Player:act_down10()
-    if self.cur and self.curY>self.ghoY then
-        local ghoY0=self.ghoY
-        self.ghoY=max(self.curY-10,self.ghoY)
-        self:createDropFX()
-        self.curY,self.ghoY=self.ghoY,ghoY0
-        self:freshBlock('fresh')
-        self.spinLast=false
+    if self.cur then
+        if self.curY>self.ghoY then
+            local ghoY0=self.ghoY
+            self.ghoY=max(self.curY-0,self.ghoY)
+            self:createDropFX()
+            self.curY,self.ghoY=self.ghoY,ghoY0
+            self:freshBlock('fresh')
+            self.spinLast=false
+        elseif self.gameEnv.deepdrop then
+            self:_deepdrop()
+        end
     end
 end
 function Player:act_dropLeft()
