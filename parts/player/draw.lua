@@ -782,7 +782,7 @@ function draw.norm(P,repMode)
             _drawFXs(P)
 
             --Draw current block
-            if P.cur and P.waiting==0 then
+            if P.cur then
                 local C=P.cur
                 local curColor=C.color
 
@@ -981,7 +981,6 @@ function draw.small(P)
 end
 function draw.demo(P)
     local ENV=P.gameEnv
-    local curColor=P.cur.color
 
     --Camera
     gc_push('transform')
@@ -997,7 +996,8 @@ function draw.demo(P)
                 gc_translate(0,600)
                 _drawField(P)
                 _drawFXs(P)
-                if P.cur and P.waiting==0 then
+                if P.cur then
+                    local curColor=P.cur.color
                     if ENV.ghost then
                         drawGhost[ENV.ghostType](P.cur.bk,P.curX,P.ghoY,ENV.ghost,P.skinLib,curColor)
                     end

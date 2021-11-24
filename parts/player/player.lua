@@ -489,7 +489,9 @@ local playerActions={
     if self.keyAvailable[keyID]and self.alive then
         if self.waiting>self.gameEnv.hurry then
             self.waiting=self.gameEnv.hurry
-            if self.waiting==0 then self:popNext()end
+            if self.waiting==0 and self.falling==0 then
+                self:popNext()
+            end
         end
         self.keyPressing[keyID]=true
         playerActions[keyID](self)
@@ -1322,7 +1324,7 @@ function Player:hold_swap(ifpre)
     self.stat.hold=self.stat.hold+1
 end
 function Player:hold(ifpre)
-    if self.holdTime>0 and(ifpre or self.waiting==0)then
+    if self.holdTime>0 and(ifpre or self.falling==0 and self.waiting==0)then
         if self.gameEnv.holdMode=='hold'then
             self:hold_norm(ifpre)
         elseif self.gameEnv.holdMode=='swap'then
@@ -2019,7 +2021,12 @@ do
             self:_triggerEvent('hook_drop')
         end
 
-        if self.waiting==0 then self:popNext()end
+        --Remove controling block
+        self.cur=nil
+
+        if self.waiting==0 and self.falling==0 then
+            self:popNext()
+        end
     end
 
     function Player:clearFilledLines(start,height)
@@ -2419,8 +2426,11 @@ local function update_alive(P)
         P.downing=0
     end
 
+    local stopAtFalling
+
     --Falling animation
     if P.falling>0 then
+        stopAtFalling=true
         P:_updateFalling(P.falling-1)
         if P.falling>0 then
             goto THROW_stop
@@ -2430,8 +2440,10 @@ local function update_alive(P)
     --Update block state
     if P.control then
         --Try spawn new block
-        if P.waiting>0 then
-            P.waiting=P.waiting-1
+        if not P.cur then
+            if not stopAtFalling and P.waiting>0 then
+                P.waiting=P.waiting-1
+            end
             if P.waiting<=0 then
                 P:popNext()
             end
