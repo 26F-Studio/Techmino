@@ -78,7 +78,7 @@ return{
     {font=25,name="[*炎]"},
     {font=25,name="[*Y]"},
     {font=25,name="aaa222"},
-    {font=25,name="[**城]"},
+    {font=25,name="人偶"},
     {font=25,name="cnDD"},
     {font=25,name="红桃老给"},
     {font=25,name="昭庭玲秋"},
