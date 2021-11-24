@@ -126,4 +126,5 @@ return{
     {font=25,name="费尔特林"},
     {font=25,name="零醇丘卡"},
     {font=25,name="Hathtiz"},
+    {font=25,name="江江江江17"},
 }
