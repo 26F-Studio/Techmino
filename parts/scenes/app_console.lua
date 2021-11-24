@@ -655,12 +655,12 @@ local commands={}do
     commands.resetall={
         code=function(arg)
             if arg=="sure"then
-                log"No seriously, you're absolutely, 100% certain you won't regret DELETING YOUR DATA FOREVER?"
-                log"CAUTION!! IF YOU DO THIS, YOU CAN NEVER GET IT BACK!!!"
+                log"Please remember that resetting everything will delete all saved data. Delete the saved data anyway?"
                 log"Type: resetall yes"
             if arg=="yes"then
-                log"FINAL WARNING: DO YOU REALLY WANT TO RESET ALL OF YOUR SETTINGS AND DELETE YOUR SAVED GAME DATA FOREVER?"
-                log"THE SONG OF DESTRUCTION CANNOT BE STOPPED."
+                log"FINAL WARNING!"
+                log"Once the data has been deleted, there is no way to recover it."
+                log"Is it really OK to delete all saved data?"
                 log"Type: resetall really"
             elseif arg=="really"then
                 WIDGET.unFocus(true)inputBox.hide=true
@@ -672,32 +672,32 @@ local commands={}do
                     TASK.new(function()
                         WIDGET.active.bye.hide=true
                         for _=1,30 do coroutine.yield()end
-                        log{C.R,"RESETTING IN 10..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
-                        log{C.R,"RESETTING IN 9..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
-                        log{C.R,"RESETTING IN 8..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
-                        log{C.R,"RESETTING IN 7..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
-                        log{C.R,"RESETTING IN 6..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
-                        log{C.R,"RESETTING IN 5..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
-                        log{C.R,"RESETTING IN 4..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
-                        log{C.R,"RESETTING IN 3..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
-                        log{C.R,"RESETTING IN 2..."}SFX.play('ready')SFX.play('clear_3')for _=1,60 do coroutine.yield()end
-                        log{C.R,"RESETTING IN 1..."}SFX.play('ready')SFX.play('clear_3')for _=1,60 do coroutine.yield()end
-                        log{C.R,"RESETTING IN 0..."}SFX.play('start')SFX.play('clear_4')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 10..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 9..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 8..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 7..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 6..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 5..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 4..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 3..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 2..."}SFX.play('ready')SFX.play('clear_3')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 1..."}SFX.play('ready')SFX.play('clear_3')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 0..."}SFX.play('start')SFX.play('clear_4')for _=1,60 do coroutine.yield()end
                         outputBox.hide=true for _=1,26 do coroutine.yield()end
                         FILE.clear_s('')love.event.quit()
                     end)
                 end}
-                button:setObject("Techmino is fun. Bye.")
+                button:setObject("The saved data was erased!")
                 ins(WIDGET.active,button)
             else
-                log"Are you sure you want to reset all game data?"
-                log"You will lose EVERYTHING, including but not limited to:"
+                log"Are you sure you want to reset everything?"
+                log"This will delete EVERYTHING in your saved game data, including but not limited to:"
                 log"All your replays, saved scores, settings, etc."
                 log"This cannot be undone."
                 log"Type: resetall sure"
             end
         end,
-        description="Reset everything. This action cannot be reversed.",
+        description="Reset everything and delete all saved data.",
     }
     commands.sudo={
         code=function(code)
@@ -797,7 +797,7 @@ local commands={}do
         end,
         description="Load a game mode",
         details={
-            "Load a game mode, including those that are not on the map.",
+            "Load a game mode. This includes those that are not on the map.",
             "",
             "Usage: play [mode_name]",
         },
@@ -809,7 +809,7 @@ local commands={}do
                 saveSettings()
                 log("Allow TAS: "..bool)
                 if bool then
-                    log("Hot keys: f1=play/pause f2=slowdown f3=speedup/nextframe")
+                    log("Hot keys: f1=play/pause f2=slow down f3=speed up/next frame")
                 end
             else
                 log{C.A,"Usage: tas <on|off>"}
@@ -817,7 +817,7 @@ local commands={}do
         end,
         description="Enable TAS tool",
         details={
-            "After the TAS tool is enabled, a TAS button will show up at the pause menu.",
+            "Once the TAS tool is enabled, a TAS button will show up at the pause menu.",
             "",
             "Usage: tas <on|off>",
         },
