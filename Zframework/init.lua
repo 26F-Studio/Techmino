@@ -339,8 +339,8 @@ function love.gamepadaxis(JS,axis,val)
     if js then
         if axis=='leftx'or axis=='lefty'or axis=='rightx'or axis=='righty'then
             local newVal=--range: [0,1]
-                val>.5 and 1 or
-                val<-.5 and -1 or
+                val>.4 and 1 or
+                val<-.4 and -1 or
                 0
             if newVal~=js[axis]then
                 if js[axis]==-1 then
@@ -356,7 +356,7 @@ function love.gamepadaxis(JS,axis,val)
                 js[axis]=newVal
             end
         elseif axis=='triggerleft'or axis=='triggerright'then
-            local newVal=val>0 and 1 or 0--range: [-1,1]
+            local newVal=val>-.3 and 1 or 0--range: [-1,1]
             if newVal~=js[axis]then
                 if newVal==1 then
                     love.gamepadpressed(JS,jsAxisEventName[axis])
