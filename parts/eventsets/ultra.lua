@@ -1,24 +1,33 @@
 local gc=love.graphics
 local warnTime={60,90,105,115,116,117,118,119,120}
+for i=1,#warnTime do warnTime[i]=warnTime[i]*60 end
 
 return{
     mesDisp=function(P)
         gc.setLineWidth(2)
-        gc.rectangle('line',55,110,32,402)
-        local T=P.stat.frame/60/120
-        gc.setColor(2*T,2-2*T,.2)
-        gc.rectangle('fill',56,511,30,(T-1)*400)
+        gc.setColor(.98,.98,.98,.8)
+        gc.rectangle('line',0,260,126,80,4)
+        gc.setColor(.98,.98,.98,.4)
+        gc.rectangle('fill',0+2,260+2,126-4,80-4,2)
+        setFont(45)
+        local t=P.stat.frame/60
+        local T=("%.1f"):format(120-t)
+        gc.setColor(COLOR.dH)
+        mStr(T,65,270)
+        t=t/120
+        gc.setColor(1.7*t,2.3-2*t,.3)
+        mStr(T,63,268)
     end,
     task=function(P)
-        P.modeData.stage=1
+        P.modeData.section=1
         while true do
             YIELD()
-            if P.stat.frame/60>=warnTime[P.modeData.stage]then
-                if P.modeData.stage<9 then
-                    P.modeData.stage=P.modeData.stage+1
-                    playReadySFX(3,.7+P.modeData.stage*.03)
+            while P.stat.frame>=warnTime[P.modeData.section]do
+                if P.modeData.section<9 then
+                    P.modeData.section=P.modeData.section+1
+                    playReadySFX(3,.7+P.modeData.section*.03)
                 else
-                    playReadySFX(0,.7+P.modeData.stage*.03)
+                    playReadySFX(0,.7+P.modeData.section*.03)
                     P:win('finish')
                     return
                 end
