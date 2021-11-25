@@ -10,7 +10,7 @@ end
 
 function scene.mouseDown(x,y)
     if x>55 and y>550 and x<510 and y<670 then
-        loadGame('sprintSym',true)
+        loadGame('stack_e',true)
     end
 end
 scene.touchDown=scene.mouseDown
@@ -19,7 +19,7 @@ function scene.keyDown(key)
     if key=="escape"then
         SCN.back()
     elseif key=="space"then
-        loadGame('sprintSym',true)
+        loadGame('stack_e',true)
     end
 end
 
