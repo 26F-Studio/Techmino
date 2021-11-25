@@ -127,7 +127,7 @@ function scene.sceneInit()
     page=1
 end
 function scene.sceneBack()
-    FILE.save(DATA.copyBoards(),'conf/customBoards')
+    saveFile(DATA.copyBoards(),'conf/customBoards')
 end
 
 function scene.mouseMove(x,y)

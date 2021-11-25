@@ -9,10 +9,10 @@ local snapUnit=1
 local selected--Button selected
 
 local function _save1()
-    FILE.save(VK_ORG,'conf/vkSave1')
+    saveFile(VK_ORG,'conf/vkSave1')
 end
 local function _load1()
-    local D=FILE.load('conf/vkSave1')
+    local D=loadFile('conf/vkSave1')
     if D then
         TABLE.update(D,VK_ORG)
     else
@@ -20,10 +20,10 @@ local function _load1()
     end
 end
 local function _save2()
-    FILE.save(VK_ORG,'conf/vkSave2')
+    saveFile(VK_ORG,'conf/vkSave2')
 end
 local function _load2()
-    local D=FILE.load('conf/vkSave2')
+    local D=loadFile('conf/vkSave2')
     if D then
         TABLE.update(D,VK_ORG)
     else
@@ -37,7 +37,7 @@ function scene.sceneInit()
     selected=false
 end
 function scene.sceneBack()
-    FILE.save(VK_ORG,'conf/virtualkey')
+    saveFile(VK_ORG,'conf/virtualkey')
 end
 
 local function _onVK_org(x,y)

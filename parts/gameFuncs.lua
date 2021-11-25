@@ -15,6 +15,43 @@ local playSFX=SFX.play
 
 
 --System
+function loadFile(name,args)
+    if not args then args=''end
+    local res,mes=pcall(FILE.load,name,args)
+    if res then
+        return mes
+    else
+        if mes:find'open error'then
+            MES.new('error',text.loadError_open:repD(name))
+        elseif mes:find'unknown mode'then
+            MES.new('error',text.loadError_errorMode:repD(name,args))
+        elseif mes:find'no file'then
+            if not args:sArg'-canSkip'then
+                MES.new('error',text.loadError_noFile:repD(name))
+            end
+        elseif mes then
+            MES.new('error',text.loadError_other:repD(name,mes))
+        else
+            MES.new('error',text.loadError_unknown:repD(name))
+        end
+    end
+end
+function saveFile(data,name,args)
+    local res,mes=pcall(FILE.save,data,name,args)
+    if res then
+        return mes
+    else
+        MES.new('error',
+            mes:find'duplicate'and
+                text.saveError_duplicate:repD(name)or
+            mes:find'encode error'and
+                text.saveError_encode:repD(name)or
+            mes and
+                text.saveError_other:repD(name,mes)or
+            text.saveError_unknown:repD(name)
+        )
+    end
+end
 function isSafeFile(file,mes)
     if love.filesystem.getRealDirectory(file)~=SAVEDIR then
         return true
@@ -23,13 +60,13 @@ function isSafeFile(file,mes)
     end
 end
 function saveStats()
-    return FILE.save(STAT,'conf/data')
+    return saveFile(STAT,'conf/data')
 end
 function saveProgress()
-    return FILE.save(RANKS,'conf/unlock')
+    return saveFile(RANKS,'conf/unlock')
 end
 function saveSettings()
-    return FILE.save(SETTING,'conf/settings')
+    return saveFile(SETTING,'conf/settings')
 end
 function applyLanguage()
     text=LANG.get(SETTING.locale)
@@ -263,16 +300,16 @@ function setField(P,page)
         end
     end
 end
-function freshDate(mode)
-    if not mode then
-        mode=""
+function freshDate(args)
+    if not args then
+        args=""
     end
     local date=os.date("%Y/%m/%d")
     if STAT.date~=date then
         STAT.date=date
         STAT.todayTime=0
         getItem('zTicket',1)
-        if not mode:find'q'then
+        if not args:find'q'then
             MES.new('info',text.newDay)
         end
         saveStats()
@@ -475,7 +512,7 @@ function gameOver()--Save record
                     D.date=os.date("%Y/%m/%d %H:%M")
                     ins(L,p+1,D)
                     if L[11]then L[11]=nil end
-                    FILE.save(L,('record/%s.rec'):format(M.name),'l')
+                    saveFile(L,('record/%s.rec'):format(M.name),'-luaon')
                 end
             end
         end

@@ -90,7 +90,7 @@ function scene.keyDown(key)
         local rep=listBox:getSel()
         if rep then
             if rep.available and rep.fileName then
-                local repStr=FILE.load(rep.fileName,'string')
+                local repStr=loadFile(rep.fileName,'-string')
                 if repStr then
                     love.system.setClipboardText(love.data.encode('string','base64',repStr))
                     MES.new('info',text.exportSuccess)
@@ -108,7 +108,7 @@ function scene.keyDown(key)
             local fileName=os.date("replay/%Y_%m_%d_%H%M%S_import.rep")
             local rep=DATA.parseReplayData(fileName,fileData,false)
             if rep.available then
-                if FILE.save(fileData,fileName,'d')then
+                if saveFile(fileData,fileName,'-d')then
                     table.insert(REPLAY,1,rep)
                     MES.new('info',text.importSuccess)
                 end

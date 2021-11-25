@@ -67,11 +67,19 @@ return{
     switchSpawnSFX="请开启方块出生音效",
     needRestart="重新开始以生效",
 
+    loadError_errorMode="文件 '$1' 读取失败：无加载模式 '$2'",
+    loadError_read="文件 '$1' 读取失败：读取失败",
+    loadError_noFile="文件 '$1' 读取失败：没有文件",
+    loadError_other="文件 '$1' 读取失败：$2",
+    loadError_unknown="文件 '$1' 读取失败：原因未知",
+
+    saveError_duplicate="文件 '$1' 保存失败：文件已存在",
+    saveError_encode="文件 '$1' 保存失败：编码错误",
+    saveError_other="文件 '$1' 保存失败：$2",
+    saveError_unknown="文件 '$1' 保存失败：原因未知",
+
     copyDone="复制成功！",
     saveDone="保存成功！",
-    saveError="保存失败:",
-    saveError_duplicate="文件名重复",
-    loadError="读取失败:",
     exportSuccess="导出成功",
     importSuccess="导入成功",
     dataCorrupted="数据损坏",

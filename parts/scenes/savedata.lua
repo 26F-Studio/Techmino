@@ -71,7 +71,7 @@ scene.widgetList={
             local D=_parseCB()
             if D then
                 TABLE.update(D,VK_ORG)
-                FILE.save(VK_ORG,'conf/virtualkey')
+                saveFile(VK_ORG,'conf/virtualkey')
                 MES.new('check',text.importSuccess)
             else
                 MES.new('error',text.dataCorrupted)

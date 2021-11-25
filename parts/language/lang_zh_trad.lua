@@ -67,11 +67,19 @@ return{
     switchSpawnSFX="請開啟方塊生成音效",
     needRestart="重新啟動以應用所有更改",
 
+    loadError_errorMode="檔案 '$1' 讀取失敗：無加載模式 '$2'",
+    loadError_read="檔案 '$1' 讀取失敗：讀取失敗",
+    loadError_noFile="檔案 '$1' 讀取失敗：沒有檔案",
+    loadError_other="檔案 '$1' 讀取失敗：$2",
+    loadError_unknown="檔案 '$1' 讀取失敗：原因未知",
+
+    saveError_duplicate="檔案 '$1' 保存失敗：檔案已存在",
+    saveError_encode="檔案 '$1' 保存失敗：編碼錯誤",
+    saveError_other="檔案 '$1' 保存失敗：$2",
+    saveError_unknown="檔案 '$1' 保存失敗：原因未知",
+
     copyDone="拷貝成功！",
     saveDone="保存成功！",
-    saveError="保存失敗:",
-    saveError_duplicate="文件名重複",
-    loadError="加載錯誤:",
     exportSuccess="導出成功",
     importSuccess="導入成功",
     dataCorrupted="數據損壞",

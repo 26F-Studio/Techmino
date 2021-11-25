@@ -64,11 +64,11 @@ function scene.keyDown(key,isRep)
         end
         if key=="return2"or kb.isDown("lalt","lctrl","lshift")then
             if #FIELD[1]>0 then
-                FILE.save(CUSTOMENV,'conf/customEnv')
+                saveFile(CUSTOMENV,'conf/customEnv')
                 loadGame('custom_puzzle',true)
             end
         else
-            FILE.save(CUSTOMENV,'conf/customEnv')
+            saveFile(CUSTOMENV,'conf/customEnv')
             loadGame('custom_clear',true)
         end
     elseif key=="f"then
@@ -84,10 +84,10 @@ function scene.keyDown(key,isRep)
             TABLE.clear(CUSTOMENV)
             TABLE.complete(require"parts.customEnv0",CUSTOMENV)
             for _,W in next,scene.widgetList do W:reset()end
-            FILE.save(DATA.copyMission(),'conf/customMissions')
-            FILE.save(DATA.copyBoards(),'conf/customBoards')
-            FILE.save(DATA.copySequence(),'conf/customSequence')
-            FILE.save(CUSTOMENV,'conf/customEnv')
+            saveFile(DATA.copyMission(),'conf/customMissions')
+            saveFile(DATA.copyBoards(),'conf/customBoards')
+            saveFile(DATA.copySequence(),'conf/customSequence')
+            saveFile(CUSTOMENV,'conf/customEnv')
             sure=0
             SFX.play('finesseError',.7)
             BG.set(CUSTOMENV.bg)
@@ -123,7 +123,7 @@ function scene.keyDown(key,isRep)
         do return end
         ::THROW_fail::MES.new('error',text.dataCorrupted)
     elseif key=="escape"then
-        FILE.save(CUSTOMENV,'conf/customEnv')
+        saveFile(CUSTOMENV,'conf/customEnv')
         SCN.back()
     else
         WIDGET.keyPressed(key)

@@ -58,11 +58,19 @@ return{
     ai_mission="X!!!",
     needRestart="!!*#R#*!!",
 
+    loadError_errorMode="'$1' ↑x!: no load mode '$2'",
+    loadError_read="'$1' ↑x!: read failed",
+    loadError_noFile="'$1' ↑oading failed no file:",
+    loadError_other="'$1' ↑x!: $2",
+    loadError_unknown="'$1' ↑x!: unknown reason",
+
+    saveError_duplicate="'$1' ↓x!: duplicated filename",
+    saveError_encode="'$1' ↓x!: encode failed",
+    saveError_other="'$1' ↓x!: $2",
+    saveError_unknown="'$1' ↓x!: unknown reason",
+
     -- copyDone="Copied!",
     saveDone="~~~",
-    saveError="x!:",
-    saveError_duplicate="X←→X ?",
-    loadError="x!:",
     exportSuccess="~Out~",
     importSuccess="~In~",
     dataCorrupted="XXXXX",

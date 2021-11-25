@@ -67,11 +67,19 @@ return{
     switchSpawnSFX="请打开繁殖特技效果",
     needRestart="请重试以使更改生效",
 
+    loadError_errorMode="'$1' 加载失败：无加载模式 '$2'",
+    loadError_read="'$1' 加载失败：读取失败",
+    loadError_noFile="'$1' 加载失败：没有文件",
+    loadError_other="'$1' 加载失败：$2",
+    loadError_unknown="'$1' 加载失败：原因未知",
+
+    saveError_duplicate="'$1' 保存失败：文件名重复",
+    saveError_encode="'$1' 保存失败：编码失败",
+    saveError_other="'$1' 保存失败：$2",
+    saveError_unknown="'$1' 保存失败：原因未知",
+
     copyDone="收到了！",
     saveDone="保存的数据",
-    saveError="未能保存:",
-    saveError_duplicate="重复文件名",
-    loadError="未能加载:",
     exportSuccess="成功导出",
     importSuccess="导入成功",
     dataCorrupted="数据损坏",

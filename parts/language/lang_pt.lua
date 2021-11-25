@@ -57,11 +57,19 @@ return{
     switchSpawnSFX="Switch on spawn SFX to play",
     needRestart="Funciona após reiniciar",
 
+    -- loadError_errorMode="'$1' loading failed: no load mode '$2'",
+    -- loadError_read="'$1' loading failed: read failed",
+    -- loadError_noFile="'$1' loading failed no file:",
+    -- loadError_other="'$1' loading failed: $2",
+    -- loadError_unknown="'$1' loading failed: unknown reason",
+
+    -- saveError_duplicate="'$1' saving failed: duplicated filename",
+    -- saveError_encode="'$1' saving failed: encode failed",
+    -- saveError_other="'$1' saving failed: $2",
+    -- saveError_unknown="'$1' saving failed: unknown reason",
+
     -- copyDone="Copied!",
     saveDone="Data Salva",
-    saveError="Falha ao salvar:",
-    -- saveError_duplicate="Duplicate filename",
-    loadError="Falha ao ler:",
     exportSuccess="Exportado com sucesso",
     importSuccess="Importado com sucesso",
     dataCorrupted="Data corrompida",

@@ -240,8 +240,8 @@ function NET.uploadSave()
             {section=3,data=STRING.packTable(SETTING)},
             {section=4,data=STRING.packTable(KEY_MAP)},
             {section=5,data=STRING.packTable(VK_ORG)},
-            {section=6,data=STRING.packTable(FILE.load('conf/vkSave1'))},
-            {section=7,data=STRING.packTable(FILE.load('conf/vkSave2'))},
+            {section=6,data=STRING.packTable(loadFile('conf/vkSave1'))},
+            {section=7,data=STRING.packTable(loadFile('conf/vkSave2'))},
         }..'}}')
         MES.new('info',"Uploading")
     end
@@ -282,13 +282,13 @@ function NET.loadSavedData(sections)
     applyAllSettings()
 
     TABLE.cover(NET.cloudData.keyMap,KEY_MAP)
-    success=success and FILE.save(KEY_MAP,'conf/key')
+    success=success and saveFile(KEY_MAP,'conf/key')
 
     TABLE.cover(NET.cloudData.VK_org,VK_ORG)
-    success=success and FILE.save(VK_ORG,'conf/virtualkey')
+    success=success and saveFile(VK_ORG,'conf/virtualkey')
 
-    success=success and FILE.save(NET.cloudData.vkSave1,'conf/vkSave1')
-    success=success and FILE.save(NET.cloudData.vkSave2,'conf/vkSave2')
+    success=success and saveFile(NET.cloudData.vkSave1,'conf/vkSave1')
+    success=success and saveFile(NET.cloudData.vkSave2,'conf/vkSave2')
     if success then
         MES.new('check',text.saveDone)
     end
@@ -460,7 +460,7 @@ function NET.updateWS_user()
                         if res.uid then
                             USER.uid=res.uid
                             USER.authToken=res.authToken
-                            FILE.save(USER,'conf/user')
+                            saveFile(USER,'conf/user')
                             if SCN.cur=='login'then
                                 SCN.back()
                             end

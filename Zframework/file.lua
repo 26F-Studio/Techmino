@@ -1,66 +1,60 @@
 local fs=love.filesystem
 local FILE={}
-function FILE.load(name,mode)
+function FILE.load(name,args)
+    if not args then args=''end
     if fs.getInfo(name)then
         local F=fs.newFile(name)
-        if F:open'r'then
-            local s=F:read()
-            F:close()
-            if mode=='luaon'or not mode and s:sub(1,6)=="return{"then
-                s=loadstring(s)
-                if s then
-                    setfenv(s,{})
-                    return s()
-                end
-            elseif mode=='json'or not mode and s:sub(1,1)=="["and s:sub(-1)=="]"or s:sub(1,1)=="{"and s:sub(-1)=="}"then
-                local res=JSON.decode(s)
-                if res then
-                    return res
-                end
-            elseif mode=='string'or not mode then
-                return s
+        assert(F:open'r','open error')
+        local s=F:read()F:close()
+        if args:sArg'-luaon'or args==''and s:sub(1,6)=='return{'then
+            local func=loadstring(s)
+            if func then
+                setfenv(func,{})
+                local res=func()
+                return assert(res,'decode error')
             else
-                MES.new("No file loading mode called "..tostring(mode))
+                error('decode error')
             end
+        elseif args:sArg'-json'or args==''and s:sub(1,1)=='['and s:sub(-1)==']'or s:sub(1,1)=='{'and s:sub(-1)=='}'then
+            local res=JSON.decode(s)
+            if res then
+                return res
+            end
+            error('decode error')
+        elseif args:sArg'-string'or args==''then
+            return s
         else
-            MES.new('error',name.." "..text.loadError)
+            error('unknown mode')
         end
+    else
+        error('no file')
     end
 end
-function FILE.save(data,name,mode)
-    if not mode then mode=""end
+function FILE.save(data,name,args)
+    if not args then args=''end
+    if args:sArg'-d'and fs.getInfo(name)then
+        error('duplicate')
+    end
+
     if type(data)=='table'then
-        if mode:find'l'then
+        if args:sArg'-luaon'then
             data=TABLE.dump(data)
             if not data then
-                MES.new('error',name.." "..text.saveError.."dump error")
-                return
+                error('encode error')
             end
         else
             data=JSON.encode(data)
             if not data then
-                MES.new('error',name.." "..text.saveError.."json error")
-                return
+                error('encode error')
             end
         end
     else
         data=tostring(data)
     end
 
-    if mode:find'd'and fs.getInfo(name)then
-        MES.new('error',text.saveError_duplicate)
-        return
-    end
     local F=fs.newFile(name)
-    F:open'w'
-    local success,mes=F:write(data)
-    F:flush()F:close()
-    if success then
-        return true
-    else
-        MES.new('error',text.saveError..(mes or"unknown error"))
-        MES.traceback()
-    end
+    assert(F:open('w'),'open error')
+    F:write(data)F:flush()F:close()
 end
 function FILE.clear(path)
     if fs.getRealDirectory(path)==SAVEDIR and fs.getInfo(path).type=='directory'then

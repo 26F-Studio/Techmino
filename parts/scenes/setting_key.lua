@@ -23,7 +23,7 @@ function scene.sceneInit()
     BG.set('none')
 end
 function scene.sceneBack()
-    FILE.save(KEY_MAP,'conf/key')
+    saveFile(KEY_MAP,'conf/key')
 end
 
 local forbbidenKeys={

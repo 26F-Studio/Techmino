@@ -56,11 +56,19 @@ return{
     switchSpawnSFX="Habilita los sonidos de aparición de las piezas ;)",
     needRestart="Reinicia Techmino para que los cambios tengan efecto.",
 
+    -- loadError_errorMode="'$1' loading failed: no load mode '$2'",
+    -- loadError_read="'$1' loading failed: read failed",
+    -- loadError_noFile="'$1' loading failed no file:",
+    -- loadError_other="'$1' loading failed: $2",
+    -- loadError_unknown="'$1' loading failed: unknown reason",
+
+    -- saveError_duplicate="'$1' saving failed: duplicated filename",
+    -- saveError_encode="'$1' saving failed: encode failed",
+    -- saveError_other="'$1' saving failed: $2",
+    -- saveError_unknown="'$1' saving failed: unknown reason",
+
     -- copyDone="Copied!",
     saveDone="Datos guardados",
-    saveError="Error al guardar:",
-    saveError_duplicate="Archivo ya existente",
-    loadError="Error al cargar:",
     exportSuccess="Exportado con éxito",
     importSuccess="Importado con éxito",
     dataCorrupted="Los datos están corruptos.",

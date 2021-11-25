@@ -16,7 +16,7 @@ function scene.sceneInit()
     sure=0
 end
 function scene.sceneBack()
-    FILE.save(DATA.copyMission(),'conf/customMissions')
+    saveFile(DATA.copyMission(),'conf/customMissions')
 end
 
 local ENUM_MISSION=ENUM_MISSION

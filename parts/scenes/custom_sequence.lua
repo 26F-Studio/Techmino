@@ -16,7 +16,7 @@ function scene.sceneInit()
     sure=0
 end
 function scene.sceneBack()
-    FILE.save(DATA.copySequence(),'conf/customSequence')
+    saveFile(DATA.copySequence(),'conf/customSequence')
 end
 
 local minoKey={
