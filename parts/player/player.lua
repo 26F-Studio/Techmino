@@ -258,21 +258,21 @@ function Player:act_moveRight(auto)
     end
 end
 function Player:act_rotRight()
-    if self.control and self.waiting==0 and self.cur then
+    if self.control and self.cur then
         self.ctrlCount=self.ctrlCount+1
         self:spin(1)
         self.keyPressing[3]=false
     end
 end
 function Player:act_rotLeft()
-    if self.control and self.waiting==0 and self.cur then
+    if self.control and self.cur then
         self.ctrlCount=self.ctrlCount+1
         self:spin(3)
         self.keyPressing[4]=false
     end
 end
 function Player:act_rot180()
-    if self.control and self.waiting==0 and self.cur then
+    if self.control and self.cur then
         self.ctrlCount=self.ctrlCount+2
         self:spin(2)
         self.keyPressing[5]=false
@@ -280,7 +280,7 @@ function Player:act_rot180()
 end
 function Player:act_hardDrop()
     local ENV=self.gameEnv
-    if self.control and self.waiting==0 and self.cur then
+    if self.control and self.cur then
         if self.lastPiece.autoLock and self.frameRun-self.lastPiece.frame<ENV.dropcut then
             SFX.play('drop_cancel',.3)
         else
@@ -305,7 +305,7 @@ function Player:act_hardDrop()
 end
 function Player:act_softDrop()
     self.downing=1
-    if self.control and self.waiting==0 and self.cur then
+    if self.control and self.cur then
         if self.curY>self.ghoY then
             self.curY=self.curY-1
             self:freshBlock('fresh')
@@ -317,9 +317,10 @@ function Player:act_softDrop()
     end
 end
 function Player:act_hold()
-    if self.control and self.waiting==0 then
-        self:hold()
-        self.keyPressing[8]=false
+    if self.control and self.cur then
+        if self:hold()then
+            self.keyPressing[8]=false
+        end
     end
 end
 function Player:act_func1()
@@ -1330,6 +1331,7 @@ function Player:hold(ifpre)
         elseif self.gameEnv.holdMode=='swap'then
             self:hold_swap(ifpre)
         end
+        return true
     end
 end
 
@@ -2342,7 +2344,7 @@ local function update_alive(P)
     if P.movDir~=0 then
         local das,arr=ENV.das,ENV.arr
         local mov=P.moving
-        if P.waiting==0 then
+        if P.cur then
             if P.movDir==1 then
                 if P.keyPressing[2]then
                     if arr>0 then
