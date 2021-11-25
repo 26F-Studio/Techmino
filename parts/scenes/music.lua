@@ -22,6 +22,7 @@ local author={
     ["race remix"]="柒栎流星",
     ["sakura"]="ZUN & C₂₉H₂₅N₃O₅",
     ["1980s"]="C₂₉H₂₅N₃O₅",
+    ["malate"]="ZUN & C₂₉H₂₅N₃O₅",
 }
 
 local scene={}
