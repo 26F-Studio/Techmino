@@ -477,6 +477,10 @@ do
         fs.remove('record/rhythm_h.rec')
         fs.remove('record/rhythm_u.rec')
     end
+    if RANKS.bigbang then
+        RANKS.clearRush,RANKS.bigbang=RANKS.bigbang
+        fs.remove('record/bigbang.rec')
+    end
     if STAT.version~=VERSION.code then
         for k,v in next,MODE_UPDATE_MAP do
             if RANKS[k]then

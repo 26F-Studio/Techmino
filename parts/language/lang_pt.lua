@@ -727,7 +727,7 @@ return{
         ['defender_l']=         {"Defensor",         "LUNÁTICO",     "Prática de defensiva!"},
         ['dig_h']=              {"Cavador",          "DIFÍCIL",      "Prática de cavar!"},
         ['dig_u']=              {"Cavador",          "ULTIMATE",     "Prática de cavar!"},
-        ['bigbang']=            {"Big Bang",         "FÁCIL",        "Tutorial de todos giros!\n[Em construção]"},
+        -- ['clearRush']=          {"Clear Rush",       "NORMAL",       "All-spin tutorial!\n[Under construction]"},
         ['c4wtrain_n']=         {"Treinamento C4W",  "NORMAL",       "Combos infinitos."},
         ['c4wtrain_l']=         {"Treinamento C4W",  "LUNÁTICO",     "Combos infinitos."},
         ['pctrain_n']=          {"Treinamento PC",   "NORMAL",       "Modo simples de limpeza perfeita."},

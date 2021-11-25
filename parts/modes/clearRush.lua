@@ -3,7 +3,7 @@ return{
         das=8,arr=1,
         drop=30,lock=30,
         holdCount=0,
-        eventSet='bigbang',
+        eventSet='clearRush',
         bg='blockhole',bgm='peak',
     },
     score=function(P)return{P.modeData.stage,P.stat.time}end,

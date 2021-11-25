@@ -734,7 +734,7 @@ return{
         ['defender_l']=    {"Defender",          "LUNATIC",    "Practice your defencing skills!"},
         ['dig_h']=         {"Driller",           "HARD",       "Digging practice!"},
         ['dig_u']=         {"Driller",           "ULTIMATE",   "Digging practice!"},
-        ['bigbang']=       {"Big Bang",          "EASY",       "All-spin tutorial!\n[Under construction]"},
+        ['clearRush']=     {"Clear Rush",        "NORMAL",     "All-spin tutorial!\n[Under construction]"},
         ['c4wtrain_n']=    {"C4W Training",      "NORMAL",     "Infinite combos"},
         ['c4wtrain_l']=    {"C4W Training",      "LUNATIC",    "Infinite combos"},
         ['pctrain_n']=     {"PC Training",       "NORMAL",     "Perfect Clear practice"},
