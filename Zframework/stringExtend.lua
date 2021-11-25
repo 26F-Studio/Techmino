@@ -2,8 +2,24 @@ local data=love.data
 local STRING={}
 local assert,tostring,tonumber=assert,tostring,tonumber
 local int,format=math.floor,string.format
-local find,sub,upper=string.find,string.sub,string.upper
+local find,sub,gsub,upper=string.find,string.sub,string.gsub,string.upper
 local char,byte=string.char,string.byte
+
+--"Replace dollars", replace all $n with ...
+function string.repD(str,...)
+    local l={...}
+    for i=#l,1,-1 do
+        str=gsub(str,'$'..i,l[i])
+    end
+    return str
+end
+
+--"Scan arg", scan if str has the arg (format of str is like "-json -q", arg is like "-q")
+function string.sArg(str,switch)
+    if find(str.." ",switch.." ")then
+        return true
+    end
+end
 
 do--function STRING.shiftChar(c)
     local shiftMap={
