@@ -870,8 +870,11 @@ end
 do--CUS/SETXXX(k)
     local CUSTOMENV=CUSTOMENV
     local warnList={
-        'ims','RS','FTLock','frameMul','highCam',
+        'das','arr','dascut','dropcut','sddas','sdarr',
+        'ihs','irs','ims','RS',
+        'FTLock','frameMul','highCam',
         'VKSwitch','VKIcon','VKTrack','VKDodge',
+        'simpMode',
     }
     function CUSval(k)return function()return CUSTOMENV[k]end end
     function ROOMval(k)return function()return ROOMENV[k]end end
