@@ -1390,8 +1390,10 @@ function Player:popNext(ifhold)--Pop nextQueue to hand
             self:act_hardDrop()
             pressing[6]=false
         end
-    else
+    elseif self.holdQueue[1]then--Force using hold
         self:hold()
+    else--Next queue is empty, force lose
+        self:lose(true)
     end
 end
 

@@ -256,9 +256,6 @@ local seqGenerators={
                 if seq[1]then
                     P:getNext(rem(seq))
                 else
-                    if not(P.cur or P.nextQueue[1]or P.holdQueue[1])then
-                        P:lose(true)
-                    end
                     break
                 end
             end
