@@ -527,17 +527,17 @@ local wsBottomImage do
     wsBottomImage=GC.DO(L)
 end
 local ws_deadImg=GC.DO{20,20,
-    {'setFT',20},
+    {'rawFT',20},
     {'setCL',1,.3,.3},
     {'mText',"X",11,-1},
 }
 local ws_connectingImg=GC.DO{20,20,
-    {'setFT',20},
+    {'rawFT',20},
     {'setLW',3},
     {'mText',"C",11,-1},
 }
 local ws_runningImg=GC.DO{20,20,
-    {'setFT',20},
+    {'rawFT',20},
     {'setCL',.5,1,0},
     {'mText',"R",11,-1},
 }

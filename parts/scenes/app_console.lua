@@ -3,8 +3,8 @@ local kb=love.keyboard
 local ins,rem=table.insert,table.remove
 local C=COLOR
 
-local inputBox=WIDGET.newInputBox{name='input',x=40,y=650,w=1200,h=50}
-local outputBox=WIDGET.newTextBox{name='output',x=40,y=30,w=1200,h=610,font=25,lineH=25,fix=true}
+local inputBox=WIDGET.newInputBox{name='input',x=40,y=650,w=1200,h=50,fType='mono'}
+local outputBox=WIDGET.newTextBox{name='output',x=40,y=30,w=1200,h=610,font=25,fType='mono',lineH=25,fix=true}
 
 local function log(str)outputBox:push(str)end
 log{C.lP,"Techmino Console"}

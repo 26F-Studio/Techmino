@@ -35,7 +35,7 @@ local loadingThread=coroutine.wrap(function()
     YIELD('loadSample')SFX.loadSample{name='lead',path='media/sample/lead',base='A3'}--A3~A5
     YIELD('loadSample')SFX.loadSample{name='bell',path='media/sample/bell',base='A4'}--A4~A6
     YIELD('loadVoice')VOC.load('media/vocal/'..SETTING.vocPack..'/')
-    YIELD('loadFont')for i=1,17 do getFont(15+5*i)end
+    YIELD('loadFont')for i=1,17 do getFont(15+5*i)getFont(15+5*i,'mono')end
 
     YIELD('loadModeIcon')
     local modeIcons={}

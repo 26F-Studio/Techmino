@@ -29,7 +29,7 @@ local clearIcon=GC.DO{40,40,
     {'fRect',11,14,18,21},
 }
 local sureIcon=GC.DO{40,40,
-    {'setFT',35},
+    {'rawFT',35},
     {'mText',"?",20,0},
 }
 local smallerThen=GC.DO{20,20,
@@ -82,7 +82,7 @@ function text:draw()
         end
     end
 end
-function WIDGET.newText(D)--name,x,y[,fText][,color][,font=30][,align='M'][,hideF][,hide]
+function WIDGET.newText(D)--name,x,y[,fText][,color][,font=30][,fType][,align='M'][,hideF][,hide]
     local _={
         name= D.name or"_",
         x=    D.x,
@@ -91,6 +91,7 @@ function WIDGET.newText(D)--name,x,y[,fText][,color][,font=30][,align='M'][,hide
         fText=D.fText,
         color=D.color and(COLOR[D.color]or D.color)or COLOR.Z,
         font= D.font or 30,
+        fType=D.fType,
         align=D.align or'M',
         hideF=D.hideF,
     }
@@ -139,7 +140,7 @@ function button:reset()
 end
 function button:setObject(obj)
     if type(obj)=='string'or type(obj)=='number'then
-        self.obj=gc.newText(FONT.get(self.font),obj)
+        self.obj=gc.newText(FONT.get(self.font,self.fType),obj)
     elseif obj then
         self.obj=obj
     end
@@ -209,7 +210,7 @@ function button:draw()
     end
 end
 function button:getInfo()
-    return("x=%d,y=%d,w=%d,h=%d,font=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
+    return("x=%d,y=%d,w=%d,h=%d,font=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font,self.fType)
 end
 function button:press(_,_,k)
     self.code(k)
@@ -225,7 +226,7 @@ function button:press(_,_,k)
         SFX.play('button')
     end
 end
-function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
+function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,fType][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
     if not D.h then D.h=D.w end
     local _={
         name= D.name or"_",
@@ -246,6 +247,7 @@ function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=tr
         fText=D.fText,
         color=D.color and(COLOR[D.color]or D.color)or COLOR.Z,
         font= D.font or 30,
+        fType=D.fType,
         align=D.align or'M',
         edge= D.edge or 0,
         sound=D.sound~=false,
@@ -268,7 +270,7 @@ function key:reset()
 end
 function key:setObject(obj)
     if type(obj)=='string'or type(obj)=='number'then
-        self.obj=gc.newText(FONT.get(self.font),obj)
+        self.obj=gc.newText(FONT.get(self.font,self.fType),obj)
     elseif obj then
         self.obj=obj
     end
@@ -331,7 +333,7 @@ function key:draw()
     end
 end
 function key:getInfo()
-    return("x=%d,y=%d,w=%d,h=%d,font=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
+    return("x=%d,y=%d,w=%d,h=%d,font=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font,self.fType)
 end
 function key:press(_,_,k)
     self.code(k)
@@ -339,7 +341,7 @@ function key:press(_,_,k)
         SFX.play('key')
     end
 end
-function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,fShade][,noFrame][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
+function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,fShade][,noFrame][,color][,font=30][,fType][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
     if not D.h then D.h=D.w end
     local _={
         name=   D.name or"_",
@@ -362,6 +364,7 @@ function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,fShade][,noFrame][,color][,fo
         noFrame=D.noFrame,
         color=  D.color and(COLOR[D.color]or D.color)or COLOR.Z,
         font=   D.font or 30,
+        fType=D.fType,
         sound=  D.sound~=false,
         align=  D.align or'M',
         edge=   D.edge or 0,
@@ -430,7 +433,7 @@ function switch:draw()
     gc_draw(obj,x-12-ATV,y,nil,min(self.lim/obj:getWidth(),1),1,obj:getWidth(),obj:getHeight()*.5)
 end
 function switch:getInfo()
-    return("x=%d,y=%d,font=%d"):format(self.x,self.y,self.font)
+    return("x=%d,y=%d,font=%d"):format(self.x,self.y,self.font,self.fType)
 end
 function switch:press()
     self.code()
@@ -438,7 +441,7 @@ function switch:press()
         SFX.play('touch')
     end
 end
-function WIDGET.newSwitch(D)--name,x,y[,lim][,fText][,color][,font=30][,sound=true][,disp],code[,hideF][,hide]
+function WIDGET.newSwitch(D)--name,x,y[,lim][,fText][,color][,font=30][,fType][,sound=true][,disp],code[,hideF][,hide]
     local _={
         name= D.name or"_",
 
@@ -453,6 +456,7 @@ function WIDGET.newSwitch(D)--name,x,y[,lim][,fText][,color][,font=30][,sound=tr
         fText=D.fText,
         color=D.color and(COLOR[D.color]or D.color)or COLOR.Z,
         font= D.font or 30,
+        fType=D.fType,
         sound=D.sound~=false,
         disp= D.disp,
         code= D.code,
@@ -595,7 +599,7 @@ end
 function slider:arrowKey(k)
     self:scroll((k=="left"or k=="up")and -1 or 1)
 end
-function WIDGET.newSlider(D)--name,x,y,w[,lim][,fText][,color][,unit][,smooth][,font=30][,change],disp[,show],code,hide
+function WIDGET.newSlider(D)--name,x,y,w[,lim][,fText][,color][,unit][,smooth][,font=30][,fType][,change],disp[,show],code,hide
     local _={
         name=  D.name or"_",
 
@@ -617,6 +621,7 @@ function WIDGET.newSlider(D)--name,x,y,w[,lim][,fText][,color][,unit][,smooth][,
         unit=  D.unit or 1,
         smooth=false,
         font=  D.font or 30,
+        fType=D.fType,
         change=D.change,
         disp=  D.disp,
         code=  D.code,
@@ -863,7 +868,7 @@ function inputBox:draw()
 
     --Drawable
     local f=self.font
-    FONT.set(f)
+    FONT.set(f,self.fType)
     if self.obj then
         mDraw_Y(self.obj,x-12-self.obj:getWidth(),y+h*.5)
     end
@@ -906,7 +911,7 @@ function inputBox:keypress(k)
         self.value=t
     end
 end
-function WIDGET.newInputBox(D)--name,x,y,w[,h][,font=30][,secret][,regex][,limit],hide
+function WIDGET.newInputBox(D)--name,x,y,w[,h][,font=30][,fType][,secret][,regex][,limit],hide
     local _={
         name=  D.name or"_",
 
@@ -922,6 +927,7 @@ function WIDGET.newInputBox(D)--name,x,y,w[,h][,font=30][,secret][,regex][,limit
         },
 
         font=  D.font or int(D.h/7-1)*5,
+        fType=D.fType,
         secret=D.secret==true,
         regex= D.regex,
         limit= D.limit,
@@ -1022,7 +1028,7 @@ function textBox:draw()
     gc_rectangle('line',x,y,w,h,3)
 
     --Texts
-    FONT.set(self.font)
+    FONT.set(self.font,self.fType)
     gc_push('transform')
         gc_translate(x,y)
 
@@ -1054,7 +1060,7 @@ end
 function textBox:getInfo()
     return("x=%d,y=%d,w=%d,h=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
 end
-function WIDGET.newTextBox(D)--name,x,y,w,h[,font=30][,lineH][,fix],hide
+function WIDGET.newTextBox(D)--name,x,y,w,h[,font=30][,fType][,lineH][,fix],hide
     local _={
         name= D.name or"_",
 
@@ -1076,6 +1082,7 @@ function WIDGET.newTextBox(D)--name,x,y,w,h[,font=30][,lineH][,fix],hide
         h=    D.h,
 
         font= D.font or 30,
+        fType=D.fType,
         fix=  D.fix,
         texts={},
         hideF=D.hideF,

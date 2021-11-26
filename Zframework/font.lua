@@ -1,67 +1,60 @@
 local gc=love.graphics
 local set=gc.setFont
-local fontCache={}
-local currentFontSize
+local fontFiles,fontCache={},{}
+local defaultFont,defaultFallBack
+local curFont=false--Current using font object
 
 local FONT={}
-function FONT.set(s)
-    if s~=currentFontSize then
-        if not fontCache[s]then
-            fontCache[s]=gc.setNewFont(s,'light',gc.getDPIScale()*SCR.k*2)
-        end
-        set(fontCache[s])
-        currentFontSize=s
-    end
-end
-function FONT.get(s)
+function FONT.setDefault(name)defaultFont=name end
+function FONT.setFallback(name)defaultFallBack=name end
+function FONT.rawget(s)
     if not fontCache[s]then
         fontCache[s]=gc.setNewFont(s,'light',gc.getDPIScale()*SCR.k*2)
     end
     return fontCache[s]
 end
-function FONT.reset()
-    for s in next,fontCache do
-        fontCache[s]=gc.setNewFont(s,'light',gc.getDPIScale()*SCR.k*2)
-    end
+function FONT.rawset(s)
+    set(fontCache[s]or FONT.rawget(s))
 end
-
-function FONT.load(mainFont,secFont)
-    assert(love.filesystem.getInfo(mainFont),"Font file '"..mainFont.."' not exist!")
-    mainFont=love.filesystem.newFile(mainFont)
-    if secFont and love.filesystem.getInfo(secFont)then
-        secFont=love.filesystem.newFile(secFont)
-    else
-        secFont=false
-    end
-    function FONT.set(s)
-        if s~=currentFontSize then
-            if not fontCache[s]then
-                fontCache[s]=gc.setNewFont(mainFont,s,'light',gc.getDPIScale()*SCR.k*2)
-                if secFont then
-                    fontCache[s]:setFallbacks(gc.setNewFont(secFont,s,'light',gc.getDPIScale()*SCR.k*2))
-                end
-            end
-            set(fontCache[s])
-            currentFontSize=s
-        end
-    end
-    function FONT.get(s)
-        if not fontCache[s]then
-            fontCache[s]=gc.setNewFont(mainFont,s,'light',gc.getDPIScale()*SCR.k*2)
-            if secFont then
-                fontCache[s]:setFallbacks(gc.setNewFont(secFont,s,'light',gc.getDPIScale()*SCR.k*2))
-            end
-        end
-        return fontCache[s]
-    end
-    function FONT.reset()
-        for s in next,fontCache do
-            fontCache[s]=gc.setNewFont(mainFont,s,'light',gc.getDPIScale()*SCR.k*2)
-            if secFont then
-                fontCache[s]:setFallbacks(gc.setNewFont(secFont,s,'light',gc.getDPIScale()*SCR.k*2))
-            end
-        end
+function FONT.load(fonts)
+    for name,path in next,fonts do
+        assert(love.filesystem.getInfo(path),("Font file $1($2) not exist!"):repD(name,path))
+        fontFiles[name]=love.filesystem.newFile(path)
+        fontCache[name]={}
     end
     FONT.reset()
 end
+function FONT.get(size,name)
+    if not name then name=defaultFont end
+    local f=fontCache[name][size]
+    if not f then
+        f=gc.setNewFont(fontFiles[name],size,'light',gc.getDPIScale()*SCR.k*2)
+        if defaultFallBack and name~=defaultFallBack then
+            f:setFallbacks(FONT.get(size,defaultFallBack))
+        end
+        fontCache[name][size]=f
+    end
+    return f
+end
+function FONT.set(size,name)
+    if not name then name=defaultFont end
+
+    local f=fontCache[name][size]
+    if f~=curFont then
+        curFont=f or FONT.get(size,name)
+        set(curFont)
+    end
+end
+function FONT.reset()
+    for name,cache in next,fontCache do
+        if type(cache)=='table'then
+            for size in next,cache do
+                cache[size]=FONT.get(size,name)
+            end
+        else
+            fontCache[name]=FONT.rawget(name)
+        end
+    end
+end
+
 return FONT

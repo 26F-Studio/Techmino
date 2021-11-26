@@ -95,6 +95,7 @@ do--function GC.DO(L)
         setLJ="setLineJoin",
 
         print="print",
+        rawFT=function(...)FONT.rawset(...)end,
         setFT=function(...)FONT.set(...)end,
         mText=GC.mStr,
         mDraw=GC.draw,
