@@ -446,7 +446,6 @@ do
         if RANKS.tsd_u then
             RANKS.tsd_u=0
         end
-        needSave=true
     end
     if STAT.version==1601 then
         RANKS.round_e=nil
@@ -459,6 +458,10 @@ do
         fs.remove('record/round_h.rec')
         fs.remove('record/round_l.rec')
         fs.remove('record/round_u.rec')
+    end
+    if STAT.version<1700 and SETTING.dascut<5 then
+        SETTING.dascut=SETTING.dascut+1
+        needSave=true
     end
     if RANKS.stack_e then
         RANKS.stack_e=nil
