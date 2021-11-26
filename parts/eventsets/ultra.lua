@@ -19,6 +19,7 @@ return{
         mStr(T,63,268)
     end,
     task=function(P)
+        BGM.seek(0)
         P.modeData.section=1
         while true do
             YIELD()
