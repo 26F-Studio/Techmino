@@ -10,7 +10,7 @@ local scene={}
 function scene.sceneInit()
     BGcolor=rnd()>.026 and{.3,.5,.9}or{.62,.3,.926}
     stateInfo=SYSTEM.."-"..VERSION.string.."                          scene:"..Z.errData[#Z.errData].scene
-    errorText=LOADED and text.errorMsg or"An error has occurred during loading.\nError info has been created, and you can send it to the author."
+    errorText=LOADED and text.errorMsg or"An error has occurred while the game was loading.\nAn error log has been created so you can send it to the author."
     errorShot,errorInfo=Z.errData[#Z.errData].shot,Z.errData[#Z.errData].mes
     NET.wsclose_app()
     NET.wsclose_user()

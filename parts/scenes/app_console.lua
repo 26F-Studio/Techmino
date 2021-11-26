@@ -9,7 +9,7 @@ local outputBox=WIDGET.newTextBox{name='output',x=40,y=30,w=1200,h=610,font=25,f
 local function log(str)outputBox:push(str)end
 log{C.lP,"Techmino Console"}
 log{C.lC,"©2021 26F Studio   some rights reserved"}
-log{C.dR,"DO NOT RUN ANY CODE YOU DON'T UNDERSTAND"}
+log{C.dR,"WARNING: DO NOT RUN ANY CODES THAT YOU DON'T KNOW HOW TO USE."}
 
 local history,hisPtr={"?"}
 local sudomode=false
@@ -232,7 +232,7 @@ local commands={}do
             --Check arguments
             arg=STRING.split(arg," ")
             if #arg>2 then
-                log{C.lY,"Warning: file name with space is not allowed"}
+                log{C.lY,"Warning: file names must have no spaces"}
                 return
             elseif #arg<2 then
                 log{C.A,"Usage: ren [oldfilename] [newfilename]"}
@@ -464,9 +464,9 @@ local commands={}do
         code=function()
             BGM.stop()
         end,
-        description="Stop the BGM",
+        description="Stop BGM",
         details={
-            "Stop the BGM.",
+            "Stop the currently playing BGM.",
             "",
             "Usage: stopbgm"
         },
@@ -534,7 +534,7 @@ local commands={}do
             {
                 code="15p",
                 scene='app_15p',
-                description="15 Puzzle, a.k.a. sliding puzzle"
+                description="15 Puzzle (sliding puzzle)"
             },
             {
                 code="grid",
@@ -549,7 +549,7 @@ local commands={}do
             {
                 code="atoz",
                 scene='app_AtoZ',
-                description="A to Z, a.k.a. typing"
+                description="A to Z (typing)"
             },
             {
                 code="uttt",
@@ -559,7 +559,7 @@ local commands={}do
             {
                 code="cube",
                 scene='app_cubefield',
-                description="Cubefield, original by Max Abernethy"
+                description="Cubefield, original game by Max Abernethy"
             },
             {
                 code="2048",
@@ -579,7 +579,7 @@ local commands={}do
             {
                 code="dtw",
                 scene='app_dtw',
-                description="Don't Touch White, a.k.a. Piano Tiles"
+                description="Don't Touch White (Piano Tiles)"
             },
             {
                 code="can",
@@ -655,7 +655,12 @@ local commands={}do
     commands.resetall={
         code=function(arg)
             if arg=="sure"then
-                log"Really?"
+                log"Please remember that resetting everything will delete all saved data. Delete the saved data anyway?"
+                log"Type: resetall yes"
+            if arg=="yes"then
+                log"FINAL WARNING!"
+                log"Once the data has been deleted, there is no way to recover it."
+                log"Is it really OK to delete all saved data?"
                 log"Type: resetall really"
             elseif arg=="really"then
                 WIDGET.unFocus(true)inputBox.hide=true
@@ -667,36 +672,44 @@ local commands={}do
                     TASK.new(function()
                         WIDGET.active.bye.hide=true
                         for _=1,30 do coroutine.yield()end
-                        log{C.R,"Bye in 5..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
-                        log{C.R,"Bye in 4..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
-                        log{C.R,"Bye in 3..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
-                        log{C.R,"Bye in 2..."}SFX.play('ready')SFX.play('clear_3')for _=1,60 do coroutine.yield()end
-                        log{C.R,"Bye in 1..."}SFX.play('ready')SFX.play('clear_3')for _=1,60 do coroutine.yield()end
-                        log{C.R,"Bye in 0..."}SFX.play('start')SFX.play('clear_4')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 10..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 9..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 8..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 7..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 6..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 5..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 4..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 3..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 2..."}SFX.play('ready')SFX.play('clear_3')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 1..."}SFX.play('ready')SFX.play('clear_3')for _=1,60 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 0..."}SFX.play('start')SFX.play('clear_4')for _=1,60 do coroutine.yield()end
                         outputBox.hide=true for _=1,26 do coroutine.yield()end
                         FILE.clear_s('')love.event.quit()
                     end)
                 end}
-                button:setObject("Techmino is fun. Bye.")
+                button:setObject("The saved data was erased!")
                 ins(WIDGET.active,button)
             else
-                log"Are you sure to reset all?"
+                log"Are you sure you want to reset everything?"
+                log"This will delete EVERYTHING in your saved game data, including but not limited to:"
+                log"All your replays, saved scores, settings, etc."
+                log"This cannot be undone."
                 log"Type: resetall sure"
             end
         end,
-        description="Reset all things.",
+        description="Reset everything and delete all saved data.",
     }
     commands.sudo={
         code=function(code)
             if sudomode then
-                log{C.Y,"You are already in the sudo mode, use # to run any lua code"}
+                log{C.Y,"You are already in sudo mode. Use # to run any lua code"}
                 log{C.Y,"已经进入最高权限模式了, 请使用 # 执行任意lua代码"}
             elseif code=="7126"then
                 sudomode=true
-                log{C.Y,"* SUDO MODE ON, DO NOT RUN ANY CODE YOU DON'T UNDERSTAND *"}
+                log{C.Y,"* SUDO MODE ON - DO NOT RUN ANY CODES IF YOU DO NOT KNOW WHAT THEY DO *"}
                 log{C.Y,"* 最高权限模式开启, 请不要执行任何自己不懂确切含义的代码 *"}
             else
-                log{C.Y,"Password not correct"}
+                log{C.Y,"Password incorrect"}
             end
         end,
     }commands.su="sudo"
@@ -708,7 +721,7 @@ local commands={}do
                 if SETTING[key]~=nil then
                     SETTING[key]=nil
                     saveSettings()
-                    log{C.Y,("Succesfully erased key '%s'"):format(key)}
+                    log{C.Y,("Successfully erased key '%s'"):format(key)}
                 else
                     log{C.R,"No key called "..key}
                 end
@@ -719,8 +732,8 @@ local commands={}do
         description="Erase a setting value",
         details={
             "Erase a setting value",
-            "Useful if you have your setting corrupted",
-            "YOU MUST RESTART THE GAME AFTER USING THIS",
+            "Useful if any of your settings are corrupted.",
+            "You must restart the game after this is entered.",
             "",
             "Usage: rmconf [key]",
         },
@@ -761,7 +774,7 @@ local commands={}do
                 log{C.lC,"\85\78\76\79\67\75\65\76\76"}
                 SFX.play('clear_2')
             else
-                log"Are you sure to unlock all modes?"
+                log"Are you sure you want to unlock all game modes?"
                 log"Type: unlockall sure"
             end
         end,
@@ -784,7 +797,7 @@ local commands={}do
         end,
         description="Load a game mode",
         details={
-            "Load a game mode, including those that are not on the map.",
+            "Load a game mode. This includes those that are not on the map.",
             "",
             "Usage: play [mode_name]",
         },
@@ -796,15 +809,15 @@ local commands={}do
                 saveSettings()
                 log("Allow TAS: "..bool)
                 if bool then
-                    log("Hot keys: f1=play/pause f2=slowdown f3=speedup/nextframe")
+                    log("Hot keys: f1=play/pause f2=slow down f3=speed up/next frame")
                 end
             else
                 log{C.A,"Usage: tas <on|off>"}
             end
         end,
-        description="Allow you to use TAS tool",
+        description="Enable TAS tool",
         details={
-            "Allow you to use TAS tool, a TAS button will show up at the pause menu",
+            "Once the TAS tool is enabled, a TAS button will show up at the pause menu.",
             "",
             "Usage: tas <on|off>",
         },
@@ -860,7 +873,7 @@ local commands={}do
             WS.send('manage','{"action":0,"data":'..JSON.encode{message=str}..'}')
             log{C.Y,"Request sent"}
         else
-            log{C.R,"format error"}
+            log{C.R,"Format error"}
         end
     end
     function commands.m_shutdown(sec)
@@ -869,7 +882,7 @@ local commands={}do
             WS.send('manage','{"action":9,"data":'..JSON.encode{countdown=tonumber(sec)}..'}')
             log{C.Y,"Request sent"}
         else
-            log{C.R,"format error"}
+            log{C.R,"Format error"}
         end
     end
     function commands.m_connInfo()WS.send('manage','{"action":10}')end

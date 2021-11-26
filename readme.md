@@ -8,7 +8,7 @@
 
 集合各种现代方块规则，更多玩法，全新体验。
 
-Collections of modern block game rules, combined with some new things.
+A collection of various modern block game rules, more ways to play, and some new things added for a new experience.
 
 [官网(建设中) Official website (WIP)](http://home.techmino.org)
 
