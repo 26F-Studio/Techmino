@@ -15,41 +15,46 @@ local playSFX=SFX.play
 
 
 --System
-function loadFile(name,args)
-    if not args then args=''end
-    local res,mes=pcall(FILE.load,name,args)
-    if res then
-        return mes
-    else
-        if mes:find'open error'then
-            MES.new('error',text.loadError_open:repD(name))
-        elseif mes:find'unknown mode'then
-            MES.new('error',text.loadError_errorMode:repD(name,args))
-        elseif mes:find'no file'then
-            if not args:sArg'-canSkip'then
-                MES.new('error',text.loadError_noFile:repD(name))
-            end
-        elseif mes then
-            MES.new('error',text.loadError_other:repD(name,mes))
+do--function loadFile(name,args), function saveFile(data,name,args)
+    local t=setmetatable({},{__index=function()return"'$1' loading failed: $2"end})
+    function loadFile(name,args)
+        local text=text or t
+        if not args then args=''end
+        local res,mes=pcall(FILE.load,name,args)
+        if res then
+            return mes
         else
-            MES.new('error',text.loadError_unknown:repD(name))
+            if mes:find'open error'then
+                MES.new('error',text.loadError_open:repD(name,""))
+            elseif mes:find'unknown mode'then
+                MES.new('error',text.loadError_errorMode:repD(name,args))
+            elseif mes:find'no file'then
+                if not args:sArg'-canSkip'then
+                    MES.new('error',text.loadError_noFile:repD(name,""))
+                end
+            elseif mes then
+                MES.new('error',text.loadError_other:repD(name,mes))
+            else
+                MES.new('error',text.loadError_unknown:repD(name,""))
+            end
         end
     end
-end
-function saveFile(data,name,args)
-    local res,mes=pcall(FILE.save,data,name,args)
-    if res then
-        return mes
-    else
-        MES.new('error',
-            mes:find'duplicate'and
-                text.saveError_duplicate:repD(name)or
-            mes:find'encode error'and
-                text.saveError_encode:repD(name)or
-            mes and
-                text.saveError_other:repD(name,mes)or
-            text.saveError_unknown:repD(name)
-        )
+    function saveFile(data,name,args)
+        local text=text or t
+        local res,mes=pcall(FILE.save,data,name,args)
+        if res then
+            return mes
+        else
+            MES.new('error',
+                mes:find'duplicate'and
+                    text.saveError_duplicate:repD(name)or
+                mes:find'encode error'and
+                    text.saveError_encode:repD(name)or
+                mes and
+                    text.saveError_other:repD(name,mes)or
+                text.saveError_unknown:repD(name)
+            )
+        end
     end
 end
 function isSafeFile(file,mes)
