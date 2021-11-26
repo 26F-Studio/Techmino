@@ -9,11 +9,11 @@ local outputBox=WIDGET.newTextBox{name='output',x=40,y=30,w=1200,h=610,font=25,f
 local function log(str)outputBox:push(str)end
 log{C.lP,"Techmino Console"}
 log{C.lC,"©2021 26F Studio   some rights reserved"}
-log{C.dR,"WARNING: DO NOT RUN ANY CODES THAT YOU DON'T KNOW HOW TO USE."}
+log{C.dR,"WARNING: DO NOT RUN ANY CODE THAT YOU DON'T UNDERSTAND."}
 
 local history,hisPtr={"?"}
 local sudomode=false
-local the_secret=(14^2*10)..(2*11)
+local the_secret=(0xe^2*10)..(2*0xb)
 
 local commands={}do
     --[[
@@ -604,7 +604,7 @@ local commands={}do
             {
                 code="link",
                 scene='app_link',
-                description="Connect tiles, a.k.a. Shisen-Sho"
+                description="Connect tiles (Shisen-Sho)"
             },
             {
                 code="arm",
@@ -655,12 +655,9 @@ local commands={}do
     commands.resetall={
         code=function(arg)
             if arg=="sure"then
-                log"Please remember that resetting everything will delete all saved data. Delete the saved data anyway?"
-                log"Type: resetall yes"
-            if arg=="yes"then
                 log"FINAL WARNING!"
+                log"Please remember that resetting everything will delete all saved data. Delete the saved data anyway?"
                 log"Once the data has been deleted, there is no way to recover it."
-                log"Is it really OK to delete all saved data?"
                 log"Type: resetall really"
             elseif arg=="really"then
                 WIDGET.unFocus(true)inputBox.hide=true
@@ -672,22 +669,22 @@ local commands={}do
                     TASK.new(function()
                         WIDGET.active.bye.hide=true
                         for _=1,30 do coroutine.yield()end
-                        log{C.R,"Deleting all data in 10..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
-                        log{C.R,"Deleting all data in 9..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
-                        log{C.R,"Deleting all data in 8..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
-                        log{C.R,"Deleting all data in 7..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
-                        log{C.R,"Deleting all data in 6..."}SFX.play('ready')SFX.play('clear_1')for _=1,60 do coroutine.yield()end
-                        log{C.R,"Deleting all data in 5..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
-                        log{C.R,"Deleting all data in 4..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
-                        log{C.R,"Deleting all data in 3..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
-                        log{C.R,"Deleting all data in 2..."}SFX.play('ready')SFX.play('clear_3')for _=1,60 do coroutine.yield()end
-                        log{C.R,"Deleting all data in 1..."}SFX.play('ready')SFX.play('clear_3')for _=1,60 do coroutine.yield()end
-                        log{C.R,"Deleting all data in 0..."}SFX.play('start')SFX.play('clear_4')for _=1,60 do coroutine.yield()end
-                        outputBox.hide=true for _=1,26 do coroutine.yield()end
+                        log{C.R,"Deleting all data in 10..."}SFX.play('ready')SFX.play('clear_1')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 9..."}SFX.play('ready')SFX.play('clear_1')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 8..."}SFX.play('ready')SFX.play('clear_1')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 7..."}SFX.play('ready')SFX.play('clear_2')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 6..."}SFX.play('ready')SFX.play('clear_2')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 5..."}SFX.play('ready')SFX.play('clear_3')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 4..."}SFX.play('ready')SFX.play('clear_3')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 3..."}SFX.play('ready')SFX.play('clear_4')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 2..."}SFX.play('ready')SFX.play('clear_4')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 1..."}SFX.play('ready')SFX.play('clear_5')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 0..."}SFX.play('start')SFX.play('clear_6')TEST.yieldN(60)
+                        outputBox.hide=true TEST.yieldN(26)
                         FILE.clear_s('')love.event.quit()
                     end)
                 end}
-                button:setObject("The saved data was erased!")
+                button:setObject("Techmino is fun. Bye.")
                 ins(WIDGET.active,button)
             else
                 log"Are you sure you want to reset everything?"
@@ -733,7 +730,7 @@ local commands={}do
         details={
             "Erase a setting value",
             "Useful if any of your settings are corrupted.",
-            "You must restart the game after this is entered.",
+            "YOU MUST RESTART THE GAME AFTER USING THIS COMMAND.",
             "",
             "Usage: rmconf [key]",
         },
@@ -815,7 +812,7 @@ local commands={}do
                 log{C.A,"Usage: tas <on|off>"}
             end
         end,
-        description="Enable TAS tool",
+        description="Toggle TAS tool",
         details={
             "Once the TAS tool is enabled, a TAS button will show up at the pause menu.",
             "",
