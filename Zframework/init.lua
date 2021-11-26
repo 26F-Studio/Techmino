@@ -37,7 +37,6 @@ REQUIRE=    require'Zframework.require'
 TASK=       require'Zframework.task'
 WS=         require'Zframework.websocket'
 LANG=       require'Zframework.languages'
-THEME=      require'Zframework.theme'
 
 --Love-based modules (basic)
 FILE=       require'Zframework.file'

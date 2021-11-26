@@ -510,7 +510,7 @@ local commands={}do
         details={
             "Load a theme.",
             "",
-            "Usage: theme <classic|xmas|sprfes|zday1/2/3/4/5|fool|birth>",
+            "Usage: theme <classic|xmas|sprfes|zday1/2/3|season1/2/3/4|fool|birth>",
         },
     }
     commands.test={

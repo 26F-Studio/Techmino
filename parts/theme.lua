@@ -39,21 +39,22 @@ function THEME.calculate(Y,M,D)
 
         --Z day
         D=='26'and(
-            (M=='01'or M=='02'or M=='03')and'zday1'or
-            (M=='04'or M=='05')and'zday2'or
-            (M=='06'or M=='07')and'zday3'or
-            (M=='08'or M=='09')and'zday4'or
-            (M=='10'or M=='11'or M=='12')and'zday5'
+            (M=='03'or M=='04'or M=='05'or M=='06')and'zday1'or
+            (M=='07'or M=='08'or M=='09'or M=='10')and'zday2'or
+            (M=='11'or M=='12'or M=='01'or M=='02')and'zday3'
         )or
 
-        'classic'
+        --Normal
+        (
+            (M=='02'or M=='03'or M=='04')and'season1'or
+            (M=='05'or M=='06'or M=='07')and'season2'or
+            (M=='08'or M=='09'or M=='10')and'season3'or
+            (M=='11'or M=='12'or M=='01')and'season4'
+        )
 end
 
 function THEME.set(theme)
-    if theme=='classic'then
-        BG.setDefault('space')
-        BGM.setDefault('nil')
-    elseif theme=='xmas'then
+    if theme=='xmas'then
         BG.setDefault('snow')
         BGM.setDefault('xmas')
         MES.new('info',"==Merry Christmas==")
@@ -66,19 +67,25 @@ function THEME.set(theme)
         MES.new('info',"★☆新年快乐☆★")
     elseif theme=='zday1'then
         BG.setDefault('lanterns')
-        BGM.setDefault('null')
+        BGM.setDefault('overzero')
     elseif theme=='zday2'then
         BG.setDefault('lanterns')
-        BGM.setDefault('overzero')
+        BGM.setDefault('jazz nihilism')
     elseif theme=='zday3'then
         BG.setDefault('lanterns')
-        BGM.setDefault('vacuum')
-    elseif theme=='zday4'then
-        BG.setDefault('lanterns')
-        BGM.setDefault('jazz nihilism')
-    elseif theme=='zday5'then
-        BG.setDefault('lanterns')
         BGM.setDefault('empty')
+    elseif theme=='season1'then
+        BG.setDefault('space')
+        BGM.setDefault('null')
+    elseif theme=='season2'then
+        BG.setDefault('space')
+        BGM.setDefault('nil')
+    elseif theme=='season3'then
+        BG.setDefault('space')
+        BGM.setDefault('vacuum')
+    elseif theme=='season4'then
+        BG.setDefault('space')
+        BGM.setDefault('space')
     elseif theme=='fool'then
         BG.setDefault('blockrain')
         BGM.setDefault('how feeling')

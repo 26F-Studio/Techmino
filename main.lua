@@ -99,6 +99,7 @@ for _,v in next,fs.getDirectoryItems('parts/shaders')do
     end
 end
 
+THEME=      require'parts.theme'
 LINE=       require'parts.line'
 DATA=       require'parts.data'
 
