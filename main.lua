@@ -212,15 +212,15 @@ end
 Z.setOnQuit(destroyPlayers)
 
 --Load settings and statistics
-TABLE.cover (loadFile('conf/user')or{},USER)
-TABLE.cover (loadFile('conf/unlock')or{},RANKS)
-TABLE.update(loadFile('conf/settings')or{},SETTING)
-TABLE.coverR(loadFile('conf/data')or{},STAT)
-TABLE.cover (loadFile('conf/key')or{},KEY_MAP)
-TABLE.cover (loadFile('conf/virtualkey')or{},VK_ORG)
+TABLE.cover (loadFile('conf/user','-canSkip')or{},USER)
+TABLE.cover (loadFile('conf/unlock','-canSkip')or{},RANKS)
+TABLE.update(loadFile('conf/settings','-canSkip')or{},SETTING)
+TABLE.coverR(loadFile('conf/data','-canSkip')or{},STAT)
+TABLE.cover (loadFile('conf/key','-canSkip')or{},KEY_MAP)
+TABLE.cover (loadFile('conf/virtualkey','-json -canSkip')or{},VK_ORG)
 
 --Initialize fields, sequence, missions, gameEnv for cutsom game
-local fieldData=loadFile('conf/customBoards','-string')
+local fieldData=loadFile('conf/customBoards','-string -canSkip')
 if fieldData then
     fieldData=STRING.split(fieldData,"!")
     for i=1,#fieldData do
@@ -229,15 +229,15 @@ if fieldData then
 else
     FIELD[1]=DATA.newBoard()
 end
-local sequenceData=loadFile('conf/customSequence','-string')
+local sequenceData=loadFile('conf/customSequence','-string -canSkip')
 if sequenceData then
     DATA.pasteSequence(sequenceData)
 end
-local missionData=loadFile('conf/customMissions','-string')
+local missionData=loadFile('conf/customMissions','-string -canSkip')
 if missionData then
     DATA.pasteMission(missionData)
 end
-local customData=loadFile('conf/customEnv')
+local customData=loadFile('conf/customEnv','-canSkip')
 if customData and customData['version']==VERSION.code then
     TABLE.complete(customData,CUSTOMENV)
 end
