@@ -541,13 +541,13 @@ return{
             any="Erase",
             smart="Smart",
 
-            push="Add Line(K)",
-            del="Del Line(L)",
+            push="Add Line (K)",
+            del="Del Line (L)",
 
             demo="Don't Show ×",
 
-            newPg="New Page(N)",
-            delPg="Del Page(M)",
+            newPg="New Page (N)",
+            delPg="Del Page (M)",
             prevPg="Prev Page",
             nextPg="Next Page",
         },

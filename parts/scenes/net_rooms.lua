@@ -61,31 +61,21 @@ function scene.sceneInit()
 end
 
 function scene.keyDown(key)
-    if NET.getlock('enterRoom')then return end
-    if WIDGET.sel~=passwordBox then
-        if key=='r'then
-            if fetchTimer<=7 then
-                _fetchRoom()
-            end
-        elseif key=='s'then
-            SCN.go('setting_game')
-        elseif key=='n'then
-            SCN.go('net_newRoom')
-        elseif key=='escape'then
-            SCN.back()
-        elseif roomList:getLen()>0 and key=='return'then
-            local R=roomList:getSel()
-            if NET.getlock('fetchRoom')or not R then return end
-            if R.roomInfo.version==VERSION.room then
-                NET.enterRoom(R,passwordBox.value)
-            else
-                MES.new('error',text.versionNotMatch)
-            end
+    if NET.getlock('enterRoom')then return true end
+    if key=='r'then
+        if fetchTimer<=7 then
+            _fetchRoom()
+        end
+    elseif roomList:getLen()>0 and(key=='join'or key=='return'and love.keyboard.isDown('lctrl','rctrl'))then
+        local R=roomList:getSel()
+        if NET.getlock('fetchRoom')or not R then return end
+        if R.roomInfo.version==VERSION.room then
+            NET.enterRoom(R,passwordBox.value)
         else
-            WIDGET.keyPressed(key)
+            MES.new('error',text.versionNotMatch)
         end
     else
-        WIDGET.keyPressed(key)
+        return true
     end
 end
 
@@ -144,12 +134,12 @@ end
 scene.widgetList={
     roomList,
     passwordBox,
-    WIDGET.newKey{name='setting',    x=1200,y=160,w=90,h=90,font=60,fText=CHAR.icon.settings,code=pressKey's'},
+    WIDGET.newKey{name='setting',    x=1200,y=160,w=90,h=90,font=60,fText=CHAR.icon.settings,code=goScene'setting_game'},
     WIDGET.newText{name='refreshing',x=450,y=240,font=45,hideF=function()return not NET.getlock('fetchRoom')end},
     WIDGET.newText{name='noRoom',    x=450,y=245,font=40,hideF=function()return roomList:getLen()>0 or NET.getlock('fetchRoom')end},
     WIDGET.newKey{name='refresh',    x=250,y=630,w=140,h=120,code=_fetchRoom,hideF=function()return fetchTimer>7 end},
-    WIDGET.newKey{name='new',        x=510,y=630,w=260,h=120,code=pressKey'n'},
-    WIDGET.newKey{name='join',       x=780,y=630,w=140,h=120,code=pressKey'return',hideF=function()return roomList:getLen()==0 or NET.getlock('enterRoom')end},
+    WIDGET.newKey{name='new',        x=510,y=630,w=260,h=120,code=goScene'net_newRoom'},
+    WIDGET.newKey{name='join',       x=780,y=630,w=140,h=120,code=pressKey'join',hideF=function()return roomList:getLen()==0 or NET.getlock('enterRoom')end},
     WIDGET.newButton{name='back',    x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=pressKey'escape'},
 }
 

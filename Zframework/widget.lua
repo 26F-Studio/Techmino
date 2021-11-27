@@ -13,7 +13,7 @@ local kb=love.keyboard
 local timer=love.timer.getTime
 
 local next=next
-local int,ceil,abs=math.floor,math.ceil,math.abs
+local int,ceil=math.floor,math.ceil
 local max,min=math.max,math.min
 local sub,ins,rem=string.sub,table.insert,table.remove
 local mDraw,mDraw_X,mDraw_Y=GC.draw,GC.simpX,GC.simpY
@@ -1380,59 +1380,6 @@ function WIDGET.release(x,y)
         W:release(x,y+WIDGET.scrollPos)
     end
 end
-function WIDGET.keyPressed(k,isRep)
-    local W=WIDGET.sel
-    if k=='space'or k=='return'then
-        if not isRep then
-            WIDGET.press()
-        end
-    elseif k=='up'or k=='down'or k=='left'or k=='right'then
-        if kb.isDown('lshift','lalt','lctrl','rshift','ralt','rctrl')then
-            --Control some widgets with arrowkeys when hold shift/ctrl/alt
-            if W and W.arrowKey then W:arrowKey(k)end
-        else
-            if not W then
-                for _,w in next,WIDGET.active do
-                    if not w.hide and w.isAbove then
-                        WIDGET.focus(w)
-                        return
-                    end
-                end
-            elseif W.getCenter then
-                local WX,WY=W:getCenter()
-                local dir=(k=='right'or k=='down')and 1 or -1
-                local tar
-                local minDist=1e99
-                local swap_xy=k=='up'or k=='down'
-                if swap_xy then WX,WY=WY,WX end--note that we do not swap them back later
-                for _,W1 in ipairs(WIDGET.active)do
-                    if W~=W1 and W1.resCtr and not W1.hide then
-                        local L=W1.resCtr
-                        for j=1,#L,2 do
-                            local x,y=L[j],L[j+1]
-                            if swap_xy then x,y=y,x end--note that we do not swap them back later
-                            local dist=(x-WX)*dir
-                            if dist>10 then
-                                dist=dist+abs(y-WY)*6.26
-                                if dist<minDist then
-                                    minDist=dist
-                                    tar=W1
-                                end
-                            end
-                        end
-                    end
-                end
-                if tar then
-                    WIDGET.focus(tar)
-                end
-            end
-        end
-    else
-        if W and W.keypress then
-            W:keypress(k)
-        end
-    end
-end
 function WIDGET.textinput(texts)
     local W=WIDGET.sel
     if W and W.type=='inputBox'then
@@ -1442,37 +1389,6 @@ function WIDGET.textinput(texts)
         else
             SFX.play('finesseError',.3)
         end
-    end
-end
-local keyMirror={
-    dpup='up',
-    dpdown='down',
-    dpleft='left',
-    dpright='right',
-    start='return',
-    back='escape',
-}
-function WIDGET.gamepadPressed(i)
-    if i=='start'then
-        WIDGET.press()
-    elseif i=='a'or i=='b'then
-        local W=WIDGET.sel
-        if W then
-            if W.type=='button'or W.type=='key'then
-                WIDGET.press()
-            elseif W.type=='slider'then
-                local p=W.disp()
-                local P=i=='left'and(p>0 and p-1)or p<W.unit and p+1
-                if p==P or not P then return end
-                W.code(P)
-                if W.change and timer()-W.lastTime>.18 then
-                    W.lastTime=timer()
-                    W.change()
-                end
-            end
-        end
-    elseif i=='dpup'or i=='dpdown'or i=='dpleft'or i=='dpright'then
-        WIDGET.keyPressed(keyMirror[i])
     end
 end
 

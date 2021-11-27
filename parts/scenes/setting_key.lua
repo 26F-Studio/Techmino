@@ -31,7 +31,7 @@ local forbbidenKeys={
     ["return"]=true,
 }
 function scene.keyDown(key,isRep)
-    if isRep then return end
+    if isRep then return true end
     if key=='escape'then
         if selected then
             selected=false
@@ -57,7 +57,7 @@ function scene.keyDown(key,isRep)
             SFX.play('reach',.5)
         end
     else
-        WIDGET.keyPressed(key)
+        return true
     end
 end
 function scene.gamepadDown(key)
@@ -80,14 +80,14 @@ function scene.gamepadDown(key)
         selected=false
         SFX.play('reach',.5)
     else
-        WIDGET.gamepadPressed(key)
+        return true
     end
 end
 
 function scene.draw()
     setFont(20)
     gc.setColor(COLOR.Z)
-    gc.printf(text.keySettingInstruction,540,620,500,'right')
+    gc.printf(text.keySettingInstruction,526,620,500,'right')
 
     for i=0,20 do
         for j=1,#keyList[i]do

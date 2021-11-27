@@ -38,10 +38,10 @@ end
 scene.touchDown=scene.mouseDown
 
 function scene.keyDown(key)
-    if key=='escape'then
-        SCN.back()
-    elseif key=='space'then
+    if key=='space'then
         scene.mouseDown(942,626)
+    else
+        return true
     end
 end
 

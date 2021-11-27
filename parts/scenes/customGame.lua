@@ -32,44 +32,46 @@ function scene.sceneInit()
     BGM.play(CUSTOMENV.bgm)
 end
 function scene.sceneBack()
+    saveFile(CUSTOMENV,'conf/customEnv')
     BGM.play()
 end
 
-function scene.keyDown(key,isRep)
-    if isRep then return end
-    if key=='return'or key=='return2'then
-        if CUSTOMENV.opponent~="X"then
-            if CUSTOMENV.opponent:sub(1,2)=='CC'then
-                if CUSTOMENV.sequence=='fixed'then
-                    MES.new('error',text.cc_fixed)
-                    return
-                end
-                if CUSTOMENV.holdMode=='swap'then
-                    MES.new('error',text.cc_swap)
-                    return
-                end
+local function _play(mode)
+    if CUSTOMENV.opponent~="X"then
+        if CUSTOMENV.opponent:sub(1,2)=='CC'then
+            if CUSTOMENV.sequence=='fixed'then
+                MES.new('error',text.cc_fixed)
+                return
             end
-            if #BAG>0 then
-                for _=1,#BAG do
-                    if BAG[_]>7 then
-                        MES.new('error',text.ai_prebag)
-                        return
-                    end
-                end
-            end
-            if #MISSION>0 then
-                MES.new('error',text.ai_mission)
+            if CUSTOMENV.holdMode=='swap'then
+                MES.new('error',text.cc_swap)
                 return
             end
         end
-        if key=='return2'or kb.isDown('lalt','lctrl','lshift')then
-            if #FIELD[1]>0 then
-                saveFile(CUSTOMENV,'conf/customEnv')
-                loadGame('custom_puzzle',true)
+        if #BAG>0 then
+            for _=1,#BAG do
+                if BAG[_]>7 then
+                    MES.new('error',text.ai_prebag)
+                    return
+                end
             end
-        else
-            saveFile(CUSTOMENV,'conf/customEnv')
-            loadGame('custom_clear',true)
+        end
+        if #MISSION>0 then
+            MES.new('error',text.ai_mission)
+            return
+        end
+    end
+    saveFile(CUSTOMENV,'conf/customEnv')
+    loadGame('custom_'..mode,true)
+end
+
+function scene.keyDown(key,isRep)
+    if isRep then return true end
+    if key=='return'and kb.isDown('lctrl','lalt')then
+        if kb.isDown('lalt')and #FIELD[1]>0 then
+            _play('puzzle')
+        elseif kb.isDown('lctrl')then
+            _play('clear')
         end
     elseif key=='f'then
         SCN.go('custom_field','swipeD')
@@ -122,11 +124,8 @@ function scene.keyDown(key,isRep)
         MES.new('check',text.importSuccess)
         do return end
         ::THROW_fail::MES.new('error',text.dataCorrupted)
-    elseif key=='escape'then
-        saveFile(CUSTOMENV,'conf/customEnv')
-        SCN.back()
     else
-        WIDGET.keyPressed(key)
+        return true
     end
 end
 

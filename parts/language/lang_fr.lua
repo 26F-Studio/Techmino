@@ -472,7 +472,7 @@ return{
             mod="Mods (F1)",
             field="Modifier la matrice (F)",
             sequence="Modifier la séquence (S)",
-            mission="Modifier la mission(M)",
+            mission="Modifier la mission (M)",
 
             -- eventSet="Rule Set",
 
@@ -512,8 +512,8 @@ return{
 
             demo="Masquer les ×",
 
-            newPg="Nouvelle Page(N)",
-            delPg="Supp. Page(M)",
+            newPg="Nouvelle Page (N)",
+            delPg="Supp. Page (M)",
             prevPg="Page Préc.",
             nextPg="Page Suiv.",
         },

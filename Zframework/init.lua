@@ -60,6 +60,7 @@ BGM=        require'Zframework.bgm'
 VOC=        require'Zframework.voice'
 
 local ms,kb=love.mouse,love.keyboard
+local KBisDown=kb.isDown
 
 local gc=love.graphics
 local gc_push,gc_pop,gc_clear,gc_discard=gc.push,gc.pop,gc.clear,gc.discard
@@ -69,9 +70,11 @@ local gc_draw,gc_line,gc_circle,gc_print=gc.draw,gc.line,gc.circle,gc.print
 
 local WIDGET,SCR,SCN=WIDGET,SCR,SCN
 local xOy=SCR.xOy
-local ITP=xOy.inverseTransformPoint
 
-local mx,my,mouseShow=-20,-20,false
+local ITP=xOy.inverseTransformPoint
+local max,min=math.max,math.min
+
+local mx,my,mouseShow,cursorSpd=-20,-20,false,0
 local jsState={}--map, joystickID->axisStates: {axisName->axisVal}
 local errData={}--list, each error create {mes={errMes strings},scene=sceneNameStr}
 
@@ -126,36 +129,61 @@ local function updatePowerInfo()
 end
 -------------------------------------------------------------
 local lastX,lastY=0,0--Last click pos
+local function _updateMousePos(x,y,dx,dy)
+    if SCN.swapping then return end
+    dx,dy=dx/SCR.k,dy/SCR.k
+    if SCN.mouseMove then SCN.mouseMove(x,y,dx,dy)end
+    if ms.isDown(1)then
+        WIDGET.drag(x,y,dx,dy)
+    else
+        WIDGET.cursorMove(x,y)
+    end
+end
+local function _triggerMouseDown(x,y,k)
+    if devMode==1 then
+        print(("(%d,%d)<-%d,%d ~~(%d,%d)<-%d,%d"):format(
+            x,y,
+            x-lastX,y-lastY,
+            math.floor(x/10)*10,math.floor(y/10)*10,
+            math.floor((x-lastX)/10)*10,math.floor((y-lastY)/10)*10
+        ))
+    end
+    if SCN.swapping then return end
+    if SCN.mouseDown then SCN.mouseDown(x,y,k)end
+    WIDGET.press(x,y,k)
+    lastX,lastY=x,y
+    if SETTING.clickFX then SYSFX.newTap(3,x,y)end
+end
+local function _mouse_update(dt)
+    if not KBisDown('lctrl','rctrl')and KBisDown('up','down','left','right')then
+        local dx,dy=0,0
+        if KBisDown('up')then    dy=dy-cursorSpd end
+        if KBisDown('down')then  dy=dy+cursorSpd end
+        if KBisDown('left')then  dx=dx-cursorSpd end
+        if KBisDown('right')then dx=dx+cursorSpd end
+        mx=max(min(mx+dx,1280),0)
+        my=max(min(my+dy,720),0)
+        if my==0 or my==720 then
+            WIDGET.sel=false
+            WIDGET.drag(0,0,0,-dy)
+        end
+        _updateMousePos(mx,my,dx,dy)
+        cursorSpd=min(cursorSpd+dt*26,12.6)
+    else
+        cursorSpd=6
+    end
+end
 function love.mousepressed(x,y,k,touch)
     if touch then return end
     mouseShow=true
     mx,my=ITP(xOy,x,y)
-    if devMode==1 then
-        print(("(%d,%d)<-%d,%d ~~(%d,%d)<-%d,%d"):format(
-            mx,my,
-            mx-lastX,my-lastY,
-            math.floor(mx/10)*10,math.floor(my/10)*10,
-            math.floor((mx-lastX)/10)*10,math.floor((my-lastY)/10)*10
-        ))
-    end
-    if SCN.swapping then return end
-    if SCN.mouseDown then SCN.mouseDown(mx,my,k)end
-    WIDGET.press(mx,my,k)
-    lastX,lastY=mx,my
-    if SETTING.clickFX then SYSFX.newTap(3,mx,my)end
+    _triggerMouseDown(mx,my,k)
 end
 function love.mousemoved(x,y,dx,dy,touch)
     if touch then return end
     mouseShow=true
     mx,my=ITP(xOy,x,y)
-    if SCN.swapping then return end
-    dx,dy=dx/SCR.k,dy/SCR.k
-    if SCN.mouseMove then SCN.mouseMove(mx,my,dx,dy)end
-    if ms.isDown(1)then
-        WIDGET.drag(mx,my,dx/SCR.k,dy/SCR.k)
-    else
-        WIDGET.cursorMove(mx,my)
-    end
+    _updateMousePos(mx,my,dx,dy)
 end
 function love.mousereleased(x,y,k,touch)
     if touch or SCN.swapping then return end
@@ -264,14 +292,26 @@ function love.keypressed(key,_,isRep)
         applyFullscreen()
         saveSettings()
     elseif not SCN.swapping then
-        if SCN.keyDown then
-            if EDITING==""then
-                SCN.keyDown(key,isRep)
+        if EDITING==""and(not SCN.keyDown or SCN.keyDown(key,isRep))then
+            local W=WIDGET.sel
+            if key=='escape'and not isRep then
+                SCN.back()
+            elseif key=='up'or key=='down'or key=='left'or key=='right'then
+                mouseShow=true
+                if KBisDown('lctrl','rctrl')then
+                    if W and W.arrowKey then W:arrowKey(key)end
+                end
+            elseif key=='space'or key=='return'then
+                mouseShow=true
+                if not isRep then
+                    if SETTING.clickFX then SYSFX.newTap(3,mx,my)end
+                    _triggerMouseDown(mx,my,1)
+                end
+            else
+                if W and W.keypress then
+                    W:keypress(key)
+                end
             end
-        elseif key=='escape'and not isRep then
-            SCN.back()
-        else
-            WIDGET.keyPressed(key,isRep)
         end
     end
 end
@@ -367,13 +407,36 @@ function love.gamepadaxis(JS,axis,val)
         end
     end
 end
-function love.gamepadpressed(_,i)
+function love.gamepadpressed(_,key)
     mouseShow=false
-    if SCN.swapping then return end
-    if SCN.gamepadDown then SCN.gamepadDown(i)
-    elseif SCN.keyDown then SCN.keyDown(dPadToKey[i]or i)
-    elseif i=="back"then SCN.back()
-    else WIDGET.gamepadPressed(dPadToKey[i]or i)
+    if not SCN.swapping then
+        local cursorCtrl
+        if SCN.gamepadDown then
+            cursorCtrl=SCN.gamepadDown(key)
+        elseif SCN.keyDown then
+            cursorCtrl=SCN.keyDown(dPadToKey[key]or key)
+        else
+            cursorCtrl=true
+        end
+        if cursorCtrl then
+            key=dPadToKey[key]or key
+            mouseShow=true
+            local W=WIDGET.sel
+            if key=='back'then
+                SCN.back()
+            elseif key=='up'or key=='down'or key=='left'or key=='right'then
+                mouseShow=true
+                if W and W.arrowKey then W:arrowKey(key)end
+            elseif key=='return'then
+                mouseShow=true
+                if SETTING.clickFX then SYSFX.newTap(3,mx,my)end
+                _triggerMouseDown(mx,my,1)
+            else
+                if W and W.keypress then
+                    W:keypress(key)
+                end
+            end
+        end
     end
 end
 function love.gamepadreleased(_,i)
@@ -513,7 +576,7 @@ local devColor={
 }
 local WS=WS
 local WSnames={'app','user','play','stream','chat','manage'}
-local wsBottomImage do
+local wsImg={}do
     local L={78,18,
         {'clear',1,1,1,0},
         {'setCL',1,1,1,.3},
@@ -523,23 +586,23 @@ local wsBottomImage do
         table.insert(L,{'setCL',1,1,1,i*.005})
         table.insert(L,{'fRect',i,0,1,18})
     end
-    wsBottomImage=GC.DO(L)
+    wsImg.bottom=GC.DO(L)
+    wsImg.dead=GC.DO{20,20,
+        {'rawFT',20},
+        {'setCL',1,.3,.3},
+        {'mText',"X",11,-1},
+    }
+    wsImg.connecting=GC.DO{20,20,
+        {'rawFT',20},
+        {'setLW',3},
+        {'mText',"C",11,-1},
+    }
+    wsImg.running=GC.DO{20,20,
+        {'rawFT',20},
+        {'setCL',.5,1,0},
+        {'mText',"R",11,-1},
+    }
 end
-local ws_deadImg=GC.DO{20,20,
-    {'rawFT',20},
-    {'setCL',1,.3,.3},
-    {'mText',"X",11,-1},
-}
-local ws_connectingImg=GC.DO{20,20,
-    {'rawFT',20},
-    {'setLW',3},
-    {'mText',"C",11,-1},
-}
-local ws_runningImg=GC.DO{20,20,
-    {'rawFT',20},
-    {'setCL',.5,1,0},
-    {'mText',"R",11,-1},
-}
 
 local function drawCursor(_,x,y)
     gc_setColor(1,1,1)
@@ -559,7 +622,7 @@ function love.run()
     local TASK_update=TASK.update
     local SYSFX_update,SYSFX_draw=SYSFX.update,SYSFX.draw
     local WIDGET_update,WIDGET_draw=WIDGET.update,WIDGET.draw
-
+    local VOC_update,BG_update=VOC.update,BG.update
     local STEP,WAIT=love.timer.step,love.timer.sleep
     local FPS,MINI=love.timer.getFPS,love.window.isMinimized
     local PUMP,POLL=love.event.pump,love.event.poll
@@ -598,8 +661,9 @@ function love.run()
 
         --UPDATE
         STEP()
-        VOC.update()
-        BG.update(dt)
+        if mouseShow then _mouse_update(dt)end
+        VOC_update()
+        BG_update(dt)
         TEXT_update(dt)
         MES_update(dt)
         WS_update(dt)
@@ -689,14 +753,14 @@ function love.run()
                             for i=1,6 do
                                 local status=WS.status(WSnames[i])
                                 gc_setColor(1,1,1)
-                                gc.draw(wsBottomImage,-79,20*i-139)
+                                gc.draw(wsImg.bottom,-79,20*i-139)
                                 if status=='dead'then
-                                    gc_draw(ws_deadImg,-20,20*i-140)
+                                    gc_draw(wsImg.dead,-20,20*i-140)
                                 elseif status=='connecting'then
                                     gc_setColor(1,1,1,.5+.3*math.sin(time*6.26))
-                                    gc_draw(ws_connectingImg,-20,20*i-140)
+                                    gc_draw(wsImg.connecting,-20,20*i-140)
                                 elseif status=='running'then
-                                    gc_draw(ws_runningImg,-20,20*i-140)
+                                    gc_draw(wsImg.running,-20,20*i-140)
                                 end
                                 local t1,t2,t3=WS.getTimers(WSnames[i])
                                 gc_setColor(.9,.9,.9,t1)gc.rectangle('fill',-60,20*i-122,-16,-16)

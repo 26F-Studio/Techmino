@@ -124,8 +124,6 @@ function scene.keyDown(key)
             inputBox:clear()
             SFX.play('hold')
         end
-    elseif key=='backspace'then
-        WIDGET.keyPressed("backspace")
     elseif key=='escape'then
         if inputBox:hasText()then
             scene.keyDown('delete')
@@ -143,7 +141,7 @@ function scene.keyDown(key)
         if not WIDGET.isFocus(inputBox)then
             WIDGET.focus(inputBox)
         end
-        WIDGET.keyPressed(key)
+        return true
     end
 end
 

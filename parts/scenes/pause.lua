@@ -121,7 +121,7 @@ function scene.sceneBack()
 end
 
 function scene.keyDown(key,isRep)
-    if isRep then return end
+    if isRep then return true end
     if key=='q'then
         SCN.back()
         GAME.playing=false
@@ -165,7 +165,7 @@ function scene.keyDown(key,isRep)
             SYSFX.newShade(1.2,555,200,620,380,.6,.6,.6)
         end
     else
-        WIDGET.keyPressed(key)
+        return true
     end
 end
 

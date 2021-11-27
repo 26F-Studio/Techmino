@@ -4,7 +4,7 @@ local ins,rem=table.insert,table.remove
 local C=COLOR
 
 local inputBox=WIDGET.newInputBox{name='input',x=40,y=650,w=1200,h=50,fType='mono'}
-local outputBox=WIDGET.newTextBox{name='output',x=40,y=30,w=1200,h=610,font=25,fType='mono',lineH=25,fix=true}
+local outputBox=WIDGET.newTextBox{name='output',x=40,y=30,w=1200,h=610,font=25,fType='mono',lineH=23,fix=true}
 
 local function log(str)outputBox:push(str)end
 log{C.lP,"Techmino Console"}
@@ -1088,8 +1088,8 @@ function scene.keyDown(key)
         end
     elseif key=='scrollup'then outputBox:scroll(-5)
     elseif key=='scrolldown'then outputBox:scroll(5)
-    elseif key=='pageup'then outputBox:scroll(-20)
-    elseif key=='pagedown'then outputBox:scroll(20)
+    elseif key=='pageup'then outputBox:scroll(-25)
+    elseif key=='pagedown'then outputBox:scroll(25)
     elseif key=='home'then outputBox:scroll(-1e99)
     elseif key=='end'then outputBox:scroll(1e99)
     elseif combKey[key]and kb.isDown('lctrl','rctrl')then combKey[key]()
@@ -1103,7 +1103,7 @@ function scene.keyDown(key)
         if not WIDGET.isFocus(inputBox)then
             WIDGET.focus(inputBox)
         end
-        WIDGET.keyPressed(key)
+        return true
     end
 end
 

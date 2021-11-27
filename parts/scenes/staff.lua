@@ -31,12 +31,12 @@ end
 scene.touchDown=scene.mouseDown
 
 function scene.keyDown(key)
-    if key=='escape'then
-        SCN.back()
-    elseif key=='l'then
+    if key=='l'then
         loadGame('sprintLock',true)
     elseif key=='f'then
         loadGame('sprintFix',true)
+    else
+        return true
     end
 end
 

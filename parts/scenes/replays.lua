@@ -137,10 +137,8 @@ function scene.keyDown(key)
                 MES.new('info',text.sureReset)
             end
         end
-    elseif key=='escape'then
-        SCN.back()
     else
-        WIDGET.keyPressed(key)
+        return true
     end
 end
 

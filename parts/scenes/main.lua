@@ -46,76 +46,9 @@ function scene.mouseDown(x,y)
     end
 end
 scene.touchDown=scene.mouseDown
-local function _testButton(n)
-    if NET.getlock('access_and_login')then
-        MES.new('warn',text.wsConnecting)
-    else
-        if WIDGET.isFocus(scene.widgetList[n])then
-            return true
-        else
-            WIDGET.focus(scene.widgetList[n])
-        end
-    end
-end
 function scene.keyDown(key,isRep)
-    if isRep then return end
-    if key=='1'then
-        if _testButton(1)then
-            SCN.go('mode')
-        end
-    elseif key=='q'then
-        if _testButton(2)then
-            loadGame(STAT.lastPlay,true)
-        end
-    elseif key=='a'then
-        if _testButton(3)then
-            if WS.status('app')=='running'then
-                NET.tryLogin(false)
-            elseif WS.status('app')=='dead'then
-                NET.wsconn_app()
-                SFX.play('connect')
-                MES.new('info',text.wsConnecting)
-            end
-        end
-    elseif key=='z'then
-        if _testButton(4)then
-            SCN.go('customGame')
-        end
-    elseif key=='-'then
-        if _testButton(5)then
-            SCN.go('setting_game')
-        end
-    elseif key=='p'then
-        if _testButton(6)then
-            SCN.go('stat')
-        end
-    elseif key=='l'then
-        if _testButton(7)then
-            SCN.go('dict')
-        end
-    elseif key==','then
-        if _testButton(8)then
-            SCN.go('replays')
-        end
-    elseif key=='2'then
-        if _testButton(9)then
-            SCN.go('music')
-        end
-    elseif key=='3'then
-        if _testButton(10)then
-            SCN.go('lang')
-        end
-    elseif key=='x'then
-        if _testButton(11)then
-            SCN.go('about')
-        end
-    elseif key=='m'then
-        if _testButton(12)then
-            SCN.go('manual')
-        end
-    elseif key=='c'then
-        enterConsole()
-    elseif key=='escape'then
+    if isRep then return true end
+    if key=='escape'then
         if TIME()-lastQuitTime<1 then
             VOC.play('bye')
             SCN.swapTo('quit','slowFade')
@@ -123,6 +56,10 @@ function scene.keyDown(key,isRep)
             lastQuitTime=TIME()
             MES.new('warn',text.sureQuit)
         end
+    elseif key=='c'then
+        enterConsole()
+    else
+        return true
     end
 end
 
@@ -183,21 +120,36 @@ function scene.draw()
     end
 end
 
+local function notConn()
+    if NET.getlock('access_and_login')then
+        MES.new('warn',text.wsConnecting)
+    else
+        return true
+    end
+end
 scene.widgetList={
-    WIDGET.newButton{name='offline',x=-1200,y=210,w=800,h=100,color='lR',font=45,align='R',edge=30,code=pressKey'1'},
-    WIDGET.newButton{name='qplay',  x=-1200,y=330,w=800,h=100,color='lM',font=40,align='R',edge=30,code=pressKey'q'},
-    WIDGET.newButton{name='online', x=-1200,y=450,w=800,h=100,color='lV',font=45,align='R',edge=30,code=pressKey'a'},
-    WIDGET.newButton{name='custom', x=-1200,y=570,w=800,h=100,color='lS',font=45,align='R',edge=30,code=pressKey'z'},
+    WIDGET.newButton{name='offline',x=-1200,y=210,w=800,h=100,color='lR',font=45,align='R',edge=30,code=function()if notConn()then SCN.go('mode')end end},
+    WIDGET.newButton{name='qplay',  x=-1200,y=330,w=800,h=100,color='lM',font=40,align='R',edge=30,code=function()loadGame(STAT.lastPlay,true)end},
+    WIDGET.newButton{name='online', x=-1200,y=450,w=800,h=100,color='lV',font=45,align='R',edge=30,code=function()
+        if WS.status('app')=='running'then
+            NET.tryLogin(false)
+        elseif WS.status('app')=='dead'then
+            NET.wsconn_app()
+            SFX.play('connect')
+            MES.new('info',text.wsConnecting)
+        end
+    end},
+    WIDGET.newButton{name='custom', x=-1200,y=570,w=800,h=100,color='lS',font=45,align='R',edge=30,code=function()if notConn()then SCN.go('customGame')end end},
 
-    WIDGET.newButton{name='setting',x=2480,y=210,w=800,h=100, color='lO',font=40,align='L',edge=30,code=pressKey'-'},
-    WIDGET.newButton{name='stat',   x=2480,y=330,w=800,h=100, color='lL',font=40,align='L',edge=30,code=pressKey'p'},
-    WIDGET.newButton{name='dict',   x=2480,y=450,w=800,h=100, color='lG',font=40,align='L',edge=30,code=pressKey'l'},
-    WIDGET.newButton{name='replays',x=2480,y=570,w=800,h=100, color='lC',font=40,align='L',edge=30,code=pressKey','},
+    WIDGET.newButton{name='setting',x=2480,y=210,w=800,h=100, color='lO',font=40,align='L',edge=30,code=function()if notConn()then SCN.go('setting_game')end end},
+    WIDGET.newButton{name='stat',   x=2480,y=330,w=800,h=100, color='lL',font=40,align='L',edge=30,code=function()if notConn()then SCN.go('stat')end end},
+    WIDGET.newButton{name='dict',   x=2480,y=450,w=800,h=100, color='lG',font=40,align='L',edge=30,code=function()if notConn()then SCN.go('dict')end end},
+    WIDGET.newButton{name='replays',x=2480,y=570,w=800,h=100, color='lC',font=40,align='L',edge=30,code=function()if notConn()then SCN.go('replays')end end},
 
-    WIDGET.newButton{name='music',  x=120,y=80,w=100,         color='lO',code=pressKey'2',font=70,fText=CHAR.icon.music},
-    WIDGET.newButton{name='lang',   x=280,y=80,w=100,         color='lN',code=pressKey'3',font=70,fText=CHAR.icon.language},
-    WIDGET.newButton{name='about',  x=-110,y=670,w=600,h=70,  color='lB',align='R',edge=20,code=pressKey'x',font=50,fText=CHAR.icon.info},
-    WIDGET.newButton{name='manual', x=1390,y=670,w=600,h=70,  color='lR',align='L',edge=20,code=pressKey'm',font=50,fText=CHAR.icon.help},
+    WIDGET.newButton{name='music',  x=120,y=80,w=100,         color='lO',code=function()if notConn()then SCN.go('music')end end,font=70,fText=CHAR.icon.music},
+    WIDGET.newButton{name='lang',   x=280,y=80,w=100,         color='lN',code=function()if notConn()then SCN.go('lang')end end,font=70,fText=CHAR.icon.language},
+    WIDGET.newButton{name='about',  x=-110,y=670,w=600,h=70,  color='lB',align='R',edge=20,code=function()if notConn()then SCN.go('about')end end,font=50,fText=CHAR.icon.info},
+    WIDGET.newButton{name='manual', x=1390,y=670,w=600,h=70,  color='lR',align='L',edge=20,code=function()if notConn()then SCN.go('manual')end end,font=50,fText=CHAR.icon.help},
 }
 
 return scene

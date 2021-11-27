@@ -529,13 +529,13 @@ return{
             any="Apagar",
             -- smart="Smart",
 
-            push="Add Linha(K)",
-            del="Del Linha(L)",
+            push="Add Linha (K)",
+            del="Del Linha (L)",
 
             demo="Não mostrar ×",
 
-            newPg="Nova Página(N)",
-            delPg="Del Página(M)",
+            newPg="Nova Página (N)",
+            delPg="Del Página (M)",
             prevPg="Página Ant.",
             nextPg="Prox. Página",
         },

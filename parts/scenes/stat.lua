@@ -54,11 +54,11 @@ function scene.mouseDown(x,y)
     end
 end
 scene.touchDown=scene.mouseDown
-function scene.keyDown(key)
-    if key=='escape'then
-        SCN.back()
-    elseif love.keyboard.isDown('m')and love.keyboard.isDown('d')then
+function scene.keyDown()
+    if love.keyboard.isDown('m')and love.keyboard.isDown('d')then
         loadGame('sprintMD',true)
+    else
+        return true
     end
 end
 
