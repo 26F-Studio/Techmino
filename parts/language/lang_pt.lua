@@ -126,6 +126,7 @@ return{
     chatHistory="------Novas mensagens abaixo------",
 
     -- keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
+    -- customBGhelp="Drop image file here to apply custom background",
 
     errorMsg="Um erro ocorreu e Techmino precisa reiniciar.\nInformação do erro foi criada, e você pode mandar ao autor.",
     -- tryAnotherBuild="[Invalid UTF-8] If you are on Windows, try downloading Techmino-win32 or Techmino-win64 (different from what you are using now).",
@@ -378,7 +379,10 @@ return{
             power="Informação bateria",
             -- clean="Fast Draw",
             fullscreen="Tela cheia",
-            bg="Fundo",
+
+            -- bg_on="Normal Backgrounds",
+            -- bg_off="No Background",
+            -- bg_custom="Apply Custom BG",
 
             -- blockSatur="Block Saturation",
             -- fieldSatur="Field Saturation",

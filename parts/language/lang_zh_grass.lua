@@ -136,6 +136,7 @@ return{
     chatHistory="------下面是新消息------",
 
     keySettingInstruction="按绑定键\n退出:取消\n退格:删除",
+    customBGhelp="将图像文件拖放到此处以应用自定义背景",
 
     errorMsg="技术米诺遇到问题，需要重新启动。\n您可以将错误日志发送给开发人员。",
     tryAnotherBuild="[无效UTF-8]如果您在Windows上，请尝试下载Techmino-win32或Techmino-win64(与您现在使用的不同)",
@@ -388,7 +389,10 @@ return{
             power="蓄电池信息",
             clean="快速绘制",
             fullscreen="全屏",
-            bg="背景",
+
+            bg_on="正常背景",
+            bg_off="没有背景",
+            bg_custom="应用自定义背景",
 
             blockSatur="块饱和",
             fieldSatur="场饱和",

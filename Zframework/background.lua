@@ -4,8 +4,9 @@ local BGs={
 }
 local BGlist={'none'}
 local BG={
-    cur='none',
     default='none',
+    locked=false,
+    cur='none',
     init=false,
     resize=false,
     update=NULL,
@@ -14,6 +15,8 @@ local BG={
     discard=NULL,
 }
 
+function BG.lock()BG.locked=true end
+function BG.unlock()BG.locked=false end
 function BG.add(name,bg)
     BGs[name]=bg
     BGlist[#BGlist+1]=name
@@ -29,20 +32,20 @@ end
 function BG.setDefault(bg)
     BG.default=bg
 end
-function BG.set(background)
-    background=background or BG.default
-    if not BGs[background]or not SETTING.bg then return end
-    if background~=BG.cur then
+function BG.set(name)
+    name=name or BG.default
+    if not BGs[name]or BG.locked then return end
+    if name~=BG.cur then
         BG.discard()
-        BG.cur=background
-        background=BGs[background]
+        BG.cur=name
+        local bg=BGs[name]
 
-        BG.init=   background.init or NULL
-        BG.resize= background.resize or NULL
-        BG.update= background.update or NULL
-        BG.draw=   background.draw or NULL
-        BG.event=  background.event or NULL
-        BG.discard=background.discard or NULL
+        BG.init=   bg.init or NULL
+        BG.resize= bg.resize or NULL
+        BG.update= bg.update or NULL
+        BG.draw=   bg.draw or NULL
+        BG.event=  bg.event or NULL
+        BG.discard=bg.discard or NULL
         BG.init()
     end
     return true

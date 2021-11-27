@@ -138,6 +138,7 @@ return{
     chatHistory="------以上為歷史訊息------",
 
     keySettingInstruction="點擊來設置鍵位\n按esc來取消選中\n按退格鍵來清除選中",
+    customBGhelp="把圖片檔案拖到這個視窗裏使用自定義背景",
 
     errorMsg="Techmino遇到問題，需要重新啟動。\n我們已經收集了一些錯誤信息，你可以反饋給作者。",
     tryAnotherBuild="[無效的 UTF-8] 如果你使用的是Windows作業系統，請嘗試下載Techmino-win32或Techmino-win64（與你現在使用的不同的版本）。",
@@ -389,7 +390,10 @@ return{
             power="電量顯示",
             clean="渲染優化",
             fullscreen="全屏幕",
-            bg="背景",
+
+            bg_on="普通背景",
+            bg_off="無背景",
+            bg_custom="應用自定義背景",
 
             blockSatur="方塊飽和",
             fieldSatur="場地飽和",

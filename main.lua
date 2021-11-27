@@ -518,6 +518,7 @@ do
     if type(SETTING.skinSet)=='number'then SETTING.skinSet='crystal_scf'end
     if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then SETTING.frameMul=100 end
     if SETTING.cv then SETTING.vocPack,SETTING.cv=SETTING.cv end
+    if type(SETTING.bg)~='string'then SETTING.bg='on'end
     if RANKS.infinite then RANKS.infinite=0 end
     if RANKS.infinite_dig then RANKS.infinite_dig=0 end
     if not RANKS.sprint_10l then RANKS.sprint_10l=0 end

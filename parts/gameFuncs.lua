@@ -108,8 +108,32 @@ do--function applyBlockSatur,applyFieldSatur(mode)
         SHADER.fieldSatur:send('k',m[2])
     end
 end
+function applyBG()
+    if SETTING.bg=='on'then
+        BG.unlock()
+        BG.set()
+    elseif SETTING.bg=='off'then
+        BG.unlock()
+        BG.set('gray')
+        BG.send(SETTING.bgAlpha)
+        BG.lock()
+    elseif SETTING.bg=='custom'then
+        if love.filesystem.getInfo('conf/customBG')then
+            BG.unlock()
+            BG.set('custom')
+            gc.setDefaultFilter('linear','linear')
+            local image=gc.newImage(love.filesystem.newFile('conf/customBG'))
+            gc.setDefaultFilter('nearest','nearest')
+            BG.send(SETTING.bgAlpha,image)
+            BG.lock()
+        else
+            SETTING.bg='off'
+            applyBG()
+        end
+    end
+end
 function applyAllSettings()
-    love.window.setFullscreen(SETTING.fullscreen)
+    applyFullscreen()
     love.audio.setVolume(SETTING.mainVol)
     VK.setShape(SETTING.VKSkin)
     BGM.setVol(SETTING.bgm)
@@ -119,6 +143,7 @@ function applyAllSettings()
     applyFieldSatur(SETTING.fieldSatur)
     applyLanguage()
     applyCursor()
+    applyBG()
 end
 
 --Royale mode

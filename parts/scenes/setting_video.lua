@@ -6,6 +6,13 @@ function scene.sceneBack()
     saveSettings()
 end
 
+
+function scene.fileDropped(file)
+    love.filesystem.write('conf/customBG',file:read('data'))
+    SETTING.bg='custom'
+    applyBG()
+end
+
 local fakeBlock={{true}}
 function scene.draw()
     local skinLib=SKIN.lib[SETTING.skinSet]
@@ -72,12 +79,24 @@ scene.widgetList={
     WIDGET.newSwitch{name='power',        x=950,y=1070,lim=360,disp=SETval('powerInfo'),            code=SETrev('powerInfo')},
     WIDGET.newSwitch{name='clean',        x=950,y=1160,lim=360,disp=SETval('cleanCanvas'),          code=SETrev('cleanCanvas')},
     WIDGET.newSwitch{name='fullscreen',   x=950,y=1250,lim=360,disp=SETval('fullscreen'),           code=function()SETTING.fullscreen=not SETTING.fullscreen applyFullscreen()end},
-    WIDGET.newSwitch{name='bg',           x=950,y=1340,lim=360,disp=SETval('bg'),
+
+    WIDGET.newKey{name='bg_on',           x=900,y=1340,w=200,h=80,code=function()SETTING.bg='on'applyBG()end},
+    WIDGET.newKey{name='bg_off',          x=680,y=1340,w=200,h=80,code=function()SETTING.bg='off'applyBG()end},
+    WIDGET.newKey{name='bg_custom',       x=1120,y=1340,w=200,h=80,
         code=function()
-            BG.set('none')
-            SETTING.bg=not SETTING.bg
-            BG.set()
-        end},
+            if love.filesystem.getInfo('conf/customBG')then
+                SETTING.bg='custom'
+                applyBG()
+            else
+                MES.new('info',text.customBGhelp)
+            end
+        end
+        },
+    WIDGET.newSlider{name='bgAlpha',      x=1020,y=1430,w=200,
+        unit=.8,disp=SETval('bgAlpha'),
+        code=function(v)SETTING.bgAlpha=v BG.send(v)end,
+        hideF=function()return SETTING.bg=='on'end
+        },
 
     WIDGET.newSelector{name='blockSatur', x=800,y=1440,w=300,color='lN',
         list={'normal','soft','gray','light','color'},

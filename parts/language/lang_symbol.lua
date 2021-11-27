@@ -284,7 +284,10 @@ return{
             power="+.",
             clean="[]→→O",
             fullscreen="|←→|",
-            bg="__?__",
+
+            bg_on="__?__",
+            bg_off="__.__",
+            bg_custom="__!__",
 
             blockSatur="==#0x",
             fieldSatur="[]#0x",
