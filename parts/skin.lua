@@ -49,6 +49,7 @@ local skinMeta={__index=function(self,name)
             end
         end
     end
+    gc.setDefaultFilter('linear','linear')
     gc.setCanvas()
     gc.pop()
     return self[name]
