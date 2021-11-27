@@ -392,9 +392,9 @@ return{
             clean="Quick Draw",
             fullscreen="Fullscreen",
 
-            bg_on="Normal Backgrounds",
-            bg_off="No Background",
-            bg_custom="Apply Custom BG",
+            bg_on="Normal B.G.",
+            bg_off="No B.G.",
+            bg_custom="Use Custom B.G.",
 
             blockSatur="Block Saturation",
             fieldSatur="Field Saturation",

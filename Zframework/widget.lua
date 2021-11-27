@@ -16,7 +16,6 @@ local next=next
 local int,ceil=math.floor,math.ceil
 local max,min=math.max,math.min
 local sub,ins,rem=string.sub,table.insert,table.remove
-local mDraw,mDraw_X,mDraw_Y=GC.draw,GC.simpX,GC.simpY
 local xOy=SCR.xOy
 local FONT=FONT
 local mStr=GC.mStr
@@ -74,7 +73,7 @@ function text:draw()
         local c=self.color
         gc_setColor(c[1],c[2],c[3],self.alpha)
         if self.align=='M'then
-            mDraw_X(self.obj,self.x,self.y)
+            gc_draw(self.obj,self.x-self.obj:getWidth()*.5,self.y)
         elseif self.align=='L'then
             gc_draw(self.obj,self.x,self.y)
         elseif self.align=='R'then
@@ -181,32 +180,34 @@ function button:draw()
 
     --Drawable
     local obj=self.obj
+    local ox,oy=obj:getWidth()*.5,obj:getHeight()*.5
     local y0=y+h*.5-ATV*.5
     gc_setColor(1,1,1,.2+ATV*.05)
     if self.align=='M'then
         local x0=x+w*.5
-        mDraw(obj,x0-1,y0-1)
-        mDraw(obj,x0-1,y0+1)
-        mDraw(obj,x0+1,y0-1)
-        mDraw(obj,x0+1,y0+1)
+        local kx=obj:type()=='Text'and min(w/ox/2,1)or 1
+        gc_draw(obj,x0-1,y0-1,nil,kx,1,ox,oy)
+        gc_draw(obj,x0-1,y0+1,nil,kx,1,ox,oy)
+        gc_draw(obj,x0+1,y0-1,nil,kx,1,ox,oy)
+        gc_draw(obj,x0+1,y0+1,nil,kx,1,ox,oy)
         gc_setColor(r*.55,g*.55,b*.55)
-        mDraw(obj,x0,y0)
+        gc_draw(obj,x0,y0,nil,kx,1,ox,oy)
     elseif self.align=='L'then
         local edge=self.edge
-        mDraw_Y(obj,x+edge-1,y0-1)
-        mDraw_Y(obj,x+edge-1,y0+1)
-        mDraw_Y(obj,x+edge+1,y0-1)
-        mDraw_Y(obj,x+edge+1,y0+1)
+        gc_draw(obj,x+edge-1,y0-1-oy)
+        gc_draw(obj,x+edge-1,y0+1-oy)
+        gc_draw(obj,x+edge+1,y0-1-oy)
+        gc_draw(obj,x+edge+1,y0+1-oy)
         gc_setColor(r*.55,g*.55,b*.55)
-        mDraw_Y(obj,x+edge,y0)
+        gc_draw(obj,x+edge,y0-oy)
     elseif self.align=='R'then
-        local x0=x+w-self.edge-obj:getWidth()
-        mDraw_Y(obj,x0-1,y0-1)
-        mDraw_Y(obj,x0-1,y0+1)
-        mDraw_Y(obj,x0+1,y0-1)
-        mDraw_Y(obj,x0+1,y0+1)
+        local x0=x+w-self.edge-ox*2
+        gc_draw(obj,x0-1,y0-1-oy)
+        gc_draw(obj,x0-1,y0+1-oy)
+        gc_draw(obj,x0+1,y0-1-oy)
+        gc_draw(obj,x0+1,y0+1-oy)
         gc_setColor(r*.55,g*.55,b*.55)
-        mDraw_Y(obj,x0,y0)
+        gc_draw(obj,x0,y0-oy)
     end
 end
 function button:getInfo()
@@ -311,11 +312,11 @@ function key:draw()
     if self.fShade then
         gc_setColor(r,g,b,ATV*.25)
         if align=='M'then
-            mDraw(self.fShade,x+w*.5,y+h*.5)
+            gc_draw(self.fShade,x+w*.5-self.fShade:getWidth()*.5,y+h*.5-self.fShade:getHeight()*.5)
         elseif align=='L'then
-            mDraw_Y(self.fShade,x+self.edge,y+h*.5)
+            gc_draw(self.fShade,x+self.edge,y+h*.5-self.fShade:getHeight()*.5)
         elseif align=='R'then
-            mDraw_Y(self.fShade,x+w-self.edge-self.fShade:getWidth(),y+h*.5)
+            gc_draw(self.fShade,x+w-self.edge-self.fShade:getWidth(),y+h*.5-self.fShade:getHeight()*.5)
         end
     else
         gc_setColor(1,1,1,ATV*.05)
@@ -323,13 +324,16 @@ function key:draw()
     end
 
     --Drawable
+    local obj=self.obj
+    local ox,oy=obj:getWidth()*.5,obj:getHeight()*.5
     gc_setColor(r,g,b)
     if align=='M'then
-        mDraw(self.obj,x+w*.5,y+h*.5)
+        local kx=obj:type()=='Text'and min(w/ox/2,1)or 1
+        gc_draw(obj,x+w*.5,y+h*.5,nil,kx,1,ox,oy)
     elseif align=='L'then
-        mDraw_Y(self.obj,x+self.edge,y+h*.5)
+        gc_draw(obj,x+self.edge,y-oy+h*.5)
     elseif align=='R'then
-        mDraw_Y(self.obj,x+w-self.edge-self.obj:getWidth(),y+h*.5)
+        gc_draw(obj,x+w-self.edge-ox*2,y-oy+h*.5)
     end
 end
 function key:getInfo()
@@ -870,7 +874,7 @@ function inputBox:draw()
     local f=self.font
     FONT.set(f,self.fType)
     if self.obj then
-        mDraw_Y(self.obj,x-12-self.obj:getWidth(),y+h*.5)
+        gc_draw(self.obj,x-12-self.obj:getWidth(),y+h*.5-self.obj:getHeight()*.5)
     end
     if self.secret then
         y=y+h*.5-f*.2

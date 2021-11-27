@@ -80,8 +80,8 @@ scene.widgetList={
     WIDGET.newSwitch{name='clean',        x=950,y=1160,lim=360,disp=SETval('cleanCanvas'),          code=SETrev('cleanCanvas')},
     WIDGET.newSwitch{name='fullscreen',   x=950,y=1250,lim=360,disp=SETval('fullscreen'),           code=function()SETTING.fullscreen=not SETTING.fullscreen applyFullscreen()end},
 
-    WIDGET.newKey{name='bg_on',           x=900,y=1340,w=200,h=80,code=function()SETTING.bg='on'applyBG()end},
-    WIDGET.newKey{name='bg_off',          x=680,y=1340,w=200,h=80,code=function()SETTING.bg='off'applyBG()end},
+    WIDGET.newKey{name='bg_on',           x=680,y=1340,w=200,h=80,code=function()SETTING.bg='on'applyBG()end},
+    WIDGET.newKey{name='bg_off',          x=900,y=1340,w=200,h=80,code=function()SETTING.bg='off'applyBG()end},
     WIDGET.newKey{name='bg_custom',       x=1120,y=1340,w=200,h=80,
         code=function()
             if love.filesystem.getInfo('conf/customBG')then
