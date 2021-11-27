@@ -139,6 +139,7 @@ return{
 
     keySettingInstruction="点击添加键位绑定\nesc取消选中\n退格键清空选中",
     customBGhelp="把图片文件拖到这个窗口里使用自定义背景",
+    customBGloadFailed="自定义背景的图片文件格式不支持",
 
     errorMsg="Techmino遭受了雷击，需要重新启动。\n我们已收集了一些错误信息，你可以向作者进行反馈。",
     tryAnotherBuild="[解码UTF-8错误] 如果你现在用的是Windows系统，请重新下载 Techmino-32位 或者 Techmino-64位 (和现在运行的不一样的那个)。",

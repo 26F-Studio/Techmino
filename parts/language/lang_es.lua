@@ -128,6 +128,7 @@ return{
 
     -- keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
     -- customBGhelp="Drop image file here to apply custom background",
+    -- customBGloadFailed="Unsupport image format for custom background",
 
     errorMsg="Ha ocurrido un error y Techmino necesita reiniciarse.\nSe creó un registro de error, puedes enviarlo al autor.",
     -- tryAnotherBuild="[Invalid UTF-8] If you are on Windows, try downloading Techmino-win32 or Techmino-win64 (different from what you are using now).",

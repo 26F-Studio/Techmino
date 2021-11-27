@@ -8,9 +8,13 @@ end
 
 
 function scene.fileDropped(file)
-    love.filesystem.write('conf/customBG',file:read('data'))
-    SETTING.bg='custom'
-    applyBG()
+    if pcall(gc.newImage,file)then
+        love.filesystem.write('conf/customBG',file:read('data'))
+        SETTING.bg='custom'
+        applyBG()
+    else
+        MES.new('error',text.customBGloadFailed)
+    end
 end
 
 local fakeBlock={{true}}

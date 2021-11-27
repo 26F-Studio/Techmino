@@ -139,6 +139,7 @@ return{
 
     keySettingInstruction="點擊來設置鍵位\n按esc來取消選中\n按退格鍵來清除選中",
     customBGhelp="把圖片檔案拖到這個視窗裏使用自定義背景",
+    customBGloadFailed="自定義背景的圖片檔案格式不支持",
 
     errorMsg="Techmino遇到問題，需要重新啟動。\n我們已經收集了一些錯誤信息，你可以反饋給作者。",
     tryAnotherBuild="[無效的 UTF-8] 如果你使用的是Windows作業系統，請嘗試下載Techmino-win32或Techmino-win64（與你現在使用的不同的版本）。",

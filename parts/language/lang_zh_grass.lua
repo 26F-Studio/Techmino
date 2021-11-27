@@ -137,6 +137,7 @@ return{
 
     keySettingInstruction="按绑定键\n退出:取消\n退格:删除",
     customBGhelp="将图像文件拖放到此处以应用自定义背景",
+    customBGloadFailed="不支持自定义背景的图像格式",
 
     errorMsg="技术米诺遇到问题，需要重新启动。\n您可以将错误日志发送给开发人员。",
     tryAnotherBuild="[无效UTF-8]如果您在Windows上，请尝试下载Techmino-win32或Techmino-win64(与您现在使用的不同)",

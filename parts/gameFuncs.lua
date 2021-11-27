@@ -119,13 +119,17 @@ function applyBG()
         BG.lock()
     elseif SETTING.bg=='custom'then
         if love.filesystem.getInfo('conf/customBG')then
-            BG.unlock()
-            BG.set('custom')
-            gc.setDefaultFilter('linear','linear')
-            local image=gc.newImage(love.filesystem.newFile('conf/customBG'))
-            gc.setDefaultFilter('nearest','nearest')
-            BG.send(SETTING.bgAlpha,image)
-            BG.lock()
+            local res,image=pcall(gc.newImage,love.filesystem.newFile('conf/customBG'))
+            if res then
+                BG.unlock()
+                BG.set('custom')
+                gc.setDefaultFilter('linear','linear')
+                BG.send(SETTING.bgAlpha,image)
+                gc.setDefaultFilter('nearest','nearest')
+                BG.lock()
+            else
+                MES.new('error',text.customBGloadFailed)
+            end
         else
             SETTING.bg='off'
             applyBG()
