@@ -226,7 +226,7 @@ function button:press(_,_,k)
         SFX.play('button')
     end
 end
-function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,fType][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
+function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,fType][,sound=true][,align='M'][,edge=0][,code][,hideF][,hide]
     if not D.h then D.h=D.w end
     local _={
         name= D.name or"_",
@@ -251,7 +251,7 @@ function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,fType][,
         align=D.align or'M',
         edge= D.edge or 0,
         sound=D.sound~=false,
-        code= D.code,
+        code= D.code or NULL,
         hideF=D.hideF,
         hide= D.hide,
     }
@@ -341,7 +341,7 @@ function key:press(_,_,k)
         SFX.play('key')
     end
 end
-function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,fShade][,noFrame][,color][,font=30][,fType][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
+function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,fShade][,noFrame][,color][,font=30][,fType][,sound=true][,align='M'][,edge=0][,code][,hideF][,hide]
     if not D.h then D.h=D.w end
     local _={
         name=   D.name or"_",
@@ -368,7 +368,7 @@ function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,fShade][,noFrame][,color][,fo
         sound=  D.sound~=false,
         align=  D.align or'M',
         edge=   D.edge or 0,
-        code=   D.code,
+        code=   D.code or NULL,
         hideF=  D.hideF,
         hide=   D.hide,
     }
@@ -441,7 +441,7 @@ function switch:press()
         SFX.play('touch')
     end
 end
-function WIDGET.newSwitch(D)--name,x,y[,lim][,fText][,color][,font=30][,fType][,sound=true][,disp],code[,hideF][,hide]
+function WIDGET.newSwitch(D)--name,x,y[,lim][,fText][,color][,font=30][,fType][,sound=true][,disp][,code][,hideF][,hide]
     local _={
         name= D.name or"_",
 
@@ -459,7 +459,7 @@ function WIDGET.newSwitch(D)--name,x,y[,lim][,fText][,color][,font=30][,fType][,
         fType=D.fType,
         sound=D.sound~=false,
         disp= D.disp,
-        code= D.code,
+        code= D.code or NULL,
         hideF=D.hideF,
         hide= D.hide,
     }
@@ -599,7 +599,7 @@ end
 function slider:arrowKey(k)
     self:scroll((k=='left'or k=='up')and -1 or 1)
 end
-function WIDGET.newSlider(D)--name,x,y,w[,lim][,fText][,color][,unit][,smooth][,font=30][,fType][,change],disp[,show],code,hide
+function WIDGET.newSlider(D)--name,x,y,w[,lim][,fText][,color][,unit][,smooth][,font=30][,fType][,change],disp[,show][,code],hide
     local _={
         name=  D.name or"_",
 
@@ -624,7 +624,7 @@ function WIDGET.newSlider(D)--name,x,y,w[,lim][,fText][,color][,unit][,smooth][,
         fType=D.fType,
         change=D.change,
         disp=  D.disp,
-        code=  D.code,
+        code=  D.code or NULL,
         hideF= D.hideF,
         hide=  D.hide,
         show=  false,
@@ -776,7 +776,7 @@ function selector:arrowKey(k)
     self:scroll((k=='left'or k=='up')and -1 or 1)
 end
 
-function WIDGET.newSelector(D)--name,x,y,w[,fText][,color][,sound=true],list,disp,code,hide
+function WIDGET.newSelector(D)--name,x,y,w[,fText][,color][,sound=true],list,disp[,code],hide
     local _={
         name= D.name or"_",
 
@@ -798,7 +798,7 @@ function WIDGET.newSelector(D)--name,x,y,w[,fText][,color][,sound=true],list,dis
         font= 30,
         list= D.list,
         disp= D.disp,
-        code= D.code,
+        code= D.code or NULL,
         hideF=D.hideF,
         hide= D.hide,
     }
