@@ -164,13 +164,9 @@ function scene.update()
         if kb.isDown('right','d')then dx=dx-10 F=true end
         local js1=Z.js[1]
         if js1 then
-            local dir=js1:getAxis(1)
-            if dir~="c"then
-                if dir=="u"or dir=="ul"or dir=="ur"then dy=dy+10 F=true end
-                if dir=="d"or dir=="dl"or dir=="dl"then dy=dy-10 F=true end
-                if dir=="l"or dir=="ul"or dir=="dl"then dx=dx+10 F=true end
-                if dir=="r"or dir=="ur"or dir=="dr"then dx=dx-10 F=true end
-            end
+            dx=dx+12.6*js1:getGamepadAxis('leftx')
+            dy=dy+12.6*js1:getGamepadAxis('lefty')
+            F=true
         end
     end
     if F then
