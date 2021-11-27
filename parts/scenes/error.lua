@@ -2,14 +2,14 @@ local gc=love.graphics
 local rnd=math.random
 
 local BGcolor
-local stateInfo,errorText
+local sysAndScn,errorText
 local errorShot,errorInfo
 
 local scene={}
 
 function scene.sceneInit()
     BGcolor=rnd()>.026 and{.3,.5,.9}or{.62,.3,.926}
-    stateInfo=SYSTEM.."-"..VERSION.string.."                          scene:"..Z.errData[#Z.errData].scene
+    sysAndScn=SYSTEM.."-"..VERSION.string.."       scene:"..Z.errData[#Z.errData].scene
     errorText=LOADED and text.errorMsg or"An error has occurred while the game was loading.\nAn error log has been created so you can send it to the author."
     errorShot,errorInfo=Z.errData[#Z.errData].shot,Z.errData[#Z.errData].mes
     NET.wsclose_app()
@@ -24,13 +24,13 @@ end
 function scene.draw()
     gc.clear(BGcolor)
     gc.setColor(1,1,1)
-    gc.draw(errorShot,100,345,nil,512/errorShot:getWidth(),288/errorShot:getHeight())
+    gc.draw(errorShot,100,326,nil,512/errorShot:getWidth(),288/errorShot:getHeight())
     gc.setColor(COLOR.Z)
     setFont(100)gc.print(":(",100,0,0,1.2)
     setFont(40)gc.printf(errorText,100,160,SCR.w0-100)
-    setFont(20)
-
-    gc.print(stateInfo,100,640)
+    setFont(20,'mono')
+    gc.print(sysAndScn,100,630)
+    setFont(15,'mono')
     gc.printf(errorInfo[1],626,326,1260-626)
     gc.print("TRACEBACK",626,390)
     for i=4,#errorInfo do
