@@ -1,15 +1,25 @@
 --Secret custom background
-local gc=love.graphics
+local gc_clear,gc_setColor=love.graphics.clear,love.graphics.setColor
 local back={}
+
 local image=false
 local alpha=.26
-function back.draw()
+
+local mx,my,k
+
+function back.init()
+    back.resize()
+end
+function back.resize()
+    mx,my=SCR.w*.5,SCR.h*.5
     if image then
-        gc.clear(.1,.1,.1)
-        gc.setColor(1,1,1,alpha)
-        local k=math.max(SCR.w/image:getWidth(),SCR.h/image:getHeight())
-        mDraw(image,SCR.w*.5,SCR.h*.5,nil,k)
+        k=math.max(SCR.w/image:getWidth(),SCR.h/image:getHeight())
     end
+end
+function back.draw()
+    gc_clear(.1,.1,.1)
+    gc_setColor(1,1,1,alpha)
+    mDraw(image,mx,my,nil,k)
 end
 function back.event(a,img)
     if a then alpha=a end
