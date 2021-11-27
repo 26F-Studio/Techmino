@@ -31,7 +31,7 @@ local minoKey2={
     z=8,s=9,t=14,j=19,l=20,i=25,['-']=26,o=29,
 }
 function scene.keyDown(key)
-    if key=="left"then
+    if key=='left'then
         local p=cur
         if p==0 then
             cur=#BAG
@@ -41,7 +41,7 @@ function scene.keyDown(key)
             until BAG[p]~=BAG[cur]
             cur=p
         end
-    elseif key=="right"then
+    elseif key=='right'then
         local p=cur
         if p==#BAG then
             cur=0
@@ -51,7 +51,7 @@ function scene.keyDown(key)
             until BAG[p+1]~=BAG[cur+1]
             cur=p
         end
-    elseif key=="ten"then
+    elseif key=='ten'then
         for _=1,10 do
             local p=cur
             if p==#BAG then break end
@@ -60,12 +60,12 @@ function scene.keyDown(key)
             until BAG[p+1]~=BAG[cur+1]
             cur=p
         end
-    elseif key=="backspace"then
+    elseif key=='backspace'then
         if cur>0 then
             rem(BAG,cur)
             cur=cur-1
         end
-    elseif key=="delete"then
+    elseif key=='delete'then
         if sure>.3 then
             TABLE.cut(BAG)
             cur=0
@@ -75,17 +75,17 @@ function scene.keyDown(key)
             sure=1
             MES.new('info',text.sureReset)
         end
-    elseif key=="="then
+    elseif key=='='then
         local l={1,2,3,4,5,6,7}
         repeat scene.keyDown(rem(l,math.random(#l)))until not l[1]
-    elseif key=="tab"then
-        WIDGET.active.sequence:scroll(kb.isDown("lshift","rshift")and -1 or 1)
-    elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+    elseif key=='tab'then
+        WIDGET.active.sequence:scroll(kb.isDown('lshift','rshift')and -1 or 1)
+    elseif key=='c'and kb.isDown('lctrl','rctrl')or key=='cC'then
         if #BAG>0 then
             sys.setClipboardText("Techmino SEQ:"..DATA.copySequence())
             MES.new('check',text.exportSuccess)
         end
-    elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+    elseif key=='v'and kb.isDown('lctrl','rctrl')or key=='cV'then
         local str=sys.getClipboardText()
         local p=str:find(":")--ptr*
         if p then
@@ -102,13 +102,13 @@ function scene.keyDown(key)
             cur=0
             MES.new('error',text.dataCorrupted)
         end
-    elseif key=="escape"then
+    elseif key=='escape'then
         SCN.back()
     elseif type(key)=='number'then
         cur=cur+1
         ins(BAG,cur,key)
     elseif #key==1 then
-        key=(kb.isDown("lshift","lalt","rshift","ralt")and minoKey2 or minoKey)[key]
+        key=(kb.isDown('lshift','lalt','rshift','ralt')and minoKey2 or minoKey)[key]
         if key then
             local p=cur+1
             while BAG[p]==key do p=p+1 end
@@ -198,11 +198,11 @@ scene.widgetList={
     WIDGET.newKey{name='T',     x=440,y=460,w=80,font=90,fText=CHAR.mino.T,code=pressKey(5)},
     WIDGET.newKey{name='O',     x=520,y=460,w=80,font=90,fText=CHAR.mino.O,code=pressKey(6)},
     WIDGET.newKey{name='I',     x=600,y=460,w=80,font=90,fText=CHAR.mino.I,code=pressKey(7)},
-    WIDGET.newKey{name='left',  x=680,y=460,w=80,color='lG',font=55,fText=CHAR.key.left,    code=pressKey"left"},
-    WIDGET.newKey{name='right', x=760,y=460,w=80,color='lG',font=55,fText=CHAR.key.right,   code=pressKey"right"},
-    WIDGET.newKey{name='ten',   x=840,y=460,w=80,color='lG',font=55,fText=CHAR.key.macTab,  code=pressKey"ten"},
-    WIDGET.newKey{name='backsp',x=920,y=460,w=80,color='lY',font=55,fText=CHAR.key.backspace,code=pressKey"backspace"},
-    WIDGET.newKey{name='reset', x=1000,y=460,w=80,color='lY',font=50,fText=CHAR.icon.trash, code=pressKey"delete"},
+    WIDGET.newKey{name='left',  x=680,y=460,w=80,color='lG',font=55,fText=CHAR.key.left,    code=pressKey'left'},
+    WIDGET.newKey{name='right', x=760,y=460,w=80,color='lG',font=55,fText=CHAR.key.right,   code=pressKey'right'},
+    WIDGET.newKey{name='ten',   x=840,y=460,w=80,color='lG',font=55,fText=CHAR.key.macTab,  code=pressKey'ten'},
+    WIDGET.newKey{name='backsp',x=920,y=460,w=80,color='lY',font=55,fText=CHAR.key.backspace,code=pressKey'backspace'},
+    WIDGET.newKey{name='reset', x=1000,y=460,w=80,color='lY',font=50,fText=CHAR.icon.trash, code=pressKey'delete'},
 
     WIDGET.newKey{name='Z5',    x=120,y=550,w=80,color='lH',font=65,fText=CHAR.mino.Z5,     code=pressKey(8)},
     WIDGET.newKey{name='S5',    x=200,y=550,w=80,color='lH',font=65,fText=CHAR.mino.S5,     code=pressKey(9)},
@@ -215,7 +215,7 @@ scene.widgetList={
     WIDGET.newKey{name='V',     x=760,y=550,w=80,color='lH',font=65,fText=CHAR.mino.V,      code=pressKey(16)},
     WIDGET.newKey{name='I3',    x=840,y=550,w=80,color='H',font=90,fText=CHAR.mino.I3,      code=pressKey(26)},
     WIDGET.newKey{name='C',     x=920,y=550,w=80,color='H',font=90,fText=CHAR.mino.C,       code=pressKey(27)},
-    WIDGET.newKey{name='rnd',   x=1000,y=550,w=80,color='R',font=70,fText=CHAR.icon.onebag, code=pressKey"="},
+    WIDGET.newKey{name='rnd',   x=1000,y=550,w=80,color='R',font=70,fText=CHAR.icon.onebag, code=pressKey'='},
 
     WIDGET.newKey{name='W',     x=120,y=640,w=80,color='lH',font=65,fText=CHAR.mino.W,      code=pressKey(17)},
     WIDGET.newKey{name='X',     x=200,y=640,w=80,color='lH',font=65,fText=CHAR.mino.X,      code=pressKey(18)},
@@ -230,8 +230,8 @@ scene.widgetList={
     WIDGET.newKey{name='O1',    x=920,y=640,w=80,color='dH',font=100,fText=CHAR.mino.O1,    code=pressKey(29)},
 
 
-    WIDGET.newButton{name='copy', x=1140,y=460,w=170,h=80,color='lR',font=50,fText=CHAR.icon.export,code=pressKey"cC",hideF=function()return #BAG==0 end},
-    WIDGET.newButton{name='paste',x=1140,y=550,w=170,h=80,color='lB',font=50,fText=CHAR.icon.import,code=pressKey"cV"},
+    WIDGET.newButton{name='copy', x=1140,y=460,w=170,h=80,color='lR',font=50,fText=CHAR.icon.export,code=pressKey'cC',hideF=function()return #BAG==0 end},
+    WIDGET.newButton{name='paste',x=1140,y=550,w=170,h=80,color='lB',font=50,fText=CHAR.icon.import,code=pressKey'cV'},
     WIDGET.newButton{name='back', x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 

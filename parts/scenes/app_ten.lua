@@ -125,38 +125,38 @@ local function merge()
 end
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=="up"or key=="down"or key=="left"or key=="right"then
+    if key=='up'or key=='down'or key=='left'or key=='right'then
         if state==2 then return end
         if not cx then
             cx,cy=3,3
         else
-            if key=="up"then
+            if key=='up'then
                 if cy>1 then cy=cy-1 end
-            elseif key=="down"then
+            elseif key=='down'then
                 if cy<5 then cy=cy+1 end
-            elseif key=="left"then
+            elseif key=='left'then
                 if cx>1 then cx=cx-1 end
-            elseif key=="right"then
+            elseif key=='right'then
                 if cx<5 then cx=cx+1 end
             end
         end
-    elseif key=="z"or key=="space"then
+    elseif key=='z'or key=='space'then
         merge()
-    elseif key=="r"then
+    elseif key=='r'then
         reset()
-    elseif key=="q"then
+    elseif key=='q'then
         if state==0 then
             nexts=not nexts
         end
-    elseif key=="w"then
+    elseif key=='w'then
         if state==0 then
             invis=not invis
         end
-    elseif key=="e"then
+    elseif key=='e'then
         if state==0 then
             fast=not fast
         end
-    elseif key=="escape"then
+    elseif key=='escape'then
         SCN.back()
     end
 end
@@ -217,7 +217,7 @@ function scene.update()
         elseif fast and(
             msIsDown(1)or
             #tcTouches()>0 or
-            kbIsDown("space")
+            kbIsDown('space')
         )then
             merge()
         end
@@ -302,10 +302,10 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name='reset',x=160,y=100,w=180,h=100,color='lG',font=40,code=pressKey"r"},
-    WIDGET.newSwitch{name='next', x=240,y=235,lim=200,font=40,disp=function()return nexts end,code=pressKey"q",hideF=function()return state==1 end},
-    WIDGET.newSwitch{name='invis',x=240,y=305,lim=200,font=40,disp=function()return invis end,code=pressKey"w",hideF=function()return state==1 end},
-    WIDGET.newSwitch{name='fast', x=240,y=375,lim=200,font=30,disp=function()return fast end,code=pressKey"e",hideF=function()return state==1 end},
+    WIDGET.newButton{name='reset',x=160,y=100,w=180,h=100,color='lG',font=40,code=pressKey'r'},
+    WIDGET.newSwitch{name='next', x=240,y=235,lim=200,font=40,disp=function()return nexts end,code=pressKey'q',hideF=function()return state==1 end},
+    WIDGET.newSwitch{name='invis',x=240,y=305,lim=200,font=40,disp=function()return invis end,code=pressKey'w',hideF=function()return state==1 end},
+    WIDGET.newSwitch{name='fast', x=240,y=375,lim=200,font=30,disp=function()return fast end,code=pressKey'e',hideF=function()return state==1 end},
     WIDGET.newButton{name='back', x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 

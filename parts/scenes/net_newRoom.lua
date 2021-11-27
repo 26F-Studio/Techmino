@@ -54,9 +54,9 @@ function scene.sceneBack()
 end
 
 function scene.keyDown(key)
-    if key=="return"then
+    if key=='return'then
         _createRoom()
-    elseif key=="escape"then
+    elseif key=='escape'then
         SCN.back()
     else
         WIDGET.keyPressed(key)
@@ -95,7 +95,7 @@ scene.widgetList={
 
     --Capacity & Create & Back
     WIDGET.newSelector{name='capacity',     x=1070,y=330,w=310,color='lY',list={2,3,4,5,7,10,17,31,49,99},disp=ROOMval('capacity'),code=ROOMsto('capacity')},
-    WIDGET.newButton{name='create',         x=1070,y=480,w=310,h=140,color='lN',font=40,code=pressKey"return"},
+    WIDGET.newButton{name='create',         x=1070,y=480,w=310,h=140,color='lN',font=40,code=pressKey'return'},
     WIDGET.newButton{name='back',           x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 
     --Special rules

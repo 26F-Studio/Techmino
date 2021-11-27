@@ -18,7 +18,7 @@ local sym--symbol
 
 local function _autoReturn()
     if reg and sym then
-        scene.keyDown("calculate")
+        scene.keyDown('calculate')
     else
         reg=false
     end
@@ -35,22 +35,22 @@ end
 
 scene.mouseDown=NULL
 function scene.keyDown(key)
-    if kb.isDown("lshift","rshift")then
-        if key=="="then
-            scene.keyDown("+")
+    if kb.isDown('lshift','rshift')then
+        if key=='='then
+            scene.keyDown('+')
             return
-        elseif kb.isDown("lshift","rshift")and key=="8"then
-            scene.keyDown("*")
+        elseif kb.isDown('lshift','rshift')and key=='8'then
+            scene.keyDown('*')
             return
         end
-    elseif key:sub(1,2)=="kp"then
+    elseif key:sub(1,2)=='kp'then
         scene.keyDown(key:sub(3))
         return
     end
     if keySounds[key]then
         Snd('bell',keySounds[key])
     end
-    if key=="."then
+    if key=='.'then
         if sym=="="then
             sym,reg=false,false
             val="0."
@@ -62,14 +62,14 @@ function scene.keyDown(key)
                 val=val.."."
             end
         end
-    elseif key=="e"then
+    elseif key=='e'then
         if sym=="="then
             sym,reg=false
             val="0e"
         elseif not val:find("e")then
             val=val.."e"
         end
-    elseif key=="backspace"then
+    elseif key=='backspace'then
         if sym=="="then
             val=""
         elseif sym then
@@ -80,16 +80,16 @@ function scene.keyDown(key)
         if val==""then
             val="0"
         end
-    elseif key=="+"then
+    elseif key=='+'then
         _autoReturn()
         sym="+"
-    elseif key=="*"then
+    elseif key=='*'then
         _autoReturn()
         sym="*"
-    elseif key=="-"then
+    elseif key=='-'then
         _autoReturn()
         sym="-"
-    elseif key=="/"then
+    elseif key=='/'then
         _autoReturn()
         sym="/"
     elseif key:byte()>=48 and key:byte()<=57 then
@@ -107,9 +107,9 @@ function scene.keyDown(key)
                 val=val..key
             end
         end
-    elseif key=="return"then
-        scene.keyDown("calculate")
-    elseif key=="calculate"then
+    elseif key=='return'then
+        scene.keyDown('calculate')
+    elseif key=='calculate'then
         val=val:gsub("e$","")
         if sym and reg then
             reg=reg:gsub("e$","")
@@ -122,14 +122,14 @@ function scene.keyDown(key)
         end
         sym="="
         reg=false
-    elseif key=="escape"then
+    elseif key=='escape'then
         if val~="0"then
             reg,sym=false,false
             val="0"
         else
             SCN.back()
         end
-    elseif key=="delete"then
+    elseif key=='delete'then
         val="0"
     end
 end
@@ -145,24 +145,24 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newKey{name='_1',x=145,y=300,w=90,sound=false,fText="1",font=50,code=pressKey"1"},
-    WIDGET.newKey{name='_2',x=245,y=300,w=90,sound=false,fText="2",font=50,code=pressKey"2"},
-    WIDGET.newKey{name='_3',x=345,y=300,w=90,sound=false,fText="3",font=50,code=pressKey"3"},
-    WIDGET.newKey{name='_4',x=145,y=400,w=90,sound=false,fText="4",font=50,code=pressKey"4"},
-    WIDGET.newKey{name='_5',x=245,y=400,w=90,sound=false,fText="5",font=50,code=pressKey"5"},
-    WIDGET.newKey{name='_6',x=345,y=400,w=90,sound=false,fText="6",font=50,code=pressKey"6"},
-    WIDGET.newKey{name='_7',x=145,y=500,w=90,sound=false,fText="7",font=50,code=pressKey"7"},
-    WIDGET.newKey{name='_8',x=245,y=500,w=90,sound=false,fText="8",font=50,code=pressKey"8"},
-    WIDGET.newKey{name='_9',x=345,y=500,w=90,sound=false,fText="9",font=50,code=pressKey"9"},
-    WIDGET.newKey{name='_0',x=145,y=600,w=90,sound=false,fText="0",font=50,code=pressKey"0"},
-    WIDGET.newKey{name='.',x=245,y=600,w=90,sound=false,fText=".",color='lM',font=50,code=pressKey"."},
-    WIDGET.newKey{name='e',x=345,y=600,w=90,sound=false,fText="e",color='lM',font=50,code=pressKey"e"},
-    WIDGET.newKey{name='+',x=445,y=300,w=90,sound=false,fText="+",color='lB',font=50,code=pressKey"+"},
-    WIDGET.newKey{name='-',x=445,y=400,w=90,sound=false,fText="-",color='lB',font=50,code=pressKey"-"},
-    WIDGET.newKey{name='*',x=445,y=500,w=90,sound=false,fText="*",color='lB',font=50,code=pressKey"*"},
-    WIDGET.newKey{name='/',x=445,y=600,w=90,sound=false,fText="/",color='lB',font=50,code=pressKey"/"},
-    WIDGET.newKey{name='<',x=545,y=300,w=90,sound=false,fText="<",color='lR',font=50,code=pressKey"backspace"},
-    WIDGET.newKey{name='=',x=545,y=400,w=90,sound=false,fText="=",color='lY',font=50,code=pressKey"return"},
+    WIDGET.newKey{name='_1',x=145,y=300,w=90,sound=false,fText="1",font=50,code=pressKey'1'},
+    WIDGET.newKey{name='_2',x=245,y=300,w=90,sound=false,fText="2",font=50,code=pressKey'2'},
+    WIDGET.newKey{name='_3',x=345,y=300,w=90,sound=false,fText="3",font=50,code=pressKey'3'},
+    WIDGET.newKey{name='_4',x=145,y=400,w=90,sound=false,fText="4",font=50,code=pressKey'4'},
+    WIDGET.newKey{name='_5',x=245,y=400,w=90,sound=false,fText="5",font=50,code=pressKey'5'},
+    WIDGET.newKey{name='_6',x=345,y=400,w=90,sound=false,fText="6",font=50,code=pressKey'6'},
+    WIDGET.newKey{name='_7',x=145,y=500,w=90,sound=false,fText="7",font=50,code=pressKey'7'},
+    WIDGET.newKey{name='_8',x=245,y=500,w=90,sound=false,fText="8",font=50,code=pressKey'8'},
+    WIDGET.newKey{name='_9',x=345,y=500,w=90,sound=false,fText="9",font=50,code=pressKey'9'},
+    WIDGET.newKey{name='_0',x=145,y=600,w=90,sound=false,fText="0",font=50,code=pressKey'0'},
+    WIDGET.newKey{name='.',x=245,y=600,w=90,sound=false,fText=".",color='lM',font=50,code=pressKey'.'},
+    WIDGET.newKey{name='e',x=345,y=600,w=90,sound=false,fText="e",color='lM',font=50,code=pressKey'e'},
+    WIDGET.newKey{name='+',x=445,y=300,w=90,sound=false,fText="+",color='lB',font=50,code=pressKey'+'},
+    WIDGET.newKey{name='-',x=445,y=400,w=90,sound=false,fText="-",color='lB',font=50,code=pressKey'-'},
+    WIDGET.newKey{name='*',x=445,y=500,w=90,sound=false,fText="*",color='lB',font=50,code=pressKey'*'},
+    WIDGET.newKey{name='/',x=445,y=600,w=90,sound=false,fText="/",color='lB',font=50,code=pressKey'/'},
+    WIDGET.newKey{name='<',x=545,y=300,w=90,sound=false,fText="<",color='lR',font=50,code=pressKey'backspace'},
+    WIDGET.newKey{name='=',x=545,y=400,w=90,sound=false,fText="=",color='lY',font=50,code=pressKey'return'},
     WIDGET.newKey{name='back',x=1135,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 

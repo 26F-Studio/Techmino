@@ -79,9 +79,9 @@ function scene.touchDown(x,y)
 end
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=="z"or key=="x"then
+    if key=='z'or key=='x'then
         love.mousepressed(ms.getPosition())
-    elseif key=="space"then
+    elseif key=='space'then
         if state>0 then
             board={}
             time=0
@@ -89,23 +89,23 @@ function scene.keyDown(key,isRep)
             state=0
             progress=0
         end
-    elseif key=="q"then
+    elseif key=='q'then
         if state==0 then
             invis=not invis
         end
-    elseif key=="w"then
+    elseif key=='w'then
         if state==0 then
             disappear=not disappear
         end
-    elseif key=="e"then
+    elseif key=='e'then
         if state==0 then
             tapFX=not tapFX
         end
-    elseif key=="3"or key=="4"or key=="5"or key=="6"then
+    elseif key=='3'or key=='4'or key=='5'or key=='6'then
         if state==0 then
             rank=tonumber(key)
         end
-    elseif key=="escape"then
+    elseif key=='escape'then
         SCN.back()
     end
 end
@@ -166,11 +166,11 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name='reset',    x=160,y=100,w=180,h=100,color='lG',font=40,code=pressKey"space",hideF=function()return state==0 end},
+    WIDGET.newButton{name='reset',    x=160,y=100,w=180,h=100,color='lG',font=40,code=pressKey'space',hideF=function()return state==0 end},
     WIDGET.newSlider{name='rank',     x=130,y=250,lim=105,w=150,unit=3,show=false,font=40,disp=function()return rank-3 end,code=function(v)rank=v+3 end,hideF=function()return state>0 end},
-    WIDGET.newSwitch{name='invis',    x=240,y=330,lim=200,font=40,disp=function()return invis end,    code=pressKey"q",hideF=function()return state==1 end},
-    WIDGET.newSwitch{name='disappear',x=240,y=420,lim=200,font=40,disp=function()return disappear end,code=pressKey"w",hideF=function()return state==1 end},
-    WIDGET.newSwitch{name='tapFX',    x=240,y=510,lim=200,font=40,disp=function()return tapFX end,    code=pressKey"e",hideF=function()return state==1 end},
+    WIDGET.newSwitch{name='invis',    x=240,y=330,lim=200,font=40,disp=function()return invis end,    code=pressKey'q',hideF=function()return state==1 end},
+    WIDGET.newSwitch{name='disappear',x=240,y=420,lim=200,font=40,disp=function()return disappear end,code=pressKey'w',hideF=function()return state==1 end},
+    WIDGET.newSwitch{name='tapFX',    x=240,y=510,lim=200,font=40,disp=function()return tapFX end,    code=pressKey'e',hideF=function()return state==1 end},
     WIDGET.newButton{name='back',     x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 

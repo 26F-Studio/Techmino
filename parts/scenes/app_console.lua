@@ -989,7 +989,7 @@ function scene.wheelMoved(_,y)
 end
 
 function scene.keyDown(key)
-    if key=="return" or key=="kpenter"then
+    if key=='return' or key=='kpenter'then
         local input=STRING.trim(inputBox:getText())
         if input==""then return end
 
@@ -1048,7 +1048,7 @@ function scene.keyDown(key)
 
         --Insert empty line
         log""
-    elseif key=="up"then
+    elseif key=='up'then
         if not hisPtr then
             hisPtr=#history
             if hisPtr>0 then
@@ -1058,7 +1058,7 @@ function scene.keyDown(key)
             hisPtr=hisPtr-1
             inputBox:setText(history[hisPtr])
         end
-    elseif key=="down"then
+    elseif key=='down'then
         if hisPtr then
             hisPtr=hisPtr+1
             if history[hisPtr]then
@@ -1068,7 +1068,7 @@ function scene.keyDown(key)
                 inputBox:clear()
             end
         end
-    elseif key=="tab"then
+    elseif key=='tab'then
         local str=inputBox:getText()
         if str~=""and not str:find("%s")then
             local res={}
@@ -1086,14 +1086,14 @@ function scene.keyDown(key)
                 inputBox:setText(res[1])
             end
         end
-    elseif key=="scrollup"then outputBox:scroll(-5)
-    elseif key=="scrolldown"then outputBox:scroll(5)
-    elseif key=="pageup"then outputBox:scroll(-20)
-    elseif key=="pagedown"then outputBox:scroll(20)
-    elseif key=="home"then outputBox:scroll(-1e99)
-    elseif key=="end"then outputBox:scroll(1e99)
-    elseif combKey[key]and kb.isDown("lctrl","rctrl")then combKey[key]()
-    elseif key=="escape"then
+    elseif key=='scrollup'then outputBox:scroll(-5)
+    elseif key=='scrolldown'then outputBox:scroll(5)
+    elseif key=='pageup'then outputBox:scroll(-20)
+    elseif key=='pagedown'then outputBox:scroll(20)
+    elseif key=='home'then outputBox:scroll(-1e99)
+    elseif key=='end'then outputBox:scroll(1e99)
+    elseif combKey[key]and kb.isDown('lctrl','rctrl')then combKey[key]()
+    elseif key=='escape'then
         if not WIDGET.isFocus(inputBox)then
             WIDGET.focus(inputBox)
         else

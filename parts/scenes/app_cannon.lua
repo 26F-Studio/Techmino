@@ -19,7 +19,7 @@ end
 
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=="space"or key=="return"then
+    if key=='space'or key=='return'then
         if state==0 then
             state=1
         elseif state==1 then
@@ -27,17 +27,17 @@ function scene.keyDown(key,isRep)
             vx=pow*cos(ang)/2.6
             vy=pow*sin(ang)/2.6
         end
-    elseif key=="escape"then
+    elseif key=='escape'then
         SCN.back()
     end
 end
 function scene.mouseDown(_,_,k)
     if k==1 then
-        scene.keyDown("space")
+        scene.keyDown('space')
     end
 end
 function scene.touchDown()
-    scene.keyDown("space")
+    scene.keyDown('space')
 end
 
 function scene.update()

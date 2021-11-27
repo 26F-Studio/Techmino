@@ -90,21 +90,21 @@ function scene.touchUp(x)
         end
         moveDir=0
     else
-        scene.keyDown("space")
+        scene.keyDown('space')
     end
 end
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=="escape"then
+    if key=='escape'then
         SCN.back()
     elseif play then
-        if key=="left"or key=="a"then
+        if key=='left'or key=='a'then
             moveDir=-1
-        elseif key=="right"or key=="d"then
+        elseif key=='right'or key=='d'then
             moveDir=1
         end
     else
-        if key=="space"and ct==60 then
+        if key=='space'and ct==60 then
             menu=-1
             speed=1
             level=1
@@ -113,10 +113,10 @@ function scene.keyDown(key,isRep)
 end
 function scene.keyUp(key)
     if play then
-        if key=="left"or key=="a"then
-            moveDir=kb.isDown("right","d")and 1 or 0
-        elseif key=="right"or key=="d"then
-            moveDir=kb.isDown("left","a")and -1 or 0
+        if key=='left'or key=='a'then
+            moveDir=kb.isDown('right','d')and 1 or 0
+        elseif key=='right'or key=='d'then
+            moveDir=kb.isDown('left','a')and -1 or 0
         end
     end
 end

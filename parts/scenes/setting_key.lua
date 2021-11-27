@@ -32,13 +32,13 @@ local forbbidenKeys={
 }
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=="escape"then
+    if key=='escape'then
         if selected then
             selected=false
         else
             SCN.back()
         end
-    elseif key=="backspace"then
+    elseif key=='backspace'then
         if selected then
             for k,v in next,KEY_MAP.keyboard do
                 if v==selected then
@@ -61,7 +61,7 @@ function scene.keyDown(key,isRep)
     end
 end
 function scene.gamepadDown(key)
-    if key=="back"then
+    if key=='back'then
         if selected then
             for k,v in next,KEY_MAP.joystick do
                 if v==selected then

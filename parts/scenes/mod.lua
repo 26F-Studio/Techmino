@@ -60,7 +60,7 @@ end
 function scene.mouseDown(x,y,k)
     for _,M in next,MODOPT do
         if(x-M.x)^2+(y-M.y)^2<2000 then
-            _toggleMod(M,k==2 or kb.isDown("lshift","rshift"))
+            _toggleMod(M,k==2 or kb.isDown('lshift','rshift'))
             break
         end
     end
@@ -73,7 +73,7 @@ function scene.touchDown(x,y)
 end
 
 function scene.keyDown(key)
-    if key=="tab"or key=="delete"then
+    if key=='tab'or key=='delete'then
         if GAME.mod[1]then
             while GAME.mod[1]do
                 rem(GAME.mod).sel=0
@@ -84,12 +84,12 @@ function scene.keyDown(key)
     elseif #key==1 then
         for _,M in next,MODOPT do
             if key==M.key then
-                _toggleMod(M,kb.isDown("lshift","rshift"))
+                _toggleMod(M,kb.isDown('lshift','rshift'))
                 selected=M
                 break
             end
         end
-    elseif key=="escape"then
+    elseif key=='escape'then
         SCN.back()
     end
 end
@@ -157,7 +157,7 @@ end
 scene.widgetList={
     WIDGET.newText{name='title',   x=80,y=50,font=70,align='L'},
     WIDGET.newText{name='unranked',x=1200,y=60,color='Y',font=50,align='R'},
-    WIDGET.newButton{name='reset', x=1140,y=540,w=170,h=80,font=25,code=pressKey"tab"},
+    WIDGET.newButton{name='reset', x=1140,y=540,w=170,h=80,font=25,code=pressKey'tab'},
     WIDGET.newButton{name='back',  x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 

@@ -18,7 +18,7 @@ end
 
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=="escape"then
+    if key=='escape'then
         SCN.back()
     else
         if lastKey~=key then

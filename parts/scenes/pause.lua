@@ -122,42 +122,42 @@ end
 
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=="q"then
+    if key=='q'then
         SCN.back()
         GAME.playing=false
-    elseif key=="escape"then
+    elseif key=='escape'then
         SCN.swapTo(GAME.result and'game'or'depause','none')
-    elseif key=="s"then
+    elseif key=='s'then
         if not GAME.fromRepMenu then
             GAME.prevBG=BG.cur
             SCN.go('setting_sound')
         end
-    elseif key=="r"then
+    elseif key=='r'then
         if not GAME.fromRepMenu then
             resetGameData()
             SCN.swapTo('game','none')
         end
-    elseif key=="p"then
+    elseif key=='p'then
         if(GAME.result or GAME.replaying)and #PLAYERS==1 then
             resetGameData('r')
             PLAYERS[1]:startStreaming(GAME.rep)
             SCN.swapTo('game','none')
         end
-    elseif key=="o"then
+    elseif key=='o'then
         if(GAME.result or GAME.replaying)and #PLAYERS==1 and not GAME.saved then
             if DATA.saveReplay()then
                 GAME.saved=true
                 SFX.play('connected')
             end
         end
-    elseif key=="tab"or key=="Stab"then
-        if love.keyboard.isDown("lshift","rshift")or key=="Stab"then
+    elseif key=='tab'or key=='Stab'then
+        if love.keyboard.isDown('lshift','rshift')or key=='Stab'then
             page=(page-1)%2
         else
             page=(page+1)%2
         end
         timer2=0
-    elseif key=="t"then
+    elseif key=='t'then
         if SETTING.allowTAS and not(GAME.result or GAME.replaying)then
             GAME.tasUsed=true
             SFX.play('ren_mega')
@@ -344,23 +344,23 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newKey{name='resume',   x=290,y=240,w=300,h=70,code=pressKey"escape"},
-    WIDGET.newKey{name='restart',  x=290,y=340,w=300,h=70,code=pressKey"r",hideF=function()return GAME.fromRepMenu end},
-    WIDGET.newKey{name='setting',  x=290,y=440,w=300,h=70,code=pressKey"s",hideF=function()return GAME.fromRepMenu end},
-    WIDGET.newKey{name='quit',     x=290,y=540,w=300,h=70,code=pressKey"q"},
-    WIDGET.newKey{name='tas',      x=290,y=620,w=240,h=50,code=pressKey"t",hideF=function()return not SETTING.allowTAS or GAME.tasUsed or GAME.result or GAME.replaying end},
-    WIDGET.newKey{name='page_prev',x=500,y=390,w=70,code=pressKey"tab",noFrame=true,
+    WIDGET.newKey{name='resume',   x=290,y=240,w=300,h=70,code=pressKey'escape'},
+    WIDGET.newKey{name='restart',  x=290,y=340,w=300,h=70,code=pressKey'r',hideF=function()return GAME.fromRepMenu end},
+    WIDGET.newKey{name='setting',  x=290,y=440,w=300,h=70,code=pressKey's',hideF=function()return GAME.fromRepMenu end},
+    WIDGET.newKey{name='quit',     x=290,y=540,w=300,h=70,code=pressKey'q'},
+    WIDGET.newKey{name='tas',      x=290,y=620,w=240,h=50,code=pressKey't',hideF=function()return not SETTING.allowTAS or GAME.tasUsed or GAME.result or GAME.replaying end},
+    WIDGET.newKey{name='page_prev',x=500,y=390,w=70,code=pressKey'tab',noFrame=true,
         fText=GC.DO{70,70,{'setLW',2},                                              {'dRPol',33,35,32,3,6,3.142},{'dRPol',45,35,32,3,6,3.142}},
         fShade=GC.DO{70,70,{'setCL',1,1,1,.4},{'draw',GC.DO{70,70,{'setCL',1,1,1,1},{'fRPol',33,35,32,3,6,3.142},{'fRPol',45,35,32,3,6,3.142}}}},
         hideF=function()return PLAYERS[1].frameRun<=180 end,
         },
-    WIDGET.newKey{name='page_next',x=1230,y=390,w=70,code=pressKey"Stab",noFrame=true,
+    WIDGET.newKey{name='page_next',x=1230,y=390,w=70,code=pressKey'Stab',noFrame=true,
         fText=GC.DO{70,70,{'setLW',2},                                              {'dRPol',37,35,32,3,6},{'dRPol',25,35,32,3,6}},
         fShade=GC.DO{70,70,{'setCL',1,1,1,.4},{'draw',GC.DO{70,70,{'setCL',1,1,1,1},{'fRPol',37,35,32,3,6},{'fRPol',25,35,32,3,6}}}},
         hideF=function()return PLAYERS[1].frameRun<=180 end,
         },
-    WIDGET.newKey{name='replay',   x=865,y=165,w=200,h=40,font=25,code=pressKey"p",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
-    WIDGET.newKey{name='save',     x=1075,y=165,w=200,h=40,font=25,code=pressKey"o",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
+    WIDGET.newKey{name='replay',   x=865,y=165,w=200,h=40,font=25,code=pressKey'p',hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
+    WIDGET.newKey{name='save',     x=1075,y=165,w=200,h=40,font=25,code=pressKey'o',hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
 }
 
 return scene

@@ -46,7 +46,7 @@ local colorSelector=WIDGET.newSelector{name='color',x=150,y=360,w=290,
     list={"black","dGray","gray","lGray","dRed","red","lRed","dFire","fire","lFire","dOrange","orange","lOrange","dYellow","yellow","lYellow","dLime","lime","lLime","dJade","jade","lJade","dGreen","green","lGreen","dAqua","aqua","lAqua","dCyan","cyan","lCyan","dNavy","navy","lNavy","dSea","sea","lSea","dBlue","blue","lBlue","dViolet","violet","lViolet","dPurple","purple","lPurple","dMagenta","magenta","lMagenta","dWine","wine","lWine"},
     disp=function()return tileColor end,code=function(m)tileColor=m end
 }
-local arcadeSwitch=WIDGET.newSwitch{name='arcade',x=240,y=430,lim=200,font=40,disp=function()return arcade end,code=pressKey"e"}
+local arcadeSwitch=WIDGET.newSwitch{name='arcade',x=240,y=430,lim=200,font=40,disp=function()return arcade end,code=pressKey'e'}
 local function freshSelectors()
     local f=state~=0
     modeSelector.hide=f
@@ -247,23 +247,23 @@ local function touch(n)
 end
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=="r"or key=="space"then reset()
-    elseif key=="escape"then SCN.back()
+    if key=='r'or key=='space'then reset()
+    elseif key=='escape'then SCN.back()
     elseif state~=2 then
-        if key=="d"or key=="c"then touch(1)
-        elseif key=="f"or key=="v"then touch(2)
-        elseif key=="j"or key=="n"then touch(3)
-        elseif key=="k"or key=="m"then touch(4)
+        if key=='d'or key=='c'then touch(1)
+        elseif key=='f'or key=='v'then touch(2)
+        elseif key=='j'or key=='n'then touch(3)
+        elseif key=='k'or key=='m'then touch(4)
         elseif state==0 then
-            if key=="tab"then
+            if key=='tab'then
                 local mode1=mode
-                modeSelector:scroll(love.keyboard.isDown("lshift","rshift")and -1 or 1)
+                modeSelector:scroll(love.keyboard.isDown('lshift','rshift')and -1 or 1)
                 if mode1~=mode then reset()end
-            elseif key=="q"then
-                bgmSelector:scroll(love.keyboard.isDown("lshift","rshift")and -1 or 1)
-            elseif key=="w"then
-                colorSelector:scroll(love.keyboard.isDown("lshift","rshift")and -1 or 1)
-            elseif key=="e"then
+            elseif key=='q'then
+                bgmSelector:scroll(love.keyboard.isDown('lshift','rshift')and -1 or 1)
+            elseif key=='w'then
+                colorSelector:scroll(love.keyboard.isDown('lshift','rshift')and -1 or 1)
+            elseif key=='e'then
                 arcade=not arcade
             end
         end
@@ -380,7 +380,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name='reset',x=155,y=100,w=180,h=100,color='lG',font=40,code=pressKey"r"},
+    WIDGET.newButton{name='reset',x=155,y=100,w=180,h=100,color='lG',font=40,code=pressKey'r'},
     modeSelector,bgmSelector,colorSelector,
     arcadeSwitch,
     WIDGET.newButton{name='back', x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},

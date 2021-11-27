@@ -95,7 +95,7 @@ function scene.wheelMoved(_,y)
     WHEELMOV(y)
 end
 function scene.keyDown(key)
-    if key=="up"then
+    if key=='up'then
         if selected and selected>1 then
             selected=selected-1
             if selected<scrollPos+1 then
@@ -103,7 +103,7 @@ function scene.keyDown(key)
             end
             scene.widgetList.copy.hide=false
         end
-    elseif key=="down"then
+    elseif key=='down'then
         if selected and selected<#_getList()then
             selected=selected+1
             if selected>scrollPos+15 then
@@ -111,28 +111,28 @@ function scene.keyDown(key)
             end
             scene.widgetList.copy.hide=false
         end
-    elseif key=="left"or key=="pageup"then
-        for _=1,12 do scene.keyDown("up")end
-    elseif key=="right"or key=="pagedown"then
-        for _=1,12 do scene.keyDown("down")end
-    elseif key=="application"then
+    elseif key=='left'or key=='pageup'then
+        for _=1,12 do scene.keyDown('up')end
+    elseif key=='right'or key=='pagedown'then
+        for _=1,12 do scene.keyDown('down')end
+    elseif key=='application'then
         local url=_getList()[selected].url
         if url then love.system.openURL(url)end
-    elseif key=="delete"then
+    elseif key=='delete'then
         if inputBox:hasText()then
             _clearResult()
             inputBox:clear()
             SFX.play('hold')
         end
-    elseif key=="backspace"then
+    elseif key=='backspace'then
         WIDGET.keyPressed("backspace")
-    elseif key=="escape"then
+    elseif key=='escape'then
         if inputBox:hasText()then
-            scene.keyDown("delete")
+            scene.keyDown('delete')
         else
             SCN.back()
         end
-    elseif key=="c"and love.keyboard.isDown("lctrl","rctrl")or key=="cC"then
+    elseif key=='c'and love.keyboard.isDown('lctrl','rctrl')or key=='cC'then
         local t=_getList()[selected]
         t=t.title_Org..":\n"..t.content_Org..(t.url and"\n[ "..t.url.." ]\n"or"\n")..text.dictNote
         love.system.setClipboardText(t)
@@ -214,12 +214,12 @@ scene.widgetList={
     WIDGET.newText{name='book',   x=20,y=15,font=70,align='L',fText=CHAR.icon.zBook},
     WIDGET.newText{name='title',  x=100,y=15,font=70,align='L'},
     inputBox,
-    WIDGET.newKey{name='link',    x=1120,y=655,w=80,font=55,fText=CHAR.icon.globe, code=pressKey"application",hideF=function()return not _getList()[selected].url end},
-    WIDGET.newKey{name='copy',    x=1210,y=655,w=80,font=50,fText=CHAR.icon.copy,  code=pressKey"cC"},
-    WIDGET.newKey{name='up',      x=1120,y=475,w=80,font=50,fText=CHAR.key.up,     code=pressKey"up",hide=not MOBILE},
-    WIDGET.newKey{name='down',    x=1120,y=565,w=80,font=50,fText=CHAR.key.down,   code=pressKey"down",hide=not MOBILE},
-    WIDGET.newKey{name='pageup',  x=1210,y=475,w=80,font=50,fText=CHAR.icon.toUp,  code=pressKey"pageup",hide=not MOBILE},
-    WIDGET.newKey{name='pagedown',x=1210,y=565,w=80,font=50,fText=CHAR.icon.toDown,code=pressKey"pagedown",hide=not MOBILE},
+    WIDGET.newKey{name='link',    x=1120,y=655,w=80,font=55,fText=CHAR.icon.globe, code=pressKey'application',hideF=function()return not _getList()[selected].url end},
+    WIDGET.newKey{name='copy',    x=1210,y=655,w=80,font=50,fText=CHAR.icon.copy,  code=pressKey'cC'},
+    WIDGET.newKey{name='up',      x=1120,y=475,w=80,font=50,fText=CHAR.key.up,     code=pressKey'up',hide=not MOBILE},
+    WIDGET.newKey{name='down',    x=1120,y=565,w=80,font=50,fText=CHAR.key.down,   code=pressKey'down',hide=not MOBILE},
+    WIDGET.newKey{name='pageup',  x=1210,y=475,w=80,font=50,fText=CHAR.icon.toUp,  code=pressKey'pageup',hide=not MOBILE},
+    WIDGET.newKey{name='pagedown',x=1210,y=565,w=80,font=50,fText=CHAR.icon.toDown,code=pressKey'pagedown',hide=not MOBILE},
     WIDGET.newButton{name='back', x=1165,y=60,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 

@@ -179,7 +179,7 @@ scene.mouseDown=scene.touchDown
 
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=="z"or key=="x"then
+    if key=='z'or key=='x'then
         love.mousepressed(love.mouse.getPosition())
     elseif #key==1 then
         if("12345678"):find(key,nil,true)then
@@ -187,21 +187,21 @@ function scene.keyDown(key,isRep)
         else
             key=("hjkluiop"):find(key,nil,true)
             if key then
-                if isDown("q")then press(key,1)end
-                if isDown("w")then press(key,2)end
-                if isDown("e")then press(key,3)end
-                if isDown("r")then press(key,4)end
-                if isDown("a")then press(key,5)end
-                if isDown("s")then press(key,6)end
-                if isDown("d")then press(key,7)end
-                if isDown("f")then press(key,8)end
+                if isDown('q')then press(key,1)end
+                if isDown('w')then press(key,2)end
+                if isDown('e')then press(key,3)end
+                if isDown('r')then press(key,4)end
+                if isDown('a')then press(key,5)end
+                if isDown('s')then press(key,6)end
+                if isDown('d')then press(key,7)end
+                if isDown('f')then press(key,8)end
             end
         end
-    elseif key=="tab"then
+    elseif key=='tab'then
         SCN.swapTo('music','none')
-    elseif key=="space"then
+    elseif key=='space'then
         showLabel=not showLabel
-    elseif key=="escape"then
+    elseif key=='escape'then
         SCN.back()
     end
 end
@@ -277,8 +277,8 @@ scene.widgetList={
     WIDGET.newSlider{name='bgm',  x=1000,y=80, lim=130,w=250,disp=SETval('bgm'),code=function(v)SETTING.bgm=v BGM.setVol(SETTING.bgm)end},
     WIDGET.newSlider{name='sfx',  x=1000,y=150,lim=130,w=250,disp=SETval('sfx'),code=function(v)SETTING.sfx=v SFX.setVol(SETTING.sfx)end},
     WIDGET.newSlider{name='voc',  x=1000,y=220,lim=130,w=250,disp=SETval('voc'),code=function(v)SETTING.voc=v VOC.setVol(SETTING.voc)end},
-    WIDGET.newSwitch{name='label',x=1200,y=290,lim=160,disp=function()return showLabel end,code=pressKey"space",},
-    WIDGET.newButton{name='music',x=1140,y=540,w=170,h=80,font=40,code=pressKey"tab"},
+    WIDGET.newSwitch{name='label',x=1200,y=290,lim=160,disp=function()return showLabel end,code=pressKey'space',},
+    WIDGET.newButton{name='music',x=1140,y=540,w=170,h=80,font=40,code=pressKey'tab'},
     WIDGET.newButton{name='back', x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 

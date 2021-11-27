@@ -44,22 +44,22 @@ local function start()
 end
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=="space"then
+    if key=='space'then
         if state==0 then
             start()
         end
-    elseif key=="r"then
+    elseif key=='r'then
         state=0
         bx,by=640,360
         vx,vy=0,0
         ry=0
         p1.score,p2.score=0,0
         SFX.play('hold')
-    elseif key=="w"or key=="s"then
+    elseif key=='w'or key=='s'then
         p1.y0=false
-    elseif key=="up"or key=="down"then
+    elseif key=='up'or key=='down'then
         p2.y0=false
-    elseif key=="escape"then
+    elseif key=='escape'then
         SCN.back()
     end
 end
@@ -86,10 +86,10 @@ function scene.update()
                 P.vy=P.vy*.5
             end
         else
-            if kb.isDown(P==p1 and"w"or"up")then
+            if kb.isDown(P==p1 and'w'or'up')then
                 P.vy=max(P.vy-1,-8)
             end
-            if kb.isDown(P==p1 and"s"or"down")then
+            if kb.isDown(P==p1 and's'or'down')then
                 P.vy=min(P.vy+1,8)
             end
             P.y=P.y+P.vy
@@ -176,7 +176,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newKey{name='reset',x=640,y=45,w=150,h=50,font=35,code=pressKey"r"},
+    WIDGET.newKey{name='reset',x=640,y=45,w=150,h=50,font=35,code=pressKey'r'},
     WIDGET.newKey{name='back',x=640,y=675,w=150,h=50,font=40,fText=CHAR.icon.back,code=backScene},
 }
 

@@ -16,9 +16,9 @@ end
 scene.touchDown=scene.mouseDown
 
 function scene.keyDown(key)
-    if key=="escape"then
+    if key=='escape'then
         SCN.back()
-    elseif key=="space"then
+    elseif key=='space'then
         loadGame('stack_e',true)
     end
 end

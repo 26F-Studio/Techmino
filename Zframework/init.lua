@@ -218,31 +218,31 @@ end
 
 local fnKey={NULL,NULL,NULL,NULL,NULL,NULL,NULL}
 local function noDevkeyPressed(key)
-    if key=="f1"then      fnKey[1]()
-    elseif key=="f2"then  fnKey[2]()
-    elseif key=="f3"then  fnKey[3]()
-    elseif key=="f4"then  fnKey[4]()
-    elseif key=="f5"then  fnKey[5]()
-    elseif key=="f6"then  fnKey[6]()
-    elseif key=="f7"then  fnKey[7]()
-    elseif key=="f8"then  devMode=nil MES.new('info',"DEBUG OFF",.2)
-    elseif key=="f9"then  devMode=1   MES.new('info',"DEBUG 1")
-    elseif key=="f10"then devMode=2   MES.new('info',"DEBUG 2")
-    elseif key=="f11"then devMode=3   MES.new('info',"DEBUG 3")
-    elseif key=="f12"then devMode=4   MES.new('info',"DEBUG 4")
+    if key=='f1'then      fnKey[1]()
+    elseif key=='f2'then  fnKey[2]()
+    elseif key=='f3'then  fnKey[3]()
+    elseif key=='f4'then  fnKey[4]()
+    elseif key=='f5'then  fnKey[5]()
+    elseif key=='f6'then  fnKey[6]()
+    elseif key=='f7'then  fnKey[7]()
+    elseif key=='f8'then  devMode=nil MES.new('info',"DEBUG OFF",.2)
+    elseif key=='f9'then  devMode=1   MES.new('info',"DEBUG 1")
+    elseif key=='f10'then devMode=2   MES.new('info',"DEBUG 2")
+    elseif key=='f11'then devMode=3   MES.new('info',"DEBUG 3")
+    elseif key=='f12'then devMode=4   MES.new('info',"DEBUG 4")
     elseif devMode==2 then
         local W=WIDGET.sel
         if W then
-            if key=="left"then W.x=W.x-10
-            elseif key=="right"then W.x=W.x+10
-            elseif key=="up"then W.y=W.y-10
-            elseif key=="down"then W.y=W.y+10
-            elseif key==","then W.w=W.w-10
-            elseif key=="."then W.w=W.w+10
-            elseif key=="/"then W.h=W.h-10
-            elseif key=="'"then W.h=W.h+10
-            elseif key=="["then W.font=W.font-5
-            elseif key=="]"then W.font=W.font+5
+            if key=='left'then W.x=W.x-10
+            elseif key=='right'then W.x=W.x+10
+            elseif key=='up'then W.y=W.y-10
+            elseif key=='down'then W.y=W.y+10
+            elseif key==','then W.w=W.w-10
+            elseif key=='.'then W.w=W.w+10
+            elseif key=='/'then W.h=W.h-10
+            elseif key=='\''then W.h=W.h+10
+            elseif key=='['then W.font=W.font-5
+            elseif key==']'then W.font=W.font+5
             else return true
             end
         else
@@ -256,10 +256,10 @@ function love.keypressed(key,_,isRep)
     mouseShow=false
     if devMode and not noDevkeyPressed(key)then
         return
-    elseif key=="f8"then
+    elseif key=='f8'then
         devMode=1
         MES.new('info',"DEBUG ON",.2)
-    elseif key=="f11"then
+    elseif key=='f11'then
         SETTING.fullscreen=not SETTING.fullscreen
         applyFullscreen()
         saveSettings()
@@ -268,7 +268,7 @@ function love.keypressed(key,_,isRep)
             if EDITING==""then
                 SCN.keyDown(key,isRep)
             end
-        elseif key=="escape"and not isRep then
+        elseif key=='escape'and not isRep then
             SCN.back()
         else
             WIDGET.keyPressed(key,isRep)

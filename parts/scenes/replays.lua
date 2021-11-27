@@ -81,12 +81,12 @@ function scene.sceneInit()
 end
 
 function scene.keyDown(key)
-    if key=="return"then
+    if key=='return'then
         local rep=listBox:getSel()
         if rep then
             _playRep(rep.fileName)
         end
-    elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+    elseif key=='c'and kb.isDown('lctrl','rctrl')or key=='cC'then
         local rep=listBox:getSel()
         if rep then
             if rep.available and rep.fileName then
@@ -101,7 +101,7 @@ function scene.keyDown(key)
                 MES.new('error',text.replayBroken)
             end
         end
-    elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+    elseif key=='v'and kb.isDown('lctrl','rctrl')or key=='cV'then
         local repStr=love.system.getClipboardText()
         local res,fileData=pcall(love.data.decode,'string','base64',repStr)
         if res then
@@ -118,7 +118,7 @@ function scene.keyDown(key)
         else
             MES.new('error',text.dataCorrupted)
         end
-    elseif key=="delete"then
+    elseif key=='delete'then
         local rep=listBox:getSel()
         if rep then
             if sure>.3 then
@@ -137,7 +137,7 @@ function scene.keyDown(key)
                 MES.new('info',text.sureReset)
             end
         end
-    elseif key=="escape"then
+    elseif key=='escape'then
         SCN.back()
     else
         WIDGET.keyPressed(key)
@@ -152,10 +152,10 @@ end
 
 scene.widgetList={
     listBox,
-    WIDGET.newButton{name='export',x=180,y=640,w=140,h=80,color='lG',code=pressKey"cC",font=50,fText=CHAR.icon.export},
-    WIDGET.newButton{name='import',x=350,y=640,w=140,h=80,color='lN',code=pressKey"cV",font=50,fText=CHAR.icon.import},
-    WIDGET.newButton{name='play',  x=700,y=640,w=170,h=80,color='lY',code=pressKey"return",font=65,fText=CHAR.icon.play},
-    WIDGET.newButton{name='delete',x=850,y=640,w=80,h=80,color='lR',code=pressKey"delete",font=50,fText=CHAR.icon.trash},
+    WIDGET.newButton{name='export',x=180,y=640,w=140,h=80,color='lG',code=pressKey'cC',font=50,fText=CHAR.icon.export},
+    WIDGET.newButton{name='import',x=350,y=640,w=140,h=80,color='lN',code=pressKey'cV',font=50,fText=CHAR.icon.import},
+    WIDGET.newButton{name='play',  x=700,y=640,w=170,h=80,color='lY',code=pressKey'return',font=65,fText=CHAR.icon.play},
+    WIDGET.newButton{name='delete',x=850,y=640,w=80,h=80,color='lR',code=pressKey'delete',font=50,fText=CHAR.icon.trash},
     WIDGET.newButton{name='back',  x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 

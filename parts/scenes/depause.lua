@@ -13,7 +13,7 @@ function scene.sceneInit()
 end
 
 function scene.keyDown(key)
-    if key=="escape"then
+    if key=='escape'then
         pauseGame()
     end
 end

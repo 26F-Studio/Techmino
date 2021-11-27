@@ -23,7 +23,7 @@ end
 function scene.keyDown(key,isRep)
     if isRep then return end
     if state==0 then
-        if key=="space"then
+        if key=='space'then
             reset()
             state=1
             ct=60

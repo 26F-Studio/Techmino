@@ -22,7 +22,7 @@ end
 local ENUM_MISSION=ENUM_MISSION
 local legalInput={Z=true,S=true,J=true,L=true,T=true,O=true,I=true,A=true,_=true,P=true}
 function scene.keyDown(key)
-    if key=="left"then
+    if key=='left'then
         local p=cur
         if p==0 then
             cur=#MISSION
@@ -32,7 +32,7 @@ function scene.keyDown(key)
             until MISSION[p]~=MISSION[cur]
             cur=p
         end
-    elseif key=="right"then
+    elseif key=='right'then
         local p=cur
         if p==#MISSION then
             cur=0
@@ -42,7 +42,7 @@ function scene.keyDown(key)
             until MISSION[p+1]~=MISSION[cur+1]
             cur=p
         end
-    elseif key=="ten"then
+    elseif key=='ten'then
         for _=1,10 do
             local p=cur
             if p==#MISSION then break end
@@ -51,17 +51,17 @@ function scene.keyDown(key)
             until MISSION[p+1]~=MISSION[cur+1]
             cur=p
         end
-    elseif key=="backspace"then
+    elseif key=='backspace'then
         if #input>0 then
             input=""
         elseif cur>0 then
             rem(MISSION,cur)
             cur=cur-1
             if cur>0 and MISSION[cur]==MISSION[cur+1]then
-                scene.keyDown("right")
+                scene.keyDown('right')
             end
         end
-    elseif key=="delete"then
+    elseif key=='delete'then
         if sure>.3 then
             TABLE.cut(MISSION)
             cur=0
@@ -71,12 +71,12 @@ function scene.keyDown(key)
             sure=1
             MES.new('info',text.sureReset)
         end
-    elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+    elseif key=='c'and kb.isDown('lctrl','rctrl')or key=='cC'then
         if #MISSION>0 then
             sys.setClipboardText("Techmino Target:"..DATA.copyMission())
             MES.new('check',text.exportSuccess)
         end
-    elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+    elseif key=='v'and kb.isDown('lctrl','rctrl')or key=='cV'then
         local str=sys.getClipboardText()
         local p=str:find(":")--ptr*
         if p then
@@ -91,7 +91,7 @@ function scene.keyDown(key)
         else
             MES.new('error',text.dataCorrupted)
         end
-    elseif key=="escape"then
+    elseif key=='escape'then
         SCN.back()
     elseif type(key)=='number'then
         local p=cur+1
@@ -99,7 +99,7 @@ function scene.keyDown(key)
         ins(MISSION,p,key)
         cur=p
     else
-        if key=="space"then
+        if key=='space'then
             key="_"
         else
             key=string.upper(key)
@@ -227,13 +227,13 @@ scene.widgetList={
     WIDGET.newKey{name='O4',    x=600,y=640,w=90,font=50,code=pressKey(64)},
     WIDGET.newKey{name='I4',    x=700,y=640,w=90,font=50,code=pressKey(74)},
 
-    WIDGET.newKey{name='left',      x=800, y=440,w=90,      color='lG',font=55,code=pressKey"left",     fText=CHAR.key.left},
-    WIDGET.newKey{name='right',     x=900, y=440,w=90,      color='lG',font=55,code=pressKey"right",    fText=CHAR.key.right},
-    WIDGET.newKey{name='ten',       x=1000,y=440,w=90,      color='lG',font=55,code=pressKey"ten",      fText=CHAR.key.macTab},
-    WIDGET.newKey{name='backsp',    x=1000,y=540,w=90,      color='lY',font=55,code=pressKey"backspace",fText=CHAR.key.backspace},
-    WIDGET.newKey{name='reset',     x=1000,y=640,w=90,      color='lY',font=50,code=pressKey"delete",   fText=CHAR.icon.trash},
-    WIDGET.newButton{name='copy',   x=1140,y=440,w=170,h=80,color='lR',font=50,code=pressKey"cC",       fText=CHAR.icon.export,hideF=function()return #MISSION==0 end},
-    WIDGET.newButton{name='paste',  x=1140,y=540,w=170,h=80,color='lB',font=50,code=pressKey"cV",       fText=CHAR.icon.import},
+    WIDGET.newKey{name='left',      x=800, y=440,w=90,      color='lG',font=55,code=pressKey'left',     fText=CHAR.key.left},
+    WIDGET.newKey{name='right',     x=900, y=440,w=90,      color='lG',font=55,code=pressKey'right',    fText=CHAR.key.right},
+    WIDGET.newKey{name='ten',       x=1000,y=440,w=90,      color='lG',font=55,code=pressKey'ten',      fText=CHAR.key.macTab},
+    WIDGET.newKey{name='backsp',    x=1000,y=540,w=90,      color='lY',font=55,code=pressKey'backspace',fText=CHAR.key.backspace},
+    WIDGET.newKey{name='reset',     x=1000,y=640,w=90,      color='lY',font=50,code=pressKey'delete',   fText=CHAR.icon.trash},
+    WIDGET.newButton{name='copy',   x=1140,y=440,w=170,h=80,color='lR',font=50,code=pressKey'cC',       fText=CHAR.icon.export,hideF=function()return #MISSION==0 end},
+    WIDGET.newButton{name='paste',  x=1140,y=540,w=170,h=80,color='lB',font=50,code=pressKey'cV',       fText=CHAR.icon.import},
     WIDGET.newSwitch{name='mission',x=1150,y=340,lim=280,disp=CUSval('missionKill'),code=CUSrev('missionKill')},
 
     WIDGET.newButton{name='back',   x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},

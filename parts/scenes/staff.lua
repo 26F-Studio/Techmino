@@ -31,17 +31,17 @@ end
 scene.touchDown=scene.mouseDown
 
 function scene.keyDown(key)
-    if key=="escape"then
+    if key=='escape'then
         SCN.back()
-    elseif key=="l"then
+    elseif key=='l'then
         loadGame('sprintLock',true)
-    elseif key=="f"then
+    elseif key=='f'then
         loadGame('sprintFix',true)
     end
 end
 
 function scene.update(dt)
-    if(kb.isDown("space","return")or tc.getTouches()[1])and v<6.26 then
+    if(kb.isDown('space','return')or tc.getTouches()[1])and v<6.26 then
         v=v+.26
     elseif v>1 then
         v=v-.16

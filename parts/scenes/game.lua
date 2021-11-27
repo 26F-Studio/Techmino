@@ -203,22 +203,22 @@ function scene.touchMove()
 end
 function scene.keyDown(key,isRep)
     if replaying then
-        if key=="space"then
+        if key=='space'then
             if not isRep then
                 gameRate=gameRate==0 and 1 or 0
             end
             _updateRepButtons()
-        elseif key=="left"then
+        elseif key=='left'then
             if not isRep then
                 _speedDown()
             end
-        elseif key=="right"then
+        elseif key=='right'then
             if gameRate==0 then
                 _step()
             elseif not isRep then
                 _speedUp()
             end
-        elseif key=="escape"then
+        elseif key=='escape'then
             pauseGame()
         end
     else
@@ -226,16 +226,16 @@ function scene.keyDown(key,isRep)
             return
         elseif _checkGameKeyDown(key)then
             if GAME.tasUsed then
-                if key=="f1"then
+                if key=='f1'then
                     if not isRep then
                         gameRate=gameRate==0 and .125 or 0
                     end
                     _updateRepButtons()
-                elseif key=="f2"then
+                elseif key=='f2'then
                     if not isRep then
                         _speedDown()
                     end
-                elseif key=="f3"then
+                elseif key=='f3'then
                     if gameRate==0 then
                         _step()
                     elseif not isRep then
@@ -243,7 +243,7 @@ function scene.keyDown(key,isRep)
                     end
                 end
             end
-            if key=="escape"then
+            if key=='escape'then
                 pauseGame()
             end
         end
@@ -269,7 +269,7 @@ function scene.gamepadDown(key)
         else
             _restart()
         end
-    elseif key=="back"then
+    elseif key=='back'then
         pauseGame()
     end
 end

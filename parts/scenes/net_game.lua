@@ -132,13 +132,13 @@ function scene.touchMove()
     end
 end
 function scene.keyDown(key,isRep)
-    if key=="escape"then
+    if key=='escape'then
         if not inputBox.hide then
             _switchChat()
         else
             _quit()
         end
-    elseif key=="return"then
+    elseif key=='return'then
         local mes=STRING.trim(inputBox:getText())
         if not inputBox.hide and #mes>0 then
             NET.sendMessage(mes)
@@ -157,13 +157,13 @@ function scene.keyDown(key,isRep)
             VK.press(k)
         end
     elseif not _hideReadyUI()then
-        if key=="space"then
+        if key=='space'then
             if NETPLY.getSelfJoinMode()==0 then
-                (kb.isDown("lctrl","rctrl","lalt","ralt")and _setSpectate or _setReady)()
+                (kb.isDown('lctrl','rctrl','lalt','ralt')and _setSpectate or _setReady)()
             else
                 _setCancel()
             end
-        elseif key=="s"then
+        elseif key=='s'then
             _gotoSetting()
         end
     end
@@ -177,8 +177,8 @@ function scene.keyUp(key)
     end
 end
 function scene.gamepadDown(key)
-    if key=="back"then
-        scene.keyDown("escape")
+    if key=='back'then
+        scene.keyDown('escape')
     else
         if not playing then return end
         local k=KEY_MAP.joystick[key]

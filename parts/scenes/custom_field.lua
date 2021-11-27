@@ -162,26 +162,26 @@ function scene.touchUp(x,y)scene.mouseUp(x,y,1)end
 scene.touchMove=scene.mouseMove
 
 function scene.keyDown(key)
-    if key=="up"or key=="down"or key=="left"or key=="right"then
+    if key=='up'or key=='down'or key=='left'or key=='right'then
         if not penX or not penY then penX,penY=1,1 end
-        if key=="up"then
+        if key=='up'then
             if penY<20 then penY=penY+1 end
-        elseif key=="down"then
+        elseif key=='down'then
             if penY>1 then penY=penY-1 end
-        elseif key=="left"then
+        elseif key=='left'then
             if penX>1 then penX=penX-1 end
-        elseif key=="right"then
+        elseif key=='right'then
             if penX<10 then penX=penX+1 end
         end
-        if kb.isDown("space")then
-            scene.keyDown("space")
+        if kb.isDown('space')then
+            scene.keyDown('space')
         end
-    elseif key=="space"then
+    elseif key=='space'then
         if penX and penY then
             curPen=1
             _pTouch(penX,penY)
         end
-    elseif key=="delete"then
+    elseif key=='delete'then
         if sure>.3 then
             FIELD[page]=DATA.newBoard()
             sure=0
@@ -190,12 +190,12 @@ function scene.keyDown(key)
             sure=1
             MES.new('info',text.sureReset)
         end
-    elseif key=="j"then
+    elseif key=='j'then
         demo=not demo
-    elseif key=="k"then
+    elseif key=='k'then
         ins(FIELD[page],1,{21,21,21,21,21,21,21,21,21,21})
         SFX.play('blip')
-    elseif key=="l"then
+    elseif key=='l'then
         local F=FIELD[page]
         local cleared=false
         for i=#F,1,-1 do
@@ -212,12 +212,12 @@ function scene.keyDown(key)
             SFX.play('clear_3',.8)
             SFX.play('fall',.8)
         end
-    elseif key=="n"then
+    elseif key=='n'then
         ins(FIELD,page+1,DATA.newBoard(FIELD[page]))
         page=page+1
         SFX.play('blip_1',.8)
         SYSFX.newShade(3,200,60,300,600,.5,1,.5)
-    elseif key=="m"then
+    elseif key=='m'then
         rem(FIELD,page)
         page=max(page-1,1)
         if not FIELD[1]then
@@ -226,10 +226,10 @@ function scene.keyDown(key)
         SYSFX.newShade(3,200,60,300,600,1,.5,.5)
         SFX.play('clear_4',.8)
         SFX.play('fall',.8)
-    elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+    elseif key=='c'and kb.isDown('lctrl','rctrl')or key=='cC'then
         sys.setClipboardText("Techmino Field:"..DATA.copyBoard(page))
         MES.new('check',text.exportSuccess)
-    elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+    elseif key=='v'and kb.isDown('lctrl','rctrl')or key=='cV'then
         local str=sys.getClipboardText()
         local p=str:find(":")--ptr*
         if p then
@@ -243,11 +243,11 @@ function scene.keyDown(key)
         else
             MES.new('error',text.dataCorrupted)
         end
-    elseif key=="pageup"then
+    elseif key=='pageup'then
         page=max(page-1,1)
-    elseif key=="pagedown"then
+    elseif key=='pagedown'then
         page=min(page+1,#FIELD)
-    elseif key=="escape"then
+    elseif key=='escape'then
         if curPen then
             curPen=false
             penPath={}
@@ -259,7 +259,7 @@ function scene.keyDown(key)
     end
 end
 function scene.keyUp(key)
-    if key=="space"then
+    if key=='space'then
         _pDraw()
         curPen=false
     end
@@ -480,18 +480,18 @@ scene.widgetList={
     WIDGET.newButton{name='any',    x=600, y=400,w=120,color='lH',      font=40,code=_setPen(0)},
     WIDGET.newButton{name='space',  x=730, y=400,w=120,color='H',       font=55,code=_setPen(-1),fText=CHAR.icon.cross_thick},
     WIDGET.newButton{name='smart',  x=860, y=400,w=120,color='lG',      font=30,code=_setPen(-2)},
-    WIDGET.newButton{name='push',   x=990, y=400,w=120,h=120,color='lY',font=20,code=pressKey"k"},
-    WIDGET.newButton{name='del',    x=1120,y=400,w=120,h=120,color='lY',font=20,code=pressKey"l"},
+    WIDGET.newButton{name='push',   x=990, y=400,w=120,h=120,color='lY',font=20,code=pressKey'k'},
+    WIDGET.newButton{name='del',    x=1120,y=400,w=120,h=120,color='lY',font=20,code=pressKey'l'},
 
-    WIDGET.newButton{name='copy',   x=730, y=530,w=120,color='lR',font=60,fText=CHAR.icon.export,code=pressKey"cC"},
-    WIDGET.newButton{name='paste',  x=860, y=530,w=120,color='lB',font=60,fText=CHAR.icon.import,code=pressKey"cV"},
-    WIDGET.newButton{name='clear',  x=990, y=530,w=120,color='Z', font=70,fText=CHAR.icon.trash,code=pressKey"delete"},
+    WIDGET.newButton{name='copy',   x=730, y=530,w=120,color='lR',font=60,fText=CHAR.icon.export,code=pressKey'cC'},
+    WIDGET.newButton{name='paste',  x=860, y=530,w=120,color='lB',font=60,fText=CHAR.icon.import,code=pressKey'cV'},
+    WIDGET.newButton{name='clear',  x=990, y=530,w=120,color='Z', font=70,fText=CHAR.icon.trash,code=pressKey'delete'},
     WIDGET.newSwitch{name='demo',   x=755, y=640,lim=220,disp=function()return demo end,code=function()demo=not demo end},
 
-    WIDGET.newButton{name='newPg',  x=100, y=110,w=160,h=110,color='N', font=20,code=pressKey"n"},
-    WIDGET.newButton{name='delPg',  x=100, y=230,w=160,h=110,color='lR',font=20,code=pressKey"m"},
-    WIDGET.newButton{name='prevPg', x=100, y=350,w=160,h=110,color='lG',font=20,code=pressKey"pageup",hideF=function()return page==1 end},
-    WIDGET.newButton{name='nextPg', x=100, y=470,w=160,h=110,color='lG',font=20,code=pressKey"pagedown",hideF=function()return page==#FIELD end},
+    WIDGET.newButton{name='newPg',  x=100, y=110,w=160,h=110,color='N', font=20,code=pressKey'n'},
+    WIDGET.newButton{name='delPg',  x=100, y=230,w=160,h=110,color='lR',font=20,code=pressKey'm'},
+    WIDGET.newButton{name='prevPg', x=100, y=350,w=160,h=110,color='lG',font=20,code=pressKey'pageup',hideF=function()return page==1 end},
+    WIDGET.newButton{name='nextPg', x=100, y=470,w=160,h=110,color='lG',font=20,code=pressKey'pagedown',hideF=function()return page==#FIELD end},
 
     WIDGET.newButton{name='back',   x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }

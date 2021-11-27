@@ -9,11 +9,11 @@ return function(y,key1,key2)
         trigDist=min(trigDist,0)-(-y)^1.2
     end
     while trigDist>=1 do
-        love.keypressed(key1 or"up")
+        love.keypressed(key1 or'up')
         trigDist=trigDist-1
     end
     while trigDist<=-1 do
-        love.keypressed(key2 or"down")
+        love.keypressed(key2 or'down')
         trigDist=trigDist+1
     end
 end

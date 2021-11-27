@@ -139,7 +139,7 @@ function scene.mouseDown()
 end
 scene.touchDown=scene.mouseDown
 function scene.keyDown(key)
-    if key=="escape"then
+    if key=='escape'then
         love.event.quit()
     else
         scene.mouseDown()

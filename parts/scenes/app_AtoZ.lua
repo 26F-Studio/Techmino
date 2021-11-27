@@ -64,16 +64,16 @@ function scene.keyDown(key,isRep)
                 SFX.play('finesseError')
             end
         end
-    elseif key=="left"or key=="right"then
+    elseif key=='left'or key=='right'then
         if state==0 then
-            scene.widgetList.level:scroll(key=="left"and -1 or 1)
+            scene.widgetList.level:scroll(key=='left'and -1 or 1)
         end
-    elseif key=="space"then
+    elseif key=='space'then
         progress=1
         mistake=0
         time=0
         state=0
-    elseif key=="escape"then
+    elseif key=='escape'then
         SCN.back()
     end
 end
@@ -117,7 +117,7 @@ end
 
 scene.widgetList={
     WIDGET.newSelector{name='level', x=640,y=640,w=200,list={'A_Z','Z_A','Tech1','Tech2','KeyTest1','KeyTest2','Hello','Roll1','Roll2','Roll3','ZZZ','ZXZX','ZMZM','Stair','Stair2','Stair3','BPW'},disp=function()return levelName end,code=function(i)levelName=i;targetString=levels[i]end,hideF=function()return state>0 end},
-    WIDGET.newButton{name='reset',   x=160,y=100,w=180,h=100,color='lG',font=40,code=pressKey"space"},
+    WIDGET.newButton{name='reset',   x=160,y=100,w=180,h=100,color='lG',font=40,code=pressKey'space'},
     WIDGET.newButton{name='keyboard',x=160,y=210,w=180,h=100,code=function()love.keyboard.setTextInput(true,0,select(2,SCR.xOy:transformPoint(0,500)),1,1)end,hide=not MOBILE},
     WIDGET.newButton{name='back',    x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }

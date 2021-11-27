@@ -42,7 +42,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name="spin", x=1140,y=360,w=120,font=60,fText=CHAR.icon.retry_spin,code=pressKey"space"},
+    WIDGET.newButton{name="spin", x=1140,y=360,w=120,font=60,fText=CHAR.icon.retry_spin,code=pressKey'space'},
     WIDGET.newButton{name="back", x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 return scene

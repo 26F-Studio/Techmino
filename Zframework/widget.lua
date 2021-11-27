@@ -597,7 +597,7 @@ function slider:scroll(n)
     end
 end
 function slider:arrowKey(k)
-    self:scroll((k=="left"or k=="up")and -1 or 1)
+    self:scroll((k=='left'or k=='up')and -1 or 1)
 end
 function WIDGET.newSlider(D)--name,x,y,w[,lim][,fText][,color][,unit][,smooth][,font=30][,fType][,change],disp[,show],code,hide
     local _={
@@ -773,7 +773,7 @@ function selector:scroll(n)
     end
 end
 function selector:arrowKey(k)
-    self:scroll((k=="left"or k=="up")and -1 or 1)
+    self:scroll((k=='left'or k=='up')and -1 or 1)
 end
 
 function WIDGET.newSelector(D)--name,x,y,w[,fText][,color][,sound=true],list,disp,code,hide
@@ -897,14 +897,14 @@ end
 function inputBox:keypress(k)
     local t=self.value
     if #t>0 and EDITING==""then
-        if k=="backspace"then
+        if k=='backspace'then
             local p=#t
             while t:byte(p)>=128 and t:byte(p)<192 do
                 p=p-1
             end
             t=sub(t,1,p-1)
             SFX.play('lock')
-        elseif k=="delete"then
+        elseif k=='delete'then
             t=""
             SFX.play('hold')
         end
@@ -1005,9 +1005,9 @@ function textBox:scroll(dir)
     self:drag(nil,nil,nil,-dir*self.lineH)
 end
 function textBox:arrowKey(k)
-    if k=="up"then
+    if k=='up'then
         self:scroll(-1)
-    elseif k=="down"then
+    elseif k=='down'then
         self:scroll(-1)
     end
 end
@@ -1382,12 +1382,12 @@ function WIDGET.release(x,y)
 end
 function WIDGET.keyPressed(k,isRep)
     local W=WIDGET.sel
-    if k=="space"or k=="return"then
+    if k=='space'or k=='return'then
         if not isRep then
             WIDGET.press()
         end
-    elseif k=="up"or k=="down"or k=="left"or k=="right"then
-        if kb.isDown("lshift","lalt","lctrl","rshift","ralt","rctrl")then
+    elseif k=='up'or k=='down'or k=='left'or k=='right'then
+        if kb.isDown('lshift','lalt','lctrl','rshift','ralt','rctrl')then
             --Control some widgets with arrowkeys when hold shift/ctrl/alt
             if W and W.arrowKey then W:arrowKey(k)end
         else
@@ -1400,10 +1400,10 @@ function WIDGET.keyPressed(k,isRep)
                 end
             elseif W.getCenter then
                 local WX,WY=W:getCenter()
-                local dir=(k=="right"or k=="down")and 1 or -1
+                local dir=(k=='right'or k=='down')and 1 or -1
                 local tar
                 local minDist=1e99
-                local swap_xy=k=="up"or k=="down"
+                local swap_xy=k=='up'or k=='down'
                 if swap_xy then WX,WY=WY,WX end--note that we do not swap them back later
                 for _,W1 in ipairs(WIDGET.active)do
                     if W~=W1 and W1.resCtr and not W1.hide then
@@ -1445,24 +1445,24 @@ function WIDGET.textinput(texts)
     end
 end
 local keyMirror={
-    dpup="up",
-    dpdown="down",
-    dpleft="left",
-    dpright="right",
-    start="return",
-    back="escape",
+    dpup='up',
+    dpdown='down',
+    dpleft='left',
+    dpright='right',
+    start='return',
+    back='escape',
 }
 function WIDGET.gamepadPressed(i)
-    if i=="start"then
+    if i=='start'then
         WIDGET.press()
-    elseif i=="a"or i=="b"then
+    elseif i=='a'or i=='b'then
         local W=WIDGET.sel
         if W then
             if W.type=='button'or W.type=='key'then
                 WIDGET.press()
             elseif W.type=='slider'then
                 local p=W.disp()
-                local P=i=="left"and(p>0 and p-1)or p<W.unit and p+1
+                local P=i=='left'and(p>0 and p-1)or p<W.unit and p+1
                 if p==P or not P then return end
                 W.code(P)
                 if W.change and timer()-W.lastTime>.18 then
@@ -1471,7 +1471,7 @@ function WIDGET.gamepadPressed(i)
                 end
             end
         end
-    elseif i=="dpup"or i=="dpdown"or i=="dpleft"or i=="dpright"then
+    elseif i=='dpup'or i=='dpdown'or i=='dpleft'or i=='dpright'then
         WIDGET.keyPressed(keyMirror[i])
     end
 end

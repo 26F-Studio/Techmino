@@ -168,7 +168,7 @@ function scene.keyDown(key,isRep)
             check(tonumber(input))
             SFX.play('touch')
         end
-    elseif key=="-"then
+    elseif key=='-'then
         if #input<8 then
             if input:find("-")then
                 input=input:sub(2)
@@ -179,12 +179,12 @@ function scene.keyDown(key,isRep)
             check(tonumber(input))
             SFX.play('hold')
         end
-    elseif key=="backspace"then
+    elseif key=='backspace'then
         input=""
         inputTime=0
-    elseif key=="r"then
+    elseif key=='r'then
         reset()
-    elseif key=="escape"then
+    elseif key=='escape'then
         SCN.back()
     end
 end
@@ -216,20 +216,20 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name='reset',x=155,y=100,w=180,h=100,color='lG',font=40,code=pressKey"r"},
-    WIDGET.newKey{name='X',x=540,y=620,w=90,font=60,fText="X",code=pressKey"backspace"},
-    WIDGET.newKey{name='0',x=640,y=620,w=90,font=60,fText="0",code=pressKey"0"},
-    WIDGET.newKey{name='-',x=740,y=620,w=90,font=60,fText="-",code=pressKey"-"},
-    WIDGET.newKey{name='1',x=540,y=520,w=90,font=60,fText="1",code=pressKey"1"},
-    WIDGET.newKey{name='2',x=640,y=520,w=90,font=60,fText="2",code=pressKey"2"},
-    WIDGET.newKey{name='3',x=740,y=520,w=90,font=60,fText="3",code=pressKey"3"},
-    WIDGET.newKey{name='4',x=540,y=420,w=90,font=60,fText="4",code=pressKey"4"},
-    WIDGET.newKey{name='5',x=640,y=420,w=90,font=60,fText="5",code=pressKey"5"},
-    WIDGET.newKey{name='6',x=740,y=420,w=90,font=60,fText="6",code=pressKey"6"},
-    WIDGET.newKey{name='7',x=540,y=320,w=90,font=60,fText="7",code=pressKey"7"},
-    WIDGET.newKey{name='8',x=640,y=320,w=90,font=60,fText="8",code=pressKey"8"},
-    WIDGET.newKey{name='9',x=740,y=320,w=90,font=60,fText="9",code=pressKey"9"},
-    WIDGET.newButton{name='back',x=1200,y=660,w=110,h=60,font=60,fText=CHAR.icon.back,code=pressKey"escape"},
+    WIDGET.newButton{name='reset',x=155,y=100,w=180,h=100,color='lG',font=40,code=pressKey'r'},
+    WIDGET.newKey{name='X',x=540,y=620,w=90,font=60,fText="X",code=pressKey'backspace'},
+    WIDGET.newKey{name='0',x=640,y=620,w=90,font=60,fText="0",code=pressKey'0'},
+    WIDGET.newKey{name='-',x=740,y=620,w=90,font=60,fText="-",code=pressKey'-'},
+    WIDGET.newKey{name='1',x=540,y=520,w=90,font=60,fText="1",code=pressKey'1'},
+    WIDGET.newKey{name='2',x=640,y=520,w=90,font=60,fText="2",code=pressKey'2'},
+    WIDGET.newKey{name='3',x=740,y=520,w=90,font=60,fText="3",code=pressKey'3'},
+    WIDGET.newKey{name='4',x=540,y=420,w=90,font=60,fText="4",code=pressKey'4'},
+    WIDGET.newKey{name='5',x=640,y=420,w=90,font=60,fText="5",code=pressKey'5'},
+    WIDGET.newKey{name='6',x=740,y=420,w=90,font=60,fText="6",code=pressKey'6'},
+    WIDGET.newKey{name='7',x=540,y=320,w=90,font=60,fText="7",code=pressKey'7'},
+    WIDGET.newKey{name='8',x=640,y=320,w=90,font=60,fText="8",code=pressKey'8'},
+    WIDGET.newKey{name='9',x=740,y=320,w=90,font=60,fText="9",code=pressKey'9'},
+    WIDGET.newButton{name='back',x=1200,y=660,w=110,h=60,font=60,fText=CHAR.icon.back,code=pressKey'escape'},
 }
 
 return scene

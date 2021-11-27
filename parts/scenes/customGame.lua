@@ -37,7 +37,7 @@ end
 
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=="return"or key=="return2"then
+    if key=='return'or key=='return2'then
         if CUSTOMENV.opponent~="X"then
             if CUSTOMENV.opponent:sub(1,2)=='CC'then
                 if CUSTOMENV.sequence=='fixed'then
@@ -62,7 +62,7 @@ function scene.keyDown(key,isRep)
                 return
             end
         end
-        if key=="return2"or kb.isDown("lalt","lctrl","lshift")then
+        if key=='return2'or kb.isDown('lalt','lctrl','lshift')then
             if #FIELD[1]>0 then
                 saveFile(CUSTOMENV,'conf/customEnv')
                 loadGame('custom_puzzle',true)
@@ -71,13 +71,13 @@ function scene.keyDown(key,isRep)
             saveFile(CUSTOMENV,'conf/customEnv')
             loadGame('custom_clear',true)
         end
-    elseif key=="f"then
+    elseif key=='f'then
         SCN.go('custom_field','swipeD')
-    elseif key=="s"then
+    elseif key=='s'then
         SCN.go('custom_sequence','swipeD')
-    elseif key=="m"then
+    elseif key=='m'then
         SCN.go('custom_mission','swipeD')
-    elseif key=="delete"then
+    elseif key=='delete'then
         if sure>.3 then
             TABLE.cut(FIELD)TABLE.cut(BAG)TABLE.cut(MISSION)
             FIELD[1]=DATA.newBoard()
@@ -96,16 +96,16 @@ function scene.keyDown(key,isRep)
             sure=1
             MES.new('info',text.sureReset)
         end
-    elseif key=="f1"then
+    elseif key=='f1'then
         SCN.go('mod','swipeD')
-    elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+    elseif key=='c'and kb.isDown('lctrl','rctrl')or key=='cC'then
         local str="Techmino Quest:"..DATA.copyQuestArgs().."!"
         if #BAG>0 then str=str..DATA.copySequence()end
         str=str.."!"
         if #MISSION>0 then str=str..DATA.copyMission()end
         sys.setClipboardText(str.."!"..DATA.copyBoards().."!")
         MES.new('check',text.exportSuccess)
-    elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+    elseif key=='v'and kb.isDown('lctrl','rctrl')or key=='cV'then
         local str=sys.getClipboardText()
         local args=STRING.split(str:sub((str:find(":")or 0)+1),"!")
         if #args<4 then goto THROW_fail end
@@ -122,7 +122,7 @@ function scene.keyDown(key,isRep)
         MES.new('check',text.importSuccess)
         do return end
         ::THROW_fail::MES.new('error',text.dataCorrupted)
-    elseif key=="escape"then
+    elseif key=='escape'then
         saveFile(CUSTOMENV,'conf/customEnv')
         SCN.back()
     else
@@ -186,13 +186,13 @@ scene.widgetScrollHeight=450
 scene.widgetList={
     WIDGET.newText{name='title',   x=520,y=15,font=70,align='R'},
 
-    WIDGET.newKey{name='reset',    x=1110,y=90,w=230,h=90,color='R',code=pressKey"delete"},
-    WIDGET.newKey{name='mod',      x=1110,y=200,w=230,h=90,color='Z',code=pressKey"f1"},
+    WIDGET.newKey{name='reset',    x=1110,y=90,w=230,h=90,color='R',code=pressKey'delete'},
+    WIDGET.newKey{name='mod',      x=1110,y=200,w=230,h=90,color='Z',code=pressKey'f1'},
 
     --Mission / Field / Sequence
-    WIDGET.newKey{name='mission',  x=170,y=180,w=240,h=80,color='N',font=25,code=pressKey"m"},
-    WIDGET.newKey{name='field',    x=450,y=180,w=240,h=80,color='A',font=25,code=pressKey"f"},
-    WIDGET.newKey{name='sequence', x=730,y=180,w=240,h=80,color='W',font=25,code=pressKey"s"},
+    WIDGET.newKey{name='mission',  x=170,y=180,w=240,h=80,color='N',font=25,code=pressKey'm'},
+    WIDGET.newKey{name='field',    x=450,y=180,w=240,h=80,color='A',font=25,code=pressKey'f'},
+    WIDGET.newKey{name='sequence', x=730,y=180,w=240,h=80,color='W',font=25,code=pressKey's'},
 
     WIDGET.newText{name='noMsn',   x=50, y=220,align='L',color='H',hideF=function()return MISSION[1]end},
     WIDGET.newText{name='defSeq',  x=610,y=220,align='L',color='H',hideF=function()return BAG[1]end},
@@ -217,11 +217,11 @@ scene.widgetList={
     WIDGET.newSelector{name='hang',        x=730,y=760,w=260,color='G',list=sList.hang,disp=CUSval('hang'),code=CUSsto('hang')},
 
     --Copy / Paste / Start
-    WIDGET.newButton{name='copy',          x=1070,y=300,w=310,h=70,color='lR',font=25,code=pressKey"cC"},
-    WIDGET.newButton{name='paste',         x=1070,y=380,w=310,h=70,color='lB',font=25,code=pressKey"cV"},
-    WIDGET.newButton{name='clear',         x=1070,y=460,w=310,h=70,color='lY',font=35,code=pressKey"return"},
-    WIDGET.newButton{name='puzzle',        x=1070,y=540,w=310,h=70,color='lM',font=35,code=pressKey"return2",hideF=function()return #FIELD[1]==0 end},
-    WIDGET.newButton{name='back',          x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=pressKey"escape"},
+    WIDGET.newButton{name='copy',          x=1070,y=300,w=310,h=70,color='lR',font=25,code=pressKey'cC'},
+    WIDGET.newButton{name='paste',         x=1070,y=380,w=310,h=70,color='lB',font=25,code=pressKey'cV'},
+    WIDGET.newButton{name='clear',         x=1070,y=460,w=310,h=70,color='lY',font=35,code=pressKey'return'},
+    WIDGET.newButton{name='puzzle',        x=1070,y=540,w=310,h=70,color='lM',font=35,code=pressKey'return2',hideF=function()return #FIELD[1]==0 end},
+    WIDGET.newButton{name='back',          x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=pressKey'escape'},
 
     --Rule set
     WIDGET.newSelector{name='eventSet',    x=1050,y=760,w=340,color='H',list=sList.eventSet,disp=CUSval('eventSet'),code=CUSsto('eventSet')},

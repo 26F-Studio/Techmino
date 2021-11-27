@@ -103,7 +103,7 @@ function scene.mouseClick(x,y)
                 mapCam.sel=false
             end
         elseif _ then
-            scene.keyDown("return")
+            scene.keyDown('return')
         end
     end
     mapCam.keyCtrl=false
@@ -134,7 +134,7 @@ function scene.touchClick(x,y)
 end
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=="return"then
+    if key=='return'then
         if mapCam.sel then
             if visibleModes[mapCam.sel]==2 then
                 MES.new('info',text.unlockHint)
@@ -143,9 +143,9 @@ function scene.keyDown(key,isRep)
                 loadGame(mapCam.sel)
             end
         end
-    elseif key=="f1"then
+    elseif key=='f1'then
         SCN.go('mod')
-    elseif key=="escape"then
+    elseif key=='escape'then
         if mapCam.sel then
             mapCam.sel=false
         else
@@ -158,10 +158,10 @@ function scene.update()
     local dx,dy=0,0
     local F
     if not SCN.swapping then
-        if kb.isDown("up",    "w")then dy=dy+10 F=true end
-        if kb.isDown("down","s")then   dy=dy-10 F=true end
-        if kb.isDown("left","a")then   dx=dx+10 F=true end
-        if kb.isDown("right","d")then  dx=dx-10 F=true end
+        if kb.isDown('up',   'w')then dy=dy+10 F=true end
+        if kb.isDown('down', 's')then dy=dy-10 F=true end
+        if kb.isDown('left', 'a')then dx=dx+10 F=true end
+        if kb.isDown('right','d')then dx=dx-10 F=true end
         local js1=Z.js[1]
         if js1 then
             local dir=js1:getAxis(1)
@@ -175,7 +175,7 @@ function scene.update()
     end
     if F then
         mapCam.keyCtrl=true
-        if kb.isDown("lctrl","rctrl","lalt","ralt")then
+        if kb.isDown('lctrl','rctrl','lalt','ralt')then
             scene.wheelMoved(nil,(dy-dx)*.026)
         else
             _moveMap(dx,dy)
@@ -329,7 +329,7 @@ end
 
 scene.widgetList={
     WIDGET.newKey{name='mod',     x=140,y=655,w=220,h=80,font=35,code=goScene'mod'},
-    WIDGET.newButton{name='start',x=1040,y=655,w=180,h=80,font=40,code=pressKey"return",hideF=function()return not mapCam.sel end},
+    WIDGET.newButton{name='start',x=1040,y=655,w=180,h=80,font=40,code=pressKey'return',hideF=function()return not mapCam.sel end},
     WIDGET.newButton{name='back', x=1200,y=655,w=120,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 

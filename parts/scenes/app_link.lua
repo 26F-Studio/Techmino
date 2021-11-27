@@ -252,16 +252,16 @@ end
 
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=="r"then
+    if key=='r'then
         if state~=1 or sure>.2 then
             newGame()
         else
             sure=1
             MES.new('info',"Press again")
         end
-    elseif key=="z"or key=="x"then
+    elseif key=='z'or key=='x'then
         love.mousepressed(ms.getPosition())
-    elseif key=="escape"then
+    elseif key=='escape'then
         if state~=1 or sure>.2 then
             SCN.back()
         else
@@ -269,7 +269,7 @@ function scene.keyDown(key,isRep)
             MES.new('info',"Press again")
         end
     elseif state==0 then
-        if key=="q"then
+        if key=='q'then
             invis=not invis
         end
     end
@@ -280,7 +280,7 @@ local function touch(x,y)
     tap(x,y)
 end
 function scene.mouseDown(x,y,k)if k==1 or k==2 or not k then touch(x,y)end end
-function scene.mouseMove(x,y)if(msIsDown(1)or kbIsDown("z","x"))then touch(x,y)end end
+function scene.mouseMove(x,y)if(msIsDown(1)or kbIsDown('z','x'))then touch(x,y)end end
 function scene.touchDown(x,y)touch(x,y)end
 function scene.touchMove(x,y)touch(x,y)end
 
@@ -399,9 +399,9 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name='reset',x=80,y=60,w=110,h=60,color='lG',code=pressKey"r",hideF=function()return state==0 end},
-    WIDGET.newSwitch{name='invis',x=100,y=140,lim=80,disp=function()return invis end,code=pressKey"q",hideF=function()return state==1 end},
-    WIDGET.newButton{name='back',x=1200,y=660,w=110,font=50,fText=CHAR.icon.back,code=pressKey"escape"},
+    WIDGET.newButton{name='reset',x=80,y=60,w=110,h=60,color='lG',code=pressKey'r',hideF=function()return state==0 end},
+    WIDGET.newSwitch{name='invis',x=100,y=140,lim=80,disp=function()return invis end,code=pressKey'q',hideF=function()return state==1 end},
+    WIDGET.newButton{name='back',x=1200,y=660,w=110,font=50,fText=CHAR.icon.back,code=pressKey'escape'},
 }
 
 return scene

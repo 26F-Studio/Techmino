@@ -44,9 +44,9 @@ end
 
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=="escape"then
+    if key=='escape'then
         SCN.back()
-    elseif key=="space"then
+    elseif key=='space'then
         if state==0 then--main
             if timer==0 then
                 state=1
@@ -77,11 +77,11 @@ function scene.keyDown(key,isRep)
 end
 function scene.mouseDown(_,_,k)
     if k==1 then
-        scene.keyDown("space")
+        scene.keyDown('space')
     end
 end
 function scene.touchDown()
-    scene.keyDown("space")
+    scene.keyDown('space')
 end
 
 function scene.update()
@@ -163,7 +163,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newKey{name='back',x=1140,y=60,w=170,h=80,color='D',font=60,fText=CHAR.icon.back,code=pressKey"escape"},
+    WIDGET.newKey{name='back',x=1140,y=60,w=170,h=80,color='D',font=60,fText=CHAR.icon.back,code=pressKey'escape'},
 }
 
 return scene
