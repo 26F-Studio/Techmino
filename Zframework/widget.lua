@@ -1387,7 +1387,7 @@ function WIDGET.keyPressed(k,isRep)
             WIDGET.press()
         end
     elseif k=="up"or k=="down"or k=="left"or k=="right"then
-        if kb.isDown("lshift","lalt","lctrl")then
+        if kb.isDown("lshift","lalt","lctrl","rshift","ralt","rctrl")then
             --Control some widgets with arrowkeys when hold shift/ctrl/alt
             if W and W.arrowKey then W:arrowKey(k)end
         else
