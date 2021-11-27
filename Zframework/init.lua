@@ -74,7 +74,7 @@ local xOy=SCR.xOy
 local ITP=xOy.inverseTransformPoint
 local max,min=math.max,math.min
 
-local mx,my,mouseShow,cursorSpd=-20,-20,false,0
+local mx,my,mouseShow,cursorSpd=640,360,false,0
 local jsState={}--map, joystickID->axisStates: {axisName->axisVal}
 local errData={}--list, each error create {mes={errMes strings},scene=sceneNameStr}
 
