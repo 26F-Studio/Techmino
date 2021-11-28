@@ -18,8 +18,10 @@ function back.resize()
 end
 function back.draw()
     gc_clear(.1,.1,.1)
-    gc_setColor(1,1,1,alpha)
-    mDraw(image,mx,my,nil,k)
+    if image then
+        gc_setColor(1,1,1,alpha)
+        mDraw(image,mx,my,nil,k)
+    end
 end
 function back.event(a,img)
     if a then alpha=a end

@@ -380,6 +380,7 @@ for _,v in next,fs.getDirectoryItems('parts/backgrounds')do
         BG.add(name,require('parts.backgrounds.'..name))
     end
 end
+BG.remList('none')BG.remList('gray')BG.remList('custom')
 --Load scene files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems('parts/scenes')do
     if isSafeFile('parts/scenes/'..v)then

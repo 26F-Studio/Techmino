@@ -24,6 +24,9 @@ end
 function BG.getList()
     return BGlist
 end
+function BG.remList(name)
+    table.remove(BGlist,TABLE.find(BGlist,name))
+end
 function BG.send(...)
     if BG.event then
         BG.event(...)
