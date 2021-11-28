@@ -154,13 +154,33 @@ local function _triggerMouseDown(x,y,k)
     lastX,lastY=x,y
     if SETTING.clickFX then SYSFX.newTap(3,x,y)end
 end
-local function _mouse_update(dt)
+local function mouse_update(dt)
     if not KBisDown('lctrl','rctrl')and KBisDown('up','down','left','right')then
         local dx,dy=0,0
         if KBisDown('up')then    dy=dy-cursorSpd end
         if KBisDown('down')then  dy=dy+cursorSpd end
         if KBisDown('left')then  dx=dx-cursorSpd end
         if KBisDown('right')then dx=dx+cursorSpd end
+        mx=max(min(mx+dx,1280),0)
+        my=max(min(my+dy,720),0)
+        if my==0 or my==720 then
+            WIDGET.sel=false
+            WIDGET.drag(0,0,0,-dy)
+        end
+        _updateMousePos(mx,my,dx,dy)
+        cursorSpd=min(cursorSpd+dt*26,12.6)
+    else
+        cursorSpd=6
+    end
+end
+local function gp_update(js,dt)
+    local sx,sy=js._jsObj:getGamepadAxis('leftx'),js._jsObj:getGamepadAxis('lefty')
+    if math.abs(sx)>.1 or math.abs(sy)>.1 then
+        local dx,dy=0,0
+        if sy<-.1 then dy=dy+2*sy*cursorSpd end
+        if sy>.1 then  dy=dy+2*sy*cursorSpd end
+        if sx<-.1 then dx=dx+2*sx*cursorSpd end
+        if sx>.1 then  dx=dx+2*sx*cursorSpd end
         mx=max(min(mx+dx,1280),0)
         my=max(min(my+dy,720),0)
         if my==0 or my==720 then
@@ -347,35 +367,38 @@ local dPadToKey={
     back='escape',
 }
 function love.joystickadded(JS)
-    jsState[JS:getID()]={
-        _loveJSObj=JS,
+    table.insert(jsState,{
+        _id=JS:getID(),
+        _jsObj=JS,
         leftx=0,lefty=0,
         rightx=0,righty=0,
         triggerleft=0,triggerright=0
-    }
+    })
     MES.new('info',"Joystick added")
 end
 function love.joystickremoved(JS)
-    local js=jsState[JS:getID()]
-    if js then
-        for i=1,#gamePadKeys do
-            if JS:isGamepadDown(gamePadKeys[i])then
-                love.gamepadreleased(JS,gamePadKeys[i])
+    for i=1,#jsState do
+        if jsState[i]._jsObj==JS then
+            for j=1,#gamePadKeys do
+                if JS:isGamepadDown(gamePadKeys[j])then
+                    love.gamepadreleased(JS,gamePadKeys[j])
+                end
             end
+            love.gamepadaxis(JS,'leftx',0)
+            love.gamepadaxis(JS,'lefty',0)
+            love.gamepadaxis(JS,'rightx',0)
+            love.gamepadaxis(JS,'righty',0)
+            love.gamepadaxis(JS,'triggerleft',-1)
+            love.gamepadaxis(JS,'triggerright',-1)
+            MES.new('info',"Joystick removed")
+            table.remove(jsState,i)
+            break
         end
-        love.gamepadaxis(JS,'leftx',0)
-        love.gamepadaxis(JS,'lefty',0)
-        love.gamepadaxis(JS,'rightx',0)
-        love.gamepadaxis(JS,'righty',0)
-        love.gamepadaxis(JS,'triggerleft',-1)
-        love.gamepadaxis(JS,'triggerright',-1)
-        jsState[JS:getID()]=nil
-        MES.new('info',"Joystick removed")
     end
 end
 function love.gamepadaxis(JS,axis,val)
-    local js=jsState[JS:getID()]
-    if js then
+    if JS==jsState[1]._jsObj then
+        local js=jsState[1]
         if axis=='leftx'or axis=='lefty'or axis=='rightx'or axis=='righty'then
             local newVal=--range: [0,1]
                 val>.4 and 1 or
@@ -661,7 +684,8 @@ function love.run()
 
         --UPDATE
         STEP()
-        if mouseShow then _mouse_update(dt)end
+        if mouseShow then mouse_update(dt)end
+        if next(jsState)then gp_update(jsState[1],dt)end
         VOC_update()
         BG_update(dt)
         TEXT_update(dt)
