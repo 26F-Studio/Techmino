@@ -9,7 +9,7 @@ function scene.sceneInit()
 end
 
 function scene.mouseDown(x,y)
-    if x>55 and y>550 and x<510 and y<670 then
+    if x>55 and y>550 and x<450 and y<670 then
         loadGame('stack_e',true)
     end
 end

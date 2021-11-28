@@ -49,7 +49,7 @@ function scene.sceneInit()
 end
 
 function scene.mouseDown(x,y)
-    if x>35 and y>515 and x<490 and y<705 then
+    if x>40 and y>520 and x<440 and y<695 then
         loadGame('sprintMD',true)
     end
 end

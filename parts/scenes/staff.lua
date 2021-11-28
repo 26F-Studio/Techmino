@@ -20,7 +20,7 @@ end
 
 function scene.mouseDown(x,y)
     local T=40*math.min(time,45)
-    if x>230 and x<1050 then
+    if x>330 and x<950 then
         if math.abs(y-800+T)<70 then
             loadGame('sprintLock',true)
         elseif math.abs(y-2160+T)<70 then
