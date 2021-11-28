@@ -645,7 +645,6 @@ function love.run()
     local TASK_update=TASK.update
     local SYSFX_update,SYSFX_draw=SYSFX.update,SYSFX.draw
     local WIDGET_update,WIDGET_draw=WIDGET.update,WIDGET.draw
-    local VOC_update,BG_update=VOC.update,BG.update
     local STEP,WAIT=love.timer.step,love.timer.sleep
     local FPS,MINI=love.timer.getFPS,love.window.isMinimized
     local PUMP,POLL=love.event.pump,love.event.poll
@@ -686,8 +685,8 @@ function love.run()
         STEP()
         if mouseShow then mouse_update(dt)end
         if next(jsState)then gp_update(jsState[1],dt)end
-        VOC_update()
-        BG_update(dt)
+        VOC.update()
+        BG.update(dt)
         TEXT_update(dt)
         MES_update(dt)
         WS_update(dt)
