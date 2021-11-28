@@ -24,5 +24,6 @@ end
 function back.event(a,img)
     if a then alpha=a end
     if img then image=img end
+    back.resize()
 end
 return back
