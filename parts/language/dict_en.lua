@@ -744,7 +744,7 @@ return{
         "For advanced players who want to play faster, the recommended values are DAS 4-6f (67-100ms), ARR 0f (0ms). (At 0ms ARR, pieces will instantly snap to the wall once you get past DAS.)\n\nThe ideal configuration strategy for advanced players is to minimize DAS while still being able to reliably control whether to tap or hold, and to set to ARR to 0 if possible, or as low as possible otherwise.",
     },
     {"DAS cut",
-        "dascut",
+        "dascut dcd",
         "term",
         "Techmino exclusive: in Techmino, the DAS timer can be cleared or discharged for a short time when the player starts to control a new piece. This can reduce the case where a piece instantly starts moving if spawned with a direction button held.\n\nOther games may have a similar feature but may function differently.",
     },
