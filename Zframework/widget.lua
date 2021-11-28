@@ -442,7 +442,7 @@ end
 function switch:press()
     self.code()
     if self.sound then
-        SFX.play('touch')
+        SFX.play(self.disp()and'check'or'uncheck')
     end
 end
 function WIDGET.newSwitch(D)--name,x,y[,lim][,fText][,color][,font=30][,fType][,sound=true][,disp][,code][,hideF][,hide]
@@ -753,7 +753,7 @@ function selector:press(x)
             self.select=s
             self.selText=self.list[s]
             if self.sound then
-                SFX.play('prerotate')
+                SFX.play('selector')
             end
         end
     end
@@ -773,7 +773,7 @@ function selector:scroll(n)
     self.select=s
     self.selText=self.list[s]
     if self.sound then
-        SFX.play('prerotate')
+        SFX.play('selector')
     end
 end
 function selector:arrowKey(k)
@@ -1164,7 +1164,7 @@ function listBox:press(x,y)
     if self.list[y]then
         if self.selected~=y then
             self.selected=y
-            SFX.play('click',.4)
+            SFX.play('selector',.8,0,12)
         end
     end
 end
@@ -1391,7 +1391,7 @@ function WIDGET.textinput(texts)
             WIDGET.sel.value=WIDGET.sel.value..texts
             SFX.play('touch')
         else
-            SFX.play('finesseError',.3)
+            SFX.play('drop_cancel')
         end
     end
 end
