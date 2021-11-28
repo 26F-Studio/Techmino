@@ -501,8 +501,8 @@ return{
 
             copy="拷貝場地+序列+任務",
             paste="黏貼場地+序列+任務",
-            clear="開始-清除",
-            puzzle="開始-拼圖",
+            play_clear="開始-清除",
+            play_puzzle="開始-拼圖",
 
             reset="重設所有(Del)",
             advance="更多設置(A)",

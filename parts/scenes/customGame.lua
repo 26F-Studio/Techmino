@@ -67,10 +67,10 @@ end
 
 function scene.keyDown(key,isRep)
     if isRep then return true end
-    if key=='return'and kb.isDown('lctrl','lalt')then
-        if kb.isDown('lalt')and #FIELD[1]>0 then
+    if key=='return'and kb.isDown('lctrl','lalt')or key=='play1'or key=='play2'then
+        if(key=='play2'or kb.isDown('lalt'))and #FIELD[1]>0 then
             _play('puzzle')
-        elseif kb.isDown('lctrl')then
+        elseif key=='play1'or kb.isDown('lctrl')then
             _play('clear')
         end
     elseif key=='f'then
@@ -218,8 +218,8 @@ scene.widgetList={
     --Copy / Paste / Start
     WIDGET.newButton{name='copy',          x=1070,y=300,w=310,h=70,color='lR',font=25,code=pressKey'cC'},
     WIDGET.newButton{name='paste',         x=1070,y=380,w=310,h=70,color='lB',font=25,code=pressKey'cV'},
-    WIDGET.newButton{name='clear',         x=1070,y=460,w=310,h=70,color='lY',font=35,code=pressKey'return'},
-    WIDGET.newButton{name='puzzle',        x=1070,y=540,w=310,h=70,color='lM',font=35,code=pressKey'return2',hideF=function()return #FIELD[1]==0 end},
+    WIDGET.newButton{name='play_clear',    x=1070,y=460,w=310,h=70,color='lY',font=35,code=pressKey'play1'},
+    WIDGET.newButton{name='play_puzzle',   x=1070,y=540,w=310,h=70,color='lM',font=35,code=pressKey'play2',hideF=function()return #FIELD[1]==0 end},
     WIDGET.newButton{name='back',          x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=pressKey'escape'},
 
     --Rule set

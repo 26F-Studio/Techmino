@@ -468,8 +468,8 @@ return{
 
             copy="Copiar Campo+Sec.+Mis.",
             paste="Pegar Campo+Sec.+Mis.",
-            clear="Inicio-Fin",
-            puzzle="Inicio-Puzzle",
+            play_clear="Inicio-Fin",
+            play_puzzle="Inicio-Puzzle",
 
             reset="Reiniciar (Supr)",
             advance="Más opciones (A)",

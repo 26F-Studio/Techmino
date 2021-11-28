@@ -491,8 +491,8 @@ return{
 
             copy="Copiar Tab.+Seq+Misn",
             paste="Colar Tab.+Seq+Misn",
-            clear="Iniciar-Limpar",
-            puzzle="Iniciar-Puzzle",
+            play_clear="Iniciar-Limpar",
+            play_puzzle="Iniciar-Puzzle",
 
             -- reset="Reset (Del)",
             advance="Mais (A)",

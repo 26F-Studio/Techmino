@@ -469,8 +469,8 @@ return{
 
             copy="Copier Mtrc+Seq+Missn",
             paste="Coller Mtrc+Seq+Missn",
-            clear="Démarrer Clear",
-            puzzle="Démarrer Puzzle",
+            play_clear="Démarrer Clear",
+            play_puzzle="Démarrer Puzzle",
 
             -- reset="Reset (Del)",
             advance="Plus (A)",

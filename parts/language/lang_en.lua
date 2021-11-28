@@ -503,8 +503,8 @@ return{
 
             copy="Copy Field+Seq+Mssn",
             paste="Paste Field+Seq+Mssn",
-            clear="Start-Clear",
-            puzzle="Start-Puzzle",
+            play_clear="Start-Clear",
+            play_puzzle="Start-Puzzle",
 
             reset="Reset (Del)",
             advance="More (A)",

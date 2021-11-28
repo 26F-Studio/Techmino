@@ -500,8 +500,8 @@ return{
 
             copy="复制字段+序号+使命",
             paste="粘贴字段+序号+使命",
-            clear="清场",
-            puzzle="开始拼图",
+            play_clear="清场",
+            play_puzzle="开始拼图",
 
             reset="复位(Del)",
             advance="更多(A)",
