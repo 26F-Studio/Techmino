@@ -51,7 +51,7 @@ local commands={}do
                     local body=commands[cmd]
                     log(
                         body.description and
-                            {C.Z,cmd,C.H,"    "..body.description}
+                            {C.Z,cmd,C.H,(" $1 $2"):repD(("·"):rep(16-#cmd),body.description)}
                         or
                             log{C.Z,cmd}
                     )
