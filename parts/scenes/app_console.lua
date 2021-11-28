@@ -7,6 +7,8 @@ local inputBox=WIDGET.newInputBox{name='input',x=40,y=650,w=1200,h=50,fType='mon
 local outputBox=WIDGET.newTextBox{name='output',x=40,y=30,w=1200,h=610,font=25,fType='mono',lineH=23,fix=true}
 
 local function log(str)outputBox:push(str)end
+_SCLOG=log
+
 log{C.lP,"Techmino Console"}
 log{C.lC,"©2021 26F Studio   some rights reserved"}
 log{C.dR,"WARNING: DO NOT RUN ANY CODE THAT YOU DON'T UNDERSTAND."}
@@ -704,7 +706,9 @@ local commands={}do
             elseif code=="7126"then
                 sudomode=true
                 log{C.Y,"* SUDO MODE ON - DO NOT RUN ANY CODES IF YOU DO NOT KNOW WHAT THEY DO *"}
+                log{C.Y,"* Use function _SCLOG(message) to print message here *"}
                 log{C.Y,"* 最高权限模式开启, 请不要执行任何自己不懂确切含义的代码 *"}
+                log{C.Y,"* 使用_SCLOG(信息)函数在控制台打印信息 *"}
             else
                 log{C.Y,"Password incorrect"}
             end
