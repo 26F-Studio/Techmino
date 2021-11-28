@@ -7,13 +7,92 @@ local scene={}
 local selected--if waiting for key
 local keyList
 
+local keyNames={
+    normal={
+        a='A',b='B',c='C',d='D',e='E',f='F',g='G',
+        h='H',i='I',j='J',k='K',l='L',m='M',n='N',
+        o='O',p='P',q='Q',r='R',s='S',t='T',
+        u='U',v='V',w='W',x='X',y='Y',z='Z',
+        backspace=CHAR.key.backspace,
+        ['return']=CHAR.key.enter_or_return,
+        kpenter='kp'..CHAR.key.enter_or_return,
+        tab=CHAR.key.tab,
+        capslock=CHAR.key.capslock,
+        lshift='L shift',
+        rshift='R shift',
+        lctrl='L ctrl',
+        rctrl='R ctrl',
+        lalt='L alt',
+        ralt='R alt',
+        lgui='L'..CHAR.key.windows,
+        rgui='R'..CHAR.key.windows,
+        space=CHAR.key.space,
+        delete='del',
+        pageup='pgup',
+        pagedown='pgdn',
+        home='home',
+        ['end']='end',
+        insert='ins',
+        numlock='numlock',
+        menu=CHAR.key.winMenu,
+        up=CHAR.key.up,
+        down=CHAR.key.down,
+        left=CHAR.key.left,
+        right=CHAR.key.right,
+    },
+    apple={
+        kpenter=CHAR.key.macEnter,
+        tab=CHAR.key.mactab,
+        lshift='L'..CHAR.key.shift,
+        rshift='R'..CHAR.key.shift,
+        lctrl='L'..CHAR.key.macCtrl,
+        rctrl='R'..CHAR.key.macCtrl,
+        lalt='L'..CHAR.key.macOpt,
+        ralt='R'..CHAR.key.macOpt,
+        lgui='L'..CHAR.key.macCmd,
+        rgui='R'..CHAR.key.macCmd,
+        space=CHAR.key.space,
+        delete=CHAR.key.del,
+        pageUp=CHAR.key.macPgup,
+        pageDown=CHAR.key.macPgdn,
+        home=CHAR.key.macHome,
+        ['end']=CHAR.key.macEnd,
+        numlock=CHAR.key.clear,
+    },
+    controller={
+        x=CHAR.controller.xboxX,
+        y=CHAR.controller.xboxY,
+        a=CHAR.controller.xboxA,
+        b=CHAR.controller.xboxB,
+        dpup=CHAR.controller.dpadU,
+        dpdown=CHAR.controller.dpadD,
+        dpleft=CHAR.controller.dpadL,
+        dpright=CHAR.controller.dpadR,
+        triggerleft=CHAR.controller.lt,
+        triggerright=CHAR.controller.rt,
+        leftshoulder=CHAR.controller.lb,
+        rightshoulder=CHAR.controller.rb,
+        leftstick_up=CHAR.controller.jsLU,
+        leftstick_down=CHAR.controller.jsLD,
+        leftstick_left=CHAR.controller.jsLL,
+        leftstick_right=CHAR.controller.jsLR,
+        rightstick_up=CHAR.controller.jsRU,
+        rightstick_down=CHAR.controller.jsRD,
+        rightstick_left=CHAR.controller.jsRL,
+        rightstick_right=CHAR.controller.jsRR,
+    },
+}setmetatable(keyNames.apple,{__index=keyNames.normal})
+
 local function _freshKeyList()
     keyList={}for i=0,20 do keyList[i]={}end
+
+    local keynames=SYSTEM:find'OS'and keyNames.apple or keyNames.normal
     for k,v in next,KEY_MAP.keyboard do
-        ins(keyList[v],{COLOR.lB,k})
+        ins(keyList[v],{COLOR.lB,keynames[k]or k})
     end
-    for k,v in next,KEY_MAP.joystick do
-        ins(keyList[v],{COLOR.lR,k})
+
+    for b,v in next,KEY_MAP.joystick do
+        ins(keyList[v],{COLOR.lR,keyNames.controller[b]or b})
     end
 end
 
@@ -92,10 +171,10 @@ function scene.draw()
     for i=0,20 do
         for j=1,#keyList[i]do
             local key=keyList[i][j]
-            local font=#key[2]==1 and 40 or #key[2]<6 and 30 or 15
+            local font=#key[2]<=4 and 35 or #key[2]<=7 and 25 or 15
             setFont(font)
             mStr(key,
-                (i>10 and 930 or 200)+100*j,
+                (i>10 and 820 or 200)+80*j,
                 (
                     i>10 and 60*(i-10)-23 or
                     i>0 and 60*i-23 or
@@ -109,9 +188,9 @@ function scene.draw()
         gc.setLineWidth(3)
         gc.setColor(COLOR[TIME()%.26<.13 and'F'or'Y'])
         gc.rectangle('line',
-            selected>10 and 910 or 270,
+            selected>10 and 860 or 240,
             selected>10 and 60*(selected-10)-50 or selected>0 and 60*selected-50 or 640,
-            360,60
+            400,60
         )
     end
 end
@@ -137,18 +216,18 @@ scene.widgetList={
     WIDGET.newKey{name='a9',x=150,y=520,w=180,h=60,font=25,code=function()_setSel(9)end},
     WIDGET.newKey{name='a10',x=150,y=580,w=180,h=60,font=25,code=function()_setSel(10)end},
 
-    WIDGET.newKey{name='a11',x=790,y=40,w=180,h=60,font=25,code=function()_setSel(11)end},
-    WIDGET.newKey{name='a12',x=790,y=100,w=180,h=60,font=25,code=function()_setSel(12)end},
-    WIDGET.newKey{name='a13',x=790,y=160,w=180,h=60,font=25,code=function()_setSel(13)end},
-    WIDGET.newKey{name='a14',x=790,y=220,w=180,h=60,font=25,code=function()_setSel(14)end},
-    WIDGET.newKey{name='a15',x=790,y=280,w=180,h=60,font=25,code=function()_setSel(15)end},
-    WIDGET.newKey{name='a16',x=790,y=340,w=180,h=60,font=25,code=function()_setSel(16)end},
-    WIDGET.newKey{name='a17',x=790,y=400,w=180,h=60,font=25,code=function()_setSel(17)end},
-    WIDGET.newKey{name='a18',x=790,y=460,w=180,h=60,font=25,code=function()_setSel(18)end},
-    WIDGET.newKey{name='a19',x=790,y=520,w=180,h=60,font=25,code=function()_setSel(19)end},
-    WIDGET.newKey{name='a20',x=790,y=580,w=180,h=60,font=25,code=function()_setSel(20)end},
+    WIDGET.newKey{name='a11',x=770,y=40,w=180,h=60,font=25,code=function()_setSel(11)end},
+    WIDGET.newKey{name='a12',x=770,y=100,w=180,h=60,font=25,code=function()_setSel(12)end},
+    WIDGET.newKey{name='a13',x=770,y=160,w=180,h=60,font=25,code=function()_setSel(13)end},
+    WIDGET.newKey{name='a14',x=770,y=220,w=180,h=60,font=25,code=function()_setSel(14)end},
+    WIDGET.newKey{name='a15',x=770,y=280,w=180,h=60,font=25,code=function()_setSel(15)end},
+    WIDGET.newKey{name='a16',x=770,y=340,w=180,h=60,font=25,code=function()_setSel(16)end},
+    WIDGET.newKey{name='a17',x=770,y=400,w=180,h=60,font=25,code=function()_setSel(17)end},
+    WIDGET.newKey{name='a18',x=770,y=460,w=180,h=60,font=25,code=function()_setSel(18)end},
+    WIDGET.newKey{name='a19',x=770,y=520,w=180,h=60,font=25,code=function()_setSel(19)end},
+    WIDGET.newKey{name='a20',x=770,y=580,w=180,h=60,font=25,code=function()_setSel(20)end},
 
-    WIDGET.newKey{name='restart',x=160,y=670,w=200,h=60,code=function()_setSel(0)end},
+    WIDGET.newKey{name='restart',x=150,y=670,w=180,h=60,code=function()_setSel(0)end},
 
     WIDGET.newButton{name='back',x=1140,y=640,w=190,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
