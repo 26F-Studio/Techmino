@@ -675,7 +675,7 @@ do--Userdata tables
             r=0,
         },
         joystick={
-            dpleft=1,dpright=2,a=3,b=4,y=5,
+            dpleft=1,dpright=2,b=3,a=4,y=5,
             dpup=6,dpdown=7,rightshoulder=8,x=9,
             leftshoulder=0,
         },
