@@ -4,7 +4,7 @@ local ins,rem=table.insert,table.remove
 local C=COLOR
 
 local inputBox=WIDGET.newInputBox{name='input',x=40,y=650,w=1200,h=50,fType='mono'}
-local outputBox=WIDGET.newTextBox{name='output',x=40,y=30,w=1200,h=610,font=25,fType='mono',lineH=23,fix=true}
+local outputBox=WIDGET.newTextBox{name='output',x=40,y=30,w=1200,h=610,font=25,fType='mono',lineH=25,fix=true}
 
 local function log(str)outputBox:push(str)end
 _SCLOG=log
@@ -566,7 +566,7 @@ local commands={}do
             {
                 code="2048",
                 scene='app_2048',
-                description="2048 with some new features\nOriginal by Asher Vollmer"
+                description="2048 with some new features. Original by Asher Vollmer"
             },
             {
                 code="ten",
@@ -601,7 +601,7 @@ local commands={}do
             {
                 code="poly",
                 scene='app_polyforge',
-                description="Polyforge\nOriginal by ImpactBlue Studios"
+                description="Polyforge. Original by ImpactBlue Studios"
             },
             {
                 code="link",
@@ -626,7 +626,7 @@ local commands={}do
             {
                 code="trp",
                 scene='app_triple',
-                description="A simply clone of a famous Match-3 Game\nOriginal idea from Sanlitun / Triple Town"
+                description="A Match-3 Game. Original idea from Sanlitun / Triple Town"
             },
             {
                 code="spin",
@@ -638,7 +638,7 @@ local commands={}do
             code=function(name)
                 if name=="-list"then
                     for i=1,#APPs do
-                        log(APPs[i].code..": "..APPs[i].description)
+                        log(("$1 $2 $3"):repD(APPs[i].code,("·"):rep(10-#APPs[i].code),APPs[i].description))
                     end
                 elseif name~=""then
                     for i=1,#APPs do
