@@ -619,6 +619,11 @@ local commands={}do
                 description="A simple keyboard piano"
             },
             {
+                code="mem",
+                scene='app_memorize',
+                description="Number memorize"
+            },
+            {
                 code="spin",
                 scene='app_spin',
                 description="???"
