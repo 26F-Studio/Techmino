@@ -15,6 +15,18 @@ local playSFX=SFX.play
 
 
 --System
+do--function tryBackScene()
+    local sureQuitTime=-1e99
+    function tryBack()
+        if TIME()-sureQuitTime<1 then
+            sureQuitTime=-1e99
+            SCN.back()
+        else
+            sureQuitTime=TIME()
+            MES.new('warn',text.sureQuit)
+        end
+    end
+end
 do--function loadFile(name,args), function saveFile(data,name,args)
     local t=setmetatable({},{__index=function()return"'$1' loading failed: $2"end})
     function loadFile(name,args)

@@ -62,7 +62,9 @@ function scene.keyDown(key,isRep)
             state='move'
         end
     elseif key=='escape'then
-        SCN.back()
+        if tryBack()then
+            SCN.back()
+        end
     end
 end
 function scene.mouseDown(_,_,k)

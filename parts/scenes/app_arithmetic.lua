@@ -185,7 +185,9 @@ function scene.keyDown(key,isRep)
     elseif key=='r'then
         reset()
     elseif key=='escape'then
-        SCN.back()
+        if tryBack()then
+            SCN.back()
+        end
     end
 end
 

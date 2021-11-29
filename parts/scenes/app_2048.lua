@@ -331,7 +331,7 @@ function scene.keyDown(key,isRep)
     elseif key=='escape'then
         if repeater.focus then
             repeater.focus=false
-        else
+        elseif tryBack()then
             SCN.back()
         end
     end

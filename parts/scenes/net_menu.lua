@@ -1,9 +1,6 @@
-local lastLogoutTime
-
 local scene={}
 
 function scene.sceneInit()
-    lastLogoutTime=-1e99
     BG.set()
 end
 function scene.sceneBack()
@@ -22,7 +19,7 @@ scene.widgetList={
     WIDGET.newButton{name='rooms', x=640, y=540,w=350,h=120,font=40,code=goScene'net_rooms'},
     WIDGET.newButton{name='logout',x=880, y=40,w=180, h=60,color='dR',
         code=function()
-            if TIME()-lastLogoutTime<1 then
+            if tryBack()then
                 if USER.uid then
                     NET.wsclose_play()
                     NET.wsclose_user()
@@ -31,9 +28,6 @@ scene.widgetList={
                     saveFile(USER,'conf/user')
                     SCN.back()
                 end
-            else
-                MES.new('info',text.sureQuit)
-                lastLogoutTime=TIME()
             end
         end},
     WIDGET.newButton{name='back',  x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},

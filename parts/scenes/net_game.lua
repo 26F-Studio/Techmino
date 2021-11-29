@@ -16,7 +16,6 @@ local inputBox=WIDGET.newInputBox{name='input',x=340,y=660,w=600,h=50,limit=256}
 local playing
 local lastUpstreamTime
 local upstreamProgress
-local lastBackTime=0
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
 local newMessageTimer
@@ -36,15 +35,12 @@ local function _gotoSetting()
     SCN.go('setting_game')
 end
 local function _quit()
-    if TIME()-lastBackTime<1 then
+    if tryBack()then
         NET.signal_quit()
         if SCN.stack[#SCN.stack-1]=='net_newRoom'then
             SCN.pop()
         end
         SCN.back()
-    else
-        lastBackTime=TIME()
-        MES.new('info',text.sureQuit)
     end
 end
 local function _switchChat()

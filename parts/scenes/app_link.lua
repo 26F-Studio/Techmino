@@ -262,11 +262,12 @@ function scene.keyDown(key,isRep)
     elseif key=='z'or key=='x'then
         love.mousepressed(ms.getPosition())
     elseif key=='escape'then
-        if state~=1 or sure>.2 then
-            SCN.back()
+        if state~=1 then
+            if tryBack()then
+                SCN.back()
+            end
         else
             sure=1
-            MES.new('info',"Press again")
         end
     elseif state==0 then
         if key=='q'then

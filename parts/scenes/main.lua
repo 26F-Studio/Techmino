@@ -116,12 +116,9 @@ function scene.keyDown(key,isRep)
     elseif key=='c'then
         enterConsole()
     elseif key=='escape'then
-        if TIME()-lastQuitTime<1 then
+        if tryBack()then
             VOC.play('bye')
             SCN.swapTo('quit','slowFade')
-        else
-            lastQuitTime=TIME()
-            MES.new('warn',text.sureQuit)
         end
     elseif key=='c'then
         enterConsole()

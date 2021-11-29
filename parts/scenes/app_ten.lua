@@ -109,11 +109,11 @@ local function merge()
         end
         if chosen>=5 then
             SFX.play(
-                chosen>=9 and"ren_mega"or
-                chosen>=8 and"spin_3"or
-                chosen>=7 and"spin_2"or
-                chosen>=6 and"spin_1"or
-                "spin_0"
+                chosen>=9 and'ren_mega'or
+                chosen>=8 and'spin_3'or
+                chosen>=7 and'spin_2'or
+                chosen>=6 and'spin_1'or
+                'spin_0'
             )
         end
         fallingTimer=fast and 8 or 12
@@ -157,7 +157,9 @@ function scene.keyDown(key,isRep)
             fast=not fast
         end
     elseif key=='escape'then
-        SCN.back()
+        if tryBack()then
+            SCN.back()
+        end
     end
 end
 function scene.mouseMove(x,y)
