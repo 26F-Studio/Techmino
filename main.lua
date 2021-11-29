@@ -415,7 +415,6 @@ do
     local needSave
 
     if not fs.getInfo('conf/data')then
-        FIRSTLAUNCH=true
         needSave=true
     end
     if type(STAT.version)~='number'then
@@ -559,7 +558,8 @@ do
     end
 end
 
---First start for phones
+--First start
+FIRSTLAUNCH=STAT.run==0
 if FIRSTLAUNCH and MOBILE then
     SETTING.VKSwitch=true
     SETTING.powerInfo=true
