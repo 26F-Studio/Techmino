@@ -503,7 +503,7 @@ return{
             play_clear="清场",
             play_puzzle="开始拼图",
 
-            reset="复位(Del)",
+            reset="复位(del)",
             advance="更多(A)",
             mod="多重器官衰竭(F1)",
             field="编辑字段(F)",
@@ -622,7 +622,6 @@ return{
             title="帐户",
         },
         app_15p={
-            reset="洗牌",
             color="颜色",
             invis="英维斯",
             slide="滑动",
@@ -634,9 +633,6 @@ return{
             invis="英维斯",
             disappear="隐藏",
             tapFX="Tap外汇",
-        },
-        app_pong={
-            reset="重新启动",
         },
         app_AtoZ={
             level="水平仪",

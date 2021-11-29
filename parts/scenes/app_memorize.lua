@@ -6,18 +6,20 @@ local level
 local showNum
 local showTime
 local input
+local inputTime
 
 local scene={}
 
-local function _newNum(lv)
+local function newNum(lv)
     local num=""
-    for _=1,4+lv^.626 do num=num..math.random(0,9)end
+    for _=1,4+lv^.66 do num=num..math.random(0,9)end
     return num
 end
 
 local function freshLevel()
-    showNum=_newNum(level)
-    showTime=#showNum*.355+math.max(4-level,0)
+    showNum=newNum(level)
+    showTime=math.max(4-level,0)+#showNum*math.max(.5-#showNum*.01,.3)
+    inputTime=2+#showNum*math.max(1-#showNum*.01,.626)
     input=''
 end
 local function _reset()
@@ -33,6 +35,7 @@ function scene.sceneInit()
     level=0
     input=''
     showNum='memoriZe'
+    BGM.play('reason')
 end
 
 function scene.keyDown(key,isRep)
@@ -62,7 +65,9 @@ function scene.update(dt)
         showTime=showTime-dt
         if showTime<=0 then
             timeUsed=timeUsed+dt
-            if showTime<-10 then
+            inputTime=inputTime-dt
+            if inputTime<=0 then
+                inputTime=0
                 state=1
                 SFX.play('finesseError_long',.6)
             end
@@ -79,24 +84,29 @@ function scene.draw()
     GC.mStr("["..level.."]",640,30)
 
     FONT.set(60)
-    GC.mStr(input,640,150)
+    GC.mStr(input,640,160)
 
     if state==0 then
         if showTime<=0 then
             FONT.set(30)
             gc.setColor(1,.7,.7,-3*showTime)
-            GC.mStr(("%.1f"):format(showTime+10),640,210)
+            GC.mStr(("%.1f"):format(inputTime),640,230)
         end
         gc.setColor(1,1,1,showTime/1.26)
     else
         gc.setColor(1,.4,.4)
     end
-    FONT.set(100)
-    GC.mStr(showNum,640,60)
+    if #showNum<=10 then
+        FONT.set(100)
+        GC.mStr(showNum,640,60)
+    else
+        FONT.set(60)
+        GC.mStr(showNum,640,90)
+    end
 end
 
 scene.widgetList={
-    WIDGET.newButton{name='reset',x=155,y=100,w=180,h=100,color='lG',font=40,code=pressKey'r'},
+    WIDGET.newButton{name='reset',x=155,y=100,w=180,h=100,color='lG',font=50,fText=CHAR.icon.retry_spin,code=pressKey'r'},
     WIDGET.newKey{name='X',x=540,y=620,w=90,font=60,fText=CHAR.key.clear,code=pressKey'backspace'},
     WIDGET.newKey{name='0',x=640,y=620,w=90,font=60,fText="0",code=pressKey'0'},
     WIDGET.newKey{name='1',x=540,y=520,w=90,font=60,fText="1",code=pressKey'1'},

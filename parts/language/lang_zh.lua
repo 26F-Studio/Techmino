@@ -505,7 +505,7 @@ return{
             play_clear="开始-消除",
             play_puzzle="开始-拼图",
 
-            reset="重置所有(Del)",
+            reset="重置所有(del)",
             advance="更多设置(A)",
             mod="Mods (F1)",
             field="场地编辑(F)",
@@ -624,7 +624,6 @@ return{
             title="帐户",
         },
         app_15p={
-            reset="打乱",
             color="颜色",
             invis="盲打",
             slide="滑动操作",
@@ -632,49 +631,34 @@ return{
             revKB="键盘反向",
         },
         app_schulteG={
-            reset="重来",
             rank="尺寸",
             invis="盲打",
             disappear="消失",
             tapFX="点击动画",
         },
-        app_pong={
-            reset="重置",
-        },
         app_AtoZ={
             level="关卡",
             keyboard="键盘",
-            reset="重置",
-        },
-        app_UTTT={
-            reset="重置",
         },
         app_2048={
-            reset="重置",
             invis="盲打",
             tapControl="点击操作",
 
             skip="跳过回合",
         },
         app_ten={
-            reset="重置",
             next="预览",
             invis="盲打",
             fast="速打",
         },
         app_dtw={
-            reset="重置",
             color="颜色",
             mode="模式",
             bgm="音乐",
             arcade="街机",
         },
         app_link={
-            reset="重置",
             invis="盲打",
-        },
-        app_arithmetic={
-            reset="重置",
         },
         savedata={
             export="导出到剪切板",

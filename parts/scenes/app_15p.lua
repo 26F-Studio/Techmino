@@ -309,7 +309,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name='reset',  x=160, y=100,w=180,h=100,color='lG',font=40,code=pressKey'space'},
+    WIDGET.newButton{name='reset',  x=160, y=100,w=180,h=100,color='lG',font=50,fText=CHAR.icon.retry_spin,code=pressKey'space'},
     colorSelector,
     WIDGET.newSwitch{name='invis',  x=240, y=330,lim=200,font=40,disp=function()return invis end,  code=pressKey'w',hideF=ifGaming},
     WIDGET.newSwitch{name='slide',  x=240, y=420,lim=200,font=40,disp=function()return slide end,  code=pressKey'e',hideF=ifGaming},

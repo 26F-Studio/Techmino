@@ -472,7 +472,7 @@ return{
             play_clear="Démarrer Clear",
             play_puzzle="Démarrer Puzzle",
 
-            -- reset="Reset (Del)",
+            -- reset="Reset (del)",
             advance="Plus (A)",
             mod="Mods (F1)",
             field="Modifier la matrice (F)",
@@ -578,7 +578,6 @@ return{
             title="Compte",
         },
         app_15p={
-            reset="Réinitialiser",
             color="Couleur",
             invis="Aveugler",
             slide="Glisser",
@@ -586,34 +585,26 @@ return{
             revKB="Inverser",
         },
         app_schulteG={
-            reset="Réinitialiser",
             rank="Taille",
             invis="Aveugler",
             disappear="Cacher",
             tapFX="Effet quand tapé",
         },
-        app_pong={
-            reset="Redémarrer",
-        },
         app_AtoZ={
             level="niveau",
             keyboard="Clavier",
-            reset="Redémarrer",
         },
         app_2048={
-            reset="Réinitialiser",
             invis="Aveugler",
             tapControl="Contrôle par toucher",
             skip="Passer Round",
         },
         app_ten={
-            reset="Réinitialiser",
             next="Prévisualisations",
             invis="Aveugler",
             -- fast="Fast",
         },
         app_dtw={
-            reset="Réinitialiser",
             color="Couleur",
             mode="Mode",
             bgm="Musique",
@@ -626,11 +617,7 @@ return{
             qq="QQ du créateur",
         },
         app_link={
-            reset="Réinitialiser",
             invis="Aveugler",
-        },
-        app_arithmetic={
-            reset="Réinitialiser",
         },
         savedata={
             -- export="Export to clipboard",

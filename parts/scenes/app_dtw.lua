@@ -380,7 +380,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name='reset',x=155,y=100,w=180,h=100,color='lG',font=40,code=pressKey'r'},
+    WIDGET.newButton{name='reset',x=155,y=100,w=180,h=100,color='lG',font=50,fText=CHAR.icon.retry_spin,code=pressKey'r'},
     modeSelector,bgmSelector,colorSelector,
     arcadeSwitch,
     WIDGET.newButton{name='back', x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},

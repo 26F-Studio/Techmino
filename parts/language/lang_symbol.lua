@@ -149,7 +149,7 @@ return{
         },
         mod={
             title="?!?!?!",
-            reset="R",
+            reset="R (tab)",
             unranked="X!!!",
         },
         pause={
@@ -396,7 +396,7 @@ return{
             play_clear="Start-Clear",
             play_puzzle="Start-Puzzle",
 
-            reset="Reset (Del)",
+            reset="Reset (del)",
             advance="More (A)",
             mod="?!?!?! (F1)",
             field="Edit Field (F)",
@@ -508,7 +508,6 @@ return{
             title="@_@",
         },
         app_15p={
-            reset="!@#$%",
             color="~~~",
             invis="???",
             slide="~_~",
@@ -516,34 +515,26 @@ return{
             revKB="Reverse",
         },
         app_schulteG={
-            reset="!@#$%",
             rank="←?→",
             invis="???",
             disappear="=X=",
             tapFX="↓ !",
         },
-        app_pong={
-            reset="R",
-        },
         app_AtoZ={
             level="_ _ _",
             keyboard="[##]",
-            reset="R",
         },
         app_2048={
-            reset="R",
             invis="???",
             tapControl="_↓",
             skip=">>",
         },
         app_ten={
-            reset="R",
             next="→",
             invis="???",
             fast="~~→",
         },
         app_dtw={
-            reset="R",
             color="~~~",
             mode="?",
             bgm="#~#",

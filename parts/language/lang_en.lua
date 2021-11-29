@@ -506,7 +506,7 @@ return{
             play_clear="Start-Clear",
             play_puzzle="Start-Puzzle",
 
-            reset="Reset (Del)",
+            reset="Reset (del)",
             advance="More (A)",
             mod="Mods (F1)",
             field="Edit Field (F)",
@@ -625,7 +625,6 @@ return{
             title="Account",
         },
         app_15p={
-            reset="Shuffle",
             color="Color",
             invis="Invis",
             slide="Slide",
@@ -633,42 +632,33 @@ return{
             revKB="Reverse",
         },
         app_schulteG={
-            reset="Reset",
             rank="Size",
             invis="Invis",
             disappear="Hide",
             tapFX="Tap FX",
         },
-        app_pong={
-            reset="Restart",
-        },
         app_AtoZ={
             level="Level",
             keyboard="Keyboard",
-            reset="Reset",
         },
         app_2048={
-            reset="Reset",
             invis="Invis",
             tapControl="Tap controls",
 
             skip="Skip Round",
         },
         app_ten={
-            reset="Reset",
             next="Next",
             invis="Invis",
             fast="Fast",
         },
         app_dtw={
-            reset="Reset",
             color="Color",
             mode="Mode",
             bgm="BGM",
             arcade="Arcade",
         },
         app_link={
-            reset="Reset",
             invis="Invis",
         },
         savedata={

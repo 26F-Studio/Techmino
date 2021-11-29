@@ -504,7 +504,7 @@ return{
             play_clear="開始-清除",
             play_puzzle="開始-拼圖",
 
-            reset="重設所有(Del)",
+            reset="重設所有(del)",
             advance="更多設置(A)",
             mod="Mods (F1)",
             field="場地編輯(F)",
@@ -623,7 +623,6 @@ return{
             title="賬戶",
         },
         app_15p={
-            reset="打亂",
             color="顏色",
             invis="盲打",
             slide="滑動操作",
@@ -631,49 +630,34 @@ return{
             revKB="鍵盤反向",
         },
         app_schulteG={
-            reset="重新啟動",
             rank="尺寸",
             invis="盲打",
             disappear="消失",
             tapFX="點擊動畫",
         },
-        app_pong={
-            reset="重設",
-        },
         app_AtoZ={
             level="等級",
             keyboard="鍵盤",
-            reset="重設",
-        },
-        app_UTTT={
-            reset="重設",
         },
         app_2048={
-            reset="重設",
             invis="盲打",
             tapControl="點擊操作",
 
             skip="跳過回合",
         },
         app_ten={
-            reset="重設",
             next="預覽",
             invis="盲打",
             fast="速打",
         },
         app_dtw={
-            reset="重設",
             color="顏色",
             mode="模式",
             bgm="音樂",
             arcade="街機",
         },
         app_link={
-            reset="重設",
             invis="盲打",
-        },
-        app_arithmetic={
-            reset="重設",
         },
         savedata={
             export="導出到剪貼板",

@@ -494,7 +494,7 @@ return{
             play_clear="Iniciar-Limpar",
             play_puzzle="Iniciar-Puzzle",
 
-            -- reset="Reset (Del)",
+            -- reset="Reset (del)",
             advance="Mais (A)",
             mod="Mods (F1)",
             field="Editar Tab. (F)",
@@ -614,7 +614,6 @@ return{
             title="Conta",
         },
         app_15p={
-            reset="Embaralhar",
             C="Cor",
             invis="Cego",
             slide="Deslizar",
@@ -622,45 +621,33 @@ return{
             revKB="Reverso",
         },
         app_schulteG={
-            reset="Resetar",
             rank="Tamanho",
             invis="Cego",
             disappear="Escond.",
             tapFX="FX De Toque",
         },
-        app_pong={
-            reset="Reiniciar",
-        },
         app_AtoZ={
             level="Nivel",
             keyboard="Teclado",
-            reset="Reiniciar",
         },
         app_2048={
-            reset="Resetar",
             invis="Cego",
             -- tapControl="Tap control",
             -- skip="Skip Round",
         },
         app_ten={
-            reset="Resetar",
             next="Próxima",
             invis="Cego",
             -- fast="Fast",
         },
         app_dtw={
-            reset="Resetar",
             -- color="Color",
             -- mode="Mode",
             bgm="BGM",
             -- arcade="Arcade",
         },
         app_link={
-            reset="Resetar",
             invis="Cego",
-        },
-        app_arithmetic={
-            reset="Resetar",
         },
         savedata={
             -- export="Export to clipboard",

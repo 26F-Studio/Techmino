@@ -480,7 +480,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name='reset',     x=155, y=100,w=180,h=100,color='lG',font=40,code=pressKey'r'},
+    WIDGET.newButton{name='reset',     x=155, y=100,w=180,h=100,color='lG',font=50,fText=CHAR.icon.retry_spin,code=pressKey'r'},
     WIDGET.newSwitch{name='invis',     x=240, y=300,lim=200,font=40,disp=function()return invis end,code=pressKey'q',hideF=function()return state==1 end},
     WIDGET.newSwitch{name='tapControl',x=240, y=370,lim=200,font=40,disp=function()return tapControl end,code=pressKey'w',hideF=function()return state==1 end},
 

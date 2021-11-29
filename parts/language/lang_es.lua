@@ -583,7 +583,6 @@ return{
             title="Cuenta",
         },
         app_15p={
-            reset="Mezclar",
             color="Color",
             invis="A ciegas",
             slide="Mover",
@@ -591,45 +590,33 @@ return{
             revKB="Deshacer",
         },
         app_schulteG={
-            reset="Reiniciar",
             rank="Tamaño",
             invis="A ciegas",
             disappear="No mostrar",
             tapFX="Sonido al pulsar",
         },
-        app_pong={
-            reset="Reiniciar",
-        },
         app_AtoZ={
             level="Nivel",
             keyboard="Teclado",
-            reset="Reiniciar",
         },
         app_2048={
-            reset="Reiniciar",
             invis="A ciegas",
             tapControl="Control táctil",
             skip="Saltar ronda",
         },
         app_ten={
-            reset="Reiniciar",
             next="Siguiente",
             invis="A ciegas",
             fast="Rápido",
         },
         app_dtw={
-            reset="Reiniciar",
             color="Color",
             mode="Modo",
             bgm="BGM",
             arcade="Arcade",
         },
         app_link={
-            reset="Reiniciar",
             invis="A ciegas",
-        },
-        app_arithmetic={
-            reset="Reiniciar",
         },
         savedata={
             export="Exportar al portapapeles",
