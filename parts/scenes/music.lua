@@ -17,12 +17,13 @@ local author={
     moonbeam="Beethoven & MrZ",
     empty="ERM",
     ["how feeling"]="V.A.",
+    ["sugar fairy"]="Tchaikovsky & MrZ",
     ["secret7th remix"]="柒栎流星",
     ["jazz nihilism"]="Trebor",
     ["race remix"]="柒栎流星",
-    ["sakura"]="ZUN & C₂₉H₂₅N₃O₅",
+    sakura="ZUN & C₂₉H₂₅N₃O₅",
     ["1980s"]="C₂₉H₂₅N₃O₅",
-    ["malate"]="ZUN & C₂₉H₂₅N₃O₅",
+    malate="ZUN & C₂₉H₂₅N₃O₅",
 }
 
 local scene={}
