@@ -18,8 +18,15 @@ return
             if P.modeData.target==200 then
                 P:win('finish')
             else
-                if P.modeData.target==100 then
+				if P.modeData.target==40 then
+					BG.set('rainbow')
+				elseif P.modeData.target==80 then
+					BG.set('rainbow2')
+                elseif P.modeData.target==100 then
+					BG.set('glow')
                     P.modeData.lock=6
+				elseif P.modeData.target==120 then
+					BG.set('lightning')
                 end
                 P.gameEnv.wait=waitSpeed[P.modeData.target/10]
                 P.modeData.target=P.modeData.target+10
