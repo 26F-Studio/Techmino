@@ -12,6 +12,7 @@ return{
     },
     sureQuit="再按一次退出",
     sureReset="再按一次重設",
+    sureDelete="再按一次删除",
     newDay="新的一天，新的開始~",
     playedLong="你玩太久了！注意休息！",
     playedTooMuch="今天玩得太久啦！Techmino好玩但也要注意休息哦~",

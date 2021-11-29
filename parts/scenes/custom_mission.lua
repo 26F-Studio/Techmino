@@ -8,12 +8,10 @@ local scene={}
 
 local input--Input buffer
 local cur--Cursor position
-local sure
 
 function scene.sceneInit()
     input=""
     cur=#MISSION
-    sure=0
 end
 function scene.sceneBack()
     saveFile(DATA.copyMission(),'conf/customMissions')
@@ -62,14 +60,10 @@ function scene.keyDown(key)
             end
         end
     elseif key=='delete'then
-        if sure>.3 then
+        if tryReset()then
             TABLE.cut(MISSION)
             cur=0
-            sure=0
             SFX.play('finesseError',.7)
-        else
-            sure=1
-            MES.new('info',text.sureReset)
         end
     elseif key=='c'and kb.isDown('lctrl','rctrl')or key=='cC'then
         if #MISSION>0 then
@@ -114,12 +108,6 @@ function scene.keyDown(key)
         elseif #input>1 or not legalInput[input]then
             input=""
         end
-    end
-end
-
-function scene.update(dt)
-    if sure>0 then
-        sure=sure-dt
     end
 end
 

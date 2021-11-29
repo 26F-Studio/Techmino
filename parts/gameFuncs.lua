@@ -15,15 +15,39 @@ local playSFX=SFX.play
 
 
 --System
-do--function tryBackScene()
-    local sureQuitTime=-1e99
+do--function tryBack()
+    local sureTime=-1e99
     function tryBack()
-        if TIME()-sureQuitTime<1 then
-            sureQuitTime=-1e99
-            SCN.back()
+        if TIME()-sureTime<1 then
+            sureTime=-1e99
+            return true
         else
-            sureQuitTime=TIME()
+            sureTime=TIME()
             MES.new('warn',text.sureQuit)
+        end
+    end
+end
+do--function tryReset()
+    local sureTime=-1e99
+    function tryReset()
+        if TIME()-sureTime<1 then
+            sureTime=-1e99
+            return true
+        else
+            sureTime=TIME()
+            MES.new('warn',text.sureReset)
+        end
+    end
+end
+do--function tryDelete()
+    local sureTime=-1e99
+    function tryDelete()
+        if TIME()-sureTime<1 then
+            sureTime=-1e99
+            return true
+        else
+            sureTime=TIME()
+            MES.new('warn',text.sureDelete)
         end
     end
 end

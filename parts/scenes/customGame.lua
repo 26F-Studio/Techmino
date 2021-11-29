@@ -24,9 +24,7 @@ local sList={
 
 local scene={}
 
-local sure
 function scene.sceneInit()
-    sure=0
     destroyPlayers()
     BG.set(CUSTOMENV.bg)
     BGM.play(CUSTOMENV.bgm)
@@ -80,7 +78,7 @@ function scene.keyDown(key,isRep)
     elseif key=='m'then
         SCN.go('custom_mission','swipeD')
     elseif key=='delete'then
-        if sure>.3 then
+        if tryReset()then
             TABLE.cut(FIELD)TABLE.cut(BAG)TABLE.cut(MISSION)
             FIELD[1]=DATA.newBoard()
             TABLE.clear(CUSTOMENV)
@@ -90,13 +88,9 @@ function scene.keyDown(key,isRep)
             saveFile(DATA.copyBoards(),'conf/customBoards')
             saveFile(DATA.copySequence(),'conf/customSequence')
             saveFile(CUSTOMENV,'conf/customEnv')
-            sure=0
             SFX.play('finesseError',.7)
             BG.set(CUSTOMENV.bg)
             BGM.play(CUSTOMENV.bgm)
-        else
-            sure=1
-            MES.new('info',text.sureReset)
         end
     elseif key=='f1'then
         SCN.go('mod','swipeD')
@@ -127,10 +121,6 @@ function scene.keyDown(key,isRep)
     else
         return true
     end
-end
-
-function scene.update(dt)
-    if sure>0 then sure=sure-dt end
 end
 
 function scene.draw()

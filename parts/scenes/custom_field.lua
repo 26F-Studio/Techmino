@@ -7,7 +7,6 @@ local ins,rem=table.insert,table.remove
 local FIELD=FIELD
 local scene={}
 
-local sure
 local curPen
 local pens={-2,0,-1,[false]=false}--Color (air/smart)
 local penMode
@@ -119,7 +118,6 @@ local function _pDraw()
 end
 
 function scene.sceneInit()
-    sure=0
     curPen=false
     penMode=0
     penX,penY=1,1
@@ -182,13 +180,9 @@ function scene.keyDown(key)
             _pTouch(penX,penY)
         end
     elseif key=='delete'then
-        if sure>.3 then
+        if tryReset()then
             FIELD[page]=DATA.newBoard()
-            sure=0
             SFX.play('finesseError',.7)
-        else
-            sure=1
-            MES.new('info',text.sureReset)
         end
     elseif key=='j'then
         demo=not demo
@@ -262,12 +256,6 @@ function scene.keyUp(key)
     if key=='space'then
         _pDraw()
         curPen=false
-    end
-end
-
-function scene.update(dt)
-    if sure>0 then
-        sure=sure-dt
     end
 end
 

@@ -12,6 +12,7 @@ return{
     },
     sureQuit="Press again to quit",
     sureReset="Press again to reset",
+    sureDelete="Press again to delete",
     newDay="A new day, a new beginning!",
     playedLong="You have been playing for a long time. Time to a break!",
     playedTooMuch="You have been playing for far too long! Techmino is fun, but remember to take some rests!",

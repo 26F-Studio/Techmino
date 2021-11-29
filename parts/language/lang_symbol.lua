@@ -14,6 +14,7 @@ return{
 
     sureQuit="X?",
     sureReset="R?",
+    sureDelete="D?",
     newDay="→→!→→",
     playedLong="→→→→!, XX□XX!",
     playedTooMuch="→→→→→→→→→→→!, XX□XX!!!!!!!",

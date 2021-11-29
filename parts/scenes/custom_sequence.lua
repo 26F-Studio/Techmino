@@ -9,11 +9,9 @@ local gc_setColor,gc_print=gc.setColor,gc.print
 local scene={}
 
 local cur--Cursor position
-local sure
 
 function scene.sceneInit()
     cur=#BAG
-    sure=0
 end
 function scene.sceneBack()
     saveFile(DATA.copySequence(),'conf/customSequence')
@@ -66,14 +64,10 @@ function scene.keyDown(key)
             cur=cur-1
         end
     elseif key=='delete'then
-        if sure>.3 then
+        if tryReset()then
             TABLE.cut(BAG)
             cur=0
-            sure=0
             SFX.play('finesseError',.7)
-        else
-            sure=1
-            MES.new('info',text.sureReset)
         end
     elseif key=='='then
         local l={1,2,3,4,5,6,7}
@@ -116,12 +110,6 @@ function scene.keyDown(key)
             cur=p
             SFX.play('lock')
         end
-    end
-end
-
-function scene.update(dt)
-    if sure>0 then
-        sure=sure-dt
     end
 end
 

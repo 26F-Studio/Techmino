@@ -2,6 +2,7 @@ return{
     fallback='en',
     sureQuit="Appuyez à nouveau pour sortir",
     -- sureReset="Press again to reset",
+    -- sureDelete="Press again to delete",
     newDay="[Anti-addiction] Nouveau jour, nouveau commencement !",
     playedLong="[Anti-addiction] Vous avez joué pendant un bon bout de temps aujourd'hui. Faites des pauses.",
     playedTooMuch="[Anti-addiction] Vous avez joué trop longtemps ! Vous ne pouvez plus jouer.",

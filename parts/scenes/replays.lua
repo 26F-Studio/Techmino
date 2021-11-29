@@ -39,8 +39,6 @@ end}
 
 local scene={}
 
-local sure
-
 local function _playRep(fileName)
     local rep=DATA.parseReplay(fileName,true)
     if not rep.available then
@@ -72,7 +70,6 @@ end
 
 function scene.sceneInit()
     BG.set()
-    sure=0
     listBox:setList(REPLAY)
     local hide=listBox:getLen()==0
     for i=3,5 do
@@ -121,8 +118,7 @@ function scene.keyDown(key)
     elseif key=='delete'then
         local rep=listBox:getSel()
         if rep then
-            if sure>.3 then
-                sure=0
+            if tryDelete()then
                 listBox:remove()
                 love.filesystem.remove(rep.fileName)
                 for i=1,#REPLAY do
@@ -132,19 +128,10 @@ function scene.keyDown(key)
                     end
                 end
                 SFX.play('finesseError',.7)
-            else
-                sure=1
-                MES.new('info',text.sureReset)
             end
         end
     else
         return true
-    end
-end
-
-function scene.update(dt)
-    if sure>0 then
-        sure=sure-dt
     end
 end
 
