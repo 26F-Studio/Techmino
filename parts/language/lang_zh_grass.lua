@@ -576,7 +576,6 @@ return{
             staff="工作人员",
             his="历史",
             legals="法律",
-            qq="作者QQ",
         },
         dict={
             title="四联词典",

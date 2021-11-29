@@ -567,7 +567,6 @@ return{
             staff="Staff",
             his="History",
             -- legals="Legals",
-            qq="Author's qq",
         },
         dict={
             title="TetroDictionary",

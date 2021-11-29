@@ -593,7 +593,6 @@ return{
             staff="製作人員",
             his="更新曆史",
             legals="法律信息",
-            qq="作者QQ",
         },
         dict={
             title="小Z方塊詞典",

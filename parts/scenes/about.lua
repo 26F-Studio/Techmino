@@ -57,9 +57,8 @@ scene.widgetList={
     WIDGET.newImage{name='pay1',    x=20,  y=20,hide=SYSTEM=='iOS'},
     WIDGET.newImage{name='pay2',    x=1014,y=20,hide=SYSTEM=='iOS'},
     WIDGET.newButton{name='staff',  x=1140,y=380,w=220,h=80,font=35,code=goScene'staff'},
-    WIDGET.newButton{name='his',    x=1140,y=470,w=220,h=80,font=35,code=goScene'history'},
-    WIDGET.newButton{name='legals', x=1140,y=560,w=220,h=80,font=35,code=goScene'legals'},
-    WIDGET.newButton{name='qq',     x=1140,y=650,w=220,h=80,font=35,code=function()love.system.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,hide=MOBILE},
+    WIDGET.newButton{name='his',    x=1140,y=480,w=220,h=80,font=35,code=goScene'history'},
+    WIDGET.newButton{name='legals', x=1140,y=580,w=220,h=80,font=35,code=goScene'legals'},
     WIDGET.newButton{name='back',   x=640, y=600,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 

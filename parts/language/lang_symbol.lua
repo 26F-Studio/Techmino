@@ -462,7 +462,6 @@ return{
             staff="Orz",
             his="_&_",
             legals="™",
-            qq="_@_",
         },
         dict={
             title="TetroDictionary",

@@ -536,7 +536,6 @@ return{
             staff="Staff",
             his="Hist. de Acts.",
             -- legals="Legals",
-            qq="QQ del Autor",
         },
         dict={
             title="TetroDictionary",

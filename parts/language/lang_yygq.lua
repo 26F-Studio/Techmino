@@ -140,7 +140,6 @@ return{fallback='zh',
             staff="游戏谁写的",
             his="黑历史",
             legals="正经人谁看啊",
-            qq="QQ对线",
         },
         register={
             password2="你懂的",

@@ -594,7 +594,6 @@ return{
             staff="制作人员",
             his="更新历史",
             legals="法律信息",
-            qq="作者QQ",
         },
         dict={
             title="小Z方块词典",
