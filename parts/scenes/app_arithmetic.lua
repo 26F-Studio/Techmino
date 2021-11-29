@@ -217,7 +217,7 @@ end
 
 scene.widgetList={
     WIDGET.newButton{name='reset',x=155,y=100,w=180,h=100,color='lG',font=40,code=pressKey'r'},
-    WIDGET.newKey{name='X',x=540,y=620,w=90,font=60,fText="X",code=pressKey'backspace'},
+    WIDGET.newKey{name='X',x=540,y=620,w=90,font=60,fText=CHAR.key.clear,code=pressKey'backspace'},
     WIDGET.newKey{name='0',x=640,y=620,w=90,font=60,fText="0",code=pressKey'0'},
     WIDGET.newKey{name='-',x=740,y=620,w=90,font=60,fText="-",code=pressKey'-'},
     WIDGET.newKey{name='1',x=540,y=520,w=90,font=60,fText="1",code=pressKey'1'},
