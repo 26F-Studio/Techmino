@@ -566,7 +566,7 @@ local commands={}do
             {
                 code="2048",
                 scene='app_2048',
-                description="2048 with some new features"
+                description="2048 with some new features\nOriginal by Asher Vollmer"
             },
             {
                 code="ten",
@@ -601,7 +601,7 @@ local commands={}do
             {
                 code="poly",
                 scene='app_polyforge',
-                description="Polyforge, original by ImpactBlue Studios"
+                description="Polyforge\nOriginal by ImpactBlue Studios"
             },
             {
                 code="link",
@@ -624,9 +624,14 @@ local commands={}do
                 description="Number memorize"
             },
             {
+                code="trp",
+                scene='app_triple',
+                description="A simply clone of a famous Match-3 Game\nOriginal idea from Sanlitun / Triple Town"
+            },
+            {
                 code="spin",
                 scene='app_spin',
-                description="???"
+                description="¿"
             },
         }
         commands.app={
