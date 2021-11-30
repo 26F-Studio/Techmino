@@ -51,7 +51,6 @@ local iconList={
 }
 gc.setDefaultFilter('linear','linear')
 
-local sure=0
 local invis
 local state
 local startTime,time
@@ -253,21 +252,14 @@ end
 function scene.keyDown(key,isRep)
     if isRep then return end
     if key=='r'then
-        if state~=1 or sure>.2 then
+        if state~=1 or tryReset()then
             newGame()
-        else
-            sure=1
-            MES.new('info',"Press again")
         end
     elseif key=='z'or key=='x'then
         love.mousepressed(ms.getPosition())
     elseif key=='escape'then
-        if state~=1 then
-            if tryBack()then
-                SCN.back()
-            end
-        else
-            sure=1
+        if state~=1 or tryBack()then
+            SCN.back()
         end
     elseif state==0 then
         if key=='q'then
@@ -292,8 +284,6 @@ function scene.update(dt)
         score1=score1+MATH.sign(score-score1)+int((score-score1)*.1+.5)
     end
 
-    if sure>0 then sure=sure-dt end
-
     for i=#lines,1,-1 do
         local L=lines[i]
         L.time=L.time+dt
@@ -308,6 +298,10 @@ function scene.draw()
         --Camera
         gc.translate(field.x,field.y)
         gc.scale(field.w/field.c,field.h/field.r)
+
+        --Background
+        gc.setColor(COLOR.dX)
+        gc.rectangle('fill',0,0,field.w,field.h)
 
         --Matrix
         local mono=state==0 or invis and not field.full
@@ -348,12 +342,9 @@ function scene.draw()
             gc.line(lines[i].line)
         end
     gc.pop()
+    --Frame
 
     if state==2 then
-        --Draw no-setting area
-        gc.setColor(1,0,0,.3)
-        gc.rectangle('fill',0,100,155,80)
-
         gc.setColor(.9,.9,0)--win
     elseif state==1 then
         gc.setColor(.9,.9,.9)--game
@@ -362,6 +353,12 @@ function scene.draw()
     end
     gc.setLineWidth(6)
     gc.rectangle('line',field.x-5,field.y-5,field.w+10,field.h+10)
+
+    --Draw no-setting area
+    if state==2 then
+        gc.setColor(1,0,0,.3)
+        gc.rectangle('fill',0,100,155,80)
+    end
 
     --Maxcombo
     setFont(20)gc.setColor(COLOR.dF)

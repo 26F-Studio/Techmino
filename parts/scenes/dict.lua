@@ -186,7 +186,7 @@ function scene.draw()
     gc.printf(t,306,180,950)
 
     setFont(30)
-    gc.setColor(1,1,1,.4+.2*sin(TIME()*4))
+    gc.setColor(1,1,1,.4+.05*sin(TIME()*12.6))
     gc.rectangle('fill',20,143+35*(selected-scrollPos),280,35)
 
     setFont(30)

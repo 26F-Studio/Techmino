@@ -73,9 +73,9 @@ local COLOR={
     lGray=      {hsv(0.02, 0.06, 0.86)},
     white=      {hsv(0.01, 0.02, 0.99)},
 
-    xGray=      {hsv(0.00, 0.00, 0.42,.8)},
+    xGray=      {hsv(0.00, 0.00, 0.35,.8)},
     lxGray=     {hsv(0.00, 0.00, 0.62,.8)},
-    dxGray=     {hsv(0.00, 0.00, 0.26,.8)},
+    dxGray=     {hsv(0.00, 0.00, 0.16,.8)},
 }
 for k,v in next,{
     R='red', F='fire', O='orange', Y='yellow', L='lime', J='jade', G='green', A='aqua', C='cyan', N='navy', S='sea', B='blue', V='violet', P='purple', M='magenta', W='wine',

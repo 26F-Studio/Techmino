@@ -135,6 +135,8 @@ function scene.keyDown(key)
 end
 
 function scene.draw()
+    gc.setColor(COLOR.dX)
+    gc.rectangle('fill',100,80,650,150,5)
     gc.setColor(COLOR.Z)
     gc.setLineWidth(2)
     gc.rectangle('line',100,80,650,150,5)
