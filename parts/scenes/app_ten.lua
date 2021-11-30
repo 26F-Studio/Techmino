@@ -241,7 +241,7 @@ function scene.draw()
 
     --Previews
     if nexts then
-        gc.setColor(0,0,0,.2)
+        gc.setColor(COLOR.dX)
         rectangle('fill',20,450,280,75)
         gc.setLineWidth(6)
         setColor(1,1,1)

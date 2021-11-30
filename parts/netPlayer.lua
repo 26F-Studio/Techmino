@@ -267,7 +267,7 @@ function NETPLY.draw()
     end
     if selP then
         gc_translate(min(mouseX,880),min(mouseY,460))
-            gc_setColor(.2,.2,.2,.7)
+            gc_setColor(COLOR.X)
             gc_rectangle('fill',0,0,400,260)
             gc_setColor(1,1,1)
             gc_setLineWidth(2)

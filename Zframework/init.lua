@@ -733,7 +733,7 @@ function love.run()
                     end
                 gc_replaceTransform(SCR.xOy_d)
                     --Draw Version string
-                    gc_setColor(.8,.8,.8,.4)
+                    gc_setColor(.9,.9,.9,.42)
                     FONT.set(20)
                     mStr(VERSION.string,0,-30)
                 gc_replaceTransform(SCR.xOy_dl)

@@ -235,11 +235,15 @@ function scene.draw()
     gc_setLineWidth(2)
 
     --Pad frame
+    gc_setColor(COLOR.dX)
+    gc_rectangle('fill',-3,-3,726,646,2)
     gc_setColor(white)
     gc_rectangle('line',-3,-3,726,646,2)
 
     --Buttons
     for y=1,8 do
+            gc_setColor(COLOR.dX)
+        gc_circle('fill',40,(y-1)*80+40,34)
         gc_setColor(white)
         gc_circle('line',40,(y-1)*80+40,34)
         if pad.funcAlpha[y]>0 then
@@ -248,6 +252,10 @@ function scene.draw()
         end
     end
     setFont(10)
+        gc_setColor(COLOR.dX)
+    for y=1,8 do for x=1,8 do
+        gc_rectangle('fill',x*80+2,(y-1)*80+2,76,76,5)
+    end end
     gc_setColor(white)
     for y=1,8 do for x=1,8 do
         gc_rectangle('line',x*80+2,(y-1)*80+2,76,76,5)

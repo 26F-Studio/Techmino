@@ -856,7 +856,7 @@ do--function drawSelfProfile()
 
         --Draw avatar
         gc_setLineWidth(2)
-        gc_setColor(.3,.3,.3,.8)gc_rectangle('fill',0,0,-300,80)
+        gc_setColor(COLOR.X)gc_rectangle('fill',0,0,-300,80)
         gc_setColor(1,1,1)gc_rectangle('line',-300,0,300,80,5)
         gc_rectangle('line',-73,7,66,66,2)
         gc_draw(selfAvatar,-72,8,nil,.5)

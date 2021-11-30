@@ -222,7 +222,7 @@ function player:drawBoard()
     gc.translate(self.x,self.y)
 
     --Board background
-    setColor(.2,.2,.2,.7)
+    setColor(COLOR.dX)
     rectangle("fill",0,0,600,600)
 
 
