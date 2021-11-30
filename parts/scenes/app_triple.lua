@@ -7,22 +7,24 @@ local ins,rem=table.insert,table.remove
 local setFont,mStr=FONT.set,GC.mStr
 
 local tileColor={
-    [-1]=COLOR.H,
-    {.39, 1.0, .39},
-    {.39, .39, 1.0},
-    {1.0, .70, .31},
-    {.94, .31, .31},
-    {.00, .71, .12},
-    {.90, .20, .90},
-    {.94, .47, .39},
-    {.90, .00, .00},
-    {.86, .86, .31},
-    {.78, .31, .00},
-    {.78, .55, .04},
-    {.12, .12, .51},
+    [-2]=COLOR.R,  --Bomb
+    [-1]=COLOR.H,   --Stone
+    {.39, 1.0, .39},--Tile 1
+    {.39, .39, 1.0},--Tile 2
+    {1.0, .70, .31},--Tile 3
+    {.94, .31, .31},--Tile 4
+    {.00, .71, .12},--Tile 5
+    {.90, .20, .90},--Tile 6
+    {.94, .47, .39},--Tile 7
+    {.90, .00, .00},--Tile 8
+    {.86, .86, .31},--Tile 9
+    {.78, .31, .00},--Tile 10
+    {.78, .55, .04},--Tile 11
+    {.12, .12, .51},--Tile 12
 }
 local textColor={
-    [-1]=COLOR.D,
+    [-2]=COLOR.dR,
+    [-1]=COLOR.dH,
     {.26, .66, .26},
     {.26, .26, .66},
     {.66, .46, .20},
@@ -43,21 +45,25 @@ local tileTexts=setmetatable({
 local player={x=340,y=90}
 
 function player:newTile()
-    local r=1
-    if rnd()<.3 then
-        r=r+1
-        if rnd()<.3 then r=r+1 end
-    end
-    if self.maxTile>=4 and rnd()<.3 then
-        r=r+1
-        if self.maxTile>=6 and rnd()<.3 then
+    if rnd()<.026 then
+        return -2
+    else
+        local r=1
+        if rnd()<.3 then
             r=r+1
-            if self.maxTile>=8 and rnd()<.3 then
+            if rnd()<.3 then r=r+1 end
+        end
+        if self.maxTile>=4 and rnd()<.3 then
+            r=r+1
+            if self.maxTile>=6 and rnd()<.3 then
                 r=r+1
+                if self.maxTile>=8 and rnd()<.3 then
+                    r=r+1
+                end
             end
         end
+        return r
     end
-    return r
 end
 
 function player:reset()
@@ -101,6 +107,16 @@ function player:merge(b,v,y,x)
     end
 end
 
+local function availablePos(b,t)
+    return
+        t>0 and b==0 or
+        t==-2 and b~=0
+end
+local function newMergeFX(y,x,tile)
+    local r,g,b
+    if tile==-2 then r,g,b=1,.6,.3 end
+    SYSFX.newShade(3,player.x+100*x-100,player.y+100*y-100,100,100,r,g,b)
+end
 function player:click(y,x)
     if y==1 and x==1 then
         self.nexts[1],self.hold=self.hold,self.nexts[1]
@@ -109,70 +125,81 @@ function player:click(y,x)
             rem(self.nexts,1)
             ins(self.nexts,self:newTile())
         end
-    elseif self.board[y][x]~=0 then
-        self.selectX,self.selectY=false,false
+    elseif y~=self.selectY or x~=self.selectX then
+        if availablePos(self.board[y][x],self.nexts[1])then
+            self.selectX,self.selectY=x,y
+        else
+            self.selectX,self.selectY=false,false
+        end
     elseif y==self.selectY and x==self.selectX then
+        if not availablePos(self.board[y][x],self.nexts[1])then return end
         if self.state==0 then
             self.state=1
             self.startTime=TIME()
         end
 
-        self.board[y][x]=rem(self.nexts,1)
-        SFX.play('touch')
-
-        local merged
-        ::REPEAT_merge::
-        local cur=self.board[y][x]
-        local b1=TABLE.shift(self.board)
-        self.mergedTiles={}
-        local count=self:merge(b1,cur,y,x)
-        if count>2 then
-            merged=true
-            self.board=b1
-            b1[y][x]=cur+1
-
-            if cur+1>self.maxTile then
-                self.maxTile=cur+1
-                if self.maxTile>=6 then
-                    ins(self.progress,("%s - %.3fs"):format(self.maxTile,TIME()-player.startTime))
-                end
-                SFX.play('reach')
-            end
-
-            local getScore=4^cur*count
-            self.score=self.score+getScore
-            TEXT.show(getScore,player.x+self.selectX*100-50,player.y+self.selectY*100-50,40,'score')
-            for i=1,#self.mergedTiles do
-                SYSFX.newShade(3,player.x+100*self.mergedTiles[i][2]-100,player.y+100*self.mergedTiles[i][1]-100,100,100)
-            end
-            goto REPEAT_merge
-        end
-
-        ins(self.nexts,self:newTile())
-
-        self.selectX,self.selectY=false,false
-
-        print('-------------')
-        if merged then
-            SFX.play('lock')
-            if cur>=4 then
-                SFX.play(
-                    cur>=8 and'ren_mega'or
-                    cur>=7 and'spin_3'or
-                    cur>=6 and'spin_2'or
-                    cur>=5 and'spin_1'or
-                    'spin_0'
-                )
-            end
+        if self.nexts[1]==-2 then
+            self.board[y][x]=0
+            SFX.play('clear_2')
+            rem(self.nexts,1)
+            ins(self.nexts,self:newTile())
+            newMergeFX(y,x,-2)
         else
-            for i=1,6 do
-                if TABLE.find(self.board[i],0)then
-                    print(i,TABLE.find(self.board[i],0))
-                    return
+            self.board[y][x]=rem(self.nexts,1)
+            SFX.play('touch')
+
+            local merged
+            ::REPEAT_merge::
+            local cur=self.board[y][x]
+            local b1=TABLE.shift(self.board)
+            self.mergedTiles={}
+            local count=self:merge(b1,cur,y,x)
+            if count>2 then
+                merged=true
+                self.board=b1
+                b1[y][x]=cur+1
+
+                if cur+1>self.maxTile then
+                    self.maxTile=cur+1
+                    if self.maxTile>=6 then
+                        ins(self.progress,("%s - %.3fs"):format(self.maxTile,TIME()-player.startTime))
+                    end
+                    SFX.play('reach')
                 end
+
+                local getScore=4^cur*count
+                self.score=self.score+getScore
+                TEXT.show(getScore,player.x+self.selectX*100-50,player.y+self.selectY*100-50,40,'score')
+                for i=1,#self.mergedTiles do
+                    newMergeFX(self.mergedTiles[i][1],self.mergedTiles[i][2],cur+1)
+                end
+                goto REPEAT_merge
             end
-            self.state=2
-            SFX.play('fail')
+
+            ins(self.nexts,self:newTile())
+
+            self.selectX,self.selectY=false,false
+
+            if merged then
+                SFX.play('lock')
+                if cur>=4 then
+                    SFX.play(
+                        cur>=8 and'ren_mega'or
+                        cur>=7 and'spin_3'or
+                        cur>=6 and'spin_2'or
+                        cur>=5 and'spin_1'or
+                        'spin_0'
+                    )
+                end
+            else
+                for i=1,6 do
+                    if TABLE.find(self.board[i],0)then
+                        return
+                    end
+                end
+                self.state=2
+                SFX.play('fail')
+            end
         end
     else
         self.selectX,self.selectY=x,y
@@ -187,7 +214,6 @@ local function drawTile(x,y,v)
         mStr(tileTexts[v],x*100-50,y*100-92)
     end
 end
-
 function player:drawBoard()
     gc.push('transform')
     gc.translate(self.x,self.y)
