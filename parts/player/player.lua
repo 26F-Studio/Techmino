@@ -2415,11 +2415,7 @@ local function update_alive(P)
         P.downing=P.downing+1
         local d=P.downing-ENV.sddas
         if d>1 then
-            if ENV.sdarr>0 then
-                if d%ENV.sdarr==0 then
-                    P:act_down1()
-                end
-            else
+            if ENV.sdarr==0 then
                 P:act_insDown()
             end
             if ENV.shakeFX then
@@ -2458,33 +2454,52 @@ local function update_alive(P)
         if P.cur then
             if P.curY>P.ghoY then
                 local D=P.dropDelay
+                local dist--Drop distance
+                print(D)
                 if D>1 then
-                    P.dropDelay=D-1
-                    goto THROW_stop
-                end
-
-                if D==1 then
-                    if ENV.moveFX and ENV.block then
-                        P:createMoveFX('down')
+                    D=D-1
+                    if P.downing>ENV.sddas then
+                        D=D-ceil(ENV.drop/ENV.sdarr)
                     end
-                    P.curY=P.curY-1
-                else
-                    D=min(1/D,P.curY-P.ghoY)--1/D=Drop dist, lowest to ghost
-                    if ENV.moveFX and ENV.block then
-                        for _=1,D do
-                            P:createMoveFX('down')
-                            P.curY=P.curY-1
-                        end
+                    if D<=0 then
+                        dist=1
+                        P.dropDelay=(D-1)%ENV.drop+1
                     else
-                        P.curY=P.curY-D
+                        P.dropDelay=D
+                        goto THROW_stop
+                    end
+                elseif D==1 then--We don't know why dropDelay is 1, so checking ENV.drop>1 is neccessary
+                    if ENV.drop>1 and P.downing>ENV.sddas and(P.downing-ENV.sddas)%ENV.sdarr==0 then
+                        dist=2
+                    else
+                        dist=1
+                    end
+                    --Reset drop delay
+                    P.dropDelay=ENV.drop
+                else--High gravity case (>1G)
+                    --Add extra 1 if time to auto softdrop
+                    if P.downing>ENV.sddas and(P.downing-ENV.sddas)%ENV.sdarr==0 then
+                        dist=1/D+1
+                    else
+                        dist=1/D
                     end
                 end
-                P:freshBlock('fresh')
-                P.spinLast=false
 
-                if P.ghoY~=P.curY then
-                    P.dropDelay=ENV.drop
+                --Limit dropping to ghost at max
+                dist=min(dist,P.curY-P.ghoY)
+
+                --Drop and create FXs
+                if ENV.moveFX and ENV.block then
+                    for _=1,dist do
+                        P:createMoveFX('down')
+                        P.curY=P.curY-1
+                    end
+                else
+                    P.curY=P.curY-dist
                 end
+
+                P.spinLast=false
+                P:freshBlock('fresh')
                 P:checkTouchSound()
             else
                 P.lockDelay=P.lockDelay-1
