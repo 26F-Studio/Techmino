@@ -252,17 +252,17 @@ function royaleLevelup()
             BGM.play('cruelty')
         end
     elseif GAME.stage==4 then
-        spd=10
+        spd=8
         for _,P in next,PLY_ALIVE do
             P.gameEnv.pushSpeed=3
         end
     elseif GAME.stage==5 then
-        spd=5
+        spd=4
         for _,P in next,PLY_ALIVE do
             P.gameEnv.garbageSpeed=1
         end
     elseif GAME.stage==6 then
-        spd=3
+        spd=2
         if PLAYERS[1].alive then
             BGM.play('final')
         end
@@ -273,7 +273,7 @@ function royaleLevelup()
     if GAME.curMode.name:find("_u")then
         for i=1,#PLY_ALIVE do
             local P=PLY_ALIVE[i]
-            P.gameEnv.drop=int(P.gameEnv.drop*.3)
+            P.gameEnv.drop=int(P.gameEnv.drop*.4)
             if P.gameEnv.drop==0 then
                 P.curY=P.ghoY
                 P:set20G(true)
