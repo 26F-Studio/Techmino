@@ -45,24 +45,27 @@ local tileTexts=setmetatable({
 local player={x=340,y=90}
 
 function player:newTile()
-    if rnd()<.026 then
+    local r=rnd()
+    if r<.006 then
+        return self.maxTile
+    elseif r<.026 then
         return -2
     else
-        local r=1
+        local t=1
         if rnd()<.3 then
-            r=r+1
-            if rnd()<.3 then r=r+1 end
+            t=t+1
+            if rnd()<.3 then t=t+1 end
         end
         if self.maxTile>=4 and rnd()<.3 then
-            r=r+1
+            t=t+1
             if self.maxTile>=6 and rnd()<.3 then
-                r=r+1
+                t=t+1
                 if self.maxTile>=8 and rnd()<.3 then
-                    r=r+1
+                    t=t+1
                 end
             end
         end
-        return r
+        return t
     end
 end
 
