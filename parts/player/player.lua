@@ -1764,7 +1764,7 @@ do
             else
                 piece.special=false
             end
-            if self.sound then
+            if self.sound and(cc~=1 or dospin)then
                 VOC.play(clearVoice[cc],CHN)
             end
 
