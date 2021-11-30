@@ -2455,7 +2455,6 @@ local function update_alive(P)
             if P.curY>P.ghoY then
                 local D=P.dropDelay
                 local dist--Drop distance
-                print(D)
                 if D>1 then
                     D=D-1
                     if P.downing>ENV.sddas then
@@ -2489,7 +2488,7 @@ local function update_alive(P)
                 dist=min(dist,P.curY-P.ghoY)
 
                 --Drop and create FXs
-                if ENV.moveFX and ENV.block then
+                if ENV.moveFX and ENV.block and dist>1 then
                     for _=1,dist do
                         P:createMoveFX('down')
                         P.curY=P.curY-1
