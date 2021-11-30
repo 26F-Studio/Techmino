@@ -14,7 +14,7 @@ log{C.lC,"©2021 26F Studio   some rights reserved"}
 log{C.dR,"WARNING: DO NOT RUN ANY CODE THAT YOU DON'T UNDERSTAND."}
 
 local history,hisPtr={"?"}
-local sudomode=false
+local sumode=false
 local the_secret=(0xe^2*10)..(2*0xb)
 
 local commands={}do
@@ -708,14 +708,14 @@ local commands={}do
         end,
         description="Reset everything and delete all saved data.",
     }
-    commands.sudo={
+    commands.su={
         code=function(code)
-            if sudomode then
-                log{C.Y,"You are already in sudo mode. Use # to run any lua code"}
+            if sumode then
+                log{C.Y,"You are already in su mode. Use # to run any lua code"}
                 log{C.Y,"已经进入最高权限模式了, 请使用 # 执行任意lua代码"}
             elseif code=="7126"then
-                sudomode=true
-                log{C.Y,"* SUDO MODE ON - DO NOT RUN ANY CODES IF YOU DO NOT KNOW WHAT THEY DO *"}
+                sumode=true
+                log{C.Y,"* SU MODE ON - DO NOT RUN ANY CODES IF YOU DO NOT KNOW WHAT THEY DO *"}
                 log{C.Y,"* Use function _SCLOG(message) to print message here *"}
                 log{C.Y,"* 最高权限模式开启, 请不要执行任何自己不懂确切含义的代码 *"}
                 log{C.Y,"* 使用_SCLOG(信息)函数在控制台打印信息 *"}
@@ -723,7 +723,7 @@ local commands={}do
                 log{C.Y,"Password incorrect"}
             end
         end,
-    }commands.su="sudo"
+    }
 
     --Game
     commands.rmconf={
@@ -1021,7 +1021,7 @@ function scene.keyDown(key)
             local code,err=loadstring(input:sub(2))
             if code then
                 local resultColor
-                if sudomode then
+                if sumode then
                     resultColor=C.lY
                 else
                     setfenv(code,userG)
