@@ -200,7 +200,7 @@ function scene.socketRead(cmd,d)
             COLOR.dY,"#"..d.uid.." ",
             COLOR.Y,text.joinRoom,
         }
-        SFX.play('click')
+        SFX.play('warn_1')
     elseif cmd=='leave'then
         textBox:push{
             COLOR.lR,d.username,

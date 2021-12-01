@@ -81,10 +81,10 @@ scene.widgetList={
 
     WIDGET.newSlider{name='mainVol',  x=300, y=170,w=420,lim=220,color='lG',disp=SETval('mainVol'),    code=function(v)SETTING.mainVol=v love.audio.setVolume(SETTING.mainVol)end},
     WIDGET.newSlider{name='bgm',      x=300, y=240,w=420,lim=220,color='lG',disp=SETval('bgm'),        code=function(v)SETTING.bgm=v BGM.setVol(SETTING.bgm)end},
-    WIDGET.newSlider{name='sfx',      x=300, y=310,w=420,lim=220,color='lC',disp=SETval('sfx'),        code=function(v)SETTING.sfx=v SFX.setVol(SETTING.sfx)end,         change=function()SFX.play('blip_1')end},
+    WIDGET.newSlider{name='sfx',      x=300, y=310,w=420,lim=220,color='lC',disp=SETval('sfx'),        code=function(v)SETTING.sfx=v SFX.setVol(SETTING.sfx)end,         change=function()SFX.play('warn_1')end},
     WIDGET.newSlider{name='stereo',   x=300, y=380,w=420,lim=220,color='lC',disp=SETval('stereo'),     code=function(v)SETTING.stereo=v SFX.setStereo(SETTING.stereo)end,change=function()SFX.play('move',1,-1)SFX.play('lock',1,1)end,hideF=function()return SETTING.sfx==0 end},
     WIDGET.newSlider{name='spawn',    x=300, y=450,w=420,lim=220,color='lC',disp=SETval('sfx_spawn'),  code=function(v)SETTING.sfx_spawn=v end,                          change=function()SFX.fplay('spawn_'..math.random(7),SETTING.sfx_spawn)end,},
-    WIDGET.newSlider{name='warn',     x=300, y=520,w=420,lim=220,color='lC',disp=SETval('sfx_warn'),   code=function(v)SETTING.sfx_warn=v end,                           change=function()SFX.fplay('warning',SETTING.sfx_warn)end},
+    WIDGET.newSlider{name='warn',     x=300, y=520,w=420,lim=220,color='lC',disp=SETval('sfx_warn'),   code=function(v)SETTING.sfx_warn=v end,                           change=function()SFX.fplay('warn_beep',SETTING.sfx_warn)end},
     WIDGET.newSlider{name='vib',      x=300, y=590,w=420,lim=220,color='lN',disp=SETval('vib'),unit=10,code=function(v)SETTING.vib=v end,                                change=function()if SETTING.vib>0 then VIB(SETTING.vib+2)end end},
     WIDGET.newSlider{name='voc',      x=300, y=660,w=420,lim=220,color='lN',disp=SETval('voc'),        code=function(v)SETTING.voc=v VOC.setVol(SETTING.voc)end,         change=function()VOC.play('test')end},
 

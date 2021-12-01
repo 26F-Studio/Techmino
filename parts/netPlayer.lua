@@ -157,7 +157,7 @@ function NETPLY.setJoinMode(uid,ready)
                             return
                         end
                     end
-                    SFX.play('blip_2',.5)
+                    SFX.play('warn_2',.5)
                 end
             end
             return

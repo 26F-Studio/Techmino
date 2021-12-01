@@ -10,7 +10,7 @@ return{
                 end
                 setField(P,D.finished+1)
                 SYSFX.newShade(1.4,P.absFieldX,P.absFieldY,300*P.size,610*P.size,.6,.8,.6)
-                SFX.play('blip_1')
+                SFX.play('warn_1')
             else
                 P:win('finish')
             end

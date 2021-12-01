@@ -41,15 +41,15 @@ return{
             if D.target==110 then
                 P.gameEnv.drop,P.gameEnv.lock=5,5
                 P.gameEnv.sddas,P.gameEnv.sdarr=5,5
-                SFX.play('blip_2',.7)
+                SFX.play('warn_2',.7)
             elseif D.target==140 then
                 P.gameEnv.drop,P.gameEnv.lock=4,4
                 P.gameEnv.sddas,P.gameEnv.sdarr=4,4
-                SFX.play('blip_2',.7)
+                SFX.play('warn_2',.7)
             elseif D.target==170 then
                 P.gameEnv.drop,P.gameEnv.lock=3,3
                 P.gameEnv.sddas,P.gameEnv.sdarr=3,3
-                SFX.play('blip_2',.7)
+                SFX.play('warn_2',.7)
             elseif D.target==200 then
                 P:win('finish')
                 return

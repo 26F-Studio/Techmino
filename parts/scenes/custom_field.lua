@@ -209,7 +209,7 @@ function scene.keyDown(key)
     elseif key=='n'then
         ins(FIELD,page+1,DATA.newBoard(FIELD[page]))
         page=page+1
-        SFX.play('blip_1',.8)
+        SFX.play('warn_1',.8)
         SYSFX.newShade(3,200,60,300,600,.5,1,.5)
     elseif key=='m'then
         rem(FIELD,page)

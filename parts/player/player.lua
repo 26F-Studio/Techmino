@@ -819,7 +819,7 @@ function Player:receive(A,send,time,line)
         self.atkBufferSum=self.atkBufferSum+send
         self.stat.recv=self.stat.recv+send
         if self.sound then
-            SFX.play(send<4 and'blip_1'or'blip_2',min(send+1,5)*.1)
+            SFX.play(send<4 and'warn_1'or'warn_2',min(send+1,5)*.1)
         end
         if send>=2 then
             self:shakeField(send/2)

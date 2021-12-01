@@ -818,7 +818,7 @@ do--function checkWarning()
             end
             GAME.warnLVL=_
             if GAME.warnLVL>1.126 and P1.frameRun%30==0 then
-                SFX.fplay('warning',SETTING.sfx_warn)
+                SFX.fplay('warn_beep',SETTING.sfx_warn)
             end
         elseif GAME.warnLVL>0 then
             GAME.warnLVL=max(GAME.warnLVL-.026,0)
