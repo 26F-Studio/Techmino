@@ -2301,6 +2301,9 @@ local function update_alive(P)
             P.control=true
             P.timing=true
             P:popNext()
+            if P.bot then
+                P.bot:updateField()
+            end
         end
         if P.movDir~=0 then
             if P.moving<P.gameEnv.das then
