@@ -304,12 +304,19 @@ function Player:act_hardDrop()
     end
 end
 function Player:act_softDrop()
-    self.downing=1
+    self.downing=0
     if self.cur then
         if self.curY>self.ghoY then
-            self.curY=self.curY-1
-            self:freshBlock('fresh')
-            self.spinLast=false
+            if self.gameEnv.sddas==0 then
+                if self.gameEnv.sdarr==0 then
+                    self:act_insDown()
+                else
+                    self:act_down1()
+                    self:act_down1()
+                end
+            else
+                self:act_down1()
+            end
             self:checkTouchSound()
         elseif self.gameEnv.deepdrop then
             self:_deepdrop()
@@ -889,7 +896,7 @@ function Player:freshBlock(mode,ifTele)--string mode: push/move/fresh/newBlock
     if(mode=='move'or mode=='newBlock'or mode=='push')and self.cur then
         local CB=self.cur.bk
         self.ghoY=min(#self.field+1,self.curY)
-        if self._20G or ENV.sdarr==0 and self.keyPressing[7]and self.downing>ENV.sddas then
+        if self._20G or ENV.sdarr==0 and self.keyPressing[7]and self.downing>=ENV.sddas then
             local _=self.ghoY
 
             --Move ghost to bottom
@@ -2416,8 +2423,7 @@ local function update_alive(P)
     --Drop pressed
     if P.keyPressing[7]then
         P.downing=P.downing+1
-        local d=P.downing-ENV.sddas
-        if d>1 then
+        if P.downing>=ENV.sddas then
             if ENV.sdarr==0 then
                 P:act_insDown()
             end
@@ -2426,7 +2432,7 @@ local function update_alive(P)
             end
         end
     else
-        P.downing=0
+        P.downing=-1
     end
 
     local stopAtFalling
@@ -2460,7 +2466,7 @@ local function update_alive(P)
                 local dist--Drop distance
                 if D>1 then
                     D=D-1
-                    if P.downing>ENV.sddas then
+                    if P.keyPressing[7]and P.downing>=ENV.sddas then
                         D=D-ceil(ENV.drop/ENV.sdarr)
                     end
                     if D<=0 then
@@ -2471,7 +2477,7 @@ local function update_alive(P)
                         goto THROW_stop
                     end
                 elseif D==1 then--We don't know why dropDelay is 1, so checking ENV.drop>1 is neccessary
-                    if ENV.drop>1 and P.downing>ENV.sddas and(P.downing-ENV.sddas)%ENV.sdarr==0 then
+                    if ENV.drop>1 and P.downing>=ENV.sddas and(P.downing-ENV.sddas)%ENV.sdarr==0 then
                         dist=2
                     else
                         dist=1
