@@ -135,11 +135,11 @@ function scene.draw()
     gc.scale(8)
 
     --Draw board
-    gc.setColor(0,0,0,.4)
+    gc.setColor(COLOR.dX)
     gc.rectangle('fill',0,0,90,90)
 
     --Draw target area
-    gc.setColor(1,1,1,math.sin((TIME()-placeTime)*5)/5+.2)
+    gc.setColor(1,1,1,math.sin((TIME()-placeTime)*5)*.1+.15)
     if target then
         gc.rectangle('fill',(target-1)%3*30,int((target-1)/3)*30,30,30)
     elseif not gameover then
@@ -212,7 +212,7 @@ function scene.draw()
         end
     else
         --Draw current round mark
-        gc.setColor(.8,.8,.8,.8)
+        gc.setColor(COLOR.X)
         gc.rectangle('fill',80,80,160,160)
         gc.setColor(COLOR.Z)
         gc.setLineWidth(6)

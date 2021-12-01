@@ -125,11 +125,9 @@ function scene.draw()
     setFont(70)
     mStr(state==1 and progress or state==0 and"Ready"or state==2 and"Win",1130,300)
 
+    gc.setColor(COLOR.dX)
+    gc.rectangle('fill',310,30,660,660)
     if state==2 then
-        --Draw no-setting area
-        gc.setColor(1,0,0,.3)
-        gc.rectangle('fill',15,295,285,250)
-
         gc.setColor(.9,.9,0)--win
     elseif state==1 then
         gc.setColor(.9,.9,.9)--game
@@ -138,6 +136,12 @@ function scene.draw()
     end
     gc.setLineWidth(10)
     gc.rectangle('line',310,30,660,660)
+
+    --Draw no-setting area
+    if state==2 then
+        gc.setColor(1,0,0,.3)
+        gc.rectangle('fill',15,295,285,250)
+    end
 
     local width=640/rank
     local mono=state==0 or invis and state==1 and progress>0

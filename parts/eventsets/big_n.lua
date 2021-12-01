@@ -5,7 +5,7 @@ return
     drop=120,
     wait=8,
     fall=20,
-	fieldH=10,
+    fieldH=10,
     mesDisp=function(P)
         PLY.draw.drawProgress(P.stat.row,P.modeData.target)
         PLY.draw.drawTargetLine(P,200-P.stat.row)

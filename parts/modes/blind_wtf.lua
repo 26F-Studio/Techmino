@@ -21,7 +21,7 @@ return{
                 gc.push('transform')
                 if repMode then
                     gc.origin()
-                    gc.setColor(.3,.3,.3,.7)
+                    gc.setColor(COLOR.X)
                     gc.rectangle('fill',0,0,SCR.w,SCR.h)
                 else
                     gc.clear(.2,.2,.2)

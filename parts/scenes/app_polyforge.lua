@@ -159,8 +159,8 @@ function scene.draw()
         gc.setColor(0,0,0,timer/50)
         gc.print("POLYFORGE",20,620)
         setFont(30)
-        gc.print("Idea by ImpactBlue Studios",860,630)
-        gc.print("n-Spire ver. & ported & improved by MrZ",670,670)
+        gc.printf("Idea by ImpactBlue Studios",0,630,1260,'right')
+        gc.printf("n-Spire ver. & ported & improved by MrZ",0,670,1260,'right')
     end
 end
 

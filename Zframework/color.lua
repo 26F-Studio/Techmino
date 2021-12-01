@@ -1,5 +1,5 @@
 local abs=math.abs
-local function hsv(h,s,v,a)
+local function hsv(h,s,v,a)--Color type, Color amount, Light
     if s<=0 then return v,v,v,a end
     h=h*6
     local c=v*s
@@ -28,7 +28,7 @@ local COLOR={
     navy=       {hsv(0.56, 1.00, 1.00)},
     sea=        {hsv(0.61, 1.00, 1.00)},
     blue=       {hsv(0.64, 1.00, 0.95)},
-    violet=     {hsv(0.73, 1.00, 0.91)},
+    violet=     {hsv(0.74, 1.00, 0.91)},
     purple=     {hsv(0.80, 1.00, 0.81)},
     magenta=    {hsv(0.86, 1.00, 0.78)},
     wine=       {hsv(0.92, 0.98, 0.91)},
@@ -45,7 +45,7 @@ local COLOR={
     lNavy=      {hsv(0.54, 0.80, 0.95)},
     lSea=       {hsv(0.56, 0.72, 0.97)},
     lBlue=      {hsv(0.64, 0.44, 0.96)},
-    lViolet=    {hsv(0.73, 0.47, 0.95)},
+    lViolet=    {hsv(0.72, 0.47, 0.95)},
     lPurple=    {hsv(0.80, 0.62, 0.89)},
     lMagenta=   {hsv(0.86, 0.61, 0.89)},
     lWine=      {hsv(0.93, 0.57, 0.92)},
@@ -72,12 +72,17 @@ local COLOR={
     gray=       {hsv(0.02, 0.05, 0.65)},
     lGray=      {hsv(0.02, 0.06, 0.86)},
     white=      {hsv(0.01, 0.02, 0.99)},
+
+    xGray=      {hsv(0.00, 0.00, 0.35,.8)},
+    lxGray=     {hsv(0.00, 0.00, 0.62,.8)},
+    dxGray=     {hsv(0.00, 0.00, 0.16,.8)},
 }
 for k,v in next,{
     R='red', F='fire', O='orange', Y='yellow', L='lime', J='jade', G='green', A='aqua', C='cyan', N='navy', S='sea', B='blue', V='violet', P='purple', M='magenta', W='wine',
     lR='lRed',lF='lFire',lO='lOrange',lY='lYellow',lL='lLime',lJ='lJade',lG='lGreen',lA='lAqua',lC='lCyan',lN='lNavy',lS='lSea',lB='lBlue',lV='lViolet',lP='lPurple',lM='lMagenta',lW='lWine',
     dR='dRed',dF='dFire',dO='dOrange',dY='dYellow',dL='dLime',dJ='dJade',dG='dGreen',dA='dAqua',dC='dCyan',dN='dNavy',dS='dSea',dB='dBlue',dV='dViolet',dP='dPurple',dM='dMagenta',dW='dWine',
     D='black',dH='dGray',H='gray',lH='lGray',Z='white',
+    X='xGray',lX='lxGray',dX='dxGray',
     --Remain letter: EIKQTUX
 }do
     COLOR[k]=COLOR[v]

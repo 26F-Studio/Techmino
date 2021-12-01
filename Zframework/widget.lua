@@ -148,9 +148,9 @@ function button:isAbove(x,y)
     local ATV=self.ATV
     return
         x>self.x-ATV and
-        y>self.y-ATV and
+        y>self.y and
         x<self.x+self.w+2*ATV and
-        y<self.y+self.h+2*ATV
+        y<self.y+self.h
 end
 function button:getCenter()
     return self.x+self.w*.5,self.y+self.h*.5
@@ -171,17 +171,19 @@ function button:draw()
 
     --Button
     gc_setColor(.15+r*.7,.15+g*.7,.15+b*.7,.9)
-    gc_rectangle('fill',x-ATV,y-ATV,w+2*ATV,h+2*ATV,3)
+    gc_rectangle('fill',x-ATV,y,w+2*ATV,h,4)
+    gc_setLineWidth(2)
+    gc_setColor(.3+r*.7,.3+g*.7,.3+b*.7)
+    gc_rectangle('line',x-ATV,y,w+2*ATV,h,5)
     if ATV>0 then
-        gc_setLineWidth(2)
         gc_setColor(.97,.97,.97,ATV*.125)
-        gc_rectangle('line',x-ATV+2,y-ATV+2,w+2*ATV-4,h+2*ATV-4,3)
+        gc_rectangle('line',x-ATV,y,w+2*ATV,h,3)
     end
 
     --Drawable
     local obj=self.obj
     local ox,oy=obj:getWidth()*.5,obj:getHeight()*.5
-    local y0=y+h*.5-ATV*.5
+    local y0=y+h*.5
     gc_setColor(1,1,1,.2+ATV*.05)
     if self.align=='M'then
         local x0=x+w*.5
@@ -219,9 +221,9 @@ function button:press(_,_,k)
     SYSFX.newRectRipple(
         6,
         self.x-ATV,
-        self.y-ATV-WIDGET.scrollPos,
+        self.y-WIDGET.scrollPos,
         self.w+2*ATV,
-        self.h+2*ATV
+        self.h
     )
     if self.sound then
         SFX.play('button')
@@ -300,6 +302,10 @@ function key:draw()
     local c=self.color
     local align=self.align
     local r,g,b=c[1],c[2],c[3]
+
+    --Background
+    gc_setColor(0,0,0,.3)
+    gc_rectangle('fill',x,y,w,h,4)
 
     --Frame
     if not self.noFrame then
@@ -414,6 +420,10 @@ end
 function switch:draw()
     local x,y=self.x,self.y
     local ATV=self.ATV
+
+    --Background
+    gc_setColor(0,0,0,.3)
+    gc_rectangle('fill',x,y-25,50,50,4)
 
     --Frame
     gc_setLineWidth(2)
@@ -700,6 +710,10 @@ function selector:draw()
     local w=self.w
     local ATV=self.ATV
 
+    --Background
+    gc_setColor(0,0,0,.3)
+    gc_rectangle('fill',x,y,w,60,4)
+
     --Frame
     gc_setColor(1,1,1,.6+ATV*.1)
     gc_setLineWidth(2)
@@ -863,9 +877,15 @@ function inputBox:draw()
     local x,y,w,h=self.x,self.y,self.w,self.h
     local ATV=self.ATV
 
-    gc_setColor(1,1,1,ATV*.08)
-    gc_rectangle('fill',x,y,w,h,3)
+    --Background
+    gc_setColor(0,0,0,.4)
+    gc_rectangle('fill',x,y,w,h,4)
 
+    --Highlight
+    gc_setColor(1,1,1,ATV*.08*(math.sin(TIME()*4.2)*.2+.8))
+    gc_rectangle('fill',x,y,w,h,4)
+
+    --Frame
     gc_setColor(1,1,1)
     gc_setLineWidth(3)
     gc_rectangle('line',x,y,w,h,3)
@@ -1023,8 +1043,8 @@ function textBox:draw()
     local lineH=self.lineH
 
     --Background
-    gc_setColor(0,0,0,.4)
-    gc_rectangle('fill',x,y,w,h,3)
+    gc_setColor(0,0,0,.3)
+    gc_rectangle('fill',x,y,w,h,4)
 
     --Frame
     gc_setLineWidth(2)
@@ -1196,6 +1216,10 @@ function listBox:draw()
 
     gc_push('transform')
         gc_translate(x,y)
+
+        --Background
+        gc_setColor(0,0,0,.4)
+        gc_rectangle('fill',0,0,w,h,4)
 
         --Frame
         gc_setColor(WIDGET.sel==self and COLOR.lN or COLOR.Z)

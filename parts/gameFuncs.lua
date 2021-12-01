@@ -252,17 +252,17 @@ function royaleLevelup()
             BGM.play('cruelty')
         end
     elseif GAME.stage==4 then
-        spd=10
+        spd=8
         for _,P in next,PLY_ALIVE do
             P.gameEnv.pushSpeed=3
         end
     elseif GAME.stage==5 then
-        spd=5
+        spd=4
         for _,P in next,PLY_ALIVE do
             P.gameEnv.garbageSpeed=1
         end
     elseif GAME.stage==6 then
-        spd=3
+        spd=2
         if PLAYERS[1].alive then
             BGM.play('final')
         end
@@ -273,7 +273,7 @@ function royaleLevelup()
     if GAME.curMode.name:find("_u")then
         for i=1,#PLY_ALIVE do
             local P=PLY_ALIVE[i]
-            P.gameEnv.drop=int(P.gameEnv.drop*.3)
+            P.gameEnv.drop=int(P.gameEnv.drop*.4)
             if P.gameEnv.drop==0 then
                 P.curY=P.ghoY
                 P:set20G(true)
@@ -856,7 +856,7 @@ do--function drawSelfProfile()
 
         --Draw avatar
         gc_setLineWidth(2)
-        gc_setColor(.3,.3,.3,.8)gc_rectangle('fill',0,0,-300,80)
+        gc_setColor(COLOR.X)gc_rectangle('fill',0,0,-300,80)
         gc_setColor(1,1,1)gc_rectangle('line',-300,0,300,80,5)
         gc_rectangle('line',-73,7,66,66,2)
         gc_draw(selfAvatar,-72,8,nil,.5)

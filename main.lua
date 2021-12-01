@@ -24,6 +24,7 @@ VERSION=require"version"
 TIME=love.timer.getTime
 YIELD=coroutine.yield
 SYSTEM=love.system.getOS()
+if SYSTEM=='OS X'then SYSTEM='macOS'end
 FNSF=SYSTEM:find'\79\83'--What does FNSF stand for? IDK so don't ask me lol
 MOBILE=SYSTEM=='Android'or SYSTEM=='iOS'
 SAVEDIR=fs.getSaveDirectory()
@@ -60,7 +61,7 @@ FONT.setFallback('norm')
 SCR.setSize(1280,720)--Initialize Screen size
 BGM.setMaxSources(5)
 BGM.setChange(function(name)MES.new('music',text.nowPlaying..name,5)end)
-VOC.setDiversion(1)
+VOC.setDiversion(.62)
 
 table.insert(_LOADTIMELIST_,("Load Zframework: %.3fs"):format(TIME()-_LOADTIME_))
 

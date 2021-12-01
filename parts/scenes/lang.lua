@@ -4,7 +4,7 @@ local langList={
     zh_trad="繁體中文",
     en="English",
     fr="Français",
-    es="Español",
+    es="Español\nCastellano",
     pt="Português",
 
     zh_grass="机翻",
@@ -33,7 +33,7 @@ scene.widgetList={
 
     WIDGET.newButton{x=225,y=331,w=255,h=120,font=40,   fText=langList.en,      color='L',code=function()_setLang('en')end},
     WIDGET.newButton{x=500,y=331,w=255,h=120,font=40,   fText=langList.fr,      color='J',code=function()_setLang('fr')end},
-    WIDGET.newButton{x=775,y=331,w=255,h=120,font=40,   fText=langList.es,      color='G',code=function()_setLang('es')end},
+    WIDGET.newButton{x=775,y=331,w=255,h=120,font=35,   fText=langList.es,      color='G',code=function()_setLang('es')end},
     WIDGET.newButton{x=1050,y=331,w=255,h=120,font=40,  fText=langList.pt,      color='dG',code=function()_setLang('pt')end},
 
     WIDGET.newButton{x=271,y=472,w=346,h=120,font=45,   fText=langList.zh_grass,color='N',code=function()_setLang('zh_grass')end},

@@ -166,6 +166,14 @@ function scene.update(dt)
 end
 
 function scene.draw()
+    gc.setColor(COLOR.dX)
+    gc.rectangle('fill',300,180,958,526,5)
+    gc.rectangle('fill',20,180,280,526,5)
+    gc.setLineWidth(2)
+    gc.setColor(COLOR.Z)
+    gc.rectangle('line',300,180,958,526,5)
+    gc.rectangle('line',20,180,280,526,5)
+
     local list=_getList()
     gc.setColor(COLOR.Z)
     local t=list[selected].content
@@ -178,7 +186,7 @@ function scene.draw()
     gc.printf(t,306,180,950)
 
     setFont(30)
-    gc.setColor(1,1,1,.4+.2*sin(TIME()*4))
+    gc.setColor(1,1,1,.4+.05*sin(TIME()*12.6))
     gc.rectangle('fill',20,143+35*(selected-scrollPos),280,35)
 
     setFont(30)
@@ -194,11 +202,6 @@ function scene.draw()
         gc.setColor(typeColor[item.type])
         gc.print(item.title,30,y)
     end
-
-    gc.setLineWidth(2)
-    gc.setColor(COLOR.Z)
-    gc.rectangle('line',300,180,958,526,5)
-    gc.rectangle('line',20,180,280,526,5)
 
     if searchWait>0 then
         local r=TIME()*2

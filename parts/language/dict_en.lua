@@ -788,6 +788,11 @@ return{
         "term",
         "Vibrate your finger on the controller to achieve faster sideways movement speed than holding it.\nIt is most commonly used on classic Tetris where DAS is rather slow. In most cases, you do not need to hypertap in modern Tetris games, because their DAS is often fast enough.",
     },
+    {"Passthrough",
+        "passthrough pingthrough",
+        "term",
+        "",--TODO
+    },
     {"Tetris OL attack",
         "top tetrisonlineattack",
         "term",

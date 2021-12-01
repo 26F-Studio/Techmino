@@ -271,7 +271,7 @@ function scene.draw()
             if unlocked==1 then
                 name=RANK_CHARS[rank]
                 if name then
-                    gc_setColor(0,0,0,.8)
+                    gc_setColor(COLOR.dX)
                     mStr(name,M.x+M.size*.7,M.y-50-M.size*.7)
                     gc_setColor(RANK_COLORS[rank])
                     mStr(name,M.x+M.size*.7+4,M.y-50-M.size*.7-4)
@@ -284,7 +284,7 @@ function scene.draw()
     --Score board
     if sel then
         local M=MODES[sel]
-        gc_setColor(.5,.5,.5,.8)
+        gc_setColor(COLOR.lX)
         gc_rectangle('fill',920,0,360,720,5)--Info board
         gc_setColor(COLOR.Z)
         setFont(40)mStr(text.modes[sel][1],1100,5)
@@ -295,7 +295,7 @@ function scene.draw()
         end
         if M.score then
             mText(TEXTOBJ.highScore,1100,240)
-            gc_setColor(.3,.3,.3,.7)
+            gc_setColor(COLOR.X)
             gc_rectangle('fill',940,290,320,280,5)--Highscore board
             local L=M.records
             gc_setColor(1,1,1)

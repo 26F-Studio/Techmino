@@ -216,6 +216,9 @@ function scene.update(dt)
     end
 end
 
+local function _sunStencil()
+    gc.rectangle('fill',-60,-440,120,120)
+end
 function scene.draw()
     --Health bar
     if life1>0 then
@@ -235,12 +238,11 @@ function scene.draw()
     gc.rotate(rot)
 
     --Draw sun
+    gc.setStencilTest('notequal',1)
+    gc.stencil(_sunStencil)
     gc.setColor(.7,.5,.3)
     gc.circle('fill',0,-380-sunH,60)
-
-    --Draw sun-board
-    gc.setColor(.08,.08,.084)
-    gc.rectangle('fill',-60,-440,120,120)
+    gc.setStencilTest()
 
     --Draw direction
     if play then
