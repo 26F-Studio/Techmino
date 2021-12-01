@@ -303,17 +303,6 @@ function key:draw()
     local align=self.align
     local r,g,b=c[1],c[2],c[3]
 
-    --Background
-    gc_setColor(0,0,0,.3)
-    gc_rectangle('fill',x,y,w,h,4)
-
-    --Frame
-    if not self.noFrame then
-        gc_setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
-        gc_setLineWidth(2)
-        gc_rectangle('line',x,y,w,h,3)
-    end
-
     --Fill
     if self.fShade then
         gc_setColor(r,g,b,ATV*.25)
@@ -325,6 +314,16 @@ function key:draw()
             gc_draw(self.fShade,x+w-self.edge-self.fShade:getWidth(),y+h*.5-self.fShade:getHeight()*.5)
         end
     else
+        --Background
+        gc_setColor(0,0,0,.3)
+        gc_rectangle('fill',x,y,w,h,4)
+
+        --Frame
+        gc_setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
+        gc_setLineWidth(2)
+        gc_rectangle('line',x,y,w,h,3)
+
+        --Shade
         gc_setColor(1,1,1,ATV*.05)
         gc_rectangle('fill',x,y,w,h,3)
     end
@@ -351,7 +350,7 @@ function key:press(_,_,k)
         SFX.play('key')
     end
 end
-function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,fShade][,noFrame][,color][,font=30][,fType][,sound=true][,align='M'][,edge=0][,code][,hideF][,hide]
+function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,fShade][,color][,font=30][,fType][,sound=true][,align='M'][,edge=0][,code][,hideF][,hide]
     if not D.h then D.h=D.w end
     local _={
         name=   D.name or"_",
@@ -371,7 +370,6 @@ function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,fShade][,noFrame][,color][,fo
 
         fText=  D.fText,
         fShade= D.fShade,
-        noFrame=D.noFrame,
         color=  D.color and(COLOR[D.color]or D.color)or COLOR.Z,
         font=   D.font or 30,
         fType=  D.fType,

@@ -222,7 +222,7 @@ function scene.draw()
     end
 
     --Big info frame
-    if PLAYERS[1].frameRun>180 then
+    if PLAYERS[1].frameRun>=180 then
         gc.push('transform')
         gc.translate(560,205)
         gc.setLineWidth(2)
@@ -349,12 +349,12 @@ scene.widgetList={
     WIDGET.newKey{name='setting',  x=290,y=440,w=300,h=70,code=pressKey's',hideF=function()return GAME.fromRepMenu end},
     WIDGET.newKey{name='quit',     x=290,y=540,w=300,h=70,code=pressKey'q'},
     WIDGET.newKey{name='tas',      x=290,y=620,w=240,h=50,code=pressKey't',hideF=function()return not SETTING.allowTAS or GAME.tasUsed or GAME.result or GAME.replaying end},
-    WIDGET.newKey{name='page_prev',x=500,y=390,w=70,code=pressKey'tab',noFrame=true,
+    WIDGET.newKey{name='page_prev',x=500,y=390,w=70,code=pressKey'tab',
         fText=GC.DO{70,70,{'setLW',2},                                              {'dRPol',33,35,32,3,6,3.142},{'dRPol',45,35,32,3,6,3.142}},
         fShade=GC.DO{70,70,{'setCL',1,1,1,.4},{'draw',GC.DO{70,70,{'setCL',1,1,1,1},{'fRPol',33,35,32,3,6,3.142},{'fRPol',45,35,32,3,6,3.142}}}},
         hideF=function()return PLAYERS[1].frameRun<=180 end,
         },
-    WIDGET.newKey{name='page_next',x=1230,y=390,w=70,code=pressKey'Stab',noFrame=true,
+    WIDGET.newKey{name='page_next',x=1230,y=390,w=70,code=pressKey'Stab',
         fText=GC.DO{70,70,{'setLW',2},                                              {'dRPol',37,35,32,3,6},{'dRPol',25,35,32,3,6}},
         fShade=GC.DO{70,70,{'setCL',1,1,1,.4},{'draw',GC.DO{70,70,{'setCL',1,1,1,1},{'fRPol',37,35,32,3,6},{'fRPol',25,35,32,3,6}}}},
         hideF=function()return PLAYERS[1].frameRun<=180 end,
