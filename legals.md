@@ -10,6 +10,8 @@ Powered by LÖVE, © 2006-2021 LÖVE Development Team.
 
 Lua is free software distributed under the terms of the MIT license. Copyright © 1994-2021 by Lua.org, PUC-Rio.
 
+The Tetra-X SFX was created by Dr Ocelot, under a Creative Commons CC BY 3.0 License.
+
 SIMPLE LOVE LIGHTS is under a MIT License. Created by Dylan Hunn.
 
 json.lua is copyrighted by rxi. © 2021 rxi.
