@@ -25,8 +25,8 @@ function bot_cc:revive()
     self.P:loadAI(self.data)
 end
 function bot_cc:pushNewNext(id)
-    self.ccBot:addNext(rem(self.nexts,1))
-    ins(self.nexts,id)
+    self.ccBot:addNext(rem(self.bufferedNexts,1))
+    ins(self.bufferedNexts,id)
 end
 function bot_cc:thread()
     local P,keys=self.P,self.keys

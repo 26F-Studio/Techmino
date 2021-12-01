@@ -220,7 +220,7 @@ function Player:act_moveLeft(auto)
         self.ctrlCount=self.ctrlCount+1
     end
     self.movDir=-1
-    if self.control and self.waiting==0 then
+    if self.cur then
         if self.cur and not self:ifoverlap(self.cur.bk,self.curX-1,self.curY)then
             self:createMoveFX('left')
             self.curX=self.curX-1
@@ -241,7 +241,7 @@ function Player:act_moveRight(auto)
         self.ctrlCount=self.ctrlCount+1
     end
     self.movDir=1
-    if self.control and self.waiting==0 then
+    if self.cur then
         if self.cur and not self:ifoverlap(self.cur.bk,self.curX+1,self.curY)then
             self:createMoveFX('right')
             self.curX=self.curX+1
@@ -258,21 +258,21 @@ function Player:act_moveRight(auto)
     end
 end
 function Player:act_rotRight()
-    if self.control and self.cur then
+    if self.cur then
         self.ctrlCount=self.ctrlCount+1
         self:spin(1)
         self.keyPressing[3]=false
     end
 end
 function Player:act_rotLeft()
-    if self.control and self.cur then
+    if self.cur then
         self.ctrlCount=self.ctrlCount+1
         self:spin(3)
         self.keyPressing[4]=false
     end
 end
 function Player:act_rot180()
-    if self.control and self.cur then
+    if self.cur then
         self.ctrlCount=self.ctrlCount+2
         self:spin(2)
         self.keyPressing[5]=false
@@ -280,7 +280,7 @@ function Player:act_rot180()
 end
 function Player:act_hardDrop()
     local ENV=self.gameEnv
-    if self.control and self.cur then
+    if self.cur then
         if self.lastPiece.autoLock and self.frameRun-self.lastPiece.frame<ENV.dropcut then
             SFX.play('drop_cancel',.3)
         else
@@ -305,7 +305,7 @@ function Player:act_hardDrop()
 end
 function Player:act_softDrop()
     self.downing=1
-    if self.control and self.cur then
+    if self.cur then
         if self.curY>self.ghoY then
             self.curY=self.curY-1
             self:freshBlock('fresh')
@@ -317,7 +317,8 @@ function Player:act_softDrop()
     end
 end
 function Player:act_hold()
-    if self.control and self.cur then
+    print(self.control,self.cur)
+    if self.cur then
         if self:hold()then
             self.keyPressing[8]=false
         end
@@ -1325,7 +1326,7 @@ function Player:hold_swap(ifpre)
     self.stat.hold=self.stat.hold+1
 end
 function Player:hold(ifpre)
-    if self.holdTime>0 and(ifpre or self.falling==0 and self.waiting==0)then
+    if self.holdTime>0 and(self.cur or ifpre)then
         if self.gameEnv.holdMode=='hold'then
             self:hold_norm(ifpre)
         elseif self.gameEnv.holdMode=='swap'then
@@ -2048,7 +2049,7 @@ do
         return _cc,_gbcc
     end
 end
-function Player:loadAI(data)--Load AI params
+function Player:loadAI(data)--Load AI with params
     self.bot=BOT.new(self,data)
     self.bot.data=data
 end
