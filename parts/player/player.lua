@@ -317,7 +317,6 @@ function Player:act_softDrop()
     end
 end
 function Player:act_hold()
-    print(self.control,self.cur)
     if self.cur then
         if self:hold()then
             self.keyPressing[8]=false

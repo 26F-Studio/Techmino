@@ -438,32 +438,32 @@ scene.widgetList={
     WIDGET.newText{name='title',    x=1020,y=5,font=70,align='R'},
     WIDGET.newText{name='subTitle', x=1030,y=50,font=35,align='L',color='H'},
 
-    WIDGET.newButton{name='b1',     x=580, y=130,w=76,fText="",color='R',code=_setPen(1)},--B1
-    WIDGET.newButton{name='b2',     x=660, y=130,w=76,fText="",color='F',code=_setPen(2)},--B2
-    WIDGET.newButton{name='b3',     x=740, y=130,w=76,fText="",color='O',code=_setPen(3)},--B3
-    WIDGET.newButton{name='b4',     x=820, y=130,w=76,fText="",color='Y',code=_setPen(4)},--B4
-    WIDGET.newButton{name='b5',     x=900, y=130,w=76,fText="",color='L',code=_setPen(5)},--B5
-    WIDGET.newButton{name='b6',     x=980, y=130,w=76,fText="",color='J',code=_setPen(6)},--B6
-    WIDGET.newButton{name='b7',     x=1060,y=130,w=76,fText="",color='G',code=_setPen(7)},--B7
-    WIDGET.newButton{name='b8',     x=1140,y=130,w=76,fText="",color='A',code=_setPen(8)},--B8
+    WIDGET.newButton{name='b1',     x=580, y=130,w=73,fText="",color='R',code=_setPen(1)},--B1
+    WIDGET.newButton{name='b2',     x=660, y=130,w=73,fText="",color='F',code=_setPen(2)},--B2
+    WIDGET.newButton{name='b3',     x=740, y=130,w=73,fText="",color='O',code=_setPen(3)},--B3
+    WIDGET.newButton{name='b4',     x=820, y=130,w=73,fText="",color='Y',code=_setPen(4)},--B4
+    WIDGET.newButton{name='b5',     x=900, y=130,w=73,fText="",color='L',code=_setPen(5)},--B5
+    WIDGET.newButton{name='b6',     x=980, y=130,w=73,fText="",color='J',code=_setPen(6)},--B6
+    WIDGET.newButton{name='b7',     x=1060,y=130,w=73,fText="",color='G',code=_setPen(7)},--B7
+    WIDGET.newButton{name='b8',     x=1140,y=130,w=73,fText="",color='A',code=_setPen(8)},--B8
 
-    WIDGET.newButton{name='b9',     x=580, y=210,w=76,fText="",color='C',code=_setPen(9)},--B9
-    WIDGET.newButton{name='b10',    x=660, y=210,w=76,fText="",color='N',code=_setPen(10)},--B10
-    WIDGET.newButton{name='b11',    x=740, y=210,w=76,fText="",color='S',code=_setPen(11)},--B11
-    WIDGET.newButton{name='b12',    x=820, y=210,w=76,fText="",color='B',code=_setPen(12)},--B12
-    WIDGET.newButton{name='b13',    x=900, y=210,w=76,fText="",color='V',code=_setPen(13)},--B13
-    WIDGET.newButton{name='b14',    x=980, y=210,w=76,fText="",color='P',code=_setPen(14)},--B14
-    WIDGET.newButton{name='b15',    x=1060,y=210,w=76,fText="",color='M',code=_setPen(15)},--B15
-    WIDGET.newButton{name='b16',    x=1140,y=210,w=76,fText="",color='W',code=_setPen(16)},--B16
+    WIDGET.newButton{name='b9',     x=580, y=210,w=73,fText="",color='C',code=_setPen(9)},--B9
+    WIDGET.newButton{name='b10',    x=660, y=210,w=73,fText="",color='N',code=_setPen(10)},--B10
+    WIDGET.newButton{name='b11',    x=740, y=210,w=73,fText="",color='S',code=_setPen(11)},--B11
+    WIDGET.newButton{name='b12',    x=820, y=210,w=73,fText="",color='B',code=_setPen(12)},--B12
+    WIDGET.newButton{name='b13',    x=900, y=210,w=73,fText="",color='V',code=_setPen(13)},--B13
+    WIDGET.newButton{name='b14',    x=980, y=210,w=73,fText="",color='P',code=_setPen(14)},--B14
+    WIDGET.newButton{name='b15',    x=1060,y=210,w=73,fText="",color='M',code=_setPen(15)},--B15
+    WIDGET.newButton{name='b16',    x=1140,y=210,w=73,fText="",color='W',code=_setPen(16)},--B16
 
-    WIDGET.newButton{name='b17',    x=580, y=290,w=76,font=40,fText=CHAR.icon.bone,   color='dH',code=_setPen(17)},--BONE
-    WIDGET.newButton{name='b18',    x=660, y=290,w=76,font=40,fText=CHAR.icon.invis,  color='D', code=_setPen(18)},--HIDE
-    WIDGET.newButton{name='b19',    x=740, y=290,w=76,font=40,fText=CHAR.icon.bomb,   color='lY',code=_setPen(19)},--BOMB
-    WIDGET.newButton{name='b20',    x=820, y=290,w=76,font=40,fText=CHAR.icon.garbage,color='H', code=_setPen(20)},--GB1
-    WIDGET.newButton{name='b21',    x=900, y=290,w=76,font=40,fText=CHAR.icon.garbage,color='lH',code=_setPen(21)},--GB2
-    WIDGET.newButton{name='b22',    x=980, y=290,w=76,font=40,fText=CHAR.icon.garbage,color='dV',code=_setPen(22)},--GB3
-    WIDGET.newButton{name='b23',    x=1060,y=290,w=76,font=40,fText=CHAR.icon.garbage,color='dR',code=_setPen(23)},--GB4
-    WIDGET.newButton{name='b24',    x=1140,y=290,w=76,font=40,fText=CHAR.icon.garbage,color='dG',code=_setPen(24)},--GB5
+    WIDGET.newButton{name='b17',    x=580, y=290,w=73,font=40,fText=CHAR.icon.bone,   color='dH',code=_setPen(17)},--BONE
+    WIDGET.newButton{name='b18',    x=660, y=290,w=73,font=40,fText=CHAR.icon.invis,  color='D', code=_setPen(18)},--HIDE
+    WIDGET.newButton{name='b19',    x=740, y=290,w=73,font=40,fText=CHAR.icon.bomb,   color='lY',code=_setPen(19)},--BOMB
+    WIDGET.newButton{name='b20',    x=820, y=290,w=73,font=40,fText=CHAR.icon.garbage,color='H', code=_setPen(20)},--GB1
+    WIDGET.newButton{name='b21',    x=900, y=290,w=73,font=40,fText=CHAR.icon.garbage,color='lH',code=_setPen(21)},--GB2
+    WIDGET.newButton{name='b22',    x=980, y=290,w=73,font=40,fText=CHAR.icon.garbage,color='dV',code=_setPen(22)},--GB3
+    WIDGET.newButton{name='b23',    x=1060,y=290,w=73,font=40,fText=CHAR.icon.garbage,color='dR',code=_setPen(23)},--GB4
+    WIDGET.newButton{name='b24',    x=1140,y=290,w=73,font=40,fText=CHAR.icon.garbage,color='dG',code=_setPen(24)},--GB5
 
     WIDGET.newButton{name='any',    x=600, y=400,w=120,color='lH',      font=40,code=_setPen(0)},
     WIDGET.newButton{name='space',  x=730, y=400,w=120,color='H',       font=55,code=_setPen(-1),fText=CHAR.icon.cross_thick},
