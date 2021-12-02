@@ -340,8 +340,8 @@ VOC.init{
 LANG.init('zh',
     {
         zh=require'parts.language.lang_zh',
-        zh_full=require'parts.language.lang_zh_full',
         zh_trad=require'parts.language.lang_zh_trad',
+        zh_full=require'parts.language.lang_zh_full',
         en=require'parts.language.lang_en',
         fr=require'parts.language.lang_fr',
         es=require'parts.language.lang_es',
