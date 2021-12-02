@@ -21,7 +21,7 @@ end
 local scene={}
 
 function scene.sceneInit()
-    local data=loadFile('conf/account')
+    local data=loadFile('conf/account','-canSkip')
     if data then
         savePW=true
         emailBox:setText(data[1])
