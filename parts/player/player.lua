@@ -504,19 +504,27 @@ local playerActions={
         self.keyPressing[keyID]=true
         playerActions[keyID](self)
         self.stat.key=self.stat.key+1
-        if self.id==1 and GAME.recording then
+    end
+    if self.id==1 then
+        if GAME.recording then
             local L=GAME.rep
             ins(L,self.frameRun)
             ins(L,keyID)
+        elseif self.streamProgress then
+            VK.press(keyID)
         end
     end
 end
 function Player:releaseKey(keyID)
     self.keyPressing[keyID]=false
-    if self.id==1 and GAME.recording then
-        local L=GAME.rep
-        ins(L,self.frameRun)
-        ins(L,32+keyID)
+    if self.id==1 then
+        if GAME.recording then
+            local L=GAME.rep
+            ins(L,self.frameRun)
+            ins(L,32+keyID)
+        elseif self.streamProgress then
+            VK.release(keyID)
+        end
     end
 end
 function Player:newTask(code,...)
