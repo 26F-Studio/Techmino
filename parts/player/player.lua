@@ -1339,8 +1339,8 @@ function Player:hold_swap(ifpre)
 
     self.stat.hold=self.stat.hold+1
 end
-function Player:hold(ifpre)
-    if self.holdTime>0 and(self.cur or ifpre)then
+function Player:hold(ifpre,force)
+    if self.holdTime>0 and(self.cur or ifpre or force)then
         if self.gameEnv.holdMode=='hold'then
             self:hold_norm(ifpre)
         elseif self.gameEnv.holdMode=='swap'then
@@ -1406,7 +1406,7 @@ function Player:popNext(ifhold)--Pop nextQueue to hand
             pressing[6]=false
         end
     elseif self.holdQueue[1]then--Force using hold
-        self:hold()
+        self:hold(true,true)
     else--Next queue is empty, force lose
         self:lose(true)
     end
