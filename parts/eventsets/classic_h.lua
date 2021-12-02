@@ -40,7 +40,7 @@ return{
             if D.target==110 then
                 P.gameEnv.drop,P.gameEnv.lock=2,2
                 P.gameEnv.sddas,P.gameEnv.sdarr=2,2
-                SFX.play('blip_1')
+                SFX.play('warn_1')
             elseif D.target==200 then
                 P:win('finish')
                 return

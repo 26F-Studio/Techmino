@@ -20,7 +20,7 @@ return{
         D.pt=D.pt+s
 
         if D.pt%100==99 then
-            SFX.play('blip_1')
+            SFX.play('warn_1')
         elseif D.pt>=D.target then--Level up!
             s=D.target/100--range from 1 to 9
             local E=P.gameEnv

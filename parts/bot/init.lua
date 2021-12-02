@@ -12,7 +12,7 @@ local baseBot={
 function baseBot.update(bot)
     local P=bot.P
     local keys=bot.keys
-    if P.control and P.waiting==0 then
+    if P.control and P.cur then
         bot.delay=bot.delay-1
         if not keys[1]then
             if bot.runningThread then
@@ -85,7 +85,7 @@ function BOT.new(P,data)
     if data.type=="CC"then
         P:setRS('SRS')
         bot.keys={}
-        bot.nexts={}
+        bot.bufferedNexts={}
         bot.delay=data.delay
         bot.delay0=data.delay
         if P.gameEnv.holdCount>1 then
@@ -109,20 +109,25 @@ function BOT.new(P,data)
             return
                 self.ccBot[k]and function(_,...)self.ccBot[k](self.ccBot,...)end or
                 cc_lua[k]and function(_,...)cc_lua[k](self,...)end or
-                baseBot[k]and baseBot[k]or
-                error("No actions called "..k)
+                assert(baseBot[k],"No CC action called "..k)
         end})
 
-        for i,B in next,P.nextQueue do
-            if i<=data.next then
+        local pushed=0
+        if P.cur then
+            bot:addNext(P.cur.id)
+            pushed=pushed+1
+        end
+        for _,B in next,P.nextQueue do
+            if pushed<=data.next then
                 bot:addNext(B.id)
+                pushed=pushed+1
             else
-                ins(bot.nexts,B.id)
+                ins(bot.bufferedNexts,B.id)
             end
         end
         bot.runningThread=coroutine.wrap(cc_lua.thread)
         bot.runningThread(bot)
-    elseif data.type=="9S"or true then--9s or else
+    else--if data.type=="9S"then--9s or else
         TABLE.cover(baseBot,bot)
         TABLE.cover(require"parts.bot.bot_9s",bot)
         P:setRS('TRS')

@@ -220,7 +220,7 @@ function Player:act_moveLeft(auto)
         self.ctrlCount=self.ctrlCount+1
     end
     self.movDir=-1
-    if self.control and self.waiting==0 then
+    if self.cur then
         if self.cur and not self:ifoverlap(self.cur.bk,self.curX-1,self.curY)then
             self:createMoveFX('left')
             self.curX=self.curX-1
@@ -241,7 +241,7 @@ function Player:act_moveRight(auto)
         self.ctrlCount=self.ctrlCount+1
     end
     self.movDir=1
-    if self.control and self.waiting==0 then
+    if self.cur then
         if self.cur and not self:ifoverlap(self.cur.bk,self.curX+1,self.curY)then
             self:createMoveFX('right')
             self.curX=self.curX+1
@@ -258,21 +258,21 @@ function Player:act_moveRight(auto)
     end
 end
 function Player:act_rotRight()
-    if self.control and self.cur then
+    if self.cur then
         self.ctrlCount=self.ctrlCount+1
         self:spin(1)
         self.keyPressing[3]=false
     end
 end
 function Player:act_rotLeft()
-    if self.control and self.cur then
+    if self.cur then
         self.ctrlCount=self.ctrlCount+1
         self:spin(3)
         self.keyPressing[4]=false
     end
 end
 function Player:act_rot180()
-    if self.control and self.cur then
+    if self.cur then
         self.ctrlCount=self.ctrlCount+2
         self:spin(2)
         self.keyPressing[5]=false
@@ -280,7 +280,7 @@ function Player:act_rot180()
 end
 function Player:act_hardDrop()
     local ENV=self.gameEnv
-    if self.control and self.cur then
+    if self.cur then
         if self.lastPiece.autoLock and self.frameRun-self.lastPiece.frame<ENV.dropcut then
             SFX.play('drop_cancel',.3)
         else
@@ -304,12 +304,19 @@ function Player:act_hardDrop()
     end
 end
 function Player:act_softDrop()
-    self.downing=1
-    if self.control and self.cur then
+    self.downing=0
+    if self.cur then
         if self.curY>self.ghoY then
-            self.curY=self.curY-1
-            self:freshBlock('fresh')
-            self.spinLast=false
+            if self.gameEnv.sddas==0 then
+                if self.gameEnv.sdarr==0 then
+                    self:act_insDown()
+                else
+                    self:act_down1()
+                    self:act_down1()
+                end
+            else
+                self:act_down1()
+            end
             self:checkTouchSound()
         elseif self.gameEnv.deepdrop then
             self:_deepdrop()
@@ -317,7 +324,7 @@ function Player:act_softDrop()
     end
 end
 function Player:act_hold()
-    if self.control and self.cur then
+    if self.cur then
         if self:hold()then
             self.keyPressing[8]=false
         end
@@ -497,19 +504,27 @@ local playerActions={
         self.keyPressing[keyID]=true
         playerActions[keyID](self)
         self.stat.key=self.stat.key+1
-        if self.id==1 and GAME.recording then
+    end
+    if self.id==1 then
+        if GAME.recording then
             local L=GAME.rep
             ins(L,self.frameRun)
             ins(L,keyID)
+        elseif self.streamProgress then
+            VK.press(keyID)
         end
     end
 end
 function Player:releaseKey(keyID)
     self.keyPressing[keyID]=false
-    if self.id==1 and GAME.recording then
-        local L=GAME.rep
-        ins(L,self.frameRun)
-        ins(L,32+keyID)
+    if self.id==1 then
+        if GAME.recording then
+            local L=GAME.rep
+            ins(L,self.frameRun)
+            ins(L,32+keyID)
+        elseif self.streamProgress then
+            VK.release(keyID)
+        end
     end
 end
 function Player:newTask(code,...)
@@ -819,7 +834,7 @@ function Player:receive(A,send,time,line)
         self.atkBufferSum=self.atkBufferSum+send
         self.stat.recv=self.stat.recv+send
         if self.sound then
-            SFX.play(send<4 and'blip_1'or'blip_2',min(send+1,5)*.1)
+            SFX.play(send<4 and'warn_1'or'warn_2',min(send+1,5)*.1)
         end
         if send>=2 then
             self:shakeField(send/2)
@@ -889,7 +904,7 @@ function Player:freshBlock(mode,ifTele)--string mode: push/move/fresh/newBlock
     if(mode=='move'or mode=='newBlock'or mode=='push')and self.cur then
         local CB=self.cur.bk
         self.ghoY=min(#self.field+1,self.curY)
-        if self._20G or ENV.sdarr==0 and self.keyPressing[7]and self.downing>ENV.sddas then
+        if self._20G or ENV.sdarr==0 and self.keyPressing[7]and self.downing>=ENV.sddas then
             local _=self.ghoY
 
             --Move ghost to bottom
@@ -1325,7 +1340,7 @@ function Player:hold_swap(ifpre)
     self.stat.hold=self.stat.hold+1
 end
 function Player:hold(ifpre)
-    if self.holdTime>0 and(ifpre or self.falling==0 and self.waiting==0)then
+    if self.holdTime>0 and(self.cur or ifpre)then
         if self.gameEnv.holdMode=='hold'then
             self:hold_norm(ifpre)
         elseif self.gameEnv.holdMode=='swap'then
@@ -2048,7 +2063,7 @@ do
         return _cc,_gbcc
     end
 end
-function Player:loadAI(data)--Load AI params
+function Player:loadAI(data)--Load AI with params
     self.bot=BOT.new(self,data)
     self.bot.data=data
 end
@@ -2301,6 +2316,9 @@ local function update_alive(P)
             P.control=true
             P.timing=true
             P:popNext()
+            if P.bot then
+                P.bot:updateField()
+            end
         end
         if P.movDir~=0 then
             if P.moving<P.gameEnv.das then
@@ -2413,8 +2431,7 @@ local function update_alive(P)
     --Drop pressed
     if P.keyPressing[7]then
         P.downing=P.downing+1
-        local d=P.downing-ENV.sddas
-        if d>1 then
+        if P.downing>=ENV.sddas then
             if ENV.sdarr==0 then
                 P:act_insDown()
             end
@@ -2423,7 +2440,7 @@ local function update_alive(P)
             end
         end
     else
-        P.downing=0
+        P.downing=-1
     end
 
     local stopAtFalling
@@ -2457,7 +2474,7 @@ local function update_alive(P)
                 local dist--Drop distance
                 if D>1 then
                     D=D-1
-                    if P.downing>ENV.sddas then
+                    if P.keyPressing[7]and P.downing>=ENV.sddas then
                         D=D-ceil(ENV.drop/ENV.sdarr)
                     end
                     if D<=0 then
@@ -2468,7 +2485,7 @@ local function update_alive(P)
                         goto THROW_stop
                     end
                 elseif D==1 then--We don't know why dropDelay is 1, so checking ENV.drop>1 is neccessary
-                    if ENV.drop>1 and P.downing>ENV.sddas and(P.downing-ENV.sddas)%ENV.sdarr==0 then
+                    if ENV.drop>1 and P.downing>=ENV.sddas and(P.downing-ENV.sddas)%ENV.sdarr==0 then
                         dist=2
                     else
                         dist=1

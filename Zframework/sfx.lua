@@ -42,16 +42,28 @@ function SFX.init(list)
 end
 function SFX.load(path)
     local c=0
+    local missing=0
     for i=1,#sfxList do
         local fullPath=path..sfxList[i]..'.ogg'
         if love.filesystem.getInfo(fullPath)then
+            if Sources[sfxList[i]]then
+                for j=1,#Sources[sfxList[i]]do
+                    Sources[sfxList[i]][j]:release()
+                end
+            end
             Sources[sfxList[i]]={love.audio.newSource(fullPath,'static')}
             c=c+1
         else
             LOG("No SFX: "..sfxList[i]..'.ogg',.1)
+            missing=missing+1
         end
     end
     LOG(c.."/"..#sfxList.." SFX files loaded")
+    LOG(missing.." SFX files missing")
+    if missing>0 then
+        MES.new('info',missing.." SFX files missing")
+    end
+    collectgarbage()
 end
 function SFX.loadSample(pack)
     assert(type(pack)=='table',"Usage: SFX.loadsample([table])")

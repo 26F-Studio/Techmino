@@ -136,7 +136,7 @@ local function _newEmptyPlayer(id,mini)
         }
         P.newNext=false--Warped coroutine to get new next, loaded in applyGameEnv()
     ]]
-    P.movDir,P.moving,P.downing=0,0,0--Last move key,DAS charging,downDAS charging
+    P.movDir,P.moving,P.downing=0,0,-1--Last move key,DAS charging,downDAS charging
     P.dropDelay,P.lockDelay=0,0
     P.waiting,P.falling=0,0
     P.freshTime=0

@@ -147,7 +147,7 @@ return
 
                 P.modeData.target=260
                 p=260
-                SFX.play('blip_2')
+                SFX.play('warn_2')
                 SFX.play('reach')
             else
                 p=260
