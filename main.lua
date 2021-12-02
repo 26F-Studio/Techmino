@@ -29,7 +29,7 @@ MOBILE=SYSTEM=='Android'or SYSTEM=='iOS'
 SAVEDIR=fs.getSaveDirectory()
 
 --Global Vars & Settings
-SFXPACKS={'chiptune','tetraX'}
+SFXPACKS={'chiptune'}
 VOCPACKS={'miya','mono','xiaoya','miku'}
 FIRSTLAUNCH=false
 DAILYLAUNCH=false
