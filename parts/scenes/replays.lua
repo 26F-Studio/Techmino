@@ -130,6 +130,8 @@ function scene.keyDown(key)
                 SFX.play('finesseError',.7)
             end
         end
+    elseif key=='up'or key=='down'then
+        listBox:arrowKey(key)
     else
         return true
     end
