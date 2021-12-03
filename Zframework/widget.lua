@@ -226,10 +226,10 @@ function button:press(_,_,k)
         self.h
     )
     if self.sound then
-        SFX.play('button')
+        SFX.play(self.sound)
     end
 end
-function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,fType][,sound=true][,align='M'][,edge=0][,code][,hideF][,hide]
+function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,fType][,sound][,align='M'][,edge=0][,code][,hideF][,hide]
     if not D.h then D.h=D.w end
     local _={
         name= D.name or"_",
@@ -253,11 +253,18 @@ function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,fType][,
         fType=D.fType,
         align=D.align or'M',
         edge= D.edge or 0,
-        sound=D.sound~=false,
         code= D.code or NULL,
         hideF=D.hideF,
         hide= D.hide,
     }
+    if D.sound==false then
+        _.sound=false
+    elseif type(D.sound)=='string'then
+        _.sound=D.sound
+    else
+        _.sound='button'
+    end
+
     for k,v in next,button do _[k]=v end
     setmetatable(_,widgetMetatable)
     return _
@@ -347,10 +354,10 @@ end
 function key:press(_,_,k)
     self.code(k)
     if self.sound then
-        SFX.play('key')
+        SFX.play(self.sound)
     end
 end
-function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,fShade][,color][,font=30][,fType][,sound=true][,align='M'][,edge=0][,code][,hideF][,hide]
+function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,fShade][,color][,font=30][,fType][,sound][,align='M'][,edge=0][,code][,hideF][,hide]
     if not D.h then D.h=D.w end
     local _={
         name=   D.name or"_",
@@ -373,13 +380,19 @@ function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,fShade][,color][,font=30][,fT
         color=  D.color and(COLOR[D.color]or D.color)or COLOR.Z,
         font=   D.font or 30,
         fType=  D.fType,
-        sound=  D.sound~=false,
         align=  D.align or'M',
         edge=   D.edge or 0,
         code=   D.code or NULL,
         hideF=  D.hideF,
         hide=   D.hide,
     }
+    if D.sound==false then
+        _.sound=false
+    elseif type(D.sound)=='string'then
+        _.sound=D.sound
+    else
+        _.sound='key'
+    end
     for k,v in next,key do _[k]=v end
     setmetatable(_,widgetMetatable)
     return _
