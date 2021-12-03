@@ -481,7 +481,7 @@ scene.widgetList={
     WIDGET.newButton{name='prevPg', x=100, y=350,w=160,h=110,color='lG',font=20,code=pressKey'pageup',hideF=function()return page==1 end},
     WIDGET.newButton{name='nextPg', x=100, y=470,w=160,h=110,color='lG',font=20,code=pressKey'pagedown',hideF=function()return page==#FIELD end},
 
-    WIDGET.newButton{name='back',   x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='back',   x=1140,y=640,w=170,h=80,font=60,sound='back',fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

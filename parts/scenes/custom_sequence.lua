@@ -220,7 +220,7 @@ scene.widgetList={
 
     WIDGET.newButton{name='copy', x=1140,y=460,w=170,h=80,color='lR',font=50,fText=CHAR.icon.export,code=pressKey'cC',hideF=function()return #BAG==0 end},
     WIDGET.newButton{name='paste',x=1140,y=550,w=170,h=80,color='lB',font=50,fText=CHAR.icon.import,code=pressKey'cV'},
-    WIDGET.newButton{name='back', x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='back', x=1140,y=640,w=170,h=80,font=60,sound='back',fText=CHAR.icon.back,code=backScene},
 }
 
 return scene
