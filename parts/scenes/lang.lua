@@ -4,7 +4,7 @@ local langList={
     zh_trad="繁體中文",
     en="English",
     fr="Français",
-    es="Español\nCastellano",
+    es="Español\n(Castellano)",
     pt="Português",
 
     zh_grass="机翻",
@@ -12,9 +12,25 @@ local langList={
     symbol="?????",
 }
 local languages={
-    "语言",
     "Language",
-    --TODO:　add more languaes here
+    "语言",
+    "語言",
+    "Langue", 
+    "Idioma",
+    "Línguas",
+    "Sprache",
+    "Lingua",
+    "Язык",
+    "Γλώσσα",
+    "Taal",
+    "Kieli",
+    "Kalba",
+    "Język",
+    "Dilim",
+    "Мова",
+    "Bahasa",
+    "言語",
+    "언어",
 }
 local curLang=1
 
@@ -25,7 +41,7 @@ function scene.sceneBack()
 end
 
 function scene.update(dt)
-    curLang=curLang+dt*1.626
+    curLang=curLang+dt*0.6
     if curLang>=#languages+1 then
         curLang=1
     end
@@ -54,8 +70,8 @@ scene.widgetList={
 
     WIDGET.newButton{x=225,y=331,w=255,h=120,font=40, fText=langList.en,      color='L',code=function()_setLang('en')end},
     WIDGET.newButton{x=500,y=331,w=255,h=120,font=40, fText=langList.fr,      color='J',code=function()_setLang('fr')end},
-    WIDGET.newButton{x=775,y=331,w=255,h=120,font=35, fText=langList.es,      color='G',code=function()_setLang('es')end},
-    WIDGET.newButton{x=1050,y=331,w=255,h=120,font=40,fText=langList.pt,      color='dG',code=function()_setLang('pt')end},
+    WIDGET.newButton{x=775,y=331,w=255,h=120,font=33, fText=langList.es,      color='G',code=function()_setLang('es')end},
+    WIDGET.newButton{x=1050,y=331,w=255,h=120,font=40,fText=langList.pt,      color='A',code=function()_setLang('pt')end},
 
     WIDGET.newButton{x=271,y=472,w=346,h=120,font=45, fText=langList.zh_grass,color='N',code=function()_setLang('zh_grass')end},
     WIDGET.newButton{x=637,y=472,w=346,h=120,font=45, fText=langList.zh_yygq, color='S',code=function()_setLang('zh_yygq')end},
