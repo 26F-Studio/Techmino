@@ -210,7 +210,7 @@ scene.widgetList={
     WIDGET.newButton{name='paste',         x=1070,y=380,w=310,h=70,color='lB',font=25,code=pressKey'cV'},
     WIDGET.newButton{name='play_clear',    x=1070,y=460,w=310,h=70,color='lY',font=35,code=pressKey'play1'},
     WIDGET.newButton{name='play_puzzle',   x=1070,y=540,w=310,h=70,color='lM',font=35,code=pressKey'play2',hideF=function()return #FIELD[1]==0 end},
-    WIDGET.newButton{name='back',          x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=pressKey'escape'},
+    WIDGET.newButton{name='back',          x=1140,y=640,w=170,h=80,font=60,sound='back',fText=CHAR.icon.back,code=pressKey'escape'},
 
     --Rule set
     WIDGET.newSelector{name='eventSet',    x=1050,y=760,w=340,color='H',list=sList.eventSet,disp=CUSval('eventSet'),code=CUSsto('eventSet')},

@@ -95,7 +95,7 @@ scene.widgetList={
     WIDGET.newButton{name='apply',    x=1100,y=400,w=180,h=60,code=function()SETTING.sfxPack=sfxPack SFX.load('media/effect/'..sfxPack..'/')end,hideF=function()return SETTING.sfxPack==sfxPack end},
     WIDGET.newSelector{name='vocPack',x=1100,y=470,w=200,color='lV',list=VOCPACKS,disp=function()return vocPack end,code=function(i)vocPack=i end},
     WIDGET.newButton{name='apply',    x=1100,y=540,w=180,h=60,code=function()SETTING.vocPack=vocPack VOC.load('media/vocal/'..vocPack..'/')end,hideF=function()return SETTING.vocPack==vocPack end},
-    WIDGET.newButton{name='back',     x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='back',     x=1140,y=640,w=170,h=80,font=60,sound='back',fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

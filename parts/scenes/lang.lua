@@ -15,7 +15,7 @@ local languages={
     "Language",
     "语言",
     "言語",
-    "Langue", 
+    "Langue",
     "Idioma",
     "Línguas",
     "Sprache",

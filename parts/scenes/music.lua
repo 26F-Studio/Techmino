@@ -129,7 +129,7 @@ scene.widgetList={
     WIDGET.newButton{name='play', x=200,y=390,w=120,code=pressKey'space',font=65,fText=CHAR.icon.play_pause},
     WIDGET.newButton{name='down', x=200,y=530,w=120,code=pressKey'down',hideF=function()return selected==#bgmList end,font=60,fText=CHAR.key.down},
     WIDGET.newButton{name='sound',x=1140,y=540,w=170,h=80,font=40,code=pressKey'tab'},
-    WIDGET.newButton{name='back', x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='back', x=1140,y=640,w=170,h=80,font=60,sound='back',fText=CHAR.icon.back,code=backScene},
 }
 
 return scene
