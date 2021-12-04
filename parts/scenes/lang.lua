@@ -53,6 +53,7 @@ local function _setLang(lid)
     TEXT.clear()
     TEXT.show(langList[lid],640,360,100,'appear',.626)
     collectgarbage()
+    if FIRSTLAUNCH then SCN.back()end
 end
 
 scene.widgetList={

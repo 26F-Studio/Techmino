@@ -399,7 +399,7 @@ end
 scene.widgetList={
     WIDGET.newButton{name='reset',x=80,y=60,w=110,h=60,color='lG',fText=CHAR.icon.retry_spin,code=pressKey'r',hideF=function()return state==0 end},
     WIDGET.newSwitch{name='invis',x=100,y=140,lim=80,disp=function()return invis end,code=pressKey'q',hideF=function()return state==1 end},
-    WIDGET.newButton{name='back',x=1200,y=660,w=110,font=50,sound='back',fText=CHAR.icon.back,code=pressKey'escape'},
+    WIDGET.newButton{name='back',x=1200,y=660,w=110,font=45,sound='back',fText=CHAR.icon.back,code=pressKey'escape'},
 }
 
 return scene

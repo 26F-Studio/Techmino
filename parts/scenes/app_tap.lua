@@ -26,7 +26,7 @@ function scene.keyDown(key,isRep)
         else
             ins(keyTime,1,TIME())
             keyTime[41]=nil
-            SFX.play('click',.3)
+            SFX.play('lock')
         end
     end
 end
@@ -71,7 +71,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newKey{name='tap',x=640,y=540,w=626,h=260,fText="TAP",color='Z',font=100,code=function(i)love.keypressed('b'..i)end},
+    WIDGET.newKey{name='tap',x=640,y=540,w=626,h=260,sound='touch',fText="TAP",color='Z',font=100,code=function(i)love.keypressed('b'..i)end},
     WIDGET.newButton{name='back',x=1140,y=640,w=170,h=80,font=60,sound='back',fText=CHAR.icon.back,code=backScene},
 }
 

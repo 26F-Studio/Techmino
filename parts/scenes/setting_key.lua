@@ -231,7 +231,7 @@ scene.widgetList={
 
     WIDGET.newKey{name='restart',x=150,y=670,w=180,h=60,code=function()_setSel(0)end},
 
-    WIDGET.newButton{name='back',x=1140,y=640,w=190,h=80,font=60,sound='back',fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='back',x=1140,y=640,w=170,h=80,font=60,sound='back',fText=CHAR.icon.back,code=backScene},
 }
 
 return scene
