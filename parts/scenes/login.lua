@@ -10,6 +10,7 @@ local function _login()
     elseif #password==0 then
         MES.new('error',text.noPassword)return
     end
+    -- password=STRING.digezt(password)
     NET.wsconn_user_pswd(email,password)
     if savePW then
         saveFile({email,password},'conf/account')
