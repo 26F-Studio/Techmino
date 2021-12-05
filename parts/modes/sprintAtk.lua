@@ -1,7 +1,6 @@
 return{
     env={
         infHold=true,
-        drop=1e99,lock=1e99,
         eventSet='checkAttack_100',
         bg='matrix',bgm='new era',
     },
