@@ -165,7 +165,7 @@ scene.widgetList={
     WIDGET.newKey{name='/',x=445,y=600,w=90,sound=false,fText="/",color='lB',font=50,code=pressKey'/'},
     WIDGET.newKey{name='<',x=545,y=300,w=90,sound=false,fText=CHAR.key.backspace,color='lR',font=50,code=pressKey'backspace'},
     WIDGET.newKey{name='=',x=545,y=400,w=90,sound=false,fText="=",color='lY',font=50,code=pressKey'return'},
-    WIDGET.newKey{name='back',x=1135,y=640,w=170,h=80,font=60,sound='back',fText=CHAR.icon.back,code=backScene},
+    WIDGET.newKey{name='back',x=1135,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

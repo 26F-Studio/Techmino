@@ -140,7 +140,7 @@ scene.widgetList={
     WIDGET.newKey{name='refresh',    x=250,y=630,w=140,h=120,code=_fetchRoom,hideF=function()return fetchTimer>7 end},
     WIDGET.newKey{name='new',        x=510,y=630,w=260,h=120,code=goScene'net_newRoom'},
     WIDGET.newKey{name='join',       x=780,y=630,w=140,h=120,code=pressKey'join',hideF=function()return roomList:getLen()==0 or NET.getlock('enterRoom')end},
-    WIDGET.newButton{name='back',    x=1140,y=640,w=170,h=80,font=60,sound='back',fText=CHAR.icon.back,code=pressKey'escape'},
+    WIDGET.newButton{name='back',    x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=pressKey'escape'},
 }
 
 return scene

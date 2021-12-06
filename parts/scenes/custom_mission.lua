@@ -224,7 +224,7 @@ scene.widgetList={
     WIDGET.newButton{name='paste',  x=1140,y=540,w=170,h=80,color='lB',font=50,code=pressKey'cV',       fText=CHAR.icon.import},
     WIDGET.newSwitch{name='mission',x=1150,y=340,lim=280,disp=CUSval('missionKill'),code=CUSrev('missionKill')},
 
-    WIDGET.newButton{name='back',   x=1140,y=640,w=170,h=80,font=60,sound='back',fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='back',   x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

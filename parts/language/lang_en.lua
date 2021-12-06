@@ -339,7 +339,7 @@ return{
             title="Game Settings",
             graphic="←Video",
             sound="Audio→",
-            -- style="Style",
+            style="Style",
 
             ctrl="Control Settings",
             key="Key Mappings",

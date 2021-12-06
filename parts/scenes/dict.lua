@@ -221,7 +221,7 @@ scene.widgetList={
     WIDGET.newKey{name='down',    x=1120,y=565,w=80,font=50,fText=CHAR.key.down,   code=pressKey'down',hide=not MOBILE},
     WIDGET.newKey{name='pageup',  x=1210,y=475,w=80,font=50,fText=CHAR.icon.toUp,  code=pressKey'pageup',hide=not MOBILE},
     WIDGET.newKey{name='pagedown',x=1210,y=565,w=80,font=50,fText=CHAR.icon.toDown,code=pressKey'pagedown',hide=not MOBILE},
-    WIDGET.newButton{name='back', x=1165,y=60,w=170,h=80,font=60,sound='back',fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='back', x=1165,y=60,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

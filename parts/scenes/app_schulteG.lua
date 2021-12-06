@@ -175,7 +175,7 @@ scene.widgetList={
     WIDGET.newSwitch{name='invis',    x=240,y=330,lim=200,font=40,disp=function()return invis end,    code=pressKey'q',hideF=function()return state==1 end},
     WIDGET.newSwitch{name='disappear',x=240,y=420,lim=200,font=40,disp=function()return disappear end,code=pressKey'w',hideF=function()return state==1 end},
     WIDGET.newSwitch{name='tapFX',    x=240,y=510,lim=200,font=40,disp=function()return tapFX end,    code=pressKey'e',hideF=function()return state==1 end},
-    WIDGET.newButton{name='back',     x=1140,y=640,w=170,h=80,font=60,sound='back',fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='back',     x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene
