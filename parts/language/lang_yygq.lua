@@ -87,7 +87,6 @@ return{fallback='zh',
     WidgetText={
         setting_game={
             title="改游戏",
-
             graphic="←改画面",
             sound="改声音→",
 

@@ -336,9 +336,9 @@ return{
         },
         setting_game={
             title="遊戲設置",
-            graphic="←畫面設置",
-            sound="音頻設置→",
-            layout="外觀",
+            graphic="←畫面",
+            sound="音頻→",
+            style="風格",
 
             ctrl="控制設置",
             key="鍵位設置",
@@ -355,8 +355,8 @@ return{
         },
         setting_video={
             title="畫面設置",
-            sound="←音頻設置",
-            game="遊戲設置→",
+            sound="←音頻",
+            game="遊戲→",
 
             block="方塊可見",
             smooth="平滑下落",
@@ -402,8 +402,8 @@ return{
         },
         setting_sound={
             title="音頻設置",
-            game="←遊戲設置",
-            graphic="畫面設置→",
+            game="←遊戲",
+            graphic="畫面→",
 
             mainVol="主音量",
             bgm="音樂",

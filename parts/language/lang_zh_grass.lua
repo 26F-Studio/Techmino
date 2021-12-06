@@ -337,7 +337,7 @@ return{
             title="游戏设置",
             graphic="←视频",
             sound="声音→",
-            layout="布局",
+            style="风格",
 
             ctrl="控制设置",
             key="键映射",

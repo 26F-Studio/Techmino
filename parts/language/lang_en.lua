@@ -339,7 +339,7 @@ return{
             title="Game Settings",
             graphic="←Video",
             sound="Audio→",
-            layout="Layout",
+            -- style="Style",
 
             ctrl="Control Settings",
             key="Key Mappings",
@@ -460,7 +460,7 @@ return{
         },
         setting_skin={
             skinSet="Block Skin",
-            title="Layout Settings",
+            title="Style Settings",
             skinR="Reset Colors",
             faceR="Reset Dir.",
         },

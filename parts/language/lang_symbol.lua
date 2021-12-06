@@ -228,10 +228,9 @@ return{
         },
         setting_game={
             title="%~~%",
-
             graphic="←Video",
             sound="Sound→",
-            layout="=-=-=",
+            style="=-=-=",
 
             ctrl="=?=",
             key="=?",

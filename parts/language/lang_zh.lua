@@ -337,9 +337,9 @@ return{
         },
         setting_game={
             title="游戏设置",
-            graphic="←画面设置",
-            sound="声音设置→",
-            layout="外观",
+            graphic="←画面",
+            sound="声音→",
+            style="风格",
 
             ctrl="控制设置",
             key="键位设置",
@@ -356,8 +356,8 @@ return{
         },
         setting_video={
             title="画面设置",
-            sound="←声音设置",
-            game="游戏设置→",
+            sound="←声音",
+            game="游戏→",
 
             block="方块可见",
             smooth="平滑下落",
@@ -403,8 +403,8 @@ return{
         },
         setting_sound={
             title="声音设置",
-            game="←游戏设置",
-            graphic="画面设置→",
+            game="←游戏",
+            graphic="画面→",
 
             mainVol="总音量",
             bgm="音乐",

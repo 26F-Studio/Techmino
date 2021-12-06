@@ -327,7 +327,7 @@ return{
             title="Config. de jogo",
             graphic="←Video",
             sound="Som→",
-            layout="Layout",
+            -- style="Style",
 
             ctrl="Config. controle",
             key="Map. teclas",
