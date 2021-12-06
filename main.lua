@@ -279,7 +279,7 @@ IMG.init{
 SKIN.load{
     {name="crystal_scf",path='media/image/skin/crystal_scf.png'},
     {name="matte_mrz",path='media/image/skin/matte_mrz.png'},
-    {name="shiny_cho",path='media/image/skin/shiny_cho.png'},
+    {name="shiny_chno",path='media/image/skin/shiny_chno.png'},
     {name="contrast_mrz",path='media/image/skin/contrast_mrz.png'},
     {name="polkadots_scf",path='media/image/skin/polkadots_scf.png'},
     {name="toy_scf",path='media/image/skin/toy_scf.png'},
@@ -302,6 +302,7 @@ SKIN.load{
     {name="classic",path='media/image/skin/classic_unknown.png'},
     {name="ball_shaw",path='media/image/skin/ball_shaw.png'},
     {name="retro_notypey",path='media/image/skin/retro_notypey.png'},
+    {name="pixel_chno",path='media/image/skin/pixel_chno.png'},
     {name="textbone_mrz",path='media/image/skin/textbone_mrz.png'},
     {name="coloredbone_mrz",path='media/image/skin/coloredbone_mrz.png'},
     {name="wtf",path='media/image/skin/wtf_mrz.png'},
