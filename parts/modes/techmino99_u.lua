@@ -1,14 +1,7 @@
-local function selectTarget(P)
-    P:changeAtkMode(P.atkMode<3 and P.atkMode+2 or 5-P.atkMode)
-    P.swappingAtkMode=30
-end
-
 return{
     env={
         drop=15,lock=60,
         fall=20,
-        royaleMode=true,
-        fkey1=selectTarget,
         garbageSpeed=.3,
         pushSpeed=2,
         freshLimit=15,

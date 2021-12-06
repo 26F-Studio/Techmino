@@ -11,7 +11,7 @@ local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,sin,modf=math.max,math.min,math.sin,math.modf
 local setFont,mDraw,mStr=FONT.set,GC.draw,GC.mStr
 local SKIN,TEXTURE,IMG=SKIN,TEXTURE,IMG
-local TEXT,COLOR,GAME,TIME=TEXT,COLOR,GAME,TIME
+local TEXT,COLOR,TIME=TEXT,COLOR,TIME
 local shader_alpha,shader_lighter=SHADER.alpha,SHADER.lighter
 local shader_fieldSatur,shader_blockSatur=SHADER.fieldSatur,SHADER.blockSatur
 local TEXTOBJ,ENUM_MISSION,BLOCK_COLORS=TEXTOBJ,ENUM_MISSION,BLOCK_COLORS
@@ -862,12 +862,12 @@ function draw.norm(P,repMode)
             _drawLDI(ENV.easyFresh,P.lockDelay/ENV.lock,P.freshTime)
 
             --Draw target selecting pad
-            if GAME.modeEnv.royaleMode then
+            if ENV.layout=='royale'then
                 if P.atkMode then
-                    gc_setColor(1,.8,0,P.swappingAtkMode*.02)
+                    gc_setColor(1,.8,0,min(P.swappingAtkMode,30)*.02)
                     gc_rectangle('fill',RCPB[2*P.atkMode-1],RCPB[2*P.atkMode],90,35,8,4)
                 end
-                gc_setColor(1,1,1,P.swappingAtkMode*.025)
+                gc_setColor(1,1,1,min(P.swappingAtkMode,30)*.025)
                 setFont(35)
                 gc_setLineWidth(1)
                 for i=1,4 do
@@ -953,7 +953,7 @@ function draw.small(P)
         end
 
         --Draw badge
-        if GAME.modeEnv.royaleMode then
+        if P.gameEnv.layout=='royale'then
             gc_setColor(1,1,1)
             for i=1,P.strength do
                 gc_draw(IMG.badgeIcon,12*i-7,4,nil,.5)
