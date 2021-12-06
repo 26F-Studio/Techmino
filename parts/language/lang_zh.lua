@@ -219,7 +219,7 @@ return{
         "音乐: MrZ，柒栎流星，ERM，Trebor，C₂₉H₂₅N₃O₅，[T0722，Aether]",
         "音效/语音: Miya，Xiaoya，Mono，MrZ，Trebor",
         "演出: 模电，HBM",
-        "翻译: User670，MattMayuga，Mizu，Mr.Faq，ScF，C₂₉H₂₅N₃O₅",
+        "翻译: User670，MattMayuga，Mizu，Mr.Faq，ScF，C₂₉H₂₅N₃O₅，NOT_A_ROBOT",
         "",
         "特别感谢:",
         "Flyz，Big_True，NOT_A_ROBOT，思竣，yuhao7370",
