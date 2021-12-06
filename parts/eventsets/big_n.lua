@@ -11,7 +11,7 @@ return
         PLY.draw.drawTargetLine(P,200-P.stat.row)
     end,
     task=function(P)
-		local F=P.field
+        local F=P.field
         for i=1,24 do
             F[i]=LINE.new(20)
             P.visTime[i]=LINE.new(20)

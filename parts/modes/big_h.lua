@@ -4,7 +4,7 @@ return{
         mindas=7,minarr=1,minsdarr=1,
         sequence="bagES",
         hook_drop=require'parts.eventsets.bigWallGen'.hook_drop,
-		eventSet='big_h',
+        eventSet='big_h',
         bg='cubes',bgm='push',
     },
     score=function(P)return{math.min(P.modeData.maxCombo,100),P.stat.time}end,
