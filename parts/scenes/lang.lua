@@ -6,7 +6,7 @@ local langList={
     fr="Français",
     es="　Español\n(Castellano)",
     pt="Português",
-
+	id="Indonesia",
     zh_grass="机翻",
     zh_yygq="就这?",
     symbol="?????",
@@ -23,6 +23,7 @@ local languages={
     "Язык",
     "Γλώσσα",
     "언어",
+	"Bahasa",
 }
 local curLang=1
 
@@ -57,9 +58,10 @@ local function _setLang(lid)
 end
 
 scene.widgetList={
-    WIDGET.newButton{x=271,y=210,w=346,h=100,font=40, fText=langList.en,      color='R',code=function()_setLang('en')end},
-    WIDGET.newButton{x=271,y=329,w=346,h=100,font=40, fText=langList.fr,      color='F',code=function()_setLang('fr')end},
-    WIDGET.newButton{x=271,y=508,w=346,h=220,font=40, fText=langList.es,      color='O',code=function()_setLang('es')end},
+    WIDGET.newButton{x=271,y=210,w=346,h=100,font=42, fText=langList.en,      color='R',code=function()_setLang('en')end},
+    WIDGET.newButton{x=271,y=329,w=346,h=100,font=42, fText=langList.fr,      color='F',code=function()_setLang('fr')end},
+    WIDGET.newButton{x=271,y=449,w=346,h=100,font=42, fText=langList.es,      color='O',code=function()_setLang('es')end},
+	  WIDGET.newButton{x=271,y=568,w=346,h=100,font=42, fText=langList.id,      color='lO',code=function()_setLang('id')end},
 
     WIDGET.newButton{x=637,y=210,w=346,h=100,font=40, fText=langList.pt,      color='G',code=function()_setLang('pt')end},
     WIDGET.newButton{x=637,y=329,w=346,h=100,font=40, fText=langList.symbol,  color='J',code=function()_setLang('symbol')end},

@@ -185,7 +185,7 @@ return{
         "Musique : MrZ, 柒栎流星, ERM, Trebor, C₂₉H₂₅N₃O₅, [T0722, Aether]",
         "Voix & Sons: Miya, Xiaoya, Mono, MrZ, Trebor",
         "Performance: 模电, HBM",
-        "Traduction: User670, MattMayuga, Mizu, Mr.Faq, ScF, C₂₉H₂₅N₃O₅",
+        "Traduction: User670, MattMayuga, Mizu, Mr.Faq, ScF, C₂₉H₂₅N₃O₅, NOT_A_ROBOT",
         "",
         "Merci à:",
         "Flyz, Big_True, NOT_A_ROBOT, 思竣, yuhao7370",
