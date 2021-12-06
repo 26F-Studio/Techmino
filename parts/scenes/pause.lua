@@ -36,8 +36,8 @@ function scene.sceneInit(org)
         ("%d(%d)  %.2fLPM"):format(S.row,S.dig,S.row/S.time*60),
         ("%d(%d)  %.2fAPM"):format(S.atk,S.digatk,S.atk/S.time*60),
         ("%d(%d-%d)"):format(S.pend,S.recv,S.recv-S.pend),
-        ("%d/%d/%d/%d"):format(S.clears[1],S.clears[2],S.clears[3],S.clears[4]),
-        ("(%d)/%d/%d/%d"):format(S.spins[1],S.spins[2],S.spins[3],S.spins[4]),
+        ("[1] %-7d[2] %-7d[3] %-7d[4] %-7d"):format(S.clears[1],S.clears[2],S.clears[3],S.clears[4]),
+        (CHAR.icon.num0InSpin.." %-8d"..CHAR.icon.num1InSpin.." %-8d"..CHAR.icon.num2InSpin.." %-8d"..CHAR.icon.num3InSpin.." %-8d"):format(S.spins[1],S.spins[2],S.spins[3],S.spins[4]),
         ("%d/%d ; %d/%d"):format(S.b2b,S.b3b,S.pc,S.hpc),
         ("%d/%dx/%.2f%%"):format(S.extraPiece,S.maxFinesseCombo,S.finesseRate*20/S.piece),
     }

@@ -36,7 +36,7 @@ scene.widgetList={
     WIDGET.newButton{name='graphic',  x=200,  y=80,  w=240,h=80,color='lC',font=35,code=swapScene('setting_video','swipeR')},
     WIDGET.newButton{name='sound',    x=1080, y=80,  w=240,h=80,color='lC',font=35,code=swapScene('setting_sound','swipeL')},
 
-    WIDGET.newButton{name='layout',   x=250,  y=540, w=200,h=70,font=35,code=goScene'setting_skin'},
+    WIDGET.newButton{name='style',    x=250,  y=540, w=200,h=70,font=35,code=goScene'setting_skin'},
 
     WIDGET.newButton{name='ctrl',     x=290,  y=220, w=320,h=80,font=35,code=goScene'setting_control'},
     WIDGET.newButton{name='key',      x=640,  y=220, w=320,h=80,color=MOBILE and'dH',font=35,       code=goScene'setting_key'},

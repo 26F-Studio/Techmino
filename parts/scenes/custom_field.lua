@@ -428,8 +428,8 @@ function scene.draw()
     setFont(55)
     gc.setColor(1,1,1)
     for i=1,7 do
-        local skin=SETTING.skin[i]
-        mStr(text.block[i],500+skin%8*80,90+80*int(skin/8))
+        local skin=SETTING.skin[i]-1
+        mStr(text.block[i],580+(skin%8)*80,90+80*int(skin/8))
     end
 end
 

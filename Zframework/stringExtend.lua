@@ -169,6 +169,25 @@ function STRING.vcsDecrypt(text,key)
     end
     return result..buffer
 end
+function STRING.digezt(text)--Not powerful hash, just protect the original text
+    local out={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+    local seed=26
+    for i=1,#text do
+        local c=byte(text,i)
+        seed=(seed+c)%26
+        c=c+seed
+        local pos=c*i%16
+        local step=(c+i)%4+1
+        local times=2+(c%6)
+        for _=1,times do
+            out[pos+1]=(out[pos+1]+c)%256
+            pos=(pos+step)%16
+        end
+    end
+    local result=""
+    for i=1,16 do result=result..char(out[i])end
+    return result
+end
 
 function STRING.readLine(str)
     local p=str:find("\n")

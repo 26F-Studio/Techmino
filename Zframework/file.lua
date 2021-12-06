@@ -6,7 +6,14 @@ function FILE.load(name,args)
         local F=fs.newFile(name)
         assert(F:open'r','open error')
         local s=F:read()F:close()
-        if args:sArg'-luaon'or args==''and s:sub(1,6)=='return{'then
+        local mode=
+            args:sArg'-luaon'and'luaon'or
+            args:sArg'-json'and'json'or
+            args:sArg'-string'and'string'or
+            s:sub(1,6)=='return{'and'luaon'or
+            (s:sub(1,1)=='['and s:sub(-1)==']'or s:sub(1,1)=='{'and s:sub(-1)=='}')and'json'or
+            'string'
+        if mode=='luaon'then
             local func=loadstring(s)
             if func then
                 setfenv(func,{})
@@ -15,13 +22,13 @@ function FILE.load(name,args)
             else
                 error('decode error')
             end
-        elseif args:sArg'-json'or args==''and s:sub(1,1)=='['and s:sub(-1)==']'or s:sub(1,1)=='{'and s:sub(-1)=='}'then
+        elseif mode=='json'then
             local res=JSON.decode(s)
             if res then
                 return res
             end
             error('decode error')
-        elseif args:sArg'-string'or args==''then
+        elseif mode=='string'then
             return s
         else
             error('unknown mode')

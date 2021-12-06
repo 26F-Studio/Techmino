@@ -16,6 +16,6 @@ return{
         L>=120 and 3 or
         L>=70 and 2 or
         L>=40 and 1 or
-        L>=26 and 0
+        L>=16 and 0
     end,
 }

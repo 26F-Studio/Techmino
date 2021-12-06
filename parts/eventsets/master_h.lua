@@ -1,6 +1,6 @@
-local death_lock={12,11,10,9,8, 7,7,7,7,6}
-local death_wait={10,9, 8, 7,6, 6,6,5,5,4}
-local death_fall={10,9, 8, 7,6, 6,5,5,4,4}
+local death_lock={12,11,10,9,8, 8,8,7,7,6}
+local death_wait={10,9, 8, 7,6, 7,6,6,5,5}
+local death_fall={10,9, 8, 7,6, 7,6,5,5,5}
 
 return{
     drop=0,

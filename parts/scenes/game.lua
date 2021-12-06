@@ -293,7 +293,7 @@ local function _update_common(dt)
     for p=1,#PLAYERS do PLAYERS[p]:update(dt)end
 
     --Fresh royale target
-    if GAME.modeEnv.royaleMode and PLAYERS[1].frameRun%120==0 then
+    if PLAYERS[1].frameRun%120==0 and PLAYERS[1].gameEnv.layout=='royale'then
         freshMostDangerous()
     end
 
@@ -339,7 +339,7 @@ function scene.draw()
     VK.draw()
 
     --Attacking & Being attacked
-    if GAME.modeEnv.royaleMode then
+    if PLAYERS[1].gameEnv.layout=='royale'then
         local P=PLAYERS[1]
         gc_setLineWidth(5)
         gc_setColor(.8,1,0,.2)

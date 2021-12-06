@@ -39,6 +39,7 @@ local textColor={
     {.08, .80, .34},
 }
 local tileTexts=setmetatable({
+    [-2]="B",
     [-1]="×",
 },{__index=function(self,k)self[k]=k return k end})
 
@@ -172,7 +173,7 @@ function player:click(y,x)
 
                 local getScore=4^cur*count
                 self.score=self.score+getScore
-                TEXT.show(getScore,player.x+self.selectX*100-50,player.y+self.selectY*100-50,40,'score')
+                TEXT.show(getScore,player.x+self.selectX*100-50,player.y+self.selectY*100-50,40,'score',1.626/math.log(getScore,3))
                 for i=1,#self.mergedTiles do
                     newMergeFX(self.mergedTiles[i][1],self.mergedTiles[i][2],cur+1)
                 end
@@ -268,11 +269,14 @@ function scene.sceneInit()
     BGM.play('truth')
 end
 
-function scene.mouseDown(x,y)
+function scene.mouseClick(x,y)
     x,y=int((x-player.x)/100)+1,int((y-player.y)/100)+1
     if x>=1 and x<=6 and y>=1 and y<=6 then
         player:click(y,x)
     end
+end
+function scene.touchClick(x,y)
+    scene.mouseClick(x,y)
 end
 function scene.keyDown(key,isRep)
     if isRep then return end
@@ -286,7 +290,7 @@ function scene.keyDown(key,isRep)
             elseif key=='right'then player.selectX=math.min(player.selectX+1,6)
             end
         end
-    elseif key=='z'or key=='space'then
+    elseif key=='x'or key=='space'then
         if not player.selectX then
             player.selectX,player.selectY=3,3
         else
@@ -294,7 +298,9 @@ function scene.keyDown(key,isRep)
             player:click(player.selectY,player.selectX)
             player.selectY,player.selectX=y,x
         end
-    elseif key=='x'then
+    elseif key=='w'then
+        love.mousepressed(love.mouse.getPosition())
+    elseif key=='z'or key=='q'then
         player:click(1,1)
     elseif key=='r'then
         if player.state~=1 or tryReset()then

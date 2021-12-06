@@ -53,6 +53,7 @@ return{
     bufferLimit=1e99,
     fillClear=true,
 
+    layout='normal',
     fkey1=false,fkey2=false,
     keyCancel={},
     fine=false,fineKill=false,

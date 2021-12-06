@@ -1,7 +1,7 @@
 return{
-    ["apkCode"]=417,
-    ["code"]=1700,
-    ["string"]="V0.17.0",
+    ["apkCode"]=419,
+    ["code"]=1701,
+    ["string"]="V0.17.1",
     ["room"]="ver A-2",
-    ["name"]="硬着陆 Hard Landing",
+    ["name"]="醒来 Wake Up",
 }

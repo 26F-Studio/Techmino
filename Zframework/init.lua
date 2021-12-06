@@ -397,7 +397,7 @@ function love.joystickremoved(JS)
     end
 end
 function love.gamepadaxis(JS,axis,val)
-    if JS==jsState[1]._jsObj then
+    if jsState[1]and JS==jsState[1]._jsObj then
         local js=jsState[1]
         if axis=='leftx'or axis=='lefty'or axis=='rightx'or axis=='righty'then
             local newVal=--range: [0,1]

@@ -299,10 +299,9 @@ return{
         },
         setting_game={
             title="Paramètres du jeu",
-
             graphic="←Vidéo",
             sound="Son→",
-            layout="Disposition",
+            -- style="Style",
 
             ctrl="Paramètres de contrôle",
             key="Touches",

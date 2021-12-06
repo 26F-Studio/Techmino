@@ -305,7 +305,7 @@ return{
             title="Ajustes del Juego",
             graphic="←Video",
             sound="Sonido→",
-            layout="Diseño",
+            -- style="Style",
 
             ctrl="Sensibilidad",
             key="Teclas",

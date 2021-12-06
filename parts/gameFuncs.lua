@@ -79,7 +79,7 @@ do--function loadFile(name,args), function saveFile(data,name,args)
         local text=text or t
         local res,mes=pcall(FILE.save,data,name,args)
         if res then
-            return mes
+            return true
         else
             MES.new('error',
                 mes:find'duplicate'and
@@ -771,7 +771,7 @@ do--function resetGameData(args)
         BGM.play(type(bgm)=='string'and bgm or type(bgm)=='table'and bgm[math.random(#bgm)])
 
         TEXT.clear()
-        if GAME.modeEnv.royaleMode then
+        if GAME.modeEnv.eventset=='royale'then
             for i=1,#PLAYERS do
                 PLAYERS[i]:changeAtk(randomTarget(PLAYERS[i]))
             end

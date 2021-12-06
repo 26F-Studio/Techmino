@@ -193,9 +193,9 @@ function Player:createBeam(R,send)
 
         local c=BLOCK_COLORS[color]
         local r,g,b=c[1]*2,c[2]*2,c[3]*2
-
-        local a=GAME.modeEnv.royaleMode and not(self.type=='human'or R.type=='human')and .2 or 1
-        SYSFX.newAttack(1-power*.1,x1,y1,x2,y2,int(send^.7*(4+power)),r,g,b,a*(power+2)*.0626)
+        local a=(power+2)*.0626
+        if self.type~='human'and R.type~='human'then a=a*.2 end
+        SYSFX.newAttack(1-power*.1,x1,y1,x2,y2,int(send^.7*(4+power)),r,g,b,a)
     end
 end
 --------------------------</FX>--------------------------
@@ -1847,7 +1847,7 @@ do
             end
 
             --Bonus atk/def when focused
-            if GAME.modeEnv.royaleMode then
+            if ENV.layout=='royale'then
                 local i=min(#self.atker,9)
                 if i>1 then
                     atk=atk+reAtk[i]
@@ -1870,7 +1870,7 @@ do
                 off=off+_
                 if send>0 then
                     local T
-                    if GAME.modeEnv.royaleMode then
+                    if ENV.layout=='royale'then
                         if self.atkMode==4 then
                             local M=#self.atker
                             if M>0 then
@@ -2144,7 +2144,7 @@ local function task_lose(self)
                 return
             end
         end
-        if not GAME.modeEnv.royaleMode and #PLAYERS>1 then
+        if not self.gameEnv.layout=='royale'and #PLAYERS>1 then
             self.y=self.y+self.endCounter*.26
             self.absFieldY=self.absFieldY+self.endCounter*.26
         end
@@ -2339,7 +2339,7 @@ local function update_alive(P)
         P.dropSpeed=P.dropSpeed*.99+v*.01
     end
 
-    if GAME.modeEnv.royaleMode then
+    if P.gameEnv.layout=='royale'then
         local v=P.swappingAtkMode
         local tar=#P.field>15 and 4 or 8
         if v~=tar then
@@ -2596,7 +2596,7 @@ local function update_dead(P)
     --Final average speed
     P.dropSpeed=P.dropSpeed*.96+S.piece/S.frame*144
 
-    if GAME.modeEnv.royaleMode then
+    if P.gameEnv.layout=='royale'then
         P.swappingAtkMode=min(P.swappingAtkMode+2,30)
     end
 
@@ -2714,7 +2714,7 @@ function Player:win(result)
     end
     self:_die()
     self.result='win'
-    if GAME.modeEnv.royaleMode then
+    if self.gameEnv.layout=='royale'then
         self.modeData.place=1
         self:changeAtk()
     end
@@ -2729,7 +2729,7 @@ function Player:win(result)
         GAME.result=result or'gamewin'
         SFX.play('win')
         VOC.play('win')
-        if GAME.modeEnv.royaleMode then
+        if self.gameEnv.layout=='royale'then
             BGM.play('8-bit happiness')
         end
     end
@@ -2760,7 +2760,7 @@ function Player:lose(force)
     self:_die()
     self.result='lose'
     do local p=TABLE.find(PLY_ALIVE,self)if p then rem(PLY_ALIVE,p)end end
-    if GAME.modeEnv.royaleMode then
+    if self.gameEnv.layout=='royale'then
         self:changeAtk()
         self.modeData.place=#PLY_ALIVE+1
         self.strength=0
@@ -2802,7 +2802,7 @@ function Player:lose(force)
         GAME.result='gameover'
         SFX.play('fail')
         VOC.play('lose')
-        if GAME.modeEnv.royaleMode then
+        if self.gameEnv.layout=='royale'then
             BGM.play('end')
         end
         gameOver()
