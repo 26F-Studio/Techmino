@@ -240,8 +240,8 @@ function NET.uploadSave()
             {section=3,data=STRING.packTable(SETTING)},
             {section=4,data=STRING.packTable(KEY_MAP)},
             {section=5,data=STRING.packTable(VK_ORG)},
-            {section=6,data=STRING.packTable(loadFile('conf/vkSave1'))},
-            {section=7,data=STRING.packTable(loadFile('conf/vkSave2'))},
+            {section=6,data=STRING.packTable(loadFile('conf/vkSave1','-canSkip')or{})},
+            {section=7,data=STRING.packTable(loadFile('conf/vkSave2','-canSkip')or{})},
         }..'}}')
         MES.new('info',"Uploading")
     end
@@ -287,10 +287,12 @@ function NET.loadSavedData(sections)
     TABLE.cover(NET.cloudData.VK_org,VK_ORG)
     success=success and saveFile(VK_ORG,'conf/virtualkey')
 
-    success=success and saveFile(NET.cloudData.vkSave1,'conf/vkSave1')
-    success=success and saveFile(NET.cloudData.vkSave2,'conf/vkSave2')
+    if #NET.cloudData.vkSave1[1]then success=success and saveFile(NET.cloudData.vkSave1,'conf/vkSave1')end
+    if #NET.cloudData.vkSave2[1]then success=success and saveFile(NET.cloudData.vkSave2,'conf/vkSave2')end
     if success then
         MES.new('check',text.saveDone)
+    else
+        MES.new('warn',text.dataCorrupted)
     end
 end
 

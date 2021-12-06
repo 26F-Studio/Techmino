@@ -79,7 +79,7 @@ do--function loadFile(name,args), function saveFile(data,name,args)
         local text=text or t
         local res,mes=pcall(FILE.save,data,name,args)
         if res then
-            return mes
+            return true
         else
             MES.new('error',
                 mes:find'duplicate'and
