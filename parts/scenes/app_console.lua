@@ -528,7 +528,13 @@ local commands={}do
     }
     commands.support={
         code=function(arg)
-            if not FNNS or(arg:find"fk"and arg:find"pl")then
+            if FNNS then
+                if arg:find"pl"and arg:find"fk"then
+                    SCN.go('support','none')
+                else
+                    love.system.openURL("https://www.bilibili.com/video/BV1GJ411x7h7?secretcode=fkpl")
+                end
+            else
                 SCN.go('support','none')
             end
         end,
