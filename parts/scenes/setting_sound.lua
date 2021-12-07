@@ -50,8 +50,12 @@ function scene.draw()
         gc.translate(780,340+6*sin(TIME()*.5))
         gc.draw(IMG.miyaGlow,-4,-4)
         if TIME()-last1<1 then
-            gc.draw(IMG.miyaCH3)
-        elseif TIME()%2<.126 then
+            if TIME()%60>30 then
+                gc.draw(IMG.miyaCH3)
+            else
+                gc.draw(IMG.miyaCH4)
+            end
+        elseif TIME()%2>.126 then
             gc.draw(IMG.miyaCH1)
         else
             gc.draw(IMG.miyaCH2)

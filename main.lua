@@ -259,6 +259,7 @@ IMG.init{
     miyaCH1='media/image/characters/miya1.png',
     miyaCH2='media/image/characters/miya2.png',
     miyaCH3='media/image/characters/miya3.png',
+    miyaCH4='media/image/characters/miya4.png',
     miyaHeart='media/image/characters/miya_heart.png',
     miyaGlow='media/image/characters/miya_glow.png',
     monoCH='media/image/characters/mono.png',
