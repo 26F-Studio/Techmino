@@ -173,7 +173,7 @@ end
 
 scene.widgetScrollHeight=450
 scene.widgetList={
-    WIDGET.newText{name='title',   x=520,y=15,font=70,align='R'},
+    WIDGET.newText{name='title',   x=40,y=15,lim=900,font=70,align='L'},
 
     WIDGET.newKey{name='reset',    x=1110,y=90,w=230,h=90,color='R',code=pressKey'delete'},
     WIDGET.newKey{name='mod',      x=1110,y=200,w=230,h=90,color='Z',code=pressKey'f1'},

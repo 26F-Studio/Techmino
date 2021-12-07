@@ -72,20 +72,23 @@ function text:draw()
     if self.alpha>0 then
         local c=self.color
         gc_setColor(c[1],c[2],c[3],self.alpha)
+        local w=self.obj:getWidth()
+        local k=min(self.lim/self.obj:getWidth(),1)
         if self.align=='M'then
-            gc_draw(self.obj,self.x-self.obj:getWidth()*.5,self.y)
+            gc_draw(self.obj,self.x,self.y,nil,k,1,w*.5,0)
         elseif self.align=='L'then
-            gc_draw(self.obj,self.x,self.y)
+            gc_draw(self.obj,self.x,self.y,nil,k,1)
         elseif self.align=='R'then
-            gc_draw(self.obj,self.x-self.obj:getWidth(),self.y)
+            gc_draw(self.obj,self.x,self.y,nil,k,1,w,0)
         end
     end
 end
-function WIDGET.newText(D)--name,x,y[,fText][,color][,font=30][,fType][,align='M'][,hideF][,hide]
+function WIDGET.newText(D)--name,x,y[,lim][,fText][,color][,font=30][,fType][,align='M'][,hideF][,hide]
     local _={
         name= D.name or"_",
         x=    D.x,
         y=    D.y,
+        lim=  D.lim or 1e99,
 
         fText=D.fText,
         color=D.color and(COLOR[D.color]or D.color)or COLOR.Z,
