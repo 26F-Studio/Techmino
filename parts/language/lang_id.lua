@@ -206,9 +206,8 @@ return{
         "Pastikan untuk mendapat permainan ini hanya dari sumber resmi,",
         "karena kita tidak bisa meyakinkan Anda aman jika Anda mendapat permainan ini dari sumber lain.",
         "Penciptanya tidak bertanggung jawab untuk modifikasi.",
-        FNSF and"/"or"Permainan ini gratis, tetapi sumbangan sangat dihargai.",
-        FNSF and"/"or"Jika Anda tidak bisa menggunakan WeChat Pay atau AliPay,",
-        FNSF and"/"or"Anda bisa pergi ke halaman P\97\116\114\101\111\110 kita (Link in Zictionary) untuk mendukung kami!",
+        FNNS and"/"or"Permainan ini gratis, tetapi sumbangan sangat dihargai.",
+        -- FNNS and"/"or"Check Zictionary for more",
     },
     staff={
         "Pencipta: MrZ  Email: 1046101471@qq.com",

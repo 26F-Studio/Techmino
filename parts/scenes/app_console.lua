@@ -528,7 +528,7 @@ local commands={}do
     }
     commands.support={
         code=function(arg)
-            if not FNSF or(arg:find"fk"and arg:find"pl")then
+            if not FNNS or(arg:find"fk"and arg:find"pl")then
                 SCN.go('support','none')
             end
         end,

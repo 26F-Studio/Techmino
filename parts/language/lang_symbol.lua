@@ -130,8 +130,7 @@ return{
         "MrZ XXX A→B",
         "",
         "□$X, ↑$↑ XD!",
-        "C0, 支 XXX,",
-        "|^O : )",
+        "[z]~~~",
     },
     WidgetText={
         main={

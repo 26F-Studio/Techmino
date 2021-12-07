@@ -16,8 +16,8 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newImage{name='pay1',  x=300,y=100,hide=FNSF},
-    WIDGET.newImage{name='pay2',  x=720,y=320,hide=FNSF},
+    WIDGET.newImage{name='pay1',  x=300,y=100,hide=FNNS},
+    WIDGET.newImage{name='pay2',  x=720,y=320,hide=FNNS},
     WIDGET.newButton{name="back", x=1140,y=640,w=170,h=80,font=60,fText=CHAR.icon.back,code=backScene},
 }
 return scene
