@@ -3,5 +3,5 @@ return{
     ["code"]=1701,
     ["string"]="V0.17.1",
     ["room"]="ver A-2",
-    ["name"]="醒来 Wake Up",
+    ["name"]="苏醒 Wake Up",
 }
