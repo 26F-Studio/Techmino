@@ -4,13 +4,12 @@ local sin=math.sin
 
 local scene={}
 
-local last--Last touch time
-local jump--Animation timer(10 to 0)
+local last1,last2--Last touch/sound time
 local sfxPack=SETTING.sfxPack
 local vocPack=SETTING.vocPack
 
 function scene.sceneInit()
-    last,jump=0,0
+    last1,last2=0,0
     sfxPack=SETTING.sfxPack
     vocPack=SETTING.vocPack
     WIDGET.active.sfxPack:reset()
@@ -22,16 +21,15 @@ function scene.sceneBack()
 end
 
 function scene.mouseDown(x,y)
-    if x>780 and x<980 and y>470 and y<720 and jump==0 then
-        jump=10
-        local t=TIME()-last
-        if t>1 then
-            if t>2.6 and t<3 and not GAME.playing then
-                loadGame('sprintSmooth',true)
-            else
-                VOC.play((t<1.26 or t>6.26)and'doubt'or'happy')
-                last=TIME()
-            end
+    local t1=TIME()-last1
+    if x>780 and x<980 and y>470 and y<720 and t1>.2 then
+        last1=TIME()
+        local t2=TIME()-last2
+        if t2>2.6 and t2<3 and not GAME.playing then
+            loadGame('sprintSmooth',true)
+        else
+            VOC.play((t2<1.26 or t2>6.26)and'doubt'or'happy')
+            last2=TIME()
         end
     end
 end
@@ -45,32 +43,35 @@ function scene.keyDown(key)
     end
 end
 
-function scene.update()
-    if jump>0 then
-        jump=jump-1
-    end
-end
-
 function scene.draw()
     gc.setColor(1,1,1)
-    local t=TIME()
-    local x,y=800,340+10*sin(t*.5)+(jump-10)*jump*.3
-    gc.translate(x,y)
+    gc.push('transform')
     if vocPack=="miya"then
-        gc.draw(IMG.miyaCH)
-        gc.setColor(1,1,1,.7)
-        gc.draw(IMG.miyaF1,4,47+4*sin(t*.9))
-        gc.draw(IMG.miyaF2,42,107+5*sin(t))
-        gc.draw(IMG.miyaF3,93,126+3*sin(t*.7))
-        gc.draw(IMG.miyaF4,129,98+3*sin(t*.5))
+        gc.translate(780,340+6*sin(TIME()*.5))
+        gc.draw(IMG.miyaGlow,-4,-4)
+        if TIME()-last1<1 then
+            gc.draw(IMG.miyaCH3)
+        elseif TIME()%2<.126 then
+            gc.draw(IMG.miyaCH1)
+        else
+            gc.draw(IMG.miyaCH2)
+        end
+        gc.translate(0,-6*sin(TIME()*.5))
+        gc.setColor(1,1,1,1-(TIME()-last1))
+        gc.draw(IMG.miyaHeart,162,52,nil,.3)
     elseif vocPack=="mono"then
+        local jump=math.max(30-(TIME()-last1)*60,0)%10
+        gc.translate(800,340+6*sin(TIME()*.5)+(jump-10)*jump*.3)
         gc.draw(IMG.monoCH,-30)
     elseif vocPack=="xiaoya"then
-        gc.draw(IMG.xiaoyaCH,-30)
+        gc.translate(770,340+4*sin(TIME()*.5))
+        gc.draw(IMG.xiaoyaCH)
+        gc.draw(IMG.xiaoyaOmino,16,168,26/(1+TIME()-last1),.36,.36,33,37)
     elseif vocPack=="miku"then
+        gc.translate(800,340+12*sin(TIME()*.5))
         gc.draw(IMG.mikuCH,-30)
     end
-    gc.translate(-x,-y)
+    gc.pop()
 end
 
 scene.widgetList={
