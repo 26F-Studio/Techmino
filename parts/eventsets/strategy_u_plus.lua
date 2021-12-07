@@ -2,7 +2,7 @@ local waitSpeed={15,15,14,14,13,13,12,12,11,11,10,10,9,9,8,8,7,7,7}
 
 return
 {
-	holdCount=0,
+    holdCount=0,
     das=3,arr=1,
     drop=0,lock=5,
     wait=15,fall=0,

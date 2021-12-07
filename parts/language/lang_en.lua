@@ -770,7 +770,7 @@ return{
         ['infinite']=       {"Infinite",           "",          "Just a sandbox"},
         ['infinite_dig']=   {"Infinite: Dig",      "",          "Dig-diggin'-dug"},
         ['marathon_inf']=   {"Marathon",           "INFINITE",  "Infinite marathon."},
-						    
+
         ['custom_clear']=   {"Custom",            "NORMAL"},
         ['custom_puzzle']=  {"Custom",            "PUZZLE"},
     },

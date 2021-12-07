@@ -22,7 +22,7 @@ end
 
 function scene.mouseDown(x,y)
     local t1=TIME()-last1
-    if x>780 and x<980 and y>470 and y<720 and t1>.2 then
+    if x>780 and x<980 and y>470 and y<720 and t1>.626 then
         last1=TIME()
         local t2=TIME()-last2
         if t2>2.6 and t2<3 and not GAME.playing then

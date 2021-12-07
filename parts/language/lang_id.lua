@@ -770,7 +770,7 @@ return{
         ['infinite']=       {"Tak Terbatas",      "",             "Bak pasir"},
         ['infinite_dig']=   {"Tak Terbatas: Gali","",             "Gali, gali, gali"},
         ['marathon_inf']=   {"Maraton",           "TAK TERBATAS", "Maraton tanpa akhir."},
-						    
+
         ['custom_clear']=   {"Tersesuai",            "NORMAL"},
         ['custom_puzzle']=  {"Tersesuai",            "TEKA-TEKI"},
     },
