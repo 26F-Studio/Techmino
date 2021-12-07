@@ -17,15 +17,15 @@ local rank--Current rank
 local trophy--Current trophy
 local trophyColor--Current trophy color
 
-function scene.sceneInit(org)
+function scene.sceneInit()
     page=0
-    if org:find("setting")then
+    if SCN.prev:find("setting")then
         TEXT.show(text.needRestart,640,410,50,'fly',.6)
     end
     local P1=PLAYERS[1]
     local S=P1.stat
 
-    timer1=org=='game'and 0 or 50
+    timer1=SCN.prev=='game'and 0 or 50
     timer2=timer1
 
     local frameLostRate=(S.frame/S.time/60-1)*100

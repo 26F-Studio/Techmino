@@ -135,7 +135,7 @@ local function _checkGameKeyDown(key)
     return true--No key pressed
 end
 
-function scene.sceneInit(org)
+function scene.sceneInit()
     if GAME.init then
         resetGameData()
         GAME.init=false
@@ -145,7 +145,7 @@ function scene.sceneInit(org)
     noKey=replaying
     noTouch=not SETTING.VKSwitch or replaying
 
-    if org~='depause'and org~='pause'then
+    if SCN.prev~='depause'and SCN.prev~='pause'then
         trigGameRate,gameRate=0,1
     elseif not replaying then
         if GAME.tasUsed then

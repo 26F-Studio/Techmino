@@ -28,9 +28,9 @@ local touchDist
 
 local scene={}
 
-function scene.sceneInit(org)
+function scene.sceneInit()
     BG.set()
-    mapCam.zoomK=org=='main'and 5 or 1
+    mapCam.zoomK=SCN.prev=='main'and 5 or 1
     visibleModes={}--1=unlocked, 2=locked but visible
     for name,M in next,MODES do
         if RANKS[name]and M.x then

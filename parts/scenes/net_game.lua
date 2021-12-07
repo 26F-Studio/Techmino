@@ -57,7 +57,7 @@ end
 
 local scene={}
 
-function scene.sceneInit(org)
+function scene.sceneInit()
     textBox.hide=true
     textBox:clear()
     inputBox.hide=true
@@ -68,7 +68,7 @@ function scene.sceneInit(org)
     upstreamProgress=1
     newMessageTimer=0
 
-    if org=='setting_game'then
+    if SCN.prev=='setting_game'then
         NET.changeConfig()
     end
     if GAME.prevBG then

@@ -15,6 +15,8 @@ local SCN={
         draw=false,      --Swap draw  func
     },
     stack={},--Scene stack
+    prev=false,
+    args={},--Arguments from previous scene
 
     scenes=scenes,
 
@@ -52,14 +54,15 @@ function SCN.swapUpdate(dt)
     S.time=S.time-dt
     if S.time<S.changeTime and S.time+dt>=S.changeTime then
         --Scene swapped this frame
-        SCN.init(S.tar,SCN.cur)
+        SCN.prev=SCN.cur
+        SCN.init(S.tar)
         SCN.mainTouchID=nil
     end
     if S.time<0 then
         SCN.swapping=false
     end
 end
-function SCN.init(s,org)
+function SCN.init(s)
     love.keyboard.setTextInput(false)
 
     local S=scenes[s]
@@ -89,7 +92,7 @@ function SCN.init(s,org)
     SCN.update=S.update
     SCN.draw=S.draw
     if S.sceneInit then
-        S.sceneInit(org)
+        S.sceneInit()
     end
 end
 function SCN.push(tar,style)
@@ -165,11 +168,12 @@ local swap={
         end
     },
 }--Scene swapping animations
-function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back
+function SCN.swapTo(tar,style,...)--Parallel scene swapping, cannot back
     if scenes[tar]then
         if not SCN.swapping and tar~=SCN.cur then
             style=style or'fade'
             SCN.swapping=true
+            SCN.args={...}
             local S=SCN.stat
             S.tar,S.style=tar,style
             S.time=swap[style].duration
@@ -180,15 +184,15 @@ function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back
         MES.new('warn',"No Scene: "..tar)
     end
 end
-function SCN.go(tar,style)--Normal scene swapping, can back
+function SCN.go(tar,style,...)--Normal scene swapping, can back
     if scenes[tar]then
         SCN.push()
-        SCN.swapTo(tar,style)
+        SCN.swapTo(tar,style,...)
     else
         MES.new('warn',"No Scene: "..tar)
     end
 end
-function SCN.back()
+function SCN.back(...)
     if SCN.swapping then return end
 
     --Leave scene
@@ -199,7 +203,7 @@ function SCN.back()
     --Poll&Back to previous Scene
     local m=#SCN.stack
     if m>0 then
-        SCN.swapTo(SCN.stack[m-1],SCN.stack[m])
+        SCN.swapTo(SCN.stack[m-1],SCN.stack[m],...)
         SCN.stack[m],SCN.stack[m-1]=nil
     end
 end
