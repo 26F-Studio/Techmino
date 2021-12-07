@@ -435,8 +435,8 @@ end
 
 local function _setPen(i)return function(k)pens[k]=i end end
 scene.widgetList={
-    WIDGET.newText{name='title',    x=1020,y=5,font=70,align='R'},
-    WIDGET.newText{name='subTitle', x=1030,y=50,font=35,align='L',color='H'},
+    WIDGET.newText{name='title',    x=1020,y=5,lim=480,font=70,align='R'},
+    WIDGET.newText{name='subTitle', x=1030,y=50,lim=170,font=35,align='L',color='H'},
 
     WIDGET.newButton{name='b1',     x=580, y=130,w=73,fText="",color='R',code=_setPen(1)},--B1
     WIDGET.newButton{name='b2',     x=660, y=130,w=73,fText="",color='F',code=_setPen(2)},--B2

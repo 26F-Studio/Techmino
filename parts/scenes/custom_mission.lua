@@ -175,8 +175,8 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newText{name='title',   x=520,y=5,font=70,align='R'},
-    WIDGET.newText{name='subTitle',x=530,y=50,font=35,align='L',color='H'},
+    WIDGET.newText{name='title',   x=520,y=5,lim=460,font=70,align='R'},
+    WIDGET.newText{name='subTitle',x=530,y=50,lim=170,font=35,align='L',color='H'},
 
     WIDGET.newKey{name='_1',    x=800,y=540,w=90,font=50,code=pressKey(01)},
     WIDGET.newKey{name='_2',    x=900,y=540,w=90,font=50,code=pressKey(02)},

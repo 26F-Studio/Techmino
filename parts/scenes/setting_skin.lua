@@ -81,7 +81,7 @@ local function _nextDir(i)
 end
 
 scene.widgetList={
-    WIDGET.newText{name='title',      x=80,y=50,font=70,align='L'},
+    WIDGET.newText{name='title',      x=80,y=50,lim=500,font=70,align='L'},
 
     WIDGET.newSelector{name='skinSet',x=780,y=100,w=320,list=SKIN.getList(),disp=SETval('skinSet'),code=SETsto('skinSet')},
     WIDGET.newButton{name='prev1',    x=130,y=220,w=80,h=65,sound='hold',font=40,fText="↑",code=function()_prevSkin(1)end},

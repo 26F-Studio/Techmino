@@ -44,7 +44,7 @@ end
 
 scene.widgetScrollHeight=900
 scene.widgetList={
-    WIDGET.newText{name='title',          x=640,y=15,font=80},
+    WIDGET.newText{name='title',          x=640,y=15,lim=630,font=80},
 
     WIDGET.newButton{name='sound',        x=200,y=80,w=240,h=80,color='lC',font=35,code=swapScene('setting_sound','swipeR')},
     WIDGET.newButton{name='game',         x=1080,y=80,w=240,h=80,color='lC',font=35,code=swapScene('setting_game','swipeL')},
