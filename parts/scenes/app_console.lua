@@ -526,6 +526,19 @@ local commands={}do
             "Usage: test",
         },
     }
+    commands.support={
+        code=function(arg)
+            if not FNSF or(arg:find"fk"and arg:find"pl")then
+                SCN.go('support','none')
+            end
+        end,
+        description="Enter support scene",
+        details={
+            "Go to an support scene",
+            "",
+            "Usage: support",
+        },
+    }
     do--app
         local APPs={
             {

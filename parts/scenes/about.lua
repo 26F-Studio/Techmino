@@ -28,38 +28,22 @@ function scene.draw()
     setFont(20)
     gc.setColor(COLOR.Z)
     for i=1,#text.aboutTexts do
-        gc.printf(text.aboutTexts[i],150,35*i+50,1000,'center')
+        gc.print(text.aboutTexts[i],62,35*i)
     end
 
     --Lib used
     setFont(15)
-    gc.print(text.used,50,325)
+    gc.print(text.used,495,462)--❤Flandre❤
 
     --Logo
-    local t=TIME()
-    gc.draw(TEXTURE.title,280,610,.1,.4+.03*sin(t*2.6),nil,580,118)
-    gc.setLineWidth(3)
-
-    if SYSTEM~='iOS'then
-        --QR Code frame
-        gc.rectangle('line',18,18,263,263)
-        gc.rectangle('line',1012,18,250,250)
-
-        --Support text
-        gc.setColor(1,1,1,sin(t*20)*.3+.6)
-        setFont(30)
-        mStr(text.support,150+sin(t*4)*20,283)
-        mStr(text.support,1138-sin(t*4)*20,270)
-    end
+    gc.draw(TEXTURE.title,280,610,.1,.4+.03*sin(TIME()*2.6),nil,580,118)
 end
 
 scene.widgetList={
-    WIDGET.newImage{name='pay1',    x=20,  y=20,hide=SYSTEM=='iOS'},
-    WIDGET.newImage{name='pay2',    x=1014,y=20,hide=SYSTEM=='iOS'},
-    WIDGET.newButton{name='staff',  x=1140,y=380,w=220,h=80,font=35,code=goScene'staff'},
-    WIDGET.newButton{name='his',    x=1140,y=480,w=220,h=80,font=35,code=goScene'history'},
-    WIDGET.newButton{name='legals', x=1140,y=580,w=220,h=80,font=35,code=goScene'legals'},
-    WIDGET.newButton{name='back',   x=640, y=600,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='staff',  x=1140,y=340,w=200,h=80,font=35,code=goScene'staff'},
+    WIDGET.newButton{name='his',    x=1140,y=440,w=200,h=80,font=35,code=goScene'history'},
+    WIDGET.newButton{name='legals', x=1140,y=540,w=200,h=80,font=35,code=goScene'legals'},
+    WIDGET.newButton{name='back',   x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene
