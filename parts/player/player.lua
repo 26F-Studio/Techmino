@@ -494,6 +494,15 @@ local playerActions={
     Player.act_zangiLeft, --19
     Player.act_zangiRight,--20
 }function Player:pressKey(keyID)
+    if self.id==1 then
+        if GAME.recording then
+            local L=GAME.rep
+            ins(L,self.frameRun)
+            ins(L,keyID)
+        elseif self.streamProgress then
+            VK.press(keyID)
+        end
+    end
     if self.keyAvailable[keyID]and self.alive then
         if self.waiting>self.gameEnv.hurry then
             self.waiting=self.gameEnv.hurry
@@ -505,18 +514,8 @@ local playerActions={
         playerActions[keyID](self)
         self.stat.key=self.stat.key+1
     end
-    if self.id==1 then
-        if GAME.recording then
-            local L=GAME.rep
-            ins(L,self.frameRun)
-            ins(L,keyID)
-        elseif self.streamProgress then
-            VK.press(keyID)
-        end
-    end
 end
 function Player:releaseKey(keyID)
-    self.keyPressing[keyID]=false
     if self.id==1 then
         if GAME.recording then
             local L=GAME.rep
@@ -526,6 +525,7 @@ function Player:releaseKey(keyID)
             VK.release(keyID)
         end
     end
+    self.keyPressing[keyID]=false
 end
 function Player:newTask(code,...)
     local thread=coroutine.create(code)
