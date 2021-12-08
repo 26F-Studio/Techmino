@@ -5,7 +5,6 @@ return{
         loadSample="Memuat sampel-sampel instrumen",
         loadVoice="Memuat kumpulan suara",
         loadFont="Memuat fon",
-        loadModeIcon="Memuat ikon-ikon mode",
         loadMode="Memuat mode-mode",
         loadOther="Memuat aset-aset yang lain",
         finish="Tekan tombol apapun untuk memulai!",

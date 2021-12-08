@@ -24,7 +24,7 @@ VERSION=require"version"
 TIME=love.timer.getTime
 YIELD=coroutine.yield
 SYSTEM=love.system.getOS()if SYSTEM=='OS X'then SYSTEM='macOS'end
-FNNS=true or SYSTEM:find'\79\83'--What does FNSF stand for? IDK so don't ask me lol
+FNNS=SYSTEM:find'\79\83'--What does FNSF stand for? IDK so don't ask me lol
 MOBILE=SYSTEM=='Android'or SYSTEM=='iOS'
 SAVEDIR=fs.getSaveDirectory()
 
@@ -112,7 +112,8 @@ BOT=        require'parts.bot'
 RSlist=     require'parts.RSlist'DSCP=RSlist.TRS.centerPos
 PLY=        require'parts.player'
 NETPLY=     require'parts.netPlayer'
-MODES=      require'parts.modes'
+MODETREE=   require'parts.modeTree'
+MODES={}--Loaded modes and information
 
 setmetatable(TEXTURE,{__index=function(self,k)
     MES.new('warn',"No texture called: "..k)
@@ -255,6 +256,7 @@ IMG.init{
     speedLimit='media/image/mess/speedLimit.png',--Not used, for future C2-mode
     pay1='media/image/mess/pay1.png',
     pay2='media/image/mess/pay2.png',
+    drought='media/image/mess/drought.png',
 
     miyaCH1='media/image/characters/miya1.png',
     miyaCH2='media/image/characters/miya2.png',
@@ -393,24 +395,6 @@ for _,v in next,fs.getDirectoryItems('parts/scenes')do
         LANG.addScene(sceneName)
     end
 end
---Load mode files
-for i=1,#MODES do
-    local m=MODES[i]--Mode template
-    if isSafeFile('parts/modes/'..m.name)then
-        TABLE.complete(require('parts.modes.'..m.name),MODES[i])
-        MODES[m.name],MODES[i]=MODES[i]
-    end
-end
-for _,v in next,fs.getDirectoryItems('parts/modes')do
-    if isSafeFile('parts/modes/'..v)and not MODES[v:sub(1,-5)]then
-        local M={name=v:sub(1,-5)}
-        local modeData=require('parts.modes.'..M.name)
-        if modeData.env then
-            TABLE.complete(modeData,M)
-            MODES[M.name]=M
-        end
-    end
-end
 
 table.insert(_LOADTIMELIST_,("Load Files: %.3fs"):format(TIME()-_LOADTIME_))
 
@@ -534,25 +518,7 @@ do
         if type(name)=='number'or type(rank)~='number'then
             RANKS[name]=nil
             needSave=true
-        else
-            local M=MODES[name]
-            if M and M.unlock and rank>0 then
-                for _,unlockName in next,M.unlock do
-                    if not RANKS[unlockName]then
-                        RANKS[unlockName]=0
-                        needSave=true
-                    end
-                end
-            end
-            if not(M and M.x)then
-                RANKS[name]=nil
-                needSave=true
-            end
         end
-    end
-    if not MODES[STAT.lastPlay]then
-        STAT.lastPlay='sprint_10l'
-        needSave=true
     end
 
     if needSave then

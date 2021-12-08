@@ -5,7 +5,6 @@ return{
         loadSample="加載樂器取樣",
         loadVoice="加載語音資源",
         loadFont="加載字體資源",
-        loadModeIcon="加載模式圖標",
         loadMode="加載模式",
         loadOther="加載雜項",
         finish="按任意鍵繼續!",

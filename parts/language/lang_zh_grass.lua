@@ -5,7 +5,6 @@ return{
         loadSample="装载仪器样品",
         loadVoice="加载语音包",
         loadFont="加载字体",
-        loadModeIcon="加载模式图标",
         loadMode="加载方式",
         loadOther="加载其他资产",
         finish="按任意按钮开始！",

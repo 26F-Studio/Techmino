@@ -28,7 +28,7 @@ return{
             end
             setFont(50)
             mStr(P.modeData.drought,63,130)
-            mDraw(MODES.drought_l.icon,63,200,nil,.5)
+            mDraw(IMG.drought,63,200,nil,.5)
         end
     end,
     task=function(P)

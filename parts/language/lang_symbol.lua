@@ -6,7 +6,6 @@ return{
         loadSample="#~#",
         loadVoice="#<()==)#",
         loadFont="#Aa#",
-        loadModeIcon="#[ ]#",
         loadMode="#[…]#",
         loadOther="#…#",
         finish="&",

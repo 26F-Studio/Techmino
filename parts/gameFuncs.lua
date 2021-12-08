@@ -94,7 +94,8 @@ do--function loadFile(name,args), function saveFile(data,name,args)
     end
 end
 function isSafeFile(file,mes)
-    if love.filesystem.getRealDirectory(file)~=SAVEDIR then
+    local path=love.filesystem.getRealDirectory(file)
+    if path and path~=SAVEDIR then
         return true
     elseif mes then
         MES.new('warn',mes)
@@ -491,9 +492,17 @@ end
 function loadGame(mode,ifQuickPlay,ifNet)--Load a mode and go to game scene
     freshDate()
     if legalGameTime()then
-        if not MODES[mode]and love.filesystem.getRealDirectory('parts/modes/'..mode)~=SAVEDIR then
-            MODES[mode]=require('parts.modes.'..mode)
-            MODES[mode].name=mode
+        if not MODES[mode]then
+            if love.filesystem.getInfo('parts/modes/'..mode..'.lua')and love.filesystem.getRealDirectory('parts/modes/'..mode..'.lua')~=SAVEDIR then
+                MODES[mode]=require('parts.modes.'..mode)
+                MODES[mode].name=mode
+                if MODES[mode].score then
+                    MODES[mode].records=loadFile("record/"..mode..".rec",'-luaon -canSkip')or{}
+                end
+            else
+                MES.new('error',"No mode called "..mode)
+                return
+            end
         end
         if MODES[mode].score then
             STAT.lastPlay=mode

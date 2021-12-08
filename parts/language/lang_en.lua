@@ -5,7 +5,6 @@ return{
         loadSample="Loading instrument samples",
         loadVoice="Loading voice packs",
         loadFont="Loading fonts",
-        loadModeIcon="Loading mode icons",
         loadMode="Loading modes",
         loadOther="Loading other assets",
         finish="Press any key to start!",
