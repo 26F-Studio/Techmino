@@ -8,19 +8,28 @@ function FILE.load(name,args)
         local s=F:read()F:close()
         local mode=
             args:sArg'-luaon'and'luaon'or
+            args:sArg'-lua'and'lua'or
             args:sArg'-json'and'json'or
             args:sArg'-string'and'string'or
             s:sub(1,6)=='return{'and'luaon'or
             (s:sub(1,1)=='['and s:sub(-1)==']'or s:sub(1,1)=='{'and s:sub(-1)=='}')and'json'or
             'string'
         if mode=='luaon'then
-            local func=loadstring(s)
+            local func,err_mes=loadstring(s)
             if func then
                 setfenv(func,{})
                 local res=func()
                 return assert(res,'decode error')
             else
-                error('decode error')
+                error('decode error: '..err_mes)
+            end
+        elseif mode=='lua'then
+            local func,err_mes=loadstring(s)
+            if func then
+                local res=func()
+                return assert(res,'run error')
+            else
+                error('compile error: '..err_mes)
             end
         elseif mode=='json'then
             local res=JSON.decode(s)
