@@ -117,7 +117,7 @@ MODES={}--Loaded modes and information
 
 setmetatable(TEXTURE,{__index=function(self,k)
     MES.new('warn',"No texture called: "..k)
-    self[k]=love.graphics.newCanvas(1,1)
+    self[k]=PAPER
     return self[k]
 end})
 

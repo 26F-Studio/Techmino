@@ -2,7 +2,6 @@ local IMG={}
 function IMG.init(list)
     IMG.init=nil
 
-    local null=love.graphics.newCanvas(1,1)
     setmetatable(IMG,{__index=function(self,name)
         if type(list[name])=='table'then
             self[name]={}
@@ -13,7 +12,7 @@ function IMG.init(list)
             self[name]=love.graphics.newImage(list[name])
         else
             LOG("No IMG: "..name)
-            self[name]=null
+            self[name]=PAPER
         end
         return self[name]
     end})

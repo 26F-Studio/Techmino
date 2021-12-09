@@ -1,4 +1,4 @@
-NONE={}function NULL()end
+NONE={}function NULL()end PAPER=love.graphics.newCanvas(1,1)
 EDITING=""
 LOADED=false
 
