@@ -535,29 +535,9 @@ function gameOver()--Save record
                 GAME.rank=R
             end
             if not GAME.replaying and M.score and scoreValid()then
-                if RANKS[M.name]then--Old rank exist
-                    local needSave
-                    if R>RANKS[M.name]then
-                        RANKS[M.name]=R
-                        needSave=true
-                    end
-                    if R>0 then
-                        if M.unlock then
-                            for i=1,#M.unlock do
-                                local m=M.unlock[i]
-                                local n=MODES[m].name
-                                if not RANKS[n]then
-                                    if MODES[m].x then
-                                        RANKS[n]=0
-                                    end
-                                    needSave=true
-                                end
-                            end
-                        end
-                    end
-                    if needSave then
-                        saveProgress()
-                    end
+                if not RANKS[M.name]or R>RANKS[M.name]then--Old rank exist
+                    RANKS[M.name]=R
+                    saveProgress()
                 end
                 local D=M.score(P)
                 local L=M.records

@@ -13,6 +13,13 @@ BLOCK_COLORS={
     COLOR.dH,COLOR.D,COLOR.lY,COLOR.H,COLOR.lH,COLOR.dV,COLOR.dR,COLOR.dG,
 }
 RANK_CHARS={'B','A','S','U','X'}for i=1,#RANK_CHARS do RANK_CHARS[i]=CHAR.icon['rank'..RANK_CHARS[i]]end
+RANK_BASE_COLORS={
+    {.1,.2,.3},
+    {.3,.42,.32},
+    {.45,.44,.15},
+    {.42,.25,.2},
+    {.42,.15,.4},
+}
 RANK_COLORS={
     {.8,.86,.9},
     {.6,.9,.7},

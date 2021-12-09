@@ -249,6 +249,7 @@ local function _modePannelStencil()
     gc_rectangle('fill',0,0,810,610)
 end
 local _unknownModeText={'???','?','?????'}
+local _rankName={[0]='','B','A','S','U','X'}
 function scene.draw()
     --Gray background
     gc_setColor(COLOR.dX)
@@ -277,25 +278,53 @@ function scene.draw()
     gc_stencil(_modePannelStencil,'replace',1)
     gc_setStencilTest('equal',1)
         gc_translate(40,40)
+        setFont(50)
         for i=1,#results do
             local item=results[i]
+
+            local rank=RANKS[item.name]
+            if rank==0 then rank=nil end
+
             if item.type=='folder'then
+                --Folder's yellow back
                 local r,g,b
                 if item.name=='_back'then
-                    r,g,b=.3,.2,0
+                    r,g,b=0,0,0
                 else
                     r,g,b=1,.8,.5
                 end
-                gc_setColor(r,g,b,item.alpha*.3)
+                gc_setColor(r,g,b,item.alpha*.4)
                 gc_rectangle('fill',item.x,item.y,item.w,item.h)
-            end
-            gc_setColor(1,1,1,item.alpha)
-            if item.type=='folder'then
+                gc_setColor(1,1,1,item.alpha)
                 gc_circle('line',item.x+15,item.y+15,8)
+            else
+                --Rank background
+                if rank then
+                    local r,g,b=RANK_BASE_COLORS[rank][1],RANK_BASE_COLORS[rank][2],RANK_BASE_COLORS[rank][3]
+                    gc_setColor(r,g,b,item.alpha*.3)
+                    gc_rectangle('fill',item.x,item.y,item.w,item.h)
+                end
             end
+
+            --Icon
+            gc_setColor(1,1,1,item.alpha)
             mDraw(item.icon,item.x+item.w/2,item.y+(item.h-30)/2,0,item.icon_scale)
+
+            --Frame
             gc_rectangle('line',item.x,item.y,item.w,item.h,6)
             gc_draw(item.text,item.x+6,item.y+item.h-28,0,item.text_scaleX,1)
+
+            --Rank
+            if rank then
+                local rankStr=_rankName[RANKS[item.name]]
+                gc_setColor(0,0,0,item.alpha)
+                gc_print(rankStr,item.x-12+2,item.y-26+2)
+                local r,g,b=RANK_COLORS[rank][1],RANK_COLORS[rank][2],RANK_COLORS[rank][3]
+                gc_setColor(r,g,b,item.alpha)
+                gc_print(rankStr,item.x-12,item.y-26)
+            end
+
+            --Selecting glow
             if item.selTime>0 then
                 gc_setColor(1,1,1,item.selTime*2)
                 gc_rectangle('fill',item.x+8,item.y+8,item.w-16,item.h-36,5)
@@ -335,7 +364,7 @@ function scene.draw()
                 local L=M.records
                 gc_setColor(1,1,1)
                 setFont(20)
-                if false and L[1]then
+                if L[1]then
                     for i=1,#L do
                         local res=M.scoreDisp(L[i])
                         gc_print(res,830,310+25*i,0,min(35/#res,1),1)
