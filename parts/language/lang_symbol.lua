@@ -144,7 +144,6 @@ return{
         },
         mode={
             mod="?!?!?!(F1)",
-            start="!!!",
         },
         mod={
             title="?!?!?!",

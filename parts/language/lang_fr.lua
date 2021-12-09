@@ -216,7 +216,6 @@ return{
         },
         mode={
             mod="Mods (F1)",
-            start="Démarrer",
         },
         mod={
             title="Mods",

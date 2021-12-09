@@ -251,7 +251,7 @@ return{
         },
         mode={
             mod="多重器官衰竭(F1)",
-            start="开始",
+            sel="选择",
         },
         mod={
             title="多重器官衰竭",

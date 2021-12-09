@@ -242,7 +242,6 @@ return{
         },
         mode={
             mod="Mods (F1)",
-            start="Começar",
         },
         mod={
             title="Mods",

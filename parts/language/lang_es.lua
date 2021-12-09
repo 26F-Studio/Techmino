@@ -220,7 +220,6 @@ return{
         },
         mode={
             mod="Mods (F1)",
-            start="Empezar",
         },
         mod={
             title="Mods",

@@ -253,7 +253,6 @@ return{
         },
         mode={
             mod="Mod (F1)",
-            start="Mulai",
         },
         mod={
             title="Mod",

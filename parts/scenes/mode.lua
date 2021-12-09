@@ -27,18 +27,24 @@ local function _comp(a,b)
     return a.type~=b.type and a.type=='folder'
 end
 
-local function _newItem(item,x0,y0)
+function _setPos(self,x,y,dx,dy)
+    self.x0,self.y0=x,y
+    self.x,self.y=x+dx,y+dy
+end
+local function _newItem(item)
     return{
         type=item.folder and'folder'or'mode',
         name=item.name,
-        x0=x0,y0=y0,
+        x0=0,y0=0,
+        x=0,y=0,
         w=160,h=160,
-        x=x0+rnd(-26,26),y=y0+rnd(-26,26),
         alpha=0,
         selTime=0,
+        setPos=_setPos,
     }
 end
 
+local _backItem={folder=true,name='_back'}
 local function _freshPacks()
     TABLE.cut(results)
     local t=MODETREE
@@ -52,17 +58,20 @@ local function _freshPacks()
     end
     local count=0
     if path[1]then
-        ins(results,_newItem({folder=true,name='_back'},0,0))
+        ins(results,_newItem(_backItem))
         count=1
     end
     for i=1,#t do
         local item=t[i]
         if #searchText==0 or item.name:find(searchText)then
-            ins(results,_newItem(item,180*(count%4),200*int(count/4)))
+            ins(results,_newItem(item))
             count=count+1
         end
     end
     table.sort(results,_comp)
+    for i=0,#results-1 do
+        results[i+1]:setPos(180*(i%4),200*int(i/4),15*i,i)
+    end
 end
 
 local scene={}
@@ -73,22 +82,34 @@ function scene.sceneInit()
     searchTimer=0
 end
 
-function scene.mouseMove(x,y)
-    selectedItem=false
-    x,y=x-40,y-150
-    if x<-40 or x>=765 or y<-40 or y>=570 then return end
-    for i=1,#results do
-        local item=results[i]
-        if x>item.x0 and x<item.x0+item.w and y>item.y0 and y<item.y0+item.h then
-            selectedItem=item
-            break
-        end
-    end
-end
-function scene.mouseDown(x,y,k)
-    scene.mouseMove(x,y)
+function scene.mouseClick(x,y,k)
     if k==1 then
-        scene.keyDown('return')
+        local sel=false
+        x,y=x-40,y-150
+        if x<-40 or x>=765 or y<-40 or y>=570 then return end
+        for i=1,#results do
+            local item=results[i]
+            if x>item.x and x<item.x+item.w and y>item.y and y<item.y+item.h then
+                sel=item
+                break
+            end
+        end
+        if sel then
+            if sel==selectedItem then
+                scene.keyDown('return')
+            elseif sel then
+                SFX.play('click')
+            end
+        end
+        selectedItem=sel
+    elseif k==2 then
+        if path[1]then
+            table.remove(path)
+            pathStr="modes/"
+            if path[1]then pathStr=pathStr..table.concat(path,'/').."/"end
+            _freshPacks()
+            SFX.play('uncheck')
+        end
     end
 end
 function scene.wheelMoved(_,y)print(y)
@@ -105,11 +126,31 @@ function scene.wheelMoved(_,y)print(y)
 end
 function scene.keyDown(key,isRep)
     if key=='up'or key=='down'or key=='left'or key=='right'then
-        --Select mode with arrow keys
+        if not selectedItem then
+            selectedItem=results[1]
+        else
+            local i=TABLE.find(results,selectedItem)
+            if key=='up'then
+                i=i-4
+            elseif key=='down'then
+                i=i+4
+            elseif key=='left'then
+                i=i-1
+            elseif key=='right'then
+                i=i+1
+            end
+            if i<1 then
+                i=1
+            elseif i>#results then
+                i=#results
+            end
+            selectedItem=results[i]
+        end
     elseif key=='f1'then
         SCN.go('mod')
     elseif key=='return'then
         if isRep then return end
+        print(selectedItem)
         if selectedItem then
             if selectedItem.type=='mode'then
                 loadGame(selectedItem.name)
@@ -211,8 +252,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name='mod',x=890,y=655,w=140,h=80,font=25,code=goScene'mod'},
-    WIDGET.newButton{name='start',x=1040,y=655,w=140,h=80,font=40,code=pressKey'return'},
-    WIDGET.newButton{name='back',x=1190,y=655,w=140,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='mod',x=930,y=655,w=180,h=80,code=goScene'mod'},
+    WIDGET.newButton{name='back',x=1150,y=655,w=180,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 return scene
