@@ -3,7 +3,7 @@ local gc_push,gc_pop=gc.push,gc.pop
 local gc_translate=gc.translate
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_line,gc_rectangle,gc_circle=gc.line,gc.rectangle,gc.circle
-local gc_print,gc_printf=gc.print,gc.printf
+local gc_draw,gc_print,gc_printf=gc.draw,gc.print,gc.printf
 local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
 
 local max,min=math.max,math.min
@@ -25,12 +25,15 @@ function _setPos(self,x,y,dx,dy)
     self.x,self.y=x+dx,y+dy
 end
 local function _newItem(item)
+    local text=gc.newText(getFont(20),item.name)
     local icon=MODEICON[item.icon or item.name]
     return{
         type=item.folder and'folder'or'mode',
         name=item.name,
+        text=text,
+        text_scaleX=min(1,150/text:getWidth()),
         icon=icon,
-        scale=min(max(160/icon:getWidth(),130/icon:getHeight()),1),
+        icon_scale=min(max(160/icon:getWidth(),130/icon:getHeight()),1),
         x0=0,y0=0,
         x=0,y=0,
         w=160,h=160,
@@ -274,7 +277,6 @@ function scene.draw()
     gc_stencil(_modePannelStencil,'replace',1)
     gc_setStencilTest('equal',1)
         gc_translate(40,40)
-        setFont(20)
         for i=1,#results do
             local item=results[i]
             if item.type=='folder'then
@@ -291,9 +293,9 @@ function scene.draw()
             if item.type=='folder'then
                 gc_circle('line',item.x+15,item.y+15,8)
             end
-            mDraw(item.icon,item.x+item.w/2,item.y+(item.h-30)/2,0,item.scale)
+            mDraw(item.icon,item.x+item.w/2,item.y+(item.h-30)/2,0,item.icon_scale)
             gc_rectangle('line',item.x,item.y,item.w,item.h,6)
-            gc_print(item.name,item.x+10,item.y+item.h-28)
+            gc_draw(item.text,item.x+6,item.y+item.h-28,0,item.text_scaleX,1)
             if item.selTime>0 then
                 gc_setColor(1,1,1,item.selTime*2)
                 gc_rectangle('fill',item.x+8,item.y+8,item.w-16,item.h-36,5)
@@ -337,7 +339,7 @@ function scene.draw()
                     for i=1,#L do
                         local res=M.scoreDisp(L[i])
                         gc_print(res,830,310+25*i,0,min(35/#res,1),1)
-                        gc_printf(L[i].date or"-/-/-",1100,310+25*i,200,'right',nil,.8,1)
+                        gc_printf(L[i].date or"-/-/-",1100,310+25*i,200,'right',0,.8,1)
                     end
                 else
                     mText(TEXTOBJ.noScore,1043,433)
