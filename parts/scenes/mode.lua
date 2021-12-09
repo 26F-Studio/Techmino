@@ -30,6 +30,7 @@ local function _newItem(item)
     return{
         type=item.folder and'folder'or'mode',
         name=item.name,
+        author=item.author or'',
         text=text,
         text_scaleX=min(1,150/text:getWidth()),
         icon=icon,
@@ -336,9 +337,9 @@ function scene.draw()
     --Selected item info
     if selectedItem then
         if selectedItem.type=='folder'then
-            setFont(50)
             gc_setColor(1,1,1,selectedItem.alpha)
-            mStr(selectedItem.name,1043,200)
+            setFont(50)mStr(selectedItem.name,1043,110)
+            setFont(30)mStr(selectedItem.author,1043,180)
         elseif selectedItem.type=='mode'then
             local M=MODES[selectedItem.name]
 
@@ -346,7 +347,7 @@ function scene.draw()
             if M.slowMark then
                 gc_setColor(.6,.9,1,(1-3*TIME()%1*.8)*selectedItem.alpha)
                 setFont(20)
-                gc_print("CTRL",815,155)
+                gc_print("CTRL",815,110)
             end
 
             --Mode title & info
