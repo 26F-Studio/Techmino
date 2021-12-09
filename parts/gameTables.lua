@@ -723,7 +723,37 @@ do--Userdata tables
         todayTime=0,
     }
 end
-do
+do--Mode data tables
+    MODES=setmetatable({},{__index=function(self,name)
+        local M
+        if love.filesystem.getInfo('parts/modes/'..name..'.lua')and love.filesystem.getRealDirectory('parts/modes/'..name..'.lua')~=SAVEDIR then
+            M=require('parts.modes.'..name)
+            M.available=true
+            M.name=name
+            do--Check if need slowmark
+                for k in next,M.env do
+                    if
+                        k=='mindas'or k=='minarr'or
+                        k=='das'or k=='arr'or
+                        k=='minsdarr'
+                    then
+                        M.slowMark=true
+                        break
+                    end
+                end
+            end
+            if M.score then
+                M.records=loadFile("record/"..name..".rec",'-luaon -canSkip')or{}
+            end
+        else
+            M={
+                available=false,
+            }
+            MES.new('error',"Failed to load mode file:  "..name)
+        end
+        self[name]=M
+        return M
+    end})
     MODEICON=setmetatable({},{__index=function(self,k)
         if isSafeFile('media/image/modeicon/'..k..'.png')then
             local img=love.graphics.newImage('media/image/modeicon/'..k..'.png')

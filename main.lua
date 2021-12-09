@@ -113,7 +113,6 @@ RSlist=     require'parts.RSlist'DSCP=RSlist.TRS.centerPos
 PLY=        require'parts.player'
 NETPLY=     require'parts.netPlayer'
 MODETREE=   require'parts.modeTree'
-MODES={}--Loaded modes and information
 
 setmetatable(TEXTURE,{__index=function(self,k)
     MES.new('warn',"No texture called: "..k)

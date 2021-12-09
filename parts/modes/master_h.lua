@@ -5,7 +5,6 @@ return{
         eventSet='master_h',
         bg='bg2',bgm='secret7th',
     },
-    slowMark=true,
     score=function(P)return{P.modeData.pt,P.stat.time}end,
     scoreDisp=function(D)return D[1].."P   "..STRING.time(D[2])end,
     comp=function(a,b)

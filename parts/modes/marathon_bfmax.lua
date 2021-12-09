@@ -5,7 +5,6 @@ return{
         eventSet='marathon_bfmax',
         bg='bg2',bgm='blank',
     },
-    slowMark=true,
     getRank=function(P)
         local L=P.stat.row
         if L>=200 then

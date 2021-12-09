@@ -3,7 +3,7 @@ local gc_push,gc_pop=gc.push,gc.pop
 local gc_translate=gc.translate
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_line,gc_rectangle,gc_circle=gc.line,gc.rectangle,gc.circle
-local gc_print=gc.print
+local gc_print,gc_printf=gc.print,gc.printf
 local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
 
 local max,min=math.max,math.min
@@ -181,7 +181,7 @@ function scene.keyDown(key,isRep)
         end
     elseif key=='f1'then
         SCN.go('mod')
-    elseif key=='return'then
+    elseif key=='space'or key=='return'then
         if isRep then return end
         if selectedItem then
             if selectedItem.type=='mode'then
@@ -243,20 +243,22 @@ function scene.update(dt)
 end
 
 local function _modePannelStencil()
-    gc_rectangle('fill',0,0,805,610)
+    gc_rectangle('fill',0,0,810,610)
 end
+local _unknownModeText={'???','?','?????'}
 function scene.draw()
-    gc_setLineWidth(2)
-
     --Gray background
     gc_setColor(COLOR.dX)
     gc_rectangle('fill',0,0,1280,110)
-    gc_rectangle('fill',0,110,805,610)
+    gc_rectangle('fill',0,110,810,610)
     gc_setColor(COLOR.X)
-    gc_rectangle('fill',805,110,475,610)
+    gc_rectangle('fill',810,110,475,610)
+
+    --Seperating line
+    gc_setLineWidth(2)
     gc_setColor(COLOR.Z)
     gc_line(0,110,1280,110)
-    gc_line(805,110,805,720)
+    gc_line(810,110,810,720)
 
     --Path
     setFont(35)
@@ -266,6 +268,7 @@ function scene.draw()
     gc_print(CHAR.key.right,800,40)
     gc_print(searchText,840,40)
 
+    --Items
     gc_push('transform')
     gc_translate(0,110)
     gc_stencil(_modePannelStencil,'replace',1)
@@ -275,11 +278,13 @@ function scene.draw()
         for i=1,#results do
             local item=results[i]
             if item.type=='folder'then
+                local r,g,b
                 if item.name=='_back'then
-                    gc_setColor(.3,.2,0,item.alpha*.3)
+                    r,g,b=.3,.2,0
                 else
-                    gc_setColor(1,.8,.5,item.alpha*.3)
+                    r,g,b=1,.8,.5
                 end
+                gc_setColor(r,g,b,item.alpha*.3)
                 gc_rectangle('fill',item.x,item.y,item.w,item.h)
             end
             gc_setColor(1,1,1,item.alpha)
@@ -296,6 +301,50 @@ function scene.draw()
         end
     gc_setStencilTest()
     gc_pop()
+
+    --Selected item info
+    if selectedItem then
+        if selectedItem.type=='folder'then
+            setFont(50)
+            gc_setColor(1,1,1,selectedItem.alpha)
+            mStr(selectedItem.name,1043,200)
+        elseif selectedItem.type=='mode'then
+            local M=MODES[selectedItem.name]
+
+            --Slowmark
+            if M.slowMark then
+                gc_setColor(.6,.9,1,(1-3*TIME()%1*.8)*selectedItem.alpha)
+                setFont(20)
+                gc_print("CTRL",815,155)
+            end
+
+            --Mode title & info
+            gc_setColor(1,1,1,selectedItem.alpha)
+            local t=text.modes[M.name]or _unknownModeText
+            setFont(40)mStr(t[1],1043,110)
+            setFont(30)mStr(t[2],1043,153)
+            setFont(25)mStr(t[3],1043,200)
+
+            --High scores
+            if M.score then
+                mText(TEXTOBJ.highScore,1043,293)
+                gc_setColor(COLOR.dX)
+                gc_rectangle('fill',825,335,440,260,3)
+                local L=M.records
+                gc_setColor(1,1,1)
+                setFont(20)
+                if false and L[1]then
+                    for i=1,#L do
+                        local res=M.scoreDisp(L[i])
+                        gc_print(res,830,310+25*i,0,min(35/#res,1),1)
+                        gc_printf(L[i].date or"-/-/-",1100,310+25*i,200,'right',nil,.8,1)
+                    end
+                else
+                    mText(TEXTOBJ.noScore,1043,433)
+                end
+            end
+        end
+    end
 end
 
 scene.widgetList={
