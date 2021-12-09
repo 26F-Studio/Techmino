@@ -723,3 +723,14 @@ do--Userdata tables
         todayTime=0,
     }
 end
+do
+    MODEICON=setmetatable({},{__index=function(self,k)
+        if isSafeFile('media/image/modeicon/'..k..'.png')then
+            local img=love.graphics.newImage('media/image/modeicon/'..k..'.png')
+            self[k]=img
+            return img
+        else
+            return PAPER
+        end
+    end})
+end

@@ -2,9 +2,8 @@ local gc=love.graphics
 local gc_push,gc_pop=gc.push,gc.pop
 local gc_translate=gc.translate
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
-local gc_draw,gc_line=gc.draw,gc.line
-local gc_rectangle,gc_circle=gc.rectangle,gc.circle
-local gc_print,gc_printf=gc.print,gc.printf
+local gc_line,gc_rectangle,gc_circle=gc.line,gc.rectangle,gc.circle
+local gc_print=gc.print
 local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
 
 local max,min=math.max,math.min
@@ -26,9 +25,12 @@ function _setPos(self,x,y,dx,dy)
     self.x,self.y=x+dx,y+dy
 end
 local function _newItem(item)
+    local icon=MODEICON[item.icon or item.name]
     return{
         type=item.folder and'folder'or'mode',
         name=item.name,
+        icon=icon,
+        scale=min(max(160/icon:getWidth(),130/icon:getHeight()),1),
         x0=0,y0=0,
         x=0,y=0,
         w=160,h=160,
@@ -78,7 +80,7 @@ local function _freshPacks()
 
     --Set items' positions
     for i=0,#results-1 do
-        results[i+1]:setPos(180*(i%4),200*int(i/4),15*i,i)
+        results[i+1]:setPos(180*(i%4),200*int(i/4),26+16*i,i)
     end
 
     selectedItem=false
@@ -273,16 +275,24 @@ function scene.draw()
         for i=1,#results do
             local item=results[i]
             if item.type=='folder'then
-                gc_setColor(1,.9,.5,item.alpha*.3)
+                if item.name=='_back'then
+                    gc_setColor(.3,.2,0,item.alpha*.3)
+                else
+                    gc_setColor(1,.8,.5,item.alpha*.3)
+                end
                 gc_rectangle('fill',item.x,item.y,item.w,item.h)
             end
-            if item.selTime>0 then
-                gc_setColor(1,1,1,item.selTime*2)
-                gc_rectangle('fill',item.x,item.y,item.w,item.h,6)
-            end
             gc_setColor(1,1,1,item.alpha)
+            if item.type=='folder'then
+                gc_circle('line',item.x+15,item.y+15,8)
+            end
+            mDraw(item.icon,item.x+item.w/2,item.y+(item.h-30)/2,0,item.scale)
             gc_rectangle('line',item.x,item.y,item.w,item.h,6)
             gc_print(item.name,item.x+10,item.y+item.h-28)
+            if item.selTime>0 then
+                gc_setColor(1,1,1,item.selTime*2)
+                gc_rectangle('fill',item.x+8,item.y+8,item.w-16,item.h-36,5)
+            end
         end
     gc_setStencilTest()
     gc_pop()
