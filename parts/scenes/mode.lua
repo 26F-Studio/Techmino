@@ -19,7 +19,7 @@ local searchTimer
 local results={}
 local selectedItem
 local path={}
-local pathStr="/"
+local pathStr="modes/"
 
 function _setPos(self,x,y,dx,dy)
     self.x0,self.y0=x,y
@@ -80,6 +80,21 @@ local function _freshPacks()
     for i=0,#results-1 do
         results[i+1]:setPos(180*(i%4),200*int(i/4),15*i,i)
     end
+
+    selectedItem=false
+end
+
+local function _scrollModes(y)
+    if not results[1]then return end
+
+    local r=results[#results]
+    if r.y0+r.h+y<540 then y=540-r.y0-r.h end
+    if results[1].y0>-y then y=-results[1].y0 end
+
+    for i=1,#results do
+        local item=results[i]
+        item.y0=item.y0+y
+    end
 end
 
 local scene={}
@@ -94,7 +109,7 @@ function scene.mouseClick(x,y,k)
     if k==1 then
         local sel=false
         x,y=x-40,y-150
-        if x<-40 or x>=765 or y<-40 or y>=570 then return end
+        if x<-40 or x>765 or y<-40 or y>570 then return end
         for i=1,#results do
             local item=results[i]
             if x>item.x and x<item.x+item.w and y>item.y and y<item.y+item.h then
@@ -107,9 +122,9 @@ function scene.mouseClick(x,y,k)
                 scene.keyDown('return')
             elseif sel then
                 SFX.play('click')
+                selectedItem=sel
             end
         end
-        selectedItem=sel
     elseif k==2 then
         if path[1]then
             table.remove(path)
@@ -120,18 +135,21 @@ function scene.mouseClick(x,y,k)
         end
     end
 end
-function scene.wheelMoved(_,y)print(y)
+function scene.wheelMoved(_,y)
     if results[1]then
-        y=y*126
-        if results[1].y0>-y then y=-results[1].y0 end
-        local r=results[#results]
-        if r.y0+r.h+y<540 then y=540-r.y0-r.h end
-        for i=1,#results do
-            local item=results[i]
-            item.y0=item.y0+y
-        end
+        _scrollModes(y*126)
     end
 end
+
+function scene.touchClick(x,y)
+    scene.mouseClick(x,y,1)
+end
+function scene.touchMove(x,y,_,dy)
+    x,y=x-40,y-150
+    if x<-40 or x>765 or y<-40 or y>570 then return end
+    _scrollModes(dy*1.26)
+end
+
 function scene.keyDown(key,isRep)
     if key=='up'or key=='down'or key=='left'or key=='right'then
         if not selectedItem then
@@ -153,12 +171,16 @@ function scene.keyDown(key,isRep)
                 i=#results
             end
             selectedItem=results[i]
+            if selectedItem.y0<0 then
+                _scrollModes(-selectedItem.y)
+            elseif selectedItem.y0+selectedItem.h>540 then
+                _scrollModes(540-selectedItem.y0-selectedItem.h)
+            end
         end
     elseif key=='f1'then
         SCN.go('mod')
     elseif key=='return'then
         if isRep then return end
-        print(selectedItem)
         if selectedItem then
             if selectedItem.type=='mode'then
                 loadGame(selectedItem.name)
@@ -174,6 +196,8 @@ function scene.keyDown(key,isRep)
                 if path[1]then pathStr=pathStr..table.concat(path,'/').."/"end
                 _freshPacks()
             end
+        else
+            selectedItem=results[1]
         end
     elseif key=='escape'then
         if isRep then return end
@@ -188,7 +212,7 @@ function scene.keyDown(key,isRep)
             searchText=searchText:sub(1,-2)
             searchTimer=.42
         end
-    elseif #key==1 then
+    elseif #key==1 and #searchText<12 then
         searchText=searchText..key
         searchTimer=.42
     end
@@ -222,6 +246,7 @@ end
 function scene.draw()
     gc_setLineWidth(2)
 
+    --Gray background
     gc_setColor(COLOR.dX)
     gc_rectangle('fill',0,0,1280,110)
     gc_rectangle('fill',0,110,805,610)
@@ -231,9 +256,13 @@ function scene.draw()
     gc_line(0,110,1280,110)
     gc_line(805,110,805,720)
 
-    setFont(40)
+    --Path
+    setFont(35)
     gc_print(pathStr,60,40)
-    gc_print(searchText,800,40)
+
+    --SearchText
+    gc_print(CHAR.key.right,800,40)
+    gc_print(searchText,840,40)
 
     gc_push('transform')
     gc_translate(0,110)
@@ -260,7 +289,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name='mod',x=930,y=655,w=180,h=80,code=goScene'mod'},
-    WIDGET.newButton{name='back',x=1150,y=655,w=180,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='mod',x=920,y=655,w=150,h=80,code=goScene'mod'},
+    WIDGET.newButton{name='back',x=1140,y=655,w=220,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 return scene
