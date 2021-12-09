@@ -874,7 +874,7 @@ return{
         "You can connect a keyboard to your phone or tablet (not functional on iOS though).",
         "You can customize the key mappings in settings!",
         "You can open the save directory from the Stats page.",
-        "You can perform a spin with 28 of the 29 minoes in this game; the exception being O1.",
+        "You can perform a spin with all of the minoes in this game.",
         "You can set the spawning orientation for each piece.",
         "ZS JL T O I",
         {C.C,"Also try 15puzzle!"},
