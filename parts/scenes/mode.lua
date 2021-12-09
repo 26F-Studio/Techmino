@@ -1,16 +1,14 @@
 local gc=love.graphics
 local gc_push,gc_pop=gc.push,gc.pop
-local gc_translate,gc_scale,gc_rotate,gc_shear=gc.translate,gc.scale,gc.rotate,gc.shear
-local gc_setCanvas,gc_setShader,gc_setBlendMode=gc.setCanvas,gc.setShader,gc.setBlendMode
+local gc_translate=gc.translate
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_draw,gc_line=gc.draw,gc.line
-local gc_rectangle,gc_circle,gc_polygon=gc.rectangle,gc.circle,gc.polygon
+local gc_rectangle,gc_circle=gc.rectangle,gc.circle
 local gc_print,gc_printf=gc.print,gc.printf
 local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
 
 local max,min=math.max,math.min
-local int,abs=math.floor,math.abs
-local rnd=math.random
+local int=math.floor
 
 local ins=table.insert
 
@@ -22,10 +20,6 @@ local results={}
 local selectedItem
 local path={}
 local pathStr="/"
-
-local function _comp(a,b)
-    return a.type~=b.type and a.type=='folder'
-end
 
 function _setPos(self,x,y,dx,dy)
     self.x0,self.y0=x,y
@@ -46,7 +40,7 @@ end
 
 local _backItem={folder=true,name='_back'}
 local function _freshPacks()
-    TABLE.cut(results)
+    --Change directory
     local t=MODETREE
     for i=1,#path do
         for j=1,#t do
@@ -56,19 +50,33 @@ local function _freshPacks()
             end
         end
     end
-    local count=0
+
+    --Get items with searchText
+    local r={}
     if path[1]then
-        ins(results,_newItem(_backItem))
-        count=1
+        ins(r,_newItem(_backItem))
     end
     for i=1,#t do
         local item=t[i]
         if #searchText==0 or item.name:find(searchText)then
-            ins(results,_newItem(item))
-            count=count+1
+            ins(r,_newItem(item))
         end
     end
-    table.sort(results,_comp)
+
+    --Add items in correct order
+    TABLE.cut(results)
+    for i=1,#r do
+        if r[i].type=='folder'then
+            ins(results,r[i])
+        end
+    end
+    for i=1,#r do
+        if r[i].type~='folder'then
+            ins(results,r[i])
+        end
+    end
+
+    --Set items' positions
     for i=0,#results-1 do
         results[i+1]:setPos(180*(i%4),200*int(i/4),15*i,i)
     end
