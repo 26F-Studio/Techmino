@@ -1,5 +1,6 @@
 local C=COLOR
 return{
+    fallback='en',
     loadText={
         loadSFX="Memuat efek suara",
         loadSample="Memuat sampel-sampel instrumen",
@@ -725,6 +726,7 @@ return{
         ['blind_l']=        {"Tak Terlihat",      "GILA",         "Untuk profesional"},
         ['blind_u']=        {"Tak Terlihat",      "???",          "Apakah Anda siap?"},
         ['blind_wtf']=      {"Tak Terlihat",      "TERAKHIR",     "Anda belum siap"},
+		['blind_inv']=      {"Tak Terlihat",      "TERBALIK",     "Bagaimana jika blok terkontrol tersembunyi?"},
         ['classic_e']=      {"Klasik",            "MUDAH",        "Rekreasi berkecepatan rendah dari tahun 80-an"},
         ['classic_h']=      {"Klasik",            "SULIT",        "Rekreasi berkecepatan medium dari tahun 80-an"},
         ['classic_u']=      {"Klasik",            "TERAKHIR",     "Rekreasi berkecepatan tinggi dari tahun 80-an"},

@@ -725,6 +725,7 @@ return{
         ['blind_l']=        {"Invisible",         "SUDDEN+",    "For professionals"},
         ['blind_u']=        {"Invisible",         "?",          "Are you ready?"},
         ['blind_wtf']=      {"Invisible",         "WTF",        "You're not ready"},
+        ['blind_inv']=      {"Invisible",         "INVERSE",    "What if the active piece turned invisible?"},
         ['classic_e']=      {"Classic",           "EASY",       "A very low-speed recreation from the 80s"},
         ['classic_h']=      {"Classic",           "HARD",       "A medium speed recreation from the 80s"},
         ['classic_u']=      {"Classic",           "ULTIMATE",   "A very high-speed recreation from the 80s"},
