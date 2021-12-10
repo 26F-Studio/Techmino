@@ -137,7 +137,8 @@ return{
     chatStart="------消息的开头------",
     chatHistory="------以上是历史消息------",
 
-    keySettingInstruction="点击添加键位绑定\nesc取消选中\n退格键清空选中",
+    searchModeHelp="直接输入关键词搜索",
+    keySettingHelp="点击添加键位绑定\nesc取消选中\n退格键清空选中",
     customBGhelp="把图片文件拖到这个窗口里使用自定义背景",
     customBGloadFailed="自定义背景的图片文件格式不支持",
 

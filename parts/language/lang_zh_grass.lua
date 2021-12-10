@@ -135,7 +135,8 @@ return{
     chatStart="------日志开始------",
     chatHistory="------下面是新消息------",
 
-    keySettingInstruction="按绑定键\n退出:取消\n退格:删除",
+    searchModeHelp="键入要搜索的内容",
+    keySettingHelp="按绑定键\n退出:取消\n退格:删除",
     customBGhelp="将图像文件拖放到此处以应用自定义背景",
     customBGloadFailed="不支持自定义背景的图像格式",
 

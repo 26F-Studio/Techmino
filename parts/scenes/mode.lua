@@ -216,11 +216,11 @@ function scene.keyDown(key,isRep)
     elseif key=='backspace'then
         if #searchText>0 then
             searchText=searchText:sub(1,-2)
-            searchTimer=.42
+            searchTimer=.26
         end
     elseif #key==1 and #searchText<12 then
         searchText=searchText..key
-        searchTimer=.42
+        searchTimer=.26
     end
 end
 
@@ -250,7 +250,13 @@ local function _modePannelStencil()
     gc_rectangle('fill',0,0,810,610)
 end
 local _unknownModeText={'???','?','?????'}
-local _rankName={[0]='','B','A','S','U','X'}
+local _rankName={
+    CHAR.icon.rankB,
+    CHAR.icon.rankA,
+    CHAR.icon.rankS,
+    CHAR.icon.rankU,
+    CHAR.icon.rankX,
+}
 function scene.draw()
     --Gray background
     gc_setColor(COLOR.dX)
@@ -271,7 +277,13 @@ function scene.draw()
 
     --SearchText
     gc_print(CHAR.key.right,800,40)
-    gc_print(searchText,840,40)
+    if searchText==""then
+        gc_setColor(COLOR.dH)
+        gc_print(text.searchModeHelp,840,40)
+    else
+        gc_setColor(COLOR.Z)
+        gc_print(searchText,840,40)
+    end
 
     --Items
     gc_push('transform')
@@ -319,10 +331,10 @@ function scene.draw()
             if rank then
                 local rankStr=_rankName[RANKS[item.name]]
                 gc_setColor(0,0,0,item.alpha)
-                gc_print(rankStr,item.x-12+2,item.y-26+2)
+                gc_print(rankStr,item.x+item.w-30+2,item.y-26+2)
                 local r,g,b=RANK_COLORS[rank][1],RANK_COLORS[rank][2],RANK_COLORS[rank][3]
                 gc_setColor(r,g,b,item.alpha)
-                gc_print(rankStr,item.x-12,item.y-26)
+                gc_print(rankStr,item.x+item.w-30,item.y-26)
             end
 
             --Selecting glow

@@ -137,7 +137,8 @@ return{
     chatStart="------訊息開始------",
     chatHistory="------以上為歷史訊息------",
 
-    keySettingInstruction="點擊來設置鍵位\n按esc來取消選中\n按退格鍵來清除選中",
+    searchModeHelp="直接輸入關鍵字搜索",
+    keySettingHelp="點擊來設置鍵位\n按esc來取消選中\n按退格鍵來清除選中",
     customBGhelp="把圖片檔案拖到這個視窗裏使用自定義背景",
     customBGloadFailed="自定義背景的圖片檔案格式不支持",
 

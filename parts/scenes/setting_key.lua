@@ -168,7 +168,7 @@ end
 function scene.draw()
     setFont(20)
     gc.setColor(COLOR.Z)
-    gc.printf(text.keySettingInstruction,526,620,500,'right')
+    gc.printf(text.keySettingHelp,526,620,500,'right')
 
     for i=0,20 do
         for j=1,#keyList[i]do

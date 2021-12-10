@@ -137,7 +137,8 @@ return{
     chatStart="------Awal percakapan------",
     chatHistory="------Pesan-pesan baru di bawah ini------",
 
-    keySettingInstruction="Tekan untuk menghubung tombol ke aksi tertentu\nescape: batal\nbackspace: hapus",
+    -- searchModeHelp="Type to search",
+    keySettingHelp="Tekan untuk menghubung tombol ke aksi tertentu\nescape: batal\nbackspace: hapus",
     customBGhelp="Seret file gambar di sini untuk memasangkan background",
     customBGloadFailed="Format file gambar tidak didukung untuk background",
 

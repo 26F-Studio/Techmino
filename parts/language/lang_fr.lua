@@ -128,7 +128,8 @@ return{
     chatStart="--------Début des logs--------",
     chatHistory="-Nouveaux messages en dessous-",
 
-    -- keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
+    -- searchModeHelp="Type to search",
+    -- keySettingHelp="Press to bind key\nescape: cancel\nbackspace: delete",
     -- customBGhelp="Drop image file here to apply custom background",
     -- customBGloadFailed="Unsupport image format for custom background",
 
