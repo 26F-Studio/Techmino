@@ -382,7 +382,7 @@ return{
             fullscreen="Tela cheia",
 
             -- bg_on="Normal B.G.",
-            -- bg_on="No B.G.",
+            -- bg_off="No B.G.",
             -- bg_custom="Use Custom B.G.",
 
             -- blockSatur="Block Saturation",

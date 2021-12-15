@@ -360,7 +360,7 @@ return{
             fullscreen="Pant. Completa",
 
             bg_on="Fondo Normal",
-            bg_on="Sin Fondo",
+            bg_off="Sin Fondo",
             bg_custom="Fondo Personalizado",
 
             blockSatur="Saturac. de los Bloques",
