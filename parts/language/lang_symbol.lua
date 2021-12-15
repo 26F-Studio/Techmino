@@ -142,7 +142,7 @@ return{
             dict="z",
             replays="=~~~",
         },
-        mode={
+        modeExplorer={
             mod="?!?!?!(F1)",
         },
         mod={

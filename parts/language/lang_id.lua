@@ -252,7 +252,7 @@ return{
             sprint="Balapan",
             marathon="Maraton",
         },
-        mode={
+        modeExplorer={
             mod="Mod (F1)",
         },
         mod={

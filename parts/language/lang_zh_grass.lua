@@ -250,7 +250,7 @@ return{
             sprint="冲刺",
             marathon="马拉松赛跑",
         },
-        mode={
+        modeExplorer={
             mod="多重器官衰竭(F1)",
             sel="选择",
         },

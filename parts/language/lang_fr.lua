@@ -215,7 +215,7 @@ return{
             dict="Zictionary",
             -- replays="Replays",
         },
-        mode={
+        modeExplorer={
             mod="Mods (F1)",
         },
         mod={

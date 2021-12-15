@@ -252,7 +252,7 @@ return{
             sprint="40行",
             marathon="馬拉松",
         },
-        mode={
+        modeExplorer={
             mod="Mods (F1)",
         },
         mod={

@@ -59,7 +59,7 @@ function scene.keyDown(key,isRep)
     if isRep then return true end
     if key=='1'then
         if _testButton(1)then
-            SCN.go('mode')
+            SCN.go('modeExplorer')
         end
     elseif key=='q'then
         if _testButton(2)then

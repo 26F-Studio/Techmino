@@ -50,7 +50,7 @@ return{
     radar={"防","守","攻","送","速","挖"},
     radarData={"防/分","守/分","攻/分","送/分","行/分","挖/分"},
     WidgetText={
-        mode={
+        modeExplorer={
             mod="模组(F1)",
         },
         mod={
