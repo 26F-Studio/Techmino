@@ -6,7 +6,7 @@ local find,sub,gsub,upper=string.find,string.sub,string.gsub,string.upper
 local char,byte=string.char,string.byte
 
 --"Replace dollars", replace all $n with ...
-function string.repD(str,...)
+function STRING.repD(str,...)
     local l={...}
     for i=#l,1,-1 do
         str=gsub(str,'$'..i,l[i])
@@ -15,7 +15,7 @@ function string.repD(str,...)
 end
 
 --"Scan arg", scan if str has the arg (format of str is like "-json -q", arg is like "-q")
-function string.sArg(str,switch)
+function STRING.sArg(str,switch)
     if find(str.." ",switch.." ")then
         return true
     end

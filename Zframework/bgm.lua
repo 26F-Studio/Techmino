@@ -107,8 +107,9 @@ function BGM.init(list)
             LOG("No BGM: "..name,5)
         end
     end
-    function BGM.play(name)
+    function BGM.play(name,args)
         name=name or BGM.default
+        args=args or""
         if not _tryLoad(name)then return end
         if volume==0 then
             BGM.nowPlay=name
@@ -118,14 +119,24 @@ function BGM.init(list)
         if name and SourceObjList[name].source then
             if BGM.nowPlay~=name then
                 if BGM.nowPlay then
-                    TASK.new(task_fadeOut,BGM.playing)
+                    if not STRING.sArg(args,'-so')then
+                        TASK.new(task_fadeOut,BGM.playing)
+                    else
+                        BGM.playing:pause()
+                    end
                 end
                 TASK.removeTask_iterate(check_curFadeOut,task_fadeOut,SourceObjList[name].source)
                 TASK.removeTask_code(task_fadeIn)
 
-                TASK.new(task_fadeIn,SourceObjList[name].source)
                 BGM.nowPlay=name
                 BGM.playing=SourceObjList[name].source
+                if not STRING.sArg(args,'-si')then
+                    BGM.playing:setVolume(0)
+                    TASK.new(task_fadeIn,BGM.playing)
+                else
+                    BGM.playing:setVolume(volume)
+                    BGM.playing:play()
+                end
                 BGM.lastPlayed=BGM.nowPlay
                 BGM.playing:seek(0)
                 BGM.playing:play()
@@ -148,10 +159,15 @@ function BGM.init(list)
             BGM.playing:play()
         end
     end
-    function BGM.stop()
+    function BGM.stop(args)
+        args=args or""
         TASK.removeTask_code(task_fadeIn)
-        if BGM.nowPlay then
-            TASK.new(task_fadeOut,BGM.playing)
+        if not STRING.sArg(args,'-s')then
+            if BGM.nowPlay then
+                TASK.new(task_fadeOut,BGM.playing)
+            end
+        else
+            BGM.playing:pause()
         end
         BGM.nowPlay,BGM.playing=nil
     end

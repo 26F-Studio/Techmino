@@ -71,6 +71,8 @@ mStr=GC.mStr
 mText=GC.simpX
 mDraw=GC.draw
 Snd=SFX.playSample
+string.repD=STRING.repD
+string.sArg=STRING.sArg
 
 --Delete all naked files (from too old version)
 FILE.clear('')
