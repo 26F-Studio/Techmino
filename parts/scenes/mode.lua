@@ -111,6 +111,13 @@ function scene.sceneInit()
     searchTimer=0
 end
 
+function scene.mouseMove(x,y,_,dy)
+    x,y=x-40,y-150
+    if x<-40 or x>765 or y<-40 or y>570 then return end
+    if love.mouse.isDown(1)then
+        _scrollModes(1.26*dy)
+    end
+end
 function scene.mouseClick(x,y,k)
     if k==1 then
         local sel=false
