@@ -18,7 +18,7 @@ function FONT.rawset(s)
 end
 function FONT.load(fonts)
     for name,path in next,fonts do
-        assert(love.filesystem.getInfo(path),("Font file $1($2) not exist!"):repD(name,path))
+        assert(love.filesystem.getInfo(path),STRING.repD("Font file $1($2) not exist!",name,path))
         fontFiles[name]=love.filesystem.newFile(path)
         fontCache[name]={}
     end

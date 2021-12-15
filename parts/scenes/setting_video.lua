@@ -68,7 +68,7 @@ scene.widgetList={
     WIDGET.newSlider{name='shakeFX',      x=330,y=760,lim=280,w=540,unit=5,disp=SETval('shakeFX'),  code=SETsto('shakeFX')},
     WIDGET.newSlider{name='atkFX',        x=330,y=820,lim=280,w=540,unit=5,disp=SETval('atkFX'),    code=SETsto('atkFX')},
 
-    WIDGET.newSelector{name='frame',      x=400,y=890,lim=280,w=460,list={8,10,13,17,22,29,37,47,62,80,100},disp=SETval('frameMul'),code=SETsto('frameMul')},
+    WIDGET.newSelector{name='frame',      x=400,y=890,lim=280,w=460,list={8,10,13,17,22,29,37,47,62,80,100},disp=SETval('frameMul'),code=function(v)SETTING.frameMul=v;Z.setFrameMul(SETTING.frameMul)end},
     WIDGET.newSwitch{name='FTlock',       x=950,y=890,lim=290,disp=SETval('FTLock'),                code=SETrev('FTLock')},
 
     WIDGET.newSwitch{name='text',         x=450,y=980,lim=360,disp=SETval('text'),                  code=SETrev('text')},
@@ -80,8 +80,8 @@ scene.widgetList={
     WIDGET.newSwitch{name='warn',         x=450,y=1340,lim=360,disp=SETval('warn'),                 code=SETrev('warn')},
 
     WIDGET.newSwitch{name='clickFX',      x=950,y=980,lim=360,disp=SETval('clickFX'),               code=SETrev('clickFX')},
-    WIDGET.newSwitch{name='power',        x=950,y=1070,lim=360,disp=SETval('powerInfo'),            code=SETrev('powerInfo')},
-    WIDGET.newSwitch{name='clean',        x=950,y=1160,lim=360,disp=SETval('cleanCanvas'),          code=SETrev('cleanCanvas')},
+    WIDGET.newSwitch{name='power',        x=950,y=1070,lim=360,disp=SETval('powerInfo'),            code=function()SETTING.powerInfo=not SETTING.powerInfo Z.setPowerInfo(SETTING.powerInfo)end},
+    WIDGET.newSwitch{name='clean',        x=950,y=1160,lim=360,disp=SETval('cleanCanvas'),          code=function()SETTING.cleanCanvas=not SETTING.cleanCanvas Z.setCleanCanvas(SETTING.cleanCanvas)end},
     WIDGET.newSwitch{name='fullscreen',   x=950,y=1250,lim=360,disp=SETval('fullscreen'),           code=function()SETTING.fullscreen=not SETTING.fullscreen applyFullscreen()end},
 
     WIDGET.newKey{name='bg_on',           x=680,y=1340,w=200,h=80,code=function()SETTING.bg='on'applyBG()end},

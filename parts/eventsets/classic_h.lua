@@ -36,6 +36,7 @@ return{
     end,
     hook_drop=function(P)
         local D=P.modeData
+        D.drought=P.lastPiece.id==7 and 0 or D.drought+1
         if P.stat.row>=D.target then
             if D.target==110 then
                 P.gameEnv.drop,P.gameEnv.lock=2,2

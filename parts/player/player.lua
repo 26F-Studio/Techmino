@@ -318,8 +318,8 @@ function Player:act_softDrop()
                 self:act_down1()
             end
             self:checkTouchSound()
-        elseif self.gameEnv.deepdrop then
-            self:_deepdrop()
+        elseif self.gameEnv.deepDrop then
+            self:_deepDrop()
         end
     end
 end
@@ -408,8 +408,8 @@ function Player:act_down1()
             self.curY=self.curY-1
             self:freshBlock('fresh')
             self.spinLast=false
-        elseif self.gameEnv.deepdrop then
-            self:_deepdrop()
+        elseif self.gameEnv.deepDrop then
+            self:_deepDrop()
         end
     end
 end
@@ -422,8 +422,8 @@ function Player:act_down4()
             self.curY,self.ghoY=self.ghoY,ghoY0
             self:freshBlock('fresh')
             self.spinLast=false
-        elseif self.gameEnv.deepdrop then
-            self:_deepdrop()
+        elseif self.gameEnv.deepDrop then
+            self:_deepDrop()
         end
     end
 end
@@ -436,8 +436,8 @@ function Player:act_down10()
             self.curY,self.ghoY=self.ghoY,ghoY0
             self:freshBlock('fresh')
             self.spinLast=false
-        elseif self.gameEnv.deepdrop then
-            self:_deepdrop()
+        elseif self.gameEnv.deepDrop then
+            self:_deepDrop()
         end
     end
 end

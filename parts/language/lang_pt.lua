@@ -382,7 +382,7 @@ return{
             fullscreen="Tela cheia",
 
             -- bg_on="Normal B.G.",
-            -- bg_on="No B.G.",
+            -- bg_off="No B.G.",
             -- bg_custom="Use Custom B.G.",
 
             -- blockSatur="Block Saturation",
@@ -745,7 +745,7 @@ return{
         ['tech_l']=             {"Tech",             "LUNÁTICO",     "Não quebre o B2B!"},
         ['tech_l_plus']=        {"Tech",             "LUNÁTICO+",    "Apenas spins e PC"},
         ['tech_finesse']=       {"Tech",             "FINESSE",      "Não erre a destreza!"},
-        ['tech_finesse_f']=     {"Tech",             "FINESSE+",     "Sem limpas normais, não erre a destreza!"},
+        ['tech_finesse_f']=     {"Tech",             "FINESSE+",     "Sem limpas normais,\nnão erre a destreza!"},
         ['tsd_e']=              {"Desafio TSD",      "FÁCIL",        "Apenas T-spin-doubles!"},
         ['tsd_h']=              {"Desafio TSD",      "DIFÍCIL",      "Apenas T-spin-doubles!"},
         ['tsd_u']=              {"Desafio TSD",      "ULTIMATE",     "Apenas T-spin-doubles!"},

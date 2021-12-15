@@ -357,7 +357,7 @@ return{
             fullscreen="Plein écran",
 
             -- bg_on="Normal B.G.",
-            -- bg_on="No B.G.",
+            -- bg_off="No B.G.",
             -- bg_custom="Use Custom B.G.",
 
             -- blockSatur="Block Saturation",
@@ -714,7 +714,7 @@ return{
         ['tech_l']=        {"Tech",           "LUNATIQUE",   "Gardez le B2B !"},
         ['tech_l_plus']=   {"Tech",           "LUNATIQUE+",  "Spin & PC uniquement"},
         ['tech_finesse']=  {"Tech",           "FINESSE",     "Pas d'erreurs de finesse !"},
-        ['tech_finesse_f']={"Tech",           "FINESSE+",    "Pas de nettoyages normaux, Pas d'erreurs de finesse !"},
+        ['tech_finesse_f']={"Tech",           "FINESSE+",    "Pas de nettoyages normaux,\nPas d'erreurs de finesse !"},
         ['tsd_e']=         {"TSD Challenge",  "FACILE",      "T-spin doubles uniquement !"},
         ['tsd_h']=         {"TSD Challenge",  "DIFFICILE",   "T-spin doubles uniquement !"},
         ['tsd_u']=         {"TSD Challenge",  "ULTIME",      "T-spin doubles uniquement !"},
