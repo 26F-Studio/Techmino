@@ -648,6 +648,11 @@ local commands={}do
                 description="A Match-3 Game. Original idea from Sanlitun / Triple Town"
             },
             {
+                code="sw",
+                scene='app_stopwatch',
+                description="A stopwatch"
+            },
+            {
                 code="spin",
                 scene='app_spin',
                 description="¿"
