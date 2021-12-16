@@ -37,7 +37,7 @@ return{
         "https://tetris.wiki",
     },
     {"Four.lol",
-        "four wiki LOL",
+        "four wiki",
         "help",
         "An website containing collections of various openings with simple UI and very detailed consecutive PC analyses (Not recommended for new players, as you may have to memorize many techniques).",
         "https://four.lol",
@@ -57,7 +57,7 @@ return{
 
     --Webpages / Organizations
     {"Github Repository",
-        "githubrepository sourcecode repo",
+        "githubrepository sourcecode",
         "org",
         "Techmino's official Github repository. Stars are appreciated.",
         "https://github.com/26F-Studio/Techmino",
@@ -69,7 +69,7 @@ return{
         "https://discord.gg/harddrop"
     },
     {"Mew",
-        "mew tieba forum discord reddit",
+        "mew tieba forum reddit",
         "org",
         "The Mew forum owned by Chinese Tetris Research Community, and was founded in the second half of 2021. Mew is a Chinese social media that can be thought of a combination of Discord and Reddit, with many channels in a big community. Users can chat in the channels or submit posts to the channel. Mew also has a function called \"Library\" which allows storing documentations systematically. The Tetris Mew forum is currently under construction and not too much contents are available (2/Nov/2021).",
         "https://mew.fun/n/tetris",
@@ -97,9 +97,10 @@ return{
         "P\97\116\114\101\111\110",
         FNNS and"https://youtu.be/dQw4w9WgXcQ"or"https://www.p\97\116\114\101\111\110.com/techmino",
     },
+
     --Games
     {"TTT",
-        "ttt tetris trainer tres très bien",
+        "ttt tetris trainer tres bien",
         "game",
         "Tetris Trainer Très-Bien. A hands-on tutorial of advanced techniques in modern Tetris.\nRecommended for players that can complete a 40-line Sprint with all Tetris line clears and no hold.\nCovered topics include T-Spin, finesse, SRS, and some battle setups.\nLink in Japanese.",
         "http://taninkona.web.fc2.com/ttt/",
@@ -121,7 +122,7 @@ return{
         "note nb NB DM notice",
         "game",
         "The following contents are some brief introductions about some official and fan-made Tetris games with high popularity. We make absolutely no guarantees that they would cover every Tetris game. Also, the author of this game has made some comments on some of these games. Notice that they are just personal opinions and cannot be used to judge the qualities of these games. To better differentiate between the facts and opinions, all the commentary contents are enclosed with square brackets and are separated from the main contents.",
-    }
+    },
     {"King of Stackers",
         "kos kingofstackers",
         "game",
@@ -190,7 +191,7 @@ return{
         "game",
         "Browser Game | Singleplayer\nAnother Tetris game from tetris.com. It introduced \"Mind Bender\" minoes on the basis of marathon mode. Clearing a line with a Mind Bender mino will give you either a good or bad effect.",
     },
-    
+
     {"Techmino",
         "techmino",
         "game",
@@ -233,7 +234,7 @@ return{
         "game",
         "Windows | Singleplayer\nA game with all modes from TGM which you can use to practice. The world rule is slightly different, however (e.g. instant-lock soft drops and slightly different kick tables).",
     },
-    
+
     {"Tetris Effect",
         "tec tetriseffectconnected",
         "game",
@@ -260,9 +261,7 @@ return{
         "Windows/macOS/Linux | Singleplayer/Multiplayer\nTO for short. A Tetris game developed by Dr Ocelot and Mine. The delays are AREs are intentionally set to high values, and players who get used to Tetris games with no delays may not get used to this game.\nThe game was removed from Steam on 09/Dec/2020 due to a DMCA notice filed by TTC.\nHowever, an offline build can still be downloaded on GitHub.",
         "https://github.com/Juan-Cartes/Tetra-Offline/releases/tag/1.0",
     },
-    
- 
-    },
+
     {"Cultris II",
         "c2 cultris2 cultrisii",
         "game",
@@ -283,9 +282,7 @@ return{
         "game",
         "Windows | Singleplayer\nA fan-made Tetris game, basically Nullpomino with elements from Touhou Project. The \"Spellcards\" from Touhou was introduced in the game, and you can only get bonus scores if you can reach the target score within the given period of time.\n[Recommended for players with at least half-decent skills otherwise you don't even know how you die.]",
     },
-    
-   
-    
+
     {"Tetris Blitz",
         "blitz ea mobile phone",
         "game",
@@ -307,7 +304,7 @@ return{
         "iOS | Singleplayer\nA mobile Tetris game from N3TWORK. It has a \"Beat\" mode besides the Marathon mode, but in this game you only have drop the blocks in rhythm with the BGM.\n[The effects are very heavy and the controls are not so good.]"
     },
     {"Tetris Journey",
-        "huanyouji tetrisjourney mobile phone",
+        "tetrisjourney mobile phone huanyouji",
         "game",
         "iOS/Android | Singleplayer\nAn official mobile Tetris game developed by Tencent (available  exclusively in China). It has level modes, battle modes, and some single-player modes. You can customize the sizes and positions of the virtual keys but you cannot adjust DAS or ARR.\n The battle mode lasts for 2 minutes and if both player did not top out, the one who sent more attacks wins."
     },
@@ -316,7 +313,7 @@ return{
         "game",
         "Android | Multiplayer\n(JJ块)\nA casual game on JJ Card Games (JJ棋牌). Portrait screen, low input delay, smooth controls. Customizable DAS/ARR and toggle-able 20G soft drop, limited control scheme customization. No hold nor B2B, no garbage buffer nor cancelling. Every attack sends at most 4 lines, combos are more powerful, otherwise similar to modern Tetris.",
     },
-    
+
     {"Huopin Tetris",
         "huopin qq",
         "game",
@@ -1210,7 +1207,7 @@ return{
         "(or Zictionary for short) The name of this dictionary!\nIt includes brief introductions on many common terms in Tetris.\nIt used to be a chatbot in our QQ group, which was used to answer new player's FAQs. The entries in the Tetrodictionary were also inherited from the database in the chatbot.\nThe contents in the TetroDictionary was adapted from a variety of sources such as Tetris Wiki and Hard Drop Wiki.",
     },
     {"MrZ",
-        "mrz_26 626 zchan ZrMrZ",
+        "mrz_26 t026 t626",
         "name",
         "Tetris Research community member, the author of Techmino.\nPersonal bests: Sprint 25.95 seconds, MPH Sprint 57 seconds, #8 on Jstris leaderboards, X rank on TETR.IO, cleared TGM3 (World rule, Shirase gold 1300).",
         "https://space.bilibili.com/225238922",
