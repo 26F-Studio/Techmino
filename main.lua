@@ -125,9 +125,10 @@ end})
 table.insert(_LOADTIMELIST_,("Load Parts: %.3fs"):format(TIME()-_LOADTIME_))
 
 --Init Zframework
-Z.setIfPowerInfo(function()
-    return SETTING.powerInfo and LOADED
-end)
+Z.setCleanCanvas(SETTING.cleanCanvas)
+Z.setFrameMul(SETTING.frameMul)
+Z.setClickFX(SETTING.clickFX)
+
 do--Z.setCursor
     local normImg=GC.DO{16,16,
         {'fCirc',8,8,4},
