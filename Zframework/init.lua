@@ -319,7 +319,7 @@ function love.keypressed(key,_,isRep)
         MES.new('info',"DEBUG ON",.2)
     elseif key=='f11'then
         SETTING.fullscreen=not SETTING.fullscreen
-        applyFullscreen()
+        applySettings()
         saveSettings()
     elseif not SCN.swapping then
         if EDITING==""and(not SCN.keyDown or SCN.keyDown(key,isRep))then
@@ -492,6 +492,7 @@ function love.lowmemory()
     end
 end
 function love.resize(w,h)
+    if SCR.w==w and SCR.h==h then return end
     SCR.resize(w,h)
     if BG.resize then BG.resize(w,h)end
     if SCN.resize then SCN.resize(w,h)end
@@ -829,13 +830,19 @@ end
 
 local Z={}
 
-Z.js=jsState
-Z.errData=errData
+function Z.getJsState()return jsState end
+function Z.getErr(i)
+    if i=='#'then
+        return errData[#errData]
+    elseif i then
+        return errData[i]
+    else
+        return errData
+    end
+end
 
 function Z.setPowerInfo(bool)showPowerInfo=bool end
-
 function Z.setCleanCanvas(bool)discardCanvas=bool end
-
 function Z.setFrameMul(n)frameMul=n end
 function Z.setClickFX(bool)showClickFX=bool end
 
@@ -844,12 +851,12 @@ function Z.setCursor(func)drawCursor=func end
 
 --Change F1~F7 events of devmode (F8 mode)
 function Z.setOnFnKeys(list)
-    assert(type(list)=='table')
+    assert(type(list)=='table',"Z.setOnFnKeys(list): list must be a table.")
     for i=1,7 do fnKey[i]=type(list[i])=='function'and list[i]or NULL end
 end
 
-function Z.setOnFocus(func)onFocus=type(func)=='function'and func or NULL end
+function Z.setOnFocus(func)onFocus=assert(type(func)=='function'and func,"Z.setOnFocus(func): func must be a function")end
 
-function Z.setOnQuit(func)onQuit=type(func)=='function'and func or NULL end
+function Z.setOnQuit(func)onQuit=assert(type(func)=='function'and func,"Z.setOnQuit(func): func must be a function")end
 
 return Z

@@ -279,7 +279,7 @@ function NET.loadSavedData(sections)
 
     TABLE.cover(NET.cloudData.SETTING,SETTING)
     success=success and saveSettings()
-    applyAllSettings()
+    applySettings()
 
     TABLE.cover(NET.cloudData.keyMap,KEY_MAP)
     success=success and saveFile(KEY_MAP,'conf/key')

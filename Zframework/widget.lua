@@ -45,7 +45,12 @@ local function _rectangleStencil()
     gc.rectangle('fill',1,1,STW-2,STH-2)
 end
 
+local onChange=NULL
+
 local WIDGET={}
+
+function WIDGET.setOnChange(func)onChange=assert(type(func)=='function'and func,"WIDGET.setOnChange(func): func must be a function")end
+
 local widgetMetatable={
     __tostring=function(self)
         return self:getInfo()
@@ -1263,7 +1268,7 @@ end
 function listBox:getInfo()
     return("x=%d,y=%d,w=%d,h=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
 end
-function WIDGET.newListBox(D)--name,x,y,w,h,lineH[,hideF][,hide][,drawF]
+function WIDGET.newListBox(D)--name,x,y,w,h,lineH,drawF[,hideF][,hide]
     local _={
         name=    D.name or"_",
 
@@ -1320,16 +1325,7 @@ function WIDGET.setWidgetList(list)
         for i=1,#list do
             list[i]:reset()
         end
-        if SCN.cur~='custom_field'then
-            local colorList=THEME.getThemeColor()
-            if not colorList then return end
-            local rnd=math.random
-            for _,W in next,list do
-                if W.color and not W.fText then
-                    W.color=colorList[rnd(#colorList)]
-                end
-            end
-        end
+        onChange()
     end
 end
 function WIDGET.setScrollHeight(height)
