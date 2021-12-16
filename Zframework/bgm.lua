@@ -150,6 +150,9 @@ function BGM.init(list)
             BGM.playing:seek(t)
         end
     end
+    function BGM.isPlaying()
+        return BGM.playing and BGM.playing:isPlaying()
+    end
     function BGM.continue()
         if BGM.lastPlayed then
             BGM.nowPlay,BGM.playing=BGM.lastPlayed,SourceObjList[BGM.lastPlayed].source
