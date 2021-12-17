@@ -30,7 +30,7 @@ SAVEDIR=fs.getSaveDirectory()
 
 --Global Vars & Settings
 SFXPACKS={'chiptune'}
-VOCPACKS={'miya','mono','xiaoya','miku'}
+VOCPACKS={'miya',--[['mono',]]'xiaoya','miku'}
 FIRSTLAUNCH=false
 DAILYLAUNCH=false
 
@@ -478,6 +478,9 @@ do
     if STAT.version<1700 and SETTING.dascut<5 then
         SETTING.dascut=SETTING.dascut+1
         needSave=true
+    end
+    if SETTING.vocPack=='mono'then
+        SETTING.vocPack='miya'
     end
     if RANKS.stack_e then
         RANKS.stack_e=nil
