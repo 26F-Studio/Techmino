@@ -532,7 +532,7 @@ local commands={}do
                 if arg:find"pl"and arg:find"fk"then
                     SCN.go('support','none')
                 else
-                    love.system.openURL("https://www.bilibili.com/video/BV1GJ411x7h7?secretcode=fkpl")
+                    love.system.openURL("https://www.bilibili.com/video/BV1uT4y1P7CX?secretcode=fkpl")
                 end
             else
                 SCN.go('support','none')

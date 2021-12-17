@@ -82,13 +82,13 @@ return{
         "赞助 support aifadian afdian zanzhu daqian",
         "org",
         "Afdian",
-        FNNS and"https://b23.tv/BV1GJ411x7h7"or"https://afdian.net/@MrZ_26",
+        FNNS and"https://b23.tv/BV1uT4y1P7CX"or"https://afdian.net/@MrZ_26",
     },
     {"赞助3",
         "赞助 support zanzhu daqian",
         "org",
         "P\97\116\114\101\111\110",
-        FNNS and"https://b23.tv/BV1GJ411x7h7"or"https://www.p\97\116\114\101\111\110.com/techmino",
+        FNNS and"https://b23.tv/BV1uT4y1P7CX"or"https://www.p\97\116\114\101\111\110.com/techmino",
     },
 
     --游戏（题库）
