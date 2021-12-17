@@ -197,6 +197,9 @@ function STRING.readLine(str)
         return str,""
     end
 end
+function STRING.readChars(str,n)
+    return sub(str,1,n),sub(str,n+1)
+end
 
 function STRING.packBin(s)
     return data.encode('string','base64',data.compress('string','zlib',s))
