@@ -9,9 +9,9 @@ local scene={}
 
 function scene.sceneInit()
     BGcolor=rnd()>.026 and{.3,.5,.9}or{.62,.3,.926}
-    sysAndScn=SYSTEM.."-"..VERSION.string.."       scene:"..Z.getErrData('#').scene
+    sysAndScn=SYSTEM.."-"..VERSION.string.."       scene:"..Z.getErr('#').scene
     errorText=LOADED and text.errorMsg or"An error has occurred while the game was loading.\nAn error log has been created so you can send it to the author."
-    errorShot,errorInfo=Z.getErrData('#').shot,Z.getErrData('#').mes
+    errorShot,errorInfo=Z.getErr('#').shot,Z.getErr('#').mes
     NET.wsclose_app()
     NET.wsclose_user()
     NET.wsclose_play()
