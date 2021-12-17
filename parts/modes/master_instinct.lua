@@ -2,7 +2,7 @@ return{
     env={
         sequence="bagES",
         freshLimit=15,
-        eventSet='blind_inv',
+        eventSet='master_instinct',
         bg='glow',bgm='sugar fairy',
     },
     slowMark=true,
