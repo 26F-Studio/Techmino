@@ -232,7 +232,7 @@ local commands={}do
     commands.mv={
         code=function(arg)
             --Check arguments
-            arg=STRING.split(arg," ")
+            arg=arg:split(" ")
             if #arg>2 then
                 log{C.lY,"Warning: file names must have no spaces"}
                 return
@@ -867,7 +867,7 @@ local commands={}do
     --Network
     commands.switchhost={
         code=function(arg)
-            arg=STRING.split(arg," ")
+            arg=arg:split(" ")
             if arg[1]and #arg<=3 then
                 WS.switchHost(unpack(arg))
                 log{C.Y,"Host switched"}

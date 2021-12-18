@@ -3,7 +3,7 @@ function scene.sceneInit()
     BG.set('cubes')
     local fileData=love.filesystem.read("legals.md")
     if fileData then
-        WIDGET.active.texts:setTexts(STRING.split(fileData,'\n'))
+        WIDGET.active.texts:setTexts(fileData:split('\n'))
     else
         WIDGET.active.texts:setTexts{"[legals.md not found]"}
     end

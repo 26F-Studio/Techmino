@@ -2,7 +2,7 @@ local scene={}
 
 function scene.sceneInit()
     BG.set('cubes')
-    WIDGET.active.texts:setTexts(STRING.split(require"parts.updateLog","\n"))
+    WIDGET.active.texts:setTexts(require"parts.updateLog":split("\n"))
 end
 
 function scene.wheelMoved(_,y)

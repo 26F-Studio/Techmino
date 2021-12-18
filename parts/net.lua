@@ -79,7 +79,7 @@ end
 --Parse notice
 local function _parseNotice(str)
     if str:find("///")then
-        str=STRING.split(str,"///")
+        str=str:split("///")
         for i=1,#str do
             local m=str[i]
             if m:find("=")then
