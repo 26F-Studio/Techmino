@@ -140,6 +140,7 @@ function scene.mouseMove(x,y)
     end
 end
 function scene.mouseDown(x,y,k)
+    if k>3 then return end
     if not curPen then
         curPen=k
     elseif curPen~=k then
@@ -149,6 +150,7 @@ function scene.mouseDown(x,y,k)
     scene.mouseMove(x,y)
 end
 function scene.mouseUp(_,_,k)
+    if k>3 then return end
     if curPen==k then
         _pDraw()
         curPen=false

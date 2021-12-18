@@ -44,12 +44,12 @@ function scene.keyDown(key,isRep)
     if key=='down'then
         if S<#bgmList then
             selected=S+1
-            SFX.play('move',.7)
+            SFX.play('touch',.7)
         end
     elseif key=='up'then
         if S>1 then
             selected=S-1
-            SFX.play('move',.7)
+            SFX.play('touch',.7)
         end
     elseif not isRep then
         if key=='return'or key=='space'then

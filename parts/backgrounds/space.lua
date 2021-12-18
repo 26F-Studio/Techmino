@@ -22,12 +22,12 @@ function back.resize(w,h)
         S[i+4]=(rnd()-.5)*.01*s--Vy
     end
 end
-function back.update()
+function back.update(dt)
     local S=stars
     --Star moving
     for i=1,1260,5 do
-        S[i+1]=(S[i+1]+S[i+3])%W
-        S[i+2]=(S[i+2]+S[i+4])%H
+        S[i+1]=(S[i+1]+S[i+3]*dt*60)%W
+        S[i+2]=(S[i+2]+S[i+4]*dt*60)%H
     end
 end
 function back.draw()

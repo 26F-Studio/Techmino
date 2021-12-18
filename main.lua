@@ -30,7 +30,7 @@ SAVEDIR=fs.getSaveDirectory()
 
 --Global Vars & Settings
 SFXPACKS={'chiptune'}
-VOCPACKS={'miya','mono','xiaoya','miku'}
+VOCPACKS={'miya',--[['mono',]]'xiaoya','miku'}
 FIRSTLAUNCH=false
 DAILYLAUNCH=false
 
@@ -62,6 +62,19 @@ BGM.setMaxSources(5)
 BGM.setChange(function(name)MES.new('music',text.nowPlaying..name,5)end)
 VOC.setDiversion(.62)
 
+WIDGET.setOnChange(function()
+    if SCN.cur~='custom_field'then
+        local colorList=THEME.getThemeColor()
+        if not colorList then return end
+        local rnd=math.random
+        for _,W in next,SCN.scenes[SCN.cur].widgetList do
+            if W.color then
+                W.color=colorList[rnd(#colorList)]
+            end
+        end
+    end
+end)
+
 table.insert(_LOADTIMELIST_,("Load Zframework: %.3fs"):format(TIME()-_LOADTIME_))
 
 --Create shortcuts
@@ -71,6 +84,9 @@ mStr=GC.mStr
 mText=GC.simpX
 mDraw=GC.draw
 Snd=SFX.playSample
+string.repD=STRING.repD
+string.sArg=STRING.sArg
+string.split=STRING.split
 
 --Delete all naked files (from too old version)
 FILE.clear('')
@@ -123,9 +139,6 @@ end})
 table.insert(_LOADTIMELIST_,("Load Parts: %.3fs"):format(TIME()-_LOADTIME_))
 
 --Init Zframework
-Z.setIfPowerInfo(function()
-    return SETTING.powerInfo and LOADED
-end)
 do--Z.setCursor
     local normImg=GC.DO{16,16,
         {'fCirc',8,8,4},
@@ -467,6 +480,9 @@ do
         SETTING.dascut=SETTING.dascut+1
         needSave=true
     end
+    if SETTING.vocPack=='mono'then
+        SETTING.vocPack='miya'
+    end
     if RANKS.stack_e then
         RANKS.stack_e=nil
         RANKS.stack_h=nil
@@ -572,7 +588,7 @@ if FIRSTLAUNCH and MOBILE then
 end
 
 --Apply system setting
-applyAllSettings()
+applySettings()
 
 --Load replays
 for _,fileName in next,fs.getDirectoryItems('replay')do
@@ -650,9 +666,9 @@ if TABLE.find(arg,'--test')then
     TASK.new(function()
         while true do
             YIELD()
-            if Z.errData[1]then break end
+            if Z.getErr(1)then break end
         end
-        LOG("\27[91m\27[1mAutomatic Test Failed :(\27[0m\nThe error message is:\n"..table.concat(Z.errData[1].mes,"\n").."\27[91m\nAborting\27[0m")
+        LOG("\27[91m\27[1mAutomatic Test Failed :(\27[0m\nThe error message is:\n"..table.concat(Z.getErr(1).mes,"\n").."\27[91m\nAborting\27[0m")
         TEST.yieldN(60)
         love.event.quit(1)
     end)

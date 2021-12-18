@@ -7,10 +7,10 @@ function FILE.load(name,args)
         assert(F:open'r','open error')
         local s=F:read()F:close()
         local mode=
-            args:sArg'-luaon'and'luaon'or
-            args:sArg'-lua'and'lua'or
-            args:sArg'-json'and'json'or
-            args:sArg'-string'and'string'or
+            STRING.sArg(args,'-luaon')and'luaon'or
+            STRING.sArg(args,'-lua')and'lua'or
+            STRING.sArg(args,'-json')and'json'or
+            STRING.sArg(args,'-string')and'string'or
             s:sub(1,6)=='return{'and'luaon'or
             (s:sub(1,1)=='['and s:sub(-1)==']'or s:sub(1,1)=='{'and s:sub(-1)=='}')and'json'or
             'string'
@@ -48,12 +48,12 @@ function FILE.load(name,args)
 end
 function FILE.save(data,name,args)
     if not args then args=''end
-    if args:sArg'-d'and fs.getInfo(name)then
+    if STRING.sArg(args,'-d')and fs.getInfo(name)then
         error('duplicate')
     end
 
     if type(data)=='table'then
-        if args:sArg'-luaon'then
+        if STRING.sArg(args,'-luaon')then
             data=TABLE.dump(data)
             if not data then
                 error('encode error')

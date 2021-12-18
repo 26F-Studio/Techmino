@@ -45,7 +45,7 @@ scene.widgetList={
     WIDGET.newSlider{name='reTime',   x=330,  y=320, w=300,lim=180,unit=10,disp=SETval('reTime'),   code=SETsto('reTime'),show=function(S)return(.5+S.disp()*.25).."s"end},
     WIDGET.newSelector{name='RS',     x=300,  y=420, w=300,color='S',      disp=SETval('RS'),       code=SETsto('RS'),list={'TRS','SRS','SRS_plus','SRS_X','BiRS','ARS_Z','DRS_weak','ASC','ASC_plus','C2','C2_sym','Classic','Classic_plus','None','None_plus'}},
     WIDGET.newSelector{name='menuPos',x=980,  y=320, w=300,color='O',      disp=SETval('menuPos'),  code=SETsto('menuPos'),list={'left','middle','right'}},
-    WIDGET.newSwitch{name='sysCursor',x=1060, y=390, lim=580,              disp=SETval('sysCursor'),code=function()SETTING.sysCursor=not SETTING.sysCursor applyCursor()end},
+    WIDGET.newSwitch{name='sysCursor',x=1060, y=390, lim=580,              disp=SETval('sysCursor'),code=function()SETTING.sysCursor=not SETTING.sysCursor applySettings()end},
     WIDGET.newSwitch{name='autoPause',x=1060, y=450, lim=580,              disp=SETval('autoPause'),code=SETrev('autoPause')},
     WIDGET.newSwitch{name='autoSave', x=1060, y=500, lim=580,              disp=SETval('autoSave'), code=SETrev('autoSave')},
     WIDGET.newSwitch{name='autoLogin',x=960,  y=580, lim=480,              disp=SETval('autoLogin'),code=SETrev('autoLogin')},

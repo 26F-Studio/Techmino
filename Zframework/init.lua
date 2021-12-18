@@ -70,15 +70,25 @@ local gc_draw,gc_line,gc_circle,gc_print=gc.draw,gc.line,gc.circle,gc.print
 
 local WIDGET,SCR,SCN=WIDGET,SCR,SCN
 local xOy=SCR.xOy
-
 local ITP=xOy.inverseTransformPoint
+
 local max,min=math.max,math.min
 
+local devMode
 local mx,my,mouseShow,cursorSpd=640,360,false,0
 local jsState={}--map, joystickID->axisStates: {axisName->axisVal}
 local errData={}--list, each error create {mes={errMes strings},scene=sceneNameStr}
 
-local devMode
+local function drawCursor(_,x,y)
+    gc_setColor(1,1,1)
+    gc_setLineWidth(2)
+    gc_circle(ms.isDown(1)and'fill'or'line',x,y,6)
+end
+local showPowerInfo=true
+local showClickFX=true
+local discardCanvas=false
+local frameMul=100
+local onQuit=NULL
 
 local batteryImg=GC.DO{31,20,
     {'fRect',1,0,26,2},
@@ -152,7 +162,7 @@ local function _triggerMouseDown(x,y,k)
     if SCN.mouseDown then SCN.mouseDown(x,y,k)end
     WIDGET.press(x,y,k)
     lastX,lastY=x,y
-    if SETTING.clickFX then SYSFX.newTap(3,x,y)end
+    if showClickFX then SYSFX.newTap(3,x,y)end
 end
 local function mouse_update(dt)
     if not KBisDown('lctrl','rctrl')and KBisDown('up','down','left','right')then
@@ -260,7 +270,7 @@ function love.touchreleased(id,x,y)
     if SCN.touchUp then SCN.touchUp(x,y)end
     if(x-lastX)^2+(y-lastY)^2<62 then
         if SCN.touchClick then SCN.touchClick(x,y)end
-        if SETTING.clickFX then SYSFX.newTap(3,x,y)end
+        if showClickFX then SYSFX.newTap(3,x,y)end
     end
 end
 
@@ -309,7 +319,7 @@ function love.keypressed(key,_,isRep)
         MES.new('info',"DEBUG ON",.2)
     elseif key=='f11'then
         SETTING.fullscreen=not SETTING.fullscreen
-        applyFullscreen()
+        applySettings()
         saveSettings()
     elseif not SCN.swapping then
         if EDITING==""and(not SCN.keyDown or SCN.keyDown(key,isRep))then
@@ -324,7 +334,7 @@ function love.keypressed(key,_,isRep)
             elseif key=='space'or key=='return'then
                 mouseShow=true
                 if not isRep then
-                    if SETTING.clickFX then SYSFX.newTap(3,mx,my)end
+                    if showClickFX then SYSFX.newTap(3,mx,my)end
                     _triggerMouseDown(mx,my,1)
                 end
             else
@@ -452,7 +462,7 @@ function love.gamepadpressed(_,key)
                 if W and W.arrowKey then W:arrowKey(key)end
             elseif key=='return'then
                 mouseShow=true
-                if SETTING.clickFX then SYSFX.newTap(3,mx,my)end
+                if showClickFX then SYSFX.newTap(3,mx,my)end
                 _triggerMouseDown(mx,my,1)
             else
                 if W and W.keypress then
@@ -482,6 +492,7 @@ function love.lowmemory()
     end
 end
 function love.resize(w,h)
+    if SCR.w==w and SCR.h==h then return end
     SCR.resize(w,h)
     if BG.resize then BG.resize(w,h)end
     if SCN.resize then SCN.resize(w,h)end
@@ -627,14 +638,6 @@ local wsImg={}do
     }
 end
 
-local function drawCursor(_,x,y)
-    gc_setColor(1,1,1)
-    gc_setLineWidth(2)
-    gc_circle(ms.isDown(1)and'fill'or'line',x,y,6)
-end
-local function showPowerInfo()return true end
-local onQuit=NULL
-
 function love.run()
     local love=love
 
@@ -649,7 +652,7 @@ function love.run()
     local FPS,MINI=love.timer.getFPS,love.window.isMinimized
     local PUMP,POLL=love.event.pump,love.event.poll
 
-    local timer,SETTING,VERSION=love.timer.getTime,SETTING,VERSION
+    local timer,VERSION=love.timer.getTime,VERSION
 
     local frameTimeList={}
     local lastFrame=timer()
@@ -698,7 +701,7 @@ function love.run()
 
         --DRAW
         if not MINI()then
-            FCT=FCT+SETTING.frameMul
+            FCT=FCT+frameMul
             if FCT>=100 then
                 FCT=FCT-100
 
@@ -720,7 +723,7 @@ function love.run()
                     MES_draw()
                 gc_replaceTransform(SCR.origin)
                     --Draw power info.
-                    if showPowerInfo()then
+                    if showPowerInfo then
                         gc_setColor(1,1,1)
                         gc_draw(infoCanvas,safeX,0,0,SCR.k)
                     end
@@ -794,13 +797,13 @@ function love.run()
                 gc_present()
 
                 --SPEED UPUPUP!
-                if SETTING.cleanCanvas then gc_discard()end
+                if discardCanvas then gc_discard()end
             end
         end
 
         --Fresh power info.
         if time-lastFreshPow>2.6 then
-            if showPowerInfo()then
+            if showPowerInfo then
                 updatePowerInfo()
                 lastFreshPow=time
             end
@@ -827,22 +830,33 @@ end
 
 local Z={}
 
-Z.js=jsState
-Z.errData=errData
+function Z.getJsState()return jsState end
+function Z.getErr(i)
+    if i=='#'then
+        return errData[#errData]
+    elseif i then
+        return errData[i]
+    else
+        return errData
+    end
+end
 
-function Z.setIfPowerInfo(func)showPowerInfo=func end
+function Z.setPowerInfo(bool)showPowerInfo=bool end
+function Z.setCleanCanvas(bool)discardCanvas=bool end
+function Z.setFrameMul(n)frameMul=n end
+function Z.setClickFX(bool)showClickFX=bool end
 
 --[Warning] Color and line width is uncertain value, set it in the function.
 function Z.setCursor(func)drawCursor=func end
 
 --Change F1~F7 events of devmode (F8 mode)
 function Z.setOnFnKeys(list)
-    assert(type(list)=='table')
+    assert(type(list)=='table',"Z.setOnFnKeys(list): list must be a table.")
     for i=1,7 do fnKey[i]=type(list[i])=='function'and list[i]or NULL end
 end
 
-function Z.setOnFocus(func)onFocus=type(func)=='function'and func or NULL end
+function Z.setOnFocus(func)onFocus=assert(type(func)=='function'and func,"Z.setOnFocus(func): func must be a function")end
 
-function Z.setOnQuit(func)onQuit=type(func)=='function'and func or NULL end
+function Z.setOnQuit(func)onQuit=assert(type(func)=='function'and func,"Z.setOnQuit(func): func must be a function")end
 
 return Z

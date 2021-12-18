@@ -103,7 +103,7 @@ function scene.keyDown(key,isRep)
         MES.new('check',text.exportSuccess)
     elseif key=='v'and kb.isDown('lctrl','rctrl')or key=='cV'then
         local str=sys.getClipboardText()
-        local args=STRING.split(str:sub((str:find(":")or 0)+1),"!")
+        local args=str:sub((str:find(":")or 0)+1):split("!")
         if #args<4 then goto THROW_fail end
         if not(
             DATA.pasteQuestArgs(args[1])and
