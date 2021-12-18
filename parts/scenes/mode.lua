@@ -162,7 +162,7 @@ function scene.update()
         if kb.isDown('down', 's')then dy=dy-10 F=true end
         if kb.isDown('left', 'a')then dx=dx+10 F=true end
         if kb.isDown('right','d')then dx=dx-10 F=true end
-        local js=Z.js[1]
+        local js=Z.getJsState()[1]
         if js then
             local sx,sy=js._jsObj:getGamepadAxis('leftx'),js._jsObj:getGamepadAxis('lefty')
             if math.abs(sx)>.1 or math.abs(sy)>.1 then
