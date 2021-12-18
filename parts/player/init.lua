@@ -97,7 +97,7 @@ local function _newEmptyPlayer(id,mini)
     P.seqRND=love.math.newRandomGenerator(GAME.seed)
     P.atkRND=love.math.newRandomGenerator(GAME.seed)
     P.holeRND=love.math.newRandomGenerator(GAME.seed)
-    P.aiRND=love.math.newRandomGenerator(GAME.seed)
+    P.aiRND=love.math.newRandomGenerator(GAME.seed+P.id)
 
     --Field-related
     P.field,P.visTime={},{}
