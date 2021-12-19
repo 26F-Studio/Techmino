@@ -1,6 +1,6 @@
 return{
     env={
-        drop=1e99,lock=1e99,
+        drop=120,lock=1e99,
         infHold=true,
         ospin=false,
         eventSet='tsd_e',

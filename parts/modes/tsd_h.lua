@@ -1,6 +1,6 @@
 return{
     env={
-        drop=30,lock=60,
+        drop=60,lock=60,
         freshLimit=15,
         ospin=false,
         eventSet='tsd_h',
