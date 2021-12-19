@@ -169,7 +169,7 @@ function BGM.init(list)
             if BGM.nowPlay then
                 TASK.new(task_fadeOut,BGM.playing)
             end
-        else
+        elseif BGM.playing then
             BGM.playing:pause()
         end
         BGM.nowPlay,BGM.playing=nil
