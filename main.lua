@@ -333,11 +333,11 @@ SFX.init((function()--[Warning] Not loading files here, just get the list of sou
     end
     return L
 end)())
-BGM.init((function()
+BGM.load((function()
     local L={}
     for _,v in next,fs.getDirectoryItems('media/music')do
         if isSafeFile('media/music/'..v,"Dangerous file : %SAVE%/media/music/"..v)then
-            table.insert(L,{name=v:sub(1,-5),path='media/music/'..v})
+            L[v:sub(1,-5)]='media/music/'..v
         end
     end
     return L
