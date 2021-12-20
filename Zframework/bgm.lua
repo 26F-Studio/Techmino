@@ -114,7 +114,7 @@ end
 function BGM.play(name,args)
     name=name or BGM.default
     args=args or""
-    if not _tryLoad(name)then return end
+    if not _tryLoad(name)or args:sArg('-preLoad')then return end
     if volume==0 then
         BGM.nowPlay=name
         BGM.playing=SourceObjList[name].source
