@@ -20,4 +20,14 @@ function MATH.coin(a,b)
     end
 end
 
+function MATH.interval(v,low,high)
+    if v<=low then
+        return low
+    elseif v>=high then
+        return high
+    else
+        return v
+    end
+end
+
 return MATH
