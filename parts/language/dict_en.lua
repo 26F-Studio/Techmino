@@ -94,7 +94,7 @@ return{
     {"Support 3",
         "support p\97\116\114\101\111\110",
         "org",
-        FNNS and "This feature is restricted due to platform policy restrictions. You may discuss about this feature in our Discord server. The URL in this entry is a rickroll, by the way." or "To donate to Techmino via P\97\116\114\101\111\110, use the globe icon on the bottom right to open URL. P\97\116\114\101\111\110 charges 7.9% + $0.30 transaction fee off your purchase that is greater than $3."
+        FNNS and "This feature is restricted due to platform policy restrictions. You may discuss about this feature in our Discord server. The URL in this entry is a rickroll, by the way." or "To donate to Techmino via P\97\116\114\101\111\110, use the globe icon on the bottom right to open URL. P\97\116\114\101\111\110 charges 7.9% + 0.30 USD transaction fee off your purchase that is greater than 3 USD.",
         FNNS and"https://youtu.be/dQw4w9WgXcQ"or"https://www.p\97\116\114\101\111\110.com/techmino",
     },
 
