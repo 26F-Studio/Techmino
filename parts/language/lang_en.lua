@@ -713,6 +713,7 @@ return{
         ['master_final']=   {"Master",            "FINAL",      "20G and beyond"},
         ['master_ph']=      {"Master",            "PHANTASM",    "???"},
         ['master_ex']=      {"GrandMaster",       "EXTRA",      "An eternity shorter than an instant"},
+        ['master_instinct']={"Master",            "INSTINCT",   "What if the active piece turned invisible?"},
         ['strategy_e']=     {"Strategy",          "EASY",       "Fast 20G decision"},
         ['strategy_h']=     {"Strategy",          "HARD",       "Fast 20G decision"},
         ['strategy_u']=     {"Strategy",          "ULTIMATE",   "Fast 20G decision"},
