@@ -823,7 +823,7 @@ function love.run()
         end
 
         _=timer()-lastFrame
-        if _<sleepInterval*.9626 then WAIT(.0162-sleepInterval*.9626)end
+        if _<sleepInterval*.9626 then WAIT(sleepInterval*.9626-_)end
         while timer()-lastFrame<sleepInterval do end
     end
 end
