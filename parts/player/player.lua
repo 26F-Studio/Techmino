@@ -1823,7 +1823,7 @@ do
                     end
                     piece.pc=true
                     piece.special=true
-                elseif cc>1 or #self.field==self.garbageBeneath then
+                elseif cc>1 or self.field[#self.field].garbage then
                     self:showText(text.HPC,0,-80,50,'fly')
                     atk=atk+4
                     exblock=exblock+2
