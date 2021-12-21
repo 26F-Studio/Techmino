@@ -174,7 +174,7 @@ function scene.update(dt)
         end
     end
 
-    life1=life1*.7+life*.3
+    life1=MATH.expApproach(life1,life,dt*16)
 
     if play then
         if inv>0 then

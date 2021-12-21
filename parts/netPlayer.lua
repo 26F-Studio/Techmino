@@ -7,6 +7,7 @@ local rnd,min=math.random,math.min
 local sin,cos=math.sin,math.cos
 local ins,rem=table.insert,table.remove
 local setFont=FONT.set
+local approach=MATH.expApproach
 
 local posLists={
     --1~5
@@ -193,14 +194,15 @@ function NETPLY.mouseMove(x,y)
     end
 end
 
-function NETPLY.update()
+function NETPLY.update(dt)
     for i=1,#PLYlist do
         local p=PLYlist[i]
         local t=posList[i]
-        p.x=p.x*.9+t.x*.1
-        p.y=p.y*.9+t.y*.1
-        p.w=p.w*.9+t.w*.1
-        p.h=p.h*.9+t.h*.1
+        local d=dt*12
+        p.x=approach(p.x,t.x,d)
+        p.y=approach(p.y,t.y,d)
+        p.w=approach(p.w,t.w,d)
+        p.h=approach(p.h,t.h,d)
     end
 end
 

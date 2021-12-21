@@ -30,4 +30,8 @@ function MATH.interval(v,low,high)
     end
 end
 
+function MATH.expApproach(a,b,k)
+    return b+(a-b)*2.718281828459045^-k
+end
+
 return MATH

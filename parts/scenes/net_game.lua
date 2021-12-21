@@ -246,7 +246,7 @@ function scene.update(dt)
         for p=1,#PLAYERS do PLAYERS[p]:update(dt)end
 
         --Warning check
-        checkWarning()
+        checkWarning(dt)
 
         --Upload stream
         if not NET.spectate and P1.frameRun-lastUpstreamTime>8 then
@@ -265,7 +265,7 @@ function scene.update(dt)
             lastUpstreamTime=PLAYERS[1].alive and P1.frameRun or 1e99
         end
     else
-        NETPLY.update()
+        NETPLY.update(dt)
     end
     if newMessageTimer>0 then
         newMessageTimer=newMessageTimer-1

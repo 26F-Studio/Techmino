@@ -19,6 +19,7 @@ local sub,ins,rem=string.sub,table.insert,table.remove
 local xOy=SCR.xOy
 local FONT=FONT
 local mStr=GC.mStr
+local approach=MATH.expApproach
 
 local downArrowIcon=GC.DO{40,25,{'fPoly',0,0,20,25,40,0}}
 local upArrowIcon=GC.DO{40,25,{'fPoly',0,25,20,0,40,25}}
@@ -542,7 +543,7 @@ function slider:update(dt)
         if ATV>0 then self.ATV=max(ATV-dt*30,0)end
     end
     if not self.hide then
-        self.pos=self.pos*.7+self.disp()*.3
+        self.pos=approach(self.pos,self.disp(),dt*26)
     end
 end
 function slider:draw()

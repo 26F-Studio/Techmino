@@ -7,6 +7,7 @@ local gc_draw,gc_rectangle,gc_line,gc_printf=gc.draw,gc.rectangle,gc.line,gc.pri
 
 local ins,rem=table.insert,table.remove
 local int,rnd=math.floor,math.random
+local approach=MATH.expApproach
 
 local SETTING,GAME,SCR=SETTING,GAME,SCR
 local PLAYERS=PLAYERS
@@ -797,7 +798,7 @@ do--function resetGameData(args)
 end
 do--function checkWarning()
     local max=math.max
-    function checkWarning()
+    function checkWarning(dt)
         local P1=PLAYERS[1]
         if P1.alive then
             if P1.frameRun%26==0 then
@@ -817,7 +818,7 @@ do--function checkWarning()
             end
             local _=GAME.warnLVL
             if _<GAME.warnLVL0 then
-                _=_*.95+GAME.warnLVL0*.05
+                _=approach(_,GAME.warnLVL0,dt*6)
             elseif _>0 then
                 _=max(_-.026,0)
             end
