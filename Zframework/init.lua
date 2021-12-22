@@ -249,13 +249,13 @@ function love.touchpressed(id,x,y)
     x,y=ITP(xOy,x,y)
     lastX,lastY=x,y
     WIDGET.cursorMove(x,y)
-    if SCN.touchDown then SCN.touchDown(x,y)end
+    if SCN.touchDown then SCN.touchDown(x,y,id)end
     if kb.hasTextInput()then kb.setTextInput(false)end
 end
-function love.touchmoved(_,x,y,dx,dy)
+function love.touchmoved(id,x,y,dx,dy)
     if SCN.swapping then return end
     x,y=ITP(xOy,x,y)
-    if SCN.touchMove then SCN.touchMove(x,y,dx/SCR.k,dy/SCR.k)end
+    if SCN.touchMove then SCN.touchMove(x,y,dx/SCR.k,dy/SCR.k,id)end
     WIDGET.drag(x,y,dx/SCR.k,dy/SCR.k)
 end
 function love.touchreleased(id,x,y)
@@ -268,7 +268,7 @@ function love.touchreleased(id,x,y)
         WIDGET.unFocus()
         SCN.mainTouchID=false
     end
-    if SCN.touchUp then SCN.touchUp(x,y)end
+    if SCN.touchUp then SCN.touchUp(x,y,id)end
     if(x-lastX)^2+(y-lastY)^2<62 then
         if SCN.touchClick then SCN.touchClick(x,y)end
         if showClickFX then SYSFX.newTap(3,x,y)end
