@@ -706,7 +706,6 @@ function love.run()
             if FCT>=100 then
                 FCT=FCT-100
 
-                local safeX=SCR.safeX
                 gc_replaceTransform(SCR.origin)
                     gc_setColor(1,1,1)
                     BG.draw()
@@ -717,16 +716,14 @@ function love.run()
                     TEXT_draw()
 
                     --Draw cursor
-                    if mouseShow then
-                        drawCursor(time,mx,my)
-                    end
-                gc_replaceTransform(SCR.xOy_ul)
-                    MES_draw()
+                    if mouseShow then drawCursor(time,mx,my)end
                 gc_replaceTransform(SCR.origin)
+                    MES_draw()
+
                     --Draw power info.
                     if showPowerInfo then
                         gc_setColor(1,1,1)
-                        gc_draw(infoCanvas,safeX,0,0,SCR.k)
+                        gc_draw(infoCanvas,SCR.safeX,0,0,SCR.k)
                     end
 
                     --Draw scene swapping animation
@@ -741,6 +738,8 @@ function love.run()
                     FONT.set(20)
                     mStr(VERSION.string,0,-30)
                 gc_replaceTransform(SCR.xOy_dl)
+                    local safeX=SCR.safeX/SCR.k
+
                     --Draw FPS
                     FONT.set(15)
                     gc_setColor(1,1,1)
