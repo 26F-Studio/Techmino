@@ -184,6 +184,9 @@ Z.setOnFnKeys({
     function()for k,v in next,_G do print(k,v)end end,
     function()if love['_openConsole']then love['_openConsole']()end end,
 })
+Z.setOnResize(function(w,_)
+    SHADER.warning:send('w',w*SCR.dpi)
+end)
 do--Z.setOnFocus
     local function task_autoSoundOff()
         while true do
