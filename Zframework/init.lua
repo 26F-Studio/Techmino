@@ -107,17 +107,16 @@ local function updatePowerInfo()
     gc_clear(0,0,0,.25)
     if state~='unknown'then
         gc_setLineWidth(4)
-        local charging=state=='charging'
         if state=='nobattery'then
             gc_setColor(1,1,1)
             gc_setLineWidth(2)
-            gc_line(74,SCR.safeX+5,100,22)
+            gc_line(74,5,100,22)
         elseif pow then
-            if charging then    gc_setColor(0,1,0)
-            elseif pow>50 then  gc_setColor(1,1,1)
-            elseif pow>26 then  gc_setColor(1,1,0)
-            elseif pow==26 then gc_setColor(.5,0,1)
-            else                gc_setColor(1,0,0)
+            if state=='charging'then gc_setColor(0,1,0)
+            elseif pow>50 then       gc_setColor(1,1,1)
+            elseif pow>26 then       gc_setColor(1,1,0)
+            elseif pow==26 then      gc_setColor(.5,0,1)
+            else                     gc_setColor(1,0,0)
             end
             gc.rectangle('fill',76,6,pow*.22,14)
             if pow<100 then
@@ -492,6 +491,8 @@ function love.lowmemory()
         MES.new('check',"[auto GC] low MEM 设备内存过低")
     end
 end
+
+local onResize=NULL
 function love.resize(w,h)
     if SCR.w==w and SCR.h==h then return end
     SCR.resize(w,h)
@@ -499,8 +500,7 @@ function love.resize(w,h)
     if SCN.resize then SCN.resize(w,h)end
     WIDGET.resize(w,h)
     FONT.reset()
-
-    SHADER.warning:send('w',w*SCR.dpi)
+    onResize(w,h)
 end
 
 local onFocus=NULL
@@ -857,6 +857,8 @@ function Z.setOnFnKeys(list)
 end
 
 function Z.setOnFocus(func)onFocus=assert(type(func)=='function'and func,"Z.setOnFocus(func): func must be a function")end
+
+function Z.setOnResize(func)onResize=assert(type(func)=='function'and func,"Z.setOnResize(func): func must be a function")end
 
 function Z.setOnQuit(func)onQuit=assert(type(func)=='function'and func,"Z.setOnQuit(func): func must be a function")end
 
