@@ -169,7 +169,7 @@ function NETPLY.setConnect(uid)PLYmap[uid].connected=true end
 function NETPLY.setPlace(uid,place)PLYmap[uid].place=place end
 function NETPLY.setStat(uid,S)
     PLYmap[uid].stat={
-        lpm=("%.1f %s"):format(S.row/S.time*60,text.radarData[5]),
+        lpm=("%.1f %s"):format(S.piece/S.time*24,text.radarData[5]),
         apm=("%.1f %s"):format(S.atk/S.time*60,text.radarData[3]),
         adpm=("%.1f %s"):format((S.atk+S.dig)/S.time*60,text.radarData[2]),
     }
