@@ -24,6 +24,7 @@ local author={
     sakura="ZUN & C₂₉H₂₅N₃O₅",
     ["1980s"]="C₂₉H₂₅N₃O₅",
     malate="ZUN & C₂₉H₂₅N₃O₅",
+    lounge="Hailey (cudsys) & MrZ",
 }
 
 local scene={}
