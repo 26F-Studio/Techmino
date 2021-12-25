@@ -195,7 +195,7 @@ return{
     {"Techmino",
         "techmino",
         "game",
-        "Cross-Platform | Singleplayer/Multiplayer\nOr Tech for short. A Tetris game developed using LÖVE. It has many single-player modes and many customizable parameters, and online multiplayer modes are gradually being developed.",
+        "Cross-Platform | Singleplayer/Multiplayer\nOr Tech for short. A block stacker game developed using LÖVE. It has many single-player modes and many customizable parameters, and online multiplayer modes are gradually being developed.",
     },
     {"Falling Lightblocks",
         "fl fallinglightblocks",
