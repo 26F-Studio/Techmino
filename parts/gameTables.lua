@@ -594,7 +594,7 @@ do--Userdata tables
         FTLock=true,
 
         --System
-        reTime=4,
+        reTime=2,
         allowTAS=false,
         autoPause=true,
         menuPos='middle',
