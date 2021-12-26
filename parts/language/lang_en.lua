@@ -238,7 +238,7 @@ return{
         "ParticleG",
         "Trebor",
         "LawrenceLiu",
-        "Imple Lee",
+        "Gompyn",
         "flaribbit",
         "scdhh",
         "",
