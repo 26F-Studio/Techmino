@@ -366,8 +366,8 @@ LANG.init('zh',
         es=require'parts.language.lang_es',
         pt=require'parts.language.lang_pt',
         id=require'parts.language.lang_id',
+        ja=require'parts.language.lang_ja',
         zh_grass=require'parts.language.lang_zh_grass',
-        zh_yygq=require'parts.language.lang_yygq',
         symbol=require'parts.language.lang_symbol',
         --1. Add language file to LANG folder;
         --2. Require it;

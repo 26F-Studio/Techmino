@@ -263,6 +263,7 @@ return{
         "ScF",
         "C₂₉H₂₅N₃O₅",
         "NOT_A_ROBOT",
+        "sakurw",
         "",
         "Performance",
         "Electric283",

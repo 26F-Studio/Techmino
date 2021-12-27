@@ -12,7 +12,7 @@ local counter
 
 function scene.sceneInit()
     time=0
-    v=16
+    v=22.6
     BG.set()
     names={}
     counter=26
@@ -41,10 +41,10 @@ function scene.keyDown(key)
 end
 
 function scene.update(dt)
-    if(kb.isDown('space','return')or tc.getTouches()[1])and v<6.26 then
-        v=v+.26
-    elseif v>1 then
-        v=v-.16
+    if(kb.isDown('space','return')or tc.getTouches()[1])and v<16.2 then
+        v=v+.42
+    elseif v>3.55 then
+        v=v-.42
     end
     time=time+v*dt
     counter=counter-1
