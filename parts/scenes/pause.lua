@@ -47,7 +47,7 @@ function scene.sceneInit()
         (S.atk+S.dig)/S.time*60,--ADPM
         S.atk/S.time*60,        --AtkPM
         S.send/S.time*60,       --SendPM
-        S.piece/S.time*24,      --LinePM
+        S.piece/S.time*24,      --Line'PM
         S.dig/S.time*60,        --DigPM
     }
     val={1/80,1/80,1/80,1/60,1/100,1/40}

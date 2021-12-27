@@ -22,9 +22,9 @@ function scene.sceneInit()
     end
 end
 
-function scene.update()
+function scene.update(dt)
     for i=1,7 do
-        minoRot[i]=minoRot[i]*.8+minoRot0[i]*.2
+        minoRot[i]=MATH.expApproach(minoRot[i],minoRot0[i],dt*12)
     end
 end
 function scene.draw()

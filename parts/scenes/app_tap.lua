@@ -31,11 +31,11 @@ function scene.keyDown(key,isRep)
     end
 end
 
-function scene.update()
+function scene.update(dt)
     local t=TIME()
     local v=0
     for i=2,40 do v=v+i*(i-1)*.075/(t-keyTime[i])end
-    speed=speed*.99+v*.01
+    speed=MATH.expApproach(speed,v,dt)
     if speed>maxSpeed then
         maxSpeed=speed
     end

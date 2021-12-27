@@ -2,8 +2,8 @@ local THEME={
     cur=false,--Current theme
 }
 local themeColor={
-    xmas={COLOR.R,COLOR.Z,COLOR.G},
-    sprfes={COLOR.R,COLOR.O,COLOR.Y},
+    xmas={COLOR.lR,COLOR.Z,COLOR.lG},
+    sprfes={COLOR.lR,COLOR.O,COLOR.lY},
 }
 
 function THEME.calculate(Y,M,D)

@@ -11,7 +11,7 @@ function scene.fileDropped(file)
     if pcall(gc.newImage,file)then
         love.filesystem.write('conf/customBG',file:read('data'))
         SETTING.bg='custom'
-        applyBG()
+        applySettings()
     else
         MES.new('error',text.customBGloadFailed)
     end
@@ -55,18 +55,18 @@ scene.widgetList={
     WIDGET.newSwitch{name='bagLine',      x=380,y=390,lim=300,disp=SETval('bagLine'),code=SETrev('bagLine')},
 
     WIDGET.newSelector{name='ghostType',  x=915,y=180,        w=350,list={'color','gray','colorCell','grayCell','colorLine','grayLine'},disp=SETval('ghostType'),code=SETsto('ghostType')},
-    WIDGET.newSlider{name='ghost',        x=740,y=240,lim=280,w=350,unit=1,disp=SETval('ghost'),    show="percent",code=SETsto('ghost')},
-    WIDGET.newSlider{name='center',       x=740,y=300,lim=280,w=350,unit=1,disp=SETval('center'),   show="percent",code=SETsto('center')},
-    WIDGET.newSlider{name='grid',         x=740,y=360,lim=280,w=350,unit=.4,disp=SETval('grid'),    show="percent",code=SETsto('grid')},
-    WIDGET.newSlider{name='lineNum',      x=740,y=420,lim=280,w=350,unit=1,disp=SETval('lineNum'),  show="percent",code=SETsto('lineNum')},
+    WIDGET.newSlider{name='ghost',        x=740,y=240,lim=280,w=350,axis={0,1},disp=SETval('ghost'),     show="percent",code=SETsto('ghost')},
+    WIDGET.newSlider{name='center',       x=740,y=300,lim=280,w=350,axis={0,1},disp=SETval('center'),    show="percent",code=SETsto('center')},
+    WIDGET.newSlider{name='grid',         x=740,y=360,lim=280,w=350,axis={0,.4},disp=SETval('grid'),     show="percent",code=SETsto('grid')},
+    WIDGET.newSlider{name='lineNum',      x=740,y=420,lim=280,w=350,axis={0,1},disp=SETval('lineNum'),   show="percent",code=SETsto('lineNum')},
 
-    WIDGET.newSlider{name='lockFX',       x=330,y=460,lim=280,w=540,unit=5,disp=SETval('lockFX'),   code=SETsto('lockFX')},
-    WIDGET.newSlider{name='dropFX',       x=330,y=520,lim=280,w=540,unit=5,disp=SETval('dropFX'),   code=SETsto('dropFX')},
-    WIDGET.newSlider{name='moveFX',       x=330,y=580,lim=280,w=540,unit=5,disp=SETval('moveFX'),   code=SETsto('moveFX')},
-    WIDGET.newSlider{name='clearFX',      x=330,y=640,lim=280,w=540,unit=5,disp=SETval('clearFX'),  code=SETsto('clearFX')},
-    WIDGET.newSlider{name='splashFX',     x=330,y=700,lim=280,w=540,unit=5,disp=SETval('splashFX'), code=SETsto('splashFX')},
-    WIDGET.newSlider{name='shakeFX',      x=330,y=760,lim=280,w=540,unit=5,disp=SETval('shakeFX'),  code=SETsto('shakeFX')},
-    WIDGET.newSlider{name='atkFX',        x=330,y=820,lim=280,w=540,unit=5,disp=SETval('atkFX'),    code=SETsto('atkFX')},
+    WIDGET.newSlider{name='lockFX',       x=330,y=460,lim=280,w=540,axis={0,5,1},disp=SETval('lockFX'),  code=SETsto('lockFX')},
+    WIDGET.newSlider{name='dropFX',       x=330,y=520,lim=280,w=540,axis={0,5,1},disp=SETval('dropFX'),  code=SETsto('dropFX')},
+    WIDGET.newSlider{name='moveFX',       x=330,y=580,lim=280,w=540,axis={0,5,1},disp=SETval('moveFX'),  code=SETsto('moveFX')},
+    WIDGET.newSlider{name='clearFX',      x=330,y=640,lim=280,w=540,axis={0,5,1},disp=SETval('clearFX'), code=SETsto('clearFX')},
+    WIDGET.newSlider{name='splashFX',     x=330,y=700,lim=280,w=540,axis={0,5,1},disp=SETval('splashFX'),code=SETsto('splashFX')},
+    WIDGET.newSlider{name='shakeFX',      x=330,y=760,lim=280,w=540,axis={0,5,1},disp=SETval('shakeFX'), code=SETsto('shakeFX')},
+    WIDGET.newSlider{name='atkFX',        x=330,y=820,lim=280,w=540,axis={0,5,1},disp=SETval('atkFX'),   code=SETsto('atkFX')},
 
     WIDGET.newSelector{name='frame',      x=400,y=890,lim=280,w=460,list={8,10,13,17,22,29,37,47,62,80,100},disp=SETval('frameMul'),code=function(v)SETTING.frameMul=v;Z.setFrameMul(SETTING.frameMul)end},
     WIDGET.newSwitch{name='FTlock',       x=950,y=890,lim=290,disp=SETval('FTLock'),                code=SETrev('FTLock')},
@@ -79,25 +79,25 @@ scene.widgetList={
     WIDGET.newSwitch{name='highCam',      x=450,y=1270,lim=360,disp=SETval('highCam'),              code=SETrev('highCam')},
     WIDGET.newSwitch{name='warn',         x=450,y=1340,lim=360,disp=SETval('warn'),                 code=SETrev('warn')},
 
-    WIDGET.newSwitch{name='clickFX',      x=950,y=980,lim=360,disp=SETval('clickFX'),               code=SETrev('clickFX')},
-    WIDGET.newSwitch{name='power',        x=950,y=1070,lim=360,disp=SETval('powerInfo'),            code=function()SETTING.powerInfo=not SETTING.powerInfo Z.setPowerInfo(SETTING.powerInfo)end},
-    WIDGET.newSwitch{name='clean',        x=950,y=1160,lim=360,disp=SETval('cleanCanvas'),          code=function()SETTING.cleanCanvas=not SETTING.cleanCanvas Z.setCleanCanvas(SETTING.cleanCanvas)end},
-    WIDGET.newSwitch{name='fullscreen',   x=950,y=1250,lim=360,disp=SETval('fullscreen'),           code=function()SETTING.fullscreen=not SETTING.fullscreen applyFullscreen()end},
+    WIDGET.newSwitch{name='clickFX',      x=950,y=980,lim=360,disp=SETval('clickFX'),               code=function()SETTING.clickFX=not SETTING.clickFX applySettings()end},
+    WIDGET.newSwitch{name='power',        x=950,y=1070,lim=360,disp=SETval('powerInfo'),            code=function()SETTING.powerInfo=not SETTING.powerInfo applySettings()end},
+    WIDGET.newSwitch{name='clean',        x=950,y=1160,lim=360,disp=SETval('cleanCanvas'),          code=function()SETTING.cleanCanvas=not SETTING.cleanCanvas applySettings()end},
+    WIDGET.newSwitch{name='fullscreen',   x=950,y=1250,lim=360,disp=SETval('fullscreen'),           code=function()SETTING.fullscreen=not SETTING.fullscreen applySettings()end},
 
-    WIDGET.newKey{name='bg_on',           x=680,y=1340,w=200,h=80,code=function()SETTING.bg='on'applyBG()end},
-    WIDGET.newKey{name='bg_off',          x=900,y=1340,w=200,h=80,code=function()SETTING.bg='off'applyBG()end},
+    WIDGET.newKey{name='bg_on',           x=680,y=1340,w=200,h=80,code=function()SETTING.bg='on'applySettings()end},
+    WIDGET.newKey{name='bg_off',          x=900,y=1340,w=200,h=80,code=function()SETTING.bg='off'applySettings()end},
     WIDGET.newKey{name='bg_custom',       x=1120,y=1340,w=200,h=80,
         code=function()
             if love.filesystem.getInfo('conf/customBG')then
                 SETTING.bg='custom'
-                applyBG()
+                applySettings()
             else
                 MES.new('info',text.customBGhelp)
             end
         end
         },
     WIDGET.newSlider{name='bgAlpha',      x=1020,y=1430,w=200,
-        unit=.8,disp=SETval('bgAlpha'),
+        axis={0,.8},disp=SETval('bgAlpha'),
         code=function(v)SETTING.bgAlpha=v BG.send(v)end,
         hideF=function()return SETTING.bg=='on'end
         },
@@ -105,12 +105,12 @@ scene.widgetList={
     WIDGET.newSelector{name='blockSatur', x=800,y=1440,w=300,color='lN',
         list={'normal','soft','gray','light','color'},
         disp=SETval('blockSatur'),
-        code=function(v)SETTING.blockSatur=v;applyBlockSatur(SETTING.blockSatur)end
+        code=function(v)SETTING.blockSatur=v;applySettings(SETTING.blockSatur)end
         },
     WIDGET.newSelector{name='fieldSatur', x=800,y=1540,w=300,color='lN',
         list={'normal','soft','gray','light','color'},
         disp=SETval('fieldSatur'),
-        code=function(v)SETTING.fieldSatur=v;applyFieldSatur(SETTING.fieldSatur)end
+        code=function(v)SETTING.fieldSatur=v;applySettings(SETTING.fieldSatur)end
         },
 
     WIDGET.newButton{name='back',         x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},

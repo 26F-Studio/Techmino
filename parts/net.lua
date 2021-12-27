@@ -79,7 +79,7 @@ end
 --Parse notice
 local function _parseNotice(str)
     if str:find("///")then
-        str=STRING.split(str,"///")
+        str=str:split("///")
         for i=1,#str do
             local m=str[i]
             if m:find("=")then
@@ -279,7 +279,7 @@ function NET.loadSavedData(sections)
 
     TABLE.cover(NET.cloudData.SETTING,SETTING)
     success=success and saveSettings()
-    applyAllSettings()
+    applySettings()
 
     TABLE.cover(NET.cloudData.keyMap,KEY_MAP)
     success=success and saveFile(KEY_MAP,'conf/key')

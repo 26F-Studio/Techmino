@@ -8,6 +8,7 @@ local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,abs,modf=math.max,math.min,math.abs,math.modf
 local assert,ins,rem=assert,table.insert,table.remove
 local resume,yield,status=coroutine.resume,coroutine.yield,coroutine.status
+local approach=MATH.expApproach
 
 local SFX,BGM,VOC,VIB,SYSFX=SFX,BGM,VOC,VIB,SYSFX
 local FREEROW,TABLE,TEXT,TASK=LINE,TABLE,TEXT,TASK
@@ -1823,7 +1824,7 @@ do
                     end
                     piece.pc=true
                     piece.special=true
-                elseif cc>1 or #self.field==self.garbageBeneath then
+                elseif cc>1 or self.field[#self.field].garbage then
                     self:showText(text.HPC,0,-80,50,'fly')
                     atk=atk+4
                     exblock=exblock+2
@@ -2166,7 +2167,7 @@ end
 --------------------------</Tick>--------------------------
 
 --------------------------<Event>--------------------------
-local function _updateMisc(P)
+local function _updateMisc(P,dt)
     --Finesse combo animation
     if P.finesseComboTime>0 then
         P.finesseComboTime=P.finesseComboTime-1
@@ -2216,7 +2217,7 @@ local function _updateMisc(P)
         end
         local f=P.fieldUp
         if f~=y then
-            P.fieldUp=f>y and max(f*.95+y*.05-2,y)or min(f*.97+y*.03+1,y)
+            P.fieldUp=f>y and max(approach(f,y,dt*6)-2,y)or min(approach(f,y,dt*3)+1,y)
         end
     end
 
@@ -2225,7 +2226,7 @@ local function _updateMisc(P)
         if P.stat.score-P.score1<10 then
             P.score1=P.score1+1
         else
-            P.score1=int(min(P.score1*.9+P.stat.score*.1+1))
+            P.score1=approach(P.score1,P.stat.score,dt*62)
         end
     end
 
@@ -2302,7 +2303,7 @@ local function _updateFX(P,dt)
         end
     end
 end
-local function update_alive(P)
+local function update_alive(P,dt)
     local ENV=P.gameEnv
 
     P.frameRun=P.frameRun+1
@@ -2332,11 +2333,11 @@ local function update_alive(P)
 
     if P.timing then P.stat.frame=P.stat.frame+1 end
 
-    --Calculate key speed
+    --Calculate drop speed
     do
         local v=0
         for i=2,10 do v=v+i*(i-1)*72/(P.frameRun-P.dropTime[i])end
-        P.dropSpeed=P.dropSpeed*.99+v*.01
+        P.dropSpeed=approach(P.dropSpeed,v,dt)
     end
 
     if P.gameEnv.layout=='royale'then
@@ -2532,14 +2533,15 @@ local function update_alive(P)
     ::THROW_stop::
 
     --B2B bar animation
-    if P.b2b1==P.b2b then
-    elseif P.b2b1<P.b2b then
-        P.b2b1=min(P.b2b1*.98+P.b2b*.02+.4,P.b2b)
-    else
-        P.b2b1=max(P.b2b1*.95+P.b2b*.05-.6,P.b2b)
+    if P.b2b1~=P.b2b then
+        if P.b2b1<P.b2b then
+            P.b2b1=min(approach(P.b2b1,P.b2b,dt*6)+.4,P.b2b)
+        else
+            P.b2b1=max(approach(P.b2b1,P.b2b,dt*12)-.6,P.b2b)
+        end
     end
 
-    _updateMisc(P)
+    _updateMisc(P,dt)
     --[[
         P:setPosition(
             640-150-(30*(P.curX+P.cur.sc[2])-15),
@@ -2590,11 +2592,11 @@ local function update_streaming(P)
         eventTime=P.stream[P.streamProgress]
     end
 end
-local function update_dead(P)
+local function update_dead(P,dt)
     local S=P.stat
 
     --Final average speed
-    P.dropSpeed=P.dropSpeed*.96+S.piece/S.frame*144
+    P.dropSpeed=approach(P.dropSpeed,S.piece/S.frame*3600,dt)
 
     if P.gameEnv.layout=='royale'then
         P.swappingAtkMode=min(P.swappingAtkMode+2,30)
@@ -2606,7 +2608,7 @@ local function update_dead(P)
     if P.b2b1>0 then
         P.b2b1=max(0,P.b2b1*.92-1)
     end
-    _updateMisc(P)
+    _updateMisc(P,dt)
 end
 function Player:_die()
     self.alive=false
@@ -2664,17 +2666,17 @@ function Player:update(dt)
                         20
                     do
                         update_streaming(self)
-                        update_alive(self)
+                        update_alive(self,dt)
                     end
                 end
             else
-                update_alive(self)
+                update_alive(self,dt)
             end
             self.trigFrame=self.trigFrame-1
         end
     else
         while self.trigFrame>=1 do
-            update_dead(self)
+            update_dead(self,dt)
             self.trigFrame=self.trigFrame-1
         end
     end

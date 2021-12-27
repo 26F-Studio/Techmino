@@ -88,6 +88,7 @@ local showPowerInfo=true
 local showClickFX=true
 local discardCanvas=false
 local frameMul=100
+local sleepInterval=1/60
 local onQuit=NULL
 
 local batteryImg=GC.DO{31,20,
@@ -106,17 +107,16 @@ local function updatePowerInfo()
     gc_clear(0,0,0,.25)
     if state~='unknown'then
         gc_setLineWidth(4)
-        local charging=state=='charging'
         if state=='nobattery'then
             gc_setColor(1,1,1)
             gc_setLineWidth(2)
-            gc_line(74,SCR.safeX+5,100,22)
+            gc_line(74,5,100,22)
         elseif pow then
-            if charging then    gc_setColor(0,1,0)
-            elseif pow>50 then  gc_setColor(1,1,1)
-            elseif pow>26 then  gc_setColor(1,1,0)
-            elseif pow==26 then gc_setColor(.5,0,1)
-            else                gc_setColor(1,0,0)
+            if state=='charging'then gc_setColor(0,1,0)
+            elseif pow>50 then       gc_setColor(1,1,1)
+            elseif pow>26 then       gc_setColor(1,1,0)
+            elseif pow==26 then      gc_setColor(.5,0,1)
+            else                     gc_setColor(1,0,0)
             end
             gc.rectangle('fill',76,6,pow*.22,14)
             if pow<100 then
@@ -248,13 +248,13 @@ function love.touchpressed(id,x,y)
     x,y=ITP(xOy,x,y)
     lastX,lastY=x,y
     WIDGET.cursorMove(x,y)
-    if SCN.touchDown then SCN.touchDown(x,y)end
+    if SCN.touchDown then SCN.touchDown(x,y,id)end
     if kb.hasTextInput()then kb.setTextInput(false)end
 end
-function love.touchmoved(_,x,y,dx,dy)
+function love.touchmoved(id,x,y,dx,dy)
     if SCN.swapping then return end
     x,y=ITP(xOy,x,y)
-    if SCN.touchMove then SCN.touchMove(x,y,dx/SCR.k,dy/SCR.k)end
+    if SCN.touchMove then SCN.touchMove(x,y,dx/SCR.k,dy/SCR.k,id)end
     WIDGET.drag(x,y,dx/SCR.k,dy/SCR.k)
 end
 function love.touchreleased(id,x,y)
@@ -267,7 +267,7 @@ function love.touchreleased(id,x,y)
         WIDGET.unFocus()
         SCN.mainTouchID=false
     end
-    if SCN.touchUp then SCN.touchUp(x,y)end
+    if SCN.touchUp then SCN.touchUp(x,y,id)end
     if(x-lastX)^2+(y-lastY)^2<62 then
         if SCN.touchClick then SCN.touchClick(x,y)end
         if showClickFX then SYSFX.newTap(3,x,y)end
@@ -319,7 +319,7 @@ function love.keypressed(key,_,isRep)
         MES.new('info',"DEBUG ON",.2)
     elseif key=='f11'then
         SETTING.fullscreen=not SETTING.fullscreen
-        applyFullscreen()
+        applySettings()
         saveSettings()
     elseif not SCN.swapping then
         if EDITING==""and(not SCN.keyDown or SCN.keyDown(key,isRep))then
@@ -491,14 +491,16 @@ function love.lowmemory()
         MES.new('check',"[auto GC] low MEM 设备内存过低")
     end
 end
+
+local onResize=NULL
 function love.resize(w,h)
+    if SCR.w==w and SCR.h==h then return end
     SCR.resize(w,h)
     if BG.resize then BG.resize(w,h)end
     if SCN.resize then SCN.resize(w,h)end
     WIDGET.resize(w,h)
     FONT.reset()
-
-    SHADER.warning:send('w',w*SCR.dpi)
+    onResize(w,h)
 end
 
 local onFocus=NULL
@@ -704,7 +706,6 @@ function love.run()
             if FCT>=100 then
                 FCT=FCT-100
 
-                local safeX=SCR.safeX
                 gc_replaceTransform(SCR.origin)
                     gc_setColor(1,1,1)
                     BG.draw()
@@ -715,16 +716,14 @@ function love.run()
                     TEXT_draw()
 
                     --Draw cursor
-                    if mouseShow then
-                        drawCursor(time,mx,my)
-                    end
-                gc_replaceTransform(SCR.xOy_ul)
-                    MES_draw()
+                    if mouseShow then drawCursor(time,mx,my)end
                 gc_replaceTransform(SCR.origin)
+                    MES_draw()
+
                     --Draw power info.
                     if showPowerInfo then
                         gc_setColor(1,1,1)
-                        gc_draw(infoCanvas,safeX,0,0,SCR.k)
+                        gc_draw(infoCanvas,SCR.safeX,0,0,SCR.k)
                     end
 
                     --Draw scene swapping animation
@@ -739,6 +738,8 @@ function love.run()
                     FONT.set(20)
                     mStr(VERSION.string,0,-30)
                 gc_replaceTransform(SCR.xOy_dl)
+                    local safeX=SCR.safeX/SCR.k
+
                     --Draw FPS
                     FONT.set(15)
                     gc_setColor(1,1,1)
@@ -820,23 +821,29 @@ function love.run()
             end
         end
 
-        --Keep 60fps
         _=timer()-lastFrame
-        if _<.0162 then WAIT(.0162-_)end
-        while timer()-lastFrame<1/60 do end
+        if _<sleepInterval*.9626 then WAIT(sleepInterval*.9626-_)end
+        while timer()-lastFrame<sleepInterval do end
     end
 end
 
 local Z={}
 
-Z.js=jsState
-Z.errData=errData
+function Z.getJsState()return jsState end
+function Z.getErr(i)
+    if i=='#'then
+        return errData[#errData]
+    elseif i then
+        return errData[i]
+    else
+        return errData
+    end
+end
 
 function Z.setPowerInfo(bool)showPowerInfo=bool end
-
 function Z.setCleanCanvas(bool)discardCanvas=bool end
-
 function Z.setFrameMul(n)frameMul=n end
+function Z.setMaxFPS(fps)sleepInterval=1/fps end
 function Z.setClickFX(bool)showClickFX=bool end
 
 --[Warning] Color and line width is uncertain value, set it in the function.
@@ -844,12 +851,14 @@ function Z.setCursor(func)drawCursor=func end
 
 --Change F1~F7 events of devmode (F8 mode)
 function Z.setOnFnKeys(list)
-    assert(type(list)=='table')
+    assert(type(list)=='table',"Z.setOnFnKeys(list): list must be a table.")
     for i=1,7 do fnKey[i]=type(list[i])=='function'and list[i]or NULL end
 end
 
-function Z.setOnFocus(func)onFocus=type(func)=='function'and func or NULL end
+function Z.setOnFocus(func)onFocus=assert(type(func)=='function'and func,"Z.setOnFocus(func): func must be a function")end
 
-function Z.setOnQuit(func)onQuit=type(func)=='function'and func or NULL end
+function Z.setOnResize(func)onResize=assert(type(func)=='function'and func,"Z.setOnResize(func): func must be a function")end
+
+function Z.setOnQuit(func)onQuit=assert(type(func)=='function'and func,"Z.setOnQuit(func): func must be a function")end
 
 return Z

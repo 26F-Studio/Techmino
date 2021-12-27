@@ -33,7 +33,7 @@ local function _toggleMod(M,back)
         _remMod(M)
     end
     if M.unranked then
-        SFX.play('move',.6)
+        SFX.play('touch',.6)
         SFX.play('lock')
     else
         SFX.play('touch')

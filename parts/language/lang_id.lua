@@ -1,5 +1,6 @@
 local C=COLOR
 return{
+    fallback='en',
     loadText={
         loadSFX="Memuat efek suara",
         loadSample="Memuat sampel-sampel instrumen",
@@ -712,6 +713,7 @@ return{
         ['master_final']=   {"Jago",              "TERAKHIR",     "Lebih dari 20G"},
         ['master_ph']=      {"Jago",              "KHAYALAN",     "???"},
         ['master_ex']=      {"Sangat Jago",       "EKSTRA",        "Blok tidak kelihatan"},
+        ['master_instinct']={"Jago",              "INSTINK",      "Bagaimana jika blok terkontrol tersembunyi?"},
         ['strategy_e']=     {"Strategi",          "MUDAH",        "Keputusan 20G cepat"},
         ['strategy_h']=     {"Strategi",          "SULIT",        "Keputusan 20G cepat"},
         ['strategy_u']=     {"Strategi",          "TERAKHIR",     "Keputusan 20G cepat"},

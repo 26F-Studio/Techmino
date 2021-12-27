@@ -42,7 +42,7 @@ end
 
 local function _setLang(lid)
     SETTING.locale=lid
-    applyLanguage()
+    applySettings()
     TEXT.clear()
     TEXT.show(langList[lid],640,360,100,'appear',.626)
     collectgarbage()

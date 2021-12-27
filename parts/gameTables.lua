@@ -601,7 +601,7 @@ do--Userdata tables
         FTLock=true,
 
         --System
-        reTime=4,
+        reTime=2,
         allowTAS=false,
         autoPause=true,
         menuPos='middle',
@@ -610,6 +610,8 @@ do--Userdata tables
         autoLogin=true,
         simpMode=false,
         sysCursor=true,
+        maxFPS=60,
+        frameMul=100,
         locale='zh',
         skinSet='crystal_scf',
         skin={
@@ -632,7 +634,6 @@ do--Userdata tables
         splashFX=2,
         shakeFX=2,
         atkFX=2,
-        frameMul=100,
         cleanCanvas=false,
         blockSatur='normal',
         fieldSatur='normal',

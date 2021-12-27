@@ -19,6 +19,7 @@ local sub,ins,rem=string.sub,table.insert,table.remove
 local xOy=SCR.xOy
 local FONT=FONT
 local mStr=GC.mStr
+local approach=MATH.expApproach
 
 local downArrowIcon=GC.DO{40,25,{'fPoly',0,0,20,25,40,0}}
 local upArrowIcon=GC.DO{40,25,{'fPoly',0,25,20,0,40,25}}
@@ -45,7 +46,12 @@ local function _rectangleStencil()
     gc.rectangle('fill',1,1,STW-2,STH-2)
 end
 
+local onChange=NULL
+
 local WIDGET={}
+
+function WIDGET.setOnChange(func)onChange=assert(type(func)=='function'and func,"WIDGET.setOnChange(func): func must be a function")end
+
 local widgetMetatable={
     __tostring=function(self)
         return self:getInfo()
@@ -523,7 +529,7 @@ function slider:isAbove(x,y)
     return x>self.x-10 and x<self.x+self.w+10 and y>self.y-25 and y<self.y+25
 end
 function slider:getCenter()
-    return self.x+self.w*(self.pos/self.unit),self.y
+    return self.x+self.w*((self.pos-self.rangeL)/(self.rangeR-self.rangeL)),self.y
 end
 function slider:update(dt)
     local ATV=self.ATV
@@ -537,7 +543,7 @@ function slider:update(dt)
         if ATV>0 then self.ATV=max(ATV-dt*30,0)end
     end
     if not self.hide then
-        self.pos=self.pos*.7+self.disp()*.3
+        self.pos=approach(self.pos,self.disp(),dt*26)
     end
 end
 function slider:draw()
@@ -550,8 +556,8 @@ function slider:draw()
     --Units
     if not self.smooth then
         gc_setLineWidth(2)
-        for p=0,self.unit do
-            local X=x+(x2-x)*p/self.unit
+        for p=self.rangeL,self.rangeR,self.unit do
+            local X=x+(x2-x)*(p-self.rangeL)/(self.rangeR-self.rangeL)
             gc_line(X,y+7,X,y-7)
         end
     end
@@ -561,7 +567,7 @@ function slider:draw()
     gc_line(x,y,x2,y)
 
     --Block
-    local cx=x+(x2-x)*self.pos/self.unit
+    local cx=x+(x2-x)*(self.pos-self.rangeL)/(self.rangeR-self.rangeL)
     local bx,by,bw,bh=cx-10-ATV*.5,y-16-ATV,20+ATV,32+2*ATV
     gc_setColor(.8,.8,.8)
     gc_rectangle('fill',bx,by,bw,bh,3)
@@ -596,13 +602,16 @@ end
 function slider:drag(x)
     if not x then return end
     x=x-self.x
-    local p=self.disp()
-    local P=x<0 and 0 or x>self.w and self.unit or x/self.w*self.unit
-    if not self.smooth then
-        P=int(P+.5)
+    local newPos=MATH.interval(x/self.w,0,1)
+    local newVal
+    if not self.unit then
+        newVal=(1-newPos)*self.rangeL+newPos*self.rangeR
+    else
+        newVal=newPos*(self.rangeR-self.rangeL)
+        newVal=self.rangeL+newVal-newVal%self.unit
     end
-    if p~=P then
-        self.code(P)
+    if newVal~=self.disp()then
+        self.code(newVal)
     end
     if self.change and timer()-self.lastTime>.5 then
         self.lastTime=timer()
@@ -615,8 +624,8 @@ function slider:release(x)
 end
 function slider:scroll(n)
     local p=self.disp()
-    local u=self.smooth and .01 or 1
-    local P=n==-1 and max(p-u,0)or min(p+u,self.unit)
+    local u=self.unit or .01
+    local P=MATH.interval(p+u*n,self.rangeL,self.rangeR)
     if p==P or not P then return end
     self.code(P)
     if self.change and timer()-self.lastTime>.18 then
@@ -627,7 +636,13 @@ end
 function slider:arrowKey(k)
     self:scroll((k=='left'or k=='up')and -1 or 1)
 end
-function WIDGET.newSlider(D)--name,x,y,w[,lim][,fText][,color][,unit][,smooth][,font=30][,fType][,change],disp[,show][,code],hide
+function WIDGET.newSlider(D)--name,x,y,w[,lim][,fText][,color][,axis][,smooth][,font=30][,fType][,change],disp[,show][,code],hide
+    if not D.axis then
+        D.axis={0,1,false}
+        D.smooth=true
+    elseif not D.axis[3]then
+        D.smooth=true
+    end
     local _={
         name=  D.name or"_",
 
@@ -646,8 +661,10 @@ function WIDGET.newSlider(D)--name,x,y,w[,lim][,fText][,color][,unit][,smooth][,
 
         fText= D.fText,
         color= D.color and(COLOR[D.color]or D.color)or COLOR.Z,
-        unit=  D.unit or 1,
-        smooth=false,
+        rangeL=D.axis[1],
+        rangeR=D.axis[2],
+        unit=  D.axis[3],
+        smooth=D.smooth,
         font=  D.font or 30,
         fType= D.fType,
         change=D.change,
@@ -657,22 +674,17 @@ function WIDGET.newSlider(D)--name,x,y,w[,lim][,fText][,color][,unit][,smooth][,
         hide=  D.hide,
         show=  false,
     }
-    if D.smooth~=nil then
-        _.smooth=D.smooth
-    else
-        _.smooth=_.unit<=1
-    end
     if D.show then
         if type(D.show)=='function'then
             _.show=D.show
         else
             _.show=sliderShowFunc[D.show]
         end
-    elseif D.show~=false then
-        if _.unit<=1 then
-            _.show=sliderShowFunc.percent
-        else
+    elseif D.show~=false then--Use default if nil
+        if _.unit and _.unit%1==0 then
             _.show=sliderShowFunc.int
+        else
+            _.show=sliderShowFunc.percent
         end
     end
     for k,v in next,slider do _[k]=v end
@@ -1221,6 +1233,14 @@ function listBox:arrowKey(dir)
         end
     end
 end
+function listBox:select(i)
+    self.selected=i
+    if self.selected<int(self.scrollPos/self.lineH)+2 then
+        self:drag(nil,nil,nil,1e99)
+    elseif self.selected>int(self.scrollPos/self.lineH)+self.capacity-1 then
+        self:drag(nil,nil,nil,-1e99)
+    end
+end
 function listBox:draw()
     local x,y,w,h=self.x,self.y,self.w,self.h
     local list=self.list
@@ -1263,7 +1283,7 @@ end
 function listBox:getInfo()
     return("x=%d,y=%d,w=%d,h=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
 end
-function WIDGET.newListBox(D)--name,x,y,w,h,lineH[,hideF][,hide][,drawF]
+function WIDGET.newListBox(D)--name,x,y,w,h,lineH,drawF[,hideF][,hide]
     local _={
         name=    D.name or"_",
 
@@ -1320,16 +1340,7 @@ function WIDGET.setWidgetList(list)
         for i=1,#list do
             list[i]:reset()
         end
-        if SCN.cur~='custom_field'then
-            local colorList=THEME.getThemeColor()
-            if not colorList then return end
-            local rnd=math.random
-            for _,W in next,list do
-                if W.color and not W.fText then
-                    W.color=colorList[rnd(#colorList)]
-                end
-            end
-        end
+        onChange()
     end
 end
 function WIDGET.setScrollHeight(height)

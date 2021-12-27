@@ -102,10 +102,10 @@ scene.widgetList={
 
     --Next & Hold
     WIDGET.newSelector{name='holdMode',     x=310, y=890, w=300,color='lY',list=sList.holdMode,disp=ROOMval('holdMode'),code=ROOMval('holdMode'),hideF=function()return CUSTOMENV.holdCount==0 end},
-    WIDGET.newSlider{name='nextCount',      x=140, y=960, lim=130,w=200,unit=6,disp=ROOMval('nextCount'),code=ROOMsto('nextCount')},
-    WIDGET.newSlider{name='holdCount',      x=140, y=1030,lim=130,w=200,unit=6,disp=ROOMval('holdCount'),code=ROOMsto('holdCount')},
-    WIDGET.newSwitch{name='infHold',        x=560, y=960, lim=200,             disp=ROOMval('infHold'),code=ROOMrev('infHold'),hideF=function()return ROOMENV.holdCount==0 end},
-    WIDGET.newSwitch{name='phyHold',        x=560, y=1030,lim=200,             disp=ROOMval('phyHold'),code=ROOMrev('phyHold'),hideF=function()return ROOMENV.holdCount==0 end},
+    WIDGET.newSlider{name='nextCount',      x=140, y=960, lim=130,w=200,axis={0,6,1},disp=ROOMval('nextCount'),code=ROOMsto('nextCount')},
+    WIDGET.newSlider{name='holdCount',      x=140, y=1030,lim=130,w=200,axis={0,6,1},disp=ROOMval('holdCount'),code=ROOMsto('holdCount')},
+    WIDGET.newSwitch{name='infHold',        x=560, y=960, lim=200,                   disp=ROOMval('infHold'),code=ROOMrev('infHold'),hideF=function()return ROOMENV.holdCount==0 end},
+    WIDGET.newSwitch{name='phyHold',        x=560, y=1030,lim=200,                   disp=ROOMval('phyHold'),code=ROOMrev('phyHold'),hideF=function()return ROOMENV.holdCount==0 end},
 }
 
 return scene

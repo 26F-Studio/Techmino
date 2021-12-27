@@ -134,7 +134,7 @@ function scene.update(dt)
     end
     local L=scene.widgetList
     for i=1,8 do
-        L[i].x=L[i].x*.9+(widgetX0[i]-400+(WIDGET.isFocus(L[i])and(i<5 and 100 or -100)or 0))*.1
+        L[i].x=MATH.expApproach(L[i].x,(widgetX0[i]-400+(WIDGET.isFocus(L[i])and(i<5 and 100 or -100)or 0)),dt*12)
     end
 end
 

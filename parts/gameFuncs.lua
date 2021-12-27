@@ -7,6 +7,7 @@ local gc_draw,gc_rectangle,gc_line,gc_printf=gc.draw,gc.rectangle,gc.line,gc.pri
 
 local ins,rem=table.insert,table.remove
 local int,rnd=math.floor,math.random
+local approach=MATH.expApproach
 
 local SETTING,GAME,SCR=SETTING,GAME,SCR
 local PLAYERS=PLAYERS
@@ -110,23 +111,7 @@ end
 function saveSettings()
     return saveFile(SETTING,'conf/settings')
 end
-function applyLanguage()
-    text=LANG.get(SETTING.locale)
-    WIDGET.setLang(text.WidgetText)
-    for k,v in next,TEXTOBJ do
-        if rawget(text,k)then
-            v:set(text[k])
-        end
-    end
-end
-function applyCursor()
-    love.mouse.setVisible(SETTING.sysCursor)
-end
-function applyFullscreen()
-    love.window.setFullscreen(SETTING.fullscreen)
-    love.resize(gc.getWidth(),gc.getHeight())
-end
-do--function applyBlockSatur,applyFieldSatur(mode)
+do--function applySettings()
     local saturateValues={
         normal={0,1},
         soft={.2,.7},
@@ -134,57 +119,78 @@ do--function applyBlockSatur,applyFieldSatur(mode)
         light={.2,.8},
         color={-.2,1.2},
     }
-    function applyBlockSatur(mode)
-        local m=saturateValues[mode]or saturateValues.normal
+    function applySettings()
+        --Apply fullscreen
+        love.window.setFullscreen(SETTING.fullscreen)
+        love.resize(gc.getWidth(),gc.getHeight())
+
+        --Apply Zframework setting
+        Z.setClickFX(SETTING.clickFX)
+        Z.setFrameMul(SETTING.frameMul)
+        Z.setPowerInfo(SETTING.powerInfo)
+        Z.setCleanCanvas(SETTING.cleanCanvas)
+
+        --Apply VK shape
+        VK.setShape(SETTING.VKSkin)
+
+        --Apply sound
+        love.audio.setVolume(SETTING.mainVol)
+        BGM.setVol(SETTING.bgm)
+        SFX.setVol(SETTING.sfx)
+        VOC.setVol(SETTING.voc)
+
+        --Apply saturs
+        local m
+        m=saturateValues[SETTING.blockSatur]or saturateValues.normal
         SHADER.blockSatur:send('b',m[1])
         SHADER.blockSatur:send('k',m[2])
-    end
-    function applyFieldSatur(mode)
-        local m=saturateValues[mode]or saturateValues.normal
+        m=saturateValues[SETTING.fieldSatur]or saturateValues.normal
         SHADER.fieldSatur:send('b',m[1])
         SHADER.fieldSatur:send('k',m[2])
-    end
-end
-function applyBG()
-    if SETTING.bg=='on'then
-        BG.unlock()
-        BG.set()
-    elseif SETTING.bg=='off'then
-        BG.unlock()
-        BG.set('gray')
-        BG.send(SETTING.bgAlpha)
-        BG.lock()
-    elseif SETTING.bg=='custom'then
-        if love.filesystem.getInfo('conf/customBG')then
-            local res,image=pcall(gc.newImage,love.filesystem.newFile('conf/customBG'))
-            if res then
-                BG.unlock()
-                BG.set('custom')
-                gc.setDefaultFilter('linear','linear')
-                BG.send(SETTING.bgAlpha,image)
-                gc.setDefaultFilter('nearest','nearest')
-                BG.lock()
-            else
-                MES.new('error',text.customBGloadFailed)
+
+        --Apply language
+        text=LANG.get(SETTING.locale)
+        WIDGET.setLang(text.WidgetText)
+        for k,v in next,TEXTOBJ do
+            if rawget(text,k)then
+                v:set(text[k])
             end
-        else
-            SETTING.bg='off'
-            applyBG()
+        end
+
+        --Apply cursor
+        love.mouse.setVisible(SETTING.sysCursor)
+
+        --Apply BG
+        if SETTING.bg=='on'then
+            BG.unlock()
+            BG.set()
+        elseif SETTING.bg=='off'then
+            BG.unlock()
+            BG.set('gray')
+            BG.send(SETTING.bgAlpha)
+            BG.lock()
+        elseif SETTING.bg=='custom'then
+            if love.filesystem.getInfo('conf/customBG')then
+                local res,image=pcall(gc.newImage,love.filesystem.newFile('conf/customBG'))
+                if res then
+                    BG.unlock()
+                    BG.set('custom')
+                    gc.setDefaultFilter('linear','linear')
+                    BG.send(SETTING.bgAlpha,image)
+                    gc.setDefaultFilter('nearest','nearest')
+                    BG.lock()
+                else
+                    MES.new('error',text.customBGloadFailed)
+                end
+            else--Switch off when custom BG not found
+                SETTING.bg='off'
+                BG.unlock()
+                BG.set('gray')
+                BG.send(SETTING.bgAlpha)
+                BG.lock()
+            end
         end
     end
-end
-function applyAllSettings()
-    applyFullscreen()
-    love.audio.setVolume(SETTING.mainVol)
-    VK.setShape(SETTING.VKSkin)
-    BGM.setVol(SETTING.bgm)
-    SFX.setVol(SETTING.sfx)
-    VOC.setVol(SETTING.voc)
-    applyBlockSatur(SETTING.blockSatur)
-    applyFieldSatur(SETTING.fieldSatur)
-    applyLanguage()
-    applyCursor()
-    applyBG()
 end
 
 --Royale mode
@@ -770,7 +776,7 @@ do--function resetGameData(args)
 end
 do--function checkWarning()
     local max=math.max
-    function checkWarning()
+    function checkWarning(dt)
         local P1=PLAYERS[1]
         if P1.alive then
             if P1.frameRun%26==0 then
@@ -790,7 +796,7 @@ do--function checkWarning()
             end
             local _=GAME.warnLVL
             if _<GAME.warnLVL0 then
-                _=_*.95+GAME.warnLVL0*.05
+                _=approach(_,GAME.warnLVL0,dt*6)
             elseif _>0 then
                 _=max(_-.026,0)
             end

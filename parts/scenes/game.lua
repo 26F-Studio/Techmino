@@ -298,7 +298,7 @@ local function _update_common(dt)
     end
 
     --Warning check
-    checkWarning()
+    checkWarning(dt)
 end
 function scene.update(dt)
     trigGameRate=trigGameRate+gameRate

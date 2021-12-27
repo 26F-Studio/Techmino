@@ -20,4 +20,18 @@ function MATH.coin(a,b)
     end
 end
 
+function MATH.interval(v,low,high)
+    if v<=low then
+        return low
+    elseif v>=high then
+        return high
+    else
+        return v
+    end
+end
+
+function MATH.expApproach(a,b,k)
+    return b+(a-b)*2.718281828459045^-k
+end
+
 return MATH
