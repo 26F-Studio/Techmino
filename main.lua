@@ -24,7 +24,7 @@ VERSION=require"version"
 TIME=love.timer.getTime
 YIELD=coroutine.yield
 SYSTEM=love.system.getOS()if SYSTEM=='OS X'then SYSTEM='macOS'end
-FNNS=true or SYSTEM:find'\79\83'--What does FNSF stand for? IDK so don't ask me lol
+FNNS=SYSTEM:find'\79\83'--What does FNSF stand for? IDK so don't ask me lol
 MOBILE=SYSTEM=='Android'or SYSTEM=='iOS'
 SAVEDIR=fs.getSaveDirectory()
 
