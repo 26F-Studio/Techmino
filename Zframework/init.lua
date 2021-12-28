@@ -720,9 +720,9 @@ function love.run()
 
                     --Draw cursor
                     if mouseShow then drawCursor(time,mx,my)end
-                gc_replaceTransform(SCR.origin)
+                gc_replaceTransform(SCR.xOy_ul)
                     MES_draw()
-
+                gc_replaceTransform(SCR.origin)
                     --Draw power info.
                     if showPowerInfo then
                         gc_setColor(1,1,1)
