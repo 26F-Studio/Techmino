@@ -31,6 +31,7 @@ return{
     {font=65,name="老板来两份薯条"},
     {font=65,name="[**昆]"},
     {font=65,name="[**浩]"},
+    {font=65,name="sakurw"},
 
     {font=25,name="八零哥"},
     {font=25,name="蕴空之灵"},
