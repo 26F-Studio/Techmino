@@ -639,6 +639,9 @@ local wsImg={}do
     }
 end
 
+local debugInfos={
+    {"Cache",gcinfo},
+}
 function love.run()
     local love=love
 
@@ -747,11 +750,14 @@ function love.run()
 
                     --Debug info.
                     if devMode then
-                        --Left-down infos
+                        --Debug infos at left-down
                         gc_setColor(devColor[devMode])
-                        gc_print("MEM     "..gcinfo(),safeX+5,-40)
-                        gc_print("Tasks   "..TASK.getCount(),safeX+5,-60)
-                        gc_print("Voices  "..VOC.getQueueCount(),safeX+5,-80)
+
+                        --Text infos
+                        for i=1,#debugInfos do
+                            gc_print(debugInfos[i][1],safeX+5,-20-20*i)
+                            gc_print(debugInfos[i][2](),safeX+62.6,-20-20*i)
+                        end
 
                         --Update & draw frame time
                         table.insert(frameTimeList,1,dt)table.remove(frameTimeList,126)
@@ -851,14 +857,29 @@ function Z.setCursor(func)drawCursor=func end
 
 --Change F1~F7 events of devmode (F8 mode)
 function Z.setOnFnKeys(list)
-    assert(type(list)=='table',"Z.setOnFnKeys(list): list must be a table.")
-    for i=1,7 do fnKey[i]=type(list[i])=='function'and list[i]or NULL end
+    assert(type(list)=='table',"Z.setOnFnKeys(list): list must be a table")
+    for i=1,7 do fnKey[i]=assert(type(list[i])=='function'and list[i])end
 end
 
-function Z.setOnFocus(func)onFocus=assert(type(func)=='function'and func,"Z.setOnFocus(func): func must be a function")end
+function Z.setDebugInfo(list)
+    assert(type(list)=='table',"Z.setDebugInfo(list): list must be a table")
+    for i=1,#list do
+        assert(type(list[i][1])=='string',"Z.setDebugInfo(list): list[i][1] must be a string")
+        assert(type(list[i][2])=='function',"Z.setDebugInfo(list): list[i][2] must be a function")
+    end
+    debugInfos=list
+end
 
-function Z.setOnResize(func)onResize=assert(type(func)=='function'and func,"Z.setOnResize(func): func must be a function")end
+function Z.setOnFocus(func)
+    onFocus=assert(type(func)=='function'and func,"Z.setOnFocus(func): func must be a function")
+end
 
-function Z.setOnQuit(func)onQuit=assert(type(func)=='function'and func,"Z.setOnQuit(func): func must be a function")end
+function Z.setOnResize(func)
+    onResize=assert(type(func)=='function'and func,"Z.setOnResize(func): func must be a function")
+end
+
+function Z.setOnQuit(func)
+    onQuit=assert(type(func)=='function'and func,"Z.setOnQuit(func): func must be a function")
+end
 
 return Z

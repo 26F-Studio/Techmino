@@ -184,6 +184,12 @@ Z.setOnFnKeys({
     function()for k,v in next,_G do print(k,v)end end,
     function()if love['_openConsole']then love['_openConsole']()end end,
 })
+Z.setDebugInfo{
+    {"Cache",gcinfo},
+    {"Tasks",TASK.getCount},
+    {"Voices",VOC.getQueueCount},
+    {"Audios",love.audio.getSourceCount},
+}
 Z.setOnResize(function(w,_)
     SHADER.warning:send('w',w*SCR.dpi)
 end)
