@@ -12,26 +12,6 @@ local BGM={
     --lastPlayed=[str:lastPlayed ID]
 }
 
-function BGM.getList()return nameList end
-function BGM.getCount()return #nameList end
-local function _addFile(name,path)
-    if not SourceObjList[name]then
-        table.insert(nameList,name)
-        SourceObjList[name]={path=path,source=false}
-    end
-end
-function BGM.load(name,path)
-    if type(name)=='table'then
-        for k,v in next,name do
-            _addFile(k,v)
-        end
-    else
-        _addFile(name,path)
-    end
-    table.sort(nameList)
-    LOG(BGM.getCount().." BGM files added")
-end
-
 local function _tryReleaseSources()
     local n=#lastLoaded
     while #lastLoaded>maxLoadedCount do
@@ -46,6 +26,27 @@ local function _tryReleaseSources()
         end
     end
 end
+local function _addFile(name,path)
+    if not SourceObjList[name]then
+        table.insert(nameList,name)
+        SourceObjList[name]={path=path,source=false}
+    end
+end
+
+function BGM.getList()return nameList end
+function BGM.getCount()return #nameList end
+function BGM.load(name,path)
+    if type(name)=='table'then
+        for k,v in next,name do
+            _addFile(k,v)
+        end
+    else
+        _addFile(name,path)
+    end
+    table.sort(nameList)
+    LOG(BGM.getCount().." BGM files added")
+end
+
 function BGM.setDefault(bgm)
     BGM.default=bgm
 end
@@ -72,8 +73,7 @@ end
 local function task_fadeOut(src)
     while true do
         coroutine.yield()
-        if tostring(src):find('NULL')then return end
-        local v=src:getVolume()-.025*volume
+        local v=src:getVolume()-volume/40
         src:setVolume(v>0 and v or 0)
         if v<=0 then
             src:stop()
@@ -85,7 +85,7 @@ local function task_fadeIn(src)
     while true do
         coroutine.yield()
         local v=volume
-        v=math.min(v,src:getVolume()+.025*v)
+        v=math.min(v,src:getVolume()+v/40)
         src:setVolume(v)
         if v>=volume then
             return true
