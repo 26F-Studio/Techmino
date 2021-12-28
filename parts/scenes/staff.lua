@@ -35,8 +35,8 @@ function scene.keyDown(key)
         loadGame('sprintLock',true)
     elseif key=='f'then
         loadGame('sprintFix',true)
-    else
-        return true
+    elseif key=='escape'then
+        SCN.back()
     end
 end
 
