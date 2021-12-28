@@ -45,7 +45,7 @@ return{
     grade="Grade",techrash="Techrash",
     wave="Wave",nextWave="Next",
     combo="Combo",maxcmb="Max Combo",
-    pc="Perfect Clear",ko="K.O.s",
+    pc="Perfect Clear",ko="KOs",
 
     win="Win!",
     lose="Lose",
@@ -87,7 +87,7 @@ return{
     pasteWrongPlace="貼り付ける位置が間違ってませんか?",
     noFile="ファイルがないです",
 
-    nowPlaying="Now Playing:",
+    nowPlaying="Now playing:",
 
     VKTchW="タッチ感度",
     VKOrgW="オリジナル感度",
@@ -95,7 +95,7 @@ return{
 
     noScore="No scores",
     modeLocked="Locked",
-    unlockHint="Rank B以上を取得すると解放されます",
+    unlockHint="RankB以上を取得すると解放されます",
     highScore="High Scores",
     newRecord="New Record!",
 
@@ -107,7 +107,7 @@ return{
     oldVersion="Version $1が取得できます",
     needUpdate="最新のVersionを取得してください!",
     versionNotMatch="Versionsが一致しません!",
-    notFinished="Coming Soon!",
+    notFinished="工事中!",
 
     jsonError="JSON Error",
 
@@ -123,16 +123,16 @@ return{
     wsConnecting="Websocket connecting…",
     wsFailed="WebSocket Connection Failed",
     wsClose="WebSocket Closed:",
-    netTimeout="Connection Timed Out",
+    netTimeout="接続がタイムアウトしました",
 
     onlinePlayerCount="Online",
-    createRoomSuccessed="Room created",
+    createRoomSuccessed="部屋を建てました",
     started="Playing",
     joinRoom="が入室しました",
     leaveRoom="が退出しました",
     ready="Ready",
-    connStream="Connecting",
-    waitStream="Waiting",
+    connStream="接続中...",
+    waitStream="待機中...",
     spectating="Spectating",
     chatRemain="Online",
     chatStart="------チャットの先頭------",
@@ -198,7 +198,7 @@ return{
         "最適化 ミス/Rate:",
     },
     aboutTexts={
-        "これは「ただの」落ちものパズルゲームです。本当ですよ。",
+        "これは「ただの」落ちものパズルゲームです。本当ですよ",
         "Inspired by C2/IO/JS/WWC/KOS etc.",
         "",
         "Powered by LÖVE",
@@ -319,7 +319,7 @@ return{
     WidgetText={
         main={
             offline="ソロプレイ",
-            qplay="Last Played: ",
+            qplay="続きからプレイ",
             online="マルチプレイ",
             custom="カスタムプレイ",
             setting="設定",
@@ -390,7 +390,7 @@ return{
             hurry="AREキャンセル時間",
 
             capacity="試合人数",
-            create="Create",
+            create="作成",
 
             ospin="O-spin",
             fineKill="最適化のみ",
@@ -786,12 +786,12 @@ return{
         ['round_h']=        {"Turn-Based",        "HARD",       "ターン制のAIと勝負!"},
         ['round_l']=        {"Turn-Based",        "LUNATIC",    "ターン制のAIと勝負!"},
         ['round_u']=        {"Turn-Based",        "ULTIMATE",   "ターン制のAIと勝負!"},
-        ['master_n']=       {"Master",            "NORMAL",     "20G初心者方へ"},
-        ['master_h']=       {"Master",            "HARD",       "20Gプロの方へ"},
-        ['master_m']=       {"Master",            "M21",        "20Gマスターの方へ"},
-        ['master_final']=   {"Master",            "FINAL",      "20Gその先へ"},
+        ['master_n']=       {"Master",            "NORMAL",     "20G 初心者方へ"},
+        ['master_h']=       {"Master",            "HARD",       "20G プロの方へ"},
+        ['master_m']=       {"Master",            "M21",        "20G マスターの方へ"},
+        ['master_final']=   {"Master",            "FINAL",      "20G その先へ"},
         ['master_ph']=      {"Master",            "PHANTASM",   "???"},
-        ['master_ex']=      {"GrandMaster",       "EXTRA",      "須臾よりも短い永遠"},
+        ['master_ex']=      {"GrandMaster",       "EXTRA",      "刹那よりも短い永遠"},
         ['master_instinct']={"Master",            "INSTINCT",   "もしミノが見えなくなったら?"},
         ['strategy_e']=     {"Strategy",          "EASY",       "20Gでの素早い判断"},
         ['strategy_h']=     {"Strategy",          "HARD",       "20Gでの素早い判断"},
@@ -805,7 +805,7 @@ return{
         ['blind_l']=        {"Invisible",         "SUDDEN+",    "プロフェッショナル用"},
         ['blind_u']=        {"Invisible",         "?",          "覚悟はいいかい?"},
         ['blind_wtf']=      {"Invisible",         "WTF",        "まだ覚悟が足りない"},
-        ['classic_e']=      {"Classic",           "EASY",       "80年代を低速で体験"},
+        ['classic_e']=      {"Classic",           "EASY",       "80年代を超低速で体験"},
         ['classic_h']=      {"Classic",           "HARD",       "80年代を通常速度で体験"},
         ['classic_u']=      {"Classic",           "ULTIMATE",   "80年代を超高速で体験"},
         ['survivor_e']=     {"Survival",          "EASY",       "どれだけ生き残れる?"},
@@ -820,8 +820,8 @@ return{
         ['dig_h']=          {"Driller",           "HARD",       "回復力を磨け!"},
         ['dig_u']=          {"Driller",           "ULTIMATE",   "回復力を磨け!"},
         ['clearRush']=      {"Clear Rush",        "NORMAL",     "All-Spinチュートリアル!\n[開発中]"},
-        ['c4wtrain_n']=     {"C4W Training",      "NORMAL",     "無限REN"},
-        ['c4wtrain_l']=     {"C4W Training",      "LUNATIC",    "無限REN"},
+        ['c4wtrain_n']=     {"C4W Training",      "NORMAL",     "無限コンボ"},
+        ['c4wtrain_l']=     {"C4W Training",      "LUNATIC",    "無限コンボ"},
         ['pctrain_n']=      {"PC Training",       "NORMAL",     "パフェ練習"},
         ['pctrain_l']=      {"PC Training",       "LUNATIC",    "もっと難しいパフェ練習"},
         ['pc_n']=           {"PC Challenge",      "NORMAL",     "100Line以内にパフェをたくさん!"},
