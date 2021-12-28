@@ -72,10 +72,11 @@ end
 local function task_fadeOut(src)
     while true do
         coroutine.yield()
+        if tostring(src):find('NULL')then return end
         local v=src:getVolume()-.025*volume
         src:setVolume(v>0 and v or 0)
         if v<=0 then
-            src:pause()
+            src:stop()
             return true
         end
     end
@@ -143,7 +144,6 @@ function BGM.play(name,args)
             end
             SourceObjList[name].source:setLooping(not args:sArg('-noloop'))
             BGM.lastPlayed=BGM.nowPlay
-            BGM.playing:seek(0)
             BGM.playing:play()
             BGM.onChange(name)
         end
