@@ -2683,7 +2683,6 @@ function Player:update(dt)
     _updateFX(self,dt)
 end
 function Player:revive()
-    self.waiting=62
     local h=#self.field
     for _=h,1,-1 do
         FREEROW.discard(self.field[_])
