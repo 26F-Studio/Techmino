@@ -86,7 +86,7 @@ local function _parseNotice(str)
                 str[m:sub(1,m:find("=")-1)]=m:sub(m:find("=")+1)
             end
         end
-        return str[SETTING.locale]or str[SETTING.locale:find'zh'and'zh'or'en']
+        return str[SETTING.locale]or SETTING.locale:find'zh'and str.zh or str.en
     else
         return str
     end

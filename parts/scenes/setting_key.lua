@@ -188,7 +188,7 @@ function scene.draw()
 
     if selected then
         gc.setLineWidth(3)
-        gc.setColor(COLOR[TIME()%.26<.13 and'F'or'Y'])
+        gc.setColor(TIME()%.26<.13 and COLOR.F or COLOR.Y)
         gc.rectangle('line',
             selected>10 and 860 or 240,
             selected>10 and 60*(selected-10)-50 or selected>0 and 60*selected-50 or 640,

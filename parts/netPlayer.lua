@@ -223,7 +223,7 @@ function NETPLY.draw()
             gc_setLineWidth(2)
             gc_rectangle('line',0,0,p.w,p.h)
             if p.connected then
-                local c=COLOR[p.mode==1 and'N'or'F']
+                local c=p.mode==1 and COLOR.N or COLOR.F
                 gc_setColor(c[1],c[2],c[3],.26)
                 gc_rectangle('fill',0,0,p.w,p.h)
             end

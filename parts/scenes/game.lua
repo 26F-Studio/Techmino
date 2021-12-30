@@ -373,7 +373,7 @@ function scene.draw()
     if replaying or tas then
         setFont(20)
         gc_setColor(1,1,TIME()%.8>.4 and 1 or 0)
-        mStr(text[replaying and'replaying'or'tasUsing'],770,6)
+        mStr(replaying and text.replaying or text.tasUsing,770,6)
         gc_setColor(1,1,1,.8)
         mStr(("%s   %sf"):format(repRateStrings[gameRate],PLAYERS[1].frameRun),770,31)
     end

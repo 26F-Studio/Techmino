@@ -30,7 +30,7 @@ function scene.sceneInit()
 
     local frameLostRate=(S.frame/S.time/60-1)*100
     form={
-        {COLOR.Z,STRING.time(S.time),COLOR[frameLostRate>10 and'R'or frameLostRate>3 and'Y'or'H'],(" (%.2f%%)"):format(frameLostRate)},
+        {COLOR.Z,STRING.time(S.time),frameLostRate>10 and COLOR.R or frameLostRate>3 and COLOR.Y or COLOR.H,(" (%.2f%%)"):format(frameLostRate)},
         ("%d/%d/%d"):format(S.key,S.rotate,S.hold),
         ("%d  %.2fPPS"):format(S.piece,S.piece/S.time),
         ("%d(%d)  %.2fLPM"):format(S.row,S.dig,S.row/S.time*60),
