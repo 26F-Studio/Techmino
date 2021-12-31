@@ -1,3 +1,4 @@
+local rnd=math.random
 local find=string.find
 local rem=table.remove
 local next,type=next,type
@@ -58,7 +59,6 @@ function TABLE.coverR(new,old)
     end
 end
 
-
 --For all things in new if same type in old, push to old
 function TABLE.update(new,old)
     for k,v in next,new do
@@ -84,6 +84,19 @@ function TABLE.complete(new,old)
     end
 end
 
+--------------------------
+
+--Pop & return random [1~#] of table
+function TABLE.popRandom(t)
+    local l=#t
+    if l>0 then
+        local r=rnd(l)
+        r,t[r]=t[r],t[l]
+        t[l]=nil
+        return r
+    end
+end
+
 --Remove [1~#] of table
 function TABLE.cut(G)
     for i=1,#G do
@@ -97,6 +110,8 @@ function TABLE.clear(G)
         G[k]=nil
     end
 end
+
+--------------------------
 
 --Remove duplicated value of [1~#]
 function TABLE.trimDuplicate(org)
@@ -122,6 +137,7 @@ function TABLE.remDuplicate(org)
     end
 end
 
+--------------------------
 
 --Reverse [1~#]
 function TABLE.reverse(org)
