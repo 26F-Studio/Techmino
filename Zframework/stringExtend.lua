@@ -2,7 +2,8 @@ local data=love.data
 local STRING={}
 local assert,tostring,tonumber=assert,tostring,tonumber
 local int,format=math.floor,string.format
-local find,sub,gsub,upper=string.find,string.sub,string.gsub,string.upper
+local find,sub,gsub=string.find,string.sub,string.gsub
+local rep,upper=string.rep,string.upper
 local char,byte=string.char,string.byte
 
 --"Replace dollars", replace all $n with ...
@@ -111,6 +112,46 @@ do--function STRING.bigInt(t)
             return(t/10^(e*3))..units[e+1]
         else
             return"INF"
+        end
+    end
+end
+
+do--function STRING.toBin, STRING.toOct, STRING.toHex(n,len)
+    function STRING.toBin(n,len)
+        local s=""
+        while n>0 do
+            s=(n%2)..s
+            n=int(n/2)
+        end
+        if len then
+            return rep("0",len-#s)..s
+        else
+            return s
+        end
+    end
+    function STRING.toOct(n,len)
+        local s=""
+        while n>0 do
+            s=(n%8)..s
+            n=int(n/8)
+        end
+        if len then
+            return rep("0",len-#s)..s
+        else
+            return s
+        end
+    end
+    local b16={[0]='0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'}
+    function STRING.toHex(n,len)
+        local s=""
+        while n>0 do
+            s=b16[n%16]..s
+            n=int(n/16)
+        end
+        if len then
+            return rep("0",len-#s)..s
+        else
+            return s
         end
     end
 end
