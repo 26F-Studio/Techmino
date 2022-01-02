@@ -20,6 +20,10 @@ function MATH.coin(a,b)
     end
 end
 
+function MATH.lerp(s,e,t)
+    return s+(e-s)*t
+end
+
 function MATH.interval(v,low,high)
     if v<=low then
         return low
