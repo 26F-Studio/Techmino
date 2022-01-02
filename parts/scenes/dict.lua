@@ -61,7 +61,7 @@ local function _search()
     _clearResult()
     local first
     for i=1,#dict do
-        local pos=find(dict[i].keywords,input,nil,true)
+        local pos=find(dict[i].title:lower(),input,nil,true)or find(dict[i].keywords,input,nil,true)
         if pos==1 and not first then
             ins(result,1,dict[i])
             first=true

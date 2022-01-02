@@ -653,6 +653,11 @@ local commands={}do
                 description="A stopwatch"
             },
             {
+                code="mj",
+                scene='app_mahjong',
+                description="A simple mahjong game (1 player)"
+            },
+            {
                 code="spin",
                 scene='app_spin',
                 description="¿"

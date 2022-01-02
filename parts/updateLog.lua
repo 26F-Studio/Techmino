@@ -18,7 +18,7 @@ return[=[
                 新皮肤:pixel(by C₂₉H₂₅N₃O₅)
                 新语言:Bahasa Indonesia(by NOT_A_ROBOT)
                 新语言:日本語(by sakurw)
-                新小程序:Stopwatch
+                新小程序:Stopwatch, Mahjong(无和牌检测)
                 新BGM:lounge(暂未使用, by Hailey (cudsys) & MrZ)
         改动:
                 修改选择模式音效
@@ -30,6 +30,7 @@ return[=[
                 略微降低master-h模式骨块出现后的难度
                 重做关于页面,微调设置菜单
                 TRS的N/H添加一个踢墙
+                词条标题必定可以被搜索
                 重新编辑+裁剪部分音效
                 X块的默认色改为黄色
                 微调全局颜色表
