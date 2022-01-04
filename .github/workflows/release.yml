@@ -41,6 +41,8 @@ jobs:
     needs: get-info
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: 'true'
       - uses: ./.github/actions/update-version
       - uses: ./.github/actions/build-windows
         with:
@@ -62,6 +64,8 @@ jobs:
     needs: get-info
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: 'true'
       - uses: ./.github/actions/update-version
       - uses: ./.github/actions/build-windows
         with:
@@ -83,6 +87,8 @@ jobs:
     needs: get-info
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: 'true'
       - uses: ./.github/actions/update-version
       - uses: ./.github/actions/build-linux
         with:
@@ -99,6 +105,8 @@ jobs:
     needs: get-info
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: 'true'
       - uses: ./.github/actions/update-version
       - uses: ./.github/actions/build-android
         with:
@@ -121,6 +129,8 @@ jobs:
     needs: get-info
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: 'true'
       - uses: ./.github/actions/update-version
       - uses: ./.github/actions/build-macos
         with:
@@ -148,6 +158,8 @@ jobs:
     needs: get-info
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: 'true'
       - uses: ./.github/actions/update-version
       - uses: ./.github/actions/build-ios
         with:

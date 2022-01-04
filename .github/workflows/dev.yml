@@ -16,6 +16,8 @@ jobs:
       commit: ${{ steps.actual-get-info.outputs.commit }}
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: 'true'
     - name: Install lua
       run: |
         sudo apt-get install lua5.3 -y
@@ -31,6 +33,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
+        with:
+          submodules: 'true'
     - uses: ./.github/actions/automatic-test
 
   build-windows:
@@ -38,6 +42,8 @@ jobs:
     needs: get-info
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: 'true'
     - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
@@ -60,6 +66,8 @@ jobs:
     needs: get-info
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: 'true'
     - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
@@ -78,6 +86,8 @@ jobs:
     needs: get-info
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: 'true'
     - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
@@ -103,6 +113,8 @@ jobs:
     needs: get-info
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: 'true'
     - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
@@ -131,6 +143,8 @@ jobs:
     needs: get-info
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: 'true'
     - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
@@ -159,6 +173,8 @@ jobs:
     needs: get-info
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: 'true'
     - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
@@ -192,6 +208,8 @@ jobs:
     needs: get-info
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: 'true'
     - uses: ./.github/actions/update-version
     - uses: ./.github/actions/build-love
       with:
