@@ -16,8 +16,6 @@ jobs:
       commit: ${{ steps.actual-get-info.outputs.commit }}
     steps:
     - uses: actions/checkout@v2
-      with:
-        submodules: 'recursive'
     - name: Install lua
       run: |
         sudo apt-get install lua5.3 -y
