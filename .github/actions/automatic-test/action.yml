@@ -4,9 +4,6 @@ description: 'Check for obvious errors.'
 runs:
   using: "composite"
   steps:
-  - uses: actions/checkout@v2
-    with:
-      submodules: 'recursive'
   - uses: ./.github/actions/build-love
     with:
       file-path: Techmino.love
