@@ -42,7 +42,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          submodules: 'true'
+          submodules: 'recursive'
       - uses: ./.github/actions/update-version
       - uses: ./.github/actions/build-windows
         with:
@@ -65,7 +65,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          submodules: 'true'
+          submodules: 'recursive'
       - uses: ./.github/actions/update-version
       - uses: ./.github/actions/build-windows
         with:
@@ -88,7 +88,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          submodules: 'true'
+          submodules: 'recursive'
       - uses: ./.github/actions/update-version
       - uses: ./.github/actions/build-linux
         with:
@@ -106,7 +106,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          submodules: 'true'
+          submodules: 'recursive'
       - uses: ./.github/actions/update-version
       - uses: ./.github/actions/build-android
         with:
@@ -130,7 +130,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          submodules: 'true'
+          submodules: 'recursive'
       - uses: ./.github/actions/update-version
       - uses: ./.github/actions/build-macos
         with:
@@ -159,7 +159,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          submodules: 'true'
+          submodules: 'recursive'
       - uses: ./.github/actions/update-version
       - uses: ./.github/actions/build-ios
         with:

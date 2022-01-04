@@ -34,7 +34,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        submodules: 'true'
+        submodules: 'recursive'
     - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
@@ -58,7 +58,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        submodules: 'true'
+        submodules: 'recursive'
     - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
@@ -78,7 +78,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        submodules: 'true'
+        submodules: 'recursive'
     - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
@@ -105,7 +105,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        submodules: 'true'
+        submodules: 'recursive'
     - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
@@ -134,7 +134,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        submodules: 'true'
+        submodules: 'recursive'
     - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}

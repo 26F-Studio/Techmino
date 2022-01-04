@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        submodules: 'true'
+        submodules: 'recursive'
     - name: Install lua
       run: |
         sudo apt-get install lua5.3 -y
@@ -34,7 +34,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        submodules: 'true'
+        submodules: 'recursive'
     - uses: ./.github/actions/automatic-test
 
   build-windows:
@@ -43,7 +43,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        submodules: 'true'
+        submodules: 'recursive'
     - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
@@ -67,7 +67,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        submodules: 'true'
+        submodules: 'recursive'
     - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
@@ -87,7 +87,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        submodules: 'true'
+        submodules: 'recursive'
     - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
@@ -114,7 +114,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        submodules: 'true'
+        submodules: 'recursive'
     - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
@@ -144,7 +144,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        submodules: 'true'
+        submodules: 'recursive'
     - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
@@ -174,7 +174,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        submodules: 'true'
+        submodules: 'recursive'
     - uses: ./.github/actions/update-version
       with:
         commit: ${{ needs.get-info.outputs.commit }}
@@ -209,7 +209,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        submodules: 'true'
+        submodules: 'recursive'
     - uses: ./.github/actions/update-version
     - uses: ./.github/actions/build-love
       with:
