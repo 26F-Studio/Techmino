@@ -10,7 +10,7 @@ local function log(str)outputBox:push(str)end
 _SCLOG=log
 
 log{C.lP,"Techmino Console"}
-log{C.lC,"©2021 26F Studio   some rights reserved"}
+log{C.lC,"© Copyright 2019–2022 26F Studio. Some rights reserved."}
 log{C.dR,"WARNING: DO NOT RUN ANY CODE THAT YOU DON'T UNDERSTAND."}
 
 local history,hisPtr={"?"}
