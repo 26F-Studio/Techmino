@@ -782,7 +782,7 @@ function draw.norm(P,repMode)
             _drawFXs(P)
 
             --Draw current block
-            if P.alive and P.cur then
+            if P.alive and P.control and P.cur then
                 local C=P.cur
                 local curColor=C.color
 
