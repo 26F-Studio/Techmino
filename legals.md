@@ -1,4 +1,4 @@
-TECHMINO © 2019-2022 26F Studio. Some rights reserved.
+TECHMINO © 2019–2022 26F Studio. Some rights reserved.
 
 TECHMINO and "26F Studio" are trademarks of 26F Studio. The TECHMINO game and source code are under a GNU Lesser General Public License Version 3.
 
@@ -6,9 +6,9 @@ TECHMINO and "26F Studio" are trademarks of 26F Studio. The TECHMINO game and so
 "Tetris" is the registered trademark of The Tetris Holding, LLC, licensed to The Tetris Company, Inc. TECHMINO is not a fan game of Tetris. TECHMINO and 26F Studio are not affiliated with Tetris Holding, LLC or The Tetris Company, Inc. in any way.
 
 
-Powered by LÖVE, © 2006-2022 LÖVE Development Team.
+Powered by LÖVE, © 2006–2022 LÖVE Development Team.
 
-Lua is free software distributed under the terms of the MIT license. Copyright © 1994-2022 by Lua.org, PUC-Rio.
+Lua is free software distributed under the terms of the MIT license. Copyright © 1994–2022 by Lua.org, PUC-Rio.
 
 SIMPLE LOVE LIGHTS is under a MIT License. Created by Dylan Hunn.
 
@@ -46,6 +46,6 @@ GoldWave is a registered trademark of GoldWave, Inc.
 
 Linux is a registered trademark of Linus Torvalds.
 
-Touhou Project © Team Shanghai Alice 2002-2022.
+Touhou Project © Team Shanghai Alice 2002–2022.
 
 All other trademarks, logos, and copyrights are the properties of their respective owners.
