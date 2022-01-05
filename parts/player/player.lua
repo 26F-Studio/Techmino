@@ -2077,6 +2077,11 @@ do
             if _cc>6 then self:showText(text.cleared:gsub("$1",_cc),0,55,30,'zoomout',.4)end
             self:_removeClearedLines()
             self:_updateFalling(self.gameEnv.fall)
+            if _cc>=4 then
+                self.b2b=min(self.b2b+_cc*50-50,1000)
+            else
+                self.b2b=max(self.b2b-250,0)
+            end
             self.stat.row=self.stat.row+_cc
             self.stat.dig=self.stat.dig+_gbcc
             self.stat.score=self.stat.score+clearSCR[_cc]
