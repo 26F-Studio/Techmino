@@ -119,6 +119,18 @@ do--function applySettings()
         color={-.2,1.2},
     }
     function applySettings()
+        --Apply language
+        text=LANG.get(SETTING.locale)
+        WIDGET.setLang(text.WidgetText)
+        for k,v in next,TEXTOBJ do
+            if rawget(text,k)then
+                v:set(text[k])
+            end
+        end
+
+        --Apply cursor
+        love.mouse.setVisible(SETTING.sysCursor)
+
         --Apply fullscreen
         love.window.setFullscreen(SETTING.fullscreen)
         love.resize(gc.getWidth(),gc.getHeight())
@@ -146,18 +158,6 @@ do--function applySettings()
         m=saturateValues[SETTING.fieldSatur]or saturateValues.normal
         SHADER.fieldSatur:send('b',m[1])
         SHADER.fieldSatur:send('k',m[2])
-
-        --Apply language
-        text=LANG.get(SETTING.locale)
-        WIDGET.setLang(text.WidgetText)
-        for k,v in next,TEXTOBJ do
-            if rawget(text,k)then
-                v:set(text[k])
-            end
-        end
-
-        --Apply cursor
-        love.mouse.setVisible(SETTING.sysCursor)
 
         --Apply BG
         if SETTING.bg=='on'then

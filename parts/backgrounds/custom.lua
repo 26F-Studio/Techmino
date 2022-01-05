@@ -1,4 +1,4 @@
---Secret custom background
+--Custom background
 local gc_clear,gc_setColor=love.graphics.clear,love.graphics.setColor
 local back={}
 

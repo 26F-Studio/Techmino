@@ -83,7 +83,7 @@ end
 function BOT.new(P,data)
     local bot={P=P,data=data}
     if data.type=="CC"then
-        P:setRS('SRS')
+        P:setRS('TRS')
         bot.keys={}
         bot.bufferedNexts={}
         bot.delay=data.delay
