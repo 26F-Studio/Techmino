@@ -683,3 +683,4 @@ if TABLE.find(arg,'--test')then
         love.event.quit(1)
     end)
 end
+WS.switchHost('101.43.110.22','10026','/tech/socket/v1')
