@@ -113,6 +113,7 @@ local loadingThread=coroutine.wrap(function()
     VOC.play('welcome')
     THEME.fresh()
     LOADED=true
+    saveStats()
     Z.setPowerInfo(SETTING.powerInfo)
     return'finish'
 end)
