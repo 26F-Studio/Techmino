@@ -116,9 +116,9 @@ return{
     noPassword="请填写密码",
     diffPassword="两次密码不一致",
     registerRequestSent="注册请求已发送",
-    registerSuccessed="注册成功！",
-    loginSuccessed="登录成功",
-    accessSuccessed="身份验证成功",
+    registerOK="注册成功！",
+    loginOK="登录成功",
+    accessOK="身份验证成功",
 
     wsConnecting="正在连接",
     wsFailed="连接失败",

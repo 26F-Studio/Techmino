@@ -116,9 +116,9 @@ return{
     noPassword="Please enter your password",
     diffPassword="Passwords don't match",
     registerRequestSent="A sign up request has been sent.",
-    registerSuccessed="Sign up successful!",
-    loginSuccessed="You are now logged in!",
-    accessSuccessed="Access granted",
+    registerOK="Sign up successful!",
+    loginOK="You are now logged in!",
+    accessOK="Access granted",
 
     wsConnecting="Websocket connecting…",
     wsFailed="WebSocket connection failed",
