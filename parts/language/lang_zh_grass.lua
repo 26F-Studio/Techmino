@@ -114,9 +114,9 @@ return{
     noPassword="输入您的密码",
     diffPassword="密码不匹配",
     registerRequestSent="已发送注册请求",
-    registerSuccessed="注册成功！",
-    loginSuccessed="您现在已登录！",
-    accessSuccessed="允许访问",
+    registerOK="注册成功！",
+    loginOK="您现在已登录！",
+    accessOK="允许访问",
 
     wsConnecting="双向通信连接",
     wsFailed="双向通信连接失败",

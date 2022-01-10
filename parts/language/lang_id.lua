@@ -117,9 +117,9 @@ return{
     noPassword="Silahkan masukki kata sandi Anda",
     diffPassword="Kata sandi tidak sama",
     registerRequestSent="Permintaan daftar telah terkirim.",
-    registerSuccessed="Pendaftaran sukses!",
-    loginSuccessed="Anda sekarang tergabung!",
-    accessSuccessed="Akses diberikan",
+    registerOK="Pendaftaran sukses!",
+    loginOK="Anda sekarang tergabung!",
+    accessOK="Akses diberikan",
 
     wsConnecting="Menghubungkan websocket…",
     wsFailed="Koneksi websocket gagal",

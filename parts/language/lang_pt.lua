@@ -104,9 +104,9 @@ return{
     noPassword="Insira sua senha ",
     diffPassword="Senhas não combinam",
     -- registerRequestSent="Registration request sent",
-    registerSuccessed="Registrado com sucesso!",
-    loginSuccessed="Logado com sucesso!",
-    accessSuccessed="Autorizado com sucesso!",
+    registerOK="Registrado com sucesso!",
+    loginOK="Logado com sucesso!",
+    accessOK="Autorizado com sucesso!",
 
     -- wsConnecting="Websocket Connecting",
     wsFailed="WebSocket falha na conexão",
