@@ -31,6 +31,8 @@ return{
     tasUsing="[TAS]",
 
     stage="第$1阶段已完成",
+	cool="是冷的",
+	regret="生气的",
     great="伟大的",
     awesome="令人惊叹的！",
     almost="几乎！",
