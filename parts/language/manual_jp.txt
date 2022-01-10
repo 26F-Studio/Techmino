@@ -1,0 +1,96 @@
+ゲームプレイ:
+        システムから与えられた全7種類のテトロミノ
+        (4ブロックで構成されたピース) をプレイヤーが操作します、
+        (左右移動と90°、180°、270°回転で)。
+        各行がブロックで埋め尽くされるとその行列のブロックが消えます。
+        相手が居る場合、ラインの消し方等で攻撃と火力が異なります。
+        勝利する為にはそのレベルの目標を達成もしくは最後までプレイする必要があります。
+
+回転システム:
+        初期設定はTRS (Techmino Rotation System) で設定されています。
+        プレイヤーは他の一般的な回転システムを使う事ができます (普通は変えなくても良し)。
+
+スピンの検出:
+        「3コーナ」ルールを満たした時 +2点
+        「インモービル」ルールを満たした時 +2点
+        - 上のどちらかを満たした時、スピンが確定します。
+
+        もし回転システムがキックテーブルから2番目のチェックを採用していなかった場合 +1点
+        - もしスピンの合計点が2点しかない場合は「ミニ」扱いになります；ミノがS、Z、J、L、Tのいずれかで、ラインクリア時にそのミノを全て消せなかった場合のみ。
+
+攻撃システム:
+        通常のクリア (1から3ライン):
+                ラインを消した数から0.5引いた分 (四捨五入) を送ります
+        特殊なクリア:
+                スピンはラインを消した数の2倍分送ります
+                        - B2Bは消し方に応じて追加します、以下の通り:
+                                - スピンシングル   1
+                                - スピンダブル     1
+                                - スピントリプル   2
+                                - Techrash        4
+                                - Techrash+       8
+                        - B2B2Bはラインクリア数の0.5倍分追加とおまけに1ラインブロックします。
+                        - ミニ判定の場合、その攻撃は元の0.25倍に下がります。
+                スピン無しのTechrash/Techrash+は消した分をそのまま送ります
+                        - B2Bの場合は追加1ライン
+                        - B2B2Bの場合は50％のアタックブーストが掛かるとおまけに1ラインブロックします
+        
+        特殊なラインクリアはB2Bゲージを増加させます、そのゲージは後のB2BやB2B2Bにボーナスが追加されます。 (以下参照)
+
+        Hemi Perfect Clear (a P.C. "with blocks left below". If it's an I clearing 1 line, the remaining blocks must not be player-placed):
+                Attack +4, Extra Blocking +2
+
+        Perfect Clear (aka All Clear):
+                Sends 8 to 16 (increments within a game by 2 for every PC) OR every other damage above, whichever is higher,
+                and +2 extra blocking.
+
+        Combos: All damage above will be given a (combo x25%) bonus, or (combo x15%) for Single clear (capped at 12 combo),
+        +1 more attack for 3 Combo or more.
+        After calculating all above, the damage value will be rounded down then sent
+
+Score system:
+        The better you play, the higher the score.
+
+Attack delay:
+        Attacks from Doubles/Triples take effect the fastest;
+        Followed by Techrash, Spins, which send slower attacks;
+        High combos are the slowest;
+        For B2B or B2B2B, they also increase the attack delay while they increase lines sent;
+        Minis will greatly increase the delay.
+
+Countering:
+        When you send attacks, if there is garbage in queue,
+        extra blocking will be used first, then attack, countering the earliest attack at a 1:1 ratio.
+        Any extra blocking you didn't use will be discarded, and finally the remaining attack power will be sent to your opponent.
+
+Back to Back (B2B) gauge:
+        The B2B gauge ranges from 0 to 1,000. Special line clears are B2B if the gauge is >=50, B2B2B if >800.
+        A regular line clear -250
+        Spin Single/Double/Triple/Techrash/Techrash+ + 50/100/180/800/1000 (x50% if Mini)
+        Techrash/Techrash+ + 150/200/...
+        PC when lines cleared in this round >4, +800
+        Hemi-PC, +100
+        Spin (0 lines) +20. Do note that the B2B gauge cannot exceed 800 using this method.
+        When gauge is above 800, a drop without clearing lines decreases it by 40, but cannot drop below 800
+
+Battle Royale modes:
+        Many players play a game at the same time (against AI bots, not real players).
+        As players get eliminated, blocks fall faster, and garbage take effect faster, as well as rise faster.
+        Eliminate other players to gain a badge and the player's badge to increase your attack power.
+        Players can choose between four attack modes:
+                1. Random: Every time you attack, 10% chance to lock onto a random player.
+                2. Badges: After you attack or when your target dies, lock onto the player with the most badges.
+                3. KOs: After you attack or when your target dies, lock onto the player with the highest field. (Refreshes every second)
+                4. Attackers: attack all players locking onto yourself.
+                Your attack will be sent to all of them. If you are not targetted, you attack a random player (not locking).
+        When all opponents have been eliminated, the last player in the match is the winner.
+
+Custom mode:
+        You can freely adjust most parameters (not including special effects of other game modes).
+        You can also draw a field to clear or make a template to build.
+        In build (puzzle) mode, you can toggle template display with Function key:
+                Cells with a X cannot have blocks;
+                empty cells can be in any state;
+                regular colored cells have to be made of the corresponding block;
+                garbage-colored cells can be any block but not air.
+        Once you make the shape, you will win.
