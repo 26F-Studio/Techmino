@@ -242,6 +242,7 @@ return{
         "C₂₉H₂₅N₃O₅",
         "NOT_A_ROBOT",
         "sakurw",
+        "Airun",
         "幽灵3383",
         "",
         "Performance",
