@@ -264,6 +264,7 @@ return{
         "C₂₉H₂₅N₃O₅",
         "NOT_A_ROBOT",
         "sakurw",
+        "幽灵3383",
         "",
         "Performance",
         "Electric283",
