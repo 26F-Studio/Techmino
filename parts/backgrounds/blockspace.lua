@@ -47,7 +47,7 @@ function back.draw()
         local M=mino[i]
         local c=M.color
         gc_setColor(c[1],c[2],c[3],.2)
-        gc_draw(M.block,M.d*cos(M.ang),M.d*sin(M.ang),M.rotate,(18*M.d/SCR.rad)^1.6,nil,M.block:getWidth()/2,M.block:getHeight()/2)
+        gc_draw(M.block,M.d*cos(M.ang),M.d*sin(M.ang),M.rotate,(12*M.d/SCR.rad)^1.6,nil,M.block:getWidth()/2,M.block:getHeight()/2)
     end
     gc_translate(-SCR.cx,-SCR.cy)
 end

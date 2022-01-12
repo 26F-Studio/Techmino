@@ -207,7 +207,7 @@ function scene.draw()
         local r=TIME()*2
         local R=int(r)%7+1
         gc.setColor(1,1,1,1-abs(r%1*2-1))
-        gc.draw(TEXTURE.miniBlock[R],821,140,TIME()*10%6.2832,15,15,DSCP[R][0][2]+.5,#BLOCKS[R][0]-DSCP[R][0][1]-.5)
+        gc.draw(TEXTURE.miniBlock[R],821,140,TIME()*10%6.2832,7,7,2*DSCP[R][0][2]+1,2*(#BLOCKS[R][0]-DSCP[R][0][1])-1)
     end
 end
 
