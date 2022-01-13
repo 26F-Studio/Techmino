@@ -976,7 +976,7 @@ local userG={
     -- collectgarbage=collectgarbage,
 
     math={},string={},table={},bit={},coroutine={},
-    debug={"No way."},package={"No way."},io={"No way."},os={"No way."},
+    debug={},package={},io={},os={},
 }
 function userG.print(...)
     local args,L={...},{}
@@ -999,6 +999,11 @@ TABLE.complete(string,userG.string)userG.string.dump=nil
 TABLE.complete(table,userG.table)
 TABLE.complete(bit,userG.bit)
 TABLE.complete(coroutine,userG.coroutine)
+local dangerousLibMeta={__index=function()error("No way.")end}
+setmetatable(userG.debug,dangerousLibMeta)
+setmetatable(userG.package,dangerousLibMeta)
+setmetatable(userG.io,dangerousLibMeta)
+setmetatable(userG.os,dangerousLibMeta)
 
 --Puzzle box
 local first_key={}
