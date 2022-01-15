@@ -17,14 +17,15 @@ return[=[
                 全新模式选择界面(未完善,未来会增加更多便利功能)
                 新皮肤:pixel(by C₂₉H₂₅N₃O₅)
                 新语言:Bahasa Indonesia(by NOT_A_ROBOT)
-                新语言:日本語(by sakurw & Airun)
+                新语言:日本語(by sakurw & Airun & 幽灵3383)
                 新小程序:Stopwatch, Mahjong(无和牌检测)
                 新模式:1~3连块40行(by NOT_A_ROBOT) #578
                 新BGM:lounge(暂未使用, by Hailey (cudsys) & MrZ)
-                更强的CC(会主动allspin了, by Blari'o) #579
+                更强的CC(会主动allspin了, by Gompyn) #579
         改动:
                 修改选择模式音效
                 重做staff表
+                更新字体
                 移除yygq语言
                 优化皮肤设置页面交互效果
                 换新miya立绘,给不同立绘添加不同点击动画
@@ -55,12 +56,14 @@ return[=[
                 经典模式h和u难度没有干旱计数器 #546
                 自定义场地16号色的方块名位置显示错误
                 联网对战结算的l'pm公式错写成lpm的
+                PC时最后一块若非特殊消除会先扣除b2b点数
                 录像界面导入导出按钮隐藏状态错误
                 登录界面读取本地账号密码数据错误
                 回合制开关玩家控制的问题
                 策略堆叠模式评级标准不当
                 云存档/读档的一处小问题
                 部分场景文本重叠问题
+                说明书的一处小问题
                 deepdrop坏了
                 混战模式坏了
 
