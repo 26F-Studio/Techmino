@@ -38,7 +38,7 @@ return{
         local D=P.modeData
         D.drought=P.lastPiece.id==7 and 0 or D.drought+1
         if P.stat.row>=D.target then
-            if D.target==110 then
+            if D.target==100 then
                 P.gameEnv.drop,P.gameEnv.lock=2,2
                 P.gameEnv.sddas,P.gameEnv.sdarr=2,2
                 SFX.play('warn_1')
