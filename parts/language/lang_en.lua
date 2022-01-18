@@ -31,8 +31,6 @@ return{
     tasUsing="[TAS]",
 
     stage="Stage $1 cleared!",
-	cool="Cool!",
-	regret="Regret!!",
     great="Great!",
     awesome="Awesome!",
     almost="Almost There!",
@@ -145,7 +143,6 @@ return{
     customBGloadFailed="Unsupport image format for custom background",
 
     errorMsg="Techmino ran into a problem and needs to restart.\nYou can send the error log to the developers.",
-    tryAnotherBuild="[Invalid UTF-8] If you are on Windows, try downloading Techmino-win32 or Techmino-win64 (different from what you are using now).",
 
     modInstruction="Choose your modifiers!\nMods allow you to change the game,\nbut they may also crash the game.\nScores will not be saved when using mods.",
     modInfo={

@@ -173,7 +173,7 @@ return{
         if D.pt%100>70 and not prevDrop70 then
             if P.stat.frame-prevSectTime < cool_time[math.ceil(D.pt/100)] then
                 cools=cools+1
-                P:_showText(text.cool,0,-120,80,'fly',.8)
+                P:_showText("COOL!",0,-120,80,'fly',.8)
                 nextSpeedUp=true
             end
             prevDrop70=true
@@ -253,7 +253,7 @@ return{
             P.modeData.gradePts=math.min(math.floor(int_grade_boosts[int_grade+1]+rollGrades+cools-regrets),36)
             if regretDelay>-1 then
                 regretDelay=regretDelay-1
-                if regretDelay==-1 then P:_showText(text.regret,0,-120,80,'beat',.8) end
+                if regretDelay==-1 then P:_showText("REGRET!!",0,-120,80,'beat',.8) end
             end
             if isInRollTrans then
                 if P.waiting==220 then
