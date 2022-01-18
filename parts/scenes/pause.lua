@@ -281,7 +281,7 @@ function scene.draw()
             gc.push('transform')
                 gc.scale((3-2*timer2)*timer2)
                 gc.setColor(.97,.97,.97,timer2*(.5+.3*sin(TIME()*6.26)))
-                GC.regularPolygon('line',0,0,120,6,8)
+                GC.regRoundPolygon('line',0,0,120,6,8)
                 gc.setColor(chartColor[1],chartColor[2],chartColor[3],timer2*.626)
                 for i=1,9,2 do
                     gc.polygon('fill',0,0,val[i],val[i+1],val[i+2],val[i+3])
@@ -350,13 +350,13 @@ scene.widgetList={
     WIDGET.newKey{name='quit',     x=290,y=540,w=300,h=70,code=pressKey'q'},
     WIDGET.newKey{name='tas',      x=290,y=620,w=240,h=50,code=pressKey't',hideF=function()return not SETTING.allowTAS or GAME.tasUsed or GAME.result or GAME.replaying end},
     WIDGET.newKey{name='page_prev',x=500,y=390,w=70,code=pressKey'tab',
-        fText=GC.DO{70,70,{'setLW',2},                                              {'dRPol',33,35,32,3,6,3.142},{'dRPol',45,35,32,3,6,3.142}},
-        fShade=GC.DO{70,70,{'setCL',1,1,1,.4},{'draw',GC.DO{70,70,{'setCL',1,1,1,1},{'fRPol',33,35,32,3,6,3.142},{'fRPol',45,35,32,3,6,3.142}}}},
+        fText=GC.DO{70,70,{'setLW',2},                                              {'dRRPol',33,35,32,3,6,3.142},{'dRRPol',45,35,32,3,6,3.142}},
+        fShade=GC.DO{70,70,{'setCL',1,1,1,.4},{'draw',GC.DO{70,70,{'setCL',1,1,1,1},{'fRRPol',33,35,32,3,6,3.142},{'fRRPol',45,35,32,3,6,3.142}}}},
         hideF=function()return PLAYERS[1].frameRun<=180 end,
         },
     WIDGET.newKey{name='page_next',x=1230,y=390,w=70,code=pressKey'Stab',
-        fText=GC.DO{70,70,{'setLW',2},                                              {'dRPol',37,35,32,3,6},{'dRPol',25,35,32,3,6}},
-        fShade=GC.DO{70,70,{'setCL',1,1,1,.4},{'draw',GC.DO{70,70,{'setCL',1,1,1,1},{'fRPol',37,35,32,3,6},{'fRPol',25,35,32,3,6}}}},
+        fText=GC.DO{70,70,{'setLW',2},                                              {'dRRPol',37,35,32,3,6},{'dRRPol',25,35,32,3,6}},
+        fShade=GC.DO{70,70,{'setCL',1,1,1,.4},{'draw',GC.DO{70,70,{'setCL',1,1,1,1},{'fRRPol',37,35,32,3,6},{'fRRPol',25,35,32,3,6}}}},
         hideF=function()return PLAYERS[1].frameRun<=180 end,
         },
     WIDGET.newKey{name='replay',   x=865,y=165,w=200,h=40,font=25,code=pressKey'p',hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},

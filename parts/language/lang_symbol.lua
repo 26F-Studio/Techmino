@@ -31,6 +31,8 @@ return{
     tasUsing="[TAS]",
 
     stage="::$1::",
+	cool=":D",
+	regret=":(",
     great="!~",
     awesome="!!~",
     almost="...!",

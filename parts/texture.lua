@@ -16,10 +16,10 @@ do
     gc.setColor(1,1,1)
     for i=1,29 do
         local b=BLOCKS[i][0]
-        TEXTURE.miniBlock[i]=NSC(#b[1],#b)
+        TEXTURE.miniBlock[i]=NSC(#b[1]*2,#b*2)
         for y=1,#b do for x=1,#b[1]do
             if b[y][x]then
-                gc.rectangle('fill',x-1,#b-y,1,1)
+                gc.rectangle('fill',2*(x-1),2*(#b-y),2,2)
             end
         end end
     end
