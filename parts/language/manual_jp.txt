@@ -6,13 +6,12 @@
         相手が居る場合、ラインの消し方等で攻撃と火力が異なります。
         勝利する為にはそのレベルの目標を達成もしくは最後までプレイする必要があります。
 
-回転システム:
-        初期設定はTRS (Techmino Rotation System) で設定されています。
+回転システム: で設定されています。
         プレイヤーは他の一般的な回転システムを使う事ができます (普通は変えなくても良し)。
 
 スピンの検出:
         「3コーナ」ルールを満たした時 +2点
-        「インモービル」ルールを満たした時 +2点
+        「Immobile」ルールを満たした時 +2点
         - 上のどちらかを満たした時、スピンが確定します。
 
         もし回転システムがキックテーブルから2番目のチェックを採用していなかった場合 +1点
@@ -29,22 +28,22 @@
                                 - スピントリプル   2
                                 - Techrash        4
                                 - Techrash+       8
-                        - B2B2Bはラインクリア数の0.5倍分追加とおまけに1ラインブロックします。
+                        - B2B2Bはラインクリア数の0.5倍分追加とおまけに1ライン分相殺します。
                         - ミニ判定の場合、その攻撃は元の0.25倍に下がります。
                 スピン無しのTechrash/Techrash+は消した分をそのまま送ります
                         - B2Bの場合は追加1ライン
-                        - B2B2Bの場合は50％のアタックブーストが掛かるとおまけに1ラインブロックします
+                        - B2B2Bの場合は50％のアタックブーストが掛かるとおまけに1ライン相殺します
         
         特殊なラインクリアはB2Bゲージを増加させます、そのゲージは後のB2BやB2B2Bにボーナスが追加されます。 (以下参照)
 
-        Hemi Perfect Clear (a P.C. "with blocks left below". If it's an I clearing 1 line, the remaining blocks must not be player-placed):
-                Attack +4, Extra Blocking +2
+        ヘマイパーフェクトクリア (「ブロックが下に残ってる」状態でのパフェ。 Iミノでクリアできるラインが一つであり、残りのミノ全てはプレイヤーが置かなかったミノ（おじゃまミノ）である事:
+                攻撃 +4 追加相殺 +2
 
-        Perfect Clear (aka All Clear):
-                Sends 8 to 16 (increments within a game by 2 for every PC) OR every other damage above, whichever is higher,
-                and +2 extra blocking.
+        パーフェクトクリア (通称: オールクリア):
+                8 から 16 ライン送る (試合内でパフェを送る度に前のライン数と2ライン分上乗せ) もしくは 上の記述からのダメージ、なおさら多い、
+                更に 追加相殺 +2。
 
-        Combos: All damage above will be given a (combo x25%) bonus, or (combo x15%) for Single clear (capped at 12 combo),
+        コンボ（通称: 連）: All damage above will be given a (combo x25%) bonus, or (combo x15%) for Single clear (capped at 12 combo),
         +1 more attack for 3 Combo or more.
         After calculating all above, the damage value will be rounded down then sent
 
