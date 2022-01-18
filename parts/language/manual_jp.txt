@@ -1,95 +1,109 @@
 ゲームプレイ:
         システムから与えられた全7種類のテトロミノ
-        (4ブロックで構成されたピース) をプレイヤーが操作します、
-        (左右移動と90°、180°、270°回転で)。
+        (4ブロックで構成されたピース) をプレイヤーが操作します, 
+        (主に左右移動と90°, 180°, 270°回転で)。
         各行がブロックで埋め尽くされるとその行列のブロックが消えます。
-        相手が居る場合、ラインの消し方等で攻撃と火力が異なります。
-        勝利する為にはそのレベルの目標を達成もしくは最後までプレイする必要があります。
+        相手が居る場合, ラインの消し方等で攻撃と火力が異なります。
+        勝利する為にはそのレベルの目標達成もしくは最後までプレイする必要があります。
 
-回転システム: で設定されています。
-        プレイヤーは他の一般的な回転システムを使う事ができます (普通は変えなくても良し)。
+回転システム: 
+        初期設定はTRS (Techmino Rotation System) で設定されています。
+        プレイヤーは他の一般的な回転システムも使う事ができます (基本的には変えなくても大丈夫)。
 
 スピンの検出:
         「3コーナ」ルールを満たした時 +2点
-        「Immobile」ルールを満たした時 +2点
-        - 上のどちらかを満たした時、スピンが確定します。
+        「インモービル (Immobile)」 ルールを満たした時 +2点
+        - 上のどちらかを満たした時, スピンが確定します。
 
-        もし回転システムがキックテーブルから2番目のチェックを採用していなかった場合 +1点
-        - もしスピンの合計点が2点しかない場合は「ミニ」扱いになります；ミノがS、Z、J、L、Tのいずれかで、ラインクリア時にそのミノを全て消せなかった場合のみ。
+        もし回転システムがキックテーブルから2番チェック (2nd check) を採用していなかった場合 +1点
+        - もしスピンの合計点が2点しかない場合は「ミニ」扱いになります；ミノがS, Z, J, L, Tのいずれかで, ラインクリア時にそのミノを全て消せなかった場合のみ。
 
-攻撃システム:
-        通常のクリア (1から3ライン):
+攻撃の火力システム:
+        通常のラインクリア (1から3ライン):
                 ラインを消した数から0.5引いた分 (四捨五入) を送ります
-        特殊なクリア:
+        特殊なラインクリア:
                 スピンはラインを消した数の2倍分送ります
-                        - B2Bは消し方に応じて追加します、以下の通り:
+                        - B2Bは消し方に応じて追加します, 以下の通り:
                                 - スピンシングル   1
                                 - スピンダブル     1
                                 - スピントリプル   2
                                 - Techrash        4
                                 - Techrash+       8
-                        - B2B2Bはラインクリア数の0.5倍分追加とおまけに1ライン分相殺します。
-                        - ミニ判定の場合、その攻撃は元の0.25倍に下がります。
+                        - B2B2Bは (ラインクリア数×0.5) 分のラインを上乗せ、更に1ライン追加相殺します。
+                        - ミニ判定の場合, その攻撃は元の0.25倍に下がります。
                 スピン無しのTechrash/Techrash+は消した分をそのまま送ります
                         - B2Bの場合は追加1ライン
-                        - B2B2Bの場合は50％のアタックブーストが掛かるとおまけに1ライン相殺します
+                        - B2B2Bの場合は50％の攻撃ブーストが掛かると更に1ライン分追加相殺します
         
-        特殊なラインクリアはB2Bゲージを増加させます、そのゲージは後のB2BやB2B2Bにボーナスが追加されます。 (以下参照)
-
-        ヘマイパーフェクトクリア (「ブロックが下に残ってる」状態でのパフェ。 Iミノでクリアできるラインが一つであり、残りのミノ全てはプレイヤーが置かなかったミノ（おじゃまミノ）である事:
+        特殊なラインクリアはB2Bゲージを増加させます, そのゲージは後のB2BやB2B2Bにボーナスが追加されます。 (以下参照)
+        
+        コンボ (通称: 連): 
+                全てのダメージに応じて (コンボ数×25％) の上乗せ, あるいはシングルに対して (コンボ数×15%) 上乗せ (最大12コンボまで) , 
+                ３コンボ以上で+1追加攻撃。
+        
+        ヘマイパーフェクトクリア (Hemi Perfect Clear) (「ブロックが下に残ってる」状態でのパフェ。 Iミノでクリアできるラインが一つであり, 残りのミノ全てはプレイヤーが置かなかったミノ (お邪魔ミノ) である事:
                 攻撃 +4 追加相殺 +2
 
         パーフェクトクリア (通称: オールクリア):
-                8 から 16 ライン送る (試合内でパフェを送る度に前のライン数と2ライン分上乗せ) もしくは 上の記述からのダメージ、なおさら多い、
+                8から16ライン送る (試合内でパフェを送る度に前のライン数と2ライン分上乗せ) もしくは 上の記述からのダメージと追加, なおさら多い, 
                 更に 追加相殺 +2。
+        
+        全てを計算した後に, ダメージ数を四捨五入して送ります。
 
-        コンボ（通称: 連）: All damage above will be given a (combo x25%) bonus, or (combo x15%) for Single clear (capped at 12 combo),
-        +1 more attack for 3 Combo or more.
-        After calculating all above, the damage value will be rounded down then sent
+スコアシステム:
+        上手くプレイすれば, スコアも上がります。
 
-Score system:
-        The better you play, the higher the score.
+攻撃遅延システム:
+        ダブル, トリプルの攻撃が一番早く効果が出ます;
+        その次にゆっくりとした攻撃を送るTechrash, スピン等, の効果が出ます;
+        高いコンボ数の攻撃が飛躍的に遅いです;
+        B2BやB2B2B等は, 送るライン数が増えれば増えるほど遅くなります; 
+        ミニ系の攻撃は攻撃自体の効果を大幅に遅らせます。
 
-Attack delay:
-        Attacks from Doubles/Triples take effect the fastest;
-        Followed by Techrash, Spins, which send slower attacks;
-        High combos are the slowest;
-        For B2B or B2B2B, they also increase the attack delay while they increase lines sent;
-        Minis will greatly increase the delay.
+カウンター:
+        攻撃を送る際, もしお邪魔ゲージにお邪魔がある場合, 
+        追加相殺がまず使われ, その次に攻撃自体とお邪魔を1対1の割合でお邪魔の相殺に当てます。
+        使わなかった追加相殺は破棄され、残った攻撃のパワーは相手に送られます。
 
-Countering:
-        When you send attacks, if there is garbage in queue,
-        extra blocking will be used first, then attack, countering the earliest attack at a 1:1 ratio.
-        Any extra blocking you didn't use will be discarded, and finally the remaining attack power will be sent to your opponent.
+バックツーバック (B2B) ゲージ:
+        B2Bのゲージの範囲は0から1000あります。もしゲージの値が50以上なら特殊なラインクリアはB2Bと見なされ、800以上ならB2B2B (バックツーバックツーバック) 扱いとなります。
+        普通のラインクリアは -250
+        
+        スピンシングル:   +50
+        スピンダブル:     +100
+        スピントリプル:   +180
+        特殊なTechrash:  +800
+        特殊なTechrash+: +1000
+        ミニ系は (上の記述通り×50%)
 
-Back to Back (B2B) gauge:
-        The B2B gauge ranges from 0 to 1,000. Special line clears are B2B if the gauge is >=50, B2B2B if >800.
-        A regular line clear -250
-        Spin Single/Double/Triple/Techrash/Techrash+ + 50/100/180/800/1000 (x50% if Mini)
-        Techrash/Techrash+ + 150/200/...
-        PC when lines cleared in this round >4, +800
-        Hemi-PC, +100
-        Spin (0 lines) +20. Do note that the B2B gauge cannot exceed 800 using this method.
-        When gauge is above 800, a drop without clearing lines decreases it by 40, but cannot drop below 800
+        普通のTechrashは+150 
+        Techrash+は+200
+        … と続きます。
 
-Battle Royale modes:
-        Many players play a game at the same time (against AI bots, not real players).
-        As players get eliminated, blocks fall faster, and garbage take effect faster, as well as rise faster.
-        Eliminate other players to gain a badge and the player's badge to increase your attack power.
-        Players can choose between four attack modes:
-                1. Random: Every time you attack, 10% chance to lock onto a random player.
-                2. Badges: After you attack or when your target dies, lock onto the player with the most badges.
-                3. KOs: After you attack or when your target dies, lock onto the player with the highest field. (Refreshes every second)
-                4. Attackers: attack all players locking onto yourself.
-                Your attack will be sent to all of them. If you are not targetted, you attack a random player (not locking).
-        When all opponents have been eliminated, the last player in the match is the winner.
+        このラウンド内の合計ライン数が4以上でパフェを取った場合, +800
+        ヘマイパフェ, +100
+        スピン (0ライン) は+20, 注意としてこの方法ではゲージを800以上は増やせません。
+        もしゲージが800以上ある場合, 毎回のラインクリア無しの落下で40減りますが、800未満にはなりません。
 
-Custom mode:
-        You can freely adjust most parameters (not including special effects of other game modes).
-        You can also draw a field to clear or make a template to build.
-        In build (puzzle) mode, you can toggle template display with Function key:
-                Cells with a X cannot have blocks;
-                empty cells can be in any state;
-                regular colored cells have to be made of the corresponding block;
-                garbage-colored cells can be any block but not air.
-        Once you make the shape, you will win.
+バトルロイヤルモード:
+        沢山のプレイヤーが同時にゲームをプレイします (対AIです, 本物の人ではありません)。
+        人数が減れば減るほど、ミノの落下速度は加速していき、お邪魔の効果が早く出る同時にせり上がる速度も上がります。
+        他のプレイヤーを倒してバッジを得て、そしてそのバッジであなた自身の攻撃力を上げましょう。
+        プレイヤーは4つの攻撃モードから選ぶことができます:
+                1: ランダム: 毎回攻撃を送る際, 10%の確率で他のプレイヤーに照準を合わせます。
+                2: バッジ狙い: 攻撃を送った後もしくは標的が落とされた場合, バッジの数が一番多いプレイヤーに照準を合わせます。
+                3. トドメ撃ち: 攻撃を送った後もしくは標的が落とされた場合, 各プレイヤの中からフィールドの高さが一番高いプレイヤーに照準を合わせます。
+                        (毎秒更新されます)
+                4. カウンター: あなたに照準を向けられてるプレイヤー全員に照準を同時に向けます。
+                        あなたの攻撃は照準を向けてるプレイヤー全てに送られます。照準をあなたに向けられていない場合、ランダムにプレイヤーを攻撃します (プレイヤー照準固定無し)
+        全てのプレイヤーが落とされた場合, 最後のプレイヤーが勝者となります。
+
+カスタムモード:
+        殆どの変数を自由に変えられます (他のゲームモードの特殊エフェクトを除いて)。
+        更に消す為のフィールドを描いたりまたは積み上げる為のテンプレも作れます。
+        ビルド (パズル) モードの場合, テンプレの表示をファンクションキーで操作できます:
+                X印の場所にはブロックは置けない;
+                無印の場所は何来ても構わない;
+                色付きの場所にはその色に合わせてのミノブロックを置かないいけない;
+                おじゃまミノ色の場所にはあるブロックが来てる扱いで空きスペースではない。
+        形を整えた後に, 勝ち判定となります。
