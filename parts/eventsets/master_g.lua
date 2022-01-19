@@ -112,12 +112,12 @@ return{
     das=16,arr=1,
     minsdarr=1,
     ihs=true,irs=true,ims=false,
-    RS='SRS',
+    RS='SRS_plus',
     mesDisp=function(P)
         gc.setColor(1,1,1,1)
         setFont(45)
         mText(TEXTOBJ.grade,63,180)
-        setFont(62)
+        setFont(60)
         mStr(getGrade(),63,110)
         if isInRoll then
             setFont(20)
@@ -258,23 +258,22 @@ return{
                 if regretDelay==-1 then P:_showText("REGRET!!",0,-120,80,'beat',.8) end
             end
             if isInRollTrans then
-                if P.waiting==220 then
+                if P.waiting>=220 then
                     --Make field invisible
-                    for j=1,#P.field do for i=1,10 do
-                        P.visTime[j][i]=P.visTime[j][i]-0.001
+                    for y=1,#P.field do for x=1,10 do
+                        P.visTime[y][x]=P.waiting-220
                     end end
                 elseif P.waiting==190 then
-                    for _=#P.field,1,-1 do
-                        P.field[_],P.visTime[_]=nil
-                    end
+                    TABLE.cut(P.field)
+                    TABLE.cut(P.visTime)
                 elseif P.waiting==180 then
                     playReadySFX(3,3)
                 elseif P.waiting==120 then
-                    playReadySFX(2,2)
+                    playReadySFX(2,1)
                 elseif P.waiting==60 then
                     playReadySFX(1,1)
                 elseif P.waiting==1 then
-                    playReadySFX(0,0)
+                    playReadySFX(0,1)
                     isInRollTrans=false
                     isInRoll=true
                     BGM.play('hope')
