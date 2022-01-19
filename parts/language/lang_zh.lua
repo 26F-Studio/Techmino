@@ -31,8 +31,6 @@ return{
     tasUsing="[TAS]",
 
     stage="关卡 $1 完成",
-	cool="Cool！",
-	regret="Regret！！",
     great="Great！",
     awesome="Awesome.",
     almost="Almost！",
