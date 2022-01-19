@@ -18,8 +18,6 @@ Spin detection:
         - The Spin is a Mini if it only has 2 points; the piece is one of S, Z, J, L, T; AND the line clear did not clear the entire piece.
 
 Attack system:
-        Normal line clears (1 to 3 lines):
-                Sends (lines cleared -0.5) attack
         Special line clears:
                 Spin sends (lines cleared x2) attack,
                         - B2B sends extra 1/1/2/4/8 for Spin Single/Double/Triple/Techrash/Techrash+
@@ -28,18 +26,18 @@ Attack system:
                 Non-Spin Techrash/Techrash+ sends (lines cleared) attack,
                         - B2B sends 1 additional line
                         - B2B2B will have an attack boost of 50% and +1 extra blocking
+                Hemi Perfect Clear (a P.C. "with blocks left below". If it's an I clearing 1 line, the remaining blocks must not be player-placed):
+                        - Attack +4, Extra Blocking +2
+                Perfect Clear (aka All Clear):
+                        - Sends 8 to 16 (increments within a game by 2 for every PC) OR every other damage above, whichever is higher,
+                        and +2 extra blocking.
+        Normal line clears (1 to 3 lines, no spin or pc/hpc):
+                Sends (lines cleared -0.5) attack
 
-        Special line clears will the increase B2B gauge, making later special line clears have either a B2B or B2B2B bonus (see below)
-
-        Combos: All damage above will be given a (combo x25%) bonus, or (combo x15%) for Single clear (capped at 12 combo),
+        Combos: All damage above (except attack from pc/hpc) will be given a (combo x25%) bonus, or (combo x15%) for Single clear (capped at 12 combo),
         +1 more attack for 3 Combo or more.
 
-        Hemi Perfect Clear (a P.C. "with blocks left below". If it's an I clearing 1 line, the remaining blocks must not be player-placed):
-                Attack +4, Extra Blocking +2
-
-        Perfect Clear (aka All Clear):
-                Sends 8 to 16 (increments within a game by 2 for every PC) OR every other damage above, whichever is higher,
-                and +2 extra blocking.
+        Special line clears will the increase B2B gauge, making later special line clears have either a B2B or B2B2B bonus (see below)
 
         After calculating all above, the damage value will be rounded down then sent
 
