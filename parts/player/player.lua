@@ -217,11 +217,11 @@ function Player:_deepDrop()
     end
 end
 function Player:act_moveLeft(auto)
+    self.movDir=-1
     if not self.control then return end
     if not auto then
         self.ctrlCount=self.ctrlCount+1
     end
-    self.movDir=-1
     if self.cur then
         if self.cur and not self:ifoverlap(self.cur.bk,self.curX-1,self.curY)then
             self:createMoveFX('left')
@@ -239,11 +239,11 @@ function Player:act_moveLeft(auto)
     end
 end
 function Player:act_moveRight(auto)
+    self.movDir=1
     if not self.control then return end
     if not auto then
         self.ctrlCount=self.ctrlCount+1
     end
-    self.movDir=1
     if self.cur then
         if self.cur and not self:ifoverlap(self.cur.bk,self.curX+1,self.curY)then
             self:createMoveFX('right')
