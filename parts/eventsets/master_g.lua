@@ -3,6 +3,12 @@ local regretDelay=-1
 local int_grade=0
 local grade_points=0
 local int_grade_boosts={0,1,2,3,4,5,5,6,6,7,7,7,8,8,8,9,9,9,10,11,12,12,12,13,13,14,14,15,15,16,16,17,17,18,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26}
+local gradeList={
+    "9","8","7","6","5","4","3","2","1",
+    "S1","S2","S3","S4","S5","S6","S7","S8","S9",
+    "m1","m2","m3","m4","m5","m6","m7","m8","m9",
+    "M","MK","MV","MO","MM-","MM","MM+","GM-","GM","GM+","TM-","TM","TM+"
+}
 local spd_lvl=0
 local cools=0
 local regrets=0
@@ -66,12 +72,6 @@ local function getDas(l)
     6
 end
 local function getGrade()
-    local gradeList={
-        "9","8","7","6","5","4","3","2","1",
-        "S1","S2","S3","S4","S5","S6","S7","S8","S9",
-        "m1","m2","m3","m4","m5","m6","m7","m8","m9",
-        "M","MK","MV","MO","MM-","MM","MM+","GM-","GM","GM+","TM-","TM","TM+"
-    }
     if int_grade==nil then int_grade=0 end
     if rollGrades==nil then rollGrades=0 end
     return gradeList[math.min(math.floor(int_grade_boosts[math.min(int_grade+1,#int_grade_boosts)]+rollGrades+cools+1-regrets),#gradeList)]
