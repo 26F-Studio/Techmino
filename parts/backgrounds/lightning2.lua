@@ -6,7 +6,6 @@ local back={}
 local t
 local colorLib=BLOCK_COLORS
 local blocks=BLOCKS
-local scs=RSlist.TRS.centerPos
 function back.init()
     t=rnd()*2600
 end
@@ -21,6 +20,6 @@ function back.draw()
     end
     local _=colorLib[SETTING.skin[R]]
     gc.setColor(_[1],_[2],_[3],.12)
-    gc.draw(TEXTURE.miniBlock[R],SCR.cx,SCR.cy,t%3.1416*6,400*SCR.k,nil,scs[R][0][2]+.5,#blocks[R][0]-scs[R][0][1]-.5)
+    gc.draw(TEXTURE.miniBlock[R],SCR.cx,SCR.cy,t%3.1416*6,200*SCR.k,nil,2*DSCP[R][0][2]+1,2*(#blocks[R][0]-DSCP[R][0][1])-1)
 end
 return back

@@ -10,7 +10,7 @@ local function log(str)outputBox:push(str)end
 _SCLOG=log
 
 log{C.lP,"Techmino Console"}
-log{C.lC,"©2021 26F Studio   some rights reserved"}
+log{C.lC,"© Copyright 2019–2022 26F Studio. Some rights reserved."}
 log{C.dR,"WARNING: DO NOT RUN ANY CODE THAT YOU DON'T UNDERSTAND."}
 
 local history,hisPtr={"?"}
@@ -124,7 +124,7 @@ local commands={}do
                     tree(path..name.."/",subName,depth+1)
                 end
             else
-                log("Unkown item type: %s (%s)"):format(name,info.type)
+                log("Unknown item type: %s (%s)"):format(name,info.type)
             end
         end
         commands.tree={
@@ -181,7 +181,7 @@ local commands={}do
                         elseif info.type=='directory'then
                             recursiveDelDir(path)
                         else
-                            log("Unkown item type: %s (%s)"):format(name,info.type)
+                            log("Unknown item type: %s (%s)"):format(name,info.type)
                         end
                     end
                 end
@@ -207,7 +207,7 @@ local commands={}do
                         elseif info.type=='directory'then
                             (recursive and recursiveDelDir or delDir)(name)
                         else
-                            log("Unkown item type: %s (%s)"):format(name,info.type)
+                            log("Unknown item type: %s (%s)"):format(name,info.type)
                         end
                     else
                         log{C.R,("No file called '%s'"):format(name)}
@@ -745,7 +745,7 @@ local commands={}do
             elseif code=="7126"then
                 sumode=true
                 log{C.Y,"* SU MODE ON - DO NOT RUN ANY CODES IF YOU DO NOT KNOW WHAT THEY DO *"}
-                log{C.Y,"* Use function _SCLOG(message) to print message here *"}
+                log{C.Y,"* Use the _SCLOG(message) function to print into this console *"}
                 log{C.Y,"* 最高权限模式开启, 请不要执行任何自己不懂确切含义的代码 *"}
                 log{C.Y,"* 使用_SCLOG(信息)函数在控制台打印信息 *"}
             else
@@ -976,7 +976,7 @@ local userG={
     -- collectgarbage=collectgarbage,
 
     math={},string={},table={},bit={},coroutine={},
-    debug={"No way."},package={"No way."},io={"No way."},os={"No way."},
+    debug={},package={},io={},os={},
 }
 function userG.print(...)
     local args,L={...},{}
@@ -999,6 +999,11 @@ TABLE.complete(string,userG.string)userG.string.dump=nil
 TABLE.complete(table,userG.table)
 TABLE.complete(bit,userG.bit)
 TABLE.complete(coroutine,userG.coroutine)
+local dangerousLibMeta={__index=function()error("No way.")end}
+setmetatable(userG.debug,dangerousLibMeta)
+setmetatable(userG.package,dangerousLibMeta)
+setmetatable(userG.io,dangerousLibMeta)
+setmetatable(userG.os,dangerousLibMeta)
 
 --Puzzle box
 local first_key={}
@@ -1122,7 +1127,7 @@ function scene.keyDown(key)
             end
 
             if #res>1 then
-                log(">Commands start with '"..str.."' :")
+                log(">Commands that start with '"..str.."' :")
                 table.sort(res)
                 for i=1,#res do log{COLOR.lH,res[i]}end
             elseif #res==1 then

@@ -58,6 +58,8 @@ function bot_cc:thread()
                 local m=rem(move,1)
                 if m<4 then
                     ins(keys,m+1)
+                elseif m==5 then
+                    ins(keys, 5)
                 elseif not self.data._20G then
                     ins(keys,13)
                 end

@@ -217,6 +217,7 @@ function Player:_deepDrop()
     end
 end
 function Player:act_moveLeft(auto)
+    if not self.control then return end
     if not auto then
         self.ctrlCount=self.ctrlCount+1
     end
@@ -238,6 +239,7 @@ function Player:act_moveLeft(auto)
     end
 end
 function Player:act_moveRight(auto)
+    if not self.control then return end
     if not auto then
         self.ctrlCount=self.ctrlCount+1
     end
@@ -259,6 +261,7 @@ function Player:act_moveRight(auto)
     end
 end
 function Player:act_rotRight()
+    if not self.control then return end
     if self.cur then
         self.ctrlCount=self.ctrlCount+1
         self:spin(1)
@@ -266,6 +269,7 @@ function Player:act_rotRight()
     end
 end
 function Player:act_rotLeft()
+    if not self.control then return end
     if self.cur then
         self.ctrlCount=self.ctrlCount+1
         self:spin(3)
@@ -273,6 +277,7 @@ function Player:act_rotLeft()
     end
 end
 function Player:act_rot180()
+    if not self.control then return end
     if self.cur then
         self.ctrlCount=self.ctrlCount+2
         self:spin(2)
@@ -280,6 +285,7 @@ function Player:act_rot180()
     end
 end
 function Player:act_hardDrop()
+    if not self.control then return end
     local ENV=self.gameEnv
     if self.cur then
         if self.lastPiece.autoLock and self.frameRun-self.lastPiece.frame<ENV.dropcut then
@@ -305,6 +311,7 @@ function Player:act_hardDrop()
     end
 end
 function Player:act_softDrop()
+    if not self.control then return end
     self.downing=0
     if self.cur then
         if self.curY>self.ghoY then
@@ -325,6 +332,7 @@ function Player:act_softDrop()
     end
 end
 function Player:act_hold()
+    if not self.control then return end
     if self.cur then
         if self:hold()then
             self.keyPressing[8]=false
@@ -332,13 +340,16 @@ function Player:act_hold()
     end
 end
 function Player:act_func1()
+    if not self.control then return end
     self.gameEnv.fkey1(self)
 end
 function Player:act_func2()
+    if not self.control then return end
     self.gameEnv.fkey2(self)
 end
 
 function Player:act_insLeft(auto)
+    if not self.control then return end
     if not self.cur then
         return
     end
@@ -364,6 +375,7 @@ function Player:act_insLeft(auto)
     end
 end
 function Player:act_insRight(auto)
+    if not self.control then return end
     if not self.cur then
         return
     end
@@ -389,6 +401,7 @@ function Player:act_insRight(auto)
     end
 end
 function Player:act_insDown()
+    if not self.control then return end
     if self.cur and self.curY>self.ghoY then
         local ENV=self.gameEnv
         self:createDropFX()
@@ -403,6 +416,7 @@ function Player:act_insDown()
     end
 end
 function Player:act_down1()
+    if not self.control then return end
     if self.cur then
         if self.curY>self.ghoY then
             self:createMoveFX('down')
@@ -415,6 +429,7 @@ function Player:act_down1()
     end
 end
 function Player:act_down4()
+    if not self.control then return end
     if self.cur then
         if self.curY>self.ghoY then
             local ghoY0=self.ghoY
@@ -429,6 +444,7 @@ function Player:act_down4()
     end
 end
 function Player:act_down10()
+    if not self.control then return end
     if self.cur then
         if self.curY>self.ghoY then
             local ghoY0=self.ghoY
@@ -443,18 +459,21 @@ function Player:act_down10()
     end
 end
 function Player:act_dropLeft()
+    if not self.control then return end
     if self.cur then
         self:act_insLeft()
         self:act_hardDrop()
     end
 end
 function Player:act_dropRight()
+    if not self.control then return end
     if self.cur then
         self:act_insRight()
         self:act_hardDrop()
     end
 end
 function Player:act_zangiLeft()
+    if not self.control then return end
     if self.cur then
         self:act_insLeft()
         self:act_insDown()
@@ -463,6 +482,7 @@ function Player:act_zangiLeft()
     end
 end
 function Player:act_zangiRight()
+    if not self.control then return end
     if self.cur then
         self:act_insRight()
         self:act_insDown()
@@ -1784,6 +1804,17 @@ do
                 VOC.play(clearVoice[cc],CHN)
             end
 
+            --PC/HPC check
+            if clear and cc>=#C.bk then
+                if CY==1 then
+                    piece.pc=true
+                    piece.special=true
+                elseif cc>1 or self.field[#self.field].garbage then
+                    piece.hpc=true
+                    piece.special=true
+                end
+            end
+
             --Normal clear,reduce B2B point
             if not piece.special then
                 self.b2b=max(self.b2b-250,0)
@@ -1804,40 +1835,34 @@ do
                 cscore=cscore+min(50*cmb,500)*(2*cc-1)
             end
 
-            --PC/HPC
-            if clear and cc>=#C.bk then
-                if CY==1 then
-                    self:showText(text.PC,0,-80,50,'flicker')
-                    atk=max(atk,min(8+Stat.pc*2,16))
-                    exblock=exblock+2
-                    sendTime=sendTime+120
-                    if Stat.row+cc>4 then
-                        self.b2b=self.b2b+800
-                        cscore=cscore+300*min(6+Stat.pc,10)
-                    else
-                        cscore=cscore+626
-                    end
-                    Stat.pc=Stat.pc+1
-                    if self.sound then
-                        SFX.play('pc')
-                        VOC.play('perfect_clear',CHN)
-                    end
-                    piece.pc=true
-                    piece.special=true
-                elseif cc>1 or self.field[#self.field].garbage then
-                    self:showText(text.HPC,0,-80,50,'fly')
-                    atk=atk+4
-                    exblock=exblock+2
-                    sendTime=sendTime+60
-                    self.b2b=self.b2b+100
+            --PC/HPC effect
+            if piece.pc then
+                self:showText(text.PC,0,-80,50,'flicker')
+                atk=max(atk,min(8+Stat.pc*2,16))
+                exblock=exblock+2
+                sendTime=sendTime+120
+                if Stat.row+cc>4 then
+                    self.b2b=self.b2b+800
+                    cscore=cscore+300*min(6+Stat.pc,10)
+                else
                     cscore=cscore+626
-                    Stat.hpc=Stat.hpc+1
-                    if self.sound then
-                        SFX.play('pc')
-                        VOC.play('half_clear',CHN)
-                    end
-                    piece.hpc=true
-                    piece.special=true
+                end
+                Stat.pc=Stat.pc+1
+                if self.sound then
+                    SFX.play('pc')
+                    VOC.play('perfect_clear',CHN)
+                end
+            elseif piece.hpc then
+                self:showText(text.HPC,0,-80,50,'fly')
+                atk=atk+4
+                exblock=exblock+2
+                sendTime=sendTime+60
+                self.b2b=self.b2b+100
+                cscore=cscore+626
+                Stat.hpc=Stat.hpc+1
+                if self.sound then
+                    SFX.play('pc')
+                    VOC.play('half_clear',CHN)
                 end
             end
 
@@ -2057,6 +2082,11 @@ do
             if _cc>6 then self:showText(text.cleared:gsub("$1",_cc),0,55,30,'zoomout',.4)end
             self:_removeClearedLines()
             self:_updateFalling(self.gameEnv.fall)
+            if _cc>=4 then
+                self.b2b=min(self.b2b+_cc*50-50,1000)
+            else
+                self.b2b=max(self.b2b-250,0)
+            end
             self.stat.row=self.stat.row+_cc
             self.stat.dig=self.stat.dig+_gbcc
             self.stat.score=self.stat.score+clearSCR[_cc]

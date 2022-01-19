@@ -118,9 +118,9 @@ return{
     noPassword="Please enter your password",
     diffPassword="Passwords don't match",
     registerRequestSent="A sign up request has been sent.",
-    registerSuccessed="Sign up successful!",
-    loginSuccessed="You are now logged in!",
-    accessSuccessed="Access granted",
+    registerOK="Sign up successful!",
+    loginOK="You are now logged in!",
+    accessOK="Access granted",
 
     wsConnecting="Websocket connecting…",
     wsFailed="WebSocket connection failed",
@@ -145,7 +145,6 @@ return{
     customBGloadFailed="Unsupport image format for custom background",
 
     errorMsg="Techmino ran into a problem and needs to restart.\nYou can send the error log to the developers.",
-    tryAnotherBuild="[Invalid UTF-8] If you are on Windows, try downloading Techmino-win32 or Techmino-win64 (different from what you are using now).",
 
     modInstruction="Choose your modifiers!\nMods allow you to change the game,\nbut they may also crash the game.\nScores will not be saved when using mods.",
     modInfo={
@@ -278,6 +277,8 @@ return{
         "C₂₉H₂₅N₃O₅",
         "NOT_A_ROBOT",
         "sakurw",
+        "Airun",
+        "幽灵3383",
         "",
         "Performances",
         "Electric283",

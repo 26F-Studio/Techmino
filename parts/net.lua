@@ -467,14 +467,14 @@ function NET.updateWS_user()
                                 SCN.back()
                             end
                         end
-                        MES.new('check',text.loginSuccessed)
+                        MES.new('check',text.loginOK)
 
                         --Get self infos
                         NET.getUserInfo(USER.uid)
                         NET.unlock('wsc_user')
                     elseif res.action==0 then--Get accessToken
                         NET.accessToken=res.accessToken
-                        MES.new('check',text.accessSuccessed)
+                        MES.new('check',text.accessOK)
                         NET.wsconn_play()
                     elseif res.action==1 then--Get userInfo
                         USERS.updateUserData(res.data)

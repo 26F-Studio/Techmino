@@ -782,7 +782,7 @@ function draw.norm(P,repMode)
             _drawFXs(P)
 
             --Draw current block
-            if P.alive and P.cur then
+            if P.alive and P.control and P.cur then
                 local C=P.cur
                 local curColor=C.color
 
@@ -1021,7 +1021,7 @@ function draw.demo(P)
                 local _=BLOCK_COLORS[skinSet[id]]
                 gc_setColor(_[1],_[2],_[3],.3)
                 _=blockImg[id]
-                gc_draw(_,15,40*N-10,nil,16,nil,0,_:getHeight()*.5)
+                gc_draw(_,15,40*N-10,nil,8,nil,0,_:getHeight()*.5)
                 N=N+1
             end
 
@@ -1032,7 +1032,7 @@ function draw.demo(P)
                 local _=BLOCK_COLORS[skinSet[id]]
                 gc_setColor(_[1],_[2],_[3],.3)
                 _=blockImg[id]
-                gc_draw(_,285,40*N-10,nil,16,nil,_:getWidth(),_:getHeight()*.5)
+                gc_draw(_,285,40*N-10,nil,8,nil,_:getWidth(),_:getHeight()*.5)
                 N=N+1
             end
 
