@@ -17,7 +17,7 @@ return{
     mesDisp=function(P)
         setFont(75)
         local r=P.modeData.target/10
-        mStr(r<11 and 19 or r<22 and r+8 or("%02x"):format(r*10-220),63,210)
+        mStr(r<11 and 19 or r<22 and r+9 or("%02x"):format(r*10-220),63,210)
         mText(TEXTOBJ.speedLV,63,290)
         PLY.draw.drawProgress(P.stat.row,P.modeData.target)
         if P.modeData.drought>7 then
