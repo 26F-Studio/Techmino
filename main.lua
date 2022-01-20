@@ -51,8 +51,8 @@ local _LOADTIME_=TIME()
 --Load modules
 Z=require'Zframework'
 FONT.load{
-    norm='parts/fonts/proportional.ttf',
-    mono='parts/fonts/monospaced.ttf',
+    norm='parts/fonts/proportional.otf',
+    mono='parts/fonts/monospaced.otf',
 }
 FONT.setDefault('norm')
 FONT.setFallback('norm')

@@ -1,7 +1,7 @@
 Gameplay:
         The system will provide you with tetrominoes (4-block pieces),
         with a total of 7 types, and the player needs to control them
-        (move left and right, rotate 90, 180 or 270 degrees).
+        (move left and right, rotate 90, 180, or 270 degrees).
         each row filled with the field will be cleared.
         If there is an opponent, an attack will be sent depending on the line clear type
         Play until the end or achieve the level's goal to win.
@@ -18,30 +18,49 @@ Spin detection:
         - The Spin is a Mini if it only has 2 points; the piece is one of S, Z, J, L, T; AND the line clear did not clear the entire piece.
 
 Attack system:
-        Normal line clears (1 to 3 lines):
-                Sends (lines cleared -0.5) attack
-        Special line clears:
-                Spin sends (lines cleared x2) attack,
-                        - B2B sends extra 1/1/2/4/8 for Spin Single/Double/Triple/Techrash/Techrash+
-                        - B2B2B sends (lines cleared x0.5), and +1 extra blocking
-                        - Minis reduces the attack to 25% (x0.25 multiplier)
-                Non-Spin Techrash/Techrash+ sends (lines cleared) attack,
-                        - B2B sends 1 additional line
-                        - B2B2B will have an attack boost of 50% and +1 extra blocking
+        Special clear:
+                A special clear refers to a situation where you perform a spin, Techrash (or clear more than four lines at a time), PC, or HPC. Special clears can elevate the B2B gauge.
+        Super clear:
+                A super clear refers to a situation where you perform a special clear when the B2B gauge is not empty.
 
-        Special line clears will the increase B2B gauge, making later special line clears have either a B2B or B2B2B bonus (see below)
+        Special clears (spins):
+                sends (lines cleared ×2) attack,
+                - B2B sends extra 1/1/2/4/8 for Spin Single/Double/Triple/Techrash/Techrash+
+                - B2B2B sends (lines cleared ×0.5), and +1 extra blocking
+                - Minis reduces the attack to 25% (×0.25 multiplier)
 
-        Combos: All damage above will be given a (combo x25%) bonus, or (combo x15%) for Single clear (capped at 12 combo),
-        +1 more attack for 3 Combo or more.
+        Special clears (Techrash/techrash+ without spins):
+                - B2B sends 1 additional line
+                - B2B2B will have an attack boost of 50% and +1 extra blocking
+        
+        Non-special clears:
+                send (attack-0.5) attack.
 
+        Combos (REN):
+                The numbers of the combos are equal to (the numbers you clear lines consecutively –1). All damage above (except attack from PC/HPC) will be given a (combo ×25%) bonus, or (combo ×15%) for Single clear (capped at 12 combo), +1 more attack for 3 Combo or more.
+        
         Hemi Perfect Clear (a P.C. "with blocks left below". If it's an I clearing 1 line, the remaining blocks must not be player-placed):
-                Attack +4, Extra Blocking +2
+                - Attack +4, Extra Blocking +2
 
-        Perfect Clear (aka All Clear):
-                Sends 8 to 16 (increments within a game by 2 for every PC) OR every other damage above, whichever is higher,
-                and +2 extra blocking.
+        Perfect Clear (All Clear):
+                - Sends 8 to 16 (increments within a game by 2 for every PC) OR every other damage above, whichever is higher, and +2 extra blocking.
 
-        After calculating all above, the damage value will be rounded down then sent
+        After calculating all the above, the damage value will be rounded down and sent.
+
+
+Back to Back (B2B) gauge:
+        The B2B gauge ranges from 0 to 1,000. Special line clears are B2B if the gauge is >=50, B2B2B if >800.
+
+        Line cleared:
+                Special clears:
+                - Spin Single/Double/Triple/Techrash/Techrash+ + 50/100/180/800/1000 (×50% if Mini)
+                - Techrash/Techrash+ + 150/200/...
+                - PC when lines cleared in this round >4, +800
+                - HPC, +100
+                - A regular line clear -250
+
+        No lines cleared:
+                - Spin (0 lines) +20. Do note that the B2B gauge cannot exceed 800 using this method.
 
 Score system:
         The better you play, the higher the score.
@@ -54,37 +73,27 @@ Attack delay:
         Minis will greatly increase the delay.
 
 Countering:
-        When you send attacks, if there is garbage in queue,
+        When you send attacks, if there is garbage in the queue,
         extra blocking will be used first, then attack, countering the earliest attack at a 1:1 ratio.
-        Any extra blocking you didn't use will be discarded, and finally the remaining attack power will be sent to your opponent.
-
-Back to Back (B2B) gauge:
-        The B2B gauge ranges from 0 to 1,000. Special line clears are B2B if the gauge is >=50, B2B2B if >800.
-        A regular line clear -250
-        Spin Single/Double/Triple/Techrash/Techrash+ + 50/100/180/800/1000 (x50% if Mini)
-        Techrash/Techrash+ + 150/200/...
-        PC when lines cleared in this round >4, +800
-        Hemi-PC, +100
-        Spin (0 lines) +20. Do note that the B2B gauge cannot exceed 800 using this method.
-        When gauge is above 800, a drop without clearing lines decreases it by 40, but cannot drop below 800
+        Any extra blocking you didn't use will be discarded, and finally, the remaining attack power will be sent to your opponent.
 
 Battle Royale modes:
         Many players play a game at the same time (against AI bots, not real players).
-        As players get eliminated, blocks fall faster, and garbage take effect faster, as well as rise faster.
+        As players get eliminated, blocks fall faster, and garbage takes effect faster, as well as rises faster.
         Eliminate other players to gain a badge and the player's badge to increase your attack power.
         Players can choose between four attack modes:
                 1. Random: Every time you attack, 10% chance to lock onto a random player.
                 2. Badges: After you attack or when your target dies, lock onto the player with the most badges.
                 3. KOs: After you attack or when your target dies, lock onto the player with the highest field. (Refreshes every second)
                 4. Attackers: attack all players locking onto yourself.
-                Your attack will be sent to all of them. If you are not targetted, you attack a random player (not locking).
+                Your attack will be sent to all of them. If you are not targeted, you attack a random player (not locking).
         When all opponents have been eliminated, the last player in the match is the winner.
 
 Custom mode:
         You can freely adjust most parameters (not including special effects of other game modes).
         You can also draw a field to clear or make a template to build.
         In build (puzzle) mode, you can toggle template display with Function key:
-                Cells with a X cannot have blocks;
+                Cells with an X cannot have blocks;
                 empty cells can be in any state;
                 regular colored cells have to be made of the corresponding block;
                 garbage-colored cells can be any block but not air.
