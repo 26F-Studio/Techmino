@@ -35,7 +35,7 @@ return{
     task=function(P)
         P.modeData.target=10
     end,
-    dropPiece=function(P)
+    hook_drop=function(P)
         local D=P.modeData
         D.drought=P.lastPiece.id==7 and 0 or D.drought+1
         if P.stat.row>=D.target then
