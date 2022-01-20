@@ -217,11 +217,11 @@ function Player:_deepDrop()
     end
 end
 function Player:act_moveLeft(auto)
+    self.movDir=-1
     if not self.control then return end
     if not auto then
         self.ctrlCount=self.ctrlCount+1
     end
-    self.movDir=-1
     if self.cur then
         if self.cur and not self:ifoverlap(self.cur.bk,self.curX-1,self.curY)then
             self:createMoveFX('left')
@@ -239,11 +239,11 @@ function Player:act_moveLeft(auto)
     end
 end
 function Player:act_moveRight(auto)
+    self.movDir=1
     if not self.control then return end
     if not auto then
         self.ctrlCount=self.ctrlCount+1
     end
-    self.movDir=1
     if self.cur then
         if self.cur and not self:ifoverlap(self.cur.bk,self.curX+1,self.curY)then
             self:createMoveFX('right')
@@ -1798,30 +1798,15 @@ do
                 self.b2b=self.b2b+cc*50-50
                 piece.special=true
             else
-                piece.special=false
-            end
-            if self.sound and(cc~=1 or dospin)then
-                VOC.play(clearVoice[cc],CHN)
-            end
-
-            --PC/HPC check
-            if clear and cc>=#C.bk then
-                if CY==1 then
-                    piece.pc=true
-                    piece.special=true
-                elseif cc>1 or self.field[#self.field].garbage then
-                    piece.hpc=true
-                    piece.special=true
-                end
-            end
-
-            --Normal clear,reduce B2B point
-            if not piece.special then
-                self.b2b=max(self.b2b-250,0)
                 self:showText(text.clear[cc],0,-30,35,'appear',(8-cc)*.3)
                 atk=cc-.5
                 sendTime=20+int(atk*20)
                 cscore=cscore+clearSCR[cc]
+                piece.special=false
+            end
+
+            if self.sound and(cc~=1 or dospin)then
+                VOC.play(clearVoice[cc],CHN)
             end
 
             --Combo bonus
@@ -1835,35 +1820,45 @@ do
                 cscore=cscore+min(50*cmb,500)*(2*cc-1)
             end
 
-            --PC/HPC effect
-            if piece.pc then
-                self:showText(text.PC,0,-80,50,'flicker')
-                atk=max(atk,min(8+Stat.pc*2,16))
-                exblock=exblock+2
-                sendTime=sendTime+120
-                if Stat.row+cc>4 then
-                    self.b2b=self.b2b+800
-                    cscore=cscore+300*min(6+Stat.pc,10)
-                else
+            --PC/HPC
+            if clear and cc>=#C.bk then
+                if CY==1 then
+                    piece.pc=true
+                    piece.special=true
+                    self:showText(text.PC,0,-80,50,'flicker')
+                    atk=max(atk,min(8+Stat.pc*2,16))
+                    exblock=exblock+2
+                    sendTime=sendTime+120
+                    if Stat.row+cc>4 then
+                        self.b2b=self.b2b+800
+                        cscore=cscore+300*min(6+Stat.pc,10)
+                    else
+                        cscore=cscore+626
+                    end
+                    Stat.pc=Stat.pc+1
+                    if self.sound then
+                        SFX.play('pc')
+                        VOC.play('perfect_clear',CHN)
+                    end
+                elseif cc>1 or self.field[#self.field].garbage then
+                    piece.hpc=true
+                    piece.special=true
+                    self:showText(text.HPC,0,-80,50,'fly')
+                    atk=atk+4
+                    exblock=exblock+2
+                    sendTime=sendTime+60
+                    self.b2b=self.b2b+100
                     cscore=cscore+626
+                    Stat.hpc=Stat.hpc+1
+                    if self.sound then
+                        SFX.play('pc')
+                        VOC.play('half_clear',CHN)
+                    end
                 end
-                Stat.pc=Stat.pc+1
-                if self.sound then
-                    SFX.play('pc')
-                    VOC.play('perfect_clear',CHN)
-                end
-            elseif piece.hpc then
-                self:showText(text.HPC,0,-80,50,'fly')
-                atk=atk+4
-                exblock=exblock+2
-                sendTime=sendTime+60
-                self.b2b=self.b2b+100
-                cscore=cscore+626
-                Stat.hpc=Stat.hpc+1
-                if self.sound then
-                    SFX.play('pc')
-                    VOC.play('half_clear',CHN)
-                end
+            end
+
+            if not piece.special then
+                self.b2b=max(self.b2b-250,0)
             end
 
             if self.b2b>1000 then

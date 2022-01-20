@@ -2,6 +2,12 @@ return[=[
 未来计划:
         R E M A K E
 
+0.17.2: 
+        新增:
+        改动:
+        修复:
+                倒计时时不能充das #610
+                master_g模式的一些细节问题
 0.17.1: 苏醒 Wake Up
         新增:
                 新模式:master_g(NOT_A_ROBOT移植)

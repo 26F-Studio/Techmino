@@ -1,7 +1,7 @@
 return{
-    ["apkCode"]=429,
-    ["code"]=1701,
-    ["string"]="V0.17.1",
-    ["room"]="ver A-4",
-    ["name"]="苏醒 Wake Up",
+    ["apkCode"]=430,
+    ["code"]=1702,
+    ["string"]="V0.17.2",
+    ["room"]="ver A-5",
+    ["name"]="",
 }
