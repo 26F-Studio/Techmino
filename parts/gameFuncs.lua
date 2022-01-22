@@ -165,8 +165,8 @@ do--function applySettings()
             BG.set()
         elseif SETTING.bg=='off'then
             BG.unlock()
-            BG.set('gray')
-            BG.send(SETTING.bgAlpha)
+            BG.set('fixColor')
+            BG.send(SETTING.bgAlpha,SETTING.bgAlpha,SETTING.bgAlpha)
             BG.lock()
         elseif SETTING.bg=='custom'then
             if love.filesystem.getInfo('conf/customBG')then
@@ -184,8 +184,8 @@ do--function applySettings()
             else--Switch off when custom BG not found
                 SETTING.bg='off'
                 BG.unlock()
-                BG.set('gray')
-                BG.send(SETTING.bgAlpha)
+                BG.set('fixColor')
+                BG.send(SETTING.bgAlpha,SETTING.bgAlpha,SETTING.bgAlpha)
                 BG.lock()
             end
         end

@@ -86,6 +86,8 @@ end
 local scene={}
 
 function scene.sceneInit()
+    BG.set('fixColor')
+    BG.send(.26,.62,.26)
     _newGame()
     selected=false
 end
