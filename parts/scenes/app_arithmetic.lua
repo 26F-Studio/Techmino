@@ -138,7 +138,7 @@ local function reset()
 end
 
 local function check(val)
-    if --[[val==answer]]true then
+    if val==answer then
         level=level+1
         input=""
         inputTime=0
