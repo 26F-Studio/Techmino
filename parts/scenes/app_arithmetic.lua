@@ -91,30 +91,30 @@ local levels={
     end,nil,nil,nil,nil,
     function()-- <b> [,10]
         local a=rnd(2,9)
-        return{COLOR.N,b2(a)},a
+        return "0b"..b2(a),a
     end,nil,nil,nil,nil,
     function()-- <o>
         local a=rnd(9,63)
-        return{COLOR.lR,b8(a)},a
+        return "0o"..b8(a),a
     end,nil,nil,nil,
     function()-- <h>
         local a=rnd(17,255)
-        return{COLOR.J,b16(a)},a
+        return "0x"..b16(a),a
     end,nil,nil,
     function()-- <b+>
         local s=rnd(9,31)
         local a=rnd(5,int(s/2))
-        return{COLOR.N,b2(a),COLOR.Z,"+",COLOR.N,b2(s-a)},s
+        return "0b"..b2(a).." + 0b"..b2(s-a),s
     end,nil,nil,nil,nil,
     function()-- <o+>
         local s=rnd(18,63)
         local a=rnd(9,int(s/2))
-        return{COLOR.lR,b8(a),COLOR.Z,"+",COLOR.lR,b8(s-a)},s
+        return "0o"..b8(a).." + 0o"..b8(s-a),s
     end,nil,nil,nil,
     function()-- <h+>
         local s=rnd(34,255)
         local a=rnd(17,int(s/2))
-        return{COLOR.J,b16(a),COLOR.Z,"+",COLOR.J,b16(s-a)},s
+        return "0x"..b16(a).." + 0x"..b16(s-a),s
     end,nil,nil,
     function()timing=false return "Coming S∞n"..(rnd()<.5 and""or" "),1e99 end,
 }setmetatable(levels,{__index=function(self,k)return self[k-1]end})
@@ -138,7 +138,7 @@ local function reset()
 end
 
 local function check(val)
-    if val==answer then
+    if --[[val==answer]]true then
         level=level+1
         input=""
         inputTime=0
@@ -203,7 +203,7 @@ end
 function scene.draw()
     gc.setColor(COLOR.Z)
     FONT.set(45)
-    gc.print(("%.3f"):format(time),1026,70)
+    gc.print(("%.3f"):format(time),1026,200)
 
     FONT.set(35)
     GC.mStr("["..level.."]",640,30)
@@ -218,7 +218,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name='reset',x=155,y=100,w=180,h=100,color='lG',font=50,fText=CHAR.icon.retry_spin,code=pressKey'r'},
+    WIDGET.newButton{name='reset',x=155,y=620,w=180,h=100,color='lG',font=50,fText=CHAR.icon.retry_spin,code=pressKey'r'},
     WIDGET.newKey{name='X',x=540,y=620,w=90,font=60,fText=CHAR.key.clear,code=pressKey'backspace'},
     WIDGET.newKey{name='0',x=640,y=620,w=90,font=60,fText="0",code=pressKey'0'},
     WIDGET.newKey{name='-',x=740,y=620,w=90,font=60,fText="-",code=pressKey'-'},
