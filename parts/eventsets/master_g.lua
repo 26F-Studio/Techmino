@@ -114,7 +114,6 @@ return{
     das=16,arr=1,
     minsdarr=1,
     ihs=true,irs=true,ims=false,
-    RS='SRS_plus',
     mesDisp=function(P)
         gc.setColor(1,1,1,1)
         setFont(45)
