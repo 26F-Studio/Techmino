@@ -1237,7 +1237,7 @@ function Player:hold_norm(ifpre)
         local C,H=self.cur,self.holdQueue[1]
         self.ctrlCount=0
 
-        if ENV.phyHold and C and not ifpre then--Physical hold
+        if ENV.phyHold and C and H and not ifpre then--Physical hold
             local x,y=self.curX,self.curY
             x=x+(#C.bk[1]-#H.bk[1])*.5
             y=y+(#C.bk-#H.bk)*.5
