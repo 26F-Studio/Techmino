@@ -296,8 +296,10 @@ local L={
         p9Comb1=      0xF0250,
         p9Comb2=      0xF0251,
         frameComb=    0xF0252,
+        s1j=          0xF0253,
+        s1jBase=      0xF0254,
+        s1jComb=      0xF0255,
     }
-
 }
 
 for _,pack in next,L do
