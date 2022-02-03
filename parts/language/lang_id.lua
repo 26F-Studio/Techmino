@@ -811,6 +811,7 @@ return{
         ['blind_wtf']=      {"Tak Terlihat",      "TERAKHIR",     "Anda belum siap"},
         ['classic_e']=      {"Klasik",            "MUDAH",        "Rekreasi berkecepatan rendah dari tahun 80-an"},
         ['classic_h']=      {"Klasik",            "SULIT",        "Rekreasi berkecepatan medium dari tahun 80-an"},
+		['classic_l']=      {"Klasik",            "GILA",         "Rekreasi berkecepatan medium-tinggi dari tahun 80-an"},
         ['classic_u']=      {"Klasik",            "TERAKHIR",     "Rekreasi berkecepatan tinggi dari tahun 80-an"},
         ['survivor_e']=     {"Bertahan",          "MUDAH",        "Berapa lama Anda bisa bertahan?"},
         ['survivor_n']=     {"Bertahan",          "NORMAL",       "Berapa lama Anda bisa bertahan?"},
