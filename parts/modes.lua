@@ -43,11 +43,12 @@ return{
     {name='round_u',       x=-1400,     y=-800,     size=40,shape=1,icon="round"},
 
     {name='master_n',      x=0,         y=-1000,    size=40,shape=1,icon="master",      unlock={'master_h','strategy_h'}},
-    {name='master_h',      x=0,         y=-1200,    size=40,shape=3,icon="master",      unlock={'master_final','master_ex','master_ph','master_m','strategy_u'}},
-    {name='master_m',      x=150,       y=-1320,    size=30,shape=3,icon="master"},
-    {name='master_final',  x=0,         y=-1600,    size=40,shape=2,icon="master"},
-    {name='master_ph',     x=-150,      y=-1500,    size=40,shape=2,icon="master"},
-    {name='master_ex',     x=150,       y=-1500,    size=40,shape=2,icon="master_ex"},
+    {name='master_h',      x=0,         y=-1200,    size=40,shape=3,icon="master",      unlock={'master_final','master_ex','master_ph','master_m','master_g','strategy_u'}},
+    {name='master_m',      x=100,       y=-1550,    size=40,shape=2,icon="master"},
+    {name='master_final',  x=-100,      y=-1550,    size=40,shape=2,icon="master"},
+    {name='master_ph',     x=-170,      y=-1450,    size=40,shape=2,icon="master"},
+	{name='master_g',      x=0,         y=-1600,    size=40,shape=3,icon="master"},
+    {name='master_ex',     x=170,       y=-1450,    size=40,shape=2,icon="master_ex"},
 
     {name='strategy_e',    x=-150,      y=-1030,    size=40,shape=3,icon="master"},
     {name='strategy_h',    x=-200,      y=-1160,    size=35,shape=3,icon="master"},
