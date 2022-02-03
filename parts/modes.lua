@@ -1,13 +1,16 @@
 return{
     {name='sprint_10l',    x=0,         y=0,        size=40,shape=1,icon="sprint1",     unlock={'sprint_20l','sprint_40l'}},
     {name='sprint_20l',    x=-200,      y=200,      size=50,shape=1,icon="sprint1"},
-    {name='sprint_40l',    x=0,         y=-300,     size=40,shape=1,icon="sprint2",     unlock={'dig_10l','sprint_100l','marathon_n','sprintPenta','sprintMPH'}},
+    {name='sprint_40l',    x=0,         y=-300,     size=40,shape=1,icon="sprint2",     unlock={'dig_10l','sprint_100l','marathon_n','sprintPenta','sprintMPH','sprint123','secret_grade'}},
     {name='sprint_100l',   x=-200,      y=0,        size=50,shape=1,icon="sprint2",     unlock={'sprint_400l','drought_n'}},
     {name='sprint_400l',   x=-400,      y=0,        size=40,shape=1,icon="sprint3",     unlock={'sprint_1000l'}},
     {name='sprint_1000l',  x=-600,      y=0,        size=40,shape=1,icon="sprint3"},
 
-    {name='sprintPenta',   x=180,       y=-160,     size=40,shape=3,icon="sprint2"},
-    {name='sprintMPH',     x=220,       y=-340,     size=40,shape=3,icon="sprint2"},
+    {name='sprintPenta',   x=180,       y=-160,     size=40,shape=3,icon="sprint_pento"},
+    {name='sprintMPH',     x=220,       y=-300,     size=40,shape=3,icon="sprint2"},
+	{name='sprint123',     x=180,       y=-440,     size=40,shape=1,icon="sprint_tri"},
+	
+	{name='secret_grade',  x=-200,      y=-400,     size=40,shape=1,icon="secret_grade"},
 
     {name='drought_n',     x=-400,      y=200,      size=40,shape=1,icon="drought",     unlock={'drought_l'}},
     {name='drought_l',     x=-600,      y=200,      size=40,shape=1,icon="drought"},

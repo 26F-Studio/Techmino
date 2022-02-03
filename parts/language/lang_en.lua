@@ -764,6 +764,8 @@ return{
         ['sprint_1000l']=   {"Sprint",            "1,000L",      "Clear 1,000 lines!"},
         ['sprintPenta']=    {"Sprint",            "PENTOMINO",  "40L with 18 pentominoes"},
         ['sprintMPH']=      {"Sprint",            "MPH",        "Memoryless\nPreviewless\nHoldless"},
+		['sprint123']=      {"Sprint",            "M123",       "40L with only monominoes, dominoes, and triminoes"},
+		['secret_grade']=   {"Secret Grade",      "",           "Build a zig-zag hole formation, following to the guide!"},
         ['dig_10l']=        {"Dig",               "10L",        "Dig 10 garbage lines"},
         ['dig_40l']=        {"Dig",               "40L",        "Dig 40 garbage lines"},
         ['dig_100l']=       {"Dig",               "100L",       "Dig 100 garbage lines"},
