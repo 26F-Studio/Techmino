@@ -790,6 +790,8 @@ return{
         ['round_h']=        {"Turn-Based",        "HARD",       "Take turns to play against the AI!"},
         ['round_l']=        {"Turn-Based",        "LUNATIC",    "Take turns to play against the AI!"},
         ['round_u']=        {"Turn-Based",        "ULTIMATE",   "Take turns to play against the AI!"},
+		['big_n']=          {"Big",               "NORMAL",     "Play in a smaller field!"},
+		['big_h']=          {"Big",               "HARD",       "Play in a smaller field!"},
         ['master_n']=       {"Master",            "NORMAL",     "For 20G beginners"},
         ['master_h']=       {"Master",            "HARD",       "For 20G pros"},
         ['master_m']=       {"Master",            "M21",        "For 20G Masters"},
