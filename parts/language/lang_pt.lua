@@ -799,7 +799,7 @@ return{
         ['blind_wtf']=          {"Cego",             "WTF",          "You're not ready."},
         ['classic_e']=          {"Classic",          "EASY",         "Modo clássico rápido."},
         ['classic_h']=          {"Classic",          "DIFÍCIL",      "Modo clássico rápido."},
-		['classic_l']=          {"Classic",          "LUNÁTICO",     "Modo clássico rápido."},
+        ['classic_l']=          {"Classic",          "LUNÁTICO",     "Modo clássico rápido."},
         ['classic_u']=          {"Classic",          "ULTIMATE",     "Modo clássico rápido."},
         ['survivor_e']=         {"Sobrevivente",     "FACIL",        "Por quanto sobrevive?"},
         ['survivor_n']=         {"Sobrevivente",     "NORMAL",       "Por quanto sobrevive?"},

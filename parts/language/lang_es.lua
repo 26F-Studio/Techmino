@@ -669,7 +669,7 @@ return{
         ['blind_wtf']=      {"A Ciegas",                "ELFUF",         "No, no lo estás."},
         ['classic_e']=      {"Clásico",                 "EASY",          "Modo clásico con alta velocidad."},
         ['classic_h']=      {"Clásico",                 "Difícil",       "Modo clásico con alta velocidad."},
-		['classic_l']=      {"Clásico",                 "Lunático",      "Modo clásico con alta velocidad."},
+        ['classic_l']=      {"Clásico",                 "Lunático",      "Modo clásico con alta velocidad."},
         ['classic_u']=      {"Clásico",                 "Supremo",       "Modo clásico con alta velocidad."},
         ['survivor_e']=     {"Supervivencia",           "Fácil",         "¿Cuánto tiempo podrás sobrevivir?"},
         ['survivor_n']=     {"Supervivencia",           "Normal",        "¿Cuánto tiempo podrás sobrevivir?"},

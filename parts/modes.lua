@@ -8,9 +8,9 @@ return{
 
     {name='sprintPenta',   x=180,       y=-160,     size=40,shape=3,icon="sprint_pento"},
     {name='sprintMPH',     x=220,       y=-300,     size=40,shape=3,icon="sprint2"},
-	{name='sprint123',     x=180,       y=-440,     size=40,shape=1,icon="sprint_tri"},
-	
-	{name='secret_grade',  x=-200,      y=-400,     size=40,shape=1,icon="secret_grade"},
+    {name='sprint123',     x=180,       y=-440,     size=40,shape=1,icon="sprint_tri"},
+    
+    {name='secret_grade',  x=-200,      y=-400,     size=40,shape=1,icon="secret_grade"},
 
     {name='drought_n',     x=-400,      y=200,      size=40,shape=1,icon="drought",     unlock={'drought_l'}},
     {name='drought_l',     x=-600,      y=200,      size=40,shape=1,icon="drought"},
@@ -43,14 +43,14 @@ return{
     {name='round_u',       x=-1400,     y=-800,     size=40,shape=1,icon="round"},
 
     {name='big_n',         x=-400,      y=-400,     size=40,shape=1,icon="big",         unlock={'big_h'}},
-	{name='big_h',         x=-600,      y=-400,     size=40,shape=1,icon="big",},
+    {name='big_h',         x=-600,      y=-400,     size=40,shape=1,icon="big",},
 
     {name='master_n',      x=0,         y=-1000,    size=40,shape=1,icon="master",      unlock={'master_h','strategy_h'}},
     {name='master_h',      x=0,         y=-1200,    size=40,shape=3,icon="master",      unlock={'master_final','master_ex','master_ph','master_m','master_g','strategy_u'}},
     {name='master_m',      x=100,       y=-1550,    size=40,shape=2,icon="master"},
     {name='master_final',  x=-100,      y=-1550,    size=40,shape=2,icon="master"},
     {name='master_ph',     x=-170,      y=-1450,    size=40,shape=2,icon="master"},
-	{name='master_g',      x=0,         y=-1600,    size=40,shape=3,icon="master"},
+    {name='master_g',      x=0,         y=-1600,    size=40,shape=3,icon="master"},
     {name='master_ex',     x=170,       y=-1450,    size=40,shape=2,icon="master_ex"},
 
     {name='strategy_e',    x=-150,      y=-1030,    size=40,shape=3,icon="master"},
@@ -63,11 +63,11 @@ return{
     {name='blind_l',       x=150,       y=-1000,    size=35,shape=3,icon="hidden2",      unlock={'blind_u'}},
     {name='blind_u',       x=150,       y=-1100,    size=30,shape=3,icon="hidden2",      unlock={'blind_wtf'}},
     {name='blind_wtf',     x=150,       y=-1200,    size=25,shape=2,icon="hidden2"},
-	{name='master_instinct',x=285,      y=-835,     size=40,shape=3,icon="hidden"},
+    {name='master_instinct',x=285,      y=-835,     size=40,shape=3,icon="hidden"},
 
     {name='classic_e',     x=-200,      y=-850,     size=40,shape=1,icon="classic",     unlock={'classic_h'}},
     {name='classic_h',     x=-300,      y=-950,     size=40,shape=3,icon="classic",     unlock={'classic_l'}},
-	{name='classic_l',     x=-400,      y=-1050,    size=35,shape=3,icon="classic",     unlock={'classic_u'}},
+    {name='classic_l',     x=-400,      y=-1050,    size=35,shape=3,icon="classic",     unlock={'classic_u'}},
     {name='classic_u',     x=-500,      y=-1150,    size=30,shape=2,icon="classic"},
 
     {name='survivor_e',    x=450,       y=-600,     size=40,shape=1,icon="survivor",    unlock={'survivor_n'}},
