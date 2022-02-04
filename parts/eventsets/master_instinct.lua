@@ -20,7 +20,13 @@ return{
         local D=P.modeData
 
         local c=#P.clearedRow
-        if c==0 and D.pt%100==99 then return end
+        if c==0 and D.pt%100==99 then 
+            if D.pt<1000 then
+                hidetimer=0-inv_wait[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1]
+                if c>0 then hidetimer=hidetimer-inv_fall[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1]end
+            end
+            return
+        end
         local s=c<3 and c+1 or c==3 and 5 or 7
         if P.combo>7 then s=s+2
         elseif P.combo>3 then s=s+1
@@ -50,6 +56,8 @@ return{
             elseif s==7 then
                 E.das=6
                 BGM.play('far')
+            elseif s==8 then
+                BG.set('none')
             elseif s==10 then
                 D.pt=1000
                 P:win('finish')
