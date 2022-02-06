@@ -176,14 +176,13 @@ function Player:createSplashFX(h)
     end
 end
 function Player:createBeam(R,send)
-    if self.gameEnv.atkFX then
+    if self.gameEnv.atkFX and self.cur then
+        local C=self.cur
         local power=self.gameEnv.atkFX
-        local color=self.cur.color
         local x1,y1,x2,y2
         if self.miniMode then
             x1,y1=self.centerX,self.centerY
         else
-            local C=self.cur
             local sc=C.RS.centerPos[C.id][C.dir]
             x1=self.x+(30*(self.curX+sc[2])-30+15+150)*self.size
             y1=self.y+(600-30*(self.curY+sc[1])+15+self.fieldUp+self.fieldBeneath)*self.size
@@ -192,7 +191,7 @@ function Player:createBeam(R,send)
         else x2,y2=R.x+308*R.size,R.y+450*R.size
         end
 
-        local c=BLOCK_COLORS[color]
+        local c=BLOCK_COLORS[C.color]
         local r,g,b=c[1]*2,c[2]*2,c[3]*2
         local a=(power+2)*.0626
         if self.type~='human'and R.type~='human'then a=a*.2 end
