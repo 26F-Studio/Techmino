@@ -768,6 +768,7 @@ return{
         ['blind_wtf']=     {"Aveugle",         "WTF",         "Vous n'êtes pas prêt."},
         ['classic_e']=     {"Classic",         "EASY",        "Un mode classique rapide."},
         ['classic_h']=     {"Classic",         "DIFFICILE",   "Un mode classique rapide."},
+        ['classic_l']=     {"Classic",         "LUNATIQUE",   "Un mode classique rapide."},
         ['classic_u']=     {"Classic",         "ULTIME",      "Un mode classique rapide."},
         ['survivor_e']=    {"Survivor",        "FACILE",      "Pendant combien de temps survivrez-vous ?"},
         ['survivor_n']=    {"Survivor",        "NORMAL",      "Pendant combien de temps survivrez-vous ?"},
