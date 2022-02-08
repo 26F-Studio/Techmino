@@ -5,15 +5,14 @@ local function GetOpenHole(num)
 end
 local F={}
 local ranks={"10","9","8","7","6","5","4","3","2","1","S1","S2","S3","S4","S5","S6","S7","S8","S9","GM","GM+","TM","TM+","TM+₂","TM+₃", "TM+₄","TM+₅"}
---     lines:  0   1   2   3   4   5   6   7   8   9   10   11   12   13   14   15   16   17   18   19   20    21   22     23     24      25     26
-return
-{
+--    lines:   0   1   2   3   4   5   6   7   8   9   10   11   12   13   14   15   16   17   18   19   20    21   22     23     24      25     26
+return{
     fkey1=function(P)P.modeData.showGuide=not P.modeData.showGuide end,
     mesDisp=function(P)
         mText(TEXTOBJ.grade,63,190)
         setFont(55)
         mStr(ranks[P.modeData.rankPts],63,125)
-        
+
         ply_applyField(P)
         local mark=TEXTURE.puzzleMark
         gc_setColor(1,1,1)
@@ -39,7 +38,6 @@ return
         end
     end,
     hook_drop=function(P)
-        local Pf=P.field
         local D=P.modeData
         D.rankPts=1
         for i=1,#P.field do
