@@ -505,14 +505,14 @@ local commands={}do
                     log("No theme called "..name)
                 end
             else
-                log{C.A,"Usage: theme [themeName]"}
+                log{C.A,"Usage: theme <xmas|sprfes|zday1/2/3|season1/2/3/4|fool|birth>"}
             end
         end,
         description="Load theme",
         details={
             "Load a theme.",
             "",
-            "Usage: theme <classic|xmas|sprfes|zday1/2/3|season1/2/3/4|fool|birth>",
+            "Usage: theme <xmas|sprfes|zday1/2/3|season1/2/3/4|fool|birth>",
         },
     }
     commands.test={
