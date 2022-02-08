@@ -131,4 +131,6 @@ return{
     {font=25,name="TetraCepra"},
     {font=25,name="爱抢姐姐布丁的芙兰酱(CHNO)"},
     {font=25,name="你的忘机已上羡"},
+    {font=25,name="茗妖屿沉"},
+    {font=25,name="Not Tomorrow"},
 }
