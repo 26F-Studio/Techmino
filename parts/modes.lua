@@ -53,15 +53,18 @@ return{
     {name='master_g',      x=0,         y=-1600,    size=40,shape=3,icon="master"},
     {name='master_ex',     x=170,       y=-1450,    size=40,shape=2,icon="master_ex"},
 
-    {name='strategy_e',    x=-150,      y=-1030,    size=40,shape=3,icon="master"},
-    {name='strategy_h',    x=-200,      y=-1160,    size=35,shape=3,icon="master"},
-    {name='strategy_u',    x=-250,      y=-1290,    size=30,shape=2,icon="master"},
+    {name='strategy_e',     x=-150,      y=-1020,    size=40,shape=3,icon="master",     unlock={'strategy_e_plus'}},
+    {name='strategy_h',     x=-150,      y=-1150,    size=35,shape=3,icon="master",     unlock={'strategy_h_plus'}},
+    {name='strategy_u',     x=-150,      y=-1280,    size=30,shape=2,icon="master",     unlock={'strategy_u_plus'}},
+    {name='strategy_e_plus',x=-300,      y=-1120,    size=40,shape=3,icon="master"},
+    {name='strategy_h_plus',x=-300,      y=-1250,    size=35,shape=3,icon="master"},
+    {name='strategy_u_plus',x=-300,      y=-1380,    size=30,shape=2,icon="master"},
 
     {name='blind_e',       x=150,       y=-700,     size=40,shape=1,icon="hidden",      unlock={'blind_n','master_instinct'}},
     {name='blind_n',       x=150,       y=-800,     size=40,shape=1,icon="hidden",      unlock={'blind_h'}},
     {name='blind_h',       x=150,       y=-900,     size=35,shape=1,icon="hidden",      unlock={'blind_l'}},
-    {name='blind_l',       x=150,       y=-1000,    size=35,shape=3,icon="hidden2",      unlock={'blind_u'}},
-    {name='blind_u',       x=150,       y=-1100,    size=30,shape=3,icon="hidden2",      unlock={'blind_wtf'}},
+    {name='blind_l',       x=150,       y=-1000,    size=35,shape=3,icon="hidden2",     unlock={'blind_u'}},
+    {name='blind_u',       x=150,       y=-1100,    size=30,shape=3,icon="hidden2",     unlock={'blind_wtf'}},
     {name='blind_wtf',     x=150,       y=-1200,    size=25,shape=2,icon="hidden2"},
     {name='master_instinct',x=285,      y=-835,     size=40,shape=3,icon="hidden"},
 
@@ -73,7 +76,7 @@ return{
     {name='survivor_e',    x=450,       y=-600,     size=40,shape=1,icon="survivor",    unlock={'survivor_n'}},
     {name='survivor_n',    x=650,       y=-600,     size=40,shape=1,icon="survivor",    unlock={'survivor_h','attacker_h','defender_n','dig_h'}},
     {name='survivor_h',    x=850,       y=-600,     size=40,shape=1,icon="survivor",    unlock={'survivor_l'}},
-    {name='survivor_l',    x=1050,       y=-600,     size=40,shape=3,icon="survivor",    unlock={'survivor_u'}},
+    {name='survivor_l',    x=1050,      y=-600,     size=40,shape=3,icon="survivor",    unlock={'survivor_u'}},
     {name='survivor_u',    x=1250,      y=-600,     size=40,shape=2,icon="survivor"},
 
     {name='attacker_h',    x=450,       y=-800,     size=40,shape=1,icon="attack",      unlock={'attacker_u'}},
