@@ -228,7 +228,7 @@ return{
                 BG.set('lightning')
             elseif s>9 then
                 if cools>8 then
-                    E.lockFX=E.lockFX>1 and 1 or E.lockFX
+                    if E.lockFX and E.lockFX>1 then E.lockFX=1 end
                     P:setInvisible(5)
                 else
                     P:setInvisible(300)
