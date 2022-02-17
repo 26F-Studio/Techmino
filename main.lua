@@ -329,6 +329,7 @@ SKIN.load{
     {name="pixel_chno",path='media/image/skin/pixel_chno.png'},
     {name="textbone_mrz",path='media/image/skin/textbone_mrz.png'},
     {name="coloredbone_mrz",path='media/image/skin/coloredbone_mrz.png'},
+    {name="guidetris_xmiao_lusisi",path='media/image/skin/guidetris_xmiao_lusisi.png'},
     {name="wtf",path='media/image/skin/wtf_mrz.png'},
 }
 
