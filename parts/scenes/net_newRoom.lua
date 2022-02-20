@@ -29,20 +29,22 @@ local sList={
 local scene={}
 
 local function _createRoom()
-    local pw=passwordBox.value
-    if pw==""then pw=nil end
-    local roomname=STRING.trim(roomNameBox.value)
-    if #roomname==0 then
-        roomname=(USERS.getUsername(USER.uid)or"Anonymous").."'s room"
+    if legalGameTime()then
+        local pw=passwordBox.value
+        if pw==""then pw=nil end
+        local roomname=STRING.trim(roomNameBox.value)
+        if #roomname==0 then
+            roomname=(USERS.getUsername(USER.uid)or"Anonymous").."'s room"
+        end
+        NET.createRoom(
+            roomname,
+            descriptionBox.value,
+            ROOMENV.capacity,
+            "normal",
+            ROOMENV,
+            pw
+        )
     end
-    NET.createRoom(
-        roomname,
-        descriptionBox.value,
-        ROOMENV.capacity,
-        "normal",
-        ROOMENV,
-        pw
-    )
 end
 
 function scene.sceneInit()
