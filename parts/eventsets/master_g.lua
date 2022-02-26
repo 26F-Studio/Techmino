@@ -119,24 +119,34 @@ return{
         setFont(45)
         mText(TEXTOBJ.grade,63,180)
         setFont(60)
-        mStr(getGrade(),63,110)
+        mStr(getGrade(),63,110)  -- draw grade
+        for i=1,10 do -- draw cool/regret history
+            if not (coolList[i] or regretList[i]) then -- neither cool nor regret
+                gc.setColor(0.6,0.6,0.6,P.modeData.pt<(i-1)*100 and 0.25 or 0.6)
+            else
+                gc.setColor(regretList[i] and 1 or 0, coolList[i] and 1 or 0, 0, 1)
+            end
+            gc.circle('fill',-10,150+i*25,10)
+            gc.setColor(1,1,1,1)
+        end
         if isInRoll then
             setFont(20)
-            mStr(("%.1f"):format(rollGrades),63,208)
+            mStr(("%.1f"):format(rollGrades),63,208) -- draw roll grades
             gc.setLineWidth(2)
             gc.setColor(.98,.98,.98,.8)
             gc.rectangle('line',0,240,126,80,4)
             gc.setColor(.98,.98,.98,.4)
-            gc.rectangle('fill',0+2,240+2,126-4,80-4,2)
+            gc.rectangle('fill',0+2,240+2,126-4,80-4,2) -- draw time box
             setFont(45)
             local t=(P.stat.frame-prevSectTime)/60
             local T=("%.1f"):format(60-t)
             gc.setColor(COLOR.dH)
-            mStr(T,65,250)
+            mStr(T,65,250) -- draw time
             t=t/60
             gc.setColor(1.7*t,2.3-2*t,.3)
             mStr(T,63,248)
         else
+            -- draw level counter
             setFont(20)
             mStr(grade_points,63,208)
             setFont(45)
