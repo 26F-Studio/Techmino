@@ -321,6 +321,7 @@ SKIN.load{
     {name="yinyang_scf",path='media/image/skin/yinyang_scf.png'},
     {name="cartooncup_earety",path='media/image/skin/cartooncup_earety.png'},
     {name="jelly_miya",path='media/image/skin/jelly_miya.png'},
+    {name="guidetris_xmiao_lusisi",path='media/image/skin/guidetris_xmiao_lusisi.png'},
     {name="brick_notypey",path='media/image/skin/brick_notypey.png'},
     {name="gem_notypey",path='media/image/skin/gem_notypey.png'},
     {name="classic",path='media/image/skin/classic_unknown.png'},
@@ -329,7 +330,6 @@ SKIN.load{
     {name="pixel_chno",path='media/image/skin/pixel_chno.png'},
     {name="textbone_mrz",path='media/image/skin/textbone_mrz.png'},
     {name="coloredbone_mrz",path='media/image/skin/coloredbone_mrz.png'},
-    {name="guidetris_xmiao_lusisi",path='media/image/skin/guidetris_xmiao_lusisi.png'},
     {name="wtf",path='media/image/skin/wtf_mrz.png'},
 }
 
