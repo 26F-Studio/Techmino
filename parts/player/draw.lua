@@ -179,6 +179,8 @@ local function _drawField(P,showInvis)
             --</drawRow>
             gc_setShader(shader_fieldSatur)
             gc_translate(0,4)
+        else
+            gc_setShader(shader_fieldSatur)
         end
 
         --<drawRow>
@@ -204,6 +206,8 @@ local function _drawField(P,showInvis)
             gc_setShader(shader_fieldSatur)
             gc_pop()
             h=1
+        else
+            gc_setShader(shader_fieldSatur)
         end
 
         gc_push('transform')
