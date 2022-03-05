@@ -277,7 +277,7 @@ return{
             YIELD()
             P.modeData.grade=getGrade()
             P.modeData.gradePts=math.max(math.min(math.floor(int_grade_boosts[math.min(int_grade+1,#int_grade_boosts)]+rollGrades+cools+1-regrets),#gradeList),1)
-            if P.stat.frame-prevSectTime > reg_time[math.ceil(P.modeData.pt/100+0.01)] then
+            if P.stat.frame-prevSectTime > reg_time[math.ceil(P.modeData.pt/100+0.01)] and not (isInRoll or isInRollTrans) then
                 regretList[math.ceil(P.modeData.pt/100)]=true
             end
             if regretDelay>-1 then
