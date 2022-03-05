@@ -311,7 +311,7 @@ return{
     {"JJ Tetris",
         "jjtetris　ジェジェ",
         "game",
-        "Android | マルチプレイ\n(JJ块)\nJJカードゲームズ (JJ棋牌) にあるカジュアルゲームです。縦画面、小さい入力遅延、スムーズなコントロール。Customizable DAS/ARR and toggle-able 20G soft drop, limited control scheme customization. No hold nor B2B, no garbage buffer nor cancelling. Every attack sends at most 4 lines, combos are more powerful, otherwise similar to modern Tetris.",
+        "Android | マルチプレイ\n(JJ块)\nJJカードゲームズ (JJ棋牌) にあるカジュアルゲームです。縦画面、小さい入力遅延、スムーズなコントロール。カスタマイズ可能なDAS・ARRとスイッチ可能な20Gソフドロ、制限されたコントロール系のカスタマイズ。ホールドとB2Bは無し、おじゃまの相殺等も無し。すべての攻撃は最大4ラインまで送れます、コンボは更に強いです、それ以外は現代テトリスとかなり似ています。",
     },
 
     {"Huopin Tetris",
