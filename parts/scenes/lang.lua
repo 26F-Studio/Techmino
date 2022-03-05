@@ -1,6 +1,5 @@
 local langList={
     zh="简体中文",
-    zh_full="全简体中文",
     zh_trad="繁體中文",
     en="English",
     fr="Français",
@@ -61,8 +60,8 @@ scene.widgetList={
     WIDGET.newButton{x=637,y=568,w=346,h=100,font=40, fText=langList.zh_grass,color='L',sound='click',code=function()_setLang('zh_grass')end},
 
     WIDGET.newButton{x=1003,y=210,w=346,h=100,font=40,fText=langList.zh,      color='C',sound='click',code=function()_setLang('zh')end},
-    WIDGET.newButton{x=1003,y=329,w=346,h=100,font=40,fText=langList.zh_full, color='N',sound='click',code=function()_setLang('zh_full')end},
-    WIDGET.newButton{x=1003,y=449,w=346,h=100,font=40,fText=langList.zh_trad, color='S',sound='click',code=function()_setLang('zh_trad')end},
+    WIDGET.newButton{x=1003,y=329,w=346,h=100,font=40,fText=langList.zh_trad, color='S',sound='click',code=function()_setLang('zh_trad')end},
+    -- WIDGET.newButton{x=1003,y=449,w=346,h=100,font=40,fText=langList.zh_trad, color='S',sound='click',code=function()_setLang('zh_trad')end},
 
     WIDGET.newButton{name='back',x=1003,y=568,w=346,h=100,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }

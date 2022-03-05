@@ -176,14 +176,13 @@ function Player:createSplashFX(h)
     end
 end
 function Player:createBeam(R,send)
-    if self.gameEnv.atkFX then
+    if self.gameEnv.atkFX and self.cur then
+        local C=self.cur
         local power=self.gameEnv.atkFX
-        local color=self.cur.color
         local x1,y1,x2,y2
         if self.miniMode then
             x1,y1=self.centerX,self.centerY
         else
-            local C=self.cur
             local sc=C.RS.centerPos[C.id][C.dir]
             x1=self.x+(30*(self.curX+sc[2])-30+15+150)*self.size
             y1=self.y+(600-30*(self.curY+sc[1])+15+self.fieldUp+self.fieldBeneath)*self.size
@@ -192,7 +191,7 @@ function Player:createBeam(R,send)
         else x2,y2=R.x+308*R.size,R.y+450*R.size
         end
 
-        local c=BLOCK_COLORS[color]
+        local c=BLOCK_COLORS[C.color]
         local r,g,b=c[1]*2,c[2]*2,c[3]*2
         local a=(power+2)*.0626
         if self.type~='human'and R.type~='human'then a=a*.2 end
@@ -682,7 +681,7 @@ function Player:getHolePos()--Get a good garbage-line hole position
     end
 end
 function Player:garbageRelease()--Check garbage buffer and try to release them
-    local n,flag=1
+    local n=1
     while true do
         local A=self.atkBuffer[n]
         if A and A.countdown<=0 and not A.sent then
@@ -691,13 +690,9 @@ function Player:garbageRelease()--Check garbage buffer and try to release them
             A.sent,A.time=true,0
             self.stat.pend=self.stat.pend+A.amount
             n=n+1
-            flag=true
         else
             break
         end
-    end
-    if flag and self.bot then
-        self.bot:updateField()
     end
 end
 function Player:garbageRise(color,amount,line)--Release n-lines garbage to field
@@ -1161,6 +1156,11 @@ function Player:resetBlock()--Reset Block's position and execute I*S
     end
 end
 
+function Player:getNextSpawn()
+    local cur = self.nextQueue[1]
+    return int(self.gameEnv.fieldH+1-modf(cur.RS.centerPos[cur.id][cur.dir][1]))+ceil(self.fieldBeneath/30)
+end
+
 function Player:spin(d,ifpre)
     local C=self.cur
     local sc=C.RS.centerPos[C.id][C.dir]
@@ -1237,7 +1237,7 @@ function Player:hold_norm(ifpre)
         local C,H=self.cur,self.holdQueue[1]
         self.ctrlCount=0
 
-        if ENV.phyHold and C and not ifpre then--Physical hold
+        if ENV.phyHold and C and H and not ifpre then--Physical hold
             local x,y=self.curX,self.curY
             x=x+(#C.bk[1]-#H.bk[1])*.5
             y=y+(#C.bk-#H.bk)*.5
@@ -1722,6 +1722,8 @@ do
             end
         end
 
+        local yomi = ""
+
         piece.spin,piece.mini=dospin,false
         piece.pc,piece.hpc=false,false
         piece.special=false
@@ -1731,6 +1733,7 @@ do
                 cscore=(spinSCR[C.name]or spinSCR[8])[cc]
                 if self.b2b>800 then
                     self:showText(text.b3b..text.block[C.name]..text.spin.." "..text.clear[cc],0,-30,35,'stretch')
+                    yomi = yomi..text.b3b..text.block[C.name]..text.spin.." "..text.clear[cc]
                     atk=b2bATK[cc]+cc*.5
                     exblock=exblock+1
                     cscore=cscore*2
@@ -1740,6 +1743,7 @@ do
                     end
                 elseif self.b2b>=50 then
                     self:showText(text.b2b..text.block[C.name]..text.spin.." "..text.clear[cc],0,-30,35,'spin')
+                    yomi = yomi..text.b2b..text.block[C.name]..text.spin.." "..text.clear[cc]
                     atk=b2bATK[cc]
                     cscore=cscore*1.2
                     Stat.b2b=Stat.b2b+1
@@ -1748,11 +1752,13 @@ do
                     end
                 else
                     self:showText(text.block[C.name]..text.spin.." "..text.clear[cc],0,-30,45,'spin')
+                    yomi = yomi..text.block[C.name]..text.spin.." "..text.clear[cc]
                     atk=2*cc
                 end
                 sendTime=20+atk*20
                 if mini then
                     self:showText(text.mini,0,-80,35,'appear')
+                    yomi = text.mini..' '..yomi
                     atk=atk*.25
                     sendTime=sendTime+60
                     cscore=cscore*.5
@@ -1773,6 +1779,7 @@ do
                 cscore=clearSCR[cc]
                 if self.b2b>800 then
                     self:showText(text.b3b..text.clear[cc],0,-30,50,'fly')
+                    yomi = text.b3b..text.clear[cc]..yomi
                     atk=4*cc-10
                     sendTime=100
                     exblock=exblock+1
@@ -1783,6 +1790,7 @@ do
                     end
                 elseif self.b2b>=50 then
                     self:showText(text.b2b..text.clear[cc],0,-30,50,'drive')
+                    yomi = text.b2b..text.clear[cc]..yomi
                     sendTime=80
                     atk=3*cc-7
                     cscore=cscore*1.3
@@ -1792,6 +1800,7 @@ do
                     end
                 else
                     self:showText(text.clear[cc],0,-30,70,'stretch')
+                    yomi = text.clear[cc]..yomi
                     sendTime=60
                     atk=2*cc-4
                 end
@@ -1799,6 +1808,7 @@ do
                 piece.special=true
             else
                 self:showText(text.clear[cc],0,-30,35,'appear',(8-cc)*.3)
+                yomi = text.clear[cc]..yomi
                 atk=cc-.5
                 sendTime=20+int(atk*20)
                 cscore=cscore+clearSCR[cc]
@@ -1817,6 +1827,7 @@ do
                     atk=atk+1
                 end
                 self:showText(text.cmb[min(cmb,21)],0,25,15+min(cmb,15)*5,cmb<10 and'appear'or'flicker')
+                yomi = yomi..' '..text.cmb[min(cmb,21)]
                 cscore=cscore+min(50*cmb,500)*(2*cc-1)
             end
 
@@ -2008,7 +2019,7 @@ do
 
         --Check bot things
         if self.bot then
-            self.bot:checkDest()
+            self.bot:checkDest(self.b2b,atk,exblock,yomi)
             self.bot:updateB2B(self.b2b)
             self.bot:updateCombo(self.combo)
         end

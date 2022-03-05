@@ -3,6 +3,8 @@ local regretDelay=-1
 local int_grade=0
 local grade_points=0
 local int_grade_boosts={0,1,2,3,4,5,5,6,6,7,7,7,8,8,8,9,9,9,10,11,12,12,12,13,13,14,14,15,15,16,16,17,17,18,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26}
+local coolList={false,false,false,false,false,false,false,false,false}
+local regretList={false,false,false,false,false,false,false,false,false,false}
 local gradeList={
     "9","8","7","6","5","4","3","2","1",
     "S1","S2","S3","S4","S5","S6","S7","S8","S9",
@@ -74,7 +76,7 @@ end
 local function getGrade()
     if int_grade==nil then int_grade=0 end
     if rollGrades==nil then rollGrades=0 end
-    return gradeList[math.min(math.floor(int_grade_boosts[math.min(int_grade+1,#int_grade_boosts)]+rollGrades+cools+1-regrets),#gradeList)]
+    return gradeList[math.max(math.min(math.floor(int_grade_boosts[math.min(int_grade+1,#int_grade_boosts)]+rollGrades+cools+1-regrets),#gradeList),1)]
 end
 local function addGrade(row, cmb, lvl) -- IGS = internal grade system
     if row<1 then return end
@@ -112,33 +114,52 @@ return{
     das=16,arr=1,
     minsdarr=1,
     ihs=true,irs=true,ims=false,
-    RS='SRS_plus',
     mesDisp=function(P)
         gc.setColor(1,1,1,1)
         setFont(45)
         mText(TEXTOBJ.grade,63,180)
         setFont(60)
-        mStr(getGrade(),63,110)
+        mStr(getGrade(),63,110)  -- draw grade
+        for i=1,10 do -- draw cool/regret history
+            if not (coolList[i] or regretList[i]) then -- neither cool nor regret
+                gc.setColor(0.6,0.6,0.6,P.modeData.pt<(i-1)*100 and 0.25 or 0.6)
+            else
+                gc.setColor(regretList[i] and 1 or 0, coolList[i] and 1 or 0, 0, 1)
+            end
+            gc.circle('fill',-10,150+i*25,10)
+            gc.setColor(1,1,1,1)
+        end
         if isInRoll then
             setFont(20)
-            mStr(("%.1f"):format(rollGrades),63,208)
+            mStr(("%.1f"):format(rollGrades),63,208) -- draw roll grades
             gc.setLineWidth(2)
             gc.setColor(.98,.98,.98,.8)
             gc.rectangle('line',0,240,126,80,4)
             gc.setColor(.98,.98,.98,.4)
-            gc.rectangle('fill',0+2,240+2,126-4,80-4,2)
+            gc.rectangle('fill',0+2,240+2,126-4,80-4,2) -- draw time box
             setFont(45)
             local t=(P.stat.frame-prevSectTime)/60
             local T=("%.1f"):format(60-t)
             gc.setColor(COLOR.dH)
-            mStr(T,65,250)
+            mStr(T,65,250) -- draw time
             t=t/60
             gc.setColor(1.7*t,2.3-2*t,.3)
             mStr(T,63,248)
         else
+            -- draw level counter
             setFont(20)
             mStr(grade_points,63,208)
             setFont(45)
+            if coolList[math.ceil(P.modeData.pt/100+0.01)] then
+                gc.setColor(0,1,0,1)
+            elseif P.stat.frame-prevSectTime > cool_time[math.ceil(P.modeData.pt/100+0.01)] then
+                gc.setColor(0.7,0.7,0.7,1)
+            end
+            if coolList[math.ceil(P.modeData.pt/100+0.01)] and regretList[math.ceil(P.modeData.pt/100+0.01)] then
+                gc.setColor(1,1,0,1)
+            elseif regretList[math.ceil(P.modeData.pt/100+0.01)] then
+                gc.setColor(1,0,0,1)
+            end
             PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
         end
     end,
@@ -175,6 +196,7 @@ return{
         if D.pt%100>70 and not prevDrop70 then
             if P.stat.frame-prevSectTime < cool_time[math.ceil(D.pt/100)] then
                 cools=cools+1
+                coolList[math.ceil(D.pt/100)]=true
                 P:_showText("COOL!",0,-120,80,'fly',.8)
                 nextSpeedUp=true
             end
@@ -216,7 +238,7 @@ return{
                 BG.set('lightning')
             elseif s>9 then
                 if cools>8 then
-                    E.lockFX=E.lockFX>1 and 1 or E.lockFX
+                    if E.lockFX and E.lockFX>1 then E.lockFX=1 end
                     P:setInvisible(5)
                 else
                     P:setInvisible(300)
@@ -247,12 +269,17 @@ return{
         isInRollTrans=false
         prevDrop70=false
         nextSpeedUp=false
+        coolList={false,false,false,false,false,false,false,false,false}
+        regretList={false,false,false,false,false,false,false,false,false,false}
         local decayRate={125,80,80,50,45,45,45,40,40,40,40,40,30,30,30,20,20,20,20,20,15,15,15,15,15,15,15,15,15,15,10,10,10,9,9,9,8,8,8,7,7,7,6}
         local decayTimer=0
         while true do
             YIELD()
             P.modeData.grade=getGrade()
-            P.modeData.gradePts=math.min(math.floor(int_grade_boosts[math.min(int_grade+1,#int_grade_boosts)]+rollGrades+cools+1-regrets),#gradeList)
+            P.modeData.gradePts=math.max(math.min(math.floor(int_grade_boosts[math.min(int_grade+1,#int_grade_boosts)]+rollGrades+cools+1-regrets),#gradeList),1)
+            if P.stat.frame-prevSectTime > reg_time[math.ceil(P.modeData.pt/100+0.01)] then
+                regretList[math.ceil(P.modeData.pt/100)]=true
+            end
             if regretDelay>-1 then
                 regretDelay=regretDelay-1
                 if regretDelay==-1 then P:_showText("REGRET!!",0,-120,80,'beat',.8) end
@@ -287,8 +314,11 @@ return{
                     decayTimer=0
                     grade_points=grade_points-1
                 end
-            elseif isInRoll and P.stat.frame>=prevSectTime+3600 then
+            elseif isInRoll and P.stat.frame>=prevSectTime+3599 then
                 rollGrades=rollGrades+(cools>8 and 1.6 or 0.5)
+                P.modeData.grade=getGrade()
+                P.modeData.gradePts=math.min(math.floor(int_grade_boosts[math.min(int_grade+1,#int_grade_boosts)]+rollGrades+cools+1-regrets),#gradeList)
+                YIELD()
                 P:win('finish')
             end
         end

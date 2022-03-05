@@ -1,20 +1,21 @@
+local gradeList={
+    "Grade 9","Grade 8","Grade 7","Grade 6","Grade 5","Grade 4","Grade 3","Grade 2","Grade 1",
+    "S1","S2","S3","S4","S5","S6","S7","S8","S9",
+    "m1","m2","m3","m4","m5","m6","m7","m8","m9",
+    "M","MK","MV","MO","MM-","MM","MM+","GM-","GM","GM+","TM-","TM","TM+"
+}
+
 return{
     env={
         freshLimit=15,
         fieldH=19,
-        sequence="bagES",
+        sequence='bagES',
         eventSet='master_g',
         bg='bg2',bgm='secret7th',
     },
     slowMark=true,
-    score=function(P)
-        if not tonumber(P.modeData.grade) then
-            return{P.modeData.grade,P.stat.time}
-        else
-            return{"Grade "..tostring(P.modeData.grade),P.stat.time}
-        end
-    end,
-    scoreDisp=function(D) return D[1].."   "..STRING.time(D[2])end,
+    score=function(P) return {P.modeData.gradePts,P.stat.time} end,
+    scoreDisp=function(D) return(gradeList[D[1]]or D[1]).."   "..STRING.time(D[2])end,
     comp=function(a,b)return a[1]>b[1]or(a[1]==b[1]and a[2]<b[2])end,
     getRank=function(P)
         local G=P.modeData.gradePts
@@ -22,8 +23,8 @@ return{
             G>=39 and 5 or -- TM+
             G>=31 and 4 or -- MM- - TM
             G>=25 and 3 or -- m8 - MO
-            G>=18 and 2 or -- m1-m7
-            G>=9 and 1 or -- S1-S9
+            G>=18 and 2 or -- m1 - m7
+            G>=9 and 1 or  -- S1 - S9
             0
 
             -- Table of grades vs values

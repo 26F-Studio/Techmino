@@ -12,7 +12,7 @@ local function b2(i)
         s=(i%2)..s
         i=int(i/2)
     end
-    return s
+    return '0b'..s
 end
 local function b8(i)
     if i==0 then return 0 end
@@ -21,7 +21,7 @@ local function b8(i)
         s=(i%8)..s
         i=int(i/8)
     end
-    return s
+    return '0o'..s
 end
 local function b16(i)
     if i==0 then return 0 end
@@ -30,7 +30,7 @@ local function b16(i)
         s=char((i%16<10 and 48 or 55)+i%16)..s
         i=int(i/16)
     end
-    return s
+    return '0x'..s
 end
 
 local levels={
@@ -208,7 +208,7 @@ function scene.draw()
     FONT.set(35)
     GC.mStr("["..level.."]",640,30)
 
-    FONT.set(100)
+    FONT.set(80)
     if type(question)=='table'then gc.setColor(1,1,1)end
     GC.mStr(question,640,60)
 

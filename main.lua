@@ -51,8 +51,8 @@ local _LOADTIME_=TIME()
 --Load modules
 Z=require'Zframework'
 FONT.load{
-    norm='parts/fonts/proportional.ttf',
-    mono='parts/fonts/monospaced.ttf',
+    norm='parts/fonts/proportional.otf',
+    mono='parts/fonts/monospaced.otf',
 }
 FONT.setDefault('norm')
 FONT.setFallback('norm')
@@ -321,6 +321,7 @@ SKIN.load{
     {name="yinyang_scf",path='media/image/skin/yinyang_scf.png'},
     {name="cartooncup_earety",path='media/image/skin/cartooncup_earety.png'},
     {name="jelly_miya",path='media/image/skin/jelly_miya.png'},
+    {name="guidetris_xmiao_lusisi",path='media/image/skin/guidetris_xmiao_lusisi.png'},
     {name="brick_notypey",path='media/image/skin/brick_notypey.png'},
     {name="gem_notypey",path='media/image/skin/gem_notypey.png'},
     {name="classic",path='media/image/skin/classic_unknown.png'},
@@ -366,7 +367,6 @@ LANG.init('zh',
     {
         zh=require'parts.language.lang_zh',
         zh_trad=require'parts.language.lang_zh_trad',
-        zh_full=require'parts.language.lang_zh_full',
         en=require'parts.language.lang_en',
         fr=require'parts.language.lang_fr',
         es=require'parts.language.lang_es',
@@ -550,6 +550,7 @@ do
     if type(SETTING.bg)~='string'then SETTING.bg='on'end
     if SETTING.skin[18]==10 then SETTING.skin[18]=4 end
     if SETTING.reTime>3 or SETTING.reTime<.5 then SETTING.reTime=2 end
+    if SETTING.locale=='zh_full' then SETTING.locale='zh' end
     if RANKS.infinite then RANKS.infinite=0 end
     if RANKS.infinite_dig then RANKS.infinite_dig=0 end
     if not RANKS.sprint_10l then RANKS.sprint_10l=0 end

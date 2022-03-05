@@ -12,7 +12,8 @@ function scene.sceneInit()
     lastKey=nil
     speed=0
     keyTime={}for i=1,40 do keyTime[i]=-1e99 end
-    BG.set('gray')
+    BG.set('fixColor')
+    BG.send(.26,.26,.26)
     BGM.play('push')
 end
 
