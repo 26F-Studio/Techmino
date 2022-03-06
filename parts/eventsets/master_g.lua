@@ -110,7 +110,7 @@ return{
     lock=30,
     wait=23,
     fall=25,
-    noTele=true,
+    keyCancel={10,11,12,14,15,16,17,18,19,20},
     das=16,arr=1,
     minsdarr=1,
     ihs=true,irs=true,ims=false,
