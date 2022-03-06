@@ -110,7 +110,7 @@ return{
     lock=30,
     wait=23,
     fall=25,
-    noTele=true,
+    keyCancel={10,11,12,14,15,16,17,18,19,20},
     das=16,arr=1,
     minsdarr=1,
     ihs=true,irs=true,ims=false,
@@ -277,7 +277,7 @@ return{
             YIELD()
             P.modeData.grade=getGrade()
             P.modeData.gradePts=math.max(math.min(math.floor(int_grade_boosts[math.min(int_grade+1,#int_grade_boosts)]+rollGrades+cools+1-regrets),#gradeList),1)
-            if P.stat.frame-prevSectTime > reg_time[math.ceil(P.modeData.pt/100+0.01)] then
+            if P.stat.frame-prevSectTime > reg_time[math.ceil(P.modeData.pt/100+0.01)] and not (isInRoll or isInRollTrans) then
                 regretList[math.ceil(P.modeData.pt/100)]=true
             end
             if regretDelay>-1 then

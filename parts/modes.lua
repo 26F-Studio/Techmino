@@ -2,9 +2,9 @@ return{
     {name='sprint_10l',    x=0,         y=0,        size=40,shape=1,icon="sprint1",     unlock={'sprint_20l','sprint_40l'}},
     {name='sprint_20l',    x=-200,      y=200,      size=50,shape=1,icon="sprint1"},
     {name='sprint_40l',    x=0,         y=-300,     size=40,shape=1,icon="sprint2",     unlock={'dig_10l','sprint_100l','marathon_n','sprintPenta','sprintMPH','sprint123','secret_grade'}},
-    {name='sprint_100l',   x=-200,      y=0,        size=50,shape=1,icon="sprint2",     unlock={'sprint_400l','drought_n'}},
-    {name='sprint_400l',   x=-400,      y=0,        size=40,shape=1,icon="sprint3",     unlock={'sprint_1000l'}},
-    {name='sprint_1000l',  x=-600,      y=0,        size=40,shape=1,icon="sprint3"},
+    {name='sprint_100l',   x=-400,      y=200,        size=50,shape=1,icon="sprint2",     unlock={'sprint_400l','drought_n'}},
+    {name='sprint_400l',   x=-600,      y=200,        size=40,shape=1,icon="sprint3",     unlock={'sprint_1000l'}},
+    {name='sprint_1000l',  x=-800,      y=200,        size=40,shape=1,icon="sprint3"},
 
     {name='sprintPenta',   x=180,       y=-160,     size=40,shape=3,icon="sprint_pento"},
     {name='sprintMPH',     x=220,       y=-300,     size=40,shape=3,icon="sprint2"},
@@ -12,13 +12,18 @@ return{
     
     {name='secret_grade',  x=-200,      y=-400,     size=40,shape=1,icon="secret_grade"},
 
-    {name='drought_n',     x=-400,      y=200,      size=40,shape=1,icon="drought",     unlock={'drought_l'}},
-    {name='drought_l',     x=-600,      y=200,      size=40,shape=1,icon="drought"},
+    {name='drought_n',     x=-600,      y=400,      size=40,shape=1,icon="drought",     unlock={'drought_l'}},
+    {name='drought_l',     x=-800,      y=400,      size=40,shape=1,icon="drought"},
 
-    {name='dig_10l',       x=-200,      y=-200,     size=40,shape=1,icon="dig_sprint",  unlock={'dig_40l'}},
+    {name='dig_10l',       x=-200,      y=-200,     size=40,shape=1,icon="dig_sprint",  unlock={'dig_40l','dig_eff_10l'}},
     {name='dig_40l',       x=-400,      y=-200,     size=40,shape=1,icon="dig_sprint",  unlock={'dig_100l'}},
     {name='dig_100l',      x=-600,      y=-200,     size=40,shape=1,icon="dig_sprint",  unlock={'dig_400l'}},
     {name='dig_400l',      x=-800,      y=-200,     size=40,shape=1,icon="dig_sprint"},
+    
+    {name='dig_eff_10l',   x=-400,      y=0,     size=40,shape=1,icon="dig_sprint",  unlock={'dig_eff_40l'}},
+    {name='dig_eff_40l',   x=-600,      y=0,     size=40,shape=1,icon="dig_sprint",  unlock={'dig_eff_100l'}},
+    {name='dig_eff_100l',  x=-800,      y=0,     size=40,shape=1,icon="dig_sprint",  unlock={'dig_eff_400l'}},
+    {name='dig_eff_400l',  x=-1000,     y=0,     size=40,shape=1,icon="dig_sprint"},
 
     {name='marathon_n',    x=0,         y=-600,     size=60,shape=1,icon="marathon",    unlock={'marathon_h','solo_e','round_e','big_n','blind_e','classic_e','survivor_e','clearRush','zen'}},
     {name='marathon_h',    x=0,         y=-800,     size=50,shape=1,icon="marathon",    unlock={'master_n','strategy_e'}},
