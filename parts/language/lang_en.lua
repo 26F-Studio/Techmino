@@ -59,7 +59,7 @@ return{
     finesse_ap="All Perfect",
     finesse_fc="Full Combo",
 
-    page="Page:",
+    page="Page ",
 
     cc_fixed="CC is incompatible with fixed sequences.",
     cc_swap="CC is incompatible when the hold mode is set to Swap.",

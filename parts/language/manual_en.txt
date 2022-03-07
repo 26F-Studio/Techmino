@@ -79,7 +79,7 @@ Countering:
 
 Battle Royale modes:
         Many players play a game simultaneously (against AI bots, not actual players).
-        As players get eliminated, blocks fall faster, and garbage takes effect faster and rises faster.
+        As players get eliminated, blocks fall faster, and garbage takes effect and rises faster.
         Eliminate other players to gain a badge and the player’s badge to increase your attack power.
         Players can choose between four attack modes:
                 1. Random: Every time you attack, 10% chance to lock onto a random player.
