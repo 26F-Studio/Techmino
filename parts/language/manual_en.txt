@@ -2,16 +2,16 @@ Gameplay:
         The system will provide you with tetrominoes (4-block pieces),
         with a total of 7 types, and the player needs to control them
         (move left and right, rotate 90, 180, or 270 degrees).
-        each row filled with the field will be cleared.
-        If there is an opponent, an attack will be sent depending on the line clear type
-        Play until the end or achieve the level's goal to win.
+        Each row filled with the field will be cleared.
+        If there is an opponent, an attack will be sent depending on the type of line clear.
+        Play until the end or achieve the level’s goal to win.
 
 Rotation system:
         Uses TRS (Techmino Rotation System) by default. The game allows players to choose other commonly used rotation systems (generally unnecessary)
 
 Spin detection:
-        Satisfies "3 corner" rule +2 points
-        Satisfies "immobile" rule +2 points
+        Satisfies “3-corner” rule +2 points
+        Satisfies “immobile” rule +2 points
         - As long as one of the above is true, it is a Spin
 
         If the rotation was not using the second check in the kick table, +1 point
@@ -37,19 +37,19 @@ Attack system:
                 send (attack-0.5) attack.
 
         Combos (REN):
-                The numbers of the combos are equal to (the numbers you clear lines consecutively –1). All damage above (except attack from PC/HPC) will be given a (combo ×25%) bonus, or (combo ×15%) for Single clear (capped at 12 combo), +1 more attack for 3 Combo or more.
+                The numbers of the combos are equal to (the numbers you clear lines consecutively –1). All damage above (except attack from PC/HPC) will be given a (combo ×25%) bonus, or (combo ×15%) for Single clear (capped at 12 combos), +1 more attack for 3 Combo or more.
         
-        Hemi Perfect Clear (a P.C. "with blocks left below". If it's an I clearing 1 line, the remaining blocks must not be player-placed):
+        Hemi Perfect Clear (a P.C. “with blocks left below.” If it’s an I clearing 1 line, the remaining blocks must not be player-placed):
                 - Attack +4, Extra Blocking +2
 
         Perfect Clear (All Clear):
                 - Sends 8 to 16 (increments within a game by 2 for every PC) OR every other damage above, whichever is higher, and +2 extra blocking.
 
-        After calculating all the above, the damage value will be rounded down and sent.
+        After calculating the above, the damage value will be rounded down and sent.
 
 
 Back to Back (B2B) gauge:
-        The B2B gauge ranges from 0 to 1,000. Special line clears are B2B if the gauge is >=50, B2B2B if >800.
+        The B2B gauge ranges from 0 to 1,000. Special line clears are B2B if the gauge is ≥ 50, B2B2B if >800.
 
         Line cleared:
                 Special clears:
@@ -60,7 +60,7 @@ Back to Back (B2B) gauge:
                 - A regular line clear -250
 
         No lines cleared:
-                - Spin (0 lines) +20. Do note that the B2B gauge cannot exceed 800 using this method.
+                - Spin (0 lines) +20. Note that the B2B gauge cannot exceed 800 using this method.
 
 Score system:
         The better you play, the higher the score.
@@ -70,21 +70,21 @@ Attack delay:
         Followed by Techrash, Spins, which send slower attacks;
         High combos are the slowest;
         For B2B or B2B2B, they also increase the attack delay while they increase lines sent;
-        Minis will greatly increase the delay.
+        Minis will significantly increase the delay.
 
 Countering:
         When you send attacks, if there is garbage in the queue,
-        extra blocking will be used first, then attack, countering the earliest attack at a 1:1 ratio.
-        Any extra blocking you didn't use will be discarded, and finally, the remaining attack power will be sent to your opponent.
+        extra blocking will be used first, then attack, countering the earliest attack at a 1 : 1 ratio.
+        Any additional blocking you didn’t use will be discarded, and finally, the remaining attack power will be sent to your opponent.
 
 Battle Royale modes:
-        Many players play a game at the same time (against AI bots, not real players).
-        As players get eliminated, blocks fall faster, and garbage takes effect faster, as well as rises faster.
-        Eliminate other players to gain a badge and the player's badge to increase your attack power.
+        Many players play a game simultaneously (against AI bots, not actual players).
+        As players get eliminated, blocks fall faster, and garbage takes effect and rises faster.
+        Eliminate other players to gain a badge and the player’s badge to increase your attack power.
         Players can choose between four attack modes:
                 1. Random: Every time you attack, 10% chance to lock onto a random player.
                 2. Badges: After you attack or when your target dies, lock onto the player with the most badges.
-                3. KOs: After you attack or when your target dies, lock onto the player with the highest field. (Refreshes every second)
+                3. KOs: Lock onto the player with the highest field after you attack or when your target dies. (Refreshes every second)
                 4. Attackers: attack all players locking onto yourself.
                 Your attack will be sent to all of them. If you are not targeted, you attack a random player (not locking).
         When all opponents have been eliminated, the last player in the match is the winner.
