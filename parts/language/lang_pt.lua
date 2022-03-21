@@ -677,6 +677,7 @@ return{
             register="Registrar",
             email="Endereço De Email",
             password="Senha",
+            -- showEmail="Show Email",
             -- keepPW="Remember me",
             login="Log in",
         },

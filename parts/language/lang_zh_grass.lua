@@ -685,6 +685,7 @@ return{
             register="登记",
             email="电子邮件地址",
             password="密码",
+            showEmail="显示电子邮件",
             keepPW="记得我吗",
             login="登录",
         },

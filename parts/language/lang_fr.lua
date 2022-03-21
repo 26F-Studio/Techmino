@@ -641,6 +641,7 @@ return{
             register="Enregistrement",
             email="E-mail",
             password="Mot de passe",
+            -- showEmail="Show Email",
             -- keepPW="Remember me",
             login="Connexion",
         },

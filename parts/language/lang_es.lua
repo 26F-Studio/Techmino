@@ -550,6 +550,7 @@ return{
             register="Registrarse",
             email="Correo Elec.",
             password="Contraseña",
+            -- showEmail="Show Email",
             keepPW="Recordar credenciales",
             login="Entrar",
         },

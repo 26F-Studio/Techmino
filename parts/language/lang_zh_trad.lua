@@ -687,6 +687,7 @@ return{
             register="註冊",
             email="電郵",
             password="密碼",
+            showEmail="顯示郵箱",
             keepPW="保存密碼",
             login="登錄",
         },

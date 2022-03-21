@@ -689,6 +689,7 @@ return{
             register="サインアップ",
             email="Eメールアドレス",
             password="パスワード",
+            -- showEmail="Show Email",
             keepPW="常にログイン",
             login="ログイン",
         },

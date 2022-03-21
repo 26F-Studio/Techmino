@@ -687,6 +687,7 @@ return{
             register="Sign Up",
             email="Email Address",
             password="Password",
+            showEmail="Show Email",
             keepPW="Remember me",
             login="Log In",
         },

@@ -689,6 +689,7 @@ return{
             register="Daftar",
             email="Alamat Email",
             password="Password",
+            -- showEmail="Show Email",
             keepPW="Ingat Saya",
             login="Masuk",
         },
