@@ -458,7 +458,6 @@ return{
             atkFX="攻击外汇",
 
             frame="渲染帧率(%)",
-            FTlock="逻辑追帧",
 
             text="行清除弹出窗口",
             score="分数弹出",

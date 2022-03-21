@@ -714,7 +714,7 @@ do--function resetGameData(args)
     local gameSetting={
         --Tuning
         'das','arr','dascut','dropcut','sddas','sdarr',
-        'ihs','irs','ims','RS','FTLock',
+        'ihs','irs','ims','RS',
 
         --System
         'skin','face',
@@ -943,7 +943,7 @@ do--CUS/SETXXX(k)
     local warnList={
         'das','arr','dascut','dropcut','sddas','sdarr',
         'ihs','irs','ims','RS',
-        'FTLock','frameMul','highCam',
+        'frameMul','highCam',
         'VKSwitch','VKIcon','VKTrack','VKDodge',
         'simpMode',
     }

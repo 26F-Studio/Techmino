@@ -70,5 +70,4 @@ return{
 
     bg='none',bgm='race',
     allowMod=true,
-    FTLock=true,
 }

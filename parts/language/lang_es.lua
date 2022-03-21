@@ -330,7 +330,6 @@ return{
             atkFX="FX Vis. de Ataque",
 
             frame="Ratio de FPSs(%)",
-            FTlock="Bloqueo por frames",
 
             text="Texto de Acciones",
             score="Puntaje en Pantalla",

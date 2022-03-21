@@ -2671,7 +2671,7 @@ function Player:_die()
     end
 end
 function Player:update(dt)
-    self.trigFrame=self.trigFrame+(self.gameEnv.FTLock and dt*60 or 1)
+    self.trigFrame=self.trigFrame+dt*60
     if self.alive then
         local S=self.stat
         if self.type=='computer'then self.bot:update(dt)end

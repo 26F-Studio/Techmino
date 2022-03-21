@@ -269,7 +269,6 @@ return{
             atkFX="→→~",
 
             frame="|=|%",
-            FTlock="||=|→→|=||",
 
             text="ABC",
             score="+123",

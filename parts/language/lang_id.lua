@@ -461,7 +461,6 @@ return{
             atkFX="Efek Serang",
 
             frame="Kecepatan Bingkai (%)",
-            FTlock="Lewat Bingkai",
 
             text="Teks Baris",
             score="Teks Nilai",

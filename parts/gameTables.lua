@@ -536,7 +536,6 @@ do--Game data tables
     ROOMENV={
         --Room config
         capacity=10,
-        FTLock=true,
 
         --Basic
         drop=30,lock=60,
@@ -591,7 +590,6 @@ do--Userdata tables
         ihs=true,irs=true,ims=true,
         holdMode='hold',
         RS='TRS',
-        FTLock=true,
 
         --System
         reTime=2,

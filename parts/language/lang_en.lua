@@ -459,7 +459,6 @@ return{
             atkFX="Atk FX",
 
             frame="Render Frame Rate (%)",
-            FTlock="Frame skip",
 
             text="Line Clear Pop-Ups",
             score="Score Pop-Ups",
