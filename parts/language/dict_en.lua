@@ -758,8 +758,7 @@ return{
     {"DAS (simple)",
         "das arr delayedautoshift autorepeatrate",
         "term",
-        "Imagine typing on a keyboard, where you press and hold the “O” key. \nYou get a long string of o’s.\nOn the timeline, it kinds of looks like o--------------o-o-o-o-o-o-o-o-o\nThe “--------------” is DAS, the “-” is ARR.
-",
+        "Imagine typing on a keyboard, where you press and hold the “O” key. \nYou get a long string of o’s.\nOn the timeline, it kinds of looks like o--------------o-o-o-o-o-o-o-o-o\nThe “--------------” is DAS, the “-” is ARR.",
     },
     {"DAS & ARR",
         "das arr delayedautoshift autorepeatrate",

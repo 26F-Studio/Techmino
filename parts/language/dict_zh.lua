@@ -1018,7 +1018,7 @@ return{
         "qiqiaoban tangram",
         "setup",
         "一种极大概率能摆出来并且很大概率能做到PC的定式，本游戏中的pc练习中空出不规则区域的那个就是七巧板。"..HDwiki,
-        ..HDsearch"Perfect_Clear_Opener",
+        HDsearch.."Perfect_Clear_Opener",
     },
     {"DPC",
         "DPC",
@@ -1062,7 +1062,7 @@ return{
         "pattern",
         "两个T2形状叠在一起。"..HDwiki,
         HDsearch.."Fractal",
-    }
+    },
     {"LST堆叠",
         "lst",
         "pattern",
