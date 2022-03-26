@@ -39,7 +39,7 @@ Attack system:
         Combos (REN):
                 The numbers of the combos are equal to (the numbers you clear lines consecutively –1). All damage above (except attack from PC/HPC) will be given a (combo ×25%) bonus, or (combo ×15%) for Single clear (capped at 12 combos), +1 more attack for 3 Combo or more.
         
-        Hemi Perfect Clear (a P.C. “with blocks left below.” If it’s an I clearing 1 line, the remaining blocks must not be player-placed):
+        Hemi Perfect Clear (a P.C. “with blocks left below.” If just one line cleared, the remaining blocks must not be player-placed):
                 - Attack +4, Extra Blocking +2
 
         Perfect Clear (All Clear):
