@@ -35,6 +35,14 @@ end
 function scene.mouseUp()
     release()
 end
+function scene.touchDown()
+    press()
+end
+function scene.touchUp()
+    if #love.touch.getTouches()==0 then
+        release()
+    end
+end
 function scene.keyDown(key,isRep)
     if isRep then return end
     if key=='escape'then
