@@ -2,6 +2,11 @@ return[=[
 未来计划:
         R E M A K E
 
+0.17.3: 矿井 Mine
+        修复:
+                修复Master-G一些问题
+                一些背景相关的问题 #672
+
 0.17.2: 服务区 Service Area
         新增:
                 把一些模式加入到大地图上(by NOT_A_ROBOT) #640
