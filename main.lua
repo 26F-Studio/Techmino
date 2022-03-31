@@ -180,7 +180,7 @@ Z.setOnFnKeys({
             end
         end
     end,
-    function()print(WIDGET.getSelected()or"no widget selected")end,
+    function()print(BG.locked)end,
     function()for k,v in next,_G do print(k,v)end end,
     function()if love['_openConsole']then love['_openConsole']()end end,
 })

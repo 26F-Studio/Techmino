@@ -97,7 +97,14 @@ scene.widgetList={
         },
     WIDGET.newSlider{name='bgAlpha',      x=1020,y=1430,w=200,
         axis={0,.8},disp=SETval('bgAlpha'),
-        code=function(v)SETTING.bgAlpha=v BG.send(v,v,v)end,
+        code=function(v)
+            SETTING.bgAlpha=v
+            if BG.cur=='fixColor' then
+                BG.send(v,v,v)
+            else
+                BG.send(v)
+            end
+        end,
         hideF=function()return SETTING.bg=='on'end
         },
 
