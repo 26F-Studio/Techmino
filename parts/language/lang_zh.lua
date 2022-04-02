@@ -316,7 +316,6 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
-        simple-love-lights [dylhunn]
     ]],
     support="支持作者",
     WidgetText={

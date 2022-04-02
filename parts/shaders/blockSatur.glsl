@@ -1,10 +1,10 @@
-extern float k,b;
-vec4 effect(vec4 color,Image tex,vec2 tex_coords,vec2 scr_coords){
-    vec4 texcolor=Texel(tex,tex_coords);
+uniform float k,b;
+vec4 effect(vec4 color,sampler2D tex,vec2 texCoord,vec2 scrCoord){
+    vec4 texcolor=texture2D(tex,texCoord);
     return vec4(
-        (b+texcolor.r*k)*color.r,
-        (b+texcolor.g*k)*color.g,
-        (b+texcolor.b*k)*color.b,
+        (texcolor.r*k+b)*color.r,
+        (texcolor.g*k+b)*color.g,
+        (texcolor.b*k+b)*color.b,
         texcolor.a*color.a
     );
 }

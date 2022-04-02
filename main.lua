@@ -190,9 +190,6 @@ Z.setDebugInfo{
     {"Voices",VOC.getQueueCount},
     {"Audios",love.audio.getSourceCount},
 }
-Z.setOnResize(function(w,_)
-    SHADER.warning:send('w',w*SCR.dpi)
-end)
 do--Z.setOnFocus
     local function task_autoSoundOff()
         while true do

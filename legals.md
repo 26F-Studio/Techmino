@@ -10,8 +10,6 @@ Powered by LÖVE, © 2006–2022 LÖVE Development Team.
 
 Lua is free software distributed under the terms of the MIT license. Copyright © 1994–2022 by Lua.org, PUC-Rio.
 
-SIMPLE LOVE LIGHTS is under a MIT License. Created by Dylan Hunn.
-
 json.lua is copyrighted by rxi. © 2022 rxi.
 
 IBM Plex is copyrighted by the International Business Machines Corporation. IBM and IBM Plex are trademarks of IBM Corp, registered in many jurisdictions worldwide. IBM Plex is licensed under the SIL Open Font License, Version 1.1.
