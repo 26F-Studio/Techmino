@@ -1,0 +1,3 @@
+*.template text eol=lf
+*.tiff binary
+*.icns binary

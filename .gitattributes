@@ -1,15 +1,1 @@
 * text=auto
-
-.github/build/Linux/*.template text eol=lf
-.github/build/macOS/*.template text eol=lf
-.github/build/Windows/*.template text eol=crlf
-
-.github/actions/*.yml text eol=lf
-.github/workflows/*.yml text eol=lf
-
-*.ogg binary
-*.png binary
-*.icns binary
-*.ico binary
-*.tiff binary
-*.otf binary
