@@ -1,0 +1,10 @@
+* text=auto
+
+.lua text eol=crlf
+.glsl text eol=crlf
+.txt text eol=crlf
+.md text eol=crlf
+
+*.ogg binary
+*.png binary
+*.jpg binary
