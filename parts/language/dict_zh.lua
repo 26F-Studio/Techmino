@@ -804,6 +804,11 @@ return{
         "term",
         "Soft Drop Factor，软降速度因子（倍率）\n部分游戏中的软降机制就是在按住软降键时方块受到的重力变为原来的若干倍，SDF就是这个变大的倍数。\n基本所有官块和TETR.IO使用这个机制，但本游戏不使用。",
     },
+    {"方块名称",
+        "mino",
+        "term",
+        "Z"..CHAR.mino.Z.."  S"..CHAR.mino.S.."  J"..CHAR.mino.J.."  L"..CHAR.mino.L.."  T"..CHAR.mino.T.."  O"..CHAR.mino.O.."  I"..CHAR.mino.I.."  Z5"..CHAR.mino.Z5.."  S5"..CHAR.mino.S5.."  P"..CHAR.mino.P.."  Q"..CHAR.mino.Q.."  F"..CHAR.mino.F.."  E"..CHAR.mino.E.."  T5"..CHAR.mino.T5.."  U"..CHAR.mino.U.."  V"..CHAR.mino.V.."  W"..CHAR.mino.W.."  X"..CHAR.mino.X.."  J5"..CHAR.mino.J5.."  L5"..CHAR.mino.L5.."  R"..CHAR.mino.R.."  Y"..CHAR.mino.Y.."  N"..CHAR.mino.N.."  H"..CHAR.mino.H.."  I5"..CHAR.mino.I5.."  I3"..CHAR.mino.I3.."  C"..CHAR.mino.C.."  I2"..CHAR.mino.I2.."  O1"..CHAR.mino.O1,
+    },
     {"Bag7出块",
         "bag出块 bag7bag",
         "term",
@@ -1102,11 +1107,6 @@ return{
         "pattern",
         "在STSD上叠若干个T3的形状。"..HDwiki,
         HDsearch.."King_Crimson",
-    },
-    {"方块表",
-        "mino",
-        "game",
-        "Z"..CHAR.mino.Z.."  S"..CHAR.mino.S.."  J"..CHAR.mino.J.."  L"..CHAR.mino.L.."  T"..CHAR.mino.T.."  O"..CHAR.mino.O.."  I"..CHAR.mino.I.."  Z5"..CHAR.mino.Z5.."  S5"..CHAR.mino.S5.."  P"..CHAR.mino.P.."  Q"..CHAR.mino.Q.."  F"..CHAR.mino.F.."  E"..CHAR.mino.E.."  T5"..CHAR.mino.T5.."  U"..CHAR.mino.U.."  V"..CHAR.mino.V.."  W"..CHAR.mino.W.."  X"..CHAR.mino.X.."  J5"..CHAR.mino.J5.."  L5"..CHAR.mino.L5.."  R"..CHAR.mino.R.."  Y"..CHAR.mino.Y.."  N"..CHAR.mino.N.."  H"..CHAR.mino.H.."  I5"..CHAR.mino.I5.."  I3"..CHAR.mino.I3.."  C"..CHAR.mino.C.."  I2"..CHAR.mino.I2.."  O1"..CHAR.mino.O1,
     },
 
     --存档管理
