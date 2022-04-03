@@ -75,6 +75,21 @@ function scene.keyDown(key,isRep)
 end
 
 function scene.draw()
+    --Character
+    gc.push('transform')
+        local t=love.timer.getTime()
+        gc.setColor(1,1,1)
+        gc.translate(906,456)
+        gc.scale(.6)
+        GC.draw(IMG.z.character)
+        GC.draw(IMG.z.screen1, -91, -157+16*math.sin(t))
+        GC.draw(IMG.z.screen2, 120, -166+16*math.sin(t+1))
+        gc.setColor(1,1,1,.7+.3*math.sin(.6*t)) GC.draw(IMG.z.particle1, -50,                    42+6*math.sin(t*0.36))
+        gc.setColor(1,1,1,.7+.3*math.sin(.7*t)) GC.draw(IMG.z.particle2, 110+6*math.sin(t*0.92), 55)
+        gc.setColor(1,1,1,.7+.3*math.sin(.8*t)) GC.draw(IMG.z.particle3, -54+6*math.sin(t*0.48), -248)
+        gc.setColor(1,1,1,.7+.3*math.sin(.9*t)) GC.draw(IMG.z.particle4, 133,                    -305+6*math.sin(t*0.40))
+    gc.pop()
+
     gc_setColor(COLOR.Z)
 
     --Scroller
@@ -89,22 +104,24 @@ function scene.draw()
     if selected>2 then gc_print(bgmList[selected-2],322,350-50)end
     if selected<#bgmList-1 then gc_print(bgmList[selected+2],322,350+110)end
 
+    --Title
+    if BGM.nowPlay then
+        GC.draw(TEXTURE.title,562,180,nil,.42)
+        local a=-t%2.3/2.3
+        gc_setColor(1,1,1,math.min(a,1))
+        GC.draw(TEXTURE.title_color,562,180,nil,.42+.062-.062*a)
+    end
+
     --Music player
-    gc.draw(TEXTURE.title,840,220,nil,.5,nil,580,118)
     if BGM.nowPlay then
         local t=TIME()
         setFont(45)
+        GC.shadedPrint(BGM.nowPlay,710,508,'left',2)
         gc_setColor(sin(t*.5)*.2+.8,sin(t*.7)*.2+.8,sin(t)*.2+.8)
         gc_print(BGM.nowPlay,710,508)
         setFont(35)
         gc_setColor(1,sin(t*2.6)*.5+.5,sin(t*2.6)*.5+.5)
         gc_print(author[BGM.nowPlay]or"MrZ",670,465)
-
-        local a=-t%2.3/2
-        if a<1 then
-            gc_setColor(1,1,1,a)
-            gc.draw(TEXTURE.title_color,840,220,nil,.5+.062-.062*a,.5+.126-.126*a,580,118)
-        end
 
         setFont(20)
         gc_setColor(COLOR.Z)

@@ -285,6 +285,15 @@ IMG.init{
     xiaoyaCH='media/image/characters/xiaoya.png',
     xiaoyaOmino='media/image/characters/xiaoya_Omino.png',
     mikuCH='media/image/characters/miku.png',
+    z={
+        character='media/image/characters/z_character.png',
+        screen1='media/image/characters/z_screen1.png',
+        screen2='media/image/characters/z_screen2.png',
+        particle1='media/image/characters/z_particle1.png',
+        particle2='media/image/characters/z_particle2.png',
+        particle3='media/image/characters/z_particle3.png',
+        particle4='media/image/characters/z_particle4.png',
+    },
     electric='media/image/characters/electric.png',
     hbm='media/image/characters/hbm.png',
 
