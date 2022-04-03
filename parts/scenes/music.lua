@@ -4,15 +4,6 @@ local sin=math.sin
 local setFont=FONT.set
 
 local author={
-    blank="MrZ (old works)",
-    ["end"]="MrZ (old works)",
-    cruelty="MrZ (old works)",
-    final="MrZ (old works)",
-    infinite="MrZ (old works)",
-    push="MrZ (old works)",
-    race="MrZ (old works)",
-    reason="MrZ (old works)",
-    way="MrZ (old works)",
     battle="Aether & MrZ",
     moonbeam="Beethoven & MrZ",
     empty="ERM",
@@ -75,9 +66,10 @@ function scene.keyDown(key,isRep)
 end
 
 function scene.draw()
+    local t=TIME()
+
     --Character
     gc.push('transform')
-        local t=love.timer.getTime()
         gc.setColor(1,1,1)
         gc.translate(906,456)
         gc.scale(.6)
@@ -106,15 +98,14 @@ function scene.draw()
 
     --Title
     if BGM.nowPlay then
-        GC.draw(TEXTURE.title,562,180,nil,.42)
+        GC.draw(TEXTURE.title,570,190,nil,.42)
         local a=-t%2.3/2.3
         gc_setColor(1,1,1,math.min(a,1))
-        GC.draw(TEXTURE.title_color,562,180,nil,.42+.062-.062*a)
+        GC.draw(TEXTURE.title_color,570,190,nil,.42+.062-.062*a)
     end
 
     --Music player
     if BGM.nowPlay then
-        local t=TIME()
         setFont(45)
         GC.shadedPrint(BGM.nowPlay,710,508,'left',2)
         gc_setColor(sin(t*.5)*.2+.8,sin(t*.7)*.2+.8,sin(t)*.2+.8)
