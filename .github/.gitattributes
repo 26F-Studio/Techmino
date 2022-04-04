@@ -1,2 +1,2 @@
-actions/*.yml text eol=lf
+actions/**/*.yml text eol=lf
 workflows/*.yml text eol=lf
