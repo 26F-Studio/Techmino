@@ -231,12 +231,18 @@ end
 Z.setOnQuit(destroyPlayers)
 
 --Load settings and statistics
-TABLE.cover (loadFile('conf/user','-canSkip')or{},USER)
-TABLE.cover (loadFile('conf/unlock','-canSkip')or{},RANKS)
-TABLE.update(loadFile('conf/settings','-canSkip')or{},SETTING)
-TABLE.coverR(loadFile('conf/data','-canSkip')or{},STAT)
-TABLE.cover (loadFile('conf/key','-canSkip')or{},KEY_MAP)
-TABLE.cover (loadFile('conf/virtualkey','-json -canSkip')or{},VK_ORG)
+if
+    not(
+        pcall(TABLE.cover, loadFile('conf/user',      '-json -canSkip')or loadFile('conf/user',      '-luaon -canSkip')or{},USER) and
+        pcall(TABLE.cover, loadFile('conf/unlock',    '-json -canSkip')or loadFile('conf/unlock',    '-luaon -canSkip')or{},RANKS) and
+        pcall(TABLE.update,loadFile('conf/settings',  '-json -canSkip')or loadFile('conf/settings',  '-luaon -canSkip')or{},SETTING) and
+        pcall(TABLE.coverR,loadFile('conf/data',      '-json -canSkip')or loadFile('conf/data',      '-luaon -canSkip')or{},STAT) and
+        pcall(TABLE.cover, loadFile('conf/key',       '-json -canSkip')or loadFile('conf/key',       '-luaon -canSkip')or{},KEY_MAP) and
+        pcall(TABLE.cover, loadFile('conf/virtualkey','-json -canSkip')or loadFile('conf/virtualkey','-luaon -canSkip')or{},VK_ORG)
+    )
+then
+    MES.new('error',"Be careful, an error accured when loading saving, some data was lost")
+end
 
 --Initialize fields, sequence, missions, gameEnv for cutsom game
 local fieldData=loadFile('conf/customBoards','-string -canSkip')
