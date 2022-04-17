@@ -63,12 +63,12 @@ return{
         local D=P.modeData
         D.drought=P.lastPiece.id==7 and 0 or D.drought+1
         if P.stat.row>=D.target then
-            if D.target>=100 then 
+            if D.target>=100 then
                 D.lvl=D.lvl+1
             end
             local dropSpd=GetGravity(D.lvl)
-            if D.target==200 then P.win('finish') return
-            elseif dropSpd~=P.gameEnv.drop then 
+            if D.target==200 then P:win('finish') return
+            elseif dropSpd~=P.gameEnv.drop then
                 P.gameEnv.drop,P.gameEnv.lock=dropSpd,dropSpd
                 P.gameEnv.sddas,P.gameEnv.sdarr=dropSpd,dropSpd
                 SFX.play('warn_2',.7)

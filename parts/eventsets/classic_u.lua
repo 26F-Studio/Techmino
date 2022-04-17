@@ -62,8 +62,8 @@ return{
     hook_drop=function(P)
         local D=P.modeData
         D.drought=P.lastPiece.id==7 and 0 or D.drought+1
-        if P.stat.row>=D.target then 
-            if D.target>=200 then P.win('finish') return end
+        if P.stat.row>=D.target then
+            if D.target>=200 then P:win('finish') return end
             SFX.play('reach')
             D.lvl=D.lvl+1
             D.target=D.target+10

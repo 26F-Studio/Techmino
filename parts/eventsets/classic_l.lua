@@ -67,7 +67,7 @@ return{
                 D.lvl=D.lvl+1
             --end
             local dropSpd=GetGravity(D.lvl)
-            if dropSpd~=P.gameEnv.drop then 
+            if dropSpd~=P.gameEnv.drop then
                 P.gameEnv.drop,P.gameEnv.lock=dropSpd,dropSpd
                 P.gameEnv.sddas,P.gameEnv.sdarr=dropSpd,dropSpd
                 SFX.play('warn_1')

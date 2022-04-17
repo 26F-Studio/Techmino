@@ -96,7 +96,7 @@ return{
 
     noScore="スコア無し",
     modeLocked="ロック",
-    unlockHint="ランクB以上を取得すると解放されるよ!", 
+    unlockHint="ランクB以上を取得すると解放されるよ!",
     highScore="最高得点",
     newRecord="新記録!",
 

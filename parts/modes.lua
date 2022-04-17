@@ -9,7 +9,7 @@ return{
     {name='sprintPenta',   x=180,       y=-160,     size=40,shape=3,icon="sprint_pento"},
     {name='sprintMPH',     x=220,       y=-300,     size=40,shape=3,icon="sprint2"},
     {name='sprint123',     x=180,       y=-440,     size=40,shape=1,icon="sprint_tri"},
-    
+
     {name='secret_grade',  x=-200,      y=-400,     size=40,shape=1,icon="secret_grade"},
 
     {name='drought_n',     x=-600,      y=400,      size=40,shape=1,icon="drought",     unlock={'drought_l'}},
@@ -19,7 +19,7 @@ return{
     {name='dig_40l',       x=-400,      y=-200,     size=40,shape=1,icon="dig_sprint",  unlock={'dig_100l'}},
     {name='dig_100l',      x=-600,      y=-200,     size=40,shape=1,icon="dig_sprint",  unlock={'dig_400l'}},
     {name='dig_400l',      x=-800,      y=-200,     size=40,shape=1,icon="dig_sprint"},
-    
+
     {name='dig_eff_10l',   x=-400,      y=0,     size=40,shape=1,icon="dig_sprint",  unlock={'dig_eff_40l'}},
     {name='dig_eff_40l',   x=-600,      y=0,     size=40,shape=1,icon="dig_sprint",  unlock={'dig_eff_100l'}},
     {name='dig_eff_100l',  x=-800,      y=0,     size=40,shape=1,icon="dig_sprint",  unlock={'dig_eff_400l'}},
