@@ -25,7 +25,7 @@ local penKey={
     ['1']=1,['2']=2,['3']=3,['4']=4,['5']=5,['6']=6,['7']=7,['8']=8,
     q=9,w=10,e=11,r=12,t=13,y=14,u=15,i=16,
     a=17,s=18,d=19,f=20,g=21,h=22,j=23,k=24,
-    z=0,x=-1,
+    z=0,x=-1,c=-2,
 }
 local minoPosCode={
     [102]=1,[1121]=1,--Z
@@ -250,8 +250,8 @@ function scene.keyDown(key)
         else
             SCN.back()
         end
-    else
-        pens[curPen]=penKey[key]or pens[curPen]
+    elseif penKey[key] then
+        pens[1]=penKey[key]
     end
 end
 function scene.keyUp(key)
