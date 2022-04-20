@@ -65,7 +65,7 @@ function scene.draw()
         gc.draw(IMG.miyaHeart,162,52,nil,.3)
     elseif vocPack=="mono"then
         local jump=math.max(30-(TIME()-last1)*60,0)%10
-        gc.translate(800,340+6*sin(TIME()*.5)+(jump-10)*jump*.3)
+        gc.translate(760,340+6*sin(TIME()*.5)+(jump-10)*jump*.3)
         gc.draw(IMG.monoCH,-30)
     elseif vocPack=="xiaoya"then
         gc.translate(770,340+4*sin(TIME()*.5))
