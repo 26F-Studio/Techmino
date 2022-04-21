@@ -251,7 +251,7 @@ return{
         "(旋律星萤)",
         "(T0722)",
         "",
-        "Illustrasi",
+        "Ilustrasi",
         "Miya",
         "Mono",
         "Xiaoya",
