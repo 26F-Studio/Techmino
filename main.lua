@@ -501,9 +501,6 @@ do
         SETTING.dascut=SETTING.dascut+1
         needSave=true
     end
-    if SETTING.vocPack=='mono'then
-        SETTING.vocPack='miya'
-    end
     if RANKS.stack_e then
         RANKS.stack_e=nil
         RANKS.stack_h=nil
