@@ -7,7 +7,6 @@ local langList={
     pt="Português",
     id="Bahasa Indonesia",
     ja="日本語",
-    zh_grass="机翻",
     symbol="?????",
 }
 local languages={
@@ -49,21 +48,21 @@ local function _setLang(lid)
 end
 
 scene.widgetList={
-    WIDGET.newButton{x=271,y=210,w=346,h=100,font=40, fText=langList.en,      color='R',sound='click',code=function()_setLang('en')end},
-    WIDGET.newButton{x=271,y=329,w=346,h=100,font=40, fText=langList.fr,      color='F',sound='click',code=function()_setLang('fr')end},
-    WIDGET.newButton{x=271,y=449,w=346,h=100,font=35, fText=langList.es,      color='O',sound='click',code=function()_setLang('es')end},
-    WIDGET.newButton{x=271,y=568,w=346,h=100,font=35, fText=langList.id,      color='Y',sound='click',code=function()_setLang('id')end},
+    WIDGET.newButton{x=270,y=210,w=330,h=100,font=40, fText=langList.en,      color='R',sound='click',code=function()_setLang('en')end},
+    WIDGET.newButton{x=270,y=330,w=330,h=100,font=40, fText=langList.fr,      color='F',sound='click',code=function()_setLang('fr')end},
+    WIDGET.newButton{x=270,y=450,w=330,h=100,font=35, fText=langList.es,      color='O',sound='click',code=function()_setLang('es')end},
+    WIDGET.newButton{x=270,y=570,w=330,h=100,font=35, fText=langList.id,      color='Y',sound='click',code=function()_setLang('id')end},
 
-    WIDGET.newButton{x=637,y=210,w=346,h=100,font=40, fText=langList.pt,      color='A',sound='click',code=function()_setLang('pt')end},
-    WIDGET.newButton{x=637,y=329,w=346,h=100,font=40, fText=langList.symbol,  color='G',sound='click',code=function()_setLang('symbol')end},
-    WIDGET.newButton{x=637,y=449,w=346,h=100,font=40, fText=langList.ja,      color='J',sound='click',code=function()_setLang('ja')end},
-    WIDGET.newButton{x=637,y=568,w=346,h=100,font=40, fText=langList.zh_grass,color='L',sound='click',code=function()_setLang('zh_grass')end},
+    WIDGET.newButton{x=640,y=210,w=330,h=100,font=40, fText=langList.pt,      color='A',sound='click',code=function()_setLang('pt')end},
+    WIDGET.newButton{x=640,y=330,w=330,h=100,font=40, fText=langList.symbol,  color='G',sound='click',code=function()_setLang('symbol')end},
+    WIDGET.newButton{x=640,y=450,w=330,h=100,font=40, fText=langList.ja,      color='J',sound='click',code=function()_setLang('ja')end},
+    WIDGET.newKey   {x=640,y=570,w=330,h=100,font=40, fText='',               color='L'},
 
-    WIDGET.newButton{x=1003,y=210,w=346,h=100,font=40,fText=langList.zh,      color='C',sound='click',code=function()_setLang('zh')end},
-    WIDGET.newButton{x=1003,y=329,w=346,h=100,font=40,fText=langList.zh_trad, color='S',sound='click',code=function()_setLang('zh_trad')end},
-    -- WIDGET.newButton{x=1003,y=449,w=346,h=100,font=40,fText=langList.zh_trad, color='S',sound='click',code=function()_setLang('zh_trad')end},
+    WIDGET.newButton{x=1000,y=210,w=330,h=100,font=40,fText=langList.zh,      color='C',sound='click',code=function()_setLang('zh')end},
+    WIDGET.newButton{x=1000,y=330,w=330,h=100,font=40,fText=langList.zh_trad, color='S',sound='click',code=function()_setLang('zh_trad')end},
+    WIDGET.newKey   {x=1000,y=450,w=330,h=100,font=40,fText='',               color='P'},
 
-    WIDGET.newButton{name='back',x=1003,y=568,w=346,h=100,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='back',x=1000,y=570,w=330,h=100,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene
