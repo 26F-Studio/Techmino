@@ -681,7 +681,6 @@ return{
         ['defender_l']=     {"Defensor",                "Lunático",      "¡Practica la defensa!"},
         ['dig_h']=          {"Downstack",               "Difícil",       "¡Practica el downstackeo!"},
         ['dig_u']=          {"Downstack",               "Supremo",       "¡Practica el downstackeo!"},
-        ['clearRush']=      {"Clear Rush",              "NORMAL",        "¡Tutorial de Allspins!\n[En construcción]"},
         ['c4wtrain_n']=     {"Entrenar C4W",            "Normal",        "Combos infinitos."},
         ['c4wtrain_l']=     {"Entrenar C4W",            "Lunático",      "Combos infinitos."},
         ['pctrain_n']=      {"Entrenar PC",             "Normal",        "Modo sencillo para practicar Perfect Clears."},

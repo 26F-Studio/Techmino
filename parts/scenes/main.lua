@@ -122,8 +122,6 @@ function scene.keyDown(key,isRep)
             VOC.play('bye')
             SCN.swapTo('quit','slowFade')
         end
-    elseif key=='c'then
-        enterConsole()
     else
         return true
     end

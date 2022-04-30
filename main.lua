@@ -525,8 +525,8 @@ do
         fs.remove('record/rhythm_h.rec')
         fs.remove('record/rhythm_u.rec')
     end
-    if RANKS.bigbang then
-        RANKS.clearRush,RANKS.bigbang=RANKS.bigbang
+    if RANKS.bigbang or RANKS.clearRush then
+        fs.remove('record/clearRush.rec')
         fs.remove('record/bigbang.rec')
     end
     if STAT.version~=VERSION.code then

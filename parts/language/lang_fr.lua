@@ -786,7 +786,6 @@ return{
         ['defender_l']=    {"Défendant",       "LUNATIQUE",   "Soyez défensifs !"},
         ['dig_h']=         {"Perceuse",        "DIFFICILE",   "Essayez de creuser !"},
         ['dig_u']=         {"Perceuse",        "ULTIME",      "Essayez de creuser !"},
-        -- ['clearRush']=     {"Clear Rush",      "NORMAL",      "All-spin tutorial!\n[Under construction]"},
         ['c4wtrain_n']=    {"Mode essai C4W",  "NORMAL",      "Combos infinis."},
         ['c4wtrain_l']=    {"Mode essai C4W",  "LUNATIQUE",   "Combos infinis."},
         ['pctrain_n']=     {"Mode essai PC",   "NORMAL",      "Mode Perfect Clear simple"},
