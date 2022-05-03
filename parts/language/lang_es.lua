@@ -310,6 +310,7 @@ return{
         "Tourahi Anime",
         "[Todo el staff de testeo]",
         "…Y a ti!",
+    },
     used=[[
     Herramientas utilizadas:
         Beepbox
