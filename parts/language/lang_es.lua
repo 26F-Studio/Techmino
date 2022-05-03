@@ -854,7 +854,7 @@ return{
         ['zen']=            {'Zen',                     "200L",          "200 líneas sin límite de tiempo."},
         ['ultra']=          {'Ultra',                   "Extra",         "¡Consigue el mayor puntaje /nposible en 2 minutos!"},
         ['infinite']=       {"Infinito",                 "",             "Modo Sandbox."},
-        ['infinite_dig']=   {"Infinito: Queso",          "",             "Limpia, limpia, más limpia que tú."}, --see Note at bottom of translation
+        ['infinite_dig']=   {"Infinito: Queso",          "",             "Limpia, limpia, más limpia que tú."},
         ['marathon_inf']=   {"Maratón",                  "Infinito",     "Maratón infinita."},
 
         ['custom_clear']=   {"Personalizado",           "Normal"},
