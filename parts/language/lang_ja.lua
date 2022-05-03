@@ -17,7 +17,7 @@ return{
     newDay="新しい1日、新しい始まりです!",
     playedLong="長時間プレイしています、適度に休憩をして!",
     playedTooMuch="かなり長くプレイしています! Techminoは楽しいですが、休憩を忘れずに!",
-    settingWarn="使用頻度の低い設定を変更しています。注意してください。",
+    settingWarn="使用頻度の少ない設定に変更しています。注意してください。",
 
     atkModeName={"ランダム","バッジ狙い","トドメ撃ち","カウンター"},
     royale_remain="残り $1 人",
@@ -67,7 +67,7 @@ return{
     ai_prebag="AIは通常のテトロミノではない物やカスタマイズされたミノ順に非対応です!",
     ai_mission="AIはカスタムミッションに非対応です!",
     switchSpawnSFX="ブロック出現時の効果音をONにしてください!",
-    needRestart="すべての変更を適用する為に再起動してください!",
+    needRestart="すべての変更を適用する為にリスタートしてください!",
 
     loadError_errorMode="'$1'の読み込みに失敗: ロードモード'$2'が存在しません",
     loadError_read="'$1'の読み込みに失敗: 読み込みに失敗しました",
@@ -95,8 +95,8 @@ return{
     VKCurW="現在の配置",
 
     noScore="スコア無し",
-    modeLocked="ロック",
-    unlockHint="ランクB以上を取得すると解放されるよ!",
+    modeLocked="未開放",
+    unlockHint="前のステージでランクB以上を取得すると解放されます!",
     highScore="最高得点",
     newRecord="新記録!",
 
@@ -420,7 +420,7 @@ return{
         net_game={
             ready="準備OK",
             spectate="観戦",
-            cancel="待った",
+            cancel="キャンセル",
         },
         setting_game={
             title="ゲームの設定",
@@ -481,7 +481,7 @@ return{
             fullscreen="フルスクリーン",
 
             bg_on="通常背景",
-            bg_off="背景を閉じる ",
+            bg_off="背景なし ",
             bg_custom="カスタム背景",
 
             blockSatur="ブロックデザイン",
@@ -514,7 +514,7 @@ return{
 
             das="DAS",arr="ARR",
             dascut="DASカット",
-            dropcut="自動ロックcut",
+            dropcut="自動設置カット",
             sddas="ソフトドロップDAS",sdarr="ソフトドロップARR",
             ihs="先行ホールド",
             irs="先行回転",
@@ -575,7 +575,7 @@ return{
         },
         customGame={
             title="カスタムプレイ",
-            defSeq="デフォルトのミノ順",
+            defSeq="通常のミノ順",
             noMsn="ミッションなし",
 
             drop="自然落下時間",
