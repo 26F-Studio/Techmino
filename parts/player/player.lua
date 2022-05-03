@@ -2654,7 +2654,7 @@ function Player:_die()
     self.b2b=0
     self.tasks={}
     self:clearAttackBuffer()
-    for i=1,#self.field do
+    for i=1,#self.visTime do
         for j=1,10 do
             self.visTime[i][j]=min(self.visTime[i][j],20)
         end
@@ -2758,7 +2758,7 @@ function Player:win(result)
     if result=='finish'then
         for i=#PLY_ALIVE,1,-1 do
             if PLY_ALIVE[i]~=self then
-                PLY_ALIVE[i]:lose()
+                PLY_ALIVE[i]:lose(true)
             end
         end
     end
