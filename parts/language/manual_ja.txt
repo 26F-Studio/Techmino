@@ -25,7 +25,7 @@
                 Super clearとは、B2Bゲージがある状態でSpecial clearを行うことです。
         Special clears (spin):
                 消したline数の2倍の火力を送ります、
-                - B2Bは、spin single/doubleで1line、spin tripleで2line、techrashで4line、techrash+で8lineを追加で送ります。
+                - B2Bは、spin single/doubleで1line、spin tripleで2line、spin techrashで4line、spin techrash+で8lineを追加で送ります。
                 - B2B2Bは、消したline数の半分と+1lineの火力を追加で送ります。
                 - ミニは、火力を25%に減少させます。(倍率0.25倍)
 
