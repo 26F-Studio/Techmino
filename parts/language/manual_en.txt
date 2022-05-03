@@ -26,7 +26,7 @@ Attack system:
         Special clears (spins):
                 sends (lines cleared ×2) attack,
                 - B2B sends extra 1/1/2/4/8 for Spin Single/Double/Triple/Techrash/Techrash+
-                - B2B2B sends (lines cleared ×0.5), and +1 extra blocking
+                - B2B2B sends (lines cleared ×0.5) on top of that of B2B, and +1 extra blocking
                 - Minis reduces the attack to 25% (×0.25 multiplier)
 
         Special clears (Techrash/techrash+ without spins):
