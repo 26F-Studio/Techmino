@@ -311,10 +311,13 @@ return{
                     TABLE.cut(P.visTime)
                 elseif P.waiting==180 then
                     playReadySFX(3,3)
+                    P:_showText("3",0,-120,120,'fly',1)
                 elseif P.waiting==120 then
                     playReadySFX(2,1)
+                    P:_showText("2",0,-120,120,'fly',1)
                 elseif P.waiting==60 then
                     playReadySFX(1,1)
+                    P:_showText("1",0,-120,120,'fly',1)
                 elseif P.waiting==1 then
                     playReadySFX(0,1)
                     isInRollTrans=false
