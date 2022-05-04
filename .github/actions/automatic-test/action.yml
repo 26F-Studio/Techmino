@@ -21,3 +21,32 @@ runs:
     with:
       run: |
         ./dest/love Techmino.love --test
+  - name: Prepare FontTools
+    shell: bash
+    run: |
+      pip install fonttools
+  - name: Check fonts
+    description: Make sure all characters are present in the font.
+    shell: python
+    run: |
+      from fontTools.ttLib import TTFont
+      from pathlib import Path
+
+      font = TTFont('parts/fonts/proportional.otf')
+      keys = set(font.getBestCmap().keys())
+
+      missing = []
+      for file in Path('parts/language').glob('*.lua'):
+        for char in file.read_text():
+          if char == '\n':
+            continue
+          if ord(char) not in keys:
+            missing.append((char, file))
+
+      if missing:
+        print('Missing characters:')
+        for char, file in missing:
+          print(f"'{char}'({ord(char):x}) in {file}")
+        exit(1)
+      else:
+        print('All characters are present in the font.')
