@@ -28,7 +28,7 @@ runs:
         print('Missing characters:')
         for char, file, i in missing:
           print(f"'{char}'({ord(char):x}) in {file} at line {i} " \
-                "(${{ GITHUB_SERVER_URL }}/${{ GITHUB_REPOSITORY }}/blob/${{ GITHUB_SHA }}/{file}#L{i})")
+                "(${{ env.GITHUB_SERVER_URL }}/${{ env.GITHUB_REPOSITORY }}/blob/${{ env.GITHUB_SHA }}/{file}#L{i})")
         exit(1)
       else:
         print('All characters are present in the font.')
