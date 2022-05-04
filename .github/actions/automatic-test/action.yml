@@ -26,7 +26,7 @@ runs:
 
       if missing:
         print('Missing characters:')
-        for char, file in missing:
+        for char, file, i in missing:
           print(f"'{char}'({ord(char):x}) in {file} at line {i} (https://github.com/26F-Studio/Techmino/blob/${GITHUB_SHA}/{file}#L{i})")
         exit(1)
       else:
