@@ -2,6 +2,15 @@ local gc=love.graphics
 local sectionName={"D","C","B","A","A+","S-","S","S+","S+","SS","SS","U","U","X","X+"}
 local passPoint=16
 
+local function getRollGoal(P)
+    -- get amount of grades needed for X+
+    local rem=12.4-P.modeData.rankPoint/10
+    if rem<=0 then return 0 end
+    local goal=math.floor(rem)*4
+    rem=rem%1
+    return goal + (rem>0.3 and 4 or rem*10)
+end
+
 return{
     drop=0,lock=15,
     wait=15,fall=6,
@@ -29,6 +38,7 @@ return{
         setFont(75)
         mStr(P.stat.row,63,230)
         mStr(P.stat.clears[4],63,340)
+        PLY.draw.drawTargetLine(P,getRollGoal(P))
     end,
     hook_drop=function(P)
         if P.modeData.rankPoint<140-passPoint then--If Less then X
