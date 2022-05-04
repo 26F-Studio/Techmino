@@ -25,8 +25,7 @@ runs:
     shell: bash
     run: |
       pip install fonttools
-  - name: Check fonts
-    description: Make sure all characters are present in the font.
+  - name: Check all characters are in the font
     shell: python
     run: |
       from fontTools.ttLib import TTFont
