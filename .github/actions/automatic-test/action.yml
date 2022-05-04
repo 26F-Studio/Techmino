@@ -19,16 +19,14 @@ runs:
 
       missing = []
       for file in Path('parts/language').glob('*.lua'):
-        for char in file.read_text():
-          if char == '\n':
-            continue
+        for i, line in enumerate(file.read_text().splitlines()):
           if ord(char) not in keys:
-            missing.append((char, file))
+            missing.append((char, file, i))
 
       if missing:
         print('Missing characters:')
         for char, file in missing:
-          print(f"'{char}'({ord(char):x}) in {file}")
+          print(f"'{char}'({ord(char):x}) in {file} at line {i} (https://github.com/26F-Studio/Techmino/blob/${GITHUB_SHA}/{file}#L{i})")
         exit(1)
       else:
         print('All characters are present in the font.')
