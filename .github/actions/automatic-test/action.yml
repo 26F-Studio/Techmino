@@ -13,7 +13,6 @@ runs:
     run: |
       from fontTools.ttLib import TTFont
       from pathlib import Path
-      from os import environ as env
 
       font = TTFont('parts/fonts/proportional.otf')
       keys = set(font.getBestCmap().keys())
@@ -28,7 +27,8 @@ runs:
       if missing:
         print('Missing characters:')
         for char, file, i in missing:
-          print(f"'{char}'({ord(char):x}) in {file} at line {i} (https://github.com/26F-Studio/Techmino/blob/{env['GITHUB_SHA']}/{file}#L{i})")
+          print(f"'{char}'({ord(char):x}) in {file} at line {i} " \
+                "(${{ GITHUB_SERVER_URL }}/${{ GITHUB_REPOSITORY }}/blob/${{ GITHUB_SHA }}/{file}#L{i})")
         exit(1)
       else:
         print('All characters are present in the font.')
