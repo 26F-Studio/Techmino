@@ -104,6 +104,21 @@ local function addGrade(row, cmb, lvl) -- IGS = internal grade system
         int_grade=int_grade+1
     end
 end
+local function getRollGoal()
+    -- get amount of grades needed for TM+
+    local rem=#gradeList-(int_grade_boosts[math.min(int_grade+1,#int_grade_boosts)]+rollGrades+cools+1-regrets)
+    if rem<=0 then return 0 end
+    local goal=0
+    if cools>8 then
+        goal=math.floor(rem)*4
+        rem=rem%1
+        return goal + (rem>0.3 and 4 or rem*10)
+    else
+        goal=math.floor(rem/0.26)*4
+        rem=rem%0.26
+        return goal + (rem>0.12 and 4 or rem*25)
+    end
+end
 
 return{
     drop=64,
@@ -145,6 +160,7 @@ return{
             t=t/60
             gc.setColor(1.7*t,2.3-2*t,.3)
             mStr(T,63,248)
+            PLY.draw.drawTargetLine(P,getRollGoal())
         else
             -- draw level counter
             setFont(20)
