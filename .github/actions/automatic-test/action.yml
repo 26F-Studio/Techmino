@@ -28,7 +28,7 @@ runs:
       if missing:
         print('Missing characters:')
         for char, file, i in missing:
-          print(f"'{char}'({ord(char):x}) in {file} at line {i} (https://github.com/26F-Studio/Techmino/blob/{env['GITHUB_SHA']}/{file}#L{i})")
+          print(f"'{char}'({ord(char):x}) in {file} at line {i} (https://github.com/26F-Studio/Techmino/blob/{env['GITHUB_SHA']}/{file}#L{i+1})")
         exit(1)
       else:
         print('All characters are present in the font.')
