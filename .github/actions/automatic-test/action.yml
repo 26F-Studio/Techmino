@@ -4,23 +4,6 @@ description: 'Check for obvious errors.'
 runs:
   using: "composite"
   steps:
-  - uses: ./.github/actions/build-love
-    with:
-      file-path: Techmino.love
-  - name: Download love
-    shell: bash
-    run: |
-      curl -L https://github.com/love2d/love/releases/download/11.3/love-11.3-linux-x86_64.tar.gz | tar xz
-  - name: Prepare PulseAudio
-    shell: bash
-    run: |
-      sudo apt-get update
-      sudo apt-get install pulseaudio pulseaudio-utils pavucontrol alsa-oss alsa-utils -y
-  - name: Run automated test
-    uses: GabrielBB/xvfb-action@v1
-    with:
-      run: |
-        ./dest/love Techmino.love --test
   - name: Prepare FontTools
     shell: bash
     run: |
@@ -49,3 +32,20 @@ runs:
         exit(1)
       else:
         print('All characters are present in the font.')
+  - uses: ./.github/actions/build-love
+    with:
+      file-path: Techmino.love
+  - name: Download love
+    shell: bash
+    run: |
+      curl -L https://github.com/love2d/love/releases/download/11.3/love-11.3-linux-x86_64.tar.gz | tar xz
+  - name: Prepare PulseAudio
+    shell: bash
+    run: |
+      sudo apt-get update
+      sudo apt-get install pulseaudio pulseaudio-utils pavucontrol alsa-oss alsa-utils -y
+  - name: Run automated test
+    uses: GabrielBB/xvfb-action@v1
+    with:
+      run: |
+        ./dest/love Techmino.love --test
