@@ -32,6 +32,35 @@ runs:
         exit(1)
       else:
         print('All characters are present in the font.')
+  - name: Prepare lua-parser
+    shell: bash
+    run: |
+      pip install hererocks
+      mkdir ../my-lua
+      hererocks ../my-lua -r^ --lua=5.3
+      ../my-lua/bin/luarocks install lua-parser
+  - name: Check all lua files are valid
+    shell: ../my-lua/bin/lua {0}
+    run: |
+      local parser = require 'lua-parser.parser'
+
+      local files = assert(io.popen "find . -name '*.lua' -not -path '*/.git/*'")
+      local errors = 0
+      for file in files:lines() do
+        local _, error = parser.parse(io.open(file):read '*a', file)
+        if error then
+          print(error)
+          errors = errors + 1
+        end
+      end
+      files:close()
+
+      if errors > 0 then
+        print(('%d syntax errors found.'):format(errors))
+        os.exit(1)
+      else
+        print('No syntax errors found.')
+      end
   - uses: ./.github/actions/build-love
     with:
       file-path: Techmino.love
