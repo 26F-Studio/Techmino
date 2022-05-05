@@ -2,7 +2,7 @@ local scene={}
 
 function scene.sceneInit()
     BG.set('cubes')
-    local fileData=love.filesystem.read('parts/language/manual_'..(SETTING.locale:find'zh'and'zh'or'en')..'.txt')
+    local fileData=FILE.load('parts/language/manual_'..(SETTING.locale:find'zh'and'zh'or SETTING.locale:find'ja'and'ja'or'en')..'.txt','-string')
     if fileData then
         WIDGET.active.texts:setTexts(fileData:split('\n'))
     else
