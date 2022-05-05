@@ -23,10 +23,10 @@ runs:
       files:close()
 
       if errors > 0 then
-        print(('%d syntax errors found.'):format(errors))
+        print(('%d syntax error(s) found.'):format(errors))
         os.exit(1)
       else
-        print('No syntax errors found.')
+        print('No syntax error found.')
       end
   - name: Prepare FontTools
     shell: bash
