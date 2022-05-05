@@ -4,34 +4,6 @@ description: 'Check for obvious errors.'
 runs:
   using: "composite"
   steps:
-  - name: Prepare FontTools
-    shell: bash
-    run: |
-      pip install fonttools
-  - name: Check all characters are in the font
-    shell: python
-    run: |
-      from fontTools.ttLib import TTFont
-      from pathlib import Path
-
-      font = TTFont('parts/fonts/proportional.otf')
-      keys = set(font.getBestCmap().keys())
-
-      missing = []
-      for file in Path('parts/language').glob('*.lua'):
-        for i, line in enumerate(file.read_text().splitlines()):
-          for char in line:
-            if ord(char) not in keys:
-              missing.append((char, file, i+1))
-
-      if missing:
-        print('Missing characters:')
-        for char, file, i in missing:
-          print(f"'{char}'({ord(char):x}) in {file} at line {i} " \
-                f"(${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/{file}#L{i})")
-        exit(1)
-      else:
-        print('All characters are present in the font.')
   - name: Prepare lua-parser
     shell: bash
     run: |
@@ -61,6 +33,34 @@ runs:
       else
         print('No syntax errors found.')
       end
+  - name: Prepare FontTools
+    shell: bash
+    run: |
+      pip install fonttools
+  - name: Check all characters are in the font
+    shell: python
+    run: |
+      from fontTools.ttLib import TTFont
+      from pathlib import Path
+
+      font = TTFont('parts/fonts/proportional.otf')
+      keys = set(font.getBestCmap().keys())
+
+      missing = []
+      for file in Path('parts/language').glob('*.lua'):
+        for i, line in enumerate(file.read_text().splitlines()):
+          for char in line:
+            if ord(char) not in keys:
+              missing.append((char, file, i+1))
+
+      if missing:
+        print('Missing characters:')
+        for char, file, i in missing:
+          print(f"'{char}'({ord(char):x}) in {file} at line {i} " \
+                f"(${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/{file}#L{i})")
+        exit(1)
+      else:
+        print('All characters are present in the font.')
   - uses: ./.github/actions/build-love
     with:
       file-path: Techmino.love
