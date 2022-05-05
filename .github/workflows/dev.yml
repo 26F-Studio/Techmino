@@ -10,21 +10,26 @@ jobs:
   get-info:
     runs-on: ubuntu-20.04
     outputs:
-      name: ${{ steps.actual-get-info.outputs.name }}
-      apkCode: ${{ steps.actual-get-info.outputs.apkCode }}
-      code: ${{ steps.actual-get-info.outputs.code }}
-      commit: ${{ steps.actual-get-info.outputs.commit }}
+      name: ${{ steps.lua-related.outputs.name }}
+      apkCode: ${{ steps.lua-related.outputs.apkCode }}
+      code: ${{ steps.lua-related.outputs.code }}
+      commit: ${{ steps.git-related.outputs.commit }}
     steps:
     - uses: actions/checkout@v2
     - name: Install lua
       run: |
         sudo apt-get install lua5.3 -y
     - name: Get Version
-      id: actual-get-info
+      id: lua-related
+      shell: lua {0}
       run: |
-        echo "::set-output name=name::$(lua .github/workflows/getVersion.lua -name)"
-        echo "::set-output name=apkCode::$(lua .github/workflows/getVersion.lua -apkCode)"
-        echo "::set-output name=code::$(lua .github/workflows/getVersion.lua -code)"
+        local version = require 'version'
+        print("::set-output name=name::"..version.string)
+        print(("::set-output name=apkCode::%d"):format(version.apkCode))
+        print(("::set-output name=code::%d"):format(version.code))
+    - name: Get Commit
+      id: git-related
+      shell: bash
         echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
 
   automatic-test:
@@ -105,7 +110,7 @@ jobs:
       with:
         name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Android
         path: Techmino_Snapshot.apk
-  
+
   build-android-mini:
     runs-on: ubuntu-20.04
     needs: get-info
