@@ -4,23 +4,18 @@ description: 'Check for obvious errors.'
 runs:
   using: "composite"
   steps:
-  - name: Prepare lua-parser
+  - name: Install lua
     shell: bash
     run: |
-      pip install hererocks
-      mkdir /tmp/lua-parser
-      hererocks /tmp/lua-parser -r^ --lua=5.3
-      /tmp/lua-parser/bin/luarocks install lua-parser
+      sudo apt-get install lua5.3 -y
   - name: Check all lua files are valid
-    shell: /tmp/lua-parser/bin/lua {0}
+    shell: lua {0}
     run: |
-      local parser = require 'lua-parser.parser'
-
       local files = assert(io.popen "find . -name '*.lua' -not -path '*/.git/*'")
       local errors = 0
       for file in files:lines() do
-        local _, error = parser.parse(io.open(file):read '*a', file)
-        if error then
+        local f, error = loadfile(file)
+        if not f then
           print(error)
           errors = errors + 1
         end
