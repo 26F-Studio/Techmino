@@ -47,6 +47,7 @@ jobs:
       - name: Get Commit
         id: git-related
         shell: bash
+        run: |
           echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
 
   build-windows-x64:
