@@ -8,11 +8,11 @@ runs:
     shell: bash
     run: |
       pip install hererocks
-      mkdir ../my-lua
-      hererocks ../my-lua -r^ --lua=5.3
-      ../my-lua/bin/luarocks install lua-parser
+      mkdir /tmp/lua-parser
+      hererocks /tmp/lua-parser -r^ --lua=5.3
+      /tmp/lua-parser/bin/luarocks install lua-parser
   - name: Check all lua files are valid
-    shell: ../my-lua/bin/lua {0}
+    shell: /tmp/lua-parser/bin/lua {0}
     run: |
       local parser = require 'lua-parser.parser'
 
