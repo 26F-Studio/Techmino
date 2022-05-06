@@ -779,6 +779,7 @@ return{
         ['dig_eff_40l']=    {"Dig",               "EFFICIENCY 40L", "Dig 40 garbage lines with the least pieces!"},
         ['dig_eff_100l']=   {"Dig",               "EFFICIENCY 100L","Dig 100 garbage lines with the least pieces!"},
         ['dig_eff_400l']=   {"Dig",               "EFFICIENCY 400L","Dig 400 garbage lines with the least pieces!"},
+        ['dig_quad_10l']=   {"Dig",               "TECHRASH 10L",   "Dig 10 garbage lines using only techrash!"},
         ['drought_n']=      {"Drought",           "100L",           "No I-pieces available"},
         ['drought_l']=      {"Drought+",          "100L",           "W T F"},
         ['marathon_n']=     {"Marathon",          "NORMAL",         "200-line marathon with increasing speed"},

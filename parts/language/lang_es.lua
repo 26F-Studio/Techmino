@@ -770,6 +770,7 @@ return{
         ['dig_eff_40l']=    {"Dig",                     "Efic. 40L",      "¡Limpia 40 líneas de queso con la menor cantidad de piezas posible!"},
         ['dig_eff_100l']=   {"Dig",                     "Efic. 100L",     "¡Limpia 100 líneas de queso con la menor cantidad de piezas posible!"},
         ['dig_eff_400l']=   {"Dig",                     "Efic. 400L",     "¡Limpia 400 líneas de queso con la menor cantidad de piezas posible!"},
+        --['dig_quad_10l']=   {"Dig",               "TECHRASH 10L",   "Dig 10 garbage lines using only techrash!"},
         ['drought_n']=      {"Sequía",                  "100L",          "¡Sin piezas I!"},
         ['drought_l']=      {"Sequía+",                 "100L",          "Qué es esto..."},
         ['marathon_n']=     {"Maratón",                 "Normal",        "Maratón de 200 líneas con velocidad en aumento."},

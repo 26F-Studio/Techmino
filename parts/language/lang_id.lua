@@ -780,6 +780,7 @@ return{
         ['dig_eff_40l']=    {"Gali",              "EFISIENSI 40L", "Gali 40 baris!"},
         ['dig_eff_100l']=   {"Gali",              "EFISIENSI 100L","Gali 100 baris!"},
         ['dig_eff_400l']=   {"Gali",              "EFISIENSI 400L","Gali 400 baris!"},
+        --['dig_quad_10l']=   {"Dig",               "TECHRASH 10L",   "Dig 10 garbage lines using only techrash!"},
         ['drought_n']=      {"Nasib Buruk",       "100L",          "Tidak ada blok I..."},
         ['drought_l']=      {"Nasib Buruk+",      "100L",          "Nasib sangat buruk..."},
         ['marathon_n']=     {"Maraton",           "NORMAL",        "200-baris maraton dengan kecepatan meningkat"},
