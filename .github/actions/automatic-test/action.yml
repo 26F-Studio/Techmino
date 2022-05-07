@@ -4,6 +4,30 @@ description: 'Check for obvious errors.'
 runs:
   using: "composite"
   steps:
+  - name: Install lua
+    shell: bash
+    run: |
+      sudo apt-get install lua5.3 -y
+  - name: Check all lua files are valid
+    shell: lua {0}
+    run: |
+      local files = assert(io.popen "find . -name '*.lua' -not -path '*/.git/*'")
+      local errors = 0
+      for file in files:lines() do
+        local f, error = loadfile(file)
+        if not f then
+          print(error)
+          errors = errors + 1
+        end
+      end
+      files:close()
+
+      if errors > 0 then
+        print(('%d syntax error(s) found.'):format(errors))
+        os.exit(1)
+      else
+        print('No syntax error found.')
+      end
   - name: Prepare FontTools
     shell: bash
     run: |
