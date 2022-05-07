@@ -731,6 +731,7 @@ return{
         ['dig_40l']=       {"Dig",             "40L",         "Creusez 40 lines"},
         ['dig_100l']=      {"Dig",             "100L",        "Creusez 100 lines"},
         ['dig_400l']=      {"Dig",             "400L",        "Creusez 400 lines"},
+        --['dig_quad_10l']=   {"Dig",               "TECHRASH 10L",   "Dig 10 garbage lines using only techrash!"},
         ['drought_n']=     {"Drought",         "100L",        "Pas de pièce I !"},
         ['drought_l']=     {"Drought+",        "100L",        "WTF ??!!"},
         -- ['stack_e']=       {"Stack",           "FACILE",      "Pack them!"},
