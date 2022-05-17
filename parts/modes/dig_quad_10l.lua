@@ -34,13 +34,15 @@ return{
     scoreDisp=function(D)return D[1].." Techrash "..D[2].." Pieces"end,
     comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
     getRank=function(P)
-        if P.stat.dig_quad<4 then return end
+        local dig = P.stat.dig_quad
+        local piece = P.stat.piece
+        if dig < 4 then return end
         return
-        P.stat.piece<=81 and 5 or
-        P.stat.piece<=92 and 4 or
-        P.stat.piece<=103 and 3 or
-        P.stat.dig_quad>=10 and 2 or
-        P.stat.dig_quad>=7 and 1 or
-        0
+        dig < 7 and 0 or
+        dig < 10 and 1 or
+        piece > 103 and 2 or
+        piece > 92 and 3 or
+        piece > 81 and 4 or
+        5
     end,
 }
