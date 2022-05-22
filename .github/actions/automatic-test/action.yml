@@ -42,7 +42,7 @@ runs:
       keys = set(font.getBestCmap().keys())
 
       missing = []
-      for file in Path('parts/language').glob('*.lua'):
+      for file in Path('.').glob('**/*.lua'):
         for i, line in enumerate(file.read_text().splitlines()):
           for char in line:
             if ord(char) not in keys:
