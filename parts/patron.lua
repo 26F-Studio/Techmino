@@ -15,7 +15,7 @@ return{
     {font=65,name="世界沃德"},
     {font=65,name="Petris"},
     {font=65,name="Zakeru"},
-    {font=65,name="镝"},
+    {font=65,name="Dysprosium"},
     {font=65,name="HitachiMako"},
     {font=65,name="我慌死了"},
     {font=65,name="PESWGGL"},
