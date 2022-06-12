@@ -11,7 +11,12 @@ return{
         local cc=P:clearFilledLines(P.garbageBeneath+1,#P.field-P.garbageBeneath)
         if cc>0 then
             local h=20-cc-P.garbageBeneath
-            if h>0 then
+            if h<-1 and P.garbageBeneath>0 then
+                for i=1,math.min(P.garbageBeneath,-h-1) do
+                    LINE.discard(table.remove(P.field,1))
+                    LINE.discard(table.remove(P.visTime,1))
+                end
+            elseif h>0 then
                 P:garbageRise(21,h,2e10-1)
                 if P.garbageBeneath>=20 then
                     P:lose()
