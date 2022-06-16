@@ -882,7 +882,7 @@ return{
         "↑↑↓↓←→←→BA",
         "$include<studio.h>",
         "20G sebenarnya peraturan permainan baru!",
-        "Rekor dunia 40L: 14.915s dari Reset_",
+        "Rekor dunia 40L: 14.708s dari hiryu",
         "Sistem pencapaian segera akan datang!",
         "ALL SPIN!",
         "Am G F G",
