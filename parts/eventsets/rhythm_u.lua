@@ -19,7 +19,7 @@ return{
         gc.setLineWidth(3)
         gc.circle('line',63,200,30+45*beat)
     end,
-    dropPiece=function(P)
+    hook_drop=function(P)
         if P.stat.row>=P.modeData.target then
             if P.modeData.target==200 then
                 P:win('finish')
