@@ -221,7 +221,7 @@ do--Z.setOnFocus
             if SCN.cur=='game'and SETTING.autoPause then
                 pauseGame()
             end
-            if SETTING.autoMute then
+            if SETTING.autoMute and SCN.cur~='music' then
                 TASK.removeTask_code(task_autoSoundOn)
                 TASK.new(task_autoSoundOff)
             end
