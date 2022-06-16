@@ -334,6 +334,7 @@ EVENTSETS={
     'marathon_n','marathon_h',
     'master_n','master_h','master_final','master_m','master_ex','master_ph',
     'pctrain_n','pctrain_l','pc_inf',
+    'rhythm_e','rhythm_h','rhythm_u',
     'survivor_e','survivor_n','survivor_h','survivor_l','survivor_u',
     'tsd_e','tsd_h','tsd_u',
     'ultra',
