@@ -50,7 +50,7 @@ function scene.sceneInit()
         S.piece/S.time*24,      --Line'PM
         S.dig/S.time*60,        --DigPM
     }
-    val={1/80,1/80,1/80,1/60,1/100,1/40}
+    val={1/80,1/160,1/120,1/80,1/100,1/40}
 
     --Normalize Values
     for i=1,6 do
