@@ -1,5 +1,4 @@
 return{
-    color=COLOR.green,
     env={
         mindas=7,minarr=1,minsdarr=1,
         keyCancel={6},
