@@ -9,31 +9,45 @@ jobs:
   get-info:
     runs-on: ubuntu-20.04
     outputs:
-      name: ${{ steps.actual-get-info.outputs.name }}
-      apkCode: ${{ steps.actual-get-info.outputs.apkCode }}
-      code: ${{ steps.actual-get-info.outputs.code }}
-      release: ${{ steps.actual-get-info.outputs.release }}
-      updateTitle: ${{ steps.actual-get-info.outputs.updateTitle }}
-      updateNote: ${{ steps.actual-get-info.outputs.updateNote }}
-      commit: ${{ steps.actual-get-info.outputs.commit }}
+      name: ${{ steps.lua-related.outputs.name }}
+      apkCode: ${{ steps.lua-related.outputs.apkCode }}
+      code: ${{ steps.lua-related.outputs.code }}
+      release: ${{ steps.lua-related.outputs.release }}
+      updateTitle: ${{ steps.lua-related.outputs.updateTitle }}
+      updateNote: ${{ steps.lua-related.outputs.updateNote }}
+      commit: ${{ steps.git-related.outputs.commit }}
     steps:
       - uses: actions/checkout@v2
       - name: Install lua
         run: |
           sudo apt-get install lua5.3 -y
       - name: Get Version
-        id: actual-get-info
+        id: lua-related
+        shell: lua {0}
         run: |
-          UPDATE_NOTE=$(lua .github/workflows/getVersion.lua -updateNote)
-          UPDATE_NOTE="${UPDATE_NOTE//'%'/'%25'}"
-          UPDATE_NOTE="${UPDATE_NOTE//$'\n'/'%0A'}"
-          UPDATE_NOTE="${UPDATE_NOTE//$'\r'/'%0D'}"
-          echo "::set-output name=name::$(lua .github/workflows/getVersion.lua -name)"
-          echo "::set-output name=apkCode::$(lua .github/workflows/getVersion.lua -apkCode)"
-          echo "::set-output name=code::$(lua .github/workflows/getVersion.lua -code)"
-          echo "::set-output name=release::$(lua .github/workflows/getVersion.lua -release)"
-          echo "::set-output name=updateTitle::$(lua .github/workflows/getVersion.lua -updateTitle)"
-          echo "::set-output name=updateNote::$UPDATE_NOTE"
+          local version = require 'version'
+          print("::set-output name=name::"..version.string)
+          print(("::set-output name=apkCode::%d"):format(version.apkCode))
+          print(("::set-output name=code::%d"):format(version.code))
+          print("::set-output name=release::"..version.string:gsub("V", "", 1))
+
+          local note = require 'parts.updateLog'
+          local p1 = note:find("\n%d") + 1
+          local p2 = note:find("\n", p1) - 1
+          print("::set-output name=updateTitle::"..note:sub(p1, p2))
+
+          local p3 = note:find("\n", note:find("\n%d") + 1) + 1
+          local p4 = note:find("\n%d", p3 + 1)
+          print("::set-output name=updateNote::"..note:sub(p3, p4 - 2)
+                  :gsub("                ", "- ")
+                  :gsub("        ", "# ")
+                  :gsub('%', '%25')
+                  :gsub('\n', '%0A')
+                  :gsub('\r', '%0D'))
+      - name: Get Commit
+        id: git-related
+        shell: bash
+        run: |
           echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
 
   build-windows-x64:
