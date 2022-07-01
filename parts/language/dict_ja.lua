@@ -11,7 +11,7 @@ return{
         "homepage mainpage ホームページ メインページ",
         "help",
         "Techminoのオフィシャルサイトです!\nプロファイルの編集などができます!",
-        "http://home.techmino.org",
+        "http://101.43.110.22:10026",
     },
     {"初心者の方々へ",
         "guide newbie noob readme ガイド 初心者 下手 下手くそ へた",
