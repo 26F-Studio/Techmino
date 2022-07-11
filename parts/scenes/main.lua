@@ -39,7 +39,7 @@ end
 
 function scene.resize()
     local qpModeName=text.modes[STAT.lastPlay]and text.modes[STAT.lastPlay][1]or"["..STAT.lastPlay.."]"
-    scene.widgetList[2]:setObject(text.WidgetText.main.qplay..": "..qpModeName)
+    scene.widgetList[2]:setObject(text.WidgetText.main.qplay..qpModeName)
 end
 
 function scene.mouseDown(x,y)
