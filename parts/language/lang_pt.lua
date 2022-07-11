@@ -316,7 +316,7 @@ return{
     WidgetText={
         main={
             offline="Solo",
-            -- qplay="Last Play :",
+            -- qplay="Last Play: ",
             online="Multi",
             custom="Custom",
             setting="Config.",
