@@ -28,7 +28,10 @@ local touchDist
 
 local scene={}
 
+local totalGrade
+
 function scene.sceneInit()
+    totalGrade=0
     BG.set()
     mapCam.zoomK=SCN.prev=='main'and 5 or 1
     visibleModes={}--1=unlocked, 2=locked but visible
@@ -40,6 +43,7 @@ function scene.sceneInit()
                     visibleModes[M.unlock[i]]=visibleModes[M.unlock[i]]or 2
                 end
             end
+            totalGrade=totalGrade+(RANKS[name]<0 and 0 or RANKS[name])
         end
     end
 end
@@ -223,6 +227,8 @@ local function _drawModeShape(M,S,drawType)
     end
 end
 function scene.draw()
+    setFont(50)
+    mStr("Total Grade: "..tostring(totalGrade),200,620)
     local _
     gc_push('transform')
     gc_translate(640,360)
@@ -332,7 +338,6 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newKey{name='mod',     x=140,y=655,w=220,h=80,font=35,code=goScene'mod'},
     WIDGET.newButton{name='start',x=1040,y=655,w=180,h=80,font=40,code=pressKey'return',hideF=function()return not mapCam.sel end},
     WIDGET.newButton{name='back', x=1200,y=655,w=120,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
