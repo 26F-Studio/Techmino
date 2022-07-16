@@ -19,6 +19,27 @@ local enterConsole=coroutine.wrap(function()
         Snd('bell',.6,'A4',.7,'A5',1,'A6')SFX.play('ren_mega')SCN.go('app_console')YIELD()
     end
 end)
+local resetUnlocks=coroutine.wrap(function()
+    while true do
+        Snd('bell',.6,'A4',.7,'E5',1,MATH.coin('A5','B5'))
+        MES.new('warn',"Press 3 more times to confirm.")
+        YIELD()
+
+        Snd('bell',.6,'A4',.7,'F5',1,MATH.coin('C6','D6'))
+        MES.new('warn',"Press 2 more times to confirm.")
+        YIELD()
+
+        Snd('bell',.6,'A4',.7,'G5',1,MATH.coin('E6','G6'))
+        MES.new('warn',"Press again to confirm.")
+        YIELD()
+
+        Snd('bell',.6,'A4',.7,'A5',1,'A6')SFX.play('ren_mega')
+        love.filesystem.remove('conf/unlock')
+        RANKS={sprint_10l=0}
+        MES.new('warn',"Progress reset.")
+        YIELD()
+    end
+end)
 function scene.sceneInit()
     BG.set()
 
@@ -37,10 +58,7 @@ function scene.sceneInit()
     PLAYERS[1]:setPosition(520,140,.8)
 end
 
-function scene.resize()
-    local qpModeName=text.modes[STAT.lastPlay]and text.modes[STAT.lastPlay][1]or"["..STAT.lastPlay.."]"
-    scene.widgetList[2]:setObject(text.WidgetText.main.qplay..": "..qpModeName)
-end
+function scene.resize() end
 
 function scene.mouseDown(x,y)
     if x>=400 and x<=880 and y>=10 and y<=110 then
@@ -64,20 +82,6 @@ function scene.keyDown(key,isRep)
     if key=='1'then
         if _testButton(1)then
             SCN.go('mode')
-        end
-    elseif key=='q'then
-        if _testButton(2)then
-            loadGame(STAT.lastPlay,true)
-        end
-    elseif key=='a'then
-        if _testButton(3)then
-            if WS.status('app')=='running'then
-                NET.tryLogin(false)
-            elseif WS.status('app')=='dead'then
-                NET.wsconn_app()
-                SFX.play('connect')
-                MES.new('info',text.wsConnecting)
-            end
         end
     elseif key=='z'then
         if _testButton(4)then
@@ -186,8 +190,8 @@ end
 
 scene.widgetList={
     WIDGET.newButton{name='offline',x=-1200,y=210,w=800,h=100,color='lR',font=45,align='R',edge=30,code=pressKey'1'},
-    WIDGET.newButton{name='qplay',  x=-1200,y=330,w=800,h=100,color='lM',font=40,align='R',edge=30,code=pressKey'q'},
-    WIDGET.newButton{name='online', x=-1200,y=450,w=800,h=100,color='lV',font=45,align='R',edge=30,code=pressKey'a'},
+    WIDGET.newButton{name="RESET RUN",  x=-1200,y=330,w=800,h=100,color='lM',font=40,align='R',edge=30,code=resetUnlocks},
+    WIDGET.newButton{name='',  x=-1200,y=450,w=800,h=100,color='lV',font=45,align='R',edge=30},
     WIDGET.newButton{name='custom', x=-1200,y=570,w=800,h=100,color='lS',font=45,align='R',edge=30,code=pressKey'z'},
 
     WIDGET.newButton{name='setting',x=2480,y=210,w=800,h=100, color='lO',font=40,align='L',edge=30,code=pressKey'-'},

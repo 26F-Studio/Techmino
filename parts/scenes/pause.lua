@@ -18,6 +18,9 @@ local trophy--Current trophy
 local trophyColor--Current trophy color
 
 function scene.sceneInit()
+    if GAME.rank<1 then
+        GAME.rank=-1
+    end
     page=0
     if SCN.prev:find("setting")then
         TEXT.show(text.needRestart,640,410,50,'fly',.6)
@@ -123,6 +126,8 @@ end
 function scene.keyDown(key,isRep)
     if isRep then return true end
     if key=='q'then
+        RANKS[GAME.curMode.name]=GAME.rank
+        saveProgress()
         SCN.back()
         GAME.playing=false
     elseif key=='escape'then
@@ -131,11 +136,6 @@ function scene.keyDown(key,isRep)
         if not GAME.fromRepMenu then
             GAME.prevBG=BG.cur
             SCN.go('setting_sound')
-        end
-    elseif key=='r'then
-        if not GAME.fromRepMenu then
-            resetGameData()
-            SCN.swapTo('game','none')
         end
     elseif key=='p'then
         if(GAME.result or GAME.replaying)and #PLAYERS==1 then
@@ -345,7 +345,6 @@ end
 
 scene.widgetList={
     WIDGET.newKey{name='resume',   x=290,y=240,w=300,h=70,code=pressKey'escape'},
-    WIDGET.newKey{name='restart',  x=290,y=340,w=300,h=70,code=pressKey'r',hideF=function()return GAME.fromRepMenu end},
     WIDGET.newKey{name='setting',  x=290,y=440,w=300,h=70,code=pressKey's',hideF=function()return GAME.fromRepMenu end},
     WIDGET.newKey{name='quit',     x=290,y=540,w=300,h=70,code=pressKey'q'},
     WIDGET.newKey{name='tas',      x=290,y=620,w=240,h=50,code=pressKey't',hideF=function()return not SETTING.allowTAS or GAME.tasUsed or GAME.result or GAME.replaying end},

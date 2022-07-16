@@ -138,9 +138,11 @@ function scene.keyDown(key,isRep)
         if mapCam.sel then
             if visibleModes[mapCam.sel]==2 then
                 MES.new('info',text.unlockHint)
-            else
+            elseif RANKS[mapCam.sel]==0 then
                 mapCam.keyCtrl=false
                 loadGame(mapCam.sel)
+                RANKS[mapCam.sel]=-1
+                saveProgress()
             end
         end
     elseif key=='f1'then
@@ -203,6 +205,7 @@ end
 
 --noRank/B/A/S/U/X
 local baseRankColor={
+    [-1]={.7,.7,.7,.3},
     [0]={0,0,0,.3},
     {.2,.4,.6,.3},
     {.6,.85,.65,.3},

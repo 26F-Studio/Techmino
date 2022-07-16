@@ -828,6 +828,10 @@ local commands={}do
     commands.play={
         code=function(m)
             if MODES[m]then
+                if RANKS[m]~=0 then
+                    log{C.R,"[CHALLENGE 1] Mode "..m.." has been completed"}
+                    return
+                end
                 loadGame(m,true)
             elseif m~=""then
                 log{C.R,"No mode called "..m}

@@ -20,7 +20,6 @@ local repRateStrings={[0]="pause",[.125]="0.125x",[.5]="0.5x",[1]="1x",[2]="2x",
 local scene={}
 
 local function _updateMenuButtons()
-    WIDGET.active.restart.hide=replaying
 
     local pos=(GAME.tasUsed or replaying)and'right'or SETTING.menuPos
     modeTextWidK=math.min(280/TEXTOBJ.modeName:getWidth(),1)
@@ -28,15 +27,12 @@ local function _updateMenuButtons()
         WIDGET.active.pause.x=1195
         modeTextPos=1185-TEXTOBJ.modeName:getWidth()*modeTextWidK
     elseif pos=='right'then
-        WIDGET.active.restart.x=1125
         WIDGET.active.pause.x=1195
         modeTextPos=1115-TEXTOBJ.modeName:getWidth()*modeTextWidK
     elseif pos=='middle'then
-        WIDGET.active.restart.x=360
         WIDGET.active.pause.x=860
         modeTextPos=940
     elseif pos=='left'then
-        WIDGET.active.restart.x=120
         WIDGET.active.pause.x=190
         modeTextPos=1200-TEXTOBJ.modeName:getWidth()*modeTextWidK
     end
@@ -112,13 +108,6 @@ local function _rep5()
 end
 local function _step()trigGameRate=trigGameRate+1 end
 
-local function _restart()
-    resetGameData(PLAYERS[1].frameRun<240 and'q')
-    noKey=replaying
-    noTouch=replaying
-    trigGameRate,gameRate=0,1
-    _updateRepButtons()
-end
 local function _checkGameKeyDown(key)
     local k=KEY_MAP.keyboard[key]
     if k then
@@ -127,10 +116,7 @@ local function _checkGameKeyDown(key)
             PLAYERS[1]:pressKey(k)
             VK.press(k)
             return
-        elseif not GAME.fromRepMenu then
-            _restart()
-            return
-        end
+        elseif not GAME.fromRepMenu then return end
     end
     return true--No key pressed
 end
@@ -266,8 +252,6 @@ function scene.gamepadDown(key)
         if k>0 then
             PLAYERS[1]:pressKey(k)
             VK.press(k)
-        else
-            _restart()
         end
     elseif key=='back'then
         pauseGame()
@@ -389,7 +373,6 @@ scene.widgetList={
     WIDGET.newKey{name='rep2',   x=300,y=50,w=60,code=_rep2,    font=40,fText=CHAR.icon.speedTwo},
     WIDGET.newKey{name='rep5',   x=365,y=50,w=60,code=_rep5,    font=40,fText=CHAR.icon.speedFive},
     WIDGET.newKey{name='step',   x=430,y=50,w=60,code=_step,    font=40,fText=CHAR.icon.nextFrame},
-    WIDGET.newKey{name='restart',x=0,y=45,w=60,  code=_restart, font=40,fText=CHAR.icon.retry_spin},
     WIDGET.newKey{name='pause',  x=0,y=45,w=60,  code=pauseGame,font=40,fText=CHAR.icon.pause},
 }
 

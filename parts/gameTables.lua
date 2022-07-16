@@ -12,8 +12,9 @@ BLOCK_COLORS={
     COLOR.C,COLOR.N,COLOR.S,COLOR.B,COLOR.V,COLOR.P,COLOR.M,COLOR.W,
     COLOR.dH,COLOR.D,COLOR.lY,COLOR.H,COLOR.lH,COLOR.dV,COLOR.dR,COLOR.dG,
 }
-RANK_CHARS={'B','A','S','U','X'}for i=1,#RANK_CHARS do RANK_CHARS[i]=CHAR.icon['rank'..RANK_CHARS[i]]end
+RANK_CHARS={[-1]='F','B','A','S','U','X'}for i=1,#RANK_CHARS do RANK_CHARS[i]=CHAR.icon['rank'..RANK_CHARS[i]]end
 RANK_COLORS={
+    [-1]={.7,.7,.7},
     {.8,.86,.9},
     {.6,.9,.7},
     {.93,.93,.65},
