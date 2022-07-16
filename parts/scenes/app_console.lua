@@ -800,31 +800,6 @@ local commands={}do
             "Usage: rmrecord [modeName]",
         },
     }
-    commands.unlockall={
-        code=function(bool)
-            if bool=="sure"then
-                for name,M in next,MODES do
-                    if type(name)=='string'and not RANKS[name]and M.x then
-                        if M.x then
-                            RANKS[name]=0
-                        end
-                    end
-                end
-                saveProgress()
-                log{C.lC,"\85\78\76\79\67\75\65\76\76"}
-                SFX.play('clear_2')
-            else
-                log"Are you sure you want to unlock all game modes?"
-                log"Type: unlockall sure"
-            end
-        end,
-        description="Unlock the whole map",
-        details={
-            "Unlock all modes on the map.",
-            "",
-            "Usage: unlockall",
-        },
-    }
     commands.play={
         code=function(m)
             if MODES[m]then
