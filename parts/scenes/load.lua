@@ -111,6 +111,8 @@ local loadingThread=coroutine.wrap(function()
     SFX.play('enter',.8)
     SFX.play('welcome')
     VOC.play('welcome')
+    MES.new('info',"[CHALLENGE 1] One Shot")
+    MES.new('info',"You can only do modes once; make it count!")
     THEME.fresh()
     LOADED=true
     saveStats()
