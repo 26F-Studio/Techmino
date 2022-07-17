@@ -41,9 +41,9 @@ jobs:
           print("::set-output name=updateNote::"..note:sub(p3, p4 - 2)
                   :gsub("                ", "- ")
                   :gsub("        ", "# ")
-                  :gsub('%', '%25')
-                  :gsub('\n', '%0A')
-                  :gsub('\r', '%0D'))
+                  :gsub('%%', '%%25')
+                  :gsub('\n', '%%0A')
+                  :gsub('\r', '%%0D'))
       - name: Get Commit
         id: git-related
         shell: bash
