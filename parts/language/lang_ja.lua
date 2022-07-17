@@ -23,7 +23,8 @@ return{
     royale_remain="残り $1 人",
     powerUp={[0]="+000%","+025%","+050%","+075%","+100%"},
     cmb={nil,"1 REN","2 REN","3 REN","4 REN","5 REN","6 REN","7 REN","8 REN","9 REN","10 REN!","11 REN!","12 REN!","13 REN!","14 REN!!","15 REN!!","16 REN!!","17 REN!!!","18 REN!!!","19 REN!!!","MEGAREN"},
-    spin="-spin",
+    spin="-spin ",
+    spinNC="-spin",
     clear={"Single","Double","Triple","Techrash","Pentacrash","Hexacrash","Heptacrash","Octacrash","Nonacrash","Decacrash","Undecacrash","Dodecacrash","Tridecacrash","Tetradecacrash","Pentadecacrash","Hexadecacrash","Heptadecacrash","Octadecacrash","Nonadecacrash","Ultracrash","Impossicrash"},
     cleared="$1 Lines",
     mini="Mini",b2b="B2B ",b3b="B2B2B ",
@@ -328,7 +329,7 @@ return{
     WidgetText={
         main={
             offline="ソロプレイ",
-            qplay="続きから",
+            qplay="続きから: ",
             online="マルチプレイ",
             custom="カスタムプレイ",
             setting="設定",

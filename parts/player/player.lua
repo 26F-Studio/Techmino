@@ -1732,8 +1732,8 @@ do
             if dospin then
                 cscore=(spinSCR[C.name]or spinSCR[8])[cc]
                 if self.b2b>800 then
-                    self:showText(text.b3b..text.block[C.name]..text.spin.." "..text.clear[cc],0,-30,35,'stretch')
-                    yomi = yomi..text.b3b..text.block[C.name]..text.spin.." "..text.clear[cc]
+                    self:showText(text.b3b..text.block[C.name]..text.spin..text.clear[cc],0,-30,35,'stretch')
+                    yomi = yomi..text.b3b..text.block[C.name]..text.spin..text.clear[cc]
                     atk=b2bATK[cc]+cc*.5
                     exblock=exblock+1
                     cscore=cscore*2
@@ -1742,8 +1742,8 @@ do
                         VOC.play('b3b',CHN)
                     end
                 elseif self.b2b>=50 then
-                    self:showText(text.b2b..text.block[C.name]..text.spin.." "..text.clear[cc],0,-30,35,'spin')
-                    yomi = yomi..text.b2b..text.block[C.name]..text.spin.." "..text.clear[cc]
+                    self:showText(text.b2b..text.block[C.name]..text.spin..text.clear[cc],0,-30,35,'spin')
+                    yomi = yomi..text.b2b..text.block[C.name]..text.spin..text.clear[cc]
                     atk=b2bATK[cc]
                     cscore=cscore*1.2
                     Stat.b2b=Stat.b2b+1
@@ -1751,8 +1751,8 @@ do
                         VOC.play('b2b',CHN)
                     end
                 else
-                    self:showText(text.block[C.name]..text.spin.." "..text.clear[cc],0,-30,45,'spin')
-                    yomi = yomi..text.block[C.name]..text.spin.." "..text.clear[cc]
+                    self:showText(text.block[C.name]..text.spin..text.clear[cc],0,-30,45,'spin')
+                    yomi = yomi..text.block[C.name]..text.spin..text.clear[cc]
                     atk=2*cc
                 end
                 sendTime=20+atk*20
@@ -1942,7 +1942,7 @@ do
 
             --Spin bonus
             if dospin then
-                self:showText(text.block[C.name]..text.spin,0,-30,45,'appear')
+                self:showText(text.block[C.name]..text.spinNC,0,-30,45,'appear')
                 self.b2b=self.b2b+20
                 if self.sound then
                     SFX.play('spin_0')

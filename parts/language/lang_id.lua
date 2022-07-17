@@ -23,7 +23,8 @@ return{
     royale_remain="$1 Pemain Tersisa",
     powerUp={[0]="+000%","+025%","+050%","+075%","+100%"},
     cmb={nil,"1 Kombo","2 Kombo","3 Kombo","4 Kombo","5 Kombo","6 Kombo","7 Kombo","8 Kombo","9 Kombo","10 Kombo!","11 Kombo!","12 Kombo!","13 Kombo!","14 Kombo!!","15 Kombo!!","16 Kombo!!","17 Kombo!!!","18 Kombo!!!","19 Kombo!!!","MEGA KOMBO"},
-    spin=" spin",
+    spin=" spin ",
+    spinNC=" spin",
     clear={"Single","Double","Triple","Techrash","Pentacrash","Hexacrash","Heptacrash","Oktacrash","Nonacrash","Decacrash","Undecacrash","Dodecacrash","Tridecacrash","Tetradecacrash","Pentadecacrash","Hexadecacrash","Heptadecacrash","Octadecacrash","Nonadecacrash","Ultracrash","Impossicrash"},
     cleared="$1 baris",
     mini="Mini",b2b="B2B ",b3b="B2B2B ",
@@ -327,7 +328,7 @@ return{
     WidgetText={
         main={
             offline="Main Sendiri",
-            qplay="Terakhir Dimain",
+            qplay="Terakhir Dimain: ",
             online="Multipemain",
             custom="Permainan Tersesuai",
             setting="Pengaturan",
