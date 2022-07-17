@@ -128,6 +128,7 @@ function scene.keyDown(key,isRep)
 end
 
 function scene.update(dt)
+    if dt>.26 then return end
     PLAYERS[1]:update(dt)
     scrollX=scrollX-162*dt
     if scrollX<-tip:getWidth()then
