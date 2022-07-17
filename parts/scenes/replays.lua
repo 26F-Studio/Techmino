@@ -141,8 +141,8 @@ scene.widgetList={
     listBox,
     WIDGET.newButton{name='import',x=180,y=640,w=140,h=80,color='lB',code=pressKey'cV',font=50,fText=CHAR.icon.import},
     WIDGET.newButton{name='export',x=350,y=640,w=140,h=80,color='lR',code=pressKey'cC',font=50,fText=CHAR.icon.export},
-    WIDGET.newButton{name='play',  x=700,y=640,w=170,h=80,color='lY',code=pressKey'return',font=65,fText=CHAR.icon.play},
-    WIDGET.newButton{name='delete',x=850,y=640,w=80,h=80,color='lR',code=pressKey'delete',font=50,fText=CHAR.icon.trash},
+    WIDGET.newButton{name='play',  x=640,y=640,w=170,h=80,color='lY',code=pressKey'return',font=65,fText=CHAR.icon.play},
+    WIDGET.newButton{name='delete',x=860,y=640,w=80,h=80,color='lR',code=pressKey'delete',font=50,fText=CHAR.icon.trash},
     WIDGET.newButton{name='back',  x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 
