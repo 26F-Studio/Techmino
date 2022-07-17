@@ -228,7 +228,7 @@ local function _drawModeShape(M,S,drawType)
 end
 function scene.draw()
     setFont(50)
-    mStr("Total Grade: "..tostring(totalGrade),200,620)
+    mStr("Total Grade: "..tostring(totalGrade),240,620)
     local _
     gc_push('transform')
     gc_translate(640,360)
