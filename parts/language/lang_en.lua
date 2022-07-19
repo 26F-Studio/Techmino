@@ -22,7 +22,8 @@ return{
     royale_remain="$1 Players Left",
     powerUp={[0]="+000%","+025%","+050%","+075%","+100%"},
     cmb={nil,"1 Combo","2 Combo","3 Combo","4 Combo","5 Combo","6 Combo","7 Combo","8 Combo","9 Combo","10 Combo!","11 Combo!","12 Combo!","13 Combo!","14 Combo!!","15 Combo!!","16 Combo!!","17 Combo!!!","18 Combo!!!","19 Combo!!!","MEGACMB"},
-    spin="-spin",
+    spin="-spin ",
+    spinNC="-spin",
     clear={"Single","Double","Triple","Techrash","Pentacrash","Hexacrash","Heptacrash","Octacrash","Nonacrash","Decacrash","Undecacrash","Dodecacrash","Tridecacrash","Tetradecacrash","Pentadecacrash","Hexadecacrash","Heptadecacrash","Octadecacrash","Nonadecacrash","Ultracrash","Impossicrash"},
     cleared="$1 lines",
     mini="Mini",b2b="B2B ",b3b="B2B2B ",
@@ -326,7 +327,7 @@ return{
     WidgetText={
         main={
             offline="Single Player",
-            qplay="Last Played",
+            qplay="Last Played: ",
             online="Multiplayer",
             custom="Custom Game",
             setting="Settings",
@@ -555,11 +556,11 @@ return{
             shape="Shape",
         },
         setting_touchSwitch={
-            b1= "Move Left:",    b2="Move Right:", b3="Rotate Right:",  b4="Rotate Left:",
-            b5= "Rotate 180°:",  b6="Hard Drop:",  b7="Soft Drop:",      b8="Hold:",
-            b9= "Function 1:",    b10="Function 2:", b11="Instant Left:", b12="Instant Right:",
-            b13="Sonic Drop:",   b14="Down 1:",    b15="Down 4:",       b16="Down 10:",
-            b17="Left Drop:",    b18="Right Drop:",b19="Left Zangi:",   b20="Right Zangi:",
+            b1= "Move Left:",    b2="Move Right:",  b3="Rotate Right:",  b4="Rotate Left:",
+            b5= "Rotate 180°:",  b6="Hard Drop:",   b7="Soft Drop:",     b8="Hold:",
+            b9= "Function 1:",   b10="Function 2:", b11="Instant Left:", b12="Instant Right:",
+            b13="Sonic Drop:",   b14="Down 1:",     b15="Down 4:",       b16="Down 10:",
+            b17="Left Drop:",    b18="Right Drop:", b19="Left Zangi:",   b20="Right Zangi:",
 
             norm="Normal",
             pro="Advanced",

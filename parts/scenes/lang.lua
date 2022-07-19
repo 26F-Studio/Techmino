@@ -8,6 +8,7 @@ local langList={
     id="Bahasa Indonesia",
     ja="日本語",
     symbol="?????",
+    zh_code="Code(zh);"
 }
 local languages={
     "Language  Langue  Lingua",
@@ -60,7 +61,7 @@ scene.widgetList={
 
     WIDGET.newButton{x=1000,y=210,w=330,h=100,font=40,fText=langList.zh,      color='C',sound='click',code=function()_setLang('zh')end},
     WIDGET.newButton{x=1000,y=330,w=330,h=100,font=40,fText=langList.zh_trad, color='S',sound='click',code=function()_setLang('zh_trad')end},
-    WIDGET.newKey   {x=1000,y=450,w=330,h=100,font=40,fText='',               color='P'},
+    WIDGET.newButton{x=1000,y=450,w=330,h=100,font=40,fText=langList.zh_code, color='P',sound='click',code=function()_setLang('zh_code')end},
 
     WIDGET.newButton{name='back',x=1000,y=570,w=330,h=100,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
