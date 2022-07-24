@@ -56,7 +56,7 @@ jobs:
         with:
           submodules: recursive
       - name: Build core love package
-        uses: 26F-Studio/love-actions-core@v1.0.5
+        uses: 26F-Studio/love-actions-core@v1
         with:
           build-list: ./media/ ./parts/ ./Zframework/ ./conf.lua ./main.lua ./version.lua
           package-path: ${{ env.CORE_LOVE_PACKAGE_PATH }}
@@ -86,7 +86,7 @@ jobs:
         with:
           submodules: recursive
       - name: Love actions for testing
-        uses: 26F-Studio/love-actions-test@v1.0.1
+        uses: 26F-Studio/love-actions-test@v1
         with:
           font-path: ./parts/fonts/proportional.otf
           language-folder: ./parts/language
@@ -132,7 +132,7 @@ jobs:
           ls -l ./ColdClear/love-11.3-android/lib/
       - name: Build Android packages
         id: build-packages
-        uses: 26F-Studio/love-actions-android@v1.1.0
+        uses: 26F-Studio/love-actions-android@v1
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
@@ -185,7 +185,7 @@ jobs:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Build iOS packages
         id: build-packages
-        uses: 26F-Studio/love-actions-ios@main
+        uses: 26F-Studio/love-actions-ios@v1
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
@@ -237,7 +237,7 @@ jobs:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Build Linux packages
         id: build-packages
-        uses: 26F-Studio/love-actions-linux@v1.0.3
+        uses: 26F-Studio/love-actions-linux@v1
         with:
           desktop-file-path: ./.github/build/linux/dev/template.desktop
           executable-name: app
@@ -281,7 +281,7 @@ jobs:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Build macOS packages
         id: build-packages
-        uses: 26F-Studio/love-actions-macos-appstore@v1.0.3
+        uses: 26F-Studio/love-actions-macos-appstore@v1
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
@@ -334,7 +334,7 @@ jobs:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Build macOS packages
         id: build-packages
-        uses: 26F-Studio/love-actions-macos-portable@v1.0.2
+        uses: 26F-Studio/love-actions-macos-portable@v1
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
@@ -395,7 +395,7 @@ jobs:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Build Windows packages
         id: build-packages
-        uses: 26F-Studio/love-actions-windows@v1.0.4
+        uses: 26F-Studio/love-actions-windows@v1
         with:
           icon-path: ./.github/build/windows/dev/icon.ico
           rc-path: ./.github/build/windows/dev/template.rc
