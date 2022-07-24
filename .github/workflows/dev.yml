@@ -2,7 +2,7 @@ name: Techmino Develop CI
 
 on:
   push:
-    branches: [ main, ci* ]
+    branches: [ ci*, challenge* ]
   pull_request:
     branches: [ main ]
 
