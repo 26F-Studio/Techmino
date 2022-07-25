@@ -142,10 +142,10 @@ jobs:
           keystore-key-password: ${{ secrets.ANDROID_KEYSTORE_KEYPASSWORD }}
           keystore-store-password: ${{ secrets.ANDROID_KEYSTORE_STOREPASSWORD }}
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          product-name: ${{ steps.process-app-name.outputs.product-name }}
           resource-path: ./.github/build/android/dev/res
           libs-path: ./ColdClear/love-11.3-android/lib
           extra-assets: ./libAndroid/
+          product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
           version-code: ${{ needs.get-info.outputs.version-code }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
@@ -183,6 +183,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Download ColdClear arm64-v8a
+        uses: ./.github/actions/get-cc
+        with:
+          arch: iOS
+          dir: ./ColdClear
       - name: Build iOS packages
         id: build-packages
         uses: 26F-Studio/love-actions-ios@v1
@@ -192,6 +197,7 @@ jobs:
           copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
           icon-path: ./.github/build/iOS/dev/icon
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+          libs-path: ./ColdClear
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
