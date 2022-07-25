@@ -144,7 +144,7 @@ jobs:
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           resource-path: ./.github/build/android/dev/res
-          libs-path: ./ColdClear/love-11.3-android/lib/
+          libs-path: ./ColdClear/love-11.3-android/lib
           extra-assets: ./libAndroid/
           version-string: ${{ needs.get-info.outputs.version-string }}
           version-code: ${{ needs.get-info.outputs.version-code }}
@@ -177,7 +177,7 @@ jobs:
         run: |
           import os
           import re
-          os.system("echo ::set-output name=bundle-id::org.26f-studio." + re.sub(r"[^A-Za-z0-9]+", "-", "${{ needs.get-info.outputs.app-name }}"))
+          os.system("echo ::set-output name=bundle-id::org.26f-studio.techmino")
           os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
       - name: Download core love package
         uses: actions/download-artifact@v3
@@ -273,7 +273,7 @@ jobs:
         run: |
           import os
           import re
-          os.system("echo ::set-output name=bundle-id::org.26f-studio." + re.sub(r"[^A-Za-z0-9]+", "-", "${{ needs.get-info.outputs.app-name }}"))
+          os.system("echo ::set-output name=bundle-id::org.26f-studio.techmino")
           os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
       - name: Download core love package
         uses: actions/download-artifact@v3
@@ -326,7 +326,7 @@ jobs:
         run: |
           import os
           import re
-          os.system("echo ::set-output name=bundle-id::org.26f-studio." + re.sub(r"[^A-Za-z0-9]+", "-", "${{ needs.get-info.outputs.app-name }}"))
+          os.system("echo ::set-output name=bundle-id::org.26f-studio.techmino")
           os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
       - name: Download core love package
         uses: actions/download-artifact@v3
