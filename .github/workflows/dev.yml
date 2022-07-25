@@ -196,6 +196,7 @@ jobs:
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
           copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
           icon-path: ./.github/build/iOS/dev/icon
+          love-patch: ./.github/build/iOS/love.patch
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           libs-path: ./ColdClear
           product-name: ${{ steps.process-app-name.outputs.product-name }}
