@@ -245,7 +245,7 @@ jobs:
       - name: Download ColdClear
         uses: ./.github/actions/get-cc
         with:
-          arch: iOS
+          arch: linux
           dir: ./ColdClear
       - name: Process ColdClear
         shell: bash
