@@ -380,9 +380,9 @@ jobs:
           output-folder: ${{ env.OUTPUT_FOLDER }}
           account-username: ${{ secrets.APPLE_ACCOUNT_USERNAME }}
           account-password: ${{ secrets.APPLE_ACCOUNT_PASSWORD }}
+          team-id: "${{ secrets.APPLE_DEVELOPER_TEAM_ID }}"
           developer-id-application-base64: ${{ secrets.APPLE_CERT_DEVELOPER_ID_APPLICATION }}
           developer-id-application-password: ${{ secrets.APPLE_CERT_DEVELOPER_ID_APPLICATION_PWD }}
-          team-id: "${{ secrets.APPLE_DEVELOPER_TEAM_ID }}"
           developer-id-installer-base64: ${{ secrets.APPLE_CERT_DEVELOPER_ID_INSTALLER }}
           developer-id-installer-password: ${{ secrets.APPLE_CERT_DEVELOPER_ID_INSTALLER_PWD }}
           dmg-background-path: ./.github/build/macOS/dev/dmg.png
