@@ -242,6 +242,19 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Download ColdClear
+        uses: ./.github/actions/get-cc
+        with:
+          arch: iOS
+          dir: ./ColdClear
+      - name: Process ColdClear
+        shell: bash
+        run: |
+          cd ./ColdClear
+          mkdir ./libs
+          mv ./libcold_clear.so ./libs
+          mkdir ./shared
+          mv ./CCloader.so ./shared
       - name: Build Linux packages
         id: build-packages
         uses: 26F-Studio/love-actions-linux@v1
@@ -250,6 +263,8 @@ jobs:
           executable-name: app
           icon-path: ./.github/build/linux/dev/icon.png
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+          libs-path: ./ColdClear/libs
+          shared-path: ./ColdClear/shared
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
       - name: Upload artifact
