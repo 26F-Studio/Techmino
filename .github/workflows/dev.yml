@@ -183,7 +183,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
-      - name: Download ColdClear arm64-v8a
+      - name: Download ColdClear
         uses: ./.github/actions/get-cc
         with:
           arch: iOS
@@ -286,6 +286,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Download ColdClear
+        uses: ./.github/actions/get-cc
+        with:
+          arch: macOS
+          dir: ./ColdClear
       - name: Build macOS packages
         id: build-packages
         uses: 26F-Studio/love-actions-macos-appstore@v1
@@ -295,6 +300,7 @@ jobs:
           copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
           icon-path: ./.github/build/macOS/dev/icon.icns
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+          libs-path: ./ColdClear
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
@@ -339,6 +345,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Download ColdClear
+        uses: ./.github/actions/get-cc
+        with:
+          arch: macOS
+          dir: ./ColdClear
       - name: Build macOS packages
         id: build-packages
         uses: 26F-Studio/love-actions-macos-portable@v1
@@ -348,6 +359,7 @@ jobs:
           copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
           icon-path: ./.github/build/macOS/dev/icon.icns
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+          libs-path: ./ColdClear
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
