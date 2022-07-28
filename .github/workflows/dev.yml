@@ -113,23 +113,18 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
-      - name: Download ColdClear arm64-v8a
+      - name: Download ColdClear
         uses: ./.github/actions/get-cc
         with:
-          arch: android_aarch64
-          dir: ./ColdClear
-      - name: Download ColdClear armeabi-v7a
-        uses: ./.github/actions/get-cc
-        with:
-          arch: android_armv7
+          platform: Android
           dir: ./ColdClear
       - name: Process ColdClear
         shell: bash
         run: |
-          mkdir -p ./libAndroid/
-          ls -l ./ColdClear/libs/
-          cp -r -f ./ColdClear/libs/* ./libAndroid/
-          ls -l ./ColdClear/love-11.3-android/lib/
+          mkdir -p ./libAndroid/armeabi-v7a/
+          mkdir -p ./libAndroid/arm64-v8a/
+          mv ./ColdClear/armeabi-v7a/libCCloader.so ./libAndroid/armeabi-v7a/
+          mv ./ColdClear/arm64-v8a/libCCloader.so ./libAndroid/arm64-v8a/
       - name: Build Android packages
         id: build-packages
         uses: 26F-Studio/love-actions-android@v1
@@ -143,7 +138,7 @@ jobs:
           keystore-store-password: ${{ secrets.ANDROID_KEYSTORE_STOREPASSWORD }}
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           resource-path: ./.github/build/android/dev/res
-          libs-path: ./ColdClear/love-11.3-android/lib
+          libs-path: ./ColdClear/
           extra-assets: ./libAndroid/
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
@@ -186,8 +181,12 @@ jobs:
       - name: Download ColdClear
         uses: ./.github/actions/get-cc
         with:
-          arch: iOS
+          platform: iOS
           dir: ./ColdClear
+      - name: Process ColdClear
+        shell: bash
+        run: |
+          rm ./ColdClear/arm64/libcold_clear.a
       - name: Build iOS packages
         id: build-packages
         uses: 26F-Studio/love-actions-ios@v1
@@ -198,7 +197,7 @@ jobs:
           icon-path: ./.github/build/iOS/dev/icon
           love-patch: ./.github/build/iOS/love.patch
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          libs-path: ./ColdClear
+          libs-path: ./ColdClear/arm64/
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
@@ -245,16 +244,16 @@ jobs:
       - name: Download ColdClear
         uses: ./.github/actions/get-cc
         with:
-          arch: linux
+          platform: Linux
           dir: ./ColdClear
       - name: Process ColdClear
         shell: bash
         run: |
           cd ./ColdClear
           mkdir ./libs
-          mv ./libcold_clear.so ./libs
+          mv ./x64/libcold_clear.so ./libs
           mkdir ./shared
-          mv ./CCloader.so ./shared
+          mv ./x64/CCloader.so ./shared
       - name: Build Linux packages
         id: build-packages
         uses: 26F-Studio/love-actions-linux@v1
@@ -263,8 +262,8 @@ jobs:
           executable-name: app
           icon-path: ./.github/build/linux/dev/icon.png
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          libs-path: ./ColdClear/libs
-          shared-path: ./ColdClear/shared
+          libs-path: ./ColdClear/libs/
+          shared-path: ./ColdClear/shared/
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
       - name: Upload artifact
@@ -304,8 +303,12 @@ jobs:
       - name: Download ColdClear
         uses: ./.github/actions/get-cc
         with:
-          arch: macOS
+          platform: macOS
           dir: ./ColdClear
+      - name: Process ColdClear
+        shell: bash
+        run: |
+          rm ./ColdClear/universal/libcold_clear.a
       - name: Build macOS packages
         id: build-packages
         uses: 26F-Studio/love-actions-macos-appstore@v1
@@ -315,7 +318,7 @@ jobs:
           copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
           icon-path: ./.github/build/macOS/dev/icon.icns
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          libs-path: ./ColdClear
+          libs-path: ./ColdClear/universal/
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
@@ -363,8 +366,12 @@ jobs:
       - name: Download ColdClear
         uses: ./.github/actions/get-cc
         with:
-          arch: macOS
+          platform: macOS
           dir: ./ColdClear
+      - name: Process ColdClear
+        shell: bash
+        run: |
+          rm ./ColdClear/universal/libcold_clear.a
       - name: Build macOS packages
         id: build-packages
         uses: 26F-Studio/love-actions-macos-portable@v1
@@ -374,7 +381,7 @@ jobs:
           copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
           icon-path: ./.github/build/macOS/dev/icon.icns
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          libs-path: ./ColdClear
+          libs-path: ./ColdClear/universal/
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
           output-folder: ${{ env.OUTPUT_FOLDER }}

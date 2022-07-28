@@ -3,8 +3,8 @@ description: 'download cc into specific dir'
 inputs:
   tag:
     required: false
-    default: techmino-alize-2
-  arch:
+    default: "11.4"
+  platform:
     required: true
   dir:
     required: false
@@ -27,6 +27,6 @@ runs:
       shell: bash
     - uses: ./.github/actions/get-unzip
       with:
-        url: https://github.com/${{ inputs.repo }}/releases/download/${{ steps.get-tag.outputs.tag }}/${{ inputs.arch }}.zip
+        url: https://github.com/${{ inputs.repo }}/releases/download/${{ steps.get-tag.outputs.tag }}/${{ inputs.platform }}.zip
         dir: ${{ inputs.dir }}
         temp-file: ${{ inputs.temp-file }}
