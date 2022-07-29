@@ -183,10 +183,6 @@ jobs:
         with:
           platform: iOS
           dir: ./ColdClear
-      - name: Process ColdClear
-        shell: bash
-        run: |
-          rm ./ColdClear/arm64/libcold_clear.a
       - name: Build iOS packages
         id: build-packages
         uses: 26F-Studio/love-actions-ios@v1
