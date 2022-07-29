@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Techmino Alpha
-Comment=Techmino is fun!
-Exec=wrapper-love %f
-Type=Application
-Categories=Game;
-Terminal=false
-Icon=icon

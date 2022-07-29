@@ -2,224 +2,504 @@ name: Techmino Develop CI
 
 on:
   push:
-    branches: [ main, ci* ]
+    branches: [main, ci*]
   pull_request:
-    branches: [ main ]
-
+    branches: [main]
+env:
+  CORE_LOVE_PACKAGE_PATH: ./core.love
+  CORE_LOVE_ARTIFACT_NAME: core_love_package
 jobs:
   get-info:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     outputs:
-      name: ${{ steps.lua-related.outputs.name }}
-      apkCode: ${{ steps.lua-related.outputs.apkCode }}
-      code: ${{ steps.lua-related.outputs.code }}
-      commit: ${{ steps.git-related.outputs.commit }}
+      app-name: ${{ steps.app-info.outputs.app-name }}
+      version-name: ${{ steps.app-info.outputs.version-name }}
+      version-string: ${{ steps.app-info.outputs.version-string }}
+      version-code: ${{ steps.app-info.outputs.version-code }}
+      commit-hash: ${{ steps.git-info.outputs.commit-hash }}
+      base-name: ${{ steps.assemble-base-name.outputs.base-name }}
     steps:
-    - uses: actions/checkout@v2
-    - name: Install lua
-      run: |
-        sudo apt-get install lua5.3 -y
-    - name: Get Version
-      id: lua-related
-      shell: lua {0}
-      run: |
-        local version = require 'version'
-        print("::set-output name=name::"..version.string)
-        print(("::set-output name=apkCode::%d"):format(version.apkCode))
-        print(("::set-output name=code::%d"):format(version.code))
-    - name: Get Commit
-      id: git-related
-      shell: bash
-      run: |
-        echo "::set-output name=commit::$(git rev-parse --short ${{ GITHUB.SHA }})"
-
-  automatic-test:
-    runs-on: ubuntu-20.04
+      - uses: actions/checkout@v3
+      - name: Install lua
+        run: |
+          sudo apt-get install lua5.3 -y
+      - name: Get app info
+        id: app-info
+        shell: lua {0}
+        run: |
+          local version = require "version"
+          print("::set-output name=app-name::Techmino")
+          print("::set-output name=version-name::"..version.name)
+          print("::set-output name=version-string::"..version.string:gsub("%a", ""))
+          print(("::set-output name=version-code::%d"):format(version.code))
+      - name: Get git info
+        id: git-info
+        shell: bash
+        run: |
+          COMMIT_HASH=$(git rev-parse --short ${{ GITHUB.SHA }})
+          echo ::set-output name=commit-hash::$COMMIT_HASH
+      - name: Assemble package base name
+        id: assemble-base-name
+        shell: bash
+        run: |
+          BASE_NAME=Techmino_${{ steps.app-info.outputs.version-string }}_${{ steps.git-info.outputs.commit-hash }}_#${{ GITHUB.RUN_NUMBER }}
+          echo ::set-output name=base-name::$BASE_NAME
+  build-core:
+    runs-on: ubuntu-latest
+    needs: get-info
+    env:
+      PACKAGE_NAME: ./${{ needs.get-info.outputs.base-name }}_Core.love
+    outputs:
+      download-url: ${{ steps.transfer.outputs.download-url }}
     steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: 'recursive'
-    - uses: ./.github/actions/automatic-test
-
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Build core love package
+        uses: 26F-Studio/love-actions-core@v1
+        with:
+          build-list: ./media/ ./parts/ ./Zframework/ ./conf.lua ./main.lua ./version.lua
+          package-path: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+      - name: Upload core love package
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+          path: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+      - name: Rename love package
+        run: mv ${{ env.CORE_LOVE_PACKAGE_PATH }} ${{ env.PACKAGE_NAME }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_Core
+          path: ${{ env.PACKAGE_NAME }}
+      - name: Upload to WeTransfer
+        id: transfer
+        run: |
+          curl -sL https://git.io/file-transfer | sh 
+          ./transfer wet -s -p 16 --no-progress ${{ env.PACKAGE_NAME }} 2>&1>./wetransfer.log
+          echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+  auto-test:
+    runs-on: ubuntu-latest
+    needs: build-core
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Love actions for testing
+        uses: 26F-Studio/love-actions-test@v1
+        with:
+          font-path: ./parts/fonts/proportional.otf
+          language-folder: ./parts/language
+  build-android:
+    runs-on: ubuntu-latest
+    needs: [get-info, build-core, auto-test]
+    env:
+      OUTPUT_FOLDER: ./build
+    outputs:
+      download-url: ${{ steps.transfer.outputs.download-url }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Process app name
+        id: process-app-name
+        shell: python3 {0}
+        run: |
+          import os
+          import re
+          os.system("echo ::set-output name=bundle-id::org.f26_studio." + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
+          os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "-", "${{ needs.get-info.outputs.app-name }}"))
+      - name: Download core love package
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Download ColdClear
+        uses: ./.github/actions/get-cc
+        with:
+          platform: Android
+          dir: ./ColdClear
+      - name: Process ColdClear
+        shell: bash
+        run: |
+          mkdir -p ./libAndroid/armeabi-v7a/
+          mkdir -p ./libAndroid/arm64-v8a/
+          mv ./ColdClear/armeabi-v7a/libCCloader.so ./libAndroid/armeabi-v7a/
+          mv ./ColdClear/arm64-v8a/libCCloader.so ./libAndroid/arm64-v8a/
+      - name: Build Android packages
+        id: build-packages
+        uses: 26F-Studio/love-actions-android@v1
+        with:
+          app-name: ${{ needs.get-info.outputs.app-name }}
+          bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
+          icon-specifier: "@mipmap/icon"
+          keystore-alias: ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
+          keystore-base64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          keystore-key-password: ${{ secrets.ANDROID_KEYSTORE_KEYPASSWORD }}
+          keystore-store-password: ${{ secrets.ANDROID_KEYSTORE_STOREPASSWORD }}
+          love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+          resource-path: ./.github/build/android/dev/res
+          libs-path: ./ColdClear/
+          extra-assets: ./libAndroid/
+          product-name: ${{ steps.process-app-name.outputs.product-name }}
+          version-string: ${{ needs.get-info.outputs.version-string }}
+          version-code: ${{ needs.get-info.outputs.version-code }}
+          output-folder: ${{ env.OUTPUT_FOLDER }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_Android
+          path: ${{ env.OUTPUT_FOLDER }}/*
+      - name: Upload to WeTransfer
+        id: transfer
+        run: |
+          curl -sL https://git.io/file-transfer | sh 
+          ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+          echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+  build-ios:
+    runs-on: macos-latest
+    needs: [get-info, build-core, auto-test]
+    env:
+      OUTPUT_FOLDER: ./build
+    outputs:
+      download-url: ${{ steps.transfer.outputs.download-url }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Process app name
+        id: process-app-name
+        shell: python3 {0}
+        run: |
+          import os
+          import re
+          os.system("echo ::set-output name=bundle-id::org.26f-studio.techmino")
+          os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
+      - name: Download core love package
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Download ColdClear
+        uses: ./.github/actions/get-cc
+        with:
+          platform: iOS
+          dir: ./ColdClear
+      - name: Build iOS packages
+        id: build-packages
+        uses: 26F-Studio/love-actions-ios@v1
+        with:
+          app-name: ${{ needs.get-info.outputs.app-name }}
+          bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
+          copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
+          icon-path: ./.github/build/iOS/dev/icon
+          love-patch: ./.github/build/iOS/love.patch
+          love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+          libs-path: ./ColdClear/arm64/
+          product-name: ${{ steps.process-app-name.outputs.product-name }}
+          version-string: ${{ needs.get-info.outputs.version-string }}
+          output-folder: ${{ env.OUTPUT_FOLDER }}
+          apple-development-base64: ${{ secrets.APPLE_CERT_APPLE_DEVELOPMENT_BASE64 }}
+          apple-development-password: ${{ secrets.APPLE_CERT_APPLE_DEVELOPMENT_PWD }}
+          api-key: ${{ secrets.APPLE_API_KEY }}
+          api-key-id: ${{ secrets.APPLE_API_KEY_ID }}
+          api-issuer-id: ${{ secrets.APPLE_API_ISSUER_ID }}
+          team-id: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
+          apple-id: ${{ secrets.APPLE_APPLE_ID }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_iOS
+          path: ${{ env.OUTPUT_FOLDER }}/*
+      - name: Upload to WeTransfer
+        id: transfer
+        run: |
+          wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
+          ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+          echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+  build-linux:
+    runs-on: ubuntu-latest
+    needs: [get-info, build-core, auto-test]
+    env:
+      OUTPUT_FOLDER: ./build
+    outputs:
+      download-url: ${{ steps.transfer.outputs.download-url }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Process app name
+        id: process-app-name
+        shell: python3 {0}
+        run: |
+          import os
+          import re
+          os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
+      - name: Download core love package
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Download ColdClear
+        uses: ./.github/actions/get-cc
+        with:
+          platform: Linux
+          dir: ./ColdClear
+      - name: Process ColdClear
+        shell: bash
+        run: |
+          cd ./ColdClear
+          mkdir ./libs
+          mv ./x64/libcold_clear.so ./libs
+          mkdir ./shared
+          mv ./x64/CCloader.so ./shared
+      - name: Build Linux packages
+        id: build-packages
+        uses: 26F-Studio/love-actions-linux@v1
+        with:
+          desktop-file-path: ./.github/build/linux/dev/template.desktop
+          executable-name: app
+          icon-path: ./.github/build/linux/dev/icon.png
+          love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+          libs-path: ./ColdClear/libs/
+          shared-path: ./ColdClear/shared/
+          product-name: ${{ steps.process-app-name.outputs.product-name }}
+          output-folder: ${{ env.OUTPUT_FOLDER }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_Linux
+          path: ${{ env.OUTPUT_FOLDER }}/*
+      - name: Upload to WeTransfer
+        id: transfer
+        run: |
+          curl -sL https://git.io/file-transfer | sh 
+          ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+          echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+  build-macos-appstore:
+    runs-on: macos-latest
+    needs: [get-info, build-core, auto-test]
+    env:
+      OUTPUT_FOLDER: ./build
+    outputs:
+      download-url: ${{ steps.transfer.outputs.download-url }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Process app name
+        id: process-app-name
+        shell: python3 {0}
+        run: |
+          import os
+          import re
+          os.system("echo ::set-output name=bundle-id::org.26f-studio.techmino")
+          os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
+      - name: Download core love package
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Download ColdClear
+        uses: ./.github/actions/get-cc
+        with:
+          platform: macOS
+          dir: ./ColdClear
+      - name: Process ColdClear
+        shell: bash
+        run: |
+          rm ./ColdClear/universal/libcold_clear.a
+      - name: Build macOS packages
+        id: build-packages
+        uses: 26F-Studio/love-actions-macos-appstore@v1
+        with:
+          app-name: ${{ needs.get-info.outputs.app-name }}
+          bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
+          copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
+          icon-path: ./.github/build/macOS/dev/icon.icns
+          love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+          libs-path: ./ColdClear/universal/
+          product-name: ${{ steps.process-app-name.outputs.product-name }}
+          version-string: ${{ needs.get-info.outputs.version-string }}
+          output-folder: ${{ env.OUTPUT_FOLDER }}
+          apple-development-base64: ${{ secrets.APPLE_CERT_APPLE_DEVELOPMENT_BASE64 }}
+          apple-development-password: ${{ secrets.APPLE_CERT_APPLE_DEVELOPMENT_PWD }}
+          api-key: ${{ secrets.APPLE_API_KEY }}
+          api-key-id: ${{ secrets.APPLE_API_KEY_ID }}
+          api-issuer-id: ${{ secrets.APPLE_API_ISSUER_ID }}
+          team-id: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
+          apple-id: ${{ secrets.APPLE_APPLE_ID }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_macOS_appstore
+          path: ${{ env.OUTPUT_FOLDER }}/*
+      - name: Upload to WeTransfer
+        id: transfer
+        run: |
+          wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
+          ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+          echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+  build-macos-portable:
+    runs-on: macos-latest
+    needs: [get-info, build-core, auto-test]
+    env:
+      OUTPUT_FOLDER: ./build
+    outputs:
+      download-url: ${{ steps.transfer.outputs.download-url }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Process app name
+        id: process-app-name
+        shell: python3 {0}
+        run: |
+          import os
+          import re
+          os.system("echo ::set-output name=bundle-id::org.26f-studio.techmino")
+          os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
+      - name: Download core love package
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Download ColdClear
+        uses: ./.github/actions/get-cc
+        with:
+          platform: macOS
+          dir: ./ColdClear
+      - name: Process ColdClear
+        shell: bash
+        run: |
+          rm ./ColdClear/universal/libcold_clear.a
+      - name: Build macOS packages
+        id: build-packages
+        uses: 26F-Studio/love-actions-macos-portable@v1
+        with:
+          app-name: ${{ needs.get-info.outputs.app-name }}
+          bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
+          copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
+          icon-path: ./.github/build/macOS/dev/icon.icns
+          love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+          libs-path: ./ColdClear/universal/
+          product-name: ${{ steps.process-app-name.outputs.product-name }}
+          version-string: ${{ needs.get-info.outputs.version-string }}
+          output-folder: ${{ env.OUTPUT_FOLDER }}
+          account-username: ${{ secrets.APPLE_ACCOUNT_USERNAME }}
+          account-password: ${{ secrets.APPLE_ACCOUNT_PASSWORD }}
+          team-id: "${{ secrets.APPLE_DEVELOPER_TEAM_ID }}"
+          developer-id-application-base64: ${{ secrets.APPLE_CERT_DEVELOPER_ID_APPLICATION }}
+          developer-id-application-password: ${{ secrets.APPLE_CERT_DEVELOPER_ID_APPLICATION_PWD }}
+          developer-id-installer-base64: ${{ secrets.APPLE_CERT_DEVELOPER_ID_INSTALLER }}
+          developer-id-installer-password: ${{ secrets.APPLE_CERT_DEVELOPER_ID_INSTALLER_PWD }}
+          dmg-background-path: ./.github/build/macOS/dev/dmg.png
+          dmg-icon-position: "239 203"
+          dmg-icon-size: "100"
+          dmg-link-position: "565 203"
+          dmg-text-size: "12"
+          dmg-volume-icon-path: ./.github/build/macOS/dev/dmg.icns
+          dmg-volume-name: ${{ steps.process-app-name.outputs.product-name }}
+          dmg-window-position: "200 120"
+          dmg-window-size: "800 500"
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_macOS_portable
+          path: ${{ env.OUTPUT_FOLDER }}/*
+      - name: Upload to WeTransfer
+        id: transfer
+        run: |
+          wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
+          ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+          echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
   build-windows:
     runs-on: windows-latest
-    needs: get-info
+    needs: [get-info, build-core, auto-test]
+    env:
+      OUTPUT_FOLDER: ./build
+    outputs:
+      download-url: ${{ steps.transfer.outputs.download-url }}
     steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: 'recursive'
-    - uses: ./.github/actions/update-version
-      with:
-        commit: ${{ needs.get-info.outputs.commit }}
-        type: snapshot
-    - uses: ./.github/actions/build-windows
-      with:
-        love-url: https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
-        love-dir: love-11.3-win64
-        arch: win64
-        version: ${{ needs.get-info.outputs.name }}
-        icon: .\.github\build\Windows\icon_snapshot.ico
-    - name: Upload
-      uses: actions/upload-artifact@v2
-      with:
-        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Windows
-        path: love
-
-  build-linux:
-    runs-on: ubuntu-20.04
-    needs: get-info
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Process app name
+        id: process-app-name
+        shell: python3 {0}
+        run: |
+          import os
+          import re
+          os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
+      - name: Download core love package
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Build Windows packages
+        id: build-packages
+        uses: 26F-Studio/love-actions-windows@v1
+        with:
+          icon-path: ./.github/build/windows/dev/icon.ico
+          rc-path: ./.github/build/windows/dev/template.rc
+          love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+          product-name: ${{ steps.process-app-name.outputs.product-name }}
+          version-string: ${{ needs.get-info.outputs.version-string }}
+          output-folder: ${{ env.OUTPUT_FOLDER }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_Windows
+          path: ${{ env.OUTPUT_FOLDER }}/*
+      - name: Get transfer
+        env:
+          TEMP_PATH: ./temp.zip
+        shell: bash
+        run: |
+          curl -L --retry 5 https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_windows_amd64.zip -o ${{ env.TEMP_PATH }}
+          7z x ${{ env.TEMP_PATH }} -o./
+          rm ${{ env.TEMP_PATH }}
+      - name: Upload to WeTransfer
+        id: transfer
+        run: |
+          ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+          echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+  post-build:
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs:
+      [
+        get-info,
+        auto-test,
+        build-core,
+        build-android,
+        build-ios,
+        build-linux,
+        build-macos-appstore,
+        build-macos-portable,
+        build-windows,
+      ]
     steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: 'recursive'
-    - uses: ./.github/actions/update-version
-      with:
-        commit: ${{ needs.get-info.outputs.commit }}
-        type: snapshot
-    - uses: ./.github/actions/build-linux
-      with:
-        icon: .github/build/Linux/icon_snapshot.png
-    - name: Upload
-      uses: actions/upload-artifact@v2
-      with:
-        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Linux
-        path: Techmino.AppImage
-
-  build-android:
-    runs-on: ubuntu-20.04
-    needs: get-info
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: 'recursive'
-    - uses: ./.github/actions/update-version
-      with:
-        commit: ${{ needs.get-info.outputs.commit }}
-        type: snapshot
-    - uses: ./.github/actions/build-android
-      with:
-        type: Snapshot
-        apkCode: ${{ needs.get-info.outputs.apkCode }}
-        name: ${{ needs.get-info.outputs.name }}
-        file-path: Techmino_Snapshot.apk
-        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-        KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
-        ALIAS: ${{ secrets.ALIAS }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-    - name: Upload
-      uses: actions/upload-artifact@v2
-      with:
-        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Android
-        path: Techmino_Snapshot.apk
-
-  build-android-mini:
-    runs-on: ubuntu-20.04
-    needs: get-info
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: 'recursive'
-    - uses: ./.github/actions/update-version
-      with:
-        commit: ${{ needs.get-info.outputs.commit }}
-        type: snapshot
-    - name: remove media
-      run: |
-        rm -rf media/music media/effect media/vocal
-    - uses: ./.github/actions/build-android
-      with:
-        type: Snapshot
-        apkCode: ${{ needs.get-info.outputs.apkCode }}
-        name: ${{ needs.get-info.outputs.name }}
-        file-path: Techmino_Snapshot_Mini.apk
-        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-        KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
-        ALIAS: ${{ secrets.ALIAS }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-    - name: Upload
-      uses: actions/upload-artifact@v2
-      with:
-        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Android_Mini
-        path: Techmino_Snapshot_Mini.apk
-
-  build-macOS:
-    runs-on: macos-10.15
-    needs: get-info
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: 'recursive'
-    - uses: ./.github/actions/update-version
-      with:
-        commit: ${{ needs.get-info.outputs.commit }}
-        type: snapshot
-    - uses: ./.github/actions/build-macos
-      with:
-        name: ${{ needs.get-info.outputs.name }}
-        icon: .github/build/macOS/icon_snapshot.icns
-        APPLE_API_ID: '${{ secrets.APPLE_API_ID }}'
-        APPLE_API_ISSUER: '${{ secrets.APPLE_API_ISSUER }}'
-        APPLE_API_KEY: '${{ secrets.APPLE_API_KEY }}'
-        APPLE_APP_IDENTIFIER: '${{ secrets.APPLE_APP_IDENTIFIER }}'
-        APPLE_KEYCHAIN_NAME: '${{ secrets.APPLE_KEYCHAIN_NAME }}'
-        APPLE_KEYCHAIN_PWD: '${{ secrets.APPLE_KEYCHAIN_PWD }}'
-        FASTLANE_MATCH_PWD: '${{ secrets.FASTLANE_MATCH_PWD }}'
-        FASTLANE_MATCH_TOKEN: '${{ secrets.FASTLANE_MATCH_TOKEN }}'
-    - name: Upload
-      uses: actions/upload-artifact@v2
-      with:
-        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_macOS
-        path: Techmino.dmg
-
-  build-iOS:
-    runs-on: macos-latest
-    if: (!startsWith( github.ref , 'refs/heads/ci-')) || startsWith( github.ref , 'refs/heads/ci-ios-')
-    needs: get-info
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: 'recursive'
-    - uses: ./.github/actions/update-version
-      with:
-        commit: ${{ needs.get-info.outputs.commit }}
-        type: snapshot
-    - uses: ./.github/actions/build-ios
-      with:
-        name: ${{ needs.get-info.outputs.name }}
-        type: 'dev'
-        APPLE_API_ID: '${{ secrets.APPLE_API_ID }}'
-        APPLE_API_ISSUER: '${{ secrets.APPLE_API_ISSUER }}'
-        APPLE_API_KEY: '${{ secrets.APPLE_API_KEY }}'
-        APPLE_APP_BUILD: '${{ needs.get-info.outputs.code }}.2.${{ github.run_number }}.${{ github.run_attempt }}'
-        APPLE_APP_CHANGELOG: '${{ github.event.commits[0].message }}'
-        APPLE_APP_ID: '${{ secrets.APPLE_APP_ID }}'
-        APPLE_APP_IDENTIFIER: '${{ secrets.APPLE_APP_IDENTIFIER }}'
-        APPLE_APP_PROFILE: '${{ secrets.APPLE_APP_PROFILE }}'
-        APPLE_KEYCHAIN_NAME: '${{ secrets.APPLE_KEYCHAIN_NAME }}'
-        APPLE_KEYCHAIN_PWD: '${{ secrets.APPLE_KEYCHAIN_PWD }}'
-        FASTLANE_ACTION_ID: '${{ github.run_id }}'
-        FASTLANE_DISCORD_WEBHOOK: '${{ secrets.FASTLANE_DISCORD_WEBHOOK }}'
-        FASTLANE_MATCH_PWD: '${{ secrets.FASTLANE_MATCH_PWD }}'
-        FASTLANE_MATCH_TOKEN: '${{ secrets.FASTLANE_MATCH_TOKEN }}'
-    - name: Upload
-      uses: actions/upload-artifact@v2
-      with:
-        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_iOS
-        path: Techmino.ipa
-
-  build-love:
-    runs-on: ubuntu-20.04
-    needs: get-info
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: 'recursive'
-    - uses: ./.github/actions/update-version
-    - uses: ./.github/actions/build-love
-      with:
-        file-path: Techmino.love
-    - name: Upload
-      uses: actions/upload-artifact@v2
-      with:
-        name: Techmino_${{ needs.get-info.outputs.name }}_${{ GITHUB.RUN_NUMBER }}_${{ needs.get-info.outputs.commit }}_Love
-        path: Techmino.love
+      - uses: actions/checkout@v3
+      - name: Cleanup
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Send Discord message
+        uses: Sniddl/discord-commits@v1.3
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          message: "Github Actions for **${{ github.repository }}**."
+          embed: '{
+            "author":{
+            "name":"${{ needs.get-info.outputs.app-name }} [Development]",
+            "url":"https://github.com/${{ github.repository }}"
+            },
+            "title":"${{ needs.get-info.outputs.app-name }} (${{ needs.get-info.outputs.version-name }}) Build Result",
+            "description": "CI triggered at ${{ needs.get-info.outputs.commit-hash }}",
+            "url":"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+            "thumbnail":{
+            "url":"https://raw.githubusercontent.com/${{ github.repository }}/main/.github/build/linux/dev/icon.png"
+            },
+            "color":36863,
+            "fields":[
+            {"name":"Version","value":"${{ needs.get-info.outputs.version-string }}","inline": true},
+            {"name":"Package Name","value":"${{ needs.get-info.outputs.base-name }}","inline": true},
+            {"name":"Status","value":"**Automatic Test:** ${{ needs.auto-test.result }}\n**Core:** ${{ needs.build-core.result }}\n**Android:** ${{ needs.build-android.result }}\n**iOS:** ${{ needs.build-ios.result }}\n**Linux:** ${{ needs.build-linux.result }}\n**macOS App Store:** ${{ needs.build-macos-appstore.result }}\n**macOS portable:** ${{ needs.build-macos-portable.result }}\n**Windows:** ${{ needs.build-windows.result }}"},
+            {"name":"Download Links","value":"**Core:** ${{ needs.build-core.outputs.download-url}}\n**Android:** ${{ needs.build-android.outputs.download-url }}\n**iOS:** ${{ needs.build-ios.outputs.download-url }}\n**Linux:** ${{ needs.build-linux.outputs.download-url }}\n**macOS App Store:** ${{ needs.build-macos-appstore.outputs.download-url }}\n**macOS portable:** ${{ needs.build-macos-portable.outputs.download-url }}\n**Windows:** ${{ needs.build-windows.outputs.download-url}}"}
+            ]
+            }'

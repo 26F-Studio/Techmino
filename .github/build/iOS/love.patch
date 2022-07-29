@@ -1,0 +1,106 @@
+diff --git a/src/common/ios.h b/src/common/ios.h
+index c1932555..552e432e 100644
+--- a/src/common/ios.h
++++ b/src/common/ios.h
+@@ -66,7 +66,7 @@ std::string getExecutablePath();
+ /**
+  * Causes devices with vibration support to vibrate for about 0.5 seconds.
+  **/
+-void vibrate();
++void vibrate(const double seconds);
+ 
+ /**
+  * Enable mix mode (e.g. with background music apps) and playback with a muted device.
+diff --git a/src/common/ios.mm b/src/common/ios.mm
+index 7730991e..4ba8e708 100644
+--- a/src/common/ios.mm
++++ b/src/common/ios.mm
+@@ -36,6 +36,8 @@
+ #include <SDL_video.h>
+ #include <SDL_syswm.h>
+ 
++#include <sys/utsname.h>
++
+ static NSArray *getLovesInDocuments();
+ static bool deleteFileInDocuments(NSString *filename);
+ 
+@@ -391,10 +393,40 @@ std::string getExecutablePath()
+ 	}
+ }
+ 
+-void vibrate()
++void vibrate(const double seconds)
+ {
+ 	@autoreleasepool
+ 	{
++		struct utsname systemInfo;
++		uname(&systemInfo);
++		NSString *deviceString = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
++		NSRange iPhoneRange = [deviceString rangeOfString:@"iPhone"];
++		if (iPhoneRange.length == 6) {
++			NSRange  commaRange  = [deviceString rangeOfString:@","];
++			NSString *iPhone     = [deviceString substringWithRange:iPhoneRange];
++			NSRange  numRange    = NSMakeRange(iPhoneRange.location + iPhoneRange.length, commaRange.location - iPhoneRange.location - iPhoneRange.length);
++			NSString *num        = [deviceString substringWithRange:numRange];
++
++			if ([num intValue] >= 9) {
++				// iPhone 7 and above, see: https://gist.github.com/adamawolf/3048717#file-apple_mobile_device_types-txt-L22
++
++				if (@available(iOS 10.0, *)) {
++					// iOS 10.0 and above
++					UIImpactFeedbackGenerator *impact = nil;
++					if (seconds >= 0.5 && seconds < 1.5) {
++						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight]; // 轻
++					} else if (seconds >= 1.5 && seconds < 2.5) {
++						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium]; // 中
++					} else if (seconds >= 2.5) {
++						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy]; // 重
++					} else {
++						return;
++					}
++					[impact impactOccurred];
++					return;
++				}
++			}
++		}
+ 		AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+ 	}
+ }
+diff --git a/src/love.cpp b/src/love.cpp
+index c8af8596..ae7a5e32 100644
+--- a/src/love.cpp
++++ b/src/love.cpp
+@@ -140,6 +140,10 @@ enum DoneAction
+ 	DONE_RESTART,
+ };
+ 
++extern "C" {
++	int luaopen_CCloader(lua_State *L);
++}
++
+ static DoneAction runlove(int argc, char **argv, int &retval)
+ {
+ 	// Oh, you just want the version? Okay!
+@@ -158,6 +162,9 @@ static DoneAction runlove(int argc, char **argv, int &retval)
+ 	lua_State *L = luaL_newstate();
+ 	luaL_openlibs(L);
+ 
++	// Init CCloader
++	luaopen_CCloader(L);
++
+ 	// LuaJIT-specific setup needs to be done as early as possible - before
+ 	// get_app_arguments because that loads external library code. This is also
+ 	// loaded inside require("love"). Note that it doesn't use the love table.
+diff --git a/src/modules/system/System.cpp b/src/modules/system/System.cpp
+index e1de16d5..e0f03557 100644
+--- a/src/modules/system/System.cpp
++++ b/src/modules/system/System.cpp
+@@ -174,7 +174,7 @@ void System::vibrate(double seconds) const
+ #ifdef LOVE_ANDROID
+ 	love::android::vibrate(seconds);
+ #elif defined(LOVE_IOS)
+-	love::ios::vibrate();
++	love::ios::vibrate(seconds);
+ #else
+ 	LOVE_UNUSED(seconds);
+ #endif
