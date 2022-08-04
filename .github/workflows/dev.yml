@@ -85,7 +85,7 @@ jobs:
       - name: Show download link
         shell: bash
         run: |
-          echo "::notice title='Bare love package'::${{ steps.transfer.outputs.download-url }}"
+          echo "::notice title=Bare love package::${{ steps.transfer.outputs.download-url }}"
   auto-test:
     runs-on: ubuntu-latest
     needs: build-core
@@ -171,7 +171,7 @@ jobs:
       - name: Show download link
         shell: bash
         run: |
-          echo "::notice title='Android packages'::${{ steps.transfer.outputs.download-url }}"
+          echo "::notice title=Android packages::${{ steps.transfer.outputs.download-url }}"
   build-ios:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
@@ -243,7 +243,7 @@ jobs:
       - name: Show download link
         shell: bash
         run: |
-          echo "::notice title='iOS packages'::${{ steps.transfer.outputs.download-url }}"
+          echo "::notice title=iOS packages::${{ steps.transfer.outputs.download-url }}"
   build-linux:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
@@ -305,7 +305,7 @@ jobs:
       - name: Show download link
         shell: bash
         run: |
-          echo "::notice title='Linux packages'::${{ steps.transfer.outputs.download-url }}"
+          echo "::notice title=Linux packages::${{ steps.transfer.outputs.download-url }}"
   build-macos-appstore:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
@@ -380,7 +380,7 @@ jobs:
       - name: Show download link
         shell: bash
         run: |
-          echo "::notice title='macOS App Store packages'::${{ steps.transfer.outputs.download-url }}"
+          echo "::notice title=macOS App Store packages::${{ steps.transfer.outputs.download-url }}"
   build-macos-portable:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
@@ -450,7 +450,7 @@ jobs:
       - name: Upload dmg artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ needs.get-info.outputs.base-name }}_macOS_portable_pkg
+          name: ${{ needs.get-info.outputs.base-name }}_macOS_portable_dmg
           path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.dmg
       - name: Upload bare artifact
         uses: actions/upload-artifact@v3
@@ -466,7 +466,7 @@ jobs:
       - name: Show download link
         shell: bash
         run: |
-          echo "::notice title='macOS portable packages'::${{ steps.transfer.outputs.download-url }}"
+          echo "::notice title=macOS portable packages::${{ steps.transfer.outputs.download-url }}"
   build-windows:
     runs-on: windows-latest
     needs: [get-info, build-core, auto-test]
@@ -525,7 +525,7 @@ jobs:
       - name: Show download link
         shell: bash
         run: |
-          echo "::notice title='Windows packages'::${{ steps.transfer.outputs.download-url }}"
+          echo "::notice title=Windows packages::${{ steps.transfer.outputs.download-url }}"
   post-build:
     runs-on: ubuntu-latest
     if: ${{ always() }}
