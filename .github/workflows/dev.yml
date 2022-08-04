@@ -483,6 +483,23 @@ jobs:
         uses: geekyeggo/delete-artifact@v1
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Show download Links
+        shell: bash
+        run: |
+          DOWNLOAD_LINKS=$(cat << EOF
+          Core: ${{ needs.build-core.outputs.download-url}}
+          Android: ${{ needs.build-android.outputs.download-url }}
+          iOS: ${{ needs.build-ios.outputs.download-url }}
+          Linux: ${{ needs.build-linux.outputs.download-url }}
+          macOS App Store: ${{ needs.build-macos-appstore.outputs.download-url }}
+          macOS portable: ${{ needs.build-macos-portable.outputs.download-url }}
+          Windows: ${{ needs.build-windows.outputs.download-url}}
+          EOF
+          )
+          DOWNLOAD_LINKS="${DOWNLOAD_LINKS//'%'/'%25'}"
+          DOWNLOAD_LINKS="${DOWNLOAD_LINKS//$'\n'/'%0A'}"
+          DOWNLOAD_LINKS="${DOWNLOAD_LINKS//$'\r'/'%0D'}"
+          echo "::notice title=Downloads::$DOWNLOAD_LINKS"
       - name: Send Discord message
         uses: Sniddl/discord-commits@v1.3
         with:
