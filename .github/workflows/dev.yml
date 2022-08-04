@@ -55,6 +55,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
+      - uses: ./.github/actions/update-version
+        with:
+          commit: ${{ needs.get-info.outputs.commit-hash }}
+          type: snapshot
       - name: Build core love package
         uses: 26F-Studio/love-actions-core@v1
         with:
@@ -107,8 +111,8 @@ jobs:
         run: |
           import os
           import re
-          os.system("echo ::set-output name=bundle-id::org.f26_studio." + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
-          os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "-", "${{ needs.get-info.outputs.app-name }}"))
+          os.system("echo ::set-output name=bundle-id::org.f26_studio." + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}") + ".snapshot")
+          os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}") + "_Snapshot")
       - name: Download core love package
         uses: actions/download-artifact@v3
         with:
