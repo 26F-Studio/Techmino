@@ -1,11 +1,13 @@
-name: Techmino Test CI
+name: Techmino CI
 
 on:
   push:
-    tags:
-      - "pre*"
-
+    branches: [main, ci*]
+    tags: [pre*, v*]
+  pull_request:
+    branches: [main]
 env:
+  BUILD_TYPE: ${{ fromJSON('["dev", "release"]')[startsWith(github.ref, 'refs/tags/v')] }}
   CORE_LOVE_PACKAGE_PATH: ./core.love
   CORE_LOVE_ARTIFACT_NAME: core_love_package
 jobs:
@@ -76,16 +78,26 @@ jobs:
         with:
           name: ${{ needs.get-info.outputs.base-name }}_Core
           path: ${{ env.PACKAGE_NAME }}
+      - name: Upload release
+        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
+        uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ github.event.head_commit.message }}
+          files: ${{ env.PACKAGE_NAME }}
+          prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
       - name: Upload to WeTransfer
         id: transfer
         run: |
           curl -sL https://git.io/file-transfer | sh 
           ./transfer wet -s -p 16 --no-progress ${{ env.PACKAGE_NAME }} 2>&1>./wetransfer.log
           echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+      - name: Show download link
+        shell: bash
+        run: |
+          echo "::notice title=Bare love package::${{ steps.transfer.outputs.download-url }}"
   auto-test:
     runs-on: ubuntu-latest
     needs: build-core
-    if: ${{ !always() }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -98,7 +110,6 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
-    if: ${{ !always() }}
     env:
       OUTPUT_FOLDER: ./build
     outputs:
@@ -143,28 +154,49 @@ jobs:
           keystore-key-password: ${{ secrets.ANDROID_KEYSTORE_KEYPASSWORD }}
           keystore-store-password: ${{ secrets.ANDROID_KEYSTORE_STOREPASSWORD }}
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          resource-path: ./.github/build/android/dev/res
+          resource-path: ./.github/build/android/${{ env.BUILD_TYPE }}/res
           libs-path: ./ColdClear/
           extra-assets: ./libAndroid/
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
           version-code: ${{ needs.get-info.outputs.version-code }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
-      - name: Upload artifact
+      - name: Upload debug artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ needs.get-info.outputs.base-name }}_Android
-          path: ${{ env.OUTPUT_FOLDER }}/*
+          name: ${{ needs.get-info.outputs.base-name }}_Android_debug
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}-debug.apk
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_Android_release
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}-release.apk
+      - name: Prepare for release
+        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
+        shell: bash
+        run: |
+          mkdir -p release
+          mv ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}-release.apk release/${{ steps.process-app-name.outputs.product-name }}.apk
+      - name: Upload release
+        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
+        uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ github.event.head_commit.message }}
+          files: release/${{ steps.process-app-name.outputs.product-name }}.apk
+          prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
       - name: Upload to WeTransfer
         id: transfer
         run: |
           curl -sL https://git.io/file-transfer | sh 
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+      - name: Show download link
+        shell: bash
+        run: |
+          echo "::notice title=Android packages::${{ steps.transfer.outputs.download-url }}"
   build-ios:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
-    if: ${{ always() }}
     env:
       OUTPUT_FOLDER: ./build
     outputs:
@@ -197,7 +229,7 @@ jobs:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
           copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
-          icon-path: ./.github/build/iOS/dev/icon
+          icon-path: ./.github/build/iOS/${{ env.BUILD_TYPE }}/icon
           love-patch: ./.github/build/iOS/love.patch
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           libs-path: ./ColdClear/arm64/
@@ -211,22 +243,41 @@ jobs:
           api-issuer-id: ${{ secrets.APPLE_API_ISSUER_ID }}
           team-id: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
           apple-id: ${{ secrets.APPLE_APPLE_ID }}
-          external-test: true
-      - name: Upload artifact
+          external-test: ${{ startsWith(github.ref, 'refs/tags/pre') }}
+          store-release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+      - name: Upload logs artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ needs.get-info.outputs.base-name }}_iOS
-          path: ${{ env.OUTPUT_FOLDER }}/*
+          name: ${{ needs.get-info.outputs.base-name }}_iOS_logs
+          path: |
+            ${{ env.OUTPUT_FOLDER }}/DistributionSummary.plist
+            ${{ env.OUTPUT_FOLDER }}/ExportOptions.plist
+            ${{ env.OUTPUT_FOLDER }}/Packaging.log
+      - name: Upload ipa artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_iOS_ipa
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.ipa
+      - name: Upload release
+        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
+        uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ github.event.head_commit.message }}
+          files: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.ipa
+          prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
       - name: Upload to WeTransfer
         id: transfer
         run: |
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+      - name: Show download link
+        shell: bash
+        run: |
+          echo "::notice title=iOS packages::${{ steps.transfer.outputs.download-url }}"
   build-linux:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
-    if: ${{ !always() }}
     env:
       OUTPUT_FOLDER: ./build
     outputs:
@@ -263,29 +314,39 @@ jobs:
         id: build-packages
         uses: 26F-Studio/love-actions-linux@v1
         with:
-          desktop-file-path: ./.github/build/linux/dev/template.desktop
+          desktop-file-path: ./.github/build/linux/${{ env.BUILD_TYPE }}/template.desktop
           executable-name: app
-          icon-path: ./.github/build/linux/dev/icon.png
+          icon-path: ./.github/build/linux/${{ env.BUILD_TYPE }}/icon.png
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           libs-path: ./ColdClear/libs/
           shared-path: ./ColdClear/shared/
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
-      - name: Upload artifact
+      - name: Upload AppImage artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ needs.get-info.outputs.base-name }}_Linux
-          path: ${{ env.OUTPUT_FOLDER }}/*
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.AppImage
+      - name: Upload release
+        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
+        uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ github.event.head_commit.message }}
+          files: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.AppImage
+          prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
       - name: Upload to WeTransfer
         id: transfer
         run: |
           curl -sL https://git.io/file-transfer | sh 
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+      - name: Show download link
+        shell: bash
+        run: |
+          echo "::notice title=Linux packages::${{ steps.transfer.outputs.download-url }}"
   build-macos-appstore:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
-    if: ${{ always() }}
     env:
       OUTPUT_FOLDER: ./build
     outputs:
@@ -322,7 +383,7 @@ jobs:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
           copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
-          icon-path: ./.github/build/macOS/dev/icon.icns
+          icon-path: ./.github/build/macOS/${{ env.BUILD_TYPE }}/icon.icns
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           libs-path: ./ColdClear/universal/
           product-name: ${{ steps.process-app-name.outputs.product-name }}
@@ -335,22 +396,41 @@ jobs:
           api-issuer-id: ${{ secrets.APPLE_API_ISSUER_ID }}
           team-id: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
           apple-id: ${{ secrets.APPLE_APPLE_ID }}
-          external-test: true
-      - name: Upload artifact
+          external-test: ${{ startsWith(github.ref, 'refs/tags/pre') }}
+          store-release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+      - name: Upload logs artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ needs.get-info.outputs.base-name }}_macOS_appstore
-          path: ${{ env.OUTPUT_FOLDER }}/*
+          name: ${{ needs.get-info.outputs.base-name }}_macOS_appstore_logs
+          path: |
+            ${{ env.OUTPUT_FOLDER }}/DistributionSummary.plist
+            ${{ env.OUTPUT_FOLDER }}/ExportOptions.plist
+            ${{ env.OUTPUT_FOLDER }}/Packaging.log
+      - name: Upload pkg artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_macOS_appstore_pkg
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.pkg
+      - name: Upload release
+        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
+        uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ github.event.head_commit.message }}
+          files: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.pkg
+          prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
       - name: Upload to WeTransfer
         id: transfer
         run: |
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+      - name: Show download link
+        shell: bash
+        run: |
+          echo "::notice title=macOS App Store packages::${{ steps.transfer.outputs.download-url }}"
   build-macos-portable:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
-    if: ${{ !always() }}
     env:
       OUTPUT_FOLDER: ./build
     outputs:
@@ -387,7 +467,7 @@ jobs:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
           copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
-          icon-path: ./.github/build/macOS/dev/icon.icns
+          icon-path: ./.github/build/macOS/${{ env.BUILD_TYPE }}/icon.icns
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           libs-path: ./ColdClear/universal/
           product-name: ${{ steps.process-app-name.outputs.product-name }}
@@ -400,30 +480,52 @@ jobs:
           developer-id-application-password: ${{ secrets.APPLE_CERT_DEVELOPER_ID_APPLICATION_PWD }}
           developer-id-installer-base64: ${{ secrets.APPLE_CERT_DEVELOPER_ID_INSTALLER }}
           developer-id-installer-password: ${{ secrets.APPLE_CERT_DEVELOPER_ID_INSTALLER_PWD }}
-          dmg-background-path: ./.github/build/macOS/dev/dmg.png
+          dmg-background-path: ./.github/build/macOS/${{ env.BUILD_TYPE }}/dmg.png
           dmg-icon-position: "239 203"
           dmg-icon-size: "100"
           dmg-link-position: "565 203"
           dmg-text-size: "12"
-          dmg-volume-icon-path: ./.github/build/macOS/dev/dmg.icns
+          dmg-volume-icon-path: ./.github/build/macOS/${{ env.BUILD_TYPE }}/dmg.icns
           dmg-volume-name: ${{ steps.process-app-name.outputs.product-name }}
           dmg-window-position: "200 120"
           dmg-window-size: "800 500"
-      - name: Upload artifact
+      - name: Upload pkg artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ needs.get-info.outputs.base-name }}_macOS_portable
-          path: ${{ env.OUTPUT_FOLDER }}/*
+          name: ${{ needs.get-info.outputs.base-name }}_macOS_portable_pkg
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.pkg
+      - name: Upload dmg artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_macOS_portable_dmg
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.dmg
+      - name: Upload bare artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_macOS_portable_bare
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.zip
+      - name: Upload release
+        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
+        uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ github.event.head_commit.message }}
+          files: |
+            ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.pkg
+            ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.dmg
+          prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
       - name: Upload to WeTransfer
         id: transfer
         run: |
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+      - name: Show download link
+        shell: bash
+        run: |
+          echo "::notice title=macOS portable packages::${{ steps.transfer.outputs.download-url }}"
   build-windows:
     runs-on: windows-latest
     needs: [get-info, build-core, auto-test]
-    if: ${{ !always() }}
     env:
       OUTPUT_FOLDER: ./build
     outputs:
@@ -447,17 +549,31 @@ jobs:
         id: build-packages
         uses: 26F-Studio/love-actions-windows@v1
         with:
-          icon-path: ./.github/build/windows/dev/icon.ico
-          rc-path: ./.github/build/windows/dev/template.rc
+          icon-path: ./.github/build/windows/${{ env.BUILD_TYPE }}/icon.ico
+          rc-path: ./.github/build/windows/${{ env.BUILD_TYPE }}/template.rc
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
-      - name: Upload artifact
+      - name: Upload 32-bit artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ needs.get-info.outputs.base-name }}_Windows
-          path: ${{ env.OUTPUT_FOLDER }}/*
+          name: ${{ needs.get-info.outputs.base-name }}_Windows_x86
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_x86.zip
+      - name: Upload 64-bit artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_Windows_x64
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_x64.zip
+      - name: Upload release
+        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
+        uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ github.event.head_commit.message }}
+          files: |
+            ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_x86.zip
+            ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_x64.zip
+          prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
       - name: Get transfer
         env:
           TEMP_PATH: ./temp.zip
@@ -471,9 +587,13 @@ jobs:
         run: |
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+      - name: Show download link
+        shell: bash
+        run: |
+          echo "::notice title=Windows packages::${{ steps.transfer.outputs.download-url }}"
   post-build:
     runs-on: ubuntu-latest
-    if: ${{ !always() }}
+    if: ${{ always() }}
     needs:
       [
         get-info,
@@ -506,7 +626,7 @@ jobs:
             "description": "CI triggered at ${{ needs.get-info.outputs.commit-hash }}",
             "url":"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
             "thumbnail":{
-            "url":"https://raw.githubusercontent.com/${{ github.repository }}/main/.github/build/linux/dev/icon.png"
+            "url":"https://raw.githubusercontent.com/${{ github.repository }}/main/.github/build/linux/${{ env.BUILD_TYPE }}/icon.png"
             },
             "color":36863,
             "fields":[
