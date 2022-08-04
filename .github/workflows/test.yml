@@ -211,6 +211,7 @@ jobs:
           api-issuer-id: ${{ secrets.APPLE_API_ISSUER_ID }}
           team-id: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
           apple-id: ${{ secrets.APPLE_APPLE_ID }}
+          external-test: true
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
@@ -334,6 +335,7 @@ jobs:
           api-issuer-id: ${{ secrets.APPLE_API_ISSUER_ID }}
           team-id: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
           apple-id: ${{ secrets.APPLE_APPLE_ID }}
+          external-test: true
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
