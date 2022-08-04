@@ -82,6 +82,10 @@ jobs:
           curl -sL https://git.io/file-transfer | sh 
           ./transfer wet -s -p 16 --no-progress ${{ env.PACKAGE_NAME }} 2>&1>./wetransfer.log
           echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+      - name: Show download link
+        shell: bash
+        run: |
+          echo "::notice title='Bare love package'::${{ steps.transfer.outputs.download-url }}"
   auto-test:
     runs-on: ubuntu-latest
     needs: build-core
@@ -148,17 +152,26 @@ jobs:
           version-string: ${{ needs.get-info.outputs.version-string }}
           version-code: ${{ needs.get-info.outputs.version-code }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
-      - name: Upload artifact
+      - name: Upload debug artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ needs.get-info.outputs.base-name }}_Android
-          path: ${{ env.OUTPUT_FOLDER }}/*
+          name: ${{ needs.get-info.outputs.base-name }}_Android_debug
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}-debug.apk
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_Android_release
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}-release.apk
       - name: Upload to WeTransfer
         id: transfer
         run: |
           curl -sL https://git.io/file-transfer | sh 
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+      - name: Show download link
+        shell: bash
+        run: |
+          echo "::notice title='Android packages'::${{ steps.transfer.outputs.download-url }}"
   build-ios:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
@@ -208,17 +221,29 @@ jobs:
           api-issuer-id: ${{ secrets.APPLE_API_ISSUER_ID }}
           team-id: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
           apple-id: ${{ secrets.APPLE_APPLE_ID }}
-      - name: Upload artifact
+      - name: Upload logs artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ needs.get-info.outputs.base-name }}_iOS
-          path: ${{ env.OUTPUT_FOLDER }}/*
+          name: ${{ needs.get-info.outputs.base-name }}_iOS_logs
+          path: |
+            ${{ env.OUTPUT_FOLDER }}/DistributionSummary.plist
+            ${{ env.OUTPUT_FOLDER }}/ExportOptions.plist
+            ${{ env.OUTPUT_FOLDER }}/Packaging.log
+      - name: Upload ipa artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_iOS_ipa
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.ipa
       - name: Upload to WeTransfer
         id: transfer
         run: |
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+      - name: Show download link
+        shell: bash
+        run: |
+          echo "::notice title='iOS packages'::${{ steps.transfer.outputs.download-url }}"
   build-linux:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
@@ -266,17 +291,21 @@ jobs:
           shared-path: ./ColdClear/shared/
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
-      - name: Upload artifact
+      - name: Upload AppImage artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ needs.get-info.outputs.base-name }}_Linux
-          path: ${{ env.OUTPUT_FOLDER }}/*
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.AppImage
       - name: Upload to WeTransfer
         id: transfer
         run: |
           curl -sL https://git.io/file-transfer | sh 
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+      - name: Show download link
+        shell: bash
+        run: |
+          echo "::notice title='Linux packages'::${{ steps.transfer.outputs.download-url }}"
   build-macos-appstore:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
@@ -329,17 +358,29 @@ jobs:
           api-issuer-id: ${{ secrets.APPLE_API_ISSUER_ID }}
           team-id: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
           apple-id: ${{ secrets.APPLE_APPLE_ID }}
-      - name: Upload artifact
+      - name: Upload logs artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ needs.get-info.outputs.base-name }}_macOS_appstore
-          path: ${{ env.OUTPUT_FOLDER }}/*
+          name: ${{ needs.get-info.outputs.base-name }}_macOS_appstore_logs
+          path: |
+            ${{ env.OUTPUT_FOLDER }}/DistributionSummary.plist
+            ${{ env.OUTPUT_FOLDER }}/ExportOptions.plist
+            ${{ env.OUTPUT_FOLDER }}/Packaging.log
+      - name: Upload pkg artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_macOS_appstore_pkg
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.pkg
       - name: Upload to WeTransfer
         id: transfer
         run: |
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+      - name: Show download link
+        shell: bash
+        run: |
+          echo "::notice title='macOS App Store packages'::${{ steps.transfer.outputs.download-url }}"
   build-macos-portable:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
@@ -401,17 +442,31 @@ jobs:
           dmg-volume-name: ${{ steps.process-app-name.outputs.product-name }}
           dmg-window-position: "200 120"
           dmg-window-size: "800 500"
-      - name: Upload artifact
+      - name: Upload pkg artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ needs.get-info.outputs.base-name }}_macOS_portable
-          path: ${{ env.OUTPUT_FOLDER }}/*
+          name: ${{ needs.get-info.outputs.base-name }}_macOS_portable_pkg
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.pkg
+      - name: Upload dmg artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_macOS_portable_pkg
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.dmg
+      - name: Upload bare artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_macOS_portable_bare
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.zip
       - name: Upload to WeTransfer
         id: transfer
         run: |
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+      - name: Show download link
+        shell: bash
+        run: |
+          echo "::notice title='macOS portable packages'::${{ steps.transfer.outputs.download-url }}"
   build-windows:
     runs-on: windows-latest
     needs: [get-info, build-core, auto-test]
@@ -444,11 +499,16 @@ jobs:
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
-      - name: Upload artifact
+      - name: Upload 32-bit artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ needs.get-info.outputs.base-name }}_Windows
-          path: ${{ env.OUTPUT_FOLDER }}/*
+          name: ${{ needs.get-info.outputs.base-name }}_Windows_x86
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_x86.zip
+      - name: Upload 64-bit artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_Windows_x64
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_x64.zip
       - name: Get transfer
         env:
           TEMP_PATH: ./temp.zip
@@ -462,6 +522,10 @@ jobs:
         run: |
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+      - name: Show download link
+        shell: bash
+        run: |
+          echo "::notice title='Windows packages'::${{ steps.transfer.outputs.download-url }}"
   post-build:
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -483,23 +547,6 @@ jobs:
         uses: geekyeggo/delete-artifact@v1
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
-      - name: Show download Links
-        shell: bash
-        run: |
-          DOWNLOAD_LINKS=$(cat << EOF
-          Core: ${{ needs.build-core.outputs.download-url}}
-          Android: ${{ needs.build-android.outputs.download-url }}
-          iOS: ${{ needs.build-ios.outputs.download-url }}
-          Linux: ${{ needs.build-linux.outputs.download-url }}
-          macOS App Store: ${{ needs.build-macos-appstore.outputs.download-url }}
-          macOS portable: ${{ needs.build-macos-portable.outputs.download-url }}
-          Windows: ${{ needs.build-windows.outputs.download-url}}
-          EOF
-          )
-          DOWNLOAD_LINKS="${DOWNLOAD_LINKS//'%'/'%25'}"
-          DOWNLOAD_LINKS="${DOWNLOAD_LINKS//$'\n'/'%0A'}"
-          DOWNLOAD_LINKS="${DOWNLOAD_LINKS//$'\r'/'%0D'}"
-          echo "::notice title=Downloads::$DOWNLOAD_LINKS"
       - name: Send Discord message
         uses: Sniddl/discord-commits@v1.3
         with:
