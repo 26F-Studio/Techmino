@@ -6,10 +6,12 @@ on:
     tags: [pre*, v*]
   pull_request:
     branches: [main]
+
 env:
   BUILD_TYPE: ${{ fromJSON('["dev", "release"]')[startsWith(github.ref, 'refs/tags/v')] }}
   CORE_LOVE_PACKAGE_PATH: ./core.love
   CORE_LOVE_ARTIFACT_NAME: core_love_package
+
 jobs:
   get-info:
     runs-on: ubuntu-latest
@@ -46,6 +48,7 @@ jobs:
         run: |
           BASE_NAME=Techmino_${{ steps.app-info.outputs.version-string }}_${{ steps.git-info.outputs.commit-hash }}_#${{ GITHUB.RUN_NUMBER }}
           echo ::set-output name=base-name::$BASE_NAME
+
   build-core:
     runs-on: ubuntu-latest
     needs: get-info
@@ -58,6 +61,7 @@ jobs:
         with:
           submodules: recursive
       - uses: ./.github/actions/update-version
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
         with:
           commit: ${{ needs.get-info.outputs.commit-hash }}
           type: snapshot
@@ -95,6 +99,7 @@ jobs:
         shell: bash
         run: |
           echo "::notice title=Bare love package::${{ steps.transfer.outputs.download-url }}"
+
   auto-test:
     runs-on: ubuntu-latest
     needs: build-core
@@ -107,6 +112,7 @@ jobs:
         with:
           font-path: ./parts/fonts/proportional.otf
           language-folder: ./parts/language
+
   build-android:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
@@ -194,6 +200,7 @@ jobs:
         shell: bash
         run: |
           echo "::notice title=Android packages::${{ steps.transfer.outputs.download-url }}"
+
   build-ios:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
@@ -275,6 +282,7 @@ jobs:
         shell: bash
         run: |
           echo "::notice title=iOS packages::${{ steps.transfer.outputs.download-url }}"
+
   build-linux:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
@@ -344,6 +352,7 @@ jobs:
         shell: bash
         run: |
           echo "::notice title=Linux packages::${{ steps.transfer.outputs.download-url }}"
+
   build-macos-appstore:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
@@ -428,6 +437,7 @@ jobs:
         shell: bash
         run: |
           echo "::notice title=macOS App Store packages::${{ steps.transfer.outputs.download-url }}"
+
   build-macos-portable:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
@@ -523,6 +533,7 @@ jobs:
         shell: bash
         run: |
           echo "::notice title=macOS portable packages::${{ steps.transfer.outputs.download-url }}"
+
   build-windows:
     runs-on: windows-latest
     needs: [get-info, build-core, auto-test]
@@ -591,6 +602,7 @@ jobs:
         shell: bash
         run: |
           echo "::notice title=Windows packages::${{ steps.transfer.outputs.download-url }}"
+
   post-build:
     runs-on: ubuntu-latest
     if: ${{ always() }}
