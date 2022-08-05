@@ -65,15 +65,18 @@ function scene.draw()
         gc.draw(IMG.miyaHeart,162,52,nil,.3)
     elseif vocPack=="mono"then
         local jump=math.max(30-(TIME()-last1)*60,0)%10
-        gc.translate(760,340+6*sin(TIME()*.5)+(jump-10)*jump*.3)
-        gc.draw(IMG.monoCH,-30)
+        gc.translate(730,340+6*sin(TIME()*.5)+(jump-10)*jump*.3)
+        gc.draw(IMG.monoCH)
     elseif vocPack=="xiaoya"then
         gc.translate(770,340+4*sin(TIME()*.5))
         gc.draw(IMG.xiaoyaCH)
         gc.draw(IMG.xiaoyaOmino,16,168,26/(1+TIME()-last1),.36,.36,33,37)
     elseif vocPack=="miku"then
-        gc.translate(800,340+12*sin(TIME()*.5))
-        gc.draw(IMG.mikuCH,-30)
+        gc.translate(630,350+12*sin(TIME()*.5))
+        gc.draw(IMG.mikuCH)
+    elseif vocPack=="rin"then
+        gc.translate(780,320+12*sin(TIME()*.5))
+        gc.draw(IMG.rinCH)
     end
     gc.pop()
 end

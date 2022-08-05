@@ -3,7 +3,10 @@ return[=[
         R E M A K E
 
 0.17.6: 昏暗 Dim
+        新增:
+                新语音包:rin(by vocaloidvictory)
         改动:
+                更换miku立绘
                 按钮改为松开触发，按下后移走可以取消按下状态
         修复:
                 BGM有时候会不循环

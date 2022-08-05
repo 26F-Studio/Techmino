@@ -30,7 +30,7 @@ SAVEDIR=fs.getSaveDirectory()
 
 --Global Vars & Settings
 SFXPACKS={'chiptune'}
-VOCPACKS={'miya','mono','xiaoya','miku'}
+VOCPACKS={'miya','mono','xiaoya','miku','rin'}
 FIRSTLAUNCH=false
 DAILYLAUNCH=false
 
@@ -291,6 +291,7 @@ IMG.init{
     xiaoyaCH='media/image/characters/xiaoya.png',
     xiaoyaOmino='media/image/characters/xiaoya_Omino.png',
     mikuCH='media/image/characters/miku.png',
+    rinCH='media/image/characters/rin.png',
     z={
         character='media/image/characters/z_character.png',
         screen1='media/image/characters/z_screen1.png',
