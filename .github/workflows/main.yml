@@ -167,11 +167,6 @@ jobs:
           version-string: ${{ needs.get-info.outputs.version-string }}
           version-code: ${{ needs.get-info.outputs.version-code }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
-      - name: Upload debug artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ needs.get-info.outputs.base-name }}_Android_debug
-          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}-debug.apk
       - name: Upload release artifact
         uses: actions/upload-artifact@v3
         with:
@@ -618,6 +613,8 @@ jobs:
         build-macos-portable,
         build-windows,
       ]
+    env:
+      ACTION_TYPE: ${{ fromJSON('[["Development", "Pre-release"], ["Release", "Release"]]')[startsWith(github.ref, 'refs/tags/v')][startsWith(github.ref, 'refs/tags/pre')] }}
     steps:
       - uses: actions/checkout@v3
       - name: Cleanup
@@ -631,7 +628,7 @@ jobs:
           message: "Github Actions for **${{ github.repository }}**."
           embed: '{
             "author":{
-            "name":"${{ needs.get-info.outputs.app-name }} [Development]",
+            "name":"${{ needs.get-info.outputs.app-name }} [${{ env.ACTION_TYPE }}]",
             "url":"https://github.com/${{ github.repository }}"
             },
             "title":"${{ needs.get-info.outputs.app-name }} (${{ needs.get-info.outputs.version-name }}) Build Result",
