@@ -88,7 +88,7 @@ string.repD=STRING.repD
 string.sArg=STRING.sArg
 string.split=STRING.split
 
---Delete all naked files (from too old version)
+--Delete all naked files (from ancient versions)
 FILE.clear('')
 
 --Create directories
@@ -241,7 +241,7 @@ if
         pcall(TABLE.cover, loadFile('conf/virtualkey','-json -canSkip')or loadFile('conf/virtualkey','-luaon -canSkip')or{},VK_ORG)
     )
 then
-    MES.new('error',"Be careful, an error accured when loading saving, some data was lost")
+    MES.new('error',"An error occured during loading, and some data was lost.")
 end
 
 --Initialize fields, sequence, missions, gameEnv for cutsom game
