@@ -1,9 +1,10 @@
 return[=[
 未来计划:
-        R E M A K E
+        正在点亮科技树...
 
 0.17.6: 昏暗 Dim
         新增:
+                mono语音包重录
                 新语音包:rin(by vocaloidvictory)
         改动:
                 更换miku立绘
