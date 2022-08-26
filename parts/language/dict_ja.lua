@@ -750,6 +750,11 @@ return{
         "term",
         "\"Doing scientific research\" is a term sometimes used in the Chinese community, referring to researching/practicing techniques in a low-falling-speed, single-player environment.",
     },
+    {"Keymapping",
+        "feel",
+        "term",
+        "",-- TODO
+    },
     {"Handling",
         "feel handling",
         "term",
