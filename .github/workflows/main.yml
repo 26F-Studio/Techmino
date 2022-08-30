@@ -551,6 +551,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Download ColdClear
+        uses: ./.github/actions/get-cc
+        with:
+          platform: Windows
+          dir: ./ColdClear
       - name: Build Windows packages
         id: build-packages
         uses: 26F-Studio/love-actions-windows@v1
@@ -558,6 +563,8 @@ jobs:
           icon-path: ./.github/build/windows/${{ env.BUILD_TYPE }}/icon.ico
           rc-path: ./.github/build/windows/${{ env.BUILD_TYPE }}/template.rc
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+          extra-assets-x86: ./ColdClear/x86/CCloader.dll ./ColdClear/x86/cold_clear.dll
+          extra-assets-x64: ./ColdClear/x64/CCloader.dll ./ColdClear/x64/cold_clear.dll
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
