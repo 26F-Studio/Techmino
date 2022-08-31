@@ -53,13 +53,20 @@ jobs:
     runs-on: ubuntu-latest
     needs: get-info
     env:
-      PACKAGE_NAME: ./${{ needs.get-info.outputs.base-name }}_Core.love
+      OUTPUT_FOLDER: ./build
     outputs:
       download-url: ${{ steps.transfer.outputs.download-url }}
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
+      - name: Process app name
+        id: process-app-name
+        shell: python3 {0}
+        run: |
+          import os
+          import re
+          os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
       - uses: ./.github/actions/update-version
         if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
         with:
@@ -76,18 +83,20 @@ jobs:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
           path: ${{ env.CORE_LOVE_PACKAGE_PATH }}
       - name: Rename love package
-        run: mv ${{ env.CORE_LOVE_PACKAGE_PATH }} ${{ env.PACKAGE_NAME }}
+        run: |
+          mkdir -p ${{ env.OUTPUT_FOLDER }}
+          mv ${{ env.CORE_LOVE_PACKAGE_PATH }} ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.love
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ needs.get-info.outputs.base-name }}_Core
-          path: ${{ env.PACKAGE_NAME }}
+          name: ${{ needs.get-info.outputs.base-name }}_Core_love
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.love
       - name: Upload release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
         uses: softprops/action-gh-release@v1
         with:
           body: ${{ github.event.head_commit.message }}
-          files: ${{ env.PACKAGE_NAME }}
+          files: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.love
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
       - name: Upload to WeTransfer
         id: transfer
