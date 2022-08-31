@@ -102,7 +102,7 @@ jobs:
         id: transfer
         run: |
           curl -sL https://git.io/file-transfer | sh 
-          ./transfer wet -s -p 16 --no-progress ${{ env.PACKAGE_NAME }} 2>&1>./wetransfer.log
+          ./transfer wet -s -p 16 --no-progress ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.love 2>&1>./wetransfer.log
           echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
       - name: Show download link
         shell: bash
@@ -337,7 +337,7 @@ jobs:
       - name: Upload AppImage artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ needs.get-info.outputs.base-name }}_Linux
+          name: ${{ needs.get-info.outputs.base-name }}_Linux_AppImage
           path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.AppImage
       - name: Upload release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
