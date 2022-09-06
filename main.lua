@@ -277,7 +277,6 @@ IMG.init{
     lifeIcon='media/image/mess/life.png',
     badgeIcon='media/image/mess/badge.png',
     ctrlSpeedLimit='media/image/mess/ctrlSpeedLimit.png',
-    speedLimit='media/image/mess/speedLimit.png',--Not used, for future C2-mode
     pay1='media/image/mess/pay1.png',
     pay2='media/image/mess/pay2.png',
 
