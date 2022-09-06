@@ -15,9 +15,9 @@ return{
                 local D=P.modeData
                 D.counter=D.counter+1
                 local t=
-                    D.wave<=60 and 360-D.wave*3 or
-                    D.wave<=120 and 180-(D.wave-60)*2 or
-                    D.wave<=180 and 120-(D.wave-120)or
+                    D.wave<=40 and 360-D.wave*4 or
+                    D.wave<=80 and 200-(D.wave-40)*2 or
+                    D.wave<=140 and 120-(D.wave-80) or
                     60
                 if D.counter>=t then
                     D.counter=0
