@@ -363,10 +363,21 @@ function scene.draw()
     gc_setColor(1,1,1,.82)
     gc_draw(TEXTOBJ.modeName,modeTextPos,10,0,modeTextWidK,1)
     local M=GAME.curMode
-    if M and M.score and M.records[1]then
-        setFont(15)
-        gc_setColor(1,1,1,.6)
-        gc_print(M.scoreDisp(M.records[1]),modeTextPos,45)
+    if M then
+        if M.score and M.records[1]then
+            setFont(15)
+            gc_setColor(1,1,1,.6)
+            gc_print(M.scoreDisp(M.records[1]),modeTextPos,45)
+        end
+        if M.getRank then
+            local R=M.getRank(PLAYERS[1])
+            if R and R>0 then
+                setFont(100)
+                local c=RANK_COLORS[R]
+                gc_setColor(c[1],c[2],c[3],.12)
+                mStr(RANK_CHARS[R],640,50)
+            end
+        end
     end
 
     --Replaying
