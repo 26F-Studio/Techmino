@@ -149,17 +149,15 @@ do--Z.setCursor
         {'dCirc',8,8,7},
         {'fCirc',8,8,3},
     }
-    local min,int,abs=math.min,math.floor,math.abs
-    local ms=love.mouse
     Z.setCursor(function(time,x,y)
         if not SETTING.sysCursor then
-            local R=int((time+1)/2)%7+1
+            local R=math.floor((time+1)/2)%7+1
             _=BLOCK_COLORS[SETTING.skin[R]]
-            GC.setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
+            GC.setColor(_[1],_[2],_[3],math.min(math.abs(1-time%2),.3))
             _=DSCP[R][0]
-            GC.draw(TEXTURE.miniBlock[R],x,y,time%3.14159265359*4,8,8,2*_[2]+1,2*(#BLOCKS[R][0]-_[1])-1)
+            GC.draw(TEXTURE.miniBlock[R],x,y,time%math.pi*4,8,8,2*_[2]+1,2*(#BLOCKS[R][0]-_[1])-1)
             GC.setColor(1,1,1)
-            GC.draw(ms.isDown(1)and holdImg or normImg,x,y,nil,nil,nil,8,8)
+            GC.draw(love.mouse.isDown(1)and holdImg or normImg,x,y,nil,nil,nil,8,8)
         end
     end)
 end

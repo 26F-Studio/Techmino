@@ -199,7 +199,7 @@ return{
         "Stat.FErr/FRate = ",
     },
     aboutTexts={
-        "/*这只是一个普通的方块游戏",
+        "/*这只是一个普通的*方块游戏*",
         "从C2/IO/JS/WWC/KOS等方块获得过灵感",
         "",
         "使用LÖVE引擎",
