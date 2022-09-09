@@ -4,7 +4,7 @@ return{
         drop=150,lock=1e99,
         mesDisp=function(P)
             setFont(60)
-            mStr(P.stat.pc,63,340)
+            GC.mStr(P.stat.pc,63,340)
             mText(TEXTOBJ.pc,63,410)
         end,
         eventSet='checkLine_100',

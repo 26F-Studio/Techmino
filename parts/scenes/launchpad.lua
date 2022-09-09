@@ -1,8 +1,7 @@
-local gc=love.graphics
-local gc_push,gc_pop=gc.push,gc.pop
-local gc_translate=gc.translate
-local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
-local gc_rectangle,gc_circle=gc.rectangle,gc.circle
+local gc_push,gc_pop=GC.push,GC.pop
+local gc_translate=GC.translate
+local gc_setColor,gc_setLineWidth=GC.setColor,GC.setLineWidth
+local gc_rectangle,gc_circle=GC.rectangle,GC.circle
 
 local isDown=love.keyboard.isDown
 

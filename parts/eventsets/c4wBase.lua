@@ -3,8 +3,8 @@ local rem=table.remove
 return{
     mesDisp=function(P)
         setFont(45)
-        mStr(P.combo,63,310)
-        mStr(P.modeData.maxCombo,63,400)
+        GC.mStr(P.combo,63,310)
+        GC.mStr(P.modeData.maxCombo,63,400)
         mText(TEXTOBJ.combo,63,358)
         mText(TEXTOBJ.maxcmb,63,450)
     end,

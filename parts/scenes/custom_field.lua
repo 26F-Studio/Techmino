@@ -347,8 +347,8 @@ function scene.draw()
     --Draw page
     setFont(55)
     gc.setColor(COLOR.Z)
-    mStr(page,100,530)
-    mStr(#FIELD,100,600)
+    GC.mStr(page,100,530)
+    GC.mStr(#FIELD,100,600)
     gc.rectangle('fill',50,600,100,6)
 
     --Draw mouse & pen color
@@ -431,7 +431,7 @@ function scene.draw()
     gc.setColor(1,1,1)
     for i=1,7 do
         local skin=SETTING.skin[i]-1
-        mStr(text.block[i],580+(skin%8)*80,90+80*int(skin/8))
+        GC.mStr(text.block[i],580+(skin%8)*80,90+80*int(skin/8))
     end
 end
 

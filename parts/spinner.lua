@@ -1,5 +1,3 @@
-local gc=love.graphics
-
 local Spinner={
     data={},
     totalFreq=0,
@@ -53,45 +51,45 @@ function Spinner:update(dt)
     end
 end
 function Spinner:draw(x,y)
-    gc.push('transform')
-    gc.translate(x,y)
+    GC.push('transform')
+    GC.translate(x,y)
 
     --Draw circle
-    gc.setColor(1,1,1)
-    gc.setLineWidth(3)
-    gc.circle('line',0,0,300)
+    GC.setColor(1,1,1)
+    GC.setLineWidth(3)
+    GC.circle('line',0,0,300)
 
     --Draw areas
-    gc.setLineWidth(1)
+    GC.setLineWidth(1)
     local freq=0
     for i=1,#self.data do
-        gc.line(10,0,290,0)
+        GC.line(10,0,290,0)
         local D=self.data[i]
         freq=freq+D.freq
         if D==self.chosen then
-            gc.setColor(1,1,1,.5*self.light)
-            gc.arc('fill','pie',0,0,300,0,-D.freq*MATH.tau/self.totalFreq)
-            gc.setColor(1,1,1)
+            GC.setColor(1,1,1,.5*self.light)
+            GC.arc('fill','pie',0,0,300,0,-D.freq*MATH.tau/self.totalFreq)
+            GC.setColor(1,1,1)
         end
         local dAng=-MATH.tau*D.freq/self.totalFreq
-        gc.rotate(dAng*.5)
+        GC.rotate(dAng*.5)
         if D.amount>0 then
             setFont(D.font)
             if D.amount==1 then
-                mStr(D.disp,170,-D.font*.7)
+                GC.mStr(D.disp,170,-D.font*.7)
             else
-                mStr(D.disp.."x"..D.amount,170,-D.font*.7)
+                GC.mStr(D.disp.."x"..D.amount,170,-D.font*.7)
             end
         end
-        gc.rotate(dAng*.5)
+        GC.rotate(dAng*.5)
     end
 
-    gc.pop()
+    GC.pop()
 
     --Draw target pin
-    gc.setLineWidth(2)
-    gc.setColor(1,.3,.3)
-    gc.line(x,y,x+200*math.cos(self.angle),y-200*math.sin(self.angle))
+    GC.setLineWidth(2)
+    GC.setColor(1,.3,.3)
+    GC.line(x,y,x+200*math.cos(self.angle),y-200*math.sin(self.angle))
 end
 function Spinner.new(data,hook_stop)
     local self={}

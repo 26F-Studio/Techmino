@@ -1,25 +1,23 @@
-local gc=love.graphics
-
 local function NSC(x,y)--New & Set Canvas
-    local _=gc.newCanvas(x,y)
-    gc.setCanvas(_)
+    local _=GC.newCanvas(x,y)
+    GC.setCanvas(_)
     return _
 end
 local TEXTURE={}
 
 
-gc.setDefaultFilter('nearest','nearest')
+GC.setDefaultFilter('nearest','nearest')
 
 
 TEXTURE.miniBlock={}--29 mini blocks image
 do
-    gc.setColor(1,1,1)
+    GC.setColor(1,1,1)
     for i=1,29 do
         local b=BLOCKS[i][0]
         TEXTURE.miniBlock[i]=NSC(#b[1]*2,#b*2)
         for y=1,#b do for x=1,#b[1]do
             if b[y][x]then
-                gc.rectangle('fill',2*(x-1),2*(#b-y),2,2)
+                GC.rectangle('fill',2*(x-1),2*(#b-y),2,2)
             end
         end end
     end
@@ -27,7 +25,7 @@ end
 
 TEXTURE.puzzleMark={}--Texture for puzzle mode
 do
-    gc.setLineWidth(2)
+    GC.setLineWidth(2)
     for i=1,17 do
         TEXTURE.puzzleMark[i]=GC.DO{30,30,
             {'setLW',2},
@@ -66,50 +64,50 @@ for i=0,9 do
 end
 
 
-gc.setDefaultFilter('linear','linear')
+GC.setDefaultFilter('linear','linear')
 
 
 TEXTURE.title=NSC(1040,236)--Title image (Middle: 580,118)
 do
-    gc.translate(10,10)
-    gc.setColor(.2,.2,.2)
+    GC.translate(10,10)
+    GC.setColor(.2,.2,.2)
     for i=1,#SVG_TITLE_FILL do
         local triangles=love.math.triangulate(SVG_TITLE_FILL[i])
         for j=1,#triangles do
-            gc.polygon('fill',triangles[j])
+            GC.polygon('fill',triangles[j])
         end
     end
-    gc.setLineWidth(6)
-    gc.setColor(COLOR.Z)
+    GC.setLineWidth(6)
+    GC.setColor(COLOR.Z)
     for i=1,#SVG_TITLE_LINE do
-        gc.polygon('line',SVG_TITLE_LINE[i])
+        GC.polygon('line',SVG_TITLE_LINE[i])
     end
-    gc.translate(-10,-10)
+    GC.translate(-10,-10)
 end
 
 TEXTURE.title_color=NSC(1040,236)--Title image (colored)
 do
     local titleColor={COLOR.P,COLOR.F,COLOR.V,COLOR.A,COLOR.M,COLOR.N,COLOR.W,COLOR.Y}
 
-    gc.translate(10,10)
+    GC.translate(10,10)
     for i=1,#SVG_TITLE_FILL do
         local triangles=love.math.triangulate(SVG_TITLE_FILL[i])
-        gc.setColor(COLOR.D)
+        GC.setColor(COLOR.D)
         for j=1,#triangles do
-            gc.polygon('fill',triangles[j])
+            GC.polygon('fill',triangles[j])
         end
 
-        gc.setColor(.2+.8*titleColor[i][1],.2+.8*titleColor[i][2],.2+.8*titleColor[i][3],.3)
+        GC.setColor(.2+.8*titleColor[i][1],.2+.8*titleColor[i][2],.2+.8*titleColor[i][3],.3)
         for j=1,#triangles do
-            gc.polygon('fill',triangles[j])
+            GC.polygon('fill',triangles[j])
         end
     end
-    gc.setLineWidth(6)
-    gc.setColor(COLOR.Z)
+    GC.setLineWidth(6)
+    GC.setColor(COLOR.Z)
     for i=1,#SVG_TITLE_LINE do
-        gc.polygon('line',SVG_TITLE_LINE[i])
+        GC.polygon('line',SVG_TITLE_LINE[i])
     end
-    gc.translate(-10,-10)
+    GC.translate(-10,-10)
 end
 
 TEXTURE.multiple=GC.DO{15,15,
@@ -147,5 +145,5 @@ TEXTURE.dial={
     }
 }
 
-gc.setCanvas()
+GC.setCanvas()
 return TEXTURE

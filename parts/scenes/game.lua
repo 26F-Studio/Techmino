@@ -1,9 +1,7 @@
-local gc,tc=love.graphics,love.touch
-local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
-local gc_draw,gc_line=gc.draw,gc.line
-local gc_circle,gc_print=gc.circle,gc.print
-
-local sin=math.sin
+local tc=love.touch
+local gc_setColor,gc_setLineWidth=GC.setColor,GC.setLineWidth
+local gc_draw,gc_line=GC.draw,GC.line
+local gc_circle,gc_print=GC.circle,GC.print
 
 local SCR,VK=SCR,VK
 local GAME,PLAYERS=GAME,PLAYERS
@@ -308,11 +306,11 @@ function scene.update(dt)
     end
 end
 
-local tasText=gc.newText(getFont(100),"TAS")
+local tasText=GC.newText(getFont(100),"TAS")
 local function _drawAtkPointer(x,y)
     local t=TIME()
     local a=t*3%1*.8
-    t=sin(t*20)
+    t=math.sin(t*20)
 
     gc_setColor(.2,.7+t*.2,1,.6+t*.4)
     gc_circle('fill',x,y,25,6)

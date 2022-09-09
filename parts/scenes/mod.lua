@@ -1,7 +1,3 @@
-local gc=love.graphics
-local kb=love.keyboard
-local ins,rem=table.insert,table.remove
-
 local scene={}
 
 local selected--Mod selected
@@ -12,12 +8,12 @@ end
 local function _remMod(M)
     local i=TABLE.find(GAME.mod,M)
     if i then
-        rem(GAME.mod,i)
+        table.remove(GAME.mod,i)
     end
 end
 local function _toggleMod(M,back)
     if M.sel==0 then
-        ins(GAME.mod,M)
+        table.insert(GAME.mod,M)
         table.sort(GAME.mod,_modComp)
     end
     if M.list then
@@ -60,7 +56,7 @@ end
 function scene.mouseDown(x,y,k)
     for _,M in next,MODOPT do
         if(x-M.x)^2+(y-M.y)^2<2000 then
-            _toggleMod(M,k==2 or kb.isDown('lshift','rshift'))
+            _toggleMod(M,k==2 or love.keyboard.isDown('lshift','rshift'))
             break
         end
     end
@@ -76,7 +72,7 @@ function scene.keyDown(key)
     if key=='tab'or key=='delete'then
         if GAME.mod[1]then
             while GAME.mod[1]do
-                rem(GAME.mod).sel=0
+                table.remove(GAME.mod).sel=0
             end
             scene.widgetList.unranked.hide=scoreValid()
             SFX.play('hold')
@@ -84,7 +80,7 @@ function scene.keyDown(key)
     elseif #key==1 then
         for _,M in next,MODOPT do
             if key==M.key then
-                _toggleMod(M,kb.isDown('lshift','rshift'))
+                _toggleMod(M,love.keyboard.isDown('lshift','rshift'))
                 selected=M
                 break
             end
@@ -109,13 +105,13 @@ function scene.update()
 end
 function scene.draw()
     setFont(40)
-    gc.setLineWidth(5)
+    GC.setLineWidth(5)
     for _,M in next,MODOPT do
-        gc.push('transform')
-        gc.translate(M.x,M.y)
+        GC.push('transform')
+        GC.translate(M.x,M.y)
         local t=M.time*.01--t range:0~0.1
-        gc.scale(1+3*t)
-        gc.rotate(t)
+        GC.scale(1+3*t)
+        GC.rotate(t)
             local rad,side
             if M.unranked then
                 rad,side=45,5
@@ -123,34 +119,34 @@ function scene.draw()
                 rad=40
             end
             local color=M.color
-            gc.setColor(color[1],color[2],color[3],5*t)
-            gc.circle('fill',0,0,rad,side)
+            GC.setColor(color[1],color[2],color[3],5*t)
+            GC.circle('fill',0,0,rad,side)
 
-            gc.setColor(color)
-            gc.circle('line',0,0,rad,side)
-            gc.setColor(COLOR.Z)
-            mStr(M.id,0,-27)
+            GC.setColor(color)
+            GC.circle('line',0,0,rad,side)
+            GC.setColor(COLOR.Z)
+            GC.mStr(M.id,0,-27)
             if M.sel>0 and M.list then
                 setFont(25)
-                gc.setColor(1,1,1,10*t)
-                mStr(M.list[M.sel],20,8)
+                GC.setColor(1,1,1,10*t)
+                GC.mStr(M.list[M.sel],20,8)
                 setFont(40)
             end
 
             if M.list then
-                gc.setColor(1,1,1,t*6)
-                gc.arc('line','open',0,0,rad+6,0,(M.sel/#M.list)*6.2832)
+                GC.setColor(1,1,1,t*6)
+                GC.arc('line','open',0,0,rad+6,0,(M.sel/#M.list)*6.2832)
             end
-        gc.pop()
+        GC.pop()
     end
 
-    gc.setColor(COLOR.Z)
+    GC.setColor(COLOR.Z)
     if selected then
         setFont(30)
-        gc.printf(text.modInfo[selected.name],70,540,950)
+        GC.printf(text.modInfo[selected.name],70,540,950)
     else
         setFont(25)
-        gc.printf(text.modInstruction,70,540,950)
+        GC.printf(text.modInstruction,70,540,950)
     end
 end
 

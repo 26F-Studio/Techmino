@@ -80,9 +80,8 @@ table.insert(_LOADTIMELIST_,("Load Zframework: %.3fs"):format(TIME()-_LOADTIME_)
 --Create shortcuts
 setFont=FONT.set
 getFont=FONT.get
-mStr=GC.mStr
 mText=GC.simpX
-mDraw=GC.draw
+mDraw=GC.mDraw
 Snd=SFX.playSample
 string.repD=STRING.repD
 string.sArg=STRING.sArg
@@ -151,17 +150,16 @@ do--Z.setCursor
         {'fCirc',8,8,3},
     }
     local min,int,abs=math.min,math.floor,math.abs
-    local gc_setColor,gc_draw=love.graphics.setColor,love.graphics.draw
     local ms=love.mouse
     Z.setCursor(function(time,x,y)
         if not SETTING.sysCursor then
             local R=int((time+1)/2)%7+1
             _=BLOCK_COLORS[SETTING.skin[R]]
-            gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
+            GC.setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
             _=DSCP[R][0]
-            gc_draw(TEXTURE.miniBlock[R],x,y,time%3.14159265359*4,8,8,2*_[2]+1,2*(#BLOCKS[R][0]-_[1])-1)
-            gc_setColor(1,1,1)
-            gc_draw(ms.isDown(1)and holdImg or normImg,x,y,nil,nil,nil,8,8)
+            GC.draw(TEXTURE.miniBlock[R],x,y,time%3.14159265359*4,8,8,2*_[2]+1,2*(#BLOCKS[R][0]-_[1])-1)
+            GC.setColor(1,1,1)
+            GC.draw(ms.isDown(1)and holdImg or normImg,x,y,nil,nil,nil,8,8)
         end
     end)
 end

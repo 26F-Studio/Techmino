@@ -3,7 +3,6 @@ local kb=love.keyboard
 
 local sin=math.sin
 local ins,rem=table.insert,table.remove
-local setFont=FONT.set
 local gc_setColor,gc_print=gc.setColor,gc.print
 
 local scene={}

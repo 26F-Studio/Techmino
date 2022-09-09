@@ -10,7 +10,7 @@ end
 function scene.draw()
     gc.setColor(COLOR.Z)
     setFont(100)
-    mStr("Tech League",640,120)
+    GC.mStr("Tech League",640,120)
     drawSelfProfile()
     drawOnlinePlayerCount()
 end

@@ -3,7 +3,7 @@ return{
     fillClear=false,
     mesDisp=function(P)
         setFont(60)
-        mStr(P.stat.row,63,280)
+        GC.mStr(P.stat.row,63,280)
         mText(TEXTOBJ.line,63,350)
         PLY.draw.drawMarkLine(P,20,.3,1,1,TIME()%.42<.21 and .95 or .6)
     end,

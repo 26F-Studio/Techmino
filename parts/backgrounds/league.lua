@@ -1,5 +1,4 @@
 --Space with stars
-local gc=love.graphics
 local back={}
 
 local upCover do
@@ -29,8 +28,8 @@ end
 function back.update()
 end
 function back.draw()
-    gc.clear(.08,.08,.084)
-    gc.draw(upCover,0,0,0,W,H*.3/64)
-    gc.draw(downCover,0,H*.7,0,W,H*.3/64)
+    GC.clear(.08,.08,.084)
+    GC.draw(upCover,0,0,0,W,H*.3/64)
+    GC.draw(downCover,0,H*.7,0,W,H*.3/64)
 end
 return back

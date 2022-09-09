@@ -8,7 +8,7 @@ return{
         },
         mesDisp=function(P)
             setFont(60)
-            mStr(P.stat.atk,63,280)
+            GC.mStr(P.stat.atk,63,280)
             mText(TEXTOBJ.atk,63,350)
         end,
         bg='blockhole',bgm='echo',

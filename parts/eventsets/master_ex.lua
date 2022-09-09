@@ -1,4 +1,3 @@
-local gc=love.graphics
 local sectionName={"D","C","B","A","A+","S-","S","S+","S+","SS","SS","U","U","X","X+"}
 local passPoint=16
 
@@ -24,20 +23,20 @@ return{
     mesDisp=function(P)
         local h=(3600-P.stat.frame)/10
         if h>0 then
-            gc.setColor(1,1,1,.12)
-            gc.rectangle('fill',0,475-h,125,h,4)
-            gc.setColor(COLOR.Z)
+            GC.setColor(1,1,1,.12)
+            GC.rectangle('fill',0,475-h,125,h,4)
+            GC.setColor(COLOR.Z)
         end
         mText(TEXTOBJ.line,63,310)
         mText(TEXTOBJ.techrash,63,420)
         mText(TEXTOBJ.grade,63,180)
         setFont(20)
-        mStr(("%.1f"):format(P.modeData.rankPoint/10),63,208)
+        GC.mStr(("%.1f"):format(P.modeData.rankPoint/10),63,208)
         setFont(55)
-        mStr(P.modeData.rankName,63,125)
+        GC.mStr(P.modeData.rankName,63,125)
         setFont(75)
-        mStr(P.stat.row,63,230)
-        mStr(P.stat.clears[4],63,340)
+        GC.mStr(P.stat.row,63,230)
+        GC.mStr(P.stat.clears[4],63,340)
         PLY.draw.drawTargetLine(P,getRollGoal(P))
     end,
     hook_drop=function(P)

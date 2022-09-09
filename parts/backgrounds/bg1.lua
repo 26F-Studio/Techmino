@@ -1,5 +1,4 @@
 --Horizonal red-blue gradient
-local gc=love.graphics
 local back={}
 local shader=SHADER.grad1
 
@@ -11,10 +10,10 @@ function back.update(dt)
     t=(t+dt)%2600
 end
 function back.draw()
-    gc.clear(.08,.08,.084)
+    GC.clear(.08,.08,.084)
     shader:send('phase',t)
-    gc.setShader(shader)
-    gc.rectangle('fill',0,0,SCR.w,SCR.h)
-    gc.setShader()
+    GC.setShader(shader)
+    GC.rectangle('fill',0,0,SCR.w,SCR.h)
+    GC.setShader()
 end
 return back

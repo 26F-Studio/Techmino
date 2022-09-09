@@ -1,11 +1,9 @@
-local gc=love.graphics
-local gc_translate=gc.translate
-local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
-local gc_draw,gc_line=gc.draw,gc.line
-local gc_print=gc.print
+local gc_translate=GC.translate
+local gc_setColor,gc_setLineWidth=GC.setColor,GC.setLineWidth
+local gc_draw,gc_line=GC.draw,GC.line
+local gc_print=GC.print
 
 local int,sin=math.floor,math.sin
-local mStr=GC.mStr
 
 local scene={}
 
@@ -82,8 +80,8 @@ function scene.draw()
     local A,B=form.A1,form.A2
     gc_translate(60,80)
     gc_setLineWidth(2)
-    gc.rectangle('line',0,0,560,160,5)
-    gc.rectangle('line',0,240,560,160,5)
+    GC.rectangle('line',0,0,560,160,5)
+    GC.rectangle('line',0,240,560,160,5)
     for x=1,6 do
         x=80*x
         gc_line(x,0,x,160)
@@ -97,15 +95,15 @@ function scene.draw()
     for x=1,7 do
         gc_setColor(BLOCK_COLORS[SETTING.skin[x]])
         setFont(70)
-        mStr(BLOCK_CHARS[x],80*x-40,-70)
-        mStr(BLOCK_CHARS[x],80*x-40,170)
+        GC.mStr(BLOCK_CHARS[x],80*x-40,-70)
+        GC.mStr(BLOCK_CHARS[x],80*x-40,170)
         setFont(25)
         for y=1,4 do
-            mStr(A[x][y],80*x-40,-37+40*y)
-            mStr(B[x][y],80*x-40,203+40*y)
+            GC.mStr(A[x][y],80*x-40,-37+40*y)
+            GC.mStr(B[x][y],80*x-40,203+40*y)
         end
-        mStr(form.Y1[x],80*x-40,163)
-        mStr(form.Y2[x],80*x-40,403)
+        GC.mStr(form.Y1[x],80*x-40,163)
+        GC.mStr(form.Y2[x],80*x-40,403)
     end
 
     A,B=form.X1,form.X2
@@ -114,8 +112,8 @@ function scene.draw()
         gc_print(spinChars[y],-33,-37+40*y)
         gc_print(y,-28,203+40*y)
         gc_setColor(COLOR.H)
-        mStr(A[y],612,-37+40*y)
-        mStr(B[y],612,203+40*y)
+        GC.mStr(A[y],612,-37+40*y)
+        GC.mStr(B[y],612,203+40*y)
     end
     gc_translate(-60,-80)
 end

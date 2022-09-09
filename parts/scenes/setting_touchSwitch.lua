@@ -8,9 +8,9 @@ function scene.draw()
     if SETTING.VKTrack then
         love.graphics.setColor(1,1,1)
         setFont(30)
-        mStr(text.VKTchW,140+500*SETTING.VKTchW,800-WIDGET.scrollPos)
-        mStr(text.VKOrgW,140+500*SETTING.VKTchW+500*SETTING.VKCurW,870-WIDGET.scrollPos)
-        mStr(text.VKCurW,640+500*SETTING.VKCurW,950-WIDGET.scrollPos)
+        GC.mStr(text.VKTchW,140+500*SETTING.VKTchW,800-WIDGET.scrollPos)
+        GC.mStr(text.VKOrgW,140+500*SETTING.VKTchW+500*SETTING.VKCurW,870-WIDGET.scrollPos)
+        GC.mStr(text.VKCurW,640+500*SETTING.VKCurW,950-WIDGET.scrollPos)
     end
 end
 
