@@ -4,11 +4,11 @@ local shader=SHADER.aura
 local t
 
 function back.init()
-    t=math.random()*260
+    t=math.random()*2600
     BG.resize(SCR.w,SCR.h)
 end
 function back.update(dt)
-    t=(t+dt)%2600
+    t=(t+dt)%6200
 end
 function back.draw()
     GC.clear(.08,.08,.084)
