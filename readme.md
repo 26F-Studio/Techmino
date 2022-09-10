@@ -17,8 +17,6 @@ A collection of various modern block game rules, more ways to play, and some new
 
 [点击这里来下载最新版本 Click here to download the latest version](https://github.com/26F-Studio/Techmino/releases)
 
-**(目前的稳定版本是:/The latest stable build is: V0.17.5)**
-
 [官网(建设中) Official website (WIP)](http://101.43.110.22:10026)
 
 [维基(建设中) Github wiki](https://github.com/26F-Studio/Techmino/wiki)
