@@ -5,11 +5,19 @@
 [![AUR techmino-client](https://img.shields.io/aur/version/techmino-client?label=techmino-client&logo=archlinux)](https://aur.archlinux.org/packages/techmino-client)
 [![AUR techmino-git](https://img.shields.io/aur/version/techmino-git?label=techmino-git&logo=archlinux)](https://aur.archlinux.org/packages/techmino-git)
 
-《Techmino:方块研究所》——Github & Gitee 官方仓库 Official Repository
+《Techmino: 方块研究所》—— Github & Gitee 官方仓库.
+
+The Official Repository of Techmino on GitHub & Gitee.
 
 集合各种现代方块规则，更多玩法，全新体验。
 
 A collection of various modern block game rules, more ways to play, and some new things added for a new experience.
+
+-----
+
+[点击这里来下载最新版本 Click here to download the latest version](https://github.com/26F-Studio/Techmino/releases)
+
+**(目前的稳定版本是:/The latest stable build is: V0.17.5)**
 
 [官网(建设中) Official website (WIP)](http://101.43.110.22:10026)
 
