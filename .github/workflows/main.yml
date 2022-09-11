@@ -101,7 +101,7 @@ jobs:
       - name: Rename love package
         run: |
           mkdir -p ${{ env.OUTPUT_FOLDER }}
-          mv ${{ env.CORE_LOVE_PACKAGE_PATH }} ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Bare.love
+          mv ${{ env.CORE_LOVE_PACKAGE_PATH }} ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.love
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
