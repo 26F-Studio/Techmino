@@ -59,7 +59,6 @@ FONT.setFallback('norm')
 
 SCR.setSize(1280,720)--Initialize Screen size
 BGM.setMaxSources(5)
-BGM.setChange(function(name)MES.new('music',text.nowPlaying..name,5)end)
 VOC.setDiversion(.62)
 
 WIDGET.setOnChange(function()
@@ -354,7 +353,7 @@ SFX.init((function()--[Warning] Not loading files here, just get the list of sou
     end
     return L
 end)())
-BGM.load((function()
+BGM.init((function()
     local L={}
     for _,v in next,fs.getDirectoryItems('media/music')do
         if isSafeFile('media/music/'..v,"Dangerous file : %SAVE%/media/music/"..v)then
