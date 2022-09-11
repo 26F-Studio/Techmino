@@ -20,9 +20,9 @@ jobs:
       version-name: ${{ steps.app-info.outputs.version-name }}
       version-string: ${{ steps.app-info.outputs.version-string }}
       version-code: ${{ steps.app-info.outputs.version-code }}
+      update-title: ${{ steps.app-info.outputs.update-title }}
+      update-note: ${{ steps.app-info.outputs.update-note }}
       commit-hash: ${{ steps.git-info.outputs.commit-hash }}
-      update-title: ${{ steps.lua-related.outputs.update-title }}
-      update-note: ${{ steps.lua-related.outputs.update-note }}
       base-name: ${{ steps.assemble-base-name.outputs.base-name }}
     steps:
       - uses: actions/checkout@v3
@@ -42,15 +42,15 @@ jobs:
           local note = require 'parts.updateLog'
           local p1 = note:find("\n%d") + 1
           local p2 = note:find("\n", p1) - 1
-          print("::set-output name=update-title::"..note:sub(p1, p2))
+          print("::set-output name=update-title::" .. note:sub(p1, p2))
           local p3 = note:find("\n", note:find("\n%d") + 1) + 1
           local p4 = note:find("\n%d", p3 + 1)
-          print("::set-output name=update-note::"..note:sub(p3, p4 - 2)
-                  :gsub("                ", "- ")
-                  :gsub("        ", "# ")
-                  :gsub('%%', '%%25')
-                  :gsub('\n', '%%0A')
-                  :gsub('\r', '%%0D'))
+          print("::set-output name=update-note::" .. note:sub(p3, p4 - 2)
+              :gsub("                ", "- ")
+              :gsub("        ", "# ")
+              :gsub('%%', '%%25')
+              :gsub('\n', '%%0A')
+              :gsub('\r', '%%0D'))
       - name: Get git info
         id: git-info
         shell: bash
