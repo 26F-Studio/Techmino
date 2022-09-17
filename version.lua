@@ -1,7 +1,7 @@
 return{
-    ["apkCode"]=447,
-    ["code"]=1706,
-    ["string"]="V0.17.6",
+    ["apkCode"]=448,
+    ["code"]=1707,
+    ["string"]="V0.17.7",
     ["room"]="ver A-7",
     ["name"]="昏暗 Dim",
 }

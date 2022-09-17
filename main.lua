@@ -30,7 +30,7 @@ SAVEDIR=fs.getSaveDirectory()
 
 --Global Vars & Settings
 SFXPACKS={'chiptune'}
-VOCPACKS={'miya','mono','xiaoya','miku','rin'}
+VOCPACKS={'miya','mono','xiaoya','miku'}
 FIRSTLAUNCH=false
 DAILYLAUNCH=false
 
@@ -558,6 +558,7 @@ do
     if SETTING.skin[18]==10 then SETTING.skin[18]=4 end
     if SETTING.reTime>3 or SETTING.reTime<.5 then SETTING.reTime=2 end
     if SETTING.locale=='zh_full' then SETTING.locale='zh' end
+    if SETTING.vocPack=='rin' then SETTING.vocPack='miku' end
     if RANKS.infinite then RANKS.infinite=0 end
     if RANKS.infinite_dig then RANKS.infinite_dig=0 end
     if not RANKS.sprint_10l then RANKS.sprint_10l=0 end
