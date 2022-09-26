@@ -1,10 +1,8 @@
-local gc=love.graphics
-
 local scene={}
 
 local verName=("%s  %s  %s"):format(SYSTEM,VERSION.string,VERSION.name)
 local tipLength=760
-local tip=gc.newText(getFont(30),"")
+local tip=GC.newText(getFont(30),"")
 local scrollX--Tip scroll position
 
 local widgetX0={
@@ -39,7 +37,7 @@ end
 
 function scene.resize()
     local qpModeName=text.modes[STAT.lastPlay]and text.modes[STAT.lastPlay][1]or"["..STAT.lastPlay.."]"
-    scene.widgetList[2]:setObject(text.WidgetText.main.qplay..": "..qpModeName)
+    scene.widgetList[2]:setObject(text.WidgetText.main.qplay..qpModeName)
 end
 
 function scene.mouseDown(x,y)
@@ -128,6 +126,7 @@ function scene.keyDown(key,isRep)
 end
 
 function scene.update(dt)
+    if dt>.26 then return end
     PLAYERS[1]:update(dt)
     scrollX=scrollX-162*dt
     if scrollX<-tip:getWidth()then
@@ -141,30 +140,30 @@ function scene.update(dt)
 end
 
 local function _tipStencil()
-    gc.rectangle('fill',0,0,tipLength,42)
+    GC.rectangle('fill',0,0,tipLength,42)
 end
 function scene.draw()
     --Version
     setFont(20)
-    gc.setColor(.6,.6,.6)
-    mStr(verName,640,110)
+    GC.setColor(.6,.6,.6)
+    GC.mStr(verName,640,110)
 
     --Title
-    gc.setColor(1,1,1)
+    GC.setColor(1,1,1)
     mDraw(TEXTURE.title_color,640,60,nil,.43)
 
     --Tip
-    gc.setColor(COLOR.Z)
-    gc.push('transform')
-    gc.translate(260,650)
-    gc.setLineWidth(2)
-    gc.rectangle('line',0,0,tipLength,42,3)
-    gc.stencil(_tipStencil)
-    gc.setStencilTest('equal',1)
-    gc.draw(tip,0+scrollX,0)
-    gc.setColor(1,1,1,.2)
-    gc.setStencilTest()
-    gc.pop()
+    GC.setColor(COLOR.Z)
+    GC.push('transform')
+    GC.translate(260,650)
+    GC.setLineWidth(2)
+    GC.rectangle('line',0,0,tipLength,42,3)
+    GC.stencil(_tipStencil)
+    GC.setStencilTest('equal',1)
+    GC.draw(tip,0+scrollX,0)
+    GC.setColor(1,1,1,.2)
+    GC.setStencilTest()
+    GC.pop()
 
     --Player
     PLAYERS[1]:draw()
@@ -177,10 +176,10 @@ function scene.draw()
 
     --Connecting mark
     if NET.getlock('access_and_login')then
-        gc.setColor(COLOR.Z)
-        gc.setLineWidth(10)
+        GC.setColor(COLOR.Z)
+        GC.setLineWidth(10)
         local t=TIME()*6.26%6.2832
-        gc.arc('line','open',scene.widgetList[3].x+865,450,40,t,t+4.26)
+        GC.arc('line','open',scene.widgetList[3].x+865,450,40,t,t+4.26)
     end
 end
 

@@ -27,7 +27,7 @@ function scene.mouseDown(x,y)
         local t2=TIME()-last2
         if t2>2.6 and t2<3 and not GAME.playing then
             loadGame('sprintSmooth',true)
-        else
+        elseif vocPack==SETTING.vocPack then
             VOC.play((t2<1.26 or t2>6.26)and'doubt'or'happy')
             last2=TIME()
         end
@@ -65,15 +65,18 @@ function scene.draw()
         gc.draw(IMG.miyaHeart,162,52,nil,.3)
     elseif vocPack=="mono"then
         local jump=math.max(30-(TIME()-last1)*60,0)%10
-        gc.translate(760,340+6*sin(TIME()*.5)+(jump-10)*jump*.3)
-        gc.draw(IMG.monoCH,-30)
+        gc.translate(730,340+6*sin(TIME()*.5)+(jump-10)*jump*.3)
+        gc.draw(IMG.monoCH)
     elseif vocPack=="xiaoya"then
         gc.translate(770,340+4*sin(TIME()*.5))
         gc.draw(IMG.xiaoyaCH)
         gc.draw(IMG.xiaoyaOmino,16,168,26/(1+TIME()-last1),.36,.36,33,37)
     elseif vocPack=="miku"then
-        gc.translate(800,340+12*sin(TIME()*.5))
-        gc.draw(IMG.mikuCH,-30)
+        gc.translate(700,320+12*sin(TIME()*.5))
+        gc.draw(IMG.mikuCH,nil,nil,nil,.8)
+    elseif vocPack=="rin"then
+        gc.translate(820,280+12*sin(TIME()*.5))
+        gc.draw(IMG.rinCH,nil,nil,nil,.8)
     end
     gc.pop()
 end

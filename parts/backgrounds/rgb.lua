@@ -1,5 +1,4 @@
 --Changing pure color
-local gc=love.graphics
 local sin=math.sin
 local back={}
 
@@ -11,7 +10,7 @@ function back.update(dt)
     t=t+dt
 end
 function back.draw()
-    gc.clear(
+    GC.clear(
         sin(t*1.2)*.06+.08,
         sin(t*1.5)*.06+.08,
         sin(t*1.9)*.06+.08

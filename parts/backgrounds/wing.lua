@@ -1,6 +1,4 @@
 --Flandre's wing
-local gc=love.graphics
-local rnd=math.random
 local back={}
 local crystal_img,crystals
 local wingColor={
@@ -46,31 +44,31 @@ function back.update()
     end
 end
 function back.draw()
-    gc.clear(.06,.06,.06)
-    gc.setColor(.12,.10,.08)
-    gc.setLineJoin('bevel')
-    gc.setLineWidth(14*SCR.k)
+    GC.clear(.06,.06,.06)
+    GC.setColor(.12,.10,.08)
+    GC.setLineJoin('bevel')
+    GC.setLineWidth(14*SCR.k)
     local W,H=SCR.w,SCR.h
-    gc.line(.018*W,.567*H,.101*W,.512*H,.202*W,.369*H,.260*W,.212*H)
-    gc.line(.247*W,.257*H,.307*W,.383*H,.352*W,.436*H,.401*W,.309*H)
-    gc.line(.982*W,.567*H,.899*W,.512*H,.798*W,.369*H,.740*W,.212*H)
-    gc.line(.753*W,.257*H,.693*W,.383*H,.648*W,.436*H,.599*W,.309*H)
+    GC.line(.018*W,.567*H,.101*W,.512*H,.202*W,.369*H,.260*W,.212*H)
+    GC.line(.247*W,.257*H,.307*W,.383*H,.352*W,.436*H,.401*W,.309*H)
+    GC.line(.982*W,.567*H,.899*W,.512*H,.798*W,.369*H,.740*W,.212*H)
+    GC.line(.753*W,.257*H,.693*W,.383*H,.648*W,.436*H,.599*W,.309*H)
 
     local k=SCR.k
     for i=1,8 do
-        gc.setColor(wingColor[i])
+        GC.setColor(wingColor[i])
         local B=crystals[i]
-        gc.draw(crystal_img,B.x,B.y,B.a,k,k,21,0)
+        GC.draw(crystal_img,B.x,B.y,B.a,k,k,21,0)
         B=crystals[8+i]
-        gc.draw(crystal_img,B.x,B.y,B.a,-k,k,21,0)
+        GC.draw(crystal_img,B.x,B.y,B.a,-k,k,21,0)
     end
 end
 function back.event(level)
     for i=1,8 do
         local B=crystals[i]
-        B.va=B.va+.001*level*(1+rnd())
+        B.va=B.va+.001*level*(1+math.random())
         B=crystals[17-i]
-        B.va=B.va-.001*level*(1+rnd())
+        B.va=B.va-.001*level*(1+math.random())
     end
 end
 function back.discard()

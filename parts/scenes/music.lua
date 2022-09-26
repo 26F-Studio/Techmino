@@ -1,7 +1,4 @@
-local gc=love.graphics
-local gc_setColor,gc_print=gc.setColor,gc.print
 local sin=math.sin
-local setFont=FONT.set
 
 local author={
     battle="Aether & MrZ",
@@ -69,56 +66,56 @@ function scene.draw()
     local t=TIME()
 
     --Character
-    gc.push('transform')
-        gc.setColor(1,1,1)
-        gc.translate(906,456)
-        gc.scale(.6)
-        GC.draw(IMG.z.character)
-        GC.draw(IMG.z.screen1, -91, -157+16*math.sin(t))
-        GC.draw(IMG.z.screen2, 120, -166+16*math.sin(t+1))
-        gc.setColor(1,1,1,.7+.3*math.sin(.6*t)) GC.draw(IMG.z.particle1, -50,                    42+6*math.sin(t*0.36))
-        gc.setColor(1,1,1,.7+.3*math.sin(.7*t)) GC.draw(IMG.z.particle2, 110+6*math.sin(t*0.92), 55)
-        gc.setColor(1,1,1,.7+.3*math.sin(.8*t)) GC.draw(IMG.z.particle3, -54+6*math.sin(t*0.48), -248)
-        gc.setColor(1,1,1,.7+.3*math.sin(.9*t)) GC.draw(IMG.z.particle4, 133,                    -305+6*math.sin(t*0.40))
-    gc.pop()
+    GC.push('transform')
+        GC.setColor(1,1,1)
+        GC.translate(906,456)
+        GC.scale(.6)
+        mDraw(IMG.z.character)
+        mDraw(IMG.z.screen1, -91, -157+16*math.sin(t))
+        mDraw(IMG.z.screen2, 120, -166+16*math.sin(t+1))
+        GC.setColor(1,1,1,.7+.3*math.sin(.6*t)) mDraw(IMG.z.particle1, -50,                    42+6*math.sin(t*0.36))
+        GC.setColor(1,1,1,.7+.3*math.sin(.7*t)) mDraw(IMG.z.particle2, 110+6*math.sin(t*0.92), 55)
+        GC.setColor(1,1,1,.7+.3*math.sin(.8*t)) mDraw(IMG.z.particle3, -54+6*math.sin(t*0.48), -248)
+        GC.setColor(1,1,1,.7+.3*math.sin(.9*t)) mDraw(IMG.z.particle4, 133,                    -305+6*math.sin(t*0.40))
+    GC.pop()
 
-    gc_setColor(COLOR.Z)
+    GC.setColor(COLOR.Z)
 
     --Scroller
-    gc.setLineWidth(2)
-    gc.line(315,307,315,482)
+    GC.setLineWidth(2)
+    GC.line(315,307,315,482)
     setFont(50)
-    gc_print(bgmList[selected],320,355)
+    GC.print(bgmList[selected],320,355)
     setFont(35)
-    if selected>1 then gc_print(bgmList[selected-1],322,350-30)end
-    if selected<#bgmList then gc_print(bgmList[selected+1],322,350+65)end
+    if selected>1 then GC.print(bgmList[selected-1],322,350-30)end
+    if selected<#bgmList then GC.print(bgmList[selected+1],322,350+65)end
     setFont(20)
-    if selected>2 then gc_print(bgmList[selected-2],322,350-50)end
-    if selected<#bgmList-1 then gc_print(bgmList[selected+2],322,350+110)end
+    if selected>2 then GC.print(bgmList[selected-2],322,350-50)end
+    if selected<#bgmList-1 then GC.print(bgmList[selected+2],322,350+110)end
 
     --Title
     if BGM.nowPlay then
-        GC.draw(TEXTURE.title,570,190,nil,.42)
+        mDraw(TEXTURE.title,570,190,nil,.42)
         local a=-t%2.3/2.3
-        gc_setColor(1,1,1,math.min(a,1))
-        GC.draw(TEXTURE.title_color,570,190,nil,.42+.062-.062*a)
+        GC.setColor(1,1,1,math.min(a,1))
+        mDraw(TEXTURE.title_color,570,190,nil,.42+.062-.062*a)
     end
 
     --Music player
     if BGM.nowPlay then
         setFont(45)
         GC.shadedPrint(BGM.nowPlay,710,508,'left',2)
-        gc_setColor(sin(t*.5)*.2+.8,sin(t*.7)*.2+.8,sin(t)*.2+.8)
-        gc_print(BGM.nowPlay,710,508)
+        GC.setColor(sin(t*.5)*.2+.8,sin(t*.7)*.2+.8,sin(t)*.2+.8)
+        GC.print(BGM.nowPlay,710,508)
         setFont(35)
-        gc_setColor(1,sin(t*2.6)*.5+.5,sin(t*2.6)*.5+.5)
-        gc_print(author[BGM.nowPlay]or"MrZ",670,465)
+        GC.setColor(1,sin(t*2.6)*.5+.5,sin(t*2.6)*.5+.5)
+        GC.print(author[BGM.nowPlay]or"MrZ",670,465)
 
         setFont(20)
-        gc_setColor(COLOR.Z)
+        GC.setColor(COLOR.Z)
         local cur=BGM.playing:tell()
         local dur=BGM.playing:getDuration()
-        gc_print(STRING.time_simp(cur%dur).." / "..STRING.time_simp(dur),480,626)
+        GC.print(STRING.time_simp(cur%dur).." / "..STRING.time_simp(dur),480,626)
     end
 end
 

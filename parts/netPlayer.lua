@@ -3,11 +3,8 @@ local gc_draw,gc_rectangle,gc_print,gc_printf=gc.draw,gc.rectangle,gc.print,gc.p
 local gc_setColor,gc_setLineWidth,gc_translate=gc.setColor,gc.setLineWidth,gc.translate
 local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
 
-local rnd,min=math.random,math.min
-local sin,cos=math.sin,math.cos
 local ins,rem=table.insert,table.remove
 local setFont=FONT.set
-local approach=MATH.expApproach
 
 local posLists={
     --1~5
@@ -118,8 +115,8 @@ function NETPLY.add(d)
         place=1e99,
         stat=false,
     }
-    local a=rnd()*6.2832
-    p.x,p.y,p.w,p.h=640+2600*cos(a),360+2600*sin(a),47,47
+    local a=math.random()*6.2832
+    p.x,p.y,p.w,p.h=640+2600*math.cos(a),360+2600*math.sin(a),47,47
 
     ins(PLYlist,p)
     PLYmap[p.uid]=p
@@ -199,10 +196,10 @@ function NETPLY.update(dt)
         local p=PLYlist[i]
         local t=posList[i]
         local d=dt*12
-        p.x=approach(p.x,t.x,d)
-        p.y=approach(p.y,t.y,d)
-        p.w=approach(p.w,t.w,d)
-        p.h=approach(p.h,t.h,d)
+        p.x=MATH.expApproach(p.x,t.x,d)
+        p.y=MATH.expApproach(p.y,t.y,d)
+        p.w=MATH.expApproach(p.w,t.w,d)
+        p.h=MATH.expApproach(p.h,t.h,d)
     end
 end
 
@@ -235,7 +232,7 @@ function NETPLY.draw()
                 gc_setColor(1,1,1)
 
                 --Avatar
-                local avatarSize=min(p.h,50)/128*.9
+                local avatarSize=math.min(p.h,50)/128*.9
                 gc_draw(USERS.getAvatar(p.uid),2,2,nil,avatarSize)
 
                 --UID & Username
@@ -268,7 +265,7 @@ function NETPLY.draw()
         gc_translate(-p.x,-p.y)
     end
     if selP then
-        gc_translate(min(mouseX,880),min(mouseY,460))
+        gc_translate(math.min(mouseX,880),math.min(mouseY,460))
             gc_setColor(COLOR.X)
             gc_rectangle('fill',0,0,400,260)
             gc_setColor(1,1,1)
@@ -288,7 +285,7 @@ function NETPLY.draw()
                 gc_print(S.apm,5,213)
                 gc_print(S.adpm,5,233)
             end
-        gc_translate(-min(mouseX,880),-min(mouseY,460))
+        gc_translate(-math.min(mouseX,880),-math.min(mouseY,460))
     end
 end
 

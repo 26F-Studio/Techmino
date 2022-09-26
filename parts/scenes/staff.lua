@@ -84,7 +84,7 @@ function scene.draw()
     local L=text.staff
     setFont(40)
     for i=1,#L do
-        mStr(L[i],640,950+65*i-T)
+        GC.mStr(L[i],640,950+65*i-T)
     end
     gc.setColor(1,1,1)
     mDraw(TEXTURE.title_color,640,900-T,nil,.6)

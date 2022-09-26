@@ -3,8 +3,8 @@ return{
     fall=10,
     mesDisp=function(P)
         setFont(55)
-        mStr(P.modeData.wave,63,200)
-        mStr(P.modeData.rpm,63,320)
+        GC.mStr(P.modeData.wave,63,200)
+        GC.mStr(P.modeData.rpm,63,320)
         mText(TEXTOBJ.wave,63,260)
         mText(TEXTOBJ.rpm,63,380)
     end,
@@ -15,9 +15,9 @@ return{
                 local D=P.modeData
                 D.counter=D.counter+1
                 local t=
-                    D.wave<=60 and 360-D.wave*3 or
-                    D.wave<=120 and 180-(D.wave-60)*2 or
-                    D.wave<=180 and 120-(D.wave-120)or
+                    D.wave<=40 and 360-D.wave*4 or
+                    D.wave<=80 and 200-(D.wave-40)*2 or
+                    D.wave<=140 and 120-(D.wave-80) or
                     60
                 if D.counter>=t then
                     D.counter=0

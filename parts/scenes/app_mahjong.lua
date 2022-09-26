@@ -171,7 +171,7 @@ function scene.draw()
             gc_rectangle('fill',x,y,w,h,12)
         end
         gc_setColor(1,1,1)
-        mStr(cardText[c],x+w/2,y-17)
+        GC.mStr(cardText[c],x+w/2,y-17)
         if i==selected then gc_translate(0,10)end
     end
     for i=1,#pool do
@@ -184,7 +184,7 @@ function scene.draw()
             gc_rectangle('fill',x,y,w,h,12)
         end
         gc_setColor(1,1,1)
-        mStr(cardText[c],x+w/2,y-17)
+        GC.mStr(cardText[c],x+w/2,y-17)
     end
 end
 

@@ -1,15 +1,13 @@
-local gc=love.graphics
-
 return{
     mesDisp=function(P)
         setFont(60)
-        mStr(P.modeData.tsd,63,250)
+        GC.mStr(P.modeData.tsd,63,250)
         mText(TEXTOBJ.tsd,63,315)
         local L=P.modeData.history
         if L[1]and L[1]==L[2]and L[1]==L[3]then
             PLY.draw.applyField(P)
-            gc.setColor(1,.3,.3,.2)
-            gc.rectangle('fill',30*L[1]-30,0,30,600)
+            GC.setColor(1,.3,.3,.2)
+            GC.rectangle('fill',30*L[1]-30,0,30,600)
             PLY.draw.cancelField(P)
         end
     end,

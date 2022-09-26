@@ -1,7 +1,6 @@
 local gc=love.graphics
 
 local int,rnd=math.floor,math.random
-local mStr=GC.mStr
 
 local scene={}
 
@@ -295,10 +294,10 @@ function scene.draw()
                 gc.rectangle('line',j*160+163,i*160-117,154,154,8)
                 if not mono then
                     gc.setColor(.1,.1,.1)
-                    mStr(N,j*160+240,i*160-96)
-                    mStr(N,j*160+242,i*160-98)
+                    GC.mStr(N,j*160+240,i*160-96)
+                    GC.mStr(N,j*160+242,i*160-98)
                     gc.setColor(COLOR.Z)
-                    mStr(N,j*160+243,i*160-95)
+                    GC.mStr(N,j*160+243,i*160-95)
                 end
             end
         end

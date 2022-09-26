@@ -4,7 +4,7 @@ return{
         bg='bg1',bgm='way',
         mesDisp=function(P)
             setFont(55)
-            mStr(10-P.stat.dig_quad,63,265)
+            GC.mStr(10-P.stat.dig_quad,63,265)
         end,
         hook_drop=function(P)
             if P.lastPiece.row>0 and P.lastPiece.row<4 then

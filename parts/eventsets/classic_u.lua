@@ -4,26 +4,6 @@ local function GetLevelStr(lvl)
     lvl=lvl%256
     return list[lvl]
 end
-local function GetGravity(lvl)
-    lvl=lvl%256
-    return
-    lvl==0 and 48 or
-    lvl==1 and 43 or
-    lvl==2 and 38 or
-    lvl==3 and 33 or
-    lvl==4 and 28 or
-    lvl==5 and 23 or
-    lvl==6 and 18 or
-    lvl==7 and 13 or
-    lvl==8 and 8 or
-    lvl==9 and 6 or
-    lvl<13 and 5 or
-    lvl<16 and 4 or
-    lvl<19 and 3 or
-    lvl<29 and 2 or
-    1
-end
-local gc_setColor=love.graphics.setColor
 return{
     das=16,arr=6,
     sddas=1,sdarr=1,
@@ -40,18 +20,18 @@ return{
     keyCancel={5,6},
     mesDisp=function(P)
         setFont(75)
-        mStr(GetLevelStr(P.modeData.lvl),63,210)
+        GC.mStr(GetLevelStr(P.modeData.lvl),63,210)
         mText(TEXTOBJ.speedLV,63,290)
         PLY.draw.drawProgress(P.stat.row,P.modeData.target)
         if P.modeData.drought>7 then
             if P.modeData.drought<=14 then
-                gc_setColor(1,1,1,P.modeData.drought/7-1)
+                GC.setColor(1,1,1,P.modeData.drought/7-1)
             else
                 local gb=P.modeData.drought<=21 and 2-P.modeData.drought/14 or .5
-                gc_setColor(1,gb,gb)
+                GC.setColor(1,gb,gb)
             end
             setFont(50)
-            mStr(P.modeData.drought,63,130)
+            GC.mStr(P.modeData.drought,63,130)
             mDraw(MODES.drought_l.icon,63,200,nil,.5)
         end
     end,

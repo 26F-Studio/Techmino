@@ -59,7 +59,6 @@ FONT.setFallback('norm')
 
 SCR.setSize(1280,720)--Initialize Screen size
 BGM.setMaxSources(5)
-BGM.setChange(function(name)MES.new('music',text.nowPlaying..name,5)end)
 VOC.setDiversion(.62)
 
 WIDGET.setOnChange(function()
@@ -80,15 +79,14 @@ table.insert(_LOADTIMELIST_,("Load Zframework: %.3fs"):format(TIME()-_LOADTIME_)
 --Create shortcuts
 setFont=FONT.set
 getFont=FONT.get
-mStr=GC.mStr
 mText=GC.simpX
-mDraw=GC.draw
+mDraw=GC.mDraw
 Snd=SFX.playSample
 string.repD=STRING.repD
 string.sArg=STRING.sArg
 string.split=STRING.split
 
---Delete all naked files (from too old version)
+--Delete all naked files (from ancient versions)
 FILE.clear('')
 
 --Create directories
@@ -150,18 +148,15 @@ do--Z.setCursor
         {'dCirc',8,8,7},
         {'fCirc',8,8,3},
     }
-    local min,int,abs=math.min,math.floor,math.abs
-    local gc_setColor,gc_draw=love.graphics.setColor,love.graphics.draw
-    local ms=love.mouse
     Z.setCursor(function(time,x,y)
         if not SETTING.sysCursor then
-            local R=int((time+1)/2)%7+1
+            local R=math.floor((time+1)/2)%7+1
             _=BLOCK_COLORS[SETTING.skin[R]]
-            gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
+            GC.setColor(_[1],_[2],_[3],math.min(math.abs(1-time%2),.3))
             _=DSCP[R][0]
-            gc_draw(TEXTURE.miniBlock[R],x,y,time%3.14159265359*4,8,8,2*_[2]+1,2*(#BLOCKS[R][0]-_[1])-1)
-            gc_setColor(1,1,1)
-            gc_draw(ms.isDown(1)and holdImg or normImg,x,y,nil,nil,nil,8,8)
+            GC.draw(TEXTURE.miniBlock[R],x,y,time%math.pi*4,8,8,2*_[2]+1,2*(#BLOCKS[R][0]-_[1])-1)
+            GC.setColor(1,1,1)
+            GC.draw(love.mouse.isDown(1)and holdImg or normImg,x,y,nil,nil,nil,8,8)
         end
     end)
 end
@@ -241,7 +236,7 @@ if
         pcall(TABLE.cover, loadFile('conf/virtualkey','-json -canSkip')or loadFile('conf/virtualkey','-luaon -canSkip')or{},VK_ORG)
     )
 then
-    MES.new('error',"Be careful, an error accured when loading saving, some data was lost")
+    MES.new('error',"An error occured during loading, and some data was lost.")
 end
 
 --Initialize fields, sequence, missions, gameEnv for cutsom game
@@ -277,7 +272,6 @@ IMG.init{
     lifeIcon='media/image/mess/life.png',
     badgeIcon='media/image/mess/badge.png',
     ctrlSpeedLimit='media/image/mess/ctrlSpeedLimit.png',
-    speedLimit='media/image/mess/speedLimit.png',--Not used, for future C2-mode
     pay1='media/image/mess/pay1.png',
     pay2='media/image/mess/pay2.png',
 
@@ -291,6 +285,7 @@ IMG.init{
     xiaoyaCH='media/image/characters/xiaoya.png',
     xiaoyaOmino='media/image/characters/xiaoya_Omino.png',
     mikuCH='media/image/characters/miku.png',
+    rinCH='media/image/characters/rin.png',
     z={
         character='media/image/characters/z_character.png',
         screen1='media/image/characters/z_screen1.png',
@@ -358,7 +353,7 @@ SFX.init((function()--[Warning] Not loading files here, just get the list of sou
     end
     return L
 end)())
-BGM.load((function()
+BGM.init((function()
     local L={}
     for _,v in next,fs.getDirectoryItems('media/music')do
         if isSafeFile('media/music/'..v,"Dangerous file : %SAVE%/media/music/"..v)then
@@ -389,6 +384,7 @@ LANG.init('zh',
         id=require'parts.language.lang_id',
         ja=require'parts.language.lang_ja',
         symbol=require'parts.language.lang_symbol',
+        zh_code=require'parts.language.lang_zh_code',
         --1. Add language file to LANG folder;
         --2. Require it;
         --3. Add a button in parts/scenes/lang.lua;
@@ -562,6 +558,7 @@ do
     if SETTING.skin[18]==10 then SETTING.skin[18]=4 end
     if SETTING.reTime>3 or SETTING.reTime<.5 then SETTING.reTime=2 end
     if SETTING.locale=='zh_full' then SETTING.locale='zh' end
+    if SETTING.vocPack=='rin' then SETTING.vocPack='miku' end
     if RANKS.infinite then RANKS.infinite=0 end
     if RANKS.infinite_dig then RANKS.infinite_dig=0 end
     if not RANKS.sprint_10l then RANKS.sprint_10l=0 end

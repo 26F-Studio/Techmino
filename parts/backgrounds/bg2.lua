@@ -1,21 +1,20 @@
 --Vertical red-green gradient
-local gc=love.graphics
 local back={}
 local shader=SHADER.grad2
 
 local t
 function back.init()
-    t=math.random()*260
+    t=math.random()*2600
     BG.resize(nil,SCR.h)
 end
 function back.update(dt)
-    t=(t+dt)%2600
+    t=(t+dt)%6200
 end
 function back.draw()
-    gc.clear(.08,.08,.084)
+    GC.clear(.08,.08,.084)
     shader:send('phase',t)
-    gc.setShader(shader)
-    gc.rectangle('fill',0,0,SCR.w,SCR.h)
-    gc.setShader()
+    GC.setShader(shader)
+    GC.rectangle('fill',0,0,SCR.w,SCR.h)
+    GC.setShader()
 end
 return back

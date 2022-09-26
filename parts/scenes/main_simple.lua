@@ -1,8 +1,6 @@
-local gc=love.graphics
-
 local scene={}
 
-local tip=gc.newText(getFont(30),"")
+local tip=GC.newText(getFont(30),"")
 
 function scene.sceneInit()
     tip:set(text.getTip())
@@ -10,7 +8,7 @@ function scene.sceneInit()
 end
 
 function scene.draw()
-    gc.setColor(1,1,1)
+    GC.setColor(1,1,1)
     mDraw(TEXTURE.title_color,640,160)
     mDraw(tip,640,660)
 end
