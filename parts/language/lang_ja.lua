@@ -324,6 +324,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="Support the Author",
     WidgetText={
@@ -439,7 +440,6 @@ return{
             sysCursor="システムカーソル",
             autoPause="ゲーム中断時のオートポーズ",
             autoSave="最高得点を更新したときオートセーブ",
-            autoLogin="オートログイン",
             simpMode="シンプルなホーム画面",
         },
         setting_video={
@@ -696,18 +696,18 @@ return{
             email="Eメールアドレス",
             password="パスワード",
             -- showEmail="Show Email",
-            keepPW="常にログイン",
             login="ログイン",
         },
         register={
             title="サインアップ",
             login="サインイン",
-            username="ユーザーネーム",
             email="Eメールアドレス",
+            -- send="Send code",
+            -- code="Verification Code",
+            -- verify="Verify",
             password="パスワード",
             password2="パスワード（確認）",
-            register="これで登録する",
-            registering="応答待機中...",
+            -- setPW="Set Password",
         },
         account={
             title="アカウント",

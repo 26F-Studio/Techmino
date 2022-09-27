@@ -323,6 +323,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="Dukung pencipta",
     WidgetText={
@@ -438,7 +439,6 @@ return{
             sysCursor="Guna Mouse Bawaan",
             autoPause="Jeda Jika Tidak Difokus",
             autoSave="Simpan Rekor Otomatis",
-            autoLogin="Auto-login Saat Membuka",
             simpMode="Mode Sederhana",
         },
         setting_video={
@@ -695,18 +695,18 @@ return{
             email="Alamat Email",
             password="Password",
             showEmail="Tunjukkan Email",
-            keepPW="Ingat Saya",
             login="Masuk",
         },
         register={
             title="Daftar",
             login="Masuk",
-            username="Username",
             email="Alamat Email",
+            -- send="Send code",
+            -- code="Verification Code",
+            -- verify="Verify",
             password="Password",
             password2="Ulangi Password",
-            register="Daftar",
-            registering="Menunggu respon…",
+            -- setPW="Set Password",
         },
         account={
             title="Akun",

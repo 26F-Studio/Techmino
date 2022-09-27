@@ -873,11 +873,6 @@ do--function drawSelfProfile()
         end
         gc_draw(textObj,-82,26,nil,scaleK,nil,width,offY)
 
-        --Draw lv. & xp.
-        gc_draw(lvIcon[USER.lv],-295,50)
-        gc_line(-270,55,-80,55,-80,70,-270,70)
-        gc_rectangle('fill',-210,55,150*USER.xp/USER.lv/USER.lv,15)
-
         gc_pop()
     end
 end

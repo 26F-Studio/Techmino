@@ -546,7 +546,7 @@ do
         STAT.version=VERSION.code
         needSave=true
     end
-    SETTING.appLock,SETTING.dataSaving,SETTING.swap=nil
+    SETTING.appLock,SETTING.dataSaving,SETTING.swap,SETTING.autoLogin=nil
     if not SETTING.VKSkin then SETTING.VKSkin=1 end
     for _,v in next,SETTING.skin do if v<1 or v>17 then v=17 end end
     if not RSlist[SETTING.RS]then SETTING.RS='TRS'end
@@ -692,4 +692,6 @@ if TABLE.find(arg,'--test')then
         love.event.quit(1)
     end)
 end
-WS.switchHost('101.43.110.22','10026','/tech/socket/v1')
+WS.switchHost('cafuuchino1.3322.org','10026','/tech/socket/v1')
+HTTP.setHost("cafuuchino1.3322.org:10026")
+HTTP.setThreadCount(1)

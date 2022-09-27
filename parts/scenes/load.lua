@@ -100,11 +100,6 @@ local loadingThread=coroutine.wrap(function()
     YIELD('loadOther')
     STAT.run=STAT.run+1
 
-    --Connect to server
-    if SETTING.autoLogin then
-        NET.wsconn_app()
-    end
-
     SFX.play('enter',.8)
     SFX.play('welcome')
     VOC.play('welcome')

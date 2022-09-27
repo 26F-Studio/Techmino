@@ -323,6 +323,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="支持作者",
     WidgetText={
@@ -438,7 +439,6 @@ return{
             sysCursor="使用系統光標",
             autoPause="失去焦點時暫停",
             autoSave="打破紀錄時自動保存",
-            autoLogin="啟動時自動登錄",
             simpMode="簡潔模式",
         },
         setting_video={
@@ -694,18 +694,18 @@ return{
             email="電郵",
             password="密碼",
             showEmail="顯示郵箱",
-            keepPW="保存密碼",
             login="登錄",
         },
         register={
             title="註冊",
             login="登錄",
-            username="用戶名",
             email="電郵",
+            send="發送驗證碼",
+            code="驗證碼",
+            verify="驗證郵箱",
             password="密碼",
             password2="確認密碼",
-            register="註冊",
-            registering="等待伺服器響應……",
+            setPW="設置密碼",
         },
         account={
             title="賬戶",

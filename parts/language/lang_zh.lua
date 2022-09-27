@@ -323,6 +323,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="支持作者",
     WidgetText={
@@ -438,7 +439,6 @@ return{
             sysCursor="使用系统光标",
             autoPause="失去焦点自动暂停",
             autoSave="破纪录自动保存",
-            autoLogin="启动时自动登录",
             simpMode="简洁模式",
         },
         setting_video={
@@ -694,18 +694,18 @@ return{
             email="邮箱",
             password="密码",
             showEmail="显示邮箱",
-            keepPW="保存密码",
             login="登录",
         },
         register={
             title="注册",
             login="登录",
-            username="用户名",
             email="邮箱:",
+            send="发送验证码",
+            code="验证码",
+            verify="验证邮箱",
             password="密码:",
             password2="确认密码:",
-            register="注册",
-            registering="等待服务器响应……",
+            setPW="设置密码",
         },
         account={
             title="帐户",

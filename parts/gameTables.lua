@@ -575,12 +575,10 @@ do--Game data tables
 end
 do--Userdata tables
     USER={--User infomation
-        --Network infos
-        uid=false,
-        authToken=false,
-
-        --Local data
-        xp=0,lv=1,
+        email=false,
+        password=false,
+        rToken=false,
+        aToken=false,
     }
     SETTING={--Settings
         --Tuning
@@ -598,7 +596,6 @@ do--Userdata tables
         menuPos='middle',
         fine=false,
         autoSave=false,
-        autoLogin=true,
         simpMode=false,
         sysCursor=true,
         maxFPS=60,

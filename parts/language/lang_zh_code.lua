@@ -324,6 +324,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="支持作者",
     WidgetText={
@@ -439,7 +440,6 @@ return{
             sysCursor="Set.SysCursor",
             autoPause="Set.AutoPause",
             autoSave="Set.AutoSave",
-            autoLogin="Set.AutoLogin",
             simpMode="Set.SimpMode",
         },
         setting_video={
@@ -695,18 +695,18 @@ return{
             email="Email=",
             password="Password=",
             showEmail="ShowEmail",
-            keepPW="KeepPassword",
             login="Login();",
         },
         register={
             title="Register.UI",
             login="Login();",
-            username="Username=",
             email="Email=",
+            send="Send()",
+            code="V-code=",
+            verify="Verify()",
             password="Password=",
             password2="RePassword=",
-            register="Register();",
-            registering="Waiting();",
+            setPW="SetPassword()",
         },
         account={
             title="Account.UI",

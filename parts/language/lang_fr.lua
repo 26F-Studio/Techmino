@@ -289,6 +289,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="Aider le créateur",
     WidgetText={
@@ -400,7 +401,6 @@ return{
             -- sysCursor="Use system cursor",
             autoPause="Mettre en pause en cas de perte de focus",
             -- autoSave="Auto save new-best",
-            -- autoLogin="Auto Login on Start",
             -- simpMode="Simple mode",
         },
         setting_video={
@@ -648,18 +648,18 @@ return{
             email="E-mail",
             password="Mot de passe",
             -- showEmail="Show Email",
-            -- keepPW="Remember me",
             login="Connexion",
         },
         register={
             title="Enregistrement",
             login="Connexion",
-            username="Nom d'utilisateur",
             email="E-mail",
+            -- send="Send code",
+            -- code="Verification Code",
+            -- verify="Verify",
             password="Mot de passe",
             password2="Confirmer le mot de passe",
-            register="Enregistrement",
-            -- registering="Waiting for response...",
+            -- setPW="Set Password",
         },
         account={
             title="Compte",

@@ -76,22 +76,6 @@ local function _parse(res)
     end
 end
 
---Parse notice
-local function _parseNotice(str)
-    if str:find("///")then
-        str=str:split("///")
-        for i=1,#str do
-            local m=str[i]
-            if m:find("=")then
-                str[m:sub(1,m:find("=")-1)]=m:sub(m:find("=")+1)
-            end
-        end
-        return str[SETTING.locale]or SETTING.locale:find'zh'and str.zh or str.en
-    else
-        return str
-    end
-end
-
 --WS close message
 local function _closeMessage(message)
     local mes=JSON.decode(message)
@@ -102,125 +86,283 @@ local function _closeMessage(message)
     end
 end
 
---Remove player when leave
-local function _removePlayer(L,sid)
-    for i=1,#L do
-        if L[i].sid==sid then
-            rem(L,i)
-            break
-        end
-    end
-end
 
---Push stream data to players
-local function _pumpStream(d)
-    if d.uid~=USER.uid then
-        for _,P in next,PLAYERS do
-            if P.uid==d.uid then
-                local res,stream=pcall(loveDecode,'string','base64',d.stream)
-                if res then
-                    DATA.pumpRecording(stream,P.stream)
-                else
-                    MES.new('error',"Bad stream from "..P.username.."#"..P.uid,.2)
-                end
-                break
+
+--------------------------<NEW API>
+local function getMsg(request,timeout)
+    HTTP(request)
+    local totalTime=0
+    while true do
+        local mes=HTTP.pollMsg(request.pool)
+        if mes then
+            if type(mes.body)=='string' then
+                return JSON.decode(mes.body)
+            end
+        else
+            totalTime=totalTime+yield()
+            if totalTime>timeout then
+                return
             end
         end
     end
 end
+function NET.getCode(email)
+    if not NET.lock('getCode') then return end
+    TASK.new(function()
+        local res=getMsg({
+            pool='getCode',
+            path='/techmino/api/v1/auth/verify/email',
+            body={email=email},
+        },12.6)
+
+        if res then
+            if res.code==200 then
+                USER.email=email
+                SCN.fileDropped(2)
+                MES.new('info',"Please check your email",5)
+            else
+                MES.new('error',res.message,5)
+            end
+        else
+            MES.new('error',"Time out",5)
+        end
+
+        WAIT.interrupt()
+    end)
+    WAIT{
+        quit=function()
+            NET.unlock('getCode')
+            HTTP.deletePool('getCode')
+        end,
+        timeout=12.6,
+    }
+end
+function NET.codeLogin(code)
+    if not NET.lock('codeLogin') then return end
+    TASK.new(function()
+        local res=getMsg({
+            pool='codeLogin',
+            path='/techmino/api/v1/auth/login/email',
+            body={
+                email=USER.email,
+                code=code,
+            },
+        },6.26)
+
+        if res then
+            if res.code==200 then
+                USER.rToken=res.refreshToken
+                USER.aToken=res.accessToken
+                -- TODO: connect WS
+                SCN.go('net_game')
+            elseif res.code==201 then
+                USER.rToken=res.refreshToken
+                USER.aToken=res.accessToken
+                SCN.fileDropped(3)-- Not designed for this, but it works and no side effects
+                MES.new('info',"Please set your password",5)
+            else
+                MES.new('error',res.message,5)
+            end
+        else
+            MES.new('error',"Time out",5)
+        end
+
+        WAIT.interrupt()
+    end)
+    WAIT{
+        quit=function()
+            NET.unlock('codeLogin')
+            HTTP.deletePool('codeLogin')
+        end,
+        timeout=6.26,
+    }
+end
+function NET.setPW(code,pw)
+    if not NET.lock('setPW') then return end
+    TASK.new(function()
+        pw=HASH.hmac()
+
+        local res=getMsg({
+            pool='setPW',
+            method='PUT',
+            path='/techmino/api/v1/auth/reset/email',
+            body={
+                email=USER.email,
+                code=code,
+                newPassword=pw,
+            },
+        },6.26)
+
+        if res then
+            if res.code==200 then
+                SCN.back()
+                MES.new('info',"Password set! Now you can login",5)
+            else
+                MES.new('error',res.message,5)
+            end
+        else
+            MES.new('error',"Time out",5)
+        end
+
+        WAIT.interrupt()
+    end)
+    WAIT{
+        quit=function()
+            NET.unlock('setPW')
+            HTTP.deletePool('setPW')
+        end,
+        timeout=6.26,
+    }
+end
+function NET.autoLogin()
+    if not USER.password then
+        SCN.go('login')
+        return
+    end
+    if not NET.lock('autoLogin') then return end
+    TASK.new(function()
+        if USER.aToken then
+            local res=getMsg({
+                pool='autoLogin',
+                path='/techmino/api/v1/auth/check',
+                headers={["x-access-token"]=USER.aToken},
+            },6.26)
+
+            if res then
+                if res.code==200 then
+                    -- TODO: connect WS
+                    SCN.go('net_game')
+                    WAIT.interrupt()
+                    return
+                else
+                    MES.new('warning',res.message,5)
+                end
+            else
+                WAIT.interrupt()
+                return
+            end
+        end
+        if USER.rToken then
+            local res=getMsg({
+                pool='autoLogin',
+                path='/techmino/api/v1/auth/refresh',
+                headers={["x-refresh-token"]=USER.rToken},
+            },6.26)
+
+            if res then
+                if res.code==200 then
+                    USER.rToken=res.refreshToken
+                    USER.aToken=res.accessToken
+                    -- TODO: connect WS
+                    MES.new('info',"Login successed",5)
+                    SCN.go('net_game')
+                    WAIT.interrupt()
+                    return
+                else
+                    MES.new('warning',res.message,5)
+                end
+            else
+                WAIT.interrupt()
+                return
+            end
+        end
+        if USER.password then
+            local res=getMsg({
+                pool='pwLogin',
+                path='/techmino/api/v1/auth/login/email',
+                body={
+                    email=USER.email,
+                    password=USER.password,
+                },
+            },6.26)
+            if res then
+                if res.code==200 then
+                    USER.rToken=res.refreshToken
+                    USER.aToken=res.accessToken
+                    -- TODO: connect WS
+                    MES.new('info',"Login successed",5)
+                    SCN.go('net_game')
+                    WAIT.interrupt()
+                    return
+                else
+                    MES.new('warning',res.message,5)
+                end
+            else
+                WAIT.interrupt()
+            end
+        end
+
+        SCN.go('login')
+        WAIT.interrupt()
+    end)
+    WAIT{
+        quit=function()
+            NET.unlock('autoLogin')
+            HTTP.deletePool('autoLogin')
+        end,
+        timeout=12.6,
+    }
+end
+function NET.pwLogin(email,pw)
+    if not NET.lock('pwLogin') then return end
+    TASK.new(function()
+        pw=STRING.digezt(pw)
+
+        local res=getMsg({
+            pool='pwLogin',
+            path='/techmino/api/v1/auth/login/email',
+            body={
+                email=email,
+                password=pw,
+            },
+        },6.26)
+
+        if res then
+            if res.code==200 then
+                USER.email=email
+                USER.password=pw
+                USER.rToken=res.refreshToken
+                USER.aToken=res.accessToken
+                -- TODO: connect WS
+                SCN.go('net_game')
+            else
+                MES.new('error',res.message,5)
+            end
+        else
+            MES.new('error',"Time out",5)
+        end
+
+        WAIT.interrupt()
+    end)
+    WAIT{
+        quit=function()
+            NET.unlock('pwLogin')
+            HTTP.deletePool('pwLogin')
+        end,
+        timeout=12.6,
+    }
+end
+--------------------------</NEW API>
+
+
 
 --Connect
-function NET.wsconn_app()
-    if WS.status('app')=='dead'then
-        WS.connect('app','/app',nil,6)
-        TASK.new(NET.updateWS_app)
-    end
-end
-function NET.wsconn_user_pswd(email,password)
-    if WS.status('user')=='dead'then
-        WS.connect('user','/user',JSON.encode{
-            email=email,
-            password=password,
-        },6)
-        TASK.new(NET.updateWS_user)
-    end
-end
-function NET.wsconn_user_token(uid,authToken)
-    if WS.status('user')=='dead'then
-        WS.connect('user','/user',JSON.encode{
-            uid=uid,
-            authToken=authToken,
-        },6)
-        TASK.new(NET.updateWS_user)
-    end
-end
-function NET.wsconn_play()
-    if WS.status('play')=='dead'then
-        WS.connect('play','/play',JSON.encode{
-            uid=USER.uid,
-            accessToken=NET.accessToken,
-        },6)
-        TASK.new(NET.updateWS_play)
-    end
-end
-function NET.wsconn_stream(srid)
+function NET.wsconn()
     if WS.status('stream')=='dead'then
         NET.roomState.start=true
         WS.connect('stream','/stream',JSON.encode{
-            uid=USER.uid,
-            accessToken=NET.accessToken,
-            srid=srid,
+            accessToken=USER.aToken,
         },6)
         TASK.new(NET.updateWS_stream)
     end
 end
-function NET.wsconn_manage()
-    if WS.status('manage')=='dead'then
-        WS.connect('manage','/manage',JSON.encode{
-            uid=USER.uid,
-            authToken=USER.authToken,
-        },6)
-        TASK.new(NET.updateWS_manage)
-    end
-end
 
 --Disconnect
-function NET.wsclose_app()WS.close('app')end
-function NET.wsclose_user()WS.close('user')end
-function NET.wsclose_play()WS.close('play')end
-function NET.wsclose_stream()
-    NET.roomState.start=false
-    WS.close('stream')
+function NET.wsclose()
+    -- WS.close()
 end
 
 --Account & User
-function NET.register(username,email,password)
-    if NET.lock('register')then
-        WS.send('app',JSON.encode{
-            action=2,
-            data={
-                username=username,
-                email=email,
-                password=password,
-            }
-        })
-        MES.new('info',text.registerRequestSent)
-    end
-end
-function NET.tryLogin(ifAuto)
-    if NET.allow_online then
-        if WS.status('user')=='running'then
-            if NET.lock('access_and_login',8)then
-                WS.send('user',JSON.encode{action=0})
-            end
-        elseif not ifAuto then
-            SCN.go('login')
-        end
-    else
-        TEXT.show(text.needUpdate,640,450,60,'flicker')
-        SFX.play('finesseError')
-    end
-end
 function NET.getUserInfo(uid)
     WS.send('user',JSON.encode{
         action=1,
@@ -389,62 +531,6 @@ function NET.freshPlayerCount()
         end
     end
 end
-function NET.updateWS_app()
-    while WS.status('app')~='dead'do
-        yield()
-        local message,op=WS.read('app')
-        if message then
-            if op=='ping'then
-            elseif op=='pong'then
-            elseif op=='close'then
-                _closeMessage(message)
-                return
-            else
-                local res=_parse(message)
-                if res then
-                    if res.type=='Connect'then
-                        if VERSION.code>=res.lowest then
-                            NET.allow_online=true
-                            if USER.authToken then
-                                NET.wsconn_user_token(USER.uid,USER.authToken)
-                            elseif SCN.cur=='main'then
-                                SCN.go('login')
-                            end
-                        end
-                        if VERSION.code<res.newestCode then
-                            MES.new('warn',text.oldVersion:gsub("$1",res.newestName),3)
-                        end
-                        MES.new('broadcast',_parseNotice(res.notice),5)
-                        NET.tryLogin(true)
-                        TASK.new(NET.freshPlayerCount)
-                    elseif res.action==0 then--Broadcast
-                        MES.new('broadcast',res.data.message,5)
-                    elseif res.action==1 then--Get notice
-                        --?
-                    elseif res.action==2 then--Register
-                        if res.type=='Self'or res.type=='Server'then
-                            MES.new('info',res.data.message,5)
-                            if SCN.cur=='register'then
-                                SCN.back()
-                            end
-                        else
-                            MES.new('warn',res.reason or"Registration failed",5)
-                        end
-                        NET.unlock('register')
-                    elseif res.action==3 then--Get player counts
-                        NET.UserCount=res.data.User
-                        NET.PlayCount=res.data.Play
-                        NET.StreamCount=res.data.Stream
-                        --res.data.Chat
-                        NET.unlock('freshPlayerCount')
-                    end
-                else
-                    WS.alert('app')
-                end
-            end
-        end
-    end
-end
 function NET.updateWS_user()
     while WS.status('user')~='dead'do
         yield()
@@ -488,266 +574,6 @@ function NET.updateWS_user()
                     end
                 else
                     WS.alert('user')
-                end
-            end
-        end
-    end
-end
-function NET.updateWS_play()
-    while WS.status('play')~='dead'do
-        yield()
-        local message,op=WS.read('play')
-        if message then
-            if op=='ping'then
-            elseif op=='pong'then
-            elseif op=='close'then
-                _closeMessage(message)
-                return
-            else
-                local res=_parse(message)
-                if res then
-                    local d=res.data
-                    if res.type=='Connect'then
-                        SCN.go('net_menu')
-                        NET.unlock('wsc_play')
-                        NET.unlock('access_and_login')
-                        SFX.play('connected')
-                    elseif res.action==0 then--Fetch rooms
-                        if SCN.cur=="net_rooms"then
-                            WIDGET.active.roomList:setList(res.roomList)
-                        end
-                        NET.unlock('fetchRoom')
-                    elseif res.action==1 then--Create room (not used)
-                        --?
-                    elseif res.action==2 then--Player join
-                        if res.type=='Self'then
-                            --Enter new room
-                            NETPLY.clear()
-                            if d.players then
-                                for _,p in next,d.players do
-                                    NETPLY.add{
-                                        uid=p.uid,
-                                        username=p.username,
-                                        sid=p.sid,
-                                        mode=p.mode,
-                                        config=p.config,
-                                    }
-                                end
-                            end
-                            NET.roomState.roomInfo=d.roomInfo
-                            NET.roomState.roomData=d.roomData
-                            NET.roomState.count=d.count
-                            NET.roomState.capacity=d.capacity
-                            NET.roomState.private=d.private
-                            NET.roomState.start=d.start
-
-                            NET.roomReadyState=false
-
-                            NET.spectate=false
-
-                            if d.srid then
-                                NET.spectate=true
-                                NET.specSRID=d.srid
-                                NET.roomReadyState='connecting'
-                            end
-                            loadGame('netBattle',true,true)
-                        else
-                            --Load other players
-                            NETPLY.add{
-                                uid=d.uid,
-                                username=d.username,
-                                sid=d.sid,
-                                mode=d.mode,
-                                config=d.config,
-                            }
-                            if SCN.cur=='net_game'then
-                                SCN.socketRead('join',d)
-                            end
-                            if NET.roomReadyState=='allReady'then
-                                NET.roomReadyState=false
-                            end
-                        end
-                    elseif res.action==3 then--Player leave
-                        if not d.uid then
-                            NET.wsclose_stream()
-                            NET.unlock('quit')
-                            if SCN.stack[#SCN.stack-1]=='net_newRoom'then
-                                SCN.pop()
-                            end
-                            SCN.back()
-                        else
-                            NETPLY.remove(d.sid)
-                            _removePlayer(PLAYERS,d.sid)
-                            _removePlayer(PLY_ALIVE,d.sid)
-                            if SCN.cur=='net_game'then
-                                SCN.socketRead('leave',d)
-                            end
-                        end
-                    elseif res.action==4 then--Player talk
-                        if SCN.cur=='net_game'then
-                            SCN.socketRead('talk',d)
-                        end
-                    elseif res.action==5 then--Player change settings
-                        NETPLY.setConf(d.uid,d.config)
-                    elseif res.action==6 then--Player change join mode
-                        NETPLY.setJoinMode(d.uid,d.mode)
-                    elseif res.action==7 then--All Ready
-                        SFX.play('reach',.6)
-                        NET.roomReadyState='allReady'
-                    elseif res.action==8 then--Set
-                        NET.roomReadyState='connecting'
-                        NET.wsconn_stream(d.srid)
-                    elseif res.action==9 then--Game finished
-                        if SCN.cur=='net_game'then
-                            SCN.socketRead('finish',d)
-                        end
-
-                        --d.result: list of {place,survivalTime,uid,score}
-                        for _,p in next,d.result do
-                            for _,P in next,PLAYERS do
-                                if P.uid==p.uid then
-                                    NETPLY.setStat(p.uid,P.stat)
-                                    NETPLY.setPlace(p.uid,p.place)
-                                    break
-                                end
-                            end
-                        end
-
-                        NETPLY.resetState()
-                        NETPLY.freshPos()
-                        NET.roomState.start=false
-                        if NET.spectate then
-                            NET.signal_setMode(2)
-                        end
-                        NET.spectate=false
-                        NET.wsclose_stream()
-                    end
-                else
-                    WS.alert('play')
-                end
-            end
-        end
-    end
-end
-function NET.updateWS_stream()
-    while WS.status('stream')~='dead'do
-        yield()
-        local message,op=WS.read('stream')
-        if message then
-            if op=='ping'then
-            elseif op=='pong'then
-            elseif op=='close'then
-                _closeMessage(message)
-                return
-            else
-                local res=_parse(message)
-                if res then
-                    local d=res.data
-                    if res.type=='Connect'then
-                        NET.unlock('wsc_stream')
-                        NET.roomReadyState=false
-                    elseif res.action==0 then--Game start
-                        NET.roomReadyState=false
-                        SCN.socketRead('go')
-                    elseif res.action==1 then--Game finished
-                        --?
-                    elseif res.action==2 then--Player join
-                        if res.type=='Self'then
-                            NET.seed=d.seed
-                            NET.spectate=d.spectate
-                            NETPLY.setConnect(d.uid)
-                            for _,p in next,d.connected do
-                                if not p.spectate then
-                                    NETPLY.setConnect(p.uid)
-                                end
-                            end
-                            if d.spectate then
-                                if d.start then
-                                    SCN.socketRead('go')
-                                    if d.history then
-                                        for _,v in next,d.history do
-                                            _pumpStream(v)
-                                        end
-                                    end
-                                end
-                            else
-                                NET.roomReadyState='waitConn'
-                            end
-                        else
-                            if d.spectate then
-                                NETPLY.setJoinMode(d.uid,2)
-                            else
-                                NETPLY.setConnect(d.uid)
-                            end
-                        end
-                    elseif res.action==3 then--Player leave
-                        --?
-                    elseif res.action==4 then--Player died
-                        for _,P in next,PLY_ALIVE do
-                            if P.uid==d.uid then
-                                P:lose(true)
-                                break
-                            end
-                        end
-                    elseif res.action==5 then--Receive stream
-                        _pumpStream(d)
-                    end
-                else
-                    WS.alert('stream')
-                end
-            end
-        end
-    end
-end
-function NET.updateWS_chat()
-    while WS.status('chat')~='dead'do
-        yield()
-        local message,op=WS.read('chat')
-        if message then
-            if op=='ping'then
-            elseif op=='pong'then
-            elseif op=='close'then
-                _closeMessage(message)
-                return
-            else
-                local res=_parse(message)
-                if res then
-                    --TODO
-                else
-                    WS.alert('chat')
-                end
-            end
-        end
-    end
-end
-function NET.updateWS_manage()
-    while WS.status('manage')~='dead'do
-        yield()
-        local message,op=WS.read('manage')
-        if message then
-            if op=='ping'then
-            elseif op=='pong'then
-            elseif op=='close'then
-                _closeMessage(message)
-                return
-            else
-                local res=_parse(message)
-                if res then
-                    if res.type=='Connect'then
-                        MES.new('check',"Manage connected")
-                    elseif res.action==0 then
-                        MES.new('check',"success")
-                    elseif res.action==9 then
-                        MES.new('check',"success")
-                    elseif res.action==10 then
-                        MES.new('info',TABLE.dump(res.data))
-                    elseif res.action==11 then
-                        MES.new('info',TABLE.dump(res.data))
-                    elseif res.action==12 then
-                        MES.new('info',TABLE.dump(res.data))
-                    end
-                else
-                    WS.alert('manage')
                 end
             end
         end

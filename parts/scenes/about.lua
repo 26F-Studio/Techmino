@@ -33,7 +33,7 @@ function scene.draw()
 
     --Lib used
     setFont(15)
-    gc.print(text.used,495,462)--❤Flandre❤
+    gc.print(text.used,495,426)--❤Flandre❤
 
     --Logo
     gc.draw(TEXTURE.title,280,610,.1,.4+.03*sin(TIME()*2.6),nil,580,118)
