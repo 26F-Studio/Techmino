@@ -1,7 +1,6 @@
 local loveEncode,loveDecode=love.data.encode,love.data.decode
-local rem=table.remove
 
-local WS,TIME=WS,TIME
+local WS=WS
 local yield=YIELD
 local PLAYERS=PLAYERS
 
@@ -28,9 +27,7 @@ local NET={
 
     roomReadyState=false,
 
-    UserCount="_",
-    PlayCount="_",
-    StreamCount="_",
+    onlineCount="_",
 }
 
 local mesType={
@@ -40,29 +37,6 @@ local mesType={
     Private=true,
     Server=true,
 }
-
---Lock & Unlock submodule
-local locks do
-    local rawset=rawset
-    locks=setmetatable({},{
-        __index=function(self,k)rawset(self,k,-1e99)return -1e99 end,
-        __newindex=function(self,k)rawset(self,k,-1e99)end,
-    })
-end
-function NET.lock(name,T)
-    if TIME()>=locks[name]then
-        locks[name]=TIME()+(T or 1e99)
-        return true
-    else
-        return false
-    end
-end
-function NET.unlock(name)
-    locks[name]=-1e99
-end
-function NET.getlock(name)
-    return TIME()<locks[name]
-end
 
 --Parse json message
 local function _parse(res)
@@ -107,7 +81,7 @@ local function getMsg(request,timeout)
     end
 end
 function NET.getCode(email)
-    if not NET.lock('getCode') then return end
+    if not TASK.lock('getCode') then return end
     TASK.new(function()
         local res=getMsg({
             pool='getCode',
@@ -131,14 +105,14 @@ function NET.getCode(email)
     end)
     WAIT{
         quit=function()
-            NET.unlock('getCode')
+            TASK.unlock('getCode')
             HTTP.deletePool('getCode')
         end,
         timeout=12.6,
     }
 end
 function NET.codeLogin(code)
-    if not NET.lock('codeLogin') then return end
+    if not TASK.lock('codeLogin') then return end
     TASK.new(function()
         local res=getMsg({
             pool='codeLogin',
@@ -171,14 +145,14 @@ function NET.codeLogin(code)
     end)
     WAIT{
         quit=function()
-            NET.unlock('codeLogin')
+            TASK.unlock('codeLogin')
             HTTP.deletePool('codeLogin')
         end,
         timeout=6.26,
     }
 end
 function NET.setPW(code,pw)
-    if not NET.lock('setPW') then return end
+    if not TASK.lock('setPW') then return end
     TASK.new(function()
         pw=HASH.hmac()
 
@@ -208,7 +182,7 @@ function NET.setPW(code,pw)
     end)
     WAIT{
         quit=function()
-            NET.unlock('setPW')
+            TASK.unlock('setPW')
             HTTP.deletePool('setPW')
         end,
         timeout=6.26,
@@ -219,7 +193,7 @@ function NET.autoLogin()
         SCN.go('login')
         return
     end
-    if not NET.lock('autoLogin') then return end
+    if not TASK.lock('autoLogin') then return end
     TASK.new(function()
         if USER.aToken then
             local res=getMsg({
@@ -297,14 +271,14 @@ function NET.autoLogin()
     end)
     WAIT{
         quit=function()
-            NET.unlock('autoLogin')
+            TASK.unlock('autoLogin')
             HTTP.deletePool('autoLogin')
         end,
         timeout=12.6,
     }
 end
 function NET.pwLogin(email,pw)
-    if not NET.lock('pwLogin') then return end
+    if not TASK.lock('pwLogin') then return end
     TASK.new(function()
         pw=STRING.digezt(pw)
 
@@ -336,7 +310,7 @@ function NET.pwLogin(email,pw)
     end)
     WAIT{
         quit=function()
-            NET.unlock('pwLogin')
+            TASK.unlock('pwLogin')
             HTTP.deletePool('pwLogin')
         end,
         timeout=12.6,
@@ -348,7 +322,7 @@ end
 
 --Connect
 function NET.wsconn()
-    if WS.status('stream')=='dead'then
+    if WS.status('game')=='dead'then
         NET.roomState.start=true
         WS.connect('stream','/stream',JSON.encode{
             accessToken=USER.aToken,
@@ -364,7 +338,7 @@ end
 
 --Account & User
 function NET.getUserInfo(uid)
-    WS.send('user',JSON.encode{
+    WS.send('game',JSON.encode{
         action=1,
         data={
             uid=uid,
@@ -375,8 +349,8 @@ end
 
 --Save
 function NET.uploadSave()
-    if NET.lock('uploadSave',8)then
-        WS.send('user','{"action":2,"data":{"sections":'..JSON.encode{
+    if TASK.lock('uploadSave',8)then
+        WS.send('game','{"action":2,"data":{"sections":'..JSON.encode{
             {section=1,data=STRING.packTable(STAT)},
             {section=2,data=STRING.packTable(RANKS)},
             {section=3,data=STRING.packTable(SETTING)},
@@ -389,8 +363,8 @@ function NET.uploadSave()
     end
 end
 function NET.downloadSave()
-    if NET.lock('downloadSave',8)then
-        WS.send('user','{"action":3,"data":{"sections":[1,2,3,4,5,6,7]}}')
+    if TASK.lock('downloadSave',8)then
+        WS.send('game','{"action":3,"data":{"sections":[1,2,3,4,5,6,7]}}')
         MES.new('info',"Downloading")
     end
 end
@@ -440,8 +414,8 @@ end
 
 --Room
 function NET.fetchRoom()
-    if NET.lock('fetchRoom',3)then
-        WS.send('play',JSON.encode{
+    if TASK.lock('fetchRoom',3)then
+        WS.send('game',JSON.encode{
             action=0,
             data={
                 type=nil,
@@ -452,10 +426,10 @@ function NET.fetchRoom()
     end
 end
 function NET.createRoom(roomName,description,capacity,roomType,roomData,password)
-    if NET.lock('enterRoom',2)then
+    if TASK.lock('enterRoom',2)then
         NET.roomState.private=not not password
         NET.roomState.capacity=capacity
-        WS.send('play',JSON.encode{
+        WS.send('game',JSON.encode{
             action=1,
             data={
                 capacity=capacity,
@@ -474,9 +448,9 @@ function NET.createRoom(roomName,description,capacity,roomType,roomData,password
     end
 end
 function NET.enterRoom(room,password)
-    if NET.lock('enterRoom',6)then
+    if TASK.lock('enterRoom',6)then
         SFX.play('reach',.6)
-        WS.send('play',JSON.encode{
+        WS.send('game',JSON.encode{
             action=2,
             data={
                 rid=room.rid,
@@ -489,50 +463,50 @@ end
 
 --Play
 function NET.checkPlayDisconn()
-    return WS.status('play')~='running'
+    return WS.status('game')~='running'
 end
 function NET.signal_quit()
-    if NET.lock('quit',3)then
-        WS.send('play','{"action":3}')
+    if TASK.lock('quit',3)then
+        WS.send('game','{"action":3}')
     end
 end
 function NET.sendMessage(mes)
-    WS.send('play','{"action":4,"data":'..JSON.encode{message=mes}..'}')
+    WS.send('game','{"action":4,"data":'..JSON.encode{message=mes}..'}')
 end
 function NET.changeConfig()
-    WS.send('play','{"action":5,"data":'..JSON.encode({config=dumpBasicConfig()})..'}')
+    WS.send('game','{"action":5,"data":'..JSON.encode({config=dumpBasicConfig()})..'}')
 end
 function NET.signal_setMode(mode)
-    if not NET.roomState.start and NET.lock('ready',3)then
-        WS.send('play','{"action":6,"data":'..JSON.encode{mode=mode}..'}')
+    if not NET.roomState.start and TASK.lock('ready',3)then
+        WS.send('game','{"action":6,"data":'..JSON.encode{mode=mode}..'}')
     end
 end
 function NET.signal_die()
-    WS.send('stream','{"action":4,"data":{"score":0,"survivalTime":0}}')
+    WS.send('game','{"action":4,"data":{"score":0,"survivalTime":0}}')
 end
 function NET.uploadRecStream(stream)
-    WS.send('stream','{"action":5,"data":{"stream":"'..loveEncode('string','base64',stream)..'"}}')
+    WS.send('game','{"action":5,"data":{"stream":"'..loveEncode('string','base64',stream)..'"}}')
 end
 
 --Chat
 function NET.sendChatMes(mes)
-    WS.send('chat',"T"..loveEncode('string','base64',mes))
+    WS.send('game',"T"..loveEncode('string','base64',mes))
 end
 function NET.quitChat()
-    WS.send('chat','q')
+    WS.send('game','q')
 end
 
 --WS task funcs
 function NET.freshPlayerCount()
-    while WS.status('app')=='running'do
+    while WS.status('game')=='running'do
         for _=1,260 do yield()end
-        if NET.lock('freshPlayerCount',10)then
-            WS.send('app',JSON.encode{action=3})
+        if TASK.lock('freshPlayerCount',10)then
+            WS.send('game',JSON.encode{action=3})
         end
     end
 end
 function NET.updateWS_user()
-    while WS.status('user')~='dead'do
+    while WS.status('game')~='dead'do
         yield()
         local message,op=WS.read('user')
         if message then
@@ -557,7 +531,7 @@ function NET.updateWS_user()
 
                         --Get self infos
                         NET.getUserInfo(USER.uid)
-                        NET.unlock('wsc_user')
+                        TASK.unlock('wsc_user')
                     elseif res.action==0 then--Get accessToken
                         NET.accessToken=res.accessToken
                         MES.new('check',text.accessOK)
@@ -565,10 +539,10 @@ function NET.updateWS_user()
                     elseif res.action==1 then--Get userInfo
                         USERS.updateUserData(res.data)
                     elseif res.action==2 then--Upload successed
-                        NET.unlock('uploadSave')
+                        TASK.unlock('uploadSave')
                         MES.new('check',text.exportSuccess)
                     elseif res.action==3 then--Download successed
-                        NET.unlock('downloadSave')
+                        TASK.unlock('downloadSave')
                         NET.loadSavedData(res.data.sections)
                         MES.new('check',text.importSuccess)
                     end

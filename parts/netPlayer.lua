@@ -148,7 +148,7 @@ function NETPLY.setJoinMode(uid,ready)
                 if ready==0 then NET.roomReadyState=false end
                 SFX.play('spin_0',.6)
                 if p.uid==USER.uid then
-                    NET.unlock('ready')
+                    TASK.unlock('ready')
                 elseif PLYmap[USER.uid].mode==0 then
                     for j=1,#PLYlist do
                         if not p.uid==USER.uid and PLYlist[j].mode==0 then

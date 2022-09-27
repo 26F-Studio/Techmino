@@ -24,7 +24,7 @@ local function _hideReadyUI()
     return
         playing or
         NET.roomState.start or
-        NET.getlock('ready')
+        TASK.getLock('ready')
 end
 
 local function _setCancel()NET.signal_setMode(0)end
