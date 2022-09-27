@@ -17,12 +17,15 @@ local author={
 
 local scene={}
 
+local playing
 local selected--Music selected
 
 local bgmList=BGM.getList()
 if #bgmList==0 then bgmList={"[NO BGM]"}end
+
 function scene.sceneInit()
-    selected=TABLE.find(bgmList,BGM.nowPlay)or 1
+    playing=BGM.getPlaying()[1]
+    selected=TABLE.find(bgmList,playing)or 1
 end
 
 function scene.wheelMoved(_,y)
@@ -42,7 +45,8 @@ function scene.keyDown(key,isRep)
         end
     elseif not isRep then
         if key=='return'or key=='space'then
-            if BGM.nowPlay~=bgmList[S]then
+            playing=BGM.getPlaying()[1]
+            if playing~=bgmList[S]then
                 BGM.play(bgmList[S])
                 SFX.play('click')
             else
@@ -94,7 +98,7 @@ function scene.draw()
     if selected<#bgmList-1 then GC.print(bgmList[selected+2],322,350+110)end
 
     --Title
-    if BGM.nowPlay then
+    if playing then
         mDraw(TEXTURE.title,570,190,nil,.42)
         local a=-t%2.3/2.3
         GC.setColor(1,1,1,math.min(a,1))
@@ -102,19 +106,19 @@ function scene.draw()
     end
 
     --Music player
-    if BGM.nowPlay then
+    if playing then
         setFont(45)
-        GC.shadedPrint(BGM.nowPlay,710,508,'left',2)
+        GC.shadedPrint(playing,710,508,'left',2)
         GC.setColor(sin(t*.5)*.2+.8,sin(t*.7)*.2+.8,sin(t)*.2+.8)
-        GC.print(BGM.nowPlay,710,508)
+        GC.print(playing,710,508)
         setFont(35)
         GC.setColor(1,sin(t*2.6)*.5+.5,sin(t*2.6)*.5+.5)
-        GC.print(author[BGM.nowPlay]or"MrZ",670,465)
+        GC.print(author[playing]or"MrZ",670,465)
 
         setFont(20)
         GC.setColor(COLOR.Z)
-        local cur=BGM.playing:tell()
-        local dur=BGM.playing:getDuration()
+        local cur=BGM.tell()
+        local dur=BGM.getDuration()
         GC.print(STRING.time_simp(cur%dur).." / "..STRING.time_simp(dur),480,626)
     end
 end
@@ -122,12 +126,12 @@ end
 scene.widgetList={
     WIDGET.newText{name='title',  x=30,y=30,font=80,align='L'},
     WIDGET.newText{name='arrow',  x=270,y=360,font=45,align='L'},
-    WIDGET.newText{name='now',    x=700,y=500,font=50,align='R',hideF=function()return not BGM.nowPlay end},
+    WIDGET.newText{name='now',    x=700,y=500,font=50,align='R',hideF=function()return not playing end},
     WIDGET.newSlider{name='slide',x=480,y=600,w=400,
-        disp=function()return BGM.playing:tell()/BGM.playing:getDuration()%1 end,
+        disp=function()return BGM.tell()/BGM.getDuration()%1 end,
         show=false,
-        code=function(v)BGM.seek(v*BGM.playing:getDuration())end,
-        hideF=function()return not BGM.nowPlay end
+        code=function(v)BGM.set('all','seek',v*BGM.getDuration())end,
+        hideF=function()return not playing end
     },
     WIDGET.newSlider{name='bgm',  x=760,y=80,w=400,disp=SETval('bgm'),code=function(v)SETTING.bgm=v BGM.setVol(SETTING.bgm)end},
     WIDGET.newButton{name='up',   x=200,y=250,w=120,sound=false,code=pressKey'up',hideF=function()return selected==1 end,font=60,fText=CHAR.key.up},

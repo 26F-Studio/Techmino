@@ -442,7 +442,7 @@ local commands={}do
     commands.playbgm={
         code=function(bgm)
             if bgm~=""then
-                if bgm~=BGM.nowPlay then
+                if bgm~=BGM.getPlaying()[1] then
                     if BGM.play(bgm)then
                         log("Now playing: "..bgm)
                     else
