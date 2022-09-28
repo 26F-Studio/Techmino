@@ -34,16 +34,16 @@ local function _setPW()
 end
 
 function scene.sceneInit()
-    state=1
+    state=SCN.args[1] or 1
     scene.fileDropped(state)
 end
 
 function scene.keyDown(key,rep)
     if key=='escape' and not rep then
-        if state==1 then
-            SCN.back()
-        else
+        if state==2 then
             scene.fileDropped(state-1)
+        else
+            SCN.back()
         end
     elseif key=='return' then
         if state==1 then
@@ -68,6 +68,14 @@ function scene.fileDropped(arg)-- Not designed for this, but it works and no sid
     scene.widgetList.password.  hide=arg~=3
     scene.widgetList.password2. hide=arg~=3
     scene.widgetList.setPW.     hide=arg~=3
+    if arg==1 then
+        scene.widgetList.email:setText(USER.email or "")
+    elseif arg==2 then
+        scene.widgetList.code:clear()
+    elseif arg==3 then
+        scene.widgetList.password:clear()
+        scene.widgetList.password2:clear()
+    end
 end
 
 scene.widgetList={

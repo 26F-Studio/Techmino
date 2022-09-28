@@ -895,39 +895,26 @@ local commands={}do
             "Example: switchhost 127.0.0.1 26000 /sock",
         },
     }
-    function commands.manage()
-        if WS.status('manage')=='running'then
-            WS.close('manage')
-            log{C.Y,"Disconnected"}
-        else
-            if({[1]=0,[2]=0,[26]=0})[USER.uid]then
-                NET.wsconn_manage()
-                log{C.Y,"Connecting"}
-            else
-                log{C.R,"Permission denied"}
-            end
-        end
-    end
     function commands.m_broadcast(str)
         if #str>0 then
-            WS.send('manage','{"action":0,"data":'..JSON.encode{message=str}..'}')
+            WS.send('game',JSON.encode{action=0,data={message=str}})
             log{C.Y,"Request sent"}
         else
             log{C.R,"Format error"}
         end
     end
-    function commands.m_shutdown(sec)
-            sec=tonumber(sec)
-        if sec and sec>0 and sec~=math.floor(sec) then
-            WS.send('manage','{"action":9,"data":'..JSON.encode{countdown=tonumber(sec)}..'}')
+    function commands.m_shutdown(time)
+        time=tonumber(time)
+        if time and time>1 then
+            WS.send('game',JSON.encode{action=0,data={countdown=time}})
             log{C.Y,"Request sent"}
         else
             log{C.R,"Format error"}
         end
     end
-    function commands.m_connInfo()WS.send('manage','{"action":10}')end
-    function commands.m_playMgrInfo()WS.send('manage','{"action":11}')end
-    function commands.m_streamMgrInfo()WS.send('manage','{"action":12}')end
+    function commands.m_connInfo()WS.send('game',JSON.encode{action=10})end
+    function commands.m_playMgrInfo()WS.send('game',JSON.encode{action=11})end
+    function commands.m_streamMgrInfo()WS.send('game',JSON.encode{action=12})end
 
     for cmd,body in next,commands do
         if type(body)=='function'then

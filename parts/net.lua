@@ -68,8 +68,11 @@ local function getMsg(request,timeout)
     while true do
         local mes=HTTP.pollMsg(request.pool)
         if mes then
-            if type(mes.body)=='string' then
+            if type(mes.body)=='string' and #mes.body>0 then
                 return JSON.decode(mes.body)
+            else
+                MES.new('info',"Oops! Server is down")
+                return
             end
         else
             totalTime=totalTime+coroutine.yield()
@@ -97,7 +100,7 @@ function NET.getCode(email)
                 MES.new('error',res.message,5)
             end
         else
-            MES.new('error',"Time out",5)
+            MES.new('warn',"Request failed",5)
         end
 
         WAIT.interrupt()
@@ -127,17 +130,17 @@ function NET.codeLogin(code)
                 USER.rToken=res.refreshToken
                 USER.aToken=res.accessToken
                 -- TODO: connect WS
-                SCN.go('net_game')
+                SCN.pop()SCN.go('net_menu')
             elseif res.code==201 then
                 USER.rToken=res.refreshToken
                 USER.aToken=res.accessToken
-                SCN.fileDropped(3)-- Not designed for this, but it works and no side effects
-                MES.new('info',"Please set your password",5)
+                SCN.pop()SCN.push('net_menu')
+                SCN.fileDropped(3)
             else
                 MES.new('error',res.message,5)
             end
         else
-            MES.new('error',"Time out",5)
+            MES.new('warn',"Request failed",5)
         end
 
         WAIT.interrupt()
@@ -168,13 +171,14 @@ function NET.setPW(code,pw)
 
         if res then
             if res.code==200 then
-                SCN.back()
+                USER.password=pw
                 MES.new('info',"Password set! Now you can login",5)
+                SCN.back()
             else
                 MES.new('error',res.message,5)
             end
         else
-            MES.new('error',"Time out",5)
+            MES.new('warn',"Request failed",5)
         end
 
         WAIT.interrupt()
@@ -204,11 +208,11 @@ function NET.autoLogin()
             if res then
                 if res.code==200 then
                     -- TODO: connect WS
-                    SCN.go('net_game')
+                    SCN.go('net_menu')
                     WAIT.interrupt()
                     return
                 else
-                    MES.new('warning',res.message,5)
+                    MES.new('warn',res.message,5)
                 end
             else
                 WAIT.interrupt()
@@ -228,11 +232,11 @@ function NET.autoLogin()
                     USER.aToken=res.accessToken
                     -- TODO: connect WS
                     MES.new('info',"Login successed",5)
-                    SCN.go('net_game')
+                    SCN.go('net_menu')
                     WAIT.interrupt()
                     return
                 else
-                    MES.new('warning',res.message,5)
+                    MES.new('warn',res.message,5)
                 end
             else
                 WAIT.interrupt()
@@ -254,11 +258,11 @@ function NET.autoLogin()
                     USER.aToken=res.accessToken
                     -- TODO: connect WS
                     MES.new('info',"Login successed",5)
-                    SCN.go('net_game')
+                    SCN.go('net_menu')
                     WAIT.interrupt()
                     return
                 else
-                    MES.new('warning',res.message,5)
+                    MES.new('warn',res.message,5)
                 end
             else
                 WAIT.interrupt()
@@ -279,7 +283,7 @@ end
 function NET.pwLogin(email,pw)
     if not TASK.lock('pwLogin') then return end
     TASK.new(function()
-        pw=STRING.digezt(pw)
+        pw=HASH.pbkdf2(HASH.sha3_256,pw,"salt",26000)
 
         local res=getMsg({
             pool='pwLogin',
@@ -297,12 +301,12 @@ function NET.pwLogin(email,pw)
                 USER.rToken=res.refreshToken
                 USER.aToken=res.accessToken
                 -- TODO: connect WS
-                SCN.go('net_game')
+                SCN.go('net_menu')
             else
                 MES.new('error',res.message,5)
             end
         else
-            MES.new('error',"Time out",5)
+            MES.new('warn',"Request failed",5)
         end
 
         WAIT.interrupt()
@@ -349,7 +353,7 @@ end
 --Save
 function NET.uploadSave()
     if TASK.lock('uploadSave',8)then
-        WS.send('game','{"action":2,"data":{"sections":'..JSON.encode{
+        WS.send('game',JSON.encode{action=2,data={sections={
             {section=1,data=STRING.packTable(STAT)},
             {section=2,data=STRING.packTable(RANKS)},
             {section=3,data=STRING.packTable(SETTING)},
@@ -357,13 +361,13 @@ function NET.uploadSave()
             {section=5,data=STRING.packTable(VK_ORG)},
             {section=6,data=STRING.packTable(loadFile('conf/vkSave1','-canSkip')or{})},
             {section=7,data=STRING.packTable(loadFile('conf/vkSave2','-canSkip')or{})},
-        }..'}}')
+        }}})
         MES.new('info',"Uploading")
     end
 end
 function NET.downloadSave()
     if TASK.lock('downloadSave',8)then
-        WS.send('game','{"action":3,"data":{"sections":[1,2,3,4,5,6,7]}}')
+        WS.send('game',JSON.encode{action=3,data={sections={1,2,3,4,5,6,7}}})
         MES.new('info',"Downloading")
     end
 end
@@ -466,25 +470,25 @@ function NET.checkPlayDisconn()
 end
 function NET.signal_quit()
     if TASK.lock('quit',3)then
-        WS.send('game','{"action":3}')
+        WS.send('game',JSON.encode{action=3})
     end
 end
 function NET.sendMessage(mes)
-    WS.send('game','{"action":4,"data":'..JSON.encode{message=mes}..'}')
+    WS.send('game',JSON.encode{action=3,data={message=mes}})
 end
 function NET.changeConfig()
-    WS.send('game','{"action":5,"data":'..JSON.encode({config=dumpBasicConfig()})..'}')
+    WS.send('game',JSON.encode{action=5,data={config=dumpBasicConfig()}})
 end
 function NET.signal_setMode(mode)
     if not NET.roomState.start and TASK.lock('ready',3)then
-        WS.send('game','{"action":6,"data":'..JSON.encode{mode=mode}..'}')
+        WS.send('game',JSON.encode{action=6,data={mode=mode}})
     end
 end
 function NET.signal_die()
-    WS.send('game','{"action":4,"data":{"score":0,"survivalTime":0}}')
+    WS.send('game',JSON.encode{action=4,data={score=0,survivalTime=0}})
 end
 function NET.uploadRecStream(stream)
-    WS.send('game','{"action":5,"data":{"stream":"'..loveEncode('string','base64',stream)..'"}}')
+    WS.send('game',JSON.encode{action=5,data={stream=loveEncode('string','base64',stream)}})
 end
 
 --Chat
@@ -521,7 +525,6 @@ function NET.updateWS_user()
                         if res.uid then
                             USER.uid=res.uid
                             USER.authToken=res.authToken
-                            saveFile(USER,'conf/user')
                             if SCN.cur=='login'then
                                 SCN.back()
                             end
@@ -534,7 +537,7 @@ function NET.updateWS_user()
                     elseif res.action==0 then--Get accessToken
                         NET.accessToken=res.accessToken
                         MES.new('check',text.accessOK)
-                        NET.wsconn_play()
+                        NET.wsconn()
                     elseif res.action==1 then--Get userInfo
                         USERS.updateUserData(res.data)
                     elseif res.action==2 then--Upload successed

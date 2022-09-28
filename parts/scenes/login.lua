@@ -10,7 +10,6 @@ local function _login()
     elseif #password==0 then
         MES.new('error',text.noPassword)return
     end
-    -- password=STRING.digezt(password)
     NET.pwLogin(email,password)
 end
 
@@ -23,13 +22,18 @@ function scene.sceneInit()
     passwordBox:setText(USER.password)
 end
 
+function scene.keyDown(key,rep)
+    if key~='return' or rep then return true end
+    _login()
+end
+
 scene.widgetList={
     WIDGET.newText{name='title',      x=80,  y=50,font=70,align='L'},
     WIDGET.newButton{name='register', x=1140,y=100,w=170,h=80,color='lY',code=function()SCN.swapTo('register','swipeR')end},
     emailBox,
     passwordBox,
     WIDGET.newSwitch{name='showEmail',x=550, y=420,disp=function()return showEmail end,code=function()showEmail=not showEmail emailBox.secret=not showEmail end},
-    WIDGET.newKey{name='login',       x=1140,y=540,w=170,h=80,font=40,code=_login},
+    WIDGET.newKey{name='login',       x=1140,y=540,w=170,h=80,font=40,code=pressKey'return'},
     WIDGET.newButton{name='back',     x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 

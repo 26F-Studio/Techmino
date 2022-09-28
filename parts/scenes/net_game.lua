@@ -232,7 +232,7 @@ end
 
 function scene.update(dt)
     if NET.checkPlayDisconn()then
-        NET.wsclose_stream()
+        NET.wsclose()
         SCN.back()
         return
     end
