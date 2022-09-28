@@ -26,15 +26,15 @@ local loadingThread=coroutine.wrap(function()
         logoColor1={COLOR.rainbow(r)}
         logoColor2={COLOR.rainbow_light(r)}
     end
-    YIELD()
-    YIELD('loadSFX')SFX.load('media/effect/'..SETTING.sfxPack..'/')
-    YIELD('loadSample')SFX.loadSample{name='bass',path='media/sample/bass',base='A2'}--A2~A4
-    YIELD('loadSample')SFX.loadSample{name='lead',path='media/sample/lead',base='A3'}--A3~A5
-    YIELD('loadSample')SFX.loadSample{name='bell',path='media/sample/bell',base='A4'}--A4~A6
-    YIELD('loadVoice')VOC.load('media/vocal/'..SETTING.vocPack..'/')
-    YIELD('loadFont')for i=1,17 do getFont(15+5*i)getFont(15+5*i,'mono')end
+    coroutine.yield()
+    coroutine.yield('loadSFX')SFX.load('media/effect/'..SETTING.sfxPack..'/')
+    coroutine.yield('loadSample')SFX.loadSample{name='bass',path='media/sample/bass',base='A2'}--A2~A4
+    coroutine.yield('loadSample')SFX.loadSample{name='lead',path='media/sample/lead',base='A3'}--A3~A5
+    coroutine.yield('loadSample')SFX.loadSample{name='bell',path='media/sample/bell',base='A4'}--A4~A6
+    coroutine.yield('loadVoice')VOC.load('media/vocal/'..SETTING.vocPack..'/')
+    coroutine.yield('loadFont')for i=1,17 do getFont(15+5*i)getFont(15+5*i,'mono')end
 
-    YIELD('loadModeIcon')
+    coroutine.yield('loadModeIcon')
     local modeIcons={}
     modeIcons.marathon=GC.DO{64,64,
         {'move',3,1},
@@ -91,13 +91,13 @@ local loadingThread=coroutine.wrap(function()
         {'fRect',20,10,23,43},
     }
 
-    YIELD('loadMode')
+    coroutine.yield('loadMode')
     for _,M in next,MODES do
         M.records=loadFile("record/"..M.name..".rec",'-luaon -canSkip')or M.score and{}
         M.icon=M.icon and(modeIcons[M.icon]or GC.newImage("media/image/modeicon/"..M.icon..".png"))
     end
 
-    YIELD('loadOther')
+    coroutine.yield('loadOther')
     STAT.run=STAT.run+1
 
     SFX.play('enter',.8)

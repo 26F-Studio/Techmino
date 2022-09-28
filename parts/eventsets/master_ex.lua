@@ -53,7 +53,7 @@ return{
         P.modeData.rankPoint=0
         P.modeData.rankName=sectionName[1]
         while true do
-            YIELD()
+            coroutine.yield()
             if P.stat.frame>=3600 then
                 P.modeData.rankPoint=math.min(P.modeData.rankPoint+passPoint,140)
                 P.modeData.rankName=sectionName[math.floor(P.modeData.rankPoint/10)+1]

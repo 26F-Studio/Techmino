@@ -695,7 +695,7 @@ do--function resetGameData(args)
     local function task_showMods()
         local time=0
         while true do
-            YIELD()
+            coroutine.yield()
             time=time+1
             if time%20==0 then
                 local M=GAME.mod[time/20]

@@ -1,7 +1,6 @@
 local loveEncode,loveDecode=love.data.encode,love.data.decode
 
 local WS=WS
-local yield=YIELD
 local PLAYERS=PLAYERS
 
 local NET={
@@ -73,7 +72,7 @@ local function getMsg(request,timeout)
                 return JSON.decode(mes.body)
             end
         else
-            totalTime=totalTime+yield()
+            totalTime=totalTime+coroutine.yield()
             if totalTime>timeout then
                 return
             end
@@ -154,7 +153,7 @@ end
 function NET.setPW(code,pw)
     if not TASK.lock('setPW') then return end
     TASK.new(function()
-        pw=HASH.hmac()
+        pw=HASH.pbkdf2(HASH.sha3_256,pw,"salt",26000)
 
         local res=getMsg({
             pool='setPW',
@@ -499,7 +498,7 @@ end
 --WS task funcs
 function NET.freshPlayerCount()
     while WS.status('game')=='running'do
-        for _=1,260 do yield()end
+        TEST.yieldN(260)
         if TASK.lock('freshPlayerCount',10)then
             WS.send('game',JSON.encode{action=3})
         end
@@ -507,7 +506,7 @@ function NET.freshPlayerCount()
 end
 function NET.updateWS_user()
     while WS.status('game')~='dead'do
-        yield()
+        coroutine.yield()
         local message,op=WS.read('user')
         if message then
             if op=='ping'then

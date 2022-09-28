@@ -1,4 +1,4 @@
-local yield=YIELD
+local yield=coroutine.yield
 local function marginTask(P)
     local S=P.stat
     while true do yield()if S.frame>90*60 then P.strength=1;P:setFrameColor(1)break end end

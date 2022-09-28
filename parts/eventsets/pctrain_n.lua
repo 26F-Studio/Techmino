@@ -14,7 +14,7 @@ local function task_PC(P)
     P:pushNextList(L,symmetry)
 
     P.control=false
-    if P.frameRun>180 then for _=1,26 do YIELD()end end
+    if P.frameRun>180 then for _=1,26 do coroutine.yield()end end
     P.control=true
 
     local base=PCbase[difficulty]

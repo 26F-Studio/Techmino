@@ -8,7 +8,7 @@ return{
     end,
     task=function(P)
         while true do
-            YIELD()
+            coroutine.yield()
             if P.control and P.atkBufferSum==0 then
                 local D=P.modeData
                 if D.wave==50 then

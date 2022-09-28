@@ -6,7 +6,7 @@ return{
     end,
     task=function(P)
         while true do
-            YIELD()
+            coroutine.yield()
             if P.control then
                 local D=P.modeData
                 D.timer=D.timer+1

@@ -22,7 +22,6 @@
 local fs=love.filesystem
 VERSION=require"version"
 TIME=love.timer.getTime
-YIELD=coroutine.yield
 SYSTEM=love.system.getOS()if SYSTEM=='OS X'then SYSTEM='macOS'end
 FNNS=SYSTEM:find'\79\83'--What does FNSF stand for? IDK so don't ask me lol
 MOBILE=SYSTEM=='Android'or SYSTEM=='iOS'
@@ -662,7 +661,7 @@ for i=1,#_LOADTIMELIST_ do LOG(_LOADTIMELIST_[i])end
 --Launch testing task if launch param received
 if TABLE.find(arg,'--test')then
     TASK.new(function()
-        while not LOADED do YIELD()end
+        while not LOADED do coroutine.yield()end
 
         LOG("\27[92m\27[1mAutomatic Test Started\27[0m")
         BGM.setVol(0)SFX.setVol(0)
@@ -684,7 +683,7 @@ if TABLE.find(arg,'--test')then
     end)
     TASK.new(function()
         while true do
-            YIELD()
+            coroutine.yield()
             if Z.getErr(1)then break end
         end
         LOG("\27[91m\27[1mAutomatic Test Failed :(\27[0m\nThe error message is:\n"..table.concat(Z.getErr(1).mes,"\n").."\27[91m\nAborting\27[0m")

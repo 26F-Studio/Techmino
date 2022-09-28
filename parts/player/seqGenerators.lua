@@ -1,5 +1,5 @@
 local ins,rem=table.insert,table.remove
-local yield=YIELD
+local yield=coroutine.yield
 
 local seqGenerators={
     none=function()while true do yield()end end,

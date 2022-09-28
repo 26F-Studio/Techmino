@@ -5,7 +5,7 @@ return{
         sequence=function(P)
             for _=1,3 do P:getNext(7)end
             while true do
-                YIELD()
+                coroutine.yield()
                 if not P.nextQueue[1]then
                     local height=TABLE.new(0,10)
                     local max=#P.field

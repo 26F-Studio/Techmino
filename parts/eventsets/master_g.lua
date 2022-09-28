@@ -289,7 +289,7 @@ return{
         local decayRate={125,80,80,50,45,45,45,40,40,40,40,40,30,30,30,20,20,20,20,20,15,15,15,15,15,15,15,15,15,15,10,10,10,9,9,9,8,8,8,7,7,7,6}
         local decayTimer=0
         while true do
-            YIELD()
+            coroutine.yield()
             P.modeData.grade=getGrade()
             P.modeData.gradePts=math.max(math.min(math.floor(int_grade_boosts[math.min(int_grade+1,#int_grade_boosts)]+rollGrades+cools+1-regrets),#gradeList),1)
             if P.stat.frame-prevSectTime > reg_time[math.ceil(P.modeData.pt/100+0.01)] and not (isInRoll or isInRollTrans) then
@@ -336,7 +336,7 @@ return{
                 rollGrades=rollGrades+(cools>8 and 1.6 or 0.5)
                 P.modeData.grade=getGrade()
                 P.modeData.gradePts=math.min(math.floor(int_grade_boosts[math.min(int_grade+1,#int_grade_boosts)]+rollGrades+cools+1-regrets),#gradeList)
-                YIELD()
+                coroutine.yield()
                 P:win('finish')
             end
         end
