@@ -27,16 +27,24 @@ local function _hideReadyUI()
         TASK.getLock('ready')
 end
 
-local function _setCancel()NET.signal_setMode(0)end
-local function _setReady()NET.signal_setMode(1)end
-local function _setSpectate()NET.signal_setMode(2)end
+local function _setCancel()
+    NET.player.setPlaying(true)
+    NET.player.setReady(true)
+end
+local function _setReady()
+    NET.player.setReady(true)
+end
+local function _setSpectate()
+    NET.player.setPlaying(false)
+end
+
 local function _gotoSetting()
     GAME.prevBG=BG.cur
     SCN.go('setting_game')
 end
 local function _quit()
     if tryBack()then
-        NET.signal_quit()
+        NET.room.leave()
         if SCN.stack[#SCN.stack-1]=='net_newRoom'then
             SCN.pop()
         end
@@ -69,14 +77,13 @@ function scene.sceneInit()
     newMessageTimer=0
 
     if SCN.prev=='setting_game'then
-        NET.changeConfig()
+        NET.player.updateConf()
     end
     if GAME.prevBG then
         BG.set(GAME.prevBG)
         GAME.prevBG=false
     end
     if NET.specSRID then
-        NET.wsconn_stream(NET.specSRID)
         NET.specSRID=false
     end
 end
@@ -137,7 +144,7 @@ function scene.keyDown(key,isRep)
     elseif key=='return'then
         local mes=STRING.trim(inputBox:getText())
         if not inputBox.hide and #mes>0 then
-            NET.sendMessage(mes)
+            NET.room.chat(mes)
             inputBox:clear()
         else
             _switchChat()
@@ -231,8 +238,8 @@ function scene.socketRead(cmd,d)
 end
 
 function scene.update(dt)
-    if NET.checkPlayDisconn()then
-        NET.wsclose()
+    if WS.status('game')~='running' then
+        NET.closeWS()
         SCN.back()
         return
     end
@@ -261,7 +268,7 @@ function scene.update(dt)
             elseif #stream%3==2 then
                 stream=stream.."\0\0\0\0"
             end
-            NET.uploadRecStream(stream)
+            NET.player.stream(stream)
             lastUpstreamTime=PLAYERS[1].alive and P1.frameRun or 1e99
         end
     else

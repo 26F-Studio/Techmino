@@ -178,6 +178,7 @@ Z.setOnFnKeys({
     function()for k,v in next,_G do print(k,v)end end,
     function()if love['_openConsole']then love['_openConsole']()end end,
 })
+Z.setVersionText(VERSION.string)
 Z.setDebugInfo{
     {"Cache",gcinfo},
     {"Tasks",TASK.getCount},
@@ -691,6 +692,6 @@ if TABLE.find(arg,'--test')then
         love.event.quit(1)
     end)
 end
-WS.switchHost('cafuuchino1.3322.org','10026','/tech/socket/v1')
+WS.switchHost('cafuuchino1.3322.org','10026','/techmino/ws/v1')
 HTTP.setHost("cafuuchino1.3322.org:10026")
 HTTP.setThreadCount(1)

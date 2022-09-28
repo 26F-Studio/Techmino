@@ -51,7 +51,7 @@ local passwordBox=WIDGET.newInputBox{name='password',x=350,y=505,w=500,h=50,secr
 }]]
 local function _fetchRoom()
     fetchTimer=10
-    NET.fetchRoom()
+    NET.room.fetch()
 end
 local scene={}
 
@@ -70,7 +70,7 @@ function scene.keyDown(key)
         local R=roomList:getSel()
         if TASK.getLock('fetchRoom')or not R then return end
         if R.roomInfo.version==VERSION.room then
-            NET.enterRoom(R,passwordBox.value)
+            NET.room.enter(R,passwordBox.value)
         else
             MES.new('error',text.versionNotMatch)
         end

@@ -9,7 +9,7 @@ function scene.sceneInit()
     sysAndScn=SYSTEM.."-"..VERSION.string.."       scene:"..Z.getErr('#').scene
     errorText=LOADED and text.errorMsg or"An error has occurred while the game was loading.\nAn error log has been created so you can send it to the author."
     errorShot,errorInfo=Z.getErr('#').shot,Z.getErr('#').mes
-    NET.wsclose()
+    NET.closeWS()
     if SETTING then
         SFX.fplay('error',SETTING.voc*.8 or 0)
     end

@@ -1,5 +1,3 @@
-local loveEncode,loveDecode=love.data.encode,love.data.decode
-
 local WS=WS
 local PLAYERS=PLAYERS
 
@@ -61,7 +59,7 @@ end
 
 
 
---------------------------<NEW API>
+--------------------------<NEW HTTP API>
 local function getMsg(request,timeout)
     HTTP(request)
     local totalTime=0
@@ -127,13 +125,13 @@ function NET.codeLogin(code)
 
         if res then
             if res.code==200 then
-                USER.rToken=res.refreshToken
-                USER.aToken=res.accessToken
-                -- TODO: connect WS
+                USER.rToken=res.data.refreshToken
+                USER.aToken=res.data.accessToken
+                NET.connectWS()
                 SCN.pop()SCN.go('net_menu')
             elseif res.code==201 then
-                USER.rToken=res.refreshToken
-                USER.aToken=res.accessToken
+                USER.rToken=res.data.refreshToken
+                USER.aToken=res.data.accessToken
                 SCN.pop()SCN.push('net_menu')
                 SCN.fileDropped(3)
             else
@@ -207,7 +205,7 @@ function NET.autoLogin()
 
             if res then
                 if res.code==200 then
-                    -- TODO: connect WS
+                    NET.connectWS()
                     SCN.go('net_menu')
                     WAIT.interrupt()
                     return
@@ -228,9 +226,9 @@ function NET.autoLogin()
 
             if res then
                 if res.code==200 then
-                    USER.rToken=res.refreshToken
-                    USER.aToken=res.accessToken
-                    -- TODO: connect WS
+                    USER.rToken=res.data.refreshToken
+                    USER.aToken=res.data.accessToken
+                    NET.connectWS()
                     MES.new('info',"Login successed",5)
                     SCN.go('net_menu')
                     WAIT.interrupt()
@@ -253,10 +251,11 @@ function NET.autoLogin()
                 },
             },6.26)
             if res then
+                print(TABLE.dump(res))
                 if res.code==200 then
-                    USER.rToken=res.refreshToken
-                    USER.aToken=res.accessToken
-                    -- TODO: connect WS
+                    USER.rToken=res.data.refreshToken
+                    USER.aToken=res.data.accessToken
+                    NET.connectWS()
                     MES.new('info',"Login successed",5)
                     SCN.go('net_menu')
                     WAIT.interrupt()
@@ -298,9 +297,9 @@ function NET.pwLogin(email,pw)
             if res.code==200 then
                 USER.email=email
                 USER.password=pw
-                USER.rToken=res.refreshToken
-                USER.aToken=res.accessToken
-                -- TODO: connect WS
+                USER.rToken=res.data.refreshToken
+                USER.aToken=res.data.accessToken
+                NET.connectWS()
                 SCN.go('net_menu')
             else
                 MES.new('error',res.message,5)
@@ -319,30 +318,200 @@ function NET.pwLogin(email,pw)
         timeout=12.6,
     }
 end
---------------------------</NEW API>
 
+--------------------------<NEW WS API>
+local function wsSend(act,data)
+    WS.send('game',JSON.encode{
+        action=act,
+        data=data,
+    })
+end
 
+--Room
+NET.room={}
+function NET.room.chat(mes,rid)
+    wsSend(1300,{
+        message=mes,
+        roomId=rid,--Admin
+    })
+end
+function NET.room.create(roomName,description,capacity,roomType,roomData,password)
+    if TASK.lock('enterRoom',2)then
+        NET.roomState.private=not not password
+        NET.roomState.capacity=capacity
+        wsSend(1301,{
+            capacity=capacity,
+            info={
+                name=roomName,
+                type=roomType,
+                version=VERSION.room,
+                description=description,
+            },
+            data=roomData,
 
---Connect
-function NET.wsconn()
+            password=password,
+        })
+    end
+end
+function NET.room.getData(rid)
+    wsSend(1302,{
+        roomId=rid,--Admin
+    })
+end
+function NET.room.setData(data,rid)
+    wsSend(1303,{
+        data=data,
+        roomId=rid,--Admin
+    })
+end
+function NET.room.getInfo(rid)
+    wsSend(1304,{
+        roomId=rid,--Admin
+    })
+end
+function NET.room.setInfo(info,rid)
+    wsSend(1305,{
+        info=info,
+        roomId=rid,--Admin
+    })
+end
+function NET.room.enter(rid,password)
+    if TASK.lock('enterRoom',6)then
+        SFX.play('reach',.6)
+        wsSend(1306,{
+            data={
+                rid=rid,
+                password=password,
+            }
+        })
+    end
+end
+function NET.room.kick(pid,rid)
+    wsSend(1307,{
+        playerId=pid,--Host
+        roomId=rid,--Admin
+    })
+end
+function NET.room.leave()
+    wsSend(1308)
+end
+function NET.room.fetch()
+    if TASK.lock('fetchRoom',3)then
+        wsSend(1309,{
+            data={
+                pageIndex=0,
+                pageSize=26,
+            }
+        })
+    end
+end
+function NET.room.setPW(pw,rid)
+    if TASK.lock('fetchRoom',3)then
+        wsSend(1310,{
+            data={
+                password=pw,
+                roomId=rid,--Admin
+            }
+        })
+    end
+end
+function NET.room.remove(rid)
+    wsSend(1311,{
+        roomId=rid--Admin
+    })
+end
+
+--Player
+NET.player={}
+function NET.player.updateConf()
+    wsSend(1200,dumpBasicConfig())
+end
+function NET.player.finish(mes)--what mes?
+    wsSend(1201,mes)
+end
+function NET.player.joinGroup(gid)
+    wsSend(1202,gid)
+end
+function NET.player.setReady(bool)
+    wsSend(1203,bool)
+end
+function NET.player.setHost(pid)
+    wsSend(1204,{
+        playerId=pid,
+        role='Admin',
+    })
+end
+function NET.player.setState(state)-- what state?
+    wsSend(1205,state)
+end
+function NET.player.stream(stream)
+    wsSend(1206,stream)
+end
+function NET.player.setPlaying(playing)
+    wsSend(1207,playing and 'Gamer' or 'Spectator')
+end
+
+--WS
+function NET.connectWS()
     if WS.status('game')=='dead'then
-        NET.roomState.start=true
-        WS.connect('stream','/stream',JSON.encode{
-            accessToken=USER.aToken,
+        WS.connect('game','',{
+            ['x-access-token']=USER.aToken,
         },6)
-        TASK.new(NET.updateWS_stream)
+        TASK.new(NET.updateWS)
+    end
+end
+function NET.closeWS()
+    WS.close('game')
+end
+function NET.updateWS()
+    while WS.status('game')~='dead'do
+        coroutine.yield()
+        local message,op=WS.read('game')
+        if message then
+            if op=='ping'then
+            elseif op=='pong'then
+            elseif op=='close'then
+                _closeMessage(message)
+                return
+            else
+                local res=_parse(message)
+                if res then
+                    if res.type=='Connect'then
+                        MES.new('info','Connected!')
+                    elseif res.action==1100 then-- TODO
+                    elseif res.action==1101 then-- TODO
+                    elseif res.action==1102 then-- TODO
+                    elseif res.action==1201 then-- TODO
+                    elseif res.action==1202 then-- TODO
+                    elseif res.action==1203 then-- TODO
+                    elseif res.action==1204 then-- TODO
+                    elseif res.action==1205 then-- TODO
+                    elseif res.action==1206 then-- TODO
+                    elseif res.action==1207 then-- TODO
+                    elseif res.action==1301 then-- TODO
+                    elseif res.action==1302 then-- TODO
+                    elseif res.action==1303 then-- TODO
+                    elseif res.action==1304 then-- TODO
+                    elseif res.action==1305 then-- TODO
+                    elseif res.action==1306 then-- TODO
+                    elseif res.action==1307 then-- TODO
+                    elseif res.action==1308 then-- TODO
+                    elseif res.action==1309 then-- TODO
+                    elseif res.action==1310 then-- TODO
+                    elseif res.action==1311 then-- TODO
+                    end
+                else
+                    WS.alert('user')
+                end
+            end
+        end
     end
 end
 
---Disconnect
-function NET.wsclose()
-    -- WS.close()
-end
-
+--------------------------<OLD ONLINE API>
 --Account & User
 function NET.getUserInfo(uid)
-    WS.send('game',JSON.encode{
-        action=1,
+    wsSend({
         data={
             uid=uid,
             hash=USERS.getHash(uid),
@@ -353,7 +522,7 @@ end
 --Save
 function NET.uploadSave()
     if TASK.lock('uploadSave',8)then
-        WS.send('game',JSON.encode{action=2,data={sections={
+        wsSend({data={sections={
             {section=1,data=STRING.packTable(STAT)},
             {section=2,data=STRING.packTable(RANKS)},
             {section=3,data=STRING.packTable(SETTING)},
@@ -367,7 +536,7 @@ function NET.uploadSave()
 end
 function NET.downloadSave()
     if TASK.lock('downloadSave',8)then
-        WS.send('game',JSON.encode{action=3,data={sections={1,2,3,4,5,6,7}}})
+        wsSend({data={sections={1,2,3,4,5,6,7}}})
         MES.new('info',"Downloading")
     end
 end
@@ -412,147 +581,6 @@ function NET.loadSavedData(sections)
         MES.new('check',text.saveDone)
     else
         MES.new('warn',text.dataCorrupted)
-    end
-end
-
---Room
-function NET.fetchRoom()
-    if TASK.lock('fetchRoom',3)then
-        WS.send('game',JSON.encode{
-            action=0,
-            data={
-                type=nil,
-                begin=0,
-                count=10,
-            }
-        })
-    end
-end
-function NET.createRoom(roomName,description,capacity,roomType,roomData,password)
-    if TASK.lock('enterRoom',2)then
-        NET.roomState.private=not not password
-        NET.roomState.capacity=capacity
-        WS.send('game',JSON.encode{
-            action=1,
-            data={
-                capacity=capacity,
-                password=password,
-                roomInfo={
-                    name=roomName,
-                    type=roomType,
-                    version=VERSION.room,
-                    description=description,
-                },
-                roomData=roomData,
-
-                config=dumpBasicConfig(),
-            }
-        })
-    end
-end
-function NET.enterRoom(room,password)
-    if TASK.lock('enterRoom',6)then
-        SFX.play('reach',.6)
-        WS.send('game',JSON.encode{
-            action=2,
-            data={
-                rid=room.rid,
-                config=dumpBasicConfig(),
-                password=password,
-            }
-        })
-    end
-end
-
---Play
-function NET.checkPlayDisconn()
-    return WS.status('game')~='running'
-end
-function NET.signal_quit()
-    if TASK.lock('quit',3)then
-        WS.send('game',JSON.encode{action=3})
-    end
-end
-function NET.sendMessage(mes)
-    WS.send('game',JSON.encode{action=3,data={message=mes}})
-end
-function NET.changeConfig()
-    WS.send('game',JSON.encode{action=5,data={config=dumpBasicConfig()}})
-end
-function NET.signal_setMode(mode)
-    if not NET.roomState.start and TASK.lock('ready',3)then
-        WS.send('game',JSON.encode{action=6,data={mode=mode}})
-    end
-end
-function NET.signal_die()
-    WS.send('game',JSON.encode{action=4,data={score=0,survivalTime=0}})
-end
-function NET.uploadRecStream(stream)
-    WS.send('game',JSON.encode{action=5,data={stream=loveEncode('string','base64',stream)}})
-end
-
---Chat
-function NET.sendChatMes(mes)
-    WS.send('game',"T"..loveEncode('string','base64',mes))
-end
-function NET.quitChat()
-    WS.send('game','q')
-end
-
---WS task funcs
-function NET.freshPlayerCount()
-    while WS.status('game')=='running'do
-        TEST.yieldN(260)
-        if TASK.lock('freshPlayerCount',10)then
-            WS.send('game',JSON.encode{action=3})
-        end
-    end
-end
-function NET.updateWS_user()
-    while WS.status('game')~='dead'do
-        coroutine.yield()
-        local message,op=WS.read('user')
-        if message then
-            if op=='ping'then
-            elseif op=='pong'then
-            elseif op=='close'then
-                _closeMessage(message)
-                return
-            else
-                local res=_parse(message)
-                if res then
-                    if res.type=='Connect'then
-                        if res.uid then
-                            USER.uid=res.uid
-                            USER.authToken=res.authToken
-                            if SCN.cur=='login'then
-                                SCN.back()
-                            end
-                        end
-                        MES.new('check',text.loginOK)
-
-                        --Get self infos
-                        NET.getUserInfo(USER.uid)
-                        TASK.unlock('wsc_user')
-                    elseif res.action==0 then--Get accessToken
-                        NET.accessToken=res.accessToken
-                        MES.new('check',text.accessOK)
-                        NET.wsconn()
-                    elseif res.action==1 then--Get userInfo
-                        USERS.updateUserData(res.data)
-                    elseif res.action==2 then--Upload successed
-                        TASK.unlock('uploadSave')
-                        MES.new('check',text.exportSuccess)
-                    elseif res.action==3 then--Download successed
-                        TASK.unlock('downloadSave')
-                        NET.loadSavedData(res.data.sections)
-                        MES.new('check',text.importSuccess)
-                    end
-                else
-                    WS.alert('user')
-                end
-            end
-        end
     end
 end
 

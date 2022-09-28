@@ -4,7 +4,7 @@ function scene.sceneInit()
     BG.set()
 end
 function scene.sceneBack()
-    NET.wsclose()
+    NET.closeWS()
 end
 
 function scene.draw()
@@ -21,7 +21,7 @@ scene.widgetList={
         code=function()
             if tryBack()then
                 if USER.uid then
-                    NET.wsclose()
+                    NET.closeWS()
                     USER.uid=false
                     USER.authToken=false
                     SCN.back()
