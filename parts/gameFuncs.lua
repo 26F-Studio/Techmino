@@ -2,7 +2,7 @@ local gc_push,gc_pop=GC.push,GC.pop
 local gc_origin,gc_replaceTransform=GC.origin,GC.replaceTransform
 local gc_setLineWidth,gc_setColor=GC.setLineWidth,GC.setColor
 local gc_setShader=GC.setShader
-local gc_draw,gc_rectangle,gc_line,gc_printf=GC.draw,GC.rectangle,GC.line,GC.printf
+local gc_draw,gc_rectangle,gc_printf=GC.draw,GC.rectangle,GC.printf
 
 local ins,rem=table.insert,table.remove
 local int,rnd=math.floor,math.random
@@ -91,13 +91,6 @@ do--function loadFile(name,args), function saveFile(data,name,args)
                 text.saveError_unknown:repD(name)
             )
         end
-    end
-end
-function isSafeFile(file,mes)
-    if love.filesystem.getRealDirectory(file)~=SAVEDIR then
-        return true
-    elseif mes then
-        MES.new('warn',mes)
     end
 end
 function saveStats()
@@ -493,7 +486,7 @@ end
 function loadGame(mode,ifQuickPlay,ifNet)--Load a mode and go to game scene
     freshDate()
     if legalGameTime()then
-        if not MODES[mode]and love.filesystem.getRealDirectory('parts/modes/'..mode)~=SAVEDIR then
+        if not MODES[mode]and FILE.isSafe('parts/modes/'..mode) then
             MODES[mode]=require('parts.modes.'..mode)
             MODES[mode].name=mode
         end

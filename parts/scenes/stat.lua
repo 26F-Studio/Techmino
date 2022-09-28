@@ -115,9 +115,9 @@ scene.widgetList={
     WIDGET.newButton{name='path',x=820,y=540,w=250,h=80,font=25,
         code=function()
             if SYSTEM=="Windows"or SYSTEM=="Linux"then
-                love.system.openURL(SAVEDIR)
+                love.system.openURL(love.filesystem.getSaveDirectory())
             else
-                MES.new('info',SAVEDIR)
+                MES.new('info',love.filesystem.getSaveDirectory())
             end
         end
     },
