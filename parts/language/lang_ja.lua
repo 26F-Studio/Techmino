@@ -115,17 +115,16 @@ return{
 
     noUsername="ユーザーネームを入力してください!",
     wrongEmail="メールアドレスが無効です!",
+    -- wrongCode="Invalid verification code",
     noPassword="パスワードを入力してください!",
     diffPassword="パスワードが一致しません!",
-    registerRequestSent="Sign Upリクエストを送信しました!",
-    registerOK="サインアップ成功!",
-    loginOK="ログインしています!",
-    accessOK="アクセス権限を取得しました!",
+    checkEmail="Sign Upリクエストを送信しました!",
 
     wsFailed="ウェブソケットとの通信に失敗しました",
     wsClose="ウェブソケットとの通信を終了:",
     netTimeout="接続がタイムアウトしました",
     -- serverDown="Oops! Server is down",
+    -- requestFailed="Request failed",
 
     onlinePlayerCount="オンライン人数",
     createRoomSuccessed="部屋を建てました",

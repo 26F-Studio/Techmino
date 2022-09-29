@@ -15,7 +15,7 @@ end
 local function _codeLogin()
     code=WIDGET.active.code:getText():upper()
     if #code~=8 then
-        MES.new('error',"Wrong code length")
+        MES.new('error',text.wrongCode)
     else
         NET.codeLogin(code)
     end

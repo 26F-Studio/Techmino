@@ -16,7 +16,7 @@
 
 
 --Var leak check
--- setmetatable(_G,{__newindex=function(self,k,v)print('>>'..k)print(debug.traceback():match("\n.-\n\t(.-): "))rawset(self,k,v)end})
+-- setmetatable(_G,{__newindex=function(self,k,v)print('>>'..k..string.rep(" ",26-#k),debug.traceback():match("\n.-\n\t(.-): "))rawset(self,k,v)end})
 
 --System Global Vars Declaration
 local fs=love.filesystem
@@ -146,6 +146,7 @@ do--Z.setCursor
         {'dCirc',8,8,7},
         {'fCirc',8,8,3},
     }
+    local _
     Z.setCursor(function(time,x,y)
         if not SETTING.sysCursor then
             local R=math.floor((time+1)/2)%7+1

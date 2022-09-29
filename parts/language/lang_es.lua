@@ -113,17 +113,16 @@ return{
 
     noUsername="Por favor ingresa un nombre de usuario",
     wrongEmail="Correo electrónico inválido",
+    -- wrongCode="Invalid verification code",
     noPassword="Por favor ingresa la contraseña",
     diffPassword="Las contraseñas no coinciden",
-    registerRequestSent="Petición de registro enviada con éxito",
-    registerOK="¡Registro exitoso!",
-    loginOK="¡Ingreso con éxito!",
-    accessOK="¡Autorizado exitoso!",
+    checkEmail="Petición de registro enviada con éxito",
 
     wsFailed="WebSocket conexión fallida",
     wsClose="WebSocket cerrado:",
     netTimeout="Tiempo de conexión agotado",
     -- serverDown="Oops! Server is down",
+    -- requestFailed="Request failed",
 
     onlinePlayerCount="En línea",
     createRoomSuccessed="¡Sala creada con éxito!",

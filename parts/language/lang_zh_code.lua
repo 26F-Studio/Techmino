@@ -114,17 +114,16 @@ return{
 
     noUsername="Error.NoUsername();",
     wrongEmail="Error.WrongEmail();",
+    wrongCode="Error.WrongVerificationCode();",
     noPassword="Error.NoPassword();",
     diffPassword="Error.DiffPassword();",
-    registerRequestSent="register.RequestSent=true",
-    registerOK="register.Success=true",
-    loginOK="login.Success=true",
-    accessOK="Access.Granted=true",
+    checkEmail="register.RequestSent=true",
 
     wsFailed="Error.Websocket.Failed();",
     wsClose="Error.Websocket.Close=",
     netTimeout="Error.ConnectTimeOut();",
     serverDown="Error.ServerDown();",
+    requestFailed="Error.RequestFailed();",
 
     onlinePlayerCount="OnlinePlayerCount",
     createRoomSuccessed="CreateRoom.Successs=true",

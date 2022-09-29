@@ -114,17 +114,16 @@ return{
 
     noUsername="請輸入用戶名",
     wrongEmail="無效的電郵地址",
+    wrongCode="無效的驗證碼",
     noPassword="請輸入密碼",
     diffPassword="密碼不匹配",
-    registerRequestSent="已發送註冊請求",
-    registerOK="註冊成功！",
-    loginOK="登錄成功",
-    accessOK="身份認證成功",
+    checkEmail="已發送註冊請求",
 
     wsFailed="連接失敗",
     wsClose="連接斷開:",
     netTimeout="連接超時",
     serverDown="哎唷!服務器不在线",
+    requestFailed="請求失敗",
 
     onlinePlayerCount="在線用戶數",
     createRoomSuccessed="房間已創建！",

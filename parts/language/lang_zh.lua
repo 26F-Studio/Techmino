@@ -113,18 +113,17 @@ return{
     jsonError="json错误",
 
     noUsername="请填写用户名",
-    wrongEmail="邮箱格式错误",
+    wrongEmail="无效邮箱地址",
+    wrongCode="无效验证码",
     noPassword="请填写密码",
     diffPassword="两次密码不一致",
-    registerRequestSent="注册请求已发送",
-    registerOK="注册成功！",
-    loginOK="登录成功",
-    accessOK="身份验证成功",
+    checkEmail="请查看邮箱验证码",
 
     wsFailed="连接失败",
     wsClose="连接被断开:",
     netTimeout="连接超时",
     serverDown="唉哟!服务器不在线",
+    requestFailed="请求失败",
 
     onlinePlayerCount="在线人数",
     createRoomSuccessed="创建房间成功！",

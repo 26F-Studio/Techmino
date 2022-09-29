@@ -115,17 +115,16 @@ return{
 
     noUsername="Silahkan memasukan username Anda",
     wrongEmail="Alamat email tidak sah",
+    -- wrongCode="Invalid verification code",
     noPassword="Silahkan memasukan kata sandi Anda",
     diffPassword="Kata sandi tidak sama",
-    registerRequestSent="Permintaan daftar telah terkirim.",
-    registerOK="Pendaftaran sukses!",
-    loginOK="Anda telah gabung!",
-    accessOK="Akses diberikan",
+    checkEmail="Permintaan daftar telah terkirim.",
 
     wsFailed="Koneksi websocket gagal",
     wsClose="Websocket tertutup:",
     netTimeout="Koneksi waktu habis",
     -- serverDown="Oops! Server is down",
+    -- requestFailed="Request failed",
 
     onlinePlayerCount="Online",
     createRoomSuccessed="Ruang terbuat",

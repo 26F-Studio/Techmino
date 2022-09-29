@@ -104,17 +104,16 @@ return{
 
     noUsername="Entrez votre nom d'utilisateur",
     wrongEmail="Mauvaise adresse email",
+    -- wrongCode="Invalid verification code",
     noPassword="Entrez votre mot de passe",
     diffPassword="Les mots de passe ne se correspondent pas",
-    -- registerRequestSent="Registration request sent",
-    registerOK="Enregistré avec succès !",
-    loginOK="Connecté avec succès !",
-    accessOK="Autorisé avec succès !",
+    -- checkEmail="Registration request sent",
 
     wsFailed="WebSocket connection échouée",
     -- wsClose="WebSocket Closed:",
     -- netTimeout="Network connection timeout",
     -- serverDown="Oops! Server is down",
+    -- requestFailed="Request failed",
 
     -- onlinePlayerCount="Online",
     createRoomSuccessed="Salon créé avec succès !",

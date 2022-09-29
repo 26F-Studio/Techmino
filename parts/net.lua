@@ -63,7 +63,7 @@ function NET.getCode(email)
             if res.code==200 then
                 USER.email=email
                 SCN.fileDropped(2)
-                MES.new('info',"Please check your email",5)
+                MES.new('info',text.checkEmail,5)
             else
                 MES.new('error',res.message,5)
             end
@@ -140,7 +140,6 @@ function NET.setPW(code,pw)
         if res then
             if res.code==200 then
                 USER.password=pw
-                MES.new('info',"Password set! Now you can login",5)
                 SCN.back()
             else
                 MES.new('error',res.message,5)
@@ -180,7 +179,7 @@ function NET.autoLogin()
                     WAIT.interrupt()
                     return
                 else
-                    MES.new('warn',res.message,5)
+                    LOG("Access token expired")
                 end
             else
                 WAIT.interrupt()
@@ -203,7 +202,7 @@ function NET.autoLogin()
                     WAIT.interrupt()
                     return
                 else
-                    MES.new('warn',res.message,5)
+                    LOG("Refresh token expired")
                 end
             else
                 WAIT.interrupt()
@@ -224,12 +223,11 @@ function NET.autoLogin()
                     USER.rToken=res.data.refreshToken
                     USER.aToken=res.data.accessToken
                     NET.connectWS()
-                    MES.new('info',"Login successed",5)
                     SCN.go('net_menu')
                     WAIT.interrupt()
                     return
                 else
-                    MES.new('warn',res.message,5)
+                    MES.new('warn',text.requestFailed)
                 end
             else
                 WAIT.interrupt()
@@ -450,7 +448,7 @@ function NET.updateWS()
                 if res then
                     -- print(("RECV ACT: $1 ($2)"):repD(res.action,res.type))
                     if res.type=='Failed' then
-                        MES.new('warn',"Request failed: "..(res.reason or "/"))
+                        MES.new('warn',text.requestFailed..": "..(res.reason or "/"))
                     elseif res.action==1100 then-- TODO
                     elseif res.action==1101 then-- TODO
                     elseif res.action==1102 then-- TODO

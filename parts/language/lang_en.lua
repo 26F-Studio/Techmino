@@ -114,17 +114,16 @@ return{
 
     noUsername="Please enter your username",
     wrongEmail="Invalid email address",
+    wrongCode="Invalid verification code",
     noPassword="Please enter your password",
     diffPassword="Passwords don’t match",
-    registerRequestSent="A sign up request has been sent.",
-    registerOK="Sign up successful!",
-    loginOK="You are now logged in!",
-    accessOK="Access granted",
+    checkEmail="A sign up request has been sent.",
 
     wsFailed="WebSocket connection failed",
     wsClose="WebSocket closed:",
     netTimeout="Connection timed out",
     serverDown="Oops! Server is down",
+    requestFailed="Request failed",
 
     onlinePlayerCount="Online",
     createRoomSuccessed="Room created",
