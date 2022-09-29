@@ -22,8 +22,38 @@ local function GetGravity(lvl)
     lvl<29 and 2 or
     1
 end
-local gc_setColor=love.graphics.setColor
-local spawnX,spawnTime,lastMoveTime,prevX,wasActive -- vars for Hz counter
+local gc_setColor,abs=love.graphics.setColor,math.abs
+local movement,spawnTime,firstMoveTime
+local hz,realHz,mistime,mt --mistime is in MILLISECONDS, not seconds
+local function onMove(n,t)
+    if movement==0 then
+        firstMoveTime=t
+        mt=((t-spawnTime)*1000)
+        mistime=(
+            mt<1 and "0 ms"or
+            mt<99.5 and ("%.1f"):format(tostring(mt)).." ms"or
+            mt<999.5 and math.floor(mt).." ms"or
+            ("%.1f"):format(mt/1000).." s"
+        )
+        print(mistime)
+    end
+    movement=movement+n
+    if abs(movement)>=2 then hz=abs(movement/(t-firstMoveTime))end
+    realHz=abs(movement/(t-spawnTime))
+end
+local function hzGetColor(_hz)
+    if _hz<10 or _hz~=_hz then return{1,1,1}
+    elseif _hz<15 then return{1,1,0}
+    elseif _hz<18 then return{1,.75,0}
+    elseif _hz<25 then return{1,.5,0}
+    elseif _hz<40 then return{1,0,0}
+    elseif _hz<1e99 then return{.5,0,1}
+    else return{1,0,1}end
+end
+local function mistimeGetColor(t)
+    if t<1 then return{0,1,1}
+    else return {COLOR.hsv(math.max(.4-1/9*math.log(t,20),0),1,1)}end
+end
 return{
     das=16,arr=6,
     sddas=6,sdarr=6,
@@ -54,48 +84,41 @@ return{
             mStr(P.modeData.drought,63,130)
             mDraw(MODES.drought_l.icon,63,200,nil,.5)
         end
-        local hz
-        if P.cur then
-            if not wasActive then
-                spawnX=P:getCenterX()
-                spawnTime=P.stat.time
-            end
-            if prevX~=P:getCenterX()then lastMoveTime=P.stat.time end
-            lastMoveTime=math.max(lastMoveTime,spawnTime)
-            hz=math.abs(math.abs(spawnX-(P:getCenterX() and P:getCenterX() or 0))/(lastMoveTime-spawnTime))
-            prevX=P:getCenterX()
-        else hz=math.abs((spawnX-prevX)/(lastMoveTime-spawnTime))end
-        local color={}
-        if hz<10 or hz~=hz or spawnX==prevX then color={1,1,1}
-        elseif hz<15 then color={1,1,0}
-        elseif hz<18 then color={1,.75,0}
-        elseif hz<25 then color={1,.5,0}
-        elseif hz<40 then color={1,0,0}
-        elseif hz<1e99 then color={.5,0,1}
-        else color={1,0,1}end
-        gc_setColor(color)
-        hz=(
-            (hz~=hz or hz<0.01 or spawnX==prevX)and "-----"or -- nan
+
+        gc_setColor(hzGetColor(hz))
+        local dispHz=(
+            (hz~=hz or hz<.005) and "-----"or -- nan
             hz==math.huge and "∞"or
-            hz>=100 and math.floor(hz)or
-            hz>=10 and ("%.1f"):format(hz)or
+            hz>=99.5 and math.floor(hz)or
+            hz>=9.95 and ("%.1f"):format(hz)or
             ("%.2f"):format(hz)
         )
         setFont(50)
-        mStr(hz,40,40)
+        mStr(dispHz,40,40)
         gc_setColor(1,1,1)
         setFont(24)
         mStr("Hz",110,65)
-        wasActive=P.cur and true or false
+
+        dispHz=(
+            (realHz~=realHz or realHz<.005) and "-----"or -- nan
+            realHz==math.huge and "∞"or
+            realHz>=99.5 and math.floor(realHz)or
+            realHz>=9.95 and ("%.1f"):format(realHz)or
+            ("%.2f"):format(realHz)
+        )
+        setFont(20)
+        mStr({"(",hzGetColor(realHz),dispHz,{1,1,1}," Hz - ",mistimeGetColor(mt),mistime,{1,1,1},")"},40,100)
     end,
     task=function(P)
         P.modeData.lvl=9
         P.modeData.target=10
-        spawnX=4
-        prevX=4
-        lastMoveTime=0
-        spawnTime=0
-        wasActive=false
+        movement=0
+        spawnTime=P.stat.time
+        firstMoveTime=P.stat.time
+        hz=0
+        realHz=0
+        mistime="0 ms"
+        mt=0
     end,
     hook_drop=function(P)
         local D=P.modeData
@@ -116,4 +139,11 @@ return{
             D.target=D.target+10
         end
     end,
+    hook_spawn=function(P)
+        spawnTime=P.stat.time
+        firstMoveTime=P.stat.time
+        movement=0
+    end,
+    hook_left=function(P)onMove(-1,P.stat.time)end,
+    hook_right=function(P)onMove(1,P.stat.time)end,
 }

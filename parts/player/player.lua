@@ -230,6 +230,7 @@ function Player:act_moveLeft(auto)
                 self.moving=0
             end
             self.spinLast=false
+            self:_triggerEvent('hook_left')
         else
             self.moving=self.gameEnv.das
         end
@@ -252,6 +253,7 @@ function Player:act_moveRight(auto)
                 self.moving=0
             end
             self.spinLast=false
+            self:_triggerEvent('hook_right')
         else
             self.moving=self.gameEnv.das
         end
@@ -661,7 +663,9 @@ end
 
 function Player:_triggerEvent(eventName)
     local L=self.gameEnv[eventName]
-    if L[1]then
+    if not L then return end
+    if type(L)=='function'then L(self)
+    elseif L[1]then
         for i=1,#L do
             L[i](self)
         end
@@ -1154,6 +1158,7 @@ function Player:resetBlock()--Reset Block's position and execute I*S
     if self.sound and C.id<8 then
         SFX.fplay(spawnSFX_name[C.id],SETTING.sfx_spawn)
     end
+    self:_triggerEvent('hook_spawn')
 end
 
 function Player:getNextSpawn()
