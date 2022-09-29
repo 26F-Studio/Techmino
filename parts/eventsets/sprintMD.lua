@@ -3,13 +3,13 @@ return{
         setFont(55)
         local r=40-P.stat.row
         if r<0 then r=0 end
-        mStr(r,63,265)
+        GC.mStr(r,63,265)
         PLY.draw.drawTargetLine(P,r)
     end,
     task=function(P)
-        YIELD()
+        coroutine.yield()
         while true do
-            for _=1,P.holeRND:random(40,200)do YIELD()end
+            for _=1,P.holeRND:random(40,200)do coroutine.yield()end
             local r=P.holeRND:random(7)
             if r==1 then
                 if P.cur and not P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then

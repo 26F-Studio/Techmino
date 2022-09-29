@@ -574,14 +574,24 @@ do--Game data tables
     REPLAY={}--Replay objects (not include stream data)
 end
 do--Userdata tables
-    USER={--User infomation
-        --Network infos
-        uid=false,
-        authToken=false,
-
-        --Local data
-        xp=0,lv=1,
-    }
+    USER=setmetatable({--User infomation
+        __data={
+            email=false,
+            password=false,
+            rToken=false,
+            aToken=false,
+        },
+    },{
+        __index=function(self,k)
+            return self.__data[k]
+        end,
+        __newindex=function(self,k,v)
+            if self.__data[k]~=nil and v~=nil then
+                self.__data[k]=v
+                saveFile(USER.__data,'conf/user')
+            end
+        end,
+    })
     SETTING={--Settings
         --Tuning
         das=10,arr=2,
@@ -598,7 +608,6 @@ do--Userdata tables
         menuPos='middle',
         fine=false,
         autoSave=false,
-        autoLogin=true,
         simpMode=false,
         sysCursor=true,
         maxFPS=60,

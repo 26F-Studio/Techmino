@@ -51,8 +51,8 @@ return{
         mText(TEXTOBJ.grade,63,190)
         mText(TEXTOBJ.line,63,310)
         setFont(55)
-        mStr(getRank(P.modeData.rankPts),63,125)
-        mStr(P.modeData.rankPts-1,63,245)
+        GC.mStr(getRank(P.modeData.rankPts),63,125)
+        GC.mStr(P.modeData.rankPts-1,63,245)
         ply_applyField(P)
         local mark=TEXTURE.puzzleMark
         gc_setColor(1,1,1)

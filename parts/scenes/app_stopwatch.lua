@@ -66,10 +66,10 @@ end
 
 function scene.draw()
     FONT.set(60)
-    mStr(CHAR.icon.import,340,230)
-    mStr(CHAR.icon.export,940,230)
-    mStr(time1,340,300)
-    mStr(time2,940,300)
+    GC.mStr(CHAR.icon.import,340,230)
+    GC.mStr(CHAR.icon.export,940,230)
+    GC.mStr(time1,340,300)
+    GC.mStr(time2,940,300)
 end
 
 scene.widgetList={

@@ -121,10 +121,10 @@ return{
     loginOK="You are now logged in!",
     accessOK="Access granted",
 
-    wsConnecting="Websocket connecting…",
     wsFailed="WebSocket connection failed",
     wsClose="WebSocket closed:",
     netTimeout="Connection timed out",
+    serverDown="Oops! Server is down",
 
     onlinePlayerCount="Online",
     createRoomSuccessed="Room created",
@@ -322,6 +322,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="Support the author",
     WidgetText={
@@ -437,7 +438,6 @@ return{
             sysCursor="Use System Cursor",
             autoPause="Pause When Unfocused",
             autoSave="Auto-save New Records",
-            autoLogin="Auto-login on Start",
             simpMode="Simplistic Mode",
         },
         setting_video={
@@ -694,18 +694,18 @@ return{
             email="Email Address",
             password="Password",
             showEmail="Show Email",
-            keepPW="Remember me",
             login="Log In",
         },
         register={
             title="Sign Up",
             login="Sign In",
-            username="Username",
             email="Email Address",
+            send="Send code",
+            code="Verification Code",
+            verify="Verify",
             password="Password",
             password2="Re-enter Password",
-            register="Sign Up",
-            registering="Waiting for response…",
+            setPW="Set Password",
         },
         account={
             title="Account",
@@ -874,10 +874,10 @@ return{
     },
     getTip={refuseCopy=true,
         ":pog:",
-        "(RUR’U’)R’FR2U’R’U’(RUR’F’)",
         "“Techmino.app” cannot be opened because the developer cannot be verified.",
         "“Techmino.app” will damage your computer. You should move it to the Bin.",
         "“TechminOS”",
+        "(RUR’U’)R’FR2U’R’U’(RUR’F’)",
         "\\jezevec/\\jezevec/\\jezevec/",
         "\\osk/\\osk/\\osk/",
         "↑↑↓↓←→←→BA",
@@ -890,6 +890,7 @@ return{
         "40-line Sprint WR: 14.708s by hiryu",
         "6next 1hold!",
         "6next 6hold?!",
+        "A choke a day keeps record away",
         "Achievement system coming soon!",
         "ALL SPIN!",
         "Am G F G",
@@ -934,6 +935,7 @@ return{
         "Lua No.1",
         "Mix clear coming soon!",
         "Most of the button icons are realized by using self-drawn glyphs in the Unicode Private Use Area.",
+        "Most of the music tracks in this game are made using Beepbox.",
         "Music too distracting? You can turn it off.",
         "No easter eggs in this menu if you have the simplistic style turned on!",
         "O-Spin Triple!",
@@ -952,8 +954,8 @@ return{
         "Techmino is so fun!",
         "Techmino on Nspire-CX: yes it exists, no it’s not the same game.",
         "TetroDictionary is now available in English.",
-        "Most of the music tracks in this game are made using Beepbox.",
         "The names that appeared in the background of the Staff page is a list of our sponsors.",
+        "The soundtracks of this game is now available on Soundcloud for free!",
         "The stacker future is yours in Techmino!",
         "There are several hidden modes in the game that cannot be entered using the map.",
         "There is a total of 18 different pentominoes.",

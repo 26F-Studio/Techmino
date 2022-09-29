@@ -2850,7 +2850,7 @@ function Player:lose(force)
         gameOver()
         self:newTask(#PLAYERS>1 and task_lose or task_finish)
         if GAME.net and not NET.spectate then
-            NET.signal_die()
+            NET.player.finish()
         else
             TASK.new(task_autoPause)
         end

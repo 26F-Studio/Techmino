@@ -1,5 +1,4 @@
 --Lightning
-local gc=love.graphics
 local back={}
 
 local t
@@ -11,8 +10,8 @@ function back.update(dt)
 end
 function back.draw()
     local t1=2.5-t%20%6%2.5
-    if t1<.3 then gc.clear(t1,t1,t1)
-    else gc.clear(0,0,0)
+    if t1<.3 then GC.clear(t1,t1,t1)
+    else GC.clear(0,0,0)
     end
 end
 return back

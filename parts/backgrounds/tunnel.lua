@@ -1,5 +1,4 @@
 --Cool Tunnel
-local gc=love.graphics
 local rnd=math.random
 local ins,rem=table.insert,table.remove
 local back={}
@@ -29,12 +28,12 @@ function back.update(dt)
     end
 end
 function back.draw()
-    gc.clear(.08,.08,.084)
-    gc.setColor(1,1,1,.1)
+    GC.clear(.08,.08,.084)
+    GC.setColor(1,1,1,.1)
     for i=1,#ring do
         local r=ring[i]^2/12
-        gc.setLineWidth(30-15/(r+.5))
-        gc.rectangle('line',W*.5-W*r/2,H*.5-H*r/2,W*r,H*r)
+        GC.setLineWidth(30-15/(r+.5))
+        GC.rectangle('line',W*.5-W*r/2,H*.5-H*r/2,W*r,H*r)
     end
 end
 function back.discard()

@@ -65,7 +65,7 @@ return{
     {"コミュニティー",
         "community communities コミュニティー",
         "org",
-        "テトリスコミュニティーで積極的に参加して、他人と情報交換や会話をしましょう!\n\n中国: [QQ] Tetris Research: 112897780\n世界: [Discord] Hard Drop: discord.gg/harddrop (下の地球儀アイコンから参加できます!)",
+        "テトリスコミュニティーで積極的に参加して、他人と情報交換や会話をしましょう!\n\n中国: [QQ] Tetris Research: 764916351\n世界: [Discord] Hard Drop: discord.gg/harddrop (下の地球儀アイコンから参加できます!)",
         "https://discord.gg/harddrop"
     },
     {"ミュー (Mew)",
@@ -749,6 +749,11 @@ return{
         "scientificresearch",
         "term",
         "\"Doing scientific research\" is a term sometimes used in the Chinese community, referring to researching/practicing techniques in a low-falling-speed, single-player environment.",
+    },
+    {"Keymapping",
+        "feel",
+        "term",
+        "",-- TODO
     },
     {"Handling",
         "feel handling",

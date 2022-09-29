@@ -11,9 +11,9 @@ function bot_cc:checkDest(b2b,atk,exblock,yomi)
     local dest=self.P.destFX
     if not dest then return end
     if not (dest.b2b==b2b and dest.attack==atk and dest.extra==exblock) then
-        print(('hope: %s %s %s'):format(dest.b2b,dest.attack,dest.extra))
-        print(('real: %s %s %s'):format(b2b,atk,exblock))
-        print(yomi)
+        -- print(('hope: %s %s %s'):format(dest.b2b,dest.attack,dest.extra))
+        -- print(('real: %s %s %s'):format(b2b,atk,exblock))
+        -- print(yomi)
         self:lockWrongPlace()
         self.P.destFX=nil
         return

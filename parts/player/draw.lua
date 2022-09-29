@@ -9,7 +9,7 @@ local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
 
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,sin,modf=math.max,math.min,math.sin,math.modf
-local setFont,mDraw,mStr=FONT.set,GC.draw,GC.mStr
+local setFont=FONT.set
 local SKIN,TEXTURE,IMG=SKIN,TEXTURE,IMG
 local TEXT,COLOR,TIME=TEXT,COLOR,TIME
 local shader_alpha,shader_lighter=SHADER.alpha,SHADER.lighter
@@ -576,7 +576,7 @@ local function _drawDial(x,y,speed)
     gc_setColor(1,1,1,.3)
     gc_draw(dialNeedle,x+40,y+40,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,1,1)
     gc_setColor(.9,.9,.91)
-    setFont(30)mStr(int(speed),x+40,y+19)
+    setFont(30)GC.mStr(int(speed),x+40,y+19)
 end
 local function _drawFinesseCombo_norm(P)
     if P.finesseCombo>2 then
@@ -667,12 +667,12 @@ local function _drawStartCounter(time)
         gc_setColor(r,g,b,d/60)
         gc_push('transform')
             gc_scale((1.5-d/60*.6)^1.5)
-            mStr(num,0,-70)
+            GC.mStr(num,0,-70)
         gc_pop()
 
         gc_setColor(r,g,b)
         gc_scale(min(d/20,1)^.4)
-        mStr(num,0,-70)
+        GC.mStr(num,0,-70)
     gc_pop()
 end
 
@@ -705,8 +705,8 @@ function draw.drawMarkLine(P,h,r,g,b,a)
 end
 function draw.drawProgress(s1,s2)
     setFont(40)
-    mStr(s1,62,322)
-    mStr(s2,62,376)
+    GC.mStr(s1,62,322)
+    GC.mStr(s2,62,376)
     gc_rectangle('fill',15,375,90,4,2)
 end
 
@@ -722,7 +722,7 @@ function draw.norm(P,repMode)
         --Draw username
         setFont(30)
         gc_setColor(.97,.97,.97)
-        mStr(P.username,300,-60)
+        GC.mStr(P.username,300,-60)
 
         --Draw HUD
         if ENV.nextCount>0 then _drawNext(P,repMode)end
@@ -757,17 +757,16 @@ function draw.norm(P,repMode)
             _drawField(P,repMode)
 
             --Draw line number
-            if ENV.fieldH>20 and ENV.lineNum then
-                local a=ENV.lineNum
+            if ENV.lineNum then
                 setFont(20)
                 local dy=camDY<900 and 0 or camDY-camDY%300-600
                 for i=1,3 do
                     local num=10+10*i+dy/30
                     local y=-325-300*i-dy
-                    gc_setColor(0,0,0,a)
+                    gc_setColor(0,0,0,ENV.lineNum)
                     gc.print(num,1,y)
                     gc.print(num,2,y+1)
-                    gc_setColor(.97,.97,.97,a)
+                    gc_setColor(.97,.97,.97,ENV.lineNum)
                     gc.print(num,2,y)
                     gc.print(num,2,y)
                 end
@@ -968,7 +967,7 @@ function draw.small(P)
         if P.result then
             gc_setColor(1,1,1,min(P.endCounter,60)*.01)
             setFont(20)mDraw(TEXTOBJ[P.result],30,60,nil,P.size)
-            setFont(15)mStr(P.modeData.place,30,82)
+            setFont(15)GC.mStr(P.modeData.place,30,82)
         end
         gc_pop()
         gc_setCanvas()

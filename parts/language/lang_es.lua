@@ -120,10 +120,10 @@ return{
     loginOK="¡Ingreso con éxito!",
     accessOK="¡Autorizado exitoso!",
 
-    wsConnecting="Websocket Conectando",
     wsFailed="WebSocket conexión fallida",
     wsClose="WebSocket cerrado:",
     netTimeout="Tiempo de conexión agotado",
+    -- serverDown="Oops! Server is down",
 
     onlinePlayerCount="En línea",
     createRoomSuccessed="¡Sala creada con éxito!",
@@ -322,6 +322,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="Apoyen al Autor",
     WidgetText={
@@ -437,7 +438,6 @@ return{
             sysCursor="Usar cursor del sistema",
             autoPause="Pausar cuando la ventana no está enfocada",
             autoSave="Autograbar Récords",
-            autoLogin="Autologueo al Iniciar",
             simpMode="Modo Sencillo",
         },
         setting_video={
@@ -686,18 +686,18 @@ return{
             email="Correo Elec.",
             password="Contraseña",
             showEmail="Mostrar Correo",
-            keepPW="Recordar credenciales",
             login="Entrar",
         },
         register={
             title="Registrarse",
             login="Entrar",
-            username="Nombre de Usuario",
             email="Correo Elec.",
+            -- send="Send code",
+            -- code="Verification Code",
+            -- verify="Verify",
             password="Contraseña",
             password2="Repetir Contr.",
-            register="Registrarse",
-            registering="Esperando respuesta...",
+            -- setPW="Set Password",
         },
         account={
             title="Cuenta",

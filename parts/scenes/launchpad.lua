@@ -1,8 +1,7 @@
-local gc=love.graphics
-local gc_push,gc_pop=gc.push,gc.pop
-local gc_translate=gc.translate
-local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
-local gc_rectangle,gc_circle=gc.rectangle,gc.circle
+local gc_push,gc_pop=GC.push,GC.pop
+local gc_translate=GC.translate
+local gc_setColor,gc_setLineWidth=GC.setColor,GC.setLineWidth
+local gc_rectangle,gc_circle=GC.rectangle,GC.circle
 
 local isDown=love.keyboard.isDown
 
@@ -21,7 +20,7 @@ pad={x=140,y=65,page=1,
         function()pad.page=4 end,
         function()pad.page=5 end,
         function()pad.page=6 end,
-        function()BGM.seek(0)BGM.play(BGM.nowPlay)end,
+        function()BGM.set('all','seek',0)BGM.play()end,
         function()BGM.stop()end,
     },
     funcAlpha=TABLE.new(0,8),

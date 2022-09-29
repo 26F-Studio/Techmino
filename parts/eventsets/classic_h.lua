@@ -70,18 +70,18 @@ return{
     keyCancel={5,6},
     mesDisp=function(P)
         setFont(75)
-        mStr(GetLevelStr(P.modeData.lvl),63,210)
+        GC.mStr(GetLevelStr(P.modeData.lvl),63,210)
         mText(TEXTOBJ.speedLV,63,290)
         PLY.draw.drawProgress(P.stat.row,P.modeData.target)
         if P.modeData.drought>7 then
             if P.modeData.drought<=14 then
-                gc_setColor(1,1,1,P.modeData.drought/7-1)
+                GC.setColor(1,1,1,P.modeData.drought/7-1)
             else
                 local gb=P.modeData.drought<=21 and 2-P.modeData.drought/14 or .5
-                gc_setColor(1,gb,gb)
+                GC.setColor(1,gb,gb)
             end
             setFont(50)
-            mStr(P.modeData.drought,63,130)
+            GC.mStr(P.modeData.drought,63,130)
             mDraw(MODES.drought_l.icon,63,200,nil,.5)
         end
         gc_setColor(hzGetColor(hz))

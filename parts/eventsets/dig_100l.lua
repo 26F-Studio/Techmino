@@ -1,7 +1,7 @@
 return{
     mesDisp=function(P)
         setFont(55)
-        mStr(100-P.stat.dig,63,265)
+        GC.mStr(100-P.stat.dig,63,265)
     end,
     hook_drop=function(P)
         for _=1,math.min(10,100-P.stat.dig)-P.garbageBeneath do

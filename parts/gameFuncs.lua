@@ -1,9 +1,8 @@
-local gc=love.graphics
-local gc_push,gc_pop=gc.push,gc.pop
-local gc_origin,gc_replaceTransform=gc.origin,gc.replaceTransform
-local gc_setLineWidth,gc_setColor=gc.setLineWidth,gc.setColor
-local gc_setShader=gc.setShader
-local gc_draw,gc_rectangle,gc_line,gc_printf=gc.draw,gc.rectangle,gc.line,gc.printf
+local gc_push,gc_pop=GC.push,GC.pop
+local gc_origin,gc_replaceTransform=GC.origin,GC.replaceTransform
+local gc_setLineWidth,gc_setColor=GC.setLineWidth,GC.setColor
+local gc_setShader=GC.setShader
+local gc_draw,gc_rectangle,gc_printf=GC.draw,GC.rectangle,GC.printf
 
 local ins,rem=table.insert,table.remove
 local int,rnd=math.floor,math.random
@@ -94,13 +93,6 @@ do--function loadFile(name,args), function saveFile(data,name,args)
         end
     end
 end
-function isSafeFile(file,mes)
-    if love.filesystem.getRealDirectory(file)~=SAVEDIR then
-        return true
-    elseif mes then
-        MES.new('warn',mes)
-    end
-end
 function saveStats()
     return saveFile(STAT,'conf/data')
 end
@@ -133,7 +125,7 @@ do--function applySettings()
 
         --Apply fullscreen
         love.window.setFullscreen(SETTING.fullscreen)
-        love.resize(gc.getWidth(),gc.getHeight())
+        love.resize(GC.getWidth(),GC.getHeight())
 
         --Apply Zframework setting
         Z.setClickFX(SETTING.clickFX)
@@ -169,12 +161,12 @@ do--function applySettings()
             BG.lock()
         elseif SETTING.bg=='custom'then
             if love.filesystem.getInfo('conf/customBG')then
-                local res,image=pcall(gc.newImage,love.filesystem.newFile('conf/customBG'))
+                local res,image=pcall(GC.newImage,love.filesystem.newFile('conf/customBG'))
                 if res then
                     BG.unlock()
-                    gc.setDefaultFilter('linear','linear')
+                    GC.setDefaultFilter('linear','linear')
                     BG.set('custom',SETTING.bgAlpha,image)
-                    gc.setDefaultFilter('nearest','nearest')
+                    GC.setDefaultFilter('nearest','nearest')
                     BG.lock()
                 else
                     MES.new('error',text.customBGloadFailed)
@@ -494,7 +486,7 @@ end
 function loadGame(mode,ifQuickPlay,ifNet)--Load a mode and go to game scene
     freshDate()
     if legalGameTime()then
-        if not MODES[mode]and love.filesystem.getRealDirectory('parts/modes/'..mode)~=SAVEDIR then
+        if not MODES[mode]and FILE.isSafe('parts/modes/'..mode) then
             MODES[mode]=require('parts.modes.'..mode)
             MODES[mode].name=mode
         end
@@ -696,7 +688,7 @@ do--function resetGameData(args)
     local function task_showMods()
         local time=0
         while true do
-            YIELD()
+            coroutine.yield()
             time=time+1
             if time%20==0 then
                 local M=GAME.mod[time/20]
@@ -867,17 +859,12 @@ do--function drawSelfProfile()
         --Draw username
         if name~=USERS.getUsername(USER.uid)then
             name=USERS.getUsername(USER.uid)
-            textObj=gc.newText(getFont(30),name)
+            textObj=GC.newText(getFont(30),name)
             width=textObj:getWidth()
             scaleK=210/math.max(width,210)
             offY=textObj:getHeight()/2
         end
         gc_draw(textObj,-82,26,nil,scaleK,nil,width,offY)
-
-        --Draw lv. & xp.
-        gc_draw(lvIcon[USER.lv],-295,50)
-        gc_line(-270,55,-80,55,-80,70,-270,70)
-        gc_rectangle('fill',-210,55,150*USER.xp/USER.lv/USER.lv,15)
 
         gc_pop()
     end
@@ -887,7 +874,7 @@ function drawOnlinePlayerCount()
     gc_setColor(1,1,1)
     gc_push('transform')
     gc_replaceTransform(SCR.xOy_ur)
-    gc_printf(("%s: %s/%s/%s"):format(text.onlinePlayerCount,NET.UserCount,NET.PlayCount,NET.StreamCount),-600,80,594,'right')
+    gc_printf(text.onlinePlayerCount..":"..NET.onlineCount,-600,80,594,'right')
     gc_pop()
 end
 function drawWarning()

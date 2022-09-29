@@ -22,15 +22,13 @@
 local fs=love.filesystem
 VERSION=require"version"
 TIME=love.timer.getTime
-YIELD=coroutine.yield
 SYSTEM=love.system.getOS()if SYSTEM=='OS X'then SYSTEM='macOS'end
 FNNS=SYSTEM:find'\79\83'--What does FNSF stand for? IDK so don't ask me lol
 MOBILE=SYSTEM=='Android'or SYSTEM=='iOS'
-SAVEDIR=fs.getSaveDirectory()
 
 --Global Vars & Settings
 SFXPACKS={'chiptune'}
-VOCPACKS={'miya','mono','xiaoya','miku','rin'}
+VOCPACKS={'miya','mono','xiaoya','miku'}
 FIRSTLAUNCH=false
 DAILYLAUNCH=false
 
@@ -59,7 +57,6 @@ FONT.setFallback('norm')
 
 SCR.setSize(1280,720)--Initialize Screen size
 BGM.setMaxSources(5)
-BGM.setChange(function(name)MES.new('music',text.nowPlaying..name,5)end)
 VOC.setDiversion(.62)
 
 WIDGET.setOnChange(function()
@@ -80,15 +77,14 @@ table.insert(_LOADTIMELIST_,("Load Zframework: %.3fs"):format(TIME()-_LOADTIME_)
 --Create shortcuts
 setFont=FONT.set
 getFont=FONT.get
-mStr=GC.mStr
 mText=GC.simpX
-mDraw=GC.draw
+mDraw=GC.mDraw
 Snd=SFX.playSample
 string.repD=STRING.repD
 string.sArg=STRING.sArg
 string.split=STRING.split
 
---Delete all naked files (from too old version)
+--Delete all naked files (from ancient versions)
 FILE.clear('')
 
 --Create directories
@@ -109,7 +105,7 @@ require'parts.gameFuncs'
 --Load shader files from SOURCE ONLY
 SHADER={}
 for _,v in next,fs.getDirectoryItems('parts/shaders')do
-    if isSafeFile('parts/shaders/'..v)then
+    if FILE.isSafe('parts/shaders/'..v)then
         local name=v:sub(1,-6)
         SHADER[name]=love.graphics.newShader('parts/shaders/'..name..'.glsl')
     end
@@ -150,18 +146,15 @@ do--Z.setCursor
         {'dCirc',8,8,7},
         {'fCirc',8,8,3},
     }
-    local min,int,abs=math.min,math.floor,math.abs
-    local gc_setColor,gc_draw=love.graphics.setColor,love.graphics.draw
-    local ms=love.mouse
     Z.setCursor(function(time,x,y)
         if not SETTING.sysCursor then
-            local R=int((time+1)/2)%7+1
+            local R=math.floor((time+1)/2)%7+1
             _=BLOCK_COLORS[SETTING.skin[R]]
-            gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
+            GC.setColor(_[1],_[2],_[3],math.min(math.abs(1-time%2),.3))
             _=DSCP[R][0]
-            gc_draw(TEXTURE.miniBlock[R],x,y,time%3.14159265359*4,8,8,2*_[2]+1,2*(#BLOCKS[R][0]-_[1])-1)
-            gc_setColor(1,1,1)
-            gc_draw(ms.isDown(1)and holdImg or normImg,x,y,nil,nil,nil,8,8)
+            GC.draw(TEXTURE.miniBlock[R],x,y,time%math.pi*4,8,8,2*_[2]+1,2*(#BLOCKS[R][0]-_[1])-1)
+            GC.setColor(1,1,1)
+            GC.draw(love.mouse.isDown(1)and holdImg or normImg,x,y,nil,nil,nil,8,8)
         end
     end)
 end
@@ -184,6 +177,12 @@ Z.setOnFnKeys({
     function()for k,v in next,_G do print(k,v)end end,
     function()if love['_openConsole']then love['_openConsole']()end end,
 })
+Z.setOnGlobalKey('f11',function()
+    SETTING.fullscreen=not SETTING.fullscreen
+    applySettings()
+    saveSettings()
+end)
+Z.setVersionText(VERSION.string)
 Z.setDebugInfo{
     {"Cache",gcinfo},
     {"Tasks",TASK.getCount},
@@ -241,7 +240,7 @@ if
         pcall(TABLE.cover, loadFile('conf/virtualkey','-json -canSkip')or loadFile('conf/virtualkey','-luaon -canSkip')or{},VK_ORG)
     )
 then
-    MES.new('error',"Be careful, an error accured when loading saving, some data was lost")
+    MES.new('error',"An error occured during loading, and some data was lost.")
 end
 
 --Initialize fields, sequence, missions, gameEnv for cutsom game
@@ -277,7 +276,6 @@ IMG.init{
     lifeIcon='media/image/mess/life.png',
     badgeIcon='media/image/mess/badge.png',
     ctrlSpeedLimit='media/image/mess/ctrlSpeedLimit.png',
-    speedLimit='media/image/mess/speedLimit.png',--Not used, for future C2-mode
     pay1='media/image/mess/pay1.png',
     pay2='media/image/mess/pay2.png',
 
@@ -353,16 +351,16 @@ SKIN.load{
 SFX.init((function()--[Warning] Not loading files here, just get the list of sound needed
     local L={}
     for _,v in next,fs.getDirectoryItems('media/effect/chiptune/')do
-        if isSafeFile('media/effect/chiptune/'..v,"Dangerous file : %SAVE%/media/effect/chiptune/"..v)then
+        if FILE.isSafe('media/effect/chiptune/'..v,"Dangerous file : %SAVE%/media/effect/chiptune/"..v)then
             table.insert(L,v:sub(1,-5))
         end
     end
     return L
 end)())
-BGM.load((function()
+BGM.init((function()
     local L={}
     for _,v in next,fs.getDirectoryItems('media/music')do
-        if isSafeFile('media/music/'..v,"Dangerous file : %SAVE%/media/music/"..v)then
+        if FILE.isSafe('media/music/'..v,"Dangerous file : %SAVE%/media/music/"..v)then
             L[v:sub(1,-5)]='media/music/'..v
         end
     end
@@ -417,7 +415,7 @@ table.insert(_LOADTIMELIST_,("Initialize Parts: %.3fs"):format(TIME()-_LOADTIME_
 
 --Load background files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems('parts/backgrounds')do
-    if isSafeFile('parts/backgrounds/'..v)and v:sub(-3)=='lua'then
+    if FILE.isSafe('parts/backgrounds/'..v)and v:sub(-3)=='lua'then
         local name=v:sub(1,-5)
         BG.add(name,require('parts.backgrounds.'..name))
     end
@@ -425,7 +423,7 @@ end
 BG.remList('none')BG.remList('gray')BG.remList('custom')
 --Load scene files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems('parts/scenes')do
-    if isSafeFile('parts/scenes/'..v)then
+    if FILE.isSafe('parts/scenes/'..v)then
         local sceneName=v:sub(1,-5)
         SCN.add(sceneName,require('parts.scenes.'..sceneName))
         LANG.addScene(sceneName)
@@ -434,13 +432,13 @@ end
 --Load mode files
 for i=1,#MODES do
     local m=MODES[i]--Mode template
-    if isSafeFile('parts/modes/'..m.name)then
+    if FILE.isSafe('parts/modes/'..m.name)then
         TABLE.complete(require('parts.modes.'..m.name),MODES[i])
         MODES[m.name],MODES[i]=MODES[i]
     end
 end
 for _,v in next,fs.getDirectoryItems('parts/modes')do
-    if isSafeFile('parts/modes/'..v)and not MODES[v:sub(1,-5)]then
+    if FILE.isSafe('parts/modes/'..v)and not MODES[v:sub(1,-5)]then
         local M={name=v:sub(1,-5)}
         local modeData=require('parts.modes.'..M.name)
         if modeData.env then
@@ -552,7 +550,7 @@ do
         STAT.version=VERSION.code
         needSave=true
     end
-    SETTING.appLock,SETTING.dataSaving,SETTING.swap=nil
+    SETTING.appLock,SETTING.dataSaving,SETTING.swap,SETTING.autoLogin=nil
     if not SETTING.VKSkin then SETTING.VKSkin=1 end
     for _,v in next,SETTING.skin do if v<1 or v>17 then v=17 end end
     if not RSlist[SETTING.RS]then SETTING.RS='TRS'end
@@ -564,6 +562,7 @@ do
     if SETTING.skin[18]==10 then SETTING.skin[18]=4 end
     if SETTING.reTime>3 or SETTING.reTime<.5 then SETTING.reTime=2 end
     if SETTING.locale=='zh_full' then SETTING.locale='zh' end
+    if SETTING.vocPack=='rin' then SETTING.vocPack='miku' end
     if RANKS.infinite then RANKS.infinite=0 end
     if RANKS.infinite_dig then RANKS.infinite_dig=0 end
     if not RANKS.sprint_10l then RANKS.sprint_10l=0 end
@@ -667,7 +666,7 @@ for i=1,#_LOADTIMELIST_ do LOG(_LOADTIMELIST_[i])end
 --Launch testing task if launch param received
 if TABLE.find(arg,'--test')then
     TASK.new(function()
-        while not LOADED do YIELD()end
+        while not LOADED do coroutine.yield()end
 
         LOG("\27[92m\27[1mAutomatic Test Started\27[0m")
         BGM.setVol(0)SFX.setVol(0)
@@ -689,7 +688,7 @@ if TABLE.find(arg,'--test')then
     end)
     TASK.new(function()
         while true do
-            YIELD()
+            coroutine.yield()
             if Z.getErr(1)then break end
         end
         LOG("\27[91m\27[1mAutomatic Test Failed :(\27[0m\nThe error message is:\n"..table.concat(Z.getErr(1).mes,"\n").."\27[91m\nAborting\27[0m")
@@ -697,4 +696,6 @@ if TABLE.find(arg,'--test')then
         love.event.quit(1)
     end)
 end
-WS.switchHost('101.43.110.22','10026','/tech/socket/v1')
+WS.switchHost('cafuuchino1.3322.org','10026','/techmino/ws/v1')
+HTTP.setHost("cafuuchino1.3322.org:10026")
+HTTP.setThreadCount(1)

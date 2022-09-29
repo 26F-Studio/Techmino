@@ -202,13 +202,13 @@ function scene.draw()
         FONT.set(60)
         if gameover==0 then
             gc.setColor(1,.6,.6)
-            mStr("RED\nWON",1140,200)
+            GC.mStr("RED\nWON",1140,200)
         elseif gameover==1 then
             gc.setColor(.6,.6,1)
-            mStr("BLUE\nWON",1140,200)
+            GC.mStr("BLUE\nWON",1140,200)
         else
             gc.setColor(.8,.8,.8)
-            mStr("TIE",1140,240)
+            GC.mStr("TIE",1140,240)
         end
     else
         --Draw current round mark

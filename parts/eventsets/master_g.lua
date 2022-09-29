@@ -1,4 +1,3 @@
-local gc=love.graphics
 local regretDelay=-1
 local int_grade=0
 local grade_points=0
@@ -130,51 +129,51 @@ return{
     minsdarr=1,
     ihs=true,irs=true,ims=false,
     mesDisp=function(P)
-        gc.setColor(1,1,1,1)
+        GC.setColor(1,1,1,1)
         setFont(45)
         mText(TEXTOBJ.grade,63,180)
         setFont(60)
-        mStr(getGrade(),63,110)  -- draw grade
+        GC.mStr(getGrade(),63,110)  -- draw grade
         for i=1,10 do -- draw cool/regret history
             if not (coolList[i] or regretList[i]) then -- neither cool nor regret
-                gc.setColor(0.6,0.6,0.6,P.modeData.pt<(i-1)*100 and 0.25 or 0.6)
+                GC.setColor(0.6,0.6,0.6,P.modeData.pt<(i-1)*100 and 0.25 or 0.6)
             else
-                gc.setColor(regretList[i] and 1 or 0, coolList[i] and 1 or 0, 0, 1)
+                GC.setColor(regretList[i] and 1 or 0, coolList[i] and 1 or 0, 0, 1)
             end
-            gc.circle('fill',-10,150+i*25,10)
-            gc.setColor(1,1,1,1)
+            GC.circle('fill',-10,150+i*25,10)
+            GC.setColor(1,1,1,1)
         end
         if isInRoll then
             setFont(20)
-            mStr(("%.1f"):format(rollGrades),63,208) -- draw roll grades
-            gc.setLineWidth(2)
-            gc.setColor(.98,.98,.98,.8)
-            gc.rectangle('line',0,240,126,80,4)
-            gc.setColor(.98,.98,.98,.4)
-            gc.rectangle('fill',0+2,240+2,126-4,80-4,2) -- draw time box
+            GC.mStr(("%.1f"):format(rollGrades),63,208) -- draw roll grades
+            GC.setLineWidth(2)
+            GC.setColor(.98,.98,.98,.8)
+            GC.rectangle('line',0,240,126,80,4)
+            GC.setColor(.98,.98,.98,.4)
+            GC.rectangle('fill',0+2,240+2,126-4,80-4,2) -- draw time box
             setFont(45)
             local t=(P.stat.frame-prevSectTime)/60
             local T=("%.1f"):format(60-t)
-            gc.setColor(COLOR.dH)
-            mStr(T,65,250) -- draw time
+            GC.setColor(COLOR.dH)
+            GC.mStr(T,65,250) -- draw time
             t=t/60
-            gc.setColor(1.7*t,2.3-2*t,.3)
-            mStr(T,63,248)
+            GC.setColor(1.7*t,2.3-2*t,.3)
+            GC.mStr(T,63,248)
             PLY.draw.drawTargetLine(P,getRollGoal())
         else
             -- draw level counter
             setFont(20)
-            mStr(grade_points,63,208)
+            GC.mStr(grade_points,63,208)
             setFont(45)
             if coolList[math.ceil(P.modeData.pt/100+0.01)] then
-                gc.setColor(0,1,0,1)
+                GC.setColor(0,1,0,1)
             elseif P.stat.frame-prevSectTime > cool_time[math.ceil(P.modeData.pt/100+0.01)] then
-                gc.setColor(0.7,0.7,0.7,1)
+                GC.setColor(0.7,0.7,0.7,1)
             end
             if coolList[math.ceil(P.modeData.pt/100+0.01)] and regretList[math.ceil(P.modeData.pt/100+0.01)] then
-                gc.setColor(1,1,0,1)
+                GC.setColor(1,1,0,1)
             elseif regretList[math.ceil(P.modeData.pt/100+0.01)] then
-                gc.setColor(1,0,0,1)
+                GC.setColor(1,0,0,1)
             end
             PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
         end
@@ -290,7 +289,7 @@ return{
         local decayRate={125,80,80,50,45,45,45,40,40,40,40,40,30,30,30,20,20,20,20,20,15,15,15,15,15,15,15,15,15,15,10,10,10,9,9,9,8,8,8,7,7,7,6}
         local decayTimer=0
         while true do
-            YIELD()
+            coroutine.yield()
             P.modeData.grade=getGrade()
             P.modeData.gradePts=math.max(math.min(math.floor(int_grade_boosts[math.min(int_grade+1,#int_grade_boosts)]+rollGrades+cools+1-regrets),#gradeList),1)
             if P.stat.frame-prevSectTime > reg_time[math.ceil(P.modeData.pt/100+0.01)] and not (isInRoll or isInRollTrans) then
@@ -337,7 +336,7 @@ return{
                 rollGrades=rollGrades+(cools>8 and 1.6 or 0.5)
                 P.modeData.grade=getGrade()
                 P.modeData.gradePts=math.min(math.floor(int_grade_boosts[math.min(int_grade+1,#int_grade_boosts)]+rollGrades+cools+1-regrets),#gradeList)
-                YIELD()
+                coroutine.yield()
                 P:win('finish')
             end
         end

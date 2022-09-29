@@ -48,7 +48,6 @@ scene.widgetList={
     WIDGET.newSwitch{name='sysCursor',x=1060, y=400, lim=580,                    disp=SETval('sysCursor'),code=function()SETTING.sysCursor=not SETTING.sysCursor applySettings()end},
     WIDGET.newSwitch{name='autoPause',x=1060, y=470, lim=580,                    disp=SETval('autoPause'),code=SETrev('autoPause')},
     WIDGET.newSwitch{name='autoSave', x=1060, y=540, lim=580,                    disp=SETval('autoSave'), code=SETrev('autoSave')},
-    WIDGET.newSwitch{name='autoLogin',x=960,  y=610, lim=480,                    disp=SETval('autoLogin'),code=SETrev('autoLogin')},
     WIDGET.newSwitch{name='simpMode', x=960,  y=670, lim=480,                    disp=SETval('simpMode'),
         code=function()
             SETTING.simpMode=not SETTING.simpMode

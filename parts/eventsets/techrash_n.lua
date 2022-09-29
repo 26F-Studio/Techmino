@@ -1,7 +1,7 @@
 return{
     mesDisp=function(P)
         setFont(60)
-        mStr(P.stat.clear[7][4],63,250)
+        GC.mStr(P.stat.clear[7][4],63,250)
         mText(TEXTOBJ.techrash,63,315)
     end,
     hook_drop=function(P)

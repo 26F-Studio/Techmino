@@ -122,10 +122,10 @@ return{
     loginOK="ログインしています!",
     accessOK="アクセス権限を取得しました!",
 
-    wsConnecting="ウェブソケットに接続中…",
     wsFailed="ウェブソケットとの通信に失敗しました",
     wsClose="ウェブソケットとの通信を終了:",
     netTimeout="接続がタイムアウトしました",
+    -- serverDown="Oops! Server is down",
 
     onlinePlayerCount="オンライン人数",
     createRoomSuccessed="部屋を建てました",
@@ -324,6 +324,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="Support the Author",
     WidgetText={
@@ -439,7 +440,6 @@ return{
             sysCursor="システムカーソル",
             autoPause="ゲーム中断時のオートポーズ",
             autoSave="最高得点を更新したときオートセーブ",
-            autoLogin="オートログイン",
             simpMode="シンプルなホーム画面",
         },
         setting_video={
@@ -696,18 +696,18 @@ return{
             email="Eメールアドレス",
             password="パスワード",
             -- showEmail="Show Email",
-            keepPW="常にログイン",
             login="ログイン",
         },
         register={
             title="サインアップ",
             login="サインイン",
-            username="ユーザーネーム",
             email="Eメールアドレス",
+            -- send="Send code",
+            -- code="Verification Code",
+            -- verify="Verify",
             password="パスワード",
             password2="パスワード（確認）",
-            register="これで登録する",
-            registering="応答待機中...",
+            -- setPW="Set Password",
         },
         account={
             title="アカウント",

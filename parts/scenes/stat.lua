@@ -1,12 +1,3 @@
-local gc=love.graphics
-local gc_translate=gc.translate
-local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
-local gc_draw,gc_line=gc.draw,gc.line
-local gc_print=gc.print
-
-local int,sin=math.floor,math.sin
-local mStr=GC.mStr
-
 local scene={}
 
 local form--Form of clear & spins
@@ -35,9 +26,9 @@ function scene.sceneInit()
         S.game,
         STRING.time(S.time),
         S.key.."  "..S.rotate.."  "..S.hold,
-        S.piece.."  "..S.row.."  "..int(S.atk),
+        S.piece.."  "..S.row.."  "..math.floor(S.atk),
         S.recv.."  "..S.off.."  "..S.pend,
-        S.dig.."  "..int(S.digatk),
+        S.dig.."  "..math.floor(S.digatk),
         ("%.2f  %.2f"):format(S.atk/S.row,S.digatk/S.dig),
         S.b2b.."  "..S.b3b,
         S.pc.."  "..S.hpc,
@@ -71,62 +62,62 @@ local spinChars={
 
 function scene.draw()
     local t=TIME()
-    gc_draw(TEXTURE.title,260,615,.2+.04*sin(t*3),.4,nil,580,118)
+    GC.draw(TEXTURE.title,260,615,.2+.04*math.sin(t*3),.4,nil,580,118)
 
-    gc_setColor(COLOR.Z)
+    GC.setColor(COLOR.Z)
     setFont(20)
     for i=1,11 do
-        gc_print(item[i],760,40*i+10)
+        GC.print(item[i],760,40*i+10)
     end
 
     local A,B=form.A1,form.A2
-    gc_translate(60,80)
-    gc_setLineWidth(2)
-    gc.rectangle('line',0,0,560,160,5)
-    gc.rectangle('line',0,240,560,160,5)
+    GC.translate(60,80)
+    GC.setLineWidth(2)
+    GC.rectangle('line',0,0,560,160,5)
+    GC.rectangle('line',0,240,560,160,5)
     for x=1,6 do
         x=80*x
-        gc_line(x,0,x,160)
-        gc_line(x,240,x,400)
+        GC.line(x,0,x,160)
+        GC.line(x,240,x,400)
     end
     for y=1,3 do
-        gc_line(0,40*y,560,40*y)
-        gc_line(0,240+40*y,560,240+40*y)
+        GC.line(0,40*y,560,40*y)
+        GC.line(0,240+40*y,560,240+40*y)
     end
 
     for x=1,7 do
-        gc_setColor(BLOCK_COLORS[SETTING.skin[x]])
+        GC.setColor(BLOCK_COLORS[SETTING.skin[x]])
         setFont(70)
-        mStr(BLOCK_CHARS[x],80*x-40,-70)
-        mStr(BLOCK_CHARS[x],80*x-40,170)
+        GC.mStr(BLOCK_CHARS[x],80*x-40,-70)
+        GC.mStr(BLOCK_CHARS[x],80*x-40,170)
         setFont(25)
         for y=1,4 do
-            mStr(A[x][y],80*x-40,-37+40*y)
-            mStr(B[x][y],80*x-40,203+40*y)
+            GC.mStr(A[x][y],80*x-40,-37+40*y)
+            GC.mStr(B[x][y],80*x-40,203+40*y)
         end
-        mStr(form.Y1[x],80*x-40,163)
-        mStr(form.Y2[x],80*x-40,403)
+        GC.mStr(form.Y1[x],80*x-40,163)
+        GC.mStr(form.Y2[x],80*x-40,403)
     end
 
     A,B=form.X1,form.X2
     for y=1,4 do
-        gc_setColor(COLOR.Z)
-        gc_print(spinChars[y],-33,-37+40*y)
-        gc_print(y,-28,203+40*y)
-        gc_setColor(COLOR.H)
-        mStr(A[y],612,-37+40*y)
-        mStr(B[y],612,203+40*y)
+        GC.setColor(COLOR.Z)
+        GC.print(spinChars[y],-33,-37+40*y)
+        GC.print(y,-28,203+40*y)
+        GC.setColor(COLOR.H)
+        GC.mStr(A[y],612,-37+40*y)
+        GC.mStr(B[y],612,203+40*y)
     end
-    gc_translate(-60,-80)
+    GC.translate(-60,-80)
 end
 
 scene.widgetList={
     WIDGET.newButton{name='path',x=820,y=540,w=250,h=80,font=25,
         code=function()
             if SYSTEM=="Windows"or SYSTEM=="Linux"then
-                love.system.openURL(SAVEDIR)
+                love.system.openURL(love.filesystem.getSaveDirectory())
             else
-                MES.new('info',SAVEDIR)
+                MES.new('info',love.filesystem.getSaveDirectory())
             end
         end
     },

@@ -5,7 +5,6 @@ local int,abs=math.floor,math.abs
 local rnd,min=math.random,math.min
 local ins=table.insert
 local setFont=FONT.set
-local mStr=GC.mStr
 
 local scene={}
 
@@ -381,7 +380,7 @@ function scene.draw()
     --Score
     setFont(40)
     setColor(1,.7,.7)
-    mStr(score,1130,510)
+    GC.mStr(score,1130,510)
 
     --Messages
     if state==2 then
@@ -411,7 +410,7 @@ function scene.draw()
                         setColor(N<3 and COLOR.D or COLOR.Z)
                         local fontSize=tileFont[N]
                         setFont(fontSize)
-                        mStr(tileName[N],320+(x-.5)*160,40+(y-.5)*160-fontSize*.7)
+                        GC.mStr(tileName[N],320+(x-.5)*160,40+(y-.5)*160-fontSize*.7)
                     end
                 else
                     setColor(COLOR.H)
@@ -425,7 +424,7 @@ function scene.draw()
                 setColor(c,c,c,prevSpawnTime)
                 local fontSize=tileFont[N]
                 setFont(fontSize)
-                mStr(tileName[N],320+(x-.5)*160,40+(y-.5)*160-fontSize*.7)
+                GC.mStr(tileName[N],320+(x-.5)*160,40+(y-.5)*160-fontSize*.7)
             end
         end
     end
@@ -445,13 +444,13 @@ function scene.draw()
         setColor(1,.5,.4)
     end
     setFont(70)
-    mStr(tileName[nextTile],220,175)
+    GC.mStr(tileName[nextTile],220,175)
 
     --Skip CoolDown
     if skipper.cd and skipper.cd>0 then
         setFont(50)
         setColor(1,1,.5)
-        mStr(skipper.cd,155,600)
+        GC.mStr(skipper.cd,155,600)
     end
 
     --Skip mark

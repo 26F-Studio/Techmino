@@ -1,22 +1,18 @@
-local gc=love.graphics
-local gc_push,gc_pop=gc.push,gc.pop
-local gc_translate,gc_scale,gc_rotate,gc_applyTransform=gc.translate,gc.scale,gc.rotate,gc.applyTransform
-local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
-local gc_draw,gc_line=gc.draw,gc.line
-local gc_rectangle,gc_circle=gc.rectangle,gc.circle
-local gc_print,gc_printf=gc.print,gc.printf
+local gc_push,gc_pop=GC.push,GC.pop
+local gc_translate,gc_scale,gc_rotate,gc_applyTransform=GC.translate,GC.scale,GC.rotate,GC.applyTransform
+local gc_setColor,gc_setLineWidth=GC.setColor,GC.setLineWidth
+local gc_draw,gc_line=GC.draw,GC.line
+local gc_rectangle,gc_circle=GC.rectangle,GC.circle
+local gc_print,gc_printf=GC.print,GC.printf
 
 local ms,kb,tc=love.mouse,love.keyboard,love.touch
-local mt=love.math
 
 local max,min=math.max,math.min
 local int,abs=math.floor,math.abs
 
-local setFont=FONT.set
-
 local mapCam={
     sel=false,--Selected mode ID
-    xOy=mt.newTransform(0,0,0,1),--Transformation for map display
+    xOy=love.math.newTransform(0,0,0,1),--Transformation for map display
     keyCtrl=false,--If controlling with key
 
     --For auto zooming when enter/leave scene
@@ -272,9 +268,9 @@ function scene.draw()
                 name=RANK_CHARS[rank]
                 if name then
                     gc_setColor(COLOR.dX)
-                    mStr(name,M.x+M.size*.7,M.y-50-M.size*.7)
+                    GC.mStr(name,M.x+M.size*.7,M.y-50-M.size*.7)
                     gc_setColor(RANK_COLORS[rank])
-                    mStr(name,M.x+M.size*.7+4,M.y-50-M.size*.7-4)
+                    GC.mStr(name,M.x+M.size*.7+4,M.y-50-M.size*.7-4)
                 end
             end
         end
@@ -287,8 +283,8 @@ function scene.draw()
         gc_setColor(COLOR.lX)
         gc_rectangle('fill',920,0,360,720,5)--Info board
         gc_setColor(COLOR.Z)
-        setFont(40)mStr(text.modes[sel][1],1100,5)
-        setFont(30)mStr(text.modes[sel][2],1100,50)
+        setFont(40)GC.mStr(text.modes[sel][1],1100,5)
+        setFont(30)GC.mStr(text.modes[sel][2],1100,50)
         setFont(25)gc_printf(text.modes[sel][3],920,110,360,'center')
         if M.slowMark then
             gc_draw(IMG.ctrlSpeedLimit,1230,50,nil,.4)

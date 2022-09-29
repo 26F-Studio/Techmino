@@ -14,7 +14,7 @@ local function task_PC(P)
     P:pushNextList(L,symmetry)
 
     P.control=false
-    if P.frameRun>180 then for _=1,26 do YIELD()end end
+    if P.frameRun>180 then for _=1,26 do coroutine.yield()end end
     P.control=true
 
     local base=PCbase[difficulty]
@@ -39,7 +39,7 @@ return{
     RS="SRS",
     mesDisp=function(P)
         setFont(60)
-        mStr(P.stat.pc,63,260)
+        GC.mStr(P.stat.pc,63,260)
         mText(TEXTOBJ.pc,63,330)
     end,
     hook_drop=_check,

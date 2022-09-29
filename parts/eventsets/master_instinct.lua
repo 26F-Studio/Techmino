@@ -72,7 +72,7 @@ return{
         P.modeData.pt=0
         P.modeData.target=100
         while true do
-            YIELD()
+            coroutine.yield()
             if P.holdTime==0 and P.waiting<=0 and not held then
                 hidetimer=0
                 held=true
