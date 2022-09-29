@@ -121,10 +121,10 @@ return{
     loginOK="login.Success=true",
     accessOK="Access.Granted=true",
 
-    wsConnecting="Websocket.Connect();",
     wsFailed="Error.Websocket.Failed();",
     wsClose="Error.Websocket.Close=",
     netTimeout="Error.ConnectTimeOut();",
+    serverDown="Error.ServerDown();",
 
     onlinePlayerCount="OnlinePlayerCount",
     createRoomSuccessed="CreateRoom.Successs=true",

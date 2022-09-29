@@ -122,10 +122,10 @@ return{
     loginOK="Anda telah gabung!",
     accessOK="Akses diberikan",
 
-    wsConnecting="Menghubungkan websocket…",
     wsFailed="Koneksi websocket gagal",
     wsClose="Websocket tertutup:",
     netTimeout="Koneksi waktu habis",
+    -- serverDown="Oops! Server is down",
 
     onlinePlayerCount="Online",
     createRoomSuccessed="Ruang terbuat",

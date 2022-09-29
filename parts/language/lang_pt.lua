@@ -109,10 +109,10 @@ return{
     loginOK="Logado com sucesso!",
     accessOK="Autorizado com sucesso!",
 
-    -- wsConnecting="Websocket Connecting",
     wsFailed="WebSocket falha na conexão",
     wsClose="WebSocket closed:",
     -- netTimeout="Network connection timeout",
+    -- serverDown="Oops! Server is down",
 
     -- onlinePlayerCount="Online",
     -- createRoomSuccessed="Room successfully created!",

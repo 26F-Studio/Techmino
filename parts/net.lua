@@ -27,36 +27,6 @@ local NET={
     onlineCount="_",
 }
 
-local mesType={
-    Connect=true,
-    Self=true,
-    Broadcast=true,
-    Private=true,
-    Server=true,
-}
-
---Parse json message
-local function _parse(res)
-    res=JSON.decode(res)
-    if res then
-        if mesType[res.type]then
-            return res
-        else
-            MES.new('warn',("[%s] %s"):format(res.type or"?",res.reason or"[NO Message]"))
-        end
-    end
-end
-
---WS close message
-local function _closeMessage(message)
-    local mes=JSON.decode(message)
-    if mes then
-        MES.new('info',("%s %s|%s"):format(text.wsClose,mes.type or"",mes.reason or""))
-    else
-        MES.new('info',("%s %s"):format(text.wsClose,message))
-    end
-end
-
 
 
 --------------------------<NEW HTTP API>
@@ -69,7 +39,7 @@ local function getMsg(request,timeout)
             if type(mes.body)=='string' and #mes.body>0 then
                 return JSON.decode(mes.body)
             else
-                MES.new('info',"Oops! Server is down")
+                MES.new('info',text.serverDown)
                 return
             end
         else
@@ -98,7 +68,7 @@ function NET.getCode(email)
                 MES.new('error',res.message,5)
             end
         else
-            MES.new('warn',"Request failed",5)
+            MES.new('warn',text.requestFailed,5)
         end
 
         WAIT.interrupt()
@@ -138,7 +108,7 @@ function NET.codeLogin(code)
                 MES.new('error',res.message,5)
             end
         else
-            MES.new('warn',"Request failed",5)
+            MES.new('warn',text.requestFailed,5)
         end
 
         WAIT.interrupt()
@@ -176,7 +146,7 @@ function NET.setPW(code,pw)
                 MES.new('error',res.message,5)
             end
         else
-            MES.new('warn',"Request failed",5)
+            MES.new('warn',text.requestFailed,5)
         end
 
         WAIT.interrupt()
@@ -229,7 +199,6 @@ function NET.autoLogin()
                     USER.rToken=res.data.refreshToken
                     USER.aToken=res.data.accessToken
                     NET.connectWS()
-                    MES.new('info',"Login successed",5)
                     SCN.go('net_menu')
                     WAIT.interrupt()
                     return
@@ -251,7 +220,6 @@ function NET.autoLogin()
                 },
             },6.26)
             if res then
-                print(TABLE.dump(res))
                 if res.code==200 then
                     USER.rToken=res.data.refreshToken
                     USER.aToken=res.data.accessToken
@@ -305,7 +273,7 @@ function NET.pwLogin(email,pw)
                 MES.new('error',res.message,5)
             end
         else
-            MES.new('warn',"Request failed",5)
+            MES.new('warn',text.requestFailed,5)
         end
 
         WAIT.interrupt()
@@ -321,6 +289,7 @@ end
 
 --------------------------<NEW WS API>
 local function wsSend(act,data)
+    -- print("SEND ACT: "..act)
     WS.send('game',JSON.encode{
         action=act,
         data=data,
@@ -454,9 +423,7 @@ end
 --WS
 function NET.connectWS()
     if WS.status('game')=='dead'then
-        WS.connect('game','',{
-            ['x-access-token']=USER.aToken,
-        },6)
+        WS.connect('game','',{['x-access-token']=USER.aToken},6)
         TASK.new(NET.updateWS)
     end
 end
@@ -471,13 +438,19 @@ function NET.updateWS()
             if op=='ping'then
             elseif op=='pong'then
             elseif op=='close'then
-                _closeMessage(message)
+                local res=JSON.decode(message)
+                MES.new('info',("$1 $2"):repD(text.wsClose,res and res.message or message))
+                if res and res.message then LOG(res.message) end
+                TEST.yieldUntilNextScene()
+                while SCN.stack[#SCN.stack-1]~='main' do SCN.pop() end
+                SCN.back()
                 return
             else
-                local res=_parse(message)
+                local res=JSON.decode(message)
                 if res then
-                    if res.type=='Connect'then
-                        MES.new('info','Connected!')
+                    -- print(("RECV ACT: $1 ($2)"):repD(res.action,res.type))
+                    if res.type=='Failed' then
+                        MES.new('warn',"Request failed: "..(res.reason or "/"))
                     elseif res.action==1100 then-- TODO
                     elseif res.action==1101 then-- TODO
                     elseif res.action==1102 then-- TODO

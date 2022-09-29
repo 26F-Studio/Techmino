@@ -121,10 +121,10 @@ return{
     loginOK="You are now logged in!",
     accessOK="Access granted",
 
-    wsConnecting="Websocket connecting…",
     wsFailed="WebSocket connection failed",
     wsClose="WebSocket closed:",
     netTimeout="Connection timed out",
+    serverDown="Oops! Server is down",
 
     onlinePlayerCount="Online",
     createRoomSuccessed="Room created",

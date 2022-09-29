@@ -122,10 +122,10 @@ return{
     loginOK="ログインしています!",
     accessOK="アクセス権限を取得しました!",
 
-    wsConnecting="ウェブソケットに接続中…",
     wsFailed="ウェブソケットとの通信に失敗しました",
     wsClose="ウェブソケットとの通信を終了:",
     netTimeout="接続がタイムアウトしました",
+    -- serverDown="Oops! Server is down",
 
     onlinePlayerCount="オンライン人数",
     createRoomSuccessed="部屋を建てました",

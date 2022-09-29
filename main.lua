@@ -177,6 +177,11 @@ Z.setOnFnKeys({
     function()for k,v in next,_G do print(k,v)end end,
     function()if love['_openConsole']then love['_openConsole']()end end,
 })
+Z.setOnGlobalKey('f11',function()
+    SETTING.fullscreen=not SETTING.fullscreen
+    applySettings()
+    saveSettings()
+end)
 Z.setVersionText(VERSION.string)
 Z.setDebugInfo{
     {"Cache",gcinfo},

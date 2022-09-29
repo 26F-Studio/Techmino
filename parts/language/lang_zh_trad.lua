@@ -121,10 +121,10 @@ return{
     loginOK="登錄成功",
     accessOK="身份認證成功",
 
-    wsConnecting="正在連接……",
     wsFailed="連接失敗",
     wsClose="連接斷開:",
     netTimeout="連接超時",
+    serverDown="哎唷!服務器不在线",
 
     onlinePlayerCount="在線用戶數",
     createRoomSuccessed="房間已創建！",

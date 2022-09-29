@@ -111,10 +111,10 @@ return{
     loginOK="Connecté avec succès !",
     accessOK="Autorisé avec succès !",
 
-    -- wsConnecting="Websocket Connecting",
     wsFailed="WebSocket connection échouée",
     -- wsClose="WebSocket Closed:",
     -- netTimeout="Network connection timeout",
+    -- serverDown="Oops! Server is down",
 
     -- onlinePlayerCount="Online",
     createRoomSuccessed="Salon créé avec succès !",
