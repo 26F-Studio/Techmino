@@ -15,23 +15,34 @@ local roomList=WIDGET.newListBox{name='roomList',x=50,y=50,w=800,h=440,lineH=40,
         gc_setColor(1,1,1,.3)
         gc_rectangle('fill',0,0,800,40)
     end
-    gc_setColor(1,1,1)
-    if item.private then
-        gc_draw(IMG.lock,10,5)
-    end
-    gc_printf(item.count.Spectator>0 and ("$1(+$2)/$3"):repD(item.count.Gamer,item.count.Spectator,item.capacity) or ("$1/$2"):repD(item.count.Gamer,item.capacity),600,-4,180,'right')
 
     gc_setColor(.9,.9,1)
     gc_print(id,45,-4)
 
-    if item.state=='Standby' then
-        gc_setColor(COLOR.Z)
-    elseif item.state=='Ready' then
-        gc_setColor(COLOR.lG)
-    elseif item.state=='Playing' then
-        gc_setColor(COLOR.G)
+    if type(item)=='table' then
+        gc_setColor(1,1,1)
+        if item.private then
+            gc_draw(IMG.lock,10,5)
+        end
+        if item.count then
+            gc_printf(
+                type(item.count.Spectator)=='number'and item.count.Spectator>0 and
+                    ("$1(+$2)/$3"):repD(item.count.Gamer or'?',item.count.Spectator or'?',item.capacity or'?')
+                    or
+                ("$1/$2"):repD(item.count.Gamer or'?',item.capacity or'?'),600,-4,180,'right')
+        end
+
+        if item.info and item.state then
+            if item.state=='Standby' then
+                gc_setColor(COLOR.Z)
+            elseif item.state=='Ready' then
+                gc_setColor(COLOR.lG)
+            elseif item.state=='Playing' then
+                gc_setColor(COLOR.G)
+            end
+            gc_print(item.info.name,200,-4)
+        end
     end
-    gc_print(item.info.name,200,-4)
 end}
 local function _hidePW()
     local R=roomList:getSel()
@@ -41,11 +52,11 @@ local passwordBox=WIDGET.newInputBox{name='password',x=350,y=505,w=500,h=50,secr
 
 --[[roomList[n]={
     state='Standby',
-    roomId="qwerty"
+    roomId="qwerty",
     count={
         Gamer=0,
         Spectator=1,
-    }
+    },
     info={
         name="MrZ's room",
         description="123123123",
