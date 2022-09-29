@@ -19,7 +19,7 @@ function scene.sceneInit()
     showEmail=false
     emailBox.secret=true
     emailBox:setText(USER.email)
-    passwordBox:setText(USER.password)
+    passwordBox:setText("")
 end
 
 function scene.keyDown(key,rep)

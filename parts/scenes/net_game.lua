@@ -317,7 +317,7 @@ function scene.draw()
         --Room info.
         gc_setColor(1,1,1)
         setFont(25)
-        gc_printf(NET.roomState.roomInfo.name,0,685,1270,'right')
+        gc_printf(NET.roomState.info.name,0,685,1270,'right')
         setFont(40)
         gc_print(NETPLY.getCount().."/"..NET.roomState.capacity,70,655)
         if NET.roomState.private then

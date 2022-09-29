@@ -20,12 +20,12 @@ scene.widgetList={
     WIDGET.newButton{name='logout',x=880, y=40,w=180, h=60,color='dR',
         code=function()
             if tryBack()then
-                if USER.uid then
-                    NET.closeWS()
-                    USER.uid=false
-                    USER.authToken=false
-                    SCN.back()
-                end
+                USER.__data.email=false
+                USER.__data.password=false
+                USER.__data.rToken=false
+                USER.__data.aToken=false
+                NET.closeWS()
+                SCN.back()
             end
         end},
     WIDGET.newButton{name='back',  x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},

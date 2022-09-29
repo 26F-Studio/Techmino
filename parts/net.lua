@@ -7,7 +7,7 @@ local NET={
     cloudData={},
 
     roomState={--A copy of room structure on server
-        roomInfo={
+        info={
             name=false,
             type=false,
             version=false,
@@ -347,7 +347,7 @@ function NET.room.enter(rid,password)
         SFX.play('reach',.6)
         wsSend(1306,{
             data={
-                rid=rid,
+                roomId=rid,
                 password=password,
             }
         })
@@ -467,7 +467,9 @@ function NET.updateWS()
                     elseif res.action==1306 then-- TODO
                     elseif res.action==1307 then-- TODO
                     elseif res.action==1308 then-- TODO
-                    elseif res.action==1309 then-- TODO
+                    elseif res.action==1309 then--Fetch rooms
+                        TASK.unlock('fetchRoom')
+                        if res.data then SCN.scenes.net_rooms.widgetList.roomList:setList(res.data) end
                     elseif res.action==1310 then-- TODO
                     elseif res.action==1311 then-- TODO
                     end

@@ -19,17 +19,19 @@ local roomList=WIDGET.newListBox{name='roomList',x=50,y=50,w=800,h=440,lineH=40,
     if item.private then
         gc_draw(IMG.lock,10,5)
     end
-    gc_print(item.count.."/"..item.capacity,670,-4)
+    gc_printf(item.count.Spectator>0 and ("$1(+$2)/$3"):repD(item.count.Gamer,item.count.Spectator,item.capacity) or ("$1/$2"):repD(item.count.Gamer,item.capacity),600,-4,180,'right')
 
     gc_setColor(.9,.9,1)
     gc_print(id,45,-4)
 
-    if item.start then
-        gc_setColor(.1,.5,.2)
-    else
-        gc_setColor(1,1,.7)
+    if item.state=='Standby' then
+        gc_setColor(COLOR.Z)
+    elseif item.state=='Ready' then
+        gc_setColor(COLOR.lG)
+    elseif item.state=='Playing' then
+        gc_setColor(COLOR.G)
     end
-    gc_print(item.roomInfo.name,200,-4)
+    gc_print(item.info.name,200,-4)
 end}
 local function _hidePW()
     local R=roomList:getSel()
@@ -38,15 +40,18 @@ end
 local passwordBox=WIDGET.newInputBox{name='password',x=350,y=505,w=500,h=50,secret=true,hideF=_hidePW,limit=64}
 
 --[[roomList[n]={
-    rid="qwerty",
-    roomInfo={
+    state='Standby',
+    roomId="qwerty"
+    count={
+        Gamer=0,
+        Spectator=1,
+    }
+    info={
         name="MrZ's room",
-        type="classic",
-        version=1409,
+        description="123123123",
+        type="normal",
+        version='ver A-7',
     },
-    private=false,
-    start=false,
-    count=4,
     capacity=5,
 }]]
 local function _fetchRoom()
@@ -69,8 +74,8 @@ function scene.keyDown(key)
     elseif roomList:getLen()>0 and(key=='join'or key=='return'and love.keyboard.isDown('lctrl','rctrl'))then
         local R=roomList:getSel()
         if TASK.getLock('fetchRoom')or not R then return end
-        if R.roomInfo.version==VERSION.room then
-            NET.room.enter(R,passwordBox.value)
+        if R.info.version==VERSION.room then
+            NET.room.enter(R.roomId,passwordBox.value)
         else
             MES.new('error',text.versionNotMatch)
         end
@@ -109,18 +114,18 @@ function scene.draw()
         gc_setLineWidth(3)
         gc_rectangle('line',0,0,385,335)
         setFont(25)
-        gc_print(R.roomInfo.type,10,25)
+        gc_print(R.info.type,10,25)
         gc_setColor(1,1,.7)
-        gc_printf(R.roomInfo.name,10,0,365)
+        gc_printf(R.info.name,10,0,365)
         setFont(20)
         gc_setColor(COLOR.lH)
-        gc_printf(R.roomInfo.description or"[No description]",10,55,365)
+        gc_printf(R.info.description or"[No description]",10,55,365)
         if R.start then
             gc_setColor(COLOR.lA)
             gc_print(text.started,10,300)
         end
         gc_setColor(COLOR.lN)
-        gc_printf(R.roomInfo.version,10,300,365,'right')
+        gc_printf(R.info.version,10,300,365,'right')
         gc_translate(-870,-220)
     end
 
