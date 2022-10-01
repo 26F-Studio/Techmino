@@ -61,16 +61,16 @@ local minoPosCode={
 local function _pTouch(x,y)
     if not curPen then return end
     for i=1,#penPath do
-        if x==penPath[i][1]and y==penPath[i][2]then
+        if x==penPath[i][1] and y==penPath[i][2] then
             return
         end
     end
     if #penPath==0 then
         penMode=
-            pens[curPen]>0 and(FIELD[page][y][x]~=pens[curPen]and 0 or 1)or
+            pens[curPen]>0 and (FIELD[page][y][x]~=pens[curPen] and 0 or 1) or
             pens[curPen]==0 and 1 or
             pens[curPen]==-1 and 0 or
-            pens[curPen]==-2 and(FIELD[page][y][x]<=0 and 0 or 1)
+            pens[curPen]==-2 and (FIELD[page][y][x]<=0 and 0 or 1)
     end
     ins(penPath,{x,y})
 end
@@ -92,7 +92,7 @@ local function _pDraw()
                 for i=1,#y do
                     sum=sum+2^((11-(y[i]-minY))*(y[i]-minY)/2+(x[i]-minX))
                 end
-                if minoPosCode[sum]then
+                if minoPosCode[sum] then
                     C=SETTING.skin[minoPosCode[sum]]
                 end
             else
@@ -114,7 +114,7 @@ local function _pDraw()
     penPath={}
     penMode=0
 
-    while #F>0 and isEmpty(F[#F])do rem(F)end
+    while #F>0 and isEmpty(F[#F]) do rem(F) end
 end
 
 function scene.sceneInit()
@@ -157,41 +157,41 @@ function scene.mouseUp(_,_,k)
     end
 end
 
-function scene.touchDown(x,y)scene.mouseDown(x,y,1)end
-function scene.touchUp(x,y)scene.mouseUp(x,y,1)end
+function scene.touchDown(x,y) scene.mouseDown(x,y,1) end
+function scene.touchUp(x,y) scene.mouseUp(x,y,1) end
 scene.touchMove=scene.mouseMove
 
 function scene.keyDown(key)
-    if key=='up'or key=='down'or key=='left'or key=='right'then
+    if key=='up' or key=='down' or key=='left' or key=='right' then
         if not penX or not penY then penX,penY=1,1 end
-        if key=='up'then
+        if key=='up' then
             if penY<20 then penY=penY+1 end
-        elseif key=='down'then
+        elseif key=='down' then
             if penY>1 then penY=penY-1 end
-        elseif key=='left'then
+        elseif key=='left' then
             if penX>1 then penX=penX-1 end
-        elseif key=='right'then
+        elseif key=='right' then
             if penX<10 then penX=penX+1 end
         end
-        if kb.isDown('space')then
+        if kb.isDown('space') then
             scene.keyDown('space')
         end
-    elseif key=='space'then
+    elseif key=='space' then
         if penX and penY then
             curPen=1
             _pTouch(penX,penY)
         end
-    elseif key=='delete'then
-        if tryReset()then
+    elseif key=='delete' then
+        if tryReset() then
             FIELD[page]=DATA.newBoard()
             SFX.play('finesseError',.7)
         end
-    elseif key=='j'then
+    elseif key=='j' then
         demo=not demo
-    elseif key=='k'then
+    elseif key=='k' then
         ins(FIELD[page],1,{21,21,21,21,21,21,21,21,21,21})
         SFX.play('blip')
-    elseif key=='l'then
+    elseif key=='l' then
         local F=FIELD[page]
         local cleared=false
         for i=#F,1,-1 do
@@ -208,42 +208,42 @@ function scene.keyDown(key)
             SFX.play('clear_3',.8)
             SFX.play('fall',.8)
         end
-    elseif key=='n'then
+    elseif key=='n' then
         ins(FIELD,page+1,DATA.newBoard(FIELD[page]))
         page=page+1
         SFX.play('warn_1',.8)
         SYSFX.newShade(3,200,60,300,600,.5,1,.5)
-    elseif key=='m'then
+    elseif key=='m' then
         rem(FIELD,page)
         page=max(page-1,1)
-        if not FIELD[1]then
+        if not FIELD[1] then
             ins(FIELD,DATA.newBoard())
         end
         SYSFX.newShade(3,200,60,300,600,1,.5,.5)
         SFX.play('clear_4',.8)
         SFX.play('fall',.8)
-    elseif key=='c'and kb.isDown('lctrl','rctrl')or key=='cC'then
+    elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
         sys.setClipboardText("Techmino Field:"..DATA.copyBoard(page))
         MES.new('check',text.exportSuccess)
-    elseif key=='v'and kb.isDown('lctrl','rctrl')or key=='cV'then
+    elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
         local str=sys.getClipboardText()
         local p=str:find(":")--ptr*
         if p then
-            if not str:sub(1,p-1):find("Field")then
+            if not str:sub(1,p-1):find("Field") then
                 MES.new('error',text.pasteWrongPlace)
             end
             str=str:sub(p+1)
         end
-        if DATA.pasteBoard(str,page)then
+        if DATA.pasteBoard(str,page) then
             MES.new('check',text.importSuccess)
         else
             MES.new('error',text.dataCorrupted)
         end
-    elseif key=='pageup'then
+    elseif key=='pageup' then
         page=max(page-1,1)
-    elseif key=='pagedown'then
+    elseif key=='pagedown' then
         page=min(page+1,#FIELD)
-    elseif key=='escape'then
+    elseif key=='escape' then
         if curPen then
             curPen=false
             penPath={}
@@ -255,7 +255,7 @@ function scene.keyDown(key)
     end
 end
 function scene.keyUp(key)
-    if key=='space'then
+    if key=='space' then
         _pDraw()
         curPen=false
     end
@@ -267,8 +267,8 @@ function scene.draw()
     --Draw grid
     gc.setColor(1,1,1,.2)
     gc.setLineWidth(1)
-    for x=1,9 do gc.line(30*x,0,30*x,600)end
-    for y=0,19 do gc.line(0,30*y,300,30*y)end
+    for x=1,9 do gc.line(30*x,0,30*x,600) end
+    for y=0,19 do gc.line(0,30*y,300,30*y) end
 
     --Draw field
     gc.setColor(COLOR.Z)
@@ -435,7 +435,7 @@ function scene.draw()
     end
 end
 
-local function _setPen(i)return function(k)pens[k]=i end end
+local function _setPen(i) return function(k) pens[k]=i end end
 scene.widgetList={
     WIDGET.newText{name='title',    x=1020,y=5,lim=480,font=70,align='R'},
     WIDGET.newText{name='subTitle', x=1030,y=50,lim=170,font=35,align='L',color='H'},
@@ -476,12 +476,12 @@ scene.widgetList={
     WIDGET.newButton{name='copy',   x=730, y=530,w=120,color='lR',font=60,fText=CHAR.icon.export,code=pressKey'cC'},
     WIDGET.newButton{name='paste',  x=860, y=530,w=120,color='lB',font=60,fText=CHAR.icon.import,code=pressKey'cV'},
     WIDGET.newButton{name='clear',  x=990, y=530,w=120,color='Z', font=70,fText=CHAR.icon.trash,code=pressKey'delete'},
-    WIDGET.newSwitch{name='demo',   x=755, y=640,lim=220,disp=function()return demo end,code=function()demo=not demo end},
+    WIDGET.newSwitch{name='demo',   x=755, y=640,lim=220,disp=function() return demo end,code=function() demo=not demo end},
 
     WIDGET.newButton{name='newPg',  x=100, y=110,w=160,h=110,color='N', font=20,code=pressKey'n'},
     WIDGET.newButton{name='delPg',  x=100, y=230,w=160,h=110,color='lR',font=20,code=pressKey'm'},
-    WIDGET.newButton{name='prevPg', x=100, y=350,w=160,h=110,color='lG',font=20,code=pressKey'pageup',hideF=function()return page==1 end},
-    WIDGET.newButton{name='nextPg', x=100, y=470,w=160,h=110,color='lG',font=20,code=pressKey'pagedown',hideF=function()return page==#FIELD end},
+    WIDGET.newButton{name='prevPg', x=100, y=350,w=160,h=110,color='lG',font=20,code=pressKey'pageup',hideF=function() return page==1 end},
+    WIDGET.newButton{name='nextPg', x=100, y=470,w=160,h=110,color='lG',font=20,code=pressKey'pagedown',hideF=function() return page==#FIELD end},
 
     WIDGET.newButton{name='back',   x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }

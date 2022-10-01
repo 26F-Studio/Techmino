@@ -46,7 +46,7 @@ local function generateGuide(num)
 end
 
 return{
-    fkey1=function(P)P.modeData.showGuide=not P.modeData.showGuide end,
+    fkey1=function(P) P.modeData.showGuide=not P.modeData.showGuide end,
     mesDisp=function(P)
         mText(TEXTOBJ.grade,63,190)
         mText(TEXTOBJ.line,63,310)

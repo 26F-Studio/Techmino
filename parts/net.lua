@@ -1,5 +1,4 @@
 local WS=WS
-local PLAYERS=PLAYERS
 
 local NET={
     allow_online=false,
@@ -303,22 +302,21 @@ function NET.room.chat(mes,rid)
     })
 end
 function NET.room.create(roomName,description,capacity,roomType,roomData,password)
-    if TASK.lock('enterRoom',2)then
-        NET.roomState.private=not not password
-        NET.roomState.capacity=capacity
-        wsSend(1301,{
-            capacity=capacity,
-            info={
-                name=roomName,
-                type=roomType,
-                version=VERSION.room,
-                description=description,
-            },
-            data=roomData,
+    if not TASK.lock('enterRoom',2) then return end
+    NET.roomState.private=not not password
+    NET.roomState.capacity=capacity
+    wsSend(1301,{
+        capacity=capacity,
+        info={
+            name=roomName,
+            type=roomType,
+            version=VERSION.room,
+            description=description,
+        },
+        data=roomData,
 
-            password=password,
-        })
-    end
+        password=password,
+    })
 end
 function NET.room.getData(rid)
     wsSend(1302,{
@@ -343,7 +341,7 @@ function NET.room.setInfo(info,rid)
     })
 end
 function NET.room.enter(rid,password)
-    if TASK.lock('enterRoom',6)then
+    if TASK.lock('enterRoom',6) then
         SFX.play('reach',.6)
         wsSend(1306,{
             data={
@@ -363,7 +361,7 @@ function NET.room.leave()
     wsSend(1308)
 end
 function NET.room.fetch()
-    if TASK.lock('fetchRoom',3)then
+    if TASK.lock('fetchRoom',3) then
         wsSend(1309,{
             data={
                 pageIndex=0,
@@ -373,7 +371,7 @@ function NET.room.fetch()
     end
 end
 function NET.room.setPW(pw,rid)
-    if TASK.lock('fetchRoom',3)then
+    if TASK.lock('fetchRoom',3) then
         wsSend(1310,{
             data={
                 password=pw,
@@ -420,7 +418,7 @@ end
 
 --WS
 function NET.connectWS()
-    if WS.status('game')=='dead'then
+    if WS.status('game')=='dead' then
         WS.connect('game','',{['x-access-token']=USER.aToken},6)
         TASK.new(NET.updateWS)
     end
@@ -429,13 +427,13 @@ function NET.closeWS()
     WS.close('game')
 end
 function NET.updateWS()
-    while WS.status('game')~='dead'do
+    while WS.status('game')~='dead' do
         coroutine.yield()
         local message,op=WS.read('game')
         if message then
-            if op=='ping'then
-            elseif op=='pong'then
-            elseif op=='close'then
+            if op=='ping' then
+            elseif op=='pong' then
+            elseif op=='close' then
                 local res=JSON.decode(message)
                 MES.new('info',("$1 $2"):repD(text.wsClose,res and res.message or message))
                 if res and res.message then LOG(res.message) end
@@ -494,21 +492,21 @@ end
 
 --Save
 function NET.uploadSave()
-    if TASK.lock('uploadSave',8)then
+    if TASK.lock('uploadSave',8) then
         wsSend({data={sections={
             {section=1,data=STRING.packTable(STAT)},
             {section=2,data=STRING.packTable(RANKS)},
             {section=3,data=STRING.packTable(SETTING)},
             {section=4,data=STRING.packTable(KEY_MAP)},
             {section=5,data=STRING.packTable(VK_ORG)},
-            {section=6,data=STRING.packTable(loadFile('conf/vkSave1','-canSkip')or{})},
-            {section=7,data=STRING.packTable(loadFile('conf/vkSave2','-canSkip')or{})},
+            {section=6,data=STRING.packTable(loadFile('conf/vkSave1','-canSkip') or{})},
+            {section=7,data=STRING.packTable(loadFile('conf/vkSave2','-canSkip') or{})},
         }}})
         MES.new('info',"Uploading")
     end
 end
 function NET.downloadSave()
-    if TASK.lock('downloadSave',8)then
+    if TASK.lock('downloadSave',8) then
         wsSend({data={sections={1,2,3,4,5,6,7}}})
         MES.new('info',"Downloading")
     end
@@ -548,8 +546,8 @@ function NET.loadSavedData(sections)
     TABLE.cover(NET.cloudData.VK_org,VK_ORG)
     success=success and saveFile(VK_ORG,'conf/virtualkey')
 
-    if #NET.cloudData.vkSave1[1]then success=success and saveFile(NET.cloudData.vkSave1,'conf/vkSave1')end
-    if #NET.cloudData.vkSave2[1]then success=success and saveFile(NET.cloudData.vkSave2,'conf/vkSave2')end
+    if #NET.cloudData.vkSave1[1] then success=success and saveFile(NET.cloudData.vkSave1,'conf/vkSave1') end
+    if #NET.cloudData.vkSave2[1] then success=success and saveFile(NET.cloudData.vkSave2,'conf/vkSave2') end
     if success then
         MES.new('check',text.saveDone)
     else

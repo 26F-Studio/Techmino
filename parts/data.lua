@@ -18,7 +18,7 @@ function DATA.copySequence()
 
     local count=1
     for i=1,#BAG+1 do
-        if BAG[i+1]~=BAG[i]or count==64 then
+        if BAG[i+1]~=BAG[i] or count==64 then
             str=str..char(96+BAG[i])
             if count>1 then
                 str=str..char(32+count)
@@ -67,7 +67,7 @@ local fieldMeta={__index=function(self,h)
     return self[h]
 end}
 function DATA.newBoard(f)--Generate a new board
-    return setmetatable(f and TABLE.shift(f)or{},fieldMeta)
+    return setmetatable(f and TABLE.shift(f) or{},fieldMeta)
 end
 function DATA.copyBoard(page)--Copy the [page] board
     local F=FIELD[page or 1]
@@ -95,7 +95,7 @@ function DATA.pasteBoard(str,page)--Paste [str] data to [page] board
     if not page then
         page=1
     end
-    if not FIELD[page]then
+    if not FIELD[page] then
         FIELD[page]=DATA.newBoard()
     end
     local F=FIELD[page]
@@ -158,7 +158,7 @@ function DATA.copyMission()
 
     local count=1
     for i=1,#MISSION+1 do
-        if MISSION[i+1]~=MISSION[i]or count==13 then
+        if MISSION[i+1]~=MISSION[i] or count==13 then
             _=33+MISSION[i]
             str=str..char(_)
             if count>1 then
@@ -186,7 +186,7 @@ function DATA.pasteMission(str)
             end
         else
             if b>=34 and b<=114 then
-                if ENUM_MISSION[reg]then
+                if ENUM_MISSION[reg] then
                     ins(MISSION,reg)
                     reg=b-33
                 else
@@ -211,8 +211,8 @@ function DATA.copyQuestArgs()
     local ENV=CUSTOMENV
     local str=""..
         ENV.holdCount..
-        (ENV.ospin and"O"or"Z")..
-        (ENV.missionKill and"M"or"Z")..
+        (ENV.ospin and "O" or "Z")..
+        (ENV.missionKill and "M" or "Z")..
         ENV.sequence
     return str
 end
@@ -252,8 +252,8 @@ function DATA.dumpRecording(list,ptr)
     local out=""
     local buffer,buffer2=""
     if not ptr then ptr=1 end
-    local prevFrm=list[ptr-2]or 0
-    while list[ptr]do
+    local prevFrm=list[ptr-2] or 0
+    while list[ptr] do
         --Flush buffer
         if #buffer>10 then
             out=out..buffer
@@ -298,7 +298,7 @@ function DATA.pumpRecording(str,L)
     local len=#str
     local p=1
 
-    local curFrm=L[#L-1]or 0
+    local curFrm=L[#L-1] or 0
     local code
     while p<=len do
         --Read delta time
@@ -338,7 +338,7 @@ do--function DATA.saveReplay()
     function DATA.saveReplay()
         --Filtering modes that cannot be saved
         for _,v in next,noRecList do
-            if GAME.curModeName:find(v)then
+            if GAME.curModeName:find(v) then
                 MES.new('error',"Cannot save recording of this mode now!")
                 return
             end
@@ -346,7 +346,7 @@ do--function DATA.saveReplay()
 
         --Write file
         local fileName=os.date("replay/%Y_%m_%d_%H%M%S.rep")
-        if not love.filesystem.getInfo(fileName)then
+        if not love.filesystem.getInfo(fileName) then
             love.filesystem.write(fileName,
                 love.data.compress('string','zlib',
                     JSON.encode{
@@ -378,7 +378,7 @@ end
 function DATA.parseReplayData(fileName,fileData,ifFull)
     local success,metaData,rep
 
-    if not(fileData and #fileData>0)then goto BREAK_cannotParse end
+    if not (fileData and #fileData>0) then goto BREAK_cannotParse end
 
     --Decompress file
     success,fileData=pcall(love.data.decompress,'string','zlib',fileData)
@@ -390,8 +390,8 @@ function DATA.parseReplayData(fileName,fileData,ifFull)
     if not metaData then goto BREAK_cannotParse end
 
     --Convert ancient replays
-    metaData.mode=MODE_UPDATE_MAP[metaData.mode]or metaData.mode
-    if not MODES[metaData.mode]then goto BREAK_cannotParse end
+    metaData.mode=MODE_UPDATE_MAP[metaData.mode] or metaData.mode
+    if not MODES[metaData.mode] then goto BREAK_cannotParse end
 
     --Create replay object
     rep={

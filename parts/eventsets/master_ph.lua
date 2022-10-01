@@ -36,7 +36,7 @@ return
                 SFX.play('reach')
             elseif T==26 then--Stage 3: dig to bottom
                 P:stageComplete(3)
-                if not P.holdQueue[1]then--1 up if ban hold
+                if not P.holdQueue[1] then--1 up if ban hold
                     P.life=P.life+1
                 end
                 P.waiting=45
@@ -44,7 +44,7 @@ return
                 ENV.skin[3],ENV.skin[4]=ENV.skin[4],ENV.skin[3]
 
                 for i=1,10 do
-                    if P.field[i]then
+                    if P.field[i] then
                         for j=1,10 do
                             if P.field[i][j]>0 then
                                 P.field[i][j]=17
@@ -137,7 +137,7 @@ return
             elseif T==259 then--Stage 9: ending
                 P:stageComplete(9)
                 P.life=P.life+1
-                for i=1,7 do ENV.skin[i]=P.holeRND:random(16)end
+                for i=1,7 do ENV.skin[i]=P.holeRND:random(16) end
 
                 P:setInvisible(40)
                 ENV.lock=15

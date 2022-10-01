@@ -15,7 +15,7 @@ return{
         local C=P.lastPiece
         if C.row>0 then
             if C.id==5 and C.row==2 and C.spin then
-                if TABLE.find(P.modeData.history,C.centX)then
+                if TABLE.find(P.modeData.history,C.centX) then
                     P:showText("STACK",0,-140,40,'flicker',.3)
                     P:lose()
                 else

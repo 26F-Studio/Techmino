@@ -6,13 +6,13 @@ BLOCK_NAMES={
     'J5','L5','R','Y','N','H','I5',
     'I3','C','I2','O1'
 }
-BLOCK_CHARS={}for i=1,#BLOCK_NAMES do BLOCK_CHARS[i]=CHAR.mino[BLOCK_NAMES[i]]end
+BLOCK_CHARS={} for i=1,#BLOCK_NAMES do BLOCK_CHARS[i]=CHAR.mino[BLOCK_NAMES[i]] end
 BLOCK_COLORS={
     COLOR.R,COLOR.F,COLOR.O,COLOR.Y,COLOR.L,COLOR.J,COLOR.G,COLOR.A,
     COLOR.C,COLOR.N,COLOR.S,COLOR.B,COLOR.V,COLOR.P,COLOR.M,COLOR.W,
     COLOR.dH,COLOR.D,COLOR.lY,COLOR.H,COLOR.lH,COLOR.dV,COLOR.dR,COLOR.dG,
 }
-RANK_CHARS={'B','A','S','U','X'}for i=1,#RANK_CHARS do RANK_CHARS[i]=CHAR.icon['rank'..RANK_CHARS[i]]end
+RANK_CHARS={'B','A','S','U','X'} for i=1,#RANK_CHARS do RANK_CHARS[i]=CHAR.icon['rank'..RANK_CHARS[i]] end
 RANK_COLORS={
     {.8,.86,.9},
     {.6,.9,.7},
@@ -131,8 +131,8 @@ do--SVG_TITLE_FILL, SVG_TITLE_LINE
 
     SVG_TITLE_LINE=TABLE.shift(SVG_TITLE_FILL)
     SVG_TITLE_LINE[8],SVG_TITLE_LINE[9]={},{}
-    for j=1,16 do SVG_TITLE_LINE[8][j]=SVG_TITLE_FILL[8][j]end
-    for j=19,#SVG_TITLE_FILL[8]-2 do SVG_TITLE_LINE[9][j-18]=SVG_TITLE_FILL[8][j]end
+    for j=1,16 do SVG_TITLE_LINE[8][j]=SVG_TITLE_FILL[8][j] end
+    for j=19,#SVG_TITLE_FILL[8]-2 do SVG_TITLE_LINE[9][j-18]=SVG_TITLE_FILL[8][j] end
 end
 do--SVG_TITLE_FAN
     SVG_TITLE_FAN={}
@@ -166,7 +166,7 @@ do--MISSIONENUM
     for k,v in next,L do ENUM_MISSION[k]=v end
 end
 do--TEXTOBJ
-    local function T(s,t)return love.graphics.newText(getFont(s),t)end
+    local function T(s,t) return love.graphics.newText(getFont(s),t) end
     TEXTOBJ={
         modeName=T(30),
 
@@ -347,93 +347,93 @@ do--Mod data
         {no=0,id="NX",name="next",
             key="q",x=80,y=230,color='lO',
             list={0,1,2,3,4,5,6},
-            func=function(P,O)P.gameEnv.nextCount=O end,
+            func=function(P,O) P.gameEnv.nextCount=O end,
             unranked=true,
         },
         {no=1,id="HL",name="hold",
             key="w",x=200,y=230,color='lO',
             list={0,1,2,3,4,5,6},
-            func=function(P,O)P.gameEnv.holdCount=O end,
+            func=function(P,O) P.gameEnv.holdCount=O end,
             unranked=true,
         },
         {no=2,id="FL",name="hideNext",
             key="e",x=320,y=230,color='lA',
             list={1,2,3,4,5},
-            func=function(P,O)P.gameEnv.nextStartPos=O+1 end,
+            func=function(P,O) P.gameEnv.nextStartPos=O+1 end,
             unranked=true,
         },
         {no=3,id="IH",name="infHold",
             key="r",x=440,y=230,color='lA',
-            func=function(P)P.gameEnv.infHold=true end,
+            func=function(P) P.gameEnv.infHold=true end,
             unranked=true,
         },
         {no=4,id="HB",name="hideBlock",
             key="y",x=680,y=230,color='lV',
-            func=function(P)P.gameEnv.block=false end,
+            func=function(P) P.gameEnv.block=false end,
             unranked=true,
         },
         {no=5,id="HG",name="hideGhost",
             key="u",x=800,y=230,color='lV',
-            func=function(P)P.gameEnv.ghost=false end,
+            func=function(P) P.gameEnv.ghost=false end,
             unranked=true,
         },
         {no=6,id="HD",name="hidden",
             key="i",x=920,y=230,color='lP',
             list={'easy','slow','medium','fast','none'},
-            func=function(P,O)P.gameEnv.visible=O end,
+            func=function(P,O) P.gameEnv.visible=O end,
             unranked=true,
         },
         {no=7,id="HB",name="hideBoard",
             key="o",x=1040,y=230,color='lP',
             list={'down','up','all'},
-            func=function(P,O)P.gameEnv.hideBoard=O  end,
+            func=function(P,O) P.gameEnv.hideBoard=O  end,
             unranked=true,
         },
         {no=8,id="FB",name="flipBoard",
             key="p",x=1160,y=230,color='lJ',
             list={'U-D','L-R','180'},
-            func=function(P,O)P.gameEnv.flipBoard=O  end,
+            func=function(P,O) P.gameEnv.flipBoard=O  end,
             unranked=true,
         },
 
         {no=9,id="DT",name="dropDelay",
             key="a",x=140,y=350,color='lR',
             list={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
-            func=function(P,O)P.gameEnv.drop=O end,
+            func=function(P,O) P.gameEnv.drop=O end,
             unranked=true,
         },
         {no=10,id="LT",name="lockDelay",
             key="s",x=260,y=350,color='lR',
             list={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
-            func=function(P,O)P.gameEnv.lock=O end,
+            func=function(P,O) P.gameEnv.lock=O end,
             unranked=true,
         },
         {no=11,id="ST",name="waitDelay",
             key="d",x=380,y=350,color='lR',
             list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
-            func=function(P,O)P.gameEnv.wait=O end,
+            func=function(P,O) P.gameEnv.wait=O end,
             unranked=true,
         },
         {no=12,id="CT",name="fallDelay",
             key="f",x=500,y=350,color='lR',
             list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
-            func=function(P,O)P.gameEnv.fall=O end,
+            func=function(P,O) P.gameEnv.fall=O end,
             unranked=true,
         },
         {no=13,id="LF",name="life",
             key="j",x=860,y=350,color='lY',
             list={0,1,2,3,5,10,15,26,42,87,500},
-            func=function(P,O)P.gameEnv.life=O end,
+            func=function(P,O) P.gameEnv.life=O end,
             unranked=true,
         },
         {no=14,id="FB",name="forceB2B",
             key="k",x=980,y=350,color='lY',
-            func=function(P)P.gameEnv.b2bKill=true end,
+            func=function(P) P.gameEnv.b2bKill=true end,
             unranked=true,
         },
         {no=15,id="PF",name="forceFinesse",
             key="l",x=1100,y=350,color='lY',
-            func=function(P)P.gameEnv.fineKill=true end,
+            func=function(P) P.gameEnv.fineKill=true end,
             unranked=true,
         },
 
@@ -467,19 +467,19 @@ do--Mod data
         {no=19,id="CS",name="customSeq",
             key="b",x=680,y=470,color='lB',
             list={'bag','bagES','his','hisPool','c2','rnd','mess','reverb'},
-            func=function(P,O)P.gameEnv.sequence=O end,
+            func=function(P,O) P.gameEnv.sequence=O end,
             unranked=true,
         },
         {no=20,id="PS",name="pushSpeed",
             key="n",x=800,y=470,color='lB',
             list={.5,1,2,3,5,15,1e99},
-            func=function(P,O)P.gameEnv.pushSpeed=O end,
+            func=function(P,O) P.gameEnv.pushSpeed=O end,
             unranked=true,
         },
         {no=21,id="BN",name="boneBlock",
             key="m",x=920,y=470,color='lB',
             list={'on','off'},
-            func=function(P,O)P.gameEnv.bone=O=='on'end,
+            func=function(P,O) P.gameEnv.bone=O=='on' end,
             unranked=true,
         },
     }
@@ -719,8 +719,8 @@ do--Userdata tables
         piece=0,row=0,dig=0,
         atk=0,digatk=0,
         send=0,recv=0,pend=0,off=0,
-        clear=(function()local L={}for i=1,29 do L[i]={0,0,0,0,0,0}end return L end)(),
-        spin=(function()local L={}for i=1,29 do L[i]={0,0,0,0,0,0,0}end return L end)(),
+        clear=(function() local L={} for i=1,29 do L[i]={0,0,0,0,0,0} end return L end)(),
+        spin=(function() local L={} for i=1,29 do L[i]={0,0,0,0,0,0,0} end return L end)(),
         pc=0,hpc=0,b2b=0,b3b=0,score=0,
         lastPlay='sprint_10l',--Last played mode ID
         item=setmetatable({},{__index=function(self,k)

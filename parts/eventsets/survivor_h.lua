@@ -10,7 +10,7 @@ return{
             if P.control then
                 local D=P.modeData
                 D.timer=D.timer+1
-                if D.timer>=math.max(60,180-2*D.wave)and P.atkBufferSum<15 then
+                if D.timer>=math.max(60,180-2*D.wave) and P.atkBufferSum<15 then
                     if D.wave==90 then
                         P:win('finish')
                     else

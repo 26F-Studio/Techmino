@@ -205,8 +205,8 @@ return{
         "Por favor descarga el juego únicamente desde los sitios oficiales,",
         "ya que no podemos asegurar que sea seguro si proviene de otro lado.",
         "El autor no se responabiliza por daños ocasionados debido a modificaciones del juego.",
-        FNNS and"/"or"El juego es gratuito, pero se aprecian donaciones.",
-        FNNS and"/"or"Ve el Zictionary (en inglés) para más info.",
+        FNNS and "/" or "El juego es gratuito, pero se aprecian donaciones.",
+        FNNS and "/" or "Ve el Zictionary (en inglés) para más info.",
     },
     staff={
         "ORIGINAL DE MrZ",

@@ -27,7 +27,7 @@ local score
 local sunH,color,rot
 
 local function near(o,t)
-    return o>t and max(o-.01,t)or o<t and min(o+.01,t)or o
+    return o>t and max(o-.01,t) or o<t and min(o+.01,t) or o
 end
 local function hurt(i)
     life=life-i
@@ -46,8 +46,8 @@ end
 local scene={}
 
 function scene.sceneInit()
-    cubesX={}for i=1,40 do cubesX[i]=rnd()*16-8 end
-    cubesY={}for i=1,40 do cubesY[i]=i/40*9 end
+    cubesX={} for i=1,40 do cubesX[i]=rnd()*16-8 end
+    cubesY={} for i=1,40 do cubesY[i]=i/40*9 end
     lastCube=1
     player,moveDir=0,0
     life,life1,inv=0,0,false
@@ -95,16 +95,16 @@ function scene.touchUp(x)
 end
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=='escape'then
+    if key=='escape' then
         SCN.back()
     elseif play then
-        if key=='left'or key=='a'then
+        if key=='left' or key=='a' then
             moveDir=-1
-        elseif key=='right'or key=='d'then
+        elseif key=='right' or key=='d' then
             moveDir=1
         end
     else
-        if key=='space'and ct==60 then
+        if key=='space' and ct==60 then
             menu=-1
             speed=1
             level=1
@@ -113,10 +113,10 @@ function scene.keyDown(key,isRep)
 end
 function scene.keyUp(key)
     if play then
-        if key=='left'or key=='a'then
-            moveDir=kb.isDown('right','d')and 1 or 0
-        elseif key=='right'or key=='d'then
-            moveDir=kb.isDown('left','a')and -1 or 0
+        if key=='left' or key=='a' then
+            moveDir=kb.isDown('right','d') and 1 or 0
+        elseif key=='right' or key=='d' then
+            moveDir=kb.isDown('left','a') and -1 or 0
         end
     end
 end
@@ -196,7 +196,7 @@ function scene.update(dt)
             menu=false
         end
     elseif menu==-1 then
-        for i=1,3 do color[i]=near(color[i],cubeColor[1][i])end
+        for i=1,3 do color[i]=near(color[i],cubeColor[1][i]) end
         for i=1,40 do cubesY[i]=cubesY[i]-(70-ct)*.003 end
         if sunH>0 then
             sunH=max(sunH*.85-1,0)
@@ -204,11 +204,11 @@ function scene.update(dt)
         ct=ct-1
         if ct==0 then
             local t=love.system.getClipboardText()
-            if type(t)=='string'then
+            if type(t)=='string' then
                 t=t:lower():match("^s=(%d+)$")
-                t=t and tonumber(t)and tonumber(t)>0 and tonumber(t)<=8000 and int(tonumber(t))
+                t=t and tonumber(t) and tonumber(t)>0 and tonumber(t)<=8000 and int(tonumber(t))
             end
-            score=type(t)=='number'and t or 0
+            score=type(t)=='number' and t or 0
             life=1000
             play,menu=true,false
             inv=90
@@ -312,7 +312,7 @@ function scene.draw()
             mStr("Score : "..score,0,-350)
         end
 
-        mStr(MOBILE and"Touch to Start"or"Press space to Start",0,-160)
+        mStr(MOBILE and "Touch to Start" or "Press space to Start",0,-160)
     end
     gc.pop()
 end

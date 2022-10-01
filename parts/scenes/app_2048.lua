@@ -65,7 +65,7 @@ local tileFont={
 local tileName={[0]="X","2","4","8","16","32","64","128","256","512","1024","2048","4096","8192","16384","32768","65536","131072","262144","524288","2^20"}
 local function airExist()
     for i=1,16 do
-        if not board[i]then
+        if not board[i] then
             return true
         end
     end
@@ -73,7 +73,7 @@ end
 local function newTile()
     --Select position & generate number
     nextPos=(nextPos+6)%16+1
-    while board[nextPos]do
+    while board[nextPos] do
         nextPos=(nextPos-4)%16+1
     end
     board[nextPos]=nextTile
@@ -89,23 +89,23 @@ local function newTile()
     if nextCD>0 then
         nextTile=1
     else
-        nextTile=MATH.roll(.9)and 2 or MATH.roll(.9)and 3 or 4
+        nextTile=MATH.roll(.9) and 2 or MATH.roll(.9) and 3 or 4
         nextCD=rnd(8,12)
     end
 
     --Check if board is full
-    if airExist()then return end
+    if airExist() then return end
 
     --Check if board is locked in all-directions
     for i=1,12 do
-        if board[i]==board[i+4]then
+        if board[i]==board[i+4] then
             return
         end
     end
     for i=1,13,4 do
         if
-            board[i+0]==board[i+1]or
-            board[i+1]==board[i+2]or
+            board[i+0]==board[i+1] or
+            board[i+1]==board[i+2] or
             board[i+2]==board[i+3]
         then
             return
@@ -114,7 +114,7 @@ local function newTile()
 
     --Die.
     state=2
-    SFX.play(maxTile>=10 and'win'or'fail')
+    SFX.play(maxTile>=10 and 'win' or 'fail')
 end
 local function freshMaxTile()
     maxTile=maxTile+1
@@ -129,7 +129,7 @@ local function squash(L)
     local moved=false
     while true do
         p2=p1+1
-        while not L[p2]and p2<5 do
+        while not L[p2] and p2<5 do
             p2=p2+1
         end
         if p2==5 then
@@ -139,10 +139,10 @@ local function squash(L)
                 p1=p1+1
             end
         else
-            if not L[p1]then--air←2
+            if not L[p1] then--air←2
                 L[p1],L[p2]=L[p2],false
                 moved=true
-            elseif L[p1]==L[p2]then--2←2
+            elseif L[p1]==L[p2] then--2←2
                 L[p1],L[p2]=L[p1]+1,false
                 if L[p1]>maxTile then
                     freshMaxTile()
@@ -214,7 +214,7 @@ local function moveRight()
 end
 local function skip()
     if state==1 and skipper.cd==0 then
-        if airExist()then
+        if airExist() then
             skipper.cd=1024
             skipper.used=true
             newTile()
@@ -242,10 +242,10 @@ function scene.mouseDown(x,y,k)
             skip()
         else
             local dx,dy=x-640,y-360
-            if abs(dx)<320 and abs(dy)<320 and(abs(dx)>60 or abs(dy)>60)then
+            if abs(dx)<320 and abs(dy)<320 and (abs(dx)>60 or abs(dy)>60) then
                 scene.keyDown(abs(dx)-abs(dy)>0 and
-                    (dx>0 and'right'or'left')or
-                    (dy>0 and'down'or'up')
+                    (dx>0 and 'right' or 'left') or
+                    (dy>0 and 'down' or 'up')
                 )
             end
         end
@@ -279,7 +279,7 @@ local function playRep(n)
             autoPressing=false
         end
         if move~=move0 then
-            if repeater.seq[n]~=repeater.last[n]then
+            if repeater.seq[n]~=repeater.last[n] then
                 repeater.last[n]=repeater.seq[n]
                 move=move0+#repeater.seq[n]/3+1
             else
@@ -290,14 +290,14 @@ local function playRep(n)
 end
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=='up'or key=='down'or key=='left'or key=='right'then
+    if key=='up' or key=='down' or key=='left' or key=='right' then
         if repeater.focus then
             local f=repeater.focus
             if #repeater.seq[f]<24 then
                 repeater.seq[f]=repeater.seq[f]..arrows[key]
             end
         else
-            if moveFunc[key]()then
+            if moveFunc[key]() then
                 if state==0 then
                     startTime=TIME()
                     state=1
@@ -316,21 +316,21 @@ function scene.keyDown(key,isRep)
                 end
             end
         end
-    elseif key=='space'then skip()
-    elseif key=='r'then reset()
-    elseif key=='q'then if state==0 then invis=not invis end
-    elseif key=='w'then if state==0 then tapControl=not tapControl end
-    elseif key=='1'or key=='2'then(kb.isDown('lshift','lctrl','lalt')and playRep or setFocus)(key=='1'and 1 or 2)
-    elseif key=='c1'then playRep(1)
-    elseif key=='c2'then playRep(2)
-    elseif key=='return'then
+    elseif key=='space' then skip()
+    elseif key=='r' then reset()
+    elseif key=='q' then if state==0 then invis=not invis end
+    elseif key=='w' then if state==0 then tapControl=not tapControl end
+    elseif key=='1' or key=='2' then (kb.isDown('lshift','lctrl','lalt') and playRep or setFocus)(key=='1' and 1 or 2)
+    elseif key=='c1' then playRep(1)
+    elseif key=='c2' then playRep(2)
+    elseif key=='return' then
         if repeater.focus then
             repeater.focus=false
         end
-    elseif key=='escape'then
+    elseif key=='escape' then
         if repeater.focus then
             repeater.focus=false
-        elseif tryBack()then
+        elseif tryBack() then
             SCN.back()
         end
     end
@@ -363,13 +363,13 @@ function scene.draw()
     setFont(25)
     for i=1,2 do
         setColor(COLOR[
-            repeater.focus==i and(
+            repeater.focus==i and (
                 TIME()%.5>.25 and
-                'R'or
+                'R' or
                 'Y'
-            )or(
-                repeater.seq[i]==repeater.last[i]and
-                'H'or
+            ) or (
+                repeater.seq[i]==repeater.last[i] and
+                'H' or
                 'Z'
             )
         ])
@@ -399,12 +399,12 @@ function scene.draw()
 
     --Board
     for i=1,16 do
-        if board[i]then
+        if board[i] then
             local x,y=1+(i-1)%4,int((i+3)/4)
             local N=board[i]
             if i~=prevPos or prevSpawnTime==1 then
                 if not invis or i==prevPos then
-                    setColor(tileColor[N]or COLOR.D)
+                    setColor(tileColor[N] or COLOR.D)
                     rectangle('fill',x*160+163,y*160-117,154,154,15)
                     if N>=0 then
                         setColor(N<3 and COLOR.D or COLOR.Z)
@@ -480,18 +480,18 @@ end
 
 scene.widgetList={
     WIDGET.newButton{name='reset',     x=155, y=100,w=180,h=100,color='lG',font=50,fText=CHAR.icon.retry_spin,code=pressKey'r'},
-    WIDGET.newSwitch{name='invis',     x=240, y=300,lim=200,font=40,disp=function()return invis end,code=pressKey'q',hideF=function()return state==1 end},
-    WIDGET.newSwitch{name='tapControl',x=240, y=370,lim=200,font=40,disp=function()return tapControl end,code=pressKey'w',hideF=function()return state==1 end},
+    WIDGET.newSwitch{name='invis',     x=240, y=300,lim=200,font=40,disp=function() return invis end,code=pressKey'q',hideF=function() return state==1 end},
+    WIDGET.newSwitch{name='tapControl',x=240, y=370,lim=200,font=40,disp=function() return tapControl end,code=pressKey'w',hideF=function() return state==1 end},
 
-    WIDGET.newKey{name='up',           x=155, y=460,w=100,fText="↑",font=50, color='Y',code=pressKey'up',   hideF=function()return tapControl end},
-    WIDGET.newKey{name='down',         x=155, y=660,w=100,fText="↓",font=50, color='Y',code=pressKey'down', hideF=function()return tapControl end},
-    WIDGET.newKey{name='left',         x=55,  y=560,w=100,fText="←",font=50, color='Y',code=pressKey'left',  hideF=function()return tapControl end},
-    WIDGET.newKey{name='right',        x=255, y=560,w=100,fText="→",font=50,color='Y',code=pressKey'right', hideF=function()return tapControl end},
-    WIDGET.newKey{name='skip',         x=155, y=400,w=100,font=20,          color='Y',code=pressKey'space', hideF=function()return state~=1 or not skipper.cd or skipper.cd>0 end},
-    WIDGET.newKey{name='record1',      x=1100,y=390,w=220,h=50,fText="",   color='H',code=pressKey'1',     hideF=function()return state==2 end},
-    WIDGET.newKey{name='record2',      x=1100,y=450,w=220,h=50,fText="",   color='H',code=pressKey'2',     hideF=function()return state==2 end},
-    WIDGET.newKey{name='replay1',      x=1245,y=390,w=50,fText="!",        color='G',code=pressKey'c1',    hideF=function()return state==2 or #repeater.seq[1]==0 end},
-    WIDGET.newKey{name='replay2',      x=1245,y=450,w=50,fText="!",        color='G',code=pressKey'c2',    hideF=function()return state==2 or #repeater.seq[2]==0 end},
+    WIDGET.newKey{name='up',           x=155, y=460,w=100,fText="↑",font=50, color='Y',code=pressKey'up',   hideF=function() return tapControl end},
+    WIDGET.newKey{name='down',         x=155, y=660,w=100,fText="↓",font=50, color='Y',code=pressKey'down', hideF=function() return tapControl end},
+    WIDGET.newKey{name='left',         x=55,  y=560,w=100,fText="←",font=50, color='Y',code=pressKey'left',  hideF=function() return tapControl end},
+    WIDGET.newKey{name='right',        x=255, y=560,w=100,fText="→",font=50,color='Y',code=pressKey'right', hideF=function() return tapControl end},
+    WIDGET.newKey{name='skip',         x=155, y=400,w=100,font=20,          color='Y',code=pressKey'space', hideF=function() return state~=1 or not skipper.cd or skipper.cd>0 end},
+    WIDGET.newKey{name='record1',      x=1100,y=390,w=220,h=50,fText="",   color='H',code=pressKey'1',     hideF=function() return state==2 end},
+    WIDGET.newKey{name='record2',      x=1100,y=450,w=220,h=50,fText="",   color='H',code=pressKey'2',     hideF=function() return state==2 end},
+    WIDGET.newKey{name='replay1',      x=1245,y=390,w=50,fText="!",        color='G',code=pressKey'c1',    hideF=function() return state==2 or #repeater.seq[1]==0 end},
+    WIDGET.newKey{name='replay2',      x=1245,y=450,w=50,fText="!",        color='G',code=pressKey'c2',    hideF=function() return state==2 or #repeater.seq[2]==0 end},
     WIDGET.newButton{name='back',      x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 

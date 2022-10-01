@@ -37,7 +37,7 @@ function back.update(dt)
             local x,y,color=F.x,F.y,F.color
             if F.big then
                 SFX.play('fall',.5)
-                for _=1,rnd(62,126)do
+                for _=1,rnd(62,126) do
                     ins(particle,{
                         x=x,y=y,
                         color=color,
@@ -48,7 +48,7 @@ function back.update(dt)
                 end
             else
                 SFX.play('clear_1',.4)
-                for _=1,rnd(16,26)do
+                for _=1,rnd(16,26) do
                     ins(particle,{
                         x=x,y=y,
                         color=color,

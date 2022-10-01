@@ -44,11 +44,11 @@ end
 
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=='escape'then
-        if tryBack()then
+    if key=='escape' then
+        if tryBack() then
             SCN.back()
         end
-    elseif key=='space'then
+    elseif key=='space' then
         if state==0 then--main
             if timer==0 then
                 state=1
@@ -58,7 +58,7 @@ function scene.keyDown(key,isRep)
             if hit[c]==0 then
                 hit[c]=1
                 count=count+1
-                SFX.play(side<26 and'ren_'..rnd(5)or'ren_'..rnd(6,11))
+                SFX.play(side<26 and 'ren_'..rnd(5) or 'ren_'..rnd(6,11))
                 if count>=12 then
                     SFX.play('ren_mega',(count-11)/15)
                 end
@@ -154,7 +154,7 @@ function scene.draw()
     if state==0 then
         gc.setColor(0,0,0,1-timer/50)
         setFont(30)
-        mStr(MOBILE and"Touch to Start"or"Press space to Start",640,630)
+        mStr(MOBILE and "Touch to Start" or "Press space to Start",640,630)
     else
         gc.setColor(0,0,0,timer/50)
         gc.print("POLYFORGE",20,620)

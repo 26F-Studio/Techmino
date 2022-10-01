@@ -175,7 +175,7 @@ do
                 if P.gameEnv.ospin then
                     local x,y=P.curX,P.curY
                     local C=P.cur
-                    if y==P.ghoY and((P:solid(x-1,y)or P:solid(x-1,y+1)))and(P:solid(x+2,y)or P:solid(x+2,y+1))then
+                    if y==P.ghoY and ((P:solid(x-1,y) or P:solid(x-1,y+1))) and (P:solid(x+2,y) or P:solid(x+2,y+1)) then
                         if P.sound then
                             SFX.play('rotatekick',nil,P:getCenterX()*.15)
                         end
@@ -186,15 +186,15 @@ do
                             return end
                         for i=1,#OspinList do
                             local L=OspinList[i]
-                            if C.spinSeq==L[1]then
+                            if C.spinSeq==L[1] then
                                 local id,dir=L[2],L[3]
                                 local bk=BLOCKS[id][dir]
                                 x,y=P.curX+L[4],P.curY+L[5]
                                 if
-                                    not P:ifoverlap(bk,x,y)and(
-                                        L[6]>0 or(P:ifoverlap(bk,x-1,y)and P:ifoverlap(bk,x+1,y))
-                                    )and(
-                                        L[6]==2 or(P:ifoverlap(bk,x,y-1)and P:ifoverlap(bk,x,y+1))
+                                    not P:ifoverlap(bk,x,y) and (
+                                        L[6]>0 or (P:ifoverlap(bk,x-1,y) and P:ifoverlap(bk,x+1,y))
+                                    ) and (
+                                        L[6]==2 or (P:ifoverlap(bk,x,y-1) and P:ifoverlap(bk,x,y+1))
                                     )
                                 then
                                     C.id=id
@@ -329,13 +329,13 @@ do
                 [31]={'+0+0','+0-1','+1+0'},
             },--W
             function(P,d)
-                if P.type=='human'then
+                if P.type=='human' then
                     SFX.play('rotate',nil,P:getCenterX()*.15)
                 end
                 local kickData=XspinList[d]
                 for test=1,#kickData do
                     local x,y=P.curX+kickData[test][1],P.curY+kickData[test][2]
-                    if not P:ifoverlap(P.cur.bk,x,y)then
+                    if not P:ifoverlap(P.cur.bk,x,y) then
                         P.curX,P.curY=x,y
                         P.spinLast=1
                         P:freshBlock('move')
@@ -488,8 +488,8 @@ do
             }--I
         }
     }
-    for i=2,5 do SRS.kickTable[i]=SRS.kickTable[1]end
-    for i=8,29 do SRS.kickTable[i]=SRS.kickTable[1]end
+    for i=2,5 do SRS.kickTable[i]=SRS.kickTable[1] end
+    for i=8,29 do SRS.kickTable[i]=SRS.kickTable[1] end
 end
 
 local SRS_plus
@@ -541,8 +541,8 @@ do
             }--I
         }
     }
-    for i=2,5 do SRS_plus.kickTable[i]=SRS_plus.kickTable[1]end
-    for i=8,29 do SRS_plus.kickTable[i]=SRS_plus.kickTable[1]end
+    for i=2,5 do SRS_plus.kickTable[i]=SRS_plus.kickTable[1] end
+    for i=8,29 do SRS_plus.kickTable[i]=SRS_plus.kickTable[1] end
 end
 
 local SRS_X
@@ -579,8 +579,8 @@ do
             false,--I
         }
     }
-    for i=2,5 do SRS_X.kickTable[i]=SRS_X.kickTable[1]end
-    for i=7,29 do SRS_X.kickTable[i]=TRS.kickTable[i]end
+    for i=2,5 do SRS_X.kickTable[i]=SRS_X.kickTable[1] end
+    for i=7,29 do SRS_X.kickTable[i]=TRS.kickTable[i] end
     SRS_X.kickTable[10]=SRS_X.kickTable[1]--P
     SRS_X.kickTable[11]=SRS_X.kickTable[1]--Q
 end
@@ -628,8 +628,8 @@ do
         if i==6 or i==18 then
             a,b=b,a
         end
-        list[i][01]=a;list[i][10]=b;list[i][03]=b;list[i][30]=a
-        list[i][12]=a;list[i][21]=b;list[i][32]=b;list[i][23]=a
+        list[i][01]=a; list[i][10]=b; list[i][03]=b; list[i][30]=a
+        list[i][12]=a; list[i][21]=b; list[i][32]=b; list[i][23]=a
     end
     BiRS={
         centerTex=GC.DO{10,10,
@@ -653,9 +653,9 @@ do
             end
             local dx,dy=0,0 do
                 local pressing=P.keyPressing
-                if pressing[1]and P:ifoverlap(C.bk,P.curX-1,P.curY)then dx=dx-1 end
-                if pressing[2]and P:ifoverlap(C.bk,P.curX+1,P.curY)then dx=dx+1 end
-                if pressing[7]and P:ifoverlap(C.bk,P.curX,P.curY-1)then dy=  -1 end
+                if pressing[1] and P:ifoverlap(C.bk,P.curX-1,P.curY) then dx=dx-1 end
+                if pressing[2] and P:ifoverlap(C.bk,P.curX+1,P.curY) then dx=dx+1 end
+                if pressing[7] and P:ifoverlap(C.bk,P.curX,P.curY-1) then dy=  -1 end
             end
             while true do
                 for test=1,#kickList do
@@ -666,7 +666,7 @@ do
                         (P.freshTime>0 or fdy<=0)
                     then
                         local x,y=ix+fdx,iy+fdy
-                        if not P:ifoverlap(icb,x,y)then
+                        if not P:ifoverlap(icb,x,y) then
                             if P.gameEnv.moveFX and P.gameEnv.block then
                                 P:createMoveFX()
                             end
@@ -685,7 +685,7 @@ do
                             local sfx
                             if ifpre then
                                 sfx='prerotate'
-                            elseif P:ifoverlap(icb,x,y+1)and P:ifoverlap(icb,x-1,y)and P:ifoverlap(icb,x+1,y)then
+                            elseif P:ifoverlap(icb,x,y+1) and P:ifoverlap(icb,x-1,y) and P:ifoverlap(icb,x+1,y) then
                                 sfx='rotatekick'
                                 P:_rotateField(d)
                             else
@@ -1009,15 +1009,15 @@ local RSlist={
 }
 
 for _,rs in next,RSlist do
-    if not rs.centerDisp then rs.centerDisp=TABLE.new(true,29)end
+    if not rs.centerDisp then rs.centerDisp=TABLE.new(true,29) end
     if not rs.centerPos then rs.centerPos=defaultCenterPos end
     if not rs.centerTex then rs.centerTex=defaultCenterTex end
 
     --Make all string vec to the same table vec
     for _,set in next,rs.kickTable do
-        if type(set)=='table'then
+        if type(set)=='table' then
             for _,list in next,set do
-                if type(list[1])=='string'then
+                if type(list[1])=='string' then
                     _strToVec(list)
                 end
             end

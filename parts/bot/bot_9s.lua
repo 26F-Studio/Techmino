@@ -38,8 +38,8 @@ local FCL={
 local LclearScore={[0]=0,-200,-150,-100,200}
 local HclearScore={[0]=0,100,140,200,500}
 local function _ifoverlapAI(f,bk,x,y)
-    for i=1,#bk do for j=1,#bk[1]do
-        if f[y+i-1]and bk[i][j]and f[y+i-1][x+j-1]>0 then
+    for i=1,#bk do for j=1,#bk[1] do
+        if f[y+i-1] and bk[i][j] and f[y+i-1][x+j-1]>0 then
             return true
         end
     end end
@@ -157,28 +157,28 @@ function bot_9s.thread(bot)
             if ifhold==0 then
                 bn=P.cur and P.cur.id
             else
-                bn=P.holdQueue[1]and P.holdQueue[1].id or P.nextQueue[1]and P.nextQueue[1].id
+                bn=P.holdQueue[1] and P.holdQueue[1].id or P.nextQueue[1] and P.nextQueue[1].id
             end
             if bn then
-                for dir=0,dirCount[bn]do--Each dir
+                for dir=0,dirCount[bn] do--Each dir
                     local cb=BLOCKS[bn][dir]
-                    for cx=1,11-#cb[1]do--Each pos
+                    for cx=1,11-#cb[1] do--Each pos
                         local cy=#Tfield+1
 
                         --Move to bottom
-                        while cy>1 and not _ifoverlapAI(Tfield,cb,cx,cy-1)do
+                        while cy>1 and not _ifoverlapAI(Tfield,cb,cx,cy-1) do
                             cy=cy-1
                         end
 
                         --Simulate lock
                         for i=1,#cb do
                             local y=cy+i-1
-                            if not Tfield[y]then
+                            if not Tfield[y] then
                                 Tfield[y]=getRow(0)
                             end
                             local L=Tfield[y]
-                            for j=1,#cb[1]do
-                                if cb[i][j]then
+                            for j=1,#cb[1] do
+                                if cb[i][j] then
                                     L[cx+j-1]=1
                                 end
                             end

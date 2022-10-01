@@ -19,7 +19,7 @@ return{
         for y=1,#F do
             local l=F[y]
             for x=1,5 do
-                if l[x]>0 and l[11-x]>0 and oppo[l[x]]~=l[11-x]then
+                if l[x]>0 and l[11-x]>0 and oppo[l[x]]~=l[11-x] then
                     P:lose()
                     return
                 end

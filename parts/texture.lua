@@ -15,8 +15,8 @@ do
     for i=1,29 do
         local b=BLOCKS[i][0]
         TEXTURE.miniBlock[i]=NSC(#b[1]*2,#b*2)
-        for y=1,#b do for x=1,#b[1]do
-            if b[y][x]then
+        for y=1,#b do for x=1,#b[1] do
+            if b[y][x] then
                 GC.rectangle('fill',2*(x-1),2*(#b-y),2,2)
             end
         end end
@@ -127,8 +127,8 @@ TEXTURE.playerBorder=GC.DO{334,620,
 
 TEXTURE.gridLines=(function()
     local L={300,640,{'setLW',2}}
-    for x=1,9 do table.insert(L,{'line',30*x,0,30*x,640})end
-    for y=0,20 do table.insert(L,{'line',0,10+30*y,300,10+30*y})end
+    for x=1,9 do table.insert(L,{'line',30*x,0,30*x,640}) end
+    for y=0,20 do table.insert(L,{'line',0,10+30*y,300,10+30*y}) end
     return GC.DO(L)
 end)()
 

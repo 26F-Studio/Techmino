@@ -19,7 +19,7 @@ end
 
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=='space'or key=='return'then
+    if key=='space' or key=='return' then
         if state==0 then
             state=1
         elseif state==1 then
@@ -27,8 +27,8 @@ function scene.keyDown(key,isRep)
             vx=pow*cos(ang)/2.6
             vy=pow*sin(ang)/2.6
         end
-    elseif key=='escape'then
-        if tryBack()then
+    elseif key=='escape' then
+        if tryBack() then
             SCN.back()
         end
     end
@@ -110,7 +110,7 @@ function scene.draw()
         gc.setColor(1,1,.6)
         gc.print("x"..combo,300,80)
     end
-    gc.setColor(COLOR[scoreColor[int(score/20)+1]or'D'])
+    gc.setColor(COLOR[scoreColor[int(score/20)+1] or 'D'])
     gc.print(score,300,30)
 
     --Cannon ball

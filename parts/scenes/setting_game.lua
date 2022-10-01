@@ -39,21 +39,21 @@ scene.widgetList={
     WIDGET.newButton{name='style',    x=250,  y=540, w=200,h=70,font=35,code=goScene'setting_skin'},
 
     WIDGET.newButton{name='ctrl',     x=290,  y=220, w=320,h=80,font=35,code=goScene'setting_control'},
-    WIDGET.newButton{name='key',      x=640,  y=220, w=320,h=80,color=MOBILE and'dH',font=35,             code=goScene'setting_key'},
-    WIDGET.newButton{name='touch',    x=990,  y=220, w=320,h=80,color=not MOBILE and'dH',font=35,         code=goScene'setting_touch',hideF=function()return not SETTING.VKSwitch end},
+    WIDGET.newButton{name='key',      x=640,  y=220, w=320,h=80,color=MOBILE and 'dH',font=35,             code=goScene'setting_key'},
+    WIDGET.newButton{name='touch',    x=990,  y=220, w=320,h=80,color=not MOBILE and 'dH',font=35,         code=goScene'setting_touch',hideF=function() return not SETTING.VKSwitch end},
     WIDGET.newSwitch{name='showVK',   x=1100, y=150, lim=400,                    disp=SETval('VKSwitch'), code=SETrev('VKSwitch')},
     WIDGET.newSlider{name='reTime',   x=330,  y=320, w=300,lim=180,axis={.5,3,.25},disp=SETval('reTime'), code=SETsto('reTime'),show=SETval('reTime')},
     WIDGET.newSelector{name='RS',     x=300,  y=420, w=300,color='S',            disp=SETval('RS'),       code=SETsto('RS'),list={'TRS','SRS','SRS_plus','SRS_X','BiRS','ARS_Z','DRS_weak','ASC','ASC_plus','C2','C2_sym','Classic','Classic_plus','None','None_plus'}},
     WIDGET.newSelector{name='menuPos',x=980,  y=320, w=300,color='O',            disp=SETval('menuPos'),  code=SETsto('menuPos'),list={'left','middle','right'}},
-    WIDGET.newSwitch{name='sysCursor',x=1060, y=400, lim=580,                    disp=SETval('sysCursor'),code=function()SETTING.sysCursor=not SETTING.sysCursor applySettings()end},
+    WIDGET.newSwitch{name='sysCursor',x=1060, y=400, lim=580,                    disp=SETval('sysCursor'),code=function() SETTING.sysCursor=not SETTING.sysCursor applySettings() end},
     WIDGET.newSwitch{name='autoPause',x=1060, y=470, lim=580,                    disp=SETval('autoPause'),code=SETrev('autoPause')},
     WIDGET.newSwitch{name='autoSave', x=1060, y=540, lim=580,                    disp=SETval('autoSave'), code=SETrev('autoSave')},
     WIDGET.newSwitch{name='simpMode', x=960,  y=670, lim=480,                    disp=SETval('simpMode'),
         code=function()
             SETTING.simpMode=not SETTING.simpMode
             for i=1,#SCN.stack,2 do
-                if SCN.stack[i]=='main'or SCN.stack[i]=='main_simple'then
-                    SCN.stack[i]=SETTING.simpMode and'main_simple'or'main'
+                if SCN.stack[i]=='main' or SCN.stack[i]=='main_simple' then
+                    SCN.stack[i]=SETTING.simpMode and 'main_simple' or 'main'
                     break
                 end
             end

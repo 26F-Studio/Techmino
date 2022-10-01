@@ -111,11 +111,11 @@ end
 --Virtualkey icons
 local VKIcon={}
 local VKI=gc.newImage("media/image/virtualkey.png")
-for i=1,20 do VKIcon[i]=GC.DO{90,90,{'draw',VKI,(i-1)%5*-90,math.floor((i-1)*.2)*-90}}end
+for i=1,20 do VKIcon[i]=GC.DO{90,90,{'draw',VKI,(i-1)%5*-90,math.floor((i-1)*.2)*-90}} end
 VKI:release()
 
 --In-game virtualkey layout data
-local keys={}for i=1,#VK_ORG do keys[i]={}end
+local keys={} for i=1,#VK_ORG do keys[i]={} end
 
 local VK={keys=keys}
 
@@ -140,7 +140,7 @@ function VK.touch(id,x,y)
     B.isDown=true
     B.pressTime=10
     SFX.play('virtualKey',SETTING.VKSFX)
-    if SETTING.vib>0 then VIB(SETTING.vib+SETTING.VKVIB)end
+    if SETTING.vib>0 then VIB(SETTING.vib+SETTING.VKVIB) end
 
     if SETTING.VKTrack then
         --Auto follow

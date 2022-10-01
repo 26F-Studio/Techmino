@@ -172,8 +172,8 @@ return{
         "Ce jeu est gratuit et est uniquement disponible via discord.gg/f9pUvkh",
         "Ne téléchargez pas ce jeu depuis une autre source au risque d'avoir des virus,",
         "et vous n'avez besoin que des permissions de vibration et de communication réseau pour les versions mobiles !",
-        FNNS and"/"or"Le créateur n'est pas responsable pour n'importe quel type de perte de données suite à une modification du jeu.",
-        -- FNNS and"/"or"Check Zictionary for more",
+        FNNS and "/" or "Le créateur n'est pas responsable pour n'importe quel type de perte de données suite à une modification du jeu.",
+        -- FNNS and "/" or "Check Zictionary for more",
     },
     staff={
         "À L'ORIGINE PAR MrZ",

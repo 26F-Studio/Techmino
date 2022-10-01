@@ -46,7 +46,7 @@ function scene.mouseDown(x,y)
 end
 scene.touchDown=scene.mouseDown
 function scene.keyDown()
-    if love.keyboard.isDown('m')and love.keyboard.isDown('d')then
+    if love.keyboard.isDown('m') and love.keyboard.isDown('d') then
         loadGame('sprintMD',true)
     else
         return true
@@ -114,7 +114,7 @@ end
 scene.widgetList={
     WIDGET.newButton{name='path',x=820,y=540,w=250,h=80,font=25,
         code=function()
-            if SYSTEM=="Windows"or SYSTEM=="Linux"then
+            if SYSTEM=="Windows" or SYSTEM=="Linux" then
                 love.system.openURL(love.filesystem.getSaveDirectory())
             else
                 MES.new('info',love.filesystem.getSaveDirectory())

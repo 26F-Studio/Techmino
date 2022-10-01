@@ -23,7 +23,7 @@ return{
         if c==0 and D.pt%100==99 then
             if D.pt<1000 then
                 hidetimer=0-inv_wait[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1]
-                if c>0 then hidetimer=hidetimer-inv_fall[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1]end
+                if c>0 then hidetimer=hidetimer-inv_fall[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1] end
             end
             return
         end
@@ -35,7 +35,7 @@ return{
         held=false
         if D.pt<1000 then
             hidetimer=0-inv_wait[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1]
-            if c>0 then hidetimer=hidetimer-inv_fall[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1]end
+            if c>0 then hidetimer=hidetimer-inv_fall[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1] end
         end
 
         if D.pt%100==99 then
@@ -78,7 +78,7 @@ return{
                 held=true
             end
             hidetimer=hidetimer+1
-            if hidetimer>inv_hide[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1]then
+            if hidetimer>inv_hide[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1] then
                 P.gameEnv.block=false
             else
                 P.gameEnv.block=true

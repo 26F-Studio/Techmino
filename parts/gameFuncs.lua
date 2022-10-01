@@ -52,20 +52,20 @@ do--function tryDelete()
     end
 end
 do--function loadFile(name,args), function saveFile(data,name,args)
-    local t=setmetatable({},{__index=function()return"'$1' loading failed: $2"end})
+    local t=setmetatable({},{__index=function() return"'$1' loading failed: $2" end})
     function loadFile(name,args)
         local text=text or t
-        if not args then args=''end
+        if not args then args='' end
         local res,mes=pcall(FILE.load,name,args)
         if res then
             return mes
         else
-            if mes:find'open error'then
+            if mes:find'open error' then
                 MES.new('error',text.loadError_open:repD(name,""))
-            elseif mes:find'unknown mode'then
+            elseif mes:find'unknown mode' then
                 MES.new('error',text.loadError_errorMode:repD(name,args))
-            elseif mes:find'no file'then
-                if not args:sArg'-canSkip'then
+            elseif mes:find'no file' then
+                if not args:sArg'-canSkip' then
                     MES.new('error',text.loadError_noFile:repD(name,""))
                 end
             elseif mes then
@@ -82,12 +82,12 @@ do--function loadFile(name,args), function saveFile(data,name,args)
             return true
         else
             MES.new('error',
-                mes:find'duplicate'and
-                    text.saveError_duplicate:repD(name)or
-                mes:find'encode error'and
-                    text.saveError_encode:repD(name)or
+                mes:find'duplicate' and
+                    text.saveError_duplicate:repD(name) or
+                mes:find'encode error' and
+                    text.saveError_encode:repD(name) or
                 mes and
-                    text.saveError_other:repD(name,mes)or
+                    text.saveError_other:repD(name,mes) or
                 text.saveError_unknown:repD(name)
             )
         end
@@ -115,7 +115,7 @@ do--function applySettings()
         text=LANG.get(SETTING.locale)
         WIDGET.setLang(text.WidgetText)
         for k,v in next,TEXTOBJ do
-            if rawget(text,k)then
+            if rawget(text,k) then
                 v:set(text[k])
             end
         end
@@ -144,23 +144,23 @@ do--function applySettings()
 
         --Apply saturs
         local m
-        m=saturateValues[SETTING.blockSatur]or saturateValues.normal
+        m=saturateValues[SETTING.blockSatur] or saturateValues.normal
         SHADER.blockSatur:send('b',m[1])
         SHADER.blockSatur:send('k',m[2])
-        m=saturateValues[SETTING.fieldSatur]or saturateValues.normal
+        m=saturateValues[SETTING.fieldSatur] or saturateValues.normal
         SHADER.fieldSatur:send('b',m[1])
         SHADER.fieldSatur:send('k',m[2])
 
         --Apply BG
-        if SETTING.bg=='on'then
+        if SETTING.bg=='on' then
             BG.unlock()
             BG.set()
-        elseif SETTING.bg=='off'then
+        elseif SETTING.bg=='off' then
             BG.unlock()
             BG.set('fixColor',SETTING.bgAlpha,SETTING.bgAlpha,SETTING.bgAlpha)
             BG.lock()
-        elseif SETTING.bg=='custom'then
-            if love.filesystem.getInfo('conf/customBG')then
+        elseif SETTING.bg=='custom' then
+            if love.filesystem.getInfo('conf/customBG') then
                 local res,image=pcall(GC.newImage,love.filesystem.newFile('conf/customBG'))
                 if res then
                     BG.unlock()
@@ -265,7 +265,7 @@ function royaleLevelup()
     for _,P in next,PLY_ALIVE do
         P.gameEnv.drop=spd
     end
-    if GAME.curMode.name:find("_u")then
+    if GAME.curMode.name:find("_u") then
         for i=1,#PLY_ALIVE do
             local P=PLY_ALIVE[i]
             P.gameEnv.drop=int(P.gameEnv.drop*.4)
@@ -347,7 +347,7 @@ function setField(P,page)
     local F=FIELD[page]
     local height=0
     for y=#F,1,-1 do
-        if notEmptyLine(F[y])then
+        if notEmptyLine(F[y]) then
             height=y
             break
         end
@@ -374,7 +374,7 @@ function freshDate(args)
         STAT.date=date
         STAT.todayTime=0
         getItem('zTicket',1)
-        if not args:find'q'then
+        if not args:find'q' then
             MES.new('info',text.newDay)
         end
         saveStats()
@@ -383,7 +383,7 @@ function freshDate(args)
 end
 function legalGameTime()--Check if today's playtime is legal
     if
-        SETTING.locale:find'zh'and
+        SETTING.locale:find'zh' and
         RANKS.sprint_10l<4 and
         (not RANKS.sprint_40l or RANKS.sprint_40l<3)
     then
@@ -411,12 +411,12 @@ end
 
 function mergeStat(stat,delta)--Merge delta stat. to global stat.
     for k,v in next,delta do
-        if type(v)=='table'then
-            if type(stat[k])=='table'then
+        if type(v)=='table' then
+            if type(stat[k])=='table' then
                 mergeStat(stat[k],v)
             end
         else
-            if stat[k]then
+            if stat[k] then
                 stat[k]=stat[k]+v
             end
         end
@@ -439,7 +439,7 @@ function destroyPlayers()--Destroy all player objects, restore freerows and free
         if P.canvas then
             P.canvas:release()
         end
-        while P.field[1]do
+        while P.field[1] do
             rem(P.field)
             rem(P.visTime)
         end
@@ -453,7 +453,7 @@ function pauseGame()
             for i=1,#PLAYERS do
                 local l=PLAYERS[i].keyPressing
                 for j=1,#l do
-                    if l[j]then
+                    if l[j] then
                         PLAYERS[i]:releaseKey(j)
                     end
                 end
@@ -462,7 +462,7 @@ function pauseGame()
         for i=1,20 do
             VK.release(i)
         end
-        if not(GAME.result or GAME.replaying)then
+        if not (GAME.result or GAME.replaying) then
             GAME.pauseCount=GAME.pauseCount+1
         end
         SCN.swapTo('pause','none')
@@ -472,12 +472,12 @@ function applyCustomGame()--Apply CUSTOMENV, BAG, MISSION
     for k,v in next,CUSTOMENV do
         GAME.modeEnv[k]=v
     end
-    if BAG[1]then
+    if BAG[1] then
         GAME.modeEnv.seqData=BAG
     else
         GAME.modeEnv.seqData=nil
     end
-    if MISSION[1]then
+    if MISSION[1] then
         GAME.modeEnv.mission=MISSION
     else
         GAME.modeEnv.mission=nil
@@ -485,8 +485,8 @@ function applyCustomGame()--Apply CUSTOMENV, BAG, MISSION
 end
 function loadGame(mode,ifQuickPlay,ifNet)--Load a mode and go to game scene
     freshDate()
-    if legalGameTime()then
-        if not MODES[mode]and FILE.isSafe('parts/modes/'..mode) then
+    if legalGameTime() then
+        if not MODES[mode] and FILE.isSafe('parts/modes/'..mode) then
             MODES[mode]=require('parts.modes.'..mode)
             MODES[mode].name=mode
         end
@@ -503,9 +503,9 @@ function loadGame(mode,ifQuickPlay,ifNet)--Load a mode and go to game scene
         if ifNet then
             SCN.go('net_game','swipeD')
         else
-            local modeText=text.modes[mode]or{"["..MODES[mode].name.."]",""}
+            local modeText=text.modes[mode] or{"["..MODES[mode].name.."]",""}
             TEXTOBJ.modeName:set(modeText[1].."   "..modeText[2])
-            SCN.go('game',ifQuickPlay and'swipeD'or'fade_togame')
+            SCN.go('game',ifQuickPlay and 'swipeD' or 'fade_togame')
             playSFX('enter')
         end
     end
@@ -531,10 +531,10 @@ function gameOver()--Save record
             if R>0 then
                 GAME.rank=R
             end
-            if not GAME.replaying and M.score and scoreValid()then
-                if RANKS[M.name]then--Old rank exist
+            if not GAME.replaying and M.score and scoreValid() then
+                if RANKS[M.name] then--Old rank exist
                     local needSave
-                    if R>RANKS[M.name]then
+                    if R>RANKS[M.name] then
                         RANKS[M.name]=R
                         needSave=true
                     end
@@ -543,7 +543,7 @@ function gameOver()--Save record
                             for i=1,#M.unlock do
                                 local m=M.unlock[i]
                                 local n=MODES[m].name
-                                if not RANKS[n]then
+                                if not RANKS[n] then
                                     if MODES[m].x then
                                         RANKS[n]=0
                                     end
@@ -560,7 +560,7 @@ function gameOver()--Save record
                 local L=M.records
                 local p=#L--Rank-1
                 if p>0 then
-                    while M.comp(D,L[p])do--If higher rank
+                    while M.comp(D,L[p]) do--If higher rank
                         p=p-1
                         if p==0 then break end
                     end
@@ -568,7 +568,7 @@ function gameOver()--Save record
                 if p<10 then
                     if p==0 then
                         P:_showText(text.newRecord,0,-100,100,'beat',.5)
-                        if SETTING.autoSave and DATA.saveReplay()then
+                        if SETTING.autoSave and DATA.saveReplay() then
                             GAME.saved=true
                             playSFX('connected')
                             MES.new('check',text.saveDone)
@@ -576,7 +576,7 @@ function gameOver()--Save record
                     end
                     D.date=os.date("%Y/%m/%d %H:%M")
                     ins(L,p+1,D)
-                    if L[11]then L[11]=nil end
+                    if L[11] then L[11]=nil end
                     saveFile(L,('record/%s.rec'):format(M.name),'-luaon')
                 end
             end
@@ -584,7 +584,7 @@ function gameOver()--Save record
     end
 end
 function trySave()
-    if not GAME.statSaved and PLAYERS[1]and PLAYERS[1].type=='human'and(PLAYERS[1].frameRun>300 or GAME.result)then
+    if not GAME.statSaved and PLAYERS[1] and PLAYERS[1].type=='human' and (PLAYERS[1].frameRun>300 or GAME.result) then
         GAME.statSaved=true
         STAT.game=STAT.game+1
         mergeStat(STAT,PLAYERS[1].stat)
@@ -605,35 +605,35 @@ do--function freshPlayerPosition(sudden)
         --6~17
         (function()
             local L={{340,75,1}}
-            for i=1,4 do ins(L,{15,-160+180*i,.25})end
-            for i=1,4 do ins(L,{180,-160+180*i,.25})end
-            for i=1,4 do ins(L,{950,-160+180*i,.25})end
-            for i=1,4 do ins(L,{1120,-160+180*i,.25})end
+            for i=1,4 do ins(L,{15,-160+180*i,.25}) end
+            for i=1,4 do ins(L,{180,-160+180*i,.25}) end
+            for i=1,4 do ins(L,{950,-160+180*i,.25}) end
+            for i=1,4 do ins(L,{1120,-160+180*i,.25}) end
             return L
         end)(),
         --18~31
         (function()
             local L={{340,75,1}}
-            for i=1,5 do ins(L,{10,  -100+135*i,.18})end
-            for i=1,5 do ins(L,{120, -100+135*i,.18})end
-            for i=1,5 do ins(L,{230, -100+135*i,.18})end
-            for i=1,5 do ins(L,{940, -100+135*i,.18})end
-            for i=1,5 do ins(L,{1050,-100+135*i,.18})end
-            for i=1,5 do ins(L,{1160,-100+135*i,.18})end
+            for i=1,5 do ins(L,{10,  -100+135*i,.18}) end
+            for i=1,5 do ins(L,{120, -100+135*i,.18}) end
+            for i=1,5 do ins(L,{230, -100+135*i,.18}) end
+            for i=1,5 do ins(L,{940, -100+135*i,.18}) end
+            for i=1,5 do ins(L,{1050,-100+135*i,.18}) end
+            for i=1,5 do ins(L,{1160,-100+135*i,.18}) end
             return L
         end)(),
         --32~49
         (function()
             local L={{340,75,1}}
-            for i=1,4 do for j=1,6 do ins(L,{78*i-54,115*j-98,.09})end end
-            for i=9,12 do for j=1,6 do ins(L,{78*i+267,115*j-98,.09})end end
+            for i=1,4 do for j=1,6 do ins(L,{78*i-54,115*j-98,.09}) end end
+            for i=9,12 do for j=1,6 do ins(L,{78*i+267,115*j-98,.09}) end end
             return L
         end)(),
         --50~99
         (function()
             local L={{340,75,1}}
-            for i=1,7 do for j=1,7 do ins(L,{46*i-36,97*j-72,.068})end end
-            for i=15,21 do for j=1,7 do ins(L,{46*i+264,97*j-72,.068})end end
+            for i=1,7 do for j=1,7 do ins(L,{46*i-36,97*j-72,.068}) end end
+            for i=15,21 do for j=1,7 do ins(L,{46*i+264,97*j-72,.068}) end end
             return L
         end)(),
     }
@@ -653,8 +653,8 @@ do--function freshPlayerPosition(sudden)
         elseif #L<=99 then posList=posLists[5]
         else error("TOO MANY PLAYERS!")
         end
-        local method=sudden and'setPosition'or'movePosition'
-        for i=1,#L do L[i][method](L[i],unpack(posList[i]))end
+        local method=sudden and 'setPosition' or 'movePosition'
+        for i=1,#L do L[i][method](L[i],unpack(posList[i])) end
     end
 end
 do--function dumpBasicConfig()
@@ -716,7 +716,7 @@ do--function resetGameData(args)
     local function _copyGameSetting()
         local S={}
         for _,key in next,gameSetting do
-            if type(SETTING[key])=='table'then
+            if type(SETTING[key])=='table' then
                 S[key]=TABLE.shift(SETTING[key])
             else
                 S[key]=SETTING[key]
@@ -725,19 +725,19 @@ do--function resetGameData(args)
         return S
     end
     function resetGameData(args,seed)
-        if not args then args=""end
+        if not args then args="" end
         trySave()
 
         GAME.result=false
         GAME.rank=0
         GAME.warnLVL0=0
         GAME.warnLVL=0
-        if args:find'r'then
+        if args:find'r' then
             GAME.frameStart=0
             GAME.recording=false
             GAME.replaying=true
         else
-            GAME.frameStart=args:find'n'and 0 or 180-SETTING.reTime*60
+            GAME.frameStart=args:find'n' and 0 or 180-SETTING.reTime*60
             GAME.seed=seed or math.random(1046101471,2662622626)
             GAME.pauseTime=0
             GAME.pauseCount=0
@@ -761,12 +761,12 @@ do--function resetGameData(args)
         VK.restore()
 
         local bg=GAME.modeEnv.bg
-        BG.set(type(bg)=='string'and bg or type(bg)=='table'and bg[math.random(#bg)])
+        BG.set(type(bg)=='string' and bg or type(bg)=='table' and bg[math.random(#bg)])
         local bgm=GAME.modeEnv.bgm
-        BGM.play(type(bgm)=='string'and bgm or type(bgm)=='table'and bgm[math.random(#bgm)])
+        BGM.play(type(bgm)=='string' and bgm or type(bgm)=='table' and bgm[math.random(#bgm)])
 
         TEXT.clear()
-        if GAME.modeEnv.eventSet=='royale'then
+        if GAME.modeEnv.eventSet=='royale' then
             for i=1,#PLAYERS do
                 PLAYERS[i]:changeAtk(randomTarget(PLAYERS[i]))
             end
@@ -825,23 +825,6 @@ end
 
 --Game draw
 do--function drawSelfProfile()
-    local lvColor={COLOR.J,COLOR.A,COLOR.C,COLOR.N,COLOR.S,COLOR.V,COLOR.P,COLOR.M,COLOR.W,COLOR.R,COLOR.O,COLOR.Y}
-    local lvIcon=setmetatable({},{__index=function(self,lv)
-        local c=lvColor[int((lv-1)/26)+1]or COLOR.Z
-
-        local img=GC.DO{25,25,
-            {"clear",0,0,0,0},
-            {"setLW",2},
-            {"setCL",c[1],c[2],c[3],.6},
-            {"fRect",2,2,21,21,2},
-            {"setCL",c},
-            {"dRect",2,2,21,21,2},
-            {"setCL",COLOR.Z},
-            {"mText",(lv-1)%26+1,13,-1},
-        }
-        rawset(self,lv,img)
-        return img
-    end})
     local name
     local textObj,scaleK,width,offY
     function drawSelfProfile()
@@ -857,7 +840,7 @@ do--function drawSelfProfile()
         gc_draw(selfAvatar,-72,8,nil,.5)
 
         --Draw username
-        if name~=USERS.getUsername(USER.uid)then
+        if name~=USERS.getUsername(USER.uid) then
             name=USERS.getUsername(USER.uid)
             textObj=GC.newText(getFont(30),name)
             width=textObj:getWidth()
@@ -892,13 +875,13 @@ end
 
 
 --Widget function shortcuts
-function backScene()SCN.back()end
+function backScene() SCN.back() end
 do--function goScene(name,style)
     local cache={}
     function goScene(name,style)
         local hash=style and name..style or name
-        if not cache[hash]then
-            cache[hash]=function()SCN.go(name,style)end
+        if not cache[hash] then
+            cache[hash]=function() SCN.go(name,style) end
         end
         return cache[hash]
     end
@@ -907,8 +890,8 @@ do--function swapScene(name,style)
     local cache={}
     function swapScene(name,style)
         local hash=style and name..style or name
-        if not cache[hash]then
-            cache[hash]=function()SCN.swapTo(name,style)end
+        if not cache[hash] then
+            cache[hash]=function() SCN.swapTo(name,style) end
         end
         return cache[hash]
     end
@@ -916,8 +899,8 @@ end
 do--function pressKey(k)
     local cache={}
     function pressKey(k)
-        if not cache[k]then
-            cache[k]=function()love.keypressed(k)end
+        if not cache[k] then
+            cache[k]=function() love.keypressed(k) end
         end
         return cache[k]
     end
@@ -931,13 +914,13 @@ do--CUS/SETXXX(k)
         'VKSwitch','VKIcon','VKTrack','VKDodge',
         'simpMode',
     }
-    function CUSval(k)return function()return CUSTOMENV[k]end end
-    function ROOMval(k)return function()return ROOMENV[k]end end
-    function SETval(k)return function()return SETTING[k]end end
-    function CUSrev(k)return function()CUSTOMENV[k]=not CUSTOMENV[k]end end
-    function ROOMrev(k)return function()ROOMENV[k]=not ROOMENV[k]end end
-    function SETrev(k)return function()if TABLE.find(warnList,k)then trySettingWarn()end SETTING[k]=not SETTING[k]end end
-    function CUSsto(k)return function(i)CUSTOMENV[k]=i end end
-    function ROOMsto(k)return function(i)ROOMENV[k]=i end end
-    function SETsto(k)return function(i)if TABLE.find(warnList,k)then trySettingWarn()end SETTING[k]=i end end
+    function CUSval(k) return function()   return CUSTOMENV[k] end end
+    function ROOMval(k) return function()  return ROOMENV[k] end end
+    function SETval(k) return function()   return SETTING[k] end end
+    function CUSrev(k) return function()   CUSTOMENV[k]=not CUSTOMENV[k] end end
+    function ROOMrev(k) return function()  ROOMENV[k]=not ROOMENV[k] end end
+    function SETrev(k) return function()   if TABLE.find(warnList,k) then trySettingWarn() end SETTING[k]=not SETTING[k] end end
+    function CUSsto(k) return function(i)  CUSTOMENV[k]=i end end
+    function ROOMsto(k) return function(i) ROOMENV[k]=i end end
+    function SETsto(k) return function(i)  if TABLE.find(warnList,k) then trySettingWarn() end SETTING[k]=i end end
 end

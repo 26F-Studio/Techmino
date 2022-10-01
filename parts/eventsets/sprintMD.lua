@@ -9,16 +9,16 @@ return{
     task=function(P)
         coroutine.yield()
         while true do
-            for _=1,P.holeRND:random(40,200)do coroutine.yield()end
+            for _=1,P.holeRND:random(40,200) do coroutine.yield() end
             local r=P.holeRND:random(7)
             if r==1 then
-                if P.cur and not P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then
+                if P.cur and not P:ifoverlap(P.cur.bk,P.curX-1,P.curY) then
                     P:createMoveFX('left')
                     P.curX=P.curX-1
                     P:freshBlock('move')
                 end
             elseif r==2 then
-                if P.cur and not P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then
+                if P.cur and not P:ifoverlap(P.cur.bk,P.curX-1,P.curY) then
                     P:createMoveFX('left')
                     P.curX=P.curX-1
                     P:freshBlock('move')

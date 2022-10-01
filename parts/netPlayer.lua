@@ -29,39 +29,39 @@ local posLists={
     --18~31
     (function()
         local L={}
-        for i=1,11 do L[i]=   {x=40,y=65+50*i,w=330,h=45}end
-        for i=1,11 do L[11+i]={x=400,y=65+50*i,w=330,h=45}end
-        for i=1,9 do L[22+i]= {x=760,y=65+50*i,w=330,h=45}end
+        for i=1,11 do L[i]=   {x=40,y=65+50*i,w=330,h=45} end
+        for i=1,11 do L[11+i]={x=400,y=65+50*i,w=330,h=45} end
+        for i=1,9 do L[22+i]= {x=760,y=65+50*i,w=330,h=45} end
         return L
     end)(),
     --32~49
     (function()
         local L={}
-        for i=1,10 do L[i]=   {x=30,y=60+50*i,w=200,h=45}end
-        for i=1,10 do L[10+i]={x=240,y=60+50*i,w=200,h=45}end
-        for i=1,10 do L[20+i]={x=450,y=60+50*i,w=200,h=45}end
-        for i=1,10 do L[30+i]={x=660,y=60+50*i,w=200,h=45}end
-        for i=1,9 do L[40+i]= {x=870,y=60+50*i,w=200,h=45}end
+        for i=1,10 do L[i]=   {x=30,y=60+50*i,w=200,h=45} end
+        for i=1,10 do L[10+i]={x=240,y=60+50*i,w=200,h=45} end
+        for i=1,10 do L[20+i]={x=450,y=60+50*i,w=200,h=45} end
+        for i=1,10 do L[30+i]={x=660,y=60+50*i,w=200,h=45} end
+        for i=1,9 do L[40+i]= {x=870,y=60+50*i,w=200,h=45} end
         return L
     end)(),
     --50~99
     (function()
         local L={}
-        for i=1,11 do L[i]=   {x=30,y=60+50*i,w=100,h=45}end
-        for i=1,11 do L[i+11]={x=135,y=60+50*i,w=100,h=45}end
-        for i=1,11 do L[i+22]={x=240,y=60+50*i,w=100,h=45}end
-        for i=1,11 do L[i+33]={x=345,y=60+50*i,w=100,h=45}end
-        for i=1,11 do L[i+44]={x=450,y=60+50*i,w=100,h=45}end
-        for i=1,11 do L[i+55]={x=555,y=60+50*i,w=100,h=45}end
-        for i=1,11 do L[i+66]={x=660,y=60+50*i,w=100,h=45}end
-        for i=1,11 do L[i+77]={x=765,y=60+50*i,w=100,h=45}end
-        for i=1,7 do L[i+88]= {x=870,y=60+50*i,w=100,h=45}end
-        for i=1,4 do L[i+95]= {x=975,y=60+50*i,w=100,h=45}end
+        for i=1,11 do L[i]=   {x=30,y=60+50*i,w=100,h=45} end
+        for i=1,11 do L[i+11]={x=135,y=60+50*i,w=100,h=45} end
+        for i=1,11 do L[i+22]={x=240,y=60+50*i,w=100,h=45} end
+        for i=1,11 do L[i+33]={x=345,y=60+50*i,w=100,h=45} end
+        for i=1,11 do L[i+44]={x=450,y=60+50*i,w=100,h=45} end
+        for i=1,11 do L[i+55]={x=555,y=60+50*i,w=100,h=45} end
+        for i=1,11 do L[i+66]={x=660,y=60+50*i,w=100,h=45} end
+        for i=1,11 do L[i+77]={x=765,y=60+50*i,w=100,h=45} end
+        for i=1,7 do L[i+88]= {x=870,y=60+50*i,w=100,h=45} end
+        for i=1,4 do L[i+95]= {x=975,y=60+50*i,w=100,h=45} end
         return L
     end)(),
 }
 local posList
-local function _placeSort(a,b)return a.place<b.place end
+local function _placeSort(a,b) return a.place<b.place end
 
 local NETPLY
 
@@ -133,13 +133,13 @@ function NETPLY.remove(sid)
     end
 end
 
-function NETPLY.getCount()return #PLYlist end
-function NETPLY.getSID(uid)return PLYmap[uid].sid end
-function NETPLY.getSelfJoinMode()return PLYmap[USER.uid].mode end
-function NETPLY.getSelfReady()return PLYmap[USER.uid].mode>0 end
+function NETPLY.getCount() return #PLYlist end
+function NETPLY.getSID(uid) return PLYmap[uid].sid end
+function NETPLY.getSelfJoinMode() return PLYmap[USER.uid].mode end
+function NETPLY.getSelfReady() return PLYmap[USER.uid].mode>0 end
 
-function NETPLY.setPlayerObj(ply,p)ply.p=p end
-function NETPLY.setConf(uid,config)PLYmap[uid].config=config end
+function NETPLY.setPlayerObj(ply,p) ply.p=p end
+function NETPLY.setConf(uid,config) PLYmap[uid].config=config end
 function NETPLY.setJoinMode(uid,ready)
     for _,p in next,PLYlist do
         if p.uid==uid then
@@ -162,8 +162,8 @@ function NETPLY.setJoinMode(uid,ready)
         end
     end
 end
-function NETPLY.setConnect(uid)PLYmap[uid].connected=true end
-function NETPLY.setPlace(uid,place)PLYmap[uid].place=place end
+function NETPLY.setConnect(uid) PLYmap[uid].connected=true end
+function NETPLY.setPlace(uid,place) PLYmap[uid].place=place end
 function NETPLY.setStat(uid,S)
     PLYmap[uid].stat={
         lpm=("%.1f %s"):format(S.piece/S.time*24,text.radarData[5]),
@@ -213,9 +213,9 @@ function NETPLY.draw()
         gc_translate(p.x,p.y)
             --Rectangle
             gc_setColor(COLOR[
-                p.mode==0 and'lH'or
-                p.mode==1 and'N'or
-                p.mode==2 and'F'
+                p.mode==0 and 'lH' or
+                p.mode==1 and 'N' or
+                p.mode==2 and 'F'
             ])
             gc_setLineWidth(2)
             gc_rectangle('line',0,0,p.w,p.h)
@@ -249,7 +249,7 @@ function NETPLY.draw()
 
                 --Stat
                 local S=p.stat
-                if S and(p.h>=55 or p.w>=180)then
+                if S and (p.h>=55 or p.w>=180) then
                     setFont(20)
                     local x=p.w-155
                     if p.h>=55 then

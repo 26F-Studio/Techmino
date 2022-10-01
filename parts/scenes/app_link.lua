@@ -111,7 +111,7 @@ local function newGame()
 end
 local function addPoint(list,x,y)
     local l=#list
-    if x~=list[l-1]or y~=list[l]then
+    if x~=list[l-1] or y~=list[l] then
         list[l+1]=x
         list[l+2]=y
     end
@@ -122,12 +122,12 @@ local function checkLink(x1,y1,x2,y2)
     do
         if x1>x2 then x1,y1,x2,y2=x2,y2,x1,y1 end
         local luy,ldy,ruy,rdy=y1,y1,y2,y2
-        while luy>1       and not field[luy-1][x1]do luy=luy-1 end
-        while ldy<field.r and not field[ldy+1][x1]do ldy=ldy+1 end
-        while ruy>1       and not field[ruy-1][x2]do ruy=ruy-1 end
-        while rdy<field.r and not field[rdy+1][x2]do rdy=rdy+1 end
-        for y=max(luy,ruy),min(ldy,rdy)do
-            for x=x1+1,x2-1 do if field[y][x]then goto CONTINUE_nextRow end end
+        while luy>1       and not field[luy-1][x1] do luy=luy-1 end
+        while ldy<field.r and not field[ldy+1][x1] do ldy=ldy+1 end
+        while ruy>1       and not field[ruy-1][x2] do ruy=ruy-1 end
+        while rdy<field.r and not field[rdy+1][x2] do rdy=rdy+1 end
+        for y=max(luy,ruy),min(ldy,rdy) do
+            for x=x1+1,x2-1 do if field[y][x] then goto CONTINUE_nextRow end end
             do
                 local len=abs(x1-x2)+abs(y-y1)+abs(y-y2)
                 if len<bestLen then
@@ -145,12 +145,12 @@ local function checkLink(x1,y1,x2,y2)
     do
         if y1>y2 then x1,y1,x2,y2=x2,y2,x1,y1 end
         local ulx,urx,dlx,drx=x1,x1,x2,x2
-        while ulx>1       and not field[y1][ulx-1]do ulx=ulx-1 end
-        while urx<field.c and not field[y1][urx+1]do urx=urx+1 end
-        while dlx>1       and not field[y2][dlx-1]do dlx=dlx-1 end
-        while drx<field.c and not field[y2][drx+1]do drx=drx+1 end
-        for x=max(ulx,dlx),min(urx,drx)do
-            for y=y1+1,y2-1 do if field[y][x]then goto CONTINUE_nextCol end end
+        while ulx>1       and not field[y1][ulx-1] do ulx=ulx-1 end
+        while urx<field.c and not field[y1][urx+1] do urx=urx+1 end
+        while dlx>1       and not field[y2][dlx-1] do dlx=dlx-1 end
+        while drx<field.c and not field[y2][drx+1] do drx=drx+1 end
+        for x=max(ulx,dlx),min(urx,drx) do
+            for y=y1+1,y2-1 do if field[y][x] then goto CONTINUE_nextCol end end
             do
                 local len=abs(y1-y2)+abs(x-x1)+abs(x-x2)
                 if len<bestLen then
@@ -172,7 +172,7 @@ local function tap(x,y)
             state=1
             startTime=TIME()
         elseif state==1 then
-            if selX and(x~=selX or y~=selY)and field[y][x]==field[selY][selX]then
+            if selX and (x~=selX or y~=selY) and field[y][x]==field[selY][selX] then
                 local line=checkLink(x,y,selX,selY)
                 if line then
                     ins(lines,{time=0,line=line})
@@ -208,11 +208,11 @@ local function tap(x,y)
                         end
                         ins(progress,
                             noComboBreak and
-                            ("%s [FC] %.2fs"):format(level,TIME()-startTime)or
+                            ("%s [FC] %.2fs"):format(level,TIME()-startTime) or
                             ("%s - %.2fs"):format(level,TIME()-startTime)
                         )
                         level=level+1
-                        if levels[level]then
+                        if levels[level] then
                             resetBoard()
                             SFX.play('reach')
                         else
@@ -221,8 +221,8 @@ local function tap(x,y)
                         end
                     else
                         SFX.play(
-                            combo<50 and'clear_1'or
-                            combo<100 and'clear_2'or
+                            combo<50 and 'clear_1' or
+                            combo<100 and 'clear_2' or
                             'clear_3',.8
                         )
                     end
@@ -232,7 +232,7 @@ local function tap(x,y)
                     SFX.play('lock',.9)
                 end
             else
-                if field[y][x]and(x~=selX or y~=selY)then
+                if field[y][x] and (x~=selX or y~=selY) then
                     selX,selY=x,y
                     SFX.play('lock',.8)
                 end
@@ -251,18 +251,18 @@ end
 
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=='r'then
-        if state~=1 or tryReset()then
+    if key=='r' then
+        if state~=1 or tryReset() then
             newGame()
         end
-    elseif key=='z'or key=='x'then
+    elseif key=='z' or key=='x' then
         love.mousepressed(ms.getPosition())
-    elseif key=='escape'then
-        if state~=1 or tryBack()then
+    elseif key=='escape' then
+        if state~=1 or tryBack() then
             SCN.back()
         end
     elseif state==0 then
-        if key=='q'then
+        if key=='q' then
             invis=not invis
         end
     end
@@ -272,10 +272,10 @@ local function touch(x,y)
     y=int((y-field.y)/field.h*field.r+1)
     tap(x,y)
 end
-function scene.mouseDown(x,y,k)if k==1 or k==2 or not k then touch(x,y)end end
-function scene.mouseMove(x,y)if(msIsDown(1)or kbIsDown('z','x'))then touch(x,y)end end
-function scene.touchDown(x,y)touch(x,y)end
-function scene.touchMove(x,y)touch(x,y)end
+function scene.mouseDown(x,y,k) if k==1 or k==2 or not k then touch(x,y) end end
+function scene.mouseMove(x,y) if (msIsDown(1) or kbIsDown('z','x')) then touch(x,y) end end
+function scene.touchDown(x,y) touch(x,y) end
+function scene.touchMove(x,y) touch(x,y) end
 
 function scene.update(dt)
     if state==1 then
@@ -309,7 +309,7 @@ function scene.draw()
             gc_setColor(COLOR.dH)
             for y=1,field.r do
                 for x=1,field.c do
-                    if field[y][x]then
+                    if field[y][x] then
                         gc_rectangle('fill',x-1,y-1,1,1)
                     end
                 end
@@ -370,7 +370,7 @@ function scene.draw()
 
     --Progress time list
     setFont(15)gc.setColor(.6,.6,.6)
-    for i=1,#progress do gc.print(progress[i],1140,40+20*i)end
+    for i=1,#progress do gc.print(progress[i],1140,40+20*i) end
 
     --Combo Rectangle
     if comboTime>0 then
@@ -397,8 +397,8 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name='reset',x=80,y=60,w=110,h=60,color='lG',fText=CHAR.icon.retry_spin,code=pressKey'r',hideF=function()return state==0 end},
-    WIDGET.newSwitch{name='invis',x=100,y=140,lim=80,disp=function()return invis end,code=pressKey'q',hideF=function()return state==1 end},
+    WIDGET.newButton{name='reset',x=80,y=60,w=110,h=60,color='lG',fText=CHAR.icon.retry_spin,code=pressKey'r',hideF=function() return state==0 end},
+    WIDGET.newSwitch{name='invis',x=100,y=140,lim=80,disp=function() return invis end,code=pressKey'q',hideF=function() return state==1 end},
     WIDGET.newButton{name='back',x=1200,y=660,w=110,font=45,sound='back',fText=CHAR.icon.back,code=pressKey'escape'},
 }
 

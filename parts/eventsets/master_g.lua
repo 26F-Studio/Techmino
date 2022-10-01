@@ -204,7 +204,7 @@ return{
 
         P.gameEnv.drop=getGrav(spd_lvl)
 
-        if(P.gameEnv.drop==0) then
+        if (P.gameEnv.drop==0) then
             P:set20G(true)
         end
 

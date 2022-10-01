@@ -62,10 +62,10 @@ return{
 
     page="Page=",
 
-    cc_fixed="if (AI==CC and Sequence==Fixed) then Error(); end",
-    cc_swap="if (AI==CC and Hold.Mode==Swap) then Error(); end",
-    ai_prebag="if (AI==true and Ctm.Seq~=Tetromino) then Error(); end",
-    ai_mission="if (AI==true and Ctm.Mission~=true) then Error(); end",
+    cc_fixed=" if (AI==CC and Sequence==Fixed) then Error(); end",
+    cc_swap=" if (AI==CC and Hold.Mode==Swap) then Error(); end",
+    ai_prebag=" if (AI==true and Ctm.Seq~=Tetromino) then Error(); end",
+    ai_mission=" if (AI==true and Ctm.Mission~=true) then Error(); end",
     switchSpawnSFX="SpawnSFX=false",
     needRestart="NeedRestart=true",
 
@@ -96,7 +96,7 @@ return{
 
     noScore="NoScore=true",
     modeLocked="Locked=true",
-    unlockHint="if (PreviousMode<=B) then Unlock();",
+    unlockHint=" if (PreviousMode<=B) then Unlock();",
     highScore="HighScore",
     newRecord="NewRecord=true",
 
@@ -206,8 +206,8 @@ return{
         "仅通过官网 *暂无域名,见词典* 免费下载/更新",
         "其他渠道获得游戏皆有被修改/加广告/植入病毒的风险，程序只申请了振动&联网权限！",
         "若由于被修改的本游戏产生的各种损失作者不负责(怎么负责啊我又没法管)",
-        FNNS and"/"or"请从正规途径获得最新版，游戏现为免费，不过有打赏当然感谢啦~",
-        FNNS and"/"or"更多信息见小z词典*/",
+        FNNS and "/" or "请从正规途径获得最新版，游戏现为免费，不过有打赏当然感谢啦~",
+        FNNS and "/" or "更多信息见小z词典*/",
     },
     staff={
         "原作者  MrZ",

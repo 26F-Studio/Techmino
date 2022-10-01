@@ -1,7 +1,7 @@
 local scene={}
 
 function scene.sceneInit()
-    if SYSTEM~="iOS"then
+    if SYSTEM~="iOS" then
         if math.random()>.0000626 then
             love.timer.sleep(.26)
             love.event.quit()

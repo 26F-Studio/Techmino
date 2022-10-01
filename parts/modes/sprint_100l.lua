@@ -4,9 +4,9 @@ return{
         eventSet='checkLine_100',
         bg='bg2',bgm='race',
     },
-    score=function(P)return{P.stat.time,P.stat.piece}end,
-    scoreDisp=function(D)return STRING.time(D[1]).."   "..D[2].." Pieces"end,
-    comp=function(a,b)return a[1]<b[1]or a[1]==b[1]and a[2]<b[2]end,
+    score=function(P) return{P.stat.time,P.stat.piece} end,
+    scoreDisp=function(D) return STRING.time(D[1]).."   "..D[2].." Pieces" end,
+    comp=function(a,b) return a[1]<b[1] or a[1]==b[1] and a[2]<b[2] end,
     getRank=function(P)
         if P.stat.row<100 then return end
         local T=P.stat.time

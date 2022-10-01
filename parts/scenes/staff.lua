@@ -31,17 +31,17 @@ end
 scene.touchDown=scene.mouseDown
 
 function scene.keyDown(key)
-    if key=='l'then
+    if key=='l' then
         loadGame('sprintLock',true)
-    elseif key=='f'then
+    elseif key=='f' then
         loadGame('sprintFix',true)
-    elseif key=='escape'then
+    elseif key=='escape' then
         SCN.back()
     end
 end
 
 function scene.update(dt)
-    if(kb.isDown('space','return')or tc.getTouches()[1])and v<16.2 then
+    if (kb.isDown('space','return') or tc.getTouches()[1]) and v<16.2 then
         v=v+.42
     elseif v>3.55 then
         v=v-.42
@@ -54,7 +54,7 @@ function scene.update(dt)
         local r=rnd()<.5
         ins(names,{
             text=T,
-            x=r and -T:getWidth()or SCR.w,
+            x=r and -T:getWidth() or SCR.w,
             y=rnd()*(SCR.h-T:getHeight()),
             w=T:getWidth(),
             vx=(r and 1 or -1)*(1.626+rnd())*(SCR.w+T:getWidth())/SCR.w,

@@ -43,9 +43,9 @@ local function _gotoSetting()
     SCN.go('setting_game')
 end
 local function _quit()
-    if tryBack()then
+    if tryBack() then
         NET.room.leave()
-        if SCN.stack[#SCN.stack-1]=='net_newRoom'then
+        if SCN.stack[#SCN.stack-1]=='net_newRoom' then
             SCN.pop()
         end
         SCN.back()
@@ -76,7 +76,7 @@ function scene.sceneInit()
     upstreamProgress=1
     newMessageTimer=0
 
-    if SCN.prev=='setting_game'then
+    if SCN.prev=='setting_game' then
         NET.player.updateConf()
     end
     if GAME.prevBG then
@@ -92,7 +92,7 @@ function scene.sceneBack()
 end
 
 scene.mouseDown=NULL
-function scene.mouseMove(x,y)NETPLY.mouseMove(x,y)end
+function scene.mouseMove(x,y) NETPLY.mouseMove(x,y) end
 function scene.touchDown(x,y)
     if not playing then NETPLY.mouseMove(x,y)return end
     if noTouch then return end
@@ -124,7 +124,7 @@ function scene.touchMove()
         local B=keys[n]
         if B.ava then
             for i=1,#L,2 do
-                if(L[i]-B.x)^2+(L[i+1]-B.y)^2<=B.r^2 then
+                if (L[i]-B.x)^2+(L[i+1]-B.y)^2<=B.r^2 then
                     goto CONTINUE_nextKey
                 end
             end
@@ -135,13 +135,13 @@ function scene.touchMove()
     end
 end
 function scene.keyDown(key,isRep)
-    if key=='escape'then
+    if key=='escape' then
         if not inputBox.hide then
             _switchChat()
         else
             _quit()
         end
-    elseif key=='return'then
+    elseif key=='return' then
         local mes=STRING.trim(inputBox:getText())
         if not inputBox.hide and #mes>0 then
             NET.room.chat(mes)
@@ -159,14 +159,14 @@ function scene.keyDown(key,isRep)
             PLAYERS[1]:pressKey(k)
             VK.press(k)
         end
-    elseif not _hideReadyUI()then
-        if key=='space'then
+    elseif not _hideReadyUI() then
+        if key=='space' then
             if NETPLY.getSelfJoinMode()==0 then
-                (kb.isDown('lctrl','rctrl','lalt','ralt')and _setSpectate or _setReady)()
+                (kb.isDown('lctrl','rctrl','lalt','ralt') and _setSpectate or _setReady)()
             else
                 _setCancel()
             end
-        elseif key=='s'then
+        elseif key=='s' then
             _gotoSetting()
         end
     end
@@ -180,7 +180,7 @@ function scene.keyUp(key)
     end
 end
 function scene.gamepadDown(key)
-    if key=='back'then
+    if key=='back' then
         scene.keyDown('escape')
     else
         if not playing then return end
@@ -201,27 +201,27 @@ function scene.gamepadUp(key)
 end
 
 function scene.socketRead(cmd,d)
-    if cmd=='join'then
+    if cmd=='join' then
         textBox:push{
             COLOR.lR,d.username,
             COLOR.dY,"#"..d.uid.." ",
             COLOR.Y,text.joinRoom,
         }
         SFX.play('warn_1')
-    elseif cmd=='leave'then
+    elseif cmd=='leave' then
         textBox:push{
             COLOR.lR,d.username,
             COLOR.dY,"#"..d.uid.." ",
             COLOR.Y,text.leaveRoom,
         }
-    elseif cmd=='talk'then
+    elseif cmd=='talk' then
         newMessageTimer=80
         textBox:push{
             COLOR.Z,d.username,
             COLOR.dY,"#"..d.uid.." ",
-            COLOR.N,d.message or"[_]",
+            COLOR.N,d.message or "[_]",
         }
-    elseif cmd=='go'then
+    elseif cmd=='go' then
         if not playing then
             playing=true
             lastUpstreamTime=0
@@ -231,7 +231,7 @@ function scene.socketRead(cmd,d)
         else
             MES.new('warn',"Redundant [Go]")
         end
-    elseif cmd=='finish'then
+    elseif cmd=='finish' then
         playing=false
         BG.set()
     end
@@ -250,7 +250,7 @@ function scene.update(dt)
         VK.update(dt)
 
         --Update players
-        for p=1,#PLAYERS do PLAYERS[p]:update(dt)end
+        for p=1,#PLAYERS do PLAYERS[p]:update(dt) end
 
         --Warning check
         checkWarning(dt)
@@ -258,7 +258,7 @@ function scene.update(dt)
         --Upload stream
         if not NET.spectate and P1.frameRun-lastUpstreamTime>8 then
             local stream
-            if not GAME.rep[upstreamProgress]then
+            if not GAME.rep[upstreamProgress] then
                 ins(GAME.rep,P1.frameRun)
                 ins(GAME.rep,0)
             end
@@ -303,13 +303,13 @@ function scene.draw()
 
         --Ready & Set mark
         setFont(50)
-        if NET.roomReadyState=='allReady'then
+        if NET.roomReadyState=='allReady' then
             gc_setColor(1,.85,.6,.9)
             mStr(text.ready,640,15)
-        elseif NET.roomReadyState=='connecting'then
+        elseif NET.roomReadyState=='connecting' then
             gc_setColor(.6,1,.9,.9)
             mStr(text.connStream,640,15)
-        elseif NET.roomReadyState=='waitConn'then
+        elseif NET.roomReadyState=='waitConn' then
             gc_setColor(.6,.95,1,.9)
             mStr(text.waitStream,640,15)
         end
@@ -341,8 +341,8 @@ function scene.draw()
         gc_print("M",430,10)
     end
 end
-local function _hideF_ingame()return _hideReadyUI()or NETPLY.getSelfReady()end
-local function _hideF_ingame2()return _hideReadyUI()or not NETPLY.getSelfReady()end
+local function _hideF_ingame() return _hideReadyUI() or NETPLY.getSelfReady() end
+local function _hideF_ingame2() return _hideReadyUI() or not NETPLY.getSelfReady() end
 scene.widgetList={
     textBox,
     inputBox,

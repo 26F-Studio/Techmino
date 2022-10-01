@@ -12,8 +12,8 @@ local PLY={draw=ply_draw}
 local modeDataMeta do
     local rawset=rawset
     modeDataMeta={
-        __index=function(self,k)rawset(self,k,0)return 0 end,
-        __newindex=function(self,k,v)rawset(self,k,v)end,
+        __index=function(self,k) rawset(self,k,0)return 0 end,
+        __newindex=function(self,k,v) rawset(self,k,v) end,
     }
 end
 local function _getNewStatTable()
@@ -79,7 +79,7 @@ local function _newEmptyPlayer(id,mini)
     P.result=false--String: 'finish'|'win'|'lose'
     P.stat=_getNewStatTable()
     P.modeData=setmetatable({},modeDataMeta)--Data use by mode
-    P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
+    P.keyPressing={} for i=1,12 do P.keyPressing[i]=false end
     P.clearingRow,P.clearedRow={},{}--Clearing animation height,cleared row mark
     P.dropFX,P.moveFX,P.lockFX,P.clearFX={},{},{},{}
     -- P.destFX={}--Normally created by bot
@@ -89,7 +89,7 @@ local function _newEmptyPlayer(id,mini)
     --Times
     P.frameRun=GAME.frameStart--Frame run, mainly for replay
     P.endCounter=0--Used after gameover
-    P.dropTime={}for i=1,10 do P.dropTime[i]=-1e99 end P.dropSpeed=0
+    P.dropTime={} for i=1,10 do P.dropTime[i]=-1e99 end P.dropSpeed=0
     P.stream={}
     P.streamProgress=false--1 to start play recording
 
@@ -193,7 +193,7 @@ local function _loadGameEnv(P)--Load gameEnv
         -- else
             -- print("default-"..k..":"..tostring(v))
         end
-        if type(v)~='table'then  --Default setting
+        if type(v)~='table' then  --Default setting
             ENV[k]=v
         else
             ENV[k]=TABLE.copy(v)
@@ -224,7 +224,7 @@ local function _loadRemoteEnv(P,confStr)--Load gameEnv
         elseif SETTING[k]~=nil then
             v=SETTING[k]        --Global setting
         end
-        if type(v)~='table'then--Default setting
+        if type(v)~='table' then--Default setting
             ENV[k]=v
         else
             ENV[k]=TABLE.copy(v)
@@ -232,9 +232,9 @@ local function _loadRemoteEnv(P,confStr)--Load gameEnv
     end
 end
 local function _mergeFuncTable(f,L)
-    if type(f)=='function'then
+    if type(f)=='function' then
         ins(L,f)
-    elseif type(f)=='table'then
+    elseif type(f)=='table' then
         for i=1,#f do
             ins(L,f[i])
         end
@@ -251,19 +251,19 @@ local function _applyGameEnv(P)--Finish gameEnv processing
     ENV.task=_mergeFuncTable(ENV.task,{})
 
     --Apply eventSet
-    if ENV.eventSet and ENV.eventSet~="X"then
-        if type(ENV.eventSet)=='string'then
+    if ENV.eventSet and ENV.eventSet~="X" then
+        if type(ENV.eventSet)=='string' then
             local eventSet=require('parts.eventsets.'..ENV.eventSet)
             if eventSet then
                 for k,v in next,eventSet do
                     if
-                        k=='mesDisp'or
-                        k=='hook_drop'or
-                        k=='hook_die'or
+                        k=='mesDisp' or
+                        k=='hook_drop' or
+                        k=='hook_die' or
                         k=='task'
                     then
                         _mergeFuncTable(v,ENV[k])
-                    elseif type(v)=='table'then
+                    elseif type(v)=='table' then
                         ENV[k]=TABLE.copy(v)
                     else
                         ENV[k]=v
@@ -301,19 +301,19 @@ local function _applyGameEnv(P)--Finish gameEnv processing
     P.skinLib=SKIN.lib[ENV.skinSet]
 
     P:setInvisible(
-        ENV.visible=='show'and -1 or
-        ENV.visible=='easy'and 300 or
-        ENV.visible=='slow'and 100 or
-        ENV.visible=='medium'and 60 or
-        ENV.visible=='fast'and 20 or
-        ENV.visible=='none'and 0
+        ENV.visible=='show' and -1 or
+        ENV.visible=='easy' and 300 or
+        ENV.visible=='slow' and 100 or
+        ENV.visible=='medium' and 60 or
+        ENV.visible=='fast' and 20 or
+        ENV.visible=='none' and 0
     )
     P:set20G(P._20G)
     P:setHold(ENV.holdCount)
     P:setNext(ENV.nextCount)
     P:setRS(ENV.RS)
 
-    if type(ENV.mission)=='table'then
+    if type(ENV.mission)=='table' then
         P.curMission=1
     end
 
@@ -321,7 +321,7 @@ local function _applyGameEnv(P)--Finish gameEnv processing
     ENV.arr=max(ENV.arr,ENV.minarr)
     ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
 
-    ENV.bagLine=ENV.bagLine and(ENV.sequence=='bag'or ENV.sequence=='loop')and #ENV.seqData
+    ENV.bagLine=ENV.bagLine and (ENV.sequence=='bag' or ENV.sequence=='loop') and #ENV.seqData
 
     if ENV.nextCount==0 then
         ENV.nextPos=false
@@ -332,7 +332,7 @@ local function _applyGameEnv(P)--Finish gameEnv processing
     if ENV.noInitSZO then
         for _=1,5 do
             local C=P.nextQueue[1]
-            if C and(C.id==1 or C.id==2 or C.id==6)then
+            if C and (C.id==1 or C.id==2 or C.id==6) then
                 table.remove(P.nextQueue,1)
             else
                 break
@@ -363,7 +363,7 @@ local function _applyGameEnv(P)--Finish gameEnv processing
     if ENV.lineNum==0 then  ENV.lineNum=false end
 
     --Load tasks
-    for i=1,#ENV.task do P:newTask(ENV.task[i])end
+    for i=1,#ENV.task do P:newTask(ENV.task[i]) end
 end
 --------------------------</Libs>--------------------------
 

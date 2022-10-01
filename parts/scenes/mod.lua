@@ -47,7 +47,7 @@ end
 function scene.mouseMove(x,y)
     selected=false
     for _,M in next,MODOPT do
-        if(x-M.x)^2+(y-M.y)^2<2000 then
+        if (x-M.x)^2+(y-M.y)^2<2000 then
             selected=M
             break
         end
@@ -55,7 +55,7 @@ function scene.mouseMove(x,y)
 end
 function scene.mouseDown(x,y,k)
     for _,M in next,MODOPT do
-        if(x-M.x)^2+(y-M.y)^2<2000 then
+        if (x-M.x)^2+(y-M.y)^2<2000 then
             _toggleMod(M,k==2 or love.keyboard.isDown('lshift','rshift'))
             break
         end
@@ -69,9 +69,9 @@ function scene.touchDown(x,y)
 end
 
 function scene.keyDown(key)
-    if key=='tab'or key=='delete'then
-        if GAME.mod[1]then
-            while GAME.mod[1]do
+    if key=='tab' or key=='delete' then
+        if GAME.mod[1] then
+            while GAME.mod[1] do
                 table.remove(GAME.mod).sel=0
             end
             scene.widgetList.unranked.hide=scoreValid()
@@ -85,7 +85,7 @@ function scene.keyDown(key)
                 break
             end
         end
-    elseif key=='escape'then
+    elseif key=='escape' then
         SCN.back()
     end
 end

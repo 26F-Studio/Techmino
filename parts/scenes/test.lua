@@ -24,7 +24,7 @@ end
 function scene.keyDown(key,isRep)
     if isRep then return end
     _push("[keyDown] <"..key..">")
-    if key=='escape'then
+    if key=='escape' then
         backCounter=backCounter-1
         if backCounter==0 then
             SCN.back()

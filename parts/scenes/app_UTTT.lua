@@ -49,7 +49,7 @@ local function checkBoard(b,p)
 end
 local function full(L)
     for i=1,9 do
-        if not L[i]then
+        if not L[i] then
             return false
         end
     end
@@ -61,30 +61,30 @@ local function place(X,x)
     lastX,lastx=X,x
     curX,curx=nil
     placeTime=TIME()
-    if checkBoard(board[X],round)then
+    if checkBoard(board[X],round) then
         score[X]=round
-        if checkBoard(score,round)then
+        if checkBoard(score,round) then
             gameover=round
             SFX.play('win')
             return
         else
-            if full(score)then
+            if full(score) then
                 gameover=true
                 return
             end
         end
         SFX.play('reach')
     else
-        if full(board[X])then
+        if full(board[X]) then
             SFX.play('emit')
             score[X]=true
-            if full(score)then
+            if full(score) then
                 gameover=true
                 return
             end
         end
     end
-    if score[x]then
+    if score[x] then
         target=false
     else
         target=x
@@ -108,9 +108,9 @@ function scene.mouseMove(x,y)
         y<0 or y>8 or
         curX<1 or curX>9 or
         curx<1 or curx>9 or
-        score[curX]or
-        not(target==curX or not target)or
-        board[curX][curx]or
+        score[curX] or
+        not (target==curX or not target) or
+        board[curX][curx] or
         gameover
     then
         curX,curx=nil
@@ -154,7 +154,7 @@ function scene.draw()
 
     gc.setLineWidth(.8)
     for X=1,9 do
-        if score[X]then
+        if score[X] then
             if score[X]==0 then
                 gc.setColor(.5,0,0)
             elseif score[X]==1 then

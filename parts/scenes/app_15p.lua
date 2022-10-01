@@ -11,8 +11,8 @@ local move,push,state
 local color,invis='color1'
 local slide,pathVis,revKB
 
-local function ifGaming()return state==1 end
-local colorSelector=WIDGET.newSelector{name='color',x=150,y=240,w=200,list={'color1','rainbow','color2','gray','black'},color='lY',disp=function()return color end,code=function(v)if state~=1 then color=v end end,hideF=ifGaming}
+local function ifGaming() return state==1 end
+local colorSelector=WIDGET.newSelector{name='color',x=150,y=240,w=200,list={'color1','rainbow','color2','gray','black'},color='lY',disp=function() return color end,code=function(v) if state~=1 then color=v end end,hideF=ifGaming}
 
 function scene.sceneInit()
     BG.set('rainbow2')
@@ -117,7 +117,7 @@ local function tapBoard(x,y,key)
                 state=1
                 startTime=TIME()
             end
-            if checkBoard(b)then
+            if checkBoard(b) then
                 state=2
                 time=TIME()-startTime
                 SFX.play('win')
@@ -129,43 +129,43 @@ local function tapBoard(x,y,key)
 end
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=='up'then
+    if key=='up' then
         tapBoard(cx,cy-(revKB and 1 or -1),true)
-    elseif key=='down'then
+    elseif key=='down' then
         tapBoard(cx,cy+(revKB and 1 or -1),true)
-    elseif key=='left'then
+    elseif key=='left' then
         tapBoard(cx-(revKB and 1 or -1),cy,true)
-    elseif key=='right'then
+    elseif key=='right' then
         tapBoard(cx+(revKB and 1 or -1),cy,true)
-    elseif key=='space'then
+    elseif key=='space' then
         shuffleBoard()
         state=0
         time=0
         move,push=0,0
-    elseif key=='q'then
+    elseif key=='q' then
         if state~=1 then
-            colorSelector:scroll(love.keyboard.isDown('lshift','rshift')and -1 or 1)
+            colorSelector:scroll(love.keyboard.isDown('lshift','rshift') and -1 or 1)
         end
-    elseif key=='w'then
+    elseif key=='w' then
         if state==0 then
             invis=not invis
         end
-    elseif key=='e'then
+    elseif key=='e' then
         if state==0 then
             slide=not slide
             if not slide then
                 pathVis=false
             end
         end
-    elseif key=='r'then
+    elseif key=='r' then
         if state==0 and slide then
             pathVis=not pathVis
         end
-    elseif key=='t'then
+    elseif key=='t' then
         if state==0 then
             revKB=not revKB
         end
-    elseif key=='escape'then
+    elseif key=='escape' then
         SCN.back()
     end
 end
@@ -286,7 +286,7 @@ function scene.draw()
         for j=1,4 do
             if cx~=j or cy~=i then
                 local N=board[i][j]
-                local C=mono and'gray'or color
+                local C=mono and 'gray' or color
 
                 gc.setColor(backColor[C][N])
                 gc.rectangle('fill',j*160+163,i*160-117,154,154,8)
@@ -310,10 +310,10 @@ end
 scene.widgetList={
     WIDGET.newButton{name='reset',  x=160, y=100,w=180,h=100,color='lG',font=50,fText=CHAR.icon.retry_spin,code=pressKey'space'},
     colorSelector,
-    WIDGET.newSwitch{name='invis',  x=240, y=330,lim=200,font=40,disp=function()return invis end,  code=pressKey'w',hideF=ifGaming},
-    WIDGET.newSwitch{name='slide',  x=240, y=420,lim=200,font=40,disp=function()return slide end,  code=pressKey'e',hideF=ifGaming},
-    WIDGET.newSwitch{name='pathVis',x=240, y=510,lim=200,font=40,disp=function()return pathVis end,code=pressKey'r',hideF=function()return state==1 or not slide end},
-    WIDGET.newSwitch{name='revKB',  x=240, y=600,lim=200,font=40,disp=function()return revKB end,  code=pressKey't',hideF=ifGaming},
+    WIDGET.newSwitch{name='invis',  x=240, y=330,lim=200,font=40,disp=function() return invis end,  code=pressKey'w',hideF=ifGaming},
+    WIDGET.newSwitch{name='slide',  x=240, y=420,lim=200,font=40,disp=function() return slide end,  code=pressKey'e',hideF=ifGaming},
+    WIDGET.newSwitch{name='pathVis',x=240, y=510,lim=200,font=40,disp=function() return pathVis end,code=pressKey'r',hideF=function() return state==1 or not slide end},
+    WIDGET.newSwitch{name='revKB',  x=240, y=600,lim=200,font=40,disp=function() return revKB end,  code=pressKey't',hideF=ifGaming},
     WIDGET.newButton{name='back',   x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 

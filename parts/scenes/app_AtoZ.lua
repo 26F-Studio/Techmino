@@ -46,7 +46,7 @@ function scene.keyDown(key,isRep)
     if isRep then return end
     if #key==1 then
         if state<2 and frameKeyCount<3 then
-            if key:upper():byte()==targetString:byte(progress)then
+            if key:upper():byte()==targetString:byte(progress) then
                 progress=progress+1
                 frameKeyCount=frameKeyCount+1
                 TEXT.show(key:upper(),rnd(320,960),rnd(100,240),90,'score',2.6)
@@ -64,16 +64,16 @@ function scene.keyDown(key,isRep)
                 SFX.play('finesseError')
             end
         end
-    elseif key=='left'or key=='right'then
+    elseif key=='left' or key=='right' then
         if state==0 then
-            scene.widgetList.level:scroll(key=='left'and -1 or 1)
+            scene.widgetList.level:scroll(key=='left' and -1 or 1)
         end
-    elseif key=='space'then
+    elseif key=='space' then
         progress=1
         mistake=0
         time=0
         state=0
-    elseif key=='escape'then
+    elseif key=='escape' then
         SCN.back()
     end
 end
@@ -104,7 +104,7 @@ function scene.draw()
     end
 
     FONT.set(100)
-    GC.mStr(state==1 and #targetString-progress+1 or state==0 and"Ready"or state==2 and"Win",640,200)
+    GC.mStr(state==1 and #targetString-progress+1 or state==0 and "Ready" or state==2 and "Win",640,200)
 
     gc.setColor(COLOR.Z)
     gc.print(targetString:sub(progress,progress),120,280,0,2)
@@ -116,9 +116,9 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newSelector{name='level', x=640,y=640,w=200,list={'A_Z','Z_A','Tech1','Tech2','KeyTest1','KeyTest2','Hello','Roll1','Roll2','Roll3','ZZZ','ZXZX','ZMZM','Stair','Stair2','Stair3','BPW'},disp=function()return levelName end,code=function(i)levelName=i;targetString=levels[i]end,hideF=function()return state>0 end},
+    WIDGET.newSelector{name='level', x=640,y=640,w=200,list={'A_Z','Z_A','Tech1','Tech2','KeyTest1','KeyTest2','Hello','Roll1','Roll2','Roll3','ZZZ','ZXZX','ZMZM','Stair','Stair2','Stair3','BPW'},disp=function() return levelName end,code=function(i) levelName=i; targetString=levels[i] end,hideF=function() return state>0 end},
     WIDGET.newButton{name='reset',   x=160,y=100,w=180,h=100,color='lG',font=50,fText=CHAR.icon.retry_spin,code=pressKey'space'},
-    WIDGET.newButton{name='keyboard',x=160,y=210,w=180,h=100,code=function()love.keyboard.setTextInput(true,0,select(2,SCR.xOy:transformPoint(0,500)),1,1)end,hide=not MOBILE},
+    WIDGET.newButton{name='keyboard',x=160,y=210,w=180,h=100,code=function() love.keyboard.setTextInput(true,0,select(2,SCR.xOy:transformPoint(0,500)),1,1) end,hide=not MOBILE},
     WIDGET.newButton{name='back',    x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 

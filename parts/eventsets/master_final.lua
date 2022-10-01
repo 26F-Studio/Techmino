@@ -32,7 +32,7 @@ return{
                 if s~=3 then E.fall=E.fall-1 end
                 D.target=D.target+100
             elseif s<10 then
-                if s==5 then BGM.play('distortion')end
+                if s==5 then BGM.play('distortion') end
                 P:stageComplete(s)
                 if s==4 or s==7 then E.das=E.das-1 end
                 if s%3==0 then E.lock=E.lock-1

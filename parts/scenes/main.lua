@@ -36,7 +36,7 @@ function scene.sceneInit()
 end
 
 function scene.resize()
-    local qpModeName=text.modes[STAT.lastPlay]and text.modes[STAT.lastPlay][1]or"["..STAT.lastPlay.."]"
+    local qpModeName=text.modes[STAT.lastPlay] and text.modes[STAT.lastPlay][1] or "["..STAT.lastPlay.."]"
     scene.widgetList[2]:setObject(text.WidgetText.main.qplay..qpModeName)
 end
 
@@ -47,7 +47,7 @@ function scene.mouseDown(x,y)
 end
 scene.touchDown=scene.mouseDown
 local function _testButton(n)
-    if WIDGET.isFocus(scene.widgetList[n])then
+    if WIDGET.isFocus(scene.widgetList[n]) then
         return true
     else
         WIDGET.focus(scene.widgetList[n])
@@ -55,58 +55,58 @@ local function _testButton(n)
 end
 function scene.keyDown(key,isRep)
     if isRep then return true end
-    if key=='1'then
-        if _testButton(1)then
+    if key=='1' then
+        if _testButton(1) then
             SCN.go('mode')
         end
-    elseif key=='q'then
-        if _testButton(2)then
+    elseif key=='q' then
+        if _testButton(2) then
             loadGame(STAT.lastPlay,true)
         end
-    elseif key=='a'then
-        if _testButton(3)then
+    elseif key=='a' then
+        if _testButton(3) then
             NET.autoLogin()
         end
-    elseif key=='z'then
-        if _testButton(4)then
+    elseif key=='z' then
+        if _testButton(4) then
             SCN.go('customGame')
         end
-    elseif key=='-'then
-        if _testButton(5)then
+    elseif key=='-' then
+        if _testButton(5) then
             SCN.go('setting_game')
         end
-    elseif key=='p'then
-        if _testButton(6)then
+    elseif key=='p' then
+        if _testButton(6) then
             SCN.go('stat')
         end
-    elseif key=='l'then
-        if _testButton(7)then
+    elseif key=='l' then
+        if _testButton(7) then
             SCN.go('dict')
         end
-    elseif key==','then
-        if _testButton(8)then
+    elseif key==',' then
+        if _testButton(8) then
             SCN.go('replays')
         end
-    elseif key=='2'then
-        if _testButton(9)then
+    elseif key=='2' then
+        if _testButton(9) then
             SCN.go('music')
         end
-    elseif key=='3'then
-        if _testButton(10)then
+    elseif key=='3' then
+        if _testButton(10) then
             SCN.go('lang')
         end
-    elseif key=='x'then
-        if _testButton(11)then
+    elseif key=='x' then
+        if _testButton(11) then
             SCN.go('about')
         end
-    elseif key=='m'then
-        if _testButton(12)then
+    elseif key=='m' then
+        if _testButton(12) then
             SCN.go('manual')
         end
-    elseif key=='c'then
+    elseif key=='c' then
         enterConsole()
-    elseif key=='escape'then
-        if tryBack()then
+    elseif key=='escape' then
+        if tryBack() then
             VOC.play('bye')
             SCN.swapTo('quit','slowFade')
         end
@@ -119,13 +119,13 @@ function scene.update(dt)
     if dt>.26 then return end
     PLAYERS[1]:update(dt)
     scrollX=scrollX-162*dt
-    if scrollX<-tip:getWidth()then
+    if scrollX<-tip:getWidth() then
         scrollX=tipLength
         tip:set(text.getTip())
     end
     local L=scene.widgetList
     for i=1,8 do
-        L[i].x=MATH.expApproach(L[i].x,(widgetX0[i]-400+(WIDGET.isFocus(L[i])and(i<5 and 100 or -100)or 0)),dt*9)
+        L[i].x=MATH.expApproach(L[i].x,(widgetX0[i]-400+(WIDGET.isFocus(L[i]) and (i<5 and 100 or -100) or 0)),dt*9)
     end
 end
 

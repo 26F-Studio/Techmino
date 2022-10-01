@@ -5,7 +5,7 @@ local code
 
 local function _getCode()
     local email=WIDGET.active.email:getText()
-    if not STRING.simpEmailCheck(email)then
+    if not STRING.simpEmailCheck(email) then
         MES.new('error',text.wrongEmail)
     else
         NET.getCode(email)
@@ -80,7 +80,7 @@ end
 
 scene.widgetList={
     WIDGET.newText{name='title',        x=80,  y=50,font=70,align='L'},
-    WIDGET.newButton{name='login',      x=1140,y=100,w=170,h=80,color='lY',code=function()SCN.swapTo('login','swipeL')end},
+    WIDGET.newButton{name='login',      x=1140,y=100,w=170,h=80,color='lY',code=function() SCN.swapTo('login','swipeL') end},
 
     WIDGET.newInputBox{name='email',    x=380, y=300,w=626,h=60,limit=128},
     WIDGET.newKey{name='send',          x=640, y=430,w=250,h=80,font=40,code=_getCode},

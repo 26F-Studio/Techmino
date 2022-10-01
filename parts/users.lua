@@ -41,11 +41,11 @@ local db_img={}
 local db=setmetatable({},{__index=function(self,uid)
     if not uid then return emptyUser end
     local file="cache/user"..uid..".dat"
-    local d=fs.getInfo(file)and JSON.decode(fs.read(file))or TABLE.copy(emptyUser)
+    local d=fs.getInfo(file) and JSON.decode(fs.read(file)) or TABLE.copy(emptyUser)
     rawset(self,uid,d)
     db_img[uid]=
-        type(d.hash)=='string'and #d.hash>0 and fs.getInfo("cache/"..d.hash)and
-        _loadAvatar("cache/"..d.hash)or
+        type(d.hash)=='string' and #d.hash>0 and fs.getInfo("cache/"..d.hash) and
+        _loadAvatar("cache/"..d.hash) or
         defaultAvatar[(uid-26)%29+1]
     return d
 end})
@@ -64,13 +64,13 @@ function USERS.updateUserData(data)
     if data.avatar then
         fs.write("cache/"..data.hash,love.data.decode('string','base64',data.avatar:sub(data.avatar:find(",")+1)))
         db_img[uid]=_loadAvatar("cache/"..data.hash)
-        db[uid].hash=type(data.hash)=='string'and #data.hash>0 and data.hash
+        db[uid].hash=type(data.hash)=='string' and #data.hash>0 and data.hash
     end
 end
 
-function USERS.getUsername(uid)return db[uid].username end
-function USERS.getMotto(uid)return db[uid].motto end
-function USERS.getHash(uid)return db[uid].hash or""end
+function USERS.getUsername(uid) return db[uid].username end
+function USERS.getMotto(uid) return db[uid].motto end
+function USERS.getHash(uid) return db[uid].hash or "" end
 function USERS.getAvatar(uid)
     if uid then
         if not db[uid].new then

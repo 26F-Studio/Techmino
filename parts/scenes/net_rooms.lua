@@ -26,10 +26,10 @@ local roomList=WIDGET.newListBox{name='roomList',x=50,y=50,w=800,h=440,lineH=40,
         end
         if item.count then
             gc_printf(
-                type(item.count.Spectator)=='number'and item.count.Spectator>0 and
-                    ("$1(+$2)/$3"):repD(item.count.Gamer or'?',item.count.Spectator or'?',item.capacity or'?')
+                type(item.count.Spectator)=='number' and item.count.Spectator>0 and
+                    ("$1(+$2)/$3"):repD(item.count.Gamer or '?',item.count.Spectator or '?',item.capacity or '?')
                     or
-                ("$1/$2"):repD(item.count.Gamer or'?',item.capacity or'?'),600,-4,180,'right')
+                ("$1/$2"):repD(item.count.Gamer or '?',item.capacity or '?'),600,-4,180,'right')
         end
 
         if item.info and item.state then
@@ -77,14 +77,14 @@ function scene.sceneInit()
 end
 
 function scene.keyDown(key)
-    if TASK.getLock('enterRoom')then return true end
-    if key=='r'then
+    if TASK.getLock('enterRoom') then return true end
+    if key=='r' then
         if fetchTimer<=7 then
             _fetchRoom()
         end
-    elseif roomList:getLen()>0 and(key=='join'or key=='return'and love.keyboard.isDown('lctrl','rctrl'))then
+    elseif roomList:getLen()>0 and (key=='join' or key=='return' and love.keyboard.isDown('lctrl','rctrl')) then
         local R=roomList:getSel()
-        if TASK.getLock('fetchRoom')or not R then return end
+        if TASK.getLock('fetchRoom') or not R then return end
         if R.info.version==VERSION.room then
             NET.room.enter(R.roomId,passwordBox.value)
         else
@@ -96,7 +96,7 @@ function scene.keyDown(key)
 end
 
 function scene.update(dt)
-    if not TASK.getLock('fetchRoom')and _hidePW()then
+    if not TASK.getLock('fetchRoom') and _hidePW() then
         fetchTimer=fetchTimer-dt
         if fetchTimer<=0 then
             _fetchRoom()
@@ -108,14 +108,6 @@ function scene.draw()
     --Fetching timer
     gc_setColor(1,1,1,.12)
     gc_arc('fill','pie',250,630,40,-1.5708,-1.5708-.6283*fetchTimer)
-
-    --Joining mark
-    if TASK.getLock('enterRoom')then
-        gc.setColor(COLOR.Z)
-        gc.setLineWidth(15)
-        local t=TIME()*6.26%6.2832
-        gc.arc('line','open',640,360,80,t,t+4.26)
-    end
 
     --Room list
     local R=roomList:getSel()
@@ -130,7 +122,7 @@ function scene.draw()
         gc_printf(R.info.name,10,0,365)
         setFont(20)
         gc_setColor(COLOR.lH)
-        gc_printf(R.info.description or"[No description]",10,55,365)
+        gc_printf(R.info.description or "[No description]",10,55,365)
         if R.start then
             gc_setColor(COLOR.lA)
             gc_print(text.started,10,300)
@@ -151,11 +143,11 @@ scene.widgetList={
     roomList,
     passwordBox,
     WIDGET.newKey{name='setting',    x=1200,y=160,w=90,h=90,font=60,fText=CHAR.icon.settings,code=goScene'setting_game'},
-    WIDGET.newText{name='refreshing',x=450,y=240,font=45,hideF=function()return not TASK.getLock('fetchRoom')end},
-    WIDGET.newText{name='noRoom',    x=450,y=245,font=40,hideF=function()return roomList:getLen()>0 or TASK.getLock('fetchRoom')end},
-    WIDGET.newKey{name='refresh',    x=250,y=630,w=140,h=120,code=_fetchRoom,hideF=function()return fetchTimer>7 end},
+    WIDGET.newText{name='refreshing',x=450,y=240,font=45,hideF=function() return not TASK.getLock('fetchRoom') end},
+    WIDGET.newText{name='noRoom',    x=450,y=245,font=40,hideF=function() return roomList:getLen()>0 or TASK.getLock('fetchRoom') end},
+    WIDGET.newKey{name='refresh',    x=250,y=630,w=140,h=120,code=_fetchRoom,hideF=function() return fetchTimer>7 end},
     WIDGET.newKey{name='new',        x=510,y=630,w=260,h=120,code=goScene'net_newRoom'},
-    WIDGET.newKey{name='join',       x=780,y=630,w=140,h=120,code=pressKey'join',hideF=function()return roomList:getLen()==0 or TASK.getLock('enterRoom')end},
+    WIDGET.newKey{name='join',       x=780,y=630,w=140,h=120,code=pressKey'join',hideF=function() return roomList:getLen()==0 or TASK.getLock('enterRoom') end},
     WIDGET.newButton{name='back',    x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=pressKey'escape'},
 }
 

@@ -61,7 +61,7 @@ function back.draw()
 
     gc_setLineWidth(6)
     gc_setColor(.8,.9,1,.3)
-    for i=1,#SVG_TITLE_FAN do gc_polygon('line',SVG_TITLE_FAN[i])end
+    for i=1,#SVG_TITLE_FAN do gc_polygon('line',SVG_TITLE_FAN[i]) end
 
     gc_setLineWidth(2)
     gc_setColor(1,.5,.7,.3)

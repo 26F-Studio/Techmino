@@ -32,7 +32,7 @@ function back.update(dt)
 end
 function back.draw()
     gc.clear(.08,.08,.084)
-    if not stars[1]then return end
+    if not stars[1] then return end
     gc.translate(-10,-10)
     gc.setColor(1,1,1,.6)
     for i=1,1260,5 do

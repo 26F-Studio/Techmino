@@ -542,7 +542,7 @@ return{
     getTip=function()
         local L="!@#$%^&*()-=_+[]{}\\|;:\'\",<.>/?"
         local s=""
-        for _=1,math.random(16,26)do
+        for _=1,math.random(16,26) do
             local p=math.random(#L)
             s=s..L:sub(p,p)
         end

@@ -7,13 +7,13 @@ local timer
 function scene.sceneInit()
     timer=1
     scene.widgetList.pause.x=
-        SETTING.menuPos=='right'and 1195 or
-        SETTING.menuPos=='middle'and 860 or
-        SETTING.menuPos=='left'and 190
+        SETTING.menuPos=='right' and 1195 or
+        SETTING.menuPos=='middle' and 860 or
+        SETTING.menuPos=='left' and 190
 end
 
 function scene.keyDown(key)
-    if key=='escape'then
+    if key=='escape' then
         pauseGame()
     end
 end

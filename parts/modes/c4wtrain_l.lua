@@ -6,9 +6,9 @@ return{
         eventSet='c4wBase',
         bg='rgb',bgm='oxygen',
     },
-    score=function(P)return{math.min(P.modeData.maxCombo,100),P.stat.time}end,
-    scoreDisp=function(D)return D[1].." Combo   "..STRING.time(D[2])end,
-    comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
+    score=function(P) return{math.min(P.modeData.maxCombo,100),P.stat.time} end,
+    scoreDisp=function(D) return D[1].." Combo   "..STRING.time(D[2]) end,
+    comp=function(a,b) return a[1]>b[1] or a[1]==b[1] and a[2]<b[2] end,
     getRank=function(P)
         local L=P.modeData.maxCombo
         if L==100 then

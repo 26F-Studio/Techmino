@@ -9,11 +9,11 @@ local studioLogo--Studio logo text object
 local logoColor1,logoColor2
 
 local titleTransform={
-    function(t)GC.translate(0,max(50-t,0)^2/25)end,
-    function(t)GC.translate(0,-max(50-t,0)^2/25)end,
-    function(t,i)local d=max(50-t,0)GC.translate(sin(TIME()*3+626*i)*d,cos(TIME()*3+626*i)*d)end,
-    function(t,i)local d=max(50-t,0)GC.translate(sin(TIME()*3+626*i)*d,-cos(TIME()*3+626*i)*d)end,
-    function(t)GC.setColor(1,1,1,min(t*.02,1)+math.random()*.2)end,
+    function(t) GC.translate(0,max(50-t,0)^2/25) end,
+    function(t) GC.translate(0,-max(50-t,0)^2/25) end,
+    function(t,i) local d=max(50-t,0)GC.translate(sin(TIME()*3+626*i)*d,cos(TIME()*3+626*i)*d) end,
+    function(t,i) local d=max(50-t,0)GC.translate(sin(TIME()*3+626*i)*d,-cos(TIME()*3+626*i)*d) end,
+    function(t) GC.setColor(1,1,1,min(t*.02,1)+math.random()*.2) end,
 }
 
 local loadingThread=coroutine.wrap(function()
@@ -32,7 +32,7 @@ local loadingThread=coroutine.wrap(function()
     coroutine.yield('loadSample')SFX.loadSample{name='lead',path='media/sample/lead',base='A3'}--A3~A5
     coroutine.yield('loadSample')SFX.loadSample{name='bell',path='media/sample/bell',base='A4'}--A4~A6
     coroutine.yield('loadVoice')VOC.load('media/vocal/'..SETTING.vocPack..'/')
-    coroutine.yield('loadFont')for i=1,17 do getFont(15+5*i)getFont(15+5*i,'mono')end
+    coroutine.yield('loadFont') for i=1,17 do getFont(15+5*i)getFont(15+5*i,'mono') end
 
     coroutine.yield('loadModeIcon')
     local modeIcons={}
@@ -93,8 +93,8 @@ local loadingThread=coroutine.wrap(function()
 
     coroutine.yield('loadMode')
     for _,M in next,MODES do
-        M.records=loadFile("record/"..M.name..".rec",'-luaon -canSkip')or M.score and{}
-        M.icon=M.icon and(modeIcons[M.icon]or GC.newImage("media/image/modeicon/"..M.icon..".png"))
+        M.records=loadFile("record/"..M.name..".rec",'-luaon -canSkip') or M.score and{}
+        M.icon=M.icon and (modeIcons[M.icon] or GC.newImage("media/image/modeicon/"..M.icon..".png"))
     end
 
     coroutine.yield('loadOther')
@@ -115,7 +115,7 @@ function scene.sceneInit()
     progress=0
     maxProgress=10
     t1,t2=0,0--Timer
-    animeType={}for i=1,#SVG_TITLE_FILL do animeType[i]=math.random(#titleTransform)end--Random animation type
+    animeType={} for i=1,#SVG_TITLE_FILL do animeType[i]=math.random(#titleTransform) end--Random animation type
 end
 function scene.sceneBack()
     love.event.quit()
@@ -127,13 +127,13 @@ function scene.mouseDown()
             SCN.push('main')
             SCN.swapTo('lang')
         else
-            SCN.swapTo(SETTING.simpMode and'main_simple'or'main')
+            SCN.swapTo(SETTING.simpMode and 'main_simple' or 'main')
         end
     end
 end
 scene.touchDown=scene.mouseDown
 function scene.keyDown(key)
-    if key=='escape'then
+    if key=='escape' then
         love.event.quit()
     else
         scene.mouseDown()
@@ -177,19 +177,19 @@ function scene.draw()
             end
             GC.setColor(1,1,1,min(t*.025,1))
             GC.polygon('line',SVG_TITLE_LINE[i])
-            if i==8 then GC.polygon('line',SVG_TITLE_LINE[9])end
+            if i==8 then GC.polygon('line',SVG_TITLE_LINE[9]) end
             GC.pop()
         end
     end
     GC.pop()
 
     GC.setColor(logoColor1[1],logoColor1[2],logoColor1[3],progress/maxProgress)mDraw(studioLogo,640,400)
-    GC.setColor(logoColor2[1],logoColor2[2],logoColor2[3],progress/maxProgress)for dx=-2,2,2 do for dy=-2,2,2 do mDraw(studioLogo,640+dx,400+dy)end end
+    GC.setColor(logoColor2[1],logoColor2[2],logoColor2[3],progress/maxProgress) for dx=-2,2,2 do for dy=-2,2,2 do mDraw(studioLogo,640+dx,400+dy) end end
     GC.setColor(.2,.2,.2,progress/maxProgress)mDraw(studioLogo,640,400)
 
     GC.setColor(COLOR.Z)
     setFont(30)
-    GC.mStr(text.loadText[loading]or"",640,530)
+    GC.mStr(text.loadText[loading] or "",640,530)
 end
 
 return scene

@@ -3,10 +3,10 @@ return{
     env={
         drop=20,lock=60,
         sequence=function(P)
-            for _=1,3 do P:getNext(7)end
+            for _=1,3 do P:getNext(7) end
             while true do
                 coroutine.yield()
-                if not P.nextQueue[1]then
+                if not P.nextQueue[1] then
                     local height=TABLE.new(0,10)
                     local max=#P.field
                     if max>0 then
@@ -44,7 +44,7 @@ return{
                             if tempDeltaHei<-2 and deltaHei>2 then
                                 break
                             elseif x==11 then
-                                for _=1,3 do ins(wei,7)end
+                                for _=1,3 do ins(wei,7) end
                             else
                                 tempDeltaHei=deltaHei
                             end
@@ -62,10 +62,10 @@ return{
                             end
                         end
                         if flatCount<3 then
-                            for _=1,3 do ins(wei,6)end
+                            for _=1,3 do ins(wei,6) end
                         end
                         if stairCount<3 then
-                            for _=1,4 do ins(wei,5)end
+                            for _=1,4 do ins(wei,5) end
                         end
                     end
                     P:getNext(wei[P.seqRND:random(#wei)])
@@ -78,9 +78,9 @@ return{
         eventSet='checkLine_100',
         bg='blockfall',bgm='reason',
     },
-    score=function(P)return{math.min(P.stat.row,100),P.stat.time}end,
-    scoreDisp=function(D)return D[1].." Lines   "..STRING.time(D[2])end,
-    comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
+    score=function(P) return{math.min(P.stat.row,100),P.stat.time} end,
+    scoreDisp=function(D) return D[1].." Lines   "..STRING.time(D[2]) end,
+    comp=function(a,b) return a[1]>b[1] or a[1]==b[1] and a[2]<b[2] end,
     getRank=function(P)
         local L=P.stat.row
         if L>=100 then
