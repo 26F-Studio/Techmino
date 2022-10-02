@@ -7,15 +7,15 @@ local setFont,mStr=FONT.set,GC.mStr
 local scene={}
 
 local page
-local timer1,timer2--Animation timer
-local form--Form of clear & spins
-local radar--Radar chart
-local val--Radar chart normalizer
-local standard--Standard hexagon
-local chartColor--Color of radar chart
-local rank--Current rank
-local trophy--Current trophy
-local trophyColor--Current trophy color
+local timer1,timer2-- Animation timer
+local form-- Form of clear & spins
+local radar-- Radar chart
+local val-- Radar chart normalizer
+local standard-- Standard hexagon
+local chartColor-- Color of radar chart
+local rank-- Current rank
+local trophy-- Current trophy
+local trophyColor-- Current trophy color
 
 function scene.sceneInit()
     page=0
@@ -41,18 +41,18 @@ function scene.sceneInit()
         ("%d/%d ; %d/%d"):format(S.b2b,S.b3b,S.pc,S.hpc),
         ("%d/%dx/%.2f%%"):format(S.extraPiece,S.maxFinesseCombo,S.finesseRate*20/S.piece),
     }
-    --From right-down, 60 degree each
+    -- From right-down, 60 degree each
     radar={
-        (S.off+S.dig)/S.time*60,--DefPM
-        (S.atk+S.dig)/S.time*60,--ADPM
-        S.atk/S.time*60,        --AtkPM
-        S.send/S.time*60,       --SendPM
-        S.piece/S.time*24,      --Line'PM
-        S.dig/S.time*60,        --DigPM
+        (S.off+S.dig)/S.time*60,-- DefPM
+        (S.atk+S.dig)/S.time*60,-- ADPM
+        S.atk/S.time*60,        -- AtkPM
+        S.send/S.time*60,       -- SendPM
+        S.piece/S.time*24,      -- Line'PM
+        S.dig/S.time*60,        -- DigPM
     }
     val={1/80,1/160,1/120,1/80,1/100,1/40}
 
-    --Normalize Values
+    -- Normalize Values
     for i=1,6 do
         val[i]=val[i]*radar[i] if val[i]>1.26 then val[i]=1.26+log(val[i]-.26) end
     end
@@ -70,9 +70,9 @@ function scene.sceneInit()
             break
         end
     end
-    if f==1 then     chartColor,f={.4,.9,.5},1.25--Vegetable
-    elseif f==2 then chartColor,f={.4,.7,.9},1   --Normal
-    elseif f==3 then chartColor,f={1,.3,.3},.626 --Diao
+    if f==1 then     chartColor,f={.4,.9,.5},1.25-- Vegetable
+    elseif f==2 then chartColor,f={.4,.7,.9},1   -- Normal
+    elseif f==3 then chartColor,f={1,.3,.3},.626 -- Diao
     end
     standard={
         120*.5*f, 120*3^.5*.5*f,
@@ -187,7 +187,7 @@ function scene.draw()
         SCN.scenes.game.draw()
     end
 
-    --Dark BG
+    -- Dark BG
     local _=timer1
     if GAME.result then _=_*.76 end
     gc.setColor(.12,.12,.12,_)
@@ -197,13 +197,13 @@ function scene.draw()
 
     gc.setColor(.97,.97,.97,timer1)
 
-    --Result Text
+    -- Result Text
     mDraw(GAME.result and TEXTOBJ[GAME.result] or TEXTOBJ.pause,640,70-10*(5-timer1*5)^1.5)
 
-    --Mode Info (outside)
+    -- Mode Info (outside)
     gc.draw(TEXTOBJ.modeName,745-TEXTOBJ.modeName:getWidth(),143)
 
-    --Level rank
+    -- Level rank
     if RANK_CHARS[GAME.rank] then
         gc.push('transform')
             gc.translate(1050,5)
@@ -221,13 +221,13 @@ function scene.draw()
         mDraw(tasText,870,395,.3,2.6)
     end
 
-    --Big info frame
+    -- Big info frame
     if PLAYERS[1].frameRun>=180 then
         gc.push('transform')
         gc.translate(560,205)
         gc.setLineWidth(2)
 
-        --Pause Info (outside)
+        -- Pause Info (outside)
         setFont(25)
         if GAME.pauseCount>0 then
             gc.setColor(.97,.97,.97,timer1*.06)
@@ -237,20 +237,20 @@ function scene.draw()
             mStr(("%s:[%d] %.2fs"):format(text.pauseCount,GAME.pauseCount,GAME.pauseTime),305,389)
         end
 
-        --Pages
+        -- Pages
         if page==0 then
-            --Frame
+            -- Frame
             gc.setColor(.97,.97,.97,timer2*.06)
             gc.rectangle('fill',-5,-5,620,380,8)
             gc.setColor(.97,.97,.97,timer2)
             gc.rectangle('line',-5,-5,620,380,8)
 
-            --Game statistics
+            -- Game statistics
             gc.push('transform')
             gc.scale(.85)
             gc.setLineWidth(2)
 
-            --Stats
+            -- Stats
             _=form
             setFont(30)
             gc.setColor(.97,.97,.97,timer2)
@@ -259,7 +259,7 @@ function scene.draw()
                 gc.printf(_[i],210,43*(i-1)+2,500,'right')
             end
 
-            --Finesse rank & trophy
+            -- Finesse rank & trophy
             if rank then
                 setFont(40)
                 gc.setColor(.7,.7,.7,timer2)
@@ -272,12 +272,12 @@ function scene.draw()
             end
             gc.pop()
         elseif page==1 then
-            --Radar Chart
+            -- Radar Chart
             gc.setLineWidth(1)
             gc.push('transform')
             gc.translate(310,185)
 
-            --Polygon
+            -- Polygon
             gc.push('transform')
                 gc.scale((3-2*timer2)*timer2)
                 gc.setColor(.97,.97,.97,timer2*(.5+.3*sin(TIME()*6.26)))
@@ -294,7 +294,7 @@ function scene.draw()
                 gc.line(val[11],val[12],val[1],val[2])
             gc.pop()
 
-            --Texts
+            -- Texts
             local C
             _=TIME()%6.2832
             if _>3.142 then
@@ -314,7 +314,7 @@ function scene.draw()
         gc.pop()
     end
 
-    --Mods
+    -- Mods
     gc.push('transform')
     gc.translate(131,600)
     gc.scale(.65)

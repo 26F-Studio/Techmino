@@ -84,7 +84,7 @@ return{
         "https://knewjade.github.io/fumen-for-mobile/"
     },
 
-    --相关网页/组织
+    -- 相关网页/组织
     {"GitHub仓库",
         "源代码 源码 github git sourcecode yuandaima src",
         "org",
@@ -126,7 +126,7 @@ return{
         FNNS and "https://b23.tv/BV1uT4y1P7CX" or "https://www.p\97\116\114\101\111\110.com/techmino",
     },
 
-    --游戏（题库）
+    -- 游戏（题库）
     {"TTT",
         "教程 trainer tres bien",
         "game",
@@ -152,7 +152,7 @@ return{
         "http://121.36.2.245:3000/tpo"
     },
 
-    --游戏（网页）
+    -- 游戏（网页）
     {"注[1]",
         "备注 notice",
         "game",
@@ -228,7 +228,7 @@ return{
         "网页游戏 | 单机\ntetris.com官网上的俄罗斯方块，在马拉松基础上添加了技能，场地上会随机冒出技能方块，消除后会得到各种各样或好或坏的技能。",
     },
 
-    --游戏（跨平台）
+    -- 游戏（跨平台）
     {"Techmino",
         "铁壳米诺 方块研究所 tieke",
         "game",
@@ -250,7 +250,7 @@ return{
         "Windows/Android | 单机\n块圈玩家自制方块，正在开发中，有一个原创旋转系统。",
     },
 
-    --游戏（街机/类街机）
+    -- 游戏（街机/类街机）
     {"TGM",
         "俄罗斯方块大师 tetrisgrandmaster",
         "game",
@@ -273,7 +273,7 @@ return{
         "Windows | 单机\n简称Tex，包含TGM的所有模式，可以用来练习TGM，但World规则不完全一样（如软降到底无锁延，踢墙表有细节不同等）。",
     },
 
-    --游戏（其他）
+    -- 游戏（其他）
     {"Tetris Effect",
         "效应 tec tetriseffectconnected xiaoyinglianjie",
         "game",
@@ -356,7 +356,7 @@ return{
         "Windows | 多人\n腾讯游戏大厅的方块，场地12列，打字的 DAS 和 ARR，1 Next无 Hold，攻击途径只有消4打3、 消3打2，垃圾行为国际象棋棋盘式，几乎不可能挖掘。",
     },
 
-    --术语（缩写）
+    -- 术语（缩写）
     {"LPM",
         "速度 sudu",
         "term",
@@ -413,7 +413,7 @@ return{
         "Attack Per Line\n攻击每行，也叫效率，体现玩家攻击的行利用率。例如消四和T旋的效率就比消二和消三高。",
     },
 
-    --术语（消除名）
+    -- 术语（消除名）
     {"Single",
         "1 xiaoyi",
         "term",
@@ -450,7 +450,7 @@ return{
         "Half-PC\nPC（全消）的外延，“下方有剩余方块” 的全消（特别地，如果只消1行则必须不剩余玩家放置的方块），能打出一些攻击和防御（Techmino限定）。",
     },
 
-    --术语（旋转相关）
+    -- 术语（旋转相关）
     {"Spin",
         "转 xuanzhuan zuandong",
         "term",
@@ -578,7 +578,7 @@ return{
         "X Rotation System\nT-ex原创旋转系统，引入了 “按住方向键换一套踢墙表” 的设定（在对应的方向需要顶住墙），让 “想去哪” 能被游戏捕获从而转到玩家希望到达的位置。\n\n其他旋转系统无论踢墙表怎么设计，块处在某个位置时旋转后最终只能按固定顺序测试，这导致不同的踢墙是竞争的，若存在两个可能想去的位置就只能二选一，XRS解决了这个问题。",
     },
 
-    --术语（其他）
+    -- 术语（其他）
     {"B2B",
         "大满贯 btb backtoback",
         "term",
@@ -903,7 +903,7 @@ return{
     {"C2序列",
         "seq",
         "term",
-        "（七个块初始权重设为0）\n要取块的时候，\n先把七个数都除以2然后加上0~1的随机数，\n最大的数字是第几个的就出对应的块，然后将其权重除以3.5\n循环。",--Discovered by zxc
+        "（七个块初始权重设为0）\n要取块的时候，\n先把七个数都除以2然后加上0~1的随机数，\n最大的数字是第几个的就出对应的块，然后将其权重除以3.5\n循环。",-- Discovered by zxc
     },
     {"堆叠(Stack)",
         "duidie stacking",
@@ -972,7 +972,7 @@ return{
         "一个AI的名字（就跟AlphaGo一样）\n由研究群群友奏之章开发，重新调参后在各个游戏平台上的表现都很不错。",
     },
 
-    --定式
+    -- 定式
     {"开局定式(Setup)",
         "opening kaijudingshi opener",
         "setup",
@@ -1086,7 +1086,7 @@ return{
         HDsearch.."Gamushiro_Stacking",
     },
 
-    --形状
+    -- 形状
     {"中局定式",
         "setup dingshi",
         "pattern",
@@ -1171,7 +1171,7 @@ return{
         "https://four.lol/perfect-clears/5th"
     },
 
-    --存档管理
+    -- 存档管理
     {"控制台",
         "console cmd commamd minglinghang kongzhitai",
         "command",
@@ -1213,7 +1213,7 @@ return{
         "前往控制台输入 “rm -s cache” 并回车。\n立即生效。",
     },
 
-    --英文
+    -- 英文
     {"SFX",
         "",
         "english",

@@ -130,15 +130,15 @@ scene.touchUp=scene.mouseDown
 
 function scene.draw()
     gc.push('transform')
-    --origin pos:0,140; scale:4
+    -- origin pos:0,140; scale:4
     gc.translate(280,0)
     gc.scale(8)
 
-    --Draw board
+    -- Draw board
     gc.setColor(COLOR.dX)
     gc.rectangle('fill',0,0,90,90)
 
-    --Draw target area
+    -- Draw target area
     gc.setColor(1,1,1,math.sin((TIME()-placeTime)*5)*.1+.15)
     if target then
         gc.rectangle('fill',(target-1)%3*30,int((target-1)/3)*30,30,30)
@@ -146,7 +146,7 @@ function scene.draw()
         gc.rectangle('fill',0,0,90,90)
     end
 
-    --Draw cursor
+    -- Draw cursor
     if curX then
         gc.setColor(1,1,1,.3)
         gc.rectangle('fill',(curX-1)%3*30+(curx-1)%3*10-.5,int((curX-1)/3)*30+int((curx-1)/3)*10-.5,11,11)
@@ -181,7 +181,7 @@ function scene.draw()
         end
     end
 
-    --Draw board line
+    -- Draw board line
     gc.setLineWidth(.8)
     for x=0,9 do
         gc.setColor(1,1,1,x%3==0 and 1 or .3)
@@ -189,7 +189,7 @@ function scene.draw()
         gc.line(0,10*x,90,10*x)
     end
 
-    --Draw last pos
+    -- Draw last pos
     if lastX then
         gc.setColor(.5,1,.4,.8)
         local r=.5+.5*math.sin(TIME()*6.26)
@@ -198,7 +198,7 @@ function scene.draw()
     gc.pop()
 
     if gameover then
-        --Draw result
+        -- Draw result
         FONT.set(60)
         if gameover==0 then
             gc.setColor(1,.6,.6)
@@ -211,7 +211,7 @@ function scene.draw()
             GC.mStr("TIE",1140,240)
         end
     else
-        --Draw current round mark
+        -- Draw current round mark
         gc.setColor(COLOR.X)
         gc.rectangle('fill',80,80,160,160)
         gc.setColor(COLOR.Z)

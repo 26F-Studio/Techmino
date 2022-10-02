@@ -20,7 +20,7 @@ local keyTime
 local speed,maxSpeed
 local arcade,rollSpeed
 
-local reset=error--function, defined later
+local reset=error-- function, defined later
 
 local bgm="secret7th"
 local tileColor="black"
@@ -134,37 +134,37 @@ local generator={
     Singlestream=function()
         ins(pos,get1(pos[#pos] or 0))
     end,
-    Light_Jumpstream=function()--2111
+    Light_Jumpstream=function()-- 2111
         ins(pos,get2(pos[#pos] or 0))
         ins(pos,get1(pos[#pos]))
         ins(pos,get1(pos[#pos]))
         ins(pos,get1(pos[#pos]))
     end,
-    Dense_Jumpstream=function()--2121
+    Dense_Jumpstream=function()-- 2121
         ins(pos,get2(pos[#pos] or 0))
         ins(pos,get1(pos[#pos]))
         ins(pos,get2(pos[#pos]))
         ins(pos,get1(pos[#pos]))
     end,
-    Light_Handstream=function()--3111
+    Light_Handstream=function()-- 3111
         ins(pos,get3(pos[#pos] or 0))
         ins(pos,get1(pos[#pos]))
         ins(pos,get1(pos[#pos]))
         ins(pos,get1(pos[#pos]))
     end,
-    Dense_Handstream=function()--3121
+    Dense_Handstream=function()-- 3121
         ins(pos,get3(pos[#pos] or 0))
         ins(pos,get1(pos[#pos]))
         ins(pos,get2(pos[#pos]))
         ins(pos,get1(pos[#pos]))
     end,
-    Light_Quadstream=function()--4111
+    Light_Quadstream=function()-- 4111
         ins(pos,1234)
         ins(pos,get1(pos[#pos-1] or 0))
         ins(pos,get1(pos[#pos]))
         ins(pos,get1(pos[#pos]))
     end,
-    Quadstream=function()--4121
+    Quadstream=function()-- 4121
         ins(pos,1234)
         ins(pos,get1(pos[#pos-1] or 0))
         ins(pos,get2(pos[#pos]))
@@ -306,36 +306,36 @@ local function boardStencil() gc.rectangle('fill',300,0,680,720) end
 function scene.draw()
     setFont(50)
     if arcade then
-        --Draw rolling speed
+        -- Draw rolling speed
         mStr(("%.2f/s"):format(rollSpeed/2),155,490)
     else
-        --Draw speed
+        -- Draw speed
         setFont(45)
         gc.setColor(1,.6,.6)
         mStr(("%.2f"):format(maxSpeed/60),155,460)
         gc.setColor(COLOR.Z)
         mStr(("%.2f"):format(speed/60),155,520)
 
-        --Progress time list
+        -- Progress time list
         setFont(30)
         gc.setColor(.6,.6,.6)
         for i=1,#progress do
             gc.print(progress[i],1030,120+25*i)
         end
 
-        --Draw time
+        -- Draw time
         gc.setColor(COLOR.Z)
         setFont(45)
         gc.print(("%.3f"):format(time),1030,70)
     end
 
-    --Draw mode
+    -- Draw mode
     if state~=0 then
         gc.setColor(COLOR.Z)
         setFont(30)mStr(mode,155,212)
     end
 
-    --Draw tiles
+    -- Draw tiles
     gc.stencil(boardStencil)
     gc.setStencilTest('equal',1)
     gc.rectangle('fill',300,0,680,720)
@@ -351,7 +351,7 @@ function scene.draw()
     end
     gc.pop()
     gc.setStencilTest()
-    --Draw track line
+    -- Draw track line
     gc.setColor(COLOR.D)
     gc.setLineWidth(2)
     for x=1,5 do
@@ -363,13 +363,13 @@ function scene.draw()
         gc.line(300,y,980,y)
     end
 
-    --Draw red tile
+    -- Draw red tile
     if diePos then
         gc.setColor(1,.2,.2)
         gc.rectangle('fill',130+170*diePos+8,600-height+8,170-16,120-16)
     end
 
-    --Draw score
+    -- Draw score
     setFont(100)
     gc.push('transform')
     gc.translate(640,26)

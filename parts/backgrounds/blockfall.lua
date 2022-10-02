@@ -1,4 +1,4 @@
---Large falling tetrominoes
+-- Large falling tetrominoes
 local gc=love.graphics
 local gc_clear=gc.clear
 local gc_setColor,gc_draw=gc.setColor,gc.draw

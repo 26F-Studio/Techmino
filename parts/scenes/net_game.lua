@@ -249,13 +249,13 @@ function scene.update(dt)
         touchMoveLastFrame=false
         VK.update(dt)
 
-        --Update players
+        -- Update players
         for p=1,#PLAYERS do PLAYERS[p]:update(dt) end
 
-        --Warning check
+        -- Warning check
         checkWarning(dt)
 
-        --Upload stream
+        -- Upload stream
         if not NET.spectate and P1.frameRun-lastUpstreamTime>8 then
             local stream
             if not GAME.rep[upstreamProgress] then
@@ -281,15 +281,15 @@ end
 
 function scene.draw()
     if playing then
-        --Players
+        -- Players
         for p=1,#PLAYERS do
             PLAYERS[p]:draw()
         end
 
-        --Virtual keys
+        -- Virtual keys
         VK.draw()
 
-        --Warning
+        -- Warning
         drawWarning()
 
         if NET.spectate then
@@ -298,10 +298,10 @@ function scene.draw()
             gc_print(text.spectating,940,0)
         end
     else
-        --Users
+        -- Users
         NETPLY.draw()
 
-        --Ready & Set mark
+        -- Ready & Set mark
         setFont(50)
         if NET.roomReadyState=='allReady' then
             gc_setColor(1,.85,.6,.9)
@@ -314,7 +314,7 @@ function scene.draw()
             mStr(text.waitStream,640,15)
         end
 
-        --Room info.
+        -- Room info.
         gc_setColor(1,1,1)
         setFont(25)
         gc_printf(NET.roomState.info.name,0,685,1270,'right')
@@ -327,14 +327,14 @@ function scene.draw()
             gc_setColor(0,1,0)gc_print(text.started,230,655)
         end
 
-        --Profile
+        -- Profile
         drawSelfProfile()
 
-        --Player count
+        -- Player count
         drawOnlinePlayerCount()
     end
 
-    --New message
+    -- New message
     if newMessageTimer>0 then
         setFont(40)
         gc_setColor(.3,.7,1,(newMessageTimer/60)^2)

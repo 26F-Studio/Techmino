@@ -5,7 +5,7 @@ local NET={
     accessToken=false,
     cloudData={},
 
-    roomState={--A copy of room structure on server
+    roomState={-- A copy of room structure on server
         info={
             name=false,
             type=false,
@@ -17,8 +17,8 @@ local NET={
         private=false,
         start=false,
     },
-    spectate=false,--If player is spectating
-    specSRID=false,--Cached SRID when enter playing room, for connect WS after scene swapped
+    spectate=false,-- If player is spectating
+    specSRID=false,-- Cached SRID when enter playing room, for connect WS after scene swapped
     seed=false,
 
     roomReadyState=false,
@@ -293,18 +293,16 @@ local function wsSend(act,data)
     })
 end
 
---Room
+-- Room
 NET.room={}
 function NET.room.chat(mes,rid)
     wsSend(1300,{
         message=mes,
-        roomId=rid,--Admin
+        roomId=rid,-- Admin
     })
 end
 function NET.room.create(roomName,description,capacity,roomType,roomData,password)
-    if not TASK.lock('enterRoom',2) then return end
-    NET.roomState.private=not not password
-    NET.roomState.capacity=capacity
+    if not TASK.lock('enterRoom',6) then return end
     wsSend(1301,{
         capacity=capacity,
         info={
@@ -314,84 +312,86 @@ function NET.room.create(roomName,description,capacity,roomType,roomData,passwor
             description=description,
         },
         data=roomData,
-
         password=password,
     })
+    WAIT{
+        quit=function()
+            TASK.unlock('enterRoom')
+        end,
+        timeout=1e99,
+    }
 end
 function NET.room.getData(rid)
     wsSend(1302,{
-        roomId=rid,--Admin
+        roomId=rid,-- Admin
     })
 end
 function NET.room.setData(data,rid)
     wsSend(1303,{
         data=data,
-        roomId=rid,--Admin
+        roomId=rid,-- Admin
     })
 end
 function NET.room.getInfo(rid)
     wsSend(1304,{
-        roomId=rid,--Admin
+        roomId=rid,-- Admin
     })
 end
 function NET.room.setInfo(info,rid)
     wsSend(1305,{
         info=info,
-        roomId=rid,--Admin
+        roomId=rid,-- Admin
     })
 end
 function NET.room.enter(rid,password)
-    if TASK.lock('enterRoom',6) then
-        SFX.play('reach',.6)
-        wsSend(1306,{
-            data={
-                roomId=rid,
-                password=password,
-            }
-        })
-    end
+    if not TASK.lock('enterRoom',6) then return end
+    SFX.play('reach',.6)
+    wsSend(1306,{
+        data={
+            roomId=rid,
+            password=password,
+        }
+    })
 end
 function NET.room.kick(pid,rid)
     wsSend(1307,{
-        playerId=pid,--Host
-        roomId=rid,--Admin
+        playerId=pid,-- Host
+        roomId=rid,-- Admin
     })
 end
 function NET.room.leave()
     wsSend(1308)
 end
 function NET.room.fetch()
-    if TASK.lock('fetchRoom',3) then
-        wsSend(1309,{
-            data={
-                pageIndex=0,
-                pageSize=26,
-            }
-        })
-    end
+    if not TASK.lock('fetchRoom',3) then return end
+    wsSend(1309,{
+        data={
+            pageIndex=0,
+            pageSize=26,
+        }
+    })
 end
 function NET.room.setPW(pw,rid)
-    if TASK.lock('fetchRoom',3) then
-        wsSend(1310,{
-            data={
-                password=pw,
-                roomId=rid,--Admin
-            }
-        })
-    end
+    if not TASK.lock('setRoomPW',2) then return end
+    wsSend(1310,{
+        data={
+            password=pw,
+            roomId=rid,-- Admin
+        }
+    })
 end
 function NET.room.remove(rid)
     wsSend(1311,{
-        roomId=rid--Admin
+        roomId=rid-- Admin
     })
 end
 
---Player
+-- Player
 NET.player={}
 function NET.player.updateConf()
     wsSend(1200,dumpBasicConfig())
 end
-function NET.player.finish(mes)--what mes?
+function NET.player.finish(mes)-- what mes?
     wsSend(1201,mes)
 end
 function NET.player.joinGroup(gid)
@@ -416,7 +416,7 @@ function NET.player.setPlaying(playing)
     wsSend(1207,playing and 'Gamer' or 'Spectator')
 end
 
---WS
+-- WS
 function NET.connectWS()
     if WS.status('game')=='dead' then
         WS.connect('game','',{['x-access-token']=USER.aToken},6)
@@ -450,26 +450,34 @@ function NET.updateWS()
                     elseif res.action==1100 then-- TODO
                     elseif res.action==1101 then-- TODO
                     elseif res.action==1102 then-- TODO
-                    elseif res.action==1201 then-- TODO
-                    elseif res.action==1202 then-- TODO
-                    elseif res.action==1203 then-- TODO
-                    elseif res.action==1204 then-- TODO
-                    elseif res.action==1205 then-- TODO
-                    elseif res.action==1206 then-- TODO
-                    elseif res.action==1207 then-- TODO
-                    elseif res.action==1301 then-- TODO
-                    elseif res.action==1302 then-- TODO
-                    elseif res.action==1303 then-- TODO
-                    elseif res.action==1304 then-- TODO
-                    elseif res.action==1305 then-- TODO
-                    elseif res.action==1306 then-- TODO
-                    elseif res.action==1307 then-- TODO
-                    elseif res.action==1308 then-- TODO
-                    elseif res.action==1309 then--Fetch rooms
+                    elseif res.action==1201 then-- Finish
+                    elseif res.action==1202 then-- Join group
+                    elseif res.action==1203 then-- Set ready
+                    elseif res.action==1204 then-- Set host
+                    elseif res.action==1205 then-- Set state
+                    elseif res.action==1206 then-- Stream
+                    elseif res.action==1207 then-- Set playing
+                    elseif res.action==1301 then-- Create room
+                        TASK.unlock('enterRoom')
+                        -- NET.roomState=...
+                        -- SCN.go('net_game')
+                        WAIT.interrupt()
+                    elseif res.action==1302 then-- Get room data
+                    elseif res.action==1303 then-- Set room data
+                    elseif res.action==1304 then-- Get room info
+                    elseif res.action==1305 then-- Set room info
+                    elseif res.action==1306 then-- Enter room
+                        TASK.unlock('enterRoom')
+                        -- NET.roomState=...
+                        -- SCN.go('net_game')
+                        WAIT.interrupt()
+                    elseif res.action==1307 then-- Kick room
+                    elseif res.action==1308 then-- Leave room
+                    elseif res.action==1309 then-- Fetch rooms
                         TASK.unlock('fetchRoom')
                         if res.data then SCN.scenes.net_rooms.widgetList.roomList:setList(res.data) end
-                    elseif res.action==1310 then-- TODO
-                    elseif res.action==1311 then-- TODO
+                    elseif res.action==1310 then-- Set password
+                    elseif res.action==1311 then-- Remove room
                     end
                 else
                     WS.alert('user')
@@ -480,7 +488,7 @@ function NET.updateWS()
 end
 
 --------------------------<OLD ONLINE API>
---Account & User
+-- Account & User
 function NET.getUserInfo(uid)
     wsSend({
         data={
@@ -490,26 +498,24 @@ function NET.getUserInfo(uid)
     })
 end
 
---Save
+-- Save
 function NET.uploadSave()
-    if TASK.lock('uploadSave',8) then
-        wsSend({data={sections={
-            {section=1,data=STRING.packTable(STAT)},
-            {section=2,data=STRING.packTable(RANKS)},
-            {section=3,data=STRING.packTable(SETTING)},
-            {section=4,data=STRING.packTable(KEY_MAP)},
-            {section=5,data=STRING.packTable(VK_ORG)},
-            {section=6,data=STRING.packTable(loadFile('conf/vkSave1','-canSkip') or{})},
-            {section=7,data=STRING.packTable(loadFile('conf/vkSave2','-canSkip') or{})},
-        }}})
-        MES.new('info',"Uploading")
-    end
+    if not TASK.lock('uploadSave',8) then return end
+    wsSend({data={sections={
+        {section=1,data=STRING.packTable(STAT)},
+        {section=2,data=STRING.packTable(RANKS)},
+        {section=3,data=STRING.packTable(SETTING)},
+        {section=4,data=STRING.packTable(KEY_MAP)},
+        {section=5,data=STRING.packTable(VK_ORG)},
+        {section=6,data=STRING.packTable(loadFile('conf/vkSave1','-canSkip') or{})},
+        {section=7,data=STRING.packTable(loadFile('conf/vkSave2','-canSkip') or{})},
+    }}})
+    MES.new('info',"Uploading")
 end
 function NET.downloadSave()
-    if TASK.lock('downloadSave',8) then
-        wsSend({data={sections={1,2,3,4,5,6,7}}})
-        MES.new('info',"Downloading")
-    end
+    if not TASK.lock('downloadSave',8) then return end
+    wsSend({data={sections={1,2,3,4,5,6,7}}})
+    MES.new('info',"Downloading")
 end
 function NET.loadSavedData(sections)
     for _,sec in next,sections do

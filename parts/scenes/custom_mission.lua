@@ -6,8 +6,8 @@ local ins,rem=table.insert,table.remove
 
 local scene={}
 
-local input--Input buffer
-local cur--Cursor position
+local input-- Input buffer
+local cur-- Cursor position
 
 function scene.sceneInit()
     input=""
@@ -72,7 +72,7 @@ function scene.keyDown(key)
         end
     elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
         local str=sys.getClipboardText()
-        local p=str:find(":")--ptr*
+        local p=str:find(":")-- ptr*
         if p then
             if not str:sub(1,p-1):find("Target") then
                 MES.new('error',text.pasteWrongPlace)
@@ -112,22 +112,22 @@ function scene.keyDown(key)
 end
 
 function scene.draw()
-    --Draw frame
+    -- Draw frame
     gc.setLineWidth(2)
     gc.setColor(COLOR.Z)
     gc.rectangle('line',58,108,1164,174,5)
 
-    --Draw inputing target
+    -- Draw inputing target
     setFont(30)
     gc.setColor(.9,.9,.9)
     gc.print(input,1200,275)
 
-    --Draw targets
+    -- Draw targets
     local libColor=BLOCK_COLORS
     local set=SETTING.skin
     local L=MISSION
-    local x,y=100,136--Next block pos
-    local cx,cy=100,136--Cursor-center pos
+    local x,y=100,136-- Next block pos
+    local cx,cy=100,136-- Cursor-center pos
     local i,j=1,#L
     local count=1
     repeat
@@ -169,7 +169,7 @@ function scene.draw()
         i=i+1
     until i>j+1
 
-    --Draw cursor
+    -- Draw cursor
     gc.setColor(1,1,.4,.6+.4*sin(TIME()*6.26))
     gc.line(cx-5,cy-20,cx-5,cy+20)
 end

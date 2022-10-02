@@ -91,7 +91,7 @@ return{
     },
 
 
-    --Webpages / Organizations
+    -- Webpages / Organizations
     {"Github Repository",
         "githubrepository sourcecode src",
         "org",
@@ -134,7 +134,7 @@ return{
         FNNS and "https://youtu.be/dQw4w9WgXcQ" or "https://www.p\97\116\114\101\111\110.com/techmino",
     },
 
-    --Games
+    -- Games
     {"TTT",
         "tetris trainer tres bien",
         "game",
@@ -363,7 +363,7 @@ return{
         "Windows | Multiplayer\n(火拼俄罗斯)\n\nThe Tetris game on Tencent Game Center, 12-wide board, DAS/ARR the same as typing on the keyboard, one Next, no Hold. Can only send garbage through Tetris (sends three lines) and Triple (sends two lines). Garbage is checker-board-shaped and is nearly impossible to dig through.",
     },
 
-    --Terms
+    -- Terms
     {"Translator Note 2",
         "",
         "help",
@@ -448,7 +448,7 @@ return{
     {"Tetris",
         "tetris 4",
         "term",
-        "The name of the game (and its trademark). Also the term for clearing four lines at one time in official games.\nCoined from Tetra (Greek for “four” <τέτταρες>) and Tennis (favorite sport of the creator of Tetris). Also, the Tetris games developed by Nintendo and SEGA were licensed by TTC. These two companies do not have the copyright of Tetris.",--Thanks to Alexey Pajitnov!
+        "The name of the game (and its trademark). Also the term for clearing four lines at one time in official games.\nCoined from Tetra (Greek for “four” <τέτταρες>) and Tennis (favorite sport of the creator of Tetris). Also, the Tetris games developed by Nintendo and SEGA were licensed by TTC. These two companies do not have the copyright of Tetris.",-- Thanks to Alexey Pajitnov!
     },
     {"All Clear",
         "pc perfectclear ac allclear",
@@ -675,7 +675,7 @@ return{
     {"Donation",
         "donate",
         "term",
-        "A method of “plugging” up the Tetris hole to send a T-Spin. After the T-Spin, the Tetris hole is opened up once again to allow the continuation of Tetris or downstacking.\n--Harddrop wiki",
+        "A method of “plugging” up the Tetris hole to send a T-Spin. After the T-Spin, the Tetris hole is opened up once again to allow the continuation of Tetris or downstacking.\n-- Harddrop wiki",
     },
     {"‘Debt’",
         "qianzhai debt owe",
@@ -975,7 +975,7 @@ return{
         "A Tetris bot. Built by the Chinese Tetris player 奏之章 (Zòu Zhī Zhāng, see entry below) and has decent performance in many games",
     },
 
-    --Setups
+    -- Setups
     {"Openers",
         "setup openers",
         "setup",
@@ -1090,7 +1090,7 @@ return{
         HDsearch.."Gamushiro_Stacking",
     },
 
-    --Pattern
+    -- Pattern
     {"Mid-game Setups",
         "midgamesetups",
         "pattern",
@@ -1174,7 +1174,7 @@ return{
         "https://four.lol/perfect-clears/5th",
     },
 
-    --Savedata managing
+    -- Savedata managing
     {"Console",
         "cmd commamd minglinghang kongzhitai terminal",
         "command",
@@ -1216,7 +1216,7 @@ return{
         "Go to console, type “rm -s cache” and then press enter/return.\nTake effect immediately.",
     },
 
-    --English
+    -- English
     {"SFX",
         "soundeffects",
         "english",

@@ -1,6 +1,6 @@
 local scene={}
 
-local selected--Mod selected
+local selected-- Mod selected
 
 local function _modComp(a,b)
     return a.no<b.no
@@ -109,7 +109,7 @@ function scene.draw()
     for _,M in next,MODOPT do
         GC.push('transform')
         GC.translate(M.x,M.y)
-        local t=M.time*.01--t range:0~0.1
+        local t=M.time*.01-- t range:0~0.1
         GC.scale(1+3*t)
         GC.rotate(t)
             local rad,side

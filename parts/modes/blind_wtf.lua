@@ -26,7 +26,7 @@ return{
                     GC.clear(.2,.2,.2)
                     GC.setColor(.5,.5,.5)
 
-                    --Frame & Username
+                    -- Frame & Username
                     GC.setColor(.8,.8,.8)
                     GC.setLineWidth(2)
                     GC.rectangle('line',12,20,100,80,5)
@@ -38,13 +38,13 @@ return{
                 GC.pop()
             end
 
-            --Figures
+            -- Figures
             local t=TIME()
             GC.setColor(1,1,1,.5+.2*sin(t))
             GC.draw(IMG.hbm,-276,-86,0,1.5)
             GC.draw(IMG.electric,476,152,0,2.6)
 
-            --Texts
+            -- Texts
             GC.setColor(.8,.8,.8)
             mText(TEXTOBJ.techrash,63,420)
             setFont(75)

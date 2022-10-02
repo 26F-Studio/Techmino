@@ -1,7 +1,7 @@
 return{
     version=VERSION.code,
 
-    --Basic
+    -- Basic
     drop=1e99,
     lock=1e99,
     wait=0,
@@ -9,17 +9,17 @@ return{
     hang=5,
     hurry=1e99,
 
-    --Control
+    -- Control
     nextCount=6,
     holdMode='hold',
     holdCount=1,
     infHold=true,
     phyHold=false,
 
-    --Visual
+    -- Visual
     bone=false,
 
-    --Rule
+    -- Rule
     sequence='bag',
     lockout=false,
     fieldH=20,
@@ -40,7 +40,7 @@ return{
     garbageSpeed=1,
     missionKill=false,
 
-    --Else
+    -- Else
     bg='blockrain',
     bgm='hang out',
 

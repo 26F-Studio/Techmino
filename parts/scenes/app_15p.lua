@@ -198,31 +198,31 @@ local frontColor={
         COLOR.lG,COLOR.lB,COLOR.lB,COLOR.lB,
         COLOR.lG,COLOR.lY,COLOR.lV,COLOR.lV,
         COLOR.lG,COLOR.lY,COLOR.lV,COLOR.lV,
-    },--Colored(rank)
+    },-- Colored(rank)
     rainbow={
         COLOR.lR,COLOR.lR,COLOR.lR,COLOR.lR,
         COLOR.lO,COLOR.lY,COLOR.lY,COLOR.lY,
         COLOR.lO,COLOR.lG,COLOR.lB,COLOR.lB,
         COLOR.lO,COLOR.lG,COLOR.lB,COLOR.lB,
-    },--Rainbow(rank)
+    },-- Rainbow(rank)
     color2={
         COLOR.lR,COLOR.lR,COLOR.lR,COLOR.lR,
         COLOR.lB,COLOR.lB,COLOR.lB,COLOR.lB,
         COLOR.lG,COLOR.lY,COLOR.lV,COLOR.lV,
         COLOR.lG,COLOR.lY,COLOR.lV,COLOR.lV,
-    },--Colored(row)
+    },-- Colored(row)
     gray={
         COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
         COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
         COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
         COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
-    },--Gray
+    },-- Gray
     black={
         COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
         COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
         COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
         COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
-    },--Black
+    },-- Black
 }
 local backColor={
     color1={
@@ -230,31 +230,31 @@ local backColor={
         COLOR.dG,COLOR.dB,COLOR.dB,COLOR.dB,
         COLOR.dG,COLOR.dY,COLOR.dP,COLOR.dP,
         COLOR.dG,COLOR.dY,COLOR.dP,COLOR.dP,
-    },--Colored(rank)
+    },-- Colored(rank)
     rainbow={
         COLOR.dR,COLOR.dR,COLOR.dR,COLOR.dR,
         COLOR.dO,COLOR.dY,COLOR.dY,COLOR.dY,
         COLOR.dO,COLOR.dG,COLOR.dB,COLOR.dB,
         COLOR.dO,COLOR.dG,COLOR.dB,COLOR.dB,
-    },--Rainbow(rank)
+    },-- Rainbow(rank)
     color2={
         COLOR.dR,COLOR.dR,COLOR.dR,COLOR.dR,
         COLOR.dB,COLOR.dB,COLOR.dB,COLOR.dB,
         COLOR.dG,COLOR.dY,COLOR.dP,COLOR.dP,
         COLOR.dG,COLOR.dY,COLOR.dP,COLOR.dP,
-    },--Colored(row)
+    },-- Colored(row)
     gray={
         COLOR.dH,COLOR.dH,COLOR.dH,COLOR.dH,
         COLOR.dH,COLOR.dH,COLOR.dH,COLOR.dH,
         COLOR.dH,COLOR.dH,COLOR.dH,COLOR.dH,
         COLOR.dH,COLOR.dH,COLOR.dH,COLOR.dH,
-    },--Gray
+    },-- Gray
     black={
         COLOR.D,COLOR.D,COLOR.D,COLOR.D,
         COLOR.D,COLOR.D,COLOR.D,COLOR.D,
         COLOR.D,COLOR.D,COLOR.D,COLOR.D,
         COLOR.D,COLOR.D,COLOR.D,COLOR.D,
-    },--Black
+    },-- Black
 }
 function scene.draw()
     FONT.set(40)
@@ -266,15 +266,15 @@ function scene.draw()
     gc.print(push,1026,180)
 
     if state==2 then
-        --Draw no-setting area
+        -- Draw no-setting area
         gc.setColor(1,0,0,.3)
         gc.rectangle('fill',15,295,285,340)
 
-        gc.setColor(.9,.9,0)--win
+        gc.setColor(.9,.9,0)-- win
     elseif state==1 then
-        gc.setColor(.9,.9,.9)--game
+        gc.setColor(.9,.9,.9)-- game
     elseif state==0 then
-        gc.setColor(.2,.8,.2)--ready
+        gc.setColor(.2,.8,.2)-- ready
     end
     gc.setLineWidth(10)
     gc.rectangle('line',313,33,654,654,18)

@@ -1,6 +1,6 @@
 local gc=love.graphics
 
-local state--0=playing, 1=gameover
+local state-- 0=playing, 1=gameover
 local timeUsed
 local level
 local showNum

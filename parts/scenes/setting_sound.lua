@@ -4,7 +4,7 @@ local sin=math.sin
 
 local scene={}
 
-local last1,last2--Last touch/sound time
+local last1,last2-- Last touch/sound time
 local sfxPack=SETTING.sfxPack
 local vocPack=SETTING.vocPack
 

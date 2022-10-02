@@ -8,15 +8,15 @@ local find=string.find
 
 local scene={}
 
-local dict--Dict list
-local result--Result Lable
+local dict-- Dict list
+local result-- Result Lable
 
 local lastTickInput
-local searchWait--Searching animation timer
-local selected--Selected option
-local scrollPos--Scroll down length
+local searchWait-- Searching animation timer
+local selected-- Selected option
+local scrollPos-- Scroll down length
 
-local lastSearch--Last searched string
+local lastSearch-- Last searched string
 
 local typeColor={
     help=COLOR.Y,

@@ -5,7 +5,7 @@ local scene={}
 local loading
 local progress,maxProgress
 local t1,t2,animeType
-local studioLogo--Studio logo text object
+local studioLogo-- Studio logo text object
 local logoColor1,logoColor2
 
 local titleTransform={
@@ -28,9 +28,9 @@ local loadingThread=coroutine.wrap(function()
     end
     coroutine.yield()
     coroutine.yield('loadSFX')SFX.load('media/effect/'..SETTING.sfxPack..'/')
-    coroutine.yield('loadSample')SFX.loadSample{name='bass',path='media/sample/bass',base='A2'}--A2~A4
-    coroutine.yield('loadSample')SFX.loadSample{name='lead',path='media/sample/lead',base='A3'}--A3~A5
-    coroutine.yield('loadSample')SFX.loadSample{name='bell',path='media/sample/bell',base='A4'}--A4~A6
+    coroutine.yield('loadSample')SFX.loadSample{name='bass',path='media/sample/bass',base='A2'}-- A2~A4
+    coroutine.yield('loadSample')SFX.loadSample{name='lead',path='media/sample/lead',base='A3'}-- A3~A5
+    coroutine.yield('loadSample')SFX.loadSample{name='bell',path='media/sample/bell',base='A4'}-- A4~A6
     coroutine.yield('loadVoice')VOC.load('media/vocal/'..SETTING.vocPack..'/')
     coroutine.yield('loadFont') for i=1,17 do getFont(15+5*i)getFont(15+5*i,'mono') end
 
@@ -114,8 +114,8 @@ function scene.sceneInit()
     studioLogo=GC.newText(getFont(90),"26F Studio")
     progress=0
     maxProgress=10
-    t1,t2=0,0--Timer
-    animeType={} for i=1,#SVG_TITLE_FILL do animeType[i]=math.random(#titleTransform) end--Random animation type
+    t1,t2=0,0-- Timer
+    animeType={} for i=1,#SVG_TITLE_FILL do animeType[i]=math.random(#titleTransform) end-- Random animation type
 end
 function scene.sceneBack()
     love.event.quit()

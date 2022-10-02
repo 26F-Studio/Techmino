@@ -43,5 +43,5 @@ return{
         mText(TEXTOBJ.pc,63,330)
     end,
     hook_drop=_check,
-    task=_check,--Just run one time at first to start first level
+    task=_check,-- Just run one time at first to start first level
 }

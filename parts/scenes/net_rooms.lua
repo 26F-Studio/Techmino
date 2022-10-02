@@ -105,11 +105,11 @@ function scene.update(dt)
 end
 
 function scene.draw()
-    --Fetching timer
+    -- Fetching timer
     gc_setColor(1,1,1,.12)
     gc_arc('fill','pie',250,630,40,-1.5708,-1.5708-.6283*fetchTimer)
 
-    --Room list
+    -- Room list
     local R=roomList:getSel()
     if R then
         gc_translate(870,220)
@@ -132,10 +132,10 @@ function scene.draw()
         gc_translate(-870,-220)
     end
 
-    --Profile
+    -- Profile
     drawSelfProfile()
 
-    --Player count
+    -- Player count
     drawOnlinePlayerCount()
 end
 

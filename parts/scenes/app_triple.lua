@@ -7,20 +7,20 @@ local ins,rem=table.insert,table.remove
 local setFont,mStr=FONT.set,GC.mStr
 
 local tileColor={
-    [-2]=COLOR.R,  --Bomb
-    [-1]=COLOR.H,   --Stone
-    {.39, 1.0, .39},--Tile 1
-    {.39, .39, 1.0},--Tile 2
-    {1.0, .70, .31},--Tile 3
-    {.94, .31, .31},--Tile 4
-    {.00, .71, .12},--Tile 5
-    {.90, .20, .90},--Tile 6
-    {.94, .47, .39},--Tile 7
-    {.90, .00, .00},--Tile 8
-    {.86, .86, .31},--Tile 9
-    {.78, .31, .00},--Tile 10
-    {.78, .55, .04},--Tile 11
-    {.12, .12, .51},--Tile 12
+    [-2]=COLOR.R,  -- Bomb
+    [-1]=COLOR.H,   -- Stone
+    {.39, 1.0, .39},-- Tile 1
+    {.39, .39, 1.0},-- Tile 2
+    {1.0, .70, .31},-- Tile 3
+    {.94, .31, .31},-- Tile 4
+    {.00, .71, .12},-- Tile 5
+    {.90, .20, .90},-- Tile 6
+    {.94, .47, .39},-- Tile 7
+    {.90, .00, .00},-- Tile 8
+    {.86, .86, .31},-- Tile 9
+    {.78, .31, .00},-- Tile 10
+    {.78, .55, .04},-- Tile 11
+    {.12, .12, .51},-- Tile 12
 }
 local textColor={
     [-2]=COLOR.dR,
@@ -222,29 +222,29 @@ function player:drawBoard()
     gc.push('transform')
     gc.translate(self.x,self.y)
 
-    --Board background
+    -- Board background
     setColor(COLOR.dX)
     rectangle("fill",0,0,600,600)
 
 
-    --Hold slot
+    -- Hold slot
     setColor(0,1,1,.4)
     rectangle("fill",0,0,100,100)
     gc.setLineWidth(10)
     setColor(COLOR.lC)
     rectangle("line",5,5,90,90)
 
-    --Hold tile
+    -- Hold tile
     setFont(60)
     drawTile(1,1,self.hold)
 
-    --Board tiles
+    -- Board tiles
     local b=self.board
     for y=1,6 do for x=1,6 do
         drawTile(x,y,b[y][x])
     end end
 
-    --Board lines
+    -- Board lines
     setColor(COLOR.Z)
     gc.setLineWidth(2)
     for x=1,5 do gc.line(x*100,0,x*100,600) end
@@ -252,7 +252,7 @@ function player:drawBoard()
     gc.setLineWidth(6)
     rectangle("line",0,0,600,600)
 
-    --Select box
+    -- Select box
     if self.selectX then
         local c=tileColor[self.nexts[1]]
         setColor(c[1],c[2],c[3],.6+.3*math.sin(TIME()*9.29))
@@ -325,7 +325,7 @@ function scene.draw()
     gc.print(("%.3f"):format(player.time),1026,50)
     gc.print(player.score,1026,100)
 
-    --Progress time list
+    -- Progress time list
     setFont(25)
     setColor(.7,.7,.7)
     for i=1,#player.progress do

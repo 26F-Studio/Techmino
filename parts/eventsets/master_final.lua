@@ -21,12 +21,12 @@ return{
 
         if D.pt%100==99 then
             SFX.play('warn_1')
-        elseif D.pt>=D.target then--Level up!
-            s=D.target/100--range from 1 to 9
+        elseif D.pt>=D.target then-- Level up!
+            s=D.target/100-- range from 1 to 9
             local E=P.gameEnv
             if s<4 then
                 P:stageComplete(s)
-                --First 300
+                -- First 300
                 if s~=1 then E.lock=E.lock-1 end
                 if s~=2 then E.wait=E.wait-1 end
                 if s~=3 then E.fall=E.fall-1 end

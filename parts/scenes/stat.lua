@@ -1,7 +1,7 @@
 local scene={}
 
-local form--Form of clear & spins
-local item--Detail datas
+local form-- Form of clear & spins
+local item-- Detail datas
 
 function scene.sceneInit()
     BG.set()

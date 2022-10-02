@@ -50,11 +50,11 @@ function bot_cc:thread()
     local P,keys=self.P,self.keys
     local ccBot=self.ccBot
     while true do
-        --Start thinking
+        -- Start thinking
         yield()
         ccBot:think()
 
-        --Poll keys
+        -- Poll keys
         local success,result,dest,hold,move,b2b,attack,extra,spawn
         repeat
             yield()
@@ -73,7 +73,7 @@ function bot_cc:thread()
             dest.extra = extra
             dest.spawn = spawn
             P.destFX=dest
-            if hold then--Hold
+            if hold then-- Hold
                 keys[1]=8
             end
             while move[1] do
@@ -89,7 +89,7 @@ function bot_cc:thread()
             ins(keys,6)
         end
 
-        --Check if time to change target
+        -- Check if time to change target
         yield()
         if P.aiRND:random()<.00126 then
             P:changeAtkMode(P.aiRND:random()<.85 and 1 or #P.atker>3 and 4 or P.aiRND:random()<.3 and 2 or 3)

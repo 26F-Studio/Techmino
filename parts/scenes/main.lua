@@ -3,7 +3,7 @@ local scene={}
 local verName=("%s  %s  %s"):format(SYSTEM,VERSION.string,VERSION.name)
 local tipLength=760
 local tip=GC.newText(getFont(30),"")
-local scrollX--Tip scroll position
+local scrollX-- Tip scroll position
 
 local widgetX0={
     -10,-10,-10,-10,
@@ -20,14 +20,14 @@ end)
 function scene.sceneInit()
     BG.set()
 
-    --Set tip
+    -- Set tip
     tip:set(text.getTip())
     scrollX=tipLength
 
-    --Set quick-play-button text
+    -- Set quick-play-button text
     scene.resize()
 
-    --Create demo player
+    -- Create demo player
     destroyPlayers()
     GAME.modeEnv=NONE
     GAME.setting={}
@@ -133,16 +133,16 @@ local function _tipStencil()
     GC.rectangle('fill',0,0,tipLength,42)
 end
 function scene.draw()
-    --Version
+    -- Version
     setFont(20)
     GC.setColor(.6,.6,.6)
     GC.mStr(verName,640,110)
 
-    --Title
+    -- Title
     GC.setColor(1,1,1)
     mDraw(TEXTURE.title_color,640,60,nil,.43)
 
-    --Tip
+    -- Tip
     GC.setColor(COLOR.Z)
     GC.push('transform')
     GC.translate(260,650)
@@ -155,13 +155,13 @@ function scene.draw()
     GC.setStencilTest()
     GC.pop()
 
-    --Player
+    -- Player
     PLAYERS[1]:draw()
 
-    --Profile
+    -- Profile
     drawSelfProfile()
 
-    --Player count
+    -- Player count
     drawOnlinePlayerCount()
 end
 

@@ -18,7 +18,7 @@ local author={
 local scene={}
 
 local playing
-local selected--Music selected
+local selected-- Music selected
 
 local bgmList=BGM.getList()
 if #bgmList==0 then bgmList={"[NO BGM]"} end
@@ -69,7 +69,7 @@ end
 function scene.draw()
     local t=TIME()
 
-    --Character
+    -- Character
     GC.push('transform')
         GC.setColor(1,1,1)
         GC.translate(906,456)
@@ -85,7 +85,7 @@ function scene.draw()
 
     GC.setColor(COLOR.Z)
 
-    --Scroller
+    -- Scroller
     GC.setLineWidth(2)
     GC.line(315,307,315,482)
     setFont(50)
@@ -97,7 +97,7 @@ function scene.draw()
     if selected>2 then GC.print(bgmList[selected-2],322,350-50) end
     if selected<#bgmList-1 then GC.print(bgmList[selected+2],322,350+110) end
 
-    --Title
+    -- Title
     if playing then
         mDraw(TEXTURE.title,570,190,nil,.42)
         local a=-t%2.3/2.3
@@ -105,7 +105,7 @@ function scene.draw()
         mDraw(TEXTURE.title_color,570,190,nil,.42+.062-.062*a)
     end
 
-    --Music player
+    -- Music player
     if playing then
         setFont(45)
         GC.shadedPrint(playing,710,508,'left',2)

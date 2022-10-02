@@ -54,13 +54,13 @@ local tileColor={
     {.22,.19,.17},
 }
 local tileFont={
-    80,80,80,--2/4/8
-    70,70,70,--16/32/64
-    60,60,60,--128/256/512
-    55,55,55,55,--1024/2048/4096/8192
-    50,50,50,--16384/32768/65536
-    45,45,45,--131072/262144/524288
-    30,--1048576
+    80,80,80,-- 2/4/8
+    70,70,70,-- 16/32/64
+    60,60,60,-- 128/256/512
+    55,55,55,55,-- 1024/2048/4096/8192
+    50,50,50,-- 16384/32768/65536
+    45,45,45,-- 131072/262144/524288
+    30,-- 1048576
 }
 local tileName={[0]="X","2","4","8","16","32","64","128","256","512","1024","2048","4096","8192","16384","32768","65536","131072","262144","524288","2^20"}
 local function airExist()
@@ -71,7 +71,7 @@ local function airExist()
     end
 end
 local function newTile()
-    --Select position & generate number
+    -- Select position & generate number
     nextPos=(nextPos+6)%16+1
     while board[nextPos] do
         nextPos=(nextPos-4)%16+1
@@ -80,11 +80,11 @@ local function newTile()
     prevPos=nextPos
     prevSpawnTime=0
 
-    --Fresh score
+    -- Fresh score
     score=score+2^nextTile
     TEXT.show("+"..2^nextTile,1130+rnd(-60,60),575+rnd(-30,30),30,'score',1.5)
 
-    --Generate next number
+    -- Generate next number
     nextCD=nextCD-1
     if nextCD>0 then
         nextTile=1
@@ -93,10 +93,10 @@ local function newTile()
         nextCD=rnd(8,12)
     end
 
-    --Check if board is full
+    -- Check if board is full
     if airExist() then return end
 
-    --Check if board is locked in all-directions
+    -- Check if board is locked in all-directions
     for i=1,12 do
         if board[i]==board[i+4] then
             return
@@ -112,7 +112,7 @@ local function newTile()
         end
     end
 
-    --Die.
+    -- Die.
     state=2
     SFX.play(maxTile>=10 and 'win' or 'fail')
 end
@@ -139,10 +139,10 @@ local function squash(L)
                 p1=p1+1
             end
         else
-            if not L[p1] then--air←2
+            if not L[p1] then-- air←2
                 L[p1],L[p2]=L[p2],false
                 moved=true
-            elseif L[p1]==L[p2] then--2←2
+            elseif L[p1]==L[p2] then-- 2←2
                 L[p1],L[p2]=L[p1]+1,false
                 if L[p1]>maxTile then
                     freshMaxTile()
@@ -150,11 +150,11 @@ local function squash(L)
                 L[p2]=false
                 p1=p1+1
                 moved=true
-            elseif p1+1~=p2 then--2←4
+            elseif p1+1~=p2 then-- 2←4
                 L[p1+1],L[p2]=L[p2],false
                 p1=p1+1
                 moved=true
-            else--2,4
+            else-- 2,4
                 p1=p1+1
             end
         end
@@ -351,14 +351,14 @@ function scene.draw()
     gc.print(("%.3f"):format(time),1000,10)
     gc.print(move,1000,45)
 
-    --Progress time list
+    -- Progress time list
     setFont(20)
     setColor(.6,.6,.6)
     for i=1,#progress do
         gc.print(progress[i],1000,65+20*i)
     end
 
-    --Repeater
+    -- Repeater
     gc.setLineWidth(6)
     setFont(25)
     for i=1,2 do
@@ -377,27 +377,27 @@ function scene.draw()
         gc.print(repeater.seq[i],1000,313+60*i)
     end
 
-    --Score
+    -- Score
     setFont(40)
     setColor(1,.7,.7)
     GC.mStr(score,1130,510)
 
-    --Messages
+    -- Messages
     if state==2 then
-        --Draw no-setting area
+        -- Draw no-setting area
         setColor(1,0,0,.3)
         rectangle('fill',15,265,285,140)
 
-        setColor(.9,.9,0)--win
+        setColor(.9,.9,0)-- win
     elseif state==1 then
-        setColor(.9,.9,.9)--game
+        setColor(.9,.9,.9)-- game
     elseif state==0 then
-        setColor(.2,.8,.2)--ready
+        setColor(.2,.8,.2)-- ready
     end
     gc.setLineWidth(10)
     rectangle('line',310,30,660,660)
 
-    --Board
+    -- Board
     for i=1,16 do
         if board[i] then
             local x,y=1+(i-1)%4,int((i+3)/4)
@@ -429,7 +429,7 @@ function scene.draw()
         end
     end
 
-    --Next indicator
+    -- Next indicator
     setColor(1,1,1)
     if nextCD<=12 then
         for i=1,nextCD do
@@ -437,7 +437,7 @@ function scene.draw()
         end
     end
 
-    --Next
+    -- Next
     setFont(40)
     gc.print("Next",50,195)
     if nextTile>1 then
@@ -446,27 +446,27 @@ function scene.draw()
     setFont(70)
     GC.mStr(tileName[nextTile],220,175)
 
-    --Skip CoolDown
+    -- Skip CoolDown
     if skipper.cd and skipper.cd>0 then
         setFont(50)
         setColor(1,1,.5)
         GC.mStr(skipper.cd,155,600)
     end
 
-    --Skip mark
+    -- Skip mark
     if skipper.used then
         setColor(1,1,.5)
         gc.circle('fill',280,675,10)
     end
 
-    --New tile position
+    -- New tile position
     local x,y=1+(prevPos-1)%4,int((prevPos+3)/4)
     gc.setLineWidth(8)
     setColor(.2,.8,0,prevSpawnTime)
     local d=25-prevSpawnTime*25
     rectangle('line',x*160+163-d,y*160-117-d,154+2*d,154+2*d,15)
 
-    --Touch control border line
+    -- Touch control border line
     if tapControl then
         gc.setLineWidth(6)
         setColor(1,1,1,.2)

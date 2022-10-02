@@ -8,7 +8,7 @@ local function _parseCB()
     local _
     local s=love.system.getClipboardText()
 
-    --Decode
+    -- Decode
     s=STRING.unpackText(s)
     if not s then MES.new('error',text.dataCorrupted)return end
 

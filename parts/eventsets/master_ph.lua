@@ -18,8 +18,8 @@ return
         if p>=P.modeData.target then
             local ENV=P.gameEnv
             local T=P.modeData.target
-            --Stage 1: clear 3 techrash
-            if T==12 then--Stage 2: swap color of S/Z & J/L
+            -- Stage 1: clear 3 techrash
+            if T==12 then-- Stage 2: swap color of S/Z & J/L
                 P:stageComplete(2)
                 P.waiting=30
                 P.curMission=false
@@ -34,9 +34,9 @@ return
 
                 P.modeData.target=26
                 SFX.play('reach')
-            elseif T==26 then--Stage 3: dig to bottom
+            elseif T==26 then-- Stage 3: dig to bottom
                 P:stageComplete(3)
-                if not P.holdQueue[1] then--1 up if ban hold
+                if not P.holdQueue[1] then-- 1 up if ban hold
                     P.life=P.life+1
                 end
                 P.waiting=45
@@ -79,7 +79,7 @@ return
 
                 P.modeData.target=42
                 SFX.play('reach')
-            elseif T==42 then--Stage 4: survive in high speed
+            elseif T==42 then-- Stage 4: survive in high speed
                 if P.garbageBeneath==0 then
                     P:stageComplete(4)
                     P.waiting=30
@@ -93,7 +93,7 @@ return
                 else
                     p=41
                 end
-            elseif T==62 then--Stage 5: survive without easy-fresh rule
+            elseif T==62 then-- Stage 5: survive without easy-fresh rule
                 P:stageComplete(5)
                 P.life=P.life+1
                 ENV.lock=13
@@ -104,7 +104,7 @@ return
 
                 P.modeData.target=126
                 SFX.play('reach')
-            elseif T==126 then--Stage 6: speed up
+            elseif T==126 then-- Stage 6: speed up
                 P:stageComplete(6)
                 P.life=P.life+1
 
@@ -114,7 +114,7 @@ return
 
                 P.modeData.target=162
                 SFX.play('reach')
-            elseif T==162 then--Stage 7: speed up+++
+            elseif T==162 then-- Stage 7: speed up+++
                 P:stageComplete(7)
                 P.life=P.life+1
 
@@ -125,7 +125,7 @@ return
 
                 P.modeData.target=226
                 SFX.play('reach')
-            elseif T==226 then--Stage 8: final invisible
+            elseif T==226 then-- Stage 8: final invisible
                 P:stageComplete(8)
                 P.life=P.life+1
 
@@ -134,7 +134,7 @@ return
 
                 P.modeData.target=259
                 SFX.play('reach')
-            elseif T==259 then--Stage 9: ending
+            elseif T==259 then-- Stage 9: ending
                 P:stageComplete(9)
                 P.life=P.life+1
                 for i=1,7 do ENV.skin[i]=P.holeRND:random(16) end

@@ -127,7 +127,7 @@ function BOT.new(P,data)
         end
         bot.runningThread=coroutine.wrap(cc_lua.thread)
         bot.runningThread(bot)
-    else--if data.type=="9S" then--9s or else
+    else-- if data.type=="9S" then-- 9s or else
         TABLE.cover(baseBot,bot)
         TABLE.cover(require"parts.bot.bot_9s",bot)
         P:setRS('TRS')

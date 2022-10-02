@@ -138,7 +138,7 @@ pad={x=140,y=65,page=1,
         {{},{},{},{},{},{},{},{}},
         {{},{},{},{},{},{},{},{}},
     },
-    (function()--BGM page
+    (function()-- BGM page
         local L=BGM.getList()
         local B={}
         for y=1,8 do
@@ -233,13 +233,13 @@ function scene.draw()
     gc_translate(pad.x,pad.y)
     gc_setLineWidth(2)
 
-    --Pad frame
+    -- Pad frame
     gc_setColor(COLOR.dX)
     gc_rectangle('fill',-3,-3,726,646,2)
     gc_setColor(white)
     gc_rectangle('line',-3,-3,726,646,2)
 
-    --Buttons
+    -- Buttons
     for y=1,8 do
             gc_setColor(COLOR.dX)
         gc_circle('fill',40,(y-1)*80+40,34)

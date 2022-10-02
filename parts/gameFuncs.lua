@@ -14,8 +14,8 @@ local playSFX=SFX.play
 
 
 
---System
-do--function tryBack()
+-- System
+do-- function tryBack()
     local sureTime=-1e99
     function tryBack()
         if TIME()-sureTime<1 then
@@ -27,7 +27,7 @@ do--function tryBack()
         end
     end
 end
-do--function tryReset()
+do-- function tryReset()
     local sureTime=-1e99
     function tryReset()
         if TIME()-sureTime<1 then
@@ -39,7 +39,7 @@ do--function tryReset()
         end
     end
 end
-do--function tryDelete()
+do-- function tryDelete()
     local sureTime=-1e99
     function tryDelete()
         if TIME()-sureTime<1 then
@@ -51,7 +51,7 @@ do--function tryDelete()
         end
     end
 end
-do--function loadFile(name,args), function saveFile(data,name,args)
+do-- function loadFile(name,args), function saveFile(data,name,args)
     local t=setmetatable({},{__index=function() return"'$1' loading failed: $2" end})
     function loadFile(name,args)
         local text=text or t
@@ -102,7 +102,7 @@ end
 function saveSettings()
     return saveFile(SETTING,'conf/settings')
 end
-do--function applySettings()
+do-- function applySettings()
     local saturateValues={
         normal={0,1},
         soft={.2,.7},
@@ -111,7 +111,7 @@ do--function applySettings()
         color={-.2,1.2},
     }
     function applySettings()
-        --Apply language
+        -- Apply language
         text=LANG.get(SETTING.locale)
         WIDGET.setLang(text.WidgetText)
         for k,v in next,TEXTOBJ do
@@ -120,29 +120,29 @@ do--function applySettings()
             end
         end
 
-        --Apply cursor
+        -- Apply cursor
         love.mouse.setVisible(SETTING.sysCursor)
 
-        --Apply fullscreen
+        -- Apply fullscreen
         love.window.setFullscreen(SETTING.fullscreen)
         love.resize(GC.getWidth(),GC.getHeight())
 
-        --Apply Zframework setting
+        -- Apply Zframework setting
         Z.setClickFX(SETTING.clickFX)
         Z.setFrameMul(SETTING.frameMul)
         Z.setPowerInfo(SETTING.powerInfo)
         Z.setCleanCanvas(SETTING.cleanCanvas)
 
-        --Apply VK shape
+        -- Apply VK shape
         VK.setShape(SETTING.VKSkin)
 
-        --Apply sound
+        -- Apply sound
         love.audio.setVolume(SETTING.mainVol)
         BGM.setVol(SETTING.bgm)
         SFX.setVol(SETTING.sfx)
         VOC.setVol(SETTING.voc)
 
-        --Apply saturs
+        -- Apply saturs
         local m
         m=saturateValues[SETTING.blockSatur] or saturateValues.normal
         SHADER.blockSatur:send('b',m[1])
@@ -151,7 +151,7 @@ do--function applySettings()
         SHADER.fieldSatur:send('b',m[1])
         SHADER.fieldSatur:send('k',m[2])
 
-        --Apply BG
+        -- Apply BG
         if SETTING.bg=='on' then
             BG.unlock()
             BG.set()
@@ -171,7 +171,7 @@ do--function applySettings()
                 else
                     MES.new('error',text.customBGloadFailed)
                 end
-            else--Switch off when custom BG not found
+            else-- Switch off when custom BG not found
                 SETTING.bg='off'
                 BG.unlock()
                 BG.set('fixColor',SETTING.bgAlpha,SETTING.bgAlpha,SETTING.bgAlpha)
@@ -181,8 +181,8 @@ do--function applySettings()
     end
 end
 
---Royale mode
-function randomTarget(P)--Return a random opponent for P
+-- Royale mode
+function randomTarget(P)-- Return a random opponent for P
     if #PLY_ALIVE>1 then
         local R
         repeat
@@ -277,7 +277,7 @@ function royaleLevelup()
     end
 end
 
---Sound shortcuts
+-- Sound shortcuts
 function playClearSFX(cc)
     if cc<=0 or cc%1~=0 then return end
     if cc<=4 then
@@ -329,7 +329,7 @@ function playReadySFX(i,vol)
 end
 
 
---Game
+-- Game
 function getItem(itemName,amount)
     STAT.item[itemName]=STAT.item[itemName]+(amount or 1)
 end
@@ -381,7 +381,7 @@ function freshDate(args)
         return true
     end
 end
-function legalGameTime()--Check if today's playtime is legal
+function legalGameTime()-- Check if today's playtime is legal
     if
         SETTING.locale:find'zh' and
         RANKS.sprint_10l<4 and
@@ -399,7 +399,7 @@ function legalGameTime()--Check if today's playtime is legal
     end
     return true
 end
-do--function trySettingWarn()
+do-- function trySettingWarn()
     local lastWarnTime=0
     function trySettingWarn()
         if TIME()-lastWarnTime>2.6 then
@@ -409,7 +409,7 @@ do--function trySettingWarn()
     end
 end
 
-function mergeStat(stat,delta)--Merge delta stat. to global stat.
+function mergeStat(stat,delta)-- Merge delta stat. to global stat.
     for k,v in next,delta do
         if type(v)=='table' then
             if type(stat[k])=='table' then
@@ -422,7 +422,7 @@ function mergeStat(stat,delta)--Merge delta stat. to global stat.
         end
     end
 end
-function scoreValid()--Check if any unranked mods are activated
+function scoreValid()-- Check if any unranked mods are activated
     for _,M in next,GAME.mod do
         if M.unranked then
             return false
@@ -433,7 +433,7 @@ function scoreValid()--Check if any unranked mods are activated
     end
     return true
 end
-function destroyPlayers()--Destroy all player objects, restore freerows and free CCs
+function destroyPlayers()-- Destroy all player objects, restore freerows and free CCs
     for i=#PLAYERS,1,-1 do
         local P=PLAYERS[i]
         if P.canvas then
@@ -468,7 +468,7 @@ function pauseGame()
         SCN.swapTo('pause','none')
     end
 end
-function applyCustomGame()--Apply CUSTOMENV, BAG, MISSION
+function applyCustomGame()-- Apply CUSTOMENV, BAG, MISSION
     for k,v in next,CUSTOMENV do
         GAME.modeEnv[k]=v
     end
@@ -483,7 +483,7 @@ function applyCustomGame()--Apply CUSTOMENV, BAG, MISSION
         GAME.modeEnv.mission=nil
     end
 end
-function loadGame(mode,ifQuickPlay,ifNet)--Load a mode and go to game scene
+function loadGame(mode,ifQuickPlay,ifNet)-- Load a mode and go to game scene
     freshDate()
     if legalGameTime() then
         if not MODES[mode] and FILE.isSafe('parts/modes/'..mode) then
@@ -510,7 +510,7 @@ function loadGame(mode,ifQuickPlay,ifNet)--Load a mode and go to game scene
         end
     end
 end
-function gameOver()--Save record
+function gameOver()-- Save record
     if GAME.replaying then
         local R=GAME.curMode.getRank
         if R then
@@ -526,13 +526,13 @@ function gameOver()--Save record
     local R=M.getRank
     if R then
         local P=PLAYERS[1]
-        R=R(P)--New rank
+        R=R(P)-- New rank
         if R then
             if R>0 then
                 GAME.rank=R
             end
             if not GAME.replaying and M.score and scoreValid() then
-                if RANKS[M.name] then--Old rank exist
+                if RANKS[M.name] then-- Old rank exist
                     local needSave
                     if R>RANKS[M.name] then
                         RANKS[M.name]=R
@@ -558,9 +558,9 @@ function gameOver()--Save record
                 end
                 local D=M.score(P)
                 local L=M.records
-                local p=#L--Rank-1
+                local p=#L-- Rank-1
                 if p>0 then
-                    while M.comp(D,L[p]) do--If higher rank
+                    while M.comp(D,L[p]) do-- If higher rank
                         p=p-1
                         if p==0 then break end
                     end
@@ -592,9 +592,9 @@ function trySave()
         saveStats()
     end
 end
-do--function freshPlayerPosition(sudden)
+do-- function freshPlayerPosition(sudden)
     local posLists={
-        --1~5
+        -- 1~5
         {
             {340,75,1},
             {965,390,.5},
@@ -602,7 +602,7 @@ do--function freshPlayerPosition(sudden)
             {20,390,.5},
             {20,30,.5},
         },
-        --6~17
+        -- 6~17
         (function()
             local L={{340,75,1}}
             for i=1,4 do ins(L,{15,-160+180*i,.25}) end
@@ -611,7 +611,7 @@ do--function freshPlayerPosition(sudden)
             for i=1,4 do ins(L,{1120,-160+180*i,.25}) end
             return L
         end)(),
-        --18~31
+        -- 18~31
         (function()
             local L={{340,75,1}}
             for i=1,5 do ins(L,{10,  -100+135*i,.18}) end
@@ -622,14 +622,14 @@ do--function freshPlayerPosition(sudden)
             for i=1,5 do ins(L,{1160,-100+135*i,.18}) end
             return L
         end)(),
-        --32~49
+        -- 32~49
         (function()
             local L={{340,75,1}}
             for i=1,4 do for j=1,6 do ins(L,{78*i-54,115*j-98,.09}) end end
             for i=9,12 do for j=1,6 do ins(L,{78*i+267,115*j-98,.09}) end end
             return L
         end)(),
-        --50~99
+        -- 50~99
         (function()
             local L={{340,75,1}}
             for i=1,7 do for j=1,7 do ins(L,{46*i-36,97*j-72,.068}) end end
@@ -637,7 +637,7 @@ do--function freshPlayerPosition(sudden)
             return L
         end)(),
     }
-    function freshPlayerPosition(sudden)--Set initial position for every player
+    function freshPlayerPosition(sudden)-- Set initial position for every player
         local L=PLY_ALIVE
         if not sudden then
             for i=1,#L do
@@ -657,21 +657,21 @@ do--function freshPlayerPosition(sudden)
         for i=1,#L do L[i][method](L[i],unpack(posList[i])) end
     end
 end
-do--function dumpBasicConfig()
+do-- function dumpBasicConfig()
     local gameSetting={
-        --Tuning
+        -- Tuning
         'das','arr','dascut','dropcut','sddas','sdarr',
         'ihs','irs','ims','RS',
 
-        --System
+        -- System
         'skin','face',
 
-        --Graphic
+        -- Graphic
         'ghostType','block','ghost','center','bagLine',
         'dropFX','moveFX','shakeFX',
         'text','highCam','nextPos',
 
-        --Unnecessary graphic
+        -- Unnecessary graphic
         -- 'grid','smooth',
         -- 'lockFX','clearFX','splashFX','atkFX',
         -- 'score',
@@ -684,7 +684,7 @@ do--function dumpBasicConfig()
         return JSON.encode(S)
     end
 end
-do--function resetGameData(args)
+do-- function resetGameData(args)
     local function task_showMods()
         local time=0
         while true do
@@ -701,14 +701,14 @@ do--function resetGameData(args)
         end
     end
     local gameSetting={
-        --Tuning
+        -- Tuning
         'das','arr','dascut','dropcut','sddas','sdarr',
         'ihs','irs','ims','RS',
 
-        --System
+        -- System
         'skin','face',
 
-        --Graphic
+        -- Graphic
         'block','ghost','center','smooth','grid','bagLine',
         'lockFX','dropFX','moveFX','clearFX','splashFX','shakeFX','atkFX',
         'text','score','warn','highCam','nextPos',
@@ -785,14 +785,14 @@ do--function resetGameData(args)
         collectgarbage()
     end
 end
-do--function checkWarning()
+do-- function checkWarning()
     local max=math.max
     function checkWarning(dt)
         local P1=PLAYERS[1]
         if P1.alive then
             if P1.frameRun%26==0 then
                 local F=P1.field
-                local height=0--Max height of row 4~7
+                local height=0-- Max height of row 4~7
                 for x=4,7 do
                     for y=#F,1,-1 do
                         if F[y][x]>0 then
@@ -823,8 +823,8 @@ end
 
 
 
---Game draw
-do--function drawSelfProfile()
+-- Game draw
+do-- function drawSelfProfile()
     local name
     local textObj,scaleK,width,offY
     function drawSelfProfile()
@@ -832,14 +832,14 @@ do--function drawSelfProfile()
         gc_push('transform')
         gc_replaceTransform(SCR.xOy_ur)
 
-        --Draw avatar
+        -- Draw avatar
         gc_setLineWidth(2)
         gc_setColor(COLOR.X)gc_rectangle('fill',0,0,-300,80)
         gc_setColor(1,1,1)gc_rectangle('line',-300,0,300,80,5)
         gc_rectangle('line',-73,7,66,66,2)
         gc_draw(selfAvatar,-72,8,nil,.5)
 
-        --Draw username
+        -- Draw username
         if name~=USERS.getUsername(USER.uid) then
             name=USERS.getUsername(USER.uid)
             textObj=GC.newText(getFont(30),name)
@@ -874,9 +874,9 @@ end
 
 
 
---Widget function shortcuts
+-- Widget function shortcuts
 function backScene() SCN.back() end
-do--function goScene(name,style)
+do-- function goScene(name,style)
     local cache={}
     function goScene(name,style)
         local hash=style and name..style or name
@@ -886,7 +886,7 @@ do--function goScene(name,style)
         return cache[hash]
     end
 end
-do--function swapScene(name,style)
+do-- function swapScene(name,style)
     local cache={}
     function swapScene(name,style)
         local hash=style and name..style or name
@@ -896,7 +896,7 @@ do--function swapScene(name,style)
         return cache[hash]
     end
 end
-do--function pressKey(k)
+do-- function pressKey(k)
     local cache={}
     function pressKey(k)
         if not cache[k] then
@@ -905,7 +905,7 @@ do--function pressKey(k)
         return cache[k]
     end
 end
-do--CUS/SETXXX(k)
+do-- CUS/SETXXX(k)
     local CUSTOMENV=CUSTOMENV
     local warnList={
         'das','arr','dascut','dropcut','sddas','sdarr',

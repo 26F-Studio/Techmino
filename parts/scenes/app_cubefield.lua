@@ -125,7 +125,7 @@ function scene.update(dt)
     if dt>.06 then dt=.06 end
     dt=dt*600
 
-    --Update cubes' position
+    -- Update cubes' position
     local cy=cubesY
     local step=speed*dt*.005
     for i=1,40 do
@@ -141,7 +141,7 @@ function scene.update(dt)
         end
     end
 
-    --Collision detect
+    -- Collision detect
     if play then
         for j=1,40 do
             local i=(j+lastCube-2)%40+1
@@ -159,7 +159,7 @@ function scene.update(dt)
         end
     end
 
-    --Screen rotation
+    -- Screen rotation
     if moveDir~=0 then
         player=player+moveDir*dt*.003*speed^.8
         if abs(rot)<.16 or moveDir*rot>0 then
@@ -220,42 +220,42 @@ local function _sunStencil()
     gc.rectangle('fill',-60,-440,120,120)
 end
 function scene.draw()
-    --Health bar
+    -- Health bar
     if life1>0 then
         gc.setColor(1,0,0)
         gc.rectangle('fill',640-life1*.64,710,life1*1.28,10)
     end
 
-    --Draw player
+    -- Draw player
     if play and inv%8<4 then
         gc.setColor(COLOR.Z)
         gc.rectangle('fill',620,670,40,40)
     end
 
-    --Set screen rotation
+    -- Set screen rotation
     gc.push('transform')
     gc.translate(640,690)
     gc.rotate(rot)
 
-    --Draw sun
+    -- Draw sun
     gc.setStencilTest('notequal',1)
     gc.stencil(_sunStencil)
     gc.setColor(.7,.5,.3)
     gc.circle('fill',0,-380-sunH,60)
     gc.setStencilTest()
 
-    --Draw direction
+    -- Draw direction
     if play then
         gc.setLineWidth(3)
         gc.setColor(1,1,1,.1)
         gc.polygon('fill',-15,30,0,-440,15,30)
     end
 
-    --Draw Horizon/Direction
+    -- Draw Horizon/Direction
     gc.setColor(COLOR.Z)
     gc.line(-942,-440,942,-440)
 
-    --Draw cubes
+    -- Draw cubes
     for j=1,40 do
         local i=(j+lastCube-2)%40+1
         local Y=cubesY[i]
@@ -273,7 +273,7 @@ function scene.draw()
         end
     end
 
-    --Draw menu
+    -- Draw menu
     if play then
         setFont(60)
         mStr(int(score),-300,-640)

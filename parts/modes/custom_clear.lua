@@ -3,7 +3,7 @@ return{
     load=function()
         applyCustomGame()
 
-        --Switch clear sprint mode on
+        -- Switch clear sprint mode on
         if #FIELD[1]>0 then
             GAME.modeEnv.hook_drop=require'parts.eventsets.checkClearBoard'.hook_drop
         else

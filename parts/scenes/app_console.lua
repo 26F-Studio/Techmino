@@ -27,13 +27,13 @@ local commands={} do
             details: an array of strings containing documents, shows when user types 'help [command]'.
     ]]
 
-    local cmdList={}--List of all non-alias commands
+    local cmdList={}-- List of all non-alias commands
 
-    --Basic
+    -- Basic
     commands.help={
         code=function(arg)
             if #arg>0 then
-                --help [command]
+                -- help [command]
                 if commands[arg] then
                     if commands[arg].description then
                         log{C.H,("%s"):format(commands[arg].description)}
@@ -47,7 +47,7 @@ local commands={} do
                     log{C.Y,("No command called '%s'"):format(arg)}
                 end
             else
-                --help
+                -- help
                 for i=1,#cmdList do
                     local cmd=cmdList[i]
                     local body=commands[cmd]
@@ -111,8 +111,8 @@ local commands={} do
         },
     }
 
-    --File
-    do--tree
+    -- File
+    do-- tree
         local function tree(path,name,depth)
             local info=love.filesystem.getInfo(path..name)
             if info.type=='file' then
@@ -144,7 +144,7 @@ local commands={} do
             },
         }
     end
-    do--del
+    do-- del
         local function delFile(name)
             if love.filesystem.remove(name) then
                 log{C.Y,("Deleted: '%s'"):format(name)}
@@ -231,7 +231,7 @@ local commands={} do
     end
     commands.mv={
         code=function(arg)
-            --Check arguments
+            -- Check arguments
             arg=arg:split(" ")
             if #arg>2 then
                 log{C.lY,"Warning: file names must have no spaces"}
@@ -241,7 +241,7 @@ local commands={} do
                 return
             end
 
-            --Check file exist
+            -- Check file exist
             local info
             info=love.filesystem.getInfo(arg[1])
             if not (info and info.type=='file') then
@@ -254,21 +254,21 @@ local commands={} do
                 return
             end
 
-            --Read file
+            -- Read file
             local data,err1=love.filesystem.read('data',arg[1])
             if not data then
                 log{C.R,("Failed to read file '%s': "):format(arg[1],err1 or "Unknown error")}
                 return
             end
 
-            --Write file
+            -- Write file
             local res,err2=love.filesystem.write(arg[2],data)
             if not res then
                 log{C.R,("Failed to write file: "):format(err2 or "Unknown error")}
                 return
             end
 
-            --Delete file
+            -- Delete file
             if not love.filesystem.remove(arg[1]) then
                 log{C.R,("Failed to delete old file ''"):format(arg[1])}
                 return
@@ -315,7 +315,7 @@ local commands={} do
         },
     }
 
-    --System
+    -- System
     commands.crash={
         code=function() error("ERROR") end,
         description="Manually crash the game",
@@ -545,7 +545,7 @@ local commands={} do
             "Usage: support",
         },
     }
-    do--app
+    do-- app
         local APPs={
             {
                 code="calc",
@@ -754,7 +754,7 @@ local commands={} do
         end,
     }
 
-    --Game
+    -- Game
     commands.rmconf={
         code=function(key)
             if #key>0 then
@@ -869,7 +869,7 @@ local commands={} do
         description="Show a random tip",
     }
 
-    --Network
+    -- Network
     commands.switchhost={
         code=function(arg)
             arg=arg:split(" ")
@@ -944,7 +944,7 @@ local combKey={
     end,
 }
 
---Environment for user's function
+-- Environment for user's function
 local userG={
     timer=TIME,
 
@@ -992,7 +992,7 @@ setmetatable(userG.package,dangerousLibMeta)
 setmetatable(userG.io,dangerousLibMeta)
 setmetatable(userG.os,dangerousLibMeta)
 
---Puzzle box
+-- Puzzle box
 local first_key={}
 local fleg={
     pw=the_secret,
@@ -1028,16 +1028,16 @@ function scene.keyDown(key)
         local input=STRING.trim(inputBox:getText())
         if input=="" then return end
 
-        --Write History
+        -- Write History
         ins(history,input)
         if history[27] then
             rem(history,1)
         end
         hisPtr=nil
 
-        --Execute
+        -- Execute
         if input:byte()==35 then
-            --Execute lua code
+            -- Execute lua code
             log{C.lC,"> "..input}
             local code,err=loadstring(input:sub(2))
             if code then
@@ -1062,7 +1062,7 @@ function scene.keyDown(key)
                 log{C.R,"[SyntaxErr] ",C.R,err}
             end
         else
-            --Execute builtin command
+            -- Execute builtin command
             log{C.lS,"> "..input}
             local p=input:find(" ")
             local cmd,arg
@@ -1081,7 +1081,7 @@ function scene.keyDown(key)
         end
         inputBox:clear()
 
-        --Insert empty line
+        -- Insert empty line
         log""
     elseif key=='up' then
         if not hisPtr then

@@ -13,7 +13,7 @@ function scene.draw()
     gc.push('transform')
     gc.translate(410,540-WIDGET.scrollPos)
 
-    --Draw mino
+    -- Draw mino
     local t=TIME()
     local b=math.floor(t*2)%16+1
     gc.setShader(SHADER.blockSatur)
@@ -23,7 +23,7 @@ function scene.draw()
     mDraw(SKIN.lib[SETTING.skinSet][b%16+1],0,0,t%6.2832,2)
     gc.setShader()
 
-    --Draw center
+    -- Draw center
     gc.setColor(1,1,1)
     mDraw(RSlist[SETTING.RS].centerTex,0,0,0,1.2)
 

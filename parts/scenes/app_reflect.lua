@@ -31,12 +31,12 @@ function scene.keyDown(key,isRep)
     elseif state==2 and #key==1 then
         key=("qapl"):find(key,nil,true)
         if key then
-            --BEAUTIFUL LOGIC BELOW:
+            -- BEAUTIFUL LOGIC BELOW:
 
-            --early = error, [UP-key]==[target is up] = correct sfx, else = wrong sfx
+            -- early = error, [UP-key]==[target is up] = correct sfx, else = wrong sfx
             SFX.play(ct>6 and 'finesseError' or key%2==1==up and 'reach' or 'fail')
 
-            --(early && P2-key || not early && [P1-key]==[target is up]) = P1 win, else P2 win
+            -- (early && P2-key || not early && [P1-key]==[target is up]) = P1 win, else P2 win
             if ct>6 and key>2 or ct<=6 and key%4<2==up then
                 winner=1; s1=s1+1
             else
@@ -56,20 +56,20 @@ function scene.touchDown(x,y)
     )
 end
 function scene.update()
-    if state==0 then--Menu
+    if state==0 then-- Menu
         if ct>0 then
             ct=ct-1
         elseif rnd()<.00626 then
             ct=30
         end
-    elseif state==1 then--Waiting
+    elseif state==1 then-- Waiting
         ct=ct-1
         if ct==0 then
             ct=rnd(26,162)
             up=rnd()<.5
             state=2
         end
-    elseif state==2 then--Winking
+    elseif state==2 then-- Winking
         ct=ct-1
         if ct==0 then ct=6 end
     elseif state==3 then
@@ -85,21 +85,21 @@ function scene.update()
     end
 end
 function scene.draw()
-    --Dividing line
+    -- Dividing line
     gc.setLineWidth(10)
     gc.setColor(1,1,1,.9)
     gc.line(640,0,640,720)
     gc.setColor(1,1,1,.3)
     gc.line(500,360,780,360)
 
-    --Help
+    -- Help
     setFont(100)
     mStr("Q",80,100)
     mStr("A",80,480)
     mStr("P",1200,100)
     mStr("L",1200,480)
 
-    --Score
+    -- Score
     setFont(80)
     gc.printf(s1,50,300,200)
     gc.printf(s2,1030,300,200,'right')

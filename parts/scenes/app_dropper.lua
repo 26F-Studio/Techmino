@@ -2,9 +2,9 @@ local gc=love.graphics
 local rnd,int,max=math.random,math.floor,math.max
 local setFont,mStr=FONT.set,GC.mStr
 
---This mini-game is written for TI-nSpire CX CAS many years ago.
---Deliberately, some grammar mistakes and typos in the 'great' list remained.
---So no need to correct them.
+-- This mini-game is written for TI-nSpire CX CAS many years ago.
+-- Deliberately, some grammar mistakes and typos in the 'great' list remained.
+-- So no need to correct them.
 
 local perfect={"Perfect!","Excellent!","Nice!","Good!","Great!","Just!","300"}
 local great={"Pay attention!","Be carefully!","Teacher behind you!","Feel tired?","You are in danger!","Do your homework!","A good game!","Minecraft!","y=ax^2+bx+c!","No music?","Internet unavailable.","It's raining!","Too hard!","Shorter?","Higher!","English messages!","Hi!","^_^","Drop!","Colorful!",":)","100$","~~~wave~~~","★★★","中文!","NOW!!!!!","Also try the TEN!","I'm a programer!","Also try minesweeperZ!","This si Dropper!","Hold your calculatoor!","Look! UFO!","Bonjour!","[string]","Author:MrZ","Boom!","PvZ!","China!","TI-nspire!","I love LUA!"}
@@ -175,7 +175,7 @@ backColor.__index=function(t,lv)
 end
 setmetatable(backColor,backColor)
 function scene.draw()
-    --Background
+    -- Background
     local lv,height=int(camY/700),camY%700
     gc.setColor(backColor[lv+1] or COLOR.D)
     gc.rectangle('fill',0,720,1280,height-700)
@@ -205,7 +205,7 @@ function scene.draw()
         gc.print("Ported / Rewritten / Balanced by MrZ",740,260)
     end
     if state~='menu' then
-        --High floor
+        -- High floor
         gc.setColor(COLOR.Z)
         gc.setLineWidth(2)
         local y=690+camY-30*highFloor

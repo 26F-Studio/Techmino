@@ -72,7 +72,7 @@ local function resetBoard()
     local colors=levels[level].color
     field.c,field.r=levels[level].c,levels[level].r
 
-    local total=field.r*field.c/2--Total cell count
+    local total=field.r*field.c/2-- Total cell count
     local pool=TABLE.new(int(total/colors),colors)
     for i=1,total%colors do pool[i]=pool[i]+1 end
     for i=1,#pool do pool[i]=pool[i]*2 end
@@ -117,7 +117,7 @@ local function addPoint(list,x,y)
     end
 end
 local function checkLink(x1,y1,x2,y2)
-    --Y-X-Y Check
+    -- Y-X-Y Check
     local bestLen,bestLine=1e99,false
     do
         if x1>x2 then x1,y1,x2,y2=x2,y2,x1,y1 end
@@ -141,7 +141,7 @@ local function checkLink(x1,y1,x2,y2)
             ::CONTINUE_nextRow::
         end
     end
-    --X-Y-X Check
+    -- X-Y-X Check
     do
         if y1>y2 then x1,y1,x2,y2=x2,y2,x1,y1 end
         local ulx,urx,dlx,drx=x1,x1,x2,x2
@@ -177,18 +177,18 @@ local function tap(x,y)
                 if line then
                     ins(lines,{time=0,line=line})
 
-                    --Clear
+                    -- Clear
                     field[y][x]=false
                     field[selY][selX]=false
                     field.remain=field.remain-1
                     field.full=false
 
-                    --Score
+                    -- Score
                     local s=1000+int(combo^.9)
                     score=score+s
                     TEXT.show("+"..s,1205,600,20,'score')
 
-                    --Combo
+                    -- Combo
                     if comboTime==0 then
                         combo=0
                         noComboBreak=false
@@ -197,7 +197,7 @@ local function tap(x,y)
                     combo=combo+1
                     if combo>maxCombo then maxCombo=combo end
 
-                    --Check win
+                    -- Check win
                     if field.remain==0 then
                         if noComboBreak then
                             SFX.play('emit')
@@ -295,15 +295,15 @@ end
 
 function scene.draw()
     gc.push('transform')
-        --Camera
+        -- Camera
         gc.translate(field.x,field.y)
         gc.scale(field.w/field.c,field.h/field.r)
 
-        --Background
+        -- Background
         gc.setColor(COLOR.dX)
         gc.rectangle('fill',0,0,field.w,field.h)
 
-        --Matrix
+        -- Matrix
         local mono=state==0 or invis and not field.full
         if mono then
             gc_setColor(COLOR.dH)
@@ -328,51 +328,51 @@ function scene.draw()
             end
         end
 
-        --Selecting box
+        -- Selecting box
         gc.setLineWidth(.1)
         if selX then
             gc_setColor(1,1,1)
             gc_rectangle('line',selX-1+.05,selY-1+.05,.9,.9)
         end
 
-        --Clearing lines
+        -- Clearing lines
         gc.translate(-.5,-.5)
         for i=1,#lines do
             gc_setColor(1,1,1,1-lines[i].time)
             gc.line(lines[i].line)
         end
     gc.pop()
-    --Frame
+    -- Frame
 
     if state==2 then
-        gc.setColor(.9,.9,0)--win
+        gc.setColor(.9,.9,0)-- win
     elseif state==1 then
-        gc.setColor(.9,.9,.9)--game
+        gc.setColor(.9,.9,.9)-- game
     elseif state==0 then
-        gc.setColor(.2,.8,.2)--ready
+        gc.setColor(.2,.8,.2)-- ready
     end
     gc.setLineWidth(6)
     gc.rectangle('line',field.x-5,field.y-5,field.w+10,field.h+10)
 
-    --Draw no-setting area
+    -- Draw no-setting area
     if state==2 then
         gc.setColor(1,0,0,.3)
         gc.rectangle('fill',0,100,155,80)
     end
 
-    --Maxcombo
+    -- Maxcombo
     setFont(20)gc.setColor(COLOR.dF)
     gc.print(maxCombo,1142,1)
 
-    --Time
+    -- Time
     setFont(30)gc.setColor(COLOR.Z)
     gc.print(("%.3f"):format(time),1140,20)
 
-    --Progress time list
+    -- Progress time list
     setFont(15)gc.setColor(.6,.6,.6)
     for i=1,#progress do gc.print(progress[i],1140,40+20*i) end
 
-    --Combo Rectangle
+    -- Combo Rectangle
     if comboTime>0 then
         local r=32*comboTime^.3
         gc.setColor(1,1,1,min(.6+comboTime,1)*.25)
@@ -382,7 +382,7 @@ function scene.draw()
         gc.rectangle('line',1205-r,440-r,2*r,2*r,4)
     end
 
-    --Combo Text
+    -- Combo Text
     setFont(60)
     if combo>50 then
         gc.setColor(1,.2,.2,min(.3+comboTime*.5,1)*min(comboTime,1))
@@ -391,7 +391,7 @@ function scene.draw()
     gc.setColor(1,1,max(1-combo*.001,.5),min(.4+comboTime,1))
     mStr(combo,1205,398)
 
-    --Score
+    -- Score
     setFont(25)gc.setColor(COLOR.Z)
     mStr(score1,1205,560)
 end

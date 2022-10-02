@@ -96,11 +96,11 @@ function scene.draw()
     end
 
     if state==2 then
-        gc.setColor(.9,.9,0)--win
+        gc.setColor(.9,.9,0)-- win
     elseif state==1 then
-        gc.setColor(.9,.9,.9)--game
+        gc.setColor(.9,.9,.9)-- game
     elseif state==0 then
-        gc.setColor(.2,.8,.2)--ready
+        gc.setColor(.2,.8,.2)-- ready
     end
 
     FONT.set(100)

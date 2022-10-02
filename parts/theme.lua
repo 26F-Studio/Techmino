@@ -1,5 +1,5 @@
 local THEME={
-    cur=false,--Current theme
+    cur=false,-- Current theme
 }
 local themeColor={
     xmas={COLOR.lR,COLOR.Z,COLOR.lG},
@@ -10,19 +10,19 @@ function THEME.calculate(Y,M,D)
     if not Y then
         Y,M,D=os.date('%Y'),os.date('%m'),os.date('%d')
     end
-    --Festival calculate within one statement
+    -- Festival calculate within one statement
     return
-        --Christmas
+        -- Christmas
         M=='12' and math.abs(D-25)<4 and
         'xmas' or
 
-        --Birthday
+        -- Birthday
         M=='06' and D=='06' and
         'birth' or
 
-        --Spring festival
+        -- Spring festival
         M<'03' and math.abs((({
-            --Festival days. Jan 26=26, Feb 1=32, etc.
+            -- Festival days. Jan 26=26, Feb 1=32, etc.
             24,43,32,22,40,29,49,38,26,45,
             34,23,41,31,50,39,28,47,36,25,
             43,32,22,41,29,48,37,26,44,34,
@@ -33,18 +33,18 @@ function THEME.calculate(Y,M,D)
         })[Y-2000] or -26)-((M-1)*31+D))<6 and
         'sprfes' or
 
-        --April fool's day
+        -- April fool's day
         M=='04' and D=='01' and
         'fool' or
 
-        --Z day
+        -- Z day
         D=='26' and (
             (M=='03' or M=='04' or M=='05' or M=='06') and 'zday1' or
             (M=='07' or M=='08' or M=='09' or M=='10') and 'zday2' or
             (M=='11' or M=='12' or M=='01' or M=='02') and 'zday3'
         ) or
 
-        --Normal
+        -- Normal
         (
             (M=='02' or M=='03' or M=='04') and 'season1' or
             (M=='05' or M=='06' or M=='07') and 'season2' or

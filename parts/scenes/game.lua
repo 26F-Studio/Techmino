@@ -130,7 +130,7 @@ local function _checkGameKeyDown(key)
             return
         end
     end
-    return true--No key pressed
+    return true-- No key pressed
 end
 
 function scene.sceneInit()
@@ -283,19 +283,19 @@ function scene.gamepadUp(key)
 end
 
 local function _update_common(dt)
-    --Update control
+    -- Update control
     touchMoveLastFrame=false
     VK.update(dt)
 
-    --Update players
+    -- Update players
     for p=1,#PLAYERS do PLAYERS[p]:update(dt) end
 
-    --Fresh royale target
+    -- Fresh royale target
     if PLAYERS[1].frameRun%120==0 and PLAYERS[1].gameEnv.layout=='royale' then
         freshMostDangerous()
     end
 
-    --Warning check
+    -- Warning check
     checkWarning(dt)
 end
 function scene.update(dt)
@@ -328,15 +328,15 @@ function scene.draw()
 
     local repMode=GAME.replaying or tas
 
-    --Players
+    -- Players
     for p=1,#PLAYERS do
         PLAYERS[p]:draw(repMode)
     end
 
-    --Virtual keys
+    -- Virtual keys
     VK.draw()
 
-    --Attacking & Being attacked
+    -- Attacking & Being attacked
     if PLAYERS[1].gameEnv.layout=='royale' then
         local P=PLAYERS[1]
         gc_setLineWidth(5)
@@ -357,7 +357,7 @@ function scene.draw()
         end
     end
 
-    --Mode info
+    -- Mode info
     gc_setColor(1,1,1,.82)
     gc_draw(TEXTOBJ.modeName,modeTextPos,10,0,modeTextWidK,1)
     local M=GAME.curMode
@@ -378,7 +378,7 @@ function scene.draw()
         end
     end
 
-    --Replaying
+    -- Replaying
     if replaying or tas then
         setFont(20)
         gc_setColor(1,1,TIME()%.8>.4 and 1 or 0)
@@ -387,7 +387,7 @@ function scene.draw()
         mStr(("%s   %sf"):format(repRateStrings[gameRate],PLAYERS[1].frameRun),770,31)
     end
 
-    --Warning
+    -- Warning
     drawWarning()
 end
 scene.widgetList={

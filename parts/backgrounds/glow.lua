@@ -1,4 +1,4 @@
---Light-dark
+-- Light-dark
 local sin=math.sin
 local back={}
 

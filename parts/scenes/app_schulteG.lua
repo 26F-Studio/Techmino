@@ -128,16 +128,16 @@ function scene.draw()
     gc.setColor(COLOR.dX)
     gc.rectangle('fill',310,30,660,660)
     if state==2 then
-        gc.setColor(.9,.9,0)--win
+        gc.setColor(.9,.9,0)-- win
     elseif state==1 then
-        gc.setColor(.9,.9,.9)--game
+        gc.setColor(.9,.9,.9)-- game
     elseif state==0 then
-        gc.setColor(.2,.8,.2)--ready
+        gc.setColor(.2,.8,.2)-- ready
     end
     gc.setLineWidth(10)
     gc.rectangle('line',310,30,660,660)
 
-    --Draw no-setting area
+    -- Draw no-setting area
     if state==2 then
         gc.setColor(1,0,0,.3)
         gc.rectangle('fill',15,295,285,250)

@@ -25,7 +25,7 @@ return{
 
         if D.pt%100==99 then
             SFX.play('warn_1')
-        elseif D.pt>=D.target then--Level up!
+        elseif D.pt>=D.target then-- Level up!
             s=D.target/100
             local E=P.gameEnv
             E.lock=rush_lock[s]

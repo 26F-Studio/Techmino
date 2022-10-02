@@ -1,4 +1,4 @@
---Space with stars
+-- Space with stars
 local gc=love.graphics
 local rectangle=gc.rectangle
 local rnd=math.random
@@ -15,16 +15,16 @@ function back.resize(w,h)
     local S=stars
     for i=1,1260,5 do
         local s=rnd(26,40)*.1
-        S[i]=s*SCR.k           --Size
-        S[i+1]=rnd(W)-10       --X
-        S[i+2]=rnd(H)-10       --Y
-        S[i+3]=(rnd()-.5)*.01*s--Vx
-        S[i+4]=(rnd()-.5)*.01*s--Vy
+        S[i]=s*SCR.k           -- Size
+        S[i+1]=rnd(W)-10       -- X
+        S[i+2]=rnd(H)-10       -- Y
+        S[i+3]=(rnd()-.5)*.01*s-- Vx
+        S[i+4]=(rnd()-.5)*.01*s-- Vy
     end
 end
 function back.update(dt)
     local S=stars
-    --Star moving
+    -- Star moving
     for i=1,1260,5 do
         S[i+1]=(S[i+1]+S[i+3]*dt*60)%W
         S[i+2]=(S[i+2]+S[i+4]*dt*60)%H

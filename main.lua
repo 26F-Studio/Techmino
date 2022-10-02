@@ -15,24 +15,24 @@
 ]]--
 
 
---Var leak check
+-- Var leak check
 -- setmetatable(_G,{__newindex=function(self,k,v) print('>>'..k..string.rep(" ",26-#k),debug.traceback():match("\n.-\n\t(.-): "))rawset(self,k,v) end})
 
---System Global Vars Declaration
+-- System Global Vars Declaration
 local fs=love.filesystem
 VERSION=require"version"
 TIME=love.timer.getTime
 SYSTEM=love.system.getOS() if SYSTEM=='OS X' then SYSTEM='macOS' end
-FNNS=SYSTEM:find'\79\83'--What does FNSF stand for? IDK so don't ask me lol
+FNNS=SYSTEM:find'\79\83'-- What does FNSF stand for? IDK so don't ask me lol
 MOBILE=SYSTEM=='Android' or SYSTEM=='iOS'
 
---Global Vars & Settings
+-- Global Vars & Settings
 SFXPACKS={'chiptune'}
 VOCPACKS={'miya','mono','xiaoya','miku'}
 FIRSTLAUNCH=false
 DAILYLAUNCH=false
 
---System setting
+-- System setting
 math.randomseed(os.time()*626)
 love.setDeprecationOutput(false)
 love.keyboard.setKeyRepeat(true)
@@ -46,7 +46,7 @@ end
 local _LOADTIMELIST_={}
 local _LOADTIME_=TIME()
 
---Load modules
+-- Load modules
 Z=require'Zframework'
 FONT.load{
     norm='parts/fonts/proportional.otf',
@@ -55,7 +55,7 @@ FONT.load{
 FONT.setDefault('norm')
 FONT.setFallback('norm')
 
-SCR.setSize(1280,720)--Initialize Screen size
+SCR.setSize(1280,720)-- Initialize Screen size
 BGM.setMaxSources(5)
 VOC.setDiversion(.62)
 
@@ -74,7 +74,7 @@ end)
 
 table.insert(_LOADTIMELIST_,("Load Zframework: %.3fs"):format(TIME()-_LOADTIME_))
 
---Create shortcuts
+-- Create shortcuts
 setFont=FONT.set
 getFont=FONT.get
 mText=GC.simpX
@@ -84,10 +84,10 @@ string.repD=STRING.repD
 string.sArg=STRING.sArg
 string.split=STRING.split
 
---Delete all naked files (from ancient versions)
+-- Delete all naked files (from ancient versions)
 FILE.clear('')
 
---Create directories
+-- Create directories
 for _,v in next,{'conf','record','replay','cache','lib'} do
     local info=fs.getInfo(v)
     if not info then
@@ -102,7 +102,7 @@ CHAR=require'parts.char'
 require'parts.gameTables'
 require'parts.gameFuncs'
 
---Load shader files from SOURCE ONLY
+-- Load shader files from SOURCE ONLY
 SHADER={}
 for _,v in next,fs.getDirectoryItems('parts/shaders') do
     if FILE.isSafe('parts/shaders/'..v) then
@@ -134,8 +134,8 @@ end})
 
 table.insert(_LOADTIMELIST_,("Load Parts: %.3fs"):format(TIME()-_LOADTIME_))
 
---Init Zframework
-do--Z.setCursor
+-- Init Zframework
+do-- Z.setCursor
     local normImg=GC.DO{16,16,
         {'fCirc',8,8,4},
         {'setCL',1,1,1,.7},
@@ -190,7 +190,7 @@ Z.setDebugInfo{
     {"Voices",VOC.getQueueCount},
     {"Audios",love.audio.getSourceCount},
 }
-do--Z.setOnFocus
+do-- Z.setOnFocus
     local function task_autoSoundOff()
         while true do
             coroutine.yield()
@@ -230,7 +230,7 @@ do--Z.setOnFocus
 end
 Z.setOnQuit(destroyPlayers)
 
---Load settings and statistics
+-- Load settings and statistics
 if
     not (
         pcall(TABLE.cover, loadFile('conf/user',      '-json -canSkip') or loadFile('conf/user',      '-luaon -canSkip') or{},USER) and
@@ -244,7 +244,7 @@ then
     MES.new('error',"An error occured during loading, and some data was lost.")
 end
 
---Initialize fields, sequence, missions, gameEnv for cutsom game
+-- Initialize fields, sequence, missions, gameEnv for cutsom game
 local fieldData=loadFile('conf/customBoards','-string -canSkip')
 if fieldData then
     fieldData=STRING.split(fieldData,"!")
@@ -269,7 +269,7 @@ end
 TABLE.complete(require"parts.customEnv0",CUSTOMENV)
 
 
---Initialize image libs
+-- Initialize image libs
 IMG.init{
     lock='media/image/mess/lock.png',
     dialCircle='media/image/mess/dialCircle.png',
@@ -348,7 +348,7 @@ SKIN.load{
     {name="wtf",path='media/image/skin/wtf_mrz.png'},
 }
 
---Initialize sound libs
+-- Initialize sound libs
 SFX.init((function()--[Warning] Not loading files here, just get the list of sound needed
     local L={}
     for _,v in next,fs.getDirectoryItems('media/effect/chiptune/') do
@@ -377,7 +377,7 @@ VOC.init{
     'welcome',
 }
 
---Initialize language lib
+-- Initialize language lib
 LANG.init('zh',
     {
         zh=require'parts.language.lang_zh',
@@ -390,9 +390,9 @@ LANG.init('zh',
         ja=require'parts.language.lang_ja',
         symbol=require'parts.language.lang_symbol',
         zh_code=require'parts.language.lang_zh_code',
-        --1. Add language file to LANG folder;
-        --2. Require it;
-        --3. Add a button in parts/scenes/lang.lua;
+        -- 1. Add language file to LANG folder;
+        -- 2. Require it;
+        -- 3. Add a button in parts/scenes/lang.lua;
     },
     {
         block=BLOCK_NAMES
@@ -414,7 +414,7 @@ LANG.init('zh',
 
 table.insert(_LOADTIMELIST_,("Initialize Parts: %.3fs"):format(TIME()-_LOADTIME_))
 
---Load background files from SOURCE ONLY
+-- Load background files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems('parts/backgrounds') do
     if FILE.isSafe('parts/backgrounds/'..v) and v:sub(-3)=='lua' then
         local name=v:sub(1,-5)
@@ -422,7 +422,7 @@ for _,v in next,fs.getDirectoryItems('parts/backgrounds') do
     end
 end
 BG.remList('none')BG.remList('gray')BG.remList('custom')
---Load scene files from SOURCE ONLY
+-- Load scene files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems('parts/scenes') do
     if FILE.isSafe('parts/scenes/'..v) then
         local sceneName=v:sub(1,-5)
@@ -430,9 +430,9 @@ for _,v in next,fs.getDirectoryItems('parts/scenes') do
         LANG.addScene(sceneName)
     end
 end
---Load mode files
+-- Load mode files
 for i=1,#MODES do
-    local m=MODES[i]--Mode template
+    local m=MODES[i]-- Mode template
     if FILE.isSafe('parts/modes/'..m.name) then
         TABLE.complete(require('parts.modes.'..m.name),MODES[i])
         MODES[m.name],MODES[i]=MODES[i]
@@ -451,7 +451,7 @@ end
 
 table.insert(_LOADTIMELIST_,("Load Files: %.3fs"):format(TIME()-_LOADTIME_))
 
---Update data
+-- Update data
 do
     local needSave
 
@@ -603,7 +603,7 @@ do
     end
 end
 
---First start
+-- First start
 FIRSTLAUNCH=STAT.run==0
 if FIRSTLAUNCH and MOBILE then
     SETTING.VKSwitch=true
@@ -611,10 +611,10 @@ if FIRSTLAUNCH and MOBILE then
     SETTING.cleanCanvas=true
 end
 
---Apply system setting
+-- Apply system setting
 applySettings()
 
---Load replays
+-- Load replays
 for _,fileName in next,fs.getDirectoryItems('replay') do
     if fileName:sub(12,12):match("[a-zA-Z]") then
         local date,mode,version,player,seed,setting,mod
@@ -664,8 +664,8 @@ table.insert(_LOADTIMELIST_,("Initialize Data: %.3fs"):format(TIME()-_LOADTIME_)
 
 for i=1,#_LOADTIMELIST_ do LOG(_LOADTIMELIST_[i]) end
 
---Launch testing task if launch param received
-if TABLE.find(arg,'--test') then
+-- Launch testing task if launch param received
+if TABLE.find(arg,'-- test') then
     TASK.new(function()
         while not LOADED do coroutine.yield() end
 

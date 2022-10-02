@@ -49,11 +49,11 @@ function scene.keyDown(key,isRep)
             SCN.back()
         end
     elseif key=='space' then
-        if state==0 then--main
+        if state==0 then-- main
             if timer==0 then
                 state=1
             end
-        elseif state==3 then--play
+        elseif state==3 then-- play
             local c=(math.floor((pos-ang)*side/tau)-1)%side+1
             if hit[c]==0 then
                 hit[c]=1
@@ -87,12 +87,12 @@ function scene.touchDown()
 end
 
 function scene.update()
-    if state==0 then--main
+    if state==0 then-- main
         ang=ang-.02
         if ang>0 then ang=ang-tau end
         if pos<ang then pos=pos+tau end
         if timer>0 then timer=timer-1 end
-    elseif state==1 or state==2 then--zoom
+    elseif state==1 or state==2 then-- zoom
         ang=ang+.02+timer/260
         pos=pos-.016
         if ang>0 then ang=ang-tau end
@@ -115,7 +115,7 @@ function scene.update()
                 state=3
             end
         end
-    elseif state==3 then--play
+    elseif state==3 then-- play
         ang=ang+.02
         pos=pos-.016
         if ang>0 then

@@ -11,11 +11,11 @@ local max,min=math.max,math.min
 local int,abs=math.floor,math.abs
 
 local mapCam={
-    sel=false,--Selected mode ID
-    xOy=love.math.newTransform(0,0,0,1),--Transformation for map display
-    keyCtrl=false,--If controlling with key
+    sel=false,-- Selected mode ID
+    xOy=love.math.newTransform(0,0,0,1),-- Transformation for map display
+    keyCtrl=false,-- If controlling with key
 
-    --For auto zooming when enter/leave scene
+    -- For auto zooming when enter/leave scene
     zoomMethod=false,
     zoomK=false,
 }
@@ -27,7 +27,7 @@ local scene={}
 function scene.sceneInit()
     BG.set()
     mapCam.zoomK=SCN.prev=='main' and 5 or 1
-    visibleModes={}--1=unlocked, 2=locked but visible
+    visibleModes={}-- 1=unlocked, 2=locked but visible
     for name,M in next,MODES do
         if RANKS[name] and M.x then
             visibleModes[name]=1
@@ -113,7 +113,7 @@ function scene.touchMove(x,y,dx,dy)
         _moveMap(dx,dy)
     elseif not L[3] then
         x,y=SCR.xOy:inverseTransformPoint(tc.getPosition(L[1]))
-        dx,dy=SCR.xOy:inverseTransformPoint(tc.getPosition(L[2]))--Not delta!!!
+        dx,dy=SCR.xOy:inverseTransformPoint(tc.getPosition(L[2]))-- Not delta!!!
         local d=(x-dx)^2+(y-dy)^2
         if d>100 then
             d=d^.5
@@ -197,7 +197,7 @@ function scene.update()
     end
 end
 
---noRank/B/A/S/U/X
+-- noRank/B/A/S/U/X
 local baseRankColor={
     [0]={0,0,0,.3},
     {.2,.4,.6,.3},
@@ -207,11 +207,11 @@ local baseRankColor={
     {.85,.3,.8,.3},
 }
 local function _drawModeShape(M,S,drawType)
-    if M.shape==1 then--Rectangle
+    if M.shape==1 then-- Rectangle
         gc_rectangle(drawType,M.x-S,M.y-S,2*S,2*S)
-    elseif M.shape==2 then--Diamond
+    elseif M.shape==2 then-- Diamond
         gc_circle(drawType,M.x,M.y,S+12,4)
-    elseif M.shape==3 then--Octagon
+    elseif M.shape==3 then-- Octagon
         gc_circle(drawType,M.x,M.y,S+6,8)
     end
 end
@@ -226,7 +226,7 @@ function scene.draw()
     local R=RANKS
     local sel=mapCam.sel
 
-    --Lines connecting modes
+    -- Lines connecting modes
     gc_setLineWidth(8)
     gc_setColor(1,1,1,.2)
     for name,M in next,MODES do
@@ -238,7 +238,7 @@ function scene.draw()
         end
     end
 
-    --Modes
+    -- Modes
     setFont(80)
     gc_setLineWidth(4)
     for name,M in next,MODES do
@@ -247,7 +247,7 @@ function scene.draw()
             local rank=R[name]
             local S=M.size
 
-            --Draw shapes on map
+            -- Draw shapes on map
             if unlocked==1 then
                 gc_setColor(baseRankColor[rank])
                 _drawModeShape(M,S,'fill')
@@ -255,7 +255,7 @@ function scene.draw()
             gc_setColor(1,1,sel==name and 0 or 1,unlocked==1 and .8 or .3)
             _drawModeShape(M,S,'line')
 
-            --Icon
+            -- Icon
             local icon=M.icon
             if icon then
                 gc_setColor(unlocked==1 and COLOR.lH or COLOR.dH)
@@ -263,7 +263,7 @@ function scene.draw()
                 gc_draw(icon,M.x,M.y,nil,S/length,nil,length,length)
             end
 
-            --Rank
+            -- Rank
             if unlocked==1 then
                 name=RANK_CHARS[rank]
                 if name then
@@ -277,11 +277,11 @@ function scene.draw()
     end
     gc_pop()
 
-    --Score board
+    -- Score board
     if sel then
         local M=MODES[sel]
         gc_setColor(COLOR.lX)
-        gc_rectangle('fill',920,0,360,720,5)--Info board
+        gc_rectangle('fill',920,0,360,720,5)-- Info board
         gc_setColor(COLOR.Z)
         setFont(40)GC.mStr(text.modes[sel][1],1100,5)
         setFont(30)GC.mStr(text.modes[sel][2],1100,50)
@@ -292,7 +292,7 @@ function scene.draw()
         if M.score then
             mText(TEXTOBJ.highScore,1100,240)
             gc_setColor(COLOR.X)
-            gc_rectangle('fill',940,290,320,280,5)--Highscore board
+            gc_rectangle('fill',940,290,320,280,5)-- Highscore board
             local L=M.records
             gc_setColor(1,1,1)
             if visibleModes[sel]==2 then

@@ -40,10 +40,10 @@ return{
         PLY.draw.drawTargetLine(P,getRollGoal(P))
     end,
     hook_drop=function(P)
-        if P.modeData.rankPoint<140-passPoint then--If Less then X
+        if P.modeData.rankPoint<140-passPoint then-- If Less then X
             local R=#P.clearedRow
             if R>0 then
-                if R==4 then R=10 end--Techrash +10
+                if R==4 then R=10 end-- Techrash +10
                 P.modeData.rankPoint=math.min(P.modeData.rankPoint+R,140-passPoint)
                 P.modeData.rankName=sectionName[math.floor(P.modeData.rankPoint/10)+1]
             end

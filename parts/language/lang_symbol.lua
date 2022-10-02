@@ -235,7 +235,7 @@ return{
             ctrl="=?=",
             key="=?",
             touch="_?",
-            showVK="--?",
+            showVK="-- ?",
             reTime="3-2-1",
             RS="''?",
             menuPos="←M→?",
@@ -258,7 +258,7 @@ return{
             ghost="__↓__",
             center="+",
             grid="#",
-            lineNum="--No.",
+            lineNum="-- No.",
 
             lockFX="↓_~",
             dropFX="↓~",
@@ -509,7 +509,7 @@ return{
             color="~~~",
             invis="???",
             slide="~_~",
-            pathVis="--==>",
+            pathVis="-- ==>",
             revKB="Reverse",
         },
         app_schulteG={

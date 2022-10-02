@@ -1,4 +1,4 @@
---Fast lightning + spining tetromino
+-- Fast lightning + spining tetromino
 local int,rnd=math.floor,math.random
 local back={}
 

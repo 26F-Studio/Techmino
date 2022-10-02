@@ -6,7 +6,7 @@ local scene={}
 
 local defaultSetSelect
 local snapUnit=1
-local selected--Button selected
+local selected-- Button selected
 
 local function _save1()
     saveFile(VK_ORG,'conf/vkSave1')

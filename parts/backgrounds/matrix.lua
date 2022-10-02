@@ -1,4 +1,4 @@
---Black-White grid
+-- Black-White grid
 local gc=love.graphics
 local gc_clear,gc_scale=gc.clear,gc.scale
 local gc_setColor=gc.setColor

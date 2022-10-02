@@ -19,7 +19,7 @@ function scene.sceneInit()
 end
 
 function scene.touchDown(x,y,k)
-    --TODO
+    -- TODO
 end
 scene.mouseDown=scene.touchDown
 

@@ -7,7 +7,7 @@ local ins,rem=table.insert,table.remove
 local setFont=FONT.set
 
 local posLists={
-    --1~5
+    -- 1~5
     (function()
         local L={}
         for i=1,5 do
@@ -15,7 +15,7 @@ local posLists={
         end
         return L
     end)(),
-    --6~17
+    -- 6~17
     (function()
         local L={}
         for i=1,10 do
@@ -26,7 +26,7 @@ local posLists={
         end
         return L
     end)(),
-    --18~31
+    -- 18~31
     (function()
         local L={}
         for i=1,11 do L[i]=   {x=40,y=65+50*i,w=330,h=45} end
@@ -34,7 +34,7 @@ local posLists={
         for i=1,9 do L[22+i]= {x=760,y=65+50*i,w=330,h=45} end
         return L
     end)(),
-    --32~49
+    -- 32~49
     (function()
         local L={}
         for i=1,10 do L[i]=   {x=30,y=60+50*i,w=200,h=45} end
@@ -44,7 +44,7 @@ local posLists={
         for i=1,9 do L[40+i]= {x=870,y=60+50*i,w=200,h=45} end
         return L
     end)(),
-    --50~99
+    -- 50~99
     (function()
         local L={}
         for i=1,11 do L[i]=   {x=30,y=60+50*i,w=100,h=45} end
@@ -90,7 +90,7 @@ local function _freshPos()
         posList=posLists[3]
     elseif #PLYlist<=49 then
         posList=posLists[4]
-    else--if #PLY<=99 then
+    else-- if #PLY<=99 then
         posList=posLists[5]
     end
 end
@@ -211,7 +211,7 @@ function NETPLY.draw()
     for i=1,#PLYlist do
         local p=PLYlist[i]
         gc_translate(p.x,p.y)
-            --Rectangle
+            -- Rectangle
             gc_setColor(COLOR[
                 p.mode==0 and 'lH' or
                 p.mode==1 and 'N' or
@@ -225,17 +225,17 @@ function NETPLY.draw()
                 gc_rectangle('fill',0,0,p.w,p.h)
             end
 
-            --Stencil
+            -- Stencil
             stencilW,stencilH=p.w,p.h
             gc_setStencilTest('equal',1)
                 gc_stencil(_playerFrameStencil)
                 gc_setColor(1,1,1)
 
-                --Avatar
+                -- Avatar
                 local avatarSize=math.min(p.h,50)/128*.9
                 gc_draw(USERS.getAvatar(p.uid),2,2,nil,avatarSize)
 
-                --UID & Username
+                -- UID & Username
                 if p.h>=47 then
                     setFont(40)
                     gc_print("#"..p.uid,50,-5)
@@ -247,7 +247,7 @@ function NETPLY.draw()
                     gc_print(p.username,p.h,8)
                 end
 
-                --Stat
+                -- Stat
                 local S=p.stat
                 if S and (p.h>=55 or p.w>=180) then
                     setFont(20)

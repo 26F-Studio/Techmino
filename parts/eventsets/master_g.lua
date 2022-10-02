@@ -18,8 +18,8 @@ local isInRoll=false
 local rollGrades=0
 local cool_time={3120,3120,2940,2700,2700,2520,2520,2280,2280,0}
 local reg_time= {5400,4500,4500,4080,3600,3600,3000,3000,3000,3000}
-local prevDrop70=false --determines if previous piece has level less than __70
-local nextSpeedUp=false --determines if the next section speed should be boosted by 100
+local prevDrop70=false -- determines if previous piece has level less than __70
+local nextSpeedUp=false -- determines if the next section speed should be boosted by 100
 local isInRollTrans=false
 local function getGrav(l)
     return
@@ -220,7 +220,7 @@ return{
 
         if D.pt+1==D.target then
             SFX.play('warn_1')
-        elseif D.pt>=D.target then--Level up!
+        elseif D.pt>=D.target then-- Level up!
             spd_lvl=nextSpeedUp and spd_lvl+100 or spd_lvl
             nextSpeedUp=false
             prevDrop70=false
@@ -301,7 +301,7 @@ return{
             end
             if isInRollTrans then
                 if P.waiting>=220 then
-                    --Make field invisible
+                    -- Make field invisible
                     for y=1,#P.field do for x=1,10 do
                         P.visTime[y][x]=P.waiting-220
                     end end

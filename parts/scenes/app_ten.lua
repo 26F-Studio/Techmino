@@ -232,14 +232,14 @@ function scene.draw()
     gc.print(("%.3f"):format(time),1026,50)
     gc.print(score,1026,100)
 
-    --Progress time list
+    -- Progress time list
     setFont(25)
     setColor(.7,.7,.7)
     for i=1,#progress do
         gc.print(progress[i],1000,140+30*i)
     end
 
-    --Previews
+    -- Previews
     if nexts then
         gc.setColor(COLOR.dX)
         rectangle('fill',20,450,280,75)
@@ -254,7 +254,7 @@ function scene.draw()
     end
 
     if state==2 then
-        --Draw no-setting area
+        -- Draw no-setting area
         setColor(1,0,0,.3)
         rectangle('fill',15,200,285,210)
     end

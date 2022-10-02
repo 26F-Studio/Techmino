@@ -5,8 +5,8 @@ local ins=table.insert
 local BAG,FIELD,MISSION,CUSTOMENV,GAME=BAG,FIELD,MISSION,CUSTOMENV,GAME
 
 local DATA={}
---Sep symbol: 33 (!)
---Safe char: 34~126
+-- Sep symbol: 33 (!)
+-- Safe char: 34~126
 --[[
     Count: 34~96
     Block: 97~125
@@ -66,14 +66,14 @@ local fieldMeta={__index=function(self,h)
     end
     return self[h]
 end}
-function DATA.newBoard(f)--Generate a new board
+function DATA.newBoard(f)-- Generate a new board
     return setmetatable(f and TABLE.shift(f) or{},fieldMeta)
 end
-function DATA.copyBoard(page)--Copy the [page] board
+function DATA.copyBoard(page)-- Copy the [page] board
     local F=FIELD[page or 1]
     local str=""
 
-    --Encode field
+    -- Encode field
     for y=1,#F do
         local S=""
         local L=F[y]
@@ -91,7 +91,7 @@ function DATA.copyBoards()
     end
     return table.concat(out,"!")
 end
-function DATA.pasteBoard(str,page)--Paste [str] data to [page] board
+function DATA.pasteBoard(str,page)-- Paste [str] data to [page] board
     if not page then
         page=1
     end
@@ -100,16 +100,16 @@ function DATA.pasteBoard(str,page)--Paste [str] data to [page] board
     end
     local F=FIELD[page]
 
-    --Decode
+    -- Decode
     str=STRING.unpackBin(str)
     if not str then return end
 
-    local fX,fY=1,1--*ptr for Field(r*10+(c-1))
+    local fX,fY=1,1-- *ptr for Field(r*10+(c-1))
     local p=1
     while true do
-        local b=byte(str,p)--1byte
+        local b=byte(str,p)-- 1byte
 
-        --Str end
+        -- Str end
         if not b then
             if fX~=1 then
                 return
@@ -118,9 +118,9 @@ function DATA.pasteBoard(str,page)--Paste [str] data to [page] board
             end
         end
 
-        local id=b%32-1--Block id
-        if id>26 then return end--Illegal blockid
-        b=int(b/32)--Mode id
+        local id=b%32-1-- Block id
+        if id>26 then return end-- Illegal blockid
+        b=int(b/32)-- Mode id
 
         F[fY][fX]=id
         if fX<10 then
@@ -254,13 +254,13 @@ function DATA.dumpRecording(list,ptr)
     if not ptr then ptr=1 end
     local prevFrm=list[ptr-2] or 0
     while list[ptr] do
-        --Flush buffer
+        -- Flush buffer
         if #buffer>10 then
             out=out..buffer
             buffer=""
         end
 
-        --Encode time
+        -- Encode time
         local t=list[ptr]-prevFrm
         prevFrm=list[ptr]
         if t>=128 then
@@ -275,7 +275,7 @@ function DATA.dumpRecording(list,ptr)
             buffer=buffer..char(t)
         end
 
-        --Encode event
+        -- Encode event
         t=list[ptr+1]
         if t>=128 then
             buffer2=char(t%128)
@@ -289,7 +289,7 @@ function DATA.dumpRecording(list,ptr)
             buffer=buffer..char(t)
         end
 
-        --Step
+        -- Step
         ptr=ptr+2
     end
     return out..buffer,ptr
@@ -301,7 +301,7 @@ function DATA.pumpRecording(str,L)
     local curFrm=L[#L-1] or 0
     local code
     while p<=len do
-        --Read delta time
+        -- Read delta time
         code=0
         local b=byte(str,p)
         while b>=128 do
@@ -324,7 +324,7 @@ function DATA.pumpRecording(str,L)
         p=p+1
     end
 end
-do--function DATA.saveReplay()
+do-- function DATA.saveReplay()
     local noRecList={"custom","solo","round","techmino"}
     local function _getModList()
         local res={}
@@ -336,7 +336,7 @@ do--function DATA.saveReplay()
         return res
     end
     function DATA.saveReplay()
-        --Filtering modes that cannot be saved
+        -- Filtering modes that cannot be saved
         for _,v in next,noRecList do
             if GAME.curModeName:find(v) then
                 MES.new('error',"Cannot save recording of this mode now!")
@@ -344,7 +344,7 @@ do--function DATA.saveReplay()
             end
         end
 
-        --Write file
+        -- Write file
         local fileName=os.date("replay/%Y_%m_%d_%H%M%S.rep")
         if not love.filesystem.getInfo(fileName) then
             love.filesystem.write(fileName,
@@ -371,7 +371,7 @@ do--function DATA.saveReplay()
 end
 function DATA.parseReplay(fileName,ifFull)
     local fileData
-    --Read file
+    -- Read file
     fileData=love.filesystem.read(fileName)
     return DATA.parseReplayData(fileName,fileData,ifFull)
 end
@@ -380,20 +380,20 @@ function DATA.parseReplayData(fileName,fileData,ifFull)
 
     if not (fileData and #fileData>0) then goto BREAK_cannotParse end
 
-    --Decompress file
+    -- Decompress file
     success,fileData=pcall(love.data.decompress,'string','zlib',fileData)
     if not success then goto BREAK_cannotParse end
 
-    --Load metadata
+    -- Load metadata
     metaData,fileData=STRING.readLine(fileData)
     metaData=JSON.decode(metaData)
     if not metaData then goto BREAK_cannotParse end
 
-    --Convert ancient replays
+    -- Convert ancient replays
     metaData.mode=MODE_UPDATE_MAP[metaData.mode] or metaData.mode
     if not MODES[metaData.mode] then goto BREAK_cannotParse end
 
-    --Create replay object
+    -- Create replay object
     rep={
         fileName=fileName,
         available=true,
@@ -411,7 +411,7 @@ function DATA.parseReplayData(fileName,fileData,ifFull)
     if ifFull then rep.data=fileData end
     do return rep end
 
-    --Create unavailable replay object
+    -- Create unavailable replay object
     ::BREAK_cannotParse::
     return{
         fileName=fileName,

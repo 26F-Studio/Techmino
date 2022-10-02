@@ -4,7 +4,7 @@ local mStr=GC.mStr
 
 local scene={}
 
-local selected--if waiting for key
+local selected-- if waiting for key
 local keyList
 
 local keyNames={
