@@ -104,6 +104,12 @@ return{
 
     dictNote="==Copied from TetroDictionary==",
 
+
+
+    Techrater={-- Server's warn/error messages
+        -- TODO
+    },
+
     getNoticeFail="Failed to fetch announcements",
     oldVersion="Version $1 is now available",
     needUpdate="Newer version required!",
@@ -137,6 +143,8 @@ return{
     chatRemain="Online",
     chatStart="------Beginning of log------",
     chatHistory="------New messages below------",
+
+
 
     keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
     customBGhelp="Drop image file here to apply custom background",

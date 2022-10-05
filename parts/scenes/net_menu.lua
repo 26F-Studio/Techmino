@@ -4,7 +4,7 @@ function scene.sceneInit()
     BG.set()
 end
 function scene.sceneBack()
-    NET.closeWS()
+    NET.ws.close()
 end
 
 function scene.draw()
@@ -24,7 +24,7 @@ scene.widgetList={
                 USER.__data.password=false
                 USER.__data.rToken=false
                 USER.__data.aToken=false
-                NET.closeWS()
+                NET.ws.close()
                 SCN.back()
             end
         end},

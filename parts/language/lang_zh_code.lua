@@ -104,6 +104,12 @@ return{
 
     dictNote="#!CopySource=Zictionary",
 
+
+
+    Techrater={-- Server's warn/error messages
+        -- TODO
+    },
+
     getNoticeFail="Error.FetchAnnouncement();",
     oldVersion="Version.New($1);",
     needUpdate="Version.NeedUpdate()",
@@ -137,6 +143,8 @@ return{
     chatRemain="Online=",
     chatStart="#!Log.Beginning();",
     chatHistory="#!NewMassagesBelow();",
+
+
 
     keySettingInstruction="Key.Bind(Press);\nKey.Bind.Cancel(Escspe);\nKey.Bind.Delete(Backspace);",
     customBGhelp="Ctm.BG(DropHere);",

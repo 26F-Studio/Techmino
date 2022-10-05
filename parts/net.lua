@@ -29,14 +29,54 @@ local NET={
 
 
 --------------------------<NEW HTTP API>
+local availableErrorTextType={info=1,warn=1,error=1}
+local function parseError(pathStr)
+    LOG(pathStr)
+    if type(pathStr)~='string' then
+        MES.new('error',"<"..tostring(pathStr)..">",5)
+    elseif pathStr:find("[^0-9a-z.]") then
+        MES.new('error',"["..pathStr.."]",5)
+    else
+        local mesPath=STRING.split(pathStr,'.')
+        if mesPath[1]~='Techrater' then
+            MES.new('error',"["..pathStr.."]",5)
+            return
+        end
+        local curText=text.Techrater
+        for i=2,#mesPath do
+            if type(curText)~='table' then break end
+            curText=curText[mesPath[i]]
+        end
+
+        if type(curText)=='table' then
+            if availableErrorTextType[curText[1]] and type(curText[2])=='string' and type(curText[3])=='number' then
+                MES.new(curText[1],curText[2],math.min(curText[3],5))
+            else
+                MES.new('error',"["..pathStr.."]",5)
+            end
+        elseif type(curText)=='string' then
+            if #curText>0 then
+                MES.new('warn',curText,5)
+            end
+        else
+            MES.new('error',"["..pathStr.."]",5)
+        end
+    end
+end
 local function getMsg(request,timeout)
     HTTP(request)
     local totalTime=0
     while true do
-        local mes=HTTP.pollMsg(request.pool)
-        if mes then
-            if type(mes.body)=='string' and #mes.body>0 then
-                return JSON.decode(mes.body)
+        local msg=HTTP.pollMsg(request.pool)
+        if msg then
+            if type(msg.body)=='string' and #msg.body>0 then
+                local body=JSON.decode(msg.body)
+                if body then
+                    if tostring(body.code):sub(1,1)~='2' then
+                        parseError(body.message~=nil and body.message or msg)
+                    end
+                    return body
+                end
             else
                 MES.new('info',text.serverDown)
                 return
@@ -52,6 +92,14 @@ end
 function NET.getCode(email)
     if not TASK.lock('getCode') then return end
     TASK.new(function()
+        WAIT{
+            quit=function()
+                TASK.unlock('getCode')
+                HTTP.deletePool('getCode')
+            end,
+            timeout=12.6,
+        }
+
         local res=getMsg({
             pool='getCode',
             path='/techmino/api/v1/auth/verify/email',
@@ -63,26 +111,23 @@ function NET.getCode(email)
                 USER.email=email
                 SCN.fileDropped(2)
                 MES.new('info',text.checkEmail,5)
-            else
-                MES.new('error',res.message,5)
             end
-        else
-            MES.new('warn',text.requestFailed,5)
         end
 
         WAIT.interrupt()
     end)
-    WAIT{
-        quit=function()
-            TASK.unlock('getCode')
-            HTTP.deletePool('getCode')
-        end,
-        timeout=12.6,
-    }
 end
 function NET.codeLogin(code)
     if not TASK.lock('codeLogin') then return end
     TASK.new(function()
+        WAIT{
+            quit=function()
+                TASK.unlock('codeLogin')
+                HTTP.deletePool('codeLogin')
+            end,
+            timeout=6.26,
+        }
+
         local res=getMsg({
             pool='codeLogin',
             path='/techmino/api/v1/auth/login/email',
@@ -96,34 +141,31 @@ function NET.codeLogin(code)
             if res.code==200 then
                 USER.rToken=res.data.refreshToken
                 USER.aToken=res.data.accessToken
-                NET.connectWS()
+                NET.ws.connect()
                 SCN.pop()SCN.go('net_menu')
             elseif res.code==201 then
                 USER.rToken=res.data.refreshToken
                 USER.aToken=res.data.accessToken
                 SCN.pop()SCN.push('net_menu')
                 SCN.fileDropped(3)
-            else
-                MES.new('error',res.message,5)
             end
-        else
-            MES.new('warn',text.requestFailed,5)
         end
 
         WAIT.interrupt()
     end)
-    WAIT{
-        quit=function()
-            TASK.unlock('codeLogin')
-            HTTP.deletePool('codeLogin')
-        end,
-        timeout=6.26,
-    }
 end
 function NET.setPW(code,pw)
     if not TASK.lock('setPW') then return end
     TASK.new(function()
-        pw=HASH.pbkdf2(HASH.sha3_256,pw,"salt",26000)
+        WAIT{
+            quit=function()
+                TASK.unlock('setPW')
+                HTTP.deletePool('setPW')
+            end,
+            timeout=6.26,
+        }
+
+        pw=HASH.pbkdf2(HASH.sha3_256,pw,'salt',26000)
 
         local res=getMsg({
             pool='setPW',
@@ -140,22 +182,11 @@ function NET.setPW(code,pw)
             if res.code==200 then
                 USER.password=pw
                 SCN.back()
-            else
-                MES.new('error',res.message,5)
             end
-        else
-            MES.new('warn',text.requestFailed,5)
         end
 
         WAIT.interrupt()
     end)
-    WAIT{
-        quit=function()
-            TASK.unlock('setPW')
-            HTTP.deletePool('setPW')
-        end,
-        timeout=6.26,
-    }
 end
 function NET.autoLogin()
     if not USER.password then
@@ -164,6 +195,14 @@ function NET.autoLogin()
     end
     if not TASK.lock('autoLogin') then return end
     TASK.new(function()
+        WAIT{
+            quit=function()
+                TASK.unlock('autoLogin')
+                HTTP.deletePool('autoLogin')
+            end,
+            timeout=12.6,
+        }
+
         if USER.aToken then
             local res=getMsg({
                 pool='autoLogin',
@@ -173,12 +212,10 @@ function NET.autoLogin()
 
             if res then
                 if res.code==200 then
-                    NET.connectWS()
+                    NET.ws.connect()
                     SCN.go('net_menu')
                     WAIT.interrupt()
                     return
-                else
-                    LOG("Access token expired")
                 end
             else
                 WAIT.interrupt()
@@ -196,12 +233,10 @@ function NET.autoLogin()
                 if res.code==200 then
                     USER.rToken=res.data.refreshToken
                     USER.aToken=res.data.accessToken
-                    NET.connectWS()
+                    NET.ws.connect()
                     SCN.go('net_menu')
                     WAIT.interrupt()
                     return
-                else
-                    LOG("Refresh token expired")
                 end
             else
                 WAIT.interrupt()
@@ -221,12 +256,10 @@ function NET.autoLogin()
                 if res.code==200 then
                     USER.rToken=res.data.refreshToken
                     USER.aToken=res.data.accessToken
-                    NET.connectWS()
+                    NET.ws.connect()
                     SCN.go('net_menu')
                     WAIT.interrupt()
                     return
-                else
-                    MES.new('warn',text.requestFailed)
                 end
             else
                 WAIT.interrupt()
@@ -236,17 +269,19 @@ function NET.autoLogin()
         SCN.go('login')
         WAIT.interrupt()
     end)
-    WAIT{
-        quit=function()
-            TASK.unlock('autoLogin')
-            HTTP.deletePool('autoLogin')
-        end,
-        timeout=12.6,
-    }
 end
 function NET.pwLogin(email,pw)
     if not TASK.lock('pwLogin') then return end
     TASK.new(function()
+        WAIT{
+            quit=function()
+                TASK.unlock('pwLogin')
+                HTTP.deletePool('pwLogin')
+            end,
+            timeout=12.6,
+        }
+        TEST.yieldT(.26)
+
         pw=HASH.pbkdf2(HASH.sha3_256,pw,"salt",26000)
 
         local res=getMsg({
@@ -264,24 +299,13 @@ function NET.pwLogin(email,pw)
                 USER.password=pw
                 USER.rToken=res.data.refreshToken
                 USER.aToken=res.data.accessToken
-                NET.connectWS()
+                NET.ws.connect()
                 SCN.go('net_menu')
-            else
-                MES.new('error',res.message,5)
             end
-        else
-            MES.new('warn',text.requestFailed,5)
         end
 
         WAIT.interrupt()
     end)
-    WAIT{
-        quit=function()
-            TASK.unlock('pwLogin')
-            HTTP.deletePool('pwLogin')
-        end,
-        timeout=12.6,
-    }
 end
 
 --------------------------<NEW WS API>
@@ -295,14 +319,20 @@ end
 
 -- Room
 NET.room={}
-function NET.room.chat(mes,rid)
+function NET.room.chat(msg,rid)
     wsSend(1300,{
-        message=mes,
+        message=msg,
         roomId=rid,-- Admin
     })
 end
 function NET.room.create(roomName,description,capacity,roomType,roomData,password)
-    if not TASK.lock('enterRoom',6) then return end
+    if not TASK.lock('createRoom',6) then return end
+    WAIT{
+        quit=function()
+            TASK.unlock('createRoom')
+        end,
+        timeout=1e99,
+    }
     wsSend(1301,{
         capacity=capacity,
         info={
@@ -314,12 +344,6 @@ function NET.room.create(roomName,description,capacity,roomType,roomData,passwor
         data=roomData,
         password=password,
     })
-    WAIT{
-        quit=function()
-            TASK.unlock('enterRoom')
-        end,
-        timeout=1e99,
-    }
 end
 function NET.room.getData(rid)
     wsSend(1302,{
@@ -391,8 +415,8 @@ NET.player={}
 function NET.player.updateConf()
     wsSend(1200,dumpBasicConfig())
 end
-function NET.player.finish(mes)-- what mes?
-    wsSend(1201,mes)
+function NET.player.finish(msg)-- what msg?
+    wsSend(1201,msg)
 end
 function NET.player.joinGroup(gid)
     wsSend(1202,gid)
@@ -417,67 +441,68 @@ function NET.player.setPlaying(playing)
 end
 
 -- WS
-function NET.connectWS()
+NET.ws={}
+function NET.ws.connect()
     if WS.status('game')=='dead' then
         WS.connect('game','',{['x-access-token']=USER.aToken},6)
-        TASK.new(NET.updateWS)
+        TASK.new(NET.ws.update)
     end
 end
-function NET.closeWS()
+function NET.ws.close()
     WS.close('game')
 end
-function NET.updateWS()
+function NET.ws.update()
     while WS.status('game')~='dead' do
         coroutine.yield()
-        local message,op=WS.read('game')
-        if message then
+        local msg,op=WS.read('game')
+        if msg then
             if op=='ping' then
             elseif op=='pong' then
             elseif op=='close' then
-                local res=JSON.decode(message)
-                MES.new('info',("$1 $2"):repD(text.wsClose,res and res.message or message))
+                local res=JSON.decode(msg)
+                MES.new('info',("$1 $2"):repD(text.wsClose,res and res.message or msg))
                 if res and res.message then LOG(res.message) end
                 TEST.yieldUntilNextScene()
                 while SCN.stack[#SCN.stack-1]~='main' do SCN.pop() end
                 SCN.back()
                 return
             else
-                local res=JSON.decode(message)
-                if res then
+                local body=JSON.decode(msg)
+                if body then
                     -- print(("RECV ACT: $1 ($2)"):repD(res.action,res.type))
-                    if res.type=='Failed' then
-                        MES.new('warn',text.requestFailed..": "..(res.reason or "/"))
-                    elseif res.action==1100 then-- TODO
-                    elseif res.action==1101 then-- TODO
-                    elseif res.action==1102 then-- TODO
-                    elseif res.action==1201 then-- Finish
-                    elseif res.action==1202 then-- Join group
-                    elseif res.action==1203 then-- Set ready
-                    elseif res.action==1204 then-- Set host
-                    elseif res.action==1205 then-- Set state
-                    elseif res.action==1206 then-- Stream
-                    elseif res.action==1207 then-- Set playing
-                    elseif res.action==1301 then-- Create room
+                    if body.type=='Failed' then
+                        parseError(body.message~=nil and body.message or msg)
+                    elseif body.action==1100 then-- TODO
+                    elseif body.action==1101 then-- TODO
+                    elseif body.action==1102 then-- TODO
+                    elseif body.action==1201 then-- Finish
+                    elseif body.action==1202 then-- Join group
+                    elseif body.action==1203 then-- Set ready
+                    elseif body.action==1204 then-- Set host
+                    elseif body.action==1205 then-- Set state
+                    elseif body.action==1206 then-- Stream
+                    elseif body.action==1207 then-- Set playing
+                    elseif body.action==1301 then-- Create room
+                        TASK.unlock('createRoom')
+                        -- NET.roomState=...
+                        -- SCN.go('net_game')
+                        WAIT.interrupt()
+                    elseif body.action==1302 then-- Get room data
+                    elseif body.action==1303 then-- Set room data
+                    elseif body.action==1304 then-- Get room info
+                    elseif body.action==1305 then-- Set room info
+                    elseif body.action==1306 then-- Enter room
                         TASK.unlock('enterRoom')
                         -- NET.roomState=...
                         -- SCN.go('net_game')
                         WAIT.interrupt()
-                    elseif res.action==1302 then-- Get room data
-                    elseif res.action==1303 then-- Set room data
-                    elseif res.action==1304 then-- Get room info
-                    elseif res.action==1305 then-- Set room info
-                    elseif res.action==1306 then-- Enter room
-                        TASK.unlock('enterRoom')
-                        -- NET.roomState=...
-                        -- SCN.go('net_game')
-                        WAIT.interrupt()
-                    elseif res.action==1307 then-- Kick room
-                    elseif res.action==1308 then-- Leave room
-                    elseif res.action==1309 then-- Fetch rooms
+                    elseif body.action==1307 then-- Kick room
+                    elseif body.action==1308 then-- Leave room
+                    elseif body.action==1309 then-- Fetch rooms
                         TASK.unlock('fetchRoom')
-                        if res.data then SCN.scenes.net_rooms.widgetList.roomList:setList(res.data) end
-                    elseif res.action==1310 then-- Set password
-                    elseif res.action==1311 then-- Remove room
+                        if body.data then SCN.scenes.net_rooms.widgetList.roomList:setList(body.data) end
+                    elseif body.action==1310 then-- Set password
+                    elseif body.action==1311 then-- Remove room
                     end
                 else
                     WS.alert('user')

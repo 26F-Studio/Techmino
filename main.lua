@@ -228,7 +228,16 @@ do-- Z.setOnFocus
         end
     end)
 end
-Z.setOnQuit(destroyPlayers)
+Z.setOnBeforeQuit(function()
+    NET.ws.close()
+    TASK.new(function()
+        TEST.yieldT(.26)
+        love.event.quit()
+    end)
+end)
+Z.setOnQuit(function()
+    destroyPlayers()
+end)
 
 -- Load settings and statistics
 if

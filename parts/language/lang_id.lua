@@ -105,6 +105,12 @@ return{
 
     dictNote="==Tersalin dari TetroDictionary==",
 
+
+
+    Techrater={-- Server's warn/error messages
+        -- TODO
+    },
+
     getNoticeFail="Gagal mengambil pengumuman-pengumuman",
     oldVersion="Versi $1 sekarang tersedia",
     needUpdate="Butuh versi lebih baru!",
@@ -138,6 +144,8 @@ return{
     chatRemain="Online",
     chatStart="------Awal percakapan------",
     chatHistory="------Pesan-pesan baru di bawah ini------",
+
+
 
     keySettingInstruction="Tekan untuk menghubung tombol ke aksi tertentu\nescape: batal\nbackspace: hapus",
     customBGhelp="Seret file gambar di sini untuk memasangkan background",

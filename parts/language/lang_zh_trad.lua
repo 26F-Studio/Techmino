@@ -104,6 +104,12 @@ return{
 
     dictNote="==拷貝自小z辭典==",
 
+
+
+    Techrater={-- Server's warn/error messages
+        -- TODO
+    },
+
     getNoticeFail="無法獲取公告",
     oldVersion="版本 $1 現已推出",
     needUpdate="請更新遊戲！",
@@ -137,6 +143,8 @@ return{
     chatRemain="用戶數:",
     chatStart="------訊息開始------",
     chatHistory="------以上為歷史訊息------",
+
+
 
     keySettingInstruction="點擊來設置鍵位\n按esc來取消選中\n按退格鍵來清除選中",
     customBGhelp="把圖片檔案拖到這個視窗裏使用自定義背景",

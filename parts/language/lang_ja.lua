@@ -105,6 +105,12 @@ return{
 
     dictNote="==TetroDictionaryからコピーしました==",
 
+
+
+    Techrater={-- Server's warn/error messages
+        -- TODO
+    },
+
     getNoticeFail="お知らせ情報を取得できませんでした",
     oldVersion="バージョン$1のダウンロードが可能になりました",
     needUpdate="最新バージョンに更新してください",
@@ -138,6 +144,8 @@ return{
     chatRemain="オンライン",
     chatStart="------チャットの先頭------",
     chatHistory="------新しいメッセージ------",
+
+
 
     keySettingInstruction="選択してキーを入力\nEscape: キャンセル\nBackspace: キーを削除",
     customBGhelp="カスタム背景にする画像ファイルをドロップ",

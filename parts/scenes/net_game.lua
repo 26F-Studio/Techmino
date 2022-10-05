@@ -239,7 +239,7 @@ end
 
 function scene.update(dt)
     if WS.status('game')~='running' then
-        NET.closeWS()
+        NET.ws.close()
         SCN.back()
         return
     end

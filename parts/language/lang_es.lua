@@ -103,6 +103,12 @@ return{
 
     dictNote="==Copia de TetroDictionary==",
 
+
+
+    Techrater={-- Server's warn/error messages
+        -- TODO
+    },
+
     getNoticeFail="Error al buscar novedades.",
     oldVersion="¡Está disponible la nueva versión $1!",
     needUpdate="¡Nueva versión requerida!",
@@ -136,6 +142,8 @@ return{
     chatRemain="Usuarios en línea:",
     chatStart="------Comienzo del historial------",
     chatHistory="------Nuevos mensajes------",
+
+
 
     keySettingInstruction="Pulsa la tecla a mapear\nEsc.: Cancelar\nBackspace: Borrar",
     customBGhelp="Suelta una imagen aquí para aplicarla de fondo",

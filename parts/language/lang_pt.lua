@@ -92,6 +92,12 @@ return{
 
     -- dictNote="==Copied from TetroDictionary==",
 
+
+
+    Techrater={-- Server's warn/error messages
+        -- TODO
+    },
+
     getNoticeFail="Não conseguiu ter anúncios",
     oldVersion="Versão $1 esta disponível agora!",
     -- versionNotMatch="Version do not match!",
@@ -126,6 +132,8 @@ return{
     chatStart="------Começo do log------",
     chatHistory="------Novas mensagens abaixo------",
 
+
+    
     -- keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
     -- customBGhelp="Drop image file here to apply custom background",
     -- customBGloadFailed="Unsupport image format for custom background",

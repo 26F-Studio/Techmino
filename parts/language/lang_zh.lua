@@ -104,6 +104,12 @@ return{
 
     dictNote="==复制于小z词典==",
 
+
+
+    Techrater={-- Server's warn/error messages
+        -- TODO
+    },
+
     getNoticeFail="拉取公告失败",
     oldVersion="最新版本$1可以下载了！",
     needUpdate="请更新游戏！",
@@ -137,6 +143,8 @@ return{
     chatRemain="人数:",
     chatStart="------消息的开头------",
     chatHistory="------以上是历史消息------",
+
+
 
     keySettingInstruction="点击添加键位绑定\nesc取消选中\n退格键清空选中",
     customBGhelp="把图片文件拖到这个窗口里使用自定义背景",
