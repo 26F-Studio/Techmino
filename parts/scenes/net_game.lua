@@ -28,14 +28,14 @@ local function _hideReadyUI()
 end
 
 local function _setCancel()
-    NET.player.setPlaying(true)
-    NET.player.setReady(true)
+    NET.player_setPlaying(true)
+    NET.player_setReady(true)
 end
 local function _setReady()
-    NET.player.setReady(true)
+    NET.player_setReady(true)
 end
 local function _setSpectate()
-    NET.player.setPlaying(false)
+    NET.player_setPlaying(false)
 end
 
 local function _gotoSetting()
@@ -44,7 +44,7 @@ local function _gotoSetting()
 end
 local function _quit()
     if tryBack() then
-        NET.room.leave()
+        NET.room_leave()
         if SCN.stack[#SCN.stack-1]=='net_newRoom' then
             SCN.pop()
         end
@@ -77,7 +77,7 @@ function scene.sceneInit()
     newMessageTimer=0
 
     if SCN.prev=='setting_game' then
-        NET.player.updateConf()
+        NET.player_updateConf()
     end
     if GAME.prevBG then
         BG.set(GAME.prevBG)
@@ -144,8 +144,9 @@ function scene.keyDown(key,isRep)
     elseif key=='return' then
         local mes=STRING.trim(inputBox:getText())
         if not inputBox.hide and #mes>0 then
-            NET.room.chat(mes)
-            inputBox:clear()
+            if NET.room.chat(mes) then
+                inputBox:clear()
+            end
         else
             _switchChat()
         end
@@ -239,7 +240,7 @@ end
 
 function scene.update(dt)
     if WS.status('game')~='running' then
-        NET.ws.close()
+        NET.ws_close()
         SCN.back()
         return
     end
@@ -268,7 +269,7 @@ function scene.update(dt)
             elseif #stream%3==2 then
                 stream=stream.."\0\0\0\0"
             end
-            NET.player.stream(stream)
+            NET.player_stream(stream)
             lastUpstreamTime=PLAYERS[1].alive and P1.frameRun or 1e99
         end
     else

@@ -229,7 +229,7 @@ do-- Z.setOnFocus
     end)
 end
 Z.setOnBeforeQuit(function()
-    NET.ws.close()
+    NET.ws_close()
     TASK.new(function()
         TEST.yieldT(.26)
         love.event.quit()

@@ -141,7 +141,7 @@ function NET.codeLogin(code)
             if res.code==200 then
                 USER.rToken=res.data.refreshToken
                 USER.aToken=res.data.accessToken
-                NET.ws.connect()
+                NET.ws_connect()
                 SCN.pop()SCN.go('net_menu')
             elseif res.code==201 then
                 USER.rToken=res.data.refreshToken
@@ -189,10 +189,7 @@ function NET.setPW(code,pw)
     end)
 end
 function NET.autoLogin()
-    if not USER.password then
-        SCN.go('login')
-        return
-    end
+    if not USER.password then SCN.go('login') return end
     if not TASK.lock('autoLogin') then return end
     TASK.new(function()
         WAIT{
@@ -212,7 +209,7 @@ function NET.autoLogin()
 
             if res then
                 if res.code==200 then
-                    NET.ws.connect()
+                    NET.ws_connect()
                     SCN.go('net_menu')
                     WAIT.interrupt()
                     return
@@ -233,7 +230,7 @@ function NET.autoLogin()
                 if res.code==200 then
                     USER.rToken=res.data.refreshToken
                     USER.aToken=res.data.accessToken
-                    NET.ws.connect()
+                    NET.ws_connect()
                     SCN.go('net_menu')
                     WAIT.interrupt()
                     return
@@ -256,7 +253,7 @@ function NET.autoLogin()
                 if res.code==200 then
                     USER.rToken=res.data.refreshToken
                     USER.aToken=res.data.accessToken
-                    NET.ws.connect()
+                    NET.ws_connect()
                     SCN.go('net_menu')
                     WAIT.interrupt()
                     return
@@ -299,7 +296,7 @@ function NET.pwLogin(email,pw)
                 USER.password=pw
                 USER.rToken=res.data.refreshToken
                 USER.aToken=res.data.accessToken
-                NET.ws.connect()
+                NET.ws_connect()
                 SCN.go('net_menu')
             end
         end
@@ -309,6 +306,33 @@ function NET.pwLogin(email,pw)
 end
 
 --------------------------<NEW WS API>
+local actMap={
+    global_getOnlineCount= 1000,
+    match_finish=          1100,
+    match_ready=           1101,
+    match_start=           1102,
+    player_updateConf=     1200,
+    player_finish=         1201,
+    player_joinGroup=      1202,
+    player_setReady=       1203,
+    player_setHost=        1204,
+    player_setState=       1205,
+    player_stream=         1206,
+    player_setPlaying=     1207,
+    room_chat=             1300,
+    room_create=           1301,
+    room_getData=          1302,
+    room_setData=          1303,
+    room_getInfo=          1304,
+    room_setInfo=          1305,
+    room_enter=            1306,
+    room_kick=             1307,
+    room_leave=            1308,
+    room_fetch=            1309,
+    room_setPW=            1310,
+    room_remove=           1311,
+} for k,v in next,actMap do actMap[v]=k end
+
 local function wsSend(act,data)
     -- print("SEND ACT: "..act)
     WS.send('game',JSON.encode{
@@ -317,15 +341,24 @@ local function wsSend(act,data)
     })
 end
 
--- Room
-NET.room={}
-function NET.room.chat(msg,rid)
-    wsSend(1300,{
-        message=msg,
-        roomId=rid,-- Admin
-    })
+-- Global
+function NET.global_getOnlineCount()
+    wsSend(actMap.global_getOnlineCount)
 end
-function NET.room.create(roomName,description,capacity,roomType,roomData,password)
+
+-- Room
+function NET.room_chat(msg,rid)
+    if not TASK.lock('chatLimit',2.6) then
+        MES.new('warn',"Talk too fast")
+    elseif #msg>0 then
+        wsSend(1300,{
+            message=msg,
+            roomId=rid,-- Admin
+        })
+        return true
+    end
+end
+function NET.room_create(roomName,description,capacity,roomType,roomData,password)
     if not TASK.lock('createRoom',6) then return end
     WAIT{
         quit=function()
@@ -333,7 +366,7 @@ function NET.room.create(roomName,description,capacity,roomType,roomData,passwor
         end,
         timeout=1e99,
     }
-    wsSend(1301,{
+    wsSend(actMap.room_create,{
         capacity=capacity,
         info={
             name=roomName,
@@ -345,115 +378,174 @@ function NET.room.create(roomName,description,capacity,roomType,roomData,passwor
         password=password,
     })
 end
-function NET.room.getData(rid)
-    wsSend(1302,{
+function NET.room_getData(rid)
+    wsSend(actMap.room_getData,{
         roomId=rid,-- Admin
     })
 end
-function NET.room.setData(data,rid)
-    wsSend(1303,{
+function NET.room_setData(data,rid)
+    wsSend(actMap.room_setData,{
         data=data,
         roomId=rid,-- Admin
     })
 end
-function NET.room.getInfo(rid)
-    wsSend(1304,{
+function NET.room_getInfo(rid)
+    wsSend(actMap.room_getInfo,{
         roomId=rid,-- Admin
     })
 end
-function NET.room.setInfo(info,rid)
-    wsSend(1305,{
+function NET.room_setInfo(info,rid)
+    wsSend(actMap.room_setInfo,{
         info=info,
         roomId=rid,-- Admin
     })
 end
-function NET.room.enter(rid,password)
+function NET.room_enter(rid,password)
     if not TASK.lock('enterRoom',6) then return end
     SFX.play('reach',.6)
-    wsSend(1306,{
+    wsSend(actMap.room_enter,{
         data={
             roomId=rid,
             password=password,
         }
     })
 end
-function NET.room.kick(pid,rid)
-    wsSend(1307,{
+function NET.room_kick(pid,rid)
+    wsSend(actMap.room_kick,{
         playerId=pid,-- Host
         roomId=rid,-- Admin
     })
 end
-function NET.room.leave()
-    wsSend(1308)
+function NET.room_leave()
+    wsSend(actMap.room_leave)
 end
-function NET.room.fetch()
+function NET.room_fetch()
     if not TASK.lock('fetchRoom',3) then return end
-    wsSend(1309,{
-        data={
-            pageIndex=0,
-            pageSize=26,
-        }
+    wsSend(actMap.room_lock,{
+        pageIndex=0,
+        pageSize=26,
     })
 end
-function NET.room.setPW(pw,rid)
+function NET.room_setPW(pw,rid)
     if not TASK.lock('setRoomPW',2) then return end
-    wsSend(1310,{
-        data={
-            password=pw,
-            roomId=rid,-- Admin
-        }
+    wsSend(actMap.room_lock,{
+        password=pw,
+        roomId=rid,-- Admin
     })
 end
-function NET.room.remove(rid)
-    wsSend(1311,{
+function NET.room_remove(rid)
+    wsSend(actMap.room_remove,{
         roomId=rid-- Admin
     })
 end
 
 -- Player
-NET.player={}
-function NET.player.updateConf()
-    wsSend(1200,dumpBasicConfig())
+function NET.player_updateConf()
+    wsSend(actMap.player_updateConf,dumpBasicConfig())
 end
-function NET.player.finish(msg)-- what msg?
-    wsSend(1201,msg)
+function NET.player_finish(msg)-- what msg?
+    wsSend(actMap.player_finish,msg)
 end
-function NET.player.joinGroup(gid)
-    wsSend(1202,gid)
+function NET.player_joinGroup(gid)
+    wsSend(actMap.player_joinGroup,gid)
 end
-function NET.player.setReady(bool)
-    wsSend(1203,bool)
+function NET.player_setReady(bool)
+    wsSend(actMap.player_setReady,bool)
 end
-function NET.player.setHost(pid)
-    wsSend(1204,{
+function NET.player_setHost(pid)
+    wsSend(actMap.player_setHost,{
         playerId=pid,
         role='Admin',
     })
 end
-function NET.player.setState(state)-- what state?
-    wsSend(1205,state)
+function NET.player_setState(state)-- what state?
+    wsSend(actMap.player_setState,state)
 end
-function NET.player.stream(stream)
-    wsSend(1206,stream)
+function NET.player_stream(stream)
+    wsSend(actMap.player_stream,stream)
 end
-function NET.player.setPlaying(playing)
-    wsSend(1207,playing and 'Gamer' or 'Spectator')
+function NET.player_setPlaying(playing)
+    wsSend(actMap.player_setPlaying,playing and 'Gamer' or 'Spectator')
 end
 
+-- Match
+
 -- WS
-NET.ws={}
-function NET.ws.connect()
+NET.wsCallBack={}
+function NET.wsCallBack.global_getOnlineCount(body)
+    NET.onlineCount=tonumber(body.data) or "_"
+end
+function NET.wsCallBack.room_chat(body)-- TODO
+end
+function NET.wsCallBack.room_create(body)
+    TASK.unlock('createRoom')
+    -- NET.roomState=...
+    -- SCN.go('net_game')
+    WAIT.interrupt()
+end
+function NET.wsCallBack.room_getData(body)-- TODO
+end
+function NET.wsCallBack.room_setData(body)-- TODO
+end
+function NET.wsCallBack.room_getInfo(body)-- TODO
+end
+function NET.wsCallBack.room_setInfo(body)-- TODO
+end
+function NET.wsCallBack.room_enter(body)
+    TASK.unlock('enterRoom')
+    -- NET.roomState=...
+    -- SCN.go('net_game')
+    WAIT.interrupt()
+end
+function NET.wsCallBack.room_kick(body)-- TODO
+end
+function NET.wsCallBack.room_leave(body)-- TODO
+end
+function NET.wsCallBack.room_fetch(body)
+    TASK.unlock('fetchRoom')
+    if body.data then SCN.scenes.net_rooms.widgetList.roomList:setList(body.data) end
+end
+function NET.wsCallBack.room_setPW(body)-- TODO
+end
+function NET.wsCallBack.room_remove(body)-- TODO
+end
+function NET.wsCallBack.player_updateConf(body)-- TODO
+end
+function NET.wsCallBack.player_finish(body)-- TODO
+end
+function NET.wsCallBack.player_joinGroup(body)-- TODO
+end
+function NET.wsCallBack.player_setReady(body)-- TODO
+end
+function NET.wsCallBack.player_setHost(body)-- TODO
+end
+function NET.wsCallBack.player_setState(body)-- TODO
+end
+function NET.wsCallBack.player_stream(body)-- TODO
+end
+function NET.wsCallBack.player_setPlaying(body)-- TODO
+end
+
+function NET.ws_connect()
     if WS.status('game')=='dead' then
         WS.connect('game','',{['x-access-token']=USER.aToken},6)
-        TASK.new(NET.ws.update)
+        TASK.new(NET.ws_update)
     end
 end
-function NET.ws.close()
+function NET.ws_close()
     WS.close('game')
 end
-function NET.ws.update()
+function NET.ws_update()
+    local updateOnlineTimer=0
     while WS.status('game')~='dead' do
-        coroutine.yield()
+        local dt=coroutine.yield()
+
+        updateOnlineTimer=updateOnlineTimer+dt
+        if updateOnlineTimer>6.26 then
+            NET.global_getOnlineCount()
+            updateOnlineTimer=0
+        end
+
         local msg,op=WS.read('game')
         if msg then
             if op=='ping' then
@@ -469,42 +561,16 @@ function NET.ws.update()
             else
                 local body=JSON.decode(msg)
                 if body then
-                    -- print(("RECV ACT: $1 ($2)"):repD(res.action,res.type))
+                    -- print(("RECV ACT: $1 ($2)"):repD(body.action,body.type))
+                    -- print(TABLE.dump(body))
                     if body.type=='Failed' then
                         parseError(body.message~=nil and body.message or msg)
-                    elseif body.action==1100 then-- TODO
-                    elseif body.action==1101 then-- TODO
-                    elseif body.action==1102 then-- TODO
-                    elseif body.action==1201 then-- Finish
-                    elseif body.action==1202 then-- Join group
-                    elseif body.action==1203 then-- Set ready
-                    elseif body.action==1204 then-- Set host
-                    elseif body.action==1205 then-- Set state
-                    elseif body.action==1206 then-- Stream
-                    elseif body.action==1207 then-- Set playing
-                    elseif body.action==1301 then-- Create room
-                        TASK.unlock('createRoom')
-                        -- NET.roomState=...
-                        -- SCN.go('net_game')
-                        WAIT.interrupt()
-                    elseif body.action==1302 then-- Get room data
-                    elseif body.action==1303 then-- Set room data
-                    elseif body.action==1304 then-- Get room info
-                    elseif body.action==1305 then-- Set room info
-                    elseif body.action==1306 then-- Enter room
-                        TASK.unlock('enterRoom')
-                        -- NET.roomState=...
-                        -- SCN.go('net_game')
-                        WAIT.interrupt()
-                    elseif body.action==1307 then-- Kick room
-                    elseif body.action==1308 then-- Leave room
-                    elseif body.action==1309 then-- Fetch rooms
-                        TASK.unlock('fetchRoom')
-                        if body.data then SCN.scenes.net_rooms.widgetList.roomList:setList(body.data) end
-                    elseif body.action==1310 then-- Set password
-                    elseif body.action==1311 then-- Remove room
+                    else
+                        local f=NET.wsCallBack[actMap[body.action]]
+                        if f then f(body) else print("Wrong action number: "..body.action) end
                     end
                 else
+                    MES.new('warn',"Wrong json: "..msg,5)
                     WS.alert('user')
                 end
             end
@@ -516,10 +582,8 @@ end
 -- Account & User
 function NET.getUserInfo(uid)
     wsSend({
-        data={
-            uid=uid,
-            hash=USERS.getHash(uid),
-        },
+        uid=uid,
+        hash=USERS.getHash(uid),
     })
 end
 

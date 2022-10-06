@@ -67,7 +67,7 @@ local passwordBox=WIDGET.newInputBox{name='password',x=350,y=505,w=500,h=50,secr
 }]]
 local function _fetchRoom()
     fetchTimer=10
-    NET.room.fetch()
+    NET.room_fetch()
 end
 local scene={}
 
@@ -84,11 +84,12 @@ function scene.keyDown(key)
         end
     elseif roomList:getLen()>0 and (key=='join' or key=='return' and love.keyboard.isDown('lctrl','rctrl')) then
         local R=roomList:getSel()
-        if TASK.getLock('fetchRoom') or not R then return end
-        if R.info.version==VERSION.room then
-            NET.room.enter(R.roomId,passwordBox.value)
-        else
-            MES.new('error',text.versionNotMatch)
+        if R and not TASK.getLock('fetchRoom') then
+            if R.info.version==VERSION.room then
+                NET.room.enter(R.roomId,passwordBox.value)
+            else
+                MES.new('error',text.versionNotMatch)
+            end
         end
     else
         return true
