@@ -45,7 +45,6 @@ function scene.keyDown(key,isRep)
         end
     elseif not isRep then
         if key=='return'or key=='space'then
-            playing=BGM.getPlaying()[1]
             if playing~=bgmList[S]then
                 BGM.play(bgmList[S])
                 SFX.play('click')
@@ -53,6 +52,7 @@ function scene.keyDown(key,isRep)
                 BGM.stop()
                 SFX.play('click')
             end
+            playing=BGM.getPlaying()[1]
         elseif key=='tab'then
             SCN.swapTo('launchpad','none')
         elseif key=='escape'then
@@ -106,7 +106,8 @@ function scene.draw()
     end
 
     --Music player
-    if playing then
+    print(playing)
+    if BGM.isPlaying() and playing then
         setFont(45)
         GC.shadedPrint(playing,710,508,'left',2)
         GC.setColor(sin(t*.5)*.2+.8,sin(t*.7)*.2+.8,sin(t)*.2+.8)
@@ -131,7 +132,7 @@ scene.widgetList={
         disp=function()return BGM.tell()/BGM.getDuration()%1 end,
         show=false,
         code=function(v)BGM.set('all','seek',v*BGM.getDuration())end,
-        hideF=function()return not playing end
+        hideF=function()return not BGM.isPlaying()end
     },
     WIDGET.newSlider{name='bgm',  x=760,y=80,w=400,disp=SETval('bgm'),code=function(v)SETTING.bgm=v BGM.setVol(SETTING.bgm)end},
     WIDGET.newButton{name='up',   x=200,y=250,w=120,sound=false,code=pressKey'up',hideF=function()return selected==1 end,font=60,fText=CHAR.key.up},
