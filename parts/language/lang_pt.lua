@@ -98,6 +98,7 @@ return{
         -- TODO
     },
 
+    -- tooFrequently="Request too frequently",
     getNoticeFail="Não conseguiu ter anúncios",
     oldVersion="Versão $1 esta disponível agora!",
     -- versionNotMatch="Version do not match!",
@@ -113,8 +114,8 @@ return{
     diffPassword="Senhas não combinam",
     -- checkEmail="Registration request sent",
 
-    wsFailed="WebSocket falha na conexão",
-    wsClose="WebSocket closed:",
+    wsFailed="WebSocket falha na conexão: $1",
+    wsClose="WebSocket closed: $1",
     -- netTimeout="Network connection timeout",
     -- serverDown="Oops! Server is down",
     -- requestFailed="Request failed",

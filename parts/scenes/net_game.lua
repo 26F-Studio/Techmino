@@ -144,7 +144,7 @@ function scene.keyDown(key,isRep)
     elseif key=='return' then
         local mes=STRING.trim(inputBox:getText())
         if not inputBox.hide and #mes>0 then
-            if NET.room.chat(mes) then
+            if NET.room_chat(mes) then
                 inputBox:clear()
             end
         else

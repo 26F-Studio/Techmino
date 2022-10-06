@@ -100,6 +100,7 @@ return{
         -- TODO
     },
 
+    -- tooFrequently="Request too frequently",
     getNoticeFail="Echec de l'obtention de la notice",
     oldVersion="La version $1 est disponible !",
     -- versionNotMatch="Version do not match!",
@@ -115,8 +116,8 @@ return{
     diffPassword="Les mots de passe ne se correspondent pas",
     -- checkEmail="Registration request sent",
 
-    wsFailed="WebSocket connection échouée",
-    -- wsClose="WebSocket Closed:",
+    wsFailed="WebSocket connection échouée: $1",
+    -- wsClose="WebSocket Closed: $1",
     -- netTimeout="Network connection timeout",
     -- serverDown="Oops! Server is down",
     -- requestFailed="Request failed",

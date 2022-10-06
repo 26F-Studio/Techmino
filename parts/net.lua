@@ -27,6 +27,10 @@ local NET={
 }
 
 
+function NET.connectLost()
+    while SCN.stack[#SCN.stack-1]~='main' and #SCN.stack>0 do SCN.pop() end
+    SCN.back()
+end
 
 --------------------------<NEW HTTP API>
 local availableErrorTextType={info=1,warn=1,error=1}
@@ -334,9 +338,10 @@ local actMap={
 } for k,v in next,actMap do actMap[v]=k end
 
 local function wsSend(act,data)
-    -- print("SEND ACT: "..act)
+    -- print(("Send: $1 -->"):repD(act))
+    -- print(("Send: $1 -->"):repD(act)) print(TABLE.dump(data),"\n")
     WS.send('game',JSON.encode{
-        action=act,
+        action=assert(act),
         data=data,
     })
 end
@@ -359,13 +364,8 @@ function NET.room_chat(msg,rid)
     end
 end
 function NET.room_create(roomName,description,capacity,roomType,roomData,password)
-    if not TASK.lock('createRoom',6) then return end
-    WAIT{
-        quit=function()
-            TASK.unlock('createRoom')
-        end,
-        timeout=1e99,
-    }
+    if not TASK.lock('createRoom',10) then MES.new('warn',text.tooFrequently) return end
+    WAIT{timeout=12}
     wsSend(actMap.room_create,{
         capacity=capacity,
         info={
@@ -404,10 +404,8 @@ function NET.room_enter(rid,password)
     if not TASK.lock('enterRoom',6) then return end
     SFX.play('reach',.6)
     wsSend(actMap.room_enter,{
-        data={
-            roomId=rid,
-            password=password,
-        }
+        roomId=rid,
+        password=password,
     })
 end
 function NET.room_kick(pid,rid)
@@ -421,14 +419,14 @@ function NET.room_leave()
 end
 function NET.room_fetch()
     if not TASK.lock('fetchRoom',3) then return end
-    wsSend(actMap.room_lock,{
+    wsSend(actMap.room_fetch,{
         pageIndex=0,
         pageSize=26,
     })
 end
 function NET.room_setPW(pw,rid)
     if not TASK.lock('setRoomPW',2) then return end
-    wsSend(actMap.room_lock,{
+    wsSend(actMap.room_setPW,{
         password=pw,
         roomId=rid,-- Admin
     })
@@ -552,22 +550,21 @@ function NET.ws_update()
             elseif op=='pong' then
             elseif op=='close' then
                 local res=JSON.decode(msg)
-                MES.new('info',("$1 $2"):repD(text.wsClose,res and res.message or msg))
+                MES.new('info',text.wsClose:repD(res and res.message or msg))
                 if res and res.message then LOG(res.message) end
                 TEST.yieldUntilNextScene()
-                while SCN.stack[#SCN.stack-1]~='main' do SCN.pop() end
-                SCN.back()
+                NET.connectLost()
                 return
             else
                 local body=JSON.decode(msg)
                 if body then
-                    -- print(("RECV ACT: $1 ($2)"):repD(body.action,body.type))
-                    -- print(TABLE.dump(body))
+                    -- print(("Recv:      <-- $1 ($2)"):repD(body.action,body.type))
+                    -- print(("Recv:      <-- $1 ($2)"):repD(body.action,body.type)) print(TABLE.dump(body),"\n")
                     if body.type=='Failed' then
                         parseError(body.message~=nil and body.message or msg)
                     else
                         local f=NET.wsCallBack[actMap[body.action]]
-                        if f then f(body) else print("Wrong action number: "..body.action) end
+                        if f then f(body) end
                     end
                 else
                     MES.new('warn',"Wrong json: "..msg,5)

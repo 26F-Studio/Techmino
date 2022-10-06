@@ -110,6 +110,7 @@ return{
         -- TODO
     },
 
+    tooFrequently="操作太頻繁",
     getNoticeFail="無法獲取公告",
     oldVersion="版本 $1 現已推出",
     needUpdate="請更新遊戲！",
@@ -125,8 +126,8 @@ return{
     diffPassword="密碼不匹配",
     checkEmail="已發送註冊請求",
 
-    wsFailed="連接失敗",
-    wsClose="連接斷開:",
+    wsFailed="連接失敗: $1",
+    wsClose="連接斷開: $1",
     netTimeout="連接超時",
     serverDown="哎唷!服務器不在线",
     requestFailed="請求失敗",

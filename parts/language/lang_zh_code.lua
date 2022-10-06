@@ -110,9 +110,10 @@ return{
         -- TODO
     },
 
+    tooFrequently="Error.requestTooFrequently();",
     getNoticeFail="Error.FetchAnnouncement();",
     oldVersion="Version.New($1);",
-    needUpdate="Version.NeedUpdate()",
+    needUpdate="Version.NeedUpdate();",
     versionNotMatch="Version.NotMatch();",
     notFinished="ComingSoon();",
 
@@ -125,8 +126,8 @@ return{
     diffPassword="Error.DiffPassword();",
     checkEmail="register.RequestSent=true",
 
-    wsFailed="Error.Websocket.Failed();",
-    wsClose="Error.Websocket.Close=",
+    wsFailed="Error.Websocket.Failed=$1",
+    wsClose="Error.Websocket.Close=$1",
     netTimeout="Error.ConnectTimeOut();",
     serverDown="Error.ServerDown();",
     requestFailed="Error.RequestFailed();",
@@ -708,12 +709,12 @@ return{
             title="Register.UI",
             login="Login();",
             email="Email=",
-            send="Send()",
+            send="Send();",
             code="V-code=",
-            verify="Verify()",
+            verify="Verify();",
             password="Password=",
             password2="RePassword=",
-            setPW="SetPassword()",
+            setPW="SetPassword();",
         },
         account={
             title="Account.UI",

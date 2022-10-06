@@ -110,6 +110,7 @@ return{
         -- TODO
     },
 
+    tooFrequently="Request too frequently",
     getNoticeFail="Failed to fetch announcements",
     oldVersion="Version $1 is now available",
     needUpdate="Newer version required!",
@@ -125,8 +126,8 @@ return{
     diffPassword="Passwords don’t match",
     checkEmail="A sign up request has been sent.",
 
-    wsFailed="WebSocket connection failed",
-    wsClose="WebSocket closed:",
+    wsFailed="WebSocket connection failed: $1",
+    wsClose="WebSocket closed: $1",
     netTimeout="Connection timed out",
     serverDown="Oops! Server is down",
     requestFailed="Request failed",

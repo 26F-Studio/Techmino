@@ -111,6 +111,7 @@ return{
         -- TODO
     },
 
+    -- tooFrequently="Request too frequently",
     getNoticeFail="お知らせ情報を取得できませんでした",
     oldVersion="バージョン$1のダウンロードが可能になりました",
     needUpdate="最新バージョンに更新してください",
@@ -126,8 +127,8 @@ return{
     diffPassword="パスワードが一致しません!",
     checkEmail="Sign Upリクエストを送信しました!",
 
-    wsFailed="ウェブソケットとの通信に失敗しました",
-    wsClose="ウェブソケットとの通信を終了:",
+    wsFailed="ウェブソケットとの通信に失敗しました: $1",
+    wsClose="ウェブソケットとの通信を終了: $1",
     netTimeout="接続がタイムアウトしました",
     -- serverDown="Oops! Server is down",
     -- requestFailed="Request failed",

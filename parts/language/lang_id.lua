@@ -111,6 +111,7 @@ return{
         -- TODO
     },
 
+    -- tooFrequently="Request too frequently",
     getNoticeFail="Gagal mengambil pengumuman-pengumuman",
     oldVersion="Versi $1 sekarang tersedia",
     needUpdate="Butuh versi lebih baru!",
@@ -126,8 +127,8 @@ return{
     diffPassword="Kata sandi tidak sama",
     checkEmail="Permintaan daftar telah terkirim.",
 
-    wsFailed="Koneksi websocket gagal",
-    wsClose="Websocket tertutup:",
+    wsFailed="Koneksi websocket gagal: $1",
+    wsClose="Websocket tertutup: $1",
     netTimeout="Koneksi waktu habis",
     -- serverDown="Oops! Server is down",
     -- requestFailed="Request failed",

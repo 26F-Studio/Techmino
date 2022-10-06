@@ -109,6 +109,7 @@ return{
         -- TODO
     },
 
+    -- tooFrequently="Request too frequently",
     getNoticeFail="Error al buscar novedades.",
     oldVersion="¡Está disponible la nueva versión $1!",
     needUpdate="¡Nueva versión requerida!",
@@ -124,8 +125,8 @@ return{
     diffPassword="Las contraseñas no coinciden",
     checkEmail="Petición de registro enviada con éxito",
 
-    wsFailed="WebSocket conexión fallida",
-    wsClose="WebSocket cerrado:",
+    wsFailed="WebSocket conexión fallida: $1",
+    wsClose="WebSocket cerrado: $1",
     netTimeout="Tiempo de conexión agotado",
     -- serverDown="Oops! Server is down",
     -- requestFailed="Request failed",

@@ -110,6 +110,7 @@ return{
         -- TODO
     },
 
+    tooFrequently="操作太频繁",
     getNoticeFail="拉取公告失败",
     oldVersion="最新版本$1可以下载了！",
     needUpdate="请更新游戏！",
@@ -125,8 +126,8 @@ return{
     diffPassword="两次密码不一致",
     checkEmail="请查看邮箱验证码",
 
-    wsFailed="连接失败",
-    wsClose="连接被断开:",
+    wsFailed="连接失败: $1",
+    wsClose="连接断开: $1",
     netTimeout="连接超时",
     serverDown="唉哟!服务器不在线",
     requestFailed="请求失败",
