@@ -99,6 +99,7 @@ return{
     },
 
     -- tooFrequently="Request too frequently",
+    -- roomPasswordChanged="Room password changed",
     getNoticeFail="Não conseguiu ter anúncios",
     oldVersion="Versão $1 esta disponível agora!",
     -- versionNotMatch="Version do not match!",

@@ -24,6 +24,9 @@ local NET={
     roomReadyState=false,
 
     onlineCount="_",
+
+    textBox=WIDGET.newTextBox{name='texts',x=340,y=80,w=600,h=560},
+    inputBox=WIDGET.newInputBox{name='input',x=340,y=660,w=600,h=50,limit=256},    
 }
 
 
@@ -309,6 +312,15 @@ function NET.pwLogin(email,pw)
     end)
 end
 
+--Remove player when leave
+local function _removePlayer(L,sid)
+    for i=1,#L do
+        if L[i].sid==sid then
+            return table.remove(L,i)
+        end
+    end
+end
+
 --------------------------<NEW WS API>
 local actMap={
     global_getOnlineCount= 1000,
@@ -473,39 +485,77 @@ NET.wsCallBack={}
 function NET.wsCallBack.global_getOnlineCount(body)
     NET.onlineCount=tonumber(body.data) or "_"
 end
-function NET.wsCallBack.room_chat(body)-- TODO
+function NET.wsCallBack.room_chat(body)
+    if SCN.cur=='net_game' then
+        TASK.unlock('receiveMessage')
+        TASK.lock('receiveMessage',1)
+        NET.textBox:push{
+            COLOR.L,"[?]",-- TODO
+            COLOR.Y,"#"..body.playerId.." ",
+            COLOR.I,body.message,
+        }
+    end
 end
 function NET.wsCallBack.room_create(body)
-    TASK.unlock('createRoom')
-    -- NET.roomState=...
-    -- SCN.go('net_game')
-    WAIT.interrupt()
+    NET.wsCallBack.room_enter(body)
 end
-function NET.wsCallBack.room_getData(body)-- TODO
+function NET.wsCallBack.room_getData(body)
+    NET.roomState.roomData=body.data
 end
-function NET.wsCallBack.room_setData(body)-- TODO
+function NET.wsCallBack.room_setData(body)
+    NET.wsCallBack.room_getData(body)
 end
-function NET.wsCallBack.room_getInfo(body)-- TODO
+function NET.wsCallBack.room_getInfo(body)
+    NET.roomState.roomInfo=body.info
 end
-function NET.wsCallBack.room_setInfo(body)-- TODO
+function NET.wsCallBack.room_setInfo(body)
+    NET.wsCallBack.room_getInfo(body)
 end
-function NET.wsCallBack.room_enter(body)
+function NET.wsCallBack.room_enter(body)-- TODO
     TASK.unlock('enterRoom')
     -- NET.roomState=...
-    -- SCN.go('net_game')
+    NET.textBox.hide=true
+    NET.inputBox.hide=true
+    NET.textBox:clear()
+    NET.inputBox:clear()
+    loadGame('netBattle',true,true)
     WAIT.interrupt()
 end
-function NET.wsCallBack.room_kick(body)-- TODO
+function NET.wsCallBack.room_kick(body)
+    if body.data then
+        -- local eid=body.data.executorId
+        local uid=body.data.targetId
+        NETPLY.remove(uid)
+        _removePlayer(PLAYERS,uid)
+        _removePlayer(PLY_ALIVE,uid)
+    end
 end
-function NET.wsCallBack.room_leave(body)-- TODO
+function NET.wsCallBack.room_leave(body)
+    if body.data then
+        if body.type=='Server' then
+            if SCN.cur=='net_game' then
+                if SCN.stack[#SCN.stack-1]=='net_newRoom' then
+                    SCN.pop()
+                end
+                SCN.back()
+            end
+        elseif body.type=='Client' then
+            local uid=body.data.playerId
+            NETPLY.remove(uid)
+            _removePlayer(PLAYERS,uid)
+            _removePlayer(PLY_ALIVE,uid)
+        end
+    end
 end
 function NET.wsCallBack.room_fetch(body)
     TASK.unlock('fetchRoom')
     if body.data then SCN.scenes.net_rooms.widgetList.roomList:setList(body.data) end
 end
-function NET.wsCallBack.room_setPW(body)-- TODO
+function NET.wsCallBack.room_setPW()
+    MES.new(text.roomPasswordChanged)
 end
-function NET.wsCallBack.room_remove(body)-- TODO
+function NET.wsCallBack.room_remove(body)
+    NET.wsCallBack.room_leave(body)
 end
 function NET.wsCallBack.player_updateConf(body)-- TODO
 end
@@ -559,7 +609,7 @@ function NET.ws_update()
                 local body=JSON.decode(msg)
                 if body then
                     -- print(("Recv:      <-- $1 ($2)"):repD(body.action,body.type))
-                    -- print(("Recv:      <-- $1 ($2)"):repD(body.action,body.type)) print(TABLE.dump(body),"\n")
+                    print(("Recv:      <-- $1 ($2)"):repD(body.action,body.type)) print(TABLE.dump(body),"\n")
                     if body.type=='Failed' then
                         parseError(body.message~=nil and body.message or msg)
                     else

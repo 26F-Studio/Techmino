@@ -110,6 +110,7 @@ return{
     },
 
     -- tooFrequently="Request too frequently",
+    -- roomPasswordChanged="Room password changed",
     getNoticeFail="Error al buscar novedades.",
     oldVersion="¡Está disponible la nueva versión $1!",
     needUpdate="¡Nueva versión requerida!",

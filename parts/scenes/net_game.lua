@@ -10,15 +10,14 @@ local ins=table.insert
 local SCR,VK,NET,NETPLY=SCR,VK,NET,NETPLY
 local PLAYERS,GAME=PLAYERS,GAME
 
-local textBox=WIDGET.newTextBox{name='texts',x=340,y=80,w=600,h=560}
-local inputBox=WIDGET.newInputBox{name='input',x=340,y=660,w=600,h=50,limit=256}
+local textBox=NET.textBox
+local inputBox=NET.inputBox
 
 local playing
 local lastUpstreamTime
 local upstreamProgress
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
-local newMessageTimer
 
 local function _hideReadyUI()
     return
@@ -66,15 +65,10 @@ end
 local scene={}
 
 function scene.sceneInit()
-    textBox.hide=true
-    textBox:clear()
-    inputBox.hide=true
-
     noTouch=not SETTING.VKSwitch
     playing=false
     lastUpstreamTime=0
     upstreamProgress=1
-    newMessageTimer=0
 
     if SCN.prev=='setting_game' then
         NET.player_updateConf()
@@ -216,7 +210,6 @@ function scene.socketRead(cmd,d)
             COLOR.Y,text.leaveRoom,
         }
     elseif cmd=='talk' then
-        newMessageTimer=80
         textBox:push{
             COLOR.Z,d.username,
             COLOR.dY,"#"..d.uid.." ",
@@ -274,9 +267,6 @@ function scene.update(dt)
         end
     else
         NETPLY.update(dt)
-    end
-    if newMessageTimer>0 then
-        newMessageTimer=newMessageTimer-1
     end
 end
 
@@ -336,9 +326,10 @@ function scene.draw()
     end
 
     -- New message
-    if newMessageTimer>0 then
+    local a=TASK.getLock('receiveMessage')
+    if a then
         setFont(40)
-        gc_setColor(.3,.7,1,(newMessageTimer/60)^2)
+        gc_setColor(.3,.7,1,a^2)
         gc_print("M",430,10)
     end
 end

@@ -112,6 +112,7 @@ return{
     },
 
     -- tooFrequently="Request too frequently",
+    -- roomPasswordChanged="Room password changed",
     getNoticeFail="Gagal mengambil pengumuman-pengumuman",
     oldVersion="Versi $1 sekarang tersedia",
     needUpdate="Butuh versi lebih baru!",

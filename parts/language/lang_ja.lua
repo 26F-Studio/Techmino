@@ -112,6 +112,7 @@ return{
     },
 
     -- tooFrequently="Request too frequently",
+    -- roomPasswordChanged="Room password changed",
     getNoticeFail="お知らせ情報を取得できませんでした",
     oldVersion="バージョン$1のダウンロードが可能になりました",
     needUpdate="最新バージョンに更新してください",

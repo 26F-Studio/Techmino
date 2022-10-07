@@ -111,6 +111,7 @@ return{
     },
 
     tooFrequently="操作太頻繁",
+    roomPasswordChanged="房間密碼已更改",
     getNoticeFail="無法獲取公告",
     oldVersion="版本 $1 現已推出",
     needUpdate="請更新遊戲！",

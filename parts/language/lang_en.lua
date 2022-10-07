@@ -111,6 +111,7 @@ return{
     },
 
     tooFrequently="Request too frequently",
+    roomPasswordChanged="Room password changed",
     getNoticeFail="Failed to fetch announcements",
     oldVersion="Version $1 is now available",
     needUpdate="Newer version required!",

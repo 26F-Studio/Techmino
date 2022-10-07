@@ -111,6 +111,7 @@ return{
     },
 
     tooFrequently="Error.requestTooFrequently();",
+    roomPasswordChanged="Info.roomPwChanged();",
     getNoticeFail="Error.FetchAnnouncement();",
     oldVersion="Version.New($1);",
     needUpdate="Version.NeedUpdate();",
