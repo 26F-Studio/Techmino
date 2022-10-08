@@ -132,8 +132,9 @@ return{
     -- serverDown="Oops! Server is down",
     -- requestFailed="Request failed",
 
-    onlinePlayerCount="En línea",
+    onlinePlayerCount="En línea: $1",
     createRoomSuccessed="¡Sala creada con éxito!",
+    -- playerKicked="[$1] removed [$2] from room",
     started="En juego",
     joinRoom="entró a la sala.",
     leaveRoom="salió de la sala.",

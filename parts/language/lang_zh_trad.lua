@@ -133,8 +133,9 @@ return{
     serverDown="哎唷!服務器不在线",
     requestFailed="請求失敗",
 
-    onlinePlayerCount="在線用戶數",
+    onlinePlayerCount="在線用戶數: $1",
     createRoomSuccessed="房間已創建！",
+    playerKicked="<$1>把<$2>移出了房間",
     started="遊戲中",
     joinRoom="進入房間",
     leaveRoom="離開房間",
@@ -153,7 +154,7 @@ return{
     customBGloadFailed="自定義背景的圖片檔案格式不支持",
 
     errorMsg="Techmino遇到問題，需要重新啟動。\n我們已經收集了一些錯誤信息，你可以反饋給作者。",
-    tryAnotherBuild="[無效的 UTF-8] 如果你使用的是Windows作業系統，請嘗試下載Techmino-win32或Techmino-win64（與你現在使用的不同的版本）。",
+    tryAnotherBuild="[無效的UTF-8] 如果你使用的是Windows作業系統，請嘗試下載Techmino-win32或Techmino-win64（與你現在使用的不同的版本）。",
 
     modInstruction="選擇你想使用的Mod！\n不同的Mod會以不同的方式改變遊戲規則(可能導致遊戲異常)\n快來開發新玩法或挑戰自我吧！\n提醒：開啟Mod會使成績無效，你可以使用鍵盤開關Mod，按下shift反向",
     modInfo={

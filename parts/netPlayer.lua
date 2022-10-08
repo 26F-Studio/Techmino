@@ -72,7 +72,6 @@ local nullIndex={
         NETPLY.add{
             uid=k,
             username="Stacker",
-            sid=-1,
             mode=0,
             config="",
         }
@@ -108,7 +107,6 @@ function NETPLY.add(d)
     local p={
         uid=d.uid,
         username=d.username,
-        sid=d.sid,
         mode=d.mode,
         config=d.config,
         connected=false,
@@ -122,9 +120,9 @@ function NETPLY.add(d)
     PLYmap[p.uid]=p
     _freshPos()
 end
-function NETPLY.remove(sid)
+function NETPLY.remove(uid)
     for i=1,#PLYlist do
-        if PLYlist[i].sid==sid then
+        if PLYlist[i].uid==uid then
             PLYmap[PLYlist[i].uid]=nil
             rem(PLYlist,i)
             _freshPos()
@@ -134,7 +132,6 @@ function NETPLY.remove(sid)
 end
 
 function NETPLY.getCount() return #PLYlist end
-function NETPLY.getSID(uid) return PLYmap[uid].sid end
 function NETPLY.getSelfJoinMode() return PLYmap[USER.uid].mode end
 function NETPLY.getSelfReady() return PLYmap[USER.uid].mode>0 end
 

@@ -24,7 +24,6 @@ return{
             if p.uid==USER.uid then
                 if p.connected then
                     PLY.newPlayer(1)
-                    PLAYERS[1].sid=NETPLY.getSID(USER.uid)
                     N=2
                 end
                 table.remove(L,i)

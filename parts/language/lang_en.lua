@@ -133,8 +133,9 @@ return{
     serverDown="Oops! Server is down",
     requestFailed="Request failed",
 
-    onlinePlayerCount="Online",
+    onlinePlayerCount="Online: $1",
     createRoomSuccessed="Room created",
+    playerKicked="[$1] removed [$2] from room",
     started="Playing",
     joinRoom="has entered the room.",
     leaveRoom="has left the room.",

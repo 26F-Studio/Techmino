@@ -100,7 +100,13 @@ function saveProgress()
     return saveFile(RANKS,'conf/unlock')
 end
 function saveSettings()
+    if WS.status('game')=='running' then
+        NET.player_updateConf()
+    end
     return saveFile(SETTING,'conf/settings')
+end
+function saveUser()
+    return saveFile(USER.__data,'conf/user')
 end
 do-- function applySettings()
     local saturateValues={
@@ -857,7 +863,7 @@ function drawOnlinePlayerCount()
     gc_setColor(1,1,1)
     gc_push('transform')
     gc_replaceTransform(SCR.xOy_ur)
-    gc_printf(text.onlinePlayerCount..":"..NET.onlineCount,-600,80,594,'right')
+    gc_printf(text.onlinePlayerCount:repD(NET.onlineCount),-600,80,594,'right')
     gc_pop()
 end
 function drawWarning()

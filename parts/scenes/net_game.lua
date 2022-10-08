@@ -77,9 +77,6 @@ function scene.sceneInit()
         BG.set(GAME.prevBG)
         GAME.prevBG=false
     end
-    if NET.specSRID then
-        NET.specSRID=false
-    end
 end
 function scene.sceneBack()
     GAME.playing=false
@@ -195,7 +192,7 @@ function scene.gamepadUp(key)
     end
 end
 
-function scene.socketRead(cmd,d)
+function scene._(cmd,d)
     if cmd=='join' then
         textBox:push{
             COLOR.lR,d.username,
@@ -209,12 +206,6 @@ function scene.socketRead(cmd,d)
             COLOR.dY,"#"..d.uid.." ",
             COLOR.Y,text.leaveRoom,
         }
-    elseif cmd=='talk' then
-        textBox:push{
-            COLOR.Z,d.username,
-            COLOR.dY,"#"..d.uid.." ",
-            COLOR.N,d.message or "[_]",
-        }
     elseif cmd=='go' then
         if not playing then
             playing=true
@@ -222,8 +213,6 @@ function scene.socketRead(cmd,d)
             upstreamProgress=1
             resetGameData('n',NET.seed)
             NETPLY.mouseMove(0,0)
-        else
-            MES.new('warn',"Redundant [Go]")
         end
     elseif cmd=='finish' then
         playing=false
@@ -315,7 +304,8 @@ function scene.draw()
             gc_draw(IMG.lock,30,668)
         end
         if NET.roomState.start then
-            gc_setColor(0,1,0)gc_print(text.started,230,655)
+            gc_setColor(0,1,0)
+            gc_print(text.started,230,655)
         end
 
         -- Profile

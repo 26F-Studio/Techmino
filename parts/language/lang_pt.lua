@@ -121,8 +121,9 @@ return{
     -- serverDown="Oops! Server is down",
     -- requestFailed="Request failed",
 
-    -- onlinePlayerCount="Online",
+    -- onlinePlayerCount="Online: $1",
     -- createRoomSuccessed="Room successfully created!",
+    -- playerKicked="[$1] removed [$2] from room",
     -- started="Playing",
     joinRoom="Entrou a sala.",
     leaveRoom="Saiu da sala.",
@@ -135,7 +136,7 @@ return{
     chatHistory="------Novas mensagens abaixo------",
 
 
-    
+
     -- keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
     -- customBGhelp="Drop image file here to apply custom background",
     -- customBGloadFailed="Unsupport image format for custom background",

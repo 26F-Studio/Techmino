@@ -121,7 +121,7 @@ local function _newEmptyPlayer(id,mini)
     -- User-related
     P.username=""
     P.uid=false
-    P.sid=id
+    P.sid=false
 
     -- Block states
     --[[
@@ -409,7 +409,7 @@ function PLY.newRemotePlayer(id,mini,ply)
     NETPLY.setPlayerObj(ply,P)
     P.uid=ply.uid
     P.username=ply.username
-    P.sid=ply.sid
+    P.sid=NET.uid_sid[ply.uid]
 
     _loadRemoteEnv(P,ply.config)
     _applyGameEnv(P)
@@ -430,8 +430,9 @@ function PLY.newPlayer(id,mini)
     P.type='human'
     P.sound=true
 
-    P.uid=USER.uid
     P.username=USERS.getUsername(USER.uid)
+    P.uid=USER.uid
+    P.sid=NET.uid_sid[USER.uid]
 
     _loadGameEnv(P)
     _applyGameEnv(P)

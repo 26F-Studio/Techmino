@@ -20,10 +20,12 @@ scene.widgetList={
     WIDGET.newButton{name='logout',x=880, y=40,w=180, h=60,color='dR',
         code=function()
             if tryBack() then
+                USER.__data.uid=false
                 USER.__data.email=false
                 USER.__data.password=false
                 USER.__data.rToken=false
                 USER.__data.aToken=false
+                love.filesystem.remove('conf/user')
                 NET.ws_close()
                 SCN.back()
             end

@@ -134,8 +134,9 @@ return{
     -- serverDown="Oops! Server is down",
     -- requestFailed="Request failed",
 
-    onlinePlayerCount="オンライン人数",
+    onlinePlayerCount="オンライン人数: $1",
     createRoomSuccessed="部屋を建てました",
+    -- playerKicked="[$1] removed [$2] from room",
     started="プレイ中",
     joinRoom="が入室しました",
     leaveRoom="が退出しました",

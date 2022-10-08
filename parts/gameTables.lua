@@ -576,6 +576,7 @@ end
 do-- Userdata tables
     USER=setmetatable({-- User infomation
         __data={
+            uid=false,
             email=false,
             password=false,
             rToken=false,
@@ -588,7 +589,6 @@ do-- Userdata tables
         __newindex=function(self,k,v)
             if self.__data[k]~=nil and v~=nil then
                 self.__data[k]=v
-                saveFile(USER.__data,'conf/user')
             end
         end,
     })

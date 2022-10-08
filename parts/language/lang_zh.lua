@@ -133,8 +133,9 @@ return{
     serverDown="唉哟!服务器不在线",
     requestFailed="请求失败",
 
-    onlinePlayerCount="在线人数",
+    onlinePlayerCount="在线人数: $1",
     createRoomSuccessed="创建房间成功！",
+    playerKicked="<$1>把<$2>移出了房间",
     started="游戏中",
     joinRoom="进入房间",
     leaveRoom="离开房间",
@@ -153,7 +154,7 @@ return{
     customBGloadFailed="自定义背景的图片文件格式不支持",
 
     errorMsg="Techmino遭受了雷击，需要重新启动。\n我们已收集了一些错误信息，你可以向作者进行反馈。",
-    tryAnotherBuild="[解码UTF-8错误] 如果你现在用的是Windows系统，请重新下载 Techmino-32位 或者 Techmino-64位 (和现在运行的不一样的那个)。",
+    tryAnotherBuild="[解码UTF-8错误] 如果你现在用的是Windows系统，请重新下载 Techmino-32/64位 (和现在运行的不一样的那个)。",
 
     modInstruction="选择你要使用的Mod！\n不同Mod会用不同的方式改变初始游戏规则(可能导致不能正常游玩)\n来开发新玩法或者挑战自我吧！\n提醒:开启一些Mod会让成绩无效，你也可以用键盘开关Mod，按住shift反向",
     modInfo={

@@ -7,7 +7,7 @@ local function getRollGoal(P)
     if rem<=0 then return 0 end
     local goal=math.floor(rem)*4
     rem=rem%1
-    return goal + (rem>0.3 and 4 or rem*10)
+    return goal+(rem>0.3 and 4 or rem*10)
 end
 
 return{

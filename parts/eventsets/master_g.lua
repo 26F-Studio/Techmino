@@ -111,11 +111,11 @@ local function getRollGoal()
     if cools>8 then
         goal=math.floor(rem)*4
         rem=rem%1
-        return goal + (rem>0.3 and 4 or rem*10)
+        return goal+(rem>0.3 and 4 or rem*10)
     else
         goal=math.floor(rem/0.26)*4
         rem=rem%0.26
-        return goal + (rem>0.12 and 4 or rem*25)
+        return goal+(rem>0.12 and 4 or rem*25)
     end
 end
 

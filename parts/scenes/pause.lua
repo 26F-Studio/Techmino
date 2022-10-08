@@ -123,8 +123,8 @@ end
 function scene.keyDown(key,isRep)
     if isRep then return true end
     if key=='q' then
-        SCN.back()
         GAME.playing=false
+        SCN.back()
     elseif key=='escape' then
         SCN.swapTo(GAME.result and 'game' or 'depause','none')
     elseif key=='s' then

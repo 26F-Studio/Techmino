@@ -1,9 +1,8 @@
 local WS=WS
 
 local NET={
-    allow_online=false,
-    accessToken=false,
-    cloudData={},
+    uid=false,
+    uid_sid={},
 
     roomState={-- A copy of room structure on server
         info={
@@ -17,8 +16,8 @@ local NET={
         private=false,
         start=false,
     },
+
     spectate=false,-- If player is spectating
-    specSRID=false,-- Cached SRID when enter playing room, for connect WS after scene swapped
     seed=false,
 
     roomReadyState=false,
@@ -26,7 +25,7 @@ local NET={
     onlineCount="_",
 
     textBox=WIDGET.newTextBox{name='texts',x=340,y=80,w=600,h=560},
-    inputBox=WIDGET.newInputBox{name='input',x=340,y=660,w=600,h=50,limit=256},    
+    inputBox=WIDGET.newInputBox{name='input',x=340,y=660,w=600,h=50,limit=256},
 }
 
 
@@ -116,6 +115,7 @@ function NET.getCode(email)
         if res then
             if res.code==200 then
                 USER.email=email
+                saveUser()
                 SCN.fileDropped(2)
                 MES.new('info',text.checkEmail,5)
             end
@@ -148,6 +148,7 @@ function NET.codeLogin(code)
             if res.code==200 then
                 USER.rToken=res.data.refreshToken
                 USER.aToken=res.data.accessToken
+                USER.uid=res.data.playerId
                 NET.ws_connect()
                 SCN.pop()SCN.go('net_menu')
             elseif res.code==201 then
@@ -156,6 +157,7 @@ function NET.codeLogin(code)
                 SCN.pop()SCN.push('net_menu')
                 SCN.fileDropped(3)
             end
+            saveUser()
         end
 
         WAIT.interrupt()
@@ -188,6 +190,7 @@ function NET.setPW(code,pw)
         if res then
             if res.code==200 then
                 USER.password=pw
+                saveUser()
                 SCN.back()
             end
         end
@@ -216,6 +219,8 @@ function NET.autoLogin()
 
             if res then
                 if res.code==200 then
+                    USER.uid=res.data.playerId
+                    saveUser()
                     NET.ws_connect()
                     SCN.go('net_menu')
                     WAIT.interrupt()
@@ -237,6 +242,8 @@ function NET.autoLogin()
                 if res.code==200 then
                     USER.rToken=res.data.refreshToken
                     USER.aToken=res.data.accessToken
+                    USER.uid=res.data.playerId
+                    saveUser()
                     NET.ws_connect()
                     SCN.go('net_menu')
                     WAIT.interrupt()
@@ -260,6 +267,8 @@ function NET.autoLogin()
                 if res.code==200 then
                     USER.rToken=res.data.refreshToken
                     USER.aToken=res.data.accessToken
+                    USER.uid=res.data.playerId
+                    saveUser()
                     NET.ws_connect()
                     SCN.go('net_menu')
                     WAIT.interrupt()
@@ -303,6 +312,8 @@ function NET.pwLogin(email,pw)
                 USER.password=pw
                 USER.rToken=res.data.refreshToken
                 USER.aToken=res.data.accessToken
+                USER.uid=res.data.playerId
+                saveUser()
                 NET.ws_connect()
                 SCN.go('net_menu')
             end
@@ -312,13 +323,11 @@ function NET.pwLogin(email,pw)
     end)
 end
 
---Remove player when leave
-local function _removePlayer(L,sid)
-    for i=1,#L do
-        if L[i].sid==sid then
-            return table.remove(L,i)
-        end
-    end
+function NET.getUserInfo(uid)
+    wsSend({
+        uid=uid,
+        hash=USERS.getHash(uid),
+    })
 end
 
 --------------------------<NEW WS API>
@@ -351,11 +360,21 @@ local actMap={
 
 local function wsSend(act,data)
     -- print(("Send: $1 -->"):repD(act))
-    -- print(("Send: $1 -->"):repD(act)) print(TABLE.dump(data),"\n")
+    -- print(("Send: $1 -->"):repD(act)) print(type(data)=='table' and TABLE.dump(data) or tostring(data),"\n")
     WS.send('game',JSON.encode{
         action=assert(act),
         data=data,
     })
+end
+
+--Remove player when leave
+local function _playerLeaveRoom(uid)
+    NETPLY.remove(uid)
+    for i=1,#PLAYERS do if PLAYERS[i].uid==uid then table.remove(PLAYERS,i) break end end
+    for i=1,#PLY_ALIVE do if PLY_ALIVE[i].uid==uid then table.remove(PLAYERS,i) break end end
+    if uid==USER.uid and SCN.cur=='net_game' then
+        SCN.back()
+    end
 end
 
 -- Global
@@ -479,6 +498,8 @@ function NET.player_setPlaying(playing)
 end
 
 -- Match
+function NET.match_techminohaowan(arg)
+end
 
 -- WS
 NET.wsCallBack={}
@@ -497,6 +518,7 @@ function NET.wsCallBack.room_chat(body)
     end
 end
 function NET.wsCallBack.room_create(body)
+    MES.new('check',text.createRoomSuccessed)
     NET.wsCallBack.room_enter(body)
 end
 function NET.wsCallBack.room_getData(body)
@@ -522,30 +544,14 @@ function NET.wsCallBack.room_enter(body)-- TODO
     WAIT.interrupt()
 end
 function NET.wsCallBack.room_kick(body)
-    if body.data then
-        -- local eid=body.data.executorId
-        local uid=body.data.targetId
-        NETPLY.remove(uid)
-        _removePlayer(PLAYERS,uid)
-        _removePlayer(PLY_ALIVE,uid)
-    end
+    MES.new('info',text.playerKicked:repD(body.data.executorId,body.data.playerId))
+    _playerLeaveRoom(body.data.playerId)
 end
 function NET.wsCallBack.room_leave(body)
-    if body.data then
-        if body.type=='Server' then
-            if SCN.cur=='net_game' then
-                if SCN.stack[#SCN.stack-1]=='net_newRoom' then
-                    SCN.pop()
-                end
-                SCN.back()
-            end
-        elseif body.type=='Client' then
-            local uid=body.data.playerId
-            NETPLY.remove(uid)
-            _removePlayer(PLAYERS,uid)
-            _removePlayer(PLY_ALIVE,uid)
-        end
+    if body.data.playerId~=USER.uid then
+        MES.new('info',text.leaveRoom:repD(body.data.playerId))
     end
+    _playerLeaveRoom(body.data.playerId)
 end
 function NET.wsCallBack.room_fetch(body)
     TASK.unlock('fetchRoom')
@@ -554,8 +560,9 @@ end
 function NET.wsCallBack.room_setPW()
     MES.new(text.roomPasswordChanged)
 end
-function NET.wsCallBack.room_remove(body)
-    NET.wsCallBack.room_leave(body)
+function NET.wsCallBack.room_remove()
+    MES.new('info',text.roomRemoved)
+    _playerLeaveRoom(USER.uid)
 end
 function NET.wsCallBack.player_updateConf(body)-- TODO
 end
@@ -577,6 +584,7 @@ end
 function NET.ws_connect()
     if WS.status('game')=='dead' then
         WS.connect('game','',{['x-access-token']=USER.aToken},6)
+        TASK.removeTask_code(NET.ws_update)
         TASK.new(NET.ws_update)
     end
 end
@@ -584,56 +592,59 @@ function NET.ws_close()
     WS.close('game')
 end
 function NET.ws_update()
-    local updateOnlineTimer=0
-    while WS.status('game')~='dead' do
-        local dt=coroutine.yield()
-
-        updateOnlineTimer=updateOnlineTimer+dt
-        if updateOnlineTimer>6.26 then
-            NET.global_getOnlineCount()
-            updateOnlineTimer=0
+    -- Wait until connected then initialize player setting
+    while true do
+        TEST.yieldT(1/26)
+        if WS.status('game')=='dead' then
+            return
+        elseif WS.status('game')=='running' then
+            NET.player_updateConf()
+            break
         end
+    end
+
+    -- Websocket main loop
+    local updateOnlineCD=0
+    while true do
+        TEST.yieldT(.01)-- Network messages, max 126 FPS is enough
+
+        if WS.status('game')=='dead' then return end
+
+        updateOnlineCD=updateOnlineCD%626+1
+        if updateOnlineCD==0 then NET.global_getOnlineCount() end
 
         local msg,op=WS.read('game')
         if msg then
             if op=='ping' then
             elseif op=='pong' then
             elseif op=='close' then
-                local res=JSON.decode(msg)
-                MES.new('info',text.wsClose:repD(res and res.message or msg))
-                if res and res.message then LOG(res.message) end
+                msg=JSON.decode(msg)
+                if msg then
+                    MES.new('info',text.wsClose:repD(msg and msg.message or msg))
+                    if msg and msg.message then LOG(msg.message) end
+                end
                 TEST.yieldUntilNextScene()
                 NET.connectLost()
                 return
-            else
-                local body=JSON.decode(msg)
-                if body then
-                    -- print(("Recv:      <-- $1 ($2)"):repD(body.action,body.type))
-                    print(("Recv:      <-- $1 ($2)"):repD(body.action,body.type)) print(TABLE.dump(body),"\n")
-                    if body.type=='Failed' then
-                        parseError(body.message~=nil and body.message or msg)
-                    else
-                        local f=NET.wsCallBack[actMap[body.action]]
-                        if f then f(body) end
-                    end
+            elseif msg then
+                msg=JSON.decode(msg)
+                -- print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno))
+                -- print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno)) print(TABLE.dump(msg),"\n")
+                if msg.errno~=0 then
+                    parseError(msg.message~=nil and msg.message or msg)
                 else
-                    MES.new('warn',"Wrong json: "..msg,5)
-                    WS.alert('user')
+                    local f=NET.wsCallBack[actMap[msg.action]]
+                    if f then f(msg) end
                 end
+            else
+                MES.new('warn',"Wrong json: "..msg,5)
+                WS.alert('user')
             end
         end
     end
 end
 
 --------------------------<OLD ONLINE API>
--- Account & User
-function NET.getUserInfo(uid)
-    wsSend({
-        uid=uid,
-        hash=USERS.getHash(uid),
-    })
-end
-
 -- Save
 function NET.uploadSave()
     if not TASK.lock('uploadSave',8) then return end
@@ -654,46 +665,48 @@ function NET.downloadSave()
     MES.new('info',"Downloading")
 end
 function NET.loadSavedData(sections)
+    local cloudData={}
+    local secNameList={'STAT','RANKS','SETTING','keyMap','VK_org','vkSave1','vkSave2'}
     for _,sec in next,sections do
-        if sec.section==1 then
-            NET.cloudData.STAT=STRING.unpackTable(sec.data)
-        elseif sec.section==2 then
-            NET.cloudData.RANKS=STRING.unpackTable(sec.data)
-        elseif sec.section==3 then
-            NET.cloudData.SETTING=STRING.unpackTable(sec.data)
-        elseif sec.section==4 then
-            NET.cloudData.keyMap=STRING.unpackTable(sec.data)
-        elseif sec.section==5 then
-            NET.cloudData.VK_org=STRING.unpackTable(sec.data)
-        elseif sec.section==6 then
-            NET.cloudData.vkSave1=STRING.unpackTable(sec.data)
-        elseif sec.section==7 then
-            NET.cloudData.vkSave2=STRING.unpackTable(sec.data)
-        end
+        cloudData[secNameList[sec.section]]=STRING.unpackTable(sec.data)
     end
-    local success=true
-    TABLE.cover(NET.cloudData.STAT,STAT)
-    success=success and saveStats()
 
-    TABLE.cover(NET.cloudData.RANKS,RANKS)
-    success=success and saveProgress()
+    local fail
+    repeat
+        if cloudData.STAT then
+            TABLE.cover(cloudData.STAT,STAT)
+            if not saveStats() then fail=true end
+        end
 
-    TABLE.cover(NET.cloudData.SETTING,SETTING)
-    success=success and saveSettings()
-    applySettings()
+        if cloudData.RANKS then
+            TABLE.cover(cloudData.RANKS,RANKS)
+            if not saveProgress() then fail=true end
+        end
 
-    TABLE.cover(NET.cloudData.keyMap,KEY_MAP)
-    success=success and saveFile(KEY_MAP,'conf/key')
+        if cloudData.SETTING then
+            TABLE.cover(cloudData.SETTING,SETTING)
+            if not saveSettings() then fail=true end
+        end
+        applySettings()
 
-    TABLE.cover(NET.cloudData.VK_org,VK_ORG)
-    success=success and saveFile(VK_ORG,'conf/virtualkey')
+        if cloudData.keyMap then
+            TABLE.cover(cloudData.keyMap,KEY_MAP)
+            if not saveFile(KEY_MAP,'conf/key') then fail=true end
+        end
 
-    if #NET.cloudData.vkSave1[1] then success=success and saveFile(NET.cloudData.vkSave1,'conf/vkSave1') end
-    if #NET.cloudData.vkSave2[1] then success=success and saveFile(NET.cloudData.vkSave2,'conf/vkSave2') end
-    if success then
-        MES.new('check',text.saveDone)
+        if cloudData.VK_org then
+            TABLE.cover(cloudData.VK_org,VK_ORG)
+            if not saveFile(VK_ORG,'conf/virtualkey') then fail=true end
+        end
+
+        if #cloudData.vkSave1[1] and not saveFile(cloudData.vkSave1,'conf/vkSave1') then fail=true end
+        if #cloudData.vkSave2[1] and not saveFile(cloudData.vkSave2,'conf/vkSave2') then fail=true end
+    until true
+
+    if fail then
+        MES.new('error',text.dataCorrupted)
     else
-        MES.new('warn',text.dataCorrupted)
+        MES.new('check',text.saveDone)
     end
 end
 
