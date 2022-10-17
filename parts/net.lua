@@ -148,16 +148,16 @@ function NET.codeLogin(code)
             if res.code==200 then
                 USER.rToken=res.data.refreshToken
                 USER.aToken=res.data.accessToken
-                USER.uid=res.data.playerId
+                saveUser()
                 NET.ws_connect()
                 SCN.pop()SCN.go('net_menu')
             elseif res.code==201 then
                 USER.rToken=res.data.refreshToken
                 USER.aToken=res.data.accessToken
+                saveUser()
                 SCN.pop()SCN.push('net_menu')
                 SCN.fileDropped(3)
             end
-            saveUser()
         end
 
         WAIT.interrupt()
@@ -219,7 +219,7 @@ function NET.autoLogin()
 
             if res then
                 if res.code==200 then
-                    USER.uid=res.data.playerId
+                    USER.uid=res.data
                     saveUser()
                     NET.ws_connect()
                     SCN.go('net_menu')
@@ -242,7 +242,6 @@ function NET.autoLogin()
                 if res.code==200 then
                     USER.rToken=res.data.refreshToken
                     USER.aToken=res.data.accessToken
-                    USER.uid=res.data.playerId
                     saveUser()
                     NET.ws_connect()
                     SCN.go('net_menu')
@@ -267,7 +266,6 @@ function NET.autoLogin()
                 if res.code==200 then
                     USER.rToken=res.data.refreshToken
                     USER.aToken=res.data.accessToken
-                    USER.uid=res.data.playerId
                     saveUser()
                     NET.ws_connect()
                     SCN.go('net_menu')
@@ -312,7 +310,6 @@ function NET.pwLogin(email,pw)
                 USER.password=pw
                 USER.rToken=res.data.refreshToken
                 USER.aToken=res.data.accessToken
-                USER.uid=res.data.playerId
                 saveUser()
                 NET.ws_connect()
                 SCN.go('net_menu')
@@ -322,14 +319,30 @@ function NET.pwLogin(email,pw)
         WAIT.interrupt()
     end)
 end
-
 function NET.getUserInfo(uid)
-    wsSend({
-        uid=uid,
-        hash=USERS.getHash(uid),
-    })
-end
+    TASK.new(function()
+        local res=getMsg({
+            pool='getInfo',
+            path='/techmino/api/v1/player/info?playerId='..uid,
+        },6.26)
 
+        if res and res.code==200 then
+            USERS.updateUserData(res.data)
+        end
+    end)
+end
+function NET.getAvatar(uid)
+    TASK.new(function()
+        local res=getMsg({
+            pool='getInfo',
+            path='/techmino/api/v1/player/avatar?playerId='..uid,
+        },6.26)
+
+        if res and res.code==200 then
+            USERS.updateAvatar(uid,res.data)
+        end
+    end)
+end
 --------------------------<NEW WS API>
 local actMap={
     global_getOnlineCount= 1000,
@@ -592,16 +605,34 @@ function NET.ws_close()
     WS.close('game')
 end
 function NET.ws_update()
-    -- Wait until connected then initialize player setting
+    -- Wait until connected
     while true do
         TEST.yieldT(1/26)
         if WS.status('game')=='dead' then
             return
         elseif WS.status('game')=='running' then
-            NET.player_updateConf()
             break
         end
     end
+
+    do-- Get UID
+        local res=getMsg({
+            pool='getUID',
+            path='/techmino/api/v1/auth/check',
+            headers={["x-access-token"]=USER.aToken},
+        },6.26)
+
+        if res and res.code==200 then
+            USER.uid=res.data
+        else
+            TEST.yieldUntilNextScene()
+            NET.connectLost()
+            return
+        end
+    end
+
+    -- Initialize player setting
+    NET.player_updateConf()
 
     -- Websocket main loop
     local updateOnlineCD=0

@@ -834,7 +834,6 @@ do-- function drawSelfProfile()
     local name
     local textObj,scaleK,width,offY
     function drawSelfProfile()
-        local selfAvatar=USERS.getAvatar(USER.uid)
         gc_push('transform')
         gc_replaceTransform(SCR.xOy_ur)
 
@@ -843,7 +842,7 @@ do-- function drawSelfProfile()
         gc_setColor(COLOR.X)gc_rectangle('fill',0,0,-300,80)
         gc_setColor(1,1,1)gc_rectangle('line',-300,0,300,80,5)
         gc_rectangle('line',-73,7,66,66,2)
-        gc_draw(selfAvatar,-72,8,nil,.5)
+        gc_draw(USERS.getAvatar(USER.uid),-72,8,nil,.5)
 
         -- Draw username
         if name~=USERS.getUsername(USER.uid) then
