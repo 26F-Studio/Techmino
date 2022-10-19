@@ -9,12 +9,16 @@ local NET={
             name=false,
             type=false,
             version=false,
+            description=false,
         },
-        roomData={},
-        count=false,
+        data={},
+        count={
+            Gamer=0,
+            Spectator=0,
+        },
         capacity=false,
         private=false,
-        start=false,
+        state='Playing',
     },
 
     spectate=false,-- If player is spectating
@@ -32,6 +36,22 @@ local NET={
 function NET.connectLost()
     while SCN.stack[#SCN.stack-1]~='main' and #SCN.stack>0 do SCN.pop() end
     SCN.back()
+end
+function NET.freshRoomState()
+    local playCount,readyCount=0,0
+    for j=1,#NETPLY.list do
+        if NETPLY.list[j].playMode=='Gamer' then playCount=playCount+1 end
+        if NETPLY.list[j].readyMode=='Ready' then readyCount=readyCount+1 end
+    end
+
+    if playCount-readyCount==1 then
+        local p=NETPLY.map[USER.uid]
+        if p.playMode=='Gamer' and p.readyMode~='Ready' then
+            SFX.play('warn_2',.5)
+        end
+    end
+
+    NET.roomReadyState=playCount>0 and playCount==readyCount
 end
 
 --------------------------<NEW HTTP API>
@@ -352,11 +372,11 @@ local actMap={
     player_updateConf=     1200,
     player_finish=         1201,
     player_joinGroup=      1202,
-    player_setReady=       1203,
+    player_setReadyMode=   1203,
     player_setHost=        1204,
     player_setState=       1205,
     player_stream=         1206,
-    player_setPlaying=     1207,
+    player_setPlayMode=    1207,
     room_chat=             1300,
     room_create=           1301,
     room_getData=          1302,
@@ -373,7 +393,7 @@ local actMap={
 
 local function wsSend(act,data)
     -- print(("Send: $1 -->"):repD(act))
-    -- print(("Send: $1 -->"):repD(act)) print(type(data)=='table' and TABLE.dump(data) or tostring(data),"\n")
+    print(("Send: $1 -->"):repD(act)) print(type(data)=='table' and TABLE.dump(data) or tostring(data),"\n")
     WS.send('game',JSON.encode{
         action=assert(act),
         data=data,
@@ -382,11 +402,12 @@ end
 
 --Remove player when leave
 local function _playerLeaveRoom(uid)
-    NETPLY.remove(uid)
     for i=1,#PLAYERS do if PLAYERS[i].uid==uid then table.remove(PLAYERS,i) break end end
     for i=1,#PLY_ALIVE do if PLY_ALIVE[i].uid==uid then table.remove(PLAYERS,i) break end end
     if uid==USER.uid and SCN.cur=='net_game' then
         SCN.back()
+    else
+        NETPLY.remove(uid)
     end
 end
 
@@ -407,20 +428,11 @@ function NET.room_chat(msg,rid)
         return true
     end
 end
-function NET.room_create(roomName,description,capacity,roomType,roomData,password)
+function NET.room_create(data)
     if not TASK.lock('createRoom',10) then MES.new('warn',text.tooFrequently) return end
+    TABLE.coverR(data,NET.roomState)
     WAIT{timeout=12}
-    wsSend(actMap.room_create,{
-        capacity=capacity,
-        info={
-            name=roomName,
-            type=roomType,
-            version=VERSION.room,
-            description=description,
-        },
-        data=roomData,
-        password=password,
-    })
+    wsSend(actMap.room_create,data)
 end
 function NET.room_getData(rid)
     wsSend(actMap.room_getData,{
@@ -491,8 +503,8 @@ end
 function NET.player_joinGroup(gid)
     wsSend(actMap.player_joinGroup,gid)
 end
-function NET.player_setReady(bool)
-    wsSend(actMap.player_setReady,bool)
+function NET.player_setReadyMode(mode)
+    wsSend(actMap.player_setReadyMode,mode)
 end
 function NET.player_setHost(pid)
     wsSend(actMap.player_setHost,{
@@ -506,8 +518,8 @@ end
 function NET.player_stream(stream)
     wsSend(actMap.player_stream,stream)
 end
-function NET.player_setPlaying(playing)
-    wsSend(actMap.player_setPlaying,playing and 'Gamer' or 'Spectator')
+function NET.player_setPlayMode(mode)
+    wsSend(actMap.player_setPlayMode,mode)
 end
 
 -- Match
@@ -535,24 +547,37 @@ function NET.wsCallBack.room_create(body)
     NET.wsCallBack.room_enter(body)
 end
 function NET.wsCallBack.room_getData(body)
-    NET.roomState.roomData=body.data
+    NET.roomState.data=body.data
 end
 function NET.wsCallBack.room_setData(body)
     NET.wsCallBack.room_getData(body)
 end
 function NET.wsCallBack.room_getInfo(body)
-    NET.roomState.roomInfo=body.info
+    NET.roomState.info=body.info
 end
 function NET.wsCallBack.room_setInfo(body)
     NET.wsCallBack.room_getInfo(body)
 end
-function NET.wsCallBack.room_enter(body)-- TODO
+function NET.wsCallBack.room_enter(body)
     TASK.unlock('enterRoom')
-    -- NET.roomState=...
     NET.textBox.hide=true
     NET.inputBox.hide=true
     NET.textBox:clear()
     NET.inputBox:clear()
+
+    NET.roomState=body.data
+    NETPLY.clear()
+    if body.data.players then
+        for _,p in next,body.data.players do
+            NETPLY.add{
+                uid=p.playerId,
+                playMode=p.type,
+                readyMode=p.state,
+                config=p.config,
+            }
+        end
+    end
+
     loadGame('netBattle',true,true)
     WAIT.interrupt()
 end
@@ -561,10 +586,10 @@ function NET.wsCallBack.room_kick(body)
     _playerLeaveRoom(body.data.playerId)
 end
 function NET.wsCallBack.room_leave(body)
-    if body.data.playerId~=USER.uid then
-        MES.new('info',text.leaveRoom:repD(body.data.playerId))
+    if body.data then
+        MES.new('info',text.leaveRoom:repD(body.data.playerId),2.6)
     end
-    _playerLeaveRoom(body.data.playerId)
+    _playerLeaveRoom(body.data and body.data.playerId or USER.uid)
 end
 function NET.wsCallBack.room_fetch(body)
     TASK.unlock('fetchRoom')
@@ -577,13 +602,12 @@ function NET.wsCallBack.room_remove()
     MES.new('info',text.roomRemoved)
     _playerLeaveRoom(USER.uid)
 end
-function NET.wsCallBack.player_updateConf(body)-- TODO
+function NET.wsCallBack.player_updateConf(body)
+    NETPLY.setConf(body.data.playerId,body.data.config)
 end
 function NET.wsCallBack.player_finish(body)-- TODO
 end
 function NET.wsCallBack.player_joinGroup(body)-- TODO
-end
-function NET.wsCallBack.player_setReady(body)-- TODO
 end
 function NET.wsCallBack.player_setHost(body)-- TODO
 end
@@ -591,7 +615,11 @@ function NET.wsCallBack.player_setState(body)-- TODO
 end
 function NET.wsCallBack.player_stream(body)-- TODO
 end
-function NET.wsCallBack.player_setPlaying(body)-- TODO
+function NET.wsCallBack.player_setPlayMode(body)
+    NETPLY.setPlayMode(body.data.playerId,body.data.type)
+end
+function NET.wsCallBack.player_setReadyMode(body)
+    NETPLY.setReadyMode(body.data.playerId,body.data.type)
 end
 
 function NET.ws_connect()
@@ -642,7 +670,7 @@ function NET.ws_update()
         if WS.status('game')=='dead' then return end
 
         updateOnlineCD=updateOnlineCD%626+1
-        if updateOnlineCD==0 then NET.global_getOnlineCount() end
+        if updateOnlineCD==1 then NET.global_getOnlineCount() end
 
         local msg,op=WS.read('game')
         if msg then
@@ -660,7 +688,7 @@ function NET.ws_update()
             elseif msg then
                 msg=JSON.decode(msg)
                 -- print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno))
-                -- print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno)) print(TABLE.dump(msg),"\n")
+                print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno)) print(TABLE.dump(msg),"\n")
                 if msg.errno~=0 then
                     parseError(msg.message~=nil and msg.message or msg)
                 else

@@ -27,14 +27,15 @@ local function _hideReadyUI()
 end
 
 local function _setCancel()
-    NET.player_setPlaying(true)
-    NET.player_setReady(true)
+    NET.player_setPlayMode('Gamer')
+    NET.player_setReadyMode(false)
 end
 local function _setReady()
-    NET.player_setReady(true)
+    NET.player_setPlayMode('Gamer')
+    NET.player_setReadyMode(true)
 end
 local function _setSpectate()
-    NET.player_setPlaying(false)
+    NET.player_setPlayMode('Spectator')
 end
 
 local function _gotoSetting()
@@ -153,7 +154,7 @@ function scene.keyDown(key,isRep)
         end
     elseif not _hideReadyUI() then
         if key=='space' then
-            if NETPLY.getSelfJoinMode()==0 then
+            if NETPLY.getSelfPlayMode()~='Gamer' then
                 (kb.isDown('lctrl','rctrl','lalt','ralt') and _setSpectate or _setReady)()
             else
                 _setCancel()
@@ -323,8 +324,8 @@ function scene.draw()
         gc_print("M",430,10)
     end
 end
-local function _hideF_ingame() return _hideReadyUI() or NETPLY.getSelfReady() end
-local function _hideF_ingame2() return _hideReadyUI() or not NETPLY.getSelfReady() end
+local function _hideF_ingame() return _hideReadyUI() or NETPLY.getSelfReadyMode()=='Spectator' end
+local function _hideF_ingame2() return _hideReadyUI() or NETPLY.getSelfReadyMode()=='Gamer' end
 scene.widgetList={
     textBox,
     inputBox,

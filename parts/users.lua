@@ -62,28 +62,27 @@ local USERS={}
     avatar_frame=0,
 }]]
 function USERS.updateUserData(data)
-    local id=data.id
-    db[id].username=data.username
-    db[id].motto=data.motto
-    if type(data.avatar_hash)=='string' and (db[id].hash~=data.avatar_hash or not fs.getInfo("cache/"..data.avatar_hash)) then
-        db[id].hash=data.avatar_hash
-        NET.getAvatar(id)
+    local uid=data.id
+    db[uid].username=data.username
+    db[uid].motto=data.motto
+    if type(data.avatar_hash)=='string' and (db[uid].hash~=data.avatar_hash or not fs.getInfo("cache/"..data.avatar_hash)) then
+        db[uid].hash=data.avatar_hash
+        NET.getAvatar(uid)
     end
-    fs.write("cache/user"..id..".dat",JSON.encode{
+    fs.write("cache/user"..uid..".dat",JSON.encode{
         username=data.username,
         motto=data.motto,
-        hash=db[id].hash,
+        hash=db[uid].hash,
     })
 end
-function USERS.updateAvatar(id,imgData)
-    local hash=db[id].hash
+function USERS.updateAvatar(uid,imgData)
+    local hash=db[uid].hash
     fs.write("cache/"..hash,love.data.decode('string','base64',imgData:sub(imgData:find(",")+1)))
-    db_img[id]=_loadAvatar("cache/"..hash)
+    db_img[uid]=_loadAvatar("cache/"..hash)
 end
 
 function USERS.getUsername(uid) return db[uid].username end
 function USERS.getMotto(uid) return db[uid].motto end
-function USERS.getHash(uid) return db[uid].hash or "" end
 function USERS.getAvatar(uid)
     if uid then
         if not db[uid].new then

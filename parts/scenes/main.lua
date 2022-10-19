@@ -157,12 +157,6 @@ function scene.draw()
 
     -- Player
     PLAYERS[1]:draw()
-
-    -- Profile
-    drawSelfProfile()
-
-    -- Player count
-    drawOnlinePlayerCount()
 end
 
 scene.widgetList={

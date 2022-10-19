@@ -12,7 +12,7 @@ return{
         bgm={'battle','beat5th','cruelty','distortion','echo','far','final','here','hope','memory','moonbeam','push','rectification','secret7th remix','secret7th','secret8th remix','secret8th','shift','shining terminal','storm','super7th','there','truth','vapor','waterfall'},
     },
     load=function()
-        for k,v in next,NET.roomState.roomData do
+        for k,v in next,NET.roomState.data do
             GAME.modeEnv[k]=v
         end
         GAME.modeEnv.allowMod=false

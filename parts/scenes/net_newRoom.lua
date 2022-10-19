@@ -36,14 +36,17 @@ local function _createRoom()
         if #roomname==0 then
             roomname=(USERS.getUsername(USER.uid) or "Anonymous").."'s room"
         end
-        NET.room_create(
-            roomname,
-            descriptionBox.value,
-            ROOMENV.capacity,
-            "normal",
-            ROOMENV,
-            pw
-        )
+        NET.room_create{
+            capacity=ROOMENV.capacity,
+            info={
+                name=roomname,
+                type="normal",
+                version=VERSION.room,
+                description=descriptionBox.value,
+            },
+            data=ROOMENV,
+            password=pw,
+        }
     end
 end
 
