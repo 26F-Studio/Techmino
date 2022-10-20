@@ -80,7 +80,7 @@ function scene.sceneInit()
     end
 end
 function scene.sceneBack()
-    GAME.playing=false
+    TASK.unlock('netPlaying')
 end
 
 scene.mouseDown=NULL
@@ -193,70 +193,57 @@ function scene.gamepadUp(key)
     end
 end
 
-function scene._(cmd,d)
-    if cmd=='join' then
-        textBox:push{
-            COLOR.lR,d.username,
-            COLOR.dY,"#"..d.uid.." ",
-            COLOR.Y,text.joinRoom,
-        }
-        SFX.play('warn_1')
-    elseif cmd=='leave' then
-        textBox:push{
-            COLOR.lR,d.username,
-            COLOR.dY,"#"..d.uid.." ",
-            COLOR.Y,text.leaveRoom,
-        }
-    elseif cmd=='go' then
-        if not playing then
-            playing=true
-            lastUpstreamTime=0
-            upstreamProgress=1
-            resetGameData('n',NET.seed)
-            NETPLY.mouseMove(0,0)
-        end
-    elseif cmd=='finish' then
-        playing=false
-        BG.set()
-    end
-end
-
 function scene.update(dt)
     if WS.status('game')~='running' then
+        TASK.unlock('netPlaying')
         NET.ws_close()
         SCN.back()
         return
     end
     if playing then
-        local P1=PLAYERS[1]
+        if not TASK.getLock('netPlaying') then
+            playing=false
+            BG.set()
+            return
+        else
+            local P1=PLAYERS[1]
 
-        touchMoveLastFrame=false
-        VK.update(dt)
+            touchMoveLastFrame=false
+            VK.update(dt)
 
-        -- Update players
-        for p=1,#PLAYERS do PLAYERS[p]:update(dt) end
+            -- Update players
+            for p=1,#PLAYERS do PLAYERS[p]:update(dt) end
 
-        -- Warning check
-        checkWarning(dt)
+            -- Warning check
+            checkWarning(dt)
 
-        -- Upload stream
-        if not NET.spectate and P1.frameRun-lastUpstreamTime>8 then
-            local stream
-            if not GAME.rep[upstreamProgress] then
-                ins(GAME.rep,P1.frameRun)
-                ins(GAME.rep,0)
+            -- Upload stream
+            if not NET.spectate and P1.frameRun-lastUpstreamTime>8 then
+                local stream
+                if not GAME.rep[upstreamProgress] then
+                    ins(GAME.rep,P1.frameRun)
+                    ins(GAME.rep,0)
+                end
+                stream,upstreamProgress=DATA.dumpRecording(GAME.rep,upstreamProgress)
+                if #stream%3==1 then
+                    stream=stream.."\0\0"
+                elseif #stream%3==2 then
+                    stream=stream.."\0\0\0\0"
+                end
+                NET.player_stream(stream)
+                lastUpstreamTime=PLAYERS[1].alive and P1.frameRun or 1e99
             end
-            stream,upstreamProgress=DATA.dumpRecording(GAME.rep,upstreamProgress)
-            if #stream%3==1 then
-                stream=stream.."\0\0"
-            elseif #stream%3==2 then
-                stream=stream.."\0\0\0\0"
-            end
-            NET.player_stream(stream)
-            lastUpstreamTime=PLAYERS[1].alive and P1.frameRun or 1e99
         end
     else
         NETPLY.update(dt)
+        if TASK.getLock('netPlaying') and not playing then
+            playing=true
+            TASK.lock('netPlaying')
+            lastUpstreamTime=0
+            upstreamProgress=1
+            resetGameData('n',NET.seed)
+            NETPLY.mouseMove(0,0)
+        end
     end
 end
 

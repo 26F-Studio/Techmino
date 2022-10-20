@@ -18,11 +18,11 @@ return{
         GAME.modeEnv.allowMod=false
         GAME.modeEnv.task=marginTask
 
-        local L=TABLE.copy(NETPLY.list)
+        local L=TABLE.shift(NETPLY.list,0)
         local N=1
         for i,p in next,L do
             if p.uid==USER.uid then
-                if p.connected then
+                if p.playMode=='Gamer' then
                     PLY.newPlayer(1)
                     N=2
                 end
@@ -31,7 +31,7 @@ return{
             end
         end
         for _,p in next,L do
-            if p.connected then
+            if p.playMode=='Gamer' then
                 PLY.newRemotePlayer(N,false,p)
                 N=N+1
             end

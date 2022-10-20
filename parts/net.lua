@@ -393,7 +393,7 @@ local actMap={
 
 local function wsSend(act,data)
     -- print(("Send: $1 -->"):repD(act))
-    print(("Send: $1 -->"):repD(act)) print(type(data)=='table' and TABLE.dump(data) or tostring(data),"\n")
+    -- print(("Send: $1 -->"):repD(act)) print(type(data)=='table' and TABLE.dump(data) or tostring(data),"\n")
     WS.send('game',JSON.encode{
         action=assert(act),
         data=data,
@@ -512,7 +512,7 @@ function NET.player_setHost(pid)
         role='Admin',
     })
 end
-function NET.player_setState(state)-- what state?
+function NET.player_setState(state)-- not used
     wsSend(actMap.player_setState,state)
 end
 function NET.player_stream(stream)
@@ -522,9 +522,7 @@ function NET.player_setPlayMode(mode)
     wsSend(actMap.player_setPlayMode,mode)
 end
 
--- Match
-function NET.match_techminohaowan(arg)
-end
+
 
 -- WS
 NET.wsCallBack={}
@@ -611,7 +609,7 @@ function NET.wsCallBack.player_joinGroup(body)-- TODO
 end
 function NET.wsCallBack.player_setHost(body)-- TODO
 end
-function NET.wsCallBack.player_setState(body)-- TODO
+function NET.wsCallBack.player_setState(body)-- TODO (not used)
 end
 function NET.wsCallBack.player_stream(body)-- TODO
 end
@@ -620,6 +618,14 @@ function NET.wsCallBack.player_setPlayMode(body)
 end
 function NET.wsCallBack.player_setReadyMode(body)
     NETPLY.setReadyMode(body.data.playerId,body.data.type)
+end
+function NET.wsCallBack.match_finish()
+    TASK.unlock('netPlaying')
+end
+function NET.wsCallBack.match_ready()-- TODO
+end
+function NET.wsCallBack.match_start()
+    TASK.lock('netPlaying')
 end
 
 function NET.ws_connect()
@@ -688,7 +694,7 @@ function NET.ws_update()
             elseif msg then
                 msg=JSON.decode(msg)
                 -- print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno))
-                print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno)) print(TABLE.dump(msg),"\n")
+                -- print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno)) print(TABLE.dump(msg),"\n")
                 if msg.errno~=0 then
                     parseError(msg.message~=nil and msg.message or msg)
                 else
