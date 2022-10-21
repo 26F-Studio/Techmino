@@ -19,6 +19,13 @@ return{
         GAME.modeEnv.task=marginTask
 
         local L=TABLE.shift(NETPLY.list,0)
+        math.randomseed(GAME.seed)
+        for i=#L,1,-1 do
+            table.insert(NETPLY.list,table.remove(NETPLY.list,math.random(i)))
+        end
+        TABLE.clear(NET.uid_sid)
+        for i=1,#L do NET.uid_sid[L[i].uid]=i end
+
         local N=1
         for i,p in next,L do
             if p.uid==USER.uid then
