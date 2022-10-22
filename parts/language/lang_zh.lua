@@ -373,6 +373,7 @@ return{
             league="Tech League",
             ffa="FFA",
             rooms="房间列表",
+            resetPW="重置密码",
             logout="退出登录",
         },
         net_league={
@@ -698,23 +699,28 @@ return{
             path="打开存储目录",
             save="用户档案管理",
         },
-        login={
+        login_pw={
             title="登录",
-            register="注册",
+            login_mail="邮箱登录/注册",
             email="邮箱",
             password="密码",
             showEmail="显示邮箱",
             login="登录",
         },
-        register={
-            title="注册",
-            login="登录",
-            email="邮箱:",
+        login_mail={
+            title="登录/注册",
+            login_pw="密码登录",
+            email="邮箱",
             send="发送验证码",
             code="验证码",
             verify="验证邮箱",
-            password="密码:",
-            password2="确认密码:",
+        },
+        reset_password={
+            title="重置密码",
+            send="发送验证码",
+            code="验证码",
+            password="密码",
+            password2="确认密码",
             setPW="设置密码",
         },
         account={

@@ -374,6 +374,7 @@ return{
             league="テクリーグ",
             ffa="自由乱闘戦",
             rooms="ルーム・プライベート戦",
+            -- resetPW="Reset password",
             logout="ログアウト",
         },
         net_league={
@@ -700,21 +701,26 @@ return{
             music="曲",
             label="ラベル",
         },
-        login={
+        login_pw={
             title="サインイン",
-            register="サインアップ",
+            -- login_mail="Login with E-mail/Sign Up",
             email="Eメールアドレス",
             password="パスワード",
             -- showEmail="Show Email",
             login="ログイン",
         },
-        register={
-            title="サインアップ",
-            login="サインイン",
+        login_mail={
+            title="サインイン/サインアップ",
+            -- login_pw="Password Sign In",
             email="Eメールアドレス",
             -- send="Send code",
             -- code="Verification Code",
             -- verify="Verify",
+        },
+        reset_password={
+            -- title="Reset Password",
+            -- send="Send code",
+            -- code="Verification Code",
             password="パスワード",
             password2="パスワード（確認）",
             -- setPW="Set Password",

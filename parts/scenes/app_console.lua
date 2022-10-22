@@ -17,6 +17,8 @@ local history,hisPtr={"?"}
 local sumode=false
 local the_secret=(0xe^2*10)..(2*0xb)
 
+local scene={}
+
 local commands={} do
     --[[
         format of elements in table 'commands':
@@ -708,7 +710,7 @@ local commands={} do
                 outputBox.h=500
                 local button=WIDGET.newButton{name='bye',x=640,y=615,w=426,h=100,code=function()
                     TASK.new(function()
-                        WIDGET.active.bye.hide=true
+                        scene.widgetList.bye.hide=true
                         for _=1,30 do coroutine.yield() end
                         log{C.R,"Deleting all data in 10..."}SFX.play('ready')SFX.play('clear_1')TEST.yieldN(60)
                         log{C.R,"Deleting all data in 9..."}SFX.play('ready')SFX.play('clear_1')TEST.yieldN(60)
@@ -726,7 +728,7 @@ local commands={} do
                     end)
                 end}
                 button:setObject("Techmino is fun. Bye.")
-                ins(WIDGET.active,button)
+                ins(scene.widgetList,button)
             else
                 log"Are you sure you want to reset everything?"
                 log"This will delete EVERYTHING in your saved game data, including but not limited to:"
@@ -1011,8 +1013,6 @@ end
 userG.the_key=first_key
 
 
-
-local scene={}
 
 function scene.sceneInit()
     WIDGET.focus(inputBox)

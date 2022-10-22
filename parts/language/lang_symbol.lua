@@ -166,6 +166,7 @@ return{
             league="TL",
             ffa="FFA",
             rooms="< >",
+            resetPW="R ***",
             logout="@_@x",
         },
         net_league={
@@ -483,21 +484,26 @@ return{
             music="~~~",
             label="...",
         },
-        login={
+        login_pw={
             title="Log in",
-            register="Sign up",
+            -- login_mail="Login with E-mail/Sign Up",
             email="@",
             password="*",
             showEmail="?",
-            login="Log in",
+            login="→",
         },
-        register={
-            title="Sign up",
-            login="Log in",
+        login_mail={
+            title="Log in/Sign up",
+            login_pw="*** →",
             email="@",
             send="→",
             code="←",
             verify="!",
+        },
+        reset_password={
+            title="R ***",
+            send="→",
+            code="←",
             password="*",
             password2="*",
             setPW="##",

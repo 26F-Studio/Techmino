@@ -4,9 +4,9 @@ function scene.sceneInit()
     BG.set('cubes')
     local fileData=FILE.load('parts/language/manual_'..(SETTING.locale:find'zh' and 'zh' or SETTING.locale:find'ja' and 'ja' or 'en')..'.txt','-string')
     if fileData then
-        WIDGET.active.texts:setTexts(fileData:split('\n'))
+        scene.widgetList.texts:setTexts(fileData:split('\n'))
     else
-        WIDGET.active.texts:setTexts{"[manual file not found]"}
+        scene.widgetList.texts:setTexts{"[manual file not found]"}
     end
 
 end
@@ -16,13 +16,13 @@ function scene.wheelMoved(_,y)
 end
 function scene.keyDown(key)
     if key=='up' then
-        WIDGET.active.texts:scroll(-5)
+        scene.widgetList.texts:scroll(-5)
     elseif key=='down' then
-        WIDGET.active.texts:scroll(5)
+        scene.widgetList.texts:scroll(5)
     elseif key=='pageup' then
-        WIDGET.active.texts:scroll(-20)
+        scene.widgetList.texts:scroll(-20)
     elseif key=='pagedown' then
-        WIDGET.active.texts:scroll(20)
+        scene.widgetList.texts:scroll(20)
     elseif key=='escape' then
         SCN.back()
     end

@@ -335,6 +335,7 @@ return{
             -- league="Tech League",
             ffa="FFA",
             rooms="Salons",
+            -- resetPW="Reset password",
             -- logout="Log out",
         },
         net_league={
@@ -652,21 +653,26 @@ return{
             music="Musique",
             -- label="label",
         },
-        login={
+        login_pw={
             title="Connexion",
-            register="Enregistrement",
+            -- login_mail="Login with E-mail/Sign Up",
             email="E-mail",
             password="Mot de passe",
             -- showEmail="Show Email",
             login="Connexion",
         },
-        register={
-            title="Enregistrement",
-            login="Connexion",
+        login_mail={
+            title="Connexion/Enregistrement",
+            -- login_pw="Password Sign In",
             email="E-mail",
             -- send="Send code",
             -- code="Verification Code",
             -- verify="Verify",
+        },
+        reset_password={
+            -- title="Reset Password",
+            -- send="Send code",
+            -- code="Verification Code",
             password="Mot de passe",
             password2="Confirmer le mot de passe",
             -- setPW="Set Password",

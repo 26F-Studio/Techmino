@@ -374,6 +374,7 @@ return{
             league="M.TechLeague();",
             ffa="M.FFA",
             rooms="M.Rooms();",
+            resetPW="M.ResetPW",
             logout="M.Logout();",
         },
         net_league={
@@ -699,21 +700,26 @@ return{
             path="OpenPath();",
             save="DataManagement();",
         },
-        login={
+        login_pw={
             title="LogIn.UI",
-            register="Register();",
+            login_mail="Login_mail_sign_up()",
             email="Email=",
             password="Password=",
             showEmail="ShowEmail",
             login="Login();",
         },
-        register={
-            title="Register.UI",
-            login="Login();",
+        login_mail={
+            title="LogIn_Register.UI",
+            login_pw="Login_pw();",
             email="Email=",
             send="Send();",
             code="V-code=",
             verify="Verify();",
+        },
+        reset_password={
+            title="Reset_Password.UI",
+            send="Send();",
+            code="V-code=",
             password="Password=",
             password2="RePassword=",
             setPW="SetPassword();",

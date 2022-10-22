@@ -373,6 +373,7 @@ return{
             league="Tech League",
             ffa="FFA",
             rooms="房間列表",
+            resetPW="重設密碼",
             logout="登出",
         },
         net_league={
@@ -698,21 +699,26 @@ return{
             path="打開存儲目錄",
             save="用戶資料管理",
         },
-        login={
+        login_pw={
             title="登錄",
-            register="註冊",
+            login_mail="電郵登錄/注册",
             email="電郵",
             password="密碼",
             showEmail="顯示郵箱",
             login="登錄",
         },
-        register={
-            title="註冊",
-            login="登錄",
+        login_mail={
+            title="登錄/註冊",
+            login_pw="密碼登錄",
             email="電郵",
             send="發送驗證碼",
             code="驗證碼",
             verify="驗證郵箱",
+        },
+        reset_password={
+            title="重設密碼",
+            send="發送驗證碼",
+            code="驗證碼",
             password="密碼",
             password2="確認密碼",
             setPW="設置密碼",

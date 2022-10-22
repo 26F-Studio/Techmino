@@ -132,19 +132,14 @@ function NET.getCode(email)
             body={email=email},
         },12.6)
 
-        if res then
-            if res.code==200 then
-                USER.email=email
-                saveUser()
-                SCN.fileDropped(2)
-                MES.new('info',text.checkEmail,5)
-            end
+        if res and res.code==200 then
+            MES.new('info',text.checkEmail,5)
         end
 
         WAIT.interrupt()
     end)
 end
-function NET.codeLogin(code)
+function NET.codeLogin(email,code)
     if not TASK.lock('codeLogin') then return end
     TASK.new(function()
         WAIT{
@@ -159,7 +154,7 @@ function NET.codeLogin(code)
             pool='codeLogin',
             path='/techmino/api/v1/auth/login/email',
             body={
-                email=USER.email,
+                email=email,
                 code=code,
             },
         },6.26)
@@ -176,7 +171,7 @@ function NET.codeLogin(code)
                 USER.aToken=res.data.accessToken
                 saveUser()
                 SCN.pop()SCN.push('net_menu')
-                SCN.fileDropped(3)
+                SCN.go('reset_password','fade')
             end
         end
 
@@ -194,7 +189,24 @@ function NET.setPW(code,pw)
             timeout=6.26,
         }
 
-        pw=HASH.pbkdf2(HASH.sha3_256,pw,'salt',26000)
+        local salt do
+            local res=getMsg({
+                pool='pwLogin',
+                path='/techmino/api/v1/auth/seed/email',
+                body={
+                    email=USER.email,
+                },
+            },6.26)
+
+            if res and res.code==200 then
+                salt=res.data
+            else
+                WAIT.interrupt()
+                return
+            end
+        end
+
+        pw=HASH.pbkdf2(HASH.sha3_256,pw,salt,260)
 
         local res=getMsg({
             pool='setPW',
@@ -219,7 +231,6 @@ function NET.setPW(code,pw)
     end)
 end
 function NET.autoLogin()
-    if not USER.password then SCN.go('login') return end
     if not TASK.lock('autoLogin') then return end
     TASK.new(function()
         WAIT{
@@ -297,7 +308,7 @@ function NET.autoLogin()
             end
         end
 
-        SCN.go('login')
+        SCN.go('login_pw')
         WAIT.interrupt()
     end)
 end
@@ -313,26 +324,45 @@ function NET.pwLogin(email,pw)
         }
         TEST.yieldT(.26)
 
-        pw=HASH.pbkdf2(HASH.sha3_256,pw,"salt",26000)
+        local salt do
+            local res=getMsg({
+                pool='pwLogin',
+                path='/techmino/api/v1/auth/seed/email',
+                body={
+                    email=email,
+                },
+            },6.26)
 
-        local res=getMsg({
-            pool='pwLogin',
-            path='/techmino/api/v1/auth/login/email',
-            body={
-                email=email,
-                password=pw,
-            },
-        },6.26)
+            if res and res.code==200 then
+                salt=res.data
+            else
+                WAIT.interrupt()
+                return
+            end
+        end
 
-        if res then
-            if res.code==200 then
-                USER.email=email
-                USER.password=pw
-                USER.rToken=res.data.refreshToken
-                USER.aToken=res.data.accessToken
-                saveUser()
-                NET.ws_connect()
-                SCN.go('net_menu')
+        pw=HASH.pbkdf2(HASH.sha3_256,pw,salt,260)
+
+        do
+            local res=getMsg({
+                pool='pwLogin',
+                path='/techmino/api/v1/auth/login/email',
+                body={
+                    email=email,
+                    password=pw,
+                },
+            },6.26)
+
+            if res then
+                if res.code==200 then
+                    USER.email=email
+                    USER.password=pw
+                    USER.rToken=res.data.refreshToken
+                    USER.aToken=res.data.accessToken
+                    saveUser()
+                    NET.ws_connect()
+                    SCN.go('net_menu')
+                end
             end
         end
 

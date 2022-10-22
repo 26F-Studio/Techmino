@@ -28,13 +28,13 @@ function scene.keyDown(key,rep)
 end
 
 scene.widgetList={
-    WIDGET.newText{name='title',      x=80,  y=50,font=70,align='L'},
-    WIDGET.newButton{name='register', x=1140,y=100,w=170,h=80,color='lY',code=function() SCN.swapTo('register','swipeR') end},
+    WIDGET.newText{name='title',       x=80,  y=50,font=70,align='L'},
+    WIDGET.newButton{name='login_mail',x=1080,y=100,w=260,h=80,color='lY',code=function() SCN.swapTo('login_mail','swipeL') end},
     emailBox,
     passwordBox,
-    WIDGET.newSwitch{name='showEmail',x=550, y=420,disp=function() return showEmail end,code=function() showEmail=not showEmail emailBox.secret=not showEmail end},
-    WIDGET.newKey{name='login',       x=1140,y=540,w=170,h=80,font=40,code=pressKey'return'},
-    WIDGET.newButton{name='back',     x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newSwitch{name='showEmail', x=550, y=420,disp=function() return showEmail end,code=function() showEmail=not showEmail emailBox.secret=not showEmail end},
+    WIDGET.newKey{name='login',        x=1140,y=540,w=170,h=80,font=40,code=pressKey'return'},
+    WIDGET.newButton{name='back',      x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

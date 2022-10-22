@@ -373,6 +373,7 @@ return{
             league="Tech League",
             ffa="FFA",
             rooms="Ruang-ruang",
+            -- resetPW="Reset password",
             logout="Log out",
         },
         net_league={
@@ -699,21 +700,26 @@ return{
             music="Musik",
             label="label",
         },
-        login={
+        login_pw={
             title="Masuk",
-            register="Daftar",
+            -- login_mail="Login with E-mail/Sign Up",
             email="Alamat Email",
             password="Password",
             showEmail="Tunjukkan Email",
             login="Masuk",
         },
-        register={
-            title="Daftar",
-            login="Masuk",
+        login_mail={
+            title="Masuk/Daftar",
+            -- login_pw="Password Sign In",
             email="Alamat Email",
             -- send="Send code",
             -- code="Verification Code",
             -- verify="Verify",
+        },
+        reset_password={
+            -- title="Reset Password",
+            -- send="Send code",
+            -- code="Verification Code",
             password="Password",
             password2="Ulangi Password",
             -- setPW="Set Password",

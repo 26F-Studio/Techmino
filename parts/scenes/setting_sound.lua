@@ -12,8 +12,8 @@ function scene.sceneInit()
     last1,last2=0,0
     sfxPack=SETTING.sfxPack
     vocPack=SETTING.vocPack
-    WIDGET.active.sfxPack:reset()
-    WIDGET.active.vocPack:reset()
+    scene.widgetList.sfxPack:reset()
+    scene.widgetList.vocPack:reset()
     BG.set()
 end
 function scene.sceneBack()

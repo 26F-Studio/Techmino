@@ -18,24 +18,24 @@ local repRateStrings={[0]="pause",[.125]="0.125x",[.5]="0.5x",[1]="1x",[2]="2x",
 local scene={}
 
 local function _updateMenuButtons()
-    WIDGET.active.restart.hide=replaying
+    scene.widgetList.restart.hide=replaying
 
     local pos=(GAME.tasUsed or replaying) and 'right' or SETTING.menuPos
     modeTextWidK=math.min(280/TEXTOBJ.modeName:getWidth(),1)
     if GAME.replaying then
-        WIDGET.active.pause.x=1195
+        scene.widgetList.pause.x=1195
         modeTextPos=1185-TEXTOBJ.modeName:getWidth()*modeTextWidK
     elseif pos=='right' then
-        WIDGET.active.restart.x=1125
-        WIDGET.active.pause.x=1195
+        scene.widgetList.restart.x=1125
+        scene.widgetList.pause.x=1195
         modeTextPos=1115-TEXTOBJ.modeName:getWidth()*modeTextWidK
     elseif pos=='middle' then
-        WIDGET.active.restart.x=360
-        WIDGET.active.pause.x=860
+        scene.widgetList.restart.x=360
+        scene.widgetList.pause.x=860
         modeTextPos=940
     elseif pos=='left' then
-        WIDGET.active.restart.x=120
-        WIDGET.active.pause.x=190
+        scene.widgetList.restart.x=120
+        scene.widgetList.pause.x=190
         modeTextPos=1200-TEXTOBJ.modeName:getWidth()*modeTextWidK
     end
 end

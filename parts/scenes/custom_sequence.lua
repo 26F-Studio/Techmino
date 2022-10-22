@@ -72,7 +72,7 @@ function scene.keyDown(key)
         local l={1,2,3,4,5,6,7}
         repeat scene.keyDown(rem(l,math.random(#l))) until not l[1]
     elseif key=='tab' then
-        WIDGET.active.sequence:scroll(kb.isDown('lshift','rshift') and -1 or 1)
+        scene.widgetList.sequence:scroll(kb.isDown('lshift','rshift') and -1 or 1)
     elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
         if #BAG>0 then
             sys.setClipboardText("Techmino SEQ:"..DATA.copySequence())
