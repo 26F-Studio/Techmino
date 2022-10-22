@@ -497,7 +497,7 @@ end
 function NET.player_updateConf()
     wsSend(actMap.player_updateConf,dumpBasicConfig())
 end
-function NET.player_finish(msg)-- what msg?
+function NET.player_finish(msg)
     wsSend(actMap.player_finish,msg)
 end
 function NET.player_joinGroup(gid)
@@ -620,7 +620,10 @@ function NET.wsCallBack.player_setReadyMode(body)
     NETPLY.setReadyMode(body.data.playerId,body.data.type)
 end
 function NET.wsCallBack.match_finish()
-    TASK.unlock('netPlaying')
+    TASK.new(function()
+        TEST.yieldT(2.6)
+        TASK.unlock('netPlaying')
+    end)
 end
 function NET.wsCallBack.match_ready()-- TODO
 end
