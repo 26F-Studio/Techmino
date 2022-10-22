@@ -617,7 +617,7 @@ function NET.wsCallBack.player_setPlayMode(body)
     NETPLY.setPlayMode(body.data.playerId,body.data.type)
 end
 function NET.wsCallBack.player_setReadyMode(body)
-    NETPLY.setReadyMode(body.data.playerId,body.data.type)
+    NETPLY.setReadyMode(body.data.playerId,body.data.isReady and 'Ready' or 'Standby')
 end
 function NET.wsCallBack.match_finish()
     TASK.new(function()

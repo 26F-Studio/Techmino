@@ -133,8 +133,7 @@ end
 
 function NETPLY.getCount() return #PLYlist end
 function NETPLY.getSelfPlayMode() return PLYmap[USER.uid].playMode end
-function NETPLY.getSelfReadyMode() return PLYmap[USER.uid].playMode end
-function NETPLY.getSelfReady() return PLYmap[USER.uid].readyMode end
+function NETPLY.getSelfReadyMode() return PLYmap[USER.uid].readyMode end
 
 function NETPLY.setPlayerObj(ply,p) ply.p=p end
 function NETPLY.setConf(uid,config) PLYmap[uid].config=config end
@@ -147,8 +146,8 @@ function NETPLY.setPlayMode(uid,mode)
 end
 function NETPLY.setReadyMode(uid,mode)
     local p=PLYmap[uid]
-    if p and p.ReadyMode~=mode then
-        p.ReadyMode=mode
+    if p and p.readyMode~=mode then
+        p.readyMode=mode
         NET.freshRoomState()
     end
 end
@@ -201,15 +200,11 @@ function NETPLY.draw()
         gc_translate(p.x,p.y)
             -- Rectangle
             if p.playMode=='Gamer' then
-                gc_setColor(COLOR[
-                    p.playMode=='Spectator' and 'lH' or
-                    p.playMode=='Gamer' and (
-                        p.readyMode=='Standby' and 'Z' or
-                        'N'
-                    ) or 'dH'
-                ])
+                gc_setColor(p.readyMode=='Standby' and COLOR.Z or COLOR.N)
             else
-                gc_setColor(COLOR.lH)
+                gc_setColor(COLOR.dX)
+                gc_rectangle('fill',0,0,p.w,p.h)
+                gc_setColor(COLOR.dH)
             end
             gc_setLineWidth(2)
             gc_rectangle('line',0,0,p.w,p.h)

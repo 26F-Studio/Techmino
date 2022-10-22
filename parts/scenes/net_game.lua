@@ -27,8 +27,11 @@ local function _hideReadyUI()
 end
 
 local function _setCancel()
-    NET.player_setPlayMode('Gamer')
-    NET.player_setReadyMode(false)
+    if NETPLY.getSelfPlayMode()=='Gamer' then
+        NET.player_setReadyMode(false)
+    else
+        NET.player_setPlayMode('Gamer')
+    end
 end
 local function _setReady()
     NET.player_setPlayMode('Gamer')
@@ -311,15 +314,15 @@ function scene.draw()
         gc_print("M",430,10)
     end
 end
-local function _hideF_ingame() return _hideReadyUI() or NETPLY.getSelfReadyMode()=='Spectator' end
-local function _hideF_ingame2() return _hideReadyUI() or NETPLY.getSelfReadyMode()=='Gamer' end
+local function _hideF_ready() return _hideReadyUI() or (NETPLY.getSelfPlayMode()=='Spectator' or NETPLY.getSelfReadyMode()=='Ready') end
+local function _hideF_standby() return _hideReadyUI() or not (NETPLY.getSelfPlayMode()=='Spectator' or NETPLY.getSelfReadyMode()=='Ready') end
 scene.widgetList={
     textBox,
     inputBox,
-    WIDGET.newKey{name='setting', x=1200,y=160,w=90,h=90,font=60,fText=CHAR.icon.settings,code=_gotoSetting,hideF=_hideF_ingame},
-    WIDGET.newKey{name='ready',   x=1060,y=510,w=360,h=90,color='lG',font=35, code=_setReady,hideF=_hideF_ingame},
-    WIDGET.newKey{name='spectate',x=1060,y=610,w=360,h=90,color='lO',font=35, code=_setSpectate,hideF=_hideF_ingame},
-    WIDGET.newKey{name='cancel',  x=1060,y=560,w=360,h=120,color='lH',font=40,code=_setCancel,hideF=_hideF_ingame2},
+    WIDGET.newKey{name='setting', x=1200,y=160,w=90,h=90,font=60,fText=CHAR.icon.settings,code=_gotoSetting,hideF=_hideF_ready},
+    WIDGET.newKey{name='ready',   x=1060,y=510,w=360,h=90,color='lG',font=35, code=_setReady,hideF=_hideF_ready},
+    WIDGET.newKey{name='spectate',x=1060,y=610,w=360,h=90,color='lO',font=35, code=_setSpectate,hideF=_hideF_ready},
+    WIDGET.newKey{name='cancel',  x=1060,y=560,w=360,h=120,color='lH',font=40,code=_setCancel,hideF=_hideF_standby},
     WIDGET.newKey{name='chat',    x=390,y=45,w=60,fText="···",                code=_switchChat},
     WIDGET.newKey{name='quit',    x=890,y=45,w=60,font=30,fText=CHAR.icon.cross_thick,code=_quit},
 }
