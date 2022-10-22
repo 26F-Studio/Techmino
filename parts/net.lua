@@ -171,7 +171,7 @@ function NET.codeLogin(email,code)
                 USER.aToken=res.data.accessToken
                 saveUser()
                 SCN.pop()SCN.push('net_menu')
-                SCN.go('reset_password','fade')
+                SCN.swapTo('reset_password')
             end
         end
 
