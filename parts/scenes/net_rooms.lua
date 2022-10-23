@@ -147,7 +147,7 @@ scene.widgetList={
     WIDGET.newText{name='refreshing',x=450,y=240,font=45,hideF=function() return not TASK.getLock('fetchRoom') end},
     WIDGET.newText{name='noRoom',    x=450,y=245,font=40,hideF=function() return roomList:getLen()>0 or TASK.getLock('fetchRoom') end},
     WIDGET.newKey{name='refresh',    x=250,y=630,w=140,h=120,code=_fetchRoom,hideF=function() return fetchTimer>7 end},
-    WIDGET.newKey{name='new',        x=510,y=630,w=260,h=120,code=swapScene'net_newRoom'},
+    WIDGET.newKey{name='new',        x=510,y=630,w=260,h=120,code=goScene('net_newRoom','swipeL')},
     WIDGET.newKey{name='join',       x=780,y=630,w=140,h=120,code=pressKey'join',hideF=function() return roomList:getLen()==0 or TASK.getLock('enterRoom') end},
     WIDGET.newButton{name='back',    x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=pressKey'escape'},
 }

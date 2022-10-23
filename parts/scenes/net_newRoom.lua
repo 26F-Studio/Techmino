@@ -91,7 +91,7 @@ scene.widgetList={
     -- Capacity & Create & Back
     WIDGET.newSelector{name='capacity',     x=1070,y=330,w=310,color='lY',list={2,3,4,5,7,10,17,31,49,99},disp=ROOMval('capacity'),code=ROOMsto('capacity')},
     WIDGET.newButton{name='create',         x=1070,y=480,w=310,h=140,color='lN',font=40,code=_createRoom},
-    WIDGET.newButton{name='back',           x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=swapScene'net_rooms'},
+    WIDGET.newButton{name='back',           x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 
     -- Special rules
     WIDGET.newSwitch{name='ospin',          x=850, y=850, lim=210,disp=ROOMval('ospin'),    code=ROOMrev('ospin')},
