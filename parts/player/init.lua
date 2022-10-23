@@ -399,19 +399,19 @@ function PLY.newDemoPlayer(id)
     }
     P:popNext()
 end
-function PLY.newRemotePlayer(id,mini,ply)
+function PLY.newRemotePlayer(id,mini,p)
     local P=_newEmptyPlayer(id,mini)
     P.type='remote'
 
     P.draw=ply_draw.norm
     P:startStreaming()
 
-    NETPLY.setPlayerObj(ply,P)
-    P.uid=ply.uid
-    P.username=ply.username
-    P.sid=NET.uid_sid[ply.uid]
+    NETPLY.setPlayerObj(p,P)
+    P.uid=p.uid
+    P.username=USERS.getUsername(p.uid)
+    P.sid=NET.uid_sid[p.uid]
 
-    _loadRemoteEnv(P,ply.config)
+    _loadRemoteEnv(P,p.config)
     _applyGameEnv(P)
 end
 function PLY.newAIPlayer(id,AIdata,mini)

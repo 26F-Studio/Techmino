@@ -441,6 +441,22 @@ local function _playerLeaveRoom(uid)
     end
 end
 
+--Push stream data to players
+local function _pumpStream(d)
+    if d.playerId==USER.uid then return end
+    for _,P in next,PLAYERS do
+        if P.uid==d.playerId then
+            local res,stream=pcall(love.data.decode,'string','base64',d.data)
+            if res then
+                DATA.pumpRecording(stream,P.stream)
+            else
+                MES.new('error',"Bad stream from "..P.username.."#"..P.uid,.1)
+            end
+            return
+        end
+    end
+end
+
 -- Global
 function NET.global_getOnlineCount()
     wsSend(actMap.global_getOnlineCount)
@@ -546,7 +562,7 @@ function NET.player_setState(state)-- not used
     wsSend(actMap.player_setState,state)
 end
 function NET.player_stream(stream)
-    wsSend(actMap.player_stream,stream)
+    wsSend(actMap.player_stream,love.data.encode('string','base64',stream))
 end
 function NET.player_setPlayMode(mode)
     wsSend(actMap.player_setPlayMode,mode)
@@ -588,14 +604,16 @@ function NET.wsCallBack.room_setInfo(body)
 end
 function NET.wsCallBack.room_enter(body)
     TASK.unlock('enterRoom')
-    NET.textBox.hide=true
-    NET.inputBox.hide=true
-    NET.textBox:clear()
-    NET.inputBox:clear()
 
-    NET.roomState=body.data
-    NETPLY.clear()
     if body.data.players then
+        NET.textBox.hide=true
+        NET.inputBox.hide=true
+        NET.textBox:clear()
+        NET.inputBox:clear()
+
+        NET.roomState=body.data
+        NETPLY.clear()
+        loadGame('netBattle',true,true)
         for _,p in next,body.data.players do
             NETPLY.add{
                 uid=p.playerId,
@@ -604,9 +622,16 @@ function NET.wsCallBack.room_enter(body)
                 config=p.config,
             }
         end
+    else
+        local p=body.data
+        NETPLY.add{
+            uid=p.playerId,
+            playMode=p.type,
+            readyMode=p.state,
+            config=p.config,
+        }
     end
 
-    loadGame('netBattle',true,true)
     WAIT.interrupt()
 end
 function NET.wsCallBack.room_kick(body)
@@ -641,7 +666,8 @@ function NET.wsCallBack.player_setHost(body)-- TODO
 end
 function NET.wsCallBack.player_setState(body)-- TODO (not used)
 end
-function NET.wsCallBack.player_stream(body)-- TODO
+function NET.wsCallBack.player_stream(body)
+    _pumpStream(body.data)
 end
 function NET.wsCallBack.player_setPlayMode(body)
     NETPLY.setPlayMode(body.data.playerId,body.data.type)

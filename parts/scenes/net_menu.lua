@@ -17,7 +17,7 @@ scene.widgetList={
     WIDGET.newButton{name='league',x=640, y=180,w=350,h=120,font=40,color='D',code=goScene'net_league'},
     WIDGET.newButton{name='ffa',   x=640, y=360,w=350,h=120,font=40,color='D',code=function() MES.new('warn',text.notFinished)--[[NET.enterRoom({name='ffa'})]] end},
     WIDGET.newButton{name='rooms', x=640, y=540,w=350,h=120,font=40,code=goScene'net_rooms'},
-    WIDGET.newButton{name='resetPW',x=680, y=40,w=180,h=60,color='dG',code=function() SCN.go('reset_password','none') end},
+    WIDGET.newButton{name='resetPW',x=680,y=40,w=180,h=60,color='dG',code=goScene'reset_password'},
     WIDGET.newButton{name='logout',x=880, y=40,w=180, h=60,color='dR',
         code=function()
             if tryBack() then

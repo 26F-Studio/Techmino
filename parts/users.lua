@@ -81,8 +81,8 @@ function USERS.updateAvatar(uid,imgData)
     db_img[uid]=_loadAvatar("cache/"..hash)
 end
 
-function USERS.getUsername(uid) return db[uid].username end
-function USERS.getMotto(uid) return db[uid].motto end
+function USERS.getUsername(uid) return db[uid].username or "" end
+function USERS.getMotto(uid) return db[uid].motto or "" end
 function USERS.getAvatar(uid)
     if uid then
         if not db[uid].new then
