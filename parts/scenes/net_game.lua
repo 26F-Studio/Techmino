@@ -274,15 +274,9 @@ function scene.draw()
 
         -- Ready & Set mark
         setFont(50)
-        if NET.roomReadyState=='allReady' then
-            gc_setColor(1,.85,.6,.9)
-            mStr(text.ready,640,15)
-        elseif NET.roomReadyState=='connecting' then
-            gc_setColor(.6,1,.9,.9)
-            mStr(text.connStream,640,15)
-        elseif NET.roomReadyState=='waitConn' then
+        if NET.roomAllReady then
             gc_setColor(.6,.95,1,.9)
-            mStr(text.waitStream,640,15)
+            mStr(text.ready,640,15)
         end
 
         -- Room info.

@@ -24,7 +24,7 @@ local NET={
     spectate=false,-- If player is spectating
     seed=false,
 
-    roomReadyState=false,
+    roomAllReady=false,
 
     onlineCount="_",
 
@@ -44,14 +44,14 @@ function NET.freshRoomState()
         if NETPLY.list[j].readyMode=='Ready' then readyCount=readyCount+1 end
     end
 
-    if playCount-readyCount==1 then
+    if playCount>1 and playCount-readyCount==1 then
         local p=NETPLY.map[USER.uid]
         if p.playMode=='Gamer' and p.readyMode~='Ready' then
             SFX.play('warn_2',.5)
         end
     end
 
-    NET.roomReadyState=playCount>0 and playCount==readyCount
+    NET.roomAllReady=playCount>0 and playCount==readyCount
 end
 
 --------------------------<NEW HTTP API>
@@ -646,7 +646,8 @@ function NET.wsCallBack.room_leave(body)
 end
 function NET.wsCallBack.room_fetch(body)
     TASK.unlock('fetchRoom')
-    if body.data then SCN.scenes.net_rooms.widgetList.roomList:setList(body.data) end
+    if not body.data then body.data={} end
+    SCN.scenes.net_rooms.widgetList.roomList:setList(body.data)
 end
 function NET.wsCallBack.room_setPW()
     MES.new(text.roomPasswordChanged)

@@ -36,7 +36,7 @@ local roomList=WIDGET.newListBox{name='roomList',x=50,y=50,w=800,h=440,lineH=40,
             if item.state=='Standby' then
                 gc_setColor(COLOR.Z)
             elseif item.state=='Ready' then
-                gc_setColor(COLOR.lG)
+                gc_setColor(COLOR.lB)
             elseif item.state=='Playing' then
                 gc_setColor(COLOR.G)
             end
