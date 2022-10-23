@@ -37,7 +37,7 @@ function NET.connectLost()
     while SCN.stack[#SCN.stack-1]~='main' and #SCN.stack>0 do SCN.pop() end
     SCN.back()
 end
-function NET.freshRoomState()
+function NET.freshRoomAllReady()
     local playCount,readyCount=0,0
     for j=1,#NETPLY.list do
         if NETPLY.list[j].playMode=='Gamer' then playCount=playCount+1 end
@@ -549,8 +549,8 @@ end
 function NET.player_joinGroup(gid)
     wsSend(actMap.player_joinGroup,gid)
 end
-function NET.player_setReadyMode(mode)
-    wsSend(actMap.player_setReadyMode,mode)
+function NET.player_setReady(isReady)
+    wsSend(actMap.player_setReadyMode,isReady)
 end
 function NET.player_setHost(pid)
     wsSend(actMap.player_setHost,{
@@ -660,7 +660,7 @@ function NET.wsCallBack.room_remove()
     _playerLeaveRoom(USER.uid)
 end
 function NET.wsCallBack.player_updateConf(body)
-    NETPLY.setConf(body.data.playerId,body.data.config)
+    NETPLY.map[body.data.playerId].config=body.data.config
 end
 function NET.wsCallBack.player_finish(body)-- TODO
 end
@@ -674,10 +674,12 @@ function NET.wsCallBack.player_stream(body)
     _pumpStream(body.data)
 end
 function NET.wsCallBack.player_setPlayMode(body)
-    NETPLY.setPlayMode(body.data.playerId,body.data.type)
+    NETPLY.map[body.data.playerId].playMode=body.data.type
+    NET.freshRoomAllReady()
 end
 function NET.wsCallBack.player_setReadyMode(body)
-    NETPLY.setReadyMode(body.data.playerId,body.data.isReady and 'Ready' or 'Standby')
+    NETPLY.map[body.data.playerId].readyMode=body.data.isReady and 'Ready' or 'Standby'
+    NET.freshRoomAllReady()
 end
 function NET.wsCallBack.match_finish()
     TASK.new(function()
@@ -687,8 +689,14 @@ function NET.wsCallBack.match_finish()
 end
 function NET.wsCallBack.match_ready()-- TODO
 end
-function NET.wsCallBack.match_start()
+function NET.wsCallBack.match_start(body)
     TASK.lock('netPlaying')
+    if body.data then
+        NET.seed=body.data
+    else
+        NET.seed=0
+        MES.new("error",'No seed received')
+    end
 end
 
 function NET.ws_connect()

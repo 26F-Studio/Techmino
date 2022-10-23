@@ -27,15 +27,15 @@ local function _hideReadyUI()
 end
 
 local function _setCancel()
-    if NETPLY.getSelfPlayMode()=='Gamer' then
-        NET.player_setReadyMode(false)
+    if NETPLY.map[USER.uid].playMode=='Gamer' then
+        NET.player_setReady(false)
     else
         NET.player_setPlayMode('Gamer')
     end
 end
 local function _setReady()
     NET.player_setPlayMode('Gamer')
-    NET.player_setReadyMode(true)
+    NET.player_setReady(true)
 end
 local function _setSpectate()
     NET.player_setPlayMode('Spectator')
@@ -157,7 +157,7 @@ function scene.keyDown(key,isRep)
         end
     elseif not _hideReadyUI() then
         if key=='space' then
-            if NETPLY.getSelfPlayMode()~='Gamer' then
+            if NETPLY.map[USER.uid].playMode~='Gamer' then
                 (kb.isDown('lctrl','rctrl','lalt','ralt') and _setSpectate or _setReady)()
             else
                 _setCancel()
@@ -207,6 +207,10 @@ function scene.update(dt)
         if not TASK.getLock('netPlaying') then
             playing=false
             BG.set()
+            for i=1,#NETPLY.list do
+                NETPLY.list[i].readyMode='Standby'
+            end
+            NET.freshRoomAllReady()
             return
         else
             local P1=PLAYERS[1]
@@ -246,6 +250,9 @@ function scene.update(dt)
             upstreamProgress=1
             resetGameData('n',NET.seed)
             NETPLY.mouseMove(0,0)
+            for i=1,#NETPLY.list do
+                NETPLY.list[i].readyMode='Playing'
+            end
         end
     end
 end
@@ -284,7 +291,7 @@ function scene.draw()
         setFont(25)
         gc_printf(NET.roomState.info.name,0,685,1270,'right')
         setFont(40)
-        gc_print(NETPLY.getCount().."/"..NET.roomState.capacity,70,655)
+        gc_print(#NETPLY.list.."/"..NET.roomState.capacity,70,655)
         if NET.roomState.private then
             gc_draw(IMG.lock,30,668)
         end
@@ -308,8 +315,8 @@ function scene.draw()
         gc_print("M",430,10)
     end
 end
-local function _hideF_ready() return _hideReadyUI() or (NETPLY.getSelfPlayMode()=='Spectator' or NETPLY.getSelfReadyMode()=='Ready') end
-local function _hideF_standby() return _hideReadyUI() or not (NETPLY.getSelfPlayMode()=='Spectator' or NETPLY.getSelfReadyMode()=='Ready') end
+local function _hideF_ready() return _hideReadyUI() or (NETPLY.map[USER.uid].playMode=='Spectator' or NETPLY.map[USER.uid].readyMode=='Ready') end
+local function _hideF_standby() return _hideReadyUI() or not (NETPLY.map[USER.uid].playMode=='Spectator' or NETPLY.map[USER.uid].readyMode=='Ready') end
 scene.widgetList={
     textBox,
     inputBox,

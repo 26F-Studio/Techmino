@@ -406,7 +406,6 @@ function PLY.newRemotePlayer(id,mini,p)
     P.draw=ply_draw.norm
     P:startStreaming()
 
-    NETPLY.setPlayerObj(p,P)
     P.uid=p.uid
     P.username=USERS.getUsername(p.uid)
     P.sid=NET.uid_sid[p.uid]

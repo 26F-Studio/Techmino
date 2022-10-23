@@ -131,26 +131,6 @@ function NETPLY.remove(uid)
     end
 end
 
-function NETPLY.getCount() return #PLYlist end
-function NETPLY.getSelfPlayMode() return PLYmap[USER.uid].playMode end
-function NETPLY.getSelfReadyMode() return PLYmap[USER.uid].readyMode end
-
-function NETPLY.setPlayerObj(ply,p) ply.p=p end
-function NETPLY.setConf(uid,config) PLYmap[uid].config=config end
-function NETPLY.setPlayMode(uid,mode)
-    local p=PLYmap[uid]
-    if p and p.playMode~=mode then
-        p.playMode=mode
-        NET.freshRoomState()
-    end
-end
-function NETPLY.setReadyMode(uid,mode)
-    local p=PLYmap[uid]
-    if p and p.readyMode~=mode then
-        p.readyMode=mode
-        NET.freshRoomState()
-    end
-end
 function NETPLY.setPlace(uid,place) PLYmap[uid].place=place end
 function NETPLY.setStat(uid,S)
     PLYmap[uid].stat={
@@ -200,7 +180,15 @@ function NETPLY.draw()
         gc_translate(p.x,p.y)
             -- Rectangle
             if p.playMode=='Gamer' then
-                gc_setColor(p.readyMode=='Standby' and COLOR.Z or COLOR.N)
+                if p.readyMode=='Standby' then
+                    gc_setColor(COLOR.Z)
+                elseif p.readyMode=='Ready' then
+                    gc_setColor(COLOR.N)
+                else
+                    gc_setColor(.26,.62,.26,.26)
+                    gc_rectangle('fill',0,0,p.w,p.h)
+                    gc_setColor(COLOR.lG)
+                end
             else
                 gc_setColor(COLOR.dX)
                 gc_rectangle('fill',0,0,p.w,p.h)
