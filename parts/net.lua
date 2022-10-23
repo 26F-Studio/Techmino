@@ -464,7 +464,7 @@ end
 
 -- Room
 function NET.room_chat(msg,rid)
-    if not TASK.lock('chatLimit',2.6) then
+    if not TASK.lock('chatLimit',1.626) then
         MES.new('warn',"Talk too fast")
     elseif #msg>0 then
         wsSend(1300,{
@@ -580,9 +580,9 @@ function NET.wsCallBack.room_chat(body)
         TASK.unlock('receiveMessage')
         TASK.lock('receiveMessage',1)
         NET.textBox:push{
-            COLOR.L,"[?]",-- TODO
-            COLOR.Y,"#"..body.playerId.." ",
-            COLOR.I,body.message,
+            COLOR.Z,USERS.getUsername(body.data.playerId),
+            COLOR.Y,"#"..body.data.playerId.." ",
+            COLOR.N,body.data.message,
         }
     end
 end
@@ -630,6 +630,8 @@ function NET.wsCallBack.room_enter(body)
             readyMode=p.state,
             config=p.config,
         }
+        NET.textBox:push{COLOR.Y,text.joinRoom:repD(USERS.getUsername(p.playerId).."#"..p.playerId.." ")}
+        SFX.play('connected')
     end
 
     WAIT.interrupt()
@@ -639,10 +641,11 @@ function NET.wsCallBack.room_kick(body)
     _playerLeaveRoom(body.data.playerId)
 end
 function NET.wsCallBack.room_leave(body)
+    local uid=body.data and body.data.playerId or USER.uid
     if body.data then
-        MES.new('info',text.leaveRoom:repD(body.data.playerId),2.6)
+        NET.textBox:push{COLOR.Y,text.leaveRoom:repD(USERS.getUsername(uid).."#"..uid.." ")}
     end
-    _playerLeaveRoom(body.data and body.data.playerId or USER.uid)
+    _playerLeaveRoom(uid)
 end
 function NET.wsCallBack.room_fetch(body)
     TASK.unlock('fetchRoom')

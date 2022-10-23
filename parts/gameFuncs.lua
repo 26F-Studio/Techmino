@@ -10,7 +10,6 @@ local approach=MATH.expApproach
 
 local SETTING,GAME,SCR=SETTING,GAME,SCR
 local PLAYERS=PLAYERS
-local playSFX=SFX.play
 
 
 
@@ -287,25 +286,25 @@ end
 function playClearSFX(cc)
     if cc<=0 or cc%1~=0 then return end
     if cc<=4 then
-        playSFX('clear_'..cc)
+        SFX.play('clear_'..cc)
     elseif cc<=6 then
-        playSFX('clear_4')
+        SFX.play('clear_4')
     elseif cc<=12 then
-        playSFX('clear_4',.8)
+        SFX.play('clear_4',.8)
         if cc<=9 then
             Snd('bass','A3','E4')
         else
             Snd('bass','A3','E4','A4')
         end
     elseif cc<=16 then
-        playSFX('clear_5',.7)
+        SFX.play('clear_5',.7)
         if cc<=14 then
             Snd('bass',.8,'A3','E4')Snd('lead','A4','E5')
         else
             Snd('bass',.8,'A3','G4')Snd('lead','B4','G5')
         end
     else
-        playSFX('clear_6',.6)
+        SFX.play('clear_6',.6)
         if cc==17 then Snd('bass',.8,'A3','A4')Snd('lead','E5','G5')
         elseif cc==18 then Snd('bass',.7,'A4')Snd('lead',.8,'C4','G5')Snd('bell','D5')
         elseif cc==19 then Snd('bass',.7,'A4')Snd('lead',.8,'A4','E5')Snd('bell','B5')
@@ -512,7 +511,7 @@ function loadGame(mode,ifQuickPlay,ifNet)-- Load a mode and go to game scene
             local modeText=text.modes[mode] or{"["..MODES[mode].name.."]",""}
             TEXTOBJ.modeName:set(modeText[1].."   "..modeText[2])
             SCN.go('game',ifQuickPlay and 'swipeD' or 'fade_togame')
-            playSFX('enter')
+            SFX.play('enter')
         end
     end
 end
@@ -576,7 +575,7 @@ function gameOver()-- Save record
                         P:_showText(text.newRecord,0,-100,100,'beat',.5)
                         if SETTING.autoSave and DATA.saveReplay() then
                             GAME.saved=true
-                            playSFX('connected')
+                            SFX.play('connected')
                             MES.new('check',text.saveDone)
                         end
                     end
