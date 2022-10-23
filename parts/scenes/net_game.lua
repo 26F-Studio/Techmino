@@ -157,10 +157,10 @@ function scene.keyDown(key,isRep)
         end
     elseif not _hideReadyUI() then
         if key=='space' then
-            if NETPLY.map[USER.uid].playMode~='Gamer' then
-                (kb.isDown('lctrl','rctrl','lalt','ralt') and _setSpectate or _setReady)()
-            else
+            if NETPLY.map[USER.uid].playMode=='Spectator' or NETPLY.map[USER.uid].readyMode=='Ready' then
                 _setCancel()
+            else
+                (kb.isDown('lctrl','rctrl','lalt','ralt') and _setSpectate or _setReady)()
             end
         elseif key=='s' then
             _gotoSetting()
