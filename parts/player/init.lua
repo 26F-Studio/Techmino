@@ -12,7 +12,7 @@ local PLY={draw=ply_draw}
 local modeDataMeta do
     local rawset=rawset
     modeDataMeta={
-        __index=function(self,k) rawset(self,k,0)return 0 end,
+        __index=function(self,k) rawset(self,k,0) return 0 end,
         __newindex=function(self,k,v) rawset(self,k,v) end,
     }
 end

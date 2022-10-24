@@ -89,8 +89,8 @@ end
 scene.mouseDown=NULL
 function scene.mouseMove(x,y) NETPLY.mouseMove(x,y) end
 function scene.touchDown(x,y)
-    if not playing then NETPLY.mouseMove(x,y)return end
-    if noTouch then return end
+    if not playing then NETPLY.mouseMove(x,y) return end
+    if NET.spectate or noTouch then return end
 
     local t=VK.on(x,y)
     if t then
@@ -99,7 +99,7 @@ function scene.touchDown(x,y)
     end
 end
 function scene.touchUp(x,y)
-    if not playing or noTouch then return end
+    if not playing or NET.spectate or noTouch then return end
     local n=VK.on(x,y)
     if n then
         PLAYERS[1]:releaseKey(n)
@@ -149,7 +149,7 @@ function scene.keyDown(key,isRep)
         WIDGET.focus(inputBox)
         inputBox:keypress(key)
     elseif playing then
-        if noKey or isRep then return end
+        if NET.spectate or noKey or isRep then return end
         local k=KEY_MAP.keyboard[key]
         if k and k>0 then
             PLAYERS[1]:pressKey(k)
@@ -168,7 +168,7 @@ function scene.keyDown(key,isRep)
     end
 end
 function scene.keyUp(key)
-    if not playing or noKey then return end
+    if not playing or NET.spectate or noKey then return end
     local k=KEY_MAP.keyboard[key]
     if k and k>0 then
         PLAYERS[1]:releaseKey(k)
@@ -253,8 +253,7 @@ function scene.update(dt)
             for i=1,#NETPLY.list do
                 NETPLY.list[i].readyMode='Playing'
             end
-            noKey=PLAYERS[1].uid~=USER.uid
-            noTouch=noKey
+            NET.spectate=PLAYERS[1].uid~=USER.uid
         end
     end
 end

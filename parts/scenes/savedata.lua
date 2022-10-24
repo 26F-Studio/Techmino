@@ -10,7 +10,7 @@ local function _parseCB()
 
     -- Decode
     s=STRING.unpackText(s)
-    if not s then MES.new('error',text.dataCorrupted)return end
+    if not s then MES.new('error',text.dataCorrupted) return end
 
     s=loadstring(s)
     if s then

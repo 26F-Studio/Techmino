@@ -6,9 +6,9 @@ local showEmail=true
 local function _login()
     local email,password=emailBox:getText(),passwordBox:getText()
     if not STRING.simpEmailCheck(email) then
-        MES.new('error',text.wrongEmail)return
+        MES.new('error',text.wrongEmail) return
     elseif #password==0 then
-        MES.new('error',text.noPassword)return
+        MES.new('error',text.noPassword) return
     end
     NET.pwLogin(email,password)
 end
