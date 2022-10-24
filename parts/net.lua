@@ -720,6 +720,8 @@ function NET.ws_update()
     while true do
         TEST.yieldT(1/26)
         if WS.status('game')=='dead' then
+            TEST.yieldUntilNextScene()
+            NET.connectLost()
             return
         elseif WS.status('game')=='running' then
             break
@@ -750,7 +752,11 @@ function NET.ws_update()
     while true do
         TEST.yieldT(.01)-- Network messages, max 126 FPS is enough
 
-        if WS.status('game')=='dead' then return end
+        if WS.status('game')=='dead' then
+            TEST.yieldUntilNextScene()
+            NET.connectLost()
+            return
+        end
 
         updateOnlineCD=updateOnlineCD%626+1
         if updateOnlineCD==1 then NET.global_getOnlineCount() end
