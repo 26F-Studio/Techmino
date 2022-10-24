@@ -722,7 +722,7 @@ function draw.norm(P,repMode)
         -- Draw username
         setFont(30)
         gc_setColor(.97,.97,.97)
-        GC.mStr(P.username,300,-60)
+        GC.mStr(P.username or USERS.getUsername(P.uid),300,-60)
 
         -- Draw HUD
         if ENV.nextCount>0 then _drawNext(P,repMode) end

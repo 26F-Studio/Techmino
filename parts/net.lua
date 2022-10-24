@@ -452,7 +452,7 @@ local function _pumpStream(d)
             if res then
                 DATA.pumpRecording(stream,P.stream)
             else
-                MES.new('error',"Bad stream from "..P.username.."#"..P.uid,.1)
+                MES.new('error',"Bad stream from "..USERS.getUsername(P.uid).."#"..P.uid,.1)
             end
             return
         end

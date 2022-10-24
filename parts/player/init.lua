@@ -119,7 +119,6 @@ local function _newEmptyPlayer(id,mini)
     P.atker,P.atking,P.lastRecv={}
 
     -- User-related
-    P.username=""
     P.uid=false
     P.sid=false
 
@@ -209,7 +208,7 @@ local function _loadRemoteEnv(P,confStr)-- Load gameEnv
     confStr=JSON.decode(confStr)
     if not confStr then
         confStr={}
-        MES.new('warn',"Bad conf from "..P.username.."#"..P.uid)
+        MES.new('warn',"Bad conf from "..USERS.getUsername(P.uid).."#"..P.uid)
     end
 
     P.gameEnv={}-- Current game setting environment
@@ -407,7 +406,6 @@ function PLY.newRemotePlayer(id,mini,p)
     P:startStreaming()
 
     P.uid=p.uid
-    P.username=USERS.getUsername(p.uid)
     P.sid=NET.uid_sid[p.uid]
 
     _loadRemoteEnv(P,p.config)
@@ -429,7 +427,6 @@ function PLY.newPlayer(id,mini)
     P.type='human'
     P.sound=true
 
-    P.username=USERS.getUsername(USER.uid)
     P.uid=USER.uid
     P.sid=NET.uid_sid[USER.uid]
 

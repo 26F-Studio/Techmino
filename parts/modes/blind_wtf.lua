@@ -33,7 +33,7 @@ return{
                     GC.rectangle('line',488,20,100,80,5)
                     GC.draw(border,-17+150,-12)
                     setFont(30)
-                    GC.mStr(P.username,300,-60)
+                    GC.mStr(P.username or USERS.getUsername(P.uid),300,-60)
                 end
                 GC.pop()
             end
