@@ -32,7 +32,6 @@ local NET={
     inputBox=WIDGET.newInputBox{name='input',x=340,y=660,w=600,h=50,limit=256},
 }
 
-
 function NET.connectLost()
     while SCN.stack[#SCN.stack-1]~='main' and #SCN.stack>0 do SCN.pop() end
     SCN.back()
@@ -591,6 +590,7 @@ end
 function NET.wsCallBack.room_create(body)
     MES.new('check',text.createRoomSuccessed)
     NET.wsCallBack.room_enter(body)
+    WAIT.interrupt()
 end
 function NET.wsCallBack.room_getData(body)
     NET.roomState.data=body.data
@@ -639,8 +639,6 @@ function NET.wsCallBack.room_enter(body)
             NET.freshRoomAllReady()
         end
     end
-
-    WAIT.interrupt()
 end
 function NET.wsCallBack.room_kick(body)
     MES.new('info',text.playerKicked:repD(body.data.executorId,body.data.playerId))
