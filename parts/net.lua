@@ -633,7 +633,7 @@ function NET.wsCallBack.room_enter(body)
             readyMode=p.state,
             config=p.config,
         }
-        NET.textBox:push{COLOR.Y,text.joinRoom:repD(USERS.getUsername(p.playerId).."#"..p.playerId.." ")}
+        NET.textBox:push{COLOR.Y,text.joinRoom:repD(USERS.getUsername(p.playerId).."#"..p.playerId)}
         if not GAME.playing then
             SFX.play('connected')
             NET.freshRoomAllReady()
@@ -641,7 +641,7 @@ function NET.wsCallBack.room_enter(body)
     end
 end
 function NET.wsCallBack.room_kick(body)
-    MES.new('info',text.playerKicked:repD(body.data.executorId,body.data.playerId))
+    MES.new('info',text.playerKicked:repD(USERS.getUsername(body.data.executorId).."#"..body.data.executorId,USERS.getUsername(body.data.playerId).."#"..body.data.playerId))
     _playerLeaveRoom(body.data.playerId)
 end
 function NET.wsCallBack.room_leave(body)

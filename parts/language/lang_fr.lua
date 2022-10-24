@@ -174,7 +174,7 @@ return{
 
     -- onlinePlayerCount="Online: $1",
     createRoomSuccessed="Salon créé avec succès !",
-    -- playerKicked="[$1] removed [$2] from room",
+    -- playerKicked="$1 removed $2 from room",
     -- started="Playing",
     joinRoom="$1 a rejoint le salon.",
     leaveRoom="$1 a quitté le salon.",

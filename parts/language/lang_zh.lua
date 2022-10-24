@@ -183,7 +183,7 @@ return{
 
     onlinePlayerCount="在线人数: $1",
     createRoomSuccessed="创建房间成功！",
-    playerKicked="<$1>把<$2>移出了房间",
+    playerKicked="$1 把 $2 移出了房间",
     started="游戏中",
     joinRoom="$1 进入房间",
     leaveRoom="$1 离开房间",

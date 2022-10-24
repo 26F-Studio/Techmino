@@ -182,7 +182,7 @@ return{
 
     onlinePlayerCount="En línea: $1",
     createRoomSuccessed="¡Sala creada con éxito!",
-    -- playerKicked="[$1] removed [$2] from room",
+    -- playerKicked="$1 removed $2 from room",
     started="En juego",
     joinRoom="$1 entró a la sala.",
     leaveRoom="$1 salió de la sala.",
