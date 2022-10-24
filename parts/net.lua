@@ -43,14 +43,14 @@ function NET.freshRoomAllReady()
         if NETPLY.list[j].readyMode=='Ready' then readyCount=readyCount+1 end
     end
 
+    NET.roomAllReady=playCount>0 and playCount==readyCount
+
     if playCount>1 and playCount-readyCount==1 then
         local p=NETPLY.map[USER.uid]
-        if p.playMode=='Gamer' and p.readyMode~='Ready' then
+        if p.playMode=='Gamer' and p.readyMode~='Ready' and TASK.lock('urgeReady',1) then
             SFX.play('warn_2',.5)
         end
     end
-
-    NET.roomAllReady=playCount>0 and playCount==readyCount
 end
 
 --------------------------<NEW HTTP API>
@@ -650,6 +650,7 @@ function NET.wsCallBack.room_leave(body)
         NET.textBox:push{COLOR.Y,text.leaveRoom:repD(USERS.getUsername(uid).."#"..uid.." ")}
     end
     _playerLeaveRoom(uid)
+    NET.freshRoomAllReady()
 end
 function NET.wsCallBack.room_fetch(body)
     TASK.unlock('fetchRoom')
