@@ -139,8 +139,19 @@ function scene.keyDown(key,isRep)
     elseif key=='return' then
         local mes=STRING.trim(inputBox:getText())
         if not inputBox.hide and #mes>0 then
-            if NET.room_chat(mes) then
-                inputBox:clear()
+            if mes:sub(1,1)=='/' then
+                local cmd=STRING.split(mes,' ')
+                if cmd[1]=='/kick' then
+                    if tonumber(cmd[2]) then NET.room_kick(tonumber(cmd[2])) end
+                elseif cmd[1]=='/host' then
+                    if tonumber(cmd[2]) then NET.player_setHost(tonumber(cmd[2])) end
+                else
+                    NET.textBox:push{COLOR.R,'Invalid command'}
+                end
+            else
+                if NET.room_chat(mes) then
+                    inputBox:clear()
+                end
             end
         else
             _switchChat()
