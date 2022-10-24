@@ -106,19 +106,67 @@ return{
 
 
 
-    Techrater={-- Server's warn/error messages
-        -- TODO
+    -- Server's warn/error messages
+    Techrater={
+        internalError="内部错误",
+        databaseError="数据库错误",
+        invalidFormat="json格式无效",
+        invalidArguments="参数无效",
+        tooFrequent="请求太频繁",
+        notAvailable="无效请求",
+        noPermission="没有权限",
+        roomNotFound="找不到房间",
+
+        -- Controllers
+        WebSocket={
+            invalidConnection="无效连接",
+            invalidAction="无效操作",
+            playerNotFound="找不到玩家",
+            connectionFailed="连接失败",
+        },
+        -- Filters
+        CheckPermission={
+            playerNotFound="找不到玩家",
+        },
+        -- Plugins
+        ConnectionManager={
+            playerInvalid="无效玩家",
+            playerNotFound="找不到玩家",
+            connectionReplaced="连接已更换",
+        },
+        NoticeManager={
+            noticeNotFound="找不到公告",
+        },
+        PlayerManager={
+            invalidCode="无效验证码",
+            invalidEmail="无效邮箱",
+            invalidAccessToken="访问令牌无效",
+            playerNotFound="找不到玩家",
+            noPassword="无密码",
+            invalidEmailPass="邮箱或密码无效",
+            emailExists="邮箱存在",
+            invalidRefreshToken="刷新令牌无效",
+            emailSendError="邮箱发送错误",
+        },
+        -- Strategies
+        PlayerRole={
+            invalidRole="无效角色",
+            invalidTarget="无效目标",
+        },
+        PlayerType={
+            invalidType="无效类型",
+            roomFull="房间已满",
+        },
+        RoomJoin={
+            wrongPassword="密码错误",
+        },
     },
 
-    tooFrequently="操作太频繁",
+    tooFrequent="操作太频繁",
     roomPasswordChanged="房间密码已更改",
-    getNoticeFail="拉取公告失败",
     oldVersion="最新版本$1可以下载了！",
-    needUpdate="请更新游戏！",
     versionNotMatch="版本不一致！",
     notFinished="暂未完成，敬请期待！",
-
-    jsonError="json错误",
 
     noUsername="请填写用户名",
     wrongEmail="无效邮箱地址",
@@ -140,12 +188,7 @@ return{
     joinRoom="$1 进入房间",
     leaveRoom="$1 离开房间",
     ready="各就各位！",
-    connStream="正在连接",
-    waitStream="等待其他人连接",
     spectating="观战中",
-    chatRemain="人数:",
-    chatStart="------消息的开头------",
-    chatHistory="------以上是历史消息------",
 
 
 

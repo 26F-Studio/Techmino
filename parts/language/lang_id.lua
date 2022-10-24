@@ -107,19 +107,67 @@ return{
 
 
 
-    Techrater={-- Server's warn/error messages
-        -- TODO
+    -- Server's warn/error messages
+    Techrater={
+        -- internalError="Internal error",
+        -- databaseError="Database error",
+        -- invalidFormat="Invalid format",
+        -- invalidArguments="Invalid arguments",
+        -- tooFrequent="Too frequent",
+        -- notAvailable="Not available",
+        -- noPermission="No permission",
+        -- roomNotFound="Room not found",
+
+        -- Controllers
+        WebSocket={
+            -- invalidConnection="Invalid connection",
+            -- invalidAction="Invalid action",
+            -- playerNotFound="Player not found",
+            -- connectionFailed="Connection failed",
+        },
+        -- Filters
+        CheckPermission={
+            -- playerNotFound="Player not found",
+        },
+        -- Plugins
+        ConnectionManager={
+            -- playerInvalid="Player invalid",
+            -- playerNotFound="Player not found",
+            -- connectionReplaced="Connection replaced",
+        },
+        NoticeManager={
+            -- noticeNotFound="Notice not found",
+        },
+        PlayerManager={
+            -- invalidCode="Invalid code",
+            -- invalidEmail="Invalid email",
+            -- invalidAccessToken="Invalid access token",
+            -- playerNotFound="Player not found",
+            -- noPassword="No password",
+            -- invalidEmailPass="Invalid email or password",
+            -- emailExists="Email exists",
+            -- invalidRefreshToken="Invalid refresh token",
+            -- emailSendError="Email send error",
+        },
+        -- Strategies
+        PlayerRole={
+            -- invalidRole="Invalid role",
+            -- invalidTarget="Invalid target",
+        },
+        PlayerType={
+            -- invalidType="Invalid type",
+            -- roomFull="Room full",
+        },
+        RoomJoin={
+            -- wrongPassword="Wrong password",
+        },
     },
 
-    -- tooFrequently="Request too frequently",
+    -- tooFrequent="Request too frequently",
     -- roomPasswordChanged="Room password changed",
-    getNoticeFail="Gagal mengambil pengumuman-pengumuman",
     oldVersion="Versi $1 sekarang tersedia",
-    needUpdate="Butuh versi lebih baru!",
     versionNotMatch="Versi tidak sama!",
     notFinished="Segera akan datang!",
-
-    jsonError="Eror JSON",
 
     noUsername="Silahkan memasukan username Anda",
     wrongEmail="Alamat email tidak sah",
@@ -141,12 +189,7 @@ return{
     joinRoom="$1 telah memasuki ruangan.",
     leaveRoom="$1 telah keluar dari ruangan.",
     ready="Siap",
-    connStream="Memuat",
-    waitStream="Menunggu",
     spectating="Menonton",
-    chatRemain="Online",
-    chatStart="------Awal percakapan------",
-    chatHistory="------Pesan-pesan baru di bawah ini------",
 
 
 

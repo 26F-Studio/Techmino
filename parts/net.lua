@@ -60,7 +60,7 @@ local function parseError(pathStr)
     LOG(pathStr)
     if type(pathStr)~='string' then
         MES.new('error',"<"..tostring(pathStr)..">",5)
-    elseif pathStr:find("[^0-9a-z.]") then
+    elseif pathStr:find("[^0-9a-zA-Z.]") then
         MES.new('error',"["..pathStr.."]",5)
     else
         local mesPath=STRING.split(pathStr,'.')
@@ -73,20 +73,22 @@ local function parseError(pathStr)
             if type(curText)~='table' then break end
             curText=curText[mesPath[i]]
         end
+        if not curText then
+            curText=text.Techrater[mesPath[#mesPath]]
+        end
 
         if type(curText)=='table' then
             if availableErrorTextType[curText[1]] and type(curText[2])=='string' and type(curText[3])=='number' then
                 MES.new(curText[1],curText[2],math.min(curText[3],5))
-            else
-                MES.new('error',"["..pathStr.."]",5)
+                return
             end
         elseif type(curText)=='string' then
             if #curText>0 then
                 MES.new('warn',curText,5)
+                return
             end
-        else
-            MES.new('error',"["..pathStr.."]",5)
         end
+        MES.new('warn',"["..pathStr.."]",5)
     end
 end
 local function getMsg(request,timeout)
@@ -465,7 +467,7 @@ end
 -- Room
 function NET.room_chat(msg,rid)
     if not TASK.lock('chatLimit',1.626) then
-        MES.new('warn',"Talk too fast")
+        MES.new('warn',text.tooFrequent)
     elseif #msg>0 then
         wsSend(1300,{
             message=msg,
@@ -475,7 +477,7 @@ function NET.room_chat(msg,rid)
     end
 end
 function NET.room_create(data)
-    if not TASK.lock('createRoom',10) then MES.new('warn',text.tooFrequently) return end
+    if not TASK.lock('createRoom',10) then MES.new('warn',text.tooFrequent) return end
     TABLE.coverR(data,NET.roomState)
     WAIT{timeout=12}
     wsSend(actMap.room_create,data)

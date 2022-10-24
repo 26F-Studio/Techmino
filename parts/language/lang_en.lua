@@ -106,19 +106,67 @@ return{
 
 
 
-    Techrater={-- Server's warn/error messages
-        -- TODO
+    -- Server's warn/error messages
+    Techrater={
+        internalError="Internal error",
+        databaseError="Database error",
+        invalidFormat="Invalid format",
+        invalidArguments="Invalid arguments",
+        tooFrequent="Too frequent",
+        notAvailable="Not available",
+        noPermission="No permission",
+        roomNotFound="Room not found",
+
+        -- Controllers
+        WebSocket={
+            invalidConnection="Invalid connection",
+            invalidAction="Invalid action",
+            playerNotFound="Player not found",
+            connectionFailed="Connection failed",
+        },
+        -- Filters
+        CheckPermission={
+            playerNotFound="Player not found",
+        },
+        -- Plugins
+        ConnectionManager={
+            playerInvalid="Player invalid",
+            playerNotFound="Player not found",
+            connectionReplaced="Connection replaced",
+        },
+        NoticeManager={
+            noticeNotFound="Notice not found",
+        },
+        PlayerManager={
+            invalidCode="Invalid code",
+            invalidEmail="Invalid email",
+            invalidAccessToken="Invalid access token",
+            playerNotFound="Player not found",
+            noPassword="No password",
+            invalidEmailPass="Invalid email or password",
+            emailExists="Email exists",
+            invalidRefreshToken="Invalid refresh token",
+            emailSendError="Email send error",
+        },
+        -- Strategies
+        PlayerRole={
+            invalidRole="Invalid role",
+            invalidTarget="Invalid target",
+        },
+        PlayerType={
+            invalidType="Invalid type",
+            roomFull="Room full",
+        },
+        RoomJoin={
+            wrongPassword="Wrong password",
+        },
     },
 
-    tooFrequently="Request too frequently",
+    tooFrequent="Request too frequently",
     roomPasswordChanged="Room password changed",
-    getNoticeFail="Failed to fetch announcements",
     oldVersion="Version $1 is now available",
-    needUpdate="Newer version required!",
     versionNotMatch="Versions do not match!",
     notFinished="Coming soon!",
-
-    jsonError="JSON error",
 
     noUsername="Please enter your username",
     wrongEmail="Invalid email address",
@@ -140,12 +188,7 @@ return{
     joinRoom="$1 has entered the room.",
     leaveRoom="$1 has left the room.",
     ready="Ready",
-    connStream="Connecting",
-    waitStream="Waiting",
     spectating="Spectating",
-    chatRemain="Online",
-    chatStart="------Beginning of log------",
-    chatHistory="------New messages below------",
 
 
 

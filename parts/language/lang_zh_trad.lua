@@ -106,26 +106,74 @@ return{
 
 
 
-    Techrater={-- Server's warn/error messages
-        -- TODO
+    -- Server's warn/error messages
+    Techrater={
+        internalError="內部錯誤",
+        databaseError="資料庫錯誤",
+        invalidFormat="json格式無效",
+        invalidArguments="參數無效",
+        tooFrequent="請求太頻繁",
+        notAvailable="無效請求",
+        noPermission="沒有許可權",
+        roomNotFound="找不到房間",
+
+        -- Controllers
+        WebSocket={
+            invalidConnection="無效連接",
+            invalidAction="無效操作",
+            playerNotFound="找不到玩家",
+            connectionFailed="連接失敗",
+        },
+        -- Filters
+        CheckPermission={
+            playerNotFound="找不到玩家",
+        },
+        -- Plugins
+        ConnectionManager={
+            playerInvalid="無效玩家",
+            playerNotFound="找不到玩家",
+            connectionReplaced="連接已更換",
+        },
+        NoticeManager={
+            noticeNotFound="找不到公告",
+        },
+        PlayerManager={
+            invalidCode="無效驗證碼",
+            invalidEmail="無效郵箱",
+            invalidAccessToken="訪問權杖無效",
+            playerNotFound="找不到玩家",
+            noPassword="無密碼",
+            invalidEmailPass="郵箱或密碼無效",
+            emailExists="郵箱存在",
+            invalidRefreshToken="重繪權杖無效",
+            emailSendError="郵箱發送錯誤",
+        },
+        -- Strategies
+        PlayerRole={
+            invalidRole="無效角色",
+            invalidTarget="無效目標",
+        },
+        PlayerType={
+            invalidType="無效類型",
+            roomFull="房間已滿",
+        },
+        RoomJoin={
+            wrongPassword="密碼錯誤",
+        },
     },
 
-    tooFrequently="操作太頻繁",
+    tooFrequent="操作太頻繁",
     roomPasswordChanged="房間密碼已更改",
-    getNoticeFail="無法獲取公告",
     oldVersion="版本 $1 現已推出",
-    needUpdate="請更新遊戲！",
     versionNotMatch="版本不匹配",
     notFinished="即將推出！",
-
-    jsonError="JSON錯誤",
 
     noUsername="請輸入用戶名",
     wrongEmail="無效的電郵地址",
     wrongCode="無效的驗證碼",
     noPassword="請輸入密碼",
     diffPassword="密碼不匹配",
-    checkEmail="已發送註冊請求",
+    checkEmail="請查看郵件驗證碼",
 
     wsFailed="連接失敗: $1",
     wsClose="連接斷開: $1",
@@ -140,12 +188,7 @@ return{
     joinRoom="$1 進入房間",
     leaveRoom="$1 離開房間",
     ready="準備！",
-    connStream="正在連接……",
-    waitStream="等待其他用戶連接……",
     spectating="旁觀中",
-    chatRemain="用戶數:",
-    chatStart="------訊息開始------",
-    chatHistory="------以上為歷史訊息------",
 
 
 

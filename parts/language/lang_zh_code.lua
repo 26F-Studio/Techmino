@@ -106,19 +106,14 @@ return{
 
 
 
-    Techrater={-- Server's warn/error messages
-        -- TODO
-    },
+    -- Server's warn/error messages
+    Techrater={},
 
-    tooFrequently="Error.requestTooFrequently();",
+    tooFrequent="Error.requesttooFrequent();",
     roomPasswordChanged="Info.roomPwChanged();",
-    getNoticeFail="Error.FetchAnnouncement();",
     oldVersion="Version.New($1);",
-    needUpdate="Version.NeedUpdate();",
     versionNotMatch="Version.NotMatch();",
     notFinished="ComingSoon();",
-
-    jsonError="Error.JSON();",
 
     noUsername="Error.NoUsername();",
     wrongEmail="Error.WrongEmail();",
@@ -140,12 +135,7 @@ return{
     joinRoom="Room.Join($1);",
     leaveRoom="Room.Leave($1);",
     ready="Ready();",
-    connStream="Stream.Connecting();",
-    waitStream="Stream.Waiting();",
     spectating="Room.Spectating();",
-    chatRemain="Online=",
-    chatStart="#!Log.Beginning();",
-    chatHistory="#!NewMassagesBelow();",
 
 
 
