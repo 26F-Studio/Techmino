@@ -253,6 +253,8 @@ function scene.update(dt)
             for i=1,#NETPLY.list do
                 NETPLY.list[i].readyMode='Playing'
             end
+            noKey=PLAYERS[1].uid~=USER.uid
+            noTouch=noKey
         end
     end
 end

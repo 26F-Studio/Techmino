@@ -433,7 +433,7 @@ end
 --Remove player when leave
 local function _playerLeaveRoom(uid)
     for i=1,#PLAYERS do if PLAYERS[i].uid==uid then table.remove(PLAYERS,i) break end end
-    for i=1,#PLY_ALIVE do if PLY_ALIVE[i].uid==uid then table.remove(PLAYERS,i) break end end
+    for i=1,#PLY_ALIVE do if PLY_ALIVE[i].uid==uid then table.remove(PLY_ALIVE,i) break end end
     if uid==USER.uid and SCN.cur=='net_game' then
         SCN.back()
     else
