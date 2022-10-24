@@ -12,8 +12,8 @@ local PLY={draw=ply_draw}
 local modeDataMeta do
     local rawset=rawset
     modeDataMeta={
-        __index=function(self,k)rawset(self,k,0)return 0 end,
-        __newindex=function(self,k,v)rawset(self,k,v)end,
+        __index=function(self,k) rawset(self,k,0)return 0 end,
+        __newindex=function(self,k,v) rawset(self,k,v) end,
     }
 end
 local function _getNewStatTable()
@@ -41,11 +41,11 @@ local function _newEmptyPlayer(id,mini)
     PLAYERS[id]=P
     PLY_ALIVE[id]=P
 
-    --Inherit functions of Player class
+    -- Inherit functions of Player class
     for k,v in next,Player do P[k]=v end
 
-    --Field position
-    P.swingOffset={--Shake FX
+    -- Field position
+    P.swingOffset={-- Shake FX
         x=0,y=0,
         vx=0,vy=0,
         a=0,va=0,
@@ -54,12 +54,12 @@ local function _newEmptyPlayer(id,mini)
     P.x,P.y,P.size=0,0,1
     P.frameColor=COLOR.Z
 
-    --Set these at Player:setPosition()
+    -- Set these at Player:setPosition()
     -- P.fieldX,P.fieldY=...
     -- P.centerX,P.centerY=...
     -- P.absFieldX,P.absFieldY=...
 
-    --Minimode
+    -- Minimode
     P.miniMode=mini
     if mini then
         P.canvas=love.graphics.newCanvas(60,120)
@@ -69,37 +69,37 @@ local function _newEmptyPlayer(id,mini)
         P.draw=ply_draw.norm
     end
 
-    --States
+    -- States
     P.type='none'
     P.sound=false
     P.alive=true
     P.control=false
     P.timing=false
     P.trigFrame=0
-    P.result=false--String: 'finish'|'win'|'lose'
+    P.result=false-- String: 'finish'|'win'|'lose'
     P.stat=_getNewStatTable()
-    P.modeData=setmetatable({},modeDataMeta)--Data use by mode
-    P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
-    P.clearingRow,P.clearedRow={},{}--Clearing animation height,cleared row mark
+    P.modeData=setmetatable({},modeDataMeta)-- Data use by mode
+    P.keyPressing={} for i=1,12 do P.keyPressing[i]=false end
+    P.clearingRow,P.clearedRow={},{}-- Clearing animation height,cleared row mark
     P.dropFX,P.moveFX,P.lockFX,P.clearFX={},{},{},{}
-    -- P.destFX={}--Normally created by bot
+    -- P.destFX={}-- Normally created by bot
     P.tasks={}
-    P.bonus={}--Texts
+    P.bonus={}-- Texts
 
-    --Times
-    P.frameRun=GAME.frameStart--Frame run, mainly for replay
-    P.endCounter=0--Used after gameover
-    P.dropTime={}for i=1,10 do P.dropTime[i]=-1e99 end P.dropSpeed=0
+    -- Times
+    P.frameRun=GAME.frameStart-- Frame run, mainly for replay
+    P.endCounter=0-- Used after gameover
+    P.dropTime={} for i=1,10 do P.dropTime[i]=-1e99 end P.dropSpeed=0
     P.stream={}
-    P.streamProgress=false--1 to start play recording
+    P.streamProgress=false-- 1 to start play recording
 
-    --Randomizers
+    -- Randomizers
     P.seqRND=love.math.newRandomGenerator(GAME.seed)
     P.atkRND=love.math.newRandomGenerator(GAME.seed)
     P.holeRND=love.math.newRandomGenerator(GAME.seed)
     P.aiRND=love.math.newRandomGenerator(GAME.seed+P.id)
 
-    --Field-related
+    -- Field-related
     P.field,P.visTime={},{}
     P.keepVisible=true
     P.showTime=false
@@ -107,25 +107,25 @@ local function _newEmptyPlayer(id,mini)
     P.fieldBeneath=0
     P.fieldUp=0
 
-    --Attack-related
+    -- Attack-related
     P.atkBuffer={}
     P.atkBufferSum,P.atkBufferSum1=0,0
     P.spike,P.spikeTime=0,0
     P.spikeText=love.graphics.newText(getFont(100))
 
-    --Attacker-related
+    -- Attacker-related
     P.badge,P.strength=0,0
     P.atkMode,P.swappingAtkMode=1,20
     P.atker,P.atking,P.lastRecv={}
 
-    --User-related
+    -- User-related
     P.username=""
     P.uid=false
-    P.sid=id
+    P.sid=false
 
-    --Block states
+    -- Block states
     --[[
-        P.curX,P.curY,P.ghoY,P.minY=0,0,0,0--x,y,ghostY
+        P.curX,P.curY,P.ghoY,P.minY=0,0,0,0-- x,y,ghostY
         P.cur={
             id=shapeID,
             bk=matrix[2],
@@ -134,66 +134,66 @@ local function _newEmptyPlayer(id,mini)
             name=nameID
             color=colorID,
         }
-        P.newNext=false--Warped coroutine to get new next, loaded in applyGameEnv()
+        P.newNext=false-- Warped coroutine to get new next, loaded in applyGameEnv()
     ]]
-    P.movDir,P.moving,P.downing=0,0,-1--Last move key,DAS charging,downDAS charging
+    P.movDir,P.moving,P.downing=0,0,-1-- Last move key,DAS charging,downDAS charging
     P.dropDelay,P.lockDelay=0,0
     P.waiting,P.falling=0,0
     P.freshTime=0
     P.spinLast=false
-    P.ctrlCount=0--Key press time, for finesse check
+    P.ctrlCount=0-- Key press time, for finesse check
 
-    --Game states
+    -- Game states
     P.combo=0
-    P.b2b,P.b2b1=0,0--B2B point & Displayed B2B point
-    P.score1=0--Displayed score
-    P.pieceCount=0--Count pieces from next, for drawing bagline
+    P.b2b,P.b2b1=0,0-- B2B point & Displayed B2B point
+    P.score1=0-- Displayed score
+    P.pieceCount=0-- Count pieces from next, for drawing bagline
     P.finesseCombo,P.finesseComboTime=0,0
     P.nextQueue={}
     P.holdQueue={}
     P.holdTime=0
     P.lastPiece={
-        id=0,name=0,--block id/name
+        id=0,name=0,-- block id/name
 
-        curX=0,curY=0,--block position
-        centX=0,centY=0,--center position
-        dir=0,--direction
+        curX=0,curY=0,-- block position
+        centX=0,centY=0,-- center position
+        dir=0,-- direction
 
-        frame=-1e99,--lock time
-        autoLock=true,--if lock with gravity
+        frame=-1e99,-- lock time
+        autoLock=true,-- if lock with gravity
 
-        finePts=0,--finesse Points
+        finePts=0,-- finesse Points
 
-        row=0,dig=0,--lines/garbage cleared
-        score=0,--score gained
-        atk=0,exblock=0,--lines attack/defend
-        off=0,send=0,--lines offset/sent
+        row=0,dig=0,-- lines/garbage cleared
+        score=0,-- score gained
+        atk=0,exblock=0,-- lines attack/defend
+        off=0,send=0,-- lines offset/sent
 
-        spin=false,mini=false,--if spin/mini
-        pc=false,hpc=false,--if pc/hpc
-        special=false,--if special clear (spin, >=4, pc)
+        spin=false,mini=false,-- if spin/mini
+        pc=false,hpc=false,-- if pc/hpc
+        special=false,-- if special clear (spin, >=4, pc)
     }
     return P
 end
-local function _loadGameEnv(P)--Load gameEnv
-    P.gameEnv={}--Current game setting environment
+local function _loadGameEnv(P)-- Load gameEnv
+    P.gameEnv={}-- Current game setting environment
     local ENV=P.gameEnv
     local GAME,SETTING=GAME,SETTING
-    --Load game settings
+    -- Load game settings
     for k,v in next,gameEnv0 do
         if GAME.modeEnv[k]~=nil then
-            v=GAME.modeEnv[k]    --Mode setting
+            v=GAME.modeEnv[k]    -- Mode setting
             -- print("mode-"..k..":"..tostring(v))
         elseif GAME.setting[k]~=nil then
-            v=GAME.setting[k]    --Game setting
+            v=GAME.setting[k]    -- Game setting
             -- print("game-"..k..":"..tostring(v))
         elseif SETTING[k]~=nil then
-            v=SETTING[k]         --Global setting
+            v=SETTING[k]         -- Global setting
             -- print("global-"..k..":"..tostring(v))
         -- else
             -- print("default-"..k..":"..tostring(v))
         end
-        if type(v)~='table'then  --Default setting
+        if type(v)~='table' then  -- Default setting
             ENV[k]=v
         else
             ENV[k]=TABLE.copy(v)
@@ -205,26 +205,26 @@ local function _loadGameEnv(P)--Load gameEnv
         end
     end
 end
-local function _loadRemoteEnv(P,confStr)--Load gameEnv
+local function _loadRemoteEnv(P,confStr)-- Load gameEnv
     confStr=JSON.decode(confStr)
     if not confStr then
         confStr={}
         MES.new('warn',"Bad conf from "..P.username.."#"..P.uid)
     end
 
-    P.gameEnv={}--Current game setting environment
+    P.gameEnv={}-- Current game setting environment
     local ENV=P.gameEnv
     local GAME,SETTING=GAME,SETTING
-    --Load game settings
+    -- Load game settings
     for k,v in next,gameEnv0 do
         if GAME.modeEnv[k]~=nil then
-            v=GAME.modeEnv[k]    --Mode setting
+            v=GAME.modeEnv[k]    -- Mode setting
         elseif confStr[k]~=nil then
-            v=confStr[k]            --Game setting
+            v=confStr[k]            -- Game setting
         elseif SETTING[k]~=nil then
-            v=SETTING[k]        --Global setting
+            v=SETTING[k]        -- Global setting
         end
-        if type(v)~='table'then--Default setting
+        if type(v)~='table' then-- Default setting
             ENV[k]=v
         else
             ENV[k]=TABLE.copy(v)
@@ -232,38 +232,38 @@ local function _loadRemoteEnv(P,confStr)--Load gameEnv
     end
 end
 local function _mergeFuncTable(f,L)
-    if type(f)=='function'then
+    if type(f)=='function' then
         ins(L,f)
-    elseif type(f)=='table'then
+    elseif type(f)=='table' then
         for i=1,#f do
             ins(L,f[i])
         end
     end
     return L
 end
-local function _applyGameEnv(P)--Finish gameEnv processing
+local function _applyGameEnv(P)-- Finish gameEnv processing
     local ENV=P.gameEnv
 
-    --Apply events
+    -- Apply events
     ENV.mesDisp=_mergeFuncTable(ENV.mesDisp,{})
     ENV.hook_drop=_mergeFuncTable(ENV.hook_drop,{})
     ENV.hook_die=_mergeFuncTable(ENV.hook_die,{})
     ENV.task=_mergeFuncTable(ENV.task,{})
 
-    --Apply eventSet
-    if ENV.eventSet and ENV.eventSet~="X"then
-        if type(ENV.eventSet)=='string'then
+    -- Apply eventSet
+    if ENV.eventSet and ENV.eventSet~="X" then
+        if type(ENV.eventSet)=='string' then
             local eventSet=require('parts.eventsets.'..ENV.eventSet)
             if eventSet then
                 for k,v in next,eventSet do
                     if
-                        k=='mesDisp'or
-                        k=='hook_drop'or
-                        k=='hook_die'or
+                        k=='mesDisp' or
+                        k=='hook_drop' or
+                        k=='hook_die' or
                         k=='task'
                     then
                         _mergeFuncTable(v,ENV[k])
-                    elseif type(v)=='table'then
+                    elseif type(v)=='table' then
                         ENV[k]=TABLE.copy(v)
                     else
                         ENV[k]=v
@@ -301,19 +301,19 @@ local function _applyGameEnv(P)--Finish gameEnv processing
     P.skinLib=SKIN.lib[ENV.skinSet]
 
     P:setInvisible(
-        ENV.visible=='show'and -1 or
-        ENV.visible=='easy'and 300 or
-        ENV.visible=='slow'and 100 or
-        ENV.visible=='medium'and 60 or
-        ENV.visible=='fast'and 20 or
-        ENV.visible=='none'and 0
+        ENV.visible=='show' and -1 or
+        ENV.visible=='easy' and 300 or
+        ENV.visible=='slow' and 100 or
+        ENV.visible=='medium' and 60 or
+        ENV.visible=='fast' and 20 or
+        ENV.visible=='none' and 0
     )
     P:set20G(P._20G)
     P:setHold(ENV.holdCount)
     P:setNext(ENV.nextCount)
     P:setRS(ENV.RS)
 
-    if type(ENV.mission)=='table'then
+    if type(ENV.mission)=='table' then
         P.curMission=1
     end
 
@@ -321,7 +321,7 @@ local function _applyGameEnv(P)--Finish gameEnv processing
     ENV.arr=max(ENV.arr,ENV.minarr)
     ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
 
-    ENV.bagLine=ENV.bagLine and(ENV.sequence=='bag'or ENV.sequence=='loop')and #ENV.seqData
+    ENV.bagLine=ENV.bagLine and (ENV.sequence=='bag' or ENV.sequence=='loop') and #ENV.seqData
 
     if ENV.nextCount==0 then
         ENV.nextPos=false
@@ -332,7 +332,7 @@ local function _applyGameEnv(P)--Finish gameEnv processing
     if ENV.noInitSZO then
         for _=1,5 do
             local C=P.nextQueue[1]
-            if C and(C.id==1 or C.id==2 or C.id==6)then
+            if C and (C.id==1 or C.id==2 or C.id==6) then
                 table.remove(P.nextQueue,1)
             else
                 break
@@ -362,8 +362,8 @@ local function _applyGameEnv(P)--Finish gameEnv processing
     if ENV.center==0 then   ENV.center=false end
     if ENV.lineNum==0 then  ENV.lineNum=false end
 
-    --Load tasks
-    for i=1,#ENV.task do P:newTask(ENV.task[i])end
+    -- Load tasks
+    for i=1,#ENV.task do P:newTask(ENV.task[i]) end
 end
 --------------------------</Libs>--------------------------
 
@@ -399,19 +399,18 @@ function PLY.newDemoPlayer(id)
     }
     P:popNext()
 end
-function PLY.newRemotePlayer(id,mini,ply)
+function PLY.newRemotePlayer(id,mini,p)
     local P=_newEmptyPlayer(id,mini)
     P.type='remote'
 
     P.draw=ply_draw.norm
     P:startStreaming()
 
-    NETPLY.setPlayerObj(ply,P)
-    P.uid=ply.uid
-    P.username=ply.username
-    P.sid=ply.sid
+    P.uid=p.uid
+    P.username=USERS.getUsername(p.uid)
+    P.sid=NET.uid_sid[p.uid]
 
-    _loadRemoteEnv(P,ply.config)
+    _loadRemoteEnv(P,p.config)
     _applyGameEnv(P)
 end
 function PLY.newAIPlayer(id,AIdata,mini)
@@ -430,8 +429,9 @@ function PLY.newPlayer(id,mini)
     P.type='human'
     P.sound=true
 
-    P.uid=USER.uid
     P.username=USERS.getUsername(USER.uid)
+    P.uid=USER.uid
+    P.sid=NET.uid_sid[USER.uid]
 
     _loadGameEnv(P)
     _applyGameEnv(P)

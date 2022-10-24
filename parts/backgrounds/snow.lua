@@ -1,4 +1,4 @@
---Snow
+-- Snow
 local gc=love.graphics
 local ellipse=gc.ellipse
 local rnd=math.random

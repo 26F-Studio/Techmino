@@ -35,13 +35,13 @@ function scene.sceneBack()
 end
 
 local function _play(mode)
-    if CUSTOMENV.opponent~="X"then
-        if CUSTOMENV.opponent:sub(1,2)=='CC'then
-            if CUSTOMENV.sequence=='fixed'then
+    if CUSTOMENV.opponent~="X" then
+        if CUSTOMENV.opponent:sub(1,2)=='CC' then
+            if CUSTOMENV.sequence=='fixed' then
                 MES.new('error',text.cc_fixed)
                 return
             end
-            if CUSTOMENV.holdMode=='swap'then
+            if CUSTOMENV.holdMode=='swap' then
                 MES.new('error',text.cc_swap)
                 return
             end
@@ -65,25 +65,25 @@ end
 
 function scene.keyDown(key,isRep)
     if isRep then return true end
-    if key=='return'and kb.isDown('lctrl','lalt')or key=='play1'or key=='play2'then
-        if(key=='play2'or kb.isDown('lalt'))and #FIELD[1]>0 then
+    if key=='return' and kb.isDown('lctrl','lalt') or key=='play1' or key=='play2' then
+        if (key=='play2' or kb.isDown('lalt')) and #FIELD[1]>0 then
             _play('puzzle')
-        elseif key=='play1'or kb.isDown('lctrl')then
+        elseif key=='play1' or kb.isDown('lctrl') then
             _play('clear')
         end
-    elseif key=='f'then
+    elseif key=='f' then
         SCN.go('custom_field','swipeD')
-    elseif key=='s'then
+    elseif key=='s' then
         SCN.go('custom_sequence','swipeD')
-    elseif key=='m'then
+    elseif key=='m' then
         SCN.go('custom_mission','swipeD')
-    elseif key=='delete'then
-        if tryReset()then
+    elseif key=='delete' then
+        if tryReset() then
             TABLE.cut(FIELD)TABLE.cut(BAG)TABLE.cut(MISSION)
             FIELD[1]=DATA.newBoard()
             TABLE.clear(CUSTOMENV)
             TABLE.complete(require"parts.customEnv0",CUSTOMENV)
-            for _,W in next,scene.widgetList do W:reset()end
+            for _,W in next,scene.widgetList do W:reset() end
             saveFile(DATA.copyMission(),'conf/customMissions')
             saveFile(DATA.copyBoards(),'conf/customBoards')
             saveFile(DATA.copySequence(),'conf/customSequence')
@@ -92,28 +92,28 @@ function scene.keyDown(key,isRep)
             BG.set(CUSTOMENV.bg)
             BGM.play(CUSTOMENV.bgm)
         end
-    elseif key=='f1'then
+    elseif key=='f1' then
         SCN.go('mod','swipeD')
-    elseif key=='c'and kb.isDown('lctrl','rctrl')or key=='cC'then
+    elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
         local str="Techmino Quest:"..DATA.copyQuestArgs().."!"
-        if #BAG>0 then str=str..DATA.copySequence()end
+        if #BAG>0 then str=str..DATA.copySequence() end
         str=str.."!"
-        if #MISSION>0 then str=str..DATA.copyMission()end
+        if #MISSION>0 then str=str..DATA.copyMission() end
         sys.setClipboardText(str.."!"..DATA.copyBoards().."!")
         MES.new('check',text.exportSuccess)
-    elseif key=='v'and kb.isDown('lctrl','rctrl')or key=='cV'then
+    elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
         local str=sys.getClipboardText()
-        local args=str:sub((str:find(":")or 0)+1):split("!")
+        local args=str:sub((str:find(":") or 0)+1):split("!")
         if #args<4 then goto THROW_fail end
-        if not(
-            DATA.pasteQuestArgs(args[1])and
-            DATA.pasteSequence(args[2])and
+        if not (
+            DATA.pasteQuestArgs(args[1]) and
+            DATA.pasteSequence(args[2]) and
             DATA.pasteMission(args[3])
-        )then goto THROW_fail end
+        ) then goto THROW_fail end
         TABLE.cut(FIELD)
         FIELD[1]=DATA.newBoard()
         for i=4,#args do
-            if args[i]:find("%S")and not DATA.pasteBoard(args[i],i-3)and i<#args then goto THROW_fail end
+            if args[i]:find("%S") and not DATA.pasteBoard(args[i],i-3) and i<#args then goto THROW_fail end
         end
         MES.new('check',text.importSuccess)
         do return end
@@ -127,13 +127,13 @@ function scene.draw()
     gc.translate(0,-WIDGET.scrollPos)
     setFont(30)
 
-    --Sequence
+    -- Sequence
     if #MISSION>0 then
         gc.setColor(1,CUSTOMENV.missionKill and 0 or 1,int(TIME()*6.26)%2)
         gc.print("#"..#MISSION,70,220)
     end
 
-    --Field content
+    -- Field content
     if #FIELD[1]>0 then
         gc.push('transform')
         gc.translate(330,240)
@@ -159,7 +159,7 @@ function scene.draw()
         end
     end
 
-    --Sequence
+    -- Sequence
     if #BAG>0 then
         gc.setColor(1,1,int(TIME()*6.26)%2)
         gc.print("#"..#BAG,615,220)
@@ -178,15 +178,15 @@ scene.widgetList={
     WIDGET.newKey{name='reset',    x=1110,y=90,w=230,h=90,color='R',code=pressKey'delete'},
     WIDGET.newKey{name='mod',      x=1110,y=200,w=230,h=90,color='Z',code=pressKey'f1'},
 
-    --Mission / Field / Sequence
+    -- Mission / Field / Sequence
     WIDGET.newKey{name='mission',  x=170,y=180,w=240,h=80,color='N',font=25,code=pressKey'm'},
     WIDGET.newKey{name='field',    x=450,y=180,w=240,h=80,color='A',font=25,code=pressKey'f'},
     WIDGET.newKey{name='sequence', x=730,y=180,w=240,h=80,color='W',font=25,code=pressKey's'},
 
-    WIDGET.newText{name='noMsn',   x=50, y=220,align='L',color='H',hideF=function()return MISSION[1]end},
-    WIDGET.newText{name='defSeq',  x=610,y=220,align='L',color='H',hideF=function()return BAG[1]end},
+    WIDGET.newText{name='noMsn',   x=50, y=220,align='L',color='H',hideF=function() return MISSION[1] end},
+    WIDGET.newText{name='defSeq',  x=610,y=220,align='L',color='H',hideF=function() return BAG[1] end},
 
-    --Selectors
+    -- Selectors
     WIDGET.newSelector{name='opponent',    x=170,y=330,w=260,color='R',list=sList.opponent,   disp=CUSval('opponent'),    code=CUSsto('opponent')},
     WIDGET.newSelector{name='life',        x=170,y=410,w=260,color='R',list=sList.life,       disp=CUSval('life'),        code=CUSsto('life')},
     WIDGET.newSelector{name='pushSpeed',   x=170,y=520,w=260,color='V',list=sList.pushSpeed,  disp=CUSval('pushSpeed'),   code=CUSsto('pushSpeed')},
@@ -205,17 +205,17 @@ scene.widgetList={
     WIDGET.newSelector{name='hurry',       x=730,y=680,w=260,color='G',list=sList.hurry,disp=CUSval('hurry'),code=CUSsto('hurry')},
     WIDGET.newSelector{name='hang',        x=730,y=760,w=260,color='G',list=sList.hang,disp=CUSval('hang'),code=CUSsto('hang')},
 
-    --Copy / Paste / Start
+    -- Copy / Paste / Start
     WIDGET.newButton{name='copy',          x=1070,y=300,w=310,h=70,color='lR',font=25,code=pressKey'cC'},
     WIDGET.newButton{name='paste',         x=1070,y=380,w=310,h=70,color='lB',font=25,code=pressKey'cV'},
     WIDGET.newButton{name='play_clear',    x=1070,y=460,w=310,h=70,color='lY',font=35,code=pressKey'play1'},
-    WIDGET.newButton{name='play_puzzle',   x=1070,y=540,w=310,h=70,color='lM',font=35,code=pressKey'play2',hideF=function()return #FIELD[1]==0 end},
+    WIDGET.newButton{name='play_puzzle',   x=1070,y=540,w=310,h=70,color='lM',font=35,code=pressKey'play2',hideF=function() return #FIELD[1]==0 end},
     WIDGET.newButton{name='back',          x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=pressKey'escape'},
 
-    --Rule set
+    -- Rule set
     WIDGET.newSelector{name='eventSet',    x=1050,y=760,w=340,color='H',list=sList.eventSet,disp=CUSval('eventSet'),code=CUSsto('eventSet')},
 
-    --Special rules
+    -- Special rules
     WIDGET.newSwitch{name='ospin',         x=850, y=830, lim=210,disp=CUSval('ospin'),    code=CUSrev('ospin')},
     WIDGET.newSwitch{name='fineKill',      x=850, y=890, lim=210,disp=CUSval('fineKill'), code=CUSrev('fineKill')},
     WIDGET.newSwitch{name='b2bKill',       x=850, y=950, lim=210,disp=CUSval('b2bKill'),  code=CUSrev('b2bKill')},
@@ -224,16 +224,16 @@ scene.widgetList={
     WIDGET.newSwitch{name='deepDrop',      x=1170,y=890, lim=250,disp=CUSval('deepDrop'), code=CUSrev('deepDrop')},
     WIDGET.newSwitch{name='bone',          x=1170,y=950, lim=250,disp=CUSval('bone'),     code=CUSrev('bone')},
 
-    --Next & Hold
-    WIDGET.newSelector{name='holdMode',    x=310, y=890, w=300,color='lY',list=sList.holdMode,disp=CUSval('holdMode'),code=CUSsto('holdMode'),hideF=function()return CUSTOMENV.holdCount==0 end},
+    -- Next & Hold
+    WIDGET.newSelector{name='holdMode',    x=310, y=890, w=300,color='lY',list=sList.holdMode,disp=CUSval('holdMode'),code=CUSsto('holdMode'),hideF=function() return CUSTOMENV.holdCount==0 end},
     WIDGET.newSlider{name='nextCount',     x=140, y=960, lim=130,w=180,axis={0,6,1},disp=CUSval('nextCount'),code=CUSsto('nextCount')},
     WIDGET.newSlider{name='holdCount',     x=140, y=1030,lim=130,w=180,axis={0,6,1},disp=CUSval('holdCount'),code=CUSsto('holdCount')},
-    WIDGET.newSwitch{name='infHold',       x=560, y=960, lim=200,                   disp=CUSval('infHold'),code=CUSrev('infHold'),hideF=function()return CUSTOMENV.holdCount==0 end},
-    WIDGET.newSwitch{name='phyHold',       x=560, y=1030,lim=200,                   disp=CUSval('phyHold'),code=CUSrev('phyHold'),hideF=function()return CUSTOMENV.holdCount==0 end},
+    WIDGET.newSwitch{name='infHold',       x=560, y=960, lim=200,                   disp=CUSval('infHold'),code=CUSrev('infHold'),hideF=function() return CUSTOMENV.holdCount==0 end},
+    WIDGET.newSwitch{name='phyHold',       x=560, y=1030,lim=200,                   disp=CUSval('phyHold'),code=CUSrev('phyHold'),hideF=function() return CUSTOMENV.holdCount==0 end},
 
-    --BG & BGM
-    WIDGET.newSelector{name='bg',          x=840, y=1090,w=250,color='Y',list=BG.getList(),disp=CUSval('bg'),code=function(i)CUSTOMENV.bg=i BG.set(i)end},
-    WIDGET.newSelector{name='bgm',         x=1120,y=1090,w=250,color='Y',list=BGM.getList(),disp=CUSval('bgm'),code=function(i)CUSTOMENV.bgm=i BGM.play(i)end},
+    -- BG & BGM
+    WIDGET.newSelector{name='bg',          x=840, y=1090,w=250,color='Y',list=BG.getList(),disp=CUSval('bg'),code=function(i) CUSTOMENV.bg=i BG.set(i) end},
+    WIDGET.newSelector{name='bgm',         x=1120,y=1090,w=250,color='Y',list=BGM.getList(),disp=CUSval('bgm'),code=function(i) CUSTOMENV.bgm=i BGM.play(i) end},
 }
 
 return scene

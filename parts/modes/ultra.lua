@@ -8,9 +8,9 @@ return{
         bg='fan',bgm='sakura',
     },
     slowMark=true,
-    score=function(P)return{P.stat.score}end,
-    scoreDisp=function(D)return tostring(D[1])end,
-    comp=function(a,b)return a[1]>b[1]end,
+    score=function(P) return{P.stat.score} end,
+    scoreDisp=function(D) return tostring(D[1]) end,
+    comp=function(a,b) return a[1]>b[1] end,
     getRank=function(P)
         local T=P.stat.score
         return

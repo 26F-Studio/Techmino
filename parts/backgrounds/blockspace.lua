@@ -1,4 +1,4 @@
---Space but tetrominoes
+-- Space but tetrominoes
 local gc=love.graphics
 local gc_clear,gc_translate=gc.clear,gc.translate
 local gc_setColor,gc_draw=gc.setColor,gc.draw

@@ -8,13 +8,13 @@ local PCtype={
     1,2,3,
 }
 local function task_PC(P)
-    local difficulty=PCtype[P.stat.pc+1]or 3
+    local difficulty=PCtype[P.stat.pc+1] or 3
     local L=PClist[difficulty][P.holeRND:random(#PClist[difficulty])]
     local symmetry=P.holeRND:random()>.5
     P:pushNextList(L,symmetry)
 
     P.control=false
-    if P.frameRun>180 then for _=1,26 do YIELD()end end
+    if P.frameRun>180 then for _=1,26 do coroutine.yield() end end
     P.control=true
 
     local base=PCbase[difficulty]
@@ -43,5 +43,5 @@ return{
         mText(TEXTOBJ.pc,63,330)
     end,
     hook_drop=_check,
-    task=_check,--Just run one time at first to start first level
+    task=_check,-- Just run one time at first to start first level
 }

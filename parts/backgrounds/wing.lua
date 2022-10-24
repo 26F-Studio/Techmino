@@ -1,4 +1,4 @@
---Flandre's wing
+-- Flandre's wing
 local back={}
 local crystal_img,crystals
 local wingColor={

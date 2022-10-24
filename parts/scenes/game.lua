@@ -18,24 +18,24 @@ local repRateStrings={[0]="pause",[.125]="0.125x",[.5]="0.5x",[1]="1x",[2]="2x",
 local scene={}
 
 local function _updateMenuButtons()
-    WIDGET.active.restart.hide=replaying
+    scene.widgetList.restart.hide=replaying
 
-    local pos=(GAME.tasUsed or replaying)and'right'or SETTING.menuPos
+    local pos=(GAME.tasUsed or replaying) and 'right' or SETTING.menuPos
     modeTextWidK=math.min(280/TEXTOBJ.modeName:getWidth(),1)
     if GAME.replaying then
-        WIDGET.active.pause.x=1195
+        scene.widgetList.pause.x=1195
         modeTextPos=1185-TEXTOBJ.modeName:getWidth()*modeTextWidK
-    elseif pos=='right'then
-        WIDGET.active.restart.x=1125
-        WIDGET.active.pause.x=1195
+    elseif pos=='right' then
+        scene.widgetList.restart.x=1125
+        scene.widgetList.pause.x=1195
         modeTextPos=1115-TEXTOBJ.modeName:getWidth()*modeTextWidK
-    elseif pos=='middle'then
-        WIDGET.active.restart.x=360
-        WIDGET.active.pause.x=860
+    elseif pos=='middle' then
+        scene.widgetList.restart.x=360
+        scene.widgetList.pause.x=860
         modeTextPos=940
-    elseif pos=='left'then
-        WIDGET.active.restart.x=120
-        WIDGET.active.pause.x=190
+    elseif pos=='left' then
+        scene.widgetList.restart.x=120
+        scene.widgetList.pause.x=190
         modeTextPos=1200-TEXTOBJ.modeName:getWidth()*modeTextWidK
     end
 end
@@ -108,10 +108,10 @@ local function _rep5()
     gameRate=5
     _updateRepButtons()
 end
-local function _step()trigGameRate=trigGameRate+1 end
+local function _step() trigGameRate=trigGameRate+1 end
 
 local function _restart()
-    resetGameData(PLAYERS[1].frameRun<240 and'q')
+    resetGameData(PLAYERS[1].frameRun<240 and 'q')
     noKey=replaying
     noTouch=replaying
     trigGameRate,gameRate=0,1
@@ -130,7 +130,7 @@ local function _checkGameKeyDown(key)
             return
         end
     end
-    return true--No key pressed
+    return true-- No key pressed
 end
 
 function scene.sceneInit()
@@ -143,7 +143,7 @@ function scene.sceneInit()
     noKey=replaying
     noTouch=not SETTING.VKSwitch or replaying
 
-    if SCN.prev~='depause'and SCN.prev~='pause'then
+    if SCN.prev~='depause' and SCN.prev~='pause' then
         trigGameRate,gameRate=0,1
     elseif not replaying then
         if GAME.tasUsed then
@@ -189,7 +189,7 @@ function scene.touchMove()
         local B=keys[n]
         if B.ava then
             for i=1,#L,2 do
-                if(L[i]-B.x)^2+(L[i+1]-B.y)^2<=B.r^2 then
+                if (L[i]-B.x)^2+(L[i+1]-B.y)^2<=B.r^2 then
                     goto CONTINUE_nextKey
                 end
             end
@@ -201,39 +201,39 @@ function scene.touchMove()
 end
 function scene.keyDown(key,isRep)
     if replaying then
-        if key=='space'then
+        if key=='space' then
             if not isRep then
                 gameRate=gameRate==0 and 1 or 0
             end
             _updateRepButtons()
-        elseif key=='left'then
+        elseif key=='left' then
             if not isRep then
                 _speedDown()
             end
-        elseif key=='right'then
+        elseif key=='right' then
             if gameRate==0 then
                 _step()
             elseif not isRep then
                 _speedUp()
             end
-        elseif key=='escape'then
+        elseif key=='escape' then
             pauseGame()
         end
     else
         if isRep then
             return
-        elseif _checkGameKeyDown(key)then
+        elseif _checkGameKeyDown(key) then
             if GAME.tasUsed then
-                if key=='f1'then
+                if key=='f1' then
                     if not isRep then
                         gameRate=gameRate==0 and .125 or 0
                     end
                     _updateRepButtons()
-                elseif key=='f2'then
+                elseif key=='f2' then
                     if not isRep then
                         _speedDown()
                     end
-                elseif key=='f3'then
+                elseif key=='f3' then
                     if gameRate==0 then
                         _step()
                     elseif not isRep then
@@ -241,7 +241,7 @@ function scene.keyDown(key,isRep)
                     end
                 end
             end
-            if key=='escape'then
+            if key=='escape' then
                 pauseGame()
             end
         end
@@ -267,7 +267,7 @@ function scene.gamepadDown(key)
         else
             _restart()
         end
-    elseif key=='back'then
+    elseif key=='back' then
         pauseGame()
     end
 end
@@ -283,19 +283,19 @@ function scene.gamepadUp(key)
 end
 
 local function _update_common(dt)
-    --Update control
+    -- Update control
     touchMoveLastFrame=false
     VK.update(dt)
 
-    --Update players
-    for p=1,#PLAYERS do PLAYERS[p]:update(dt)end
+    -- Update players
+    for p=1,#PLAYERS do PLAYERS[p]:update(dt) end
 
-    --Fresh royale target
-    if PLAYERS[1].frameRun%120==0 and PLAYERS[1].gameEnv.layout=='royale'then
+    -- Fresh royale target
+    if PLAYERS[1].frameRun%120==0 and PLAYERS[1].gameEnv.layout=='royale' then
         freshMostDangerous()
     end
 
-    --Warning check
+    -- Warning check
     checkWarning(dt)
 end
 function scene.update(dt)
@@ -328,16 +328,16 @@ function scene.draw()
 
     local repMode=GAME.replaying or tas
 
-    --Players
+    -- Players
     for p=1,#PLAYERS do
         PLAYERS[p]:draw(repMode)
     end
 
-    --Virtual keys
+    -- Virtual keys
     VK.draw()
 
-    --Attacking & Being attacked
-    if PLAYERS[1].gameEnv.layout=='royale'then
+    -- Attacking & Being attacked
+    if PLAYERS[1].gameEnv.layout=='royale' then
         local P=PLAYERS[1]
         gc_setLineWidth(5)
         gc_setColor(.8,1,0,.2)
@@ -357,12 +357,12 @@ function scene.draw()
         end
     end
 
-    --Mode info
+    -- Mode info
     gc_setColor(1,1,1,.82)
     gc_draw(TEXTOBJ.modeName,modeTextPos,10,0,modeTextWidK,1)
     local M=GAME.curMode
     if M then
-        if M.score and M.records[1]then
+        if M.score and M.records[1] then
             setFont(15)
             gc_setColor(1,1,1,.6)
             gc_print(M.scoreDisp(M.records[1]),modeTextPos,45)
@@ -378,7 +378,7 @@ function scene.draw()
         end
     end
 
-    --Replaying
+    -- Replaying
     if replaying or tas then
         setFont(20)
         gc_setColor(1,1,TIME()%.8>.4 and 1 or 0)
@@ -387,7 +387,7 @@ function scene.draw()
         mStr(("%s   %sf"):format(repRateStrings[gameRate],PLAYERS[1].frameRun),770,31)
     end
 
-    --Warning
+    -- Warning
     drawWarning()
 end
 scene.widgetList={

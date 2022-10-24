@@ -15,8 +15,8 @@ return{
     },
     slowMark=true,
     score=function(P) return {P.modeData.gradePts,P.stat.time} end,
-    scoreDisp=function(D) return(gradeList[D[1]]or D[1]).."   "..STRING.time(D[2])end,
-    comp=function(a,b)return a[1]>b[1]or(a[1]==b[1]and a[2]<b[2])end,
+    scoreDisp=function(D) return(gradeList[D[1]] or D[1]).."   "..STRING.time(D[2]) end,
+    comp=function(a,b) return a[1]>b[1] or (a[1]==b[1] and a[2]<b[2]) end,
     getRank=function(P)
         local G=P.modeData.gradePts
         return

@@ -1,4 +1,4 @@
---A lantern background which is full of festive atmosphere. Lantern image by ScF
+-- A lantern background which is full of festive atmosphere. Lantern image by ScF
 local int,rnd=math.floor,math.random
 local ins,rem=table.insert,table.remove
 local mDraw=mDraw

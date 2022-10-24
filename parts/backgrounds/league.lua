@@ -1,4 +1,4 @@
---Space with stars
+-- Space with stars
 local back={}
 
 local upCover do

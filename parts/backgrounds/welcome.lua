@@ -1,4 +1,4 @@
---Welcome to Techmino
+-- Welcome to Techmino
 local sin=math.sin
 local back={}
 

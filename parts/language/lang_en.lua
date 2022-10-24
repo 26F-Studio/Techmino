@@ -104,6 +104,14 @@ return{
 
     dictNote="==Copied from TetroDictionary==",
 
+
+
+    Techrater={-- Server's warn/error messages
+        -- TODO
+    },
+
+    tooFrequently="Request too frequently",
+    roomPasswordChanged="Room password changed",
     getNoticeFail="Failed to fetch announcements",
     oldVersion="Version $1 is now available",
     needUpdate="Newer version required!",
@@ -114,23 +122,23 @@ return{
 
     noUsername="Please enter your username",
     wrongEmail="Invalid email address",
+    wrongCode="Invalid verification code",
     noPassword="Please enter your password",
     diffPassword="Passwords don’t match",
-    registerRequestSent="A sign up request has been sent.",
-    registerOK="Sign up successful!",
-    loginOK="You are now logged in!",
-    accessOK="Access granted",
+    checkEmail="A sign up request has been sent.",
 
-    wsConnecting="Websocket connecting…",
-    wsFailed="WebSocket connection failed",
-    wsClose="WebSocket closed:",
+    wsFailed="WebSocket connection failed: $1",
+    wsClose="WebSocket closed: $1",
     netTimeout="Connection timed out",
+    serverDown="Oops! Server is down",
+    requestFailed="Request failed",
 
-    onlinePlayerCount="Online",
+    onlinePlayerCount="Online: $1",
     createRoomSuccessed="Room created",
+    playerKicked="[$1] removed [$2] from room",
     started="Playing",
-    joinRoom="has entered the room.",
-    leaveRoom="has left the room.",
+    joinRoom="$1 has entered the room.",
+    leaveRoom="$1 has left the room.",
     ready="Ready",
     connStream="Connecting",
     waitStream="Waiting",
@@ -138,6 +146,8 @@ return{
     chatRemain="Online",
     chatStart="------Beginning of log------",
     chatHistory="------New messages below------",
+
+
 
     keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
     customBGhelp="Drop image file here to apply custom background",
@@ -206,8 +216,8 @@ return{
         "Make sure to get the game only from official sources,",
         "as we can’t make sure you’re safe if you got it elsewhere.",
         "The author is not responsible for any modifications.",
-        FNNS and"/"or"While the game is free, donations are appreciated.",
-        FNNS and"/"or"Check Zictionary for more",
+        FNNS and "/" or "While the game is free, donations are appreciated.",
+        FNNS and "/" or "Check Zictionary for more",
     },
     staff={
         "ORIGINALLY BY MrZ",
@@ -322,6 +332,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="Support the author",
     WidgetText={
@@ -361,6 +372,7 @@ return{
             league="Tech League",
             ffa="FFA",
             rooms="Rooms",
+            resetPW="Reset password",
             logout="Log out",
         },
         net_league={
@@ -437,7 +449,6 @@ return{
             sysCursor="Use System Cursor",
             autoPause="Pause When Unfocused",
             autoSave="Auto-save New Records",
-            autoLogin="Auto-login on Start",
             simpMode="Simplistic Mode",
         },
         setting_video={
@@ -688,24 +699,29 @@ return{
             music="BGMs",
             label="label",
         },
-        login={
+        login_pw={
             title="Sign In",
-            register="Sign Up",
+            login_mail="Login with E-mail/Sign Up",
             email="Email Address",
             password="Password",
             showEmail="Show Email",
-            keepPW="Remember me",
             login="Log In",
         },
-        register={
-            title="Sign Up",
-            login="Sign In",
-            username="Username",
+        login_mail={
+            title="Sign In/Sign Up",
+            login_pw="Password Sign In",
             email="Email Address",
+            send="Send code",
+            code="Verification Code",
+            verify="Verify",
+        },
+        reset_password={
+            title="Reset Password",
+            send="Send code",
+            code="Verification Code",
             password="Password",
             password2="Re-enter Password",
-            register="Sign Up",
-            registering="Waiting for response…",
+            setPW="Set Password",
         },
         account={
             title="Account",
@@ -920,7 +936,7 @@ return{
         "Headphones recommended for a better experience.",
         "Hello world!",
         "I3 and L3 are the only two unique triminoes.",
-        "if a==true",
+        " if a==true",
         "Increase your frame rate for a better experience.",
         "Initial [insert action] system can save you.",
         "Is B2B2B2B possible?",
@@ -968,7 +984,7 @@ return{
         "What about 23 PCs in 100 lines?",
         "What about 26 TSDs?",
         "What is this cheap UI & music smh",
-        "while(false)",
+        " while (false)",
         "You are a Grand Master!",
         "You are welcome to help us to make BGMs and SFXs!",
         "You can connect a keyboard to your phone or tablet (not functional on iOS though).",

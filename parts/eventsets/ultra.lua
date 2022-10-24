@@ -21,8 +21,8 @@ return{
         BGM.seek(0)
         P.modeData.section=1
         while true do
-            YIELD()
-            while P.stat.frame>=warnTime[P.modeData.section]do
+            coroutine.yield()
+            while P.stat.frame>=warnTime[P.modeData.section] do
                 if P.modeData.section<9 then
                     P.modeData.section=P.modeData.section+1
                     playReadySFX(3,.7+P.modeData.section*.03)

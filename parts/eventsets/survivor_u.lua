@@ -6,11 +6,11 @@ return{
     end,
     task=function(P)
         while true do
-            YIELD()
+            coroutine.yield()
             if P.control then
                 local D=P.modeData
                 D.timer=D.timer+1
-                if D.timer>=math.max(300,600-10*D.wave)and P.atkBufferSum<20 then
+                if D.timer>=math.max(300,600-10*D.wave) and P.atkBufferSum<20 then
                     if D.wave==35 then
                         P:win('finish')
                     else

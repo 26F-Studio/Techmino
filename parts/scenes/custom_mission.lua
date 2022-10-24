@@ -6,8 +6,8 @@ local ins,rem=table.insert,table.remove
 
 local scene={}
 
-local input--Input buffer
-local cur--Cursor position
+local input-- Input buffer
+local cur-- Cursor position
 
 function scene.sceneInit()
     input=""
@@ -20,7 +20,7 @@ end
 local ENUM_MISSION=ENUM_MISSION
 local legalInput={Z=true,S=true,J=true,L=true,T=true,O=true,I=true,A=true,_=true,P=true}
 function scene.keyDown(key)
-    if key=='left'then
+    if key=='left' then
         local p=cur
         if p==0 then
             cur=#MISSION
@@ -30,7 +30,7 @@ function scene.keyDown(key)
             until MISSION[p]~=MISSION[cur]
             cur=p
         end
-    elseif key=='right'then
+    elseif key=='right' then
         local p=cur
         if p==#MISSION then
             cur=0
@@ -40,7 +40,7 @@ function scene.keyDown(key)
             until MISSION[p+1]~=MISSION[cur+1]
             cur=p
         end
-    elseif key=='ten'then
+    elseif key=='ten' then
         for _=1,10 do
             local p=cur
             if p==#MISSION then break end
@@ -49,89 +49,89 @@ function scene.keyDown(key)
             until MISSION[p+1]~=MISSION[cur+1]
             cur=p
         end
-    elseif key=='backspace'then
+    elseif key=='backspace' then
         if #input>0 then
             input=""
         elseif cur>0 then
             rem(MISSION,cur)
             cur=cur-1
-            if cur>0 and MISSION[cur]==MISSION[cur+1]then
+            if cur>0 and MISSION[cur]==MISSION[cur+1] then
                 scene.keyDown('right')
             end
         end
-    elseif key=='delete'then
-        if tryReset()then
+    elseif key=='delete' then
+        if tryReset() then
             TABLE.cut(MISSION)
             cur=0
             SFX.play('finesseError',.7)
         end
-    elseif key=='c'and kb.isDown('lctrl','rctrl')or key=='cC'then
+    elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
         if #MISSION>0 then
             sys.setClipboardText("Techmino Target:"..DATA.copyMission())
             MES.new('check',text.exportSuccess)
         end
-    elseif key=='v'and kb.isDown('lctrl','rctrl')or key=='cV'then
+    elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
         local str=sys.getClipboardText()
-        local p=str:find(":")--ptr*
+        local p=str:find(":")-- ptr*
         if p then
-            if not str:sub(1,p-1):find("Target")then
+            if not str:sub(1,p-1):find("Target") then
                 MES.new('error',text.pasteWrongPlace)
             end
             str=str:sub(p+1)
         end
-        if DATA.pasteMission(str)then
+        if DATA.pasteMission(str) then
             MES.new('check',text.importSuccess)
             cur=#MISSION
         else
             MES.new('error',text.dataCorrupted)
         end
-    elseif key=='escape'then
+    elseif key=='escape' then
         SCN.back()
-    elseif type(key)=='number'then
+    elseif type(key)=='number' then
         local p=cur+1
         while MISSION[p]==key do p=p+1 end
         ins(MISSION,p,key)
         cur=p
     else
-        if key=='space'then
+        if key=='space' then
             key="_"
         else
             key=string.upper(key)
         end
 
         input=input..key
-        if ENUM_MISSION[input]then
+        if ENUM_MISSION[input] then
             cur=cur+1
             ins(MISSION,cur,ENUM_MISSION[input])
             SFX.play('lock')
             input=""
-        elseif #input>1 or not legalInput[input]then
+        elseif #input>1 or not legalInput[input] then
             input=""
         end
     end
 end
 
 function scene.draw()
-    --Draw frame
+    -- Draw frame
     gc.setLineWidth(2)
     gc.setColor(COLOR.Z)
     gc.rectangle('line',58,108,1164,174,5)
 
-    --Draw inputing target
+    -- Draw inputing target
     setFont(30)
     gc.setColor(.9,.9,.9)
     gc.print(input,1200,275)
 
-    --Draw targets
+    -- Draw targets
     local libColor=BLOCK_COLORS
     local set=SETTING.skin
     local L=MISSION
-    local x,y=100,136--Next block pos
-    local cx,cy=100,136--Cursor-center pos
+    local x,y=100,136-- Next block pos
+    local cx,cy=100,136-- Cursor-center pos
     local i,j=1,#L
     local count=1
     repeat
-        if L[i]==L[i-1]then
+        if L[i]==L[i-1] then
             count=count+1
         else
             if count>1 then
@@ -169,7 +169,7 @@ function scene.draw()
         i=i+1
     until i>j+1
 
-    --Draw cursor
+    -- Draw cursor
     gc.setColor(1,1,.4,.6+.4*sin(TIME()*6.26))
     gc.line(cx-5,cy-20,cx-5,cy+20)
 end
@@ -220,7 +220,7 @@ scene.widgetList={
     WIDGET.newKey{name='ten',       x=1000,y=440,w=90,      color='lG',font=55,code=pressKey'ten',      fText=CHAR.key.macTab},
     WIDGET.newKey{name='backsp',    x=1000,y=540,w=90,      color='lY',font=55,code=pressKey'backspace',fText=CHAR.key.backspace},
     WIDGET.newKey{name='reset',     x=1000,y=640,w=90,      color='lY',font=50,code=pressKey'delete',   fText=CHAR.icon.trash},
-    WIDGET.newButton{name='copy',   x=1140,y=440,w=170,h=80,color='lR',font=50,code=pressKey'cC',       fText=CHAR.icon.export,hideF=function()return #MISSION==0 end},
+    WIDGET.newButton{name='copy',   x=1140,y=440,w=170,h=80,color='lR',font=50,code=pressKey'cC',       fText=CHAR.icon.export,hideF=function() return #MISSION==0 end},
     WIDGET.newButton{name='paste',  x=1140,y=540,w=170,h=80,color='lB',font=50,code=pressKey'cV',       fText=CHAR.icon.import},
     WIDGET.newSwitch{name='mission',x=1150,y=340,lim=280,disp=CUSval('missionKill'),code=CUSrev('missionKill')},
 

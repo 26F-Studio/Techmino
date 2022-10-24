@@ -23,7 +23,7 @@ return{
         if c==0 and D.pt%100==99 then
             if D.pt<1000 then
                 hidetimer=0-inv_wait[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1]
-                if c>0 then hidetimer=hidetimer-inv_fall[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1]end
+                if c>0 then hidetimer=hidetimer-inv_fall[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1] end
             end
             return
         end
@@ -35,12 +35,12 @@ return{
         held=false
         if D.pt<1000 then
             hidetimer=0-inv_wait[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1]
-            if c>0 then hidetimer=hidetimer-inv_fall[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1]end
+            if c>0 then hidetimer=hidetimer-inv_fall[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1] end
         end
 
         if D.pt%100==99 then
             SFX.play('warn_1')
-        elseif D.pt>=D.target then--Level up!
+        elseif D.pt>=D.target then-- Level up!
             s=D.target/100
             local E=P.gameEnv
             E.lock=inv_lock[s]
@@ -72,13 +72,13 @@ return{
         P.modeData.pt=0
         P.modeData.target=100
         while true do
-            YIELD()
+            coroutine.yield()
             if P.holdTime==0 and P.waiting<=0 and not held then
                 hidetimer=0
                 held=true
             end
             hidetimer=hidetimer+1
-            if hidetimer>inv_hide[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1]then
+            if hidetimer>inv_hide[(P.modeData.pt/100-(P.modeData.pt%100)/100)+1] then
                 P.gameEnv.block=false
             else
                 P.gameEnv.block=true

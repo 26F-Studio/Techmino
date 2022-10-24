@@ -54,12 +54,12 @@ function Spinner:draw(x,y)
     GC.push('transform')
     GC.translate(x,y)
 
-    --Draw circle
+    -- Draw circle
     GC.setColor(1,1,1)
     GC.setLineWidth(3)
     GC.circle('line',0,0,300)
 
-    --Draw areas
+    -- Draw areas
     GC.setLineWidth(1)
     local freq=0
     for i=1,#self.data do
@@ -86,7 +86,7 @@ function Spinner:draw(x,y)
 
     GC.pop()
 
-    --Draw target pin
+    -- Draw target pin
     GC.setLineWidth(2)
     GC.setColor(1,.3,.3)
     GC.line(x,y,x+200*math.cos(self.angle),y-200*math.sin(self.angle))

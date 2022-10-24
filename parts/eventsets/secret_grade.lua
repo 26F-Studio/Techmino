@@ -6,7 +6,7 @@ end
 local F={}
 
 -- local ranks={"10","9","8","7","6","5","4","3","2","1","S1","S2","S3","S4","S5","S6","S7","S8","S9","GM","GM+","TM","TM+","TM+₂","TM+₃", "TM+₄","TM+₅"}
---       lines:   0   1   2   3   4   5   6   7   8   9   10   11   12   13   14   15   16   17   18   19   20    21   22     23     24      25     26
+--        lines:   0   1   2   3   4   5   6   7   8   9   10   11   12   13   14   15   16   17   18   19   20    21   22     23     24      25     26
 
 local function getSmallNum(num)
     local smalldigit={[0]="₀","₁","₂","₃","₄","₅","₆","₇","₈","₉"}
@@ -46,7 +46,7 @@ local function generateGuide(num)
 end
 
 return{
-    fkey1=function(P)P.modeData.showGuide=not P.modeData.showGuide end,
+    fkey1=function(P) P.modeData.showGuide=not P.modeData.showGuide end,
     mesDisp=function(P)
         mText(TEXTOBJ.grade,63,190)
         mText(TEXTOBJ.line,63,310)

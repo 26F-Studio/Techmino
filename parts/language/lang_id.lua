@@ -105,6 +105,14 @@ return{
 
     dictNote="==Tersalin dari TetroDictionary==",
 
+
+
+    Techrater={-- Server's warn/error messages
+        -- TODO
+    },
+
+    -- tooFrequently="Request too frequently",
+    -- roomPasswordChanged="Room password changed",
     getNoticeFail="Gagal mengambil pengumuman-pengumuman",
     oldVersion="Versi $1 sekarang tersedia",
     needUpdate="Butuh versi lebih baru!",
@@ -115,23 +123,23 @@ return{
 
     noUsername="Silahkan memasukan username Anda",
     wrongEmail="Alamat email tidak sah",
+    -- wrongCode="Invalid verification code",
     noPassword="Silahkan memasukan kata sandi Anda",
     diffPassword="Kata sandi tidak sama",
-    registerRequestSent="Permintaan daftar telah terkirim.",
-    registerOK="Pendaftaran sukses!",
-    loginOK="Anda telah gabung!",
-    accessOK="Akses diberikan",
+    checkEmail="Permintaan daftar telah terkirim.",
 
-    wsConnecting="Menghubungkan websocket…",
-    wsFailed="Koneksi websocket gagal",
-    wsClose="Websocket tertutup:",
+    wsFailed="Koneksi websocket gagal: $1",
+    wsClose="Websocket tertutup: $1",
     netTimeout="Koneksi waktu habis",
+    -- serverDown="Oops! Server is down",
+    -- requestFailed="Request failed",
 
-    onlinePlayerCount="Online",
+    onlinePlayerCount="Online: $1",
     createRoomSuccessed="Ruang terbuat",
+    -- playerKicked="[$1] removed [$2] from room",
     started="Bermain",
-    joinRoom="telah memasuki ruangan.",
-    leaveRoom="telah keluar dari ruangan.",
+    joinRoom="$1 telah memasuki ruangan.",
+    leaveRoom="$1 telah keluar dari ruangan.",
     ready="Siap",
     connStream="Memuat",
     waitStream="Menunggu",
@@ -139,6 +147,8 @@ return{
     chatRemain="Online",
     chatStart="------Awal percakapan------",
     chatHistory="------Pesan-pesan baru di bawah ini------",
+
+
 
     keySettingInstruction="Tekan untuk menghubung tombol ke aksi tertentu\nescape: batal\nbackspace: hapus",
     customBGhelp="Seret file gambar di sini untuk memasangkan background",
@@ -207,8 +217,8 @@ return{
         "Pastikan untuk mendapat permainan ini hanya dari sumber resmi,",
         "karena kita tidak bisa meyakinkan Anda aman jika Anda mendapat permainan ini dari sumber lain.",
         "Penciptanya tidak bertanggung jawab untuk modifikasi.",
-        FNNS and"/"or"Permainan ini gratis, tetapi sumbangan sangat dihargai.",
-        -- FNNS and"/"or"Check Zictionary for more",
+        FNNS and "/" or "Permainan ini gratis, tetapi sumbangan sangat dihargai.",
+        -- FNNS and "/" or "Check Zictionary for more",
     },
     staff={
         "ASLI OLEH MrZ",
@@ -323,6 +333,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="Dukung pencipta",
     WidgetText={
@@ -362,6 +373,7 @@ return{
             league="Tech League",
             ffa="FFA",
             rooms="Ruang-ruang",
+            -- resetPW="Reset password",
             logout="Log out",
         },
         net_league={
@@ -438,7 +450,6 @@ return{
             sysCursor="Guna Mouse Bawaan",
             autoPause="Jeda Jika Tidak Difokus",
             autoSave="Simpan Rekor Otomatis",
-            autoLogin="Auto-login Saat Membuka",
             simpMode="Mode Sederhana",
         },
         setting_video={
@@ -689,24 +700,29 @@ return{
             music="Musik",
             label="label",
         },
-        login={
+        login_pw={
             title="Masuk",
-            register="Daftar",
+            -- login_mail="Login with E-mail/Sign Up",
             email="Alamat Email",
             password="Password",
             showEmail="Tunjukkan Email",
-            keepPW="Ingat Saya",
             login="Masuk",
         },
-        register={
-            title="Daftar",
-            login="Masuk",
-            username="Username",
+        login_mail={
+            title="Masuk/Daftar",
+            -- login_pw="Password Sign In",
             email="Alamat Email",
+            -- send="Send code",
+            -- code="Verification Code",
+            -- verify="Verify",
+        },
+        reset_password={
+            -- title="Reset Password",
+            -- send="Send code",
+            -- code="Verification Code",
             password="Password",
             password2="Ulangi Password",
-            register="Daftar",
-            registering="Menunggu respon…",
+            -- setPW="Set Password",
         },
         account={
             title="Akun",
@@ -912,7 +928,7 @@ return{
         "Headphone direkomendasikan untuk pengalaman yang lebih baik.",
         "Hello world!",
         "Hanya ada 2 jenis trimino, yaitu I3 dan L3.",
-        "if a==true",
+        " if a==true",
         "Tingkatkan frekuensi gambar Anda untuk pengalaman yang lebih baik.",
         "Sistem [tindakan] awal dapat menyelamatkan Anda.",
         "Apakah B2B2B2B mungkin?",
@@ -956,7 +972,7 @@ return{
         "Bagaimana dengan 20 PCs?",
         "Bagaimana dengan 23 PCs dalam 100 baris?",
         "Bagaimana dengan 26 TSDs?",
-        "while(false)",
+        " while (false)",
         "Anda adalah seorang jago!",
         "Anda dipersilakan untuk membantu kami membuat musik dan efek suara!",
         "Anda dapat menghubungkan keyboard ke ponsel atau tablet Anda (tetapi tidak berfungsi di iOS).",

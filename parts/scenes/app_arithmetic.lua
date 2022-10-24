@@ -116,8 +116,8 @@ local levels={
         local a=rnd(17,int(s/2))
         return{COLOR.J,b16(a),COLOR.Z,"+",COLOR.J,b16(s-a)},s
     end,nil,nil,
-    function()timing=false return "Coming S∞n"..(rnd()<.5 and""or" "),1e99 end,
-}setmetatable(levels,{__index=function(self,k)return self[k-1]end})
+    function() timing=false return "Coming S∞n"..(rnd()<.5 and "" or " "),1e99 end,
+}setmetatable(levels,{__index=function(self,k) return self[k-1] end})
 
 local level
 
@@ -160,17 +160,17 @@ end
 
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key:sub(1,2)=="kp"then key=key:sub(3)end
-    if #key==1 and("0123456789"):find(key,nil,true)then
+    if key:sub(1,2)=="kp" then key=key:sub(3) end
+    if #key==1 and ("0123456789"):find(key,nil,true) then
         if #input<8 then
             input=input..key
             inputTime=1
             check(tonumber(input))
             SFX.play('touch')
         end
-    elseif key=='-'then
+    elseif key=='-' then
         if #input<8 then
-            if input:find("-")then
+            if input:find("-") then
                 input=input:sub(2)
             else
                 input="-"..input
@@ -179,13 +179,13 @@ function scene.keyDown(key,isRep)
             check(tonumber(input))
             SFX.play('hold')
         end
-    elseif key=='backspace'then
+    elseif key=='backspace' then
         input=""
         inputTime=0
-    elseif key=='r'then
+    elseif key=='r' then
         reset()
-    elseif key=='escape'then
-        if tryBack()then
+    elseif key=='escape' then
+        if tryBack() then
             SCN.back()
         end
     end
@@ -209,7 +209,7 @@ function scene.draw()
     GC.mStr("["..level.."]",640,30)
 
     FONT.set(80)
-    if type(question)=='table'then gc.setColor(1,1,1)end
+    if type(question)=='table' then gc.setColor(1,1,1) end
     GC.mStr(question,640,60)
 
     FONT.set(80)

@@ -1,4 +1,4 @@
---Large falling tetrominoes
+-- Large falling tetrominoes
 local gc=love.graphics
 local gc_clear=gc.clear
 local gc_setColor,gc_draw=gc.setColor,gc.draw
@@ -43,8 +43,8 @@ function back.draw()
         local M=mino[i]
         local b=M.block
         for y=1,#b do
-            for x=1,#b[1]do
-                if b[y][x]then
+            for x=1,#b[1] do
+                if b[y][x] then
                     gc_draw(M.texture,M.x+(x-1)*30*M.k,M.y-y*30*M.k,nil,M.k)
                 end
             end

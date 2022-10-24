@@ -54,7 +54,7 @@ return{
 
     -- cc_fixed="CC is incompatible with fixed sequences",
     -- cc_swap="CC is incompatible with swap holdmode",
-    --ai_prebag="The AI is incompatible with custom sequences which have nontetromino.", inteligência é incompatível com sequências fixas.",
+    -- ai_prebag="The AI is incompatible with custom sequences which have nontetromino.", inteligência é incompatível com sequências fixas.",
     ai_mission="A inteligência é incompatível com missões costumizadas.",
     switchSpawnSFX="Switch on spawn SFX to play",
     needRestart="Funciona após reiniciar",
@@ -92,6 +92,14 @@ return{
 
     -- dictNote="==Copied from TetroDictionary==",
 
+
+
+    Techrater={-- Server's warn/error messages
+        -- TODO
+    },
+
+    -- tooFrequently="Request too frequently",
+    -- roomPasswordChanged="Room password changed",
     getNoticeFail="Não conseguiu ter anúncios",
     oldVersion="Versão $1 esta disponível agora!",
     -- versionNotMatch="Version do not match!",
@@ -102,23 +110,23 @@ return{
 
     noUsername="Insira seu nome de usuário",
     wrongEmail="Endereço de email errado",
+    -- wrongCode="Invalid verification code",
     noPassword="Insira sua senha ",
     diffPassword="Senhas não combinam",
-    -- registerRequestSent="Registration request sent",
-    registerOK="Registrado com sucesso!",
-    loginOK="Logado com sucesso!",
-    accessOK="Autorizado com sucesso!",
+    -- checkEmail="Registration request sent",
 
-    -- wsConnecting="Websocket Connecting",
-    wsFailed="WebSocket falha na conexão",
-    wsClose="WebSocket closed:",
+    wsFailed="WebSocket falha na conexão: $1",
+    wsClose="WebSocket closed: $1",
     -- netTimeout="Network connection timeout",
+    -- serverDown="Oops! Server is down",
+    -- requestFailed="Request failed",
 
-    -- onlinePlayerCount="Online",
+    -- onlinePlayerCount="Online: $1",
     -- createRoomSuccessed="Room successfully created!",
+    -- playerKicked="[$1] removed [$2] from room",
     -- started="Playing",
-    joinRoom="Entrou a sala.",
-    leaveRoom="Saiu da sala.",
+    joinRoom="$1 Entrou a sala.",
+    leaveRoom="$1 Saiu da sala.",
     -- ready="READY",
     -- connStream="CONNECTING",
     -- waitStream="WAITING",
@@ -126,6 +134,8 @@ return{
     chatRemain="Online",
     chatStart="------Começo do log------",
     chatHistory="------Novas mensagens abaixo------",
+
+
 
     -- keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
     -- customBGhelp="Drop image file here to apply custom background",
@@ -195,8 +205,8 @@ return{
         "certifique-se de pegar o jogo de fontes oficiais;",
         "binários obtidos em outros lugares pode conter malware.",
         "O autor não é responsável por qualquer binários modificados",
-        FNNS and"/"or"O jogo é gratis, mas doações são apreciadas.",
-        -- FNNS and"/"or"Check Zictionary for more",
+        FNNS and "/" or "O jogo é gratis, mas doações são apreciadas.",
+        -- FNNS and "/" or "Check Zictionary for more",
     },
     staff={
         "ORIGINALMENTE POR MrZ",
@@ -311,6 +321,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="Support author",
     WidgetText={
@@ -350,6 +361,7 @@ return{
             -- league="Tech League",
             ffa="FFA",
             rooms="Salas",
+            -- resetPW="Reset password",
             -- logout="Log out",
         },
         net_league={
@@ -426,7 +438,6 @@ return{
             -- sysCursor="Use system cursor",
             autoPause="Pausar quando foco for perco",
             -- autoSave="Auto save new-best",
-            -- autoLogin="Auto Login on Start",
             -- simpMode="Simple mode",
         },
         setting_video={
@@ -678,24 +689,29 @@ return{
             -- music="BGMs",
             -- label="label",
         },
-        login={
+        login_pw={
             title="Log in",
-            register="Registrar",
+            -- login_mail="Login with E-mail/Sign Up",
             email="Endereço De Email",
             password="Senha",
             -- showEmail="Show Email",
-            -- keepPW="Remember me",
             login="Log in",
         },
-        register={
-            title="Registrar",
-            login="Log in",
-            username="Nome De Usuário",
+        login_mail={
+            title="Log in/Registrar",
+            -- login_pw="Password Sign In",
             email="Endereço De Email",
+            -- send="Send code",
+            -- code="Verification Code",
+            -- verify="Verify",
+        },
+        reset_password={
+            -- title="Reset Password",
+            -- send="Send code",
+            -- code="Verification Code",
             password="Senha",
             password2="Entre Senha Novamente",
-            register="Registrar",
-            -- registering="Waiting for response...",
+            -- setPW="Set Password",
         },
         account={
             title="Conta",
@@ -891,7 +907,7 @@ return{
         "Tem alguma sugestão? Posta elas em nosso Discord!",
         "Fones recomendados para uma melhor experiência.",
         "Olá mundo!",
-        "if a==true",
+        " if a==true",
         "Aumente sua frame rate para uma experiência melhor.",
         "O sistema de [ação] inicial pode salvar sua vida.",
         "Será B2B2B2B possível?",
@@ -926,7 +942,7 @@ return{
         "Que tal 20 PCs?",
         "Que tal 23 PCs em 100 linhas?",
         "Que tal 26 TSDs?",
-        "while(false)",
+        " while (false)",
         "Você e um Grand Master!",
         "Pode conectar um teclado ao seu celular!",
         "Você pode fazer spins com 28 de 29 minoes!",

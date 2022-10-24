@@ -1,12 +1,12 @@
 local scene={}
 
 function scene.draw()
-    --QR Code frame
+    -- QR Code frame
     GC.setLineWidth(2)
     GC.rectangle('line',298,98,263,263)
     GC.rectangle('line',718,318,250,250)
 
-    --Support text
+    -- Support text
     GC.setColor(1,1,1,MATH.sin(TIME()*20)*.3+.6)
     setFont(30)
     GC.mStr(text.support,430+MATH.sin(TIME()*4)*20,363)

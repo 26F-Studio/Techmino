@@ -105,6 +105,14 @@ return{
 
     dictNote="==TetroDictionaryからコピーしました==",
 
+
+
+    Techrater={-- Server's warn/error messages
+        -- TODO
+    },
+
+    -- tooFrequently="Request too frequently",
+    -- roomPasswordChanged="Room password changed",
     getNoticeFail="お知らせ情報を取得できませんでした",
     oldVersion="バージョン$1のダウンロードが可能になりました",
     needUpdate="最新バージョンに更新してください",
@@ -115,23 +123,23 @@ return{
 
     noUsername="ユーザーネームを入力してください!",
     wrongEmail="メールアドレスが無効です!",
+    -- wrongCode="Invalid verification code",
     noPassword="パスワードを入力してください!",
     diffPassword="パスワードが一致しません!",
-    registerRequestSent="Sign Upリクエストを送信しました!",
-    registerOK="サインアップ成功!",
-    loginOK="ログインしています!",
-    accessOK="アクセス権限を取得しました!",
+    checkEmail="Sign Upリクエストを送信しました!",
 
-    wsConnecting="ウェブソケットに接続中…",
-    wsFailed="ウェブソケットとの通信に失敗しました",
-    wsClose="ウェブソケットとの通信を終了:",
+    wsFailed="ウェブソケットとの通信に失敗しました: $1",
+    wsClose="ウェブソケットとの通信を終了: $1",
     netTimeout="接続がタイムアウトしました",
+    -- serverDown="Oops! Server is down",
+    -- requestFailed="Request failed",
 
-    onlinePlayerCount="オンライン人数",
+    onlinePlayerCount="オンライン人数: $1",
     createRoomSuccessed="部屋を建てました",
+    -- playerKicked="[$1] removed [$2] from room",
     started="プレイ中",
-    joinRoom="が入室しました",
-    leaveRoom="が退出しました",
+    joinRoom="$1 が入室しました",
+    leaveRoom="$1 が退出しました",
     ready="準備OK",
     connStream="接続中……",
     waitStream="待機中……",
@@ -139,6 +147,8 @@ return{
     chatRemain="オンライン",
     chatStart="------チャットの先頭------",
     chatHistory="------新しいメッセージ------",
+
+
 
     keySettingInstruction="選択してキーを入力\nEscape: キャンセル\nBackspace: キーを削除",
     customBGhelp="カスタム背景にする画像ファイルをドロップ",
@@ -208,8 +218,8 @@ return{
         "ゲームは、必ず公式から入手してください",
         "他から入手した場合は、安全性を保証しません",
         "同時に作者は、責任を負いません",
-        FNNS and"/"or"ゲーム自体は無料ですが、寄付できるならありがたいです。",
-        FNNS and"/"or"詳しくはZictionaryをご覧ください",
+        FNNS and "/" or "ゲーム自体は無料ですが、寄付できるならありがたいです。",
+        FNNS and "/" or "詳しくはZictionaryをご覧ください",
     },
     staff={
         "作者「MrZ」",
@@ -324,6 +334,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="Support the Author",
     WidgetText={
@@ -363,6 +374,7 @@ return{
             league="テクリーグ",
             ffa="自由乱闘戦",
             rooms="ルーム・プライベート戦",
+            -- resetPW="Reset password",
             logout="ログアウト",
         },
         net_league={
@@ -439,7 +451,6 @@ return{
             sysCursor="システムカーソル",
             autoPause="ゲーム中断時のオートポーズ",
             autoSave="最高得点を更新したときオートセーブ",
-            autoLogin="オートログイン",
             simpMode="シンプルなホーム画面",
         },
         setting_video={
@@ -690,24 +701,29 @@ return{
             music="曲",
             label="ラベル",
         },
-        login={
+        login_pw={
             title="サインイン",
-            register="サインアップ",
+            -- login_mail="Login with E-mail/Sign Up",
             email="Eメールアドレス",
             password="パスワード",
             -- showEmail="Show Email",
-            keepPW="常にログイン",
             login="ログイン",
         },
-        register={
-            title="サインアップ",
-            login="サインイン",
-            username="ユーザーネーム",
+        login_mail={
+            title="サインイン/サインアップ",
+            -- login_pw="Password Sign In",
             email="Eメールアドレス",
+            -- send="Send code",
+            -- code="Verification Code",
+            -- verify="Verify",
+        },
+        reset_password={
+            -- title="Reset Password",
+            -- send="Send code",
+            -- code="Verification Code",
             password="パスワード",
             password2="パスワード（確認）",
-            register="これで登録する",
-            registering="応答待機中...",
+            -- setPW="Set Password",
         },
         account={
             title="アカウント",
@@ -953,7 +969,7 @@ getTip={refuseCopy=true,
         "Techminoは\"Technique\"と\"Tetromino\"を掛け合わせ造語です!",
         "Techminoプレイヤーの未来はあなた達のものです!",
         "TetroDictionary is now available in English.",
-        "while(false)",
+        " while (false)",
         "ZS JL T O I",
         "ゲーム内にはモード選択マップからじゃ入れない隠しモードがいくつかあります!",
         "このゲームでは全てのSpinに火力補正があります!",

@@ -54,7 +54,7 @@ return{
 
     -- cc_fixed="CC is incompatible with fixed sequences",
     -- cc_swap="CC is incompatible with swap holdmode",
-    --ai_prebag="The AI is incompatible with custom sequences which have nontetromino.",'IA est incompatible avec les séquences personnalisées.",
+    -- ai_prebag="The AI is incompatible with custom sequences which have nontetromino.",'IA est incompatible avec les séquences personnalisées.",
     ai_mission="L'IA est incompatible avec les missions personnalisées.",
     switchSpawnSFX="Activez les effets sonores d'apparition des pièces pour jouer",
     needRestart="Fonctionnera dès la prochaine partie",
@@ -94,6 +94,14 @@ return{
 
     -- dictNote="==Copied from TetroDictionary==",
 
+
+
+    Techrater={-- Server's warn/error messages
+        -- TODO
+    },
+
+    -- tooFrequently="Request too frequently",
+    -- roomPasswordChanged="Room password changed",
     getNoticeFail="Echec de l'obtention de la notice",
     oldVersion="La version $1 est disponible !",
     -- versionNotMatch="Version do not match!",
@@ -104,23 +112,23 @@ return{
 
     noUsername="Entrez votre nom d'utilisateur",
     wrongEmail="Mauvaise adresse email",
+    -- wrongCode="Invalid verification code",
     noPassword="Entrez votre mot de passe",
     diffPassword="Les mots de passe ne se correspondent pas",
-    -- registerRequestSent="Registration request sent",
-    registerOK="Enregistré avec succès !",
-    loginOK="Connecté avec succès !",
-    accessOK="Autorisé avec succès !",
+    -- checkEmail="Registration request sent",
 
-    -- wsConnecting="Websocket Connecting",
-    wsFailed="WebSocket connection échouée",
-    -- wsClose="WebSocket Closed:",
+    wsFailed="WebSocket connection échouée: $1",
+    -- wsClose="WebSocket Closed: $1",
     -- netTimeout="Network connection timeout",
+    -- serverDown="Oops! Server is down",
+    -- requestFailed="Request failed",
 
-    -- onlinePlayerCount="Online",
+    -- onlinePlayerCount="Online: $1",
     createRoomSuccessed="Salon créé avec succès !",
+    -- playerKicked="[$1] removed [$2] from room",
     -- started="Playing",
-    joinRoom="a rejoint le salon.",
-    leaveRoom="a quitté le salon.",
+    joinRoom="$1 a rejoint le salon.",
+    leaveRoom="$1 a quitté le salon.",
     -- ready="READY",
     -- connStream="CONNECTING",
     -- waitStream="WAITING",
@@ -129,6 +137,8 @@ return{
     chatStart="--------Début des logs--------",
     chatHistory="-Nouveaux messages en dessous-",
 
+
+    
     -- keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
     -- customBGhelp="Drop image file here to apply custom background",
     -- customBGloadFailed="Unsupport image format for custom background",
@@ -173,8 +183,8 @@ return{
         "Ce jeu est gratuit et est uniquement disponible via discord.gg/f9pUvkh",
         "Ne téléchargez pas ce jeu depuis une autre source au risque d'avoir des virus,",
         "et vous n'avez besoin que des permissions de vibration et de communication réseau pour les versions mobiles !",
-        FNNS and"/"or"Le créateur n'est pas responsable pour n'importe quel type de perte de données suite à une modification du jeu.",
-        -- FNNS and"/"or"Check Zictionary for more",
+        FNNS and "/" or "Le créateur n'est pas responsable pour n'importe quel type de perte de données suite à une modification du jeu.",
+        -- FNNS and "/" or "Check Zictionary for more",
     },
     staff={
         "À L'ORIGINE PAR MrZ",
@@ -289,6 +299,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="Aider le créateur",
     WidgetText={
@@ -324,6 +335,7 @@ return{
             -- league="Tech League",
             ffa="FFA",
             rooms="Salons",
+            -- resetPW="Reset password",
             -- logout="Log out",
         },
         net_league={
@@ -400,7 +412,6 @@ return{
             -- sysCursor="Use system cursor",
             autoPause="Mettre en pause en cas de perte de focus",
             -- autoSave="Auto save new-best",
-            -- autoLogin="Auto Login on Start",
             -- simpMode="Simple mode",
         },
         setting_video={
@@ -642,24 +653,29 @@ return{
             music="Musique",
             -- label="label",
         },
-        login={
+        login_pw={
             title="Connexion",
-            register="Enregistrement",
+            -- login_mail="Login with E-mail/Sign Up",
             email="E-mail",
             password="Mot de passe",
             -- showEmail="Show Email",
-            -- keepPW="Remember me",
             login="Connexion",
         },
-        register={
-            title="Enregistrement",
-            login="Connexion",
-            username="Nom d'utilisateur",
+        login_mail={
+            title="Connexion/Enregistrement",
+            -- login_pw="Password Sign In",
             email="E-mail",
+            -- send="Send code",
+            -- code="Verification Code",
+            -- verify="Verify",
+        },
+        reset_password={
+            -- title="Reset Password",
+            -- send="Send code",
+            -- code="Verification Code",
             password="Mot de passe",
             password2="Confirmer le mot de passe",
-            register="Enregistrement",
-            -- registering="Waiting for response...",
+            -- setPW="Set Password",
         },
         account={
             title="Compte",

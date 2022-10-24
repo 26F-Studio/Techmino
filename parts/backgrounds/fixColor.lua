@@ -1,4 +1,4 @@
---Customizable grey background
+-- Customizable grey background
 local back={}
 local r,g,b=.26,.26,.26
 function back.draw()

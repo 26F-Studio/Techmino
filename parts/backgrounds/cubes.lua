@@ -1,4 +1,4 @@
---Flying cubes
+-- Flying cubes
 local gc=love.graphics
 local gc_clear=gc.clear
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth

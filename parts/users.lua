@@ -41,36 +41,48 @@ local db_img={}
 local db=setmetatable({},{__index=function(self,uid)
     if not uid then return emptyUser end
     local file="cache/user"..uid..".dat"
-    local d=fs.getInfo(file)and JSON.decode(fs.read(file))or TABLE.copy(emptyUser)
+    local d=fs.getInfo(file) and JSON.decode(fs.read(file)) or TABLE.copy(emptyUser)
     rawset(self,uid,d)
     db_img[uid]=
-        type(d.hash)=='string'and #d.hash>0 and fs.getInfo("cache/"..d.hash)and
-        _loadAvatar("cache/"..d.hash)or
+        type(d.hash)=='string' and #d.hash>0 and fs.getInfo("cache/"..d.hash) and
+        _loadAvatar("cache/"..d.hash) or
         defaultAvatar[(uid-26)%29+1]
     return d
 end})
 
 local USERS={}
 
+--[[userdata={
+    username="MrZ",
+    motto="Techmino 好玩",
+    id=26,
+    permission="Admin",
+    region=0,
+    avatar_hash=XXX,
+    avatar_frame=0,
+}]]
 function USERS.updateUserData(data)
-    local uid=data.uid
+    local uid=data.id
     db[uid].username=data.username
     db[uid].motto=data.motto
+    if type(data.avatar_hash)=='string' and (db[uid].hash~=data.avatar_hash or not fs.getInfo("cache/"..data.avatar_hash)) then
+        db[uid].hash=data.avatar_hash
+        NET.getAvatar(uid)
+    end
     fs.write("cache/user"..uid..".dat",JSON.encode{
         username=data.username,
         motto=data.motto,
-        hash=data.hash or db[uid].hash,
+        hash=db[uid].hash,
     })
-    if data.avatar then
-        fs.write("cache/"..data.hash,love.data.decode('string','base64',data.avatar:sub(data.avatar:find(",")+1)))
-        db_img[uid]=_loadAvatar("cache/"..data.hash)
-        db[uid].hash=type(data.hash)=='string'and #data.hash>0 and data.hash
-    end
+end
+function USERS.updateAvatar(uid,imgData)
+    local hash=db[uid].hash
+    fs.write("cache/"..hash,love.data.decode('string','base64',imgData:sub(imgData:find(",")+1)))
+    db_img[uid]=_loadAvatar("cache/"..hash)
 end
 
-function USERS.getUsername(uid)return db[uid].username end
-function USERS.getMotto(uid)return db[uid].motto end
-function USERS.getHash(uid)return db[uid].hash or""end
+function USERS.getUsername(uid) return db[uid].username or "" end
+function USERS.getMotto(uid) return db[uid].motto or "" end
 function USERS.getAvatar(uid)
     if uid then
         if not db[uid].new then

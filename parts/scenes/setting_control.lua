@@ -58,7 +58,7 @@ end
 function scene.draw()
     gc.translate(550,600)
 
-    --Testing grid line
+    -- Testing grid line
     gc.setLineWidth(4)
     gc.setColor(1,1,1,.4)
     gc.line(0,0,400,0)
@@ -71,7 +71,7 @@ function scene.draw()
     gc.line(0,-10,0,90)
     gc.line(400,-10,400,90)
 
-    --O mino animation
+    -- O mino animation
     gc.setColor(1,1,1)
     local O=SKIN.lib[SETTING.skinSet][SETTING.skin[6]]
     gc.draw(O,40*pos,0,nil,40/30)

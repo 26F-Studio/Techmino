@@ -166,6 +166,7 @@ return{
             league="TL",
             ffa="FFA",
             rooms="< >",
+            resetPW="R ***",
             logout="@_@x",
         },
         net_league={
@@ -235,14 +236,13 @@ return{
             ctrl="=?=",
             key="=?",
             touch="_?",
-            showVK="--?",
+            showVK="-- ?",
             reTime="3-2-1",
             RS="''?",
             menuPos="←M→?",
             sysCursor="?→*",
             autoPause="A||",
             autoSave="!!!>%",
-            autoLogin="#Log in#",
             simpMode=".",
         },
         setting_video={
@@ -259,7 +259,7 @@ return{
             ghost="__↓__",
             center="+",
             grid="#",
-            lineNum="--No.",
+            lineNum="-- No.",
 
             lockFX="↓_~",
             dropFX="↓~",
@@ -484,24 +484,29 @@ return{
             music="~~~",
             label="...",
         },
-        login={
+        login_pw={
             title="Log in",
-            register="Sign up",
+            -- login_mail="Login with E-mail/Sign Up",
             email="@",
             password="*",
             showEmail="?",
-            keepPW="!",
-            login="Log in",
+            login="→",
         },
-        register={
-            title="Sign up",
-            login="Log in",
-            username="#",
+        login_mail={
+            title="Log in/Sign up",
+            login_pw="*** →",
             email="@",
+            send="→",
+            code="←",
+            verify="!",
+        },
+        reset_password={
+            title="R ***",
+            send="→",
+            code="←",
             password="*",
             password2="*",
-            register="Sign up",
-            registering="......",
+            setPW="##",
         },
         account={
             title="@_@",
@@ -510,7 +515,7 @@ return{
             color="~~~",
             invis="???",
             slide="~_~",
-            pathVis="--==>",
+            pathVis="-- ==>",
             revKB="Reverse",
         },
         app_schulteG={
@@ -543,7 +548,7 @@ return{
     getTip=function()
         local L="!@#$%^&*()-=_+[]{}\\|;:\'\",<.>/?"
         local s=""
-        for _=1,math.random(16,26)do
+        for _=1,math.random(16,26) do
             local p=math.random(#L)
             s=s..L:sub(p,p)
         end

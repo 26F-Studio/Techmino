@@ -1,6 +1,6 @@
 local scene={}
 
-local selected--Mod selected
+local selected-- Mod selected
 
 local function _modComp(a,b)
     return a.no<b.no
@@ -47,7 +47,7 @@ end
 function scene.mouseMove(x,y)
     selected=false
     for _,M in next,MODOPT do
-        if(x-M.x)^2+(y-M.y)^2<2000 then
+        if (x-M.x)^2+(y-M.y)^2<2000 then
             selected=M
             break
         end
@@ -55,7 +55,7 @@ function scene.mouseMove(x,y)
 end
 function scene.mouseDown(x,y,k)
     for _,M in next,MODOPT do
-        if(x-M.x)^2+(y-M.y)^2<2000 then
+        if (x-M.x)^2+(y-M.y)^2<2000 then
             _toggleMod(M,k==2 or love.keyboard.isDown('lshift','rshift'))
             break
         end
@@ -69,9 +69,9 @@ function scene.touchDown(x,y)
 end
 
 function scene.keyDown(key)
-    if key=='tab'or key=='delete'then
-        if GAME.mod[1]then
-            while GAME.mod[1]do
+    if key=='tab' or key=='delete' then
+        if GAME.mod[1] then
+            while GAME.mod[1] do
                 table.remove(GAME.mod).sel=0
             end
             scene.widgetList.unranked.hide=scoreValid()
@@ -85,7 +85,7 @@ function scene.keyDown(key)
                 break
             end
         end
-    elseif key=='escape'then
+    elseif key=='escape' then
         SCN.back()
     end
 end
@@ -109,7 +109,7 @@ function scene.draw()
     for _,M in next,MODOPT do
         GC.push('transform')
         GC.translate(M.x,M.y)
-        local t=M.time*.01--t range:0~0.1
+        local t=M.time*.01-- t range:0~0.1
         GC.scale(1+3*t)
         GC.rotate(t)
             local rad,side

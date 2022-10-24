@@ -1,9 +1,9 @@
 function love.conf(t)
-    t.identity='Techmino'--Saving folder
+    t.identity='Techmino'-- Saving folder
     t.version="11.1"
     t.gammacorrect=false
-    t.appendidentity=true--Search files in source then in save directory
-    t.accelerometerjoystick=false--Accelerometer=joystick on ios/android
+    t.appendidentity=true-- Search files in source then in save directory
+    t.accelerometerjoystick=false-- Accelerometer=joystick on ios/android
     if t.audio then
         t.audio.mic=false
         t.audio.mixwithsystem=true
@@ -16,12 +16,12 @@ function love.conf(t)
     W.borderless=false
     W.resizable=true
     W.fullscreen=false
-    W.vsync=0--Unlimited FPS
-    W.msaa=0--Multi-sampled antialiasing
-    W.depth=0--Bits/samp of depth buffer
-    W.stencil=1--Bits/samp of stencil buffer
-    W.display=1--Monitor ID
-    W.highdpi=true--High-dpi mode for the window on a Retina display
+    W.vsync=0-- Unlimited FPS
+    W.msaa=0-- Multi-sampled antialiasing
+    W.depth=0-- Bits/samp of depth buffer
+    W.stencil=1-- Bits/samp of stencil buffer
+    W.display=1-- Monitor ID
+    W.highdpi=true-- High-dpi mode for the window on a Retina display
     W.x,W.y=nil
 
     local M=t.modules

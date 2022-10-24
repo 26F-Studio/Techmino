@@ -19,7 +19,7 @@ end
 
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=='space'or key=='return'then
+    if key=='space' or key=='return' then
         if state==0 then
             state=1
         elseif state==1 then
@@ -27,8 +27,8 @@ function scene.keyDown(key,isRep)
             vx=pow*cos(ang)/2.6
             vy=pow*sin(ang)/2.6
         end
-    elseif key=='escape'then
-        if tryBack()then
+    elseif key=='escape' then
+        if tryBack() then
             SCN.back()
         end
     end
@@ -75,24 +75,24 @@ function scene.update()
 end
 
 local scoreColor={
-    'Z',--0
-    'A',--20
-    'N',--40
-    'B',--60
-    'P',--80
-    'W',--100
-    'R','F','O','Y','lA',--200
-    'lN','lB','lP','lW','lR',--300
-    'lF','lO','lY','dA','dN',--400
-    'dB','dP','dW','dR','dF',--500
-    'dY','lH','H','dH',--before 600, black after
+    'Z',-- 0
+    'A',-- 20
+    'N',-- 40
+    'B',-- 60
+    'P',-- 80
+    'W',-- 100
+    'R','F','O','Y','lA',-- 200
+    'lN','lB','lP','lW','lR',-- 300
+    'lF','lO','lY','dA','dN',-- 400
+    'dB','dP','dW','dR','dF',-- 500
+    'dY','lH','H','dH',-- before 600, black after
 }
 function scene.draw()
-    --Spawn area
+    -- Spawn area
     gc.setColor(1,1,1,.2)
     gc.rectangle('fill',85,0,190,720)
 
-    --Power & Angle
+    -- Power & Angle
     gc.setColor(COLOR.Z)
     if state~=2 then
         gc.setLineWidth(2)
@@ -104,24 +104,24 @@ function scene.draw()
         end
     end
 
-    --Info
+    -- Info
     FONT.set(40)
     if combo>1 then
         gc.setColor(1,1,.6)
         gc.print("x"..combo,300,80)
     end
-    gc.setColor(COLOR[scoreColor[int(score/20)+1]or'D'])
+    gc.setColor(COLOR[scoreColor[int(score/20)+1] or 'D'])
     gc.print(score,300,30)
 
-    --Cannon ball
+    -- Cannon ball
     gc.circle('fill',x,y,15)
 
-    --Arrow
+    -- Arrow
     if y<-15 then
         gc.print("↑",x-20.5,0)
     end
 
-    --Target
+    -- Target
     gc.setColor(1,1,.4)
     gc.circle('fill',ex,ey,15)
 end

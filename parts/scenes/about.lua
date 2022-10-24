@@ -16,7 +16,7 @@ end
 scene.touchDown=scene.mouseDown
 
 function scene.keyDown(key)
-    if key=='space'then
+    if key=='space' then
         loadGame('stack_e',true)
     else
         return true
@@ -24,18 +24,18 @@ function scene.keyDown(key)
 end
 
 function scene.draw()
-    --Texts
+    -- Texts
     setFont(20)
     gc.setColor(COLOR.Z)
     for i=1,#text.aboutTexts do
         gc.print(text.aboutTexts[i],62,35*i)
     end
 
-    --Lib used
+    -- Lib used
     setFont(15)
-    gc.print(text.used,495,462)--❤Flandre❤
+    gc.print(text.used,495,426)-- ❤Flandre❤
 
-    --Logo
+    -- Logo
     gc.draw(TEXTURE.title,280,610,.1,.4+.03*sin(TIME()*2.6),nil,580,118)
 end
 

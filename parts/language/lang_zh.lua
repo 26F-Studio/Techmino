@@ -104,6 +104,14 @@ return{
 
     dictNote="==复制于小z词典==",
 
+
+
+    Techrater={-- Server's warn/error messages
+        -- TODO
+    },
+
+    tooFrequently="操作太频繁",
+    roomPasswordChanged="房间密码已更改",
     getNoticeFail="拉取公告失败",
     oldVersion="最新版本$1可以下载了！",
     needUpdate="请更新游戏！",
@@ -113,24 +121,24 @@ return{
     jsonError="json错误",
 
     noUsername="请填写用户名",
-    wrongEmail="邮箱格式错误",
+    wrongEmail="无效邮箱地址",
+    wrongCode="无效验证码",
     noPassword="请填写密码",
     diffPassword="两次密码不一致",
-    registerRequestSent="注册请求已发送",
-    registerOK="注册成功！",
-    loginOK="登录成功",
-    accessOK="身份验证成功",
+    checkEmail="请查看邮箱验证码",
 
-    wsConnecting="正在连接",
-    wsFailed="连接失败",
-    wsClose="连接被断开:",
+    wsFailed="连接失败: $1",
+    wsClose="连接断开: $1",
     netTimeout="连接超时",
+    serverDown="唉哟!服务器不在线",
+    requestFailed="请求失败",
 
-    onlinePlayerCount="在线人数",
+    onlinePlayerCount="在线人数: $1",
     createRoomSuccessed="创建房间成功！",
+    playerKicked="<$1>把<$2>移出了房间",
     started="游戏中",
-    joinRoom="进入房间",
-    leaveRoom="离开房间",
+    joinRoom="$1 进入房间",
+    leaveRoom="$1 离开房间",
     ready="各就各位！",
     connStream="正在连接",
     waitStream="等待其他人连接",
@@ -139,12 +147,14 @@ return{
     chatStart="------消息的开头------",
     chatHistory="------以上是历史消息------",
 
+
+
     keySettingInstruction="点击添加键位绑定\nesc取消选中\n退格键清空选中",
     customBGhelp="把图片文件拖到这个窗口里使用自定义背景",
     customBGloadFailed="自定义背景的图片文件格式不支持",
 
     errorMsg="Techmino遭受了雷击，需要重新启动。\n我们已收集了一些错误信息，你可以向作者进行反馈。",
-    tryAnotherBuild="[解码UTF-8错误] 如果你现在用的是Windows系统，请重新下载 Techmino-32位 或者 Techmino-64位 (和现在运行的不一样的那个)。",
+    tryAnotherBuild="[解码UTF-8错误] 如果你现在用的是Windows系统，请重新下载 Techmino-32/64位 (和现在运行的不一样的那个)。",
 
     modInstruction="选择你要使用的Mod！\n不同Mod会用不同的方式改变初始游戏规则(可能导致不能正常游玩)\n来开发新玩法或者挑战自我吧！\n提醒:开启一些Mod会让成绩无效，你也可以用键盘开关Mod，按住shift反向",
     modInfo={
@@ -207,8 +217,8 @@ return{
         "仅通过官网 *暂无域名,见词典* 免费下载/更新",
         "其他渠道获得游戏皆有被修改/加广告/植入病毒的风险，程序只申请了振动&联网权限！",
         "若由于被修改的本游戏产生的各种损失作者不负责(怎么负责啊我又没法管)",
-        FNNS and"/"or"请从正规途径获得最新版，游戏现为免费，不过有打赏当然感谢啦~",
-        FNNS and"/"or"更多信息见小z词典",
+        FNNS and "/" or "请从正规途径获得最新版，游戏现为免费，不过有打赏当然感谢啦~",
+        FNNS and "/" or "更多信息见小z词典",
     },
     staff={
         "原作者  MrZ",
@@ -323,6 +333,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="支持作者",
     WidgetText={
@@ -362,6 +373,7 @@ return{
             league="Tech League",
             ffa="FFA",
             rooms="房间列表",
+            resetPW="重置密码",
             logout="退出登录",
         },
         net_league={
@@ -438,7 +450,6 @@ return{
             sysCursor="使用系统光标",
             autoPause="失去焦点自动暂停",
             autoSave="破纪录自动保存",
-            autoLogin="启动时自动登录",
             simpMode="简洁模式",
         },
         setting_video={
@@ -688,24 +699,29 @@ return{
             path="打开存储目录",
             save="用户档案管理",
         },
-        login={
+        login_pw={
             title="登录",
-            register="注册",
+            login_mail="邮箱登录/注册",
             email="邮箱",
             password="密码",
             showEmail="显示邮箱",
-            keepPW="保存密码",
             login="登录",
         },
-        register={
-            title="注册",
-            login="登录",
-            username="用户名",
-            email="邮箱:",
-            password="密码:",
-            password2="确认密码:",
-            register="注册",
-            registering="等待服务器响应……",
+        login_mail={
+            title="登录/注册",
+            login_pw="密码登录",
+            email="邮箱",
+            send="发送验证码",
+            code="验证码",
+            verify="验证邮箱",
+        },
+        reset_password={
+            title="重置密码",
+            send="发送验证码",
+            code="验证码",
+            password="密码",
+            password2="确认密码",
+            setPW="设置密码",
         },
         account={
             title="帐户",
@@ -1012,7 +1028,7 @@ return{
         "git commit",
         "git push -f",
         "hello world",
-        "if a==true",
+        " if a==true",
         "l-=-1",
         "shutdown -h now",
         "sudo rm -rf /*",
@@ -1022,7 +1038,7 @@ return{
         "Techmino.exe 已停止工作",
         "TechminOS coming s∞n",
         "viod main[]",
-        "while(false)",
+        " while (false)",
 
         -- 其他乱七八糟梗
         "啊哈哈哈哈哈，T块来咯",

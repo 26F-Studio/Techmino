@@ -1,4 +1,4 @@
---Cool liquid background
+-- Cool liquid background
 local back={}
 local shader=SHADER.aura
 local t

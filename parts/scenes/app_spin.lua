@@ -17,16 +17,16 @@ local scene={}
 
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=='space'or key=='return'then
+    if key=='space' or key=='return' then
         if STAT.item.zTicket>0 then
-            if spinner:start()then
+            if spinner:start() then
                 STAT.item.zTicket=STAT.item.zTicket-1
                 saveStats()
             end
         else
             MES.new('info',"Not enough zTicket")
         end
-    elseif key=='escape'then
+    elseif key=='escape' then
         SCN.back()
     end
 end

@@ -5,9 +5,9 @@ return{
         bg='lightning',bgm='rectification',
     },
     slowMark=true,
-    score=function(P)return{P.modeData.pt,P.stat.time}end,
-    scoreDisp=function(D)return D[1].."P   "..STRING.time(D[2])end,
-    comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
+    score=function(P) return{P.modeData.pt,P.stat.time} end,
+    scoreDisp=function(D) return D[1].."P   "..STRING.time(D[2]) end,
+    comp=function(a,b) return a[1]>b[1] or a[1]==b[1] and a[2]<b[2] end,
     getRank=function(P)
         local S=P.modeData.pt
         return

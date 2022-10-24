@@ -38,8 +38,8 @@ local FCL={
 local LclearScore={[0]=0,-200,-150,-100,200}
 local HclearScore={[0]=0,100,140,200,500}
 local function _ifoverlapAI(f,bk,x,y)
-    for i=1,#bk do for j=1,#bk[1]do
-        if f[y+i-1]and bk[i][j]and f[y+i-1][x+j-1]>0 then
+    for i=1,#bk do for j=1,#bk[1] do
+        if f[y+i-1] and bk[i][j] and f[y+i-1][x+j-1]>0 then
             return true
         end
     end end
@@ -74,7 +74,7 @@ local function _getScore(field,cb,cy)
         clear=clear+1
         ::CONTINUE_notFull::
     end
-    if #field==0 then--PC
+    if #field==0 then-- PC
         return 1e99
     end
     for x=1,10 do
@@ -116,10 +116,10 @@ local function _getScore(field,cb,cy)
         -#field*30
         -#cb*15
         +(#field>10 and
-            HclearScore[clear]--Clearing
-            -hole*70--Hole
-            -cy*50--Height
-            -sdh--Sum of DeltaH
+            HclearScore[clear]-- Clearing
+            -hole*70-- Hole
+            -cy*50-- Height
+            -sdh-- Sum of DeltaH
         or
             LclearScore[clear]
             -hole*100
@@ -139,10 +139,10 @@ local bot_9s={}
 function bot_9s.thread(bot)
     local P,data,keys=bot.P,bot.data,bot.keys
     while true do
-        --Thinking
+        -- Thinking
         yield()
-        local Tfield={}--Test field
-        local best={x=1,dir=0,hold=false,score=-1e99}--Best method
+        local Tfield={}-- Test field
+        local best={x=1,dir=0,hold=false,score=-1e99}-- Best method
         local field_org=P.field
         for i=1,#field_org do
             Tfield[i]=getRow(0)
@@ -152,33 +152,33 @@ function bot_9s.thread(bot)
         end
 
         for ifhold=0,data.hold and P.gameEnv.holdCount>0 and 1 or 0 do
-            --Get block id
+            -- Get block id
             local bn
             if ifhold==0 then
                 bn=P.cur and P.cur.id
             else
-                bn=P.holdQueue[1]and P.holdQueue[1].id or P.nextQueue[1]and P.nextQueue[1].id
+                bn=P.holdQueue[1] and P.holdQueue[1].id or P.nextQueue[1] and P.nextQueue[1].id
             end
             if bn then
-                for dir=0,dirCount[bn]do--Each dir
+                for dir=0,dirCount[bn] do-- Each dir
                     local cb=BLOCKS[bn][dir]
-                    for cx=1,11-#cb[1]do--Each pos
+                    for cx=1,11-#cb[1] do-- Each pos
                         local cy=#Tfield+1
 
-                        --Move to bottom
-                        while cy>1 and not _ifoverlapAI(Tfield,cb,cx,cy-1)do
+                        -- Move to bottom
+                        while cy>1 and not _ifoverlapAI(Tfield,cb,cx,cy-1) do
                             cy=cy-1
                         end
 
-                        --Simulate lock
+                        -- Simulate lock
                         for i=1,#cb do
                             local y=cy+i-1
-                            if not Tfield[y]then
+                            if not Tfield[y] then
                                 Tfield[y]=getRow(0)
                             end
                             local L=Tfield[y]
-                            for j=1,#cb[1]do
-                                if cb[i][j]then
+                            for j=1,#cb[1] do
+                                if cb[i][j] then
                                     L[cx+j-1]=1
                                 end
                             end
@@ -194,7 +194,7 @@ function bot_9s.thread(bot)
         end
         if not best.bn then return 1 end
 
-        --Release cache
+        -- Release cache
         while #Tfield>0 do
             discardRow(rem(Tfield,1))
         end
@@ -207,7 +207,7 @@ function bot_9s.thread(bot)
         end
         ins(keys,6)
 
-        --Check if time to change target
+        -- Check if time to change target
         yield()
         if P.aiRND:random()<.00126 then
             P:changeAtkMode(P.aiRND:random()<.85 and 1 or #P.atker>3 and 4 or P.aiRND:random()<.3 and 2 or 3)

@@ -10,14 +10,14 @@ return{
     end,
     task=function(P)
         while true do
-            YIELD()
+            coroutine.yield()
             if P.control then
                 local D=P.modeData
                 D.counter=D.counter+1
                 local t=
                     D.wave<=60 and 240-2*D.wave or
-                    D.wave<=120 and 120-(D.wave-60)or
-                    D.wave<=180 and math.floor(60-(D.wave-120)*.5)or
+                    D.wave<=120 and 120-(D.wave-60) or
+                    D.wave<=180 and math.floor(60-(D.wave-120)*.5) or
                     30
                 if D.counter>=t then
                     D.counter=0

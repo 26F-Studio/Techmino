@@ -3,7 +3,7 @@ return{
         if P.garbageBeneath==0 then
             local D=P.modeData
             D.finished=D.finished+1
-            if FIELD[D.finished+1]then
+            if FIELD[D.finished+1] then
                 P.waiting=26
                 for i=#P.field,1,-1 do
                     P.field[i],P.visTime[i]=nil

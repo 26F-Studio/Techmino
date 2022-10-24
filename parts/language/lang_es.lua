@@ -103,6 +103,14 @@ return{
 
     dictNote="==Copia de TetroDictionary==",
 
+
+
+    Techrater={-- Server's warn/error messages
+        -- TODO
+    },
+
+    -- tooFrequently="Request too frequently",
+    -- roomPasswordChanged="Room password changed",
     getNoticeFail="Error al buscar novedades.",
     oldVersion="¡Está disponible la nueva versión $1!",
     needUpdate="¡Nueva versión requerida!",
@@ -113,23 +121,23 @@ return{
 
     noUsername="Por favor ingresa un nombre de usuario",
     wrongEmail="Correo electrónico inválido",
+    -- wrongCode="Invalid verification code",
     noPassword="Por favor ingresa la contraseña",
     diffPassword="Las contraseñas no coinciden",
-    registerRequestSent="Petición de registro enviada con éxito",
-    registerOK="¡Registro exitoso!",
-    loginOK="¡Ingreso con éxito!",
-    accessOK="¡Autorizado exitoso!",
+    checkEmail="Petición de registro enviada con éxito",
 
-    wsConnecting="Websocket Conectando",
-    wsFailed="WebSocket conexión fallida",
-    wsClose="WebSocket cerrado:",
+    wsFailed="WebSocket conexión fallida: $1",
+    wsClose="WebSocket cerrado: $1",
     netTimeout="Tiempo de conexión agotado",
+    -- serverDown="Oops! Server is down",
+    -- requestFailed="Request failed",
 
-    onlinePlayerCount="En línea",
+    onlinePlayerCount="En línea: $1",
     createRoomSuccessed="¡Sala creada con éxito!",
+    -- playerKicked="[$1] removed [$2] from room",
     started="En juego",
-    joinRoom="entró a la sala.",
-    leaveRoom="salió de la sala.",
+    joinRoom="$1 entró a la sala.",
+    leaveRoom="$1 salió de la sala.",
     ready="LISTO",
     connStream="CONECTANDO",
     waitStream="ESPERANDO",
@@ -137,6 +145,8 @@ return{
     chatRemain="Usuarios en línea:",
     chatStart="------Comienzo del historial------",
     chatHistory="------Nuevos mensajes------",
+
+
 
     keySettingInstruction="Pulsa la tecla a mapear\nEsc.: Cancelar\nBackspace: Borrar",
     customBGhelp="Suelta una imagen aquí para aplicarla de fondo",
@@ -206,8 +216,8 @@ return{
         "Por favor descarga el juego únicamente desde los sitios oficiales,",
         "ya que no podemos asegurar que sea seguro si proviene de otro lado.",
         "El autor no se responabiliza por daños ocasionados debido a modificaciones del juego.",
-        FNNS and"/"or"El juego es gratuito, pero se aprecian donaciones.",
-        FNNS and"/"or"Ve el Zictionary (en inglés) para más info.",
+        FNNS and "/" or "El juego es gratuito, pero se aprecian donaciones.",
+        FNNS and "/" or "Ve el Zictionary (en inglés) para más info.",
     },
     staff={
         "ORIGINAL DE MrZ",
@@ -322,6 +332,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="Apoyen al Autor",
     WidgetText={
@@ -361,6 +372,7 @@ return{
             league="Liga Tech",
             ffa="FFA",
             rooms="Salas",
+            -- resetPW="Reset password",
             logout="Desconec.",
         },
         net_league={
@@ -437,7 +449,6 @@ return{
             sysCursor="Usar cursor del sistema",
             autoPause="Pausar cuando la ventana no está enfocada",
             autoSave="Autograbar Récords",
-            autoLogin="Autologueo al Iniciar",
             simpMode="Modo Sencillo",
         },
         setting_video={
@@ -680,24 +691,29 @@ return{
             music="BGMs",
             label="Etiq.",
         },
-        login={
+        login_pw={
             title="Entrar",
-            register="Registrarse",
+            -- login_mail="Login with E-mail/Sign Up",
             email="Correo Elec.",
             password="Contraseña",
             showEmail="Mostrar Correo",
-            keepPW="Recordar credenciales",
             login="Entrar",
         },
-        register={
-            title="Registrarse",
-            login="Entrar",
-            username="Nombre de Usuario",
+        login_mail={
+            title="Entrar/Registrarse",
+            -- login_pw="Password Sign In",
             email="Correo Elec.",
+            -- send="Send code",
+            -- code="Verification Code",
+            -- verify="Verify",
+        },
+        reset_password={
+            -- title="Reset Password",
+            -- send="Send code",
+            -- code="Verification Code",
             password="Contraseña",
             password2="Repetir Contr.",
-            register="Registrarse",
-            registering="Esperando respuesta...",
+            -- setPW="Set Password",
         },
         account={
             title="Cuenta",

@@ -30,9 +30,9 @@ return{
             P.stat.dig_quad = 0
         end,
     },
-    score=function(P)return{P.stat.dig_quad,P.stat.piece}end,
-    scoreDisp=function(D)return D[1].." Techrash "..D[2].." Pieces"end,
-    comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
+    score=function(P) return{P.stat.dig_quad,P.stat.piece} end,
+    scoreDisp=function(D) return D[1].." Techrash "..D[2].." Pieces" end,
+    comp=function(a,b) return a[1]>b[1] or a[1]==b[1] and a[2]<b[2] end,
     getRank=function(P)
         local dig = P.stat.dig_quad
         local piece = P.stat.piece

@@ -9,9 +9,9 @@ return{
         eventSet='checkLine_100',
         bg='blockfall',bgm='reason',
     },
-    score=function(P)return{math.min(P.stat.row,100),P.stat.time}end,
-    scoreDisp=function(D)return D[1].." Lines   "..STRING.time(D[2])end,
-    comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
+    score=function(P) return{math.min(P.stat.row,100),P.stat.time} end,
+    scoreDisp=function(D) return D[1].." Lines   "..STRING.time(D[2]) end,
+    comp=function(a,b) return a[1]>b[1] or a[1]==b[1] and a[2]<b[2] end,
     getRank=function(P)
         local L=P.stat.row
         if L>=100 then

@@ -3,14 +3,14 @@ local ply_applyField=PLY.draw.applyField
 
 return{
     env={
-        fkey1=function(P)P.modeData.showMark=1-P.modeData.showMark end,
+        fkey1=function(P) P.modeData.showMark=1-P.modeData.showMark end,
         hook_drop=function(P)
             local D=P.modeData
             local F=FIELD[D.finished+1]
             for y=1,#F do
                 local L=P.field[y]
                 for x=1,10 do
-                    local a,b=F[y][x],L and L[x]or 0
+                    local a,b=F[y][x],L and L[x] or 0
                     if a~=0 then
                         if a==-1 then if b>0 then return end
                         elseif a<12 then if a~=b then return end
@@ -20,7 +20,7 @@ return{
                 end
             end
             D.finished=D.finished+1
-            if FIELD[D.finished+1]then
+            if FIELD[D.finished+1] then
                 P.waiting=26
                 for _=#P.field,1,-1 do
                     P.field[_],P.visTime[_]=nil
@@ -54,9 +54,9 @@ return{
         local AItype=GAME.modeEnv.opponent:sub(1,2)
         local AIlevel=tonumber(GAME.modeEnv.opponent:sub(-1))
         PLY.newPlayer(1)
-        if AItype=='9S'then
+        if AItype=='9S' then
             PLY.newAIPlayer(2,BOT.template{type='9S',speedLV=2*AIlevel,hold=true})
-        elseif AItype=='CC'then
+        elseif AItype=='CC' then
             PLY.newAIPlayer(2,BOT.template{type='CC',speedLV=2*AIlevel-1,next=math.floor(AIlevel*.5+1),hold=true,node=20000+5000*AIlevel})
         end
     end,

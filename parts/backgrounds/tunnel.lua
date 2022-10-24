@@ -1,4 +1,4 @@
---Cool Tunnel
+-- Cool Tunnel
 local rnd=math.random
 local ins,rem=table.insert,table.remove
 local back={}

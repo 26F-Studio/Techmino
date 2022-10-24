@@ -32,75 +32,75 @@ local holdImages={
 
 local virtualkeySet={
     {
-        {id=1,  x=80,   y=-200, r=80},--moveLeft
-        {id=2,  x=320,  y=-200, r=80},--moveRight
-        {id=3,  x=-80,  y=-200, r=80},--rotRight
-        {id=4,  x=-200, y=-80,  r=80},--rotLeft
-        {id=5,  x=-200, y=-320, r=80},--rot180
-        {id=6,  x=200,  y=-320, r=80},--hardDrop
-        {id=7,  x=200,  y=-80,  r=80},--softDrop
-        {id=8,  x=-320, y=-200, r=80},--hold
-        {id=9,  x=80,   y=280,  r=80},--func1
-        {id=10, x=-80,  y=280,  r=80},--func2
-    },--Farter's tetr.js set
+        {id=1,  x=80,   y=-200, r=80},-- moveLeft
+        {id=2,  x=320,  y=-200, r=80},-- moveRight
+        {id=3,  x=-80,  y=-200, r=80},-- rotRight
+        {id=4,  x=-200, y=-80,  r=80},-- rotLeft
+        {id=5,  x=-200, y=-320, r=80},-- rot180
+        {id=6,  x=200,  y=-320, r=80},-- hardDrop
+        {id=7,  x=200,  y=-80,  r=80},-- softDrop
+        {id=8,  x=-320, y=-200, r=80},-- hold
+        {id=9,  x=80,   y=280,  r=80},-- func1
+        {id=10, x=-80,  y=280,  r=80},-- func2
+    },-- Farter's tetr.js set
     {
-        {id=1,  x=-320, y=-200, r=80},--moveLeft
-        {id=2,  x=-80,  y=-200, r=80},--moveRight
-        {id=3,  x=200,  y=-80,  r=80},--rotRight
-        {id=4,  x=80,   y=-200, r=80},--rotLeft
-        {id=5,  x=200,  y=-320, r=80},--rot180
-        {id=6,  x=-200, y=-320, r=80},--hardDrop
-        {id=7,  x=-200, y=-80,  r=80},--softDrop
-        {id=8,  x=320,  y=-200, r=80},--hold
-        {id=9,  x=-80,  y=280,  r=80},--func1
-        {id=10, x=80,   y=280,  r=80},--func2
-    },--Mirrored tetr.js set
+        {id=1,  x=-320, y=-200, r=80},-- moveLeft
+        {id=2,  x=-80,  y=-200, r=80},-- moveRight
+        {id=3,  x=200,  y=-80,  r=80},-- rotRight
+        {id=4,  x=80,   y=-200, r=80},-- rotLeft
+        {id=5,  x=200,  y=-320, r=80},-- rot180
+        {id=6,  x=-200, y=-320, r=80},-- hardDrop
+        {id=7,  x=-200, y=-80,  r=80},-- softDrop
+        {id=8,  x=320,  y=-200, r=80},-- hold
+        {id=9,  x=-80,  y=280,  r=80},-- func1
+        {id=10, x=80,   y=280,  r=80},-- func2
+    },-- Mirrored tetr.js set
     {
-        {id=1,  x=80,   y=-80,  r=80},--moveLeft
-        {id=2,  x=240,  y=-80,  r=80},--moveRight
-        {id=3,  x=-240, y=-80,  r=80},--rotRight
-        {id=4,  x=-400, y=-80,  r=80},--rotLeft
-        {id=5,  x=-240, y=-240, r=80},--rot180
-        {id=6,  x=-80,  y=-80,  r=80},--hardDrop
-        {id=7,  x=-80,  y=-240, r=80},--softDrop
-        {id=8,  x=-80,  y=-400, r=80},--hold
-        {id=9,  x=80,   y=-240, r=80},--func1
-        {id=10, x=240,  y=-240, r=80},--func2
-    },--Author's set, not recommend
+        {id=1,  x=80,   y=-80,  r=80},-- moveLeft
+        {id=2,  x=240,  y=-80,  r=80},-- moveRight
+        {id=3,  x=-240, y=-80,  r=80},-- rotRight
+        {id=4,  x=-400, y=-80,  r=80},-- rotLeft
+        {id=5,  x=-240, y=-240, r=80},-- rot180
+        {id=6,  x=-80,  y=-80,  r=80},-- hardDrop
+        {id=7,  x=-80,  y=-240, r=80},-- softDrop
+        {id=8,  x=-80,  y=-400, r=80},-- hold
+        {id=9,  x=80,   y=-240, r=80},-- func1
+        {id=10, x=240,  y=-240, r=80},-- func2
+    },-- Author's set, not recommend
     {
-        {id=1,  x=-400, y=-80,  r=80},--moveLeft
-        {id=2,  x=-80,  y=-80,  r=80},--moveRight
-        {id=3,  x=240,  y=-80,  r=80},--rotRight
-        {id=4,  x=80,   y=-80,  r=80},--rotLeft
-        {id=5,  x=240,  y=-240, r=80},--rot180
-        {id=6,  x=-240, y=-240, r=80},--hardDrop
-        {id=7,  x=-240, y=-80,  r=80},--softDrop
-        {id=8,  x=400,  y=-80,  r=80},--hold
-        {id=9,  x=80,   y=-240, r=80},--func1
-        {id=10, x=80,   y=-400, r=80},--func2
-    },--Keyboard set
+        {id=1,  x=-400, y=-80,  r=80},-- moveLeft
+        {id=2,  x=-80,  y=-80,  r=80},-- moveRight
+        {id=3,  x=240,  y=-80,  r=80},-- rotRight
+        {id=4,  x=80,   y=-80,  r=80},-- rotLeft
+        {id=5,  x=240,  y=-240, r=80},-- rot180
+        {id=6,  x=-240, y=-240, r=80},-- hardDrop
+        {id=7,  x=-240, y=-80,  r=80},-- softDrop
+        {id=8,  x=400,  y=-80,  r=80},-- hold
+        {id=9,  x=80,   y=-240, r=80},-- func1
+        {id=10, x=80,   y=-400, r=80},-- func2
+    },-- Keyboard set
     {
-        {id=9,  x=70,   y=50,   r=30},--func1
-        {id=10, x=130,  y=50,   r=30},--func2
-        {id=4,  x=190,  y=50,   r=30},--rotLeft
-        {id=3,  x=250,  y=50,   r=30},--rotRight
-        {id=5,  x=310,  y=50,   r=30},--rot180
-        {id=1,  x=370,  y=50,   r=30},--moveLeft
-        {id=2,  x=430,  y=50,   r=30},--moveRight
-        {id=8,  x=490,  y=50,   r=30},--hold
-        {id=7,  x=550,  y=50,   r=30},--softDrop
-        {id=6,  x=610,  y=50,   r=30},--hardDrop
-        {id=11, x=670,  y=50,   r=30},--insLeft
-        {id=12, x=730,  y=50,   r=30},--insRight
-        {id=13, x=790,  y=50,   r=30},--insDown
-        {id=14, x=850,  y=50,   r=30},--down1
-        {id=15, x=910,  y=50,   r=30},--down4
-        {id=16, x=970,  y=50,   r=30},--down10
-        {id=17, x=1030, y=50,   r=30},--dropLeft
-        {id=18, x=1090, y=50,   r=30},--dropRight
-        {id=19, x=1150, y=50,   r=30},--zangiLeft
-        {id=20, x=1210, y=50,   r=30},--zangiRight
-    },--PC key feedback(top&in a row)
+        {id=9,  x=70,   y=50,   r=30},-- func1
+        {id=10, x=130,  y=50,   r=30},-- func2
+        {id=4,  x=190,  y=50,   r=30},-- rotLeft
+        {id=3,  x=250,  y=50,   r=30},-- rotRight
+        {id=5,  x=310,  y=50,   r=30},-- rot180
+        {id=1,  x=370,  y=50,   r=30},-- moveLeft
+        {id=2,  x=430,  y=50,   r=30},-- moveRight
+        {id=8,  x=490,  y=50,   r=30},-- hold
+        {id=7,  x=550,  y=50,   r=30},-- softDrop
+        {id=6,  x=610,  y=50,   r=30},-- hardDrop
+        {id=11, x=670,  y=50,   r=30},-- insLeft
+        {id=12, x=730,  y=50,   r=30},-- insRight
+        {id=13, x=790,  y=50,   r=30},-- insDown
+        {id=14, x=850,  y=50,   r=30},-- down1
+        {id=15, x=910,  y=50,   r=30},-- down4
+        {id=16, x=970,  y=50,   r=30},-- down10
+        {id=17, x=1030, y=50,   r=30},-- dropLeft
+        {id=18, x=1090, y=50,   r=30},-- dropRight
+        {id=19, x=1150, y=50,   r=30},-- zangiLeft
+        {id=20, x=1210, y=50,   r=30},-- zangiRight
+    },-- PC key feedback(top&in a row)
 }
 for _,set in next,virtualkeySet do
     for _,key in next,set do
@@ -108,14 +108,14 @@ for _,set in next,virtualkeySet do
         if key.y<0 then key.y=720+key.y end
     end
 end
---Virtualkey icons
+-- Virtualkey icons
 local VKIcon={}
 local VKI=gc.newImage("media/image/virtualkey.png")
-for i=1,20 do VKIcon[i]=GC.DO{90,90,{'draw',VKI,(i-1)%5*-90,math.floor((i-1)*.2)*-90}}end
+for i=1,20 do VKIcon[i]=GC.DO{90,90,{'draw',VKI,(i-1)%5*-90,math.floor((i-1)*.2)*-90}} end
 VKI:release()
 
---In-game virtualkey layout data
-local keys={}for i=1,#VK_ORG do keys[i]={}end
+-- In-game virtualkey layout data
+local keys={} for i=1,#VK_ORG do keys[i]={} end
 
 local VK={keys=keys}
 
@@ -140,21 +140,21 @@ function VK.touch(id,x,y)
     B.isDown=true
     B.pressTime=10
     SFX.play('virtualKey',SETTING.VKSFX)
-    if SETTING.vib>0 then VIB(SETTING.vib+SETTING.VKVIB)end
+    if SETTING.vib>0 then VIB(SETTING.vib+SETTING.VKVIB) end
 
     if SETTING.VKTrack then
-        --Auto follow
+        -- Auto follow
         local O=VK_ORG[id]
         local _FW,_CW=SETTING.VKTchW,1-SETTING.VKCurW
         local _OW=1-_FW-_CW
-        --(finger+current+origin)
+        -- (finger+current+origin)
         B.x=x*_FW+B.x*_CW+O.x*_OW
         B.y=y*_FW+B.y*_CW+O.y*_OW
 
-        --Button collision (not accurate)
+        -- Button collision (not accurate)
         if SETTING.VKDodge then
             for _,b in next,keys do
-                local d=B.r+b.r-((B.x-b.x)^2+(B.y-b.y)^2)^.5--Hit depth(Neg means distance)
+                local d=B.r+b.r-((B.x-b.x)^2+(B.y-b.y)^2)^.5-- Hit depth(Neg means distance)
                 if d>0 then
                     b.x=b.x+(b.x-B.x)*d*b.r*2.6e-5
                     b.y=b.y+(b.y-B.y)*d*b.r*2.6e-5
@@ -232,24 +232,24 @@ function VK.draw()
         for i,B in next,keys do
             if B.ava then
                 local r=B.r
-                --Button outline
+                -- Button outline
                 gc_setColor(1,1,1,a)
                 gc_setLineWidth(r*.07)
                 gc_draw(buttonImage,B.x,B.y,nil,r*.01,nil,100,100)
 
-                --Icon
+                -- Icon
                 local _=B.pressTime
                 gc_setColor(1,1,1,a)
                 gc_draw(VKIcon[i],B.x,B.y,nil,r*.01+_*.024,nil,45,45)
 
-                --Ripple
+                -- Ripple
                 if _>0 then
                     gc_setColor(1,1,1,a*_*.08)
                     local d=r*(1.4-_*.04)
                     gc_draw(rippleImage,B.x,B.y,nil,d*.01,nil,100,100)
                 end
 
-                --Glow when press
+                -- Glow when press
                 if B.isDown then
                     gc_setColor(1,1,1,a*.4)
                     gc_draw(holdImage,B.x,B.y,nil,r*.01,nil,100,100)
