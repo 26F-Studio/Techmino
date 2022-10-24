@@ -590,6 +590,7 @@ end
 function NET.wsCallBack.room_create(body)
     MES.new('check',text.createRoomSuccessed)
     NET.wsCallBack.room_enter(body)
+    SCN.pop()
     WAIT.interrupt()
 end
 function NET.wsCallBack.room_getData(body)

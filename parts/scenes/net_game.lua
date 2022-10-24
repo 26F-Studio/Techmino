@@ -48,9 +48,6 @@ end
 local function _quit()
     if tryBack() then
         NET.room_leave()
-        if SCN.stack[#SCN.stack-1]=='net_newRoom' then
-            SCN.pop()
-        end
         SCN.back()
     end
 end
@@ -148,10 +145,9 @@ function scene.keyDown(key,isRep)
                 else
                     NET.textBox:push{COLOR.R,'Invalid command'}
                 end
-            else
-                if NET.room_chat(mes) then
-                    inputBox:clear()
-                end
+                inputBox:clear()
+            elseif NET.room_chat(mes) then
+                inputBox:clear()
             end
         else
             _switchChat()
