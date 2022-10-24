@@ -622,6 +622,7 @@ function NET.wsCallBack.room_enter(body)
                 config=p.config,
             }
         end
+        NET.freshRoomAllReady()
     else
         local p=body.data
         NETPLY.add{
@@ -631,7 +632,10 @@ function NET.wsCallBack.room_enter(body)
             config=p.config,
         }
         NET.textBox:push{COLOR.Y,text.joinRoom:repD(USERS.getUsername(p.playerId).."#"..p.playerId.." ")}
-        SFX.play('connected')
+        if not GAME.playing then
+            SFX.play('connected')
+            NET.freshRoomAllReady()
+        end
     end
 
     WAIT.interrupt()

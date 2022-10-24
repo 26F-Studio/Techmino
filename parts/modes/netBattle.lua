@@ -44,8 +44,5 @@ return{
                 N=N+1
             end
         end
-        for i=1,#PLY_ALIVE do
-            MES.new('info',PLY_ALIVE[i].uid.." "..PLY_ALIVE[i].sid,5)
-        end
     end,
 }
