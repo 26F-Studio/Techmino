@@ -19,6 +19,7 @@ return{
         GAME.modeEnv.task=marginTask
 
         local L=TABLE.shift(NETPLY.list,0)
+        table.sort(L,function(a,b) return a.uid<b.uid end)
         math.randomseed(GAME.seed)
         for i=#L,1,-1 do
             table.insert(NETPLY.list,table.remove(NETPLY.list,math.random(i)))
@@ -42,6 +43,9 @@ return{
                 PLY.newRemotePlayer(N,false,p)
                 N=N+1
             end
+        end
+        for i=1,#PLY_ALIVE do
+            MES.new('info',PLY_ALIVE[i].uid.." "..PLY_ALIVE[i].sid,5)
         end
     end,
 }

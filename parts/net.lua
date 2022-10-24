@@ -660,7 +660,9 @@ function NET.wsCallBack.room_remove()
     _playerLeaveRoom(USER.uid)
 end
 function NET.wsCallBack.player_updateConf(body)
-    NETPLY.map[body.data.playerId].config=body.data.config
+    if type(body.data)=='table' then
+        NETPLY.map[body.data.playerId].config=body.data.config
+    end
 end
 function NET.wsCallBack.player_finish(body)-- TODO
 end

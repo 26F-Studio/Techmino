@@ -139,11 +139,6 @@ function NETPLY.setStat(uid,S)
         adpm=("%.1f %s"):format((S.atk+S.dig)/S.time*60,text.radarData[2]),
     }
 end
-function NETPLY.resetState()
-    for i=1,#PLYlist do
-        PLYlist[i].playMode=0
-    end
-end
 
 local selP,mouseX,mouseY
 function NETPLY.mouseMove(x,y)
