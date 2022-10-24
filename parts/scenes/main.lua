@@ -108,7 +108,7 @@ function scene.keyDown(key,isRep)
     elseif key=='escape' then
         if tryBack() then
             VOC.play('bye')
-            SCN.swapTo('quit','slowFade')
+            SCN.back()
         end
     else
         return true

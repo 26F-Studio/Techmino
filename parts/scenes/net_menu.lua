@@ -5,6 +5,7 @@ function scene.sceneInit()
 end
 function scene.sceneBack()
     NET.ws_close()
+    TASK.removeTask_code(NET.ws_update)
 end
 
 function scene.draw()
@@ -27,7 +28,6 @@ scene.widgetList={
                 USER.__data.rToken=false
                 USER.__data.aToken=false
                 love.filesystem.remove('conf/user')
-                NET.ws_close()
                 SCN.back()
             end
         end},

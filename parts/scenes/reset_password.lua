@@ -20,9 +20,9 @@ function scene.keyDown(key,rep)
         SCN.back()
     elseif key=='return' then
         if #scene.widgetList.code:getText()==0 then
-            _setPW()
-        else
             NET.getCode(USER.email)
+        else
+            _setPW()
         end
     else
         return true

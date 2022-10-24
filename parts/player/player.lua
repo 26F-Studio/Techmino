@@ -2192,7 +2192,7 @@ local function task_autoPause()
     while true do
         yield()
         time=time+1
-        if SCN.cur~='game' or PLAYERS[1].frameRun<180 then
+        if SCN.stack[#SCN.stack-1]~='game' or PLAYERS[1].frameRun<180 then
             return
         elseif time==120 then
             pauseGame()

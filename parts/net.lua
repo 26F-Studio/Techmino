@@ -32,10 +32,6 @@ local NET={
     inputBox=WIDGET.newInputBox{name='input',x=340,y=660,w=600,h=50,limit=256},
 }
 
-function NET.connectLost()
-    while SCN.stack[#SCN.stack-1]~='main' and #SCN.stack>0 do SCN.pop() end
-    SCN.back()
-end
 function NET.freshRoomAllReady()
     local playCount,readyCount=0,0
     for j=1,#NETPLY.list do
@@ -166,13 +162,13 @@ function NET.codeLogin(email,code)
                 USER.aToken=res.data.accessToken
                 saveUser()
                 NET.ws_connect()
-                SCN.pop()SCN.go('net_menu')
+                SCN.swapTo('net_menu')
             elseif res.code==201 then
                 USER.rToken=res.data.refreshToken
                 USER.aToken=res.data.accessToken
                 saveUser()
                 SCN.pop()SCN.push('net_menu')
-                SCN.swapTo('reset_password')
+                SCN.go('reset_password')
             end
         end
 
@@ -362,7 +358,7 @@ function NET.pwLogin(email,pw)
                     USER.aToken=res.data.accessToken
                     saveUser()
                     NET.ws_connect()
-                    SCN.go('net_menu')
+                    SCN.swapTo('net_menu')
                 end
             end
         end
@@ -435,10 +431,12 @@ end
 local function _playerLeaveRoom(uid)
     for i=1,#PLAYERS do if PLAYERS[i].uid==uid then table.remove(PLAYERS,i) break end end
     for i=1,#PLY_ALIVE do if PLY_ALIVE[i].uid==uid then table.remove(PLY_ALIVE,i) break end end
-    if uid==USER.uid and SCN.cur=='net_game' then
-        SCN.back()
-    else
-        NETPLY.remove(uid)
+    if SCN.stack[#SCN.stack-1]=='net_game' then
+        if uid==USER.uid then
+            SCN.backTo('net_menu')
+        else
+            NETPLY.remove(uid)
+        end
     end
 end
 
@@ -577,7 +575,7 @@ function NET.wsCallBack.global_getOnlineCount(body)
     NET.onlineCount=tonumber(body.data) or "_"
 end
 function NET.wsCallBack.room_chat(body)
-    if SCN.cur=='net_game' then
+    if SCN.stack[#SCN.stack-1]=='net_game' then
         TASK.unlock('receiveMessage')
         TASK.lock('receiveMessage',1)
         NET.textBox:push{
@@ -723,7 +721,7 @@ function NET.ws_update()
         TEST.yieldT(1/26)
         if WS.status('game')=='dead' then
             TEST.yieldUntilNextScene()
-            NET.connectLost()
+            SCN.backTo('main')
             return
         elseif WS.status('game')=='running' then
             break
@@ -741,7 +739,7 @@ function NET.ws_update()
             USER.uid=res.data
         else
             TEST.yieldUntilNextScene()
-            NET.connectLost()
+            SCN.backTo('main')
             return
         end
     end
@@ -756,7 +754,7 @@ function NET.ws_update()
 
         if WS.status('game')=='dead' then
             TEST.yieldUntilNextScene()
-            NET.connectLost()
+            SCN.backTo('main')
             return
         end
 
@@ -774,7 +772,7 @@ function NET.ws_update()
                     if msg and msg.message then LOG(msg.message) end
                 end
                 TEST.yieldUntilNextScene()
-                NET.connectLost()
+                SCN.backTo('main')
                 return
             elseif msg then
                 msg=JSON.decode(msg)

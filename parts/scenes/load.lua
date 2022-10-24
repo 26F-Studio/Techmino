@@ -127,7 +127,7 @@ function scene.mouseDown()
             SCN.push('main')
             SCN.swapTo('lang')
         else
-            SCN.swapTo(SETTING.simpMode and 'main_simple' or 'main')
+            SCN.go(SETTING.simpMode and 'main_simple' or 'main')
         end
     end
 end
