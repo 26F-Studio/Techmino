@@ -19,10 +19,10 @@ runs:
   using: "composite"
   steps:
     - run: |
-        echo "::set-output name=tag::"$(if [ -z "${{ inputs.tag }}" ]
+        echo "tag="$(if [ -z "${{ inputs.tag }}" ]
           then curl -w '%{url_effective}' -I -L -s -S https://github.com/${{ inputs.repo }}/releases/latest -o /dev/null | grep -o '\<[^/]*$'
           else echo ${{ inputs.tag }}
-        fi)
+        fi) >> $GITHUB_OUTPUT
       id: get-tag
       shell: bash
     - uses: ./.github/actions/get-unzip

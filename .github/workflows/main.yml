@@ -34,35 +34,35 @@ jobs:
         shell: lua {0}
         run: |
           local version = require "version"
-          print("::set-output name=app-name::Techmino")
-          print("::set-output name=version-name::"..version.name)
-          print("::set-output name=version-string::"..version.string:gsub("%a", ""))
-          print(("::set-output name=version-code::%d"):format(version.code))
+          os.execute('echo "app-name=Techmino" >> $GITHUB_OUTPUT')
+          os.execute('echo "version-name=' .. version.name .. '" >> $GITHUB_OUTPUT')
+          os.execute('echo "version-string=' .. version.string:gsub("%a", "") .. '" >> $GITHUB_OUTPUT')
+          os.execute('echo "version-code=' .. tostring(version.code) .. '" >> $GITHUB_OUTPUT')
 
           local note = require 'parts.updateLog'
           local p1 = note:find("\n%d") + 1
           local p2 = note:find("\n", p1) - 1
-          print("::set-output name=update-title::" .. note:sub(p1, p2))
+          os.execute('echo "update-title=' .. note:sub(p1, p2) .. '" >> $GITHUB_OUTPUT')
           local p3 = note:find("\n", note:find("\n%d") + 1) + 1
           local p4 = note:find("\n%d", p3 + 1)
-          print("::set-output name=update-note::" .. note:sub(p3, p4 - 2)
+          os.execute('echo "update-note=' .. note:sub(p3, p4 - 2)
               :gsub("                ", "- ")
               :gsub("        ", "# ")
               :gsub('%%', '%%25')
               :gsub('\n', '%%0A')
-              :gsub('\r', '%%0D'))
+              :gsub('\r', '%%0D') .. '" >> $GITHUB_OUTPUT')
       - name: Get git info
         id: git-info
         shell: bash
         run: |
           COMMIT_HASH=$(git rev-parse --short ${{ GITHUB.SHA }})
-          echo ::set-output name=commit-hash::$COMMIT_HASH
+          echo "commit-hash=$COMMIT_HASH" >> $GITHUB_OUTPUT
       - name: Assemble package base name
         id: assemble-base-name
         shell: bash
         run: |
           BASE_NAME=Techmino_${{ steps.app-info.outputs.version-string }}_${{ steps.git-info.outputs.commit-hash }}_#${{ GITHUB.RUN_NUMBER }}
-          echo ::set-output name=base-name::$BASE_NAME
+          echo "base-name=$BASE_NAME" >> $GITHUB_OUTPUT
 
   build-core:
     runs-on: ubuntu-latest
@@ -82,7 +82,7 @@ jobs:
         run: |
           import os
           import re
-          os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
+          os.system('echo "product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '" >> $GITHUB_OUTPUT')
       - uses: ./.github/actions/update-version
         if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
         with:
@@ -126,7 +126,7 @@ jobs:
         run: |
           curl -sL https://git.io/file-transfer | sh 
           ./transfer wet -s -p 16 --no-progress ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.love 2>&1>./wetransfer.log
-          echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
       - name: Show download link
         shell: bash
         run: |
@@ -164,11 +164,11 @@ jobs:
           import os
           import re
           if "${{ env.BUILD_TYPE }}" == "dev": 
-            os.system("echo ::set-output name=bundle-id::org.f26_studio." + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}") + ".snapshot")
-            os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}") + "_Snapshot")
+            os.system('echo "bundle-id=org.f26_studio.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '.snapshot" >> $GITHUB_OUTPUT')
+            os.system('echo "product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '_Snapshot" >> $GITHUB_OUTPUT')
           else:
-            os.system("echo ::set-output name=bundle-id::org.f26_studio." + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
-            os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
+            os.system('echo "bundle-id=org.f26_studio.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '" >> $GITHUB_OUTPUT')
+            os.system('echo "product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '" >> $GITHUB_OUTPUT')
       - name: Download core love package
         uses: actions/download-artifact@v3
         with:
@@ -228,7 +228,7 @@ jobs:
         run: |
           curl -sL https://git.io/file-transfer | sh 
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
       - name: Show download link
         shell: bash
         run: |
@@ -252,8 +252,8 @@ jobs:
         run: |
           import os
           import re
-          os.system("echo ::set-output name=bundle-id::org.26f-studio.techmino")
-          os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
+          os.system('echo "bundle-id=org.26f-studio.techmino" >> $GITHUB_OUTPUT')
+          os.system('echo "product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '" >> $GITHUB_OUTPUT')
       - name: Download core love package
         uses: actions/download-artifact@v3
         with:
@@ -318,7 +318,7 @@ jobs:
         run: |
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
       - name: Show download link
         shell: bash
         run: |
@@ -342,7 +342,7 @@ jobs:
         run: |
           import os
           import re
-          os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
+          os.system('echo "product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '" >> $GITHUB_OUTPUT')
       - name: Download core love package
         uses: actions/download-artifact@v3
         with:
@@ -396,7 +396,7 @@ jobs:
         run: |
           curl -sL https://git.io/file-transfer | sh 
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
       - name: Show download link
         shell: bash
         run: |
@@ -420,8 +420,8 @@ jobs:
         run: |
           import os
           import re
-          os.system("echo ::set-output name=bundle-id::org.26f-studio.techmino")
-          os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
+          os.system('echo "bundle-id=org.26f-studio.techmino" >> $GITHUB_OUTPUT')
+          os.system('echo "product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '" >> $GITHUB_OUTPUT')
       - name: Download core love package
         uses: actions/download-artifact@v3
         with:
@@ -489,7 +489,7 @@ jobs:
         run: |
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
       - name: Show download link
         shell: bash
         run: |
@@ -513,8 +513,8 @@ jobs:
         run: |
           import os
           import re
-          os.system("echo ::set-output name=bundle-id::org.26f-studio.techmino")
-          os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
+          os.system('echo "bundle-id=org.26f-studio.techmino" >> $GITHUB_OUTPUT')
+          os.system('echo "product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '" >> $GITHUB_OUTPUT')
       - name: Download core love package
         uses: actions/download-artifact@v3
         with:
@@ -594,7 +594,7 @@ jobs:
         run: |
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
       - name: Show download link
         shell: bash
         run: |
@@ -618,7 +618,7 @@ jobs:
         run: |
           import os
           import re
-          os.system("echo ::set-output name=product-name::" + re.sub(r"[^A-Za-z0-9]+", "_", "${{ needs.get-info.outputs.app-name }}"))
+          os.system('echo "product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '" >> $GITHUB_OUTPUT')
       - name: Download core love package
         uses: actions/download-artifact@v3
         with:
@@ -679,7 +679,7 @@ jobs:
         id: transfer
         run: |
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          echo "::set-output name=download-url::$(cat ./wetransfer.log | grep https | cut -f3 -d" ")"
+          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
       - name: Show download link
         shell: bash
         run: |
