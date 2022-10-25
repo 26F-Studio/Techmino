@@ -441,7 +441,7 @@ end
 local function _playerLeaveRoom(uid)
     for i=1,#PLAYERS do if PLAYERS[i].uid==uid then table.remove(PLAYERS,i) break end end
     for i=1,#PLY_ALIVE do if PLY_ALIVE[i].uid==uid then table.remove(PLY_ALIVE,i) break end end
-    if SCN.stack[#SCN.stack-1]=='net_game' then
+    if SCN.stack[#SCN.stack]=='net_game' then
         if uid==USER.uid then
             SCN.backTo('net_menu')
         else
@@ -585,7 +585,7 @@ function NET.wsCallBack.global_getOnlineCount(body)
     NET.onlineCount=tonumber(body.data) or "_"
 end
 function NET.wsCallBack.room_chat(body)
-    if SCN.stack[#SCN.stack-1]=='net_game' then
+    if SCN.stack[#SCN.stack]=='net_game' then
         TASK.unlock('receiveMessage')
         TASK.lock('receiveMessage',1)
         NET.textBox:push{
