@@ -921,4 +921,5 @@ return{
         ['custom_clear']=   {"Personalizado",           "Normal"},
         ['custom_puzzle']=  {"Personalizado",           "Puzzle"},
     },
+    -- pumpkin="I'm a pumpkin",
 }

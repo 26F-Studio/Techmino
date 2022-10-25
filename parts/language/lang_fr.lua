@@ -883,4 +883,5 @@ return{
         ['custom_clear']=  {"Perso.",        "NORMAL"},
         ['custom_puzzle']= {"Perso.",        "PUZZLE"},
     },
+    -- pumpkin="I'm a pumpkin",
 }

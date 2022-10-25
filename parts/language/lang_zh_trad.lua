@@ -931,4 +931,5 @@ return{
         ['custom_clear']=   {"自定義",       "普通"},
         ['custom_puzzle']=  {"自定義",       "拼圖"},
     },
+    pumpkin="我是南瓜",
 }

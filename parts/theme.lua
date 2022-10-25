@@ -4,6 +4,7 @@ local THEME={
 local themeColor={
     xmas={COLOR.lR,COLOR.Z,COLOR.lG},
     sprfes={COLOR.lR,COLOR.O,COLOR.lY},
+    halloween={COLOR.lH,COLOR.O,{COLOR.hsv(0.76, 0.50, 0.42)},{COLOR.hsv(0.33, 0.80, 0.42)}},
 }
 
 function THEME.calculate(Y,M,D)
@@ -15,6 +16,10 @@ function THEME.calculate(Y,M,D)
         -- Christmas
         M=='12' and math.abs(D-25)<4 and
         'xmas' or
+
+        -- Halloween
+        (M=='11' and D>='28' or M=='12' and D<='04') and
+        'halloween' or
 
         -- Birthday
         M=='06' and D=='06' and
@@ -65,6 +70,10 @@ function THEME.set(theme)
         BG.setDefault('firework')
         BGM.setDefault('spring festival')
         MES.new('info',"★☆新年快乐☆★")
+    elseif theme=='halloween' then
+        BG.setDefault('glow')
+        BGM.setDefault('antispace')
+        MES.new('info',">>Happy halloween<<")
     elseif theme=='zday1' then
         BG.setDefault('lanterns')
         BGM.setDefault('overzero')
@@ -103,10 +112,6 @@ function THEME.getThemeColor(theme)
         theme=THEME.cur
     end
     return themeColor[theme]
-end
-
-function THEME.fresh()
-    THEME.set(THEME.calculate(os.date('%Y'),os.date('%m'),os.date('%d')))
 end
 
 return THEME

@@ -1028,5 +1028,6 @@ return{
         {C.Y,"暫定段位:MO"},
         {C.Y,"暫定段位:MV"},
         {C.Y,"O-spin Triple!"},
-    }
+    },
+    -- pumpkin="I'm a pumpkin",
 }

@@ -4,6 +4,7 @@ local verName=("%s  %s  %s"):format(SYSTEM,VERSION.string,VERSION.name)
 local tipLength=760
 local tip=GC.newText(getFont(30),"")
 local scrollX-- Tip scroll position
+local flash=0
 
 local widgetX0={
     -10,-10,-10,-10,
@@ -18,6 +19,16 @@ local enterConsole=coroutine.wrap(function()
     end
 end)
 function scene.sceneInit()
+    if THEME.cur=='halloween' then
+        TASK.new(function()
+            TEST.yieldT(.26)
+            while SCN.stack[#SCN.stack]=='main' do
+                flash=.355
+                SFX.play('clear_'..math.random(4,6),1,math.random()*2-1,-9-math.random()*3)
+                TEST.yieldT(.626+math.random()*6.26)
+            end
+        end)
+    end
     BG.set()
 
     -- Set tip
@@ -117,6 +128,7 @@ end
 
 function scene.update(dt)
     if dt>.26 then return end
+    if flash>0 then flash=flash-dt*.6 end
     PLAYERS[1]:update(dt)
     scrollX=scrollX-162*dt
     if scrollX<-tip:getWidth() then
@@ -155,8 +167,41 @@ function scene.draw()
     GC.setStencilTest()
     GC.pop()
 
+    if THEME.cur=='halloween' then
+        GC.setColor(1,1,1)
+        GC.mDraw(TEXTURE.spiderweb,480,50,.26,1.26)
+        GC.mDraw(TEXTURE.spiderweb,816,94.2,.62)
+
+        GC.setColor(COLOR.O)
+        GC.mDraw(TEXTURE.miniBlock[1],1126,90,-.16,40)
+        GC.setColor(COLOR.lO)
+        GC.setLineWidth(12)
+        GC.line(1037,25,1032,101)
+        GC.line(1099,16,1082,93)
+        GC.line(1151,16,1113,169)
+        GC.line(1196,83,1184,159)
+        GC.line(1244,101,1235,150)
+        GC.push('transform')
+        GC.translate(1126,90)
+        GC.setColor(.1,.5,.1)
+        GC.setLineWidth(16)
+        GC.line(20,-30,48,-60,70,-65)
+        GC.rotate(.162)
+        GC.setColor(COLOR.D)
+        FONT.set(20)
+        GC.mStr(text.pumpkin,0,-13)
+        GC.pop()
+    end
+
     -- Player
     PLAYERS[1]:draw()
+
+    if flash>0 then
+        GC.replaceTransform(SCR.origin)
+        GC.setColor(1,1,1,flash)
+        GC.rectangle('fill',0,0,SCR.w,SCR.h)
+        GC.replaceTransform(SCR.xOy)
+    end
 end
 
 scene.widgetList={

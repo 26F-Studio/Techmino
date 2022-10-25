@@ -1051,5 +1051,6 @@ return{
         {C.R,"LrL ",C.G,"RlR ",C.B,"LLr ",C.O,"RRl ",C.P,"RRR ",C.P,"LLL ",C.C,"FFF ",C.Y,"RfR ",C.Y,"RRf ",C.Y,"rFF"},
         {C.Y,"O-Spin Triple!"},
         {C.Z,"Apa? ",C.lC,"X-spin?"},
-    }
+    },
+    -- pumpkin="I'm a pumpkin",
 }

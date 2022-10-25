@@ -110,6 +110,21 @@ do
     GC.translate(-10,-10)
 end
 
+TEXTURE.spiderweb=NSC(60,60)
+do
+    GC.clear(1,1,1,0)
+    GC.setLineWidth(1)
+    GC.push('transform')
+    GC.translate(30,30)
+    for i=8,22,6 do
+        GC.circle('line',0,0,i,7)
+    end
+    for i=0,7 do
+        GC.line(0,0,26*math.cos(MATH.tau/7*i),26*math.sin(MATH.tau/7*i))
+    end
+    GC.pop()
+end
+
 TEXTURE.multiple=GC.DO{15,15,
     {'setLW',3},
     {'line',2,2,12,12},

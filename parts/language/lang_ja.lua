@@ -1060,4 +1060,5 @@ getTip={refuseCopy=true,
         {C.Y,"O-Spin Triple!"},
         {C.Z,"なんだって? ",C.lC,"X-Spin?"},
     }
+    -- pumpkin="I'm a pumpkin",
 }
