@@ -618,7 +618,9 @@ jobs:
         run: |
           import os
           import re
-          os.system('echo "product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '" >> $GITHUB_OUTPUT')
+          print(os.getenv('GITHUB_OUTPUT'))
+          with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
+            f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
       - name: Download core love package
         uses: actions/download-artifact@v3
         with:
