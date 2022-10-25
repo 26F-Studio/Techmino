@@ -45,7 +45,6 @@ function scene.keyDown(key,isRep)
         end
     elseif not isRep then
         if key=='return' or key=='space' then
-            playing=BGM.getPlaying()[1]
             if playing~=bgmList[S] then
                 BGM.play(bgmList[S])
                 SFX.play('click')
@@ -53,6 +52,7 @@ function scene.keyDown(key,isRep)
                 BGM.stop()
                 SFX.play('click')
             end
+            playing=BGM.getPlaying()[1]
         elseif key=='tab' then
             SCN.swapTo('launchpad','none')
         elseif key=='escape' then
@@ -128,7 +128,7 @@ scene.widgetList={
     WIDGET.newText{name='arrow',  x=270,y=360,font=45,align='L'},
     WIDGET.newText{name='now',    x=700,y=500,font=50,align='R',hideF=function() return not playing end},
     WIDGET.newSlider{name='slide',x=480,y=600,w=400,
-        disp=function() return BGM.tell()/BGM.getDuration()%1 end,
+        disp=function() return playing and BGM.tell()/BGM.getDuration()%1 end,
         show=false,
         code=function(v) BGM.set('all','seek',v*BGM.getDuration()) end,
         hideF=function() return not playing end
