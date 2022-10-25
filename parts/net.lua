@@ -50,8 +50,14 @@ function NET.freshRoomAllReady()
 end
 
 --------------------------<NEW HTTP API>
+local ignoreError={
+    ["Techrater.PlayerStream.notAvailable"]=true,
+    ["Techrater.PlayerManager.invalidAccessToken"]=true,
+    ["Techrater.PlayerManager.invalidRefreshToken"]=true,
+}
 local availableErrorTextType={info=1,warn=1,error=1}
 local function parseError(pathStr)
+    if ignoreError[pathStr] then return end
     LOG(pathStr)
     if type(pathStr)~='string' then
         MES.new('error',"<"..tostring(pathStr)..">",5)

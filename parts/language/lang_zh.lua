@@ -140,12 +140,10 @@ return{
         PlayerManager={
             invalidCode="无效验证码",
             invalidEmail="无效邮箱",
-            invalidAccessToken="访问令牌无效",
             playerNotFound="找不到玩家",
             noPassword="无密码",
             invalidEmailPass="邮箱或密码无效",
             emailExists="邮箱存在",
-            invalidRefreshToken="刷新令牌无效",
             emailSendError="邮箱发送错误",
         },
         -- Strategies

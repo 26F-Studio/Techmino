@@ -139,12 +139,10 @@ return{
         PlayerManager={
             -- invalidCode="Invalid code",
             -- invalidEmail="Invalid email",
-            -- invalidAccessToken="Invalid access token",
             -- playerNotFound="Player not found",
             -- noPassword="No password",
             -- invalidEmailPass="Invalid email or password",
             -- emailExists="Email exists",
-            -- invalidRefreshToken="Invalid refresh token",
             -- emailSendError="Email send error",
         },
         -- Strategies
