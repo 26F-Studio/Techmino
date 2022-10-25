@@ -89,7 +89,7 @@ jobs:
           commit: ${{ needs.get-info.outputs.commit-hash }}
           type: snapshot
       - name: Build core love package
-        uses: 26F-Studio/love-actions-core@v1
+        uses: love-actions/love-actions-core@v1
         with:
           build-list: ./media/ ./parts/ ./Zframework/ ./conf.lua ./main.lua ./version.lua
           package-path: ${{ env.CORE_LOVE_PACKAGE_PATH }}
@@ -140,7 +140,7 @@ jobs:
         with:
           submodules: recursive
       - name: Love actions for testing
-        uses: 26F-Studio/love-actions-test@v1
+        uses: love-actions/love-actions-test@v1
         with:
           font-path: ./parts/fonts/proportional.otf
           language-folder: ./parts/language
@@ -187,7 +187,7 @@ jobs:
           mv ./ColdClear/arm64-v8a/libCCloader.so ./libAndroid/arm64-v8a/
       - name: Build Android packages
         id: build-packages
-        uses: 26F-Studio/love-actions-android@v1
+        uses: love-actions/love-actions-android@v1
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
@@ -265,7 +265,7 @@ jobs:
           dir: ./ColdClear
       - name: Build iOS packages
         id: build-packages
-        uses: 26F-Studio/love-actions-ios@v1
+        uses: love-actions/love-actions-ios@v1
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
@@ -362,7 +362,7 @@ jobs:
           mv ./x64/CCloader.so ./shared
       - name: Build Linux packages
         id: build-packages
-        uses: 26F-Studio/love-actions-linux@v1
+        uses: love-actions/love-actions-linux@v1
         with:
           desktop-file-path: ./.github/build/linux/${{ env.BUILD_TYPE }}/template.desktop
           executable-name: app
@@ -437,7 +437,7 @@ jobs:
           rm ./ColdClear/universal/libcold_clear.a
       - name: Build macOS packages
         id: build-packages
-        uses: 26F-Studio/love-actions-macos-appstore@v1
+        uses: love-actions/love-actions-macos-appstore@v1
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
@@ -530,7 +530,7 @@ jobs:
           rm ./ColdClear/universal/libcold_clear.a
       - name: Build macOS packages
         id: build-packages
-        uses: 26F-Studio/love-actions-macos-portable@v1
+        uses: love-actions/love-actions-macos-portable@v1
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
@@ -630,7 +630,7 @@ jobs:
           dir: ./ColdClear
       - name: Build Windows packages
         id: build-packages
-        uses: 26F-Studio/love-actions-windows@v1
+        uses: love-actions/love-actions-windows@v1
         with:
           icon-path: ./.github/build/windows/${{ env.BUILD_TYPE }}/icon.ico
           rc-path: ./.github/build/windows/${{ env.BUILD_TYPE }}/template.rc
