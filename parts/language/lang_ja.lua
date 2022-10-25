@@ -183,6 +183,7 @@ return{
     onlinePlayerCount="オンライン人数: $1",
     createRoomSuccessed="部屋を建てました",
     -- playerKicked="$1 removed $2 from room",
+    -- becomeHost="$1 become host",
     started="プレイ中",
     joinRoom="$1 が入室しました",
     leaveRoom="$1 が退出しました",

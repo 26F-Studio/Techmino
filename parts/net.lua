@@ -433,6 +433,10 @@ local function wsSend(act,data)
     })
 end
 
+local function _getFullName(uid)
+    return USERS.getUsername(uid).."#"..uid
+end
+
 --Remove player when leave
 local function _playerLeaveRoom(uid)
     for i=1,#PLAYERS do if PLAYERS[i].uid==uid then table.remove(PLAYERS,i) break end end
@@ -455,7 +459,7 @@ local function _pumpStream(d)
             if res then
                 DATA.pumpRecording(stream,P.stream)
             else
-                MES.new('error',"Bad stream from "..USERS.getUsername(P.uid).."#"..P.uid,.1)
+                MES.new('error',"Bad stream from ".._getFullName(P.uid),.1)
             end
             return
         end
@@ -585,8 +589,7 @@ function NET.wsCallBack.room_chat(body)
         TASK.unlock('receiveMessage')
         TASK.lock('receiveMessage',1)
         NET.textBox:push{
-            COLOR.Z,USERS.getUsername(body.data.playerId),
-            COLOR.Y,"#"..body.data.playerId.." ",
+            COLOR.Z,_getFullName(body.data.playerId),
             COLOR.N,body.data.message,
         }
     end
@@ -624,6 +627,8 @@ function NET.wsCallBack.room_enter(body)
         for _,p in next,body.data.players do
             NETPLY.add{
                 uid=p.playerId,
+                group=p.group,
+                role=p.role,
                 playMode=p.type,
                 readyMode=p.state,
                 config=p.config,
@@ -634,11 +639,13 @@ function NET.wsCallBack.room_enter(body)
         local p=body.data
         NETPLY.add{
             uid=p.playerId,
+            group=p.group,
+            role=p.role,
             playMode=p.type,
             readyMode=p.state,
             config=p.config,
         }
-        NET.textBox:push{COLOR.Y,text.joinRoom:repD(USERS.getUsername(p.playerId).."#"..p.playerId)}
+        NET.textBox:push{COLOR.Y,text.joinRoom:repD(_getFullName(p.playerId))}
         if not GAME.playing then
             SFX.play('connected')
             NET.freshRoomAllReady()
@@ -646,13 +653,13 @@ function NET.wsCallBack.room_enter(body)
     end
 end
 function NET.wsCallBack.room_kick(body)
-    MES.new('info',text.playerKicked:repD(USERS.getUsername(body.data.executorId).."#"..body.data.executorId,USERS.getUsername(body.data.playerId).."#"..body.data.playerId))
+    MES.new('info',text.playerKicked:repD(_getFullName(body.data.executorId),_getFullName(body.data.playerId)))
     _playerLeaveRoom(body.data.playerId)
 end
 function NET.wsCallBack.room_leave(body)
     local uid=body.data and body.data.playerId or USER.uid
     if body.data then
-        NET.textBox:push{COLOR.Y,text.leaveRoom:repD(USERS.getUsername(uid).."#"..uid.." ")}
+        NET.textBox:push{COLOR.Y,text.leaveRoom:repD(_getFullName(uid))}
     end
     _playerLeaveRoom(uid)
     NET.freshRoomAllReady()
@@ -674,11 +681,21 @@ function NET.wsCallBack.player_updateConf(body)
         NETPLY.map[body.data.playerId].config=body.data.config
     end
 end
-function NET.wsCallBack.player_finish(body)-- TODO
+function NET.wsCallBack.player_finish(body)
+    for _,P in next,PLY_ALIVE do
+        if P.uid==body.data.playerId then
+            P:lose(true)
+            break
+        end
+    end
 end
 function NET.wsCallBack.player_joinGroup(body)-- TODO
 end
-function NET.wsCallBack.player_setHost(body)-- TODO
+function NET.wsCallBack.player_setHost(body)
+    if body.data.role=='Admin' then
+        MES.new('info',text.becomeHost:repD(_getFullName(body.data.playerId)))
+    end
+    NETPLY.map[body.data.playerId].role=body.data.role
 end
 function NET.wsCallBack.player_setState(body)-- TODO (not used)
 end

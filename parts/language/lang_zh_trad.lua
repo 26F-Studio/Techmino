@@ -182,6 +182,7 @@ return{
     onlinePlayerCount="在線用戶數: $1",
     createRoomSuccessed="房間已創建！",
     playerKicked="#$1 把 #$2 移出了房間",
+    becomeHost="$1 成為了房主",
     started="遊戲中",
     joinRoom="$1 進入房間",
     leaveRoom="$1 離開房間",

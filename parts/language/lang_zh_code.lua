@@ -131,6 +131,7 @@ return{
     onlinePlayerCount="OnlinePlayerCount=$1",
     createRoomSuccessed="CreateRoom.Successs=true",
     playerKicked="[$1]: roomKick([$2])",
+    -- becomeHost="$1 become host",
     started="Room.Playing();",
     joinRoom="Room.Join($1);",
     leaveRoom="Room.Leave($1);",

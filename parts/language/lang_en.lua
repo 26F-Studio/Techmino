@@ -182,6 +182,7 @@ return{
     onlinePlayerCount="Online: $1",
     createRoomSuccessed="Room created",
     playerKicked="$1 removed $2 from room",
+    becomeHost="$1 become host",
     started="Playing",
     joinRoom="$1 has entered the room.",
     leaveRoom="$1 has left the room.",
