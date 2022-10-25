@@ -188,12 +188,22 @@ end
 
 -- Royale mode
 function randomTarget(P)-- Return a random opponent for P
-    if #PLY_ALIVE>1 then
-        local R
-        repeat
-            R=PLY_ALIVE[rnd(#PLY_ALIVE)]
-        until R~=P
-        return R
+    local l=TABLE.shift(PLY_ALIVE,0)
+    local count=0
+    for i=1,#l do
+        if P.group==0 and l[i]~=P or P.group~=l[i].group then
+            count=count+1
+        end
+    end
+    if count==0 then return end
+    count=rnd(count)
+    for i=1,#l do
+        if P.group==0 and l[i]~=P or P.group~=l[i].group then
+            count=count-1
+            if count==0 then
+                return l[i]
+            end
+        end
     end
 end
 function freshMostDangerous()

@@ -20,6 +20,16 @@ RANK_COLORS={
     {1,.5,.4},
     {.95,.5,.95},
 }
+GROUP_COLORS={
+    [0]=COLOR.Z,
+    [1]=COLOR.R,
+    [2]=COLOR.G,
+    [3]=COLOR.B,
+    [4]=COLOR.Y,
+    [5]=COLOR.M,
+    [6]=COLOR.C,
+}
+
 do-- SVG_TITLE_FILL, SVG_TITLE_LINE
     SVG_TITLE_FILL={
         {

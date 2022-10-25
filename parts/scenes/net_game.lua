@@ -142,6 +142,10 @@ function scene.keyDown(key,isRep)
                     if tonumber(cmd[2]) then NET.room_kick(tonumber(cmd[2])) end
                 elseif cmd[1]=='/host' then
                     if tonumber(cmd[2]) then NET.player_setHost(tonumber(cmd[2])) end
+                elseif cmd[1]=='/group' then
+                    if tonumber(cmd[2]) and tonumber(cmd[2])%1==0 and tonumber(cmd[2])>=0 and tonumber(cmd[2])<=6 then
+                        NET.player_joinGroup(tonumber(cmd[2]))
+                    end
                 else
                     NET.textBox:push{COLOR.R,'Invalid command'}
                 end

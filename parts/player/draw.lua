@@ -721,7 +721,7 @@ function draw.norm(P,repMode)
 
         -- Draw username
         setFont(30)
-        gc_setColor(.97,.97,.97)
+        gc_setColor(GROUP_COLORS[P.group])
         GC.mStr(P.username or USERS.getUsername(P.uid),300,-60)
 
         -- Draw HUD

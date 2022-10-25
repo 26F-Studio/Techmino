@@ -6,16 +6,6 @@ local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
 local ins,rem=table.insert,table.remove
 local setFont=FONT.set
 
-local groupColor={
-    [0]=COLOR.Z,
-    [1]=COLOR.R,
-    [2]=COLOR.G,
-    [3]=COLOR.B,
-    [4]=COLOR.Y,
-    [5]=COLOR.M,
-    [6]=COLOR.C,
-}
-
 local posLists={
     -- 1~5
     (function()
@@ -207,7 +197,7 @@ function NETPLY.draw()
                 gc_rectangle('fill',0,0,p.w,p.h)
                 gc_setColor(COLOR.dH)
             end
-            gc_setLineWidth(p.role=='Admin' and 4 or 2)
+            gc_setLineWidth(p.role=='Admin' and 4 or 1)
             gc_rectangle('line',0,0,p.w,p.h)
 
             -- Stencil
@@ -236,7 +226,7 @@ function NETPLY.draw()
                 end
 
                 -- UID & Username
-                gc_setColor(groupColor[p.group] or COLOR.dH)
+                gc_setColor(GROUP_COLORS[p.group] or COLOR.dH)
                 if p.h>=47 then
                     setFont(40)
                     gc_print("#"..p.uid,50,-5)

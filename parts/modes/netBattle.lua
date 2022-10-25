@@ -31,7 +31,7 @@ return{
         for i,p in next,L do
             if p.uid==USER.uid then
                 if p.playMode=='Gamer' then
-                    PLY.newPlayer(1)
+                    PLY.newPlayer(1,false,p)
                     N=2
                 end
                 table.remove(L,i)

@@ -2845,15 +2845,33 @@ function Player:lose(force)
         gameOver()
         self:newTask(#PLAYERS>1 and task_lose or task_finish)
         if GAME.net and not NET.spectate then
-            NET.player_finish({foo="-- TODO"})
+            NET.player_finish({foo=""})
         else
             TASK.new(task_autoPause)
         end
     else
         self:newTask(task_lose)
     end
-    if #PLY_ALIVE==1 then
-        PLY_ALIVE[1]:win()
+
+    if #PLY_ALIVE>0 then
+        local cur=PLY_ALIVE[1].group
+        for i=2,#PLY_ALIVE do
+            local g=PLY_ALIVE[i].group
+            if cur==0 then
+                if g==0 then-- Two team 0, not finished
+                    goto BREAK_notFinished
+                else-- Remember this may-be-last team
+                    cur=g
+                end
+            elseif g==0 or cur~=g then-- Find another team, not finished
+                goto BREAK_notFinished
+            end
+        end
+        -- Only 1 team survived, all winner
+        for i=1,#PLY_ALIVE do
+            PLY_ALIVE[i]:win()
+        end
+        ::BREAK_notFinished::
     end
 end
 --------------------------<\Event>--------------------------

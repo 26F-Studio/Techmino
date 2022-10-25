@@ -689,7 +689,8 @@ function NET.wsCallBack.player_finish(body)
         end
     end
 end
-function NET.wsCallBack.player_joinGroup(body)-- TODO
+function NET.wsCallBack.player_joinGroup(body)
+    NETPLY.map[body.data.playerId].group=body.data.group
 end
 function NET.wsCallBack.player_setHost(body)
     if body.data.role=='Admin' then
@@ -697,7 +698,7 @@ function NET.wsCallBack.player_setHost(body)
     end
     NETPLY.map[body.data.playerId].role=body.data.role
 end
-function NET.wsCallBack.player_setState(body)-- TODO (not used)
+function NET.wsCallBack.player_setState(body)-- not used
 end
 function NET.wsCallBack.player_stream(body)
     _pumpStream(body.data)
@@ -716,7 +717,7 @@ function NET.wsCallBack.match_finish()
         TASK.unlock('netPlaying')
     end)
 end
-function NET.wsCallBack.match_ready()-- TODO
+function NET.wsCallBack.match_ready()-- not used
 end
 function NET.wsCallBack.match_start(body)
     TASK.lock('netPlaying')

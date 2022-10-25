@@ -192,7 +192,7 @@ local function _loadGameEnv(P)-- Load gameEnv
         -- else
             -- print("default-"..k..":"..tostring(v))
         end
-        if type(v)~='table' then  -- Default setting
+        if type(v)~='table' then -- Default setting
             ENV[k]=v
         else
             ENV[k]=TABLE.copy(v)
@@ -219,11 +219,11 @@ local function _loadRemoteEnv(P,confStr)-- Load gameEnv
         if GAME.modeEnv[k]~=nil then
             v=GAME.modeEnv[k]    -- Mode setting
         elseif confStr[k]~=nil then
-            v=confStr[k]            -- Game setting
+            v=confStr[k]         -- Game setting
         elseif SETTING[k]~=nil then
-            v=SETTING[k]        -- Global setting
+            v=SETTING[k]         -- Global setting
         end
-        if type(v)~='table' then-- Default setting
+        if type(v)~='table' then -- Default setting
             ENV[k]=v
         else
             ENV[k]=TABLE.copy(v)
@@ -407,13 +407,24 @@ function PLY.newRemotePlayer(id,mini,p)
 
     P.uid=p.uid
     P.sid=NET.uid_sid[p.uid]
+    P.group=p.group
+    if not (P.group%1==0 and P.group>=1 and P.group<=6) then P.group=0 end
 
     _loadRemoteEnv(P,p.config)
     _applyGameEnv(P)
 end
-function PLY.newAIPlayer(id,AIdata,mini)
+function PLY.newAIPlayer(id,AIdata,mini,p)
     local P=_newEmptyPlayer(id,mini)
     P.type='computer'
+
+    local pData={
+        uid=id,
+        group=0,
+    } if p then TABLE.coverR(p,pData) end
+    P.username='BOT'..pData.uid
+    P.sid=NET.uid_sid[pData.uid]
+    P.group=pData.group
+    if not (P.group%1==0 and P.group>=1 and P.group<=6) then P.group=0 end
 
     _loadGameEnv(P)
     P.gameEnv.face={0,0,0,0,0,0,0}
@@ -422,13 +433,19 @@ function PLY.newAIPlayer(id,AIdata,mini)
     AIdata._20G=P._20G
     P:loadAI(AIdata)
 end
-function PLY.newPlayer(id,mini)
+function PLY.newPlayer(id,mini,p)
     local P=_newEmptyPlayer(id,mini)
     P.type='human'
     P.sound=true
 
-    P.uid=USER.uid
-    P.sid=NET.uid_sid[USER.uid]
+    local pData={
+        uid=USER.uid,
+        group=0,
+    } if p then TABLE.coverR(p,pData) end
+    P.uid=pData.uid
+    P.sid=NET.uid_sid[pData.uid]
+    P.group=pData.group
+    if not (P.group%1==0 and P.group>=1 and P.group<=6) then P.group=0 end
 
     _loadGameEnv(P)
     _applyGameEnv(P)
