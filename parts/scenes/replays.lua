@@ -62,13 +62,16 @@ local function _playRep(fileName)
     end
 end
 
-function scene.sceneInit()
-    BG.set()
-    listBox:setList(REPLAY)
+local function _updateButtonVisibility()
     local hide=listBox:getLen()==0
     for i=3,5 do
         scene.widgetList[i].hide=hide
     end
+end
+function scene.sceneInit()
+    BG.set()
+    listBox:setList(REPLAY)
+    _updateButtonVisibility()
 end
 
 function scene.keyDown(key)
@@ -101,6 +104,7 @@ function scene.keyDown(key)
             if rep.available then
                 if saveFile(fileData,fileName,'-d') then
                     table.insert(REPLAY,1,rep)
+                    _updateButtonVisibility()
                     MES.new('info',text.importSuccess)
                 end
             else
@@ -121,6 +125,7 @@ function scene.keyDown(key)
                         break
                     end
                 end
+                _updateButtonVisibility()
                 SFX.play('finesseError',.7)
             end
         end
