@@ -1,7 +1,8 @@
 local function NSC(x,y)-- New & Set Canvas
-    local _=GC.newCanvas(x,y)
-    GC.setCanvas(_)
-    return _
+    local c=GC.newCanvas(x,y)
+    GC.setCanvas(c)
+    GC.clear(1,1,1,0)
+    return c
 end
 local TEXTURE={}
 
@@ -112,7 +113,6 @@ end
 
 TEXTURE.spiderweb=NSC(60,60)
 do
-    GC.clear(1,1,1,0)
     GC.setLineWidth(1)
     GC.push('transform')
     GC.translate(30,30)
