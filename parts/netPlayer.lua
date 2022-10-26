@@ -197,7 +197,7 @@ function NETPLY.draw()
                 gc_rectangle('fill',0,0,p.w,p.h)
                 gc_setColor(COLOR.dH)
             end
-            gc_setLineWidth(p.role=='Admin' and 4 or 1)
+            gc_setLineWidth(p.role=='Admin' and 4 or 2)
             gc_rectangle('line',0,0,p.w,p.h)
 
             -- Stencil
