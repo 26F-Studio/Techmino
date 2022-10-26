@@ -15,6 +15,11 @@ local function _setPW()
     end
 end
 
+function scene.enter()
+    if SCN.args[1] then
+        scene.widgetList.code:setText(SCN.args[1])
+    end
+end
 function scene.keyDown(key,rep)
     if key=='escape' and not rep then
         SCN.back()
