@@ -439,9 +439,9 @@ end
 
 --Remove player when leave
 local function _playerLeaveRoom(uid)
-    for i=1,#PLAYERS do if PLAYERS[i].uid==uid then table.remove(PLAYERS,i) break end end
-    for i=1,#PLY_ALIVE do if PLY_ALIVE[i].uid==uid then table.remove(PLY_ALIVE,i) break end end
     if SCN.stack[#SCN.stack]=='net_game' then
+        for i=1,#PLAYERS do if PLAYERS[i].uid==uid then table.remove(PLAYERS,i) break end end
+        for i=1,#PLY_ALIVE do if PLY_ALIVE[i].uid==uid then table.remove(PLY_ALIVE,i) break end end
         if uid==USER.uid then
             SCN.backTo('net_menu')
         else
@@ -596,8 +596,8 @@ function NET.wsCallBack.room_chat(body)
 end
 function NET.wsCallBack.room_create(body)
     MES.new('check',text.createRoomSuccessed)
-    NET.wsCallBack.room_enter(body)
     SCN.pop()
+    NET.wsCallBack.room_enter(body)
     WAIT.interrupt()
 end
 function NET.wsCallBack.room_getData(body)
