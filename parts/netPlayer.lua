@@ -72,7 +72,7 @@ local nullIndex={
         NETPLY.add{
             uid=k,
             group=-1,
-            role='Normal',-- 'Normal'|'Admin'
+            role='Normal',
             playMode='Spectator',
             readyMode='Standby',
             config="",

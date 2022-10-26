@@ -19,13 +19,6 @@ local upstreamProgress
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
 
-local function _hideReadyUI()
-    return
-        playing or
-        NET.roomState.start or
-        TASK.getLock('ready')
-end
-
 local function _setCancel()
     if NETPLY.map[USER.uid].playMode=='Gamer' then
         NET.player_setReady(false)
@@ -166,7 +159,7 @@ function scene.keyDown(key,isRep)
             PLAYERS[1]:pressKey(k)
             VK.press(k)
         end
-    elseif not _hideReadyUI() then
+    elseif not playing then
         if key=='space' then
             if NETPLY.map[USER.uid].playMode=='Spectator' or NETPLY.map[USER.uid].readyMode=='Ready' then
                 _setCancel()
@@ -307,10 +300,6 @@ function scene.draw()
         if NET.roomState.private then
             gc_draw(IMG.lock,30,668)
         end
-        if NET.roomState.start then
-            gc_setColor(0,1,0)
-            gc_print(text.started,230,655)
-        end
 
         -- Profile
         drawSelfProfile()
@@ -327,8 +316,8 @@ function scene.draw()
         gc_print("M",430,10)
     end
 end
-local function _hideF_ready() return _hideReadyUI() or (NETPLY.map[USER.uid].playMode=='Spectator' or NETPLY.map[USER.uid].readyMode=='Ready') end
-local function _hideF_standby() return _hideReadyUI() or not (NETPLY.map[USER.uid].playMode=='Spectator' or NETPLY.map[USER.uid].readyMode=='Ready') end
+local function _hideF_ready() return playing or (NETPLY.map[USER.uid].playMode=='Spectator' or NETPLY.map[USER.uid].readyMode=='Ready') end
+local function _hideF_standby() return playing or not (NETPLY.map[USER.uid].playMode=='Spectator' or NETPLY.map[USER.uid].readyMode=='Ready') end
 scene.widgetList={
     textBox,
     inputBox,
