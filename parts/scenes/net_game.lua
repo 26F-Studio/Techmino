@@ -133,7 +133,7 @@ function scene.keyDown(key,isRep)
         else
             _quit()
         end
-    elseif key=='return' then
+    elseif key=='return' or key=='kpenter' then
         local mes=STRING.trim(inputBox:getText())
         if not inputBox.hide and #mes>0 then
             if mes:sub(1,1)=='/' then

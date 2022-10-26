@@ -323,7 +323,7 @@ function scene.keyDown(key,isRep)
     elseif key=='1' or key=='2' then (kb.isDown('lshift','lctrl','lalt') and playRep or setFocus)(key=='1' and 1 or 2)
     elseif key=='c1' then playRep(1)
     elseif key=='c2' then playRep(2)
-    elseif key=='return' then
+    elseif key=='return' or key=='kpenter' then
         if repeater.focus then
             repeater.focus=false
         end

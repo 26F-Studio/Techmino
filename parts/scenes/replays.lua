@@ -72,7 +72,7 @@ function scene.sceneInit()
 end
 
 function scene.keyDown(key)
-    if key=='return' then
+    if key=='return' or key=='kpenter' then
         local rep=listBox:getSel()
         if rep then
             _playRep(rep.fileName)

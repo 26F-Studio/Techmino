@@ -27,7 +27,7 @@ end
 function scene.keyDown(key,rep)
     if key=='escape' and not rep then
         SCN.back()
-    elseif key=='return' then
+    elseif key=='return' or key=='kpenter' then
         if #scene.widgetList.code:getText():upper()==0 then
             _getCode()
         else

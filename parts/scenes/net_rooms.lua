@@ -82,7 +82,7 @@ function scene.keyDown(key)
         if fetchTimer<=7 then
             _fetchRoom()
         end
-    elseif roomList:getLen()>0 and (key=='join' or key=='return' and love.keyboard.isDown('lctrl','rctrl')) then
+    elseif roomList:getLen()>0 and (key=='join' or (key=='return' or key=='kpenter') and love.keyboard.isDown('lctrl','rctrl')) then
         local R=roomList:getSel()
         if R and not TASK.getLock('fetchRoom') then
             if R.info.version==VERSION.room then

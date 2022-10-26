@@ -107,7 +107,7 @@ function scene.keyDown(key)
                 val=val..key
             end
         end
-    elseif key=='return' then
+    elseif key=='return' or key=='kpenter' then
         scene.keyDown('calculate')
     elseif key=='calculate' then
         val=val:gsub("e$","")

@@ -130,7 +130,7 @@ function scene.touchClick(x,y)
 end
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=='return' then
+    if key=='return' or key=='kpenter' then
         if mapCam.sel then
             if visibleModes[mapCam.sel]==2 then
                 MES.new('info',text.unlockHint)
