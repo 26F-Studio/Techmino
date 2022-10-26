@@ -712,11 +712,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Cleanup
-        uses: geekyeggo/delete-artifact@v1
+        uses: geekyeggo/delete-artifact@v2
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Send Discord message
-        uses: Sniddl/discord-commits@v1.3
+        uses: Sniddl/discord-commits@v1.5
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           message: "Github Actions for **${{ github.repository }}**."
