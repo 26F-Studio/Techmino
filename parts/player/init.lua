@@ -410,6 +410,7 @@ function PLY.newRemotePlayer(id,mini,p)
     P.uid=p.uid
     P.sid=NET.uid_sid[p.uid]
     P.group=p.group
+    P.netAtk=0
     if not (P.group%1==0 and P.group>=1 and P.group<=6) then P.group=0 end
 
     _loadRemoteEnv(P,p.config)

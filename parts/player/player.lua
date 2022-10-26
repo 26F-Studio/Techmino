@@ -2605,6 +2605,13 @@ local function update_streaming(P)
             local line=int(event/0x100000000)%0x10000
             for _,p in next,PLY_ALIVE do
                 if p.sid==sid then
+                    P.netAtk=P.netAtk+amount
+                    if P.netAtk~=P.stat.atk then
+                        MES.new('warn',"#"..P.uid..' desynchronized')
+                        NET.player_finish({foo=""})
+                        P:lose(true)
+                        return
+                    end
                     P:attack(p,amount,time,line,true)
                     P:createBeam(p,amount)
                     break
