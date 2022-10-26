@@ -116,11 +116,12 @@ jobs:
           cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.love ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Bare.love
       - name: Upload release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
-        uses: softprops/action-gh-release@v1
+        uses: ncipollo/release-action@v1
         with:
-          name: ${{ needs.get-info.outputs.update-title }}
+          allowUpdates: true
+          artifacts: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Bare.love
           body: ${{ needs.get-info.outputs.update-note }}
-          files: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Bare.love
+          name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
       - name: Upload to WeTransfer
         id: transfer
@@ -219,11 +220,12 @@ jobs:
           cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}-release.apk ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Android.apk
       - name: Upload release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
-        uses: softprops/action-gh-release@v1
+        uses: ncipollo/release-action@v1
         with:
-          name: ${{ needs.get-info.outputs.update-title }}
+          allowUpdates: true
+          artifacts: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Android.apk
           body: ${{ needs.get-info.outputs.update-note }}
-          files: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Android.apk
+          name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
       - name: Upload to WeTransfer
         id: transfer
@@ -310,11 +312,12 @@ jobs:
           cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.ipa ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_iOS.ipa
       - name: Upload release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
-        uses: softprops/action-gh-release@v1
+        uses: ncipollo/release-action@v1
         with:
-          name: ${{ needs.get-info.outputs.update-title }}
+          allowUpdates: true
+          artifacts: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_iOS.ipa
           body: ${{ needs.get-info.outputs.update-note }}
-          files: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_iOS.ipa
+          name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
       - name: Upload to WeTransfer
         id: transfer
@@ -389,11 +392,12 @@ jobs:
           cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.AppImage ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.AppImage
       - name: Upload release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
-        uses: softprops/action-gh-release@v1
+        uses: ncipollo/release-action@v1
         with:
-          name: ${{ needs.get-info.outputs.update-title }}
+          allowUpdates: true
+          artifacts: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.AppImage
           body: ${{ needs.get-info.outputs.update-note }}
-          files: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.AppImage
+          name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
       - name: Upload to WeTransfer
         id: transfer
@@ -483,11 +487,12 @@ jobs:
           cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.pkg ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_appstore.pkg
       - name: Upload release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
-        uses: softprops/action-gh-release@v1
+        uses: ncipollo/release-action@v1
         with:
-          name: ${{ needs.get-info.outputs.update-title }}
+          allowUpdates: true
+          artifacts: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_appstore.pkg
           body: ${{ needs.get-info.outputs.update-note }}
-          files: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_appstore.pkg
+          name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
       - name: Upload to WeTransfer
         id: transfer
@@ -587,13 +592,12 @@ jobs:
           cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.dmg ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_portable.dmg
       - name: Upload release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
-        uses: softprops/action-gh-release@v1
+        uses: ncipollo/release-action@v1
         with:
-          name: ${{ needs.get-info.outputs.update-title }}
+          allowUpdates: true
+          artifacts: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_portable.pkg, ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_portable.dmg
           body: ${{ needs.get-info.outputs.update-note }}
-          files: |
-            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_portable.pkg
-            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_portable.dmg
+          name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
       - name: Upload to WeTransfer
         id: transfer
@@ -666,13 +670,12 @@ jobs:
           cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_x64.zip ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Windows_x64.zip
       - name: Upload release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
-        uses: softprops/action-gh-release@v1
+        uses: ncipollo/release-action@v1
         with:
-          name: ${{ needs.get-info.outputs.update-title }}
+          allowUpdates: true
+          artifacts: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Windows_x86.zip, ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Windows_x64.zip
           body: ${{ needs.get-info.outputs.update-note }}
-          files: |
-            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Windows_x86.zip
-            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Windows_x64.zip
+          name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
       - name: Get transfer
         env:
