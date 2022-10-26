@@ -82,7 +82,8 @@ jobs:
         run: |
           import os
           import re
-          os.system('echo "product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '" >> $GITHUB_OUTPUT')
+          with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
+            f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
       - uses: ./.github/actions/update-version
         if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
         with:
@@ -163,12 +164,13 @@ jobs:
         run: |
           import os
           import re
-          if "${{ env.BUILD_TYPE }}" == "dev": 
-            os.system('echo "bundle-id=org.f26_studio.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '.snapshot" >> $GITHUB_OUTPUT')
-            os.system('echo "product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '_Snapshot" >> $GITHUB_OUTPUT')
-          else:
-            os.system('echo "bundle-id=org.f26_studio.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '" >> $GITHUB_OUTPUT')
-            os.system('echo "product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '" >> $GITHUB_OUTPUT')
+          with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
+            if "${{ env.BUILD_TYPE }}" == "dev": 
+              f.write('bundle-id=org.f26_studio.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '.snapshot\n')
+              f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '_Snapshot\n')
+            else:
+              f.write('bundle-id=org.f26_studio.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
+              f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
       - name: Download core love package
         uses: actions/download-artifact@v3
         with:
@@ -252,8 +254,9 @@ jobs:
         run: |
           import os
           import re
-          os.system('echo "bundle-id=org.26f-studio.techmino" >> $GITHUB_OUTPUT')
-          os.system('echo "product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '" >> $GITHUB_OUTPUT')
+          with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
+            f.write('bundle-id=org.26f-studio.techmino\n')
+            f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
       - name: Download core love package
         uses: actions/download-artifact@v3
         with:
@@ -342,7 +345,8 @@ jobs:
         run: |
           import os
           import re
-          os.system('echo "product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '" >> $GITHUB_OUTPUT')
+          with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
+            f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
       - name: Download core love package
         uses: actions/download-artifact@v3
         with:
@@ -420,8 +424,9 @@ jobs:
         run: |
           import os
           import re
-          os.system('echo "bundle-id=org.26f-studio.techmino" >> $GITHUB_OUTPUT')
-          os.system('echo "product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '" >> $GITHUB_OUTPUT')
+          with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
+            f.write('bundle-id=org.26f-studio.techmino\n')
+            f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
       - name: Download core love package
         uses: actions/download-artifact@v3
         with:
@@ -513,8 +518,9 @@ jobs:
         run: |
           import os
           import re
-          os.system('echo "bundle-id=org.26f-studio.techmino" >> $GITHUB_OUTPUT')
-          os.system('echo "product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '" >> $GITHUB_OUTPUT')
+          with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
+            f.write('bundle-id=org.26f-studio.techmino\n')
+            f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
       - name: Download core love package
         uses: actions/download-artifact@v3
         with:
@@ -618,7 +624,6 @@ jobs:
         run: |
           import os
           import re
-          print(os.getenv('GITHUB_OUTPUT'))
           with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
             f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
       - name: Download core love package
