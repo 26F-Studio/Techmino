@@ -408,7 +408,7 @@ function PLY.newRemotePlayer(id,mini,p)
     P:startStreaming()
 
     P.uid=p.uid
-    P.sid=NET.uid_sid[p.uid]
+    P.sid=NET.uid_sid[p.uid] or p.uid
     P.group=p.group
     P.netAtk=0
     if not (P.group%1==0 and P.group>=1 and P.group<=6) then P.group=0 end
@@ -425,7 +425,7 @@ function PLY.newAIPlayer(id,AIdata,mini,p)
         group=0,
     } if p then TABLE.coverR(p,pData) end
     P.username='BOT'..pData.uid
-    P.sid=NET.uid_sid[pData.uid]
+    P.sid=NET.uid_sid[pData.uid] or pData.uid
     P.group=pData.group
     if not (P.group%1==0 and P.group>=1 and P.group<=6) then P.group=0 end
 
@@ -446,7 +446,7 @@ function PLY.newPlayer(id,mini,p)
         group=0,
     } if p then TABLE.coverR(p,pData) end
     P.uid=pData.uid
-    P.sid=NET.uid_sid[pData.uid]
+    P.sid=NET.uid_sid[pData.uid] or pData.uid
     P.group=pData.group
     if not (P.group%1==0 and P.group>=1 and P.group<=6) then P.group=0 end
 
