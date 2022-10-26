@@ -127,7 +127,7 @@ function DATA.pasteBoard(str,page)-- Paste [str] data to [page] board
             fX=fX+1
         else
             fY=fY+1
-            if fY>20 then break end
+            if fY>60 then break end
             fX=1
         end
         p=p+1
