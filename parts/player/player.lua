@@ -2606,7 +2606,7 @@ local function update_streaming(P)
             for _,p in next,PLY_ALIVE do
                 if p.sid==sid then
                     P.netAtk=P.netAtk+amount
-                    if P.netAtk~=P.stat.atk then
+                    if P.netAtk~=P.stat.send then
                         MES.new('warn',"#"..P.uid..' desynchronized')
                         NET.player_finish({foo=""})
                         P:lose(true)
