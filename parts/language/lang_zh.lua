@@ -141,7 +141,7 @@ return{
             invalidCode="无效验证码",
             invalidEmail="无效邮箱",
             playerNotFound="找不到玩家",
-            noPassword="无密码",
+            noPassword="未输入密码",
             invalidEmailPass="邮箱或密码无效",
             emailExists="邮箱存在",
             emailSendError="邮箱发送错误",
