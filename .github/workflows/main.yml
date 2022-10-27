@@ -132,8 +132,7 @@ jobs:
       - name: Summary
         shell: bash
         run: |
-          echo "# Bare love packages" >> $GITHUB_STEP_SUMMARY
-          echo "## Downloads: [WeTransfer](${{ steps.transfer.outputs.download-url }})"
+          echo "## Bare love packages: [WeTransfer](${{ steps.transfer.outputs.download-url }})" >> $GITHUB_STEP_SUMMARY
 
   auto-test:
     runs-on: ubuntu-latest
@@ -237,8 +236,7 @@ jobs:
       - name: Summary
         shell: bash
         run: |
-          echo "# Android packages" >> $GITHUB_STEP_SUMMARY
-          echo "## Downloads: [WeTransfer](${{ steps.transfer.outputs.download-url }})"
+          echo "## Android packages: [WeTransfer](${{ steps.transfer.outputs.download-url }})" >> $GITHUB_STEP_SUMMARY
 
   build-ios:
     runs-on: macos-latest
@@ -330,8 +328,7 @@ jobs:
       - name: Summary
         shell: bash
         run: |
-          echo "# iOS packages" >> $GITHUB_STEP_SUMMARY
-          echo "## Downloads: [WeTransfer](${{ steps.transfer.outputs.download-url }})"
+          echo "## iOS packages: [WeTransfer](${{ steps.transfer.outputs.download-url }})" >> $GITHUB_STEP_SUMMARY
 
   build-linux:
     runs-on: ubuntu-latest
@@ -411,8 +408,7 @@ jobs:
       - name: Summary
         shell: bash
         run: |
-          echo "# Linux packages" >> $GITHUB_STEP_SUMMARY
-          echo "## Downloads: [WeTransfer](${{ steps.transfer.outputs.download-url }})"
+          echo "## Linux packages: [WeTransfer](${{ steps.transfer.outputs.download-url }})" >> $GITHUB_STEP_SUMMARY
 
   build-macos-appstore:
     runs-on: macos-latest
@@ -507,8 +503,7 @@ jobs:
       - name: Summary
         shell: bash
         run: |
-          echo "# macOS packages(App Store version)" >> $GITHUB_STEP_SUMMARY
-          echo "## Downloads: [WeTransfer](${{ steps.transfer.outputs.download-url }})"
+          echo "## macOS packages(App Store version): [WeTransfer](${{ steps.transfer.outputs.download-url }})" >> $GITHUB_STEP_SUMMARY
 
   build-macos-portable:
     runs-on: macos-latest
@@ -613,8 +608,7 @@ jobs:
       - name: Summary
         shell: bash
         run: |
-          echo "# macOS packages(Portable version)" >> $GITHUB_STEP_SUMMARY
-          echo "## Downloads: [WeTransfer](${{ steps.transfer.outputs.download-url }})"
+          echo "## macOS packages(Portable version): [WeTransfer](${{ steps.transfer.outputs.download-url }})" >> $GITHUB_STEP_SUMMARY
 
   build-windows:
     runs-on: windows-latest
@@ -700,8 +694,7 @@ jobs:
       - name: Summary
         shell: bash
         run: |
-          echo "# Windows packages" >> $GITHUB_STEP_SUMMARY
-          echo "## Downloads: [WeTransfer](${{ steps.transfer.outputs.download-url }})"
+          echo "## Windows packages: [WeTransfer](${{ steps.transfer.outputs.download-url }})" >> $GITHUB_STEP_SUMMARY
 
   post-build:
     runs-on: ubuntu-latest
