@@ -129,10 +129,11 @@ jobs:
           curl -sL https://git.io/file-transfer | sh 
           ./transfer wet -s -p 16 --no-progress ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.love 2>&1>./wetransfer.log
           echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
-      - name: Show download link
+      - name: Summary
         shell: bash
         run: |
-          echo "::notice title=Bare love package::${{ steps.transfer.outputs.download-url }}"
+          echo "# Bare love packages" >> $GITHUB_STEP_SUMMARY
+          echo "## Downloads: [WeTransfer](${{ steps.transfer.outputs.download-url }})"
 
   auto-test:
     runs-on: ubuntu-latest
@@ -233,10 +234,11 @@ jobs:
           curl -sL https://git.io/file-transfer | sh 
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
-      - name: Show download link
+      - name: Summary
         shell: bash
         run: |
-          echo "::notice title=Android packages::${{ steps.transfer.outputs.download-url }}"
+          echo "# Android packages" >> $GITHUB_STEP_SUMMARY
+          echo "## Downloads: [WeTransfer](${{ steps.transfer.outputs.download-url }})"
 
   build-ios:
     runs-on: macos-latest
@@ -325,10 +327,11 @@ jobs:
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
-      - name: Show download link
+      - name: Summary
         shell: bash
         run: |
-          echo "::notice title=iOS packages::${{ steps.transfer.outputs.download-url }}"
+          echo "# iOS packages" >> $GITHUB_STEP_SUMMARY
+          echo "## Downloads: [WeTransfer](${{ steps.transfer.outputs.download-url }})"
 
   build-linux:
     runs-on: ubuntu-latest
@@ -405,10 +408,11 @@ jobs:
           curl -sL https://git.io/file-transfer | sh 
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
-      - name: Show download link
+      - name: Summary
         shell: bash
         run: |
-          echo "::notice title=Linux packages::${{ steps.transfer.outputs.download-url }}"
+          echo "# Linux packages" >> $GITHUB_STEP_SUMMARY
+          echo "## Downloads: [WeTransfer](${{ steps.transfer.outputs.download-url }})"
 
   build-macos-appstore:
     runs-on: macos-latest
@@ -500,10 +504,11 @@ jobs:
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
-      - name: Show download link
+      - name: Summary
         shell: bash
         run: |
-          echo "::notice title=macOS App Store packages::${{ steps.transfer.outputs.download-url }}"
+          echo "# macOS packages(App Store version)" >> $GITHUB_STEP_SUMMARY
+          echo "## Downloads: [WeTransfer](${{ steps.transfer.outputs.download-url }})"
 
   build-macos-portable:
     runs-on: macos-latest
@@ -605,10 +610,11 @@ jobs:
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
           ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
-      - name: Show download link
+      - name: Summary
         shell: bash
         run: |
-          echo "::notice title=macOS portable packages::${{ steps.transfer.outputs.download-url }}"
+          echo "# macOS packages(Portable version)" >> $GITHUB_STEP_SUMMARY
+          echo "## Downloads: [WeTransfer](${{ steps.transfer.outputs.download-url }})"
 
   build-windows:
     runs-on: windows-latest
@@ -691,10 +697,11 @@ jobs:
         run: |
           ./transfer.exe wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
           "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $env:GITHUB_OUTPUT
-      - name: Show download link
-        shell: pwsh
+      - name: Summary
+        shell: bash
         run: |
-          Write-Output "::notice title=Windows packages::${{ steps.transfer.outputs.download-url }}"
+          echo "# Windows packages" >> $GITHUB_STEP_SUMMARY
+          echo "## Downloads: [WeTransfer](${{ steps.transfer.outputs.download-url }})"
 
   post-build:
     runs-on: ubuntu-latest
@@ -722,14 +729,18 @@ jobs:
       - name: Summary
         shell: bash
         run: |
-          echo "## Download links:" >> $GITHUB_STEP_SUMMARY
-          echo "- [Core](${{ needs.build-core.outputs.download-url}})" >> $GITHUB_STEP_SUMMARY
-          echo "- [Android](${{ needs.build-android.outputs.download-url }})" >> $GITHUB_STEP_SUMMARY
-          echo "- [iOS](${{ needs.build-ios.outputs.download-url }})" >> $GITHUB_STEP_SUMMARY
-          echo "- [Linux](${{ needs.build-linux.result }})" >> $GITHUB_STEP_SUMMARY
-          echo "- [macOS AppStore](${{ needs.build-macos-appstore.result }})" >> $GITHUB_STEP_SUMMARY
-          echo "- [macOS portable](${{ needs.build-macos-portable.result }})" >> $GITHUB_STEP_SUMMARY
-          echo "- [Windows](${{ needs.build-windows.result }})" >> $GITHUB_STEP_SUMMARY
+          echo "# Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## Version: ${{ needs.get-info.outputs.version-string }}" >> $GITHUB_STEP_SUMMARY
+          echo "## Package Name: ${{ needs.get-info.outputs.base-name }}" >> $GITHUB_STEP_SUMMARY
+          echo "## Status: " >> $GITHUB_STEP_SUMMARY
+          echo "- Automatic tests: ${{ needs.auto-test.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Core packages: ${{ needs.build-core.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Android packages: ${{ needs.build-android.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- iOS packages: ${{ needs.build-ios.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Linux packages: ${{ needs.build-linux.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- macOS packages(App Store version): ${{ needs.build-macos-appstore.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- macOS packages(Portable version): ${{ needs.build-macos-portable.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Windows packages(Portable version): ${{ needs.build-windows.result }}" >> $GITHUB_STEP_SUMMARY
       - name: Send Discord message
         uses: Sniddl/discord-commits@v1.5
         with:
