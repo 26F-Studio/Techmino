@@ -42,15 +42,15 @@ jobs:
           local note = require 'parts.updateLog'
           local p1 = note:find("\n%d") + 1
           local p2 = note:find("\n", p1) - 1
-          print("::set-output name=update-title::" .. note:sub(p1, p2))
+          os.execute('echo "update-title=' .. note:sub(p1, p2) .. '" >> $GITHUB_OUTPUT')
           local p3 = note:find("\n", note:find("\n%d") + 1) + 1
           local p4 = note:find("\n%d", p3 + 1)
-          print("::set-output name=update-note::" .. note:sub(p3, p4 - 2)
+          os.execute('echo "update-note=' .. note:sub(p3, p4 - 2)
               :gsub("                ", "- ")
               :gsub("        ", "# ")
-              :gsub('%%', '%%25')
-              :gsub('\n', '%%0A')
-              :gsub('\r', '%%0D'))
+              :gsub('%%', '%25')
+              :gsub('\n', '%0A')
+              :gsub('\r', '%0D') .. '" >> $GITHUB_OUTPUT')
       - name: Get git info
         id: git-info
         shell: bash
