@@ -29,7 +29,6 @@ jobs:
       - name: Install lua
         run: |
           sudo apt-get install lua5.3 -y
-          echo "### Successfully installed Lua 5.3! :tada:" >> $GITHUB_STEP_SUMMARY
       - name: Get app info
         id: app-info
         shell: lua {0}
@@ -58,14 +57,12 @@ jobs:
         run: |
           COMMIT_HASH=$(git rev-parse --short ${{ GITHUB.SHA }})
           echo "commit-hash=$COMMIT_HASH" >> $GITHUB_OUTPUT
-          echo "### Commit hash: \`$COMMIT_HASH\`" >> $GITHUB_STEP_SUMMARY
       - name: Assemble package base name
         id: assemble-base-name
         shell: bash
         run: |
           BASE_NAME=Techmino_${{ steps.app-info.outputs.version-string }}_${{ steps.git-info.outputs.commit-hash }}_#${{ GITHUB.RUN_NUMBER }}
           echo "base-name=$BASE_NAME" >> $GITHUB_OUTPUT
-          echo "### Package base name: \`$BASE_NAME\`" >> $GITHUB_STEP_SUMMARY
 
   build-core:
     runs-on: ubuntu-latest
@@ -722,6 +719,17 @@ jobs:
         uses: geekyeggo/delete-artifact@v2
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Summary
+        shell: bash
+        run: |
+          echo "## Download links:" >> $GITHUB_STEP_SUMMARY
+          echo "- [Core](${{ needs.build-core.outputs.download-url}})" >> $GITHUB_STEP_SUMMARY
+          echo "- [Android](${{ needs.build-android.outputs.download-url }})" >> $GITHUB_STEP_SUMMARY
+          echo "- [iOS](${{ needs.build-ios.outputs.download-url }})" >> $GITHUB_STEP_SUMMARY
+          echo "- [Linux](${{ needs.build-linux.result }})" >> $GITHUB_STEP_SUMMARY
+          echo "- [macOS AppStore](${{ needs.build-macos-appstore.result }})" >> $GITHUB_STEP_SUMMARY
+          echo "- [macOS portable](${{ needs.build-macos-portable.result }})" >> $GITHUB_STEP_SUMMARY
+          echo "- [Windows](${{ needs.build-windows.result }})" >> $GITHUB_STEP_SUMMARY
       - name: Send Discord message
         uses: Sniddl/discord-commits@v1.5
         with:
