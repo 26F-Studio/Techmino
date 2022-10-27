@@ -687,13 +687,14 @@ jobs:
           rm ${{ env.TEMP_PATH }}
       - name: Upload to WeTransfer
         id: transfer
+        shell: pwsh
         run: |
-          ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
+          ./transfer.exe wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+          "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $env:GITHUB_OUTPUT
       - name: Show download link
-        shell: bash
+        shell: pwsh
         run: |
-          echo "::notice title=Windows packages::${{ steps.transfer.outputs.download-url }}"
+          Write-Output "::notice title=Windows packages::${{ steps.transfer.outputs.download-url }}"
 
   post-build:
     runs-on: ubuntu-latest
