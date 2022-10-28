@@ -138,10 +138,8 @@ function back.draw()
     end
 end
 function back.discard()
-    qX,qY,qdX,qdY,qC=nil,nil,nil,nil,nil
-    blasts=nil
-    ptc=nil
-    nextpair=math.huge
+    qX,qY,qdX,qdY,qC=nil
+    ptc,blasts=nil
     collectgarbage()
 end
 return back
