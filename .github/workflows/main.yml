@@ -232,6 +232,7 @@ jobs:
 
   build-ios:
     runs-on: macos-latest
+    if: github.event_name != 'pull_request'
     needs: [get-info, build-core, auto-test]
     env:
       OUTPUT_FOLDER: ./build
@@ -396,6 +397,7 @@ jobs:
 
   build-macos-appstore:
     runs-on: macos-latest
+    if: github.event_name != 'pull_request'
     needs: [get-info, build-core, auto-test]
     env:
       OUTPUT_FOLDER: ./build
@@ -487,6 +489,7 @@ jobs:
 
   build-macos-portable:
     runs-on: macos-latest
+    if: github.event_name != 'pull_request'
     needs: [get-info, build-core, auto-test]
     env:
       OUTPUT_FOLDER: ./build
@@ -697,35 +700,7 @@ jobs:
           echo "# Summary" >> $GITHUB_STEP_SUMMARY
           echo "## Version: ${{ needs.get-info.outputs.version-string }}" >> $GITHUB_STEP_SUMMARY
           echo "## Package Name: ${{ needs.get-info.outputs.base-name }}" >> $GITHUB_STEP_SUMMARY
-          echo "## Status: " >> $GITHUB_STEP_SUMMARY
-          echo "- Automatic tests: ${{ needs.auto-test.result }}" >> $GITHUB_STEP_SUMMARY
-          echo "- Core packages: ${{ needs.build-core.result }}" >> $GITHUB_STEP_SUMMARY
-          echo "- Android packages: ${{ needs.build-android.result }}" >> $GITHUB_STEP_SUMMARY
-          echo "- iOS packages: ${{ needs.build-ios.result }}" >> $GITHUB_STEP_SUMMARY
-          echo "- Linux packages: ${{ needs.build-linux.result }}" >> $GITHUB_STEP_SUMMARY
-          echo "- macOS packages(App Store version): ${{ needs.build-macos-appstore.result }}" >> $GITHUB_STEP_SUMMARY
-          echo "- macOS packages(Portable version): ${{ needs.build-macos-portable.result }}" >> $GITHUB_STEP_SUMMARY
-          echo "- Windows packages(Portable version): ${{ needs.build-windows.result }}" >> $GITHUB_STEP_SUMMARY
           echo "## Download links: " >> $GITHUB_STEP_SUMMARY
-      # - name: Display build results
-      #   shell: python3 {0}
-      #   run: |
-      #     import os
-      #     with open(os.getenv('GITHUB_STEP_SUMMARY'), 'a') as f:
-      #       if "${{ needs.build-core.result }}" == "success":
-      #         f.write("- Bare love packages: [WeTransfer](${{ needs.build-core.outputs.download-url }})\n")
-      #       if "${{ needs.build-android.result }}" == "success":
-      #         f.write("- Android packages: [WeTransfer](${{ needs.build-android.outputs.download-url }})\n")
-      #       if "${{ needs.build-ios.result }}" == "success":
-      #         f.write("- iOS packages: [WeTransfer](${{ needs.build-ios.outputs.download-url }})\n")
-      #       if "${{ needs.build-linux.result }}" == "success":
-      #         f.write("- Linux packages: [WeTransfer](${{ needs.build-linux.outputs.download-url }})\n")
-      #       if "${{ needs.build-macos-appstore.result }}" == "success":
-      #         f.write("- macOS packages(App Store version): [WeTransfer](${{ needs.build-macos-appstore.outputs.download-url }})\n")
-      #       if "${{ needs.build-macos-portable.result }}" == "success":
-      #         f.write("- macOS packages(Portable version): [WeTransfer](${{ needs.build-macos-portable.outputs.download-url }})\n")
-      #       if "${{ needs.build-windows.result }}" == "success":
-      #         f.write("- Windows packages: [WeTransfer](${{ needs.build-windows.outputs.download-url }})\n")
       - name: Display download links
         shell: python3 {0}
         run: |
