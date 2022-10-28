@@ -379,7 +379,7 @@ function NET.getUserInfo(uid)
             path='/techmino/api/v1/player/info?playerId='..uid,
         },6.26)
 
-        if res and res.code==200 then
+        if res and res.code==200 and type(res.data)=='table' then
             USERS.updateUserData(res.data)
         end
     end)
@@ -391,7 +391,7 @@ function NET.getAvatar(uid)
             path='/techmino/api/v1/player/avatar?playerId='..uid,
         },6.26)
 
-        if res and res.code==200 then
+        if res and res.code==200 and type(res.data)=='string' then
             USERS.updateAvatar(uid,res.data)
         end
     end)
