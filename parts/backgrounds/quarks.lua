@@ -6,7 +6,7 @@ local back={}
 
 local qX,qY,qdX,qdY={},{},{},{} -- quark data in SoA [size, X, Y, dx, dy, color]
 
-local ptcclr={{1,.26,.26},{.26,1,.26},{.26,.26,1}}
+local ptcclr={{1,0,0},{0,1,0},{0,0,1}}
 local apcclr={{0,1,1},{1,0,1},{1,1,0}}
 
 local blasts={} -- data about annihilation blasts from particles and antiparticles colliding
@@ -16,7 +16,6 @@ local nextpair
 local W,H,size
 local quarkCount=400
 
-local x,y,cutoff -- temp vars for optimization
 local function spawnQuarkRandom(i)
     qX[i]=rnd(W)-10         -- X
     qY[i]=rnd(H)-10         -- Y
@@ -44,16 +43,23 @@ local function spawnQuarkEdge(i)
     qdY[i]=sin(theta)*300 -- dy
 end
 local function spawnParticlePair()
-    x,y=rnd(W)-10,rnd(H)-10
-    ptc[#ptc+1]={x=x,y=y,dist=0,theta=rnd()*MATH.tau,v=500, c=rnd(3)}
+    ptc[#ptc+1]={
+        x=rnd(W)-10,
+        y=rnd(H)-10,
+        dist=0,
+        theta=rnd()*MATH.tau,
+        v=500,
+        c=rnd(3),
+    }
 end
-local function spawnBlast(_x,_y) blasts[#blasts+1]={x=_x,y=_y,t=0} end
+local function spawnBlast(_x,_y)
+    blasts[#blasts+1]={x=_x,y=_y,t=0}
+end
 
 function back.init()
     qX,qY,qdX,qdY={},{},{},{}
     blasts={}
     ptc={}
-    cutoff={ceil(quarkCount/3),ceil(2*quarkCount/3)}
     nextpair=0
     BG.resize(SCR.w,SCR.h)
 end
@@ -63,7 +69,7 @@ function back.resize(w,h)
     size=2.6*SCR.k
 end
 function back.update(dt)
-    --Move far-away quarks
+    -- Move far-away quarks
     for i=1,quarkCount do
         qX[i]=qX[i]+qdX[i]*dt
         qY[i]=qY[i]+qdY[i]*dt
@@ -72,14 +78,14 @@ function back.update(dt)
         end
     end
 
-    --Particle pair attraction & destruction
+    -- Particle pair attraction & destruction
     for i=#ptc,1,-1 do
         local p=ptc[i]
         if p then
             p.dist=p.dist+p.v*dt
             p.v=p.v-p.dist^2*dt
 
-            --Destroy colliding particle pairs
+            -- Destroy colliding particle pairs
             if p.dist<=10 and p.v<=0 then
                 spawnBlast(p.x,p.y)
                 table.remove(ptc,i)
@@ -87,7 +93,7 @@ function back.update(dt)
         end
     end
 
-    --Age blasts, delete old blasts
+    -- Age blasts, delete old blasts
     for i=#blasts,1,-1 do
         if blasts[i] then
             blasts[i].t=blasts[i].t+dt
@@ -97,7 +103,7 @@ function back.update(dt)
         end
     end
 
-    --Spawn particle pairs
+    -- Spawn particle pairs
     nextpair=nextpair-dt
     if nextpair<=0 then
         spawnParticlePair()
@@ -105,20 +111,14 @@ function back.update(dt)
     end
 end
 function back.draw()
-    gc.clear(0.08,0.04,0.01)
+    gc.clear(.08,.04,.01)
     translate(-10,-10)
-    setColor(1,0,0,.8)
-    for i=1,cutoff[1] do -- draw red quarks
-        circle('fill',qX[i],qY[i],size)
-    end
-    setColor(0,1,0,.8)
-    for i=cutoff[1]+1,cutoff[2] do -- draw green quarks
-        circle('fill',qX[i],qY[i],size)
-    end
-    setColor(0,0,1,.8)
-    for i=cutoff[2]+1,quarkCount do -- draw blue quarks
-        circle('fill',qX[i],qY[i],size)
-    end
+
+    -- Draw quarks in R/G/B
+    setColor(1,0,0,.8) for i=1,                           math.floor(quarkCount/3)   do circle('fill',qX[i],qY[i],size) end
+    setColor(0,1,0,.8) for i=math.floor(quarkCount/3)+1,  math.floor(quarkCount*2/3) do circle('fill',qX[i],qY[i],size) end
+    setColor(0,0,1,.8) for i=math.floor(quarkCount*2/3)+1,quarkCount                 do circle('fill',qX[i],qY[i],size) end
+
     for i=1,#ptc do
         local p=ptc[i]
         push()
@@ -134,7 +134,7 @@ function back.draw()
     for i=1,#blasts do
         local t=blasts[i].t
         setColor(hsv(-80*t,1-1.7*log(5*t,10),1,1-t))
-        circle('fill',blasts[i].x,blasts[i].y,62*t^.5)
+        circle('fill',blasts[i].x,blasts[i].y,62*t^.3)
     end
 end
 function back.discard()
