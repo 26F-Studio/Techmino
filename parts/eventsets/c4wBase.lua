@@ -1,6 +1,6 @@
 local rem=table.remove
 
-return{
+return {
     mesDisp=function(P)
         setFont(45)
         GC.mStr(P.combo,63,310)

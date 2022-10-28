@@ -1,4 +1,4 @@
-return{
+return {
     env={
         drop=60,lock=180,
         keyCancel={3,4,5},

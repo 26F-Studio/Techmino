@@ -5,7 +5,7 @@ local inv_hide={20,17,14,11, 8,  5, 3, 2, 1, 0}
 local hidetimer=0
 local held=false
 
-return{
+return {
     drop=0,
     lock=inv_lock[1],
     wait=inv_wait[1],

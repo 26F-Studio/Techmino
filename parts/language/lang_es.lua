@@ -1,4 +1,4 @@
-return{
+return {
     loadText={
         loadSFX="Cargando efectos de sonido",
         loadSample="Cargando samples de música",

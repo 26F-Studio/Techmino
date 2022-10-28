@@ -72,7 +72,7 @@ local function _flipList(O)
 end
 
 local function _reflect(a)
-    return{
+    return {
         [03]=_flipList(a[01]),
         [01]=_flipList(a[03]),
         [30]=_flipList(a[10]),

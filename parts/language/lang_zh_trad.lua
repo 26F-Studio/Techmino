@@ -1,4 +1,4 @@
-return{
+return {
     fallback='zh',
     loadText={
         loadSFX="加載音效資源",

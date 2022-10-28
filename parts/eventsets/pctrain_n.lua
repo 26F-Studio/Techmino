@@ -34,7 +34,7 @@ local function _check(P)
         end
     end
 end
-return{
+return {
     sequence='none',
     RS="SRS",
     mesDisp=function(P)

@@ -1,4 +1,4 @@
-return{
+return {
     env={
         life=2,
         drop=60,lock=60,
@@ -9,7 +9,7 @@ return{
         PLY.newPlayer(1)
         PLY.newAIPlayer(2,BOT.template{type='9S',speedLV=6,hold=true})
     end,
-    score=function(P) return{P.stat.time} end,
+    score=function(P) return {P.stat.time} end,
     scoreDisp=function(D) return STRING.time(D[1]) end,
     comp=function(a,b) return a[1]<b[1] end,
     getRank=function(P)

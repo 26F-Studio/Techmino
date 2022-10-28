@@ -119,7 +119,7 @@ local function getRollGoal()
     end
 end
 
-return{
+return {
     drop=64,
     lock=30,
     wait=23,

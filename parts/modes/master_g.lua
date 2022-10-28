@@ -5,7 +5,7 @@ local gradeList={
     "M","MK","MV","MO","MM-","MM","MM+","GM-","GM","GM+","TM-","TM","TM+"
 }
 
-return{
+return {
     env={
         freshLimit=15,
         fieldH=19,

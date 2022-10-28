@@ -1,4 +1,4 @@
-return{
+return {
     {name='sprint_10l',    x=0,         y=0,        size=40,shape=1,icon="sprint1",     unlock={'sprint_20l','sprint_40l'}},
     {name='sprint_20l',    x=-200,      y=200,      size=50,shape=1,icon="sprint1"},
     {name='sprint_40l',    x=0,         y=-300,     size=40,shape=1,icon="sprint2",     unlock={'dig_10l','sprint_100l','marathon_n','sprintPenta','sprintMPH','sprint123','secret_grade'}},

@@ -1,4 +1,4 @@
-return{
+return {
     ["apkCode"]=450,
     ["code"]=1707,
     ["string"]="V0.17.7",

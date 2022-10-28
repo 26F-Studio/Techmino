@@ -1,4 +1,4 @@
-return{
+return {
     mesDisp=function(P)
         setFont(60)
         GC.mStr(P.stat.clear[7][4],63,250)

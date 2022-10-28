@@ -1,4 +1,4 @@
-return{
+return {
     fallback='en',
     sureQuit="Appuyez à nouveau pour sortir",
     -- sureReset="Press again to reset",

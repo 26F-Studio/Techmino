@@ -1,4 +1,4 @@
-return{
+return {
     env={
         infHold=true,
         drop=1e99,lock=1e99,
@@ -6,7 +6,7 @@ return{
         eventSet='checkAttack_100',
         bg='matrix',bgm='new era',
     },
-    score=function(P) return{P.stat.atk<=100 and math.floor(P.stat.atk) or 100,P.stat.time} end,
+    score=function(P) return {P.stat.atk<=100 and math.floor(P.stat.atk) or 100,P.stat.time} end,
     scoreDisp=function(D) return D[1].." Attack  "..STRING.time(D[2]) end,
     comp=function(a,b) return a[1]>b[1] or a[1]==b[1] and a[2]<b[2] end,
     getRank=function(P)

@@ -413,7 +413,7 @@ function DATA.parseReplayData(fileName,fileData,ifFull)
 
     -- Create unavailable replay object
     ::BREAK_cannotParse::
-    return{
+    return {
         fileName=fileName,
         available=false,
     }

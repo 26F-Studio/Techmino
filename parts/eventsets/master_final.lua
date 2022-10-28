@@ -1,4 +1,4 @@
-return{
+return {
     drop=0,lock=12,
     wait=10,fall=10,
     noTele=true,

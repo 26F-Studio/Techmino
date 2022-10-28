@@ -1,4 +1,4 @@
-return{
+return {
     env={},
     load=function()
         applyCustomGame()

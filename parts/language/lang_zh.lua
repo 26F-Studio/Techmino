@@ -1,5 +1,5 @@
 local C=COLOR
-return{
+return {
     loadText={
         loadSFX="加载音效资源",
         loadSample="加载乐器采样",

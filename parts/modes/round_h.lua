@@ -1,4 +1,4 @@
-return{
+return {
     env={
         life=1,
         drop=300,lock=300,
@@ -12,7 +12,7 @@ return{
         PLY.newPlayer(1)
         PLY.newAIPlayer(2,BOT.template{type='CC',speedLV=7,next=2,hold=false,node=5000})
     end,
-    score=function(P) return{P.stat.piece,P.stat.time} end,
+    score=function(P) return {P.stat.piece,P.stat.time} end,
     scoreDisp=function(D) return D[1].." Pieces   "..STRING.time(D[2]) end,
     comp=function(a,b) return a[1]<b[1] or a[1]==b[1] and a[2]<b[2] end,
     getRank=function(P)

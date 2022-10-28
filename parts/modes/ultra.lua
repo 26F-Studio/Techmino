@@ -1,4 +1,4 @@
-return{
+return {
     env={
         noTele=true,
         minarr=1,minsdarr=1,
@@ -8,7 +8,7 @@ return{
         bg='fan',bgm='sakura',
     },
     slowMark=true,
-    score=function(P) return{P.stat.score} end,
+    score=function(P) return {P.stat.score} end,
     scoreDisp=function(D) return tostring(D[1]) end,
     comp=function(a,b) return a[1]>b[1] end,
     getRank=function(P)

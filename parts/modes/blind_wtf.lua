@@ -7,7 +7,7 @@ local border=GC.DO{334,620,
     {'dRect',1,10,15,604,3},
 }
 local sin,min=math.sin,math.min
-return{
+return {
     env={
         drop=30,lock=60,
         nextCount=1,
@@ -59,7 +59,7 @@ return{
             MES.new('warn',text.switchSpawnSFX)
         end
     end,
-    score=function(P) return{min(P.stat.row,40),P.stat.time} end,
+    score=function(P) return {min(P.stat.row,40),P.stat.time} end,
     scoreDisp=function(D) return D[1].." Lines   "..STRING.time(D[2]) end,
     comp=function(a,b) return a[1]>b[1] or a[1]==b[1] and a[2]<b[2] end,
     getRank=function(P)

@@ -1,5 +1,5 @@
 local C=COLOR
-return{
+return {
     fallback='en',
     sureQuit="Aparte novamente para sair",
     -- sureReset="Press again to reset",

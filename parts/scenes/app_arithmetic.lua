@@ -91,30 +91,30 @@ local levels={
     end,nil,nil,nil,nil,
     function()-- <b> [,10]
         local a=rnd(2,9)
-        return{COLOR.N,b2(a)},a
+        return {COLOR.N,b2(a)},a
     end,nil,nil,nil,nil,
     function()-- <o>
         local a=rnd(9,63)
-        return{COLOR.lR,b8(a)},a
+        return {COLOR.lR,b8(a)},a
     end,nil,nil,nil,
     function()-- <h>
         local a=rnd(17,255)
-        return{COLOR.J,b16(a)},a
+        return {COLOR.J,b16(a)},a
     end,nil,nil,
     function()-- <b+>
         local s=rnd(9,31)
         local a=rnd(5,int(s/2))
-        return{COLOR.N,b2(a),COLOR.Z,"+",COLOR.N,b2(s-a)},s
+        return {COLOR.N,b2(a),COLOR.Z,"+",COLOR.N,b2(s-a)},s
     end,nil,nil,nil,nil,
     function()-- <o+>
         local s=rnd(18,63)
         local a=rnd(9,int(s/2))
-        return{COLOR.lR,b8(a),COLOR.Z,"+",COLOR.lR,b8(s-a)},s
+        return {COLOR.lR,b8(a),COLOR.Z,"+",COLOR.lR,b8(s-a)},s
     end,nil,nil,nil,
     function()-- <h+>
         local s=rnd(34,255)
         local a=rnd(17,int(s/2))
-        return{COLOR.J,b16(a),COLOR.Z,"+",COLOR.J,b16(s-a)},s
+        return {COLOR.J,b16(a),COLOR.Z,"+",COLOR.J,b16(s-a)},s
     end,nil,nil,
     function() timing=false return "Coming S∞n"..(rnd()<.5 and "" or " "),1e99 end,
 }setmetatable(levels,{__index=function(self,k) return self[k-1] end})

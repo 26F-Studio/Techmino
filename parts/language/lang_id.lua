@@ -1,5 +1,5 @@
 local C=COLOR
-return{
+return {
     fallback='en',
     loadText={
         loadSFX="Memuat efek suara",

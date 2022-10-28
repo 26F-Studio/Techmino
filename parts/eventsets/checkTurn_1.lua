@@ -1,4 +1,4 @@
-return{
+return {
     hook_drop=function(P)
         if #PLY_ALIVE>1 then
             P.control=false

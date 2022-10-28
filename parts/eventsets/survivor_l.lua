@@ -1,4 +1,4 @@
-return{
+return {
     mesDisp=function(P)
         setFont(60)
         GC.mStr(P.modeData.wave,63,310)

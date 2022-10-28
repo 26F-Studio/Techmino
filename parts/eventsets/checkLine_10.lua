@@ -1,4 +1,4 @@
-return{
+return {
     mesDisp=function(P)
         setFont(55)
         local r=10-P.stat.row

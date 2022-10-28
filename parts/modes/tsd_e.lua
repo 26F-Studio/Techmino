@@ -1,4 +1,4 @@
-return{
+return {
     env={
         drop=120,lock=1e99,
         hang=15,
@@ -7,7 +7,7 @@ return{
         eventSet='tsd_e',
         bg='matrix',bgm='vapor',
     },
-    score=function(P) return{P.modeData.tsd,P.stat.time} end,
+    score=function(P) return {P.modeData.tsd,P.stat.time} end,
     scoreDisp=function(D) return D[1].."TSD   "..STRING.time(D[2]) end,
     comp=function(a,b) return a[1]>b[1] or a[1]==b[1] and a[2]<b[2] end,
     getRank=function(P)

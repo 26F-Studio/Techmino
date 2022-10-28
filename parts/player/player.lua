@@ -1374,7 +1374,7 @@ end
 function Player:getBlock(id,name,color)-- Get a block object
     local ENV=self.gameEnv
     local dir=ENV.face[id]
-    return{
+    return {
         id=id,
         dir=dir,
         bk=BLOCKS[id][dir],

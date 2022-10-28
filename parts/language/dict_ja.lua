@@ -1,6 +1,6 @@
 local HDsearch="https://harddrop.com/wiki?search="
 local HDwiki="\nHard Drop Wikiに詳しい情報があります!"
-return{
+return {
     {"翻訳者からのメモ1",
         "",
         "help",

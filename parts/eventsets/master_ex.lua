@@ -10,7 +10,7 @@ local function getRollGoal(P)
     return goal+(rem>0.3 and 4 or rem*10)
 end
 
-return{
+return {
     drop=0,lock=15,
     wait=15,fall=6,
     noTele=true,

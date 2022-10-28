@@ -1,5 +1,5 @@
 local C=COLOR
-return{
+return {
     fallback='en',
     loadText={
         loadSFX="効果音をロード中",

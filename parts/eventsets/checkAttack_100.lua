@@ -1,4 +1,4 @@
-return{
+return {
     mesDisp=function(P)
         setFont(45)
         GC.mStr(("%.1f"):format(P.stat.atk),63,190)

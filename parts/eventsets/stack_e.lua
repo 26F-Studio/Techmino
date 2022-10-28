@@ -1,4 +1,4 @@
-return{
+return {
     fieldH=20,
     fillClear=false,
     mesDisp=function(P)

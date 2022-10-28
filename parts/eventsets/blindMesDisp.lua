@@ -1,4 +1,4 @@
-return{
+return {
     mesDisp=function(P)
         mText(TEXTOBJ.techrash,63,420)
         setFont(75)

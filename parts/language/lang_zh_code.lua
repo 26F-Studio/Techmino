@@ -1,5 +1,5 @@
 local C=COLOR
-return{
+return {
     loadText={
         loadSFX="Load(SFX);",
         loadSample="Load(Sample);",

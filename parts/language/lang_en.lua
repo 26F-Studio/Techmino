@@ -1,5 +1,5 @@
 local C=COLOR
-return{
+return {
     loadText={
         loadSFX="Loading sound effects",
         loadSample="Loading instrument samples",

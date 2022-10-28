@@ -1,7 +1,7 @@
 local warnTime={60,90,105,115,116,117,118,119,120}
 for i=1,#warnTime do warnTime[i]=warnTime[i]*60 end
 
-return{
+return {
     mesDisp=function(P)
         GC.setLineWidth(2)
         GC.setColor(.98,.98,.98,.8)

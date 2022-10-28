@@ -1,4 +1,4 @@
-return{
+return {
     {font=100,name="☆★白羽★☆"},
     {font=100,name="[*浩]"},
 

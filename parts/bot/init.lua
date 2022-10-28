@@ -62,7 +62,7 @@ local AISpeed={60,50,42,34,27,21,16,12,9,6}
 ]]
 function BOT.template(arg)
     if arg.type=='CC' then
-        return{
+        return {
             type='CC',
             next=arg.next,
             hold=arg.hold,
@@ -72,7 +72,7 @@ function BOT.template(arg)
             _20G=arg._20G,
         }
     elseif arg.type=='9S' then
-        return{
+        return {
             type='9S',
             delay=math.floor(AISpeed[arg.speedLV]),
             hold=arg.hold,

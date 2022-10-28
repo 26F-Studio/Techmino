@@ -1,6 +1,6 @@
 local HDsearch="https://harddrop.com/wiki?search="
 local HDwiki="\n更多内容见Hard Drop Wiki。"
-return{
+return {
     {"新人须知",
         "读我 必读 萌新 xinren new noob readme",
         "help",

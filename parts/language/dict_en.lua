@@ -1,6 +1,6 @@
 local HDsearch="https://harddrop.com/wiki?search="
 local HDwiki="\nFor more information, please visit Hard Drop Wiki. Click on the globe icon to open the link."
-return{
+return {
     {"Translator Note 1",
         "",
         "help",

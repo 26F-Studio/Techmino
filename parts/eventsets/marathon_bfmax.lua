@@ -1,6 +1,6 @@
 local dropSpeed={50,40,30,25,20,15,12,9,7,5,4,3,2,1,1,.5,.5,.25,.25}
 
-return{
+return {
     drop=60,
     wait=8,
     fall=20,
