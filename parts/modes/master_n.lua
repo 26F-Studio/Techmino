@@ -3,7 +3,7 @@ return{
         sequence="bagES",
         freshLimit=15,
         eventSet='master_n',
-        bg='bg1',bgm='secret8th',
+        bg='bg2',bgm='secret8th',
     },
     slowMark=true,
     score=function(P) return{P.modeData.pt,P.stat.time} end,

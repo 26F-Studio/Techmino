@@ -3,7 +3,7 @@ return{
         life=2,
         drop=60,lock=60,
         freshLimit=15,
-        bg='bg2',bgm='battle',
+        bg='quarks',bgm='battle',
     },
     load=function()
         PLY.newPlayer(1)
