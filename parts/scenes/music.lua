@@ -59,7 +59,7 @@ function scene.keyDown(key,isRep)
             SCN.back()
         elseif #key==1 and key:find'[0-9a-z]' then
             for _=1,#bgmList do
-                selected=selected%#bgmList+1
+                selected=(selected-1+(love.keyboard.isDown('lshift','rshift') and -1 or 1))%#bgmList+1
                 if bgmList[selected]:sub(1,1)==key then break end
             end
         end
