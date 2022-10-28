@@ -214,6 +214,7 @@ function scene.update(dt)
             for i=1,#NETPLY.list do
                 NETPLY.list[i].readyMode='Standby'
             end
+            NETPLY.freshPos()
             NET.freshRoomAllReady()
             return
         else

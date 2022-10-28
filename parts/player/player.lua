@@ -2608,7 +2608,7 @@ local function update_streaming(P)
                     P.netAtk=P.netAtk+amount
                     if P.netAtk~=P.stat.send then-- He cheated or just desynchronized to death
                         MES.new('warn',"#"..P.uid.." desynchronized")
-                        NET.player_finish({foo=""})
+                        NET.player_finish({reason='desync'})
                         P:lose(true)
                         return
                     end
@@ -2691,8 +2691,15 @@ function Player:update(dt)
         end
         while self.trigFrame>=1 do
             if self.streamProgress then
-                local frameDelta
+                local frameDelta-- Time between now and end of stream
                 if self.type=='remote' then
+                    if self.loseTimer then
+                        self.loseTimer=self.loseTimer-1
+                        if self.loseTimer==0 then
+                            self.loseTimer=false
+                            self:lose(true)
+                        end
+                    end
                     frameDelta=(self.stream[#self.stream-1] or 0)-self.frameRun
                     if frameDelta==0 then frameDelta=nil end
                 else
@@ -2700,6 +2707,7 @@ function Player:update(dt)
                 end
                 if frameDelta then
                     for _=1,
+                        self.loseTimer and 6 or
                         frameDelta<26 and 1 or
                         frameDelta<50 and 2 or
                         frameDelta<80 and 3 or
@@ -2797,8 +2805,10 @@ function Player:lose(force)
             self:revive()
             return
         elseif self.type=='remote' then
-            self.waiting=1e99
-            return
+            if not self.loseTimer then
+                self.waiting=1e99
+                return
+            end
         end
     end
     self:_die()
@@ -2852,7 +2862,7 @@ function Player:lose(force)
         gameOver()
         self:newTask(#PLAYERS>1 and task_lose or task_finish)
         if GAME.net and not NET.spectate then
-            NET.player_finish({foo=""})
+            NET.player_finish({reason="lose"})
         else
             TASK.new(task_autoPause)
         end

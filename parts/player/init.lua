@@ -411,6 +411,7 @@ function PLY.newRemotePlayer(id,mini,p)
     P.sid=NET.uid_sid[p.uid] or p.uid
     P.group=p.group
     P.netAtk=0-- Sum of lines sent in stream, will be compared with P.stat.send for checking stream legal or not
+    P.loseTimer=false-- Will be set to 26 when receive player_finish signal
     if not (P.group%1==0 and P.group>=1 and P.group<=6) then P.group=0 end
 
     _loadRemoteEnv(P,p.config)

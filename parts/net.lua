@@ -684,6 +684,7 @@ end
 function NET.wsCallBack.player_finish(body)
     for _,P in next,PLY_ALIVE do
         if P.uid==body.data.playerId then
+            P.loseTimer=26
             P:lose(true)
             break
         end
@@ -712,6 +713,9 @@ function NET.wsCallBack.player_setReadyMode(body)
     NET.freshRoomAllReady()
 end
 function NET.wsCallBack.match_finish()
+    for _,P in next,PLAYERS do
+        NETPLY.setStat(P.uid,P.stat)
+    end
     TASK.new(function()
         TEST.yieldT(2.6)
         TASK.unlock('netPlaying')
