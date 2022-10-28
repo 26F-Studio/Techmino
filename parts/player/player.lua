@@ -2606,8 +2606,8 @@ local function update_streaming(P)
             for _,p in next,PLY_ALIVE do
                 if p.sid==sid then
                     P.netAtk=P.netAtk+amount
-                    if P.netAtk~=P.stat.send then
-                        MES.new('warn',"#"..P.uid..' desynchronized')
+                    if P.netAtk~=P.stat.send then-- He cheated or just desynchronized to death
+                        MES.new('warn',"#"..P.uid.." desynchronized")
                         NET.player_finish({foo=""})
                         P:lose(true)
                         return
@@ -2681,7 +2681,7 @@ function Player:update(dt)
     self.trigFrame=self.trigFrame+dt*60
     if self.alive then
         local S=self.stat
-        if self.type=='computer' then self.bot:update(dt) end
+        if self.type=='bot' then self.bot:update(dt) end
         if self.trigFrame>=1 and self.alive then
             if self.streamProgress then
                 S.time=self.stat.frame/60

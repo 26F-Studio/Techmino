@@ -381,7 +381,7 @@ local DemoEnv={
 }
 function PLY.newDemoPlayer(id)
     local P=_newEmptyPlayer(id)
-    P.type='computer'
+    P.type='bot'
     P.sound=false
     P.demo=true
 
@@ -410,7 +410,7 @@ function PLY.newRemotePlayer(id,mini,p)
     P.uid=p.uid
     P.sid=NET.uid_sid[p.uid] or p.uid
     P.group=p.group
-    P.netAtk=0
+    P.netAtk=0-- Sum of lines sent in stream, will be compared with P.stat.send for checking stream legal or not
     if not (P.group%1==0 and P.group>=1 and P.group<=6) then P.group=0 end
 
     _loadRemoteEnv(P,p.config)
@@ -418,13 +418,13 @@ function PLY.newRemotePlayer(id,mini,p)
 end
 function PLY.newAIPlayer(id,AIdata,mini,p)
     local P=_newEmptyPlayer(id,mini)
-    P.type='computer'
+    P.type='bot'
 
     local pData={
         uid=id,
         group=0,
     } if p then TABLE.coverR(p,pData) end
-    P.username='BOT'..pData.uid
+    P.username="BOT"..pData.uid
     P.sid=NET.uid_sid[pData.uid] or pData.uid
     P.group=pData.group
     if not (P.group%1==0 and P.group>=1 and P.group<=6) then P.group=0 end
