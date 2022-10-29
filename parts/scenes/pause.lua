@@ -25,7 +25,7 @@ function scene.sceneInit()
     local P1=PLAYERS[1]
     local S=P1.stat
 
-    timer1=SCN.prev=='game' and 0 or 50
+    timer1=(SCN.prev=='game' or SCN.prev=='depause') and 0 or 1
     timer2=timer1
 
     local frameLostRate=(S.frame/S.time/60-1)*100
