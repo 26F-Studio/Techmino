@@ -2,7 +2,7 @@ local gc=love.graphics
 local gc_translate=gc.translate
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_draw=gc.draw
-local gc_rectangle,gc_arc=gc.rectangle,gc.arc
+local gc_rectangle=gc.rectangle
 local gc_print,gc_printf=gc.print,gc.printf
 
 
@@ -97,9 +97,9 @@ function scene.keyDown(key)
 end
 
 function scene.update(dt)
-    if not TASK.getLock('fetchRoom') and _hidePW() then
+    if not TASK.getLock('fetchRoom') then
         fetchTimer=fetchTimer-dt
-        if fetchTimer<=0 then
+        if fetchTimer<=0 and _hidePW() then
             _fetchRoom()
         end
     end
@@ -107,8 +107,10 @@ end
 
 function scene.draw()
     -- Fetching timer
-    gc_setColor(1,1,1,.12)
-    gc_arc('fill','pie',250,630,40,-1.5708,-1.5708-.6283*fetchTimer)
+    if fetchTimer>0 then
+        gc_setColor(1,1,1,.12)
+        GC.arc('fill','pie',250,630,40,-1.5708,-1.5708-.6283*fetchTimer)
+    end
 
     -- Room list
     local R=roomList:getSel()
