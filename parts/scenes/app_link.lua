@@ -297,11 +297,12 @@ function scene.draw()
     gc.push('transform')
         -- Camera
         gc.translate(field.x,field.y)
-        gc.scale(field.w/field.c,field.h/field.r)
 
         -- Background
         gc.setColor(COLOR.dX)
         gc.rectangle('fill',0,0,field.w,field.h)
+
+        gc.scale(field.w/field.c,field.h/field.r)
 
         -- Matrix
         local mono=state==0 or invis and not field.full
