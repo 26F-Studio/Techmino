@@ -725,9 +725,8 @@ function NET.wsCallBack.match_ready()-- not used
 end
 function NET.wsCallBack.match_start(body)
     TASK.lock('netPlaying')
-    if body.data then
-        NET.seed=body.data
-    else
+    NET.seed=body.data and body.data.seed
+    if not NET.seed then
         NET.seed=0
         MES.new("error",'No seed received')
     end
