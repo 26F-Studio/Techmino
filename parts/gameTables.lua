@@ -22,12 +22,12 @@ RANK_COLORS={
 }
 GROUP_COLORS={
     [0]=COLOR.Z,
-    [1]=COLOR.R,
-    [2]=COLOR.G,
-    [3]=COLOR.B,
-    [4]=COLOR.Y,
-    [5]=COLOR.M,
-    [6]=COLOR.C,
+    [1]={STRING.hexColor'e57373'},
+    [2]={STRING.hexColor'aed581'},
+    [3]={STRING.hexColor'42a5f5'},
+    [4]={STRING.hexColor'ffe082'},
+    [5]={STRING.hexColor'ba68c8'},
+    [6]={STRING.hexColor'80deea'},
 }
 
 do-- SVG_TITLE_FILL, SVG_TITLE_LINE
