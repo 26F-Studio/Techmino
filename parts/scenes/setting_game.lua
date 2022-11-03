@@ -51,12 +51,8 @@ scene.widgetList={
     WIDGET.newSwitch{name='simpMode', x=960,  y=670, lim=480,                    disp=SETval('simpMode'),
         code=function()
             SETTING.simpMode=not SETTING.simpMode
-            for i=1,#SCN.stack,2 do
-                if SCN.stack[i]=='main' or SCN.stack[i]=='main_simple' then
-                    SCN.stack[i]=SETTING.simpMode and 'main_simple' or 'main'
-                    break
-                end
-            end
+            local p=TABLE.find(SCN.stack,'main') or TABLE.find(SCN.stack,'main_simple')
+            SCN.stack[p]=SETTING.simpMode and 'main_simple' or 'main'
         end},
     WIDGET.newButton{name='back',     x=1140, y=640, w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }

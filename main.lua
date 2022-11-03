@@ -60,13 +60,13 @@ BGM.setMaxSources(5)
 VOC.setDiversion(.62)
 
 WIDGET.setOnChange(function()
-    if SCN.current~='custom_field' then
+    if SCN.cur~='custom_field' then
         local colorList=THEME.getThemeColor()
-        if not colorList then return end
-        local rnd=math.random
-        for _,W in next,SCN.scenes[SCN.current].widgetList do
-            if W.color then
-                W.color=colorList[rnd(#colorList)]
+        if colorList then
+            for _,W in next,SCN.scenes[SCN.cur].widgetList do
+                if W.color then
+                    W.color=colorList[math.random(#colorList)]
+                end
             end
         end
     end
@@ -218,10 +218,10 @@ do-- Z.setOnFocus
                 TASK.new(task_autoSoundOn)
             end
         else
-            if SCN.current=='game' and SETTING.autoPause then
+            if SCN.cur=='game' and SETTING.autoPause then
                 pauseGame()
             end
-            if SETTING.autoMute and SCN.current~='music' then
+            if SETTING.autoMute and SCN.cur~='music' then
                 TASK.removeTask_code(task_autoSoundOn)
                 TASK.new(task_autoSoundOff)
             end

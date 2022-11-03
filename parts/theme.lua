@@ -4,7 +4,7 @@ local THEME={
 local themeColor={
     xmas={COLOR.lR,COLOR.Z,COLOR.lG},
     sprfes={COLOR.lR,COLOR.O,COLOR.lY},
-    halloween={COLOR.lH,COLOR.O,{COLOR.hsv(0.76, 0.50, 0.42)},{COLOR.hsv(0.33, 0.80, 0.42)}},
+    halloween={COLOR.lH,COLOR.O,{COLOR.hsv(.76,.50,.42)},{COLOR.hsv(.33,.80,.42)}},
 }
 
 function THEME.calculate(Y,M,D)
@@ -18,7 +18,7 @@ function THEME.calculate(Y,M,D)
         'xmas' or
 
         -- Halloween
-        (M=='11' and D>='28' or M=='12' and D<='04') and
+        (M=='10' and D>='28' or M=='11' and D<='04') and
         'halloween' or
 
         -- Birthday

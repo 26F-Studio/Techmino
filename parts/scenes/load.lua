@@ -103,7 +103,7 @@ local loadingThread=coroutine.wrap(function()
     SFX.play('enter',.8)
     SFX.play('welcome')
     VOC.play('welcome')
-    THEME.set(THEME.calculate(os.date('%Y'),os.date('%m'),os.date('%d')))
+    THEME.set(THEME.calculate())
     LOADED=true
     saveStats()
     Z.setPowerInfo(SETTING.powerInfo)
