@@ -383,8 +383,8 @@ local function _drawBuffer(atkBuffer,bufferWarn,atkBufferSum1,atkBufferSum)
         local bar=A.amount*30
         if h+bar>600 then bar=600-h end
         if not A.sent then
-            -- Appear
             if A.time<20 then
+                -- Appear
                 bar=bar*(20*A.time)^.5*.05
             end
             if A.countdown>0 then
@@ -405,12 +405,13 @@ local function _drawBuffer(atkBuffer,bufferWarn,atkBufferSum1,atkBufferSum)
                 gc_rectangle('fill',303,600-h-bar,11,bar,2)
             end
         else
+            -- Disappear
             gc_setColor(attackColor[A.lv][1])
             bar=bar*(20-A.time)*.05
             gc_rectangle('fill',303,600-h-bar,11,bar,2)
-            -- Disappear
         end
         h=h+bar
+        if h>=600 then break end
     end
     if bufferWarn then
         local sum=atkBufferSum1
