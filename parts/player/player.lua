@@ -2878,6 +2878,7 @@ function Player:lose(force)
                 if g==0 then-- Two team 0, not finished
                     goto BREAK_notFinished
                 else-- Remember this may-be-last team
+                    if i==#PLY_ALIVE then goto BREAK_notFinished end
                     cur=g
                 end
             elseif g==0 or cur~=g then-- Find another team, not finished
