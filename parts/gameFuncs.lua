@@ -800,13 +800,12 @@ do-- function resetGameData(args)
         collectgarbage()
     end
 end
-do-- function checkWarning()
+do-- function checkWarning(P,dt)
     local max=math.max
-    function checkWarning(dt)
-        local P1=PLAYERS[1]
-        if P1.alive then
-            if P1.frameRun%26==0 then
-                local F=P1.field
+    function checkWarning(P,dt)
+        if P.alive then
+            if P.frameRun%26==0 then
+                local F=P.field
                 local height=0-- Max height of row 4~7
                 for x=4,7 do
                     for y=#F,1,-1 do
@@ -818,7 +817,7 @@ do-- function checkWarning()
                         end
                     end
                 end
-                GAME.warnLVL0=math.log(height-(P1.gameEnv.fieldH-5)+P1.atkBufferSum*.8)
+                GAME.warnLVL0=math.log(height-(P.gameEnv.fieldH-5)+P.atkBufferSum*.8)
             end
             local _=GAME.warnLVL
             if _<GAME.warnLVL0 then
@@ -827,7 +826,7 @@ do-- function checkWarning()
                 _=max(_-.026,0)
             end
             GAME.warnLVL=_
-            if GAME.warnLVL>1.126 and P1.frameRun%30==0 then
+            if GAME.warnLVL>1.126 and P.frameRun%30==0 then
                 SFX.fplay('warn_beep',SETTING.sfx_warn)
             end
         elseif GAME.warnLVL>0 then

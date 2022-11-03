@@ -41,6 +41,7 @@ end
 local function _quit()
     if tryBack() then
         NET.room_leave()
+        GAME.playing=false
         SCN.back()
     end
 end
@@ -218,32 +219,34 @@ function scene.update(dt)
             NET.freshRoomAllReady()
             return
         else
-            local P1=PLAYERS[1]
-
             touchMoveLastFrame=false
             VK.update(dt)
 
-            -- Update players
-            for p=1,#PLAYERS do PLAYERS[p]:update(dt) end
+            if #PLAYERS>0 then
+                -- Update players
+                for p=1,#PLAYERS do PLAYERS[p]:update(dt) end
 
-            -- Warning check
-            checkWarning(dt)
+                local P1=PLAYERS[1]
 
-            -- Upload stream
-            if not NET.spectate and P1.frameRun-lastUpstreamTime>8 then
-                local stream
-                if not GAME.rep[upstreamProgress] then
-                    ins(GAME.rep,P1.frameRun)
-                    ins(GAME.rep,0)
+                -- Warning check
+                checkWarning(P1,dt)
+
+                -- Upload stream
+                if not NET.spectate and P1.frameRun-lastUpstreamTime>8 then
+                    local stream
+                    if not GAME.rep[upstreamProgress] then
+                        ins(GAME.rep,P1.frameRun)
+                        ins(GAME.rep,0)
+                    end
+                    stream,upstreamProgress=DATA.dumpRecording(GAME.rep,upstreamProgress)
+                    if #stream%3==1 then
+                        stream=stream.."\0\0"
+                    elseif #stream%3==2 then
+                        stream=stream.."\0\0\0\0"
+                    end
+                    NET.player_stream(stream)
+                    lastUpstreamTime=PLAYERS[1].alive and P1.frameRun or 1e99
                 end
-                stream,upstreamProgress=DATA.dumpRecording(GAME.rep,upstreamProgress)
-                if #stream%3==1 then
-                    stream=stream.."\0\0"
-                elseif #stream%3==2 then
-                    stream=stream.."\0\0\0\0"
-                end
-                NET.player_stream(stream)
-                lastUpstreamTime=PLAYERS[1].alive and P1.frameRun or 1e99
             end
         end
     else
@@ -256,10 +259,17 @@ function scene.update(dt)
             upstreamProgress=1
             resetGameData('n',NET.seed)
             NETPLY.mouseMove(0,0)
+
             for i=1,#NETPLY.list do
                 NETPLY.list[i].readyMode='Playing'
             end
             NET.spectate=PLAYERS[1].uid~=USER.uid
+            if NET.storedStream then
+                for i=1,#NET.storedStream do
+                    NET.pumpStream(NET.storedStream[i])
+                end
+                NET.storedStream=false
+            end
         end
     end
 end

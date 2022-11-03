@@ -3,7 +3,7 @@ local WS=WS
 local NET={
     uid=false,
     uid_sid={},
-    storedStream={},
+    storedStream=false,
 
     roomState={-- A copy of room structure on server
         info={
@@ -440,19 +440,19 @@ end
 
 --Remove player when leave
 local function _playerLeaveRoom(uid)
-    if SCN.cur=='net_game' then
-        for i=1,#PLAYERS do if PLAYERS[i].uid==uid then table.remove(PLAYERS,i) break end end
-        for i=1,#PLY_ALIVE do if PLY_ALIVE[i].uid==uid then table.remove(PLY_ALIVE,i) break end end
-        if uid==USER.uid then
-            SCN.backTo('net_menu')
-        else
-            NETPLY.remove(uid)
-        end
+    if SCN.cur~='net_game' then return end
+    for i=1,#PLAYERS do if PLAYERS[i].uid==uid then table.remove(PLAYERS,i) break end end
+    for i=1,#PLY_ALIVE do if PLY_ALIVE[i].uid==uid then table.remove(PLY_ALIVE,i) break end end
+    if uid==USER.uid then
+        GAME.playing=false
+        SCN.backTo('net_menu')
+    else
+        NETPLY.remove(uid)
     end
 end
 
 --Push stream data to players
-local function _pumpStream(d)
+function NET.pumpStream(d)
     if d.playerId==USER.uid then return end
     for _,P in next,PLAYERS do
         if P.uid==d.playerId then
@@ -586,14 +586,13 @@ function NET.wsCallBack.global_getOnlineCount(body)
     NET.onlineCount=tonumber(body.data) or "_"
 end
 function NET.wsCallBack.room_chat(body)
-    if SCN.cur=='net_game' then
-        TASK.unlock('receiveMessage')
-        TASK.lock('receiveMessage',1)
-        NET.textBox:push{
-            COLOR.Z,_getFullName(body.data.playerId),
-            COLOR.N,body.data.message,
-        }
-    end
+    if SCN.cur~='net_game' then return end
+    TASK.unlock('receiveMessage')
+    TASK.lock('receiveMessage',1)
+    NET.textBox:push{
+        COLOR.Z,_getFullName(body.data.playerId),
+        COLOR.N,body.data.message,
+    }
 end
 function NET.wsCallBack.room_create(body)
     MES.new('check',text.createRoomSuccessed)
@@ -625,7 +624,6 @@ function NET.wsCallBack.room_enter(body)
         NET.roomState=body.data
         NETPLY.clear()
         destroyPlayers()
-        TABLE.cut(NET.storedStream)
         loadGame('netBattle',true,true)
         for _,p in next,body.data.players do
             NETPLY.add{
@@ -638,6 +636,7 @@ function NET.wsCallBack.room_enter(body)
             }
         end
         if NET.roomState.state=='Playing' then
+            NET.storedStream={}
             for _,p in next,body.data.players do
                 table.insert(NET.storedStream,{
                     playerId=p.playerId,
@@ -660,7 +659,7 @@ function NET.wsCallBack.room_enter(body)
             config=p.config,
         }
         NET.textBox:push{COLOR.Y,text.joinRoom:repD(_getFullName(p.playerId))}
-        if not GAME.playing then
+        if not TASK.getLock('netPlaying') then
             SFX.play('connected')
             NET.freshRoomAllReady()
         end
@@ -723,7 +722,7 @@ function NET.wsCallBack.player_setState(body)-- not used
 end
 function NET.wsCallBack.player_stream(body)
     if SCN.cur~='net_game' then return end
-    _pumpStream(body.data)
+    NET.pumpStream(body.data)
 end
 function NET.wsCallBack.player_setPlayMode(body)
     if SCN.cur~='net_game' then return end
@@ -773,6 +772,7 @@ function NET.ws_update()
         TEST.yieldT(1/26)
         if WS.status('game')=='dead' then
             TEST.yieldUntilNextScene()
+            GAME.playing=false
             SCN.backTo('main')
             return
         elseif WS.status('game')=='running' then
@@ -791,6 +791,7 @@ function NET.ws_update()
             USER.uid=res.data
         else
             TEST.yieldUntilNextScene()
+            GAME.playing=false
             SCN.backTo('main')
             return
         end
@@ -806,6 +807,7 @@ function NET.ws_update()
 
         if WS.status('game')=='dead' then
             TEST.yieldUntilNextScene()
+            GAME.playing=false
             SCN.backTo('main')
             return
         end
@@ -824,12 +826,13 @@ function NET.ws_update()
                     if msg and msg.message then LOG(msg.message) end
                 end
                 TEST.yieldUntilNextScene()
+                GAME.playing=false
                 SCN.backTo('main')
                 return
             elseif msg then
                 msg=JSON.decode(msg)
                 -- print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno))
-                print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno)) print(TABLE.dump(msg),"\n")
+                -- print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno)) print(TABLE.dump(msg),"\n")
                 if msg.errno~=0 then
                     parseError(msg.message~=nil and msg.message or msg)
                 else
