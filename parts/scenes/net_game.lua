@@ -247,8 +247,9 @@ function scene.update(dt)
             end
         end
     else
-        NETPLY.update(dt)
-        if TASK.getLock('netPlaying') and not playing then
+        if not TASK.getLock('netPlaying') then
+            NETPLY.update(dt)
+        else
             playing=true
             TASK.lock('netPlaying')
             lastUpstreamTime=0

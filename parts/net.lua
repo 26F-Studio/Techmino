@@ -3,6 +3,7 @@ local WS=WS
 local NET={
     uid=false,
     uid_sid={},
+    storedStream={},
 
     roomState={-- A copy of room structure on server
         info={
@@ -18,7 +19,7 @@ local NET={
         },
         capacity=false,
         private=false,
-        state='Playing',
+        state='Standby',
     },
 
     spectate=false,-- If player is spectating
@@ -439,7 +440,7 @@ end
 
 --Remove player when leave
 local function _playerLeaveRoom(uid)
-    if SCN.stack[#SCN.stack]=='net_game' then
+    if SCN.current=='net_game' then
         for i=1,#PLAYERS do if PLAYERS[i].uid==uid then table.remove(PLAYERS,i) break end end
         for i=1,#PLY_ALIVE do if PLY_ALIVE[i].uid==uid then table.remove(PLY_ALIVE,i) break end end
         if uid==USER.uid then
@@ -585,7 +586,7 @@ function NET.wsCallBack.global_getOnlineCount(body)
     NET.onlineCount=tonumber(body.data) or "_"
 end
 function NET.wsCallBack.room_chat(body)
-    if SCN.stack[#SCN.stack]=='net_game' then
+    if SCN.current=='net_game' then
         TASK.unlock('receiveMessage')
         TASK.lock('receiveMessage',1)
         NET.textBox:push{
@@ -623,6 +624,8 @@ function NET.wsCallBack.room_enter(body)
 
         NET.roomState=body.data
         NETPLY.clear()
+        destroyPlayers()
+        TABLE.cut(NET.storedStream)
         loadGame('netBattle',true,true)
         for _,p in next,body.data.players do
             NETPLY.add{
@@ -634,7 +637,18 @@ function NET.wsCallBack.room_enter(body)
                 config=p.config,
             }
         end
-        NET.freshRoomAllReady()
+        if NET.roomState.state=='Playing' then
+            for _,p in next,body.data.players do
+                table.insert(NET.storedStream,{
+                    playerId=p.playerId,
+                    data=p.history,
+                })
+            end
+            NET.seed=body.data.seed
+            TASK.lock('netPlaying')
+        else
+            NET.freshRoomAllReady()
+        end
     else
         local p=body.data
         NETPLY.add{
@@ -670,18 +684,22 @@ function NET.wsCallBack.room_fetch(body)
     SCN.scenes.net_rooms.widgetList.roomList:setList(body.data)
 end
 function NET.wsCallBack.room_setPW()
+    if SCN.current~='net_game' then return end
     MES.new(text.roomPasswordChanged)
 end
 function NET.wsCallBack.room_remove()
+    if SCN.current~='net_game' then return end
     MES.new('info',text.roomRemoved)
     _playerLeaveRoom(USER.uid)
 end
 function NET.wsCallBack.player_updateConf(body)
+    if SCN.current~='net_game' then return end
     if type(body.data)=='table' then
         NETPLY.map[body.data.playerId].config=body.data.config
     end
 end
 function NET.wsCallBack.player_finish(body)
+    if SCN.current~='net_game' then return end
     for _,P in next,PLY_ALIVE do
         if P.uid==body.data.playerId then
             P.loseTimer=26
@@ -691,9 +709,11 @@ function NET.wsCallBack.player_finish(body)
     end
 end
 function NET.wsCallBack.player_joinGroup(body)
+    if SCN.current~='net_game' then return end
     NETPLY.map[body.data.playerId].group=body.data.group
 end
 function NET.wsCallBack.player_setHost(body)
+    if SCN.current~='net_game' then return end
     if body.data.role=='Admin' then
         MES.new('info',text.becomeHost:repD(_getFullName(body.data.playerId)))
     end
@@ -702,17 +722,21 @@ end
 function NET.wsCallBack.player_setState(body)-- not used
 end
 function NET.wsCallBack.player_stream(body)
+    if SCN.current~='net_game' then return end
     _pumpStream(body.data)
 end
 function NET.wsCallBack.player_setPlayMode(body)
+    if SCN.current~='net_game' then return end
     NETPLY.map[body.data.playerId].playMode=body.data.type
     NET.freshRoomAllReady()
 end
 function NET.wsCallBack.player_setReadyMode(body)
+    if SCN.current~='net_game' then return end
     NETPLY.map[body.data.playerId].readyMode=body.data.isReady and 'Ready' or 'Standby'
     NET.freshRoomAllReady()
 end
 function NET.wsCallBack.match_finish()
+    if SCN.current~='net_game' then return end
     for _,P in next,PLAYERS do
         NETPLY.setStat(P.uid,P.stat)
     end
@@ -724,6 +748,7 @@ end
 function NET.wsCallBack.match_ready()-- not used
 end
 function NET.wsCallBack.match_start(body)
+    if SCN.current~='net_game' then return end
     TASK.lock('netPlaying')
     NET.seed=body.data and body.data.seed
     if not NET.seed then
@@ -804,7 +829,7 @@ function NET.ws_update()
             elseif msg then
                 msg=JSON.decode(msg)
                 -- print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno))
-                -- print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno)) print(TABLE.dump(msg),"\n")
+                print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno)) print(TABLE.dump(msg),"\n")
                 if msg.errno~=0 then
                     parseError(msg.message~=nil and msg.message or msg)
                 else

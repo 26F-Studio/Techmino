@@ -22,7 +22,7 @@ function scene.sceneInit()
     if THEME.cur=='halloween' then
         TASK.new(function()
             TEST.yieldT(.26)
-            while SCN.stack[#SCN.stack]=='main' do
+            while SCN.current=='main' do
                 flash=.355
                 SFX.play('clear_'..math.random(4,6),1,math.random()*2-1,-9-math.random()*3)
                 TEST.yieldT(.626+math.random()*6.26)
