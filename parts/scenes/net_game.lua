@@ -261,7 +261,13 @@ function scene.update(dt)
             NETPLY.mouseMove(0,0)
 
             for i=1,#NETPLY.list do
-                NETPLY.list[i].readyMode='Playing'
+                local p=NETPLY.list[i]
+                if p.playMode=='Gamer' then
+                    p.readyMode='Playing'
+                    p.place=1
+                else
+                    p.place=1e99
+                end
             end
             NET.spectate=PLAYERS[1].uid~=USER.uid
             if NET.storedStream then

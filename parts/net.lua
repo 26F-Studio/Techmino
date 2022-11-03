@@ -701,6 +701,7 @@ function NET.wsCallBack.player_finish(body)
     if SCN.cur~='net_game' then return end
     for _,P in next,PLY_ALIVE do
         if P.uid==body.data.playerId then
+            NETPLY.setPlace(P.uid,#PLY_ALIVE)
             P.loseTimer=26
             P:lose(true)
             break
