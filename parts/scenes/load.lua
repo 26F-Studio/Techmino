@@ -107,7 +107,7 @@ local loadingThread=coroutine.wrap(function()
     LOADED=true
     saveStats()
     Z.setPowerInfo(SETTING.powerInfo)
-    return'finish'
+    return 'finish'
 end)
 
 function scene.sceneInit()

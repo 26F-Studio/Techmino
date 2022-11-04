@@ -1000,7 +1000,7 @@ local fleg={
     pw=the_secret,
     supw=7126,
     second_box="Coming soon",
-}setmetatable(fleg,{__tostring=function() return"The fl\97g." end})
+}setmetatable(fleg,{__tostring=function() return "The fl\97g." end})
 function userG.the_box(k)
     if k~=first_key then
         log"Usage:"log"*The box is locked*"

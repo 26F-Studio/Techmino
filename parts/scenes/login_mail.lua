@@ -9,7 +9,6 @@ local function _getCode()
         NET.getCode(email)
     end
 end
-
 local function _codeLogin()
     local code=scene.widgetList.code:getText():upper()
     if #code~=8 then
@@ -17,6 +16,17 @@ local function _codeLogin()
     else
         NET.codeLogin(USER.email,code)
     end
+end
+local function _paste()
+    local t=love.system.getClipboardText()
+    if t then
+        t=STRING.trim(t)
+        if #t==8 and t:match("[0-9]+") then
+            scene.widgetList.code:setText(t)
+            return
+        end
+    end
+    MES.new('warn',text.wrongCode)
 end
 
 function scene.sceneInit()
@@ -33,6 +43,8 @@ function scene.keyDown(key,rep)
         else
             _codeLogin()
         end
+    elseif key=='v' and love.keyboard.isDown('lctrl','rctrl') then
+        _paste()
     else
         return true
     end
@@ -45,8 +57,9 @@ scene.widgetList={
     WIDGET.newInputBox{name='email',    x=380, y=200,w=626,h=60,limit=128},
     WIDGET.newKey{name='send',          x=640, y=330,w=300,h=80,font=40,code=_getCode},
 
-    WIDGET.newInputBox{name='code',     x=380, y=400,w=626  ,h=60,limit=8},
+    WIDGET.newInputBox{name='code',     x=380, y=400,w=626,h=60,regex="[0-9a-zA-Z]",limit=8},
     WIDGET.newKey{name='verify',        x=640, y=530,w=300,h=80,font=40,code=_codeLogin},
+    WIDGET.newKey{name='paste',         x=850, y=530,w=80,font=40,fText=CHAR.icon.import,code=_paste},
 
     WIDGET.newButton{name='back',       x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=pressKey'escape'},
 }

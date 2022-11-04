@@ -40,7 +40,7 @@ return {
         end end
     end,
     score=function(P) return {P.modeData.place,P.modeData.ko} end,
-    scoreDisp=function(D) return"NO."..D[1].."   KO:"..D[2] end,
+    scoreDisp=function(D) return "NO."..D[1].."   KO:"..D[2] end,
     comp=function(a,b) return a[1]<b[1] or a[1]==b[1] and a[2]>b[2] end,
     getRank=function(P)
         local R=P.modeData.place

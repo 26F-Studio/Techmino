@@ -51,7 +51,7 @@ do-- function tryDelete()
     end
 end
 do-- function loadFile(name,args), function saveFile(data,name,args)
-    local t=setmetatable({},{__index=function() return"'$1' loading failed: $2" end})
+    local t=setmetatable({},{__index=function() return "'$1' loading failed: $2" end})
     function loadFile(name,args)
         local text=text or t
         if not args then args='' end
