@@ -60,7 +60,7 @@ BGM.setMaxSources(5)
 VOC.setDiversion(.62)
 
 WIDGET.setOnChange(function()
-    if SCN.cur~='custom_field' then
+    if SCN.cur~='net_game' and SCN.cur~='custom_field' then
         local colorList=THEME.getThemeColor()
         if colorList then
             for _,W in next,SCN.scenes[SCN.cur].widgetList do

@@ -140,6 +140,8 @@ function scene.keyDown(key,isRep)
                     if tonumber(cmd[2]) and tonumber(cmd[2])%1==0 and tonumber(cmd[2])>=0 and tonumber(cmd[2])<=6 then
                         NET.player_joinGroup(tonumber(cmd[2]))
                     end
+                elseif cmd[1]=='/exit' or cmd[1]=='/quit'then
+                    _quit()
                 else
                     NET.textBox:push{COLOR.R,'Invalid command'}
                 end
@@ -343,6 +345,15 @@ scene.widgetList={
     WIDGET.newKey{name='ready',   x=1060,y=510,w=360,h=90,color='lG',font=35, code=_setReady,hideF=_hideF_ready},
     WIDGET.newKey{name='spectate',x=1060,y=610,w=360,h=90,color='lO',font=35, code=_setSpectate,hideF=_hideF_ready},
     WIDGET.newKey{name='cancel',  x=1060,y=560,w=360,h=120,color='lH',font=40,code=_setCancel,hideF=_hideF_standby},
+
+    WIDGET.newButton{x=320,y=45,w=40,color='Z', fText="",code=function() NET.player_joinGroup(0) end,hideF=_hideF_ready},
+    WIDGET.newButton{x=190,y=25,w=30,color='lR',fText="",code=function() NET.player_joinGroup(1) end,hideF=_hideF_ready},
+    WIDGET.newButton{x=230,y=25,w=30,color='lG',fText="",code=function() NET.player_joinGroup(2) end,hideF=_hideF_ready},
+    WIDGET.newButton{x=270,y=25,w=30,color='lB',fText="",code=function() NET.player_joinGroup(3) end,hideF=_hideF_ready},
+    WIDGET.newButton{x=190,y=65,w=30,color='lY',fText="",code=function() NET.player_joinGroup(4) end,hideF=_hideF_ready},
+    WIDGET.newButton{x=230,y=65,w=30,color='lM',fText="",code=function() NET.player_joinGroup(5) end,hideF=_hideF_ready},
+    WIDGET.newButton{x=270,y=65,w=30,color='lC',fText="",code=function() NET.player_joinGroup(6) end,hideF=_hideF_ready},
+
     WIDGET.newKey{name='chat',    x=390,y=45,w=60,fText="···",                code=_switchChat},
     WIDGET.newKey{name='quit',    x=890,y=45,w=60,font=30,fText=CHAR.icon.cross_thick,code=_quit},
 }
