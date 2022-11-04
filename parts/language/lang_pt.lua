@@ -174,9 +174,8 @@ return {
     -- started="Playing",
     joinRoom="$1 Entrou a sala.",
     leaveRoom="$1 Saiu da sala.",
+    -- roomRemoved="Room was removed",
     -- ready="READY",
-    -- connStream="CONNECTING",
-    -- waitStream="WAITING",
     -- spectating="Spectating",
 
 

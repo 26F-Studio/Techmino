@@ -186,6 +186,7 @@ return {
     started="プレイ中",
     joinRoom="$1 が入室しました",
     leaveRoom="$1 が退出しました",
+    -- roomRemoved="Room was removed",
     ready="準備OK",
     spectating="観戦中",
 

@@ -186,6 +186,7 @@ return {
     started="Playing",
     joinRoom="$1 has entered the room.",
     leaveRoom="$1 has left the room.",
+    roomRemoved="Room was removed",
     ready="Ready",
     spectating="Spectating",
 

@@ -186,6 +186,7 @@ return {
     started="游戏中",
     joinRoom="$1 进入房间",
     leaveRoom="$1 离开房间",
+    roomRemoved="房间被解散",
     ready="各就各位！",
     spectating="观战中",
 

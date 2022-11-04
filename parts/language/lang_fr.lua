@@ -177,13 +177,12 @@ return {
     -- started="Playing",
     joinRoom="$1 a rejoint le salon.",
     leaveRoom="$1 a quitté le salon.",
+    -- roomRemoved="Room was removed",
     -- ready="READY",
-    -- connStream="CONNECTING",
-    -- waitStream="WAITING",
     -- spectating="Spectating",
 
 
-    
+
     -- keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
     -- customBGhelp="Drop image file here to apply custom background",
     -- customBGloadFailed="Unsupport image format for custom background",

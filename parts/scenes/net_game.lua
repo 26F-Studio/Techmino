@@ -132,16 +132,29 @@ function scene.keyDown(key,isRep)
         if not inputBox.hide and #mes>0 then
             if mes:sub(1,1)=='/' then
                 local cmd=STRING.split(mes,' ')
+
+                -- Common commands
                 if cmd[1]=='/kick' then
                     if tonumber(cmd[2]) then NET.room_kick(tonumber(cmd[2])) end
+                elseif cmd[1]=='/pw' then
+                    if cmd[2] then NET.room_setPW(cmd[2]) end
                 elseif cmd[1]=='/host' then
                     if tonumber(cmd[2]) then NET.player_setHost(tonumber(cmd[2])) end
                 elseif cmd[1]=='/group' then
                     if tonumber(cmd[2]) and tonumber(cmd[2])%1==0 and tonumber(cmd[2])>=0 and tonumber(cmd[2])<=6 then
                         NET.player_joinGroup(tonumber(cmd[2]))
                     end
-                elseif cmd[1]=='/exit' or cmd[1]=='/quit'then
+                elseif cmd[1]=='/exit' or cmd[1]=='/quit' then
                     _quit()
+
+                -- Admin commands
+                elseif cmd[1]=='/fkick' then
+                    if tonumber(cmd[2]) then NET.room_kick(tonumber(cmd[2]),NET.roomState.roomId) end
+                elseif cmd[1]=='/fpw' then
+                    if cmd[2] then NET.room_setPW(cmd[2],NET.roomState.roomId) end
+                elseif cmd[1]=='/fexit' or cmd[1]=='/fquit' then
+                    NET.room_remove(NET.roomState.roomId)
+
                 else
                     NET.textBox:push{COLOR.R,'Invalid command'}
                 end
