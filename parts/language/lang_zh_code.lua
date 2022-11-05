@@ -118,7 +118,6 @@ return {
     noUsername="Error.NoUsername();",
     wrongEmail="Error.WrongEmail();",
     wrongCode="Error.WrongVerificationCode();",
-    noPassword="Error.NoPassword();",
     diffPassword="Error.DiffPassword();",
     checkEmail="register.RequestSent=true",
 

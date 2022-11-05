@@ -142,7 +142,6 @@ return {
             invalidCode="無効なコード",
             invalidEmail="無効なEメールアドレス",
             playerNotFound="プレイヤーが見つかりませんでした",
-            noPassword="パスワードがありません",
             invalidEmailPass="Eメールアドレスもしくはパスワードが違います",
             emailExists="Eメールアドレスは存在します",
             emailSendError="送信できませんでした",

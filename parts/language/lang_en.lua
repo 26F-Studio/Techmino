@@ -141,7 +141,6 @@ return {
             invalidCode="Invalid code",
             invalidEmail="Invalid email",
             playerNotFound="Player not found",
-            noPassword="No password",
             invalidEmailPass="Invalid email or password",
             emailExists="Email exists",
             emailSendError="Email send error",
