@@ -704,7 +704,6 @@ function NET.wsCallBack.player_finish(body)
         if P.uid==body.data.playerId then
             NETPLY.setPlace(P.uid,#PLY_ALIVE)
             P.loseTimer=26
-            P:lose(true)
             break
         end
     end

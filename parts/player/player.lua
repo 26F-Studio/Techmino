@@ -2707,7 +2707,12 @@ function Player:update(dt)
                 end
                 if frameDelta then
                     for _=1,
-                        self.loseTimer and 6 or
+                        self.loseTimer and min(frameDelta,
+                            self.loseTimer>16 and 2 or
+                            self.loseTimer>6.2 and 12 or
+                            self.loseTimer>2.6 and 260 or
+                            2600
+                        ) or
                         frameDelta<26 and 1 or
                         frameDelta<50 and 2 or
                         frameDelta<80 and 3 or
