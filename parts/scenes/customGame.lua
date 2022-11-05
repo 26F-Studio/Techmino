@@ -216,13 +216,13 @@ scene.widgetList={
     WIDGET.newSelector{name='eventSet',    x=1050,y=760,w=340,color='H',list=sList.eventSet,disp=CUSval('eventSet'),code=CUSsto('eventSet')},
 
     -- Special rules
-    WIDGET.newSwitch{name='ospin',         x=850, y=830, lim=210,disp=CUSval('ospin'),    code=CUSrev('ospin')},
-    WIDGET.newSwitch{name='fineKill',      x=850, y=890, lim=210,disp=CUSval('fineKill'), code=CUSrev('fineKill')},
-    WIDGET.newSwitch{name='b2bKill',       x=850, y=950, lim=210,disp=CUSval('b2bKill'),  code=CUSrev('b2bKill')},
-    WIDGET.newSwitch{name='lockout',       x=850, y=1010,lim=210,disp=CUSval('lockout'),  code=CUSrev('lockout')},
-    WIDGET.newSwitch{name='easyFresh',     x=1170,y=830, lim=250,disp=CUSval('easyFresh'),code=CUSrev('easyFresh')},
-    WIDGET.newSwitch{name='deepDrop',      x=1170,y=890, lim=250,disp=CUSval('deepDrop'), code=CUSrev('deepDrop')},
-    WIDGET.newSwitch{name='bone',          x=1170,y=950, lim=250,disp=CUSval('bone'),     code=CUSrev('bone')},
+    WIDGET.newSwitch{name='ospin',         x=850, y=850, lim=210,disp=CUSval('ospin'),    code=CUSrev('ospin')},
+    WIDGET.newSwitch{name='fineKill',      x=850, y=910, lim=210,disp=CUSval('fineKill'), code=CUSrev('fineKill')},
+    WIDGET.newSwitch{name='b2bKill',       x=850, y=970, lim=210,disp=CUSval('b2bKill'),  code=CUSrev('b2bKill')},
+    WIDGET.newSwitch{name='lockout',       x=850, y=1030,lim=210,disp=CUSval('lockout'),  code=CUSrev('lockout')},
+    WIDGET.newSwitch{name='easyFresh',     x=1170,y=850, lim=250,disp=CUSval('easyFresh'),code=CUSrev('easyFresh')},
+    WIDGET.newSwitch{name='deepDrop',      x=1170,y=910, lim=250,disp=CUSval('deepDrop'), code=CUSrev('deepDrop')},
+    WIDGET.newSwitch{name='bone',          x=1170,y=970, lim=250,disp=CUSval('bone'),     code=CUSrev('bone')},
 
     -- Next & Hold
     WIDGET.newSelector{name='holdMode',    x=310, y=890, w=300,color='lY',list=sList.holdMode,disp=CUSval('holdMode'),code=CUSsto('holdMode'),hideF=function() return CUSTOMENV.holdCount==0 end},
@@ -232,8 +232,8 @@ scene.widgetList={
     WIDGET.newSwitch{name='phyHold',       x=560, y=1030,lim=200,                   disp=CUSval('phyHold'),code=CUSrev('phyHold'),hideF=function() return CUSTOMENV.holdCount==0 end},
 
     -- BG & BGM
-    WIDGET.newSelector{name='bg',          x=840, y=1090,w=250,color='Y',list=BG.getList(),disp=CUSval('bg'),code=function(i) CUSTOMENV.bg=i BG.set(i) end},
-    WIDGET.newSelector{name='bgm',         x=1120,y=1090,w=250,color='Y',list=BGM.getList(),disp=CUSval('bgm'),code=function(i) CUSTOMENV.bgm=i BGM.play(i) end},
+    WIDGET.newSelector{name='bg',          x=840, y=1100,w=250,color='Y',list=BG.getList(),disp=CUSval('bg'),code=function(i) CUSTOMENV.bg=i BG.set(i) end},
+    WIDGET.newSelector{name='bgm',         x=1120,y=1100,w=250,color='Y',list=BGM.getList(),disp=CUSval('bgm'),code=function(i) CUSTOMENV.bgm=i BGM.play(i) end},
 }
 
 return scene
