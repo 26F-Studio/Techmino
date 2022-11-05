@@ -1,7 +1,7 @@
 return {
-    ["apkCode"]=451,
-    ["code"]=1707,
-    ["string"]="V0.17.7",
-    ["room"]="ver A-7",
+    ["apkCode"]=452,
+    ["code"]=1708,
+    ["string"]="V0.17.8",
+    ["room"]="ver A-8",
     ["name"]="暂停 Break",
 }
