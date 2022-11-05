@@ -127,6 +127,14 @@ function scene.keyDown(key,isRep)
         else
             _quit()
         end
+    elseif key=='/' then
+        if inputBox.hide then
+            _switchChat()
+            local mes=STRING.trim(inputBox:getText())
+            if #mes==0 then
+                inputBox:setText("/")
+            end
+        end
     elseif key=='return' or key=='kpenter' then
         local mes=STRING.trim(inputBox:getText())
         if not inputBox.hide and #mes>0 then
@@ -165,6 +173,8 @@ function scene.keyDown(key,isRep)
         else
             _switchChat()
         end
+    elseif #key==1 and key:find("^[0-6]$") and kb.isDown('lctrl','rctrl') then
+        NET.player_joinGroup(tonumber(key))
     elseif not inputBox.hide then
         WIDGET.focus(inputBox)
         inputBox:keypress(key)
