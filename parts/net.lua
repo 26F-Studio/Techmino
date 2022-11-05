@@ -474,7 +474,7 @@ end
 
 -- Room
 function NET.room_chat(msg,rid)
-    if not TASK.lock('chatLimit',1.626) then
+    if not TASK.lock('chatLimit',1.26) then
         MES.new('warn',text.tooFrequent)
     elseif #msg>0 then
         wsSend(1300,{
@@ -590,7 +590,7 @@ function NET.wsCallBack.room_chat(body)
     TASK.unlock('receiveMessage')
     TASK.lock('receiveMessage',1)
     NET.textBox:push{
-        COLOR.Z,_getFullName(body.data.playerId),
+        COLOR.Z,_getFullName(body.data.playerId).." ",
         COLOR.N,body.data.message,
     }
 end
