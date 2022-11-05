@@ -138,6 +138,9 @@ function NETPLY.remove(uid)
         end
     end
 end
+function NETPLY.exist(uid)
+    return rawget(PLYmap,uid) and true or false
+end
 
 function NETPLY.setPlace(uid,place) PLYmap[uid].place=place end
 function NETPLY.setStat(uid,S)

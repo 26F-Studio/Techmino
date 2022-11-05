@@ -650,7 +650,7 @@ function NET.wsCallBack.room_enter(body)
         end
     else
         local p=body.data
-        if NETPLY.map[p.playerId] then _playerLeaveRoom(p.playerId) end
+        if NETPLY.exist(p.playerId) then _playerLeaveRoom(p.playerId) end
         NETPLY.add{
             uid=p.playerId,
             group=p.group,
