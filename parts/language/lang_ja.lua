@@ -414,7 +414,7 @@ return {
         },
         net_menu={
             league="テクリーグ",
-            ffa="",
+            ffa="FFA",
             rooms="ルーム",
             resetPW="パスワード再設定",
             logout="ログアウト",
