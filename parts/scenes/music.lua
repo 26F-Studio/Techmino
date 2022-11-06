@@ -23,7 +23,7 @@ local selected-- Music selected
 local bgmList=BGM.getList()
 if #bgmList==0 then bgmList={"[NO BGM]"} end
 
-function scene.sceneInit()
+function scene.enter()
     playing=BGM.getPlaying()[1]
     selected=TABLE.find(bgmList,playing) or 1
 end

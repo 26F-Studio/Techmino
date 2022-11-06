@@ -105,7 +105,7 @@ end
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     BG.set('fixColor',.26,.62,.26)
     _newGame()
     selected=false

@@ -11,7 +11,7 @@ local playEgg=WIDGET.newButton{name='playEgg',  x=1140,y=540,w=140,h=65,color='l
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     selEggMode=false
     scene.widgetList.playEgg.hide=true
     BG.set()

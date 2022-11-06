@@ -133,7 +133,7 @@ local function _checkGameKeyDown(key)
     return true-- No key pressed
 end
 
-function scene.sceneInit()
+function scene.enter()
     if GAME.init then
         resetGameData()
         GAME.init=false

@@ -14,7 +14,7 @@ local slide,pathVis,revKB
 local function ifGaming() return state==1 end
 local colorSelector=WIDGET.newSelector{name='color',x=150,y=240,w=200,list={'color1','rainbow','color2','gray','black'},color='lY',disp=function() return color end,code=function(v) if state~=1 then color=v end end,hideF=ifGaming}
 
-function scene.sceneInit()
+function scene.enter()
     BG.set('rainbow2')
     BGM.play('push')
     board={{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}}

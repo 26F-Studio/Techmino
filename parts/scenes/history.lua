@@ -1,6 +1,6 @@
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     BG.set('cubes')
     scene.widgetList.texts:setTexts(require"parts.updateLog":split("\n"))
 end

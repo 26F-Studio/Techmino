@@ -10,7 +10,7 @@ local patron=require"parts.patron"
 local names
 local counter
 
-function scene.sceneInit()
+function scene.enter()
     time=0
     v=22.6
     BG.set()

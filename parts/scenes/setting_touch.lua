@@ -31,12 +31,12 @@ local function _load2()
     end
 end
 
-function scene.sceneInit()
+function scene.enter()
     BG.set('rainbow')
     defaultSetSelect=1
     selected=false
 end
-function scene.sceneBack()
+function scene.leave()
     saveFile(VK_ORG,'conf/virtualkey')
 end
 

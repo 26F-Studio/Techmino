@@ -5,7 +5,7 @@ local scene={}
 local das,arr
 local pos,dir,wait
 
-function scene.sceneInit()
+function scene.enter()
     das,arr=SETTING.das,SETTING.arr
     pos,dir,wait=0,1,30
     BG.set('bg1')

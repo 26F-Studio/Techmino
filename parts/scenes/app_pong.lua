@@ -14,7 +14,7 @@ local ry=0-- Rotation Y
 
 local p1,p2-- Player data
 
-function scene.sceneInit()
+function scene.enter()
     BG.set('none')
     BGM.play('way')
     state=0

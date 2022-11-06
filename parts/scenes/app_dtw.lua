@@ -197,7 +197,7 @@ end
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     reset()
     BG.set('fixColor',.26,.26,.26)
     BGM.play(bgm)

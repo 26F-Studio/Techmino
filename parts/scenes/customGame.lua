@@ -24,12 +24,12 @@ local sList={
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     destroyPlayers()
     BG.set(CUSTOMENV.bg)
     BGM.play(CUSTOMENV.bgm)
 end
-function scene.sceneBack()
+function scene.leave()
     saveFile(CUSTOMENV,'conf/customEnv')
     BGM.play()
 end

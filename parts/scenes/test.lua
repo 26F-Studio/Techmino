@@ -9,7 +9,7 @@ local function _push(mes)
     timer=1
 end
 
-function scene.sceneInit()
+function scene.enter()
     backCounter=5
     list={}
     timer=0

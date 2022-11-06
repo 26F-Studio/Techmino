@@ -4,7 +4,7 @@ local scene={}
 
 local timer
 
-function scene.sceneInit()
+function scene.enter()
     timer=1
     scene.widgetList.pause.x=
         SETTING.menuPos=='right' and 1195 or

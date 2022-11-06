@@ -13,7 +13,7 @@ local offset
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     inst='lead'
     offset=0
 end

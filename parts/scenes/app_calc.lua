@@ -24,12 +24,12 @@ local function _autoReturn()
     end
 end
 
-function scene.sceneInit()
+function scene.enter()
     BG.set('none')
     BGM.stop()
     reg,val,sym=false,"0",false
 end
-function scene.sceneBack()
+function scene.leave()
     BGM.play()
 end
 

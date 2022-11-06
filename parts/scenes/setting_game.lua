@@ -2,10 +2,10 @@ local gc=love.graphics
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     BG.set()
 end
-function scene.sceneBack()
+function scene.leave()
     saveSettings()
 end
 

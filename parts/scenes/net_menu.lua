@@ -1,9 +1,9 @@
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     BG.set()
 end
-function scene.sceneBack()
+function scene.leave()
     NET.ws_close()
     TASK.removeTask_code(NET.ws_update)
 end

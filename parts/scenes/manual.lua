@@ -1,6 +1,6 @@
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     BG.set('cubes')
     local fileData=FILE.load('parts/language/manual_'..(SETTING.locale:find'zh' and 'zh' or SETTING.locale:find'ja' and 'ja' or 'en')..'.txt','-string')
     if fileData then

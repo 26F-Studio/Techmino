@@ -18,7 +18,7 @@ local enterConsole=coroutine.wrap(function()
         Snd('bell',.6,'A4',.7,'A5',1,'A6')SFX.play('ren_mega')SCN.go('app_console')coroutine.yield()
     end
 end)
-function scene.sceneInit()
+function scene.enter()
     if THEME.cur=='halloween' then
         TASK.new(function()
             TEST.yieldT(.26)

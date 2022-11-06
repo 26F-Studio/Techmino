@@ -1,6 +1,6 @@
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     BG.set('matrix')
 end
 

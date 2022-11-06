@@ -71,7 +71,7 @@ local function _fetchRoom()
 end
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     BG.set()
     _fetchRoom()
 end

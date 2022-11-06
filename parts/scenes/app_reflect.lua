@@ -15,7 +15,7 @@ local function reset()
     s1,s2=0,0
 end
 
-function scene.sceneInit()
+function scene.enter()
     reset()
     BG.set('none')
 end

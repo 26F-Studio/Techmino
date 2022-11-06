@@ -75,7 +75,7 @@ local function _search()
     lastSearch=input
 end
 
-function scene.sceneInit()
+function scene.enter()
     dict=require("parts.language.dict_"..(SETTING.locale:find'zh' and 'zh' or SETTING.locale:find'ja' and 'ja' or 'en'))
     _scanDict(dict)
 

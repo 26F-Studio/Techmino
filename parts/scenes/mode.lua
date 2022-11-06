@@ -24,7 +24,7 @@ local touchDist
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     BG.set()
     mapCam.zoomK=SCN.prev=='main' and 5 or 1
     visibleModes={}-- 1=unlocked, 2=locked but visible

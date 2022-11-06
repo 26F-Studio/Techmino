@@ -1,5 +1,5 @@
 local scene={}
-function scene.sceneInit()
+function scene.enter()
     BG.set('cubes')
     local fileData=love.filesystem.read("legals.md")
     if fileData then

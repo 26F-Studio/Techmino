@@ -68,7 +68,7 @@ local function _updateButtonVisibility()
         scene.widgetList[i].hide=hide
     end
 end
-function scene.sceneInit()
+function scene.enter()
     BG.set()
     listBox:setList(REPLAY)
     _updateButtonVisibility()

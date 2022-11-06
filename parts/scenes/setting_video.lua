@@ -2,7 +2,7 @@ local gc=love.graphics
 
 local scene={}
 
-function scene.sceneBack()
+function scene.leave()
     saveSettings()
 end
 

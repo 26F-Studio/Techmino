@@ -4,7 +4,7 @@ local sin=math.sin
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     BG.set()
 end
 

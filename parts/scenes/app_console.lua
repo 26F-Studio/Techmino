@@ -711,20 +711,22 @@ local commands={} do
                 local button=WIDGET.newButton{name='bye',x=640,y=615,w=426,h=100,code=function()
                     TASK.new(function()
                         scene.widgetList.bye.hide=true
-                        for _=1,30 do coroutine.yield() end
+                        TEST.yieldN(30)
                         log{C.R,"Deleting all data in 10..."}SFX.play('ready')SFX.play('clear_1')TEST.yieldN(60)
-                        log{C.R,"Deleting all data in 9..."}SFX.play('ready')SFX.play('clear_1')TEST.yieldN(60)
-                        log{C.R,"Deleting all data in 8..."}SFX.play('ready')SFX.play('clear_1')TEST.yieldN(60)
-                        log{C.R,"Deleting all data in 7..."}SFX.play('ready')SFX.play('clear_2')TEST.yieldN(60)
-                        log{C.R,"Deleting all data in 6..."}SFX.play('ready')SFX.play('clear_2')TEST.yieldN(60)
-                        log{C.R,"Deleting all data in 5..."}SFX.play('ready')SFX.play('clear_3')TEST.yieldN(60)
-                        log{C.R,"Deleting all data in 4..."}SFX.play('ready')SFX.play('clear_3')TEST.yieldN(60)
-                        log{C.R,"Deleting all data in 3..."}SFX.play('ready')SFX.play('clear_4')TEST.yieldN(60)
-                        log{C.R,"Deleting all data in 2..."}SFX.play('ready')SFX.play('clear_4')TEST.yieldN(60)
-                        log{C.R,"Deleting all data in 1..."}SFX.play('ready')SFX.play('clear_5')TEST.yieldN(60)
-                        log{C.R,"Deleting all data in 0..."}SFX.play('start')SFX.play('clear_6')TEST.yieldN(60)
-                        outputBox.hide=true TEST.yieldN(26)
-                        FILE.clear_s('')love.event.quit()
+                        log{C.R,"Deleting all data in 9..."} SFX.play('ready')SFX.play('clear_1')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 8..."} SFX.play('ready')SFX.play('clear_1')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 7..."} SFX.play('ready')SFX.play('clear_2')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 6..."} SFX.play('ready')SFX.play('clear_2')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 5..."} SFX.play('ready')SFX.play('clear_3')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 4..."} SFX.play('ready')SFX.play('clear_3')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 3..."} SFX.play('ready')SFX.play('clear_4')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 2..."} SFX.play('ready')SFX.play('clear_4')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 1..."} SFX.play('ready')SFX.play('clear_5')TEST.yieldN(60)
+                        log{C.R,"Deleting all data in 0..."} SFX.play('start')SFX.play('clear_6')TEST.yieldN(60)
+                        outputBox.hide=true
+                        TEST.yieldN(26)
+                        FILE.clear_s('')
+                        love.event.quit()
                     end)
                 end}
                 button:setObject("Techmino is fun. Bye.")
@@ -1014,7 +1016,7 @@ userG.the_key=first_key
 
 
 
-function scene.sceneInit()
+function scene.enter()
     WIDGET.focus(inputBox)
     BG.set('none')
 end

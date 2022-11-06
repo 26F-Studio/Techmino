@@ -20,7 +20,7 @@ local curLang=1
 
 local scene={}
 
-function scene.sceneBack()
+function scene.leave()
     saveSettings()
 end
 

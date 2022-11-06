@@ -50,11 +50,11 @@ local function _createRoom()
     end
 end
 
-function scene.sceneInit()
+function scene.enter()
     sure=0
     destroyPlayers()
 end
-function scene.sceneBack()
+function scene.leave()
     BGM.play()
 end
 

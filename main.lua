@@ -239,44 +239,24 @@ Z.setOnQuit(function()
     destroyPlayers()
 end)
 
--- Load settings and statistics
-if
-    not (
-        pcall(TABLE.cover, loadFile('conf/user',      '-json -canSkip') or loadFile('conf/user',      '-luaon -canSkip') or{},USER) and
-        pcall(TABLE.cover, loadFile('conf/unlock',    '-json -canSkip') or loadFile('conf/unlock',    '-luaon -canSkip') or{},RANKS) and
-        pcall(TABLE.update,loadFile('conf/settings',  '-json -canSkip') or loadFile('conf/settings',  '-luaon -canSkip') or{},SETTING) and
-        pcall(TABLE.coverR,loadFile('conf/data',      '-json -canSkip') or loadFile('conf/data',      '-luaon -canSkip') or{},STAT) and
-        pcall(TABLE.cover, loadFile('conf/key',       '-json -canSkip') or loadFile('conf/key',       '-luaon -canSkip') or{},KEY_MAP) and
-        pcall(TABLE.cover, loadFile('conf/virtualkey','-json -canSkip') or loadFile('conf/virtualkey','-luaon -canSkip') or{},VK_ORG)
-    )
-then
-    MES.new('error',"An error occured during loading, and some data was lost.")
-end
-
--- Initialize fields, sequence, missions, gameEnv for cutsom game
-local fieldData=loadFile('conf/customBoards','-string -canSkip')
-if fieldData then
-    fieldData=STRING.split(fieldData,"!")
-    for i=1,#fieldData do
-        DATA.pasteBoard(fieldData[i],i)
+-- Load mode files
+for i=1,#MODES do
+    local m=MODES[i]-- Mode template
+    if FILE.isSafe('parts/modes/'..m.name) then
+        TABLE.complete(require('parts.modes.'..m.name),MODES[i])
+        MODES[m.name],MODES[i]=MODES[i]
     end
-else
-    FIELD[1]=DATA.newBoard()
 end
-local sequenceData=loadFile('conf/customSequence','-string -canSkip')
-if sequenceData then
-    DATA.pasteSequence(sequenceData)
+for _,v in next,fs.getDirectoryItems('parts/modes') do
+    if FILE.isSafe('parts/modes/'..v) and not MODES[v:sub(1,-5)] then
+        local M={name=v:sub(1,-5)}
+        local modeData=require('parts.modes.'..M.name)
+        if modeData.env then
+            TABLE.complete(modeData,M)
+            MODES[M.name]=M
+        end
+    end
 end
-local missionData=loadFile('conf/customMissions','-string -canSkip')
-if missionData then
-    DATA.pasteMission(missionData)
-end
-local customData=loadFile('conf/customEnv','-canSkip')
-if customData and customData['version']==VERSION.code then
-    TABLE.complete(customData,CUSTOMENV)
-end
-TABLE.complete(require"parts.customEnv0",CUSTOMENV)
-
 
 -- Initialize image libs
 IMG.init{
@@ -386,6 +366,134 @@ VOC.init{
     'welcome',
 }
 
+-- Load settings and statistics
+if
+    not (
+        pcall(TABLE.cover, loadFile('conf/user',      '-json -canSkip') or loadFile('conf/user',      '-luaon -canSkip') or{},USER) and
+        pcall(TABLE.cover, loadFile('conf/unlock',    '-json -canSkip') or loadFile('conf/unlock',    '-luaon -canSkip') or{},RANKS) and
+        pcall(TABLE.update,loadFile('conf/settings',  '-json -canSkip') or loadFile('conf/settings',  '-luaon -canSkip') or{},SETTING) and
+        pcall(TABLE.coverR,loadFile('conf/data',      '-json -canSkip') or loadFile('conf/data',      '-luaon -canSkip') or{},STAT) and
+        pcall(TABLE.cover, loadFile('conf/key',       '-json -canSkip') or loadFile('conf/key',       '-luaon -canSkip') or{},KEY_MAP) and
+        pcall(TABLE.cover, loadFile('conf/virtualkey','-json -canSkip') or loadFile('conf/virtualkey','-luaon -canSkip') or{},VK_ORG)
+    )
+then
+    MES.new('error',"An error occured during loading, and some data was lost.")
+end
+
+-- Initialize fields, sequence, missions, gameEnv for cutsom game
+local fieldData=loadFile('conf/customBoards','-string -canSkip')
+if fieldData then
+    fieldData=STRING.split(fieldData,"!")
+    for i=1,#fieldData do
+        DATA.pasteBoard(fieldData[i],i)
+    end
+else
+    FIELD[1]=DATA.newBoard()
+end
+local sequenceData=loadFile('conf/customSequence','-string -canSkip')
+if sequenceData then
+    DATA.pasteSequence(sequenceData)
+end
+local missionData=loadFile('conf/customMissions','-string -canSkip')
+if missionData then
+    DATA.pasteMission(missionData)
+end
+local customData=loadFile('conf/customEnv','-canSkip')
+if customData and customData['version']==VERSION.code then
+    TABLE.complete(customData,CUSTOMENV)
+end
+TABLE.complete(require"parts.customEnv0",CUSTOMENV)
+
+-- Update data
+do
+    if type(STAT.version)~='number' then
+        STAT.version=0
+    end
+    if STAT.version<1700 and SETTING.dascut<5 then
+        SETTING.dascut=SETTING.dascut+1
+    end
+
+    if RANKS.stack_e then
+        RANKS.stack_e=nil; fs.remove('record/stack_e.rec')
+        RANKS.stack_h=nil; fs.remove('record/stack_h.rec')
+        RANKS.stack_u=nil; fs.remove('record/stack_u.rec')
+    end
+    if RANKS.stack_20l then
+        RANKS.stack_20l=nil; fs.remove('record/stack_20l.rec')
+        RANKS.stack_40l=nil; fs.remove('record/stack_40l.rec')
+        RANKS.stack_100l=nil; fs.remove('record/stack_100l.rec')
+    end
+    if RANKS.rhythm_e then
+        RANKS.rhythm_e=nil; fs.remove('record/rhythm_e.rec')
+        RANKS.rhythm_h=nil; fs.remove('record/rhythm_h.rec')
+        RANKS.rhythm_u=nil; fs.remove('record/rhythm_u.rec')
+    end
+    if RANKS.bigbang then fs.remove('record/bigbang.rec') end
+    if RANKS.clearRush then fs.remove('record/clearRush.rec') end
+
+    if STAT.version~=VERSION.code then
+        for k,v in next,MODE_UPDATE_MAP do
+            if RANKS[k] then
+                RANKS[v]=RANKS[k]
+                RANKS[k]=nil
+            end
+            k='record/'..k
+            if fs.getInfo(k..'.dat') then
+                fs.write('record/'..v..'.rec',fs.read(k..'.dat'))
+                fs.remove(k..'.dat')
+            end
+            if fs.getInfo(k..'.rec') then
+                fs.write('record/'..v..'.rec',fs.read(k..'.rec'))
+                fs.remove(k..'.rec')
+            end
+        end
+        STAT.version=VERSION.code
+    end
+    SETTING.appLock,SETTING.dataSaving,SETTING.swap,SETTING.autoLogin=nil
+    if not SETTING.VKSkin then SETTING.VKSkin=1 end
+    for _,v in next,SETTING.skin do if v<1 or v>17 then v=17 end end
+    if not RSlist[SETTING.RS] then SETTING.RS='TRS' end
+    if SETTING.ghostType=='greyCell' then SETTING.ghostType='grayCell' end
+    if type(SETTING.skinSet)=='number' then SETTING.skinSet='crystal_scf' end
+    if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul) then SETTING.frameMul=100 end
+    if SETTING.cv then SETTING.vocPack,SETTING.cv=SETTING.cv end
+    if type(SETTING.bg)~='string' then SETTING.bg='on' end
+    if SETTING.skin[18]==10 then SETTING.skin[18]=4 end
+    if SETTING.reTime>3 or SETTING.reTime<.5 then SETTING.reTime=2 end
+    if SETTING.locale=='zh_full' then SETTING.locale='zh' end
+    if SETTING.vocPack=='rin' then SETTING.vocPack='miku' end
+    if RANKS.infinite then RANKS.infinite=0 end
+    if RANKS.infinite_dig then RANKS.infinite_dig=0 end
+    if not RANKS.sprint_10l then RANKS.sprint_10l=0 end
+    if RANKS.master_l then RANKS.master_n,RANKS.master_l=RANKS.master_l end
+    if RANKS.master_u then RANKS.master_h,RANKS.master_u=RANKS.master_u end
+    for _,v in next,VK_ORG do v.color=nil end
+    for name,rank in next,RANKS do
+        if type(name)=='number' or type(rank)~='number' then
+            RANKS[name]=nil
+        else
+            local M=MODES[name]
+            if M and M.unlock and rank>0 then
+                for _,unlockName in next,M.unlock do
+                    if not RANKS[unlockName] then
+                        RANKS[unlockName]=0
+                    end
+                end
+            end
+            if not (M and M.x) then
+                RANKS[name]=nil
+            end
+        end
+    end
+    if not MODES[STAT.lastPlay] then
+        STAT.lastPlay='sprint_10l'
+    end
+
+    saveStats()
+    saveProgress()
+    saveSettings()
+end
+
 -- Initialize language lib
 LANG.init('zh',
     {
@@ -421,8 +529,6 @@ LANG.init('zh',
     end)()
 )
 
-table.insert(_LOADTIMELIST_,("Initialize Parts: %.3fs"):format(TIME()-_LOADTIME_))
-
 -- Load background files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems('parts/backgrounds') do
     if FILE.isSafe('parts/backgrounds/'..v) and v:sub(-3)=='lua' then
@@ -431,6 +537,7 @@ for _,v in next,fs.getDirectoryItems('parts/backgrounds') do
     end
 end
 BG.remList('none')BG.remList('gray')BG.remList('custom')
+
 -- Load scene files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems('parts/scenes') do
     if FILE.isSafe('parts/scenes/'..v) then
@@ -439,178 +546,8 @@ for _,v in next,fs.getDirectoryItems('parts/scenes') do
         LANG.addScene(sceneName)
     end
 end
--- Load mode files
-for i=1,#MODES do
-    local m=MODES[i]-- Mode template
-    if FILE.isSafe('parts/modes/'..m.name) then
-        TABLE.complete(require('parts.modes.'..m.name),MODES[i])
-        MODES[m.name],MODES[i]=MODES[i]
-    end
-end
-for _,v in next,fs.getDirectoryItems('parts/modes') do
-    if FILE.isSafe('parts/modes/'..v) and not MODES[v:sub(1,-5)] then
-        local M={name=v:sub(1,-5)}
-        local modeData=require('parts.modes.'..M.name)
-        if modeData.env then
-            TABLE.complete(modeData,M)
-            MODES[M.name]=M
-        end
-    end
-end
 
 table.insert(_LOADTIMELIST_,("Load Files: %.3fs"):format(TIME()-_LOADTIME_))
-
--- Update data
-do
-    local needSave
-
-    if not fs.getInfo('conf/data') then
-        needSave=true
-    end
-    if type(STAT.version)~='number' then
-        STAT.version=0
-        needSave=true
-    end
-    if STAT.version<1500 then
-        FILE.clear_s('')
-    end
-    if STAT.version<1505 then
-        fs.remove('record/bigbang.rec')
-        fs.remove('conf/replay')
-    end
-    if STAT.version==1506 then
-        local temp1,temp2
-        if fs.getInfo('record/master_l.rec') then
-            temp1=fs.read('record/master_l.rec')
-        end
-        if fs.getInfo('record/master_u.rec') then
-            temp2=fs.read('record/master_u.rec')
-        end
-        if temp1 then
-            fs.write('record/master_u.rec',temp1)
-        end
-        if temp2 then
-            fs.write('record/master_l.rec',temp2)
-        end
-        RANKS.master_l,RANKS.master_u=RANKS.master_u,RANKS.master_l
-        if RANKS.tsd_u then
-            RANKS.tsd_u=0
-        end
-    end
-    if STAT.version==1601 then
-        RANKS.round_e=nil
-        RANKS.round_n=nil
-        RANKS.round_h=nil
-        RANKS.round_l=nil
-        RANKS.round_u=nil
-        fs.remove('record/round_e.rec')
-        fs.remove('record/round_n.rec')
-        fs.remove('record/round_h.rec')
-        fs.remove('record/round_l.rec')
-        fs.remove('record/round_u.rec')
-    end
-    if STAT.version<1700 and SETTING.dascut<5 then
-        SETTING.dascut=SETTING.dascut+1
-        needSave=true
-    end
-    if RANKS.stack_e then
-        RANKS.stack_e=nil
-        RANKS.stack_h=nil
-        RANKS.stack_u=nil
-        fs.remove('record/stack_e.rec')
-        fs.remove('record/stack_h.rec')
-        fs.remove('record/stack_u.rec')
-    end
-    if RANKS.stack_20l then
-        RANKS.stack_20l=nil
-        RANKS.stack_40l=nil
-        RANKS.stack_100l=nil
-        fs.remove('record/stack_20l.rec')
-        fs.remove('record/stack_40l.rec')
-        fs.remove('record/stack_100l.rec')
-    end
-    if RANKS.rhythm_e then
-        RANKS.rhythm_e=nil
-        RANKS.rhythm_h=nil
-        RANKS.rhythm_u=nil
-        fs.remove('record/rhythm_e.rec')
-        fs.remove('record/rhythm_h.rec')
-        fs.remove('record/rhythm_u.rec')
-    end
-    if RANKS.bigbang or RANKS.clearRush then
-        fs.remove('record/clearRush.rec')
-        fs.remove('record/bigbang.rec')
-    end
-    if STAT.version~=VERSION.code then
-        for k,v in next,MODE_UPDATE_MAP do
-            if RANKS[k] then
-                RANKS[v]=RANKS[k]
-                RANKS[k]=nil
-            end
-            k='record/'..k
-            if fs.getInfo(k..'.dat') then
-                fs.write('record/'..v..'.rec',fs.read(k..'.dat'))
-                fs.remove(k..'.dat')
-            end
-            if fs.getInfo(k..'.rec') then
-                fs.write('record/'..v..'.rec',fs.read(k..'.rec'))
-                fs.remove(k..'.rec')
-            end
-        end
-        STAT.version=VERSION.code
-        needSave=true
-    end
-    SETTING.appLock,SETTING.dataSaving,SETTING.swap,SETTING.autoLogin=nil
-    if not SETTING.VKSkin then SETTING.VKSkin=1 end
-    for _,v in next,SETTING.skin do if v<1 or v>17 then v=17 end end
-    if not RSlist[SETTING.RS] then SETTING.RS='TRS' end
-    if SETTING.ghostType=='greyCell' then SETTING.ghostType='grayCell' end
-    if type(SETTING.skinSet)=='number' then SETTING.skinSet='crystal_scf' end
-    if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul) then SETTING.frameMul=100 end
-    if SETTING.cv then SETTING.vocPack,SETTING.cv=SETTING.cv end
-    if type(SETTING.bg)~='string' then SETTING.bg='on' end
-    if SETTING.skin[18]==10 then SETTING.skin[18]=4 end
-    if SETTING.reTime>3 or SETTING.reTime<.5 then SETTING.reTime=2 end
-    if SETTING.locale=='zh_full' then SETTING.locale='zh' end
-    if SETTING.vocPack=='rin' then SETTING.vocPack='miku' end
-    if RANKS.infinite then RANKS.infinite=0 end
-    if RANKS.infinite_dig then RANKS.infinite_dig=0 end
-    if not RANKS.sprint_10l then RANKS.sprint_10l=0 end
-    if RANKS.master_l then RANKS.master_n,RANKS.master_l=RANKS.master_l needSave=true end
-    if RANKS.master_u then RANKS.master_h,RANKS.master_u=RANKS.master_u needSave=true end
-    for _,v in next,VK_ORG do v.color=nil end
-    for name,rank in next,RANKS do
-        if type(name)=='number' or type(rank)~='number' then
-            RANKS[name]=nil
-            needSave=true
-        else
-            local M=MODES[name]
-            if M and M.unlock and rank>0 then
-                for _,unlockName in next,M.unlock do
-                    if not RANKS[unlockName] then
-                        RANKS[unlockName]=0
-                        needSave=true
-                    end
-                end
-            end
-            if not (M and M.x) then
-                RANKS[name]=nil
-                needSave=true
-            end
-        end
-    end
-    if not MODES[STAT.lastPlay] then
-        STAT.lastPlay='sprint_10l'
-        needSave=true
-    end
-
-    if needSave then
-        saveStats()
-        saveProgress()
-        saveSettings()
-        love.event.quit('restart')
-    end
-end
 
 -- First start
 FIRSTLAUNCH=STAT.run==0
@@ -669,6 +606,10 @@ for _,fileName in next,fs.getDirectoryItems('replay') do
 end
 table.sort(REPLAY,function(a,b) return a.fileName>b.fileName end)
 
+WS.switchHost('cafuuchino1.3322.org','10026','/techmino/ws/v1')
+HTTP.setHost("cafuuchino1.3322.org:10026")
+HTTP.setThreadCount(1)
+
 table.insert(_LOADTIMELIST_,("Initialize Data: %.3fs"):format(TIME()-_LOADTIME_))
 
 for i=1,#_LOADTIMELIST_ do LOG(_LOADTIMELIST_[i]) end
@@ -706,6 +647,3 @@ if TABLE.find(arg,'-- test') then
         love.event.quit(1)
     end)
 end
-WS.switchHost('cafuuchino1.3322.org','10026','/techmino/ws/v1')
-HTTP.setHost("cafuuchino1.3322.org:10026")
-HTTP.setThreadCount(1)

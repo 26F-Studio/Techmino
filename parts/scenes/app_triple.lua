@@ -264,7 +264,7 @@ end
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     player:reset()
     BGM.play('truth')
 end

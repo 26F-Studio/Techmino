@@ -33,7 +33,7 @@ local function restart()
     end
 end
 
-function scene.sceneInit()
+function scene.enter()
     restart()
     state='menu'
     BGM.play('hang out')

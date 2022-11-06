@@ -9,11 +9,11 @@ local scene={}
 local input-- Input buffer
 local cur-- Cursor position
 
-function scene.sceneInit()
+function scene.enter()
     input=""
     cur=#MISSION
 end
-function scene.sceneBack()
+function scene.leave()
     saveFile(DATA.copyMission(),'conf/customMissions')
 end
 

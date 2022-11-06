@@ -29,7 +29,7 @@ local startTime,time
 local state,progress
 local frameKeyCount,mistake
 
-function scene.sceneInit()
+function scene.enter()
     BG.set('bg2')
     BGM.play('way')
     levelName="A_Z"

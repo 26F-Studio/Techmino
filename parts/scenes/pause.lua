@@ -17,7 +17,7 @@ local rank-- Current rank
 local trophy-- Current trophy
 local trophyColor-- Current trophy color
 
-function scene.sceneInit()
+function scene.enter()
     page=0
     if SCN.prev:find("setting") then
         TEXT.show(text.needRestart,640,410,50,'fly',.6)
@@ -116,7 +116,7 @@ function scene.sceneInit()
         GAME.prevBG=false
     end
 end
-function scene.sceneBack()
+function scene.leave()
     trySave()
 end
 

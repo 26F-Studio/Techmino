@@ -117,14 +117,14 @@ local function _pDraw()
     while #F>0 and isEmpty(F[#F]) do rem(F) end
 end
 
-function scene.sceneInit()
+function scene.enter()
     curPen=false
     penMode=0
     penX,penY=1,1
     demo=false
     page=1
 end
-function scene.sceneBack()
+function scene.leave()
     saveFile(DATA.copyBoards(),'conf/customBoards')
 end
 

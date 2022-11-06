@@ -110,15 +110,15 @@ local loadingThread=coroutine.wrap(function()
     return 'finish'
 end)
 
-function scene.sceneInit()
+function scene.enter()
     studioLogo=GC.newText(getFont(90),"26F Studio")
     progress=0
     maxProgress=10
     t1,t2=0,0-- Timer
     animeType={} for i=1,#SVG_TITLE_FILL do animeType[i]=math.random(#titleTransform) end-- Random animation type
 end
-function scene.sceneBack()
-    love.event.quit()
+function scene.leave()
+    SCN.go('quit','none')
 end
 
 function scene.mouseDown()
@@ -134,7 +134,7 @@ end
 scene.touchDown=scene.mouseDown
 function scene.keyDown(key)
     if key=='escape' then
-        love.event.quit()
+        SCN.go('quit','none')
     else
         scene.mouseDown()
     end

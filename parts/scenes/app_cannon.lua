@@ -6,7 +6,7 @@ local state,timer,score,combo
 local x,y,vx,vy,ex,ey
 
 local scene={}
-function scene.sceneInit()
+function scene.enter()
     pow,ang=0,0
     state=0
     timer=0

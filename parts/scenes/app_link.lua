@@ -243,7 +243,7 @@ end
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     invis=false
     newGame()
     BGM.play('truth')

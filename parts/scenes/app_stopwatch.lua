@@ -23,7 +23,7 @@ end
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     state=0
     time1=STRING.time(0)
     time2=STRING.time(0)

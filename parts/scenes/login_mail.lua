@@ -29,7 +29,7 @@ local function _paste()
     MES.new('warn',text.wrongCode)
 end
 
-function scene.sceneInit()
+function scene.enter()
     scene.widgetList.email:setText(USER.email or "")
     scene.widgetList.code:clear()
 end

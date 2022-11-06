@@ -98,12 +98,12 @@ local function _freshKeyList()
     end
 end
 
-function scene.sceneInit()
+function scene.enter()
     selected=false
     _freshKeyList()
     BG.set('none')
 end
-function scene.sceneBack()
+function scene.leave()
     saveFile(KEY_MAP,'conf/key')
 end
 

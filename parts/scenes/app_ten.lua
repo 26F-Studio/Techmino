@@ -54,7 +54,7 @@ local function reset()
     fallingTimer=false
     failPos=false
 end
-function scene.sceneInit()
+function scene.enter()
     BG.set('rainbow2')
     BGM.play('truth')
     preview={}

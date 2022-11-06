@@ -9,10 +9,10 @@ local scene={}
 
 local cur-- Cursor position
 
-function scene.sceneInit()
+function scene.enter()
     cur=#BAG
 end
-function scene.sceneBack()
+function scene.leave()
     saveFile(DATA.copySequence(),'conf/customSequence')
 end
 

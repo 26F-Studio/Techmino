@@ -15,7 +15,7 @@ end
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     showEmail=false
     emailBox.secret=true
     emailBox:setText(USER.email)

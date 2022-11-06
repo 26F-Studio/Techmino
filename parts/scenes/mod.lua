@@ -38,7 +38,7 @@ local function _toggleMod(M,back)
     scene.widgetList.unranked.hide=scoreValid()
 end
 
-function scene.sceneInit()
+function scene.enter()
     selected=false
     scene.widgetList.unranked.hide=scoreValid()
     BG.set('tunnel')

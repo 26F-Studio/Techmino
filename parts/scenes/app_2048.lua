@@ -225,7 +225,7 @@ local function skip()
     end
 end
 
-function scene.sceneInit()
+function scene.enter()
     BG.set('cubes')
     BGM.play('truth')
     board={}

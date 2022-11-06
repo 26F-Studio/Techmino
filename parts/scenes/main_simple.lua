@@ -2,7 +2,7 @@ local scene={}
 
 local tip=GC.newText(getFont(30),"")
 
-function scene.sceneInit()
+function scene.enter()
     tip:set(text.getTip())
     BG.set()
 end

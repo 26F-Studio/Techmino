@@ -59,7 +59,7 @@ end
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     noTouch=not SETTING.VKSwitch
     playing=false
     lastUpstreamTime=0
@@ -73,7 +73,7 @@ function scene.sceneInit()
         GAME.prevBG=false
     end
 end
-function scene.sceneBack()
+function scene.leave()
     TASK.unlock('netPlaying')
 end
 

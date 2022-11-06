@@ -8,7 +8,7 @@ local last1,last2-- Last touch/sound time
 local sfxPack=SETTING.sfxPack
 local vocPack=SETTING.vocPack
 
-function scene.sceneInit()
+function scene.enter()
     last1,last2=0,0
     sfxPack=SETTING.sfxPack
     vocPack=SETTING.vocPack
@@ -16,7 +16,7 @@ function scene.sceneInit()
     scene.widgetList.vocPack:reset()
     BG.set()
 end
-function scene.sceneBack()
+function scene.leave()
     saveSettings()
 end
 

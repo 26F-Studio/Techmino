@@ -27,7 +27,7 @@ end
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     state=0
     ang,pos=0,-tau/4
     timer=50

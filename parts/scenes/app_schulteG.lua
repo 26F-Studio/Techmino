@@ -11,7 +11,7 @@ local startTime,time
 local state,progress
 local tapFX,mistake
 
-function scene.sceneInit()
+function scene.enter()
     BG.set('space')
     BGM.play('way')
     board={}
