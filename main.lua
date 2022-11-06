@@ -72,8 +72,6 @@ WIDGET.setOnChange(function()
     end
 end)
 
-table.insert(_LOADTIMELIST_,("Load Zframework: %.3fs"):format(TIME()-_LOADTIME_))
-
 -- Create shortcuts
 setFont=FONT.set
 getFont=FONT.get
@@ -98,10 +96,6 @@ for _,v in next,{'conf','record','replay','cache','lib'} do
     end
 end
 
-CHAR=require'parts.char'
-require'parts.gameTables'
-require'parts.gameFuncs'
-
 -- Load shader files from SOURCE ONLY
 SHADER={}
 for _,v in next,fs.getDirectoryItems('parts/shaders') do
@@ -110,6 +104,11 @@ for _,v in next,fs.getDirectoryItems('parts/shaders') do
         SHADER[name]=love.graphics.newShader('parts/shaders/'..name..'.glsl')
     end
 end
+
+-- Load modules
+CHAR=require'parts.char'
+require'parts.gameTables'
+require'parts.gameFuncs'
 
 THEME=      require'parts.theme'
 LINE=       require'parts.line'
@@ -121,7 +120,7 @@ USERS=      require'parts.users'
 NET=        require'parts.net'
 VK=         require'parts.virtualKey'
 BOT=        require'parts.bot'
-RSlist=     require'parts.RSlist'DSCP=RSlist.TRS.centerPos
+RSlist=     require'parts.RSlist'; DSCP=RSlist.TRS.centerPos
 PLY=        require'parts.player'
 NETPLY=     require'parts.netPlayer'
 MODES=      require'parts.modes'
@@ -132,9 +131,28 @@ setmetatable(TEXTURE,{__index=function(self,k)
     return self[k]
 end})
 
-table.insert(_LOADTIMELIST_,("Load Parts: %.3fs"):format(TIME()-_LOADTIME_))
+-- Load mode files
+for i=1,#MODES do
+    local m=MODES[i]-- Mode template
+    if FILE.isSafe('parts/modes/'..m.name) then
+        TABLE.complete(require('parts.modes.'..m.name),MODES[i])
+        MODES[m.name],MODES[i]=MODES[i]
+    end
+end
+for _,v in next,fs.getDirectoryItems('parts/modes') do
+    if FILE.isSafe('parts/modes/'..v) and not MODES[v:sub(1,-5)] then
+        local M={name=v:sub(1,-5)}
+        local modeData=require('parts.modes.'..M.name)
+        if modeData.env then
+            TABLE.complete(modeData,M)
+            MODES[M.name]=M
+        end
+    end
+end
 
--- Init Zframework
+table.insert(_LOADTIMELIST_,("Load Modules: %.3fs"):format(TIME()-_LOADTIME_))
+
+-- Initialize Zframework
 do-- Z.setCursor
     local normImg=GC.DO{16,16,
         {'fCirc',8,8,4},
@@ -238,25 +256,6 @@ end)
 Z.setOnQuit(function()
     destroyPlayers()
 end)
-
--- Load mode files
-for i=1,#MODES do
-    local m=MODES[i]-- Mode template
-    if FILE.isSafe('parts/modes/'..m.name) then
-        TABLE.complete(require('parts.modes.'..m.name),MODES[i])
-        MODES[m.name],MODES[i]=MODES[i]
-    end
-end
-for _,v in next,fs.getDirectoryItems('parts/modes') do
-    if FILE.isSafe('parts/modes/'..v) and not MODES[v:sub(1,-5)] then
-        local M={name=v:sub(1,-5)}
-        local modeData=require('parts.modes.'..M.name)
-        if modeData.env then
-            TABLE.complete(modeData,M)
-            MODES[M.name]=M
-        end
-    end
-end
 
 -- Initialize image libs
 IMG.init{
@@ -365,6 +364,8 @@ VOC.init{
     'test','happy','doubt',
     'welcome',
 }
+
+table.insert(_LOADTIMELIST_,("Initialize Modules: %.3fs"):format(TIME()-_LOADTIME_))
 
 -- Load settings and statistics
 if
@@ -610,7 +611,7 @@ WS.switchHost('cafuuchino1.3322.org','10026','/techmino/ws/v1')
 HTTP.setHost("cafuuchino1.3322.org:10026")
 HTTP.setThreadCount(1)
 
-table.insert(_LOADTIMELIST_,("Initialize Data: %.3fs"):format(TIME()-_LOADTIME_))
+table.insert(_LOADTIMELIST_,("Load Resources: %.3fs"):format(TIME()-_LOADTIME_))
 
 for i=1,#_LOADTIMELIST_ do LOG(_LOADTIMELIST_[i]) end
 
