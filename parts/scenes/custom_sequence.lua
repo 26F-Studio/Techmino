@@ -1,9 +1,9 @@
-local gc,sys=love.graphics,love.system
+local sys=love.system
 local kb=love.keyboard
 
 local sin=math.sin
 local ins,rem=table.insert,table.remove
-local gc_setColor,gc_print=gc.setColor,gc.print
+local gc_setColor,gc_print=GC.setColor,GC.print
 
 local scene={}
 
@@ -112,12 +112,12 @@ function scene.keyDown(key)
     end
 end
 
-local blockCharWidth={} for i=1,#BLOCK_CHARS do blockCharWidth[i]=gc.newText(FONT.get(60),BLOCK_CHARS[i]):getWidth() end
+local blockCharWidth={} for i=1,#BLOCK_CHARS do blockCharWidth[i]=GC.newText(FONT.get(60),BLOCK_CHARS[i]):getWidth() end
 function scene.draw()
     -- Draw frame
     gc_setColor(COLOR.Z)
-    gc.setLineWidth(2)
-    gc.rectangle('line',100,110,1080,260,5)
+    GC.setLineWidth(2)
+    GC.rectangle('line',100,110,1080,260,5)
 
     -- Draw sequence
     local BLOCK_COLORS=BLOCK_COLORS
@@ -166,7 +166,7 @@ function scene.draw()
 
     -- Draw cursor
     gc_setColor(.5,1,.5,.6+.4*sin(TIME()*6.26))
-    gc.line(cx-5,cy-20,cx-5,cy+20)
+    GC.line(cx-5,cy-20,cx-5,cy+20)
 end
 
 scene.widgetList={
