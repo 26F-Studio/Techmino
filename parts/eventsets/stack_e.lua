@@ -23,6 +23,7 @@ return {
                         LINE.discard(table.remove(P.field,1))
                         LINE.discard(table.remove(P.visTime,1))
                     end
+                    P.garbageBeneath=P.garbageBeneath-bonus
                 end
             end
         end
