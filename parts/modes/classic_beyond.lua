@@ -13,11 +13,11 @@ return {
     getRank=function(P)
         local L=P.stat.row
         return
-        L>=100 and 5 or
-        L>=80 and 4 or
-        L>=60 and 3 or
-        L>=40 and 2 or
-        L>=20 and 1 or
+        L>=62 and 5 or
+        L>=45 and 4 or
+        L>=30 and 3 or
+        L>=15 and 2 or
+        L>=5 and 1 or
         L>=1 and 0
     end,
 }
