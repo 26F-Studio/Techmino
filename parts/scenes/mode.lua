@@ -9,6 +9,7 @@ local ms,kb,tc=love.mouse,love.keyboard,love.touch
 
 local max,min=math.max,math.min
 local int,abs=math.floor,math.abs
+local sin,cos,pi=math.sin,math.cos,math.pi
 
 local mapCam={
     sel=false,-- Selected mode ID
@@ -46,6 +47,40 @@ end
 local function _getPos()
     return mapCam.xOy:inverseTransformPoint(0,0)
 end
+local function _isPointInPolygon(x, y, poly)
+    local x1,y1,x2,y2
+    local len=#poly
+    x2,y2=poly[len-1],poly[len]
+    local wn=0
+    for idx=1,len,2 do
+        x1,y1=x2,y2
+        x2,y2=poly[idx],poly[idx+1]
+
+        if y1>y then
+            if (y2<=y)and(x1-x)*(y2-y)<(x2-x)*(y1-y) then
+                wn=wn+1
+            end
+        else
+            if (y2>y)and(x1-x)*(y2-y)>(x2-x)*(y1-y) then
+                wn=wn-1
+            end
+        end
+    end
+    return wn%2~=0 -- even/odd rule
+end
+
+local star={}
+local starRad=.5 -- inner radius (outer radius is 1)
+for i=1,20,4 do
+    local j=(i-1)/2
+    local r=starRad
+    star[i]=sin(pi*j/5)
+    star[i+1]=-cos(pi*j/5)
+    j=j+1
+    star[i+2]=r*sin(pi*j/5)
+    star[i+3]=-r*cos(pi*j/5)
+end
+local star_tri=love.math.triangulate(star)
 
 local function _onModeRaw(x,y)
     for name,M in next,MODES do
@@ -57,6 +92,14 @@ local function _onModeRaw(x,y)
                 if abs(x-M.x)+abs(y-M.y)<s+12 then return name end
             elseif M.shape==3 then
                 if (x-M.x)^2+(y-M.y)^2<(s+6)^2 then return name end
+            elseif M.shape==4 then
+                if x>M.x+s or x<M.x-s or y>M.y+s or y<M.y-s then
+                    -- if not in a square containing the star, then it's not in the star
+                    -- shortcut for far away x/y because _isPointInPolygon is kinda slow
+                    goto continue
+                end
+                if _isPointInPolygon((x-M.x)*.022,(y-M.y)*.022,star) then return name end
+                ::continue::
             end
         end
     end
@@ -206,6 +249,7 @@ local baseRankColor={
     {.85,.5,.4,.3},
     {.85,.3,.8,.3},
 }
+
 local function _drawModeShape(M,S,drawType)
     if M.shape==1 then-- Rectangle
         gc_rectangle(drawType,M.x-S,M.y-S,2*S,2*S)
@@ -213,6 +257,20 @@ local function _drawModeShape(M,S,drawType)
         gc_circle(drawType,M.x,M.y,S+12,4)
     elseif M.shape==3 then-- Octagon
         gc_circle(drawType,M.x,M.y,S+6,8)
+    elseif M.shape==4 then-- Star
+        gc_push()
+            gc_translate(M.x,M.y)
+            gc_scale(S*1.5)
+            gc_setLineWidth(.1)
+            GC.polygon("line",star)
+            if drawType=='fill' then
+                gc_setLineWidth(0)
+                for i=1,#star_tri do
+                    GC.polygon(drawType,star_tri[i])
+                end
+            end
+            gc_setLineWidth(4)
+        gc_pop()
     end
 end
 function scene.draw()

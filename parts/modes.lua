@@ -76,7 +76,8 @@ return {
     {name='classic_e',     x=-200,      y=-850,     size=40,shape=1,icon="classic",     unlock={'classic_h'}},
     {name='classic_h',     x=-300,      y=-950,     size=40,shape=3,icon="classic",     unlock={'classic_l'}},
     {name='classic_l',     x=-400,      y=-1050,    size=35,shape=3,icon="classic",     unlock={'classic_u'}},
-    {name='classic_u',     x=-500,      y=-1150,    size=30,shape=2,icon="classic"},
+    {name='classic_u',     x=-500,      y=-1150,    size=30,shape=2,icon="classic",     unlock={'classic_beyond'}},
+    {name='classic_beyond',x=-600,      y=-1250,    size=30,shape=4,icon="classic"},
 
     {name='survivor_e',    x=450,       y=-600,     size=40,shape=1,icon="survivor",    unlock={'survivor_n'}},
     {name='survivor_n',    x=650,       y=-600,     size=40,shape=1,icon="survivor",    unlock={'survivor_h','attacker_h','defender_n','dig_h'}},

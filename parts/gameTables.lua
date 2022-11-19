@@ -188,7 +188,7 @@ do-- TEXTOBJ
         gameover=T(90),
         pause=T(90),
 
-        speedLV=T(20),
+        speedLV=T(20),speed=T(20),nextLife=T(20),
         piece=T(25),line=T(25),atk=T(20),eff=T(20),
         rpm=T(35),tsd=T(35),
         grade=T(25),techrash=T(25),
