@@ -74,9 +74,6 @@ function scene.draw()
     elseif vocPack=="miku" then
         gc.translate(700,320+12*sin(TIME()*.5))
         gc.draw(IMG.mikuCH,nil,nil,nil,.8)
-    elseif vocPack=="rin" then
-        gc.translate(820,280+12*sin(TIME()*.5))
-        gc.draw(IMG.rinCH,nil,nil,nil,.8)
     end
     gc.pop()
 end
