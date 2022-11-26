@@ -237,7 +237,7 @@ return {
         "最適化:",
     },
     radar={"DEF","OFF","ATK","SEND","SPD","DIG"},
-    radarData={"DPM","ADPM","APM","SPM","LPM","DPM"},
+    radarData={"DPM","ADPM","APM","SPM","L'PM","DPM"},
     stat={
         "起動回数:",
         "プレイ回数:",
