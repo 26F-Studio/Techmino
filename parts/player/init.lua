@@ -445,7 +445,13 @@ function PLY.newPlayer(id,mini,p)
     local pData={
         uid=USER.uid,
         group=0,
-    } if p then TABLE.coverR(p,pData) end
+    } if p then
+        TABLE.coverR(p,pData)
+    else
+        -- Default pid=1, and empty username
+        pData.uid=1
+        P.username=""
+    end
     P.uid=pData.uid
     P.sid=NET.uid_sid[pData.uid] or pData.uid
     P.group=pData.group
