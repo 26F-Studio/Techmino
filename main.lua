@@ -488,6 +488,7 @@ do
     if not MODES[STAT.lastPlay] then
         STAT.lastPlay='sprint_10l'
     end
+    fs.remove('conf/account')
 
     saveStats()
     saveProgress()
