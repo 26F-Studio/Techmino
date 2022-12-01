@@ -146,7 +146,8 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
-    if: github.event_name != 'pull_request'
+    # if: github.event_name != 'pull_request'
+    if: ${{ !always() }}
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
@@ -234,7 +235,8 @@ jobs:
   build-ios:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
-    if: github.event_name != 'pull_request'
+    # if: github.event_name != 'pull_request'
+    if: ${{ !always() }}
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
@@ -396,7 +398,8 @@ jobs:
   build-macos-appstore:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
-    if: github.event_name != 'pull_request'
+    # if: github.event_name != 'pull_request'
+    if: ${{ !always() }}
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
@@ -488,7 +491,8 @@ jobs:
   build-macos-portable:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
-    if: github.event_name != 'pull_request'
+    # if: github.event_name != 'pull_request'
+    if: ${{ !always() }}
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
@@ -590,6 +594,7 @@ jobs:
   build-windows:
     runs-on: windows-latest
     needs: [get-info, build-core, auto-test]
+    if: ${{ !always() }}
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
