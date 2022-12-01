@@ -356,7 +356,6 @@ jobs:
         run: |
           cd ./ColdClear
           mkdir -p ./lib/lua/5.1
-          mv ./x64/libcold_clear.so ./lib
           mv ./x64/CCloader.so ./lib/lua/5.1
       - name: Build Linux packages
         id: build-packages
