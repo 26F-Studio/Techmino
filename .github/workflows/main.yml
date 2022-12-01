@@ -354,9 +354,7 @@ jobs:
         run: |
           cd ./ColdClear
           mkdir ./libs
-          mv ./x64/libcold_clear.so ./libs
-          mkdir ./shared
-          mv ./x64/CCloader.so ./shared
+          mv ./x64/* ./libs
       - name: Build Linux packages
         id: build-packages
         uses: love-actions/love-actions-linux@v1
@@ -365,8 +363,7 @@ jobs:
           executable-name: app
           icon-path: ./.github/build/linux/${{ env.BUILD_TYPE }}/icon.png
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          libs-path: ./ColdClear/libs/
-          shared-path: ./ColdClear/shared/
+          lib-path: ./ColdClear/libs/
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
       - name: Upload AppImage artifact
