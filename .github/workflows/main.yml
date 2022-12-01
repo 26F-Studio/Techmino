@@ -146,6 +146,7 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
+    if: github.event_name != 'pull_request'
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
@@ -232,8 +233,8 @@ jobs:
 
   build-ios:
     runs-on: macos-latest
-    if: github.event_name != 'pull_request'
     needs: [get-info, build-core, auto-test]
+    if: github.event_name != 'pull_request'
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
@@ -397,8 +398,8 @@ jobs:
 
   build-macos-appstore:
     runs-on: macos-latest
-    if: github.event_name != 'pull_request'
     needs: [get-info, build-core, auto-test]
+    if: github.event_name != 'pull_request'
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
@@ -489,8 +490,8 @@ jobs:
 
   build-macos-portable:
     runs-on: macos-latest
-    if: github.event_name != 'pull_request'
     needs: [get-info, build-core, auto-test]
+    if: github.event_name != 'pull_request'
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
@@ -721,6 +722,7 @@ jobs:
             if "${{ needs.build-windows.result }}" == "success":
               f.write("- Windows packages: [WeTransfer](${{ needs.build-windows.outputs.download-url }})\n")
       - name: Send Discord message
+        if: github.event_name != 'pull_request'
         uses: Sniddl/discord-commits@v1.5
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
