@@ -177,7 +177,7 @@ jobs:
         uses: ./.github/actions/get-cc
         with:
           platform: Android
-          dir: ./ColdClear
+          dir: ./libAndroid
       - name: Build Android packages
         id: build-packages
         uses: love-actions/love-actions-android@v1
@@ -191,7 +191,7 @@ jobs:
           keystore-store-password: ${{ secrets.ANDROID_KEYSTORE_STOREPASSWORD }}
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           resource-path: ./.github/build/android/${{ env.BUILD_TYPE }}/res
-          extra-assets: ./ColdClear/
+          extra-assets: ./libAndroid/
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
           version-code: ${{ needs.get-info.outputs.version-code }}
