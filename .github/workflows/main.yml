@@ -353,8 +353,8 @@ jobs:
         shell: bash
         run: |
           cd ./ColdClear
-          mkdir ./libs
-          mv ./x64/* ./libs
+          mkdir -p ./lib/lua/5.1
+          mv ./x64/CCloader.so ./lib/lua/5.1
       - name: Build Linux packages
         id: build-packages
         uses: love-actions/love-actions-linux@v1
@@ -363,7 +363,7 @@ jobs:
           executable-name: app
           icon-path: ./.github/build/linux/${{ env.BUILD_TYPE }}/icon.png
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          lib-path: ./ColdClear/libs/
+          lib-path: ./ColdClear/lib
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
       - name: Upload AppImage artifact
