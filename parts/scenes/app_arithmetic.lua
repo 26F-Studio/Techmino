@@ -12,7 +12,7 @@ local function b2(i)
         s=(i%2)..s
         i=int(i/2)
     end
-    return '0b'..s
+    return s.."₂"
 end
 local function b8(i)
     if i==0 then return 0 end
@@ -21,7 +21,7 @@ local function b8(i)
         s=(i%8)..s
         i=int(i/8)
     end
-    return '0o'..s
+    return s.."₈"
 end
 local function b16(i)
     if i==0 then return 0 end
@@ -30,7 +30,7 @@ local function b16(i)
         s=char((i%16<10 and 48 or 55)+i%16)..s
         i=int(i/16)
     end
-    return '0x'..s
+    return s.."₁₆"
 end
 
 local levels={
@@ -121,10 +121,13 @@ local levels={
 
 local level
 
-local input,inputTime=0,0
+local input,inputTime="",0
 local question,answer
+local drawing
+local drawLines,drawVel,indexes
 
 local function newQuestion(lv)
+    drawLines,drawVel,indexes={},{},{}
     return levels[lv]()
 end
 
@@ -132,6 +135,7 @@ local function reset()
     timing=true
     time=0
     input=""
+    drawing=false
     inputTime=0
     level=1
     question,answer=newQuestion(1)
@@ -151,10 +155,24 @@ local function check(val)
     end
 end
 
+local function isDrawing() return drawing end -- for hiding widgets
+local function isntDrawing() return not drawing end
+local function drawDrawing()
+    gc.setLineWidth(10)
+    -- gc.setLineWidth(drawVel[i][(j+1)/2])      (couldn't implement without weird looking disjointed lines)
+    for i=1,#drawLines do
+        if #drawLines[i]>=4 then
+            gc.line(drawLines[i])
+        end
+    end
+end
+
+
 local scene={}
 
 function scene.enter()
     reset()
+    drawing=false
     BGM.play('truth')
 end
 
@@ -179,16 +197,76 @@ function scene.keyDown(key,isRep)
             check(tonumber(input))
             SFX.play('hold')
         end
-    elseif key=='backspace' then
-        input=""
-        inputTime=0
+    elseif key=='backspace' or key=='x' or key=='delete' then
+        if drawing then
+            drawLines,drawVel,indexes={},{},{}
+        else
+            input=""
+            inputTime=0
+        end
     elseif key=='r' then
-        reset()
+        if not drawing then
+            reset()
+        end
+    elseif key=='d' then
+        drawing=not drawing
+    elseif key=='a' then
+        MES.new('info',"Auto-drawing formulas not yet implemented.\nL + skill issue")
+    elseif (key=='z' and love.keyboard.isDown('lctrl','rctrl')) or key=='ctrl_z' then
+        indexes={}
+        table.remove(drawLines)
+        table.remove(drawVel)
     elseif key=='escape' then
         if tryBack() then
             SCN.back()
         end
     end
+end
+
+function scene.touchDown(x,y,id)
+    if not drawing then return end
+    indexes[id]=#drawLines+1
+    drawLines[indexes[id]]={x,y}
+    drawVel[indexes[id]]={}
+end
+function scene.touchMove(x,y,dx,dy,id)
+    if not drawing or not indexes[id] then return end
+    table.insert(drawLines[indexes[id]],x)
+    table.insert(drawLines[indexes[id]],y)
+    table.insert(drawVel[indexes[id]],math.max(math.sqrt(math.abs(dx)+math.abs(dy)),10))
+end
+function scene.touchUp(x,y,id)
+    if not drawing or not indexes[id] then return end
+    if #drawLines[indexes[id]]==2 then -- touch, no movement, so delete line
+        local delIndex=indexes[id]+0
+        indexes[id]=nil
+        table.remove(drawLines,delIndex)
+        table.remove(drawVel,delIndex)
+        for i,_ in next,indexes do -- decrement indexes after the deleted item
+            indexes[i]=indexes[i]>delIndex and indexes[i]-1 or indexes[i]
+        end
+    else
+        table.insert(
+            drawVel[indexes[id]],
+            math.max(
+                math.sqrt( --   |x - prevXPos|  +  |y - prevYPos|
+                    math.abs(x-drawLines[indexes[id]][#drawLines[indexes[id]]-1])+
+                    math.abs(y-drawLines[indexes[id]][#drawLines[indexes[id]]])
+                ),
+                10
+            )
+        )
+        table.insert(drawLines[indexes[id]],x)
+        table.insert(drawLines[indexes[id]],y)
+
+        indexes[id]=nil
+    end
+end
+
+function scene.mouseDown(x,y) scene.touchDown(x,y,26629999) end
+function scene.mouseUp(x,y) scene.touchUp(x,y,26629999) end
+function scene.mouseMove(x,y,dx,dy)
+    if indexes[26629999] then scene.touchMove(x,y,dx,dy,26629999) end
 end
 
 function scene.update(dt)
@@ -201,36 +279,51 @@ function scene.update(dt)
     end
 end
 function scene.draw()
+    gc.setColor(drawing and COLOR.Z or COLOR.H)
+    drawDrawing()
     gc.setColor(COLOR.Z)
-    FONT.set(45)
-    gc.print(("%.3f"):format(time),1026,70)
+    if not drawing then
+        FONT.set(45)
+        GC.mStr(STRING.time(time),1026,70)
 
-    FONT.set(35)
-    GC.mStr("["..level.."]",640,30)
+        FONT.set(35)
+        GC.mStr("["..level.."]",640,30)
 
-    FONT.set(80)
-    if type(question)=='table' then gc.setColor(1,1,1) end
-    GC.mStr(question,640,60)
+        FONT.set(80)
+        GC.mStr(question,640,60)
 
-    FONT.set(80)
-    gc.setColor(1,1,1,inputTime)
-    GC.mStr(input,640,160)
+        FONT.set(80)
+        gc.setColor(1,1,1,inputTime)
+        GC.mStr(input,640,160)
+    else
+        FONT.set(30)
+        GC.mStr(STRING.time(time),1160,120)
+
+        FONT.set(80)
+        gc.print(question,130,40)
+    end
+    
 end
 
 scene.widgetList={
-    WIDGET.newButton{name='reset',x=155,y=100,w=180,h=100,color='lG',font=50,fText=CHAR.icon.retry_spin,code=pressKey'r'},
-    WIDGET.newKey{name='X',x=540,y=620,w=90,font=60,fText=CHAR.key.clear,code=pressKey'backspace'},
-    WIDGET.newKey{name='0',x=640,y=620,w=90,font=60,fText="0",code=pressKey'0'},
-    WIDGET.newKey{name='-',x=740,y=620,w=90,font=60,fText="-",code=pressKey'-'},
-    WIDGET.newKey{name='1',x=540,y=520,w=90,font=60,fText="1",code=pressKey'1'},
-    WIDGET.newKey{name='2',x=640,y=520,w=90,font=60,fText="2",code=pressKey'2'},
-    WIDGET.newKey{name='3',x=740,y=520,w=90,font=60,fText="3",code=pressKey'3'},
-    WIDGET.newKey{name='4',x=540,y=420,w=90,font=60,fText="4",code=pressKey'4'},
-    WIDGET.newKey{name='5',x=640,y=420,w=90,font=60,fText="5",code=pressKey'5'},
-    WIDGET.newKey{name='6',x=740,y=420,w=90,font=60,fText="6",code=pressKey'6'},
-    WIDGET.newKey{name='7',x=540,y=320,w=90,font=60,fText="7",code=pressKey'7'},
-    WIDGET.newKey{name='8',x=640,y=320,w=90,font=60,fText="8",code=pressKey'8'},
-    WIDGET.newKey{name='9',x=740,y=320,w=90,font=60,fText="9",code=pressKey'9'},
+    WIDGET.newButton{name='reset',x=155,y=100,w=180,h=100,color='lG',font=50,fText=CHAR.icon.retry_spin,code=pressKey'r',hideF=isDrawing},
+    WIDGET.newKey{name='undo',   x=80,  y=80, w=60,font=40,fText=CHAR.icon.retry_spin,code=pressKey'ctrl_z',hideF=isntDrawing},
+    WIDGET.newKey{name='X',      x=540, y=620,w=90,font=60,fText=CHAR.key.clear,code=pressKey'backspace',hideF=isDrawing},
+    WIDGET.newKey{name='0',      x=640, y=620,w=90,font=60,fText="0",code=pressKey'0',hideF=isDrawing},
+    WIDGET.newKey{name='-',      x=740, y=620,w=90,font=60,fText="-",code=pressKey'-',hideF=isDrawing},
+    WIDGET.newKey{name='1',      x=540, y=520,w=90,font=60,fText="1",code=pressKey'1',hideF=isDrawing},
+    WIDGET.newKey{name='2',      x=640, y=520,w=90,font=60,fText="2",code=pressKey'2',hideF=isDrawing},
+    WIDGET.newKey{name='3',      x=740, y=520,w=90,font=60,fText="3",code=pressKey'3',hideF=isDrawing},
+    WIDGET.newKey{name='4',      x=540, y=420,w=90,font=60,fText="4",code=pressKey'4',hideF=isDrawing},
+    WIDGET.newKey{name='5',      x=640, y=420,w=90,font=60,fText="5",code=pressKey'5',hideF=isDrawing},
+    WIDGET.newKey{name='6',      x=740, y=420,w=90,font=60,fText="6",code=pressKey'6',hideF=isDrawing},
+    WIDGET.newKey{name='7',      x=540, y=320,w=90,font=60,fText="7",code=pressKey'7',hideF=isDrawing},
+    WIDGET.newKey{name='8',      x=640, y=320,w=90,font=60,fText="8",code=pressKey'8',hideF=isDrawing},
+    WIDGET.newKey{name='9',      x=740, y=320,w=90,font=60,fText="9",code=pressKey'9',hideF=isDrawing},
+    WIDGET.newKey{name='D',      x=440, y=620,w=90,font=60,fText="D",code=pressKey'd',hideF=isDrawing},
+    WIDGET.newKey{name='D_d',    x=1200,y=80 ,w=80,font=50,fText="D",code=pressKey'd',hideF=isntDrawing},
+    WIDGET.newKey{name='A',      x=1120,y=80 ,w=80,font=50,fText="A",code=pressKey'a',hideF=isntDrawing},
+    WIDGET.newKey{name='X_d',    x=1040,y=80 ,w=80,font=50,fText=CHAR.key.clear,code=pressKey'backspace',hideF=isntDrawing},
     WIDGET.newButton{name='back',x=1200,y=660,w=110,h=60,font=45,sound='back',fText=CHAR.icon.back,code=backScene},
 }
 
