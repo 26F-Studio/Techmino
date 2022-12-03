@@ -5,93 +5,271 @@ local char=string.char
 
 local timing,time
 
-local function b2(i)
-    if i==0 then return 0 end
-    local s=""
-    while i>0 do
-        s=(i%2)..s
-        i=int(i/2)
+local function b2(i) return STRING.toBin(i).."₂" end
+local function b8(i) return STRING.toOct(i).."₈" end
+local function b16(i) return STRING.toHex(i).."₁₆" end
+
+local digits={
+    [0]={ -- 0
+        5, 40,
+        15,40,
+        20,35,
+        20, 5,
+        15, 0,
+         5, 0,
+         0, 5,
+         0,35,
+         5,40
+    },{ -- 1
+         0,10,
+        10, 0,
+        10,40,
+         0,40,
+        -1,40,0,40, -- fixes a bug where the bottom line doesn't appear. janky solution, but it works /shrug
+        20,40
+    },{ -- 2
+         0, 5,
+         5, 0,
+        15, 0,
+        20, 5,
+        20,20,
+         0,39.9999,
+         0,40,
+        20,40
+    },{ -- 3
+         0, 5,
+         5, 0,
+        15, 0,
+        20, 5,
+        20,15,
+        15,20,
+         5,20,
+         4,20,5,20,-- fixes a bug where the middle line of the 3 doesn't appear. janky solution, but it works /shrug
+        15,20,
+        20,25,
+        20,35,
+        15,40,
+         5,40,
+         0,35
+    },{ -- 4
+        20,20,
+         0,20,
+        15, 0,
+        15,40
+    },{ -- 5
+        20, 0,
+         0, 0,
+         0,20,
+         5,15,
+        15,15,
+        20,20,
+        20,35,
+        15,40,
+         5,40,
+         0,35
+    },{ -- 6
+        20, 5,
+        15, 0,
+         5, 0,
+         0, 5,
+         0,35,
+         5,40,
+        15,40,
+        20,35,
+        20,20,
+        15,15,
+         5,15,
+         0,20
+    },{ -- 7
+         0, 0,
+        20, 0,
+         0,40
+    },{ -- 8
+         5, 0,
+        15, 0,
+        20, 5,
+        20,15,
+        15,20,
+         5,20,
+         0,25,
+         0,35,
+         5,40,
+        15,40,
+        20,35,
+        20,25,
+        15,20,
+         5,20,
+         0,15,
+         0, 5,
+         5, 0
+    },{ -- 9
+        20,15,
+        15,20,
+         5,20,
+         0,15,
+         0, 5,
+         5, 0,
+        15, 0,
+        20, 5,
+        20,35,
+        15,40,
+         5,40,
+         0,35
+    }
+}
+local drawing
+local drawLines,drawVel,indexes
+local autoDraw
+local function drawNum(num,x,y,scale)
+    local index=#drawLines+1
+    drawLines[index],drawVel[index]={},{}
+    if not scale then scale=1 end
+    if num>=10 then
+        for i=math.floor(math.log(num,10)),0,-1 do
+            drawNum(math.floor((num/math.pow(10,i))%10),x+-85*i*scale,y,scale)
+        end
+    else
+        for i=1,#digits[num],2 do
+            drawLines[index][i]=digits[num][i]*3*scale+x
+            drawLines[index][i+1]=digits[num][i+1]*3*scale+y
+            drawVel[index][i],drawVel[index][i+1]=0,0
+        end
     end
-    return s.."₂"
-end
-local function b8(i)
-    if i==0 then return 0 end
-    local s=""
-    while i>0 do
-        s=(i%8)..s
-        i=int(i/8)
-    end
-    return s.."₈"
-end
-local function b16(i)
-    if i==0 then return 0 end
-    local s=""
-    while i>0 do
-        s=char((i%16<10 and 48 or 55)+i%16)..s
-        i=int(i/16)
-    end
-    return s.."₁₆"
 end
 
 local levels={
     function()-- <+> [,10]
         local s=rnd(2,9)
         local a=rnd(1,s)
-        return a.."+"..s-a,s
+        return a.."+"..s-a,s,function()
+            drawNum(a,600,200)
+            drawNum(s-a,600,350)
+            table.insert(drawLines,{530,500,700,500})
+            table.insert(drawLines,{720,500,800,500})
+            table.insert(drawLines,{760,460,760,540})
+        end
     end,nil,nil,
     function()-- <+> [,20]
         local s=rnd(10,18)
         local a=rnd(s-9,int(s/2))
-        return a.."+"..s-a,s
+        return a.."+"..s-a,s,function()
+            drawNum(a,600,200)
+            drawNum(s-a,600,350)
+            table.insert(drawLines,{430,500,700,500})
+            table.insert(drawLines,{720,500,800,500})
+            table.insert(drawLines,{760,460,760,540})
+        end
     end,nil,nil,
     function()-- <+> [,100]
         local s=rnd(22,99)
         local a=rnd(11,int(s/2))
-        return a.."+"..s-a,s
+        return a.."+"..s-a,s,function()
+            drawNum(a,600,200)
+            drawNum(s-a,600,350)
+            table.insert(drawLines,{430,500,700,500})
+            table.insert(drawLines,{720,500,800,500})
+            table.insert(drawLines,{760,460,760,540})
+        end
     end,nil,nil,
     function()-- <-> [,10]
         local s=rnd(2,9)
         local a=rnd(1,s)
-        return s.."-"..a,s-a
+        return s.."-"..a,s-a,function()
+            drawNum(s,600,200)
+            drawNum(a,600,350)
+            table.insert(drawLines,{530,500,700,500})
+            table.insert(drawLines,{720,500,800,500})
+        end
     end,nil,nil,
     function()-- <-> [,100]
         local s=rnd(22,99)
         local a=rnd(11,int(s/2))
-        return s.."-"..a,s-a
+        return s.."-"..a,s-a,function()
+            drawNum(s,600,200)
+            drawNum(a,600,350)
+            table.insert(drawLines,{430,500,700,500})
+            table.insert(drawLines,{720,500,800,500})
+        end
     end,nil,nil,
     function()-- <-> [-10,]
         local s=rnd(-8,-1)
         local a=rnd(1,8)
-        return a.."-"..a-s,s
+        return a.."-"..a-s,s,function()
+            table.insert(drawLines,{540,260,580,260})
+            drawNum(a-s,600,200)
+            drawNum(a,600,350)
+            table.insert(drawLines,{530,500,700,500})
+            table.insert(drawLines,{720,500,800,500})
+            table.insert(drawLines,{760,460,760,540})
+        end
     end,nil,nil,nil,nil,
     function()-- <*> [,100]
         local b=rnd(21,89)
         local a=rnd(ceil(b/10),9)
         b=int(b/a)
-        return a.."*"..b,a*b
+        return a.."*"..b,a*b,function()
+            drawNum(a>b and a or b,600,200)
+            drawNum(a>b and b or a,600,350)
+            table.insert(drawLines,{460,500,700,500})
+            table.insert(drawLines,{720,540,800,460})
+            table.insert(drawLines,{720,460,800,540})
+        end
     end,nil,nil,nil,nil,
     function()-- <*> [,1000]
         local a,b=rnd(4,8),rnd(42,96)
-        return a.."*"..b,a*b
+        return a.."*"..b,a*b,function()
+            drawNum(b,600,200)
+            drawNum(a,600,350)
+            table.insert(drawLines,{330,500,700,500})
+            table.insert(drawLines,{720,540,800,460})
+            table.insert(drawLines,{720,460,800,540})
+        end
     end,nil,nil,
     function()-- </> [,100]
         local b=rnd(21,89)
         local a=rnd(ceil(b/10),9)
         b=int(b/a)
-        return a*b.."/"..a,b
+        return a*b.."/"..a,b,function()
+            drawNum(a*b,640,300)
+            drawNum(a,400,300)
+            table.insert(drawLines,{480,440,530,270,730,270})
+        end
     end,nil,nil,nil,nil,
     function()-- <%3>
         local s=rnd(5,17)
-        return s.."%3",s%3
+        return s.."%3",s%3,function()
+            drawNum(s,640,300)
+            drawNum(3,400,300)
+            table.insert(drawLines,{480,440,530,270,730,270})
+        end
     end,nil,nil,
     function()-- <%> [,10]
         local s=rnd(21,62)
         local a=rnd(3,9)
-        return s.."%"..a,s%a
+        return s.."%"..a,s%a,function()
+            drawNum(s,640,300)
+            drawNum(a,400,300)
+            table.insert(drawLines,{480,440,530,270,730,270})
+        end
     end,nil,nil,nil,nil,
     function()-- <b> [,10]
         local a=rnd(2,9)
-        return {COLOR.N,b2(a)},a
+        return {COLOR.N,b2(a)},a,function() -- INCOMPLETE
+            local b=STRING.toBin(a)
+            local l=string.len(b)
+            for i=1,l do
+                drawNum(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
+                table.insert(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
+                table.insert(drawLines,{370,440-100*(l-i),410,480-100*(l-i)})
+                drawNum(2,430,420-100*(l-i),.5)
+                drawNum(l-i,480,400-100*(l-i),.3)
+                table.insert(drawLines,{500,480-100*(l-i),540,480-100*(l-i)})
+                table.insert(drawLines,{500,440-100*(l-i),540,440-100*(l-i)})
+            end
+            table.insert(drawLines,{530,500,700,500})
+            table.insert(drawLines,{720,500,800,500})
+            table.insert(drawLines,{760,460,760,540})
+        end
     end,nil,nil,nil,nil,
     function()-- <o>
         local a=rnd(9,63)
@@ -123,8 +301,6 @@ local level
 
 local input,inputTime="",0
 local question,answer
-local drawing
-local drawLines,drawVel,indexes
 
 local function newQuestion(lv)
     drawLines,drawVel,indexes={},{},{}
@@ -136,9 +312,10 @@ local function reset()
     time=0
     input=""
     drawing=false
+    drawLines,drawVel,indexes={},{},{}
     inputTime=0
-    level=1
-    question,answer=newQuestion(1)
+    level=41 -- DEBUG
+    question,answer,autoDraw=newQuestion(1)
 end
 
 local function check(val)
@@ -148,7 +325,7 @@ local function check(val)
         inputTime=0
         local newQ
         repeat
-            newQ,answer=newQuestion(level)
+            newQ,answer,autoDraw=newQuestion(level)
         until newQ~=question
         question=newQ
         SFX.play('reach')
@@ -180,7 +357,9 @@ function scene.keyDown(key,isRep)
     if isRep then return end
     if key:sub(1,2)=="kp" then key=key:sub(3) end
     if #key==1 and ("0123456789"):find(key,nil,true) then
-        if #input<8 then
+        if love.keyboard.isDown('lctrl','rctrl') and drawing then
+            drawNum(tonumber(key),love.mouse.getX(),love.mouse.getY())
+        elseif #input<8 then
             input=input..key
             inputTime=1
             check(tonumber(input))
@@ -205,14 +384,20 @@ function scene.keyDown(key,isRep)
             inputTime=0
         end
     elseif key=='r' then
-        if not drawing then
+        if drawing then
+            drawLines,drawVel,indexes={},{},{}
+        else
             reset()
         end
     elseif key=='d' then
         drawing=not drawing
     elseif key=='a' then
-        MES.new('info',"Auto-drawing formulas not yet implemented.\nL + skill issue")
-    elseif (key=='z' and love.keyboard.isDown('lctrl','rctrl')) or key=='ctrl_z' then
+        if autoDraw then
+            autoDraw()
+        else
+            MES.new('info',"Auto-drawing not implemented yet for this level.\nL + skill issue + look at this bozo")
+        end
+    elseif ((key=='z' and love.keyboard.isDown('lctrl','rctrl')) or key=='ctrl_z') and drawing then
         indexes={}
         table.remove(drawLines)
         table.remove(drawVel)
@@ -300,14 +485,18 @@ function scene.draw()
         GC.mStr(STRING.time(time),1160,120)
 
         FONT.set(80)
-        gc.print(question,130,40)
+        gc.print(question,60,40)
+
+        if string.len(input)>0 then
+            FONT.set(50)
+            gc.setColor(1,1,1,inputTime)
+            gc.print("= "..input,60,140)
+        end
     end
-    
 end
 
 scene.widgetList={
     WIDGET.newButton{name='reset',x=155,y=100,w=180,h=100,color='lG',font=50,fText=CHAR.icon.retry_spin,code=pressKey'r',hideF=isDrawing},
-    WIDGET.newKey{name='undo',   x=80,  y=80, w=60,font=40,fText=CHAR.icon.retry_spin,code=pressKey'ctrl_z',hideF=isntDrawing},
     WIDGET.newKey{name='X',      x=540, y=620,w=90,font=60,fText=CHAR.key.clear,code=pressKey'backspace',hideF=isDrawing},
     WIDGET.newKey{name='0',      x=640, y=620,w=90,font=60,fText="0",code=pressKey'0',hideF=isDrawing},
     WIDGET.newKey{name='-',      x=740, y=620,w=90,font=60,fText="-",code=pressKey'-',hideF=isDrawing},
@@ -324,6 +513,7 @@ scene.widgetList={
     WIDGET.newKey{name='D_d',    x=1200,y=80 ,w=80,font=50,fText="D",code=pressKey'd',hideF=isntDrawing},
     WIDGET.newKey{name='A',      x=1120,y=80 ,w=80,font=50,fText="A",code=pressKey'a',hideF=isntDrawing},
     WIDGET.newKey{name='X_d',    x=1040,y=80 ,w=80,font=50,fText=CHAR.key.clear,code=pressKey'backspace',hideF=isntDrawing},
+    WIDGET.newKey{name='undo',   x=960, y=80, w=80,font=50,fText=CHAR.icon.retry_spin,code=pressKey'ctrl_z',hideF=isntDrawing},
     WIDGET.newButton{name='back',x=1200,y=660,w=110,h=60,font=45,sound='back',fText=CHAR.icon.back,code=backScene},
 }
 
