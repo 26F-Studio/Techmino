@@ -254,7 +254,7 @@ local levels={
     end,nil,nil,nil,nil,
     function()-- <b> [,10]
         local a=rnd(2,9)
-        return {COLOR.N,b2(a)},a,function() -- INCOMPLETE
+        return {COLOR.N,b2(a)},a,function()
             local b=STRING.toBin(a)
             local l=string.len(b)
             for i=1,l do
@@ -263,21 +263,57 @@ local levels={
                 table.insert(drawLines,{370,440-100*(l-i),410,480-100*(l-i)})
                 drawNum(2,430,420-100*(l-i),.5)
                 drawNum(l-i,480,400-100*(l-i),.3)
-                table.insert(drawLines,{500,480-100*(l-i),540,480-100*(l-i)})
-                table.insert(drawLines,{500,440-100*(l-i),540,440-100*(l-i)})
+                table.insert(drawLines,{520,470-100*(l-i),560,470-100*(l-i)})
+                table.insert(drawLines,{520,450-100*(l-i),560,450-100*(l-i)})
             end
-            table.insert(drawLines,{530,500,700,500})
-            table.insert(drawLines,{720,500,800,500})
-            table.insert(drawLines,{760,460,760,540})
+            table.insert(drawLines,{530,520,750,520})
+            table.insert(drawLines,{770,520,850,520})
+            table.insert(drawLines,{810,480,810,560})
         end
     end,nil,nil,nil,nil,
     function()-- <o>
         local a=rnd(9,63)
-        return {COLOR.lR,b8(a)},a
+        return {COLOR.lR,b8(a)},a,function()
+        local b=STRING.toOct(a)
+        local l=string.len(b)
+        for i=1,l do
+            drawNum(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
+            table.insert(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
+            table.insert(drawLines,{370,440-100*(l-i),410,480-100*(l-i)})
+            drawNum(8,430,420-100*(l-i),.5)
+            drawNum(l-i,480,400-100*(l-i),.3)
+            table.insert(drawLines,{520,470-100*(l-i),560,470-100*(l-i)})
+            table.insert(drawLines,{520,450-100*(l-i),560,450-100*(l-i)})
+        end
+        table.insert(drawLines,{530,520,750,520})
+        table.insert(drawLines,{770,520,850,520})
+        table.insert(drawLines,{810,480,810,560})
+    end
     end,nil,nil,nil,
     function()-- <h>
         local a=rnd(17,255)
-        return {COLOR.J,b16(a)},a
+        return {COLOR.J,b16(a)},a,function()
+            local b=STRING.toHex(a)
+            local l=string.len(b)
+            for i=1,l do
+                local c=string.sub(b,i,i)
+                if ("0123456789"):find(c,nil,true) then
+                    c=tonumber(c)
+                else
+                    c=tonumber(string.byte(c)-55)
+                end
+                drawNum(c,280,420-100*(l-i),.5)
+                table.insert(drawLines,{330,480-100*(l-i),370,440-100*(l-i)})
+                table.insert(drawLines,{330,440-100*(l-i),370,480-100*(l-i)})
+                drawNum(16,430,420-100*(l-i),.5)
+                drawNum(l-i,480,400-100*(l-i),.3)
+                table.insert(drawLines,{520,470-100*(l-i),560,470-100*(l-i)})
+                table.insert(drawLines,{520,450-100*(l-i),560,450-100*(l-i)})
+            end
+            table.insert(drawLines,{530,520,750,520})
+            table.insert(drawLines,{770,520,850,520})
+            table.insert(drawLines,{810,480,810,560})
+        end
     end,nil,nil,
     function()-- <b+>
         local s=rnd(9,31)
@@ -314,7 +350,7 @@ local function reset()
     drawing=false
     drawLines,drawVel,indexes={},{},{}
     inputTime=0
-    level=41 -- DEBUG
+    level=50 -- DEBUG
     question,answer,autoDraw=newQuestion(1)
 end
 
