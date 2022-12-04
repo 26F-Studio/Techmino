@@ -351,7 +351,7 @@ jobs:
           mv ./x64/CCloader.so ./lib/lua/5.1
       - name: Build Linux packages
         id: build-packages
-        uses: love-actions/love-actions-linux@v1
+        uses: love-actions/love-actions-linux@main
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           description: Techmino is fun!
