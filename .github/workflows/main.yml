@@ -146,7 +146,8 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
-    if: github.event_name != 'pull_request'
+    # if: github.event_name != 'pull_request'
+    if: ${{ !always() }}
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
@@ -226,7 +227,8 @@ jobs:
   build-ios:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
-    if: github.event_name != 'pull_request'
+    # if: github.event_name != 'pull_request'
+    if: ${{ !always() }}
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
@@ -351,8 +353,9 @@ jobs:
         id: build-packages
         uses: love-actions/love-actions-linux@v1
         with:
-          desktop-file-path: ./.github/build/linux/${{ env.BUILD_TYPE }}/template.desktop
-          executable-name: app
+          app-name: ${{ needs.get-info.outputs.app-name }}
+          description: Techmino is fun!
+          version-string: ${{ needs.get-info.outputs.version-string }}
           icon-path: ./.github/build/linux/${{ env.BUILD_TYPE }}/icon.png
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           lib-path: ./ColdClear/lib
@@ -363,18 +366,26 @@ jobs:
         with:
           name: ${{ needs.get-info.outputs.base-name }}_Linux_AppImage
           path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.AppImage
+      - name: Upload Debian artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_Linux_Debian
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.deb
       - name: Prepare for release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
         shell: bash
         run: |
           mkdir -p ${{ env.RELEASE_FOLDER }}
           cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.AppImage ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.AppImage
+          cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.deb ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.deb
       - name: Upload release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          artifacts: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.AppImage
+          artifacts: |
+            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.AppImage
+            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.deb
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
@@ -388,7 +399,8 @@ jobs:
   build-macos-appstore:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
-    if: github.event_name != 'pull_request'
+    # if: github.event_name != 'pull_request'
+    if: ${{ !always() }}
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
@@ -480,7 +492,8 @@ jobs:
   build-macos-portable:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
-    if: github.event_name != 'pull_request'
+    # if: github.event_name != 'pull_request'
+    if: ${{ !always() }}
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
@@ -582,6 +595,7 @@ jobs:
   build-windows:
     runs-on: windows-latest
     needs: [get-info, build-core, auto-test]
+    if: ${{ !always() }}
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
