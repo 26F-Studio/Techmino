@@ -1,6 +1,12 @@
 local HDsearch="https://harddrop.com/wiki?search="
 local HDwiki="\n更多内容见Hard Drop Wiki。"
 return {
+    {"修改版说明",
+    "语音包 修改版 语音 MianSoft 3216",
+    "help",
+    "语音包制作：T3216.MianSoft\n增加内容：PPT皮肤，PPT音效(没有完全适配)，PPT女巫语音(未来可能会做全语音)，神乐七奈语音(来源未知)，星街彗星语音。\nPPT音效未适配表\n collect\n1.collect.ogg 2.connect.ogg\n3.connected.ogg 4.drop_cancel.ogg\n5.emit.ogg 6.enter.ogg\n7.finesseError.ogg 8.FinesseError_long.ogg\n9.ready.ogg 10.start.ogg\n11.swipe.ogg 12.warn_1.ogg\n13.warn_2.ogg 14.warn_beep.ogg\n[点击右下角地球按钮可进入我的b站首页]",
+    "https://space.bilibili.com/168186825",
+    },
     {"新人须知",
         "读我 必读 萌新 xinren new noob readme",
         "help",

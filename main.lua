@@ -27,8 +27,8 @@ FNNS=SYSTEM:find'\79\83'-- What does FNSF stand for? IDK so don't ask me lol
 MOBILE=SYSTEM=='Android' or SYSTEM=='iOS'
 
 -- Global Vars & Settings
-SFXPACKS={'chiptune'}
-VOCPACKS={'miya','mono','xiaoya','miku'}
+SFXPACKS={'chiptune','ppt'}
+VOCPACKS={'miya','mono','xiaoya','miku','nana','suisei','ppt_witch'}
 FIRSTLAUNCH=false
 DAILYLAUNCH=false
 
@@ -278,6 +278,9 @@ IMG.init{
     xiaoyaCH='media/image/characters/xiaoya.png',
     xiaoyaOmino='media/image/characters/xiaoya_Omino.png',
     mikuCH='media/image/characters/miku.png',
+    nana='media/image/characters/nana.png',
+    suisei='media/image/characters/suisei.png',
+    ppt_witch='media/image/characters/ppt_witch.png',
     z={
         character='media/image/characters/z_character.png',
         screen1='media/image/characters/z_screen1.png',
@@ -332,6 +335,7 @@ SKIN.load{
     {name="kanji_chno",path='media/image/skin/kanji_chno.png'},
     {name="textbone_mrz",path='media/image/skin/textbone_mrz.png'},
     {name="coloredbone_mrz",path='media/image/skin/coloredbone_mrz.png'},
+    {name="ppt_classic",path='media/image/skin/ppt_classic.png'},
     {name="wtf",path='media/image/skin/wtf_mrz.png'},
 }
 

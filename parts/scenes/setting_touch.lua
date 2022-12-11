@@ -120,7 +120,7 @@ scene.widgetList={
     WIDGET.newKey{name='load1',     x=585,y=290,w=90,h=70,code=_load1,font=45,fText=CHAR.icon.loadOne},
     WIDGET.newKey{name='save2',     x=695,y=290,w=90,h=70,code=_save2,font=45,fText=CHAR.icon.saveTwo},
     WIDGET.newKey{name='load2',     x=805,y=290,w=90,h=70,code=_load2,font=45,fText=CHAR.icon.loadTwo},
-    WIDGET.newSlider{name='size',   x=440,y=370,w=460,axis={0,19,1},font=40,show="vkSize",
+    WIDGET.newSlider{name='size',   x=440,y=370,w=460,axis={0,30,1},font=40,show="vkSize",
         disp=function()
             return VK_ORG[selected].r/10-1
         end,
