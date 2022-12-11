@@ -1,7 +1,6 @@
 local gc=love.graphics
 local rnd=math.random
 local int,ceil=math.floor,math.ceil
-local char=string.char
 
 local timing,time
 
@@ -9,131 +8,39 @@ local function b2(i) return STRING.toBin(i).."₂" end
 local function b8(i) return STRING.toOct(i).."₈" end
 local function b16(i) return STRING.toHex(i).."₁₆" end
 
-local digits={
-    [0]={ -- 0
-        5, 40,
-        15,40,
-        20,35,
-        20, 5,
-        15, 0,
-         5, 0,
-         0, 5,
-         0,35,
-         5,40
-    },{ -- 1
-         0,10,
-        10, 0,
-        10,40,
-         0,40,
-        -1,40,0,40, -- fixes a bug where the bottom line doesn't appear. janky solution, but it works /shrug
-        20,40
-    },{ -- 2
-         0, 5,
-         5, 0,
-        15, 0,
-        20, 5,
-        20,20,
-         0,39.9999,
-         0,40,
-        20,40
-    },{ -- 3
-         0, 5,
-         5, 0,
-        15, 0,
-        20, 5,
-        20,15,
-        15,20,
-         5,20,
-         4,20,5,20,-- fixes a bug where the middle line of the 3 doesn't appear. janky solution, but it works /shrug
-        15,20,
-        20,25,
-        20,35,
-        15,40,
-         5,40,
-         0,35
-    },{ -- 4
-        20,20,
-         0,20,
-        15, 0,
-        15,40
-    },{ -- 5
-        20, 0,
-         0, 0,
-         0,20,
-         5,15,
-        15,15,
-        20,20,
-        20,35,
-        15,40,
-         5,40,
-         0,35
-    },{ -- 6
-        20, 5,
-        15, 0,
-         5, 0,
-         0, 5,
-         0,35,
-         5,40,
-        15,40,
-        20,35,
-        20,20,
-        15,15,
-         5,15,
-         0,20
-    },{ -- 7
-         0, 0,
-        20, 0,
-         0,40
-    },{ -- 8
-         5, 0,
-        15, 0,
-        20, 5,
-        20,15,
-        15,20,
-         5,20,
-         0,25,
-         0,35,
-         5,40,
-        15,40,
-        20,35,
-        20,25,
-        15,20,
-         5,20,
-         0,15,
-         0, 5,
-         5, 0
-    },{ -- 9
-        20,15,
-        15,20,
-         5,20,
-         0,15,
-         0, 5,
-         5, 0,
-        15, 0,
-        20, 5,
-        20,35,
-        15,40,
-         5,40,
-         0,35
-    }
+local charData={
+[0]={5,40, 15,40,20,35,20,5, 15,0, 5,0,  0,5,  0,35, 5,40},
+    {0,10, 10,0, 10,40,0,40, -1,40,0,40, 20,40},
+    {0,5,  5,0,  15,0, 20,5, 20,20,0,39, 0,40, 20,40},
+    {0,5,  5,0,  15,0, 20,5, 20,15,15,20,5,20, 4,20, 5,20, 15,20,20,25,20,35,15,40,5,40,0,35},
+    {20,20,0,20, 15,0, 15,40},
+    {20,0, 0,0,  0,20, 5,15, 15,15,20,20,20,35,15,40,5,40, 0,35},
+    {20,5, 15,0, 5,0,  0,5,  0,35, 5,40, 15,40,20,35,20,20,15,15,5,15, 0,20},
+    {0,0,  20,0, 0,40},
+    {5,0,  15,0, 20,5, 20,15,15,20,5,20, 0,25, 0,35, 5,40, 15,40,20,35,20,25,15,20,5,20,0,15,0,5,5,0},
+    {20,15,15,20,5,20, 0,15, 0,5,  5,0,  15,0, 20,5, 20,35,15,40,5,40, 0,35}
 }
 local drawing
 local drawLines,drawVel,indexes
 local autoDraw
-local function drawNum(num,x,y,scale)
-    local index=#drawLines+1
-    drawLines[index],drawVel[index]={},{}
+-- Draws (by default) 60x120px chars, 15px padding, total 85x120px
+local function drawNum(num,x,y,scale,alignLeft)
     if not scale then scale=1 end
-    if num>=10 then
-        for i=math.floor(math.log(num,10)),0,-1 do
-            drawNum(math.floor((num/math.pow(10,i))%10),x+-85*i*scale,y,scale)
+    local index=#drawLines+1
+    local l=num==0 and 0 or math.floor(math.log(num,10))
+    x=alignLeft and x or x-85*l*scale
+    for i=l,0,-1 do
+        local n=math.floor((num/math.pow(10,i))%10)
+        drawLines[index],drawVel[index]={},{}
+        for j=1,#charData[n],2 do
+            drawLines[index][j]=charData[n][j]*3*scale+x
+            drawVel[index][j]=0
+            j=j+1
+            drawLines[index][j]=charData[n][j]*3*scale+y
+            drawVel[index][j]=0
         end
-    else
-        for i=1,#digits[num],2 do
-            drawLines[index][i]=digits[num][i]*3*scale+x
-            drawLines[index][i+1]=digits[num][i+1]*3*scale+y
-            drawVel[index][i],drawVel[index][i+1]=0,0
-        end
+        index=index+1
+        x=x+85*scale
     end
 end
 
@@ -195,7 +102,8 @@ local levels={
         local s=rnd(-8,-1)
         local a=rnd(1,8)
         return a.."-"..a-s,s,function()
-            table.insert(drawLines,{540,260,580,260})
+            local l=string.len(a-s)
+            table.insert(drawLines,{600-85*l,260,640-85*l,260})
             drawNum(a-s,600,200)
             drawNum(a,600,350)
             table.insert(drawLines,{530,500,700,500})
@@ -230,7 +138,7 @@ local levels={
         local a=rnd(ceil(b/10),9)
         b=int(b/a)
         return a*b.."/"..a,b,function()
-            drawNum(a*b,640,300)
+            drawNum(a*b,560,300,1,true)
             drawNum(a,400,300)
             table.insert(drawLines,{480,440,530,270,730,270})
         end
@@ -238,7 +146,7 @@ local levels={
     function()-- <%3>
         local s=rnd(5,17)
         return s.."%3",s%3,function()
-            drawNum(s,640,300)
+            drawNum(s,560,300,1,true)
             drawNum(3,400,300)
             table.insert(drawLines,{480,440,530,270,730,270})
         end
@@ -247,7 +155,7 @@ local levels={
         local s=rnd(21,62)
         local a=rnd(3,9)
         return s.."%"..a,s%a,function()
-            drawNum(s,640,300)
+            drawNum(s,560,300,1,true)
             drawNum(a,400,300)
             table.insert(drawLines,{480,440,530,270,730,270})
         end
@@ -318,7 +226,10 @@ local levels={
     function()-- <b+>
         local s=rnd(9,31)
         local a=rnd(5,int(s/2))
-        return {COLOR.N,b2(a),COLOR.Z,"+",COLOR.N,b2(s-a)},s
+        return {COLOR.N,b2(a),COLOR.Z,"+",COLOR.N,b2(s-a)},s,function()
+            local ba,bb=STRING.toBin(a),STRING.toBin(s-a)
+            local la,lb=string.len(ba),string.len(bb)
+        end
     end,nil,nil,nil,nil,
     function()-- <o+>
         local s=rnd(18,63)
@@ -350,7 +261,7 @@ local function reset()
     drawing=false
     drawLines,drawVel,indexes={},{},{}
     inputTime=0
-    level=50 -- DEBUG
+    level=41 -- DEBUG
     question,answer,autoDraw=newQuestion(1)
 end
 
