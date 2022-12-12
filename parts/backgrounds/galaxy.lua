@@ -30,11 +30,11 @@ function back.draw()
     for i=1,#sDist do
         local d,r=sDist[i],sRev[i]
         if d<5 then
-            setColor(hsv(.088,(d-2)/7,1,.7))
+            setColor(hsv(.088,(d-2)/7,1,.2))
         else
-            setColor(hsv(.572,d/70+.1,(22-d)/12,.7))
+            setColor(hsv(.572,d/70+.1,(22-d)/12,.2))
         end
-        circle('fill',8*d*cos(r),24*d*sin(r),3)
+        circle('fill',8*d*cos(r),24*d*sin(r),5)
     end
 end
 
