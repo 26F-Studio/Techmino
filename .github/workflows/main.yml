@@ -331,6 +331,7 @@ jobs:
           import os
           import re
           with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
+            f.write('bundle-id=org.26f-studio.techmino\n')
             f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
       - name: Download core love package
         uses: actions/download-artifact@v3
@@ -351,8 +352,10 @@ jobs:
         id: build-packages
         uses: love-actions/love-actions-linux@v1
         with:
-          desktop-file-path: ./.github/build/linux/${{ env.BUILD_TYPE }}/template.desktop
-          executable-name: app
+          app-name: ${{ needs.get-info.outputs.app-name }}
+          bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
+          description: Techmino is fun!
+          version-string: ${{ needs.get-info.outputs.version-string }}
           icon-path: ./.github/build/linux/${{ env.BUILD_TYPE }}/icon.png
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           lib-path: ./ColdClear/lib
@@ -363,18 +366,26 @@ jobs:
         with:
           name: ${{ needs.get-info.outputs.base-name }}_Linux_AppImage
           path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.AppImage
+      - name: Upload Debian artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_Linux_Debian
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.deb
       - name: Prepare for release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
         shell: bash
         run: |
           mkdir -p ${{ env.RELEASE_FOLDER }}
           cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.AppImage ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.AppImage
+          cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.deb ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.deb
       - name: Upload release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          artifacts: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.AppImage
+          artifacts: |
+            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.AppImage
+            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.deb
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
