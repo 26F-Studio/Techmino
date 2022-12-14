@@ -99,6 +99,11 @@ jobs:
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
           path: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+      - name: Add icon to love package
+        run: |
+          cp ./.github/build/linux/${{ env.BUILD_TYPE }}/icon.png media/image/icon.png
+          zip -u ${{ env.CORE_LOVE_PACKAGE_PATH }} media/image/icon.png
+          rm media/image/icon.png
       - name: Rename love package
         run: |
           mkdir -p ${{ env.OUTPUT_FOLDER }}
@@ -337,6 +342,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Add icon to love package
+        run: |
+          cp ./.github/build/linux/${{ env.BUILD_TYPE }}/icon.png media/image/icon.png
+          zip -u ${{ env.CORE_LOVE_PACKAGE_PATH }} media/image/icon.png
+          rm media/image/icon.png
       - name: Download ColdClear
         uses: ./.github/actions/get-cc
         with:
