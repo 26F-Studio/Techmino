@@ -42,6 +42,9 @@ if MOBILE then
     f.resizable=false
     love.window.setMode(w,h,f)
 end
+if love.filesystem.getInfo('media/image/icon.png') then
+    love.window.setIcon(love.image.newImageData('media/image/icon.png'))
+end
 
 local _LOADTIMELIST_={}
 local _LOADTIME_=TIME()
