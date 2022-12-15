@@ -1,4 +1,3 @@
-local C=COLOR
 return {
     loadText={
         loadSFX="Load(SFX);",
