@@ -526,7 +526,7 @@ LANG.init('zh',
                 local mes="No Text ("..SETTING.locale.."): "..k
                 LOG(mes)
                 MES.new('warn',mes)
-                self[k]=CHAR.zChan.thinking
+                self[k]="["..k.."]"
                 return self[k]
             end})
         end
