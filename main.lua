@@ -43,8 +43,8 @@ if love.filesystem.getInfo(path) then
     if type(fileData)=='string' then
         if MOBILE and fileData:find('"portrait":true') then
             love.window.setFullscreen(false)
-            local width, height, flags = love.window.getMode()
-            love.window.setMode(height, width, flags)
+            local width, height = love.window.getMode()
+            love.window.updateMode(height, width, {})
             love.window.setFullscreen(true)
         end
         if fileData:find('"msaa":') then
