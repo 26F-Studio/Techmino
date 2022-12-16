@@ -11,7 +11,9 @@ function love.conf(t)
 
     local W=t.window
     W.title="Techmino "..require"version".string
-    W.icon='media/image/icon.png'
+    if t.filesystem.getInfo('media/image/icon.png') then
+        W.icon='media/image/icon.png'
+    end
     W.width,W.height=1280,720
     W.minwidth,W.minheight=640,360
     W.borderless=false
