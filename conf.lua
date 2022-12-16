@@ -4,11 +4,10 @@ FNNS=SYSTEM:find'\79\83'-- What does FNSF stand for? IDK so don't ask me lol
 
 local _mobileFullscreen=true
 local _msaa=0
-local path=love.filesystem.getSaveDirectory():reverse()
-path=path:sub(path:find("/")+1):reverse()..'/Techmino/conf/settings'
+local path='conf/settings'
 if love.filesystem.getInfo(path) then
     _READSETTINGFILE=true
-    local fileData=love.filesystem.read('conf/settings')
+    local fileData=love.filesystem.read(path)
     if type(fileData)=='string' then
         if MOBILE and fileData:find('"portrait":true') then
             _mobileFullscreen=false
