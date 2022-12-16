@@ -189,9 +189,11 @@ Z.setOnFnKeys({
     function() if love['_openConsole'] then love['_openConsole']() end end,
 })
 Z.setOnGlobalKey('f11',function()
-    SETTING.fullscreen=not SETTING.fullscreen
-    applySettings()
-    saveSettings()
+    if not MOBILE then
+        SETTING.fullscreen=not SETTING.fullscreen
+        applySettings()
+        saveSettings()
+    end
 end)
 Z.setVersionText(VERSION.string)
 Z.setDebugInfo{
