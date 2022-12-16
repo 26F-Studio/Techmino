@@ -2,6 +2,12 @@ local gc=love.graphics
 
 local scene={}
 
+function scene.enter()
+    SETTING.msaa=_MSAA
+    MES.new('info',tostring(_PATH),26)
+    MES.new('info',tostring(_READSETTINGFILE),26)
+    MES.new('info',tostring(_MSAA),26)
+end
 function scene.leave()
     saveSettings()
 end

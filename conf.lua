@@ -7,6 +7,7 @@ local _msaa=0
 local path=love.filesystem.getSaveDirectory():reverse()
 path=path:sub(path:find("/")+1):reverse()..'/Techmino/conf/settings'
 if love.filesystem.getInfo(path) then
+    _READSETTINGFILE=true
     local fileData=love.filesystem.read('conf/settings')
     if type(fileData)=='string' then
         if MOBILE and fileData:find('"portrait":true') then
@@ -18,6 +19,8 @@ if love.filesystem.getInfo(path) then
         end
     end
 end
+_MSAA=_msaa
+_PATH=path
 
 function love.conf(t)
     t.identity='Techmino' -- Saving folder
