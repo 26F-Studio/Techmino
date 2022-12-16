@@ -22,9 +22,6 @@
 local fs=love.filesystem
 VERSION=require"version"
 TIME=love.timer.getTime
-SYSTEM=love.system.getOS() if SYSTEM=='OS X' then SYSTEM='macOS' end
-FNNS=SYSTEM:find'\79\83'-- What does FNSF stand for? IDK so don't ask me lol
-MOBILE=SYSTEM=='Android' or SYSTEM=='iOS'
 
 -- Global Vars & Settings
 SFXPACKS={'chiptune'}
@@ -37,14 +34,6 @@ math.randomseed(os.time()*626)
 love.setDeprecationOutput(false)
 love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
-if MOBILE then
-    local w,h,f=love.window.getMode()
-    f.resizable=false
-    love.window.setMode(w,h,f)
-end
-if love.filesystem.getInfo('media/image/icon.png') then
-    love.window.setIcon(love.image.newImageData('media/image/icon.png'))
-end
 
 local _LOADTIMELIST_={}
 local _LOADTIME_=TIME()
@@ -200,9 +189,11 @@ Z.setOnFnKeys({
     function() if love['_openConsole'] then love['_openConsole']() end end,
 })
 Z.setOnGlobalKey('f11',function()
-    SETTING.fullscreen=not SETTING.fullscreen
-    applySettings()
-    saveSettings()
+    if not MOBILE then
+        SETTING.fullscreen=not SETTING.fullscreen
+        applySettings()
+        saveSettings()
+    end
 end)
 Z.setVersionText(VERSION.string)
 Z.setDebugInfo{
