@@ -22,7 +22,7 @@ function love.conf(t)
     W.minwidth, W.minheight = 640, 360
     
     W.vsync = 0 -- Unlimited FPS
-    W.msaa = 16 -- Multi-sampled antialiasing
+    W.msaa = 8 -- Multi-sampled antialiasing
     W.depth = 0 -- Bits/samp of depth buffer
     W.stencil = 1 -- Bits/samp of stencil buffer
     W.display = 1 -- Monitor ID
