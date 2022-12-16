@@ -1,6 +1,5 @@
 return {
     fallback='en',
-
     loadText={
         loadSFX="#!#",
         loadSample="#~#",

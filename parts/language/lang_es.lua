@@ -1,4 +1,5 @@
 return {
+    fallback='en',
     loadText={
         loadSFX="Cargando efectos de sonido",
         loadSample="Cargando samples de música",
@@ -9,7 +10,6 @@ return {
         loadOther="Cargando otros assets",
         finish="Pulsa cualquier tecla",
     },
-    fallback='en',
     sureQuit="Pulsa de nuevo para salir",
     sureReset="Pulsa de nuevo para reiniciar",
     sureDelete="Pulsa de nuevo para borrar",
