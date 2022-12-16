@@ -18,6 +18,7 @@ return {
     playedLong="長時間プレイしています、適度に休憩をして!",
     playedTooMuch="かなり長くプレイしています! Techminoは楽しいですが、休憩を忘れずに!",
     settingWarn="使用頻度の少ない設定に変更しています。注意してください。",
+    -- settingWarn2="This setting takes effect after restart",
 
     atkModeName={"ランダム","バッジ狙い","トドメ撃ち","カウンター"},
     royale_remain="残り $1 人",
@@ -534,6 +535,7 @@ return {
             clean="素早い描画",
             fullscreen="フルスクリーン",
             -- portrait="Portrait",
+            -- msaa="MSAA level",
 
             bg_on="通常背景",
             bg_off="背景なし ",

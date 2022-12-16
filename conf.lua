@@ -10,8 +10,10 @@ if love.filesystem.getInfo('conf/settings') then
         if MOBILE and fileData:find('"portrait":true') then
             _mobileFullscreen=false
         end
-        if fileData:find("'msaa':") then
-            local num=tonumber(fileData:match("'msaa':(%d+)"))
+        if fileData:find('"msaa":') then
+            print(1)
+            local num=tonumber(fileData:match('"msaa":(%d+)'))
+            print(num)
             if num then _msaa=num end
         end
     end

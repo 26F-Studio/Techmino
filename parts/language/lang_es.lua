@@ -17,6 +17,7 @@ return {
     playedLong="[Anti-adicción] Estuviste jugando un buen rato hoy. Recuerda descansar de vez en cuando.",
     playedTooMuch="[Anti-adicción] ¡Has jugado mucho por hoy! No puedes jugar más.",
     settingWarn="¡Ten cuidado con modificar esto!",
+    -- settingWarn2="This setting takes effect after restart",
 
     atkModeName={"Al azar","Medallas","KOs","Atacantes"},
     royale_remain="$1 Jugadores Restantes",
@@ -532,6 +533,7 @@ return {
             clean="Fast Draw",
             fullscreen="Pant. Completa",
             -- portrait="Portrait",
+            -- msaa="MSAA level",
 
             bg_on="Fondo Normal",
             bg_off="Sin Fondo",

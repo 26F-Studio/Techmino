@@ -17,6 +17,7 @@ return {
     playedLong="You have been playing for a long time. Time to take a break!",
     playedTooMuch="You have been playing for far too long! Techmino is fun, but remember to take some rests!",
     settingWarn="Careful — you’re about to change some uncommon settings!",
+    settingWarn2="This setting takes effect after restart",
 
     atkModeName={"Random","Badges","K.O.s","Attackers"},
     royale_remain="$1 Players Left",
@@ -532,6 +533,7 @@ return {
             clean="Quick Draw",
             fullscreen="Fullscreen",
             portrait="Portrait",
+            msaa="MSAA level",
 
             bg_on="Normal B.G.",
             bg_off="No B.G.",
