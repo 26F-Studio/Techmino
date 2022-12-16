@@ -42,10 +42,8 @@ if love.filesystem.getInfo(path) then
     local fileData=love.filesystem.read(path)
     if type(fileData)=='string' then
         if MOBILE and fileData:find('"portrait":true') then
-            -- love.window.setFullscreen(false)
             local width,height=love.window.getMode()
             love.window.updateMode(height,width,{})
-            -- love.window.setFullscreen(true)
         end
         if fileData:find('"msaa":') then
             local num=tonumber(fileData:match('"msaa":(%d+)'))
