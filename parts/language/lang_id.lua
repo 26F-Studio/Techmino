@@ -532,6 +532,7 @@ return {
             power="Info Baterai",
             clean="Gambar Cepat",
             fullscreen="Layar Penuh",
+            -- portrait="Portrait",
 
             bg_on="B.G. Normal",
             bg_off="Tidak Ada B.G.",

@@ -532,6 +532,7 @@ return {
             power="電量顯示",
             clean="渲染優化",
             fullscreen="全屏幕",
+            portrait="豎屏",
 
             bg_on="普通背景",
             bg_off="無背景",

@@ -282,6 +282,7 @@ return {
             power="+.",
             clean="[]→→O",
             fullscreen="|←→|",
+            portrait="↑▉↓",
 
             bg_on="__?__",
             bg_off="__.__",

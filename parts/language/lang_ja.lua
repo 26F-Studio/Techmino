@@ -533,6 +533,7 @@ return {
             power="バッテリー",
             clean="素早い描画",
             fullscreen="フルスクリーン",
+            -- portrait="Portrait",
 
             bg_on="通常背景",
             bg_off="背景なし ",

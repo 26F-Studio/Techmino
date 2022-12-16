@@ -520,6 +520,7 @@ return {
             power="Informação bateria",
             -- clean="Fast Draw",
             fullscreen="Tela cheia",
+            -- portrait="Portrait",
 
             -- bg_on="Normal B.G.",
             -- bg_off="No B.G.",

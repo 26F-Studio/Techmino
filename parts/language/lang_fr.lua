@@ -496,6 +496,7 @@ return {
             power="Infos d'alimentation",
             -- clean="Fast Draw",
             fullscreen="Plein écran",
+            -- portrait="Portrait",
 
             -- bg_on="Normal B.G.",
             -- bg_off="No B.G.",

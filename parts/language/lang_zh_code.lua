@@ -481,6 +481,7 @@ return {
             power="Set.Battery",
             clean="Set.QuickDraw",
             fullscreen="Set.Fullscreen",
+            portrait="Set.Portrait",
 
             bg_on="Set.BG(Normal);",
             bg_off="Set.BG(Off);",

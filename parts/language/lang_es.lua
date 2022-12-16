@@ -531,6 +531,7 @@ return {
             power="Inf. de Batería",
             clean="Fast Draw",
             fullscreen="Pant. Completa",
+            -- portrait="Portrait",
 
             bg_on="Fondo Normal",
             bg_off="Sin Fondo",

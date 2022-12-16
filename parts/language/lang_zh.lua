@@ -532,6 +532,7 @@ return {
             power="电量和时间",
             clean="绘制优化",
             fullscreen="全屏",
+            portrait="竖屏",
 
             bg_on="普通背景",
             bg_off="关闭背景",

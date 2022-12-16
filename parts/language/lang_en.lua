@@ -531,6 +531,7 @@ return {
             power="Battery Info",
             clean="Quick Draw",
             fullscreen="Fullscreen",
+            portrait="Portrait",
 
             bg_on="Normal B.G.",
             bg_off="No B.G.",

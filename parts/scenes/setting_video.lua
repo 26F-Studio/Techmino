@@ -78,10 +78,11 @@ scene.widgetList={
     WIDGET.newSwitch{name='highCam',      x=450,y=1270,lim=360,disp=SETval('highCam'),              code=SETrev('highCam')},
     WIDGET.newSwitch{name='warn',         x=450,y=1340,lim=360,disp=SETval('warn'),                 code=SETrev('warn')},
 
-    WIDGET.newSwitch{name='clickFX',      x=950,y=980,lim=360,disp=SETval('clickFX'),      code=function() SETTING.clickFX=not SETTING.clickFX applySettings() end},
-    WIDGET.newSwitch{name='power',        x=950,y=1070,lim=360,disp=SETval('powerInfo'),   code=function() SETTING.powerInfo=not SETTING.powerInfo applySettings() end},
-    WIDGET.newSwitch{name='clean',        x=950,y=1160,lim=360,disp=SETval('cleanCanvas'), code=function() SETTING.cleanCanvas=not SETTING.cleanCanvas applySettings() end},
-    WIDGET.newSwitch{name='fullscreen',   x=950,y=1250,lim=360,disp=SETval('fullscreen'),  code=function() SETTING.fullscreen=not SETTING.fullscreen applySettings() end,hideF=function() return MOBILE end},
+    WIDGET.newSwitch{name='clickFX',      x=950,y=980,lim=360,disp=SETval('clickFX'),                                         code=function() SETTING.clickFX=not SETTING.clickFX applySettings() end},
+    WIDGET.newSwitch{name='power',        x=950,y=1070,lim=360,disp=SETval('powerInfo'),                                      code=function() SETTING.powerInfo=not SETTING.powerInfo applySettings() end},
+    WIDGET.newSwitch{name='clean',        x=950,y=1160,lim=360,disp=SETval('cleanCanvas'),                                    code=function() SETTING.cleanCanvas=not SETTING.cleanCanvas applySettings() end},
+    WIDGET.newSwitch{name='fullscreen',   x=950,y=1250,lim=360,disp=SETval('fullscreen'),hideF=function() return MOBILE end,  code=function() SETTING.fullscreen=not SETTING.fullscreen applySettings() end},
+    WIDGET.newSwitch{name='portrait',     x=950,y=1250,lim=360,disp=SETval('portrait'),hideF=function() return not MOBILE end,code=function() SETTING.portrait=not SETTING.portrait saveSettings() end},
 
     WIDGET.newKey{name='bg_on',           x=680,y=1340,w=200,h=80,code=function() SETTING.bg='on'applySettings() end},
     WIDGET.newKey{name='bg_off',          x=900,y=1340,w=200,h=80,code=function() SETTING.bg='off'applySettings() end},
