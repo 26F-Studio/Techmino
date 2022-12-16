@@ -35,6 +35,27 @@ love.setDeprecationOutput(false)
 love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
 
+local _msaa=0
+local path='conf/settings'
+if love.filesystem.getInfo(path) then
+    _READSETTINGFILE=true
+    local fileData=love.filesystem.read(path)
+    if type(fileData)=='string' then
+        if MOBILE and fileData:find('"portrait":true') then
+            love.window.setFullscreen(false)
+            local width, height, flags = love.window.getMode()
+            love.window.setMode(height, width, flags)
+            love.window.setFullscreen(true)
+        end
+        if fileData:find('"msaa":') then
+            local num=tonumber(fileData:match('"msaa":(%d+)'))
+            if num then _msaa=num end
+        end
+    end
+end
+_MSAA=_msaa
+_PATH=path
+
 local _LOADTIMELIST_={}
 local _LOADTIME_=TIME()
 

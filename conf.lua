@@ -2,25 +2,6 @@ SYSTEM=love._os if SYSTEM=='OS X' then SYSTEM='macOS' end
 MOBILE=SYSTEM=='Android' or SYSTEM=='iOS'
 FNNS=SYSTEM:find'\79\83'-- What does FNSF stand for? IDK so don't ask me lol
 
-local _mobileFullscreen=true
-local _msaa=0
-local path='conf/settings'
-if love.filesystem.getInfo(path) then
-    _READSETTINGFILE=true
-    local fileData=love.filesystem.read(path)
-    if type(fileData)=='string' then
-        if MOBILE and fileData:find('"portrait":true') then
-            _mobileFullscreen=false
-        end
-        if fileData:find('"msaa":') then
-            local num=tonumber(fileData:match('"msaa":(%d+)'))
-            if num then _msaa=num end
-        end
-    end
-end
-_MSAA=_msaa
-_PATH=path
-
 function love.conf(t)
     t.identity='Techmino' -- Saving folder
     t.version="11.4"
@@ -38,7 +19,7 @@ function love.conf(t)
     W.minwidth,W.minheight=640,360
 
     W.vsync=0 -- Unlimited FPS
-    W.msaa=_msaa -- Multi-sampled antialiasing
+    W.msaa=0 -- Multi-sampled antialiasing
     W.depth=0 -- Bits/samp of depth buffer
     W.stencil=1 -- Bits/samp of stencil buffer
     W.display=1 -- Monitor ID
@@ -50,7 +31,7 @@ function love.conf(t)
     if MOBILE then
         W.borderless=true
         W.resizable=false
-        W.fullscreen=_mobileFullscreen
+        W.fullscreen=true
     else
         W.borderless=false
         W.resizable=true
