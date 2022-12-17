@@ -7,6 +7,7 @@ return {
     playedLong="[Anti-addiction] Vous avez joué pendant un bon bout de temps aujourd'hui. Faites des pauses.",
     playedTooMuch="[Anti-addiction] Vous avez joué trop longtemps ! Vous ne pouvez plus jouer.",
     -- settingWarn="Modifing uncommon setting, be careful!",
+    -- settingWarn2="This setting takes effect after restart",
 
     atkModeName={"Aléatoire","Badges","K.O.s faciles","Attaquants"},
     royale_remain="$1 Joueurs restants",
@@ -496,6 +497,8 @@ return {
             power="Infos d'alimentation",
             -- clean="Fast Draw",
             fullscreen="Plein écran",
+            -- portrait="Portrait",
+            -- msaa="MSAA level",
 
             -- bg_on="Normal B.G.",
             -- bg_off="No B.G.",

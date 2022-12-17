@@ -282,6 +282,8 @@ return {
             power="+.",
             clean="[]→→O",
             fullscreen="|←→|",
+            portrait="↑▉↓",
+            msaa="/ _",
 
             bg_on="__?__",
             bg_off="__.__",

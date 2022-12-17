@@ -17,6 +17,7 @@ return {
     playedLong="已经玩很久了！注意休息！",
     playedTooMuch="今天玩太久啦！打块好玩但也要适可而止哦~",
     settingWarn="正在修改不常用设置，小心操作！",
+    settingWarn2="该设置需要重启后生效",
 
     atkModeName={"随机","徽章","击杀","反击"},
     royale_remain="剩余 $1 名玩家",
@@ -532,6 +533,8 @@ return {
             power="电量和时间",
             clean="绘制优化",
             fullscreen="全屏",
+            portrait="竖屏",
+            msaa="抗锯齿等级",
 
             bg_on="普通背景",
             bg_off="关闭背景",

@@ -8,6 +8,7 @@ return {
     playedLong="[Anti-vício] Você andou jogando bastante hoje. Certifique-se de fazer pausas.",
     playedTooMuch="[Anti-vício] Você esteve jogando demais hoje! Você não pode jogar mais.",
     -- settingWarn="Modifing uncommon setting, be careful!",
+    -- settingWarn2="This setting takes effect after restart",
 
     atkModeName={"Aleatório","Emblemas","K.O.s","Atacantes"},
     royale_remain="$1 Jogadores restantes",
@@ -520,6 +521,8 @@ return {
             power="Informação bateria",
             -- clean="Fast Draw",
             fullscreen="Tela cheia",
+            -- portrait="Portrait",
+            -- msaa="MSAA level",
 
             -- bg_on="Normal B.G.",
             -- bg_off="No B.G.",

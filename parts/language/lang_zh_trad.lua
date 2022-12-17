@@ -17,6 +17,7 @@ return {
     playedLong="你玩太久了！注意休息！",
     playedTooMuch="今天玩得太久啦！Techmino好玩但也要注意休息哦~",
     settingWarn="正在修改不常用設定，小心操作！",
+    settingWarn2="該設定需要重啟後生效",
 
     atkModeName={"隨機","徽章","K.O.","反擊"},
     royale_remain="剩下 $1 名玩家",
@@ -532,6 +533,8 @@ return {
             power="電量顯示",
             clean="渲染優化",
             fullscreen="全屏幕",
+            portrait="豎屏",
+            msaa="抗鋸齒等級",
 
             bg_on="普通背景",
             bg_off="無背景",

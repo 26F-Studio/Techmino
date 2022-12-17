@@ -655,6 +655,8 @@ do-- Userdata tables
         highCam=true,
         nextPos=true,
         fullscreen=true,
+        portrait=false,
+        msaa=0,
         bg='on',
         bgAlpha=.26,
         powerInfo=false,
