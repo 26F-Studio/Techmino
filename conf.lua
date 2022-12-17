@@ -2,8 +2,7 @@ SYSTEM=love._os if SYSTEM=='OS X' then SYSTEM='macOS' end
 MOBILE=SYSTEM=='Android' or SYSTEM=='iOS'
 FNNS=SYSTEM:find'\79\83'-- What does FNSF stand for? IDK so don't ask me lol
 
--- love.filesystem.setIdentity('Techmino')
--- love.filesystem.init()
+love.filesystem.setIdentity('Techmino', true)
 PATHS = {
     appdata = love.filesystem.getAppdataDirectory(),
     identity = love.filesystem.getIdentity(),

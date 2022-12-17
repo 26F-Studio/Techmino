@@ -36,11 +36,13 @@ love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
 
 local fileData=fs.read('conf/settings')
+PORTRAIT = false
 if fileData then
     local width,height=love.window.getMode()
     local msaa=tonumber(fileData:match('"msaa":(%d+)'));
     if msaa == nil then msaa = 0 end
     if MOBILE and fileData:find('"portrait":true') then
+        PORTRAIT = true
         width,height=height,width
     end
     love.window.updateMode(width,height,{msaa=msaa})
@@ -155,7 +157,7 @@ end
 local _,_,flags=love.window.getMode()
 MES.new('info','fullscreen: '..tostring(flags.fullscreen)..
 ', msaa: '..tostring(flags.msaa)..
-', portrait: '..tostring(SETTING.portrait),3)
+', portrait: '..tostring(PORTRAIT),3)
 
 -- Load mode files
 for i=1,#MODES do
