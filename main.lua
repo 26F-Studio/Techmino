@@ -35,24 +35,16 @@ love.setDeprecationOutput(false)
 love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
 
-local _msaa=0
-local path='conf/settings'
-if love.filesystem.getInfo(path) then
-    _READSETTINGFILE=true
-    local fileData=love.filesystem.read(path)
-    if type(fileData)=='string' then
-        if MOBILE and fileData:find('"portrait":true') then
-            local width,height=love.window.getMode()
-            love.window.updateMode(height,width,{})
-        end
-        if fileData:find('"msaa":') then
-            local num=tonumber(fileData:match('"msaa":(%d+)'))
-            if num then _msaa=num end
-        end
+local fileData=fs.read('conf/settings')
+if fileData then
+    local width,height=love.window.getMode()
+    local msaa=tonumber(fileData:match('"msaa":(%d+)'));
+    if msaa == nil then msaa = 0 end
+    if MOBILE and fileData:find('"portrait":true') then
+        width,height=height,width
     end
+    love.window.updateMode(width,height,{msaa=msaa})
 end
-_MSAA=_msaa
-_PATH=path
 
 local _LOADTIMELIST_={}
 local _LOADTIME_=TIME()
@@ -141,6 +133,29 @@ setmetatable(TEXTURE,{__index=function(self,k)
     self[k]=PAPER
     return self[k]
 end})
+
+-- Logs
+MES.new('info','settings: '..tostring(SETTING_FILE),25)
+for key, value in pairs(CONFS) do
+    MES.new('info','confs.'..key..': '..tostring(value),20)
+end
+local allFileString=''
+for key, value in pairs(ALL_FILES) do
+    allFileString=allFileString..'"'..value..'"'
+    if(key % 5 == 0)then
+        allFileString=allFileString..'\n'
+    else
+        allFileString=allFileString..', '
+    end
+end
+MES.new('info','allFiles: '..allFileString,15)
+for key, value in pairs(PATHS) do
+    MES.new('info','path.'..key..': '..tostring(value),8)
+end
+local _,_,flags=love.window.getMode()
+MES.new('info','fullscreen: '..tostring(flags.fullscreen)..
+', msaa: '..tostring(flags.msaa)..
+', portrait: '..tostring(SETTING.portrait),3)
 
 -- Load mode files
 for i=1,#MODES do
