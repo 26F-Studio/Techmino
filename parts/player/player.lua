@@ -2654,6 +2654,7 @@ local function update_dead(P,dt)
     _updateMisc(P,dt)
 end
 function Player:_die()
+    do local p=TABLE.find(PLY_ALIVE,self) if p then rem(PLY_ALIVE,p) end end
     self.alive=false
     self.timing=false
     self.control=false
@@ -2818,7 +2819,6 @@ function Player:lose(force)
     end
     self:_die()
     self.result='lose'
-    do local p=TABLE.find(PLY_ALIVE,self) if p then rem(PLY_ALIVE,p) end end
     if self.gameEnv.layout=='royale' then
         self:changeAtk()
         self.modeData.place=#PLY_ALIVE+1
@@ -2896,6 +2896,9 @@ function Player:lose(force)
         end
         ::BREAK_notFinished::
     end
+    local _,height=love.window.getMode()
+    self:movePosition(self.x,height+100)
+    freshPlayerPosition('update')
 end
 --------------------------<\Event>--------------------------
 
