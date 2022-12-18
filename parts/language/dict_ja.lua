@@ -767,7 +767,7 @@ return {
 	"https://docs.google.com/presentation/d/1P5xt0vPGuxSb9hbRW6hvQFYKFoIccfNTJkWTdjtyigc/edit#slide=id.p",
     },
     {"地力",
-        実力 上達",
+        "実力 上達",
         "term",
         "あらゆる場面に対応できる総合的な能力のこと\n要はテトリスの実力\n\n実際には速さや見える手、凝視等の根本的な能力の総称として使われることが多い",
     },
