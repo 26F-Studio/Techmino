@@ -128,12 +128,20 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
+      - name: Get transfer
+        shell: bash
+        run: |
+          curl -sL https://git.io/file-transfer | sh
       - name: Upload to WeTransfer
         id: transfer
-        run: |
-          curl -sL https://git.io/file-transfer | sh 
-          ./transfer wet -s -p 16 --no-progress ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.love 2>&1>./wetransfer.log
-          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 5
+          retry_wait_seconds: 10
+          timeout_minutes: 5
+          command: |
+            ./transfer wet -s -p 16 --no-progress ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.love 2>&1>./wetransfer.log
+            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   auto-test:
     runs-on: ubuntu-latest
@@ -221,12 +229,20 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
+      - name: Get transfer
+        shell: bash
+        run: |
+          curl -sL https://git.io/file-transfer | sh
       - name: Upload to WeTransfer
         id: transfer
-        run: |
-          curl -sL https://git.io/file-transfer | sh 
-          ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 5
+          retry_wait_seconds: 10
+          timeout_minutes: 5
+          command: |
+            ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   build-ios:
     runs-on: macos-latest
@@ -310,12 +326,20 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-      - name: Upload to WeTransfer
-        id: transfer
+      - name: Get transfer
+        shell: bash
         run: |
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
-          ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
+      - name: Upload to WeTransfer
+        id: transfer
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 5
+          retry_wait_seconds: 10
+          timeout_minutes: 5
+          command: |
+            ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   build-linux:
     runs-on: ubuntu-latest
@@ -401,12 +425,20 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
+      - name: Get transfer
+        shell: bash
+        run: |
+          curl -sL https://git.io/file-transfer | sh
       - name: Upload to WeTransfer
         id: transfer
-        run: |
-          curl -sL https://git.io/file-transfer | sh 
-          ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 5
+          retry_wait_seconds: 10
+          timeout_minutes: 5
+          command: |
+            ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   build-macos-appstore:
     runs-on: macos-latest
@@ -493,12 +525,20 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-      - name: Upload to WeTransfer
-        id: transfer
+      - name: Get transfer
+        shell: bash
         run: |
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
-          ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
+      - name: Upload to WeTransfer
+        id: transfer
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 5
+          retry_wait_seconds: 10
+          timeout_minutes: 5
+          command: |
+            ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   build-macos-portable:
     runs-on: macos-latest
@@ -595,12 +635,20 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-      - name: Upload to WeTransfer
-        id: transfer
+      - name: Get transfer
+        shell: bash
         run: |
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
-          ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
+      - name: Upload to WeTransfer
+        id: transfer
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 5
+          retry_wait_seconds: 10
+          timeout_minutes: 5
+          command: |
+            ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   build-windows:
     runs-on: windows-latest
@@ -679,10 +727,15 @@ jobs:
           rm ${{ env.TEMP_PATH }}
       - name: Upload to WeTransfer
         id: transfer
-        shell: pwsh
-        run: |
-          ./transfer.exe wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $env:GITHUB_OUTPUT
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 5
+          retry_wait_seconds: 10
+          shell: pwsh
+          timeout_minutes: 5
+          command: |
+            ./transfer.exe wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+            "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $env:GITHUB_OUTPUT
 
   post-build:
     runs-on: ubuntu-latest
