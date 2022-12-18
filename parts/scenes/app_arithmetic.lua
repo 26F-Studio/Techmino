@@ -9,28 +9,36 @@ local function b8(i) return STRING.toOct(i).."₈" end
 local function b16(i) return STRING.toHex(i).."₁₆" end
 
 local charData={
-[0]={5,40, 15,40,20,35,20,5, 15,0, 5,0,  0,5,  0,35, 5,40},
-    {0,10, 10,0, 10,40,0,40, -1,40,0,40, 20,40},
-    {0,5,  5,0,  15,0, 20,5, 20,20,0,39, 0,40, 20,40},
-    {0,5,  5,0,  15,0, 20,5, 20,15,15,20,5,20, 4,20, 5,20, 15,20,20,25,20,35,15,40,5,40,0,35},
-    {20,20,0,20, 15,0, 15,40},
-    {20,0, 0,0,  0,20, 5,15, 15,15,20,20,20,35,15,40,5,40, 0,35},
-    {20,5, 15,0, 5,0,  0,5,  0,35, 5,40, 15,40,20,35,20,20,15,15,5,15, 0,20},
-    {0,0,  20,0, 0,40},
-    {5,0,  15,0, 20,5, 20,15,15,20,5,20, 0,25, 0,35, 5,40, 15,40,20,35,20,25,15,20,5,20,0,15,0,5,5,0},
-    {20,15,15,20,5,20, 0,15, 0,5,  5,0,  15,0, 20,5, 20,35,15,40,5,40, 0,35}
+["0"]={5,40, 15,40,20,35,20,5, 15,0, 5,0,  0,5,  0,35, 5,40},
+["1"]={0,10, 10,0, 10,40,0,40, -1,40,0,40, 20,40},
+["2"]={0,5,  5,0,  15,0, 20,5, 20,20,0,39, 0,40, 20,40},
+["3"]={0,5,  5,0,  15,0, 20,5, 20,15,15,20,5,20, 4,20, 5,20, 15,20,20,25,20,35,15,40,5,40,0,35},
+["4"]={20,20,0,20, 15,0, 15,40},
+["5"]={20,0, 0,0,  0,20, 5,15, 15,15,20,20,20,35,15,40,5,40, 0,35},
+["6"]={20,5, 15,0, 5,0,  0,5,  0,35, 5,40, 15,40,20,35,20,20,15,15,5,15, 0,20},
+["7"]={0,0,  20,0, 0,40},
+["8"]={5,0,  15,0, 20,5, 20,15,15,20,5,20, 0,25, 0,35, 5,40, 15,40,20,35,20,25,15,20,5,20,0,15,0,5,5,0},
+["9"]={20,15,15,20,5,20, 0,15, 0,5,  5,0,  15,0, 20,5, 20,35,15,40,5,40, 0,35},
+    A={0,40, 10,0, 20,40,0,0,  20,40,15,20,5,20},
+    B={0,40, 0,0,  15,0, 20,5, 20,15,15,20,0,20, -1,20,0,20, 15,20,20,25,20,35,15,40,0,40},
+    C={20,35,15,40,5,40, 0,35, 0,5,  5,0,  15,0, 20,5},
+    D={0,40, 0,0,  10,0, 20,10,20,30,10,40,0,40},
+    E={20,0, 0,0,  0,20, 15,20,20,20,0,20, 0,40,20,40},
+    F={20,0, 0,0,  0,20, 15,20,20,20,0,20, 0,40}
 }
 local drawing
 local drawLines,drawVel,indexes
 local autoDraw
 -- Draws (by default) 60x120px chars, 15px padding, total 85x120px
-local function drawNum(num,x,y,scale,alignLeft)
+local function drawChar(char,x,y,scale,alignLeft)
     if not scale then scale=1 end
+    char=tostring(char)
     local index=#drawLines+1
-    local l=num==0 and 0 or math.floor(math.log(num,10))
+    local l=string.len(char)
     x=alignLeft and x or x-85*l*scale
     for i=l,0,-1 do
-        local n=math.floor((num/math.pow(10,i))%10)
+        local n=char:sub(i,i)
+        print(n,char,type(n),charData[n])
         drawLines[index],drawVel[index]={},{}
         for j=1,#charData[n],2 do
             drawLines[index][j]=charData[n][j]*3*scale+x
@@ -49,8 +57,9 @@ local levels={
         local s=rnd(2,9)
         local a=rnd(1,s)
         return a.."+"..s-a,s,function()
-            drawNum(a,600,200)
-            drawNum(s-a,600,350)
+            drawChar(a,600,200)
+            drawChar(s-a,600,350)
+            drawChar("12ABCDEF33",600,500) -- debug
             table.insert(drawLines,{530,500,700,500})
             table.insert(drawLines,{720,500,800,500})
             table.insert(drawLines,{760,460,760,540})
@@ -60,8 +69,8 @@ local levels={
         local s=rnd(10,18)
         local a=rnd(s-9,int(s/2))
         return a.."+"..s-a,s,function()
-            drawNum(a,600,200)
-            drawNum(s-a,600,350)
+            drawChar(a,600,200)
+            drawChar(s-a,600,350)
             table.insert(drawLines,{430,500,700,500})
             table.insert(drawLines,{720,500,800,500})
             table.insert(drawLines,{760,460,760,540})
@@ -71,8 +80,8 @@ local levels={
         local s=rnd(22,99)
         local a=rnd(11,int(s/2))
         return a.."+"..s-a,s,function()
-            drawNum(a,600,200)
-            drawNum(s-a,600,350)
+            drawChar(a,600,200)
+            drawChar(s-a,600,350)
             table.insert(drawLines,{430,500,700,500})
             table.insert(drawLines,{720,500,800,500})
             table.insert(drawLines,{760,460,760,540})
@@ -82,8 +91,8 @@ local levels={
         local s=rnd(2,9)
         local a=rnd(1,s)
         return s.."-"..a,s-a,function()
-            drawNum(s,600,200)
-            drawNum(a,600,350)
+            drawChar(s,600,200)
+            drawChar(a,600,350)
             table.insert(drawLines,{530,500,700,500})
             table.insert(drawLines,{720,500,800,500})
         end
@@ -92,8 +101,8 @@ local levels={
         local s=rnd(22,99)
         local a=rnd(11,int(s/2))
         return s.."-"..a,s-a,function()
-            drawNum(s,600,200)
-            drawNum(a,600,350)
+            drawChar(s,600,200)
+            drawChar(a,600,350)
             table.insert(drawLines,{430,500,700,500})
             table.insert(drawLines,{720,500,800,500})
         end
@@ -104,8 +113,8 @@ local levels={
         return a.."-"..a-s,s,function()
             local l=string.len(a-s)
             table.insert(drawLines,{600-85*l,260,640-85*l,260})
-            drawNum(a-s,600,200)
-            drawNum(a,600,350)
+            drawChar(a-s,600,200)
+            drawChar(a,600,350)
             table.insert(drawLines,{530,500,700,500})
             table.insert(drawLines,{720,500,800,500})
             table.insert(drawLines,{760,460,760,540})
@@ -116,8 +125,8 @@ local levels={
         local a=rnd(ceil(b/10),9)
         b=int(b/a)
         return a.."*"..b,a*b,function()
-            drawNum(a>b and a or b,600,200)
-            drawNum(a>b and b or a,600,350)
+            drawChar(a>b and a or b,600,200)
+            drawChar(a>b and b or a,600,350)
             table.insert(drawLines,{460,500,700,500})
             table.insert(drawLines,{720,540,800,460})
             table.insert(drawLines,{720,460,800,540})
@@ -126,8 +135,8 @@ local levels={
     function()-- <*> [,1000]
         local a,b=rnd(4,8),rnd(42,96)
         return a.."*"..b,a*b,function()
-            drawNum(b,600,200)
-            drawNum(a,600,350)
+            drawChar(b,600,200)
+            drawChar(a,600,350)
             table.insert(drawLines,{330,500,700,500})
             table.insert(drawLines,{720,540,800,460})
             table.insert(drawLines,{720,460,800,540})
@@ -138,16 +147,16 @@ local levels={
         local a=rnd(ceil(b/10),9)
         b=int(b/a)
         return a*b.."/"..a,b,function()
-            drawNum(a*b,560,300,1,true)
-            drawNum(a,400,300)
+            drawChar(a*b,560,300,1,true)
+            drawChar(a,400,300)
             table.insert(drawLines,{480,440,530,270,730,270})
         end
     end,nil,nil,nil,nil,
     function()-- <%3>
         local s=rnd(5,17)
         return s.."%3",s%3,function()
-            drawNum(s,560,300,1,true)
-            drawNum(3,400,300)
+            drawChar(s,560,300,1,true)
+            drawChar(3,400,300)
             table.insert(drawLines,{480,440,530,270,730,270})
         end
     end,nil,nil,
@@ -155,8 +164,8 @@ local levels={
         local s=rnd(21,62)
         local a=rnd(3,9)
         return s.."%"..a,s%a,function()
-            drawNum(s,560,300,1,true)
-            drawNum(a,400,300)
+            drawChar(s,560,300,1,true)
+            drawChar(a,400,300)
             table.insert(drawLines,{480,440,530,270,730,270})
         end
     end,nil,nil,nil,nil,
@@ -164,13 +173,13 @@ local levels={
         local a=rnd(2,9)
         return {COLOR.N,b2(a)},a,function()
             local b=STRING.toBin(a)
-            local l=string.len(b)
+            local l=string.len(b) -- TODO: could be improved with log2?
             for i=1,l do
-                drawNum(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
+                drawChar(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
                 table.insert(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
                 table.insert(drawLines,{370,440-100*(l-i),410,480-100*(l-i)})
-                drawNum(2,430,420-100*(l-i),.5)
-                drawNum(l-i,480,400-100*(l-i),.3)
+                drawChar(2,430,420-100*(l-i),.5)
+                drawChar(l-i,480,400-100*(l-i),.3)
                 table.insert(drawLines,{520,470-100*(l-i),560,470-100*(l-i)})
                 table.insert(drawLines,{520,450-100*(l-i),560,450-100*(l-i)})
             end
@@ -183,13 +192,13 @@ local levels={
         local a=rnd(9,63)
         return {COLOR.lR,b8(a)},a,function()
         local b=STRING.toOct(a)
-        local l=string.len(b)
+        local l=string.len(b) -- TODO: could be improved with log8?
         for i=1,l do
-            drawNum(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
+            drawChar(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
             table.insert(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
             table.insert(drawLines,{370,440-100*(l-i),410,480-100*(l-i)})
-            drawNum(8,430,420-100*(l-i),.5)
-            drawNum(l-i,480,400-100*(l-i),.3)
+            drawChar(8,430,420-100*(l-i),.5)
+            drawChar(l-i,480,400-100*(l-i),.3)
             table.insert(drawLines,{520,470-100*(l-i),560,470-100*(l-i)})
             table.insert(drawLines,{520,450-100*(l-i),560,450-100*(l-i)})
         end
@@ -202,7 +211,7 @@ local levels={
         local a=rnd(17,255)
         return {COLOR.J,b16(a)},a,function()
             local b=STRING.toHex(a)
-            local l=string.len(b)
+            local l=string.len(b)-- TODO: could be improved with log16?
             for i=1,l do
                 local c=string.sub(b,i,i)
                 if ("0123456789"):find(c,nil,true) then
@@ -210,11 +219,11 @@ local levels={
                 else
                     c=tonumber(string.byte(c)-55)
                 end
-                drawNum(c,280,420-100*(l-i),.5)
+                drawChar(c,280,420-100*(l-i),.5)
                 table.insert(drawLines,{330,480-100*(l-i),370,440-100*(l-i)})
                 table.insert(drawLines,{330,440-100*(l-i),370,480-100*(l-i)})
-                drawNum(16,430,420-100*(l-i),.5)
-                drawNum(l-i,480,400-100*(l-i),.3)
+                drawChar(16,430,420-100*(l-i),.5)
+                drawChar(l-i,480,400-100*(l-i),.3)
                 table.insert(drawLines,{520,470-100*(l-i),560,470-100*(l-i)})
                 table.insert(drawLines,{520,450-100*(l-i),560,450-100*(l-i)})
             end
@@ -227,19 +236,52 @@ local levels={
         local s=rnd(9,31)
         local a=rnd(5,int(s/2))
         return {COLOR.N,b2(a),COLOR.Z,"+",COLOR.N,b2(s-a)},s,function()
-            local ba,bb=STRING.toBin(a),STRING.toBin(s-a)
-            local la,lb=string.len(ba),string.len(bb)
+            drawChar(tonumber(STRING.toBin(a)),220,200,.6)
+            drawChar(tonumber(STRING.toBin(s-a)),220,335,.6)
+            table.insert(drawLines,{0,470,300,470})
+            table.insert(drawLines,{320,470,400,470})
+            table.insert(drawLines,{360,430,360,510})
+            local l=string.len(STRING.toBin(s)) -- TODO: could be improved with log2?
+            for i=1,l do
+                table.insert(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
+                table.insert(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
+                drawChar(2,680,520-100*(l-i),.5)
+                drawChar(l-i,730,500-100*(l-i),.3)
+                table.insert(drawLines,{770,570-100*(l-i),810,570-100*(l-i)})
+                table.insert(drawLines,{770,550-100*(l-i),810,550-100*(l-i)})
+            end
+            table.insert(drawLines,{780,620,1000,620})
+            table.insert(drawLines,{1020,620,1100,620})
+            table.insert(drawLines,{1060,580,1060,660})
         end
     end,nil,nil,nil,nil,
     function()-- <o+>
         local s=rnd(18,63)
         local a=rnd(9,int(s/2))
-        return {COLOR.lR,b8(a),COLOR.Z,"+",COLOR.lR,b8(s-a)},s
+        return {COLOR.lR,b8(a),COLOR.Z,"+",COLOR.lR,b8(s-a)},s,function()
+            drawChar(tonumber(STRING.toOct(a)),220,200,.6)
+            drawChar(tonumber(STRING.toOct(s-a)),220,335,.6)
+            table.insert(drawLines,{0,470,300,470})
+            table.insert(drawLines,{320,470,400,470})
+            table.insert(drawLines,{360,430,360,510})
+            local l=string.len(STRING.toBin(s)) -- TODO: could be improved with log2?
+            for i=1,l do
+                table.insert(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
+                table.insert(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
+                drawChar(2,680,520-100*(l-i),.5)
+                drawChar(l-i,730,500-100*(l-i),.3)
+                table.insert(drawLines,{770,570-100*(l-i),810,570-100*(l-i)})
+                table.insert(drawLines,{770,550-100*(l-i),810,550-100*(l-i)})
+            end
+            table.insert(drawLines,{780,620,1000,620})
+            table.insert(drawLines,{1020,620,1100,620})
+            table.insert(drawLines,{1060,580,1060,660})
+        end
     end,nil,nil,nil,
     function()-- <h+>
         local s=rnd(34,255)
         local a=rnd(17,int(s/2))
-        return {COLOR.J,b16(a),COLOR.Z,"+",COLOR.J,b16(s-a)},s
+        return {COLOR.J,b16(a),COLOR.Z,"+",COLOR.J,b16(s-a)},s -- TODO
     end,nil,nil,
     function() timing=false return "Coming S∞n"..(rnd()<.5 and "" or " "),1e99 end,
 }setmetatable(levels,{__index=function(self,k) return self[k-1] end})
@@ -261,7 +303,7 @@ local function reset()
     drawing=false
     drawLines,drawVel,indexes={},{},{}
     inputTime=0
-    level=41 -- DEBUG
+    level=0 -- DEBUG
     question,answer,autoDraw=newQuestion(1)
 end
 
@@ -305,7 +347,7 @@ function scene.keyDown(key,isRep)
     if key:sub(1,2)=="kp" then key=key:sub(3) end
     if #key==1 and ("0123456789"):find(key,nil,true) then
         if love.keyboard.isDown('lctrl','rctrl') and drawing then
-            drawNum(tonumber(key),love.mouse.getX(),love.mouse.getY())
+            drawChar(tonumber(key),love.mouse.getX(),love.mouse.getY())
         elseif #input<8 then
             input=input..key
             inputTime=1
