@@ -335,9 +335,11 @@ jobs:
         run: |
           import os
           import re
+
+          product_name = re.sub(r'[^A-Za-z0-9]+', '-', '${{ needs.get-info.outputs.app-name }}').strip('-').lower()
           with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
-            f.write('bundle-id=org.26f-studio.techmino\n')
-            f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
+              f.write('bundle-id=org.26f-studio.' + product_name + '\n')
+              f.write('product-name=' + product_name + '\n')
       - name: Download core love package
         uses: actions/download-artifact@v3
         with:
@@ -360,7 +362,7 @@ jobs:
           mv ./x64/CCloader.so ./lib/lua/5.1
       - name: Build Linux packages
         id: build-packages
-        uses: love-actions/love-actions-linux@v1
+        uses: love-actions/love-actions-linux@main
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
