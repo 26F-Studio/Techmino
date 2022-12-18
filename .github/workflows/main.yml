@@ -131,7 +131,7 @@ jobs:
       - name: Get transfer
         shell: bash
         run: |
-          curl -sL https://git.io/file-transfer | sh
+          curl -sL --retry 5 https://raw.githubusercontent.com/Mikubill/transfer/master/install.sh | sh
       - name: Upload to WeTransfer
         id: transfer
         uses: nick-fields/retry@v2
@@ -232,7 +232,7 @@ jobs:
       - name: Get transfer
         shell: bash
         run: |
-          curl -sL https://git.io/file-transfer | sh
+          curl -sL --retry 5 https://raw.githubusercontent.com/Mikubill/transfer/master/install.sh | sh
       - name: Upload to WeTransfer
         id: transfer
         uses: nick-fields/retry@v2
@@ -428,7 +428,7 @@ jobs:
       - name: Get transfer
         shell: bash
         run: |
-          curl -sL https://git.io/file-transfer | sh
+          curl -sL --retry 5 https://raw.githubusercontent.com/Mikubill/transfer/master/install.sh | sh
       - name: Upload to WeTransfer
         id: transfer
         uses: nick-fields/retry@v2
@@ -722,7 +722,7 @@ jobs:
           TEMP_PATH: ./temp.zip
         shell: bash
         run: |
-          curl -L --retry 5 https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_windows_amd64.zip -o ${{ env.TEMP_PATH }}
+          curl -sL --retry 5 https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_windows_amd64.zip -o ${{ env.TEMP_PATH }}
           7z x ${{ env.TEMP_PATH }} -o./
           rm ${{ env.TEMP_PATH }}
       - name: Upload to WeTransfer
