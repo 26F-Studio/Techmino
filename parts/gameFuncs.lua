@@ -652,9 +652,10 @@ do-- function freshPlayerPosition(sudden)
             return L
         end)(),
     }
-    function freshPlayerPosition(sudden)-- Set initial position for every player
+    function freshPlayerPosition(mode)-- Set initial position for every player, mode: 'normal'|'quick'|'update'
+        assert(mode=='normal' or mode=='quick' or mode=='update',"Wrong freshPlyPos mode")
         local L=PLY_ALIVE
-        if not sudden then
+        if mode~='update' then
             for i=1,#L do
                 L[i]:setPosition(640,#L<=5 and 360 or -62,0)
             end
@@ -668,7 +669,7 @@ do-- function freshPlayerPosition(sudden)
         elseif #L<=99 then posList=posLists[5]
         else error("TOO MANY PLAYERS!")
         end
-        local method=sudden and 'setPosition' or 'movePosition'
+        local method=mode=='normal' and 'setPosition' or 'movePosition'
         for i=1,#L do L[i][method](L[i],unpack(posList[i])) end
     end
 end
@@ -772,7 +773,7 @@ do-- function resetGameData(args)
         else
             PLY.newPlayer(1)
         end
-        freshPlayerPosition(args:find'q')
+        freshPlayerPosition((args:find'q') and 'quick' or 'normal')
         VK.restore()
 
         local bg=GAME.modeEnv.bg
