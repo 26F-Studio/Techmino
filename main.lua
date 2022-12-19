@@ -175,7 +175,7 @@ Z.setOnFnKeys({
     function() MES.new('error',"挂了") end,
     function()
         if GAME.playing and not GAME.net then
-            for _=1,8 do
+            for _=1,1 do
                 if #PLY_ALIVE>1 then
                     local P=PLY_ALIVE[math.random(2,#PLY_ALIVE)]
                     P.lastRecv=PLAYERS[1]

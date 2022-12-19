@@ -691,9 +691,19 @@ do-- function freshPlayerPosition(sudden)
             end)(),
             [51]=(function()
                 local l={main={340,75,1}}
-                for y=-2.5,2.5 do for x=0,4 do
-                    table.insert(l,{275-65*x,385+125*y,.1})
-                    table.insert(l,{945+65*x,385+125*y,.1})
+                for y=-2,2 do for x=0,4 do
+                    table.insert(l,{275-65*x,315+125*y,.1})
+                    table.insert(l,{945+65*x,315+125*y,.1})
+                end end
+                return l
+            end)(),
+            [75]=(function()
+                local l={main={340,75,1}}
+                for y=-2,2 do for x=0,4 do
+                    table.insert(l,{275-65*x,310+125*y,.1})
+                end end
+                for y=-3,3 do for x=0,6 do
+                    table.insert(l,{940+47*x,340+92*y,.075})
                 end end
                 return l
             end)(),
@@ -856,7 +866,6 @@ do-- function freshPlayerPosition(sudden)
         end
 
         local alive=PLAYERS[1].alive
-        -- local alive=false
 
         if mode=='update' then
             if alive then
