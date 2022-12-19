@@ -2868,7 +2868,7 @@ function Player:lose(force)
         SFX.play('fail')
         VOC.play('lose')
         if self.gameEnv.layout=='royale' then
-            BGM.play(' end')
+            BGM.play('end')
         end
         gameOver()
         self:newTask(#PLAYERS>1 and task_lose or task_finish)
