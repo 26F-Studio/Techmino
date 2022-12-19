@@ -600,6 +600,28 @@ do-- function Player:movePosition(x,y,size)
         TASK.new(task_movePosition,self,x,y,size or self.size)
     end
 end
+do-- function Player:dropPosition(x,y,size)
+    local function task_dropPosition(self)
+        local vy=0
+        local x,y,size=self.x,self.y,self.size
+        while true do
+            yield()
+            y=y+vy
+            vy=vy+.0626
+            self:setPosition(x,y,size)
+            if y>2600 then
+                return true
+            end
+        end
+    end
+    local function check_player(obj,Ptar)
+        return obj.args[1]==Ptar
+    end
+    function Player:dropPosition()
+        TASK.removeTask_iterate(check_player,self)
+        TASK.new(task_dropPosition,self)
+    end
+end
 
 local frameColorList={[0]=COLOR.Z,COLOR.lG,COLOR.lB,COLOR.lV,COLOR.lO}
 function Player:setFrameColor(c)
@@ -2882,6 +2904,9 @@ function Player:lose(force)
     end
 
     if #PLY_ALIVE>0 then
+        self:dropPosition()
+        freshPlayerPosition('update')
+
         local cur=PLY_ALIVE[1].group
         for i=2,#PLY_ALIVE do
             local g=PLY_ALIVE[i].group
@@ -2902,9 +2927,6 @@ function Player:lose(force)
         end
         ::BREAK_notFinished::
     end
-    local _,height=love.window.getMode()
-    self:movePosition(self.x,height+100)
-    freshPlayerPosition('update')
 end
 --------------------------<\Event>--------------------------
 
