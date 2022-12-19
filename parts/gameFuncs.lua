@@ -877,7 +877,7 @@ do-- function freshPlayerPosition(sudden)
                 end
             else
                 if #L<=36 then
-                    for i=2,#L do
+                    for i=1,#L do
                         L[i].miniMode=false
                         L[i].draw=require"parts.player.draw".norm
                     end

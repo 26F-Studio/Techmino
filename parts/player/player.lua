@@ -2654,7 +2654,13 @@ local function update_dead(P,dt)
     _updateMisc(P,dt)
 end
 function Player:_die()
-    do local p=TABLE.find(PLY_ALIVE,self) if p then PLY_ALIVE[p]=rem(PLY_ALIVE) end end
+    do
+        local p=TABLE.find(PLY_ALIVE,self)
+        if p then
+            PLY_ALIVE[p]=PLY_ALIVE[#PLY_ALIVE]
+            rem(PLY_ALIVE)
+        end
+    end
     self.alive=false
     self.timing=false
     self.control=false
