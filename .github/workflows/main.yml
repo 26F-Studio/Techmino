@@ -277,7 +277,7 @@ jobs:
           dir: ./ColdClear
       - name: Build iOS packages
         id: build-packages
-        uses: love-actions/love-actions-ios@main
+        uses: love-actions/love-actions-ios@v1
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
