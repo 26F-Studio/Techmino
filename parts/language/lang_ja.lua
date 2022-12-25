@@ -34,13 +34,13 @@ return {
     tasUsing="[TAS]",
 
     stage="ステージ $1 クリア!",
-    great="よし!",
-    awesome="すごい!",
-    almost="あと少し!",
-    continue="がんばれ!",
+    great="GREAT",
+    awesome="素晴らしい",
+    almost="あと少し...",
+    continue="まだ行ける!",
     maxspeed="最高速度!",
     speedup="スピードアップ!",
-    missionFailed="失敗…",
+    missionFailed="ミッション失敗",
 
     speedLV="レベル",
     piece="ミノ数",line="line数",atk="火力",eff="効率",
