@@ -14,10 +14,10 @@ return {
     sureQuit="終了するにはもう一度押してください!",
     sureReset="リセットするにはもう一度押してください!",
     sureDelete="削除するにはもう一度押してください!",
-    newDay="新しい1日、新しい始まりです!",
-    playedLong="長時間プレイしています、適度に休憩をして!",
-    playedTooMuch="かなり長くプレイしています! Techminoは楽しいですが、休憩を忘れずに!",
-    settingWarn="使用頻度の少ない設定に変更しています。注意してください。",
+    newDay="新しい1日の始まりです!",
+    playedLong="長時間プレイしています、適度な休憩を",
+    playedTooMuch="長時間プレイしています! Techminoは楽しいですが、休憩を忘れずに!",
+    settingWarn="使用頻度の少ない設定を変更しています。注意してください。",
     settingWarn2="この設定は再起動後に適用されます",
 
     atkModeName={"ランダム","バッジ狙い","トドメ撃ち","カウンター"},
@@ -58,15 +58,15 @@ return {
     gameover="Game Over",
 
     pause="ポーズ",
-    pauseCount="ポーズした回数",
+    pauseCount="ポーズ回数",
     finesse_ap="All Perfect",
     finesse_fc="Full Combo",
 
     page="ページ:",
 
-    cc_fixed="CCは固定されたミノ順に非対応です!",
-    cc_swap="CCはホールドモードがSwapの時に非対応です!",
-    ai_prebag="AIは通常のテトロミノではない物やカスタマイズされたミノ順に非対応です!",
+    cc_fixed="CCはミノ順の指定に非対応です!",
+    cc_swap="CCはホールドモード、Swapに非対応です!",
+    ai_prebag="AIは通常のテトロミノ以外やミノ順指定に非対応です!",
     ai_mission="AIはカスタムミッションに非対応です!",
     switchSpawnSFX="ブロック出現時の効果音をONにしてください!",
     needRestart="すべての変更を適用する為にリスタートしてください!",
@@ -75,7 +75,7 @@ return {
     loadError_read="'$1'の読み込みに失敗: 読み込みに失敗しました",
     loadError_noFile="'$1'の読み込みに失敗: ファイルが存在しません",
     loadError_other="'$1'の読み込みに失敗: $2",
-    loadError_unknown="'$1'の読み込みに失敗: 原因不明です",
+    loadError_unknown="'$1'の読み込みに失敗: 原因不明",
 
     saveError_duplicate="'$1'の保存に失敗: 既に同じ名前のファイルがあります",
     saveError_encode="'$1'の保存に失敗: エンコードエラー",
@@ -85,9 +85,9 @@ return {
     copyDone="コピーしました!",
     saveDone="データを保存しました!",
     exportSuccess="書き出し成功!",
-    importSuccess="取り込み成功!",
+    importSuccess="読み取り成功!",
     dataCorrupted="データが破損してます",
-    pasteWrongPlace="貼り付ける位置が間違ってませんか?",
+    pasteWrongPlace="貼り付ける位置を間違っていませんか?",
     noFile="ファイルが見つかりません",
 
     nowPlaying="再生中:",
@@ -98,8 +98,8 @@ return {
 
     noScore="スコア無し",
     modeLocked="未開放",
-    unlockHint="前のステージでランクB以上を取得すると解放されます!",
-    highScore="最高得点",
+    unlockHint="前のステージでBランク以上を取得すると解放されます!",
+    highScore="最高記録",
     newRecord="新記録!",
 
     replayBroken="リプレイが読み込めませんでした",
@@ -115,14 +115,14 @@ return {
         invalidFormat="非対応の形式です",
         invalidArguments="無効な引数です",
         tooFrequent="リクエストが多すぎます",
-        notAvailable="使用不可",
+        notAvailable="無効なリクエスト",
         noPermission="権限がありません",
         roomNotFound="部屋が見つかりません",
 
         -- Controllers
         WebSocket={
             invalidConnection="接続されていません",
-            invalidAction="無効な操作です",
+            invalidAction="無効な操作",
             playerNotFound="プレイヤーが見つかりませんでした",
             connectionFailed="接続失敗",
         },
@@ -137,7 +137,7 @@ return {
             connectionReplaced="接続切替",
         },
         NoticeManager={
-            noticeNotFound="通知が見つかりませんでした",
+            noticeNotFound="通知はありません",
         },
         PlayerManager={
             invalidCode="無効なコード",
@@ -165,7 +165,7 @@ return {
     roomPasswordChanged="部屋のパスワードを変更しました",
     oldVersion="バージョン$1のダウンロードが可能になりました",
     versionNotMatch="バージョンが一致しません",
-    notFinished="未完成ですので、ご期待ください",
+    notFinished="未完成です、ご期待ください",
 
     noUsername="ユーザーネームを入力してください!",
     wrongEmail="メールアドレスが無効です!",
@@ -177,7 +177,7 @@ return {
     wsFailed="ウェブソケットとの通信に失敗しました: $1",
     wsClose="ウェブソケットとの通信を終了: $1",
     netTimeout="接続がタイムアウトしました",
-    serverDown="うわ! サーバーが落ちています...",
+    serverDown="あー、サーバーが落ちています...",
     requestFailed="リクエスト失敗",
 
     onlinePlayerCount="オンライン人数: $1",
@@ -187,20 +187,20 @@ return {
     started="プレイ中",
     joinRoom="$1 が入室しました",
     leaveRoom="$1 が退出しました",
-    roomRemoved="部屋が撤去されました",
+    roomRemoved="部屋が解散しました",
     ready="準備OK",
     spectating="観戦中",
 
 
 
     keySettingInstruction="選択してキーを入力\nEscape: キャンセル\nBackspace: キーを削除",
-    customBGhelp="カスタム背景にする画像ファイルをドロップ",
+    customBGhelp="背景にする画像ファイルをドロップ",
     customBGloadFailed="非対応のファイル形式です",
 
     errorMsg="問題が発生! ゲームを再起動し、エラーログを開発者に送ってください",
     tryAnotherBuild="[Invalid UTF-8]使用しているOSがMicrosoft WindowsであればTechmino-win32かTechmino-win64をダウンロードしてください! (現在使用しているソフトは違うバージョンです)",
 
-    modInstruction="Modを選択してください!\nModはゲームの中身を変えます\nしかしゲームが破損することもあります\nModを使用した場合スコアは保存されません",
+    modInstruction="Modを選択してください!\nModはゲームルールを変えられますが正常にプレイできなくなる可能性があります\nModを使用した場合、スコアは保存されません",
     modInfo={
         next="NEXT\nNEXTの個数を変更します",
         hold="HOLD\nHOLDの個数を変更します",
@@ -210,7 +210,7 @@ return {
         hideGhost="No Ghost\nゴーストを消します",
         hidden="Hide Locked Pieces\n設置されたピースが時間内に見えなくなります",
         hideBoard="Hide Board\n盤面の一部もしくは、全体を隠します",
-        flipBoard="Flip Board\n盤面が回転もしくは滑ります",
+        flipBoard="Flip Board\n盤面が回転もしくは、滑ります",
         dropDelay="Gravity\n落下速度をフレーム単位で変更します",
         lockDelay="Lock Delay\n設置猶予をフレーム単位で変更します",
         waitDelay="Spawn Delay\nブロックの出現猶予をフレーム単位で変更します",
@@ -402,7 +402,7 @@ return {
         mod={
             title="Mods",
             reset="リセット (tab)",
-            unranked="ランク無し",
+            unranked="記録不可",
         },
         pause={
             setting="設定 (S)",
@@ -716,7 +716,7 @@ return {
             Z2="Z2",S2="S2",J2="J2",L2="L2",T2="T2",O2="O2",I2="I2",
             Z3="Z3",S3="S3",J3="J3",L3="L3",T3="T3",O3="O3",I3="I3",
             O4="O4",I4="I4",
-            mission="強制ミッション",
+            mission="ミッションを強制",
         },
         about={
             staff="スタッフ",
@@ -774,41 +774,41 @@ return {
             title="アカウント",
         },
         app_15p={
-            color="Color",
-            invis="Invis",
-            slide="Slide",
-            pathVis="Show Path",
-            revKB="Reverse",
+            color="色",
+            invis="インビジブル",
+            slide="スライド",
+            pathVis="ポインター",
+            revKB="逆順",
         },
         app_schulteG={
-            rank="Size",
-            invis="Invis",
-            disappear="Hide",
-            tapFX="Tap FX",
+            rank="サイズ",
+            invis="インビジブル",
+            disappear="済消去",
+            tapFX="効果音",
         },
         app_AtoZ={
-            level="Level",
-            keyboard="Keyboard",
+            level="レベル",
+            keyboard="キーボード",
         },
         app_2048={
-            invis="Invis",
-            tapControl="Tap controls",
+            invis="インビジブル",
+            tapControl="タッチ操作",
 
-            skip="Skip Round",
+            skip="スキップ",
         },
         app_ten={
             next="Next",
-            invis="Invis",
-            fast="Fast",
+            invis="インビジブル",
+            fast="高速落下",
         },
         app_dtw={
-            color="Color",
-            mode="Mode",
+            color="色",
+            mode="モード",
             bgm="BGM",
-            arcade="Arcade",
+            arcade="アーケード",
         },
         app_link={
-            invis="Invis",
+            invis="インビジブル",
         },
         savedata={
             export="クリップボードにコピー",
