@@ -571,12 +571,40 @@ local function _drawNext(P,repMode)
         end
     gc_translate(-488,-20)
 end
+local function _getDialBackColor(speed)
+    return
+    speed<60 and  {.5,.5,.5}  or
+    speed<120 and {1,1,1}     or
+    speed<180 and {.2,.8,.8}  or
+    speed<240 and {.26,1,.26} or
+    speed<300 and {1,1,.26} or
+    speed<420 and {1,.5,0} or
+    {1,0,0}
+end
+local function _getDialColor(speed)
+    return
+    speed<60 and  {1,1,1} or
+    speed<120 and {.2,.8,.8} or
+    speed<180 and {.26,1,.26} or
+    speed<240 and {1,1,.26} or
+    speed<300 and {1,.5,0} or
+    {1,0,0}
+end
 local function _drawDial(x,y,speed)
-    gc_setColor(1,1,1,.7)
+    local theta=3*math.pi/2+((math.pi*(speed<300 and speed or 150+speed/2)/30)%MATH.tau)
+    gc_setColor(_getDialBackColor(speed))
+    gc_draw(dialNeedle,x+40,y+40,theta,nil,nil,1,1) -- should we keep this?
+    gc_setColor(0,0,0,.4)
+    gc.circle('fill',x+40,y+40,36)
+    gc_setColor(_getDialBackColor(speed))
     gc_draw(dialFrame,x,y)
-    gc_setColor(1,1,1,.3)
-    gc_draw(dialNeedle,x+40,y+40,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,1,1)
-    gc_setColor(.9,.9,.91)
+    gc_setLineWidth(6)
+    gc_setColor(_getDialColor(speed))
+    if speed<420 then
+        gc.arc('line','open',x+40,y+40,37,3*math.pi/2,theta)
+    else
+        gc.circle('line',x+40,y+40,37)
+    end
     setFont(30)GC.mStr(int(speed),x+40,y+19)
 end
 local function _drawFinesseCombo_norm(P)
