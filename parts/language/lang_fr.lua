@@ -699,17 +699,8 @@ return {
             music="Musique",
             -- label="label",
         },
-        login_pw={
-            title="Connexion",
-            -- login_mail="Login with E-mail/Sign Up",
-            email="E-mail",
-            password="Mot de passe",
-            -- showEmail="Show Email",
-            login="Connexion",
-        },
         login_mail={
             title="Connexion/Enregistrement",
-            -- login_pw="Password Sign In",
             email="E-mail",
             -- send="Send code",
             -- code="Verification Code",

@@ -734,17 +734,8 @@ return {
             -- music="BGMs",
             -- label="label",
         },
-        login_pw={
-            title="Log in",
-            -- login_mail="Login with E-mail/Sign Up",
-            email="Endereço De Email",
-            password="Senha",
-            -- showEmail="Show Email",
-            login="Log in",
-        },
         login_mail={
             title="Log in/Registrar",
-            -- login_pw="Password Sign In",
             email="Endereço De Email",
             -- send="Send code",
             -- code="Verification Code",

@@ -744,17 +744,8 @@ return {
             path="打開存儲目錄",
             save="用戶資料管理",
         },
-        login_pw={
-            title="登錄",
-            login_mail="電郵登錄/注册",
-            email="電郵",
-            password="密碼",
-            showEmail="顯示郵箱",
-            login="登錄",
-        },
         login_mail={
             title="登錄/註冊",
-            login_pw="密碼登錄",
             email="電郵",
             send="發送驗證碼",
             code="驗證碼",

@@ -693,17 +693,8 @@ return {
             path="OpenPath();",
             save="DataManagement();",
         },
-        login_pw={
-            title="LogIn.UI",
-            login_mail="Login_mail_sign_up()",
-            email="Email=",
-            password="Password=",
-            showEmail="ShowEmail",
-            login="Login();",
-        },
         login_mail={
             title="LogIn_Register.UI",
-            login_pw="Login_pw();",
             email="Email=",
             send="Send();",
             code="V-code=",

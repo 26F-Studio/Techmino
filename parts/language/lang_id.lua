@@ -745,17 +745,8 @@ return {
             music="Musik",
             label="label",
         },
-        login_pw={
-            title="Masuk",
-            -- login_mail="Login with E-mail/Sign Up",
-            email="Alamat Email",
-            password="Password",
-            showEmail="Tunjukkan Email",
-            login="Masuk",
-        },
         login_mail={
             title="Masuk/Daftar",
-            -- login_pw="Password Sign In",
             email="Alamat Email",
             -- send="Send code",
             -- code="Verification Code",
