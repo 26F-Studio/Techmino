@@ -176,7 +176,7 @@ jobs:
           import os
           import re
           with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
-            if "${{ env.BUILD_TYPE }}" == "dev": 
+            if "${{ env.BUILD_TYPE }}" == "dev":
               f.write('bundle-id=org.f26_studio.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '.snapshot\n')
               f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '-', '${{ needs.get-info.outputs.app-name }}') + '_Snapshot\n')
             else:
@@ -281,7 +281,7 @@ jobs:
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
-          copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
+          copyright: "Copyright © 2019-2023 26F-Studio. Some Rights Reserved."
           icon-path: ./.github/build/iOS/${{ env.BUILD_TYPE }}/icon
           love-patch: ./.github/build/iOS/love.patch
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
@@ -481,7 +481,7 @@ jobs:
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
-          copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
+          copyright: "Copyright © 2019-2023 26F-Studio. Some Rights Reserved."
           icon-path: ./.github/build/macOS/${{ env.BUILD_TYPE }}/icon.icns
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           libs-path: ./ColdClear/universal/
@@ -581,7 +581,7 @@ jobs:
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
-          copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
+          copyright: "Copyright © 2019-2023 26F-Studio. Some Rights Reserved."
           icon-path: ./.github/build/macOS/${{ env.BUILD_TYPE }}/icon.icns
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           libs-path: ./ColdClear/universal/
