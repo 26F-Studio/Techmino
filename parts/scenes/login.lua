@@ -10,6 +10,7 @@ local function _submit()
     else
         USER.aToken=tickets:sub(1,64)
         USER.oToken=tickets:sub(65)
+        NET.autoLogin()
     end
 end
 local function _paste()
