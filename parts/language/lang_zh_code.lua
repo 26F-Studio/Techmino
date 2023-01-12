@@ -693,12 +693,11 @@ return {
             path="OpenPath();",
             save="DataManagement();",
         },
-        login_mail={
-            title="LogIn_Register.UI",
-            email="Email=",
-            send="Send();",
-            code="V-code=",
-            verify="Verify();",
+        login={
+            title="SignIn.UI",
+            ticket="Ticket=",
+            authorize="Authorize()",
+            submit="Submit()",
         },
         reset_password={
             title="Reset_Password.UI",

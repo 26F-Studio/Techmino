@@ -744,12 +744,11 @@ return {
             path="打開存儲目錄",
             save="用戶資料管理",
         },
-        login_mail={
-            title="登錄/註冊",
-            email="電郵",
-            send="發送驗證碼",
-            code="驗證碼",
-            verify="驗證郵箱",
+        login={
+            title="登錄",
+            -- ticket="Auth Ticket",
+            -- authorize="Open Authorizing Page",
+            -- submit="Submit",
         },
         reset_password={
             title="重設密碼",

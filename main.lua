@@ -601,8 +601,8 @@ for _,fileName in next,fs.getDirectoryItems('replay') do
 end
 table.sort(REPLAY,function(a,b) return a.fileName>b.fileName end)
 
-WS.switchHost('cafuuchino1.3322.org','10026','/techmino/ws/v1')
-HTTP.setHost("cafuuchino1.3322.org:10026")
+WS.switchHost('cafuuchino1.3322.org','10027','/techmino/ws/v1')
+HTTP.setHost("cafuuchino1.3322.org:10027")
 HTTP.setThreadCount(1)
 
 table.insert(_LOADTIMELIST_,("Load Resources: %.3fs"):format(TIME()-_LOADTIME_))

@@ -746,12 +746,11 @@ return {
             music="曲",
             label="ラベル",
         },
-        login_mail={
-            title="サインイン/サインアップ",
-            email="Eメールアドレス",
-            send="認証コード送信",
-            code="認証コード",
-            verify="認証",
+        logi={
+            -- title="Sign In",
+            -- ticket="Auth Ticket",
+            -- authorize="Open Authorizing Page",
+            -- submit="Submit",
         },
         reset_password={
             title="パスワード再設定",

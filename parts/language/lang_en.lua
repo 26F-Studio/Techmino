@@ -744,12 +744,11 @@ return {
             music="BGMs",
             label="label",
         },
-        login_mail={
-            title="Sign In/Sign Up",
-            email="Email Address",
-            send="Send code",
-            code="Verification Code",
-            verify="Verify",
+        login={
+            title="Sign In",
+            ticket="Auth Ticket",
+            authorize="Open Authorizing Page",
+            submit="Submit",
         },
         reset_password={
             title="Reset Password",

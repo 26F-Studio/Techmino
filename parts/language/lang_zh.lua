@@ -744,12 +744,11 @@ return {
             path="打开存储目录",
             save="用户档案管理",
         },
-        login_mail={
-            title="登录/注册",
-            email="邮箱",
-            send="发送验证码",
-            code="验证码",
-            verify="验证邮箱",
+        login={
+            title="登录",
+            ticket="授权令牌",
+            authorize="打开授权页面",
+            submit="提交",
         },
         reset_password={
             title="重置密码",

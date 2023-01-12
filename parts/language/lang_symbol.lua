@@ -485,12 +485,11 @@ return {
             music="~~~",
             label="...",
         },
-        login_mail={
-            title="Log in/Sign up",
-            email="@",
-            send="→",
-            code="←",
-            verify="!",
+        login={
+            title="Sign In",
+            -- ticket="Auth Ticket",
+            -- authorize="Open Authorizing Page",
+            -- submit="Submit",
         },
         reset_password={
             title="R ***",
