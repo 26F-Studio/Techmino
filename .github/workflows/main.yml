@@ -691,7 +691,9 @@ jobs:
           extra-assets-x86: ./ColdClear/x86/CCloader.dll ./ColdClear/x86/cold_clear.dll
           extra-assets-x64: ./ColdClear/x64/CCloader.dll ./ColdClear/x64/cold_clear.dll
           product-name: ${{ steps.process-app-name.outputs.product-name }}
-          version-string: ${{ needs.get-info.outputs.version-string }}
+          app-id: ${{ secrets.WINDOWS_APP_ID }}
+          project-website: https://www.studio26f.org/
+          installer-languages: ChineseSimplified.isl English.isl Japanese.isl French.isl
           output-folder: ${{ env.OUTPUT_FOLDER }}
       - name: Upload 32-bit artifact
         uses: actions/upload-artifact@v3
