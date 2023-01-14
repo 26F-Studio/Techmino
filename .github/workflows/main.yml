@@ -683,7 +683,7 @@ jobs:
           dir: ./ColdClear
       - name: Build Windows packages
         id: build-packages
-        uses: love-actions/love-actions-windows@v1
+        uses: love-actions/love-actions-windows@add-build-installer
         with:
           icon-path: ./.github/build/windows/${{ env.BUILD_TYPE }}/icon.ico
           rc-path: ./.github/build/windows/${{ env.BUILD_TYPE }}/template.rc
