@@ -10,7 +10,7 @@ local function _submit()
     else
         USER.aToken=tickets:sub(1,64)
         USER.oToken=tickets:sub(65)
-        NET.autoLogin()
+        NET.login()
     end
 end
 local function _paste()
@@ -50,9 +50,9 @@ scene.widgetList={
 
     WIDGET.newInputBox{name='ticket',   x=280, y=200,w=730,h=320,font=30,regex="[0-9A-Z]",limit=128},
 
-    WIDGET.newKey{name='authorize',     x=430, y=640,w=300,h=80,font=40,code=_authorize},
-    WIDGET.newKey{name='submit',        x=755, y=640,w=300,h=80,font=40,code=_submit},
-    WIDGET.newKey{name='paste',         x=970, y=640,w=80,font=40,fText=CHAR.icon.import,code=_paste},
+    WIDGET.newKey{name='authorize',     x=430, y=600,w=300,h=80,font=40,code=_authorize},
+    WIDGET.newKey{name='submit',        x=755, y=600,w=300,h=80,font=40,code=_submit},
+    WIDGET.newKey{name='paste',         x=970, y=600,w=80,font=40,fText=CHAR.icon.import,code=_paste},
 
     WIDGET.newButton{name='back',       x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=pressKey'escape'},
 }

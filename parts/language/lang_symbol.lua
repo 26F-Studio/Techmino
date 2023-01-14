@@ -487,9 +487,9 @@ return {
         },
         login={
             title="Sign In",
-            -- ticket="Auth Ticket",
-            -- authorize="Open Authorizing Page",
-            -- submit="Submit",
+            ticket="***",
+            authorize="**?",
+            submit="<!>",
         },
         reset_password={
             title="R ***",

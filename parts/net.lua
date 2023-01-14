@@ -120,20 +120,20 @@ local function getMsg(request,timeout)
     end
 end
 
-function NET.autoLogin()
-    if not TASK.lock('autoLogin') then return end
+function NET.login(auto)
+    if not TASK.lock('login') then return end
     TASK.new(function()
         WAIT{
             quit=function()
-                TASK.unlock('autoLogin')
-                HTTP.deletePool('autoLogin')
+                TASK.unlock('login')
+                HTTP.deletePool('login')
             end,
             timeout=12.6,
         }
 
         if USER.aToken then
             local res=getMsg({
-                pool='autoLogin',
+                pool='login',
                 url='cafuuchino1.3322.org:8081',
                 path='/studio26f/api/v1/auth/check',
                 headers={["x-access-token"]=USER.aToken},
@@ -146,10 +146,10 @@ function NET.autoLogin()
                 end
                 saveUser()
                 NET.ws_connect()
+                if not auto then-- Quit login menu
+                    SCN.pop()
+                end
                 SCN.go('net_menu')
-                WAIT.interrupt()
-                return
-            else
                 WAIT.interrupt()
                 return
             end

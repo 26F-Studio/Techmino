@@ -746,9 +746,9 @@ return {
         },
         login={
             title="登录",
-            ticket="授权令牌",
-            authorize="打开授权页面",
-            submit="提交",
+            ticket="登录口令",
+            authorize="去官网获取口令",
+            submit="登录",
         },
         reset_password={
             title="重置密码",
