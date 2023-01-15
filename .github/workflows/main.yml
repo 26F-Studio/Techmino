@@ -681,6 +681,19 @@ jobs:
         with:
           platform: Windows
           dir: ./ColdClear
+      - name: Update Windows template
+        shell: python3 {0}
+        run: |
+          version_string = "${{ needs.get-info.outputs.version-string }}"
+          file_version = (f"{version_string.replace('.', ',')},0")
+          with open("./.github/build/windows/${{ env.BUILD_TYPE }}/template.rc", "r+", encoding="utf8") as file:
+            data = file.read()
+            data = data\
+              .replace("@Version", version_string)\
+              .replace("@FileVersion", file_version)
+            file.seek(0)
+            file.truncate()
+            file.write(data)
       - name: Build Windows packages
         id: build-packages
         uses: love-actions/love-actions-windows@add-build-installer
