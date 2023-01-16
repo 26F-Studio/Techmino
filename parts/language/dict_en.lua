@@ -104,12 +104,6 @@ return {
         "Join the Tetris communities and talk with other players! You can join the Hard Drop Discord server by clicking on the globe icon.",
         "https://discord.gg/harddrop"
     },
-    {"Mew",
-        "tieba forum reddit discord",
-        "org",
-        "The Mew forum owned by the Chinese Tetris Research Community and was founded in the second half of 2021. Mew is a Chinese social media, kind of like a combination of Discord and Reddit, with many channels in a big community. Users can chat in the channels and submit posts to the channel. Mew also has a function called “Library,” which systematically stores the documentation. The Tetris Mew forum is currently under construction, and not too many contents are available (2/Nov/2021).",
-        "https://mew.fun/n/tetris",
-    },
     {"Tetris OL Servers",
         "tetrisonline servers tos",
         "org",

@@ -96,12 +96,6 @@ return {
         "org",
         "俄罗斯方块·[研究]群QQ号764916351，“中国俄罗斯方块总群”",
     },
-    {"Mew据点",
-        "mew tieba forum",
-        "org",
-        "研究群下属的Mew据点（类似贴吧或者Discord的服务器），2021年下半年建立，可以在同一个大社区的各个频道实时聊天，也可以发帖以主题交流，同时还有一个叫图书馆的功能方便各种方块资料整理（还在建设中，目前没多少内容，2021/11/02）",
-        "https://mew.fun/n/tetris",
-    },
     {"茶服",
         "tos tea study chafu",
         "org",
@@ -1158,17 +1152,11 @@ return {
         "在STSD上叠若干个T3的形状。"..HDwiki,
         HDsearch.."King_Crimson",
     },
-    {"连续PC (1/2)",
-        "pcloop",
+    {"连续PC",
+        "lianxuquanxiao lianxupc pcloop",
         "pattern",
-        "テトリス堂的从开局起第1、2、3、4、7个4行pc的开局整理。第七个pc做完总共用掉70块，相当于回到游戏开始阶段可以做1st pc\n\n第5和第6详见下一个词条",
-        "https://shiwehi.com/tetris/template/consecutivepc.php"
-    },
-    {"连续PC (2/2)",
-        "pcloop",
-        "pattern",
-        "four.lol的从开局起第5、6个4行pc的开局整理。\n（链接点开是5th，可以到6th，其他的推荐看上一个词条）",
-        "https://four.lol/perfect-clears/5th"
+        "研究群群友加加编写的一份连续PC教程",
+        "https://docs.qq.com/sheet/DRmxvWmt3SWxwS2tV"
     },
 
     -- 存档管理

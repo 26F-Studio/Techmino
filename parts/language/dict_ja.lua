@@ -126,12 +126,6 @@ return {
         "テトリスコミュニティに参加して、他のプレイヤーと交流しよう!\n地球儀ボタンからHardDropのdiscordサーバーに参加できます",
         "https://discord.gg/harddrop"
     },
-    {"Mew",
-        "tieba forum reddit discord mew みゅー　ミュー",
-        "org",
-        "discordとredditを合わせたような中国のSNSでしたが2022年10月31日より閉鎖されました",
-        "https://mew.fun/n/tetris",
-    },
 	{"テトリスオンラインポーランド",
         "tetrisonline servers top toj toz poland japan zapan",
         "org",
