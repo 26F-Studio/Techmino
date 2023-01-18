@@ -1,5 +1,5 @@
 local C=COLOR
-return{
+return {
     loadText={
         loadSFX="Loading sound effects",
         loadSample="Loading instrument samples",
@@ -17,6 +17,7 @@ return{
     playedLong="You have been playing for a long time. Time to take a break!",
     playedTooMuch="You have been playing for far too long! Techmino is fun, but remember to take some rests!",
     settingWarn="Careful — you’re about to change some uncommon settings!",
+    settingWarn2="This setting takes effect after restart",
 
     atkModeName={"Random","Badges","K.O.s","Attackers"},
     royale_remain="$1 Players Left",
@@ -104,40 +105,92 @@ return{
 
     dictNote="==Copied from TetroDictionary==",
 
-    getNoticeFail="Failed to fetch announcements",
+
+
+    -- Server's warn/error messages
+    Techrater={
+        internalError="Internal error",
+        databaseError="Database error",
+        invalidFormat="Invalid format",
+        invalidArguments="Invalid arguments",
+        tooFrequent="Too frequent",
+        notAvailable="Not available",
+        noPermission="No permission",
+        roomNotFound="Room not found",
+
+        -- Controllers
+        WebSocket={
+            invalidConnection="Invalid connection",
+            invalidAction="Invalid action",
+            playerNotFound="Player not found",
+            connectionFailed="Connection failed",
+        },
+        -- Filters
+        CheckPermission={
+            playerNotFound="Player not found",
+        },
+        -- Plugins
+        ConnectionManager={
+            playerInvalid="Player invalid",
+            playerNotFound="Player not found",
+            connectionReplaced="Connection replaced",
+        },
+        NoticeManager={
+            noticeNotFound="Notice not found",
+        },
+        PlayerManager={
+            invalidCode="Invalid code",
+            invalidEmail="Invalid email",
+            playerNotFound="Player not found",
+            invalidEmailPass="Invalid email or password",
+            emailExists="Email exists",
+            emailSendError="Email send error",
+        },
+        -- Strategies
+        PlayerRole={
+            invalidRole="Invalid role",
+            invalidTarget="Invalid target",
+        },
+        PlayerType={
+            invalidType="Invalid type",
+            roomFull="Room full",
+        },
+        RoomJoin={
+            wrongPassword="Wrong password",
+        },
+    },
+
+    tooFrequent="Request too frequently",
+    roomPasswordChanged="Room password changed",
     oldVersion="Version $1 is now available",
-    needUpdate="Newer version required!",
     versionNotMatch="Versions do not match!",
     notFinished="Coming soon!",
 
-    jsonError="JSON error",
-
     noUsername="Please enter your username",
     wrongEmail="Invalid email address",
+    wrongCode="Invalid verification code",
     noPassword="Please enter your password",
     diffPassword="Passwords don’t match",
-    registerRequestSent="A sign up request has been sent.",
-    registerOK="Sign up successful!",
-    loginOK="You are now logged in!",
-    accessOK="Access granted",
+    checkEmail="A sign up request has been sent.",
 
-    wsConnecting="Websocket connecting…",
-    wsFailed="WebSocket connection failed",
-    wsClose="WebSocket closed:",
+    wsFailed="WebSocket connection failed: $1",
+    wsClose="WebSocket closed: $1",
     netTimeout="Connection timed out",
+    serverDown="Oops! Server is down",
+    requestFailed="Request failed",
 
-    onlinePlayerCount="Online",
+    onlinePlayerCount="Online: $1",
     createRoomSuccessed="Room created",
+    playerKicked="$1 removed $2 from room",
+    becomeHost="$1 become host",
     started="Playing",
-    joinRoom="has entered the room.",
-    leaveRoom="has left the room.",
+    joinRoom="$1 has entered the room.",
+    leaveRoom="$1 has left the room.",
+    roomRemoved="Room was removed",
     ready="Ready",
-    connStream="Connecting",
-    waitStream="Waiting",
     spectating="Spectating",
-    chatRemain="Online",
-    chatStart="------Beginning of log------",
-    chatHistory="------New messages below------",
+
+
 
     keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
     customBGhelp="Drop image file here to apply custom background",
@@ -206,8 +259,8 @@ return{
         "Make sure to get the game only from official sources,",
         "as we can’t make sure you’re safe if you got it elsewhere.",
         "The author is not responsible for any modifications.",
-        FNNS and"/"or"While the game is free, donations are appreciated.",
-        FNNS and"/"or"Check Zictionary for more",
+        FNNS and "/" or "While the game is free, donations are appreciated.",
+        FNNS and "/" or "Check Zictionary for more",
     },
     staff={
         "ORIGINALLY BY MrZ",
@@ -322,6 +375,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="Support the author",
     WidgetText={
@@ -361,6 +415,7 @@ return{
             league="Tech League",
             ffa="FFA",
             rooms="Rooms",
+            resetPW="Reset password",
             logout="Log out",
         },
         net_league={
@@ -437,7 +492,6 @@ return{
             sysCursor="Use System Cursor",
             autoPause="Pause When Unfocused",
             autoSave="Auto-save New Records",
-            autoLogin="Auto-login on Start",
             simpMode="Simplistic Mode",
         },
         setting_video={
@@ -478,6 +532,8 @@ return{
             power="Battery Info",
             clean="Quick Draw",
             fullscreen="Fullscreen",
+            portrait="Portrait",
+            msaa="MSAA level",
 
             bg_on="Normal B.G.",
             bg_off="No B.G.",
@@ -688,24 +744,29 @@ return{
             music="BGMs",
             label="label",
         },
-        login={
+        login_pw={
             title="Sign In",
-            register="Sign Up",
+            login_mail="Login with E-mail/Sign Up",
             email="Email Address",
             password="Password",
             showEmail="Show Email",
-            keepPW="Remember me",
             login="Log In",
         },
-        register={
-            title="Sign Up",
-            login="Sign In",
-            username="Username",
+        login_mail={
+            title="Sign In/Sign Up",
+            login_pw="Password Sign In",
             email="Email Address",
+            send="Send code",
+            code="Verification Code",
+            verify="Verify",
+        },
+        reset_password={
+            title="Reset Password",
+            send="Send code",
+            code="Verification Code",
             password="Password",
             password2="Re-enter Password",
-            register="Sign Up",
-            registering="Waiting for response…",
+            setPW="Set Password",
         },
         account={
             title="Account",
@@ -920,7 +981,7 @@ return{
         "Headphones recommended for a better experience.",
         "Hello world!",
         "I3 and L3 are the only two unique triminoes.",
-        "if a==true",
+        " if a==true",
         "Increase your frame rate for a better experience.",
         "Initial [insert action] system can save you.",
         "Is B2B2B2B possible?",
@@ -968,7 +1029,7 @@ return{
         "What about 23 PCs in 100 lines?",
         "What about 26 TSDs?",
         "What is this cheap UI & music smh",
-        "while(false)",
+        " while (false)",
         "You are a Grand Master!",
         "You are welcome to help us to make BGMs and SFXs!",
         "You can connect a keyboard to your phone or tablet (not functional on iOS though).",
@@ -1004,5 +1065,6 @@ return{
         {C.R,"LrL ",C.G,"RlR ",C.B,"LLr ",C.O,"RRl ",C.P,"RRR ",C.P,"LLL ",C.C,"FFF ",C.Y,"RfR ",C.Y,"RRf ",C.Y,"rFF"},
         {C.Y,"O-Spin Triple!"},
         {C.Z,"What? ",C.lC,"Xspin?"},
-    }
+    },
+    pumpkin="I'm a pumpkin",
 }

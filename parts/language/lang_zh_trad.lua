@@ -1,4 +1,4 @@
-return{
+return {
     fallback='zh',
     loadText={
         loadSFX="加載音效資源",
@@ -17,6 +17,7 @@ return{
     playedLong="你玩太久了！注意休息！",
     playedTooMuch="今天玩得太久啦！Techmino好玩但也要注意休息哦~",
     settingWarn="正在修改不常用設定，小心操作！",
+    settingWarn2="該設定需要重啟後生效",
 
     atkModeName={"隨機","徽章","K.O.","反擊"},
     royale_remain="剩下 $1 名玩家",
@@ -104,47 +105,99 @@ return{
 
     dictNote="==拷貝自小z辭典==",
 
-    getNoticeFail="無法獲取公告",
+
+
+    -- Server's warn/error messages
+    Techrater={
+        internalError="內部錯誤",
+        databaseError="資料庫錯誤",
+        invalidFormat="json格式無效",
+        invalidArguments="參數無效",
+        tooFrequent="請求太頻繁",
+        notAvailable="無效請求",
+        noPermission="沒有許可權",
+        roomNotFound="找不到房間",
+
+        -- Controllers
+        WebSocket={
+            invalidConnection="無效連接",
+            invalidAction="無效操作",
+            playerNotFound="找不到玩家",
+            connectionFailed="連接失敗",
+        },
+        -- Filters
+        CheckPermission={
+            playerNotFound="找不到玩家",
+        },
+        -- Plugins
+        ConnectionManager={
+            playerInvalid="無效玩家",
+            playerNotFound="找不到玩家",
+            connectionReplaced="連接已更換",
+        },
+        NoticeManager={
+            noticeNotFound="找不到公告",
+        },
+        PlayerManager={
+            invalidCode="無效驗證碼",
+            invalidEmail="無效郵箱",
+            playerNotFound="找不到玩家",
+            invalidEmailPass="郵箱或密碼無效",
+            emailExists="郵箱存在",
+            emailSendError="郵箱發送錯誤",
+        },
+        -- Strategies
+        PlayerRole={
+            invalidRole="無效角色",
+            invalidTarget="無效目標",
+        },
+        PlayerType={
+            invalidType="無效類型",
+            roomFull="房間已滿",
+        },
+        RoomJoin={
+            wrongPassword="密碼錯誤",
+        },
+    },
+
+    tooFrequent="操作太頻繁",
+    roomPasswordChanged="房間密碼已更改",
     oldVersion="版本 $1 現已推出",
-    needUpdate="請更新遊戲！",
     versionNotMatch="版本不匹配",
     notFinished="即將推出！",
 
-    jsonError="JSON錯誤",
-
     noUsername="請輸入用戶名",
     wrongEmail="無效的電郵地址",
+    wrongCode="無效的驗證碼",
     noPassword="請輸入密碼",
     diffPassword="密碼不匹配",
-    registerRequestSent="已發送註冊請求",
-    registerOK="註冊成功！",
-    loginOK="登錄成功",
-    accessOK="身份認證成功",
+    checkEmail="請查看郵件驗證碼",
 
-    wsConnecting="正在連接……",
-    wsFailed="連接失敗",
-    wsClose="連接斷開:",
+    wsFailed="連接失敗: $1",
+    wsClose="連接斷開: $1",
     netTimeout="連接超時",
+    serverDown="哎唷!服務器不在线",
+    requestFailed="請求失敗",
 
-    onlinePlayerCount="在線用戶數",
+    onlinePlayerCount="在線用戶數: $1",
     createRoomSuccessed="房間已創建！",
+    playerKicked="#$1 把 #$2 移出了房間",
+    becomeHost="$1 成為了房主",
     started="遊戲中",
-    joinRoom="進入房間",
-    leaveRoom="離開房間",
+    joinRoom="$1 進入房間",
+    leaveRoom="$1 離開房間",
+    roomRemoved="房間被解散",
     ready="準備！",
-    connStream="正在連接……",
-    waitStream="等待其他用戶連接……",
     spectating="旁觀中",
-    chatRemain="用戶數:",
-    chatStart="------訊息開始------",
-    chatHistory="------以上為歷史訊息------",
+
+
 
     keySettingInstruction="點擊來設置鍵位\n按esc來取消選中\n按退格鍵來清除選中",
     customBGhelp="把圖片檔案拖到這個視窗裏使用自定義背景",
     customBGloadFailed="自定義背景的圖片檔案格式不支持",
 
     errorMsg="Techmino遇到問題，需要重新啟動。\n我們已經收集了一些錯誤信息，你可以反饋給作者。",
-    tryAnotherBuild="[無效的 UTF-8] 如果你使用的是Windows作業系統，請嘗試下載Techmino-win32或Techmino-win64（與你現在使用的不同的版本）。",
+    tryAnotherBuild="[無效的UTF-8] 如果你使用的是Windows作業系統，請嘗試下載Techmino-win32或Techmino-win64（與你現在使用的不同的版本）。",
 
     modInstruction="選擇你想使用的Mod！\n不同的Mod會以不同的方式改變遊戲規則(可能導致遊戲異常)\n快來開發新玩法或挑戰自我吧！\n提醒：開啟Mod會使成績無效，你可以使用鍵盤開關Mod，按下shift反向",
     modInfo={
@@ -207,8 +260,8 @@ return{
         "僅透過內測QQ群/discord伺服器進行免費下載/更新",
         "從其他渠道獲得遊戲皆有被修改/加入廣告/植入病毒的風險，程序只申請了振動&網路權限！",
         "若由於被修改的本遊戲產生的各種損失作者概不負責（我怎麼負責啊跟我有什麼關係）",
-        FNNS and"/"or"請從正規途徑獲得最新版，遊戲現為免費，不過有打賞當然感謝啦~",
-        FNNS and"/"or"更多資訊見小z詞典"
+        FNNS and "/" or "請從正規途徑獲得最新版，遊戲現為免費，不過有打賞當然感謝啦~",
+        FNNS and "/" or "更多資訊見小z詞典"
     },
     staff={
         "原作者  MrZ",
@@ -323,6 +376,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="支持作者",
     WidgetText={
@@ -362,6 +416,7 @@ return{
             league="Tech League",
             ffa="FFA",
             rooms="房間列表",
+            resetPW="重設密碼",
             logout="登出",
         },
         net_league={
@@ -438,7 +493,6 @@ return{
             sysCursor="使用系統光標",
             autoPause="失去焦點時暫停",
             autoSave="打破紀錄時自動保存",
-            autoLogin="啟動時自動登錄",
             simpMode="簡潔模式",
         },
         setting_video={
@@ -479,6 +533,8 @@ return{
             power="電量顯示",
             clean="渲染優化",
             fullscreen="全屏幕",
+            portrait="豎屏",
+            msaa="抗鋸齒等級",
 
             bg_on="普通背景",
             bg_off="無背景",
@@ -688,24 +744,29 @@ return{
             path="打開存儲目錄",
             save="用戶資料管理",
         },
-        login={
+        login_pw={
             title="登錄",
-            register="註冊",
+            login_mail="電郵登錄/注册",
             email="電郵",
             password="密碼",
             showEmail="顯示郵箱",
-            keepPW="保存密碼",
             login="登錄",
         },
-        register={
-            title="註冊",
-            login="登錄",
-            username="用戶名",
+        login_mail={
+            title="登錄/註冊",
+            login_pw="密碼登錄",
             email="電郵",
+            send="發送驗證碼",
+            code="驗證碼",
+            verify="驗證郵箱",
+        },
+        reset_password={
+            title="重設密碼",
+            send="發送驗證碼",
+            code="驗證碼",
             password="密碼",
             password2="確認密碼",
-            register="註冊",
-            registering="等待伺服器響應……",
+            setPW="設置密碼",
         },
         account={
             title="賬戶",
@@ -873,4 +934,5 @@ return{
         ['custom_clear']=   {"自定義",       "普通"},
         ['custom_puzzle']=  {"自定義",       "拼圖"},
     },
+    pumpkin="我是南瓜",
 }

@@ -1,4 +1,4 @@
---Blue RGB
+-- Blue RGB
 local back={}
 local shader=SHADER.rgb2
 

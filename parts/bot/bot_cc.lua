@@ -11,9 +11,9 @@ function bot_cc:checkDest(b2b,atk,exblock,yomi)
     local dest=self.P.destFX
     if not dest then return end
     if not (dest.b2b==b2b and dest.attack==atk and dest.extra==exblock) then
-        print(('hope: %s %s %s'):format(dest.b2b,dest.attack,dest.extra))
-        print(('real: %s %s %s'):format(b2b,atk,exblock))
-        print(yomi)
+        -- print(('hope: %s %s %s'):format(dest.b2b,dest.attack,dest.extra))
+        -- print(('real: %s %s %s'):format(b2b,atk,exblock))
+        -- print(yomi)
         self:lockWrongPlace()
         self.P.destFX=nil
         return
@@ -21,8 +21,8 @@ function bot_cc:checkDest(b2b,atk,exblock,yomi)
     local CB=self.P.cur.bk
     for k=1,#dest,2 do
         local r=CB[dest[k+1]-self.P.curY+2]
-        if not r or not r[dest[k]-self.P.curX+2]then
-            print('wrong place')
+        if not r or not r[dest[k]-self.P.curX+2] then
+            -- print('wrong place')
             self:lockWrongPlace()
             self.P.destFX=nil
             return
@@ -31,8 +31,8 @@ function bot_cc:checkDest(b2b,atk,exblock,yomi)
     local should_spawn = self.P:getNextSpawn() - 1
     if dest.spawn ~= should_spawn then
         assert(dest.spawn > should_spawn)
-        print('wrong spawn: should be '..dest.spawn..' but '..should_spawn)
-        print('-- should only happen when camera is going down')
+        -- print('wrong spawn: should be '..dest.spawn..' but '..should_spawn)
+        -- print('-- should only happen when camera is going down')
         self:lockWrongPlace()
         self.P.destFX=nil
         return
@@ -50,11 +50,11 @@ function bot_cc:thread()
     local P,keys=self.P,self.keys
     local ccBot=self.ccBot
     while true do
-        --Start thinking
+        -- Start thinking
         yield()
         ccBot:think()
 
-        --Poll keys
+        -- Poll keys
         local success,result,dest,hold,move,b2b,attack,extra,spawn
         repeat
             yield()
@@ -73,10 +73,10 @@ function bot_cc:thread()
             dest.extra = extra
             dest.spawn = spawn
             P.destFX=dest
-            if hold then--Hold
+            if hold then-- Hold
                 keys[1]=8
             end
-            while move[1]do
+            while move[1] do
                 local m=rem(move,1)
                 if m<4 then
                     ins(keys,m+1)
@@ -89,7 +89,7 @@ function bot_cc:thread()
             ins(keys,6)
         end
 
-        --Check if time to change target
+        -- Check if time to change target
         yield()
         if P.aiRND:random()<.00126 then
             P:changeAtkMode(P.aiRND:random()<.85 and 1 or #P.atker>3 and 4 or P.aiRND:random()<.3 and 2 or 3)
@@ -105,7 +105,7 @@ function bot_cc:updateField()
     end end
     while i<=400 do F[i],i=false,i+1 end
     local y = P:getNextSpawn()-1
-    if not pcall(self.ccBot.reset,self.ccBot,F,P.b2b,P.combo,P.stat.pc,P.stat.row,y)then
+    if not pcall(self.ccBot.reset,self.ccBot,F,P.b2b,P.combo,P.stat.pc,P.stat.row,y) then
         print("CC is dead ("..P.id..")","error")
         for y=#F0,1,-1 do
             local s=""

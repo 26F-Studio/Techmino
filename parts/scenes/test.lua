@@ -9,7 +9,7 @@ local function _push(mes)
     timer=1
 end
 
-function scene.sceneInit()
+function scene.enter()
     backCounter=5
     list={}
     timer=0
@@ -24,7 +24,7 @@ end
 function scene.keyDown(key,isRep)
     if isRep then return end
     _push("[keyDown] <"..key..">")
-    if key=='escape'then
+    if key=='escape' then
         backCounter=backCounter-1
         if backCounter==0 then
             SCN.back()

@@ -18,8 +18,8 @@ local isInRoll=false
 local rollGrades=0
 local cool_time={3120,3120,2940,2700,2700,2520,2520,2280,2280,0}
 local reg_time= {5400,4500,4500,4080,3600,3600,3000,3000,3000,3000}
-local prevDrop70=false --determines if previous piece has level less than __70
-local nextSpeedUp=false --determines if the next section speed should be boosted by 100
+local prevDrop70=false -- determines if previous piece has level less than __70
+local nextSpeedUp=false -- determines if the next section speed should be boosted by 100
 local isInRollTrans=false
 local function getGrav(l)
     return
@@ -111,15 +111,15 @@ local function getRollGoal()
     if cools>8 then
         goal=math.floor(rem)*4
         rem=rem%1
-        return goal + (rem>0.3 and 4 or rem*10)
+        return goal+(rem>0.3 and 4 or rem*10)
     else
         goal=math.floor(rem/0.26)*4
         rem=rem%0.26
-        return goal + (rem>0.12 and 4 or rem*25)
+        return goal+(rem>0.12 and 4 or rem*25)
     end
 end
 
-return{
+return {
     drop=64,
     lock=30,
     wait=23,
@@ -204,7 +204,7 @@ return{
 
         P.gameEnv.drop=getGrav(spd_lvl)
 
-        if(P.gameEnv.drop==0) then
+        if (P.gameEnv.drop==0) then
             P:set20G(true)
         end
 
@@ -220,7 +220,7 @@ return{
 
         if D.pt+1==D.target then
             SFX.play('warn_1')
-        elseif D.pt>=D.target then--Level up!
+        elseif D.pt>=D.target then-- Level up!
             spd_lvl=nextSpeedUp and spd_lvl+100 or spd_lvl
             nextSpeedUp=false
             prevDrop70=false
@@ -289,7 +289,7 @@ return{
         local decayRate={125,80,80,50,45,45,45,40,40,40,40,40,30,30,30,20,20,20,20,20,15,15,15,15,15,15,15,15,15,15,10,10,10,9,9,9,8,8,8,7,7,7,6}
         local decayTimer=0
         while true do
-            YIELD()
+            coroutine.yield()
             P.modeData.grade=getGrade()
             P.modeData.gradePts=math.max(math.min(math.floor(int_grade_boosts[math.min(int_grade+1,#int_grade_boosts)]+rollGrades+cools+1-regrets),#gradeList),1)
             if P.stat.frame-prevSectTime > reg_time[math.ceil(P.modeData.pt/100+0.01)] and not (isInRoll or isInRollTrans) then
@@ -301,7 +301,7 @@ return{
             end
             if isInRollTrans then
                 if P.waiting>=220 then
-                    --Make field invisible
+                    -- Make field invisible
                     for y=1,#P.field do for x=1,10 do
                         P.visTime[y][x]=P.waiting-220
                     end end
@@ -336,7 +336,7 @@ return{
                 rollGrades=rollGrades+(cools>8 and 1.6 or 0.5)
                 P.modeData.grade=getGrade()
                 P.modeData.gradePts=math.min(math.floor(int_grade_boosts[math.min(int_grade+1,#int_grade_boosts)]+rollGrades+cools+1-regrets),#gradeList)
-                YIELD()
+                coroutine.yield()
                 P:win('finish')
             end
         end

@@ -23,7 +23,7 @@ end
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     state=0
     time1=STRING.time(0)
     time2=STRING.time(0)
@@ -45,7 +45,7 @@ function scene.touchUp()
 end
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=='escape'then
+    if key=='escape' then
         SCN.back()
     else
         press()

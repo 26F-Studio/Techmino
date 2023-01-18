@@ -7,7 +7,7 @@ local border=GC.DO{334,620,
     {'dRect',1,10,15,604,3},
 }
 local sin,min=math.sin,math.min
-return{
+return {
     env={
         drop=30,lock=60,
         nextCount=1,
@@ -26,25 +26,25 @@ return{
                     GC.clear(.2,.2,.2)
                     GC.setColor(.5,.5,.5)
 
-                    --Frame & Username
+                    -- Frame & Username
                     GC.setColor(.8,.8,.8)
                     GC.setLineWidth(2)
                     GC.rectangle('line',12,20,100,80,5)
                     GC.rectangle('line',488,20,100,80,5)
                     GC.draw(border,-17+150,-12)
                     setFont(30)
-                    GC.mStr(P.username,300,-60)
+                    GC.mStr(P.username or USERS.getUsername(P.uid),300,-60)
                 end
                 GC.pop()
             end
 
-            --Figures
+            -- Figures
             local t=TIME()
             GC.setColor(1,1,1,.5+.2*sin(t))
             GC.draw(IMG.hbm,-276,-86,0,1.5)
             GC.draw(IMG.electric,476,152,0,2.6)
 
-            --Texts
+            -- Texts
             GC.setColor(.8,.8,.8)
             mText(TEXTOBJ.techrash,63,420)
             setFont(75)
@@ -59,9 +59,9 @@ return{
             MES.new('warn',text.switchSpawnSFX)
         end
     end,
-    score=function(P)return{min(P.stat.row,40),P.stat.time}end,
-    scoreDisp=function(D)return D[1].." Lines   "..STRING.time(D[2])end,
-    comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
+    score=function(P) return {min(P.stat.row,40),P.stat.time} end,
+    scoreDisp=function(D) return D[1].." Lines   "..STRING.time(D[2]) end,
+    comp=function(a,b) return a[1]>b[1] or a[1]==b[1] and a[2]<b[2] end,
     getRank=function(P)
         local L=P.stat.row
         return

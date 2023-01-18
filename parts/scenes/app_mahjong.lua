@@ -13,7 +13,7 @@ for i=1,9 do
         ins(deck0,'m'..i)
         ins(deck0,'p'..i)
         ins(deck0,'s'..i)
-        if i<=7 then ins(deck0,'z'..i)end
+        if i<=7 then ins(deck0,'z'..i) end
     end
 end
 -- deck0[TABLE.find(deck0,'m5')]='m0'
@@ -58,7 +58,7 @@ local cardText={
     z5={COLOR.D,CHAR.mahjong.haku},
     z6={COLOR.G,CHAR.mahjong.hatsu},
     z7={COLOR.R,CHAR.mahjong.chun},
-}for _,v in next,cardText do ins(v,COLOR.D)ins(v,CHAR.mahjong.frameComb) end
+} for _,v in next,cardText do ins(v,COLOR.D)ins(v,CHAR.mahjong.frameComb) end
 
 local deck,hand,pool
 local selected
@@ -81,7 +81,7 @@ local function _newGame()
     deck=TABLE.shift(deck0)
     hand={}
     pool={}
-    for _=1,14 do ins(hand,(TABLE.popRandom(deck)))end
+    for _=1,14 do ins(hand,(TABLE.popRandom(deck))) end
     table.sort(hand)
 end
 
@@ -92,7 +92,7 @@ local function _checkWin()
 end
 
 local function _throwCard()
-    if hand[selected]and #pool<40 then
+    if hand[selected] and #pool<40 then
         ins(pool,rem(hand,selected))
         table.sort(hand)
         SFX.play('hold')
@@ -105,7 +105,7 @@ end
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     BG.set('fixColor',.26,.62,.26)
     _newGame()
     selected=false
@@ -124,29 +124,29 @@ end
 function scene.mouseDown()
     _throwCard()
 end
-function scene.touchMove(x,y)scene.mouseMove(x,y)end
-function scene.touchDown(x,y)scene.mouseMove(x,y)end
-function scene.touchClick(x,y)scene.mouseDown(x,y)end
+function scene.touchMove(x,y) scene.mouseMove(x,y) end
+function scene.touchDown(x,y) scene.mouseMove(x,y) end
+function scene.touchClick(x,y) scene.mouseDown(x,y) end
 function scene.keyDown(key)
-    if key=='left'then
+    if key=='left' then
         if selected then
             selected=max(selected-1,1)
         else
             selected=1
         end
-    elseif key=='right'then
+    elseif key=='right' then
         if selected then
             selected=min(selected+1,#hand)
         else
             selected=#hand
         end
-    elseif key=='space'then
+    elseif key=='space' then
         _throwCard()
-    elseif key=='r'then
+    elseif key=='r' then
         _newGame()
-    elseif key=='return'then
+    elseif key=='return' then
         _checkWin()
-    elseif key=='escape'then
+    elseif key=='escape' then
         SCN.back()
     end
 end
@@ -172,7 +172,7 @@ function scene.draw()
         end
         gc_setColor(1,1,1)
         GC.mStr(cardText[c],x+w/2,y-17)
-        if i==selected then gc_translate(0,10)end
+        if i==selected then gc_translate(0,10) end
     end
     for i=1,#pool do
         local c=pool[i]

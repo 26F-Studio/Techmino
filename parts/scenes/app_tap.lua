@@ -8,17 +8,17 @@ local scene={}
 local lastKey,keyTime
 local speed,maxSpeed=0,260
 
-function scene.sceneInit()
+function scene.enter()
     lastKey=nil
     speed=0
-    keyTime={}for i=1,40 do keyTime[i]=-1e99 end
+    keyTime={} for i=1,40 do keyTime[i]=-1e99 end
     BG.set('fixColor',.26,.26,.26)
     BGM.play('push')
 end
 
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=='escape'then
+    if key=='escape' then
         SCN.back()
     else
         if lastKey~=key then
@@ -34,7 +34,7 @@ end
 function scene.update(dt)
     local t=TIME()
     local v=0
-    for i=2,40 do v=v+i*(i-1)*.075/(t-keyTime[i])end
+    for i=2,40 do v=v+i*(i-1)*.075/(t-keyTime[i]) end
     speed=MATH.expApproach(speed,v,dt)
     if speed>maxSpeed then
         maxSpeed=speed
@@ -71,7 +71,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newKey{name='tap',x=640,y=540,w=626,h=260,sound='touch',fText="TAP",color='Z',font=100,code=function(i)love.keypressed('b'..i)end},
+    WIDGET.newKey{name='tap',x=640,y=540,w=626,h=260,sound='touch',fText="TAP",color='Z',font=100,code=function(i) love.keypressed('b'..i) end},
     WIDGET.newButton{name='back',x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 

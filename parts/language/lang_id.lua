@@ -1,5 +1,5 @@
 local C=COLOR
-return{
+return {
     fallback='en',
     loadText={
         loadSFX="Memuat efek suara",
@@ -18,6 +18,7 @@ return{
     playedLong="Anda telah bermain lama. Waktunya istirahat!",
     playedTooMuch="Anda telah bermain terlalu lama! Techmino sangat menyenangkan, tetapi jangan lupa istirahat!",
     settingWarn="Awas, Anda akan mengubah beberapa pengaturan yang tidak biasanya diubah!",
+    -- settingWarn2="This setting takes effect after restart",
 
     atkModeName={"Acak","Badge","K.O.","Penyerang"},
     royale_remain="$1 Pemain Tersisa",
@@ -105,40 +106,92 @@ return{
 
     dictNote="==Tersalin dari TetroDictionary==",
 
-    getNoticeFail="Gagal mengambil pengumuman-pengumuman",
+
+
+    -- Server's warn/error messages
+    Techrater={
+        -- internalError="Internal error",
+        -- databaseError="Database error",
+        -- invalidFormat="Invalid format",
+        -- invalidArguments="Invalid arguments",
+        -- tooFrequent="Too frequent",
+        -- notAvailable="Not available",
+        -- noPermission="No permission",
+        -- roomNotFound="Room not found",
+
+        -- Controllers
+        WebSocket={
+            -- invalidConnection="Invalid connection",
+            -- invalidAction="Invalid action",
+            -- playerNotFound="Player not found",
+            -- connectionFailed="Connection failed",
+        },
+        -- Filters
+        CheckPermission={
+            -- playerNotFound="Player not found",
+        },
+        -- Plugins
+        ConnectionManager={
+            -- playerInvalid="Player invalid",
+            -- playerNotFound="Player not found",
+            -- connectionReplaced="Connection replaced",
+        },
+        NoticeManager={
+            -- noticeNotFound="Notice not found",
+        },
+        PlayerManager={
+            -- invalidCode="Invalid code",
+            -- invalidEmail="Invalid email",
+            -- playerNotFound="Player not found",
+            -- invalidEmailPass="Invalid email or password",
+            -- emailExists="Email exists",
+            -- emailSendError="Email send error",
+        },
+        -- Strategies
+        PlayerRole={
+            -- invalidRole="Invalid role",
+            -- invalidTarget="Invalid target",
+        },
+        PlayerType={
+            -- invalidType="Invalid type",
+            -- roomFull="Room full",
+        },
+        RoomJoin={
+            -- wrongPassword="Wrong password",
+        },
+    },
+
+    -- tooFrequent="Request too frequently",
+    -- roomPasswordChanged="Room password changed",
     oldVersion="Versi $1 sekarang tersedia",
-    needUpdate="Butuh versi lebih baru!",
     versionNotMatch="Versi tidak sama!",
     notFinished="Segera akan datang!",
 
-    jsonError="Eror JSON",
-
     noUsername="Silahkan memasukan username Anda",
     wrongEmail="Alamat email tidak sah",
+    -- wrongCode="Invalid verification code",
     noPassword="Silahkan memasukan kata sandi Anda",
     diffPassword="Kata sandi tidak sama",
-    registerRequestSent="Permintaan daftar telah terkirim.",
-    registerOK="Pendaftaran sukses!",
-    loginOK="Anda telah gabung!",
-    accessOK="Akses diberikan",
+    checkEmail="Permintaan daftar telah terkirim.",
 
-    wsConnecting="Menghubungkan websocket…",
-    wsFailed="Koneksi websocket gagal",
-    wsClose="Websocket tertutup:",
+    wsFailed="Koneksi websocket gagal: $1",
+    wsClose="Websocket tertutup: $1",
     netTimeout="Koneksi waktu habis",
+    -- serverDown="Oops! Server is down",
+    -- requestFailed="Request failed",
 
-    onlinePlayerCount="Online",
+    onlinePlayerCount="Online: $1",
     createRoomSuccessed="Ruang terbuat",
+    -- playerKicked="$1 removed $2 from room",
+    -- becomeHost="$1 become host",
     started="Bermain",
-    joinRoom="telah memasuki ruangan.",
-    leaveRoom="telah keluar dari ruangan.",
+    joinRoom="$1 telah memasuki ruangan.",
+    leaveRoom="$1 telah keluar dari ruangan.",
+    -- roomRemoved="Room was removed",
     ready="Siap",
-    connStream="Memuat",
-    waitStream="Menunggu",
     spectating="Menonton",
-    chatRemain="Online",
-    chatStart="------Awal percakapan------",
-    chatHistory="------Pesan-pesan baru di bawah ini------",
+
+
 
     keySettingInstruction="Tekan untuk menghubung tombol ke aksi tertentu\nescape: batal\nbackspace: hapus",
     customBGhelp="Seret file gambar di sini untuk memasangkan background",
@@ -207,8 +260,8 @@ return{
         "Pastikan untuk mendapat permainan ini hanya dari sumber resmi,",
         "karena kita tidak bisa meyakinkan Anda aman jika Anda mendapat permainan ini dari sumber lain.",
         "Penciptanya tidak bertanggung jawab untuk modifikasi.",
-        FNNS and"/"or"Permainan ini gratis, tetapi sumbangan sangat dihargai.",
-        -- FNNS and"/"or"Check Zictionary for more",
+        FNNS and "/" or "Permainan ini gratis, tetapi sumbangan sangat dihargai.",
+        -- FNNS and "/" or "Check Zictionary for more",
     },
     staff={
         "ASLI OLEH MrZ",
@@ -323,6 +376,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="Dukung pencipta",
     WidgetText={
@@ -362,6 +416,7 @@ return{
             league="Tech League",
             ffa="FFA",
             rooms="Ruang-ruang",
+            -- resetPW="Reset password",
             logout="Log out",
         },
         net_league={
@@ -438,7 +493,6 @@ return{
             sysCursor="Guna Mouse Bawaan",
             autoPause="Jeda Jika Tidak Difokus",
             autoSave="Simpan Rekor Otomatis",
-            autoLogin="Auto-login Saat Membuka",
             simpMode="Mode Sederhana",
         },
         setting_video={
@@ -479,6 +533,8 @@ return{
             power="Info Baterai",
             clean="Gambar Cepat",
             fullscreen="Layar Penuh",
+            -- portrait="Portrait",
+            -- msaa="MSAA level",
 
             bg_on="B.G. Normal",
             bg_off="Tidak Ada B.G.",
@@ -689,24 +745,29 @@ return{
             music="Musik",
             label="label",
         },
-        login={
+        login_pw={
             title="Masuk",
-            register="Daftar",
+            -- login_mail="Login with E-mail/Sign Up",
             email="Alamat Email",
             password="Password",
             showEmail="Tunjukkan Email",
-            keepPW="Ingat Saya",
             login="Masuk",
         },
-        register={
-            title="Daftar",
-            login="Masuk",
-            username="Username",
+        login_mail={
+            title="Masuk/Daftar",
+            -- login_pw="Password Sign In",
             email="Alamat Email",
+            -- send="Send code",
+            -- code="Verification Code",
+            -- verify="Verify",
+        },
+        reset_password={
+            -- title="Reset Password",
+            -- send="Send code",
+            -- code="Verification Code",
             password="Password",
             password2="Ulangi Password",
-            register="Daftar",
-            registering="Menunggu respon…",
+            -- setPW="Set Password",
         },
         account={
             title="Akun",
@@ -912,7 +973,7 @@ return{
         "Headphone direkomendasikan untuk pengalaman yang lebih baik.",
         "Hello world!",
         "Hanya ada 2 jenis trimino, yaitu I3 dan L3.",
-        "if a==true",
+        " if a==true",
         "Tingkatkan frekuensi gambar Anda untuk pengalaman yang lebih baik.",
         "Sistem [tindakan] awal dapat menyelamatkan Anda.",
         "Apakah B2B2B2B mungkin?",
@@ -956,7 +1017,7 @@ return{
         "Bagaimana dengan 20 PCs?",
         "Bagaimana dengan 23 PCs dalam 100 baris?",
         "Bagaimana dengan 26 TSDs?",
-        "while(false)",
+        " while (false)",
         "Anda adalah seorang jago!",
         "Anda dipersilakan untuk membantu kami membuat musik dan efek suara!",
         "Anda dapat menghubungkan keyboard ke ponsel atau tablet Anda (tetapi tidak berfungsi di iOS).",
@@ -993,5 +1054,6 @@ return{
         {C.R,"LrL ",C.G,"RlR ",C.B,"LLr ",C.O,"RRl ",C.P,"RRR ",C.P,"LLL ",C.C,"FFF ",C.Y,"RfR ",C.Y,"RRf ",C.Y,"rFF"},
         {C.Y,"O-Spin Triple!"},
         {C.Z,"Apa? ",C.lC,"X-spin?"},
-    }
+    },
+    -- pumpkin="I'm a pumpkin",
 }

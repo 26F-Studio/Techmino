@@ -1,4 +1,4 @@
---Vertical red-green gradient
+-- Vertical red-green gradient
 local back={}
 local shader=SHADER.grad2
 

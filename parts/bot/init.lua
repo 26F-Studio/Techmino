@@ -14,9 +14,9 @@ function baseBot.update(bot)
     local keys=bot.keys
     if P.control and P.cur then
         bot.delay=bot.delay-1
-        if not keys[1]then
+        if not keys[1] then
             if bot.runningThread then
-                if not pcall(bot.runningThread)then
+                if not pcall(bot.runningThread) then
                     bot.runningThread=false
                 end
             else
@@ -61,18 +61,18 @@ local AISpeed={60,50,42,34,27,21,16,12,9,6}
     }
 ]]
 function BOT.template(arg)
-    if arg.type=='CC'then
-        return{
+    if arg.type=='CC' then
+        return {
             type='CC',
             next=arg.next,
             hold=arg.hold,
             delay=AISpeed[arg.speedLV],
             node=arg.node,
-            bag=(arg.randomizer or'bag')=='bag',
+            bag=(arg.randomizer or 'bag')=='bag',
             _20G=arg._20G,
         }
-    elseif arg.type=='9S'then
-        return{
+    elseif arg.type=='9S' then
+        return {
             type='9S',
             delay=math.floor(AISpeed[arg.speedLV]),
             hold=arg.hold,
@@ -82,7 +82,7 @@ end
 
 function BOT.new(P,data)
     local bot={P=P,data=data}
-    if data.type=="CC"then
+    if data.type=="CC" then
         P:setRS('TRS')
         bot.keys={}
         bot.bufferedNexts={}
@@ -107,8 +107,8 @@ function BOT.new(P,data)
         local cc_lua=require"parts.bot.bot_cc"
         setmetatable(bot,{__index=function(self,k)
             return
-                self.ccBot[k]and function(_,...)self.ccBot[k](self.ccBot,...)end or
-                cc_lua[k]and function(_,...)cc_lua[k](self,...)end or
+                self.ccBot[k] and function(_,...)self.ccBot[k](self.ccBot,...) end or
+                cc_lua[k] and function(_,...)cc_lua[k](self,...) end or
                 assert(baseBot[k],"No CC action called "..k)
         end})
 
@@ -127,7 +127,7 @@ function BOT.new(P,data)
         end
         bot.runningThread=coroutine.wrap(cc_lua.thread)
         bot.runningThread(bot)
-    else--if data.type=="9S"then--9s or else
+    else-- if data.type=="9S" then-- 9s or else
         TABLE.cover(baseBot,bot)
         TABLE.cover(require"parts.bot.bot_9s",bot)
         P:setRS('TRS')

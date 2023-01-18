@@ -1,4 +1,4 @@
-return{
+return {
     layout='royale',
     fkey1=function(P)
         P:changeAtkMode(P.atkMode<3 and P.atkMode+2 or 5-P.atkMode)

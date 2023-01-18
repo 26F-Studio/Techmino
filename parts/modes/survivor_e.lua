@@ -1,13 +1,13 @@
-return{
+return {
     env={
         drop=30,lock=45,
         freshLimit=10,
         eventSet='survivor_e',
         bg='glow',bgm='new era',
     },
-    score=function(P)return{P.modeData.wave,P.stat.time}end,
-    scoreDisp=function(D)return D[1].." Waves   "..STRING.time(D[2])end,
-    comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
+    score=function(P) return {P.modeData.wave,P.stat.time} end,
+    scoreDisp=function(D) return D[1].." Waves   "..STRING.time(D[2]) end,
+    comp=function(a,b) return a[1]>b[1] or a[1]==b[1] and a[2]<b[2] end,
     getRank=function(P)
         local W=P.modeData.wave
         return

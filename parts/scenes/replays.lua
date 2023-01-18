@@ -17,7 +17,7 @@ local listBox=WIDGET.newListBox{name='list',x=50,y=50,w=1200,h=520,lineH=40,draw
     if rep.available then
         GC.setColor(.9,.9,1)
         local modeName=text.modes[rep.mode]
-        GC.print(modeName and modeName[1].."  "..modeName[2]or rep.mode,310,0)
+        GC.print(modeName and modeName[1].."  "..modeName[2] or rep.mode,310,0)
         setFont(20)
         GC.setColor(1,1,.8)
         GC.print(rep.date,80,6)
@@ -37,7 +37,7 @@ local function _playRep(fileName)
     local rep=DATA.parseReplay(fileName,true)
     if not rep.available then
         MES.new('error',text.replayBroken)
-    elseif MODES[rep.mode]then
+    elseif MODES[rep.mode] then
         GAME.seed=rep.seed
         GAME.setting=rep.setting
         TABLE.cut(GAME.mod)
@@ -62,22 +62,25 @@ local function _playRep(fileName)
     end
 end
 
-function scene.sceneInit()
-    BG.set()
-    listBox:setList(REPLAY)
+local function _updateButtonVisibility()
     local hide=listBox:getLen()==0
     for i=3,5 do
         scene.widgetList[i].hide=hide
     end
 end
+function scene.enter()
+    BG.set()
+    listBox:setList(REPLAY)
+    _updateButtonVisibility()
+end
 
 function scene.keyDown(key)
-    if key=='return'then
+    if key=='return' or key=='kpenter' then
         local rep=listBox:getSel()
         if rep then
             _playRep(rep.fileName)
         end
-    elseif key=='c'and kb.isDown('lctrl','rctrl')or key=='cC'then
+    elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
         local rep=listBox:getSel()
         if rep then
             if rep.available and rep.fileName then
@@ -92,15 +95,16 @@ function scene.keyDown(key)
                 MES.new('error',text.replayBroken)
             end
         end
-    elseif key=='v'and kb.isDown('lctrl','rctrl')or key=='cV'then
+    elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
         local repStr=love.system.getClipboardText()
         local res,fileData=pcall(love.data.decode,'string','base64',repStr)
         if res then
             local fileName=os.date("replay/%Y_%m_%d_%H%M%S_import.rep")
             local rep=DATA.parseReplayData(fileName,fileData,false)
             if rep.available then
-                if saveFile(fileData,fileName,'-d')then
+                if saveFile(fileData,fileName,'-d') then
                     table.insert(REPLAY,1,rep)
+                    _updateButtonVisibility()
                     MES.new('info',text.importSuccess)
                 end
             else
@@ -109,10 +113,10 @@ function scene.keyDown(key)
         else
             MES.new('error',text.dataCorrupted)
         end
-    elseif key=='delete'then
+    elseif key=='delete' then
         local rep=listBox:getSel()
         if rep then
-            if tryDelete()then
+            if tryDelete() then
                 listBox:remove()
                 love.filesystem.remove(rep.fileName)
                 for i=1,#REPLAY do
@@ -121,10 +125,11 @@ function scene.keyDown(key)
                         break
                     end
                 end
+                _updateButtonVisibility()
                 SFX.play('finesseError',.7)
             end
         end
-    elseif key=='up'or key=='down'then
+    elseif key=='up' or key=='down' then
         listBox:arrowKey(key)
     else
         return true

@@ -1,4 +1,4 @@
---Horizonal red-blue gradient
+-- Horizonal red-blue gradient
 local back={}
 local shader=SHADER.grad1
 

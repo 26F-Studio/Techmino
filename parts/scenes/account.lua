@@ -2,7 +2,7 @@
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
 
 end
 

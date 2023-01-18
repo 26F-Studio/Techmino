@@ -1,6 +1,6 @@
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     BG.set('matrix')
 end
 
@@ -14,7 +14,7 @@ function scene.draw()
     end
 end
 
-local function _VKAdisp(n)return function()return VK_ORG[n].ava end end
+local function _VKAdisp(n) return function() return VK_ORG[n].ava end end
 local function _VKAcode(n)
     return n<10 and
     function()
@@ -25,7 +25,7 @@ local function _VKAcode(n)
         VK_ORG[n].ava=not VK_ORG[n].ava
     end
 end
-local function _notTrack()return not SETTING.VKTrack end
+local function _notTrack() return not SETTING.VKTrack end
 
 scene.widgetScrollHeight=340
 scene.widgetList={
@@ -50,17 +50,17 @@ scene.widgetList={
     WIDGET.newSwitch{name='b19',   x=580,  y=560, lim=230,disp=_VKAdisp(19),code=_VKAcode(19)},
     WIDGET.newSwitch{name='b20',   x=580,  y=620, lim=230,disp=_VKAdisp(20),code=_VKAcode(20)},
 
-    WIDGET.newButton{name='norm',  x=840,  y=80,  w=240,h=80,                font=35,code=function()for i=1,20 do VK_ORG[i].ava=i<11 end end},
-    WIDGET.newButton{name='pro',   x=1120, y=80,  w=240,h=80,                font=35,code=function()for i=1,20 do VK_ORG[i].ava=true end end},
+    WIDGET.newButton{name='norm',  x=840,  y=80,  w=240,h=80,                font=35,code=function() for i=1,20 do VK_ORG[i].ava=i<11 end end},
+    WIDGET.newButton{name='pro',   x=1120, y=80,  w=240,h=80,                font=35,code=function() for i=1,20 do VK_ORG[i].ava=true end end},
     WIDGET.newSwitch{name='icon',  x=1150, y=240, lim=400,                   font=35,disp=SETval('VKIcon'),code=SETrev('VKIcon')},
-    WIDGET.newSlider{name='sfx',   x=830,  y=320, lim=160,w=400,             font=35,change=function()SFX.play('virtualKey',SETTING.VKSFX)end,disp=SETval('VKSFX'),code=SETsto('VKSFX')},
-    WIDGET.newSlider{name='vib',   x=830,  y=390, lim=160,w=400,axis={0,6,1},font=35,change=function()if SETTING.vib>0 then VIB(SETTING.vib+SETTING.VKVIB)end end,disp=SETval('VKVIB'),code=SETsto('VKVIB')},
+    WIDGET.newSlider{name='sfx',   x=830,  y=320, lim=160,w=400,             font=35,change=function() SFX.play('virtualKey',SETTING.VKSFX) end,disp=SETval('VKSFX'),code=SETsto('VKSFX')},
+    WIDGET.newSlider{name='vib',   x=830,  y=390, lim=160,w=400,axis={0,6,1},font=35,change=function() if SETTING.vib>0 then VIB(SETTING.vib+SETTING.VKVIB) end end,disp=SETval('VKVIB'),code=SETsto('VKVIB')},
     WIDGET.newSlider{name='alpha', x=830,  y=460, lim=160,w=400,             font=35,disp=SETval('VKAlpha'),code=SETsto('VKAlpha')},
 
     WIDGET.newSwitch{name='track', x=360,  y=720, lim=250,                   font=35,disp=SETval('VKTrack'),code=SETrev('VKTrack')},
     WIDGET.newSwitch{name='dodge', x=800,  y=720, lim=250,                   font=35,disp=SETval('VKDodge'),code=SETrev('VKDodge'),hideF=_notTrack},
-    WIDGET.newSlider{name='tchW',  x=140,  y=860, w=1000,                    font=35,disp=SETval('VKTchW'),code=function(i)SETTING.VKTchW=i SETTING.VKCurW=math.max(SETTING.VKCurW,i)end,hideF=_notTrack},
-    WIDGET.newSlider{name='curW',  x=140,  y=930, w=1000,                    font=35,disp=SETval('VKCurW'),code=function(i)SETTING.VKCurW=i SETTING.VKTchW=math.min(SETTING.VKTchW,i)end,hideF=_notTrack},
+    WIDGET.newSlider{name='tchW',  x=140,  y=860, w=1000,                    font=35,disp=SETval('VKTchW'),code=function(i) SETTING.VKTchW=i SETTING.VKCurW=math.max(SETTING.VKCurW,i) end,hideF=_notTrack},
+    WIDGET.newSlider{name='curW',  x=140,  y=930, w=1000,                    font=35,disp=SETval('VKCurW'),code=function(i) SETTING.VKCurW=i SETTING.VKTchW=math.min(SETTING.VKTchW,i) end,hideF=_notTrack},
 
     WIDGET.newButton{name='back',  x=1140, y=640, w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }

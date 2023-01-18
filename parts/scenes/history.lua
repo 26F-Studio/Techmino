@@ -1,23 +1,23 @@
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     BG.set('cubes')
-    WIDGET.active.texts:setTexts(require"parts.updateLog":split("\n"))
+    scene.widgetList.texts:setTexts(require"parts.updateLog":split("\n"))
 end
 
 function scene.wheelMoved(_,y)
     WHEELMOV(y)
 end
 function scene.keyDown(key)
-    if key=='up'then
-        WIDGET.active.texts:scroll(-5)
-    elseif key=='down'then
-        WIDGET.active.texts:scroll(5)
-    elseif key=='pageup'then
-        WIDGET.active.texts:scroll(-20)
-    elseif key=='pagedown'then
-        WIDGET.active.texts:scroll(20)
-    elseif key=='escape'then
+    if key=='up' then
+        scene.widgetList.texts:scroll(-5)
+    elseif key=='down' then
+        scene.widgetList.texts:scroll(5)
+    elseif key=='pageup' then
+        scene.widgetList.texts:scroll(-20)
+    elseif key=='pagedown' then
+        scene.widgetList.texts:scroll(20)
+    elseif key=='escape' then
         SCN.back()
     end
 end

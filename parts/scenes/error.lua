@@ -4,15 +4,12 @@ local errorShot,errorInfo
 
 local scene={}
 
-function scene.sceneInit()
-    BGcolor=math.random()>.026 and{.3,.5,.9}or{.62,.3,.926}
-    sysAndScn=SYSTEM.."-"..VERSION.string.."       scene:"..Z.getErr('#').scene
-    errorText=LOADED and text.errorMsg or"An error has occurred while the game was loading.\nAn error log has been created so you can send it to the author."
+function scene.enter()
+    BGcolor=math.random()>.026 and {.3,.5,.9} or {.62,.3,.926}
+    sysAndScn=SYSTEM.."-"..VERSION.string.."    scene:"..Z.getErr('#').scene
+    errorText=LOADED and text.errorMsg or "An error has occurred while the game was loading.\nAn error log has been created so you can send it to the author."
     errorShot,errorInfo=Z.getErr('#').shot,Z.getErr('#').mes
-    NET.wsclose_app()
-    NET.wsclose_user()
-    NET.wsclose_play()
-    NET.wsclose_stream()
+    NET.ws_close()
     if SETTING then
         SFX.fplay('error',SETTING.voc*.8 or 0)
     end
@@ -37,7 +34,7 @@ end
 
 scene.widgetList={
     WIDGET.newKey{name='console',x=940,y=640,w=170,h=80,font=65,fText=CHAR.icon.console,code=goScene'app_console'},
-    WIDGET.newKey{name='quit',x=1140,y=640,w=170,h=80,font=40,fText=CHAR.icon.cross_thick,code=love.event.quit},
+    WIDGET.newKey{name='quit',x=1140,y=640,w=170,h=80,font=40,fText=CHAR.icon.cross_thick,code=goScene('quit','none')},
 }
 
 return scene

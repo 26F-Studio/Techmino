@@ -2,7 +2,7 @@ local rush_lock={20,18,16,15,14, 14,13,12,11,11}
 local rush_wait={12,11,11,10,10, 10,10, 9, 9, 9}
 local rush_fall={18,16,14,13,12, 12,11,11,10,10}
 
-return{
+return {
     drop=0,
     lock=rush_lock[1],
     wait=rush_wait[1],
@@ -25,7 +25,7 @@ return{
 
         if D.pt%100==99 then
             SFX.play('warn_1')
-        elseif D.pt>=D.target then--Level up!
+        elseif D.pt>=D.target then-- Level up!
             s=D.target/100
             local E=P.gameEnv
             E.lock=rush_lock[s]

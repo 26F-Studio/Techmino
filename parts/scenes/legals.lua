@@ -1,11 +1,11 @@
 local scene={}
-function scene.sceneInit()
+function scene.enter()
     BG.set('cubes')
     local fileData=love.filesystem.read("legals.md")
     if fileData then
-        WIDGET.active.texts:setTexts(fileData:split('\n'))
+        scene.widgetList.texts:setTexts(fileData:split('\n'))
     else
-        WIDGET.active.texts:setTexts{"[legals.md not found]"}
+        scene.widgetList.texts:setTexts{"[legals.md not found]"}
     end
 end
 
@@ -13,15 +13,15 @@ function scene.wheelMoved(_,y)
     WHEELMOV(y)
 end
 function scene.keyDown(key)
-    if key=='up'then
-        WIDGET.active.texts:scroll(-5)
-    elseif key=='down'then
-        WIDGET.active.texts:scroll(5)
-    elseif key=='pageup'then
-        WIDGET.active.texts:scroll(-20)
-    elseif key=='pagedown'then
-        WIDGET.active.texts:scroll(20)
-    elseif key=='escape'then
+    if key=='up' then
+        scene.widgetList.texts:scroll(-5)
+    elseif key=='down' then
+        scene.widgetList.texts:scroll(5)
+    elseif key=='pageup' then
+        scene.widgetList.texts:scroll(-20)
+    elseif key=='pagedown' then
+        scene.widgetList.texts:scroll(20)
+    elseif key=='escape' then
         SCN.back()
     end
 end

@@ -1,6 +1,6 @@
 local LINE={}
-local L={}--Storage
-local len=0--Length
+local L={}-- Storage
+local len=0-- Length
 function LINE.new(val,isGarbage)
     if len==0 then
         for i=1,10 do

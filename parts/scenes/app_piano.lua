@@ -13,30 +13,30 @@ local offset
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     inst='lead'
     offset=0
 end
 
 function scene.touchDown(x,y,k)
-    --TODO
+    -- TODO
 end
 scene.mouseDown=scene.touchDown
 
 function scene.keyDown(key,isRep)
-    if not isRep and keys[key]then
+    if not isRep and keys[key] then
         local note=keys[key]+offset
-        if kb.isDown('lshift','rshift')then note=note+1 end
-        if kb.isDown('lctrl','rctrl')then note=note-1 end
+        if kb.isDown('lshift','rshift') then note=note+1 end
+        if kb.isDown('lctrl','rctrl') then note=note-1 end
         SFX.playSample(inst,note)
         TEXT.show(SFX.getNoteName(note),math.random(150,1130),math.random(140,500),60,'score',.8)
-    elseif key=='tab'then
+    elseif key=='tab' then
         inst=TABLE.next(instList,inst)
-    elseif key=='lalt'then
+    elseif key=='lalt' then
         offset=math.max(offset-1,-12)
-    elseif key=='ralt'then
+    elseif key=='ralt' then
         offset=math.min(offset+1,12)
-    elseif key=='escape'then
+    elseif key=='escape' then
         SCN.back()
     end
 end

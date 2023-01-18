@@ -23,7 +23,7 @@ local function GetGravity(lvl)
     lvl<29 and 2 or
     1
 end
-return{
+return {
     das=16,arr=6,
     sddas=3,sdarr=3,
     irs=false,ims=false,

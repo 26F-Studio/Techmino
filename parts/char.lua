@@ -1,5 +1,5 @@
 local L={
-    zChan={--F0000~F003F
+    zChan={-- F0000~F003F
         none=           0xF0000,
         normal=         0xF0001,
         full=           0xF0002,
@@ -24,7 +24,7 @@ local L={
         thinking=       0xF0015,
         spark=          0xF0016,
     },
-    mino={--F0040~F007F
+    mino={-- F0040~F007F
         Z=0xF0040,
         S=0xF0041,
         J=0xF0042,
@@ -57,7 +57,7 @@ local L={
         I2=0xF005B,
         O1=0xF005C,
     },
-    icon={--F0080~F00FF
+    icon={-- F0080~F00FF
         menu=           0xF0080,
         music=          0xF0081,
         language=       0xF0082,
@@ -131,7 +131,7 @@ local L={
         garbage=        0xF00C6,
         copy=           0xF00C7,
     },
-    key={--F0100~F017F
+    key={-- F0100~F017F
         macCmd=                 0xF0100,
         macOpt=                 0xF0101,
         macCtrl=                0xF0102,
@@ -172,7 +172,7 @@ local L={
         macPgdnAlt=             0xF0125,
         iecPower=               0xF0126,
     },
-    controller={--F0180~F01FF
+    controller={-- F0180~F01FF
         xbox=           0xF0180,
         lt=             0xF0181,
         rt=             0xF0182,
@@ -212,7 +212,7 @@ local L={
         psCreate=       0xF01A4,
         psOption=       0xF01A5,
     },
-    mahjong={--F0200~F027F
+    mahjong={-- F0200~F027F
         m1=           0xF0200,
         m2=           0xF0201,
         m3=           0xF0202,

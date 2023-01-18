@@ -23,7 +23,7 @@ local function GetGravity(lvl)
     lvl<29 and 2 or
     1
 end
-return{
+return {
     das=16,arr=6,
     sddas=2,sdarr=2,
     irs=false,ims=false,
@@ -62,9 +62,9 @@ return{
         local D=P.modeData
         D.drought=P.lastPiece.id==7 and 0 or D.drought+1
         if P.stat.row>=D.target then
-            --if D.target>=200 then
+            -- if D.target>=200 then
                 D.lvl=D.lvl+1
-            --end
+            -- end
             local dropSpd=GetGravity(D.lvl)
             if dropSpd~=P.gameEnv.drop then
                 P.gameEnv.drop,P.gameEnv.lock=dropSpd,dropSpd

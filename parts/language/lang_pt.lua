@@ -1,5 +1,5 @@
 local C=COLOR
-return{
+return {
     fallback='en',
     sureQuit="Aparte novamente para sair",
     -- sureReset="Press again to reset",
@@ -8,6 +8,7 @@ return{
     playedLong="[Anti-vício] Você andou jogando bastante hoje. Certifique-se de fazer pausas.",
     playedTooMuch="[Anti-vício] Você esteve jogando demais hoje! Você não pode jogar mais.",
     -- settingWarn="Modifing uncommon setting, be careful!",
+    -- settingWarn2="This setting takes effect after restart",
 
     atkModeName={"Aleatório","Emblemas","K.O.s","Atacantes"},
     royale_remain="$1 Jogadores restantes",
@@ -54,7 +55,7 @@ return{
 
     -- cc_fixed="CC is incompatible with fixed sequences",
     -- cc_swap="CC is incompatible with swap holdmode",
-    --ai_prebag="The AI is incompatible with custom sequences which have nontetromino.", inteligência é incompatível com sequências fixas.",
+    -- ai_prebag="The AI is incompatible with custom sequences which have nontetromino.", inteligência é incompatível com sequências fixas.",
     ai_mission="A inteligência é incompatível com missões costumizadas.",
     switchSpawnSFX="Switch on spawn SFX to play",
     needRestart="Funciona após reiniciar",
@@ -92,40 +93,92 @@ return{
 
     -- dictNote="==Copied from TetroDictionary==",
 
-    getNoticeFail="Não conseguiu ter anúncios",
+
+
+    -- Server's warn/error messages
+    Techrater={
+        -- internalError="Internal error",
+        -- databaseError="Database error",
+        -- invalidFormat="Invalid format",
+        -- invalidArguments="Invalid arguments",
+        -- tooFrequent="Too frequent",
+        -- notAvailable="Not available",
+        -- noPermission="No permission",
+        -- roomNotFound="Room not found",
+
+        -- Controllers
+        WebSocket={
+            -- invalidConnection="Invalid connection",
+            -- invalidAction="Invalid action",
+            -- playerNotFound="Player not found",
+            -- connectionFailed="Connection failed",
+        },
+        -- Filters
+        CheckPermission={
+            -- playerNotFound="Player not found",
+        },
+        -- Plugins
+        ConnectionManager={
+            -- playerInvalid="Player invalid",
+            -- playerNotFound="Player not found",
+            -- connectionReplaced="Connection replaced",
+        },
+        NoticeManager={
+            -- noticeNotFound="Notice not found",
+        },
+        PlayerManager={
+            -- invalidCode="Invalid code",
+            -- invalidEmail="Invalid email",
+            -- playerNotFound="Player not found",
+            -- invalidEmailPass="Invalid email or password",
+            -- emailExists="Email exists",
+            -- emailSendError="Email send error",
+        },
+        -- Strategies
+        PlayerRole={
+            -- invalidRole="Invalid role",
+            -- invalidTarget="Invalid target",
+        },
+        PlayerType={
+            -- invalidType="Invalid type",
+            -- roomFull="Room full",
+        },
+        RoomJoin={
+            -- wrongPassword="Wrong password",
+        },
+    },
+    -- tooFrequent="Request too frequently",
+    -- roomPasswordChanged="Room password changed",
     oldVersion="Versão $1 esta disponível agora!",
     -- versionNotMatch="Version do not match!",
     -- needUpdate="Newer version required!",
     -- notFinished="Coming soon!",
 
-    jsonError="Json error",
-
     noUsername="Insira seu nome de usuário",
     wrongEmail="Endereço de email errado",
+    -- wrongCode="Invalid verification code",
     noPassword="Insira sua senha ",
     diffPassword="Senhas não combinam",
-    -- registerRequestSent="Registration request sent",
-    registerOK="Registrado com sucesso!",
-    loginOK="Logado com sucesso!",
-    accessOK="Autorizado com sucesso!",
+    -- checkEmail="Registration request sent",
 
-    -- wsConnecting="Websocket Connecting",
-    wsFailed="WebSocket falha na conexão",
-    wsClose="WebSocket closed:",
+    wsFailed="WebSocket falha na conexão: $1",
+    wsClose="WebSocket closed: $1",
     -- netTimeout="Network connection timeout",
+    -- serverDown="Oops! Server is down",
+    -- requestFailed="Request failed",
 
-    -- onlinePlayerCount="Online",
+    -- onlinePlayerCount="Online: $1",
     -- createRoomSuccessed="Room successfully created!",
+    -- playerKicked="$1 removed $2 from room",
+    -- becomeHost="$1 become host",
     -- started="Playing",
-    joinRoom="Entrou a sala.",
-    leaveRoom="Saiu da sala.",
+    joinRoom="$1 Entrou a sala.",
+    leaveRoom="$1 Saiu da sala.",
+    -- roomRemoved="Room was removed",
     -- ready="READY",
-    -- connStream="CONNECTING",
-    -- waitStream="WAITING",
     -- spectating="Spectating",
-    chatRemain="Online",
-    chatStart="------Começo do log------",
-    chatHistory="------Novas mensagens abaixo------",
+
+
 
     -- keySettingInstruction="Press to bind key\nescape: cancel\nbackspace: delete",
     -- customBGhelp="Drop image file here to apply custom background",
@@ -195,8 +248,8 @@ return{
         "certifique-se de pegar o jogo de fontes oficiais;",
         "binários obtidos em outros lugares pode conter malware.",
         "O autor não é responsável por qualquer binários modificados",
-        FNNS and"/"or"O jogo é gratis, mas doações são apreciadas.",
-        -- FNNS and"/"or"Check Zictionary for more",
+        FNNS and "/" or "O jogo é gratis, mas doações são apreciadas.",
+        -- FNNS and "/" or "Check Zictionary for more",
     },
     staff={
         "ORIGINALMENTE POR MrZ",
@@ -311,6 +364,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="Support author",
     WidgetText={
@@ -350,6 +404,7 @@ return{
             -- league="Tech League",
             ffa="FFA",
             rooms="Salas",
+            -- resetPW="Reset password",
             -- logout="Log out",
         },
         net_league={
@@ -426,7 +481,6 @@ return{
             -- sysCursor="Use system cursor",
             autoPause="Pausar quando foco for perco",
             -- autoSave="Auto save new-best",
-            -- autoLogin="Auto Login on Start",
             -- simpMode="Simple mode",
         },
         setting_video={
@@ -467,6 +521,8 @@ return{
             power="Informação bateria",
             -- clean="Fast Draw",
             fullscreen="Tela cheia",
+            -- portrait="Portrait",
+            -- msaa="MSAA level",
 
             -- bg_on="Normal B.G.",
             -- bg_off="No B.G.",
@@ -678,24 +734,29 @@ return{
             -- music="BGMs",
             -- label="label",
         },
-        login={
+        login_pw={
             title="Log in",
-            register="Registrar",
+            -- login_mail="Login with E-mail/Sign Up",
             email="Endereço De Email",
             password="Senha",
             -- showEmail="Show Email",
-            -- keepPW="Remember me",
             login="Log in",
         },
-        register={
-            title="Registrar",
-            login="Log in",
-            username="Nome De Usuário",
+        login_mail={
+            title="Log in/Registrar",
+            -- login_pw="Password Sign In",
             email="Endereço De Email",
+            -- send="Send code",
+            -- code="Verification Code",
+            -- verify="Verify",
+        },
+        reset_password={
+            -- title="Reset Password",
+            -- send="Send code",
+            -- code="Verification Code",
             password="Senha",
             password2="Entre Senha Novamente",
-            register="Registrar",
-            -- registering="Waiting for response...",
+            -- setPW="Set Password",
         },
         account={
             title="Conta",
@@ -891,7 +952,7 @@ return{
         "Tem alguma sugestão? Posta elas em nosso Discord!",
         "Fones recomendados para uma melhor experiência.",
         "Olá mundo!",
-        "if a==true",
+        " if a==true",
         "Aumente sua frame rate para uma experiência melhor.",
         "O sistema de [ação] inicial pode salvar sua vida.",
         "Será B2B2B2B possível?",
@@ -926,7 +987,7 @@ return{
         "Que tal 20 PCs?",
         "Que tal 23 PCs em 100 linhas?",
         "Que tal 26 TSDs?",
-        "while(false)",
+        " while (false)",
         "Você e um Grand Master!",
         "Pode conectar um teclado ao seu celular!",
         "Você pode fazer spins com 28 de 29 minoes!",
@@ -968,5 +1029,6 @@ return{
         {C.Y,"暫定段位:MO"},
         {C.Y,"暫定段位:MV"},
         {C.Y,"O-spin Triple!"},
-    }
+    },
+    -- pumpkin="I'm a pumpkin",
 }

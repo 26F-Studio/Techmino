@@ -11,7 +11,7 @@ local startTime,time
 local state,progress
 local tapFX,mistake
 
-function scene.sceneInit()
+function scene.enter()
     BG.set('space')
     BGM.play('way')
     board={}
@@ -79,9 +79,9 @@ function scene.touchDown(x,y)
 end
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=='z'or key=='x'then
+    if key=='z' or key=='x' then
         love.mousepressed(ms.getPosition())
-    elseif key=='space'then
+    elseif key=='space' then
         if state>0 then
             board={}
             time=0
@@ -89,23 +89,23 @@ function scene.keyDown(key,isRep)
             state=0
             progress=0
         end
-    elseif key=='q'then
+    elseif key=='q' then
         if state==0 then
             invis=not invis
         end
-    elseif key=='w'then
+    elseif key=='w' then
         if state==0 then
             disappear=not disappear
         end
-    elseif key=='e'then
+    elseif key=='e' then
         if state==0 then
             tapFX=not tapFX
         end
-    elseif key=='3'or key=='4'or key=='5'or key=='6'then
+    elseif key=='3' or key=='4' or key=='5' or key=='6' then
         if state==0 then
             rank=tonumber(key)
         end
-    elseif key=='escape'then
+    elseif key=='escape' then
         SCN.back()
     end
 end
@@ -123,21 +123,21 @@ function scene.draw()
     gc.print(mistake,1026,150)
 
     setFont(70)
-    mStr(state==1 and progress or state==0 and"Ready"or state==2 and"Win",1130,300)
+    mStr(state==1 and progress or state==0 and "Ready" or state==2 and "Win",1130,300)
 
     gc.setColor(COLOR.dX)
     gc.rectangle('fill',310,30,660,660)
     if state==2 then
-        gc.setColor(.9,.9,0)--win
+        gc.setColor(.9,.9,0)-- win
     elseif state==1 then
-        gc.setColor(.9,.9,.9)--game
+        gc.setColor(.9,.9,.9)-- game
     elseif state==0 then
-        gc.setColor(.2,.8,.2)--ready
+        gc.setColor(.2,.8,.2)-- ready
     end
     gc.setLineWidth(10)
     gc.rectangle('line',310,30,660,660)
 
-    --Draw no-setting area
+    -- Draw no-setting area
     if state==2 then
         gc.setColor(1,0,0,.3)
         gc.rectangle('fill',15,295,285,250)
@@ -151,7 +151,7 @@ function scene.draw()
     for i=1,rank do
         for j=1,rank do
             local N=board[rank*(i-1)+j]
-            if not(state==1 and disappear and N<=progress)then
+            if not (state==1 and disappear and N<=progress) then
                 gc.setColor(.4,.5,.6)
                 gc.rectangle('fill',320+(j-1)*width,(i-1)*width+40,width,width)
                 gc.setColor(COLOR.Z)
@@ -170,11 +170,11 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name='reset',    x=160,y=100,w=180,h=100,color='lG',font=50,fText=CHAR.icon.retry_spin,code=pressKey'space',hideF=function()return state==0 end},
-    WIDGET.newSlider{name='rank',     x=130,y=250,lim=105,w=150,axis={3,6,1},show=false,font=40,disp=function()return rank end,code=function(v)rank=v end,hideF=function()return state>0 end},
-    WIDGET.newSwitch{name='invis',    x=240,y=330,lim=200,font=40,disp=function()return invis end,code=pressKey'q',hideF=function()return state==1 end},
-    WIDGET.newSwitch{name='disappear',x=240,y=420,lim=200,font=40,disp=function()return disappear end,code=pressKey'w',hideF=function()return state==1 end},
-    WIDGET.newSwitch{name='tapFX',    x=240,y=510,lim=200,font=40,disp=function()return tapFX end,code=pressKey'e',hideF=function()return state==1 end},
+    WIDGET.newButton{name='reset',    x=160,y=100,w=180,h=100,color='lG',font=50,fText=CHAR.icon.retry_spin,code=pressKey'space',hideF=function() return state==0 end},
+    WIDGET.newSlider{name='rank',     x=130,y=250,lim=105,w=150,axis={3,6,1},show=false,font=40,disp=function() return rank end,code=function(v) rank=v end,hideF=function() return state>0 end},
+    WIDGET.newSwitch{name='invis',    x=240,y=330,lim=200,font=40,disp=function() return invis end,code=pressKey'q',hideF=function() return state==1 end},
+    WIDGET.newSwitch{name='disappear',x=240,y=420,lim=200,font=40,disp=function() return disappear end,code=pressKey'w',hideF=function() return state==1 end},
+    WIDGET.newSwitch{name='tapFX',    x=240,y=510,lim=200,font=40,disp=function() return tapFX end,code=pressKey'e',hideF=function() return state==1 end},
     WIDGET.newButton{name='back',     x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 

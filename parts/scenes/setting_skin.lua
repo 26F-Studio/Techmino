@@ -7,11 +7,11 @@ local minoRot={0,0,0,0,0,0,0}
 local minoRot0={}
 local selEggMode
 
-local playEgg=WIDGET.newButton{name='playEgg',  x=1140,y=540,w=140,h=65,color='lP',font=60,fText=CHAR.icon.rankZ,code=function()loadGame(selEggMode,true)end}
+local playEgg=WIDGET.newButton{name='playEgg',  x=1140,y=540,w=140,h=65,color='lP',font=60,fText=CHAR.icon.rankZ,code=function() loadGame(selEggMode,true) end}
 
 local scene={}
 
-function scene.sceneInit()
+function scene.enter()
     selEggMode=false
     scene.widgetList.playEgg.hide=true
     BG.set()
@@ -40,11 +40,11 @@ function scene.draw()
         local x,y=-45-selRS.centerPos[n][0][2]*30,15+selRS.centerPos[n][0][1]*30
         local col=#B[1]
         for i=1,#B do for j=1,col do
-            if B[i][j]then
+            if B[i][j] then
                 gc.draw(texture[color],x+30*j,y-30*i)
             end
         end end
-        if selRS.centerDisp[n]then
+        if selRS.centerDisp[n] then
             mDraw(selRS.centerTex)
         end
         gc.pop()
@@ -84,29 +84,29 @@ scene.widgetList={
     WIDGET.newText{name='title',      x=80,y=50,lim=500,font=70,align='L'},
 
     WIDGET.newSelector{name='skinSet',x=780,y=100,w=320,list=SKIN.getList(),disp=SETval('skinSet'),code=SETsto('skinSet')},
-    WIDGET.newButton{name='prev1',    x=130,y=220,w=80,h=65,sound='hold',font=40,fText="↑",code=function()_prevSkin(1)end},
-    WIDGET.newButton{name='prev2',    x=270,y=220,w=80,h=65,sound='hold',font=40,fText="↑",code=function()_prevSkin(2)end},
-    WIDGET.newButton{name='prev3',    x=410,y=220,w=80,h=65,sound='hold',font=40,fText="↑",code=function()_prevSkin(3)end},
-    WIDGET.newButton{name='prev4',    x=550,y=220,w=80,h=65,sound='hold',font=40,fText="↑",code=function()_prevSkin(4)end},
-    WIDGET.newButton{name='prev5',    x=690,y=220,w=80,h=65,sound='hold',font=40,fText="↑",code=function()_prevSkin(5)end},
-    WIDGET.newButton{name='prev6',    x=830,y=220,w=80,h=65,sound='hold',font=40,fText="↑",code=function()_prevSkin(6)end},
-    WIDGET.newButton{name='prev7',    x=970,y=220,w=80,h=65,sound='hold',font=40,fText="↑",code=function()_prevSkin(7)end},
+    WIDGET.newButton{name='prev1',    x=130,y=220,w=80,h=65,sound='hold',font=40,fText="↑",code=function()_prevSkin(1) end},
+    WIDGET.newButton{name='prev2',    x=270,y=220,w=80,h=65,sound='hold',font=40,fText="↑",code=function()_prevSkin(2) end},
+    WIDGET.newButton{name='prev3',    x=410,y=220,w=80,h=65,sound='hold',font=40,fText="↑",code=function()_prevSkin(3) end},
+    WIDGET.newButton{name='prev4',    x=550,y=220,w=80,h=65,sound='hold',font=40,fText="↑",code=function()_prevSkin(4) end},
+    WIDGET.newButton{name='prev5',    x=690,y=220,w=80,h=65,sound='hold',font=40,fText="↑",code=function()_prevSkin(5) end},
+    WIDGET.newButton{name='prev6',    x=830,y=220,w=80,h=65,sound='hold',font=40,fText="↑",code=function()_prevSkin(6) end},
+    WIDGET.newButton{name='prev7',    x=970,y=220,w=80,h=65,sound='hold',font=40,fText="↑",code=function()_prevSkin(7) end},
 
-    WIDGET.newButton{name='next1',    x=130,y=440,w=80,h=65,sound='hold',font=40,fText="↓",code=function()_nextSkin(1)end},
-    WIDGET.newButton{name='next2',    x=270,y=440,w=80,h=65,sound='hold',font=40,fText="↓",code=function()_nextSkin(2)end},
-    WIDGET.newButton{name='next3',    x=410,y=440,w=80,h=65,sound='hold',font=40,fText="↓",code=function()_nextSkin(3)end},
-    WIDGET.newButton{name='next4',    x=550,y=440,w=80,h=65,sound='hold',font=40,fText="↓",code=function()_nextSkin(4)end},
-    WIDGET.newButton{name='next5',    x=690,y=440,w=80,h=65,sound='hold',font=40,fText="↓",code=function()_nextSkin(5)end},
-    WIDGET.newButton{name='next6',    x=830,y=440,w=80,h=65,sound='hold',font=40,fText="↓",code=function()_nextSkin(6)end},
-    WIDGET.newButton{name='next7',    x=970,y=440,w=80,h=65,sound='hold',font=40,fText="↓",code=function()_nextSkin(7)end},
+    WIDGET.newButton{name='next1',    x=130,y=440,w=80,h=65,sound='hold',font=40,fText="↓",code=function()_nextSkin(1) end},
+    WIDGET.newButton{name='next2',    x=270,y=440,w=80,h=65,sound='hold',font=40,fText="↓",code=function()_nextSkin(2) end},
+    WIDGET.newButton{name='next3',    x=410,y=440,w=80,h=65,sound='hold',font=40,fText="↓",code=function()_nextSkin(3) end},
+    WIDGET.newButton{name='next4',    x=550,y=440,w=80,h=65,sound='hold',font=40,fText="↓",code=function()_nextSkin(4) end},
+    WIDGET.newButton{name='next5',    x=690,y=440,w=80,h=65,sound='hold',font=40,fText="↓",code=function()_nextSkin(5) end},
+    WIDGET.newButton{name='next6',    x=830,y=440,w=80,h=65,sound='hold',font=40,fText="↓",code=function()_nextSkin(6) end},
+    WIDGET.newButton{name='next7',    x=970,y=440,w=80,h=65,sound='hold',font=40,fText="↓",code=function()_nextSkin(7) end},
 
-    WIDGET.newButton{name='spin1',    x=130,y=540,w=80,h=65,sound='rotate',font=40,code=function()_nextDir(1)end,fText=CHAR.icon.retry_spin},
-    WIDGET.newButton{name='spin2',    x=270,y=540,w=80,h=65,sound='rotate',font=40,code=function()_nextDir(2)end,fText=CHAR.icon.retry_spin},
-    WIDGET.newButton{name='spin3',    x=410,y=540,w=80,h=65,sound='rotate',font=40,code=function()_nextDir(3)end,fText=CHAR.icon.retry_spin},
-    WIDGET.newButton{name='spin4',    x=550,y=540,w=80,h=65,sound='rotate',font=40,code=function()_nextDir(4)end,fText=CHAR.icon.retry_spin},
-    WIDGET.newButton{name='spin5',    x=690,y=540,w=80,h=65,sound='rotate',font=40,code=function()_nextDir(5)end,fText=CHAR.icon.retry_spin},
-    WIDGET.newButton{name='spin6',    x=825,y=540,w=80,h=65,sound='rotate',font=40,code=function()_nextDir(6)end,fText=CHAR.icon.retry_spin},
-    WIDGET.newButton{name='spin7',    x=970,y=540,w=80,h=65,sound='rotate',font=40,code=function()_nextDir(7)end,fText=CHAR.icon.retry_spin},
+    WIDGET.newButton{name='spin1',    x=130,y=540,w=80,h=65,sound='rotate',font=40,code=function()_nextDir(1) end,fText=CHAR.icon.retry_spin},
+    WIDGET.newButton{name='spin2',    x=270,y=540,w=80,h=65,sound='rotate',font=40,code=function()_nextDir(2) end,fText=CHAR.icon.retry_spin},
+    WIDGET.newButton{name='spin3',    x=410,y=540,w=80,h=65,sound='rotate',font=40,code=function()_nextDir(3) end,fText=CHAR.icon.retry_spin},
+    WIDGET.newButton{name='spin4',    x=550,y=540,w=80,h=65,sound='rotate',font=40,code=function()_nextDir(4) end,fText=CHAR.icon.retry_spin},
+    WIDGET.newButton{name='spin5',    x=690,y=540,w=80,h=65,sound='rotate',font=40,code=function()_nextDir(5) end,fText=CHAR.icon.retry_spin},
+    WIDGET.newButton{name='spin6',    x=825,y=540,w=80,h=65,sound='rotate',font=40,code=function()_nextDir(6) end,fText=CHAR.icon.retry_spin},
+    WIDGET.newButton{name='spin7',    x=970,y=540,w=80,h=65,sound='rotate',font=40,code=function()_nextDir(7) end,fText=CHAR.icon.retry_spin},
 
     WIDGET.newButton{name='skinR',    x=200,y=640,w=220,h=80,color='lV',font=35,sound='back',
         code=function()

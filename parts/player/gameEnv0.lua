@@ -1,4 +1,4 @@
-return{
+return {
     das=10,arr=2,
     dascut=0,dropcut=0,
     sddas=2,sdarr=2,

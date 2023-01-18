@@ -1,4 +1,4 @@
---Colorful RGB
+-- Colorful RGB
 local back={}
 local shader=SHADER.rgb1
 

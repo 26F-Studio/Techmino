@@ -1,5 +1,4 @@
-local C=COLOR
-return{
+return {
     loadText={
         loadSFX="Load(SFX);",
         loadSample="Load(Sample);",
@@ -17,6 +16,7 @@ return{
     playedLong="PlayedLong=true",
     playedTooMuch="PlayedTooMuch=true",
     settingWarn="SettingWarn();",
+    settingWarn2="SettingWarn2();",
 
     atkModeName={"Random();","Badges();","Kills();","Back();"},
     royale_remain="LeftPlayers=$1",
@@ -62,10 +62,10 @@ return{
 
     page="Page=",
 
-    cc_fixed="if (AI==CC and Sequence==Fixed) then Error(); end",
-    cc_swap="if (AI==CC and Hold.Mode==Swap) then Error(); end",
-    ai_prebag="if (AI==true and Ctm.Seq~=Tetromino) then Error(); end",
-    ai_mission="if (AI==true and Ctm.Mission~=true) then Error(); end",
+    cc_fixed=" if (AI==CC and Sequence==Fixed) then Error(); end",
+    cc_swap=" if (AI==CC and Hold.Mode==Swap) then Error(); end",
+    ai_prebag=" if (AI==true and Ctm.Seq~=Tetromino) then Error(); end",
+    ai_mission=" if (AI==true and Ctm.Mission~=true) then Error(); end",
     switchSpawnSFX="SpawnSFX=false",
     needRestart="NeedRestart=true",
 
@@ -96,7 +96,7 @@ return{
 
     noScore="NoScore=true",
     modeLocked="Locked=true",
-    unlockHint="if (PreviousMode<=B) then Unlock();",
+    unlockHint=" if (PreviousMode<=B) then Unlock();",
     highScore="HighScore",
     newRecord="NewRecord=true",
 
@@ -104,47 +104,48 @@ return{
 
     dictNote="#!CopySource=Zictionary",
 
-    getNoticeFail="Error.FetchAnnouncement();",
+
+
+    -- Server's warn/error messages
+    Techrater={},
+
+    tooFrequent="Error.requesttooFrequent();",
+    roomPasswordChanged="Info.roomPwChanged();",
     oldVersion="Version.New($1);",
-    needUpdate="Version.NeedUpdate()",
     versionNotMatch="Version.NotMatch();",
     notFinished="ComingSoon();",
 
-    jsonError="Error.JSON();",
-
     noUsername="Error.NoUsername();",
     wrongEmail="Error.WrongEmail();",
-    noPassword="Error.NoPassword();",
+    wrongCode="Error.WrongVerificationCode();",
     diffPassword="Error.DiffPassword();",
-    registerRequestSent="register.RequestSent=true",
-    registerOK="register.Success=true",
-    loginOK="login.Success=true",
-    accessOK="Access.Granted=true",
+    checkEmail="register.RequestSent=true",
 
-    wsConnecting="Websocket.Connect();",
-    wsFailed="Error.Websocket.Failed();",
-    wsClose="Error.Websocket.Close=",
+    wsFailed="Error.Websocket.Failed=$1",
+    wsClose="Error.Websocket.Close=$1",
     netTimeout="Error.ConnectTimeOut();",
+    serverDown="Error.ServerDown();",
+    requestFailed="Error.RequestFailed();",
 
-    onlinePlayerCount="OnlinePlayerCount",
+    onlinePlayerCount="OnlinePlayerCount=$1",
     createRoomSuccessed="CreateRoom.Successs=true",
+    playerKicked="[$1]: roomKick([$2])",
+    -- becomeHost="$1 become host",
     started="Room.Playing();",
-    joinRoom="Room.Join();",
-    leaveRoom="Room.Leave();",
+    joinRoom="Room.Join($1);",
+    leaveRoom="Room.Leave($1);",
+    roomRemoved="Room.Removed();",
     ready="Ready();",
-    connStream="Stream.Connecting();",
-    waitStream="Stream.Waiting();",
     spectating="Room.Spectating();",
-    chatRemain="Online=",
-    chatStart="#!Log.Beginning();",
-    chatHistory="#!NewMassagesBelow();",
+
+
 
     keySettingInstruction="Key.Bind(Press);\nKey.Bind.Cancel(Escspe);\nKey.Bind.Delete(Backspace);",
     customBGhelp="Ctm.BG(DropHere);",
     customBGloadFailed="Error.Ctm.BG(UnsupportFormat);",
 
     errorMsg="Error.Fatal();\n//请检查语法错误或向作者进行反馈。",
-    tryAnotherBuild="Error.DecodeUTF8(); //如果你现在用的是Windows系统，请重新下载 Techmino-32位 或者 Techmino-64位 (和现在运行的不一样的那个)。",
+    tryAnotherBuild="Error.DecodeUTF8(); //如果你现在用的是Windows系统，请重新下载 Techmino-32/64位 (和现在运行的不一样的那个)。",
 
     modInstruction="Mod.Instruction();\n/*选择你要使用的Mod\n不同Mod会用不同的方式改变初始游戏规则(可能导致不能正常游玩)\n提醒:开启一些Mod会让成绩无效，你也可以用键盘开关Mod，按住shift反向*/",
     modInfo={
@@ -207,8 +208,8 @@ return{
         "仅通过官网 *暂无域名,见词典* 免费下载/更新",
         "其他渠道获得游戏皆有被修改/加广告/植入病毒的风险，程序只申请了振动&联网权限！",
         "若由于被修改的本游戏产生的各种损失作者不负责(怎么负责啊我又没法管)",
-        FNNS and"/"or"请从正规途径获得最新版，游戏现为免费，不过有打赏当然感谢啦~",
-        FNNS and"/"or"更多信息见小z词典*/",
+        FNNS and "/" or "请从正规途径获得最新版，游戏现为免费，不过有打赏当然感谢啦~",
+        FNNS and "/" or "更多信息见小z词典*/",
     },
     staff={
         "原作者  MrZ",
@@ -284,7 +285,7 @@ return{
         "NOT_A_ROBOT",
         "sakurw",
         "Airun",
-        --"XMiao",
+        -- "XMiao",
         "幽灵3383",
         "",
         "Performances",
@@ -324,6 +325,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="支持作者",
     WidgetText={
@@ -363,6 +365,7 @@ return{
             league="M.TechLeague();",
             ffa="M.FFA",
             rooms="M.Rooms();",
+            resetPW="M.ResetPW",
             logout="M.Logout();",
         },
         net_league={
@@ -439,7 +442,6 @@ return{
             sysCursor="Set.SysCursor",
             autoPause="Set.AutoPause",
             autoSave="Set.AutoSave",
-            autoLogin="Set.AutoLogin",
             simpMode="Set.SimpMode",
         },
         setting_video={
@@ -480,6 +482,8 @@ return{
             power="Set.Battery",
             clean="Set.QuickDraw",
             fullscreen="Set.Fullscreen",
+            portrait="Set.Portrait",
+            msaa="Set.MSAA",
 
             bg_on="Set.BG(Normal);",
             bg_off="Set.BG(Off);",
@@ -689,24 +693,29 @@ return{
             path="OpenPath();",
             save="DataManagement();",
         },
-        login={
+        login_pw={
             title="LogIn.UI",
-            register="Register();",
+            login_mail="Login_mail_sign_up()",
             email="Email=",
             password="Password=",
             showEmail="ShowEmail",
-            keepPW="KeepPassword",
             login="Login();",
         },
-        register={
-            title="Register.UI",
-            login="Login();",
-            username="Username=",
+        login_mail={
+            title="LogIn_Register.UI",
+            login_pw="Login_pw();",
             email="Email=",
+            send="Send();",
+            code="V-code=",
+            verify="Verify();",
+        },
+        reset_password={
+            title="Reset_Password.UI",
+            send="Send();",
+            code="V-code=",
             password="Password=",
             password2="RePassword=",
-            register="Register();",
-            registering="Waiting();",
+            setPW="SetPassword();",
         },
         account={
             title="Account.UI",

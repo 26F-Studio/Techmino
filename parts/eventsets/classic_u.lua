@@ -4,7 +4,7 @@ local function GetLevelStr(lvl)
     lvl=lvl%256
     return list[lvl]
 end
-return{
+return {
     das=16,arr=6,
     sddas=1,sdarr=1,
     irs=false,ims=false,

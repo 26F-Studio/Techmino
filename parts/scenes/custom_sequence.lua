@@ -1,18 +1,18 @@
-local gc,sys=love.graphics,love.system
+local sys=love.system
 local kb=love.keyboard
 
 local sin=math.sin
 local ins,rem=table.insert,table.remove
-local gc_setColor,gc_print=gc.setColor,gc.print
+local gc_setColor,gc_print=GC.setColor,GC.print
 
 local scene={}
 
-local cur--Cursor position
+local cur-- Cursor position
 
-function scene.sceneInit()
+function scene.enter()
     cur=#BAG
 end
-function scene.sceneBack()
+function scene.leave()
     saveFile(DATA.copySequence(),'conf/customSequence')
 end
 
@@ -28,7 +28,7 @@ local minoKey2={
     z=8,s=9,t=14,j=19,l=20,i=25,['-']=26,o=29,
 }
 function scene.keyDown(key)
-    if key=='left'then
+    if key=='left' then
         local p=cur
         if p==0 then
             cur=#BAG
@@ -38,7 +38,7 @@ function scene.keyDown(key)
             until BAG[p]~=BAG[cur]
             cur=p
         end
-    elseif key=='right'then
+    elseif key=='right' then
         local p=cur
         if p==#BAG then
             cur=0
@@ -48,7 +48,7 @@ function scene.keyDown(key)
             until BAG[p+1]~=BAG[cur+1]
             cur=p
         end
-    elseif key=='ten'then
+    elseif key=='ten' then
         for _=1,10 do
             local p=cur
             if p==#BAG then break end
@@ -57,37 +57,37 @@ function scene.keyDown(key)
             until BAG[p+1]~=BAG[cur+1]
             cur=p
         end
-    elseif key=='backspace'then
+    elseif key=='backspace' then
         if cur>0 then
             rem(BAG,cur)
             cur=cur-1
         end
-    elseif key=='delete'then
-        if tryReset()then
+    elseif key=='delete' then
+        if tryReset() then
             TABLE.cut(BAG)
             cur=0
             SFX.play('finesseError',.7)
         end
-    elseif key=='='then
+    elseif key=='=' then
         local l={1,2,3,4,5,6,7}
-        repeat scene.keyDown(rem(l,math.random(#l)))until not l[1]
-    elseif key=='tab'then
-        WIDGET.active.sequence:scroll(kb.isDown('lshift','rshift')and -1 or 1)
-    elseif key=='c'and kb.isDown('lctrl','rctrl')or key=='cC'then
+        repeat scene.keyDown(rem(l,math.random(#l))) until not l[1]
+    elseif key=='tab' then
+        scene.widgetList.sequence:scroll(kb.isDown('lshift','rshift') and -1 or 1)
+    elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
         if #BAG>0 then
             sys.setClipboardText("Techmino SEQ:"..DATA.copySequence())
             MES.new('check',text.exportSuccess)
         end
-    elseif key=='v'and kb.isDown('lctrl','rctrl')or key=='cV'then
+    elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
         local str=sys.getClipboardText()
-        local p=str:find(":")--ptr*
+        local p=str:find(":")-- ptr*
         if p then
-            if not str:sub(1,p-1):find("SEQ")then
+            if not str:sub(1,p-1):find("SEQ") then
                 MES.new('error',text.pasteWrongPlace)
             end
             str=str:sub(p+1)
         end
-        if DATA.pasteSequence(str)then
+        if DATA.pasteSequence(str) then
             MES.new('check',text.importSuccess)
             cur=#BAG
         else
@@ -95,13 +95,13 @@ function scene.keyDown(key)
             cur=0
             MES.new('error',text.dataCorrupted)
         end
-    elseif key=='escape'then
+    elseif key=='escape' then
         SCN.back()
-    elseif type(key)=='number'then
+    elseif type(key)=='number' then
         cur=cur+1
         ins(BAG,cur,key)
     elseif #key==1 then
-        key=(kb.isDown('lshift','lalt','rshift','ralt')and minoKey2 or minoKey)[key]
+        key=(kb.isDown('lshift','lalt','rshift','ralt') and minoKey2 or minoKey)[key]
         if key then
             local p=cur+1
             while BAG[p]==key do p=p+1 end
@@ -112,23 +112,23 @@ function scene.keyDown(key)
     end
 end
 
-local blockCharWidth={}for i=1,#BLOCK_CHARS do blockCharWidth[i]=gc.newText(FONT.get(60),BLOCK_CHARS[i]):getWidth()end
+local blockCharWidth={} for i=1,#BLOCK_CHARS do blockCharWidth[i]=GC.newText(FONT.get(60),BLOCK_CHARS[i]):getWidth() end
 function scene.draw()
-    --Draw frame
+    -- Draw frame
     gc_setColor(COLOR.Z)
-    gc.setLineWidth(2)
-    gc.rectangle('line',100,110,1080,260,5)
+    GC.setLineWidth(2)
+    GC.rectangle('line',100,110,1080,260,5)
 
-    --Draw sequence
+    -- Draw sequence
     local BLOCK_COLORS=BLOCK_COLORS
     local skinSetting=SETTING.skin
     local BAG=BAG
-    local x,y=120,136--Next block pos
-    local cx,cy=120,136--Cursor-center pos
+    local x,y=120,136-- Next block pos
+    local cx,cy=120,136-- Cursor-center pos
     local i,j=1,#BAG
     local count=1
     repeat
-        if BAG[i]==BAG[i-1]and i-1~=cur then
+        if BAG[i]==BAG[i-1] and i-1~=cur then
             count=count+1
         else
             if count>1 then
@@ -159,14 +159,14 @@ function scene.draw()
         i=i+1
     until i>j+1
 
-    --Draw lenth
+    -- Draw lenth
     setFont(40)
     gc_setColor(COLOR.Z)
     gc_print(#BAG,120,310)
 
-    --Draw cursor
+    -- Draw cursor
     gc_setColor(.5,1,.5,.6+.4*sin(TIME()*6.26))
-    gc.line(cx-5,cy-20,cx-5,cy+20)
+    GC.line(cx-5,cy-20,cx-5,cy+20)
 end
 
 scene.widgetList={
@@ -217,7 +217,7 @@ scene.widgetList={
     WIDGET.newKey{name='O1',    x=920,y=640,w=80,color='dH',font=100,fText=CHAR.mino.O1,    code=pressKey(29)},
 
 
-    WIDGET.newButton{name='copy', x=1140,y=460,w=170,h=80,color='lR',font=50,fText=CHAR.icon.export,code=pressKey'cC',hideF=function()return #BAG==0 end},
+    WIDGET.newButton{name='copy', x=1140,y=460,w=170,h=80,color='lR',font=50,fText=CHAR.icon.export,code=pressKey'cC',hideF=function() return #BAG==0 end},
     WIDGET.newButton{name='paste',x=1140,y=550,w=170,h=80,color='lB',font=50,fText=CHAR.icon.import,code=pressKey'cV'},
     WIDGET.newButton{name='back', x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }

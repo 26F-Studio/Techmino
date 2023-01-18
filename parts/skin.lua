@@ -19,7 +19,7 @@ function SKIN.load(list)
     end
 end
 
-function SKIN.getList()return skinList end
+function SKIN.getList() return skinList end
 
 local skinMeta={__index=function(self,name)
     GC.push()
@@ -27,7 +27,7 @@ local skinMeta={__index=function(self,name)
     GC.setDefaultFilter('nearest','nearest')
     local I
     local N=Skins[name]
-    if N and love.filesystem.getInfo(N)then
+    if N and love.filesystem.getInfo(N) then
         I=GC.newImage(N)
     else
         MES.new('warn',"[no skin] "..name)

@@ -1,6 +1,6 @@
 local gc=love.graphics
 
-local state--0=playing, 1=gameover
+local state-- 0=playing, 1=gameover
 local timeUsed
 local level
 local showNum
@@ -12,7 +12,7 @@ local scene={}
 
 local function newNum(lv)
     local num=""
-    for _=1,4+lv^.66 do num=num..math.random(0,9)end
+    for _=1,4+lv^.66 do num=num..math.random(0,9) end
     return num
 end
 
@@ -29,7 +29,7 @@ local function _reset()
     freshLevel()
 end
 
-function scene.sceneInit()
+function scene.enter()
     state=1
     timeUsed=0
     level=0
@@ -40,15 +40,15 @@ end
 
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=='escape'then
-        if tryBack()then
+    if key=='escape' then
+        if tryBack() then
             SCN.back()
         end
-    elseif key=='r'then
+    elseif key=='r' then
         _reset()
     elseif state==0 then
-        if key:sub(1,2)=="kp"then key=key:sub(3)end
-        if #key==1 and("0123456789"):find(key,nil,true)then
+        if key:sub(1,2)=="kp" then key=key:sub(3) end
+        if #key==1 and ("0123456789"):find(key,nil,true) then
             input=input..key
             showTime=math.min(showTime,0)
             if input==showNum then
@@ -56,7 +56,7 @@ function scene.keyDown(key,isRep)
                 freshLevel()
                 SFX.play('reach')
             end
-        elseif key=='space'or key=='backspace'then
+        elseif key=='space' or key=='backspace' then
             input=""
         end
     end

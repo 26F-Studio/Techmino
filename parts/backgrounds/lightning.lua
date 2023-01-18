@@ -1,4 +1,4 @@
---Lightning
+-- Lightning
 local back={}
 
 local t

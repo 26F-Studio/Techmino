@@ -13,9 +13,14 @@ The Official Repository of Techmino on GitHub & Gitee.
 
 A collection of various modern block game rules, more ways to play, and some new things added for a new experience.
 
------
+## Download the latest version (最新版下载)
 
-[点击这里来下载最新版本 Click here to download the latest version](https://github.com/26F-Studio/Techmino/releases)
+| Android | Linux | Windows x86 | Windows x64 | macOS .dmg | macOS .pkg | App Store & TestFlight (iOS) |
+| --- | --- | --- | --- | --- | --- | --- |
+| [普通下载<br>(Direct download)](https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_Android.apk) | [普通下载<br>(Direct download)](https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_Linux.AppImage) | [普通下载<br>(Direct download)](https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_Windows_x86.zip) | [普通下载<br>(Direct download)](https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_Windows_x64.zip) | [普通下载<br>(Direct download)](https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_macOS_portable.dmg) | [普通下载<br>(Direct download)](https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_macOS_portable.pkg) | [App Store](https://apps.apple.com/app/1590869403)        |
+| [加速下载<br>(Mirror download)](https://ghproxy.com/https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_Android.apk) | [加速下载<br>(Mirror download)](https://ghproxy.com/https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_Linux.AppImage) | [加速下载<br>(Mirror download)](https://ghproxy.com/https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_Windows_x86.zip) | [加速下载<br>(Mirror download)](https://ghproxy.com/https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_Windows_x64.zip) | [加速下载<br>(Mirror download)](https://ghproxy.com/https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_macOS_portable.dmg) | [加速下载<br>(Mirror download)](https://ghproxy.com/https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_macOS_portable.pkg) | [TestFlight](https://testflight.apple.com/join/SZOFUqFv) |
+
+-----
 
 [官网(建设中) Official website (WIP)](http://101.43.110.22:10026)
 

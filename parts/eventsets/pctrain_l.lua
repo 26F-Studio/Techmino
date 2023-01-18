@@ -11,7 +11,7 @@ local function task_PC(P)
     P:pushNextList(L,symmetry)
 
     P.control=false
-    if P.frameRun>180 then for _=1,26 do YIELD()end end
+    if P.frameRun>180 then for _=1,26 do coroutine.yield() end end
     P.control=true
 
     local base=PCbase[difficulty]
@@ -31,9 +31,9 @@ local function _check(P)
 
             if P.stat.pc%4==0 and P.stat.pc>0 and P.stat.pc<=40 then
                 local s=P.stat.pc/4
-                P.gameEnv.drop=pc_drop[s]or 10
-                P.gameEnv.lock=pc_lock[s]or 25
-                P.gameEnv.fall=pc_fall[s]or 4
+                P.gameEnv.drop=pc_drop[s] or 10
+                P.gameEnv.lock=pc_lock[s] or 25
+                P.gameEnv.fall=pc_fall[s] or 4
                 if s==10 then
                     P:_showText(text.maxspeed,0,-140,100,'appear',.6)
                 end
@@ -41,7 +41,7 @@ local function _check(P)
         end
     end
 end
-return{
+return {
     sequence='none',
     RS="SRS",
     mesDisp=function(P)
@@ -50,5 +50,5 @@ return{
         mText(TEXTOBJ.pc,63,330)
     end,
     hook_drop=_check,
-    task=_check,--Just run one time at first to start first level
+    task=_check,-- Just run one time at first to start first level
 }

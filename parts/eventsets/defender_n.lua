@@ -1,4 +1,4 @@
-return{
+return {
     drop=30,lock=60,
     fall=10,
     mesDisp=function(P)
@@ -10,7 +10,7 @@ return{
     end,
     task=function(P)
         while true do
-            YIELD()
+            coroutine.yield()
             if P.control then
                 local D=P.modeData
                 D.counter=D.counter+1

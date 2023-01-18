@@ -1,4 +1,4 @@
-return{
+return {
     mesDisp=function(P)
         setFont(55)
         GC.mStr(P.modeData.wave,63,200)
@@ -8,14 +8,14 @@ return{
     end,
     task=function(P)
         while true do
-            YIELD()
+            coroutine.yield()
             if P.control and P.atkBufferSum<4 then
                 local D=P.modeData
                 if D.wave==50 then
                     P:win('finish')
                 else
                     local s
-                    local t=800-10*D.wave--800~700~600~500
+                    local t=800-10*D.wave-- 800~700~600~500
                     if D.wave<10 then
                         table.insert(P.atkBuffer,{line=generateLine(P.holeRND:random(5,6)),amount=9,countdown=t,cd0=t,time=0,sent=false,lv=3})
                         table.insert(P.atkBuffer,{line=generateLine(P.holeRND:random(4,7)),amount=11,countdown=t,cd0=t+62,time=0,sent=false,lv=4})

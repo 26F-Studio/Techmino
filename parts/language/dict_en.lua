@@ -1,6 +1,6 @@
 local HDsearch="https://harddrop.com/wiki?search="
 local HDwiki="\nFor more information, please visit Hard Drop Wiki. Click on the globe icon to open the link."
-return{
+return {
     {"Translator Note 1",
         "",
         "help",
@@ -91,7 +91,7 @@ return{
     },
 
 
-    --Webpages / Organizations
+    -- Webpages / Organizations
     {"Github Repository",
         "githubrepository sourcecode src",
         "org",
@@ -103,12 +103,6 @@ return{
         "org",
         "Join the Tetris communities and talk with other players! You can join the Hard Drop Discord server by clicking on the globe icon.",
         "https://discord.gg/harddrop"
-    },
-    {"Mew",
-        "tieba forum reddit discord",
-        "org",
-        "The Mew forum owned by the Chinese Tetris Research Community and was founded in the second half of 2021. Mew is a Chinese social media, kind of like a combination of Discord and Reddit, with many channels in a big community. Users can chat in the channels and submit posts to the channel. Mew also has a function called “Library,” which systematically stores the documentation. The Tetris Mew forum is currently under construction, and not too many contents are available (2/Nov/2021).",
-        "https://mew.fun/n/tetris",
     },
     {"Tetris OL Servers",
         "tetrisonline servers tos",
@@ -125,16 +119,16 @@ return{
         "support afdian aidadian",
         "org",
         FNNS and "The contents in this entry were hidden due to platform restrictions. Feel free to discuss these contents on our Discord server." or "To donate to Techmino via Aifadian, use the globe icon on the bottom right to open the URL. Aifadian charges a 6% transaction fee off your purchase.",
-        FNNS and"https://youtu.be/dQw4w9WgXcQ"or"https://afdian.net/@MrZ_26",
+        FNNS and "https://youtu.be/dQw4w9WgXcQ" or "https://afdian.net/@MrZ_26",
     },
     {"Support 3",
         "support p\97\116\114\101\111\110",
         "org",
         FNNS and "The contents in this entry were hidden due to platform restrictions. Feel free to discuss these contents on our Discord server." or "To donate to Techmino via P\97\116\114\101\111\110, click on the globe icon on the bottom right to open the URL. Notice that P\97\116\114\101\111\110 may charge you a service fee for transactions over a certain amount.",
-        FNNS and"https://youtu.be/dQw4w9WgXcQ"or"https://www.p\97\116\114\101\111\110.com/techmino",
+        FNNS and "https://youtu.be/dQw4w9WgXcQ" or "https://www.p\97\116\114\101\111\110.com/techmino",
     },
 
-    --Games
+    -- Games
     {"TTT",
         "tetris trainer tres bien",
         "game",
@@ -363,7 +357,7 @@ return{
         "Windows | Multiplayer\n(火拼俄罗斯)\n\nThe Tetris game on Tencent Game Center, 12-wide board, DAS/ARR the same as typing on the keyboard, one Next, no Hold. Can only send garbage through Tetris (sends three lines) and Triple (sends two lines). Garbage is checker-board-shaped and is nearly impossible to dig through.",
     },
 
-    --Terms
+    -- Terms
     {"Translator Note 2",
         "",
         "help",
@@ -448,7 +442,7 @@ return{
     {"Tetris",
         "tetris 4",
         "term",
-        "The name of the game (and its trademark). Also the term for clearing four lines at one time in official games.\nCoined from Tetra (Greek for “four” <τέτταρες>) and Tennis (favorite sport of the creator of Tetris). Also, the Tetris games developed by Nintendo and SEGA were licensed by TTC. These two companies do not have the copyright of Tetris.",--Thanks to Alexey Pajitnov!
+        "The name of the game (and its trademark). Also the term for clearing four lines at one time in official games.\nCoined from Tetra (Greek for “four” <τέτταρες>) and Tennis (favorite sport of the creator of Tetris). Also, the Tetris games developed by Nintendo and SEGA were licensed by TTC. These two companies do not have the copyright of Tetris.",-- Thanks to Alexey Pajitnov!
     },
     {"All Clear",
         "pc perfectclear ac allclear",
@@ -675,7 +669,7 @@ return{
     {"Donation",
         "donate",
         "term",
-        "A method of “plugging” up the Tetris hole to send a T-Spin. After the T-Spin, the Tetris hole is opened up once again to allow the continuation of Tetris or downstacking.\n--Harddrop wiki",
+        "A method of “plugging” up the Tetris hole to send a T-Spin. After the T-Spin, the Tetris hole is opened up once again to allow the continuation of Tetris or downstacking.\n-- Harddrop wiki",
     },
     {"‘Debt’",
         "qianzhai debt owe",
@@ -891,7 +885,7 @@ return{
     {"Rolling",
         "rolling",
         "term",
-        "Another method of fast-tapping in high-gravity (around 1G) modes (with slow DAS/ARR setting).\nWhen you perform rolling, you fix the position of one hand and the controller, and then tap the back of the controller with fingers on your other hand repeatedly. This method allows even faster speeds than hypertapping (see “Hypertapping” for more)and requires much less effort.\nThis method was first discovered by Cheez-fish, and he has once achieved a tapping speed of more than 20 Hz.",
+        "Another method of fast-tapping in high-gravity (around 1G) modes (with slow DAS/ARR setting).\nWhen you perform rolling, you fix the position of one hand and the controller, and then tap the back of the controller with fingers on your other hand repeatedly. This method allows even faster speeds than hypertapping (see “Hypertapping” for more) and requires much less effort.\nThis method was first discovered by Cheez-fish, and he has once achieved a tapping speed of more than 20 Hz.",
     },
     {"Passthrough",
         "pingthrough",
@@ -975,7 +969,7 @@ return{
         "A Tetris bot. Built by the Chinese Tetris player 奏之章 (Zòu Zhī Zhāng, see entry below) and has decent performance in many games",
     },
 
-    --Setups
+    -- Setups
     {"Openers",
         "setup openers",
         "setup",
@@ -1090,7 +1084,7 @@ return{
         HDsearch.."Gamushiro_Stacking",
     },
 
-    --Pattern
+    -- Pattern
     {"Mid-game Setups",
         "midgamesetups",
         "pattern",
@@ -1174,7 +1168,7 @@ return{
         "https://four.lol/perfect-clears/5th",
     },
 
-    --Savedata managing
+    -- Savedata managing
     {"Console",
         "cmd commamd minglinghang kongzhitai terminal",
         "command",
@@ -1216,7 +1210,7 @@ return{
         "Go to console, type “rm -s cache” and then press enter/return.\nTake effect immediately.",
     },
 
-    --English
+    -- English
     {"SFX",
         "soundeffects",
         "english",

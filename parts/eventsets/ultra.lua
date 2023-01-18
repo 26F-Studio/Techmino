@@ -1,7 +1,7 @@
 local warnTime={60,90,105,115,116,117,118,119,120}
 for i=1,#warnTime do warnTime[i]=warnTime[i]*60 end
 
-return{
+return {
     mesDisp=function(P)
         GC.setLineWidth(2)
         GC.setColor(.98,.98,.98,.8)
@@ -18,11 +18,11 @@ return{
         GC.mStr(T,63,268)
     end,
     task=function(P)
-        BGM.seek(0)
+        BGM.set('all','seek',0)
         P.modeData.section=1
         while true do
-            YIELD()
-            while P.stat.frame>=warnTime[P.modeData.section]do
+            coroutine.yield()
+            while P.stat.frame>=warnTime[P.modeData.section] do
                 if P.modeData.section<9 then
                     P.modeData.section=P.modeData.section+1
                     playReadySFX(3,.7+P.modeData.section*.03)

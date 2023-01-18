@@ -1,4 +1,5 @@
-return{
+return {
+    fallback='en',
     loadText={
         loadSFX="Cargando efectos de sonido",
         loadSample="Cargando samples de música",
@@ -9,7 +10,6 @@ return{
         loadOther="Cargando otros assets",
         finish="Pulsa cualquier tecla",
     },
-    fallback='en',
     sureQuit="Pulsa de nuevo para salir",
     sureReset="Pulsa de nuevo para reiniciar",
     sureDelete="Pulsa de nuevo para borrar",
@@ -17,6 +17,7 @@ return{
     playedLong="[Anti-adicción] Estuviste jugando un buen rato hoy. Recuerda descansar de vez en cuando.",
     playedTooMuch="[Anti-adicción] ¡Has jugado mucho por hoy! No puedes jugar más.",
     settingWarn="¡Ten cuidado con modificar esto!",
+    -- settingWarn2="This setting takes effect after restart",
 
     atkModeName={"Al azar","Medallas","KOs","Atacantes"},
     royale_remain="$1 Jugadores Restantes",
@@ -103,40 +104,92 @@ return{
 
     dictNote="==Copia de TetroDictionary==",
 
-    getNoticeFail="Error al buscar novedades.",
+
+
+    -- Server's warn/error messages
+    Techrater={
+        internalError="Internal error",
+        databaseError="Database error",
+        invalidFormat="Formato inválido",
+        invalidArguments="Argumentos inválidos",
+        tooFrequent="Exceso de requests",
+        notAvailable="No disponible",
+        noPermission="No hay permisos suficientes",
+        roomNotFound="Sala no encontrada",
+
+        -- Controllers
+        WebSocket={
+            invalidConnection="Conexión inválida",
+            invalidAction="Acción inválida",
+            playerNotFound="Jugador no encontrado",
+            connectionFailed="Error de conexión",
+        },
+        -- Filters
+        CheckPermission={
+            playerNotFound="Jugador no encontrado",
+        },
+        -- Plugins
+        ConnectionManager={
+            playerInvalid="Jugador inválido",
+            playerNotFound="Jugador no encontrado",
+            connectionReplaced="Conexión reiniciada",
+        },
+        NoticeManager={
+            noticeNotFound="Aviso no encontrado",
+        },
+        PlayerManager={
+            invalidCode="Código incorrecto",
+            invalidEmail="Correo inválido",
+            playerNotFound="Jugador no encontrado",
+            invalidEmailPass="Correo o contraseña incorrecta",
+            emailExists="Correo ya existente",
+            emailSendError="Error al enviar solicitud",
+        },
+        -- Strategies
+        PlayerRole={
+            invalidRole="Rol inválido",
+            invalidTarget="Objetivo inválido",
+        },
+        PlayerType={
+            invalidType="Clase inválida",
+            roomFull="Esta sala está llena.",
+        },
+        RoomJoin={
+            wrongPassword="Contraseña incorrecta",
+        },
+    },
+
+    tooFrequent="Requests demasiado frecuentes",
+    roomPasswordChanged="Contraseña de sala cambiada",
     oldVersion="¡Está disponible la nueva versión $1!",
-    needUpdate="¡Nueva versión requerida!",
     versionNotMatch="¡Las versiones no coinciden!",
     notFinished="Próximamente",
 
-    jsonError="Error en Json",
-
     noUsername="Por favor ingresa un nombre de usuario",
     wrongEmail="Correo electrónico inválido",
+    wrongCode="Código de Verif. incorrecto",
     noPassword="Por favor ingresa la contraseña",
     diffPassword="Las contraseñas no coinciden",
-    registerRequestSent="Petición de registro enviada con éxito",
-    registerOK="¡Registro exitoso!",
-    loginOK="¡Ingreso con éxito!",
-    accessOK="¡Autorizado exitoso!",
+    checkEmail="Petición de registro enviada con éxito",
 
-    wsConnecting="Websocket Conectando",
-    wsFailed="WebSocket conexión fallida",
-    wsClose="WebSocket cerrado:",
+    wsFailed="WebSocket conexión fallida: $1",
+    wsClose="WebSocket cerrado: $1",
     netTimeout="Tiempo de conexión agotado",
+    serverDown="Server caído, F",
+    requestFailed="Error de Request",
 
-    onlinePlayerCount="En línea",
+    onlinePlayerCount="En línea: $1",
     createRoomSuccessed="¡Sala creada con éxito!",
+    playerKicked="$2 quitado de la sala por $1",
+    becomeHost="$1 ahora es el host",
     started="En juego",
-    joinRoom="entró a la sala.",
-    leaveRoom="salió de la sala.",
+    joinRoom="$1 entró a la sala.",
+    leaveRoom="$1 salió de la sala.",
+    roomRemoved="Sala removida",
     ready="LISTO",
-    connStream="CONECTANDO",
-    waitStream="ESPERANDO",
     spectating="Espectando",
-    chatRemain="Usuarios en línea:",
-    chatStart="------Comienzo del historial------",
-    chatHistory="------Nuevos mensajes------",
+
+
 
     keySettingInstruction="Pulsa la tecla a mapear\nEsc.: Cancelar\nBackspace: Borrar",
     customBGhelp="Suelta una imagen aquí para aplicarla de fondo",
@@ -206,8 +259,8 @@ return{
         "Por favor descarga el juego únicamente desde los sitios oficiales,",
         "ya que no podemos asegurar que sea seguro si proviene de otro lado.",
         "El autor no se responabiliza por daños ocasionados debido a modificaciones del juego.",
-        FNNS and"/"or"El juego es gratuito, pero se aprecian donaciones.",
-        FNNS and"/"or"Ve el Zictionary (en inglés) para más info.",
+        FNNS and "/" or "El juego es gratuito, pero se aprecian donaciones.",
+        FNNS and "/" or "Ve el Zictionary (en inglés) para más info.",
     },
     staff={
         "ORIGINAL DE MrZ",
@@ -322,6 +375,7 @@ return{
         Cold_Clear [MinusKelvin]
         json.lua [rxi]
         profile.lua [itraykov]
+        sha2 [Egor Skriptunoff]
     ]],
     support="Apoyen al Autor",
     WidgetText={
@@ -361,6 +415,7 @@ return{
             league="Liga Tech",
             ffa="FFA",
             rooms="Salas",
+            resetPW="Restabl. Contraseña",
             logout="Desconec.",
         },
         net_league={
@@ -437,7 +492,6 @@ return{
             sysCursor="Usar cursor del sistema",
             autoPause="Pausar cuando la ventana no está enfocada",
             autoSave="Autograbar Récords",
-            autoLogin="Autologueo al Iniciar",
             simpMode="Modo Sencillo",
         },
         setting_video={
@@ -478,6 +532,8 @@ return{
             power="Inf. de Batería",
             clean="Fast Draw",
             fullscreen="Pant. Completa",
+            -- portrait="Portrait",
+            -- msaa="MSAA level",
 
             bg_on="Fondo Normal",
             bg_off="Sin Fondo",
@@ -680,24 +736,29 @@ return{
             music="BGMs",
             label="Etiq.",
         },
-        login={
+        login_pw={
             title="Entrar",
-            register="Registrarse",
+            login_mail="Registrarse/Pedir código",
             email="Correo Elec.",
             password="Contraseña",
             showEmail="Mostrar Correo",
-            keepPW="Recordar credenciales",
             login="Entrar",
         },
-        register={
-            title="Registrarse",
-            login="Entrar",
-            username="Nombre de Usuario",
+        login_mail={
+            title="Entrar/Registrarse",
+            login_pw="Ingr. con Contraseña",
             email="Correo Elec.",
+            send="Enviar código",
+            code="Código de Verif.",
+            verify="Verificar",
+        },
+        reset_password={
+            title="Restablecer Contraseña",
+            send="Enviar código",
+            code="Código de Verif.",
             password="Contraseña",
             password2="Repetir Contr.",
-            register="Registrarse",
-            registering="Esperando respuesta...",
+            setPW="Establecer",
         },
         account={
             title="Cuenta",
@@ -771,7 +832,7 @@ return{
         ['dig_eff_40l']=    {"Dig",                     "Efic. 40L",      "¡Limpia 40 líneas de queso con la menor cantidad de piezas posible!"},
         ['dig_eff_100l']=   {"Dig",                     "Efic. 100L",     "¡Limpia 100 líneas de queso con la menor cantidad de piezas posible!"},
         ['dig_eff_400l']=   {"Dig",                     "Efic. 400L",     "¡Limpia 400 líneas de queso con la menor cantidad de piezas posible!"},
-        --['dig_quad_10l']=   {"Dig",               "TECHRASH 10L",   "Dig 10 garbage lines using only techrash!"},
+        ['dig_quad_10l']=   {"Dig",                     "TECHRASH 10L",   "¡Limpia 10 líneas de queso sólo con Tecrashes!"},
         ['drought_n']=      {"Sequía",                  "100L",          "¡Sin piezas I!"},
         ['drought_l']=      {"Sequía+",                 "100L",          "Qué es esto..."},
         ['marathon_n']=     {"Maratón",                 "Normal",        "Maratón de 200 líneas con velocidad en aumento."},
@@ -863,4 +924,5 @@ return{
         ['custom_clear']=   {"Personalizado",           "Normal"},
         ['custom_puzzle']=  {"Personalizado",           "Puzzle"},
     },
+    pumpkin="Todos alaben al rey Calabaza",
 }

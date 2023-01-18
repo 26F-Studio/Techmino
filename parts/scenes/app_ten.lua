@@ -54,7 +54,7 @@ local function reset()
     fallingTimer=false
     failPos=false
 end
-function scene.sceneInit()
+function scene.enter()
     BG.set('rainbow2')
     BGM.play('truth')
     preview={}
@@ -109,10 +109,10 @@ local function merge()
         end
         if chosen>=5 then
             SFX.play(
-                chosen>=9 and'ren_mega'or
-                chosen>=8 and'spin_3'or
-                chosen>=7 and'spin_2'or
-                chosen>=6 and'spin_1'or
+                chosen>=9 and 'ren_mega' or
+                chosen>=8 and 'spin_3' or
+                chosen>=7 and 'spin_2' or
+                chosen>=6 and 'spin_1' or
                 'spin_0'
             )
         end
@@ -125,39 +125,39 @@ local function merge()
 end
 function scene.keyDown(key,isRep)
     if isRep then return end
-    if key=='up'or key=='down'or key=='left'or key=='right'then
+    if key=='up' or key=='down' or key=='left' or key=='right' then
         if state==2 then return end
         if not cx then
             cx,cy=3,3
         else
-            if key=='up'then
+            if key=='up' then
                 if cy>1 then cy=cy-1 end
-            elseif key=='down'then
+            elseif key=='down' then
                 if cy<5 then cy=cy+1 end
-            elseif key=='left'then
+            elseif key=='left' then
                 if cx>1 then cx=cx-1 end
-            elseif key=='right'then
+            elseif key=='right' then
                 if cx<5 then cx=cx+1 end
             end
         end
-    elseif key=='z'or key=='space'then
+    elseif key=='z' or key=='space' then
         merge()
-    elseif key=='r'then
+    elseif key=='r' then
         reset()
-    elseif key=='q'then
+    elseif key=='q' then
         if state==0 then
             nexts=not nexts
         end
-    elseif key=='w'then
+    elseif key=='w' then
         if state==0 then
             invis=not invis
         end
-    elseif key=='e'then
+    elseif key=='e' then
         if state==0 then
             fast=not fast
         end
-    elseif key=='escape'then
-        if tryBack()then
+    elseif key=='escape' then
+        if tryBack() then
             SCN.back()
         end
     end
@@ -198,17 +198,17 @@ function scene.update()
                     if board[1][i]==0 then
                         board[1][i]=rem(preview,1)
                         preview[5]=
-                            maxTile<=4 and rnd(2)or
-                            maxTile<=8 and rnd(1+rnd(2))or
-                            maxTile<=11 and rnd(2+rnd(2))or
+                            maxTile<=4 and rnd(2) or
+                            maxTile<=8 and rnd(1+rnd(2)) or
+                            maxTile<=11 and rnd(2+rnd(2)) or
                             rnd(2+rnd(3))
                         noNewTile=false
                     end
                 end
                 if noNewTile then
                     fallingTimer=false
-                    for i=1,4 do for j=1,5 do if board[i][j]==board[i+1][j]then return end end end
-                    for i=1,5 do for j=1,4 do if board[i][j]==board[i][j+1]then return end end end
+                    for i=1,4 do for j=1,5 do if board[i][j]==board[i+1][j] then return end end end
+                    for i=1,5 do for j=1,4 do if board[i][j]==board[i][j+1] then return end end end
                     state=2
                     SFX.play('fail')
                 else
@@ -216,11 +216,11 @@ function scene.update()
                     SFX.play('touch')
                 end
             end
-        elseif fast and(
-            msIsDown(1)or
+        elseif fast and (
+            msIsDown(1) or
             #tcTouches()>0 or
             kbIsDown('space')
-        )then
+        ) then
             merge()
         end
     end
@@ -232,14 +232,14 @@ function scene.draw()
     gc.print(("%.3f"):format(time),1026,50)
     gc.print(score,1026,100)
 
-    --Progress time list
+    -- Progress time list
     setFont(25)
     setColor(.7,.7,.7)
     for i=1,#progress do
         gc.print(progress[i],1000,140+30*i)
     end
 
-    --Previews
+    -- Previews
     if nexts then
         gc.setColor(COLOR.dX)
         rectangle('fill',20,450,280,75)
@@ -254,15 +254,15 @@ function scene.draw()
     end
 
     if state==2 then
-        --Draw no-setting area
+        -- Draw no-setting area
         setColor(1,0,0,.3)
         rectangle('fill',15,200,285,210)
     end
     gc.setLineWidth(10)
     setColor(COLOR[
-        state==1 and(fast and'R'or'W')or
-        state==0 and'G'or
-        state==2 and'Y'
+        state==1 and (fast and 'R' or 'W') or
+        state==0 and 'G' or
+        state==2 and 'Y'
     ])
     rectangle('line',315,35,650,650)
 
@@ -305,9 +305,9 @@ end
 
 scene.widgetList={
     WIDGET.newButton{name='reset',x=160,y=100,w=180,h=100,color='lG',font=50,fText=CHAR.icon.retry_spin,code=pressKey'r'},
-    WIDGET.newSwitch{name='next', x=240,y=235,lim=200,font=40,disp=function()return nexts end,code=pressKey'q',hideF=function()return state==1 end},
-    WIDGET.newSwitch{name='invis',x=240,y=305,lim=200,font=40,disp=function()return invis end,code=pressKey'w',hideF=function()return state==1 end},
-    WIDGET.newSwitch{name='fast', x=240,y=375,lim=200,font=30,disp=function()return fast end,code=pressKey'e',hideF=function()return state==1 end},
+    WIDGET.newSwitch{name='next', x=240,y=235,lim=200,font=40,disp=function() return nexts end,code=pressKey'q',hideF=function() return state==1 end},
+    WIDGET.newSwitch{name='invis',x=240,y=305,lim=200,font=40,disp=function() return invis end,code=pressKey'w',hideF=function() return state==1 end},
+    WIDGET.newSwitch{name='fast', x=240,y=375,lim=200,font=30,disp=function() return fast end,code=pressKey'e',hideF=function() return state==1 end},
     WIDGET.newButton{name='back', x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 
