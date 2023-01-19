@@ -193,7 +193,7 @@ jobs:
           dir: ./libAndroid
       - name: Build Android packages
         id: build-packages
-        uses: love-actions/love-actions-android@v1
+        uses: love-actions/love-actions-android@main
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
@@ -205,6 +205,7 @@ jobs:
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           resource-path: ./.github/build/android/${{ env.BUILD_TYPE }}/res
           extra-assets: ./libAndroid/
+          custom-scheme: studio26f://oauth
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
           version-code: ${{ needs.get-info.outputs.version-code }}
