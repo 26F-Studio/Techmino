@@ -91,8 +91,8 @@ return {
 
     nowPlaying="Đang phát:",
 
-    VKTchW="Touch weight",
-    VKOrgW="Origin weight",
+    VKTchW="Touch weight", -- Khối lượng chạm (Hieu)
+    VKOrgW="Origin weight", -- Khối lượng gốc (Hieu)
     VKCurW="Current position wt.",
 
     noScore="Không có điểm",
@@ -198,7 +198,7 @@ return {
 
     errorMsg="Techmino bị lỗi và cần phải được khởi động lại\nBạn có thể gửi error log để giúp dev sửa game nhanh hơn.",
 
-    modInstruction="Hãy chọn mod bạn muốn.\nMod sẽ cho bạn thay đổi trò chơi, và có thể làm sụp trò chơi.\nĐiểm sẽ không được lưu lại khi dùng mod.",
+    modInstruction="Hãy chọn mod bạn muốn.\nMod sẽ cho bạn thay đổi trò chơi, và có thể làm sập trò chơi.\nĐiểm sẽ không được lưu lại khi dùng mod.",
     modInfo={
         next="NEXT\nGhi đè số gạch hiển thị ở cột NEXT.",
         hold="HOLD\nGhi đè số lượng gạch được giữ ở cột HOLD.",
@@ -468,7 +468,7 @@ return {
             holdMode="Chế độ Hold",
             nextCount="Next",
             holdCount="Hold",
-            infHold="Giữ vô tận",
+            infHold="Hold vô tận",
             phyHold="In-place Hold",
         },
         net_game={
@@ -490,7 +490,7 @@ return {
             RS="Rotation System",
             menuPos="Vị trí nút Menu",
             sysCursor="Sử dụng con trỏ chuột của hệ thống",
-            autoPause="Tạm dừng khi đang mở cửa số khác",
+            autoPause="Tạm dừng khi nhấn ngoài game",
             autoSave="Tự động lưu các thành tích",
             simpMode="Chế độ đơn giản",
         },
@@ -508,7 +508,7 @@ return {
             ghost="Độ đậm (Ghost)",
             center="Tâm xoay",
             grid="Lưới",
-            lineNum="line No.",
+            lineNum="# hàng",
 
             lockFX="Lock FX",
             dropFX="Drop FX",
@@ -607,7 +607,7 @@ return {
         },
         setting_touch={
             default="Mặc định",
-            snap="Snap to Grid",
+            snap="Bám theo khung",
             size="Kích cỡ",
             shape="Hình dạng",
         },
@@ -665,7 +665,7 @@ return {
 
             fieldH="Độ cao bảng",
             visible="Chế độ hiển thị",
-            freshLimit="Lock Reset Limit",
+            freshLimit="Lock Reset tối đa",
             opponent="Đối thủ",
             life="Mạng",
             pushSpeed="Tốc độ đẩy rác vào",
@@ -872,9 +872,9 @@ return {
         ['master_g']=       {"Master",            "GRADED",         "Lấy điểm cao nhất có thể!"},
         ['master_ex']=      {"GrandMaster",       "EXTRA",          "Cũng là lấy điểm cao nhất có thể nhưng mà gắt hơn!"},
         ['master_instinct']={"Master",            "INSTINCT",       "Lấy điểm cao nhất có thể nhưng với gạch tàng hình!"},
-        ['strategy_e']=     {"Strategy",          "DỄ",           "Quyết định nhanh hoặc chết"},
-        ['strategy_h']=     {"Strategy",          "KHÓ",           "Quyết định nhanh hoặc chết"},
-        ['strategy_u']=     {"Strategy",          "THÁCH ĐẤU",       "Quyết định nhanh hoặc chết"},
+        ['strategy_e']=     {"Strategy",          "DỄ",           "Quyết định nhanh hoặc chết"}, -- Needs fixing (Hoặc chết)
+        ['strategy_h']=     {"Strategy",          "KHÓ",           "Quyết định nhanh hoặc chết"}, -- Needs fixing (Hoặc chết)
+        ['strategy_u']=     {"Strategy",          "THÁCH ĐẤU",       "Quyết định nhanh hoặc chết"}, -- Needs fixing (Hoặc chết)
         ['strategy_e_plus']={"Strategy",          "DỄ+",          "Quyết định nhanh và không được Hold!"},
         ['strategy_h_plus']={"Strategy",          "KHÓ+",          "Quyết định nhanh và không được Hold!"},
         ['strategy_u_plus']={"Strategy",          "THÁCH ĐẤU+",      "Quyết định nhanh và không được Hold!"},
@@ -883,7 +883,7 @@ return {
         ['blind_h']=        {"Invisible",         "KHÓ",         "Dành cho người đã có kinh nghiệm"},
         ['blind_l']=        {"Invisible",         "KHÓ+",        "Dành cho người chơi chuyên nghiệp"},
         ['blind_u']=        {"Invisible",         "?",              "Bạn đã sẵn sàng chưa?"},
-        ['blind_wtf']=      {"Invisible",         "WTF",            "Bạn chưa chuẩn bị cho màn này đâu!"},
+        ['blind_wtf']=      {"Invisible",         "CLGT?",            "Bạn chưa chuẩn bị cho màn này đâu!"},
         ['classic_e']=      {"Classic",           "DỄ",           "Chế độ cổ điển từ thập niên 80"},
         ['classic_h']=      {"Classic",           "KHÓ",           "Chế độ cổ điển từ thập niên 80 với tốc độ cao hơn"},
         ['classic_l']=      {"Classic",           "RẤT KHÓ",        "Chế độ cổ điển từ thập niên 80 với tốc độ rất cao"},
@@ -968,7 +968,7 @@ return {
         "Did I just see a Back-to-Back-to-Back?",
         "Does B2B2B2B exist?",
         "Don’t let a small glitch ruin your entire day!",
-        "Don’t look directly at the bugs!",
+        "Nhin!",
         "Enjoy the Techmino rotation system!",
         "Excellent, but let’s go better next time…",
         "Find out what’s in the settings!",
@@ -990,7 +990,7 @@ return {
         "It’s possible to finish 40L without rotation buttons.",
         "Join our Discord!",
         "l-=-1",
-        "Let the bass kick!",
+        "Biết ông Thương không?",
         "Low frame rates reduce your gaming experience.",
         "LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF",
         "Lua No.1",
@@ -1000,7 +1000,7 @@ return {
         "Music too distracting? You can turn it off.",
         "No easter eggs in this menu if you have the simplistic style turned on!",
         "O-Spin Triple!",
-        "OHHHHHHHHHHHHHH",
+        "Thương cho tấm thân cơ hàn, ngậm ngùi lặng nhìn con đò sang ngang",
         "Play single-handedly!",
         "Playing good takes some time!",
         "Powered by LÖVE",
@@ -1052,7 +1052,7 @@ return {
         {C.C,"Also try VVVVVV!"},
         {C.C,"Also try World of goo!"},
         {C.C,"Also try Zuma!"},
-        {C.H,"REGRET!!"},
+        {C.H,"MÓM RỒI ANH EM!!!!!"},
         {C.lP,"Secret number: 626"},
         {C.lR,"Z ",C.lG,"S ",C.lS,"J ",C.lO,"L ",C.lP,"T ",C.lY,"O ",C.lC,"I"},
         {C.lY,"COOL!!"},
