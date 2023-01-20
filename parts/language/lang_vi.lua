@@ -22,7 +22,7 @@ return {
     playedTooMuch="Wow! Bạn chơi trong một khoảng thời gian dài rồi đấy! Techmino đúng vui thật, nhưng nhớ nghỉ ngơi và nên quan tâm tới sức khoẻ của bạn nha",
     -- "Wow! You have been playing for a very long time! Techmino is fun, but remember to take some rests and you should take care of your health too!"
     
-    settingWarn="CẨN THẬN - Bạn vừa sửa một cài đặt hiếm khi được chạm đến!",
+    settingWarn="CẨN THẬN - Bạn vừa sửa một cài đặt quan trọng!",
     settingWarn2="Những cài đặt này sẽ có hiệu lực sau khi khởi động lại",
     atkModeName={"Ngẫu nhiên","Badges","K.O.s","Tấn công lại"},
     royale_remain="Chỉ còn $1 người chơi!",
@@ -168,8 +168,8 @@ return {
     tooFrequent="Request too frequently",
     roomPasswordChanged="Mật khẩu của phòng đã thay đổi",
     oldVersion="Phiên bản $1 hiện đã ra mắt",
-    versionNotMatch="Phiên bản mà 2 bên đang có không khớp!",
-    notFinished="Sắp ra mắt!\nVui lòng quay lại sau :)",
+    versionNotMatch="Phiên bản không khớp!\n(Nếu bạn lấy trò chơi này từ mã nguồn, thì phiên bản bạn đang xài là bản chưa được phát hành)",
+    notFinished="Tính năng này sẽ sớm ra mắt!",
 
     noUsername="Vui lòng nhập email của bạn",
     wrongEmail="Địa chỉ email không hợp lệ",
@@ -204,45 +204,43 @@ return {
     errorMsg="Trời ạ! Techmino vừa có pha đi vào lòng đất\nBạn có thể gửi log này tới các lập trình viên để họ xử lý không?",
     -- "Oh my! TechMino just ran into problem and need restart\nYou can send the error log to developers
 
-    modInstruction="Hãy chọn mod bạn muốn.\nNhiều mod sẽ cho bạn thay đổi đặc trưng của trò chơi,\nnhưng chúng cũng có thể làm hỏng (crash) trò chơi.\nĐiểm sẽ không được lưu lại khi dùng mod.",
+    modInstruction="Hãy chọn mod bạn muốn.\nMod sẽ cho bạn thay đổi trò chơi theo cách bạn muốn,\nnhưng chúng cũng có thể làm sập trò chơi.\nĐiểm sẽ không được lưu lại khi dùng mod.",
     modInfo={
-        next="NEXT\nGhi đè số lượng gạch tiếp theo sẽ rơi xuống được hiển thị ở cột NEXT (kế tiếp).",
-        hold="HOLD\nGhi đè số lượng gạch có thể HOLD.",
+        next="NEXT\nGhi đè số gạch hiển thị ở cột NEXT.",
+        hold="HOLD\nGhi đè số lượng gạch được giữ ở cột HOLD.",
         hideNext="Hidden NEXT\nẨn số lượng gạch ở cột NEXT (Tính từ ô đầu tiên)",
-        infHold="InfiniHold\nĐúng như tên gọi, cho phép bạn giữ (HOLD) bao nhiêu gạch tuỳ thích.",
-        hideBlock="Ẩn gạch đang rơi\nMod này làm gạch đang rơi không nhìn thấy được như khi bạn tắt \"Hiện gạch đang rơi\" trong cài đặt video của trò chơi",
-        hideGhost="No Ghost?\nGhost Pieces sẽ bị tắt",
-        hidden="Ẩn gạch đã đặt.\nLàm các gạch do bạn đặt biến mất sau một khoảng thời gian",
-        hideBoard="Che bảng\nChe một phần của bảng hay che nguyên bảng",
-        flipBoard="Xoay bảng\nXoay bảng hay lật bảng\n(U-D: lật ngược, L-R: lật ngang, 180: xoay bảng 180 độ).",
-        dropDelay="Trọng lực\nĐiều chỉnh tốc độ rơi của gạch (số khung hình/gạch)\n(1e+99: không bao giờ rơi.)",
-        lockDelay="Lock Delay\nGhi đè thời gian chờ trước khi gạch bị khoá (tính theo khung hình).",    -- Don't know how to translate it properly
-        waitDelay="Spawn Delay\nGhi đè thời gian cần thiết để gạch được tạo ra (tính theo khung hình).",
-        fallDelay="Line Clear Delay\nGhi đè thời gian cần để xoá hàng cần xoá (tính theo khung hình).",
-        life="Mạng\nThay đổi số mạng.",
-        forceB2B="Chỉ chơi với B2B\nKết thúc trò chơi khi vạch ở cột B2B giảm xuống dưới vạch ban đầu.",
-        forceFinesse="Finesse Only\nDừng game ngay nếu dính lỗi \"finnese\"",
-        --forceFinesse="Phải thật "finesse và tinh tế"\nKết thúc trò chơi do \"lỗi finesse\",
-        tele="Dịch chuyển tức thì?\nÉp bạn chơi với điều kiện: DAS = 0 và ARR = 0\n(Như khi bạn nhấn nút \"Sang trái tức thì\" và \"Sang phải tức thì\").",
+        infHold="InfiniHold\nCho phép bạn HOLD vô số lần.",
+        hideBlock="Hide Current Piece:\nGạch đang rơi trong bảng sẽ bị tàng hình",
+        hideGhost="No Ghost\nGhost Pieces sẽ bị tắt",
+        hidden="Hide Locked Pieces.\nGạch (và các hàng) sẽ bị ẩn sau một khoảng thời gian",
+        hideBoard="Hide Board\nChe một phần của bảng hay che nguyên bảng",
+        flipBoard="Flip Board\nXoay bảng hay lật bảng.",
+        dropDelay="Gravity\nĐiều chỉnh tốc độ rơi của gạch.",
+        lockDelay="Lock Delay\nGhi đè thời gian chờ khoá của gạch",
+        waitDelay="Spawn Delay\nGhi đè thời gian gạch xuất hiện",
+        fallDelay="Line Clear Delay\nGhi đè thời gian xoá hàng",
+        life="Life\nThay đổi số mạng.",
+        forceB2B="B2B Only\nKết thúc trò chơi khi cột B2B giảm xuống dưới vạch ban đầu.",
+        forceFinesse="Finesse Only\nKết thúc trò chơi khi có lỗi di chuyển",
+        tele="Teleport (Dịch chuyển tức thời)\nDAS = 0 và ARR = 0\n",
         noRotation="No Rotation\nKhông được xoay gạch.",
-        noMove="No Movement\nKhông được di chuyển gạch dưới mọi hình thức",
+        noMove="No Movement\nKhông thể di chuyển gạch trái phải",
         customSeq="Randomizer\nGhi đè bộ tạo chuỗi gạch ngẫu nhiên.",
-        pushSpeed="Tốc độ trồi lên của \"hàng rác\"\nGhi đè tốc độ \"trồi lên\" của hàng rác (gạch/khung hình).",
-        boneBlock="1984?\nChơi với gạch [ ]\n(Trong bản đầu tiên của 󰀕, các ô gạch được hiển thị dưới dạng [])"
-        -- "1984?\nPlay with [] blocks\n(In the first version of Tetris, each tile of blocks are displayed as []"
-        -- I use a character which it's Unicode code is 0xF0015 to replace the TETRIS word. Yep, I don't want to get DCMA abuse too
+        pushSpeed="Garbage Speed\nGhi đè tốc độ xuất hiện của hàng rác (gạch/khung hình).",
+        boneBlock="1984?\nChơi với skin [ ] như phiên bản đầu tiên trên Elektronica 60"
+        -- "1984?\nPlay with [] skin like the first version on ELektronica 60
     },
     pauseStat={
-        "Time:",
-        "Key/Rot./Hold:",
-        "Pieces:",
-        "Row/Dig:",
+        "Thời gian chơi:",
+        "Phím/Xoay/Giữ:",
+        "Số gạch:",
+        "Hàng/Đào:",
         "Attack/DigAtk:",
-        "Received:",
+        "Đã nhận:",
         "Clears:",
         "Spins:",
         "B2B/B3B/PC/HPC:",
-        "Finesse:",
+        "Lỗi di chuyển:",
     },
     radar={"DEF","OFF","ATK","SEND","SPD","DIG"},
     radarData={"D’PM","ADPM","APM","SPM","L’PM","DPM"},
@@ -257,26 +255,26 @@ return {
         "Eff./Dig Eff.:",
         "B2B/B3B:",
         "PC/HPC:",
-        "Số lần dính lỗi Fns./Tỉ lệ:",
+        "Lỗi di chuyển/Tỉ lệ:",
     },
     aboutTexts={
         "Đây chỉ là một trò chơi xếp gạch *thông thường* mà thôi. Vâng, chỉ có thế",
         "Lấy cảm hứng từ C2/IO/JS/WWC/KOS etc.",
         "",
-        "Trò chơi được xây dựng với LÖVE",
+        "Được xây dựng với engine LÖVE",
         "Chúng tôi đánh giá cao mọi đề xuất và báo cáo lỗi do các bạn gửi đến",
         "Hãy đảm bảo trò chơi được tải về từ nguồn chính thức",
         "vì các nguồn khác có thể không an toàn.",
         "",
         "Tác giả KHÔNG CHỊU TRÁCH NHIỆM với bất kỳ bản sửa đổi nào.",
-        FNNS and "/" or "Mặc dù trò chơi này miễn phí, nhưng chúng tôi sẽ cảm kích khi các bạn gửi tiền ủng hộ cho chúng tôi.",
+        FNNS and "/" or "Trò chơi này hoàn toàn miễn phí. Nhưng nếu bạn thích, các bạn có thể donate cho chúng tôi",
         FNNS and "/" or "Kiểm tra Zictionary để có thêm thông tin chi tiết",
     },
     staff={
-        "BAN ĐẦU ĐƯỢC PHÁT TRIỂN BỞI MrZ",
+        "ĐƯỢC TẠO RA BỞI MrZ",
         "E-mail: 1046101471@qq.com",
         "",
-        "Được lập trình, phát triển và thiết kế bởi",
+        "Được lập trình, Phát triển và Thiết kế bởi",
         "MrZ",
         "",
         "Âm nhạc được sản xuất với",
@@ -285,7 +283,7 @@ return {
         "FL Mobile",
         "Logic Pro X",
         "",
-        "[ĐƯỢC XÂY DỰNG VỚI LÖVE]",
+        "[ĐƯỢC XÂY DỰNG VỚI ENGINE LÖVE]",
         "",
         "Lập trình",
         "MrZ",
@@ -373,7 +371,7 @@ return {
         "Lexitik",
         "Tourahi Anime",
         "[cùng với các thành viên thử nghiệm khác]",
-        "…và kể cả BẠN nữa!",
+        "…và kể cả BẠN!",
     },
     used=[[
     Các công cụ đã sử dụng:
@@ -387,7 +385,7 @@ return {
         profile.lua [itraykov]
         sha2 [Egor Skriptunoff]
     ]],
-    support="Hãy ủng hộ tác giả nhé!",
+    support="Hãy hỗ trợ những người đã làm ra trò chơi này",
     WidgetText={
         main={
             offline="Chơi đơn",
@@ -410,7 +408,7 @@ return {
         mod={
             title="Mods",
             reset="Đặt lại (tab)",
-            unranked="Điểm sẽ không được tính!",
+            unranked="KHÔNG tính điểm!",
         },
         pause={
             setting="Cài đặt (S)",
@@ -425,11 +423,11 @@ return {
             league="Tech League",
             ffa="FFA",
             rooms="Danh sách\ncác phòng",
-            resetPW="Khôi phục mật khẩu",
+            resetPW="Đặt lại mật khẩu",
             logout="Đăng xuất",
         },
         net_league={
-            match="Tìm một trận đấu",
+            match="Tìm trận",
         },
         net_rooms={
             password="Mật khẩu",
@@ -437,7 +435,7 @@ return {
             noRoom="Hiện không có phòng nào",
             refresh="Làm mới",
             new="Phòng mới",
-            join="Tham gia",
+            join="Vào phòng",
         },
         net_newRoom={
             title="Cấu hình phòng",
@@ -445,10 +443,10 @@ return {
             password="Mật khẩu",
             description="Mô tả phòng",
 
-            life="Lives",
-            pushSpeed="Push Speed",
-            garbageSpeed="Garbage Line Speed",
-            visible="Hiện/ẩn gạch?",
+            life="Mạng",
+            pushSpeed="Tốc độ đẩy rác vào",
+            garbageSpeed="Tốc độ gửi rác",
+            visible="Chế độ hiển/ẩn gạch",
             freshLimit="Lock Reset Limit",
 
             fieldH="Độ cao bảng",
@@ -466,7 +464,7 @@ return {
             create="Create",
 
             ospin="O-spin",
-            fineKill="Phải \"finesse\" 100%",
+            fineKill="Không được\nmắc lỗi di chuyển",
             b2bKill="Không phá chuỗi B2B",
             lockout="Fail on Lock Out",
             easyFresh="Normal Lock Reset",
@@ -488,12 +486,12 @@ return {
         },
         setting_game={
             title="Cài đặt trò chơi",
-            graphic="←Video",
+            graphic="←Đồ hoạ",
             sound="Âm thanh→",
             style="Skin",
 
             ctrl="Cài đặt điều khiển",
-            key="Cài đặt ánh xạ phím",            
+            key="Cài đặt bố cục phím",            
             touch="Cài đặt cảm ứng",
             showVK="Hiện thị nút ảo",
             reTime="Start Delay", -- This word when translate into vnese is longer than unusal.
@@ -505,12 +503,12 @@ return {
             simpMode="Chế độ đơn giản",
         },
         setting_video={
-            title="Cài đặt video",
+            title="Cài đặt Đồ hoạ",
             sound="←Âm thanh",
             game="Trò chơi→",
 
             block="Hiện gạch đang rơi",
-            smooth="Gạch rơi xuống\nmột cách trơn tru",
+            smooth="Gạch rơi mượt",
             upEdge="Gạch 3D",
             bagLine="Bag Separators",
 
@@ -518,7 +516,7 @@ return {
             ghost="Ghosts",
             center="Tâm xoay của gạch",
             grid="Lưới",
-            lineNum="line No.",
+            lineNum="Hàng số.",
 
             lockFX="Lock FX",
             dropFX="Drop FX",
@@ -532,22 +530,22 @@ return {
 
             text="Hiện pop-up xoá được hàng",
             score="Hiện pop-up điểm",
-            bufferWarn="Phát ra cảnh báo khi\nch/bị nhận quá nhiều rác",
+            bufferWarn="Phát cảnh báo khi cột buffer quá cao",
             showSpike="Spike Counter",
-            nextPos="Spawn Preview",
-            highCam="Screen Scrolling",
-            warn="Danger Alerts",
+            nextPos="Hiện vị trí gạch tiếp theo sẽ spawn",
+            highCam="Trượt camera theo bảng",
+            warn="Cảnh báo khi gặp nguy hiểm",
 
             clickFX="Phát SFX khi nhấp chuột",
             power="Hiện đồng hồ & pin",
             clean="Quick Draw",
             fullscreen="Toàn màn hình",
-            portrait="Portrait",
-            msaa="Sử dụng khử răng cưa MSAA?",
+            portrait="Để dọc",
+            msaa="Khử răng cưa?\n(Dùng p.pháp MSAA)",
 
-            bg_on="B.G thường",
-            bg_off="Không B.G.",
-            bg_custom="Dùng B.G\ntuỳ chỉnh.",
+            bg_on="Ảnh nền thường",
+            bg_off="Không dùng\nảnh nền",
+            bg_custom="Dùng ảnh nền\ntuỳ chỉnh.",
 
             blockSatur="Block Saturation",
             fieldSatur="Field Saturation",
@@ -628,8 +626,8 @@ return {
             b13="Sonic Drop:",   b14="Down 1:",     b15="Down 4:",       b16="Down 10:",
             b17="Left Drop:",    b18="Right Drop:", b19="Left Zangi:",   b20="Right Zangi:",
 
-            norm="Normal",
-            pro="Advanced",
+            norm="Thông thường",
+            pro="Nâng cao",
             icon="Icon",
             sfx="SFX",
             vib="VIB",
@@ -641,7 +639,7 @@ return {
         customGame={
             title="Custom Game",
             defSeq="Default Seq.",
-            noMsn="No Missions",
+            noMsn="Không nhiệm vụ",
 
             drop="Drop Delay",
             lock="Lock Delay",
@@ -650,15 +648,15 @@ return {
             hang="Death Delay",
             hurry="ARE Interruption",
 
-            bg="Background",
-            bgm="Music",
+            bg="Ảnh nền",
+            bgm="Nhạc",
 
             copy="Copy Field+Seq+Mssn",
             paste="Paste Field+Seq+Mssn",
             play_clear="Start-Clear",
             play_puzzle="Start-Puzzle",
 
-            reset="Reset (del)",
+            reset="Đặt lại (del)",
             advance="More (A)",
             mod="Mods (F1)",
             field="Edit Field (F)",
@@ -667,39 +665,39 @@ return {
 
             eventSet="Rule Set",
 
-            holdMode="Hold Mode",
+            holdMode="Chế độ HOLD",
             nextCount="Next",
             holdCount="Hold",
             infHold="Giữ vô tận",
             phyHold="Thế ngay chỗ\ngạch đang rơi",
 
             fieldH="Field Height",
-            visible="Visibility",
+            visible="Chế độ hiển/ẩn gạch",
             freshLimit="Lock Reset Limit",
             opponent="Opponent",
             life="Lives",
-            pushSpeed="Push Speed",
-            garbageSpeed="Garbage Speed",
+            pushSpeed="Tốc độ đẩy rác vào",
+            garbageSpeed="Tốc độ gửi rác",
 
             bufferLimit="Buffer Limit",
             heightLimit="Height Limit",
-            ospin="O-Spin",
-            fineKill="100% Finesse",
-            b2bKill="No B2B Breaks",
+            ospin="O-spin",
+            fineKill="Không được\nmắc lỗi di chuyển",
+            b2bKill="Không phá chuỗi B2B",
             lockout="Fail on Lock Out",
             easyFresh="Normal Lock Reset",
             deepDrop="Deep Drop",
-            bone="Bone Blocks",
+            bone="Dùng skin 1984?", --Using 1984 skin?
         },
         custom_field={
-            title="Custom Game",
-            subTitle="Field",
+            title="Chế độ tuỳ chỉnh",
+            subTitle="Bảng",
 
-            any="Erase",
-            smart="Smart",
+            any="Xoá",
+            smart="Thông minh",
 
-            push="Add Line (K)",
-            del="Del Line (L)",
+            push="Thêm hàng (K)",
+            del="Xoá hàng (L)",
 
             demo="Don’t Show “×”",
 
