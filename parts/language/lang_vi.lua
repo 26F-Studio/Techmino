@@ -871,7 +871,7 @@ return {
         ['master_ph']=      {"Master",            "PHANTASM",        "Hả???"},
         ['master_g']=       {"Master",            "GRADED",         "Lấy điểm cao nhất có thể!"},
         ['master_ex']=      {"GrandMaster",       "EXTRA",          "Cũng là lấy điểm cao nhất có thể nhưng mà gắt hơn!"},
-        ['master_instinct']={"Master",            "INSTINCT",       "Lấy điểm cao nhất có thể! Và kết hợp "},
+        ['master_instinct']={"Master",            "INSTINCT",       "Lấy điểm cao nhất có thể nhưng với gạch tàng hình!"},
         ['strategy_e']=     {"Strategy",          "DỄ",           "Quyết định nhanh hoặc chết"},
         ['strategy_h']=     {"Strategy",          "KHÓ",           "Quyết định nhanh hoặc chết"},
         ['strategy_u']=     {"Strategy",          "THÁCH ĐẤU",       "Quyết định nhanh hoặc chết"},
