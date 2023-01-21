@@ -1,5 +1,3 @@
--- THIS ONE IS VIETNAMESE TRANSLATION!
-
 local C=COLOR
 return {
     loadText={
@@ -37,7 +35,7 @@ return {
     replaying="[Replay]",
     tasUsing="[TAS]",
 
-    -- stage="Stage $1 cleared!",
+    stage="Chặng $1 hoàn thành!",
     great="Tốt lắm!",
     awesome="Tuyệt vời!",
     almost="Gần xong rồi!",
@@ -181,7 +179,7 @@ return {
     wsFailed="Kết nối WebSocket đã thất bại: $1",
     wsClose="WebSocket đã đóng: $1",
     netTimeout="Kết nối quá hạn",
-    serverDown="Trời ạ! Máy chủ sập rồi\n Hãy quay lại sau", --"Ahhhhh, server temporarily down. Please come back later"
+    serverDown="Trời ạ! Máy chủ sập rồi\n Hãy quay lại sau", --"Oh my! Server temporarily down. Please come back later"
     requestFailed="Yêu cầu thất bại",
 
     onlinePlayerCount="Trực tuyến: $1",
@@ -226,8 +224,8 @@ return {
         noMove="No Movement\nKhông thể di chuyển gạch trái phải",
         customSeq="Randomizer\nGhi đè bộ tạo chuỗi gạch ngẫu nhiên.",
         pushSpeed="Garbage Speed\nGhi đè tốc độ xuất hiện của hàng rác (gạch/khung hình).",
-        boneBlock="1984?\nChơi với skin [ ] như phiên bản đầu tiên trên Elektronica 60"
-        -- "1984?\nPlay with [] skin like the first version on ELektronica 60
+        boneBlock="1984?\nChơi với skin [ ] như phiên bản đầu tiên trên Elektronika 60"
+        -- "1984?\nPlay with [] skin like the first version on Elektronika 60
     },
     pauseStat={
         "Thời gian chơi:",
@@ -961,11 +959,11 @@ return {
         "Không thể mở “Techmino.app” bởi vì chúng tôi không thể xác minh nhà phát triển của ứng dụng này được. (Windows)",
         "“Techmino.app” có thể gây hại cho máy tính của bạn. Bạn nên ném nó vào Thùng rác (MacOS)",
         "“TechminOS”",
-        "(RUR’U’)R’FR2U’R’U’(RUR’F’)",    -- Hence, just how to solve a rubik with... "sexy move"???
-        "\\jezevec/\\jezevec/\\jezevec/", -- jstris
-        "\\osk/\\osk/\\osk/",             -- TETR.IO
+        "(RUR’U’)R’FR2U’R’U’(RUR’F’)",
+        "\\jezevec/\\jezevec/\\jezevec/",
+        "\\osk/\\osk/\\osk/",
         "↑↑↓↓←→←→BA",
-        "$include<studio.h>",             -- C? or C# or C++
+        "$include<studio.h>",             
         "0next 0hold.",
         "1next 0hold",
         "1next 1hold!",
@@ -977,7 +975,7 @@ return {
         "Nếu bạn không chết thì đối thủ thế nào cũng chết thôi - Onda Aka",
         "Bảng thành tích sẽ sớm ra mắt!",
         "ALL SPIN!",
-        "Am G F G",   -- guitar? maybe not :) https://www.youtube.com/watch?v=Z1g77li1fpQ
+        "Am G F G",
         "B2B2B???",
         "B2B2B2B không có thật nhé, đừng có nằm mơ!",
         "Back-to-Back Techrash, 10 Combo, PC!",
@@ -1013,7 +1011,7 @@ return {
         "Bạn \"có thể\" xoá 40 hàng mà không cần dùng nút xoay.",
         "Nhớ tham gia Discord của chúng tôi nhé (à mà link thì chúng tôi gỡ từ lâu rồi bạn :\" )",
         "l-=-1",
-        "NỔI LỬA LÊN EM", --Shard wanted this :"
+        "NỔI LỬA LÊN EM", -- Shard's one
         "Tần số khung hình thấp (có thể) làm giảm trải nghiệm của bạn (nhưng để thế còn hơn là misdrop vì sợ giật lag)",
         "LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF",
         "Lua là số 1!",
@@ -1040,7 +1038,7 @@ return {
         "TetroDictionary hiện chỉ có tiếng Anh và 3 ngôn ngữ thôi!",
         "Những cái tên xuất hiện ở phần nền trong trang Đội Ngũ là danh sách các nhà tài trợ của chúng tôi.",
         "Bạn muốn tải nhạc game về à? Vâng nó đã có mặt trên Soundcloud, cứ lên đó mà tải về nhé",
-        "The stacker future is yours in Techmino! (Tương lai của bạn với trò xếp gạch đang nằm ở Techmino!)", -- Vâng, câu này nó cũng nằm trong tetr.io đó thôi (lúc chưa ai đăng nhập)
+        "The stacker future is yours in Techmino! (Tương lai của bạn với trò xếp gạch đang nằm ở Techmino!)",
         "Chúng tôi cũng có mấy chế độ mà không hiện trong map đâu! Bạn thử đi tìm đi",
         "Có tất cả 18 pentominoes (gạch 5 ô)",
         "Có tất cả 7 tetrominoes (gạch 4 ô) khác nhau.",
