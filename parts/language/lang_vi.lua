@@ -439,11 +439,11 @@ return {
             life="Mạng",
             pushSpeed="Tốc độ đẩy rác vào",
             garbageSpeed="Tốc độ gửi rác",
-            visible="Chế độ hiển thị",
+            visible="Chế độ hiện gạch",
             freshLimit="Lock Reset Limit",
 
             fieldH="Độ cao bảng",
-            bufferLimit="Giới hạn buffer",
+            bufferLimit="Giới hạn nhận rác",
             heightLimit="Giới hạn độ cao",
 
             drop="Drop Delay",
@@ -672,8 +672,8 @@ return {
             pushSpeed="Tốc độ đẩy rác vào",
             garbageSpeed="Tốc độ gửi rác",
 
-            bufferLimit="Giới hạn Buffer",
-            heightLimit="Giới hạn Độ cao",
+            bufferLimit="Giới hạn nhận rác",
+            heightLimit="Giới hạn độ cao",
             ospin="O-Spin",
             fineKill="100% Finesse",
             b2bKill="Không phá B2B",
