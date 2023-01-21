@@ -339,7 +339,7 @@ return {
         "Airun",
         "幽灵3383",
         "",
-        "Performances",
+        "演出",
         "Electric283",
         "Hebomai",
         "",
