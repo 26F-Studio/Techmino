@@ -91,9 +91,9 @@ return {
 
     nowPlaying="Đang phát:",
 
-    VKTchW="Touch weight", -- Khối lượng chạm (Hieu)
-    VKOrgW="Origin weight", -- Khối lượng gốc (Hieu)
-    VKCurW="Current position wt.",
+    VKTchW="Khối lượng chạm", -- Khối lượng chạm (Hieu)
+    VKOrgW="Khối lượng gốc", -- Khối lượng gốc (Hieu)
+    VKCurW="Vị trí hiện tại",
 
     noScore="Không có điểm",
     modeLocked="Bị khoá",
