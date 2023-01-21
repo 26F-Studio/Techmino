@@ -52,7 +52,7 @@ return {
     win="Thắng!",
     lose="Thua",
 
-    finish="Đã hoàn thành",
+    finish="Hoàn thành",
     gamewin="Bạn đã thắng",
     gameover="Kết thúc",
 
@@ -67,7 +67,7 @@ return {
     cc_swap="CC không tương thích với chế độ Hold là Chuyển",
     ai_prebag="AI không tương thích với sequences chứa gạch không phải là tetromino.",
     ai_mission="AI không tương thích với nhiệm vụ tuỳ chọn.",
-    switchSpawnSFX="Vui lòng bật Block spawn SFX!",
+    switchSpawnSFX="Vui lòng bật Spawn SFX để chơi!",
     needRestart="Khởi động lại để áp dụng mọi thay đổi.",
 
     loadError_errorMode="'$1' tải lên thất bại: không có chế độ tải lên '$2'",
@@ -192,7 +192,7 @@ return {
 
 
 
-    keySettingInstruction="Nhấn một phím để chỉ định phím đó\nescape (esc): Huỷ chỉ định\nbackspace: Xoá phím đã chỉ định",
+    keySettingInstruction="Nhấn một phím để cài phím đó\nescape (esc): Huỷ\nbackspace: Xoá",
     customBGhelp="Chèn một tấm ảnh vào đây để áp dụng ảnh nền tuỳ chỉnh",
     customBGloadFailed="Định dạng ảnh không được hỗ trợ",
 
@@ -382,7 +382,7 @@ return {
     WidgetText={
         main={
             offline="Chơi đơn",
-            qplay="Lần cuối chơi: ",
+            qplay="Chơi nhanh: ",
             online="Nhiều người chơi",
             custom="Chế độ Tự do",
             setting="Cài đặt",
@@ -521,13 +521,13 @@ return {
 
             frame="Tỷ lệ cập nhật khung hình (%)",
 
-            text="Line Clear Pop-Ups",
-            score="Score Pop-Ups",
-            bufferWarn="Buffer Alerts",
-            showSpike="Spike Counter",
-            nextPos="Spawn Preview",
-            highCam="Trượt Bảng",
-            warn="Danger Alerts",
+            text="Hiển thị loại clear",
+            score="Hiển thị điểm thành phần",
+            bufferWarn="Hiển thị số hàng rác",
+            showSpike="Hiển thị Spike",
+            nextPos="Hiển thị chỗ Spawn",
+            highCam="Trượt bảng",
+            warn="Cảnh báo nguy hiểm",
 
             clickFX="Click FX",
             power="Hiện thanh pin",
@@ -553,8 +553,8 @@ return {
             bgm="Nhạc nền",
             sfx="Hiệu ứng",
             stereo="Stereo",
-            spawn="Hiệu ứng Spawn",
-            warn="Hiệu ứng Cảnh báo",
+            spawn="Spawn SFX",
+            warn="Cảnh báo SFX",
             vib="Rung",
             voc="Giọng",
 
@@ -1027,7 +1027,7 @@ return {
         "Thử dùng 2 nút xoay đi. Dùng cả 3 thì càng tốt.",
         "Cảnh báo: Cấu trúc dữ liệu và Giải thuật",
         "20 PC thì sao?",
-        "Thế còn 23 PC trong 100 dòng?",
+        "Thế còn 23 PC trong 100 hàng?",
         "26 TSD có nổi không thế?",
         "Game rác v*i c*t",
         " while (false)", -- keep
