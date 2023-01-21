@@ -979,7 +979,7 @@ return {
         "ALL SPIN!",
         "Am G F G",   -- guitar? maybe not :) https://www.youtube.com/watch?v=Z1g77li1fpQ
         "B2B2B???",
-        "B2B2B2B không có thật nhé, đừng có nằm mơ! (Mà ít ra thì không có nhiều game lắm có B3B)",
+        "B2B2B2B không có thật nhé, đừng có nằm mơ!",
         "Back-to-Back Techrash, 10 Combo, PC!",
         "Nhớ dốc hết sức cho ngày hôm nay nha bạn!",
         "Bridge clear sẽ sớm ra mắt!",
@@ -1030,7 +1030,7 @@ return {
         "Powered by Un..LÖVE",
         "pps-0.01",
         "\"Sao ping cao dữ vậy? Dit me FPT\" (BỐP!) \"Chơi được thì chơi, không chơi được thì nghỉ đi. Chơi game mà cứ la ó suốt ngày!\", mom said",
-        "Bạn có biết? Trong game này, hạng X là hạng khó lấy nhất, kể cả người chơi giỏi nhất trên toàn thế giới không? Vâng, chúng tôi (cố tình) làm thế.",
+        "Bạn có biết? Trong game này, hạng X là hạng khó lấy nhất, kể cả người chơi giỏi nhất trên toàn thế giới không? Vâng, nó được (cố tình) làm như thế.",
         "Bạn sẽ sớm được chơi với mọi người trên thế giới thôi.",
         "Split clear sẽ sớm có thôi!",
         "sudo rm -rf /*",
