@@ -983,7 +983,7 @@ return {
         "Hello world!", -- keep
         "Chỉ có 2 loại trimino là I3 và L3.",
         " if a==true", -- keep
-        "Việc tăng tần số khung hình mang trải nghiệm tốt hơn",
+        "Việc tăng tần số khung hình sẽ mang trải nghiệm tốt hơn cho bạn",
         "Initial [insert action] system có thể cứu bạn đấy.",
         "B2B2B2B là gì? Ăn được không?",
         "Nó vừa load cutscene, vừa load game đấy!",
@@ -992,7 +992,7 @@ return {
         "Hãy tham gia Discord của chúng tôi!",
         "l-=-1", -- keep
         "NỔI LỬA LÊN EM",
-        "Việc giảm tần số khung hình mang trải nghiệm tệ hơn",
+        "Việc giảm tần số khung hình sẽ mang trải nghiệm tệ hơn cho bạn",
         "LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF", -- keep
         "Lua No.1", -- keep
         "Mix clear sắp ra mắt!",
@@ -1032,7 +1032,7 @@ return {
         "Game rác v*i c*t",
         " while (false)", -- keep
         "Bạn là Nhất!",
-        "Bạn có thể giúp chúng tôi viết BGMs and SFXs!",
+        "Bạn có thể giúp chúng tôi viết BGMs và SFXs!",
         "Bạn có thể cắm bàn phím vào điện thoại hoặc máy tính bảng (đối với iOS thì không).",
         "Bạn có thể cài đặt bố cục phím trong phần cài đặt!",
         "Bạn có thể mở thư mục chứa dữ liệu từ trang Thống kê.",
