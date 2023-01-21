@@ -9,12 +9,14 @@ local langList={
     ja="日本語",
     symbol="?????",
     zh_code="Code(zh);"
+	vi="Tiếng Việt",
 }
 local languages={
     "Language  Langue  Lingua",
     "语言  言語  언어",
     "Idioma  Línguas  Sprache",
     "Язык  Γλώσσα  Bahasa",
+	"Ngôn ngữ", 
 }
 local curLang=1
 
@@ -57,7 +59,7 @@ scene.widgetList={
     WIDGET.newButton{x=640,y=210,w=330,h=100,font=40, fText=langList.pt,      color='A',sound='click',code=function()_setLang('pt') end},
     WIDGET.newButton{x=640,y=330,w=330,h=100,font=40, fText=langList.symbol,  color='G',sound='click',code=function()_setLang('symbol') end},
     WIDGET.newButton{x=640,y=450,w=330,h=100,font=40, fText=langList.ja,      color='J',sound='click',code=function()_setLang('ja') end},
-    WIDGET.newKey   {x=640,y=570,w=330,h=100,font=40, fText='',               color='L'},
+    WIDGET.newButton{x=640,y=570,w=330,h=100,font=40, fText=langList.vi,      color='L',sound='click',code=function()_setLang('vi') end},
 
     WIDGET.newButton{x=1000,y=210,w=330,h=100,font=40,fText=langList.zh,      color='C',sound='click',code=function()_setLang('zh') end},
     WIDGET.newButton{x=1000,y=330,w=330,h=100,font=40,fText=langList.zh_trad, color='S',sound='click',code=function()_setLang('zh_trad') end},

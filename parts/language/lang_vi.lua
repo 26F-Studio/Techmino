@@ -180,9 +180,9 @@ return {
     requestFailed="Yêu cầu thất bại",
 
     onlinePlayerCount="Trực tuyến: $1",
-    createRoomSuccessed="Phòng đã được tạo",
-    playerKicked="$1 removed $2 from room",
-    becomeHost="$1 sẽ là chủ phòng",
+    createRoomSuccessed="Tạo phòng thành công",
+    playerKicked="$1 đã đá $2 khỏi phòng",
+    becomeHost="$1 là chủ phòng",
     started="Đang chơi",
     joinRoom="$1 vừa vào phòng.",
     leaveRoom="$1 vừa rời phòng.",

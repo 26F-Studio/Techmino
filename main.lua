@@ -502,6 +502,7 @@ LANG.init('zh',
         ja=require'parts.language.lang_ja',
         symbol=require'parts.language.lang_symbol',
         zh_code=require'parts.language.lang_zh_code',
+		vi=require'parts.language.lang_vi'
         -- 1. Add language file to LANG folder;
         -- 2. Require it;
         -- 3. Add a button in parts/scenes/lang.lua;
