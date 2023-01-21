@@ -62,6 +62,7 @@ local spinChars={
 
 function scene.draw()
     local t=TIME()
+    GC.setColor(1,1,1)
     GC.draw(TEXTURE.title,260,615,.2+.04*math.sin(t*3),.4,nil,580,118)
 
     GC.setColor(COLOR.Z)
