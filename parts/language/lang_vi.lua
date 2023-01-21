@@ -595,10 +595,10 @@ return {
             a14="Xuống 1",
             a15="Xuống 4",
             a16="Xuống 10",
-            a17="Left Drop",
-            a18="Right Drop",
-            a19="Left Zangi",
-            a20="Right Zangi",
+            a17="Thả Trái",
+            a18="Thả Phải",
+            a19="Zangi Trái",
+            a20="Zangi Phải",
             restart="Thử lại",
         },
         setting_skin={
@@ -618,7 +618,7 @@ return {
             b5= "Xoay 180°:",  b6="Thả Mạnh:",   b7="Thả Nhẹ:",     b8="Giữ:",
             b9= "Chức năng 1:",   b10="Chức năng 2:", b11="Trái tức thì:", b12="Phải tức thì:",
             b13="Sonic Drop:",   b14="Xuống 1:",     b15="Xuống 4:",       b16="Xuống 10:",
-            b17="Left Drop:",    b18="Right Drop:", b19="Left Zangi:",   b20="Right Zangi:",
+            b17="Thả Trái:",    b18="Thả Phải:", b19="Zangi Trái:",   b20="Zangi Phải:",
 
             norm="Thường",
             pro="Nâng cao",
