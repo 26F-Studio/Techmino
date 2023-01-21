@@ -384,7 +384,7 @@ return {
             offline="Chơi đơn",
             qplay="Lần cuối chơi: ",
             online="Nhiều người chơi",
-            custom="Chế độ tuỳ chỉnh",
+            custom="Chế độ Tự do",
             setting="Cài đặt",
             stat="Thống kê",
             dict="Zictionary",
@@ -424,7 +424,7 @@ return {
         },
         net_rooms={
             password="Mật khẩu",
-            refreshing="Làm mới danh sách phòng",
+            refreshing="Đang làm mới...",
             noRoom="Hiện không có phòng nào",
             refresh="Làm mới",
             new="Phòng mới",
@@ -630,7 +630,7 @@ return {
             dodge="Auto Dodge",
         },
         customGame={
-            title="Chế độ Tuỳ chỉnh",
+            title="Chế độ Tự do",
             defSeq="Seq. cố định",
             noMsn="Không có nhiệm vụ",
 
@@ -683,7 +683,7 @@ return {
             bone="Bone Blocks",
         },
         custom_field={
-            title="Chế độ Tuỳ chỉnh",
+            title="Chế độ Tự do",
             subTitle="Bảng",
 
             any="Xoá",
@@ -700,12 +700,12 @@ return {
             nextPg="Trang tiếp",
         },
         custom_sequence={
-            title="Chế độ Tuỳ chỉnh",
+            title="Chế độ Tự do",
             subTitle="Sequence",
             sequence="Sequence",
         },
         custom_mission={
-            title="Chế độ Tuỳ chỉnh",
+            title="Chế độ Tự do",
             subTitle="Nhiệm vụ",
 
             _1="1",_2="2",_3="3",_4="4",
@@ -1024,7 +1024,7 @@ return {
         "Có tất cả 7 miếng tetromino khác nhau.",
         "Chế độ nhiều người đã ra mắt rồi, hãy thử nó đi!",
         "Thử sử dụng nhiều ô Hold đi!",
-        "Thử dùng 2 nút xoay đi. Using all three of them is better.",
+        "Thử dùng 2 nút xoay đi. Dùng cả 3 thì càng tốt.",
         "Cảnh báo: Cấu trúc dữ liệu và Giải thuật",
         "20 PC thì sao?",
         "Thế còn 23 PC trong 100 dòng?",
