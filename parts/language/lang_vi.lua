@@ -470,7 +470,7 @@ return {
             nextCount="Next",
             holdCount="Hold",
             infHold="Hold vô tận",
-            phyHold="In-place Hold",
+            phyHold="Hold tại chỗ",
         },
         net_game={
             ready="Sẵn sàng",
@@ -680,7 +680,7 @@ return {
             lockout="Fail on Lock Out",
             easyFresh="Normal Lock Reset",
             deepDrop="Deep Drop",
-            bone="Bone Blocks",
+            bone="Dùng skin []",
         },
         custom_field={
             title="Chế độ Tự do",
