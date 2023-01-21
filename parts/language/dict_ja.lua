@@ -32,7 +32,7 @@ return {
         "homepage web mainpage ホームページ　ウェブ　メインページ テクミノ テックミノ techmino",
         "help",
         "Techminoの公式ホームページです!\n最新の安定版Techminoをダウンロードしたり、プロフィールを編集したりできます\n地球儀ボタンから是非アクセスしてください",
-        "http://101.43.110.22:10026",
+        "http://studio26f.org",
     },
     {"灰机wiki",
         "huiji wiki ウィキ うぃき 灰机 フイジ",
