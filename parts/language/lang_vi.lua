@@ -637,7 +637,7 @@ return {
             dodge="Auto Dodge",
         },
         customGame={
-            title="Custom Game",
+            title="Chế độ tuỳ chỉnh",
             defSeq="Default Seq.",
             noMsn="Không nhiệm vụ",
 
