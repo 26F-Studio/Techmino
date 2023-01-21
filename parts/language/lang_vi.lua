@@ -216,10 +216,11 @@ return {
         life="Life\nThay đổi số mạng.",
         forceB2B="B2B Only\nKết thúc trò chơi khi cột B2B giảm xuống dưới vạch ban đầu.",
         forceFinesse="Finesse Only\nKết thúc trò chơi khi có lỗi di chuyển",
-        tele="Teleport\nDAS = 0, ARR = 0\n",
+        tele="Teleport\nDAS = 0, ARR = 0",
         noRotation="No Rotation\nKhông được xoay gạch.",
         noMove="No Movement\nKhông được di chuyển trái phải",
-        customSeq="Garbage Speed\nGhi đề tốc độ xuất hiện của hàng rác",
+        customSeq="Randomizer\nGhi đè randomizer (trình tạo gạch)",
+		pushSpeed="Garbage Speed\nGhi đề tốc độ xuất hiện của hàng rác",
         boneBlock="[ ]\nChơi với skin [ ]",
     },
     pauseStat={
@@ -440,7 +441,7 @@ return {
             pushSpeed="Tốc độ đẩy rác vào",
             garbageSpeed="Tốc độ gửi rác",
             visible="Chế độ hiện gạch",
-            freshLimit="Lock Reset Limit",
+            freshLimit="Lock Reset tối đa",
 
             fieldH="Độ cao bảng",
             bufferLimit="Giới hạn nhận rác",
@@ -462,7 +463,7 @@ return {
             lockout="Fail on Lock Out",
             easyFresh="Normal Lock Reset",
             deepDrop="Deep Drop",
-            bone="Bone Blocks",
+            bone="Dùng skin []",
 
             eventSet="Rule Set",
 
@@ -939,23 +940,23 @@ return {
         "Không thể mở file “Techmino.app” vì người làm game đã bay màu.",
         "“Techmino.app” là vi rút đấy. Xoá game đi.",
         "“TechminOS”",
-        "(RUR’U’)R’FR2U’R’U’(RUR’F’)",    -- Hence, just how to solve a rubik with... "sexy move"???
-        "\\jezevec/\\jezevec/\\jezevec/", -- jstris
-        "\\osk/\\osk/\\osk/",             -- TETR.IO
+        "(RUR’U’)R’FR2U’R’U’(RUR’F’)",
+        "\\jezevec/\\jezevec/\\jezevec/",
+        "\\osk/\\osk/\\osk/",
         "↑↑↓↓←→←→BA",
-        "$include<studio.h>",             -- C? or C# or C++
+        "$include<studio.h>",
         "0next 0hold.",
         "1next 0hold",
         "1next 1hold!",
         "1next 6hold!",
         "20G thực chất là một game rule mới đấy!",
-        "Kỷ lục 40-line Sprint: 14.708s (hiryu)",    --- oh Furry, if you were not cheat that time, we could wrote here
+        "Kỷ lục 40-line Sprint: 14.708s (hiryu)",
         "6next 1hold!",
         "6next 6hold?!",
         "Nếu bạn không chết thì đối thủ thế nào cũng chết thôi - Onda Aka",
         "Bảng thành tích sắp ra mắt!",
         "ALL SPIN!",
-        "Am G F G",   -- guitar? maybe not :) https://www.youtube.com/watch?v=Z1g77li1fpQ
+        "Am G F G",
         "B2B2B???",
         "B2B2B2B không có thật.",
         "Back-to-Back Techrash, 10 Combo, PC!",
@@ -1067,5 +1068,5 @@ return {
         {C.Y,"O-Spin Triple!"},
         {C.Z,"What? ",C.lC,"Xspin?"},
     },
-    pumpkin="I'm a pumpkin",
+    pumpkin="Tôi là một quả bí ngô",
 }
