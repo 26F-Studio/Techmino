@@ -86,14 +86,14 @@ return {
     exportSuccess="Đã xuất thành công",
     importSuccess="Đã nhập thành công",
     dataCorrupted="Dữ liệu bị hỏng",
-    pasteWrongPlace="Bạn có đang dán nhầm nơi không?",
+    pasteWrongPlace="Bạn đã dán ở nhầm nơi rồi",
     noFile="Thiếu tệp",
 
     nowPlaying="Đang phát:",
 
-    VKTchW="Khối lượng chạm", -- Khối lượng chạm (Hieu)
-    VKOrgW="Khối lượng gốc", -- Khối lượng gốc (Hieu)
-    VKCurW="Vị trí hiện tại",
+    VKTchW="Trọng số chạm",
+    VKOrgW="Trọng số nút",
+    VKCurW="Trọng số hiện tại",
 
     noScore="Không có điểm",
     modeLocked="Bị khoá",
@@ -136,7 +136,7 @@ return {
             connectionReplaced="Connection replaced",
         },
         NoticeManager={
-            noticeNotFound="Notice not found",
+            noticeNotFound="Không có thông báo",
         },
         PlayerManager={
             invalidCode="Mã không hợp lệ",
@@ -182,7 +182,7 @@ return {
     onlinePlayerCount="Trực tuyến: $1",
     createRoomSuccessed="Tạo phòng thành công",
     playerKicked="$1 đã đá $2 khỏi phòng",
-    becomeHost="$1 là chủ phòng",
+    becomeHost="$1 giờ là chủ phòng",
     started="Đang chơi",
     joinRoom="$1 vừa vào phòng.",
     leaveRoom="$1 vừa rời phòng.",
@@ -192,7 +192,7 @@ return {
 
 
 
-    keySettingInstruction="Nhấn một phím để cài phím đó\nescape (esc): Huỷ\nbackspace: Xoá",
+    keySettingInstruction="Nhấn một phím để gán phím đó\nescape (esc): Huỷ\nbackspace: Xoá",
     customBGhelp="Chèn một tấm ảnh vào đây để áp dụng ảnh nền tuỳ chỉnh",
     customBGloadFailed="Định dạng ảnh không được hỗ trợ",
 
