@@ -63,16 +63,16 @@ return {
 
     page="Trang ",
 
-    cc_fixed="CC không tương thích với sequences cố định",
+    cc_fixed="CC không tương thích với sequence cố định",
     cc_swap="CC không tương thích với chế độ Hold là Chuyển",
-    ai_prebag="AI không tương thích với sequences chứa gạch không phải là tetromino.",
+    ai_prebag="AI không tương thích với sequence chứa gạch không phải là tetromino.",
     ai_mission="AI không tương thích với nhiệm vụ tuỳ chọn.",
     switchSpawnSFX="Vui lòng bật Spawn SFX để chơi!",
     needRestart="Khởi động lại để áp dụng mọi thay đổi.",
 
     loadError_errorMode="'$1' tải lên thất bại: không có chế độ tải lên '$2'",
     loadError_read="'$1' tải lên thất bại: đọc thất bại",
-    loadError_noFile="'$1' tải lên thất bại không có file: ",
+    loadError_noFile="'$1' tải lên thất bại: không có file",
     loadError_other="'$1' tải lên thất bại: $2",
     loadError_unknown="'$1' tải lên thất bại: không rõ lý do",
 
