@@ -484,9 +484,9 @@ return {
             sound="Âm thanh→",
             style="Trang trí",
 
-            ctrl="Cài đặt Điều khiển",
-            key="Cài đặt Bố cục phím",            
-            touch="Cài đặt Cảm ứng",
+            ctrl="Cài đặt điều khiển",
+            key="Cài đặt bố cục phím",            
+            touch="Cài đặt cảm ứng",
             showVK="Hiển thị nút ảo",
             reTime="Start Delay",
             RS="Rotation System",
@@ -497,7 +497,7 @@ return {
             simpMode="Chế độ đơn giản",
         },
         setting_video={
-            title="Cài đặt Đồ Hoạ",
+            title="Cài đặt đồ hoạ",
             sound="←Âm thanh",
             game="Trò chơi→",
 
@@ -506,7 +506,7 @@ return {
             upEdge="Gạch 3D",
             bagLine="Vạch tách Bag",
 
-            ghostType="Loại Bóng gạch",
+            ghostType="Loại bóng gạch",
             ghost="Độ bóng",
             center="Tâm xoay",
             grid="Lưới",
@@ -545,7 +545,7 @@ return {
             fieldSatur="Độ đậm bảng",
         },
         setting_sound={
-            title="Cài đặt Âm thanh",
+            title="Cài đặt âm thanh",
 
             game="←Trò chơi",
             graphic="Đồ hoạ→",
@@ -559,7 +559,7 @@ return {
             vib="Rung",
             voc="Giọng",
 
-            autoMute="Tắt tiếng nếu đang mở cửa sổ khác",
+            autoMute="Tắt tiếng nếu nhấn ngoài game",
             fine="Âm thanh báo lỗi di chuyển",
             sfxPack="Gói SFX",
             vocPack="Gói Voice",
