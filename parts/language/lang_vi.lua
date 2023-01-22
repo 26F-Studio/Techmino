@@ -3,21 +3,21 @@ return {
     loadText={
         loadSFX="Đang tải các hiệu ứng âm thanh",
         loadSample="Đang tải các mẫu nhạc cụ",
-        loadVoice="Đang tải các voice pack",
+        loadVoice="Đang tải các gói voice",
         loadFont="Đang tải phông chữ",
-        loadModeIcon="Đang tải biểu tượng của các chế độ",
+        loadModeIcon="Đang tải các biểu tượng",
         loadMode="Đang tải các chế độ chơi",
         loadOther="Đang tải các tài nguyên khác",
         finish="Nhấn một phím bất kỳ để bắt đầu!",
     },
-    sureQuit="Nhấn thêm một lần nữa thoát",
-    sureReset="Nhấn thêm một lần nữa đặt lại",
-    sureDelete="Nhấn thêm một lần nữa xoá",
+    sureQuit="Nhấn thêm một lần nữa để thoát",
+    sureReset="Nhấn thêm một lần nữa để đặt lại",
+    sureDelete="Nhấn thêm một lần nữa để xoá",
     newDay="Một ngày mới, một khởi đầu mới!",
     playedLong="Bạn chơi cũng lâu rồi. Hãy dành chút thời gian nghỉ ngơi đi",
-    playedTooMuch="Wow! Bạn đã chơi trong một khoảng thời gian dài rồi đấy! Techmino đúng là vui thật, nhưng hãy nhớ nghỉ ngơi và quan tâm đến sức khoẻ của bạn nha!",
+    playedTooMuch="Có lẽ bạn chơi quá nhiều rồi! Đặt máy xuống và nghỉ ngơi đi bạn!",
     settingWarn="CẨN THẬN - Bạn vừa sửa một cài đặt quan trọng của game!",
-    settingWarn2="Những cài đặt này sẽ có hiệu lực sau khi khởi động lại",
+    settingWarn2="Cài đặt này sẽ có hiệu lực sau khi khởi động lại",
 
     atkModeName={"Ngẫu nhiên","Huy hiệu","K.O.","Phản công"},
     royale_remain="Còn $1 người chơi",
@@ -149,7 +149,7 @@ return {
         -- Strategies
         PlayerRole={
             invalidRole="Invalid role",
-            invalidTarget="Invalid target",
+            invalidTarget="Mục tiêu không hợp lệ",
         },
         PlayerType={
             invalidType="Invalid type",
@@ -160,7 +160,7 @@ return {
         },
     },
 
-    tooFrequent="Request too frequently",
+    tooFrequent="Yêu cầu vào quá nhiều",
     roomPasswordChanged="Mật khẩu của phòng đã thay đổi",
     oldVersion="Phiên bản $1 hiện đã ra mắt",
     versionNotMatch="Phiên bản không khớp",
@@ -170,7 +170,7 @@ return {
     wrongEmail="Địa chỉ email không hợp lệ",
     wrongCode="Mã xác minh không hợp lệ",
     noPassword="Vui lòng nhập mật khẩu của bạn",
-    diffPassword="Mật khẩu không khớp",
+    diffPassword="Mật khẩu không đúng",
     checkEmail="Yêu cầu đăng ký đã được gửi.",
 
     wsFailed="Kết nối WebSocket đã thất bại: $1",
@@ -186,7 +186,7 @@ return {
     started="Đang chơi",
     joinRoom="$1 vừa vào phòng.",
     leaveRoom="$1 vừa rời phòng.",
-    roomRemoved="Phòng đã bị loại bỏ",
+    roomRemoved="Phòng đã bị xoá",
     ready="Sẵn sàng",
     spectating="Đang theo dõi",
 
@@ -562,7 +562,7 @@ return {
             autoMute="Tắt tiếng nếu đang mở cửa sổ khác",
             fine="Âm thanh báo lỗi di chuyển",
             sfxPack="Gói SFX",
-            vocPack="Gói giọng",
+            vocPack="Gói Voice",
             apply="Chọn",
         },
         setting_control={
