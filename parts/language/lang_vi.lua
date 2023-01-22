@@ -338,7 +338,7 @@ return {
         "sakurw",
         "Airun",
         "幽灵3383",
-		"TVN Translation Team",
+		"Shard Nguyễn, Sweetsea và cộng đồng TVN",
         "",
         "Performances",
         "Electric283",
