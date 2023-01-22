@@ -76,7 +76,7 @@ function scene.keyDown(key,isRep)
         end
     elseif key=='a' then
         if _testButton(3) then
-            NET.autoLogin()
+            NET.login(true)
         end
     elseif key=='z' then
         if _testButton(4) then

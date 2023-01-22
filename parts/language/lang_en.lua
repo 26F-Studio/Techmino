@@ -744,21 +744,11 @@ return {
             music="BGMs",
             label="label",
         },
-        login_pw={
+        login={
             title="Sign In",
-            login_mail="Login with E-mail/Sign Up",
-            email="Email Address",
-            password="Password",
-            showEmail="Show Email",
-            login="Log In",
-        },
-        login_mail={
-            title="Sign In/Sign Up",
-            login_pw="Password Sign In",
-            email="Email Address",
-            send="Send code",
-            code="Verification Code",
-            verify="Verify",
+            ticket="Auth Ticket",
+            authorize="Open Authorizing Page",
+            submit="Submit",
         },
         reset_password={
             title="Reset Password",

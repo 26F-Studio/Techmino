@@ -744,21 +744,11 @@ return {
             path="打开存储目录",
             save="用户档案管理",
         },
-        login_pw={
+        login={
             title="登录",
-            login_mail="邮箱登录/注册",
-            email="邮箱",
-            password="密码",
-            showEmail="显示邮箱",
-            login="登录",
-        },
-        login_mail={
-            title="登录/注册",
-            login_pw="密码登录",
-            email="邮箱",
-            send="发送验证码",
-            code="验证码",
-            verify="验证邮箱",
+            ticket="登录口令",
+            authorize="去官网获取口令",
+            submit="登录",
         },
         reset_password={
             title="重置密码",

@@ -736,21 +736,11 @@ return {
             music="BGMs",
             label="Etiq.",
         },
-        login_pw={
-            title="Entrar",
-            login_mail="Registrarse/Pedir código",
-            email="Correo Elec.",
-            password="Contraseña",
-            showEmail="Mostrar Correo",
-            login="Entrar",
-        },
-        login_mail={
-            title="Entrar/Registrarse",
-            login_pw="Ingr. con Contraseña",
-            email="Correo Elec.",
-            send="Enviar código",
-            code="Código de Verif.",
-            verify="Verificar",
+        login={
+            -- title="Sign In",
+            -- ticket="Auth Ticket",
+            -- authorize="Open Authorizing Page",
+            -- submit="Submit",
         },
         reset_password={
             title="Restablecer Contraseña",

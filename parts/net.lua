@@ -119,257 +119,43 @@ local function getMsg(request,timeout)
         end
     end
 end
-function NET.getCode(email)
-    if not TASK.lock('getCode') then return end
+
+function NET.login(auto)
+    if not TASK.lock('login') then return end
     TASK.new(function()
         WAIT{
             quit=function()
-                TASK.unlock('getCode')
-                HTTP.deletePool('getCode')
-            end,
-            timeout=12.6,
-        }
-
-        local res=getMsg({
-            pool='getCode',
-            path='/techmino/api/v1/auth/verify/email',
-            body={email=email},
-        },12.6)
-
-        if res and res.code==200 then
-            MES.new('info',text.checkEmail,5)
-        end
-
-        WAIT.interrupt()
-    end)
-end
-function NET.codeLogin(email,code)
-    if not TASK.lock('codeLogin') then return end
-    TASK.new(function()
-        WAIT{
-            quit=function()
-                TASK.unlock('codeLogin')
-                HTTP.deletePool('codeLogin')
-            end,
-            timeout=6.26,
-        }
-
-        local res=getMsg({
-            pool='codeLogin',
-            path='/techmino/api/v1/auth/login/email',
-            body={
-                email=email,
-                code=code,
-            },
-        },6.26)
-
-        if res then
-            if res.code==200 then
-                USER.rToken=res.data.refreshToken
-                USER.aToken=res.data.accessToken
-                saveUser()
-                NET.ws_connect()
-                SCN.swapTo('net_menu')
-            elseif res.code==201 then
-                USER.rToken=res.data.refreshToken
-                USER.aToken=res.data.accessToken
-                saveUser()
-                SCN.pop()SCN.push('net_menu')
-                SCN.go('reset_password',nil,code)
-            end
-        end
-
-        WAIT.interrupt()
-    end)
-end
-function NET.setPW(code,pw)
-    if not TASK.lock('setPW') then return end
-    TASK.new(function()
-        WAIT{
-            quit=function()
-                TASK.unlock('setPW')
-                HTTP.deletePool('setPW')
-            end,
-            timeout=6.26,
-        }
-
-        local salt do
-            local res=getMsg({
-                pool='pwLogin',
-                path='/techmino/api/v1/auth/seed/email',
-                body={
-                    email=USER.email,
-                },
-            },6.26)
-
-            if res and res.code==200 then
-                salt=res.data
-            else
-                WAIT.interrupt()
-                return
-            end
-        end
-
-        pw=HASH.pbkdf2(HASH.sha3_256,pw,salt,260)
-
-        local res=getMsg({
-            pool='setPW',
-            method='PUT',
-            path='/techmino/api/v1/auth/reset/email',
-            body={
-                email=USER.email,
-                code=code,
-                newPassword=pw,
-            },
-        },6.26)
-
-        if res then
-            if res.code==200 then
-                USER.password=pw
-                saveUser()
-                SCN.back()
-            end
-        end
-
-        WAIT.interrupt()
-    end)
-end
-function NET.autoLogin()
-    if not TASK.lock('autoLogin') then return end
-    TASK.new(function()
-        WAIT{
-            quit=function()
-                TASK.unlock('autoLogin')
-                HTTP.deletePool('autoLogin')
+                TASK.unlock('login')
+                HTTP.deletePool('login')
             end,
             timeout=12.6,
         }
 
         if USER.aToken then
             local res=getMsg({
-                pool='autoLogin',
-                path='/techmino/api/v1/auth/check',
+                pool='login',
+                url='cafuuchino1.3322.org:8081',
+                path='/studio26f/api/v1/auth/check',
                 headers={["x-access-token"]=USER.aToken},
             },6.26)
 
-            if res then
-                if res.code==200 then
-                    USER.uid=res.data
-                    saveUser()
-                    NET.ws_connect()
-                    SCN.go('net_menu')
-                    WAIT.interrupt()
-                    return
-                end
-            else
-                WAIT.interrupt()
-                return
-            end
-        end
-        if USER.rToken then
-            local res=getMsg({
-                pool='autoLogin',
-                path='/techmino/api/v1/auth/refresh',
-                headers={["x-refresh-token"]=USER.rToken},
-            },6.26)
-
-            if res then
-                if res.code==200 then
-                    USER.rToken=res.data.refreshToken
+            if res and math.floor(res.code/100)==2 then
+                USER.uid=res.data.playerId
+                if res.data.accessToken then
                     USER.aToken=res.data.accessToken
-                    saveUser()
-                    NET.ws_connect()
-                    SCN.go('net_menu')
-                    WAIT.interrupt()
-                    return
                 end
-            else
-                WAIT.interrupt()
-                return
-            end
-        end
-        if USER.password then
-            local res=getMsg({
-                pool='pwLogin',
-                path='/techmino/api/v1/auth/login/email',
-                body={
-                    email=USER.email,
-                    password=USER.password,
-                },
-            },6.26)
-            if res then
-                if res.code==200 then
-                    USER.rToken=res.data.refreshToken
-                    USER.aToken=res.data.accessToken
-                    saveUser()
-                    NET.ws_connect()
-                    SCN.go('net_menu')
-                    WAIT.interrupt()
-                    return
+                saveUser()
+                NET.ws_connect()
+                if not auto then-- Quit login menu
+                    SCN.pop()
                 end
-            else
-                WAIT.interrupt()
-            end
-        end
-
-        SCN.go('login_pw')
-        WAIT.interrupt()
-    end)
-end
-function NET.pwLogin(email,pw)
-    if not TASK.lock('pwLogin') then return end
-    TASK.new(function()
-        WAIT{
-            quit=function()
-                TASK.unlock('pwLogin')
-                HTTP.deletePool('pwLogin')
-            end,
-            timeout=12.6,
-        }
-        TEST.yieldT(.26)
-
-        local salt do
-            local res=getMsg({
-                pool='pwLogin',
-                path='/techmino/api/v1/auth/seed/email',
-                body={
-                    email=email,
-                },
-            },6.26)
-
-            if res and res.code==200 then
-                salt=res.data
-            else
+                SCN.go('net_menu')
                 WAIT.interrupt()
                 return
             end
         end
 
-        pw=HASH.pbkdf2(HASH.sha3_256,pw,salt,260)
-
-        do
-            local res=getMsg({
-                pool='pwLogin',
-                path='/techmino/api/v1/auth/login/email',
-                body={
-                    email=email,
-                    password=pw,
-                },
-            },6.26)
-
-            if res then
-                if res.code==200 then
-                    USER.email=email
-                    USER.password=pw
-                    USER.rToken=res.data.refreshToken
-                    USER.aToken=res.data.accessToken
-                    saveUser()
-                    NET.ws_connect()
-                    SCN.swapTo('net_menu')
-                end
-            end
-        end
-
+        SCN.go('login')
         WAIT.interrupt()
     end)
 end
@@ -377,7 +163,8 @@ function NET.getUserInfo(uid)
     TASK.new(function()
         local res=getMsg({
             pool='getInfo',
-            path='/techmino/api/v1/player/info?playerId='..uid,
+            url='cafuuchino1.3322.org:8081',
+            path='/studio26f/api/v1/player/info?playerId='..uid,
         },6.26)
 
         if res and res.code==200 and type(res.data)=='table' then
@@ -389,7 +176,8 @@ function NET.getAvatar(uid)
     TASK.new(function()
         local res=getMsg({
             pool='getInfo',
-            path='/techmino/api/v1/player/avatar?playerId='..uid,
+            url='cafuuchino1.3322.org:8081',
+            path='/studio26f/api/v1/player/avatar?playerId='..uid,
         },6.26)
 
         if res and res.code==200 and type(res.data)=='string' then
@@ -759,7 +547,7 @@ end
 
 function NET.ws_connect()
     if WS.status('game')=='dead' then
-        WS.connect('game','',{['x-access-token']=USER.aToken},6)
+        WS.connect('game','',{['x-access-token']=USER.oToken},6)
         TASK.removeTask_code(NET.ws_update)
         TASK.new(NET.ws_update)
     end
@@ -785,11 +573,15 @@ function NET.ws_update()
         local res=getMsg({
             pool='getUID',
             path='/techmino/api/v1/auth/check',
-            headers={["x-access-token"]=USER.aToken},
+            headers={["x-access-token"]=USER.oToken},
         },6.26)
 
-        if res and res.code==200 then
-            USER.uid=res.data
+        if res and math.floor(res.code/100)==2 then
+            USER.uid=res.data.playerId
+            if res.data.accessToken then
+                USER.oToken=res.data.accessToken
+            end
+            saveUser()
         else
             TEST.yieldUntilNextScene()
             GAME.playing=false

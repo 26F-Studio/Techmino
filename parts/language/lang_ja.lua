@@ -746,21 +746,11 @@ return {
             music="曲",
             label="ラベル",
         },
-        login_pw={
-            title="ログイン",
-            login_mail="アカウントを登録/パスワードを忘れた",
-            email="Eメールアドレス",
-            password="パスワード",
-            showEmail="Eメールアドレスを表示",
-            login="ログイン",
-        },
-        login_mail={
-            title="サインイン/サインアップ",
-            login_pw="パスワードでログイン",
-            email="Eメールアドレス",
-            send="認証コード送信",
-            code="認証コード",
-            verify="認証",
+        logi={
+            -- title="Sign In",
+            -- ticket="Auth Ticket",
+            -- authorize="Open Authorizing Page",
+            -- submit="Submit",
         },
         reset_password={
             title="パスワード再設定",

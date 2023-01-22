@@ -587,10 +587,8 @@ do-- Userdata tables
     USER=setmetatable({-- User infomation
         __data={
             uid=false,
-            email=false,
-            password=false,
-            rToken=false,
             aToken=false,
+            oToken=false,
         },
     },{
         __index=function(self,k)
