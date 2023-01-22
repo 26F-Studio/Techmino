@@ -532,7 +532,7 @@ return {
 
             clickFX="Click FX",
             power="Hiện thanh pin",
-            clean="Quick Draw",
+            clean="Vẽ nhanh,
             fullscreen="Toàn màn hình",
             portrait="Để dọc",
             msaa="MSAA level",
