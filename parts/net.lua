@@ -134,7 +134,7 @@ function NET.login(auto)
         if USER.aToken then
             local res=getMsg({
                 pool='login',
-                url='cafuuchino1.3322.org:8081',
+                url=AUTHHOST,
                 path='/studio26f/api/v1/auth/check',
                 headers={["x-access-token"]=USER.aToken},
             },6.26)
@@ -163,7 +163,7 @@ function NET.getUserInfo(uid)
     TASK.new(function()
         local res=getMsg({
             pool='getInfo',
-            url='cafuuchino1.3322.org:8081',
+            url=AUTHHOST,
             path='/studio26f/api/v1/player/info?playerId='..uid,
         },6.26)
 
@@ -176,12 +176,26 @@ function NET.getAvatar(uid)
     TASK.new(function()
         local res=getMsg({
             pool='getInfo',
-            url='cafuuchino1.3322.org:8081',
+            url=AUTHHOST,
             path='/studio26f/api/v1/player/avatar?playerId='..uid,
         },6.26)
 
         if res and res.code==200 and type(res.data)=='string' then
             USERS.updateAvatar(uid,res.data)
+        end
+    end)
+end
+function NET.getNotice(lang,count)
+    WAIT{timeout=6.26}
+    TASK.new(function()
+        local res=getMsg({
+            pool='getNotice',
+            path='/techmino/api/v1/notice?language='..(lang or 'zh_cn')..'&lastCount='..(count or 5),
+        },6.26)
+
+        if res and res.code==200 and type(res.data)=='string' then
+            local dataStr=""
+            SCN.go('notice',nil,dataStr)
         end
     end)
 end
@@ -560,6 +574,8 @@ function NET.ws_update()
     while true do
         TEST.yieldT(1/26)
         if WS.status('game')=='dead' then
+            USER.aToken=false
+            USER.oToken=false
             TEST.yieldUntilNextScene()
             GAME.playing=false
             SCN.backTo('main')
