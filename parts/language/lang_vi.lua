@@ -131,7 +131,7 @@ return {
         },
         -- Plugins
         ConnectionManager={
-            playerInvalid="Player invalid", -- ???
+            playerInvalid="Người chơi không hợp lệ",
             playerNotFound="Không tìm thấy người chơi",
             connectionReplaced="Connection replaced",
         },
@@ -148,7 +148,7 @@ return {
         },
         -- Strategies
         PlayerRole={
-            invalidRole="Invalid role",
+            invalidRole="Vị trí không hợp lệ",
             invalidTarget="Mục tiêu không hợp lệ",
         },
         PlayerType={
@@ -874,9 +874,9 @@ return {
         ['master_g']=       {"Master",            "GRADED",         "Lấy điểm cao nhất có thể!"},
         ['master_ex']=      {"GrandMaster",       "EXTRA",          "Cũng là lấy điểm cao nhất có thể nhưng mà gắt hơn!"},
         ['master_instinct']={"Master",            "INSTINCT",       "Lấy điểm cao nhất có thể nhưng với gạch tàng hình!"},
-        ['strategy_e']=     {"Strategy",          "DỄ",           "Quyết định nhanh hoặc chết"}, -- Needs fixing (Hoặc chết)
-        ['strategy_h']=     {"Strategy",          "KHÓ",           "Quyết định nhanh hoặc chết"}, -- Needs fixing (Hoặc chết)
-        ['strategy_u']=     {"Strategy",          "THÁCH ĐẤU",       "Quyết định nhanh hoặc chết"}, -- Needs fixing (Hoặc chết)
+        ['strategy_e']=     {"Strategy",          "DỄ",           "Quyết định nhanh hoặc là thua"},
+        ['strategy_h']=     {"Strategy",          "KHÓ",           "Quyết định nhanh hoặc là thua"}, 
+        ['strategy_u']=     {"Strategy",          "THÁCH ĐẤU",       "Quyết định nhanh hoặc là thua"},
         ['strategy_e_plus']={"Strategy",          "DỄ+",          "Quyết định nhanh và không được Hold!"},
         ['strategy_h_plus']={"Strategy",          "KHÓ+",          "Quyết định nhanh và không được Hold!"},
         ['strategy_u_plus']={"Strategy",          "THÁCH ĐẤU+",      "Quyết định nhanh và không được Hold!"},
@@ -972,7 +972,7 @@ return {
         "Đừng để những thứ nhỏ nhặt làm bạn mất hứng!",
         "Đây không phải là lỗi, đây là tính năng!",
         "Techmino rotation system rất đẹp trai!",
-        "Excellent, but let’s go better next time…", -- keep
+        "Excellent, but let’s go better next time…", 
         "Đừng quên xem qua phần cài đặt!",
         "Nếu bạn thấy có vấn đề gì, hãy lên trang GitHub báo lại cho chúng tôi!",
         "Game xếp gạch nhưng có thêm chế độ FFA!",
@@ -981,9 +981,9 @@ return {
         "Bạn muốn đóng góp ý tưởng? Hãy vào Discord của chúng tôi!",
         "Bạn có biết gạch xoay thì nó biến thành gì không?",
         "Khuyến khích đeo tai nghe để có trải nghiệm tốt hơn",
-        "Hello world!", -- keep
+        "Hello world!", 
         "Chỉ có 2 loại trimino là I3 và L3.",
-        " if a==true", -- keep
+        " if a==true", 
         "Việc tăng tần số khung hình sẽ mang trải nghiệm tốt hơn cho bạn",
         "Initial [insert action] system có thể cứu bạn đấy.",
         "B2B2B2B là gì? Ăn được không?",
@@ -991,11 +991,11 @@ return {
         "Bạn có thể xoá 40 hàng mà không cần dùng nút trái/phải.",
         "Bạn có thể xoá 40 hàng mà không cần dùng nút xoay.",
         "Hãy tham gia Discord của chúng tôi!",
-        "l-=-1", -- keep
+        "l-=-1", 
         "NỔI LỬA LÊN EM",
         "Việc giảm tần số khung hình sẽ mang trải nghiệm tệ hơn cho bạn",
-        "LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF", -- keep
-        "Lua No.1", -- keep
+        "LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF", 
+        "Lua No.1", 
         "Mix clear sắp ra mắt!",
         "Hầu hết các biểu tượng của các nút được vẽ tay vào trong bảng Unicode Private Use Area.",
         "Hầu hết nhạc trong game được tạo bằng Beepbox.",
@@ -1007,19 +1007,19 @@ return {
         "Có công mài sắt, có ngày nên kim!",
         "Được tạo bởi LÖVE",
         "Được tạo bởi Un..LÖVE",
-        "pps-0.01", -- keep
+        "pps-0.01", 
         "Dit me VNPT",
         "Một số yêu cầu để đạt được rank X là rất khó, kể cả đối với những người giỏi nhất.",
         "Bạn sẽ sớm được chơi với mọi người trên thế giới thôi.",
         "Split clear sắp ra mắt!",
-        "sudo rm -rf /*", -- keep
+        "sudo rm -rf /*", 
         "Techmino là sự kết hợp giữa “technique” và “tetromino”.",
         "Hình như mình nghiện Techmino rồi!",
         "Techmino on Nspire-CX: vâng, nó tồn tại",
         "TetroDictionary (không phải tiếng Việt) đã ra mắt.",
         "Những cái tên xuất hiện ở phần nền trong trang Đội Ngũ là danh sách các nhà tài trợ của chúng tôi.",
         "Nhạc game này đã có mặt trên Soundcloud!",
-        "The stacker future is yours in Techmino!", -- keep
+        "The stacker future is yours in Techmino!", 
         "Bạn có biết: Có một số chế độ đã bị ẩn khỏi map không?",
         "Có tất cả 18 miếng pentomino khác nhau.",
         "Có tất cả 7 miếng tetromino khác nhau.",
@@ -1031,7 +1031,7 @@ return {
         "Thế còn 23 PC trong 100 hàng?",
         "26 TSD có nổi không thế?",
         "Game rác v*i c*t",
-        " while (false)", -- keep
+        " while (false)", 
         "Bạn là Nhất!",
         "Bạn có thể giúp chúng tôi viết BGMs và SFXs!",
         "Bạn có thể cắm bàn phím vào điện thoại hoặc máy tính bảng (đối với iOS thì không).",
@@ -1054,7 +1054,7 @@ return {
         {C.C,"Also try VVVVVV!"},
         {C.C,"Also try World of goo!"},
         {C.C,"Also try Zuma!"},
-        {C.H,"MÓM RỒI ANH EM!!!!!"}, -- REGRET!!
+        {C.H,"MÓM RỒI ANH EM!!!!!"},
         {C.lP,"Secret number: 626"},
         {C.lR,"Z ",C.lG,"S ",C.lS,"J ",C.lO,"L ",C.lP,"T ",C.lY,"O ",C.lC,"I"},
         {C.lY,"MÁT QUÁ!!"},
