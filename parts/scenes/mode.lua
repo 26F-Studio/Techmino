@@ -47,27 +47,6 @@ end
 local function _getPos()
     return mapCam.xOy:inverseTransformPoint(0,0)
 end
-local function _isPointInPolygon(x, y, poly)
-    local x1,y1,x2,y2
-    local len=#poly
-    x2,y2=poly[len-1],poly[len]
-    local wn=0
-    for idx=1,len,2 do
-        x1,y1=x2,y2
-        x2,y2=poly[idx],poly[idx+1]
-
-        if y1>y then
-            if (y2<=y)and(x1-x)*(y2-y)<(x2-x)*(y1-y) then
-                wn=wn+1
-            end
-        else
-            if (y2>y)and(x1-x)*(y2-y)>(x2-x)*(y1-y) then
-                wn=wn-1
-            end
-        end
-    end
-    return wn%2~=0 -- even/odd rule
-end
 
 local star={}
 local starRad=.5 -- inner radius (outer radius is 1)
@@ -98,7 +77,7 @@ local function _onModeRaw(x,y)
                     -- shortcut for far away x/y because _isPointInPolygon is kinda slow
                     goto continue
                 end
-                if _isPointInPolygon((x-M.x)*.022,(y-M.y)*.022,star) then return name end
+                if MATH.PointInPolygon((x-M.x)*.022,(y-M.y)*.022,star) then return name end
                 ::continue::
             end
         end
