@@ -1,7 +1,7 @@
 local scene={}
 
 local function _authorize()
-    love.system.openURL("https://dev.studio26f.org/oauth?product=techmino")
+    love.system.openURL("https://studio26f.org/oauth?product=techmino")
 end
 local function _submit()
     local tickets=scene.widgetList.ticket:getText():upper()
