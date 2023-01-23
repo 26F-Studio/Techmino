@@ -8,9 +8,12 @@ FILETYPE 0x1
     {
         BLOCK "040904B0"
         {
-            VALUE "FileDescription", "Techmino"
             VALUE "CompanyName", "26F Studio"
-            VALUE "LegalCopyright", "Copyright @ 26F Studio"
+            VALUE "FileDescription", "Techmino"
+            VALUE "FileVersion", "@Version"
+            VALUE "InternalName", "Techmino"
+            VALUE "LegalCopyright", "Copyright © 2019-2023 26F-Studio. Some Rights Reserved."
+            VALUE "OriginalFilename", "Techmino.exe"
             VALUE "ProductName", "Techmino"
             VALUE "ProductVersion", "@Version"
         }

@@ -22,9 +22,6 @@
 local fs=love.filesystem
 VERSION=require"version"
 TIME=love.timer.getTime
-SYSTEM=love.system.getOS() if SYSTEM=='OS X' then SYSTEM='macOS' end
-FNNS=SYSTEM:find'\79\83'-- What does FNSF stand for? IDK so don't ask me lol
-MOBILE=SYSTEM=='Android' or SYSTEM=='iOS'
 
 -- Global Vars & Settings
 SFXPACKS={'chiptune','ppt'}
@@ -37,11 +34,6 @@ math.randomseed(os.time()*626)
 love.setDeprecationOutput(false)
 love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
-if MOBILE then
-    local w,h,f=love.window.getMode()
-    f.resizable=false
-    love.window.setMode(w,h,f)
-end
 
 local _LOADTIMELIST_={}
 local _LOADTIME_=TIME()
@@ -183,7 +175,7 @@ Z.setOnFnKeys({
     function() MES.new('error',"挂了") end,
     function()
         if GAME.playing and not GAME.net then
-            for _=1,8 do
+            for _=1,1 do
                 if #PLY_ALIVE>1 then
                     local P=PLY_ALIVE[math.random(2,#PLY_ALIVE)]
                     P.lastRecv=PLAYERS[1]
@@ -197,9 +189,11 @@ Z.setOnFnKeys({
     function() if love['_openConsole'] then love['_openConsole']() end end,
 })
 Z.setOnGlobalKey('f11',function()
-    SETTING.fullscreen=not SETTING.fullscreen
-    applySettings()
-    saveSettings()
+    if not MOBILE then
+        SETTING.fullscreen=not SETTING.fullscreen
+        applySettings()
+        saveSettings()
+    end
 end)
 Z.setVersionText(VERSION.string)
 Z.setDebugInfo{
@@ -527,7 +521,7 @@ LANG.init('zh',
                 local mes="No Text ("..SETTING.locale.."): "..k
                 LOG(mes)
                 MES.new('warn',mes)
-                self[k]=CHAR.zChan.thinking
+                self[k]="["..k.."]"
                 return self[k]
             end})
         end
@@ -611,6 +605,8 @@ for _,fileName in next,fs.getDirectoryItems('replay') do
 end
 table.sort(REPLAY,function(a,b) return a.fileName>b.fileName end)
 
+AUTHURL="https://studio26f.org/oauth?product=techmino"
+AUTHHOST="cafuuchino1.3322.org:8081"
 WS.switchHost('cafuuchino1.3322.org','10026','/techmino/ws/v1')
 HTTP.setHost("cafuuchino1.3322.org:10026")
 HTTP.setThreadCount(1)

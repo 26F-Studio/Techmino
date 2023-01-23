@@ -600,6 +600,28 @@ do-- function Player:movePosition(x,y,size)
         TASK.new(task_movePosition,self,x,y,size or self.size)
     end
 end
+do-- function Player:dropPosition(x,y,size)
+    local function task_dropPosition(self)
+        local vy=0
+        local x,y,size=self.x,self.y,self.size
+        while true do
+            yield()
+            y=y+vy
+            vy=vy+.0626
+            self:setPosition(x,y,size)
+            if y>2600 then
+                return true
+            end
+        end
+    end
+    local function check_player(obj,Ptar)
+        return obj.args[1]==Ptar
+    end
+    function Player:dropPosition()
+        TASK.removeTask_iterate(check_player,self)
+        TASK.new(task_dropPosition,self)
+    end
+end
 
 local frameColorList={[0]=COLOR.Z,COLOR.lG,COLOR.lB,COLOR.lV,COLOR.lO}
 function Player:setFrameColor(c)
@@ -2654,6 +2676,13 @@ local function update_dead(P,dt)
     _updateMisc(P,dt)
 end
 function Player:_die()
+    do
+        local p=TABLE.find(PLY_ALIVE,self)
+        if p then
+            PLY_ALIVE[p]=PLY_ALIVE[#PLY_ALIVE]
+            rem(PLY_ALIVE)
+        end
+    end
     self.alive=false
     self.timing=false
     self.control=false
@@ -2818,7 +2847,6 @@ function Player:lose(force)
     end
     self:_die()
     self.result='lose'
-    do local p=TABLE.find(PLY_ALIVE,self) if p then rem(PLY_ALIVE,p) end end
     if self.gameEnv.layout=='royale' then
         self:changeAtk()
         self.modeData.place=#PLY_ALIVE+1
@@ -2862,7 +2890,7 @@ function Player:lose(force)
         SFX.play('fail')
         VOC.play('lose')
         if self.gameEnv.layout=='royale' then
-            BGM.play(' end')
+            BGM.play('end')
         end
         gameOver()
         self:newTask(#PLAYERS>1 and task_lose or task_finish)
@@ -2876,6 +2904,9 @@ function Player:lose(force)
     end
 
     if #PLY_ALIVE>0 then
+        self:dropPosition()
+        freshPlayerPosition('update')
+
         local cur=PLY_ALIVE[1].group
         for i=2,#PLY_ALIVE do
             local g=PLY_ALIVE[i].group

@@ -1,6 +1,5 @@
 return {
     fallback='en',
-
     loadText={
         loadSFX="#!#",
         loadSample="#~#",
@@ -283,6 +282,8 @@ return {
             power="+.",
             clean="[]→→O",
             fullscreen="|←→|",
+            portrait="↑▉↓",
+            msaa="/ _",
 
             bg_on="__?__",
             bg_off="__.__",
@@ -484,21 +485,11 @@ return {
             music="~~~",
             label="...",
         },
-        login_pw={
-            title="Log in",
-            -- login_mail="Login with E-mail/Sign Up",
-            email="@",
-            password="*",
-            showEmail="?",
-            login="→",
-        },
-        login_mail={
-            title="Log in/Sign up",
-            login_pw="*** →",
-            email="@",
-            send="→",
-            code="←",
-            verify="!",
+        login={
+            title="Sign In",
+            ticket="***",
+            authorize="**?",
+            submit="<!>",
         },
         reset_password={
             title="R ***",

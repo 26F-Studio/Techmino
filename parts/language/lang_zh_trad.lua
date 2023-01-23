@@ -17,6 +17,7 @@ return {
     playedLong="你玩太久了！注意休息！",
     playedTooMuch="今天玩得太久啦！Techmino好玩但也要注意休息哦~",
     settingWarn="正在修改不常用設定，小心操作！",
+    settingWarn2="該設定需要重啟後生效",
 
     atkModeName={"隨機","徽章","K.O.","反擊"},
     royale_remain="剩下 $1 名玩家",
@@ -532,6 +533,8 @@ return {
             power="電量顯示",
             clean="渲染優化",
             fullscreen="全屏幕",
+            portrait="豎屏",
+            msaa="抗鋸齒等級",
 
             bg_on="普通背景",
             bg_off="無背景",
@@ -741,21 +744,11 @@ return {
             path="打開存儲目錄",
             save="用戶資料管理",
         },
-        login_pw={
+        login={
             title="登錄",
-            login_mail="電郵登錄/注册",
-            email="電郵",
-            password="密碼",
-            showEmail="顯示郵箱",
-            login="登錄",
-        },
-        login_mail={
-            title="登錄/註冊",
-            login_pw="密碼登錄",
-            email="電郵",
-            send="發送驗證碼",
-            code="驗證碼",
-            verify="驗證郵箱",
+            ticket="登錄口令",
+            authorize="去官網獲取口令",
+            submit="登錄",
         },
         reset_password={
             title="重設密碼",

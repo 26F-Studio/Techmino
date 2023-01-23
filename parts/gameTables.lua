@@ -587,10 +587,8 @@ do-- Userdata tables
     USER=setmetatable({-- User infomation
         __data={
             uid=false,
-            email=false,
-            password=false,
-            rToken=false,
             aToken=false,
+            oToken=false,
         },
     },{
         __index=function(self,k)
@@ -655,6 +653,8 @@ do-- Userdata tables
         highCam=true,
         nextPos=true,
         fullscreen=true,
+        portrait=false,
+        msaa=0,
         bg='on',
         bgAlpha=.26,
         powerInfo=false,

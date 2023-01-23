@@ -8,6 +8,7 @@ return {
     playedLong="[Anti-vício] Você andou jogando bastante hoje. Certifique-se de fazer pausas.",
     playedTooMuch="[Anti-vício] Você esteve jogando demais hoje! Você não pode jogar mais.",
     -- settingWarn="Modifing uncommon setting, be careful!",
+    -- settingWarn2="This setting takes effect after restart",
 
     atkModeName={"Aleatório","Emblemas","K.O.s","Atacantes"},
     royale_remain="$1 Jogadores restantes",
@@ -520,6 +521,8 @@ return {
             power="Informação bateria",
             -- clean="Fast Draw",
             fullscreen="Tela cheia",
+            -- portrait="Portrait",
+            -- msaa="MSAA level",
 
             -- bg_on="Normal B.G.",
             -- bg_off="No B.G.",
@@ -731,21 +734,11 @@ return {
             -- music="BGMs",
             -- label="label",
         },
-        login_pw={
-            title="Log in",
-            -- login_mail="Login with E-mail/Sign Up",
-            email="Endereço De Email",
-            password="Senha",
-            -- showEmail="Show Email",
-            login="Log in",
-        },
-        login_mail={
-            title="Log in/Registrar",
-            -- login_pw="Password Sign In",
-            email="Endereço De Email",
-            -- send="Send code",
-            -- code="Verification Code",
-            -- verify="Verify",
+        login={
+            -- title="Sign In",
+            -- ticket="Auth Ticket",
+            -- authorize="Open Authorizing Page",
+            -- submit="Submit",
         },
         reset_password={
             -- title="Reset Password",

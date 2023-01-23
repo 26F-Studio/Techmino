@@ -111,9 +111,16 @@ function scene.draw()
         GC.shadedPrint(playing,710,508,'left',2)
         GC.setColor(sin(t*.5)*.2+.8,sin(t*.7)*.2+.8,sin(t)*.2+.8)
         GC.print(playing,710,508)
+
         setFont(35)
-        GC.setColor(1,sin(t*2.6)*.5+.5,sin(t*2.6)*.5+.5)
-        GC.print(author[playing] or "MrZ",670,465)
+        local name=author[playing] or "MrZ"
+        GC.setColor(.26,.26,.26)
+        GC.print(name,670-1,465-1)
+        GC.print(name,670-1,465+1)
+        GC.print(name,670+1,465-1)
+        GC.print(name,670+1,465+1)
+        GC.setColor(1,sin(t*2.6)*.3+.7,sin(t*2.6)*.3+.7)
+        GC.print(name,670,465)
 
         setFont(20)
         GC.setColor(COLOR.Z)

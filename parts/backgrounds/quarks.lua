@@ -1,13 +1,13 @@
 local gc=love.graphics
 local hsv=COLOR.hsv
 local circle,push,pop,rot,translate,setColor=gc.circle,gc.push,gc.pop,gc.rotate,gc.translate,gc.setColor
-local rnd,sin,cos,log,ceil=math.random,math.sin,math.cos,math.log,math.ceil
+local rnd,sin,cos,log=math.random,math.sin,math.cos,math.log
 local back={}
 
 local qX,qY,qdX,qdY={},{},{},{} -- quark data in SoA [size, X, Y, dx, dy, color]
 
-local ptcclr={{1,0,0},{0,1,0},{0,0,1}}
-local apcclr={{0,1,1},{1,0,1},{1,1,0}}
+local ptcclr={{1,0,0,.5},{0,1,0,.5},{0,0,1,.5}}
+local apcclr={{0,1,1,.5},{1,0,1,.5},{1,1,0,.5}}
 
 local blasts={} -- data about annihilation blasts from particles and antiparticles colliding
 local ptc={} -- particle-antiparticle data (antiparticle is a mirror of particle)
@@ -115,9 +115,9 @@ function back.draw()
     translate(-10,-10)
 
     -- Draw quarks in R/G/B
-    setColor(1,0,0,.8) for i=1,                           math.floor(quarkCount/3)   do circle('fill',qX[i],qY[i],size) end
-    setColor(0,1,0,.8) for i=math.floor(quarkCount/3)+1,  math.floor(quarkCount*2/3) do circle('fill',qX[i],qY[i],size) end
-    setColor(0,0,1,.8) for i=math.floor(quarkCount*2/3)+1,quarkCount                 do circle('fill',qX[i],qY[i],size) end
+    setColor(1,0,0,.5) for i=1,                           math.floor(quarkCount/3)   do circle('fill',qX[i],qY[i],size) end
+    setColor(0,1,0,.5) for i=math.floor(quarkCount/3)+1,  math.floor(quarkCount*2/3) do circle('fill',qX[i],qY[i],size) end
+    setColor(0,0,1,.5) for i=math.floor(quarkCount*2/3)+1,quarkCount                 do circle('fill',qX[i],qY[i],size) end
 
     for i=1,#ptc do
         local p=ptc[i]

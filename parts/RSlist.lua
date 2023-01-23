@@ -938,6 +938,40 @@ do
     }
 end
 
+local N64
+do
+    local R={'+0+0','+0-1','+1+0','-1+0','+0+1'}
+    local L={'+0+0','+0-1','-1+0','+1+0','+0+1'}
+    N64={
+        centerTex=GC.DO{10,10,
+            {'setLW',2},
+            {'line',2,9,2,1,8,9,8,1},
+        },
+        kickTable=TABLE.new({
+            [01]=R,[10]=L,[12]=R,[21]=L,
+            [23]=R,[32]=L,[30]=R,[03]=L,
+        },29)
+    }
+end
+
+local N64_plus
+do
+    local R={'+0+0','+0-1','+1+0','-1+0','+0+1'}
+    local L={'+0+0','+0-1','-1+0','+1+0','+0+1'}
+    local F={'+0+0','+0-1','+0+1'}
+    N64_plus={
+        centerTex=GC.DO{10,10,
+        {'setLW',2},
+        {'line',4,9,2,9,2,1,8,9,8,1,6,1},
+    },
+        kickTable=TABLE.new({
+            [01]=R,[10]=L,[12]=R,[21]=L,
+            [23]=R,[32]=L,[30]=R,[03]=L,
+            [02]=F,[20]=F,[13]=F,[31]=F,
+        },29)
+    }
+end
+
 local Classic do
     local centerPos=TABLE.copy(defaultCenterPos)
     centerPos[1]={[0]={1,1},{1,0},{1,1},{1,0}}
@@ -978,7 +1012,7 @@ local None={
             {'setLW',2},
             {'line',2,2,6,6},
         },
-    kickTable=TABLE.new(noKickSet_180,29)
+    kickTable=TABLE.new(noKickSet,29)
 }
 
 local None_plus={
@@ -987,7 +1021,7 @@ local None_plus={
             {'line',1,1,7,7},
             {'fRect',2,2,4,4},
         },
-    kickTable=TABLE.new(noKickSet,29)
+    kickTable=TABLE.new(noKickSet_180,29)
 }
 
 local RSlist={
@@ -1002,6 +1036,8 @@ local RSlist={
     ASC_plus=ASC_plus,
     C2=C2,
     C2_sym=C2_sym,
+    N64=N64,
+    N64_plus=N64_plus,
     Classic=Classic,
     Classic_plus=Classic_plus,
     None=None,

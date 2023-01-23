@@ -42,6 +42,11 @@ function scene.draw()
     gc.pop()
 end
 
+local function _msaaShow(S)
+    S=S.disp()
+    return S==0 and 0 or 2^S
+end
+
 scene.widgetScrollHeight=900
 scene.widgetList={
     WIDGET.newText{name='title',          x=640,y=15,lim=630,font=80},
@@ -70,21 +75,23 @@ scene.widgetList={
 
     WIDGET.newSelector{name='frame',      x=400,y=890,lim=280,w=460,list={8,10,13,17,22,29,37,47,62,80,100},disp=SETval('frameMul'),code=function(v) SETTING.frameMul=v;Z.setFrameMul(SETTING.frameMul) end},
 
-    WIDGET.newSwitch{name='text',         x=450,y=980,lim=360,disp=SETval('text'),                  code=SETrev('text')},
-    WIDGET.newSwitch{name='score',        x=450,y=1030,lim=360,disp=SETval('score'),                code=SETrev('score')},
-    WIDGET.newSwitch{name='bufferWarn',   x=450,y=1100,lim=360,disp=SETval('bufferWarn'),           code=SETrev('bufferWarn')},
-    WIDGET.newSwitch{name='showSpike',    x=450,y=1150,lim=360,disp=SETval('showSpike'),            code=SETrev('showSpike')},
-    WIDGET.newSwitch{name='nextPos',      x=450,y=1220,lim=360,disp=SETval('nextPos'),              code=SETrev('nextPos')},
-    WIDGET.newSwitch{name='highCam',      x=450,y=1270,lim=360,disp=SETval('highCam'),              code=SETrev('highCam')},
-    WIDGET.newSwitch{name='warn',         x=450,y=1340,lim=360,disp=SETval('warn'),                 code=SETrev('warn')},
+    WIDGET.newSwitch{name='text',         x=450,y=980,lim=360,disp=SETval('text'),          code=SETrev('text')},
+    WIDGET.newSwitch{name='score',        x=450,y=1030,lim=360,disp=SETval('score'),        code=SETrev('score')},
+    WIDGET.newSwitch{name='bufferWarn',   x=450,y=1100,lim=360,disp=SETval('bufferWarn'),   code=SETrev('bufferWarn')},
+    WIDGET.newSwitch{name='showSpike',    x=450,y=1150,lim=360,disp=SETval('showSpike'),    code=SETrev('showSpike')},
+    WIDGET.newSwitch{name='nextPos',      x=450,y=1220,lim=360,disp=SETval('nextPos'),      code=SETrev('nextPos')},
+    WIDGET.newSwitch{name='highCam',      x=450,y=1270,lim=360,disp=SETval('highCam'),      code=SETrev('highCam')},
+    WIDGET.newSwitch{name='warn',         x=450,y=1340,lim=360,disp=SETval('warn'),         code=SETrev('warn')},
 
-    WIDGET.newSwitch{name='clickFX',      x=950,y=980,lim=360,disp=SETval('clickFX'),               code=function() SETTING.clickFX=not SETTING.clickFX applySettings() end},
-    WIDGET.newSwitch{name='power',        x=950,y=1070,lim=360,disp=SETval('powerInfo'),            code=function() SETTING.powerInfo=not SETTING.powerInfo applySettings() end},
-    WIDGET.newSwitch{name='clean',        x=950,y=1160,lim=360,disp=SETval('cleanCanvas'),          code=function() SETTING.cleanCanvas=not SETTING.cleanCanvas applySettings() end},
-    WIDGET.newSwitch{name='fullscreen',   x=950,y=1250,lim=360,disp=SETval('fullscreen'),           code=function() SETTING.fullscreen=not SETTING.fullscreen applySettings() end},
+    WIDGET.newSwitch{name='clickFX',      x=950,y=980,lim=360,disp=SETval('clickFX'),       code=function() SETTING.clickFX=not SETTING.clickFX; applySettings() end},
+    WIDGET.newSwitch{name='power',        x=950,y=1050,lim=360,disp=SETval('powerInfo'),    code=function() SETTING.powerInfo=not SETTING.powerInfo; applySettings() end},
+    WIDGET.newSwitch{name='clean',        x=950,y=1120,lim=360,disp=SETval('cleanCanvas'),  code=function() SETTING.cleanCanvas=not SETTING.cleanCanvas; applySettings() end},
+    WIDGET.newSwitch{name='fullscreen',   x=950,y=1190,lim=360,disp=SETval('fullscreen'),   code=function() SETTING.fullscreen=not SETTING.fullscreen; applySettings() end,hideF=function() return MOBILE end},
+    WIDGET.newSwitch{name='portrait',     x=950,y=1190,lim=360,disp=SETval('portrait'),     code=function() SETTING.portrait=not SETTING.portrait; saveSettings(); MES.new('warn',text.settingWarn2,6.26) end,hideF=function() return not MOBILE end},
+    WIDGET.newSlider{name='msaa',         x=950,y=1250,lim=360,w=200,axis={0,4,1},show=_msaaShow,disp=function() return SETTING.msaa==0 and 0 or math.log(SETTING.msaa,2) end,code=function(v) SETTING.msaa=v==0 and 0 or 2^v; saveSettings(); if TASK.lock('warnMessage',6.26) then MES.new('warn',text.settingWarn2,6.26) end end},
 
-    WIDGET.newKey{name='bg_on',           x=680,y=1340,w=200,h=80,code=function() SETTING.bg='on'applySettings() end},
-    WIDGET.newKey{name='bg_off',          x=900,y=1340,w=200,h=80,code=function() SETTING.bg='off'applySettings() end},
+    WIDGET.newKey{name='bg_on',           x=680,y=1340,w=200,h=80,code=function() SETTING.bg='on'; applySettings() end},
+    WIDGET.newKey{name='bg_off',          x=900,y=1340,w=200,h=80,code=function() SETTING.bg='off'; applySettings() end},
     WIDGET.newKey{name='bg_custom',       x=1120,y=1340,w=200,h=80,
         code=function()
             if love.filesystem.getInfo('conf/customBG') then

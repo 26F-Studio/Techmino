@@ -17,7 +17,7 @@ local trophyColor-- Current trophy color
 
 function scene.enter()
     page=0
-    if SCN.prev:find("setting") then
+    if type(SCN.prev)=='string' and SCN.prev:find("setting") then
         TEXT.show(text.needRestart,640,410,50,'fly',.6)
     end
     local P1=PLAYERS[1]

@@ -17,6 +17,7 @@ return {
     playedLong="You have been playing for a long time. Time to take a break!",
     playedTooMuch="You have been playing for far too long! Techmino is fun, but remember to take some rests!",
     settingWarn="Careful — you’re about to change some uncommon settings!",
+    settingWarn2="This setting takes effect after restart",
 
     atkModeName={"Random","Badges","K.O.s","Attackers"},
     royale_remain="$1 Players Left",
@@ -531,6 +532,8 @@ return {
             power="Battery Info",
             clean="Quick Draw",
             fullscreen="Fullscreen",
+            portrait="Portrait",
+            msaa="MSAA level",
 
             bg_on="Normal B.G.",
             bg_off="No B.G.",
@@ -741,21 +744,11 @@ return {
             music="BGMs",
             label="label",
         },
-        login_pw={
+        login={
             title="Sign In",
-            login_mail="Login with E-mail/Sign Up",
-            email="Email Address",
-            password="Password",
-            showEmail="Show Email",
-            login="Log In",
-        },
-        login_mail={
-            title="Sign In/Sign Up",
-            login_pw="Password Sign In",
-            email="Email Address",
-            send="Send code",
-            code="Verification Code",
-            verify="Verify",
+            ticket="Auth Ticket",
+            authorize="Open Authorizing Page",
+            submit="Submit",
         },
         reset_password={
             title="Reset Password",

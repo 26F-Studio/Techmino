@@ -148,10 +148,6 @@ TEXTURE.gridLines=(function()
 end)()
 
 TEXTURE.dial={
-    frame=GC.DO{80,80,
-        {'setLW',3},
-        {'dCirc',40,40,38},
-    },
     needle=GC.DO{32,3,
         {'setLW',3},
         {'fRect',0,0,32,3,2},

@@ -18,6 +18,7 @@ return {
     playedLong="Anda telah bermain lama. Waktunya istirahat!",
     playedTooMuch="Anda telah bermain terlalu lama! Techmino sangat menyenangkan, tetapi jangan lupa istirahat!",
     settingWarn="Awas, Anda akan mengubah beberapa pengaturan yang tidak biasanya diubah!",
+    -- settingWarn2="This setting takes effect after restart",
 
     atkModeName={"Acak","Badge","K.O.","Penyerang"},
     royale_remain="$1 Pemain Tersisa",
@@ -532,6 +533,8 @@ return {
             power="Info Baterai",
             clean="Gambar Cepat",
             fullscreen="Layar Penuh",
+            -- portrait="Portrait",
+            -- msaa="MSAA level",
 
             bg_on="B.G. Normal",
             bg_off="Tidak Ada B.G.",
@@ -742,21 +745,11 @@ return {
             music="Musik",
             label="label",
         },
-        login_pw={
-            title="Masuk",
-            -- login_mail="Login with E-mail/Sign Up",
-            email="Alamat Email",
-            password="Password",
-            showEmail="Tunjukkan Email",
-            login="Masuk",
-        },
-        login_mail={
-            title="Masuk/Daftar",
-            -- login_pw="Password Sign In",
-            email="Alamat Email",
-            -- send="Send code",
-            -- code="Verification Code",
-            -- verify="Verify",
+        login={
+            -- title="Sign In",
+            -- ticket="Auth Ticket",
+            -- authorize="Open Authorizing Page",
+            -- submit="Submit",
         },
         reset_password={
             -- title="Reset Password",

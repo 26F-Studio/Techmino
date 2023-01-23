@@ -7,6 +7,7 @@ return {
     playedLong="[Anti-addiction] Vous avez joué pendant un bon bout de temps aujourd'hui. Faites des pauses.",
     playedTooMuch="[Anti-addiction] Vous avez joué trop longtemps ! Vous ne pouvez plus jouer.",
     -- settingWarn="Modifing uncommon setting, be careful!",
+    -- settingWarn2="This setting takes effect after restart",
 
     atkModeName={"Aléatoire","Badges","K.O.s faciles","Attaquants"},
     royale_remain="$1 Joueurs restants",
@@ -496,6 +497,8 @@ return {
             power="Infos d'alimentation",
             -- clean="Fast Draw",
             fullscreen="Plein écran",
+            -- portrait="Portrait",
+            -- msaa="MSAA level",
 
             -- bg_on="Normal B.G.",
             -- bg_off="No B.G.",
@@ -696,21 +699,11 @@ return {
             music="Musique",
             -- label="label",
         },
-        login_pw={
-            title="Connexion",
-            -- login_mail="Login with E-mail/Sign Up",
-            email="E-mail",
-            password="Mot de passe",
-            -- showEmail="Show Email",
-            login="Connexion",
-        },
-        login_mail={
-            title="Connexion/Enregistrement",
-            -- login_pw="Password Sign In",
-            email="E-mail",
-            -- send="Send code",
-            -- code="Verification Code",
-            -- verify="Verify",
+        login={
+            -- title="Sign In",
+            -- ticket="Auth Ticket",
+            -- authorize="Open Authorizing Page",
+            -- submit="Submit",
         },
         reset_password={
             -- title="Reset Password",

@@ -99,6 +99,11 @@ jobs:
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
           path: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+      - name: Add icon to love package
+        run: |
+          cp ./.github/build/linux/${{ env.BUILD_TYPE }}/icon.png media/image/icon.png
+          zip -u ${{ env.CORE_LOVE_PACKAGE_PATH }} media/image/icon.png
+          rm media/image/icon.png
       - name: Rename love package
         run: |
           mkdir -p ${{ env.OUTPUT_FOLDER }}
@@ -123,12 +128,20 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
+      - name: Get transfer
+        shell: bash
+        run: |
+          curl -sL --retry 5 https://raw.githubusercontent.com/Mikubill/transfer/master/install.sh | sh
       - name: Upload to WeTransfer
         id: transfer
-        run: |
-          curl -sL https://git.io/file-transfer | sh 
-          ./transfer wet -s -p 16 --no-progress ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.love 2>&1>./wetransfer.log
-          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 5
+          retry_wait_seconds: 10
+          timeout_minutes: 5
+          command: |
+            ./transfer wet -s -p 16 --no-progress ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.love 2>&1>./wetransfer.log
+            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   auto-test:
     runs-on: ubuntu-latest
@@ -146,6 +159,7 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
+    if: github.event_name != 'pull_request'
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
@@ -162,12 +176,12 @@ jobs:
           import os
           import re
           with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
-            if "${{ env.BUILD_TYPE }}" == "dev": 
+            if "${{ env.BUILD_TYPE }}" == "dev":
               f.write('bundle-id=org.f26_studio.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '.snapshot\n')
-              f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '_Snapshot\n')
+              f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '-', '${{ needs.get-info.outputs.app-name }}') + '_Snapshot\n')
             else:
               f.write('bundle-id=org.f26_studio.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
-              f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
+              f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '-', '${{ needs.get-info.outputs.app-name }}') + '\n')
       - name: Download core love package
         uses: actions/download-artifact@v3
         with:
@@ -176,17 +190,10 @@ jobs:
         uses: ./.github/actions/get-cc
         with:
           platform: Android
-          dir: ./ColdClear
-      - name: Process ColdClear
-        shell: bash
-        run: |
-          mkdir -p ./libAndroid/armeabi-v7a/
-          mkdir -p ./libAndroid/arm64-v8a/
-          mv ./ColdClear/armeabi-v7a/libCCloader.so ./libAndroid/armeabi-v7a/
-          mv ./ColdClear/arm64-v8a/libCCloader.so ./libAndroid/arm64-v8a/
+          dir: ./libAndroid
       - name: Build Android packages
         id: build-packages
-        uses: love-actions/love-actions-android@v1
+        uses: love-actions/love-actions-android@main
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
@@ -197,8 +204,8 @@ jobs:
           keystore-store-password: ${{ secrets.ANDROID_KEYSTORE_STOREPASSWORD }}
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           resource-path: ./.github/build/android/${{ env.BUILD_TYPE }}/res
-          libs-path: ./ColdClear/
           extra-assets: ./libAndroid/
+          custom-scheme: studio26f://oauth
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
           version-code: ${{ needs.get-info.outputs.version-code }}
@@ -223,17 +230,25 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
+      - name: Get transfer
+        shell: bash
+        run: |
+          curl -sL --retry 5 https://raw.githubusercontent.com/Mikubill/transfer/master/install.sh | sh
       - name: Upload to WeTransfer
         id: transfer
-        run: |
-          curl -sL https://git.io/file-transfer | sh 
-          ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 5
+          retry_wait_seconds: 10
+          timeout_minutes: 5
+          command: |
+            ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   build-ios:
     runs-on: macos-latest
-    if: github.event_name != 'pull_request'
     needs: [get-info, build-core, auto-test]
+    if: github.event_name != 'pull_request'
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
@@ -267,7 +282,7 @@ jobs:
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
-          copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
+          copyright: "Copyright © 2019-2023 26F-Studio. Some Rights Reserved."
           icon-path: ./.github/build/iOS/${{ env.BUILD_TYPE }}/icon
           love-patch: ./.github/build/iOS/love.patch
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
@@ -312,12 +327,20 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-      - name: Upload to WeTransfer
-        id: transfer
+      - name: Get transfer
+        shell: bash
         run: |
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
-          ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
+      - name: Upload to WeTransfer
+        id: transfer
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 5
+          retry_wait_seconds: 10
+          timeout_minutes: 5
+          command: |
+            ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   build-linux:
     runs-on: ubuntu-latest
@@ -337,12 +360,20 @@ jobs:
         run: |
           import os
           import re
+
+          product_name = re.sub(r'[^A-Za-z0-9]+', '-', '${{ needs.get-info.outputs.app-name }}').strip('-').lower()
           with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
-            f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
+            f.write('bundle-id=org.26f-studio.' + product_name + '\n')
+            f.write('product-name=' + product_name + '\n')
       - name: Download core love package
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Add icon to love package
+        run: |
+          cp ./.github/build/linux/${{ env.BUILD_TYPE }}/icon.png media/image/icon.png
+          zip -u ${{ env.CORE_LOVE_PACKAGE_PATH }} media/image/icon.png
+          rm media/image/icon.png
       - name: Download ColdClear
         uses: ./.github/actions/get-cc
         with:
@@ -352,20 +383,19 @@ jobs:
         shell: bash
         run: |
           cd ./ColdClear
-          mkdir ./libs
-          mv ./x64/libcold_clear.so ./libs
-          mkdir ./shared
-          mv ./x64/CCloader.so ./shared
+          mkdir -p ./lib/lua/5.1
+          mv ./x64/CCloader.so ./lib/lua/5.1
       - name: Build Linux packages
         id: build-packages
         uses: love-actions/love-actions-linux@v1
         with:
-          desktop-file-path: ./.github/build/linux/${{ env.BUILD_TYPE }}/template.desktop
-          executable-name: app
+          app-name: ${{ needs.get-info.outputs.app-name }}
+          bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
+          description: Techmino is fun!
+          version-string: ${{ needs.get-info.outputs.version-string }}
           icon-path: ./.github/build/linux/${{ env.BUILD_TYPE }}/icon.png
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          libs-path: ./ColdClear/libs/
-          shared-path: ./ColdClear/shared/
+          lib-path: ./ColdClear/lib
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
       - name: Upload AppImage artifact
@@ -373,32 +403,48 @@ jobs:
         with:
           name: ${{ needs.get-info.outputs.base-name }}_Linux_AppImage
           path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.AppImage
+      - name: Upload Debian artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_Linux_Debian
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.deb
       - name: Prepare for release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
         shell: bash
         run: |
           mkdir -p ${{ env.RELEASE_FOLDER }}
           cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.AppImage ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.AppImage
+          cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.deb ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.deb
       - name: Upload release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          artifacts: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.AppImage
+          artifacts: |
+            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.AppImage
+            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.deb
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
+      - name: Get transfer
+        shell: bash
+        run: |
+          curl -sL --retry 5 https://raw.githubusercontent.com/Mikubill/transfer/master/install.sh | sh
       - name: Upload to WeTransfer
         id: transfer
-        run: |
-          curl -sL https://git.io/file-transfer | sh 
-          ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 5
+          retry_wait_seconds: 10
+          timeout_minutes: 5
+          command: |
+            ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   build-macos-appstore:
     runs-on: macos-latest
-    if: github.event_name != 'pull_request'
     needs: [get-info, build-core, auto-test]
+    if: github.event_name != 'pull_request'
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
@@ -436,7 +482,7 @@ jobs:
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
-          copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
+          copyright: "Copyright © 2019-2023 26F-Studio. Some Rights Reserved."
           icon-path: ./.github/build/macOS/${{ env.BUILD_TYPE }}/icon.icns
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           libs-path: ./ColdClear/universal/
@@ -480,17 +526,25 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-      - name: Upload to WeTransfer
-        id: transfer
+      - name: Get transfer
+        shell: bash
         run: |
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
-          ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
+      - name: Upload to WeTransfer
+        id: transfer
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 5
+          retry_wait_seconds: 10
+          timeout_minutes: 5
+          command: |
+            ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   build-macos-portable:
     runs-on: macos-latest
-    if: github.event_name != 'pull_request'
     needs: [get-info, build-core, auto-test]
+    if: github.event_name != 'pull_request'
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
@@ -528,7 +582,7 @@ jobs:
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
-          copyright: "Copyright © 2019-2022 26F-Studio. Some Rights Reserved."
+          copyright: "Copyright © 2019-2023 26F-Studio. Some Rights Reserved."
           icon-path: ./.github/build/macOS/${{ env.BUILD_TYPE }}/icon.icns
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           libs-path: ./ColdClear/universal/
@@ -578,16 +632,26 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          artifacts: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_portable.pkg, ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_portable.dmg
+          artifacts: |
+            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_portable.pkg
+            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_portable.dmg
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-      - name: Upload to WeTransfer
-        id: transfer
+      - name: Get transfer
+        shell: bash
         run: |
           wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
-          ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
+      - name: Upload to WeTransfer
+        id: transfer
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 5
+          retry_wait_seconds: 10
+          timeout_minutes: 5
+          command: |
+            ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   build-windows:
     runs-on: windows-latest
@@ -618,6 +682,19 @@ jobs:
         with:
           platform: Windows
           dir: ./ColdClear
+      - name: Update Windows template
+        shell: python3 {0}
+        run: |
+          version_string = "${{ needs.get-info.outputs.version-string }}"
+          file_version = (f"{version_string.replace('.', ',')},0")
+          with open("./.github/build/windows/${{ env.BUILD_TYPE }}/template.rc", "r+", encoding="utf8") as file:
+            data = file.read()
+            data = data\
+              .replace("@Version", version_string)\
+              .replace("@FileVersion", file_version)
+            file.seek(0)
+            file.truncate()
+            file.write(data)
       - name: Build Windows packages
         id: build-packages
         uses: love-actions/love-actions-windows@v1
@@ -628,7 +705,9 @@ jobs:
           extra-assets-x86: ./ColdClear/x86/CCloader.dll ./ColdClear/x86/cold_clear.dll
           extra-assets-x64: ./ColdClear/x64/CCloader.dll ./ColdClear/x64/cold_clear.dll
           product-name: ${{ steps.process-app-name.outputs.product-name }}
-          version-string: ${{ needs.get-info.outputs.version-string }}
+          app-id: ${{ secrets.WINDOWS_APP_ID }}
+          project-website: https://www.studio26f.org/
+          installer-languages: ChineseSimplified.isl ChineseTraditional.isl English.isl Spanish.isl French.isl Indonesian.isl Japanese.isl Portuguese.isl
           output-folder: ${{ env.OUTPUT_FOLDER }}
       - name: Upload 32-bit artifact
         uses: actions/upload-artifact@v3
@@ -640,6 +719,11 @@ jobs:
         with:
           name: ${{ needs.get-info.outputs.base-name }}_Windows_x64
           path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_x64.zip
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_Windows_installer
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_installer.exe
       - name: Prepare for release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
         shell: bash
@@ -647,12 +731,16 @@ jobs:
           mkdir -p ${{ env.RELEASE_FOLDER }}
           cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_x86.zip ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Windows_x86.zip
           cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_x64.zip ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Windows_x64.zip
+          cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_installer.exe ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Windows_installer.exe
       - name: Upload release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          artifacts: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Windows_x86.zip, ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Windows_x64.zip
+          artifacts: |
+            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Windows_x86.zip
+            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Windows_x64.zip
+            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Windows_installer.exe
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
@@ -661,15 +749,20 @@ jobs:
           TEMP_PATH: ./temp.zip
         shell: bash
         run: |
-          curl -L --retry 5 https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_windows_amd64.zip -o ${{ env.TEMP_PATH }}
+          curl -sL --retry 5 https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_windows_amd64.zip -o ${{ env.TEMP_PATH }}
           7z x ${{ env.TEMP_PATH }} -o./
           rm ${{ env.TEMP_PATH }}
       - name: Upload to WeTransfer
         id: transfer
-        shell: pwsh
-        run: |
-          ./transfer.exe wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-          "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $env:GITHUB_OUTPUT
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 5
+          retry_wait_seconds: 10
+          shell: pwsh
+          timeout_minutes: 5
+          command: |
+            ./transfer.exe wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
+            "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $env:GITHUB_OUTPUT
 
   post-build:
     runs-on: ubuntu-latest
@@ -721,6 +814,7 @@ jobs:
             if "${{ needs.build-windows.result }}" == "success":
               f.write("- Windows packages: [WeTransfer](${{ needs.build-windows.outputs.download-url }})\n")
       - name: Send Discord message
+        if: github.event_name != 'pull_request'
         uses: Sniddl/discord-commits@v1.5
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}

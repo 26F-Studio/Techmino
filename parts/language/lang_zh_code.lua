@@ -1,4 +1,3 @@
-local C=COLOR
 return {
     loadText={
         loadSFX="Load(SFX);",
@@ -17,6 +16,7 @@ return {
     playedLong="PlayedLong=true",
     playedTooMuch="PlayedTooMuch=true",
     settingWarn="SettingWarn();",
+    settingWarn2="SettingWarn2();",
 
     atkModeName={"Random();","Badges();","Kills();","Back();"},
     royale_remain="LeftPlayers=$1",
@@ -205,7 +205,7 @@ return {
         "",
         "使用LÖVE引擎",
         "错误或者建议请附带截图发送到内测群或者作者邮箱~",
-        "仅通过官网 *暂无域名,见词典* 免费下载/更新",
+        "仅通过官网/*见主菜单词典*/ 免费下载/更新",
         "其他渠道获得游戏皆有被修改/加广告/植入病毒的风险，程序只申请了振动&联网权限！",
         "若由于被修改的本游戏产生的各种损失作者不负责(怎么负责啊我又没法管)",
         FNNS and "/" or "请从正规途径获得最新版，游戏现为免费，不过有打赏当然感谢啦~",
@@ -288,7 +288,7 @@ return {
         -- "XMiao",
         "幽灵3383",
         "",
-        "Performances",
+        "演出",
         "Electric283",
         "Hebomai",
         "",
@@ -482,6 +482,8 @@ return {
             power="Set.Battery",
             clean="Set.QuickDraw",
             fullscreen="Set.Fullscreen",
+            portrait="Set.Portrait",
+            msaa="Set.MSAA",
 
             bg_on="Set.BG(Normal);",
             bg_off="Set.BG(Off);",
@@ -691,21 +693,11 @@ return {
             path="OpenPath();",
             save="DataManagement();",
         },
-        login_pw={
-            title="LogIn.UI",
-            login_mail="Login_mail_sign_up()",
-            email="Email=",
-            password="Password=",
-            showEmail="ShowEmail",
-            login="Login();",
-        },
-        login_mail={
-            title="LogIn_Register.UI",
-            login_pw="Login_pw();",
-            email="Email=",
-            send="Send();",
-            code="V-code=",
-            verify="Verify();",
+        login={
+            title="SignIn.UI",
+            ticket="Ticket=",
+            authorize="Authorize()",
+            submit="Submit()",
         },
         reset_password={
             title="Reset_Password.UI",

@@ -1,4 +1,5 @@
 return {
+    fallback='en',
     loadText={
         loadSFX="Cargando efectos de sonido",
         loadSample="Cargando samples de música",
@@ -9,7 +10,6 @@ return {
         loadOther="Cargando otros assets",
         finish="Pulsa cualquier tecla",
     },
-    fallback='en',
     sureQuit="Pulsa de nuevo para salir",
     sureReset="Pulsa de nuevo para reiniciar",
     sureDelete="Pulsa de nuevo para borrar",
@@ -17,6 +17,7 @@ return {
     playedLong="[Anti-adicción] Estuviste jugando un buen rato hoy. Recuerda descansar de vez en cuando.",
     playedTooMuch="[Anti-adicción] ¡Has jugado mucho por hoy! No puedes jugar más.",
     settingWarn="¡Ten cuidado con modificar esto!",
+    -- settingWarn2="This setting takes effect after restart",
 
     atkModeName={"Al azar","Medallas","KOs","Atacantes"},
     royale_remain="$1 Jugadores Restantes",
@@ -531,6 +532,8 @@ return {
             power="Inf. de Batería",
             clean="Fast Draw",
             fullscreen="Pant. Completa",
+            -- portrait="Portrait",
+            -- msaa="MSAA level",
 
             bg_on="Fondo Normal",
             bg_off="Sin Fondo",
@@ -733,21 +736,11 @@ return {
             music="BGMs",
             label="Etiq.",
         },
-        login_pw={
-            title="Entrar",
-            login_mail="Registrarse/Pedir código",
-            email="Correo Elec.",
-            password="Contraseña",
-            showEmail="Mostrar Correo",
-            login="Entrar",
-        },
-        login_mail={
-            title="Entrar/Registrarse",
-            login_pw="Ingr. con Contraseña",
-            email="Correo Elec.",
-            send="Enviar código",
-            code="Código de Verif.",
-            verify="Verificar",
+        login={
+            -- title="Sign In",
+            -- ticket="Auth Ticket",
+            -- authorize="Open Authorizing Page",
+            -- submit="Submit",
         },
         reset_password={
             title="Restablecer Contraseña",

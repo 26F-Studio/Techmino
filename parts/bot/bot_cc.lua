@@ -22,7 +22,7 @@ function bot_cc:checkDest(b2b,atk,exblock,yomi)
     for k=1,#dest,2 do
         local r=CB[dest[k+1]-self.P.curY+2]
         if not r or not r[dest[k]-self.P.curX+2] then
-            print('wrong place')
+            -- print('wrong place')
             self:lockWrongPlace()
             self.P.destFX=nil
             return
@@ -31,8 +31,8 @@ function bot_cc:checkDest(b2b,atk,exblock,yomi)
     local should_spawn = self.P:getNextSpawn() - 1
     if dest.spawn ~= should_spawn then
         assert(dest.spawn > should_spawn)
-        print('wrong spawn: should be '..dest.spawn..' but '..should_spawn)
-        print('-- should only happen when camera is going down')
+        -- print('wrong spawn: should be '..dest.spawn..' but '..should_spawn)
+        -- print('-- should only happen when camera is going down')
         self:lockWrongPlace()
         self.P.destFX=nil
         return
