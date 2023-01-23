@@ -193,7 +193,7 @@ return {
 
 
     keySettingInstruction="Nhấn một phím để gán phím đó\nescape (esc): Huỷ\nbackspace: Xoá",
-    customBGhelp="Chèn một tấm ảnh vào đây để áp dụng ảnh nền tuỳ chỉnh",
+    customBGhelp="Kéo một tấm ảnh vào đây để áp dụng ảnh nền tuỳ chỉnh",
     customBGloadFailed="Định dạng ảnh không được hỗ trợ",
 
     errorMsg="Techmino bị lỗi và cần phải được khởi động lại\nBạn có thể gửi error log để giúp dev sửa game nhanh hơn.",
@@ -338,7 +338,7 @@ return {
         "sakurw",
         "Airun",
         "幽灵3383",
-		"Shard Nguyễn, Sweetsea và cộng đồng TVN",
+		"Shard Nguyễn, Squishy và cộng đồng TVN",
         "",
         "Performances",
         "Electric283",
@@ -520,7 +520,7 @@ return {
             shakeFX="Field Sway",
             atkFX="Atk FX",
 
-            frame="Tỷ lệ cập nhật khung hình (%)",
+            frame="Tần suất cập nhật khung hình (%)",
 
             text="Hiển thị loại xoá hàng",
             score="Hiển thị điểm thành phần",
