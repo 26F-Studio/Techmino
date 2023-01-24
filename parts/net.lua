@@ -154,8 +154,10 @@ function NET.login(auto)
                 return
             end
         end
+        if auto then
+            SCN.go('login')
+        end
 
-        SCN.go('login')
         WAIT.interrupt()
     end)
 end
