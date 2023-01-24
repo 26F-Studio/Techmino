@@ -21,10 +21,12 @@ local mapCam={
 }
 local visibleModes
 local touchDist
+local grid
 
 local scene={}
 
 function scene.enter()
+    grid=false
     BG.set()
     mapCam.zoomK=SCN.prev=='main' and 5 or 1
     visibleModes={}-- 1=unlocked, 2=locked but visible
@@ -141,6 +143,8 @@ function scene.keyDown(key,isRep)
         end
     elseif key=='f1' then
         SCN.go('mod')
+    elseif key=='f2' then
+        grid=not grid
     elseif key=='escape' then
         if mapCam.sel then
             mapCam.sel=false
@@ -222,6 +226,21 @@ function scene.draw()
     gc_rotate((mapCam.zoomK^.6-1))
     gc_scale(mapCam.zoomK^.7)
     gc_applyTransform(mapCam.xOy);
+
+    if grid then
+        gc_setColor(1,0,.26,.26)
+        gc_setLineWidth(1)
+        for x=-2000,2000,200 do
+            gc_line(x,-2200,x,1000)
+        end
+        for y=-2200,1000,200 do
+            gc_line(-2000,y,2000,y)
+        end
+        gc_setColor(1,0,.26,.626)
+        gc_setLineWidth(2)
+        gc_line(0,-2200,0,1000)
+        gc_line(-2000,0,1000,0)
+    end
 
     local R=RANKS
     local sel=mapCam.sel
