@@ -1027,7 +1027,7 @@ return {
         "Bạn có thể cài đặt bố cục phím trong phần cài đặt!",
         "Bạn có thể mở thư mục chứa dữ liệu từ trang Thống kê.",
         "Bạn có thể thực hiện Spin với tất cả cả miếng gạch trong game này.",
-        "You can set the spawning orientation for each piece.",
+        "Bạn có thể đặt hướng xuất hiện cho từng miếng gạch.",
         "ZS JL T O I",
         {C.C,"Also try 15puzzle!"},
         {C.C,"Also try Ballance!"},
