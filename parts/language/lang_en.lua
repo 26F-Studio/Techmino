@@ -942,7 +942,6 @@ return {
         "6next 1hold!",
         "6next 6hold?!",
         "A choke a day keeps record away",
-        "Achievement system coming soon!",
         "ALL SPIN!",
         "Am G F G",
         "B2B2B???",
