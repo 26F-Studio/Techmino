@@ -626,7 +626,7 @@ return {
             vib="Rung",
             alpha="Độ đậm",
 
-            track="Tự động theo dõi",
+            track="Tự động theo",
             dodge="Tự động tránh",
         },
         customGame={
