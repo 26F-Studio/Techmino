@@ -943,7 +943,6 @@ return {
         "6next 1hold!",
         "6next 6hold?!",
         "Nếu bạn không chết thì đối thủ thế nào cũng chết thôi - Onda Aka",
-        "Bảng thành tích sắp ra mắt!",
         "ALL SPIN!",
         "Am G F G",
         "B2B2B???",
