@@ -30,7 +30,6 @@ local hideBoardStencil={
     down=function() gc_rectangle('fill',0,-300,300,300,6) end,
     all=function() gc_rectangle('fill',0,-600,300,600,6) end,
 }
-local dialFrame=TEXTURE.dial.frame
 local dialNeedle=TEXTURE.dial.needle
 local multiple=TEXTURE.multiple
 local playerborder=TEXTURE.playerBorder
@@ -571,13 +570,47 @@ local function _drawNext(P,repMode)
         end
     gc_translate(-488,-20)
 end
-local function _drawDial(x,y,speed)
-    gc_setColor(1,1,1,.7)
-    gc_draw(dialFrame,x,y)
-    gc_setColor(1,1,1,.3)
-    gc_draw(dialNeedle,x+40,y+40,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,1,1)
-    gc_setColor(.9,.9,.91)
-    setFont(30)GC.mStr(int(speed),x+40,y+19)
+local _drawDial do
+    local function _getDialBackColor(speed)
+        if     speed<60  then return COLOR.H
+        elseif speed<120 then return COLOR.Z
+        elseif speed<180 then return COLOR.lC
+        elseif speed<240 then return COLOR.lG
+        elseif speed<300 then return COLOR.lY
+        elseif speed<420 then return COLOR.O
+        else                  return COLOR.R
+        end
+    end
+    local function _getDialColor(speed)
+        if     speed<60  then return COLOR.Z
+        elseif speed<120 then return COLOR.lC
+        elseif speed<180 then return COLOR.lG
+        elseif speed<240 then return COLOR.lY
+        elseif speed<300 then return COLOR.O
+        else                  return COLOR.R
+        end
+    end
+    function _drawDial(x,y,speed)
+        local theta=3*math.pi/2+((math.pi*(speed<300 and speed or 150+speed/2)/30)%MATH.tau)
+
+        gc_setColor(0,0,0,.4)
+        gc.circle('fill',x+40,y+40,36)
+
+        gc_setColor(1,1,1)
+        gc_draw(dialNeedle,x+40,y+40,theta,nil,nil,1,1)
+
+        gc_setLineWidth(3)
+        gc_setColor(_getDialBackColor(speed))
+        gc.circle('line',x+40,y+40,37)
+
+        gc_setColor(_getDialColor(speed))
+        if speed<420 then
+            gc.arc('line','open',x+40,y+40,37,3*math.pi/2,theta)
+        else
+            gc.circle('line',x+40,y+40,37)
+        end
+        setFont(30)GC.mStr(int(speed),x+40,y+19)
+    end
 end
 local function _drawFinesseCombo_norm(P)
     if P.finesseCombo>2 then

@@ -744,21 +744,11 @@ return {
             music="BGMs",
             label="label",
         },
-        login_pw={
+        login={
             title="Sign In",
-            login_mail="Login with E-mail/Sign Up",
-            email="Email Address",
-            password="Password",
-            showEmail="Show Email",
-            login="Log In",
-        },
-        login_mail={
-            title="Sign In/Sign Up",
-            login_pw="Password Sign In",
-            email="Email Address",
-            send="Send code",
-            code="Verification Code",
-            verify="Verify",
+            ticket="Auth Ticket",
+            authorize="Open Authorizing Page",
+            submit="Submit",
         },
         reset_password={
             title="Reset Password",
@@ -952,7 +942,6 @@ return {
         "6next 1hold!",
         "6next 6hold?!",
         "A choke a day keeps record away",
-        "Achievement system coming soon!",
         "ALL SPIN!",
         "Am G F G",
         "B2B2B???",

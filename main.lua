@@ -601,6 +601,8 @@ for _,fileName in next,fs.getDirectoryItems('replay') do
 end
 table.sort(REPLAY,function(a,b) return a.fileName>b.fileName end)
 
+AUTHURL="https://studio26f.org/oauth?product=techmino"
+AUTHHOST="cafuuchino1.3322.org:8081"
 WS.switchHost('cafuuchino1.3322.org','10026','/techmino/ws/v1')
 HTTP.setHost("cafuuchino1.3322.org:10026")
 HTTP.setThreadCount(1)

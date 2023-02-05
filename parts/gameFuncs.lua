@@ -715,14 +715,7 @@ do-- function freshPlayerPosition(sudden)
                 end end
                 return l
             end)(),
-            [MATH.inf]=(function()
-                local l={main={340,75,1}}
-                for y=-3,3 do for x=0,6 do
-                    table.insert(l,{290-47*x,340+92*y,.075})
-                    table.insert(l,{940+47*x,340+92*y,.075})
-                end end
-                return l
-            end)(),
+            [MATH.inf]={main={340,75,1}},
         },
         dead={
             [1]={{340,75,1}},
