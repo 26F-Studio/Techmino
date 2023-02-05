@@ -17,7 +17,7 @@ return {
     playedLong="[Anti-adicción] Estuviste jugando un buen rato hoy. Recuerda descansar de vez en cuando.",
     playedTooMuch="[Anti-adicción] ¡Has jugado mucho por hoy! No puedes jugar más.",
     settingWarn="¡Ten cuidado con modificar esto!",
-    -- settingWarn2="This setting takes effect after restart",
+    settingWarn2="Los ajustes se aplicarán luego de reiniciar",
 
     atkModeName={"Al azar","Medallas","KOs","Atacantes"},
     royale_remain="$1 Jugadores Restantes",
@@ -187,7 +187,7 @@ return {
     leaveRoom="$1 salió de la sala.",
     roomRemoved="Sala removida",
     ready="LISTO",
-    spectating="Espectando",
+    spectating="Especteando",
 
 
 
@@ -532,8 +532,8 @@ return {
             power="Inf. de Batería",
             clean="Fast Draw",
             fullscreen="Pant. Completa",
-            -- portrait="Portrait",
-            -- msaa="MSAA level",
+            portrait="Vertical",
+            msaa="Nivel de MSAA",
 
             bg_on="Fondo Normal",
             bg_off="Sin Fondo",
@@ -737,10 +737,10 @@ return {
             label="Etiq.",
         },
         login={
-            -- title="Sign In",
-            -- ticket="Auth Ticket",
-            -- authorize="Open Authorizing Page",
-            -- submit="Submit",
+            title="Registrarse",
+            ticket="Ticket de Verif.",
+            authorize="Abrir página de Verificación",
+            submit="Enviar",
         },
         reset_password={
             title="Restablecer Contraseña",
