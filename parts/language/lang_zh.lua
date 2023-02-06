@@ -1068,6 +1068,7 @@ return {
         "Techmino 濂界帺锛",
         "Techmino console了解一下",
         "Techmino: App意外退出。",
+        "Techmino: 耗电异常 ——在后台阻止系统休眠",
         "Techmino.exe 已停止工作",
         "TechminOS coming s∞n",
         "viod main[]",

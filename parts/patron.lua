@@ -15,6 +15,7 @@ return {
     {font=65,name="世界沃德"},
     {font=65,name="Petris"},
     {font=65,name="Zakeru"},
+    {font=65,name="亮君舞"},
     {font=65,name="Dysprosium"},
     {font=65,name="HitachiMako"},
     {font=65,name="我慌死了"},
@@ -23,7 +24,6 @@ return {
     {font=65,name="奏之章"},
     {font=65,name="猫宫"},
     {font=65,name="Notypey"},
-    {font=65,name="亮君"},
     {font=65,name="gggf127"},
     {font=65,name="柴影"},
     {font=65,name="怀沙"},
@@ -33,6 +33,7 @@ return {
     {font=65,name="[**浩]"},
     {font=65,name="sakurw"},
     {font=65,name="[**霖]"},
+    {font=65,name="KK"},
 
     {font=25,name="八零哥"},
     {font=25,name="蕴空之灵"},
