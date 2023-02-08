@@ -883,7 +883,15 @@ do-- function freshPlayerPosition(sudden)
 
         if alive then
             for i=1,#L do
-                L[i][method](L[i],unpack(posList[i==1 and 'main' or i-1]))
+                if i==1 then
+                    if SETTING.portrait then-- WARNING: Brutly scaling up to 2x only for 1P, will cause many other visual issues.
+                        L[i][method](L[i],36,-260,2)
+                    else
+                        L[i][method](L[i],unpack(posList['main']))
+                    end
+                else
+                    L[i][method](L[i],unpack(posList[i-1]))
+                end
             end
         else
             for i=1,#L do
