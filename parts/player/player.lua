@@ -2676,13 +2676,6 @@ local function update_dead(P,dt)
     _updateMisc(P,dt)
 end
 function Player:_die()
-    do
-        local p=TABLE.find(PLY_ALIVE,self)
-        if p then
-            PLY_ALIVE[p]=PLY_ALIVE[#PLY_ALIVE]
-            rem(PLY_ALIVE)
-        end
-    end
     self.alive=false
     self.timing=false
     self.control=false
@@ -2845,6 +2838,13 @@ function Player:lose(force)
             end
         end
     end
+    do
+        local p=TABLE.find(PLY_ALIVE,self)
+        if p then
+            PLY_ALIVE[p]=PLY_ALIVE[#PLY_ALIVE]
+            rem(PLY_ALIVE)
+        end
+    end
     self:_die()
     self.result='lose'
     if self.gameEnv.layout=='royale' then
@@ -2907,21 +2907,12 @@ function Player:lose(force)
         self:dropPosition()
         freshPlayerPosition('update')
 
-        local cur=PLY_ALIVE[1].group
-        for i=2,#PLY_ALIVE do
-            local g=PLY_ALIVE[i].group
-            if cur==0 then
-                if g==0 then-- Two team 0, not finished
-                    goto BREAK_notFinished
-                else-- Remember this may-be-last team
-                    if i==#PLY_ALIVE then goto BREAK_notFinished end
-                    cur=g
-                end
-            elseif g==0 or cur~=g then-- Find another team, not finished
+        for i=1,#PLY_ALIVE-1 do
+            if PLY_ALIVE[i].group==0 or PLY_ALIVE[i].group~=PLY_ALIVE[i+1].group then
                 goto BREAK_notFinished
             end
         end
-        -- Only 1 team survived, all winner
+        -- Only 1 people or only 1 team survived, they win
         for i=1,#PLY_ALIVE do
             PLY_ALIVE[i]:win()
         end
