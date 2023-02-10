@@ -790,6 +790,16 @@ return {
         "term",
         "端を任意の幅開けて積む積み方\nつまり端開け1列はテトリス積みになります\n端開け2～4列はren地形になります\n\n端開けは幅を広げる程、短時間で積み上げられますがその分相手からの攻撃が簡単に刺さります\nそのため上級者が端ren等をする場合は相手に隙があるかを確認してから組み始めます",
     },
+    {"Center well",-- TODO
+        "centerwell",
+        "term",
+        "",
+    },
+    {"Partial well",-- TODO
+        "partialwell",
+        "term",
+        "",
+    },
     {"Side 1-wide(端開け1列、端空け1列)",
         "s1w side1wide sidewelltetris 端 1 空け 開け テトリス",
         "term",
