@@ -133,7 +133,7 @@ return {
         ConnectionManager={
             playerInvalid="Người chơi không hợp lệ",
             playerNotFound="Không tìm thấy người chơi",
-            connectionReplaced="Connection replaced",
+            connectionReplaced="Đã thay đổi kết nối",
         },
         NoticeManager={
             noticeNotFound="Không có thông báo",
@@ -220,7 +220,7 @@ return {
         noRotation="No Rotation\nKhông được xoay gạch",
         noMove="No Movement\nKhông được di chuyển trái phải",
         customSeq="Randomizer\nGhi đè trình xáo gạch",
-		pushSpeed="Garbage Speed\nGhi đề tốc độ xuất hiện của hàng rác",
+        pushSpeed="Garbage Speed\nGhi đề tốc độ xuất hiện của hàng rác",
         boneBlock="[ ]\nChơi với skin [ ]",
     },
     pauseStat={
@@ -483,7 +483,7 @@ return {
             style="Trang trí",
 
             ctrl="Cài đặt điều khiển",
-            key="Cài đặt bố cục phím",            
+            key="Cài đặt bố cục phím",
             touch="Cài đặt cảm ứng",
             showVK="Hiển thị nút ảo",
             reTime="Đếm ngược bắt đầu",
