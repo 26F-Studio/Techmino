@@ -343,7 +343,7 @@ return {
     {"Tetris Journey",
         "tetrisjourney mobile phone huanyouji",
         "game",
-        "iOS/Android | Singleplayer\nA now-defunct official mobile Tetris game developed by Tencent (available exclusively in China). It has level modes, battle modes, and some single-player modes. You can customize the sizes and positions of the virtual keys, but you cannot adjust DAS or ARR.\n The battle mode lasts for 2 minutes, and if both players do not top out, the one who sent more attacks wins."
+        "iOS/Android | Singleplayer\nA now-defunct official mobile Tetris game developed by Tencent (available exclusively in China). It had level modes, battle modes, and some single-player modes. You could customize the sizes and positions of the virtual keys, but you could not adjust DAS or ARR.\nThe battle mode lasted for 2 minutes, and if both players do not top out, the one who sent more attacks wins."
     },
     {"JJ Tetris",
         "jjtetris",
