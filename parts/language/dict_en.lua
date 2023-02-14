@@ -290,7 +290,7 @@ return {
     {"Tetris Online",
         "top tetrisonline",
         "game",
-        "Windows | Singleplayer/Multiplayer*\nA now-defunct Japanese Tetris game with both online and single-player modes. Allows custom DAS/ARR but neither can be set to 0. Minor input delay. Private servers do exist and is decent for new players to get started.",
+        "Windows | Singleplayer/Multiplayer\nA now-defunct Japanese Tetris game with both online and single-player modes. Allows custom DAS/ARR but neither can be set to 0. Minor input delay. Private servers do exist and is decent for new players to get started.",
     },
     {"Tetra Online",
         "TO tetraonline",
@@ -343,7 +343,7 @@ return {
     {"Tetris Journey",
         "tetrisjourney mobile phone huanyouji",
         "game",
-        "iOS/Android | Singleplayer\nAn official mobile Tetris game developed by Tencent (available exclusively in China). It has level modes, battle modes, and some single-player modes. You can customize the sizes and positions of the virtual keys, but you cannot adjust DAS or ARR.\n The battle mode lasts for 2 minutes, and if both players do not top out, the one who sent more attacks wins."
+        "iOS/Android | Singleplayer\nA now-defunct official mobile Tetris game developed by Tencent (available exclusively in China). It has level modes, battle modes, and some single-player modes. You can customize the sizes and positions of the virtual keys, but you cannot adjust DAS or ARR.\n The battle mode lasts for 2 minutes, and if both players do not top out, the one who sent more attacks wins."
     },
     {"JJ Tetris",
         "jjtetris",
