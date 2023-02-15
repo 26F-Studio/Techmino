@@ -367,7 +367,7 @@ function scene.draw()
     -- Mode info & Highscore & Current Rank
     local dy=SETTING.portrait and -420 or 0
     gc_setColor(1,1,1,.82)
-    gc_draw(TEXTOBJ.modeName,modeTextPos,10,dy,modeTextWidK,1)
+    gc_draw(TEXTOBJ.modeName,modeTextPos,10+dy,0,modeTextWidK,1)
     local M=GAME.curMode
     if M then
         if M.score and M.records[1] then
