@@ -22,6 +22,13 @@ local function _updateMenuButtons()
 
     local pos=(GAME.tasUsed or replaying) and 'right' or SETTING.menuPos
     modeTextWidK=math.min(280/TEXTOBJ.modeName:getWidth(),1)
+    if SETTING.portrait then
+        scene.widgetList.restart.y=45-420
+        scene.widgetList.pause.y=45-420
+    else
+        scene.widgetList.restart.y=45
+        scene.widgetList.pause.y=45
+    end
     if GAME.replaying then
         scene.widgetList.pause.x=1195
         modeTextPos=1185-TEXTOBJ.modeName:getWidth()*modeTextWidK
@@ -357,15 +364,16 @@ function scene.draw()
         end
     end
 
-    -- Mode info
+    -- Mode info & Highscore & Current Rank
+    local dy=SETTING.portrait and -420 or 0
     gc_setColor(1,1,1,.82)
-    gc_draw(TEXTOBJ.modeName,modeTextPos,10,0,modeTextWidK,1)
+    gc_draw(TEXTOBJ.modeName,modeTextPos,10,dy,modeTextWidK,1)
     local M=GAME.curMode
     if M then
         if M.score and M.records[1] then
             setFont(15)
             gc_setColor(1,1,1,.6)
-            gc_print(M.scoreDisp(M.records[1]),modeTextPos,45)
+            gc_print(M.scoreDisp(M.records[1]),modeTextPos,45+dy)
         end
         if M.getRank then
             local R=M.getRank(PLAYERS[1])
@@ -373,7 +381,7 @@ function scene.draw()
                 setFont(100)
                 local c=RANK_COLORS[R]
                 gc_setColor(c[1],c[2],c[3],.12)
-                mStr(RANK_CHARS[R],640,50)
+                mStr(RANK_CHARS[R],640,50+dy)
             end
         end
     end
@@ -391,15 +399,15 @@ function scene.draw()
     drawWarning()
 end
 scene.widgetList={
-    WIDGET.newKey{name='rep0',   x=40,y=50,w=60, code=_rep0,    font=40,fText=CHAR.icon.pause},
+    WIDGET.newKey{name='rep0',   x=40, y=50,w=60,code=_rep0,    font=40,fText=CHAR.icon.pause},
     WIDGET.newKey{name='repP8',  x=105,y=50,w=60,code=_repP8,   font=40,fText=CHAR.icon.speedOneEights},
     WIDGET.newKey{name='repP2',  x=170,y=50,w=60,code=_repP2,   font=40,fText=CHAR.icon.speedOneHalf},
     WIDGET.newKey{name='rep1',   x=235,y=50,w=60,code=_rep1,    font=40,fText=CHAR.icon.speedOne},
     WIDGET.newKey{name='rep2',   x=300,y=50,w=60,code=_rep2,    font=40,fText=CHAR.icon.speedTwo},
     WIDGET.newKey{name='rep5',   x=365,y=50,w=60,code=_rep5,    font=40,fText=CHAR.icon.speedFive},
     WIDGET.newKey{name='step',   x=430,y=50,w=60,code=_step,    font=40,fText=CHAR.icon.nextFrame},
-    WIDGET.newKey{name='restart',x=0,y=45,w=60,  code=_restart, font=40,fText=CHAR.icon.retry_spin},
-    WIDGET.newKey{name='pause',  x=0,y=45,w=60,  code=pauseGame,font=40,fText=CHAR.icon.pause},
+    WIDGET.newKey{name='restart',x=0,  y=45,w=60,code=_restart, font=40,fText=CHAR.icon.retry_spin},
+    WIDGET.newKey{name='pause',  x=0,  y=45,w=60,code=pauseGame,font=40,fText=CHAR.icon.pause},
 }
 
 return scene
