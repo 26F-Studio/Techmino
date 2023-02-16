@@ -1166,7 +1166,7 @@ return {
         "lianxuquanxiao lianxupc pcloop",
         "pattern",
         "研究群群友加加编写的一份连续PC教程",
-        "https://docs.qq.com/sheet/DRmxvWmt3SWxwS2tV"
+        "https://docs.qq.com/sheet/DRmxvWmt3SWxwS2tV",
     },
 
     -- 存档管理
