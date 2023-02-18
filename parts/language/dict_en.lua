@@ -74,7 +74,7 @@ return {
     {"tetristemplate.info",
         "",
         "help",
-        "(テトリスブログ - PerfectClear)\n\n. A Japanese website with some setups. It doesn’t contain too many setups, but there are very detailed explanations.",
+        "(テトリスブログ - PerfectClear)\n\nA Japanese website with some setups. It doesn’t contain too many setups, but there are very detailed explanations.",
         "https://tetristemplate.info/",
     },
     {"Fumen",
