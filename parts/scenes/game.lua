@@ -23,11 +23,11 @@ local function _updateMenuButtons()
     local pos=(GAME.tasUsed or replaying) and 'right' or SETTING.menuPos
     modeTextWidK=math.min(280/TEXTOBJ.modeName:getWidth(),1)
     if SETTING.portrait then
-        scene.widgetList.restart.y=45-420
-        scene.widgetList.pause.y=45-420
+        scene.widgetList.restart.y=25-400
+        scene.widgetList.pause.y=25-400
     else
-        scene.widgetList.restart.y=45
-        scene.widgetList.pause.y=45
+        scene.widgetList.restart.y=25
+        scene.widgetList.pause.y=25
     end
     if GAME.replaying then
         scene.widgetList.pause.x=1195
@@ -365,7 +365,7 @@ function scene.draw()
     end
 
     -- Mode info & Highscore & Current Rank
-    local dy=SETTING.portrait and -420 or 0
+    local dy=SETTING.portrait and -390 or 0
     gc_setColor(1,1,1,.82)
     gc_draw(TEXTOBJ.modeName,modeTextPos,10+dy,0,modeTextWidK,1)
     local M=GAME.curMode
@@ -406,8 +406,8 @@ scene.widgetList={
     WIDGET.newKey{name='rep2',   x=300,y=50,w=60,code=_rep2,    font=40,fText=CHAR.icon.speedTwo},
     WIDGET.newKey{name='rep5',   x=365,y=50,w=60,code=_rep5,    font=40,fText=CHAR.icon.speedFive},
     WIDGET.newKey{name='step',   x=430,y=50,w=60,code=_step,    font=40,fText=CHAR.icon.nextFrame},
-    WIDGET.newKey{name='restart',x=0,  y=45,w=60,code=_restart, font=40,fText=CHAR.icon.retry_spin},
-    WIDGET.newKey{name='pause',  x=0,  y=45,w=60,code=pauseGame,font=40,fText=CHAR.icon.pause},
+    WIDGET.newKey{name='restart',x=0,  y=25,w=60,code=_restart, font=40,fText=CHAR.icon.retry_spin},
+    WIDGET.newKey{name='pause',  x=0,  y=25,w=60,code=pauseGame,font=40,fText=CHAR.icon.pause},
 }
 
 return scene
