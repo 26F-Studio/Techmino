@@ -27,36 +27,26 @@ function love.conf(t)
         t.audio.mixwithsystem=true
     end
 
-    local W=t.window
-    W.title="Techmino "..require "version".string
+    t.window.title="Techmino "..require "version".string
+    t.window.vsync=0 -- Unlimited FPS
+    t.window.msaa=msaa -- Multi-sampled antialiasing
+    t.window.depth=0 -- Bits/samp of depth buffer
+    t.window.stencil=1 -- Bits/samp of stencil buffer
+    t.window.display=1 -- Monitor ID
+    t.window.highdpi=true -- High-dpi mode for the window on a Retina display
+    t.window.x,t.window.y=nil,nil -- Position of the window
+    t.window.borderless=MOBILE -- Display window frame
+    t.window.resizable=not MOBILE -- Whether window is resizable
+    t.window.fullscreen=MOBILE -- Fullscreen mode
     if portrait then
-        W.width,W.height=720,1280
-        W.minwidth,W.minheight=360,640
+        t.window.width,t.window.height=720,1280
+        t.window.minwidth,t.window.minheight=360,640
     else
-        W.width,W.height=1280,720
-        W.minwidth,W.minheight=640,360
+        t.window.width,t.window.height=1280,720
+        t.window.minwidth,t.window.minheight=640,360
     end
-
-    W.vsync=0 -- Unlimited FPS
-    W.msaa=msaa -- Multi-sampled antialiasing
-    W.depth=0 -- Bits/samp of depth buffer
-    W.stencil=1 -- Bits/samp of stencil buffer
-    W.display=1 -- Monitor ID
-    W.highdpi=true -- High-dpi mode for the window on a Retina display
-    W.x,W.y=nil,nil -- Position of the window
-
     if fs.getInfo('media/image/icon.png') then
-        W.icon='media/image/icon.png'
-    end
-    
-    if MOBILE then
-        W.borderless=true
-        W.resizable=false
-        W.fullscreen=true
-    else
-        W.borderless=false
-        W.resizable=true
-        W.fullscreen=false
+        t.window.icon='media/image/icon.png'
     end
 
     local M=t.modules
