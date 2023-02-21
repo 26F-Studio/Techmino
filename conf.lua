@@ -56,5 +56,5 @@ function love.conf(t)
     W.title="Techmino "..require "version".string -- Window title
     if fs.getInfo('media/image/icon.png') then
         W.icon='media/image/icon.png'
-    end    
+    end
 end
