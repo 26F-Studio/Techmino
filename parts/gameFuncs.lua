@@ -129,7 +129,7 @@ do-- function applySettings()
         love.mouse.setVisible(SETTING.sysCursor)
 
         -- Apply fullscreen
-        love.window.setFullscreen(SETTING.fullscreen)
+        -- love.window.setFullscreen(SETTING.fullscreen)
         love.resize(GC.getWidth(),GC.getHeight())
 
         -- Apply Zframework setting
