@@ -50,11 +50,9 @@ function love.conf(t)
         W.width,W.height=1280,720
         W.minwidth,W.minheight=640,360
     -- end
-    -- W.borderless=MOBILE -- Display window frame
-    -- W.resizable=not MOBILE -- Whether window is resizable
-    -- W.fullscreen=MOBILE -- Fullscreen mode
-    W.borderless=true
-    W.resizable=false
+    W.borderless=MOBILE -- Display window frame
+    W.resizable=not MOBILE -- Whether window is resizable
+    W.fullscreen=MOBILE -- Fullscreen mode
     W.title="Techmino "..require "version".string -- Window title
     if fs.getInfo('media/image/icon.png') then
         W.icon='media/image/icon.png'
