@@ -45,7 +45,7 @@ function love.conf(t)
     W.x,W.y=nil,nil -- Position of the window
     W.borderless=MOBILE -- Display window frame
     W.resizable=not MOBILE -- Whether window is resizable
-    W.fullscreentype="exclusive" -- Fullscreen type
+    W.fullscreentype=MOBILE and "exclusive" or "desktop" -- Fullscreen type
     if portrait then
         W.width,W.height=720,1280
         W.minwidth,W.minheight=360,640
