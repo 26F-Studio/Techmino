@@ -43,16 +43,16 @@ function love.conf(t)
     W.display=1 -- Monitor ID
     W.highdpi=true -- High-dpi mode for the window on a Retina display
     W.x,W.y=nil,nil -- Position of the window
-    -- if portrait then
-    --     W.width,W.height=720,1280
-    --     W.minwidth,W.minheight=360,640
-    -- else
-        W.width,W.height=1280,720
-        W.minwidth,W.minheight=640,360
-    -- end
     W.borderless=MOBILE -- Display window frame
     W.resizable=not MOBILE -- Whether window is resizable
-    W.fullscreen=MOBILE -- Fullscreen mode
+    W.fullscreentype="exclusive" -- Fullscreen type
+    if portrait then
+        W.width,W.height=720,1280
+        W.minwidth,W.minheight=360,640
+    else
+        W.width,W.height=1280,720
+        W.minwidth,W.minheight=640,360
+    end
     W.title="Techmino "..require "version".string -- Window title
     if fs.getInfo('media/image/icon.png') then
         W.icon='media/image/icon.png'
