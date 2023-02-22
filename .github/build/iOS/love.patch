@@ -62,7 +62,7 @@ index 7730991e..4ba8e708 100644
 +					return;
 +				} else if (@available(iOS 13.0, *)) {
 +					// iOS 13.0 and above
-+               	UIImpactFeedbackGenerator *impact = nil;
++					UIImpactFeedbackGenerator *impact = nil;
 +					if (seconds > 0 && seconds < 1) {
 +						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
 +					} else if (seconds >= 1 && seconds < 2) {
