@@ -1,69 +1,75 @@
 diff --git a/src/common/ios.h b/src/common/ios.h
-index c1932555..552e432e 100644
+index 2ee47645..ac354e7b 100644
 --- a/src/common/ios.h
 +++ b/src/common/ios.h
-@@ -66,7 +66,7 @@ std::string getExecutablePath();
+@@ -64,9 +64,17 @@ bool openURL(const std::string &url);
+ std::string getExecutablePath();
+ 
  /**
-  * Causes devices with vibration support to vibrate for about 0.5 seconds.
+- * Causes devices with vibration support to vibrate for about 0.5 seconds.
++ * Causes devices with vibration support to vibrate in different mode and intensity.
++ * @param intensity The intensity of the vibration, between 0.0 and 1.0 (iOS 13.0 or later).
++ * @param mode The mode of the vibration, listed below (alphabetical order):
++ *      default: Fixed 500ms vibration
++ *      heavy: UIImpactFeedbackStyleHeavy (iOS 10.0 or later)
++ *      light: UIImpactFeedbackStyleLight (iOS 10.0 or later)
++ *      medium: UIImpactFeedbackStyleMedium (iOS 10.0 or later)
++ *      rigid: UIImpactFeedbackStyleRigid (iOS 13.0 or later)
++ *      soft: UIImpactFeedbackStyleSoft (iOS 13.0 or later)
   **/
 -void vibrate();
-+void vibrate(const double seconds);
++void vibrate(const double intensity, const std::string &mode);
  
  /**
   * Enable mix mode (e.g. with background music apps) and playback with a muted device.
 diff --git a/src/common/ios.mm b/src/common/ios.mm
-index 7730991e..4ba8e708 100644
+index 4a89e9e4..25ef8f50 100644
 --- a/src/common/ios.mm
 +++ b/src/common/ios.mm
-@@ -36,6 +36,8 @@
- #include <SDL_video.h>
- #include <SDL_syswm.h>
- 
-+#include <sys/utsname.h>
-+
- static NSArray *getLovesInDocuments();
- static bool deleteFileInDocuments(NSString *filename);
- 
-@@ -391,10 +393,33 @@ std::string getExecutablePath()
+@@ -391,10 +391,37 @@ std::string getExecutablePath()
  	}
  }
  
 -void vibrate()
-+void vibrate(const double seconds)
++void vibrate(const double intensity, const std::string &mode)
  {
  	@autoreleasepool
  	{
-+		if (seconds > 0 && @available(iOS 10.0, *)) {
++		if (mode != "default" && @available(iOS 10.0, *)) {
 +			// iOS 10.0 and above
 +			UIImpactFeedbackGenerator *impact = nil;
-+			if (seconds <= 1) {
++			if (mode == "light") {
 +				impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
-+			} else if (seconds > 1 && seconds <= 2) {
++			} else if (mode == "medium") {
 +				impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
-+			} else if (seconds > 2 && seconds <= 3) {
++			} else if (mode == "heavy") {
 +				impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
-+			} 
++			}
 +			if (@available(iOS 13.0, *)) {
 +				// iOS 13.0 and above
-+				if (seconds > 3 &&seconds <= 4) {
++				if (mode == "soft") {
 +					impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleSoft];
-+				} else if (seconds > 4) {
++				} else if (mode == "rigid") {
 +					impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleRigid];
 +				}
-+				[impact impactOccurredWithIntensity:(seconds - floor(seconds))];
++				if(impact != nil){
++					[impact impactOccurredWithIntensity:(intensity < 0 ? 0 : (intensity > 1 ? 1 : intensity))];
++					return;
++				}
++			}
++			if(impact != nil){
++				[impact impactOccurred];
 +				return;
 +			}
-+			[impact impactOccurred];
-+			return;
 +		}
  		AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
  	}
  }
 diff --git a/src/love.cpp b/src/love.cpp
-index c8af8596..ae7a5e32 100644
+index 5a54c74d..58829fc5 100644
 --- a/src/love.cpp
 +++ b/src/love.cpp
-@@ -140,6 +140,10 @@ enum DoneAction
+@@ -145,6 +145,10 @@ enum DoneAction
  	DONE_RESTART,
  };
  
@@ -74,7 +80,7 @@ index c8af8596..ae7a5e32 100644
  static DoneAction runlove(int argc, char **argv, int &retval)
  {
  	// Oh, you just want the version? Okay!
-@@ -158,6 +162,9 @@ static DoneAction runlove(int argc, char **argv, int &retval)
+@@ -163,6 +167,9 @@ static DoneAction runlove(int argc, char **argv, int &retval)
  	lua_State *L = luaL_newstate();
  	luaL_openlibs(L);
  
@@ -85,15 +91,56 @@ index c8af8596..ae7a5e32 100644
  	// get_app_arguments because that loads external library code. This is also
  	// loaded inside require("love"). Note that it doesn't use the love table.
 diff --git a/src/modules/system/System.cpp b/src/modules/system/System.cpp
-index e1de16d5..e0f03557 100644
+index b7926592..6e0a5a3c 100644
 --- a/src/modules/system/System.cpp
 +++ b/src/modules/system/System.cpp
-@@ -174,7 +174,7 @@ void System::vibrate(double seconds) const
+@@ -169,14 +169,16 @@ bool System::openURL(const std::string &url) const
+ #endif
+ }
+ 
+-void System::vibrate(double seconds) const
++void System::vibrate(double seconds, const std::string &mode) const
+ {
  #ifdef LOVE_ANDROID
  	love::android::vibrate(seconds);
++	LOVE_UNUSED(mode);
  #elif defined(LOVE_IOS)
 -	love::ios::vibrate();
-+	love::ios::vibrate(seconds);
++	love::ios::vibrate(seconds, mode);
  #else
  	LOVE_UNUSED(seconds);
++	LOVE_UNUSED(mode);
  #endif
+ }
+ 
+diff --git a/src/modules/system/System.h b/src/modules/system/System.h
+index 861b4abc..8e18d375 100644
+--- a/src/modules/system/System.h
++++ b/src/modules/system/System.h
+@@ -102,9 +102,10 @@ class System : public Module
+ 	/**
+ 	 * Vibrates for the specified amount of seconds.
+ 	 *
+-	 * @param number of seconds to vibrate.
++	 * @param seconds number of seconds to vibrate.
++	 * @param mode vibration mode.
+ 	 */
+-	virtual void vibrate(double seconds) const;
++	virtual void vibrate(double seconds, const std::string &mode) const;
+ 
+ 	/**
+ 	 * Gets if the user is playing music on background.
+diff --git a/src/modules/system/wrap_System.cpp b/src/modules/system/wrap_System.cpp
+index d0d2db79..5cecc59c 100644
+--- a/src/modules/system/wrap_System.cpp
++++ b/src/modules/system/wrap_System.cpp
+@@ -91,7 +91,8 @@ int w_openURL(lua_State *L)
+ int w_vibrate(lua_State *L)
+ {
+ 	double seconds = luaL_optnumber(L, 1, 0.5);
+-	instance()->vibrate(seconds);
++	const char *mode = luaL_optstring(L, 2, "default");
++	instance()->vibrate(seconds, mode);
+ 	return 0;
+ }
+ 

@@ -8,7 +8,15 @@ local last1,last2-- Last touch/sound time
 local sfxPack=SETTING.sfxPack
 local vocPack=SETTING.vocPack
 
-local vibType=0 -- 0:soft 1:light 2:medium 3:heavy 4:rigid
+local vibIndex=0
+local vibTypes={
+    'default',
+    'light',
+    'medium',
+    'heavy',
+    'rigid',
+    'soft',
+}
 
 function scene.enter()
     last1,last2=0,0
@@ -95,9 +103,9 @@ scene.widgetList={
     WIDGET.newSlider{name='stereo',   x=300, y=380,w=420,lim=220,color='lC',disp=SETval('stereo'),           code=function(v) SETTING.stereo=v SFX.setStereo(SETTING.stereo) end,change=function() SFX.play('touch',1,-1)SFX.play('lock',1,1) end,hideF=function() return SETTING.sfx==0 end},
     WIDGET.newSlider{name='spawn',    x=300, y=450,w=420,lim=220,color='lC',disp=SETval('sfx_spawn'),        code=function(v) SETTING.sfx_spawn=v end,                          change=function() SFX.fplay('spawn_'..math.random(7),SETTING.sfx_spawn) end,},
     -- WIDGET.newSlider{name='warn',     x=300, y=520,w=420,lim=220,color='lC',disp=SETval('sfx_warn'),         code=function(v) SETTING.sfx_warn=v end,                           change=function() SFX.fplay('warn_beep',SETTING.sfx_warn) end},
-    WIDGET.newSlider{name='warn',     x=300, y=520,w=420,lim=220,color='lC',disp=function() return vibType end,axis={0,4,1},code=function(v) vibType=v end,change=function() love.system.vibrate(vibType+SETTING.vib) end},
+    WIDGET.newSlider{name='warn',     x=300, y=520,w=420,lim=220,color='lC',disp=function() return vibIndex end,axis={0,5,1},code=function(v) vibIndex=v end,change=function() love.system.vibrate(SETTING.vib, vibTypes[vibIndex]) end},
     -- WIDGET.newSlider{name='vib',      x=300, y=590,w=420,lim=220,color='lN',disp=SETval('vib'),axis={0,10,1},code=function(v) SETTING.vib=v end,                                change=function() if SETTING.vib>0 then VIB(SETTING.vib+2) end end},
-    WIDGET.newSlider{name='vib',      x=300, y=590,w=420,lim=220,color='lN',disp=SETval('vib'),axis={0,1,0.05},code=function(v) SETTING.vib=v end,change=function() love.system.vibrate(vibType+SETTING.vib) end},
+    WIDGET.newSlider{name='vib',      x=300, y=590,w=420,lim=220,color='lN',disp=SETval('vib'),axis={0,1,0.05},code=function(v) SETTING.vib=v end,change=function() love.system.vibrate(SETTING.vib, vibTypes[vibIndex]) end},
     WIDGET.newSlider{name='voc',      x=300, y=660,w=420,lim=220,color='lN',disp=SETval('voc'),              code=function(v) SETTING.voc=v VOC.setVol(SETTING.voc) end,         change=function() VOC.play('test') end},
 
     WIDGET.newSwitch{name='autoMute', x=1150,y=180,lim=380,disp=SETval('autoMute'),code=SETrev('autoMute')},

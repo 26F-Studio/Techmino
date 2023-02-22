@@ -285,6 +285,7 @@ jobs:
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
           copyright: "Copyright © 2019-2023 26F-Studio. Some Rights Reserved."
           icon-path: ./.github/build/iOS/${{ env.BUILD_TYPE }}/icon
+          love-ref: "9963d1247c05b303caf7c61e8016315a1cd33465"
           love-patch: ./.github/build/iOS/love.patch
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           libs-path: ./ColdClear/arm64/
