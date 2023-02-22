@@ -144,4 +144,6 @@ return {
     {font=25,name="*玉"},
     {font=25,name="zzqs1234"},
     {font=25,name="懒*a"},
+    {font=25,name="Sthantom"},
+    {font=25,name="T9348"},
 }
