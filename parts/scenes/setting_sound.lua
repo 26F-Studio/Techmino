@@ -94,7 +94,7 @@ scene.widgetList={
     WIDGET.newSlider{name='spawn',    x=300, y=450,w=420,lim=220,color='lC',disp=SETval('sfx_spawn'),        code=function(v) SETTING.sfx_spawn=v end,                          change=function() SFX.fplay('spawn_'..math.random(7),SETTING.sfx_spawn) end,},
     WIDGET.newSlider{name='warn',     x=300, y=520,w=420,lim=220,color='lC',disp=SETval('sfx_warn'),         code=function(v) SETTING.sfx_warn=v end,                           change=function() SFX.fplay('warn_beep',SETTING.sfx_warn) end},
     -- WIDGET.newSlider{name='vib',      x=300, y=590,w=420,lim=220,color='lN',disp=SETval('vib'),axis={0,10,1},code=function(v) SETTING.vib=v end,                                change=function() if SETTING.vib>0 then VIB(SETTING.vib+2) end end},
-    WIDGET.newSlider{name='vib',      x=300, y=590,w=620,lim=220,color='lN',disp=SETval('vib'),axis={0,3,0.1},code=function(v) SETTING.vib=v end,                                change=function() if SETTING.vib>0 then VIB(SETTING.vib+2) end end},
+    WIDGET.newSlider{name='vib',      x=300, y=590,w=620,lim=220,color='lN',disp=SETval('vib'),axis={0,3,0.1},code=function(v) SETTING.vib=v end,change=function() love.system.vibrate(SETTING.vib) end},
     WIDGET.newSlider{name='voc',      x=300, y=660,w=420,lim=220,color='lN',disp=SETval('voc'),              code=function(v) SETTING.voc=v VOC.setVol(SETTING.voc) end,         change=function() VOC.play('test') end},
 
     WIDGET.newSwitch{name='autoMute', x=1150,y=180,lim=380,disp=SETval('autoMute'),code=SETrev('autoMute')},
