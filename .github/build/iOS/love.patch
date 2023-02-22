@@ -24,7 +24,7 @@ index 7730991e..4ba8e708 100644
  static NSArray *getLovesInDocuments();
  static bool deleteFileInDocuments(NSString *filename);
  
-@@ -391,10 +393,40 @@ std::string getExecutablePath()
+@@ -391,10 +393,54 @@ std::string getExecutablePath()
  	}
  }
  
