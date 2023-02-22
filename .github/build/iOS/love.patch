@@ -50,15 +50,29 @@ index 7730991e..4ba8e708 100644
 +					// iOS 10.0 and above
 +					UIImpactFeedbackGenerator *impact = nil;
 +					if (seconds >= 0.5 && seconds < 1.5) {
-+						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight]; // 轻
++						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
 +					} else if (seconds >= 1.5 && seconds < 2.5) {
-+						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium]; // 中
++						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
 +					} else if (seconds >= 2.5) {
-+						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy]; // 重
++						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
 +					} else {
 +						return;
 +					}
 +					[impact impactOccurred];
++					return;
++				} else if (@available(iOS 13.0, *)) {
++					// iOS 13.0 and above
++               	UIImpactFeedbackGenerator *impact = nil;
++					if (seconds > 0 && seconds < 1) {
++						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
++					} else if (seconds >= 1 && seconds < 2) {
++						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
++					} else if (seconds >= 2 && seconds < 3) {
++						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
++					} else {
++						return;
++					}
++					[impact impactOccurredWithIntensity intensity:(seconds - floor(seconds))];
 +					return;
 +				}
 +			}
