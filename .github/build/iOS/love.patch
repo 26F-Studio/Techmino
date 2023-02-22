@@ -72,7 +72,7 @@ index 7730991e..4ba8e708 100644
 +					} else {
 +						return;
 +					}
-+					[impact impactOccurredWithIntensity intensity:(seconds - floor(seconds))];
++					[impact impactOccurredWithIntensity:(seconds - floor(seconds))];
 +					return;
 +				}
 +			}
