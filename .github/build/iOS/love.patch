@@ -24,7 +24,7 @@ index 7730991e..4ba8e708 100644
  static NSArray *getLovesInDocuments();
  static bool deleteFileInDocuments(NSString *filename);
  
-@@ -391,10 +393,54 @@ std::string getExecutablePath()
+@@ -391,10 +393,58 @@ std::string getExecutablePath()
  	}
  }
  
@@ -53,7 +53,7 @@ index 7730991e..4ba8e708 100644
 +						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
 +					} else if (seconds >= 1.5 && seconds < 2.5) {
 +						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
-+					} else if (seconds >= 2.5) {
++					} else if (seconds >= 2.5 && seconds < 3.5) {
 +						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
 +					} else {
 +						return;
@@ -64,11 +64,15 @@ index 7730991e..4ba8e708 100644
 +					// iOS 13.0 and above
 +					UIImpactFeedbackGenerator *impact = nil;
 +					if (seconds > 0 && seconds < 1) {
-+						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
++						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleSoft];
 +					} else if (seconds >= 1 && seconds < 2) {
-+						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
++						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
 +					} else if (seconds >= 2 && seconds < 3) {
++						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
++					} else if (seconds >= 3 && seconds < 4) {
 +						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
++					} else if (seconds >= 4 && seconds < 5) {
++						impact = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleRigid];
 +					} else {
 +						return;
 +					}
