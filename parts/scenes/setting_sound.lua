@@ -8,15 +8,7 @@ local last1,last2-- Last touch/sound time
 local sfxPack=SETTING.sfxPack
 local vocPack=SETTING.vocPack
 
-local vibIndex=1
-local vibTypes={
-    'default',
-    'light',
-    'medium',
-    'heavy',
-    'rigid',
-    'soft',
-}
+local vibType='default'
 
 function scene.enter()
     last1,last2=0,0
@@ -102,16 +94,15 @@ scene.widgetList={
     WIDGET.newSlider{name='sfx',      x=300, y=310,w=420,lim=220,color='lC',disp=SETval('sfx'),              code=function(v) SETTING.sfx=v SFX.setVol(SETTING.sfx) end,         change=function() SFX.play('warn_1') end},
     WIDGET.newSlider{name='stereo',   x=300, y=380,w=420,lim=220,color='lC',disp=SETval('stereo'),           code=function(v) SETTING.stereo=v SFX.setStereo(SETTING.stereo) end,change=function() SFX.play('touch',1,-1)SFX.play('lock',1,1) end,hideF=function() return SETTING.sfx==0 end},
     WIDGET.newSlider{name='spawn',    x=300, y=450,w=420,lim=220,color='lC',disp=SETval('sfx_spawn'),        code=function(v) SETTING.sfx_spawn=v end,                          change=function() SFX.fplay('spawn_'..math.random(7),SETTING.sfx_spawn) end,},
-    -- WIDGET.newSlider{name='warn',     x=300, y=520,w=420,lim=220,color='lC',disp=SETval('sfx_warn'),         code=function(v) SETTING.sfx_warn=v end,                           change=function() SFX.fplay('warn_beep',SETTING.sfx_warn) end},
-    WIDGET.newSlider{name='vibType',     x=300, y=520,w=420,lim=220,color='lC',disp=function() return vibTypes[vibIndex] end,axis={1,6,1},code=function(v) vibIndex=v end,change=function() love.system.vibrate(SETTING.vib, vibTypes[vibIndex]) end},
-    -- WIDGET.newSlider{name='vib',      x=300, y=590,w=420,lim=220,color='lN',disp=SETval('vib'),axis={0,10,1},code=function(v) SETTING.vib=v end,                                change=function() if SETTING.vib>0 then VIB(SETTING.vib+2) end end},
-    WIDGET.newSlider{name='vib',      x=100, y=590,w=620,lim=220,color='lN',disp=SETval('vib'),axis={0,1,0.04},code=function(v) SETTING.vib=v end,change=function() love.system.vibrate(SETTING.vib, vibTypes[vibIndex]) end},
+    WIDGET.newSlider{name='warn',     x=300, y=520,w=420,lim=220,color='lC',disp=SETval('sfx_warn'),         code=function(v) SETTING.sfx_warn=v end,                           change=function() SFX.fplay('warn_beep',SETTING.sfx_warn) end},
+    WIDGET.newSlider{name='vib',      x=300, y=590,w=420,lim=220,color='lN',disp=SETval('vib'),axis={0,1,0.05},code=function(v) SETTING.vib=v end,change=function() love.system.vibrate(SETTING.vib, vibType) end},
     WIDGET.newSlider{name='voc',      x=300, y=660,w=420,lim=220,color='lN',disp=SETval('voc'),              code=function(v) SETTING.voc=v VOC.setVol(SETTING.voc) end,         change=function() VOC.play('test') end},
 
     WIDGET.newSwitch{name='autoMute', x=1150,y=180,lim=380,disp=SETval('autoMute'),code=SETrev('autoMute')},
     WIDGET.newSwitch{name='fine',     x=1150,y=250,lim=380,disp=SETval('fine'),code=function() SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play('finesseError',.6) end end},
 
     WIDGET.newSelector{name='sfxPack',x=1100,y=330,w=200,color='lV',list=SFXPACKS,disp=function() return sfxPack end,code=function(i) sfxPack=i end},
+    WIDGET.newSelector{name='vibType',x=1100,y=400,w=200,color='lN',list={'default','light','medium','heavy','rigid','soft'},disp=function() return vibType end,code=function(v) vibType=v end,hideF=function() return SETTING.sfxPack~=sfxPack end},
     WIDGET.newButton{name='apply',    x=1100,y=400,w=180,h=60,code=function() SETTING.sfxPack=sfxPack SFX.load('media/effect/'..sfxPack..'/') end,hideF=function() return SETTING.sfxPack==sfxPack end},
     WIDGET.newSelector{name='vocPack',x=1100,y=470,w=200,color='lV',list=VOCPACKS,disp=function() return vocPack end,code=function(i) vocPack=i end},
     WIDGET.newButton{name='apply',    x=1100,y=540,w=180,h=60,code=function() SETTING.vocPack=vocPack VOC.load('media/vocal/'..vocPack..'/') end,hideF=function() return SETTING.vocPack==vocPack end},
