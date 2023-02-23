@@ -775,9 +775,9 @@ jobs:
           retry_wait_seconds: 60
           timeout_minutes: 5
           command: |
-            curl -sL https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_windows_amd64.zip -o ${{ env.TEMP_PATH }}
-            7z x ${{ env.TEMP_PATH }} -o./
-            rm ${{ env.TEMP_PATH }}
+            curl.exe -sL https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_windows_amd64.zip -o ./transfer.zip
+            7z x ./transfer.zip -o"./"
+            rm ./transfer.zip
       - name: Upload to WeTransfer
         id: transfer
         uses: nick-fields/retry@v2
