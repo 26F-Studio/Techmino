@@ -7,7 +7,7 @@ local back={}
 local sDist,sRev={},{} -- star data in SoA [distance from center, revolution progress, color]
 
 function back.init()
-    if sDist[1]then return end
+    if sDist[1] then return end
     local max
     for i=0,20 do
         max=16*(i+1)

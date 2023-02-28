@@ -26,10 +26,10 @@ local function _parseCB()
 end
 scene.widgetList={
     WIDGET.newText{name='export',     x=55,y=45,color='lY',align='L',font=50},
-    WIDGET.newButton{name='unlock',   x=190,y=170,w=280,h=100,color='lY',code=function()_dumpCB(RANKS) end},
-    WIDGET.newButton{name='data',     x=490,y=170,w=280,h=100,color='lY',code=function()_dumpCB(STAT) end},
-    WIDGET.newButton{name='setting',  x=790,y=170,w=280,h=100,color='lY',code=function()_dumpCB(SETTING) end},
-    WIDGET.newButton{name='vk',       x=1090,y=170,w=280,h=100,color='lY',code=function()_dumpCB(VK_ORG) end},
+    WIDGET.newButton{name='unlock',   x=190,y=170,w=280,h=100,color='lY',code=function() _dumpCB(RANKS) end},
+    WIDGET.newButton{name='data',     x=490,y=170,w=280,h=100,color='lY',code=function() _dumpCB(STAT) end},
+    WIDGET.newButton{name='setting',  x=790,y=170,w=280,h=100,color='lY',code=function() _dumpCB(SETTING) end},
+    WIDGET.newButton{name='vk',       x=1090,y=170,w=280,h=100,color='lY',code=function() _dumpCB(VK_ORG) end},
 
     WIDGET.newText{name='import',     x=55,y=265,color='lR',align='L',font=50},
     WIDGET.newButton{name='unlock',   x=190,y=390,w=280,h=100,color='lR',

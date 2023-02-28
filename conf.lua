@@ -27,38 +27,6 @@ function love.conf(t)
         t.audio.mixwithsystem=true
     end
 
-    local W=t.window
-    W.title="Techmino "..require "version".string
-    if portrait then
-        W.width,W.height=720,1280
-        W.minwidth,W.minheight=360,640
-    else
-        W.width,W.height=1280,720
-        W.minwidth,W.minheight=640,360
-    end
-
-    W.vsync=0 -- Unlimited FPS
-    W.msaa=msaa -- Multi-sampled antialiasing
-    W.depth=0 -- Bits/samp of depth buffer
-    W.stencil=1 -- Bits/samp of stencil buffer
-    W.display=1 -- Monitor ID
-    W.highdpi=true -- High-dpi mode for the window on a Retina display
-    W.x,W.y=nil,nil -- Position of the window
-
-    if fs.getInfo('media/image/icon.png') then
-        W.icon='media/image/icon.png'
-    end
-    
-    if MOBILE then
-        W.borderless=true
-        W.resizable=false
-        W.fullscreen=true
-    else
-        W.borderless=false
-        W.resizable=true
-        W.fullscreen=false
-    end
-
     local M=t.modules
     M.window,M.system,M.event,M.thread=true,true,true,true
     M.timer,M.math,M.data=true,true,true
@@ -66,4 +34,27 @@ function love.conf(t)
     M.graphics,M.font,M.image=true,true,true
     M.mouse,M.touch,M.keyboard,M.joystick=true,true,true,true
     M.physics=false
+
+    local W=t.window
+    W.vsync=0 -- Unlimited FPS
+    W.msaa=msaa -- Multi-sampled antialiasing
+    W.depth=0 -- Bits/samp of depth buffer
+    W.stencil=1 -- Bits/samp of stencil buffer
+    W.display=1 -- Monitor ID
+    W.highdpi=true -- High-dpi mode for the window on a Retina display
+    W.x,W.y=nil,nil -- Position of the window
+    W.borderless=MOBILE -- Display window frame
+    W.resizable=not MOBILE -- Whether window is resizable
+    W.fullscreentype=MOBILE and "exclusive" or "desktop" -- Fullscreen type
+    if portrait then
+        W.width,W.height=720,1280
+        W.minwidth,W.minheight=360,640
+    else
+        W.width,W.height=1280,720
+        W.minwidth,W.minheight=640,360
+    end
+    W.title="Techmino "..require "version".string -- Window title
+    if fs.getInfo('media/image/icon.png') then
+        W.icon='media/image/icon.png'
+    end
 end
