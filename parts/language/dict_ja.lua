@@ -174,7 +174,7 @@ FNNS and     {"サポート3",
     } or     {"サポート3",
         "support サポート 寄付 patreon patreon",
         "org",
-        "Patreonを使ってTechminoに寄付してくださる場合は、地球儀ボタンからURLを開いてください\nPareonの場合、一定額以上の寄付に対して手数料がかかります",
+        "Patreonを使ってTechminoに寄付してくださる場合は、地球儀ボタンからURLを開いてください\nPatreonの場合、一定額以上の寄付に対して手数料がかかります",
         "https://www.patreon.com/techmino",
         -- id: support-3
         -- platform-restriction: non-apple
