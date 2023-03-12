@@ -62,9 +62,9 @@ return {
         local D=P.modeData
         D.drought=P.lastPiece.id==7 and 0 or D.drought+1
         if P.stat.row>=D.target then
-            -- if D.target>=200 then
+            if D.target>=100 then
                 D.lvl=D.lvl+1
-            -- end
+            end
             local dropSpd=GetGravity(D.lvl)
             if dropSpd~=P.gameEnv.drop then
                 P.gameEnv.drop,P.gameEnv.lock=dropSpd,dropSpd
