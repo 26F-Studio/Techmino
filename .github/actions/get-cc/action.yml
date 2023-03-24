@@ -3,7 +3,7 @@ description: 'download cc into specific dir'
 inputs:
   tag:
     required: false
-    default: "11.4"
+    default: "11.4.2"
   platform:
     required: true
   dir:
