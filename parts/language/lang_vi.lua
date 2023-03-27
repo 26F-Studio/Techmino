@@ -254,12 +254,12 @@ return {
         "Đây chỉ là một trò chơi xếp gạch *thông thường*. Không, thật đấy, chỉ có vậy thôi",
         "Lấy cảm hứng từ C2/IO/JS/WWC/KOS etc.",
         "",
-        "Được xây dựng bằng LÖVE",
+        "Chạy bằng LÖVE",
         "Chúng tôi đánh giá cao mọi đề xuất và báo cáo lỗi do các bạn gửi đến",
         "Hãy đảm bảo trò chơi được tải về từ nguồn chính thức",
         "vì các nguồn khác có thể không an toàn.",
         "Tác giả KHÔNG CHỊU TRÁCH NHIỆM với bất kỳ bản sửa đổi nào.",
-        FNNS and "/" or "Trò chơi này hoàn toàn miễn phí! Nếu các bạn thích nó, các bạn có thể donate cho chúng tôi!",
+        FNNS and "/" or "Trò chơi này hoàn toàn miễn phí! Nếu các bạn thích nó, các bạn có thể ủng hộ chúng tôi!",
         FNNS and "/" or "Kiểm tra Zictionary để có thêm thông tin chi tiết",
     },
     staff={
@@ -452,8 +452,8 @@ return {
             hang="Death Delay",
             hurry="ARE Interruption",
 
-            capacity="Capacity",
-            create="Create",
+            capacity="Giới hạn số người",
+            create="Tạo phòng",
 
             ospin="O-spin",
             fineKill="100% Finesse",
@@ -515,7 +515,7 @@ return {
             moveFX="Move FX",
             clearFX="Clear FX",
             splashFX="Splash FX",
-            shakeFX="Field Sway",
+            shakeFX="Độ Nảy Bảng",
             atkFX="Atk FX",
 
             frame="Tần suất cập nhật khung hình (%)",
@@ -584,7 +584,7 @@ return {
             a5="Xoay 180°",
             a6="Thả Mạnh",
             a7="Thả Nhẹ",
-            a8="Giữ",
+            a8="Giữ (Hold)",
             a9="Chức năng 1",
             a10="Chức năng 2",
             a11="Trái tức thì",
@@ -630,7 +630,7 @@ return {
         },
         customGame={
             title="Chế độ Tự do",
-            defSeq="Seq. cố định",
+            defSeq="Tr.xáo cố định",
             noMsn="Không có nhiệm vụ",
 
             drop="Drop Delay",
@@ -643,8 +643,8 @@ return {
             bg="Ảnh nền",
             bgm="Nhạc",
 
-            copy="Chép Bảng+Seq+N.vụ",
-            paste="Dán Bảng+Seq+N.vụ",
+            copy="Chép Bảng+Tr.xáo+N.vụ",
+            paste="Dán Bảng+Tr.xáo+N.vụ",
             play_clear="Bắt đầu-Clear",
             play_puzzle="Bắt đầu-Puzzle",
 
@@ -992,8 +992,8 @@ return {
         "Thương cho tấm thân cơ hàn, ngậm ngùi lặng nhìn con đò sang ngang",
         "Chơi game một tay chưa?",
         "Có công mài sắt, có ngày nên kim!",
-        "Được tạo bằng LÖVE",
-        "Được tạo bằng Un..LÖVE",
+        "Chạy bằng LÖVE",
+        "Chạy bằng Un..LÖVE",
         "pps-0.01", 
         "Dit me VNPT",
         "Một số yêu cầu để đạt được rank X là rất khó, kể cả đối với những người giỏi nhất",
