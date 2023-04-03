@@ -70,8 +70,6 @@ jobs:
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
-    outputs:
-      download-url: ${{ steps.transfer.outputs.download-url }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -128,24 +126,6 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-      - name: Get transfer
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 10
-          retry_wait_seconds: 60
-          timeout_minutes: 5
-          command: |
-            curl -sL https://raw.githubusercontent.com/Mikubill/transfer/master/install.sh | sh
-      - name: Upload to WeTransfer
-        id: transfer
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 5
-          retry_wait_seconds: 10
-          timeout_minutes: 5
-          command: |
-            ./transfer wet -s -p 16 --no-progress ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.love 2>&1>./wetransfer.log
-            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   auto-test:
     runs-on: ubuntu-latest
@@ -167,8 +147,6 @@ jobs:
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
-    outputs:
-      download-url: ${{ steps.transfer.outputs.download-url }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -234,24 +212,6 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-      - name: Get transfer
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 10
-          retry_wait_seconds: 60
-          timeout_minutes: 5
-          command: |
-            curl -sL https://raw.githubusercontent.com/Mikubill/transfer/master/install.sh | sh
-      - name: Upload to WeTransfer
-        id: transfer
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 5
-          retry_wait_seconds: 10
-          timeout_minutes: 5
-          command: |
-            ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   build-ios:
     runs-on: macos-latest
@@ -260,8 +220,6 @@ jobs:
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
-    outputs:
-      download-url: ${{ steps.transfer.outputs.download-url }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -335,24 +293,6 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-      - name: Get transfer
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 10
-          retry_wait_seconds: 60
-          timeout_minutes: 5
-          command: |
-            wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
-      - name: Upload to WeTransfer
-        id: transfer
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 5
-          retry_wait_seconds: 10
-          timeout_minutes: 5
-          command: |
-            ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   build-linux:
     runs-on: ubuntu-latest
@@ -360,8 +300,6 @@ jobs:
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
-    outputs:
-      download-url: ${{ steps.transfer.outputs.download-url }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -438,24 +376,6 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-      - name: Get transfer
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 10
-          retry_wait_seconds: 60
-          timeout_minutes: 5
-          command: |
-            curl -sL https://raw.githubusercontent.com/Mikubill/transfer/master/install.sh | sh
-      - name: Upload to WeTransfer
-        id: transfer
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 5
-          retry_wait_seconds: 10
-          timeout_minutes: 5
-          command: |
-            ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   build-macos-appstore:
     runs-on: macos-latest
@@ -464,8 +384,6 @@ jobs:
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
-    outputs:
-      download-url: ${{ steps.transfer.outputs.download-url }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -542,24 +460,6 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-      - name: Get transfer
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 10
-          retry_wait_seconds: 60
-          timeout_minutes: 5
-          command: |
-            wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
-      - name: Upload to WeTransfer
-        id: transfer
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 5
-          retry_wait_seconds: 10
-          timeout_minutes: 5
-          command: |
-            ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   build-macos-portable:
     runs-on: macos-latest
@@ -568,8 +468,6 @@ jobs:
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
-    outputs:
-      download-url: ${{ steps.transfer.outputs.download-url }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -658,24 +556,6 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-      - name: Get transfer
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 10
-          retry_wait_seconds: 60
-          timeout_minutes: 5
-          command: |
-            wget -qO- https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_darwin_amd64.tar.gz | tar xvz
-      - name: Upload to WeTransfer
-        id: transfer
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 5
-          retry_wait_seconds: 10
-          timeout_minutes: 5
-          command: |
-            ./transfer wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-            echo "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_OUTPUT
 
   build-windows:
     runs-on: windows-latest
@@ -683,8 +563,6 @@ jobs:
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
-    outputs:
-      download-url: ${{ steps.transfer.outputs.download-url }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -768,27 +646,6 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-      - name: Get transfer
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 10
-          retry_wait_seconds: 60
-          timeout_minutes: 5
-          command: |
-            curl.exe -sL https://github.com/Mikubill/transfer/releases/download/v0.4.17/transfer_0.4.17_windows_amd64.zip -o ./transfer.zip
-            7z x ./transfer.zip -o"./"
-            rm ./transfer.zip
-      - name: Upload to WeTransfer
-        id: transfer
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 5
-          retry_wait_seconds: 10
-          shell: pwsh
-          timeout_minutes: 5
-          command: |
-            ./transfer.exe wet -s -p 16 --no-progress ${{ steps.build-packages.outputs.package-paths }} 2>&1>./wetransfer.log
-            "download-url=$(cat ./wetransfer.log | grep https | cut -f3 -d" ")" >> $env:GITHUB_OUTPUT
 
   post-build:
     runs-on: ubuntu-latest
@@ -820,28 +677,9 @@ jobs:
           echo "## Version: ${{ needs.get-info.outputs.version-string }}" >> $GITHUB_STEP_SUMMARY
           echo "## Package Name: ${{ needs.get-info.outputs.base-name }}" >> $GITHUB_STEP_SUMMARY
           echo "## Download links: " >> $GITHUB_STEP_SUMMARY
-      - name: Display download links
-        shell: python3 {0}
-        run: |
-          import os
-          with open(os.getenv('GITHUB_STEP_SUMMARY'), 'a') as f:
-            if "${{ needs.build-core.result }}" == "success":
-              f.write("- Bare love packages: [WeTransfer](${{ needs.build-core.outputs.download-url }})\n")
-            if "${{ needs.build-android.result }}" == "success":
-              f.write("- Android packages: [WeTransfer](${{ needs.build-android.outputs.download-url }})\n")
-            if "${{ needs.build-ios.result }}" == "success":
-              f.write("- iOS packages: [WeTransfer](${{ needs.build-ios.outputs.download-url }})\n")
-            if "${{ needs.build-linux.result }}" == "success":
-              f.write("- Linux packages: [WeTransfer](${{ needs.build-linux.outputs.download-url }})\n")
-            if "${{ needs.build-macos-appstore.result }}" == "success":
-              f.write("- macOS packages(App Store version): [WeTransfer](${{ needs.build-macos-appstore.outputs.download-url }})\n")
-            if "${{ needs.build-macos-portable.result }}" == "success":
-              f.write("- macOS packages(Portable version): [WeTransfer](${{ needs.build-macos-portable.outputs.download-url }})\n")
-            if "${{ needs.build-windows.result }}" == "success":
-              f.write("- Windows packages: [WeTransfer](${{ needs.build-windows.outputs.download-url }})\n")
       - name: Send Discord message
         if: github.event_name != 'pull_request'
-        uses: Sniddl/discord-commits@v1.5
+        uses: Sniddl/discord-commits@v1.6
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           message: "Github Actions for **${{ github.repository }}**."
@@ -860,7 +698,6 @@ jobs:
             "fields":[
             {"name":"Version","value":"${{ needs.get-info.outputs.version-string }}","inline": true},
             {"name":"Package Name","value":"${{ needs.get-info.outputs.base-name }}","inline": true},
-            {"name":"Status","value":"**Automatic Test:** ${{ needs.auto-test.result }}\n**Core:** ${{ needs.build-core.result }}\n**Android:** ${{ needs.build-android.result }}\n**iOS:** ${{ needs.build-ios.result }}\n**Linux:** ${{ needs.build-linux.result }}\n**macOS App Store:** ${{ needs.build-macos-appstore.result }}\n**macOS portable:** ${{ needs.build-macos-portable.result }}\n**Windows:** ${{ needs.build-windows.result }}"},
-            {"name":"Download Links","value":"**Core:** ${{ needs.build-core.outputs.download-url}}\n**Android:** ${{ needs.build-android.outputs.download-url }}\n**iOS:** ${{ needs.build-ios.outputs.download-url }}\n**Linux:** ${{ needs.build-linux.outputs.download-url }}\n**macOS App Store:** ${{ needs.build-macos-appstore.outputs.download-url }}\n**macOS portable:** ${{ needs.build-macos-portable.outputs.download-url }}\n**Windows:** ${{ needs.build-windows.outputs.download-url}}"}
+            {"name":"Status","value":"**Automatic Test:** ${{ needs.auto-test.result }}\n**Core:** ${{ needs.build-core.result }}\n**Android:** ${{ needs.build-android.result }}\n**iOS:** ${{ needs.build-ios.result }}\n**Linux:** ${{ needs.build-linux.result }}\n**macOS App Store:** ${{ needs.build-macos-appstore.result }}\n**macOS portable:** ${{ needs.build-macos-portable.result }}\n**Windows:** ${{ needs.build-windows.result }}"}
             ]
             }'
