@@ -670,13 +670,6 @@ jobs:
         uses: geekyeggo/delete-artifact@v2
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
-      - name: Display summary
-        shell: bash
-        run: |
-          echo "# Summary" >> $GITHUB_STEP_SUMMARY
-          echo "## Version: ${{ needs.get-info.outputs.version-string }}" >> $GITHUB_STEP_SUMMARY
-          echo "## Package Name: ${{ needs.get-info.outputs.base-name }}" >> $GITHUB_STEP_SUMMARY
-          echo "## Download links: " >> $GITHUB_STEP_SUMMARY
       - name: Send Discord message
         if: github.event_name != 'pull_request'
         uses: Sniddl/discord-commits@v1.6
