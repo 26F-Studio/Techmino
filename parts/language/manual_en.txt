@@ -36,7 +36,7 @@ Attack system:
                 - B2B2B will have an attack boost of 50% and +1 extra blocking
 
         Non-special clears:
-                send (attack-0.5) attack.
+                send (lines cleared-0.5) attack.
 
         Combos (REN):
                 The numbers of the combos are equal to (the numbers you clear lines consecutively –1) (capped at 12 combos).
