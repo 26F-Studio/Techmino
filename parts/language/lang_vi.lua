@@ -585,8 +585,8 @@ return {
             a6="Thả Mạnh",
             a7="Thả Nhẹ",
             a8="Giữ (Hold)",
-            a9="Chức năng 1",
-            a10="Chức năng 2",
+            a9="Chức năng 1 (F1)",
+            a10="Chức năng 2 (F2)",
             a11="Trái tức thì",
             a12="Phải tức thì",
             a13="Thả Nhanh",
@@ -614,8 +614,8 @@ return {
         setting_touchSwitch={
             b1= "Sang Trái:",    b2="Sang Phải:",  b3="Xoay Phải:",  b4="Xoay Trái:",
             b5= "Xoay 180°:",  b6="Thả Mạnh:",   b7="Thả Nhẹ:",     b8="Giữ:",
-            b9= "Chức năng 1:",   b10="Chức năng 2:", b11="Trái tức thì:", b12="Phải tức thì:",
-            b13="Sonic Drop:",   b14="Xuống 1:",     b15="Xuống 4:",       b16="Xuống 10:",
+            b9= "Chức năng 1 (F1):",   b10="Chức năng 2 (F2):", b11="Trái tức thì:", b12="Phải tức thì:",
+            b13="Thả nhanh:",   b14="Xuống 1:",     b15="Xuống 4:",       b16="Xuống 10:",
             b17="Thả Trái:",    b18="Thả Phải:", b19="Zangi Trái:",   b20="Zangi Phải:",
 
             norm="Thường",
