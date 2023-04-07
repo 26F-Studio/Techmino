@@ -485,7 +485,7 @@ return {
             ctrl="Cài đặt điều khiển",
             key="Cài đặt bố cục phím",
             touch="Cài đặt cảm ứng",
-            showVK="Điều khiển cảm ứng", -- Pull from Galaxy
+            showVK="Bật điều khiển bằng cảm ứng", -- Pull from Galaxy
             reTime="Đếm ngược bắt đầu",
             RS="Hệ thống xoay gạch",
             menuPos="Vị trí nút Menu",
