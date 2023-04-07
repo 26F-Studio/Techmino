@@ -1,5 +1,6 @@
 local C=COLOR
 return {
+    fallback='en',
     loadText={
         loadSFX="Đang tải các hiệu ứng âm thanh",
         loadSample="Đang tải các mẫu nhạc cụ",
@@ -336,7 +337,7 @@ return {
         "NOT_A_ROBOT",
         "XMiao",
         "sakurw, Airun, 幽灵3383",
-        "Shard Nguyễn, Squishy và cộng đồng TVN",
+        "Shard Nguyễn, Squishy, cộng đồng TVN",
         "",
         "Performances",
         "Electric283",
@@ -485,14 +486,14 @@ return {
             ctrl="Cài đặt điều khiển",
             key="Cài đặt bố cục phím",
             touch="Cài đặt cảm ứng",
-            showVK="Hiển thị nút ảo",
+            showVK="Bật điều khiển bằng cảm ứng", -- Pull from Galaxy
             reTime="Đếm ngược bắt đầu",
             RS="Hệ thống xoay gạch",
             menuPos="Vị trí nút Menu",
             sysCursor="Sử dụng con trỏ chuột của hệ thống",
             autoPause="Tạm dừng khi nhấn ngoài game",
             autoSave="Tự động lưu các thành tích",
-            simpMode="Chế độ đơn giản",
+            simpMode="Chế độ Đơn giản",
         },
         setting_video={
             title="Cài đặt đồ hoạ",
@@ -536,8 +537,8 @@ return {
             msaa="MSAA level",
 
             bg_on="Ảnh nền thường",
-            bg_off="Ảnh nền trống",
-            bg_custom="Dùng ảnh nền tự chọn",
+            bg_off="Không ảnh nền",
+            bg_custom="Ảnh nền tự chọn",
 
             blockSatur="Độ đậm gạch",
             fieldSatur="Độ đậm bảng",
@@ -577,16 +578,16 @@ return {
             reset="Đặt lại",
         },
         setting_key={
-            a1="Di chuyển Trái",
-            a2="Di chuyển Phải",
+            a1="Sang Trái",
+            a2="Sang Phải",
             a3="Xoay Phải",
             a4="Xoay Trái",
             a5="Xoay 180°",
             a6="Thả Mạnh",
             a7="Thả Nhẹ",
             a8="Giữ (Hold)",
-            a9="Chức năng 1",
-            a10="Chức năng 2",
+            a9="Chức năng 1 (F1)",
+            a10="Chức năng 2 (F2)",
             a11="Trái tức thì",
             a12="Phải tức thì",
             a13="Thả Nhanh",
@@ -612,10 +613,10 @@ return {
             shape="Hình dạng",
         },
         setting_touchSwitch={
-            b1= "Di chuyển Trái:",    b2="Di chuyển Phải:",  b3="Xoay Phải:",  b4="Xoay Trái:",
+            b1= "Sang Trái:",    b2="Sang Phải:",  b3="Xoay Phải:",  b4="Xoay Trái:",
             b5= "Xoay 180°:",  b6="Thả Mạnh:",   b7="Thả Nhẹ:",     b8="Giữ:",
-            b9= "Chức năng 1:",   b10="Chức năng 2:", b11="Trái tức thì:", b12="Phải tức thì:",
-            b13="Sonic Drop:",   b14="Xuống 1:",     b15="Xuống 4:",       b16="Xuống 10:",
+            b9= "Chức năng 1 (F1):",   b10="Chức năng 2 (F2):", b11="Trái tức thì:", b12="Phải tức thì:",
+            b13="Thả nhanh:",   b14="Xuống 1:",     b15="Xuống 4:",       b16="Xuống 10:",
             b17="Thả Trái:",    b18="Thả Phải:", b19="Zangi Trái:",   b20="Zangi Phải:",
 
             norm="Thường",
@@ -806,7 +807,7 @@ return {
             setting="Cài đặt",
             vk="Bố cục phím ảo",
 
-            couldSave="Lưu qua Cloud (LƯU Ý: ĐANG THỬ NGHIỆM)",
+            couldSave="Lưu qua Cloud (CẢNH BÁO: ĐANG THỬ NGHIỆM)",
             notLogin="[Đăng nhập để lưu]",
             upload="Tải lên Cloud",
             download="Tải xuống từ Cloud",
@@ -925,7 +926,7 @@ return {
     },
     getTip={refuseCopy=true,
         ":dcgpray:",
-        "Không thể mở file “Techmino.app” vì người làm game đã bay màu",
+        "Không thể mở “Techmino.app” vì người làm game đã bay màu",
         "“Techmino.app” là vi rút đấy. Xoá đi",
         "“TechminOS”",
         "(RUR’U’)R’FR2U’R’U’(RUR’F’)",
