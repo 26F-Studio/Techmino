@@ -538,7 +538,7 @@ return {
 
             bg_on="Ảnh nền thường",
             bg_off="Không ảnh nền",
-            bg_custom="Dùng ảnh nền tự chọn",
+            bg_custom="Ảnh nền tự chọn",
 
             blockSatur="Độ đậm gạch",
             fieldSatur="Độ đậm bảng",
