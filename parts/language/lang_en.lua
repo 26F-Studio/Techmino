@@ -336,7 +336,7 @@ return {
         "NOT_A_ROBOT",
         "XMiao",
         "sakurw, Airun, 幽灵3383",
-        "Shard Nguyễn, Squishy và cộng đồng TVN",
+        "Shard Nguyễn, Squishy and cộng đồng TVN",
         "",
         "Performances",
         "Electric283",
