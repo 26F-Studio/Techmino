@@ -2779,7 +2779,7 @@ function Player:revive()
     self.b2b=0
 
     for i=1,h do
-        self:createClearingFX(i,1.5)
+        self:createClearingFX(i)
     end
     SYSFX.newShade(1.4,self.fieldX,self.fieldY,300*self.size,610*self.size)
     SYSFX.newRectRipple(2,self.fieldX,self.fieldY,300*self.size,610*self.size)

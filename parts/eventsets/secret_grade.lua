@@ -64,7 +64,7 @@ return {
                 end
             end end
         end
-        PLY.draw.cancelField(P)
+        PLY.draw.cancelField()
     end,
     task=function(P)
         P.modeData.rankPts=1

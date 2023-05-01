@@ -9,7 +9,7 @@ return {
             GC.setColor(1,.3,.3,.5-i*.04)
             GC.rectangle('fill',30*L[i]-30,0,30,600)
         end
-        PLY.draw.cancelField(P)
+        PLY.draw.cancelField()
     end,
     hook_drop=function(P)
         local C=P.lastPiece

@@ -5,7 +5,6 @@ local shader=SHADER.rgb1
 local t
 function back.init()
     t=math.random()*2600
-    BG.resize(SCR.w,SCR.h)
 end
 function back.update(dt)
     t=(t+dt)%6200
