@@ -46,7 +46,7 @@ return {
                     end
                 end end
             end
-            PLY.draw.cancelField(P)
+            PLY.draw.cancelField()
         end,
     },
     load=function()

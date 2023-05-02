@@ -8,7 +8,7 @@ return {
             PLY.draw.applyField(P)
             GC.setColor(1,.3,.3,.2)
             GC.rectangle('fill',30*L[1]-30,0,30,600)
-            PLY.draw.cancelField(P)
+            PLY.draw.cancelField()
         end
     end,
     hook_drop=function(P)

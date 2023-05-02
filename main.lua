@@ -334,7 +334,7 @@ SKIN.load{
 SFX.init((function()--[Warning] Not loading files here, just get the list of sound needed
     local L={}
     for _,v in next,fs.getDirectoryItems('media/effect/chiptune/') do
-        if FILE.isSafe('media/effect/chiptune/'..v,"Dangerous file : %SAVE%/media/effect/chiptune/"..v) then
+        if FILE.isSafe('media/effect/chiptune/'..v) then
             table.insert(L,v:sub(1,-5))
         end
     end
@@ -343,7 +343,7 @@ end)())
 BGM.init((function()
     local L={}
     for _,v in next,fs.getDirectoryItems('media/music') do
-        if FILE.isSafe('media/music/'..v,"Dangerous file : %SAVE%/media/music/"..v) then
+        if FILE.isSafe('media/music/'..v) then
             L[v:sub(1,-5)]='media/music/'..v
         end
     end

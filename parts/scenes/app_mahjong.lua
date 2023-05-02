@@ -124,9 +124,9 @@ end
 function scene.mouseDown()
     _throwCard()
 end
-function scene.touchMove(x,y) scene.mouseMove(x,y) end
-function scene.touchDown(x,y) scene.mouseMove(x,y) end
-function scene.touchClick(x,y) scene.mouseDown(x,y) end
+scene.touchMove=scene.mouseMove
+scene.touchDown=scene.mouseMove
+scene.touchClick=scene.mouseDown
 function scene.keyDown(key)
     if key=='left' then
         if selected then

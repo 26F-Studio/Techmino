@@ -92,7 +92,7 @@ function BOT.new(P,data)
             P:setHold(1)
         end
 
-        local cc=cc or REQUIRE"CCloader"
+        local cc=REQUIRE"CCloader"
         if not cc then
             data.type=false
             return BOT.new(P,data)
