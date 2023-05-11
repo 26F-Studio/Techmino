@@ -1,5 +1,7 @@
 return {
     env={
+        drop=120,lock=1e99,
+        infHold=true,
         pushSpeed=6,
         eventSet='dig_10l',
         bg='bg1',bgm='way',
