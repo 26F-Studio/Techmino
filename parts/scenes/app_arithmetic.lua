@@ -35,8 +35,8 @@ local function drawChar(char,x,y,scale,alignLeft)
     char=tostring(char)
     local index=#drawLines+1
     local l=string.len(char)
-    x=alignLeft and x or x-85*l*scale
-    for i=l,0,-1 do
+    x=alignLeft and x+85*(l-1)*scale or x
+    for i=l,1,-1 do
         local n=char:sub(i,i)
         print(n,char,type(n),charData[n])
         drawLines[index],drawVel[index]={},{}
@@ -48,7 +48,7 @@ local function drawChar(char,x,y,scale,alignLeft)
             drawVel[index][j]=0
         end
         index=index+1
-        x=x+85*scale
+        x=x+(alignLeft and -85 or -85)*scale
     end
 end
 
@@ -59,7 +59,6 @@ local levels={
         return a.."+"..s-a,s,function()
             drawChar(a,600,200)
             drawChar(s-a,600,350)
-            drawChar("12ABCDEF33",600,500) -- debug
             table.insert(drawLines,{530,500,700,500})
             table.insert(drawLines,{720,500,800,500})
             table.insert(drawLines,{760,460,760,540})
@@ -264,11 +263,11 @@ local levels={
             table.insert(drawLines,{0,470,300,470})
             table.insert(drawLines,{320,470,400,470})
             table.insert(drawLines,{360,430,360,510})
-            local l=string.len(STRING.toBin(s)) -- TODO: could be improved with log2?
+            local l=string.len(STRING.toOct(s)) -- TODO: could be improved with log8?
             for i=1,l do
                 table.insert(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
                 table.insert(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
-                drawChar(2,680,520-100*(l-i),.5)
+                drawChar(8,680,520-100*(l-i),.5)
                 drawChar(l-i,730,500-100*(l-i),.3)
                 table.insert(drawLines,{770,570-100*(l-i),810,570-100*(l-i)})
                 table.insert(drawLines,{770,550-100*(l-i),810,550-100*(l-i)})
@@ -281,7 +280,25 @@ local levels={
     function()-- <h+>
         local s=rnd(34,255)
         local a=rnd(17,int(s/2))
-        return {COLOR.J,b16(a),COLOR.Z,"+",COLOR.J,b16(s-a)},s -- TODO
+        return {COLOR.J,b16(a),COLOR.Z,"+",COLOR.J,b16(s-a)},s,function()
+            drawChar(tonumber(STRING.toHex(a)),220,200,.6)
+            drawChar(tonumber(STRING.toHex(s-a)),220,335,.6)
+            table.insert(drawLines,{0,470,300,470})
+            table.insert(drawLines,{320,470,400,470})
+            table.insert(drawLines,{360,430,360,510})
+            local l=string.len(STRING.toHex(s)) -- TODO: could be improved with log16?
+            for i=1,l do
+                table.insert(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
+                table.insert(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
+                drawChar(16,680,520-100*(l-i),.5)
+                drawChar(l-i,730,500-100*(l-i),.3)
+                table.insert(drawLines,{770,570-100*(l-i),810,570-100*(l-i)})
+                table.insert(drawLines,{770,550-100*(l-i),810,550-100*(l-i)})
+            end
+            table.insert(drawLines,{780,620,1000,620})
+            table.insert(drawLines,{1020,620,1100,620})
+            table.insert(drawLines,{1060,580,1060,660})
+        end -- TODO
     end,nil,nil,
     function() timing=false return "Coming S∞n"..(rnd()<.5 and "" or " "),1e99 end,
 }setmetatable(levels,{__index=function(self,k) return self[k-1] end})
@@ -303,7 +320,7 @@ local function reset()
     drawing=false
     drawLines,drawVel,indexes={},{},{}
     inputTime=0
-    level=0 -- DEBUG
+    level=62 -- DEBUG
     question,answer,autoDraw=newQuestion(1)
 end
 
