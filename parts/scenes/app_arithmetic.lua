@@ -38,7 +38,6 @@ local function drawChar(char,x,y,scale,alignLeft)
     x=alignLeft and x+85*(l-1)*scale or x
     for i=l,1,-1 do
         local n=char:sub(i,i)
-        print(n,char,type(n),charData[n])
         drawLines[index],drawVel[index]={},{}
         for j=1,#charData[n],2 do
             drawLines[index][j]=charData[n][j]*3*scale+x
@@ -172,7 +171,7 @@ local levels={
         local a=rnd(2,9)
         return {COLOR.N,b2(a)},a,function()
             local b=STRING.toBin(a)
-            local l=math.floor(math.log(a,2)+1) -- TODO: Test this
+            local l=math.floor(math.log(a,2)+1)
             for i=1,l do
                 drawChar(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
                 table.insert(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
@@ -191,7 +190,7 @@ local levels={
         local a=rnd(9,63)
         return {COLOR.lR,b8(a)},a,function()
         local b=STRING.toOct(a)
-        local l=math.floor(math.log(a,8)+1) -- TODO: Test this
+        local l=math.floor(math.log(a,8)+1)
         for i=1,l do
             drawChar(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
             table.insert(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
@@ -210,7 +209,7 @@ local levels={
         local a=rnd(17,255)
         return {COLOR.J,b16(a)},a,function()
             local b=STRING.toHex(a)
-            local l=math.floor(math.log(a,16)+1) -- TODO: Test this
+            local l=math.floor(math.log(a,16)+1)
             for i=1,l do
                 local c=string.sub(b,i,i)
                 if ("0123456789"):find(c,nil,true) then
@@ -240,7 +239,7 @@ local levels={
             table.insert(drawLines,{0,470,300,470})
             table.insert(drawLines,{320,470,400,470})
             table.insert(drawLines,{360,430,360,510})
-            local l=math.floor(math.log(s,2)+1) -- TODO: Test this
+            local l=math.floor(math.log(s,2)+1)
             for i=1,l do
                 table.insert(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
                 table.insert(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
@@ -263,7 +262,7 @@ local levels={
             table.insert(drawLines,{0,470,300,470})
             table.insert(drawLines,{320,470,400,470})
             table.insert(drawLines,{360,430,360,510})
-            local l=math.floor(math.log(s,8)+1) -- TODO: Test this
+            local l=math.floor(math.log(s,8)+1)
             for i=1,l do
                 table.insert(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
                 table.insert(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
@@ -286,7 +285,7 @@ local levels={
             table.insert(drawLines,{0,470,300,470})
             table.insert(drawLines,{320,470,400,470})
             table.insert(drawLines,{360,430,360,510})
-            local l=math.floor(math.log(s,16)+1) -- TODO: Test this
+            local l=math.floor(math.log(s,16)+1)
             for i=1,l do
                 table.insert(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
                 table.insert(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
@@ -298,7 +297,7 @@ local levels={
             table.insert(drawLines,{780,620,1000,620})
             table.insert(drawLines,{1020,620,1100,620})
             table.insert(drawLines,{1060,580,1060,660})
-        end -- TODO
+        end
     end,nil,nil,
     function() timing=false return "Coming S∞n"..(rnd()<.5 and "" or " "),1e99 end,
 }setmetatable(levels,{__index=function(self,k) return self[k-1] end})
@@ -314,7 +313,9 @@ local function newQuestion(lv)
     return levels[lv]()
 end
 
-local function drawHelp() MES.new('info',"Drawing controls:\nF1 to show this message\n"..
+local function drawHelp() MES.new('info',"Drawing controls:\n"..
+    "F1 to show this message\n"..
+    "D to toggle drawing mode\n"..
     "A to auto-draw calculation\n"..
     "Ctrl+[number] to draw a number\n"..
     "[ and ] to adjust number scale\n"..
@@ -507,7 +508,7 @@ function scene.draw()
         gc.print(question,60,40)
 
         FONT.set(20)
-        gc.print("Scale: "..100*numScale.."%",1010,650)
+        gc.print("Scale: "..100*numScale.."%",1150,680)
 
         if string.len(input)>0 then
             FONT.set(50)
@@ -519,6 +520,7 @@ function scene.draw()
 end
 
 scene.widgetList={
+    -- TODO: Icons for "Toggle Drawing Mode" button and auto-draw button (waiting for C29H25N3O5 to make the icons in the font)
     WIDGET.newButton{name='reset',x=155,y=100,w=180,h=100,color='lG',font=50,fText=CHAR.icon.retry_spin,code=pressKey'r',hideF=isDrawing},
     WIDGET.newKey{name='X',      x=540, y=620,w=90,font=60,fText=CHAR.key.clear,code=pressKey'backspace',hideF=isDrawing},
     WIDGET.newKey{name='0',      x=640, y=620,w=90,font=60,fText="0",code=pressKey'0',hideF=isDrawing},
@@ -538,7 +540,7 @@ scene.widgetList={
     WIDGET.newKey{name='X_d',    x=1040,y=80 ,w=80,font=50,fText=CHAR.key.clear,code=pressKey'backspace',hideF=isntDrawing},
     WIDGET.newKey{name='undo',   x=960, y=80, w=80,font=50,fText=CHAR.icon.retry_spin,code=pressKey'ctrl_z',hideF=isntDrawing},
     WIDGET.newKey{name='help',   x=880, y=80, w=80,font=50,fText='?',code=pressKey'f1',hideF=isntDrawing},
-    WIDGET.newButton{name='back',x=1200,y=660,w=110,h=60,font=45,sound='back',fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='back',x=1200,y=660,w=110,h=60,font=45,sound='back',fText=CHAR.icon.back,code=backScene,hideF=isDrawing},
 }
 
 return scene
