@@ -53,7 +53,7 @@ local function drawChar(char,x,y,scale,alignLeft)
 end
 
 local levels={
-    function()-- <+> [,10]
+    function()-- 1~3 <+> [,10] 
         local s=rnd(2,9)
         local a=rnd(1,s)
         return a.."+"..s-a,s,function()
@@ -64,7 +64,7 @@ local levels={
             table.insert(drawLines,{760,460,760,540})
         end
     end,nil,nil,
-    function()-- <+> [,20]
+    function()-- 4~6 <+> [,20]
         local s=rnd(10,18)
         local a=rnd(s-9,int(s/2))
         return a.."+"..s-a,s,function()
@@ -75,7 +75,7 @@ local levels={
             table.insert(drawLines,{760,460,760,540})
         end
     end,nil,nil,
-    function()-- <+> [,100]
+    function()-- 7~9 <+> [,100]
         local s=rnd(22,99)
         local a=rnd(11,int(s/2))
         return a.."+"..s-a,s,function()
@@ -86,7 +86,7 @@ local levels={
             table.insert(drawLines,{760,460,760,540})
         end
     end,nil,nil,
-    function()-- <-> [,10]
+    function()-- 10~12 <-> [,10]
         local s=rnd(2,9)
         local a=rnd(1,s)
         return s.."-"..a,s-a,function()
@@ -96,7 +96,7 @@ local levels={
             table.insert(drawLines,{720,500,800,500})
         end
     end,nil,nil,
-    function()-- <-> [,100]
+    function()-- 13~15 <-> [,100]
         local s=rnd(22,99)
         local a=rnd(11,int(s/2))
         return s.."-"..a,s-a,function()
@@ -106,7 +106,7 @@ local levels={
             table.insert(drawLines,{720,500,800,500})
         end
     end,nil,nil,
-    function()-- <-> [-10,]
+    function()-- 16~20 <-> [-10,]
         local s=rnd(-8,-1)
         local a=rnd(1,8)
         return a.."-"..a-s,s,function()
@@ -119,7 +119,7 @@ local levels={
             table.insert(drawLines,{760,460,760,540})
         end
     end,nil,nil,nil,nil,
-    function()-- <*> [,100]
+    function()-- 21~25 <*> [,100]
         local b=rnd(21,89)
         local a=rnd(ceil(b/10),9)
         b=int(b/a)
@@ -131,7 +131,7 @@ local levels={
             table.insert(drawLines,{720,460,800,540})
         end
     end,nil,nil,nil,nil,
-    function()-- <*> [,1000]
+    function()-- 26~28 <*> [,1000]
         local a,b=rnd(4,8),rnd(42,96)
         return a.."*"..b,a*b,function()
             drawChar(b,600,200)
@@ -141,7 +141,7 @@ local levels={
             table.insert(drawLines,{720,460,800,540})
         end
     end,nil,nil,
-    function()-- </> [,100]
+    function()-- 29~33 </> [,100]
         local b=rnd(21,89)
         local a=rnd(ceil(b/10),9)
         b=int(b/a)
@@ -151,7 +151,7 @@ local levels={
             table.insert(drawLines,{480,440,530,270,730,270})
         end
     end,nil,nil,nil,nil,
-    function()-- <%3>
+    function()-- 34~36 <%3>
         local s=rnd(5,17)
         return s.."%3",s%3,function()
             drawChar(s,560,300,1,true)
@@ -159,7 +159,7 @@ local levels={
             table.insert(drawLines,{480,440,530,270,730,270})
         end
     end,nil,nil,
-    function()-- <%> [,10]
+    function()-- 37~41 <%> [,10]
         local s=rnd(21,62)
         local a=rnd(3,9)
         return s.."%"..a,s%a,function()
@@ -168,11 +168,11 @@ local levels={
             table.insert(drawLines,{480,440,530,270,730,270})
         end
     end,nil,nil,nil,nil,
-    function()-- <b> [,10]
+    function()-- 42~46 <b> [,10]
         local a=rnd(2,9)
         return {COLOR.N,b2(a)},a,function()
             local b=STRING.toBin(a)
-            local l=string.len(b) -- TODO: could be improved with log2?
+            local l=math.floor(math.log(a,2)+1) -- TODO: Test this
             for i=1,l do
                 drawChar(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
                 table.insert(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
@@ -187,11 +187,11 @@ local levels={
             table.insert(drawLines,{810,480,810,560})
         end
     end,nil,nil,nil,nil,
-    function()-- <o>
+    function()-- 47~50 <o>
         local a=rnd(9,63)
         return {COLOR.lR,b8(a)},a,function()
         local b=STRING.toOct(a)
-        local l=string.len(b) -- TODO: could be improved with log8?
+        local l=math.floor(math.log(a,8)+1) -- TODO: Test this
         for i=1,l do
             drawChar(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
             table.insert(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
@@ -206,11 +206,11 @@ local levels={
         table.insert(drawLines,{810,480,810,560})
     end
     end,nil,nil,nil,
-    function()-- <h>
+    function()-- 51~53 <h>
         local a=rnd(17,255)
         return {COLOR.J,b16(a)},a,function()
             local b=STRING.toHex(a)
-            local l=string.len(b)-- TODO: could be improved with log16?
+            local l=math.floor(math.log(a,16)+1) -- TODO: Test this
             for i=1,l do
                 local c=string.sub(b,i,i)
                 if ("0123456789"):find(c,nil,true) then
@@ -231,7 +231,7 @@ local levels={
             table.insert(drawLines,{810,480,810,560})
         end
     end,nil,nil,
-    function()-- <b+>
+    function()-- 54~58 <b+>
         local s=rnd(9,31)
         local a=rnd(5,int(s/2))
         return {COLOR.N,b2(a),COLOR.Z,"+",COLOR.N,b2(s-a)},s,function()
@@ -240,7 +240,7 @@ local levels={
             table.insert(drawLines,{0,470,300,470})
             table.insert(drawLines,{320,470,400,470})
             table.insert(drawLines,{360,430,360,510})
-            local l=string.len(STRING.toBin(s)) -- TODO: could be improved with log2?
+            local l=math.floor(math.log(s,2)+1) -- TODO: Test this
             for i=1,l do
                 table.insert(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
                 table.insert(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
@@ -254,7 +254,7 @@ local levels={
             table.insert(drawLines,{1060,580,1060,660})
         end
     end,nil,nil,nil,nil,
-    function()-- <o+>
+    function()-- 59~62 <o+>
         local s=rnd(18,63)
         local a=rnd(9,int(s/2))
         return {COLOR.lR,b8(a),COLOR.Z,"+",COLOR.lR,b8(s-a)},s,function()
@@ -263,7 +263,7 @@ local levels={
             table.insert(drawLines,{0,470,300,470})
             table.insert(drawLines,{320,470,400,470})
             table.insert(drawLines,{360,430,360,510})
-            local l=string.len(STRING.toOct(s)) -- TODO: could be improved with log8?
+            local l=math.floor(math.log(s,8)+1) -- TODO: Test this
             for i=1,l do
                 table.insert(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
                 table.insert(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
@@ -277,7 +277,7 @@ local levels={
             table.insert(drawLines,{1060,580,1060,660})
         end
     end,nil,nil,nil,
-    function()-- <h+>
+    function()-- 63~65 <h+>
         local s=rnd(34,255)
         local a=rnd(17,int(s/2))
         return {COLOR.J,b16(a),COLOR.Z,"+",COLOR.J,b16(s-a)},s,function()
@@ -286,7 +286,7 @@ local levels={
             table.insert(drawLines,{0,470,300,470})
             table.insert(drawLines,{320,470,400,470})
             table.insert(drawLines,{360,430,360,510})
-            local l=string.len(STRING.toHex(s)) -- TODO: could be improved with log16?
+            local l=math.floor(math.log(s,16)+1) -- TODO: Test this
             for i=1,l do
                 table.insert(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
                 table.insert(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
@@ -307,10 +307,19 @@ local level
 
 local input,inputTime="",0
 local question,answer
+local numScale
 
 local function newQuestion(lv)
     drawLines,drawVel,indexes={},{},{}
     return levels[lv]()
+end
+
+local function drawHelp() MES.new('info',"Drawing controls:\nF1 to show this message\n"..
+    "A to auto-draw calculation\n"..
+    "Ctrl+[number] to draw a number\n"..
+    "[ and ] to adjust number scale\n"..
+    "Ctrl+Z to undo\n"..
+    "Backspace or Delete to clear\n",13)
 end
 
 local function reset()
@@ -320,7 +329,7 @@ local function reset()
     drawing=false
     drawLines,drawVel,indexes={},{},{}
     inputTime=0
-    level=62 -- DEBUG
+    level=42 -- DEBUG
     question,answer,autoDraw=newQuestion(1)
 end
 
@@ -356,6 +365,7 @@ local scene={}
 function scene.enter()
     reset()
     drawing=false
+    numScale=1
     BGM.play('truth')
 end
 
@@ -364,13 +374,16 @@ function scene.keyDown(key,isRep)
     if key:sub(1,2)=="kp" then key=key:sub(3) end
     if #key==1 and ("0123456789"):find(key,nil,true) then
         if love.keyboard.isDown('lctrl','rctrl') and drawing then
-            drawChar(tonumber(key),love.mouse.getX(),love.mouse.getY())
+            drawChar(tonumber(key),love.mouse.getX(),love.mouse.getY(),numScale)
         elseif #input<8 then
             input=input..key
             inputTime=1
             check(tonumber(input))
             SFX.play('touch')
         end
+    elseif drawing and key=='[' then numScale = math.max(numScale-.1,.3)
+    elseif drawing and key==']' then numScale = math.min(numScale+.1,2)
+    elseif drawing and key=='f1' then drawHelp()
     elseif key=='-' then
         if #input<8 then
             if input:find("-") then
@@ -493,11 +506,15 @@ function scene.draw()
         FONT.set(80)
         gc.print(question,60,40)
 
+        FONT.set(20)
+        gc.print("Scale: "..100*numScale.."%",1010,650)
+
         if string.len(input)>0 then
             FONT.set(50)
             gc.setColor(1,1,1,inputTime)
             gc.print("= "..input,60,140)
         end
+
     end
 end
 
@@ -520,6 +537,7 @@ scene.widgetList={
     WIDGET.newKey{name='A',      x=1120,y=80 ,w=80,font=50,fText="A",code=pressKey'a',hideF=isntDrawing},
     WIDGET.newKey{name='X_d',    x=1040,y=80 ,w=80,font=50,fText=CHAR.key.clear,code=pressKey'backspace',hideF=isntDrawing},
     WIDGET.newKey{name='undo',   x=960, y=80, w=80,font=50,fText=CHAR.icon.retry_spin,code=pressKey'ctrl_z',hideF=isntDrawing},
+    WIDGET.newKey{name='help',   x=880, y=80, w=80,font=50,fText='?',code=pressKey'f1',hideF=isntDrawing},
     WIDGET.newButton{name='back',x=1200,y=660,w=110,h=60,font=45,sound='back',fText=CHAR.icon.back,code=backScene},
 }
 
