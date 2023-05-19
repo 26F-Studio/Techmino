@@ -330,7 +330,7 @@ local function reset()
     drawing=false
     drawLines,drawVel,indexes={},{},{}
     inputTime=0
-    level=42 -- DEBUG
+    level=1
     question,answer,autoDraw=newQuestion(1)
 end
 
