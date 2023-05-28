@@ -1,6 +1,7 @@
 local gc=love.graphics
 local rnd=math.random
 local int,ceil=math.floor,math.ceil
+local ins,rem=table.insert,table.remove
 
 local timing,time
 
@@ -10,13 +11,13 @@ local function b16(i) return STRING.toHex(i).."₁₆" end
 
 local charData={
 ["0"]={5,40, 15,40,20,35,20,5, 15,0, 5,0,  0,5,  0,35, 5,40},
-["1"]={0,10, 10,0, 10,40,0,40, -1,40,0,40, 20,40},
-["2"]={0,5,  5,0,  15,0, 20,5, 20,20,0,39, 0,40, 20,40},
+["1"]={2,8, 10,0, 10,40, 2,40, 1,40, 2,40, 18,40},
+["2"]={0,5,  5,0,  15,0, 20,5, 20,20,0,39, 0,40, 25,40},
 ["3"]={0,5,  5,0,  15,0, 20,5, 20,15,15,20,5,20, 4,20, 5,20, 15,20,20,25,20,35,15,40,5,40,0,35},
-["4"]={20,20,0,20, 15,0, 15,40},
+["4"]={20,20,0,20, 13,0, 13,40},
 ["5"]={20,0, 0,0,  0,20, 5,15, 15,15,20,20,20,35,15,40,5,40, 0,35},
 ["6"]={20,5, 15,0, 5,0,  0,5,  0,35, 5,40, 15,40,20,35,20,20,15,15,5,15, 0,20},
-["7"]={0,0,  20,0, 0,40},
+["7"]={0,0,  20,0, 5,40},
 ["8"]={5,0,  15,0, 20,5, 20,15,15,20,5,20, 0,25, 0,35, 5,40, 15,40,20,35,20,25,15,20,5,20,0,15,0,5,5,0},
 ["9"]={20,15,15,20,5,20, 0,15, 0,5,  5,0,  15,0, 20,5, 20,35,15,40,5,40, 0,35},
     A={0,40, 10,0, 20,40,0,0,  20,40,15,20,5,20},
@@ -58,9 +59,9 @@ local levels={
         return a.."+"..s-a,s,function()
             drawChar(a,600,200)
             drawChar(s-a,600,350)
-            table.insert(drawLines,{530,500,700,500})
-            table.insert(drawLines,{720,500,800,500})
-            table.insert(drawLines,{760,460,760,540})
+            ins(drawLines,{530,500,700,500})
+            ins(drawLines,{720,500,800,500})
+            ins(drawLines,{760,460,760,540})
         end
     end,nil,nil,
     function()-- 4~6 <+> [,20]
@@ -69,9 +70,9 @@ local levels={
         return a.."+"..s-a,s,function()
             drawChar(a,600,200)
             drawChar(s-a,600,350)
-            table.insert(drawLines,{430,500,700,500})
-            table.insert(drawLines,{720,500,800,500})
-            table.insert(drawLines,{760,460,760,540})
+            ins(drawLines,{430,500,700,500})
+            ins(drawLines,{720,500,800,500})
+            ins(drawLines,{760,460,760,540})
         end
     end,nil,nil,
     function()-- 7~9 <+> [,100]
@@ -80,9 +81,9 @@ local levels={
         return a.."+"..s-a,s,function()
             drawChar(a,600,200)
             drawChar(s-a,600,350)
-            table.insert(drawLines,{430,500,700,500})
-            table.insert(drawLines,{720,500,800,500})
-            table.insert(drawLines,{760,460,760,540})
+            ins(drawLines,{430,500,700,500})
+            ins(drawLines,{720,500,800,500})
+            ins(drawLines,{760,460,760,540})
         end
     end,nil,nil,
     function()-- 10~12 <-> [,10]
@@ -91,8 +92,8 @@ local levels={
         return s.."-"..a,s-a,function()
             drawChar(s,600,200)
             drawChar(a,600,350)
-            table.insert(drawLines,{530,500,700,500})
-            table.insert(drawLines,{720,500,800,500})
+            ins(drawLines,{530,500,700,500})
+            ins(drawLines,{720,500,800,500})
         end
     end,nil,nil,
     function()-- 13~15 <-> [,100]
@@ -101,8 +102,8 @@ local levels={
         return s.."-"..a,s-a,function()
             drawChar(s,600,200)
             drawChar(a,600,350)
-            table.insert(drawLines,{430,500,700,500})
-            table.insert(drawLines,{720,500,800,500})
+            ins(drawLines,{430,500,700,500})
+            ins(drawLines,{720,500,800,500})
         end
     end,nil,nil,
     function()-- 16~20 <-> [-10,]
@@ -110,12 +111,12 @@ local levels={
         local a=rnd(1,8)
         return a.."-"..a-s,s,function()
             local l=string.len(a-s)
-            table.insert(drawLines,{600-85*l,260,640-85*l,260})
+            ins(drawLines,{600-85*l,260,640-85*l,260})
             drawChar(a-s,600,200)
             drawChar(a,600,350)
-            table.insert(drawLines,{530,500,700,500})
-            table.insert(drawLines,{720,500,800,500})
-            table.insert(drawLines,{760,460,760,540})
+            ins(drawLines,{530,500,700,500})
+            ins(drawLines,{720,500,800,500})
+            ins(drawLines,{760,460,760,540})
         end
     end,nil,nil,nil,nil,
     function()-- 21~25 <*> [,100]
@@ -125,9 +126,9 @@ local levels={
         return a.."*"..b,a*b,function()
             drawChar(a>b and a or b,600,200)
             drawChar(a>b and b or a,600,350)
-            table.insert(drawLines,{460,500,700,500})
-            table.insert(drawLines,{720,540,800,460})
-            table.insert(drawLines,{720,460,800,540})
+            ins(drawLines,{460,500,700,500})
+            ins(drawLines,{720,540,800,460})
+            ins(drawLines,{720,460,800,540})
         end
     end,nil,nil,nil,nil,
     function()-- 26~28 <*> [,1000]
@@ -135,9 +136,9 @@ local levels={
         return a.."*"..b,a*b,function()
             drawChar(b,600,200)
             drawChar(a,600,350)
-            table.insert(drawLines,{330,500,700,500})
-            table.insert(drawLines,{720,540,800,460})
-            table.insert(drawLines,{720,460,800,540})
+            ins(drawLines,{330,500,700,500})
+            ins(drawLines,{720,540,800,460})
+            ins(drawLines,{720,460,800,540})
         end
     end,nil,nil,
     function()-- 29~33 </> [,100]
@@ -147,7 +148,7 @@ local levels={
         return a*b.."/"..a,b,function()
             drawChar(a*b,560,300,1,true)
             drawChar(a,400,300)
-            table.insert(drawLines,{480,440,530,270,730,270})
+            ins(drawLines,{480,440,530,270,730,270})
         end
     end,nil,nil,nil,nil,
     function()-- 34~36 <%3>
@@ -155,7 +156,7 @@ local levels={
         return s.."%3",s%3,function()
             drawChar(s,560,300,1,true)
             drawChar(3,400,300)
-            table.insert(drawLines,{480,440,530,270,730,270})
+            ins(drawLines,{480,440,530,270,730,270})
         end
     end,nil,nil,
     function()-- 37~41 <%> [,10]
@@ -164,7 +165,7 @@ local levels={
         return s.."%"..a,s%a,function()
             drawChar(s,560,300,1,true)
             drawChar(a,400,300)
-            table.insert(drawLines,{480,440,530,270,730,270})
+            ins(drawLines,{480,440,530,270,730,270})
         end
     end,nil,nil,nil,nil,
     function()-- 42~46 <b> [,10]
@@ -174,16 +175,16 @@ local levels={
             local l=math.floor(math.log(a,2)+1)
             for i=1,l do
                 drawChar(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
-                table.insert(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
-                table.insert(drawLines,{370,440-100*(l-i),410,480-100*(l-i)})
+                ins(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
+                ins(drawLines,{370,440-100*(l-i),410,480-100*(l-i)})
                 drawChar(2,430,420-100*(l-i),.5)
                 drawChar(l-i,480,400-100*(l-i),.3)
-                table.insert(drawLines,{520,470-100*(l-i),560,470-100*(l-i)})
-                table.insert(drawLines,{520,450-100*(l-i),560,450-100*(l-i)})
+                ins(drawLines,{520,470-100*(l-i),560,470-100*(l-i)})
+                ins(drawLines,{520,450-100*(l-i),560,450-100*(l-i)})
             end
-            table.insert(drawLines,{530,520,750,520})
-            table.insert(drawLines,{770,520,850,520})
-            table.insert(drawLines,{810,480,810,560})
+            ins(drawLines,{530,520,750,520})
+            ins(drawLines,{770,520,850,520})
+            ins(drawLines,{810,480,810,560})
         end
     end,nil,nil,nil,nil,
     function()-- 47~50 <o>
@@ -193,16 +194,16 @@ local levels={
         local l=math.floor(math.log(a,8)+1)
         for i=1,l do
             drawChar(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
-            table.insert(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
-            table.insert(drawLines,{370,440-100*(l-i),410,480-100*(l-i)})
+            ins(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
+            ins(drawLines,{370,440-100*(l-i),410,480-100*(l-i)})
             drawChar(8,430,420-100*(l-i),.5)
             drawChar(l-i,480,400-100*(l-i),.3)
-            table.insert(drawLines,{520,470-100*(l-i),560,470-100*(l-i)})
-            table.insert(drawLines,{520,450-100*(l-i),560,450-100*(l-i)})
+            ins(drawLines,{520,470-100*(l-i),560,470-100*(l-i)})
+            ins(drawLines,{520,450-100*(l-i),560,450-100*(l-i)})
         end
-        table.insert(drawLines,{530,520,750,520})
-        table.insert(drawLines,{770,520,850,520})
-        table.insert(drawLines,{810,480,810,560})
+        ins(drawLines,{530,520,750,520})
+        ins(drawLines,{770,520,850,520})
+        ins(drawLines,{810,480,810,560})
     end
     end,nil,nil,nil,
     function()-- 51~53 <h>
@@ -218,16 +219,16 @@ local levels={
                     c=tonumber(string.byte(c)-55)
                 end
                 drawChar(c,280,420-100*(l-i),.5)
-                table.insert(drawLines,{330,480-100*(l-i),370,440-100*(l-i)})
-                table.insert(drawLines,{330,440-100*(l-i),370,480-100*(l-i)})
+                ins(drawLines,{330,480-100*(l-i),370,440-100*(l-i)})
+                ins(drawLines,{330,440-100*(l-i),370,480-100*(l-i)})
                 drawChar(16,430,420-100*(l-i),.5)
                 drawChar(l-i,480,400-100*(l-i),.3)
-                table.insert(drawLines,{520,470-100*(l-i),560,470-100*(l-i)})
-                table.insert(drawLines,{520,450-100*(l-i),560,450-100*(l-i)})
+                ins(drawLines,{520,470-100*(l-i),560,470-100*(l-i)})
+                ins(drawLines,{520,450-100*(l-i),560,450-100*(l-i)})
             end
-            table.insert(drawLines,{530,520,750,520})
-            table.insert(drawLines,{770,520,850,520})
-            table.insert(drawLines,{810,480,810,560})
+            ins(drawLines,{530,520,750,520})
+            ins(drawLines,{770,520,850,520})
+            ins(drawLines,{810,480,810,560})
         end
     end,nil,nil,
     function()-- 54~58 <b+>
@@ -236,21 +237,21 @@ local levels={
         return {COLOR.N,b2(a),COLOR.Z,"+",COLOR.N,b2(s-a)},s,function()
             drawChar(tonumber(STRING.toBin(a)),220,200,.6)
             drawChar(tonumber(STRING.toBin(s-a)),220,335,.6)
-            table.insert(drawLines,{0,470,300,470})
-            table.insert(drawLines,{320,470,400,470})
-            table.insert(drawLines,{360,430,360,510})
+            ins(drawLines,{0,470,300,470})
+            ins(drawLines,{320,470,400,470})
+            ins(drawLines,{360,430,360,510})
             local l=math.floor(math.log(s,2)+1)
             for i=1,l do
-                table.insert(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
-                table.insert(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
+                ins(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
+                ins(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
                 drawChar(2,680,520-100*(l-i),.5)
                 drawChar(l-i,730,500-100*(l-i),.3)
-                table.insert(drawLines,{770,570-100*(l-i),810,570-100*(l-i)})
-                table.insert(drawLines,{770,550-100*(l-i),810,550-100*(l-i)})
+                ins(drawLines,{770,570-100*(l-i),810,570-100*(l-i)})
+                ins(drawLines,{770,550-100*(l-i),810,550-100*(l-i)})
             end
-            table.insert(drawLines,{780,620,1000,620})
-            table.insert(drawLines,{1020,620,1100,620})
-            table.insert(drawLines,{1060,580,1060,660})
+            ins(drawLines,{780,620,1000,620})
+            ins(drawLines,{1020,620,1100,620})
+            ins(drawLines,{1060,580,1060,660})
         end
     end,nil,nil,nil,nil,
     function()-- 59~62 <o+>
@@ -259,21 +260,21 @@ local levels={
         return {COLOR.lR,b8(a),COLOR.Z,"+",COLOR.lR,b8(s-a)},s,function()
             drawChar(tonumber(STRING.toOct(a)),220,200,.6)
             drawChar(tonumber(STRING.toOct(s-a)),220,335,.6)
-            table.insert(drawLines,{0,470,300,470})
-            table.insert(drawLines,{320,470,400,470})
-            table.insert(drawLines,{360,430,360,510})
+            ins(drawLines,{0,470,300,470})
+            ins(drawLines,{320,470,400,470})
+            ins(drawLines,{360,430,360,510})
             local l=math.floor(math.log(s,8)+1)
             for i=1,l do
-                table.insert(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
-                table.insert(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
+                ins(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
+                ins(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
                 drawChar(8,680,520-100*(l-i),.5)
                 drawChar(l-i,730,500-100*(l-i),.3)
-                table.insert(drawLines,{770,570-100*(l-i),810,570-100*(l-i)})
-                table.insert(drawLines,{770,550-100*(l-i),810,550-100*(l-i)})
+                ins(drawLines,{770,570-100*(l-i),810,570-100*(l-i)})
+                ins(drawLines,{770,550-100*(l-i),810,550-100*(l-i)})
             end
-            table.insert(drawLines,{780,620,1000,620})
-            table.insert(drawLines,{1020,620,1100,620})
-            table.insert(drawLines,{1060,580,1060,660})
+            ins(drawLines,{780,620,1000,620})
+            ins(drawLines,{1020,620,1100,620})
+            ins(drawLines,{1060,580,1060,660})
         end
     end,nil,nil,nil,
     function()-- 63~65 <h+>
@@ -282,21 +283,21 @@ local levels={
         return {COLOR.J,b16(a),COLOR.Z,"+",COLOR.J,b16(s-a)},s,function()
             drawChar(tonumber(STRING.toHex(a)),220,200,.6)
             drawChar(tonumber(STRING.toHex(s-a)),220,335,.6)
-            table.insert(drawLines,{0,470,300,470})
-            table.insert(drawLines,{320,470,400,470})
-            table.insert(drawLines,{360,430,360,510})
+            ins(drawLines,{0,470,300,470})
+            ins(drawLines,{320,470,400,470})
+            ins(drawLines,{360,430,360,510})
             local l=math.floor(math.log(s,16)+1)
             for i=1,l do
-                table.insert(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
-                table.insert(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
+                ins(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
+                ins(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
                 drawChar(16,680,520-100*(l-i),.5)
                 drawChar(l-i,730,500-100*(l-i),.3)
-                table.insert(drawLines,{770,570-100*(l-i),810,570-100*(l-i)})
-                table.insert(drawLines,{770,550-100*(l-i),810,550-100*(l-i)})
+                ins(drawLines,{770,570-100*(l-i),810,570-100*(l-i)})
+                ins(drawLines,{770,550-100*(l-i),810,550-100*(l-i)})
             end
-            table.insert(drawLines,{780,620,1000,620})
-            table.insert(drawLines,{1020,620,1100,620})
-            table.insert(drawLines,{1060,580,1060,660})
+            ins(drawLines,{780,620,1000,620})
+            ins(drawLines,{1020,620,1100,620})
+            ins(drawLines,{1060,580,1060,660})
         end
     end,nil,nil,
     function() timing=false return "Coming S∞n"..(rnd()<.5 and "" or " "),1e99 end,
@@ -353,6 +354,7 @@ local function isntDrawing() return not drawing end
 local function drawDrawing()
     gc.setLineWidth(10)
     -- gc.setLineWidth(drawVel[i][(j+1)/2])      (couldn't implement without weird looking disjointed lines)
+    gc.setLineJoin('bevel')
     for i=1,#drawLines do
         if #drawLines[i]>=4 then
             gc.line(drawLines[i])
@@ -419,8 +421,8 @@ function scene.keyDown(key,isRep)
         end
     elseif ((key=='z' and love.keyboard.isDown('lctrl','rctrl')) or key=='ctrl_z') and drawing then
         indexes={}
-        table.remove(drawLines)
-        table.remove(drawVel)
+        rem(drawLines)
+        rem(drawVel)
     elseif key=='escape' then
         if tryBack() then
             SCN.back()
@@ -436,22 +438,22 @@ function scene.touchDown(x,y,id)
 end
 function scene.touchMove(x,y,dx,dy,id)
     if not drawing or not indexes[id] then return end
-    table.insert(drawLines[indexes[id]],x)
-    table.insert(drawLines[indexes[id]],y)
-    table.insert(drawVel[indexes[id]],math.max(math.sqrt(math.abs(dx)+math.abs(dy)),10))
+    ins(drawLines[indexes[id]],x)
+    ins(drawLines[indexes[id]],y)
+    ins(drawVel[indexes[id]],math.max(math.sqrt(math.abs(dx)+math.abs(dy)),10))
 end
 function scene.touchUp(x,y,id)
     if not drawing or not indexes[id] then return end
     if #drawLines[indexes[id]]==2 then -- touch, no movement, so delete line
         local delIndex=indexes[id]+0
         indexes[id]=nil
-        table.remove(drawLines,delIndex)
-        table.remove(drawVel,delIndex)
+        rem(drawLines,delIndex)
+        rem(drawVel,delIndex)
         for i,_ in next,indexes do -- decrement indexes after the deleted item
             indexes[i]=indexes[i]>delIndex and indexes[i]-1 or indexes[i]
         end
     else
-        table.insert(
+        ins(
             drawVel[indexes[id]],
             math.max(
                 math.sqrt( --   |x - prevXPos|  +  |y - prevYPos|
@@ -461,8 +463,8 @@ function scene.touchUp(x,y,id)
                 10
             )
         )
-        table.insert(drawLines[indexes[id]],x)
-        table.insert(drawLines[indexes[id]],y)
+        ins(drawLines[indexes[id]],x)
+        ins(drawLines[indexes[id]],y)
 
         indexes[id]=nil
     end
