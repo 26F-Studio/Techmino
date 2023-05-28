@@ -749,6 +749,7 @@ return {
             title="Đăng Nhập",
             ticket="Mã uỷ quyền",
             authorize="Mở trang uỷ quyền",
+            -- paste="Paste Ticket",
             submit="Gửi",
         },
         reset_password={

@@ -489,6 +489,7 @@ return {
             title="Sign In",
             ticket="***",
             authorize="**?",
+            paste="_*",
             submit="<!>",
         },
         reset_password={

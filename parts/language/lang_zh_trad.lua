@@ -747,7 +747,8 @@ return {
         login={
             title="登錄",
             ticket="登錄口令",
-            authorize="去官網獲取口令",
+            authorize="獲取口令",
+            paste="粘貼口令",
             submit="登錄",
         },
         reset_password={

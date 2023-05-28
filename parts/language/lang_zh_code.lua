@@ -695,8 +695,9 @@ return {
         login={
             title="SignIn.UI",
             ticket="Ticket=",
-            authorize="Authorize()",
-            submit="Submit()",
+            authorize="Authorize();",
+            paste="Paste();",
+            submit="Submit();",
         },
         reset_password={
             title="Reset_Password.UI",
