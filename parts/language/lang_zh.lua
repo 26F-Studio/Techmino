@@ -747,7 +747,8 @@ return {
         login={
             title="登录",
             ticket="登录口令",
-            authorize="去官网获取口令",
+            authorize="获取口令",
+            paste="粘贴口令",
             submit="登录",
         },
         reset_password={

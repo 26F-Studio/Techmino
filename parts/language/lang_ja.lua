@@ -750,6 +750,7 @@ return {
             title="サインイン",
             ticket="認証チケット",
             authorize="認証ページにアクセス",
+            -- paste="Paste Ticket",
             submit="送信",
         },
         reset_password={

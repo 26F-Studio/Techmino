@@ -740,6 +740,7 @@ return {
             title="Registrarse",
             ticket="Ticket de Verif.",
             authorize="Abrir página de Verificación",
+            paste="Paste Ticket",
             submit="Enviar",
         },
         reset_password={

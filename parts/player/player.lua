@@ -11,7 +11,7 @@ local resume,yield,status=coroutine.resume,coroutine.yield,coroutine.status
 local approach=MATH.expApproach
 
 local SFX,BGM,VOC,VIB,SYSFX=SFX,BGM,VOC,VIB,SYSFX
-local FREEROW,TABLE,TEXT,TASK=LINE,TABLE,TEXT,TASK
+local LINE,TABLE,TEXT,TASK=LINE,TABLE,TEXT,TASK
 local PLAYERS,PLY_ALIVE,GAME=PLAYERS,PLY_ALIVE,GAME
 
 local SETTING=SETTING
@@ -67,7 +67,7 @@ function Player:popScore(score)
     end
 end
 function Player:stageComplete(stage)
-    self:_showText(text.stage:gsub("$1",stage),0,-120,60,'fly',1.26)
+    self:_showText(text.stage:repD(stage),0,-120,60,'fly',1.26)
 end
 function Player:createLockFX()
     if self.gameEnv.lockFX then
@@ -721,8 +721,8 @@ function Player:garbageRise(color,amount,line)-- Release n-lines garbage to fiel
     local _
     local t=self.showTime*2
     for _=1,amount do
-        ins(self.field,1,FREEROW.new(0,true))
-        ins(self.visTime,1,FREEROW.new(t))
+        ins(self.field,1,LINE.new(0,true))
+        ins(self.visTime,1,LINE.new(t))
         for i=1,10 do
             self.field[1][i]=bit.rshift(line,i-1)%2==1 and color or 0
         end
@@ -760,7 +760,7 @@ function Player:pushLineList(L,mir)-- Push some lines to field
     local l=#L
     local S=self.gameEnv.skin
     for i=1,l do
-        local r=FREEROW.new(0)
+        local r=LINE.new(0)
         if not mir then
             for j=1,10 do
                 r[j]=S[L[i][j]] or 0
@@ -771,7 +771,7 @@ function Player:pushLineList(L,mir)-- Push some lines to field
             end
         end
         ins(self.field,1,r)
-        ins(self.visTime,1,FREEROW.new(20))
+        ins(self.visTime,1,LINE.new(20))
     end
     self.fieldBeneath=self.fieldBeneath+30*l
     if self.cur then
@@ -1010,8 +1010,8 @@ function Player:lock()
     for i=1,#CB do
         local y=self.curY+i-1
         if not self.field[y] then
-            self.field[y]=FREEROW.new(0)
-            self.visTime[y]=FREEROW.new(0)
+            self.field[y]=LINE.new(0)
+            self.visTime[y]=LINE.new(0)
         end
         for j=1,#CB[1] do
             if CB[i][j] then
@@ -1079,8 +1079,8 @@ function Player:_removeClearedLines()
         if self.field[h].garbage then
             self.garbageBeneath=self.garbageBeneath-1
         end
-        FREEROW.discard(rem(self.field,h))
-        FREEROW.discard(rem(self.visTime,h))
+        LINE.discard(rem(self.field,h))
+        LINE.discard(rem(self.visTime,h))
     end
 end
 function Player:_updateFalling(val)
@@ -1505,7 +1505,7 @@ do
     local reDef={0,1,1,2,3,3,4,4,5}
 
     local spinVoice={'zspin','sspin','jspin','lspin','tspin','ospin','ispin','zspin','sspin','pspin','qspin','fspin','espin','tspin','uspin','vspin','wspin','xspin','jspin','lspin','rspin','yspin','nspin','hspin','ispin','ispin','cspin','ispin','ospin'}
-    local clearVoice={'single','double','triple','techrash','pentacrash','hexacrash'}
+    local clearVoice={'single','double','triple','techrash','pentacrash','hexacrash','heptacrash','octacrash','nonacrash','decacrash','undecacrash','dodecacrash','tridecacrash','tetradecacrash','pentadecacrash','hexadecacrash','heptadecacrash','octadecacrash','nonadecacrash','ultracrash','impossicrash'}
     local spinSFX={[0]='spin_0','spin_1','spin_2'}
     local renSFX={} for i=1,11 do renSFX[i]='ren_'..i end
     local finesseList={
@@ -2106,8 +2106,11 @@ do
         local _cc,_gbcc=self:_checkClear(self.field,start,height)
         if _cc>0 then
             playClearSFX(_cc)
+            if self.sound then
+                VOC.play(clearVoice[min(_cc,21)],VOC.getFreeChannel())
+            end
             self:showText(text.clear[min(_cc,21)],0,0,75,'beat',.4)
-            if _cc>6 then self:showText(text.cleared:gsub("$1",_cc),0,55,30,'zoomout',.4) end
+            if _cc>6 then self:showText(text.cleared:repD(_cc),0,55,30,'zoomout',.4) end
             self:_removeClearedLines()
             self:_updateFalling(self.gameEnv.fall)
             if _cc>=4 then
@@ -2196,8 +2199,8 @@ local function task_lose(self)
             end
             if self.endCounter==120 then
                 for _=#self.field,1,-1 do
-                    FREEROW.discard(self.field[_])
-                    FREEROW.discard(self.visTime[_])
+                    LINE.discard(self.field[_])
+                    LINE.discard(self.visTime[_])
                     self.field[_],self.visTime[_]=nil
                 end
                 return
@@ -2763,8 +2766,8 @@ end
 function Player:revive()
     local h=#self.field
     for _=h,1,-1 do
-        FREEROW.discard(self.field[_])
-        FREEROW.discard(self.visTime[_])
+        LINE.discard(self.field[_])
+        LINE.discard(self.visTime[_])
         self.field[_],self.visTime[_]=nil
     end
     self.garbageBeneath=0
@@ -2777,9 +2780,10 @@ function Player:revive()
     self.life=self.life-1
     self.fieldBeneath=0
     self.b2b=0
+    self:freshBlock('push')
 
     for i=1,h do
-        self:createClearingFX(i,1.5)
+        self:createClearingFX(i)
     end
     SYSFX.newShade(1.4,self.fieldX,self.fieldY,300*self.size,610*self.size)
     SYSFX.newRectRipple(2,self.fieldX,self.fieldY,300*self.size,610*self.size)

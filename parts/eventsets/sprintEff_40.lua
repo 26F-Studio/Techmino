@@ -1,7 +1,7 @@
 return {
     mesDisp=function(P)
         setFont(45)
-        GC.mStr(("%.1f"):format(P.stat.atk),63,270)
+        GC.mStr(("%d"):format(P.stat.atk),63,270)
         mText(TEXTOBJ.atk,63,323)
         GC.mStr(("%.2f"):format(P.stat.atk/P.stat.row),63,370)
         mText(TEXTOBJ.eff,63,423)

@@ -6,6 +6,6 @@ return {
         PLY.draw.applyField(P)
         GC.setColor(1,1,1,.1)
         GC.draw(IMG.electric,0,106,0,2.6)
-        PLY.draw.cancelField(P)
+        PLY.draw.cancelField()
     end,
 }

@@ -46,10 +46,11 @@ end
 function scene.draw()
     gc.setColor(1,1,1)
     gc.push('transform')
+    local clickTime=TIME()-last1
     if vocPack=="miya" then
         gc.translate(780,340+6*sin(TIME()*.5))
         gc.draw(IMG.miyaGlow,-4,-4)
-        if TIME()-last1<1 then
+        if clickTime<1 then
             if TIME()%60>30 then
                 gc.draw(IMG.miyaCH3)
             else
@@ -61,16 +62,19 @@ function scene.draw()
             gc.draw(IMG.miyaCH2)
         end
         gc.translate(0,-6*sin(TIME()*.5))
-        gc.setColor(1,1,1,1-(TIME()-last1))
+        gc.setColor(1,1,1,1-(clickTime))
         gc.draw(IMG.miyaHeart,162,52,nil,.3)
     elseif vocPack=="mono" then
-        local jump=math.max(30-(TIME()-last1)*60,0)%10
+        local jump=math.max(30-(clickTime)*60,0)%10
         gc.translate(730,340+6*sin(TIME()*.5)+(jump-10)*jump*.3)
         gc.draw(IMG.monoCH)
     elseif vocPack=="xiaoya" then
         gc.translate(770,340+4*sin(TIME()*.5))
         gc.draw(IMG.xiaoyaCH)
-        gc.draw(IMG.xiaoyaOmino,16,168,26/(1+TIME()-last1),.36,.36,33,37)
+        gc.draw(IMG.xiaoyaOmino,16,168,26/(1+clickTime),.36,.36,33,37)
+    elseif vocPack=="flore" then
+        gc.translate(770+56*sin(clickTime*26)/(clickTime+.56)^2/20,300+12*sin(TIME()*.5))
+        gc.draw(IMG.floreCH,nil,nil,nil)
     elseif vocPack=="miku" then
         gc.translate(700,320+12*sin(TIME()*.5))
         gc.draw(IMG.mikuCH,nil,nil,nil,.8)

@@ -118,12 +118,12 @@ scene.widgetList={
     WIDGET.newSelector{name='blockSatur', x=800,y=1440,w=300,color='lN',
         list={'normal','soft','gray','light','color'},
         disp=SETval('blockSatur'),
-        code=function(v) SETTING.blockSatur=v; applySettings(SETTING.blockSatur) end
+        code=function(v) SETTING.blockSatur=v; applySettings() end
         },
     WIDGET.newSelector{name='fieldSatur', x=800,y=1540,w=300,color='lN',
         list={'normal','soft','gray','light','color'},
         disp=SETval('fieldSatur'),
-        code=function(v) SETTING.fieldSatur=v; applySettings(SETTING.fieldSatur) end
+        code=function(v) SETTING.fieldSatur=v; applySettings() end
         },
 
     WIDGET.newButton{name='back',         x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},

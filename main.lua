@@ -25,7 +25,7 @@ TIME=love.timer.getTime
 
 -- Global Vars & Settings
 SFXPACKS={'chiptune'}
-VOCPACKS={'miya','mono','xiaoya','miku','zundamon'}
+VOCPACKS={'miya','mono','xiaoya','flore','miku','zundamon'}
 FIRSTLAUNCH=false
 DAILYLAUNCH=false
 
@@ -271,6 +271,7 @@ IMG.init{
     monoCH='media/image/characters/mono.png',
     xiaoyaCH='media/image/characters/xiaoya.png',
     xiaoyaOmino='media/image/characters/xiaoya_Omino.png',
+    floreCH='media/image/characters/flore.png',
     mikuCH='media/image/characters/miku.png',
     zundamonCH='media/image/characters/zundamon.png',
     z={
@@ -334,7 +335,7 @@ SKIN.load{
 SFX.init((function()--[Warning] Not loading files here, just get the list of sound needed
     local L={}
     for _,v in next,fs.getDirectoryItems('media/effect/chiptune/') do
-        if FILE.isSafe('media/effect/chiptune/'..v,"Dangerous file : %SAVE%/media/effect/chiptune/"..v) then
+        if FILE.isSafe('media/effect/chiptune/'..v) then
             table.insert(L,v:sub(1,-5))
         end
     end
@@ -343,7 +344,7 @@ end)())
 BGM.init((function()
     local L={}
     for _,v in next,fs.getDirectoryItems('media/music') do
-        if FILE.isSafe('media/music/'..v,"Dangerous file : %SAVE%/media/music/"..v) then
+        if FILE.isSafe('media/music/'..v) then
             L[v:sub(1,-5)]='media/music/'..v
         end
     end
@@ -351,7 +352,7 @@ BGM.init((function()
 end)())
 VOC.init{
     'zspin','sspin','jspin','lspin','tspin','ospin','ispin','pspin','qspin','fspin','espin','uspin','vspin','wspin','xspin','rspin','yspin','nspin','hspin','cspin',
-    'single','double','triple','techrash','pentacrash','hexacrash',
+    'single','double','triple','techrash','pentacrash','hexacrash','heptacrash','octacrash','nonacrash','decacrash','undecacrash','dodecacrash','tridecacrash','tetradecacrash','pentadecacrash','hexadecacrash','heptadecacrash','octadecacrash','nonadecacrash','ultracrash','impossicrash',
     'mini','b2b','b3b',
     'perfect_clear','half_clear',
     'win','lose','bye',

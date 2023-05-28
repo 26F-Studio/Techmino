@@ -737,7 +737,8 @@ return {
         login={
             -- title="Sign In",
             -- ticket="Auth Ticket",
-            -- authorize="Open Authorizing Page",
+            -- authorize="Go Authorizing",
+            -- paste="Paste Ticket",
             -- submit="Submit",
         },
         reset_password={

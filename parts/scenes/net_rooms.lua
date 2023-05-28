@@ -86,7 +86,7 @@ function scene.keyDown(key)
         local R=roomList:getSel()
         if R and not TASK.getLock('fetchRoom') then
             if R.info.version==VERSION.room then
-                NET.room_enter(R.roomId,passwordBox.value)
+                NET.room_enter(R.roomId,not _hidePW() and passwordBox.value or nil)
             else
                 MES.new('error',text.versionNotMatch)
             end
