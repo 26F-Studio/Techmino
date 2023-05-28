@@ -250,7 +250,7 @@ end
 function royaleLevelup()
     GAME.stage=GAME.stage+1
     local spd
-    TEXT.show(text.royale_remain:gsub("$1",#PLY_ALIVE),640,200,40,'beat',.3)
+    TEXT.show(text.royale_remain:repD(#PLY_ALIVE),640,200,40,'beat',.3)
     if GAME.stage==2 then
         spd=30
     elseif GAME.stage==3 then

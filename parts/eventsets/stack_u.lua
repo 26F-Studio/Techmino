@@ -26,6 +26,7 @@ return {
                     P.garbageBeneath=P.garbageBeneath-bonus
                 end
             end
+            P:freshBlock('push')
         end
     end,
 }

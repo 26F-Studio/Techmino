@@ -67,7 +67,7 @@ function Player:popScore(score)
     end
 end
 function Player:stageComplete(stage)
-    self:_showText(text.stage:gsub("$1",stage),0,-120,60,'fly',1.26)
+    self:_showText(text.stage:repD(stage),0,-120,60,'fly',1.26)
 end
 function Player:createLockFX()
     if self.gameEnv.lockFX then
@@ -1505,7 +1505,7 @@ do
     local reDef={0,1,1,2,3,3,4,4,5}
 
     local spinVoice={'zspin','sspin','jspin','lspin','tspin','ospin','ispin','zspin','sspin','pspin','qspin','fspin','espin','tspin','uspin','vspin','wspin','xspin','jspin','lspin','rspin','yspin','nspin','hspin','ispin','ispin','cspin','ispin','ospin'}
-    local clearVoice={'single','double','triple','techrash','pentacrash','hexacrash'}
+    local clearVoice={'single','double','triple','techrash','pentacrash','hexacrash','heptacrash','octacrash','nonacrash','decacrash','undecacrash','dodecacrash','tridecacrash','tetradecacrash','pentadecacrash','hexadecacrash','heptadecacrash','octadecacrash','nonadecacrash','ultracrash','impossicrash'}
     local spinSFX={[0]='spin_0','spin_1','spin_2'}
     local renSFX={} for i=1,11 do renSFX[i]='ren_'..i end
     local finesseList={
@@ -2106,8 +2106,11 @@ do
         local _cc,_gbcc=self:_checkClear(self.field,start,height)
         if _cc>0 then
             playClearSFX(_cc)
+            if self.sound then
+                VOC.play(clearVoice[min(_cc,21)],VOC.getFreeChannel())
+            end
             self:showText(text.clear[min(_cc,21)],0,0,75,'beat',.4)
-            if _cc>6 then self:showText(text.cleared:gsub("$1",_cc),0,55,30,'zoomout',.4) end
+            if _cc>6 then self:showText(text.cleared:repD(_cc),0,55,30,'zoomout',.4) end
             self:_removeClearedLines()
             self:_updateFalling(self.gameEnv.fall)
             if _cc>=4 then
