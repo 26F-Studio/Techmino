@@ -224,7 +224,7 @@ return {
         "On y joue comme sur C2/IO/JS/WWC/KOS et autres.",
         "",
         "Vous pouvez envoyer des rapports de bogues ou des suggastions via le groupe de test ou l'email du créateur ~",
-        "Ce jeu est gratuit et est uniquement disponible via discord.gg/f9pUvkh",
+        "Assurez - vous d'obtenir le jeu uniquement des canaux officiels,",
         "Ne téléchargez pas ce jeu depuis une autre source au risque d'avoir des virus,",
         "et vous n'avez besoin que des permissions de vibration et de communication réseau pour les versions mobiles !",
         FNNS and "/" or "Le créateur n'est pas responsable pour n'importe quel type de perte de données suite à une modification du jeu.",
