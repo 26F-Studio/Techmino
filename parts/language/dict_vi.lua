@@ -878,42 +878,55 @@ Khoảng cách euclide của độ lệch của cú đá được chọn không 
     {"SRS",
         "superrotationsystem",
         "term",
-        "Super Rotation System | Hệ thống xoay <...>, the most widely used rotation system by modern Tetris games and the foundation of many self-made rotation systems. There are four orientations for each tetromino, and they can rotate clockwise or counterclockwise (But without 180° rotations). Should a Tetromino overlap with the wall, floor, or other minoes on the field after rotation, a few offset positions will be checked, allowing pieces to kick off walls and floors. You can look up the details of the wall kick table on Tetris Wiki.",
+        "Super Rotation System | Hệ thống xoay Siêu cấp [*], là hệ thống xoay được sử dụng rất nhiều trong các game xếp gạch và có rất nhiều hệ thống xoay do fan làm ra cũng dựa vào hệ thống này. Có 4 hướng cho Tetromino và có thể xoay phải và xoay trái (nhưng không thể xoay 180°). Nếu Tetromino đụng tường, đụng đáy, hay đè lên gạch khác sau khi xoay; hệ thống sẽ kiểm tra các vị trí xung quanh. Bạn có thể xem .\n\n[*] [Sea]: ban đầu tính dịch thành \"Hệ thống xoay Super\", nhưng thôi mình chọn cụm từ này để dịch cho sát nghĩa.",
     },
     {"SRS+",
         "srsplus superrotationsystemplus",
         "term",
-        "The extension to SRS with the support of 180° wall kicks.",
+        "Một biến thể của SRS, hỗ trợ bảng 'đá' tường khi xoay 180°.",
     },
     {"TRS",
         "techminorotationsystem",
         "term",
-        "*Chỉ có trên Techmino*\nTechmino Rotation System | Hệ thống xoay <...>\nThe rotation system used in Techmino, based on SRS.\nIt includes fixes on common cases where S/Z are locked from rotating and some extra useful kicks. Each pentomino also has a kick table roughly based on SRS logic. TRS supports O-spins.",
+        "*Chỉ có trên Techmino*\nTechmino Rotation System | Hệ thống xoay Techmino\nHệ thống xoay được dùng trong Techmino, dựa trên SRS.\nHệ thống này sửa những trường hợp gạch S/Z bị kẹt và không thể xoay trong một vài trường hợp; cũng như bổ sung thêm những vị trí 'đá' hữu dụng. Pentomino cũng có bảng 'đá' tường dựa trên logic của SRS. TRS cũng hỗ trợ O-Spin (O-Spin cho phép gạch có thể 'đá' và có thể 'biến hình').",
     },
     {"XRS",
         "xrs",
         "term",
-        "X rotation system | Hệ thống xoay <...>, a rotation system used in T-ex.\n\nIt introduced a feature to “use another kick table if you hold a direction key,” making it possible for players to tell the game where they want the piece to go.",
+        "X rotation system | Hệ thống xoay X, một hệ thống xoay được dùng trong T-ex.\n\nHệ thống giới thiệu một tính năng với tác dụng “dùng một bảng 'đá' tường khác khi giữ một phím mũi tên,” cho phép người chơi có thể nói game hướng mà gạch nên di chuyển theo ý muốn của họ.",
     },
     {"Back to Back",
         "b2b btb backtoback",
         "term",
-        "Aka B2B. Clearing two or more technical line clears (Spins and Tetrises) in a row (without introducing ordinary line clears) gives extra attack power.\nUnlike combos, placing pieces that do not clear lines does not affect Back to Back.",
+        "Aka B2B. Xóa 2 hoặc nhiều lần xóa theo kiểu 'kỹ thuật' (như Tetris hay Spin) liên tiếp (nhưng không xóa theo kiểu 'thông thường'; gửi thêm hàng rác khi tấn công\nKhông như combo, Back To Back sẽ không bị mất khi đặt gạch.",
     },
     {"B2B2B",
         "b3b",
         "term",
-        "*Chỉ có trên Techmino*\nBack to back to back, aka B3B. Clearing many Back to Backs to fill the Back to Back gauge, you will eventually perform a Back to Back to Back, giving more bonus attacks.",
+        "*Chỉ có trên Techmino*\nBack to back to back, aka B3B (hoặc B2B2B). Thực hiện nhiều Back to Back liên tiếp để lấp đầy thanh B3B; cuối cùng khi bạn đã lấp B3B vượt một mức nhất định, bạn có thể tấn công mạnh hơn khi làm được B2B, nhờ sức mạnh từ B3B",
     },
     {"Fin, Neo, Iso",
         "fin neo iso",
         "term",
-        "Special T-Spin techniques that exploit the T piece’s kicks and T-Spin detections.\nThey might be worth different values in different games (some consider them as Minis) but hardly have real value in combat due to their relatively complex setup.",
+        "Các kỹ thuật T-Spin đặc biệt khai thác việc gạch T 'đá' và hệ thống phát hiện T-Spin. Chúng có sức mạnh tấn công khác nhau trong các game khác nhau (một số game sẽ coi chúng là Mini T-Spin), nhưng hầu như cũng không có giá trị gì trong thực sự trong chiến đấu do cách setup tương đối phức tạp của chúng.",
     },
     {"Modern Tetris",
         "modern",
         "term",
-        "The concept of a “modern” Tetris game or block-stacking game is fuzzy. Generally speaking, a block-stacking game that resembles games that follow the Tetris Design Guideline is considered a modern game. Here are some rules of thumb, but they are not hard requirements:\n1. The visible part of the Matrix is 10 w × 20 h, often with additional hidden rows above this.\n2. Pieces spawn in the top-middle of the visible matrix. Each piece has a consistent spawn orientation and color.\n3. Has an appropriate randomizer like 7-Bag and His.\n4. Has a proper rotation system, with at least the ability to rotate both directions.\n5. Has an appropriate lockdown delay system.\n6. Has an appropriate top-out condition.\n7. Has a Next queue, with multiple next pieces displayed (usually 3–6), and with the presentation in the queue matching the spawn orientation of the piece.\n8. Has a Hold queue.\n9. If there is spawn delay or line delay, usually has IRS and IHS.\n10. Has a DAS system for precise and swift sideways movements.",
+        [[
+Khái niệm về trò chơi Tetris hay trò chơi xếp gạch “hiện đại” rất mờ nhạt. Nói chung, một trò chơi xếp gạch hiện đại thường sẽ bám sát theo Tetris Design Guideline (Nguyên tắc thiết kế Tetris hiện đại).
+Dưới đây là một số quy tắc chung, nhưng chúng không phải là quy tắc bắt buộc
+    1. Phần có thể nhìn được của bảng có kích thước 10 × 20 (rộng × dài), cùng với 2 - 3 hàng ẩn ở bên nhau.
+    2. Gạch sẽ được sinh ra ở giữa trên cùng của ma trận có thể nhìn thấy (thường là ở hàng 21-22). Mỗi mảnh đều có màu sắc và hướng quay mặc định riêng.
+    3. Có một bộ xáo gạch như 7-bag hay His
+    4. Có hẳn một hệ thống xoay, và cho phép xoay theo ít nhất 2 hướng
+    5. Has an appropriate lockdown delay system.
+    6. Has an appropriate top-out condition.
+    7. Has a Next queue, with multiple next pieces displayed (usually 3-6), and with the presentation in the queue matching the spawn orientation of the piece.
+    8. Has a Hold queue.
+    9. If there is spawn delay or line delay, usually has IRS and IHS.
+    10. Has a DAS system for precise and swift sideways movements.
+        ]],
     },
     {"Tetrominos’ Shapes",
         "shape structure form tetromino tetrimino",
