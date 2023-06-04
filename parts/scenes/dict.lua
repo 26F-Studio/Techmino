@@ -76,7 +76,7 @@ local function _search()
 end
 
 function scene.enter()
-    dict=require("parts.language.dict_"..(SETTING.locale:find'zh' and 'zh' or SETTING.locale:find'ja' and 'ja' or 'en'))
+    dict=require("parts.language.dict_"..(SETTING.locale:find'zh' and 'zh' or SETTING.locale:find'ja' and 'ja' or SETTING.locale:find'vi' and 'vi' or 'en'))
     _scanDict(dict)
 
     inputBox:clear()
