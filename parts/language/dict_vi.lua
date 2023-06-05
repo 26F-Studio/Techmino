@@ -179,7 +179,7 @@ Liên kết ở mục này sẽ dẫn bạn tới server Discord, còn để tì
     {"Tetris OL Servers",
         "tetrisonline servers tos".."server ;,; tos",
         "org",
-        "Hãy lên Google tra “Tetris Online Poland” để tìm server ở Ba Lan.\nCòn nếu tìm server Tetris Online Study được đặt tại Trung Quốc (cung cấp bởi Teatube, hãy nhìn vào mục bên dưới) thì nhấn vào biểu tượng quả địa cầu",
+        "Hãy lên Google tra “Tetris Online Poland” để tìm server ở Ba Lan.\nCòn nếu tìm server Tetris Online Study được đặt tại Trung Quốc (cung cấp bởi Teatube) thì nhấn vào biểu tượng quả địa cầu",
         "https://teatube.cn/tos/",
     },
 FNNS and     {"Ủng hộ 1",
@@ -248,13 +248,13 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
     {"TPO",
         "nazo",
         "game",
-        "Tetris Puzzle O. Một trang web bằng tiếng Nhật được viết bởi TCV100 (có chứa một vài câu đố từ NAZO).",
+        "Tetris Puzzle O. Một trang web bằng tiếng Nhật được viết bởi TCV100 (có lấy một vài câu đố từ NAZO sang).",
         "http://121.36.2.245:3000/tpo",
     },
-    {"Ghi chú",
+    {"Ghi chú về mục game",
         "note nb NB DM notice",
         "game",
-        "Nội dung sau đây là những giới thiệu ngắn gọn về một số game xếp gạch chính thức và do fan làm có mức độ phổ biến cao. MrZ - tác giả của Techmino và Sea - tình nguyện viên dịch Zictionary sang tiếng Việt, có để lại một vài lời nhận xét (và thông tin bổ sung) cho game. Hãy nhớ là không phải game nào được nhắc đến đều có lời nhận xét, và chúng chỉ là những ý kiến chủ quan. Đọc chỉ để tham khảo, những nhận xét này không có tính chuyên môn.",
+        "Nội dung sau đây là những giới thiệu ngắn gọn về một số game xếp gạch chính thức và do fan làm có mức độ phổ biến cao. MrZ - tác giả của Techmino đã để lại một vài lời nhận xét, và Sea - tình nguyện viên dịch Zictionary sang tiếng Việt, có để lại một vài lời nhận xét và một số thông tin bổ sung về một vài game. Hãy nhớ là không phải game nào được nhắc đến đều có lời nhận xét, và chúng chỉ là những ý kiến chủ quan. Đọc chỉ để tham khảo, những nhận xét này không có tính chuyên môn.",
     },
     {"King of Stackers",
         "kos kingofstackers",
@@ -288,7 +288,7 @@ Bạn cũng có thể tìm một phiên bản khác có tên là "Tetr.js Enhanc
         [[
 Chơi trên trình duyệt | Chơi đơn | Không hỗ trợ điện thoại
 
-Gọi tắt là TL. Một tựa game chứa nhiều chế độ chơi đơn + 2 chế độ nhịp điệu. INó cũng hình dung các cơ chế thường ẩn trong các trò chơi Tetris khác. Quá trình phát triển (và bỏ hoang) từ tháng 12 năm 2020.
+Gọi tắt là TL. Một tựa game chứa nhiều chế độ chơi đơn + 2 chế độ nhịp điệu. INó cũng hình dung các cơ chế thường ẩn trong các trò chơi Tetris khác. Quá trình phát triển đã dừng lại (và bỏ hoang) từ tháng 12 năm 2020.
         ]],
         "https://tetralegends.app",
     },
@@ -352,7 +352,7 @@ Chơi trên trình duyệt | Chơi đơn/Chơi trực tuyến
 
 Gọi tắt là TF. Một trò chơi Tetris dựa trên một plugin đã bị khai tử từ lâu. Từng rất phổ biến trong quá khứ, nhưng tất cả trò chơi đã đóng cửa từ mấy năm trước. Hiện giờ còn một máy chủ riêng tư tên là “Notris Foes” vẫn còn tồn tại. Nhấn vào biểu tượng quả địa cầu để mở ở trong trình duyệt
 
-[Sea: Lưu ý bạn cần phải cài một client cho Notris Foes thì mới có thể chạy game mặc dù bạn cố cài tiện ích bổ sung.]
+[Sea: Lưu ý bạn cần phải cài một client cho Notris Foes thì mới có thể chạy game. Sẽ tốn công vô ích nếu bạn cố cài tiện ích bổ sung trên trình duyệt bạn hay dùng để chạy game.]
         ]],
         "https://notrisfoes.com",
     },
@@ -364,7 +364,7 @@ Chơi trên trình duyệt | Chơi đơn | Hỗ trợ điện thoại
 
 Game Tetris chính thức tetris.com, mà chỉ có một chế độ (Marathon). Bù lại, có hỗ trợ hệ thống điều khiển thông minh bằng chuột
 
-[Sea: Thông tin thêm: nếu bạn ở trên điện thoại thì có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart), "bàn phím". Bạn có thể thử nghiệm với cả ba chế độ điều khiển. Để điều khiển bằng "bàn phím" thì bạn chỉ cần kết nối với bàn phím là được, còn để đổi giữa "vuốt" và "thông minh" thì hãy mở Options của game.]
+[Sea: Thông tin thêm: nếu bạn ở trên điện thoại thì có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart), "bàn phím". Bạn có thể thử nghiệm với cả ba chế độ điều khiển để tìm xem chế độ nào phù hợp với mình nhất. Để điều khiển bằng "bàn phím" thì bạn chỉ cần kết nối với bàn phím là được (miễn là điện thoại có thể nhận bàn phím thì game cũng sẽ nhận thôi), còn để đổi giữa "vuốt" và "thông minh" thì hãy mở Options của game.]
         ]],
     },
     {"Tetris Gems",
@@ -380,7 +380,7 @@ Một game xếp gạch khác từ tetris.com . Có cơ chế trọng lực và 
         "tetris online official gem",
         "game",
         [[
-Chơi trên trình duyệt | Chơi đơn
+Chơi trên trình duyệt | Chơi đơn | Hỗ trợ điện thoại
 
 Một game xếp gạch khác từ tetris.com . Một chế độ Marathon vô tận với một mino đặc biệt gọi là "Mind Bender" sẽ đưa cho bạn ngẫu nhiên một hiệu ứng nào đó (có thể là tốt hoặc xấu).
         ]],
@@ -419,9 +419,9 @@ Một game xếp gạch được phát triển bằng LÖVE và được dảnh 
         "nanamino",
         "game",
         [[
-        Windows/Android | Chơi đơn
+Windows/Android | Chơi đơn
         
-        Một trò chơi do fan làm đang được phát triển với hệ thống xoay đặc trưng cực kỳ thú vị,
+Một trò chơi do fan làm đang được phát triển với hệ thống xoay đặc trưng cực kỳ thú vị,
         ]],
     },
     {"TGM",
@@ -468,7 +468,7 @@ Một game bao gồm tất cả chế độ trong TGM để có thể sử dụn
         [[
 PS/Oculus Quest/Xbox/NS/Windows | Chơi đơn/Chơi trực tuyến
 
-Gọi tắt là TE(C). Một game xếp gạch chính thức với đồ họa và nhạc nền lạ mắt phản ứng với đầu vào của bạn. Phiên bản cơ bản (Tetris Effect, không có chữ "Connected") chỉ có các chế độ chơi đơn. Phiên bản mở rộng, Tetris Effected Connected có 4 chế độ chơi trực tuyến đó là: Connected (VS), Zone Battle, Score Attack, và Classic Score Attack.
+Gọi tắt là TE(C). Một game xếp gạch chính thức với đồ họa và nhạc nền lạ mắt chuyển động theo sự điều khiển của bạn. Phiên bản cơ bản (Tetris Effect, không có chữ "Connected") chỉ có các chế độ chơi đơn. Phiên bản mở rộng, Tetris Effected Connected có 4 chế độ chơi trực tuyến đó là: Connected (VS), Zone Battle, Score Attack, và Classic Score Attack.
         ]],
     },
     {"Tetris 99",
@@ -540,9 +540,9 @@ Gọi tắt là NP. Một game xếp gạch chuyên nghiệp có khả năng tù
         [[
 Windows | Chơi đơn
 
-Chỉ có chế độ chơi 1 đấu 1 với bot, chủ yếu là chơi theo lượt. Bạn có thể viết bot cho game này (nhưng cần phải học API của game này).
+Chỉ có chế độ chơi 1 đấu 1 với bot, chủ yếu là chơi theo lượt. Bạn có thể viết bot cho game này (nhưng bạn cần phải học API của game này).
 
-Misamino cũng là tên của bot trong game này
+Misamino cũng là tên của bot trong game này.
         ]],
     },
     {"Touhoumino",
@@ -592,7 +592,7 @@ Ghi chú: từ tháng 11 hoặc tháng 12 năm 2022 và sau này, tất cả cá
 
 [MrZ: UI thì tuyệt nhưng cơ chế điều khiển thì tệ]
 
-[Sea: nói chung là phần điều khiển rất là tệ: phím trên màn hình cảm ứng nó khá là nhỏ, nhỏ hơn cả ngón tay mình có thể bấm, game nó khá là chán bởi vì thiếu mất chế độ Royale - chế độ duy nhất mà theo mình nghĩ là điểm sáng lẻ loi duy nhất, ngoài ra những thứ khác nhấn chìm xuống đáy biển sâu]
+[Sea: nói chung là phần điều khiển rất là tệ: phím trên màn hình cảm ứng nó khá là nhỏ, nhỏ hơn cả ngón tay mình có thể bấm, game nó khá là chán bởi vì thiếu mất chế độ Royale - chế độ duy nhất mà theo mình nghĩ là điểm sáng lẻ loi duy nhất, ngoài ra những thứ khác nhấn chìm toàn bộ game xuống đáy biển sâu]
         ]],
     },
     {"Tetris Beat",
@@ -612,13 +612,13 @@ Một game xếp gạch tới từ nhà N3TWORK nhưng chỉ dành cho Apple Arc
         [[
 iOS/Android | Chơi đơn
 
-[Sea: mục này mình xin phép viết lại cho dễ đọc, MrZ viết rối quá dịch không nổi. Có tham khảo từ Tetris.wiki]
+[Sea: mục này mình xin phép viết lại cho dễ đọc, MrZ viết rối quá mình dịch không nổi. Có tham khảo từ Tetris.wiki]
 
 Một game xếp gạch chính thức đã bị khai tử được phát triển bởi Tencent (chỉ có ở Trung Quốc).
 
 Có 5 chế độ chơi đơn: Marathon, Sprint (40 hàng), Ultra (2 phút), Road to Master (chế độ luyện tập, chứa nhiều bài học về các kỹ thuật khác nhau), Adventure (chế độ câu chuyện với minigame).
 
-Cùng với 3 chế độ chơi trực tuyến gồm: League Battle (chế độ đối đầu có xếp rank), Melee 101 (gần giống với Tetris 99 nhưng mỗi phòng có 101 người), Relax Battle (cũng chế độ đối đầu nhưng không xếp rank)
+Cùng với 3 chế độ chơi trực tuyến gồm: League Battle (chế độ đối đầu có xếp rank), Melee 101 (na ná như Tetris 99 nhưng mỗi phòng có 101 người), Relax Battle (cũng chế độ đối đầu nhưng không xếp rank)
 Mỗi trận trong chế độ chơi trực tuyến thường dài 2 phút, nếu không ai bị top out thì ai gửi nhiều hàng nhất sẽ giành chiến thắng
 
 Có thể điều chỉnh vị trí và kích thước phím ảo, nhưng không thể điều chỉnh DAS và ARR.
@@ -645,10 +645,19 @@ Một game xếp gạch ở trên Tencent Game Center, bảng rộng 12 ô, DAS 
         ]],
     },
     -- # Terms
-    {"Ghi chú dịch thuật #2",
+    {"Ghi chú dịch #2",
         "",
         "help",
-        "Ghi chú về những thuật ngữ có liên quan tới \"mỗi phút\" và \"mỗi giây\"\n\nKhông phải tất cả thuật ngữ nào được nhắc đến trong này đều được áp dụng rộng rãi trong cộng đồng, hoặc là có chung ý nghĩa trong mọi bối cảnh. Chúng chủ yếu áp dụng cho Techmino",
+        [[
+Ghi chú về những thuật ngữ
+
+Về thuật ngữ có liên quan với "mỗi phút" và "mỗi giây": Không phải tất cả thuật ngữ nào được nhắc đến trong này đều được áp dụng rộng rãi trong cộng đồng, hoặc là có chung ý nghĩa trong mọi bối cảnh. Chúng chủ yếu áp dụng cho Techmino
+
+Về các thuật ngữ spawn delay và clear delay:
+    spawn delay: thời gian cần để gạch sinh ra (gạch xuất hiện ở trên đầu bảng)
+    clear delay: thời gian cần để hàng có thể biến mất
+
+        ]],
     },
     {"LPM",
         "linesperminute speed",
@@ -702,7 +711,7 @@ Lines per minute | Số hàng mỗi phút
     {"ADPM",
         "attackdigperminute vs",
         "term",
-        "Attack & Dig per minute | Số hàng tấn công & đào xuống mỗi phút\n\tDùng để so sánh sự khác nhau về kỹ năng của hai người chơi trong một trận đấu; chính xác hơn một chút so với APM\n\tNhân tiện thì VS Score (điểm VS) chính là ADPM mỗi 100 giây",
+        "Attack & Dig per minute | Số hàng tấn công & đào xuống mỗi phút\n\tDùng để so sánh sự khác nhau về kỹ năng của hai người chơi trong một trận đấu; chính xác hơn một chút so với APM\n\tNhân tiện thì VS Score (điểm VS) trong tetr.io chính là ADPM mỗi 100 giây",
     },
     {"APL",
         "attackperline efficiency",
@@ -727,7 +736,7 @@ Lines per minute | Số hàng mỗi phút
     {"Techrash",
         "techrash tetris 4",
         "term",
-        "*Chỉ có trên Techmino*\nXóa 4 hàng cùng một lúc.",
+        "*Chỉ có trên Techmino*\n\nXóa 4 hàng cùng một lúc.",
     },
     {"Tetris",
         "tetris 4",
@@ -743,7 +752,7 @@ Lines per minute | Số hàng mỗi phút
     {"HPC",
         "hc clear halfperfectclear",
         "term",
-        "*Chỉ có trên Techmino*\nHalf Perfect Clear\nMột biến thể của All Clear. Nếu hàng đó bị xóa mà rõ ràng giống với Perfect Clear khi bỏ qua những hàng bên dưới, thì được tính là Half Perfect Clear và sẽ gửi thêm một lượng hàng rác nhỏ",
+        "*Chỉ có trên Techmino*\n\nHalf Perfect Clear\nMột biến thể của All Clear. Nếu hàng đó bị xóa mà rõ ràng giống với Perfect Clear khi bỏ qua những hàng bên dưới, thì được tính là Half Perfect Clear và sẽ gửi thêm một lượng hàng rác nhỏ",
     },
     {"Spin",
         "spin",
@@ -888,7 +897,7 @@ Khoảng cách euclide của độ lệch của cú đá được chọn không 
     {"TRS",
         "techminorotationsystem",
         "term",
-        "*Chỉ có trên Techmino*\nTechmino Rotation System | Hệ thống xoay Techmino\nHệ thống xoay được dùng trong Techmino, dựa trên SRS.\nHệ thống này sửa những trường hợp gạch S/Z bị kẹt và không thể xoay trong một vài trường hợp; cũng như bổ sung thêm những vị trí 'đá' hữu dụng. Pentomino cũng có bảng 'đá' tường dựa trên logic của SRS. TRS cũng hỗ trợ O-Spin (O-Spin cho phép gạch có thể 'đá' và có thể 'biến hình').",
+        "*Chỉ có trên Techmino*\n\nTechmino Rotation System | Hệ thống xoay Techmino\nHệ thống xoay được dùng trong Techmino, dựa trên SRS.\nHệ thống này sửa những trường hợp gạch S/Z bị kẹt và không thể xoay trong một vài trường hợp; cũng như bổ sung thêm những vị trí 'đá' hữu dụng. Pentomino cũng có bảng 'đá' tường dựa trên logic của SRS. TRS cũng hỗ trợ O-Spin (O-Spin cho phép gạch có thể 'đá' và có thể 'biến hình').",
     },
     {"XRS",
         "xrs",
@@ -903,7 +912,7 @@ Khoảng cách euclide của độ lệch của cú đá được chọn không 
     {"B2B2B",
         "b3b",
         "term",
-        "*Chỉ có trên Techmino*\nBack to back to back, aka B3B (hoặc B2B2B). Thực hiện nhiều Back to Back liên tiếp để lấp đầy thanh B3B; cuối cùng khi bạn đã lấp B3B vượt một mức nhất định, bạn có thể tấn công mạnh hơn khi làm được B2B, nhờ sức mạnh từ B3B",
+        "*Chỉ có trên Techmino*\n\nBack to back to back, aka B3B (hoặc B2B2B). Thực hiện nhiều Back to Back liên tiếp để lấp đầy thanh B3B; cuối cùng khi bạn đã lấp B3B vượt một mức nhất định, bạn có thể tấn công mạnh hơn khi làm được B2B, nhờ sức mạnh từ B3B",
     },
     {"Fin, Neo, Iso",
         "fin neo iso",
@@ -918,42 +927,42 @@ Khái niệm về trò chơi Tetris hay trò chơi xếp gạch “hiện đại
 Dưới đây là một số quy tắc chung, nhưng chúng không phải là quy tắc bắt buộc
     1. Phần có thể nhìn được của bảng có kích thước 10 × 20 (rộng × dài), cùng với 2 - 3 hàng ẩn ở bên nhau.
     2. Gạch sẽ được sinh ra ở giữa trên cùng của ma trận có thể nhìn thấy (thường là ở hàng 21-22). Mỗi mảnh đều có màu sắc và hướng quay mặc định riêng.
-    3. Có một bộ xáo gạch như 7-bag hay His
-    4. Có hẳn một hệ thống xoay, và cho phép xoay theo ít nhất 2 hướng
-    5. Has an appropriate lockdown delay system.
-    6. Has an appropriate top-out condition.
-    7. Has a Next queue, with multiple next pieces displayed (usually 3-6), and with the presentation in the queue matching the spawn orientation of the piece.
-    8. Has a Hold queue.
-    9. If there is spawn delay or line delay, usually has IRS and IHS.
-    10. Has a DAS system for precise and swift sideways movements.
+    3. Có một bộ xáo gạch như 7-bag hay His.
+    4. Có hẳn một hệ thống xoay, và cho phép xoay theo ít nhất 2 hướng.
+    5. Có một hệ thống trì hoãn khóa gạch thích hợp.
+    6. Có điều kiện kiểm tra gạch có đè lên gạch khác hay không.
+    7. Có hiện NEXT, với nhiều gạch sắp rơi xuất hiện trong đó (thường là từ 3-6), những gạch này được hiện với hướng mà chúng sẽ đứng khi chúng được sinh ra.
+    8. Cho phép giữ gạch (Hold).
+    9. Nếu có spawn delay hoặc clear delay, thì game thường sẽ có hệ thống IRS và IHS.
+    10. Có hệ thống DAS cho các chuyển động ngang chính xác và nhanh chóng.
         ]],
     },
-    {"Tetrominos’ Shapes",
+    {"Hình dáng của Tetromino",
         "shape structure form tetromino tetrimino",
         "term",
-        "In standard Tetris games, all the blocks used are tetrominoes, i.e., Blocks that are linked by four minoes side-by-side.\n\nThere are seven kinds of tetrominoes in total when allowing rotations and disallowing reflections. These tetrominoes are named by the letter in the alphabet that they resemble. They are Z, S, J, L, T, O, and I. See the “Shape & Name” entry for more information.",
+        "Trong những game xếp gạch chuẩn, tất cả toàn bộ gạch đều là Tetromino. Tức là, những gạch này được liên kết bởi 4 ô, bám dính vào mặt chứ không bám vào góc.\n\nCó 7 loại Tetromino, (nếu ta cho phép xoay nhưng không được lật ngang hay dọc). 7 Tetromino này được đặt tên theo hình dáng của chúng. Đó là Z, S, J, L, T, O, và I. Hãy xem mục “Tên của gạch” để có thêm thông tin.",
     },
-    {"Tetrominos’ Colors",
-        "colour hue tint tetromino tetrimino",
+    {"Màu của Tetromino",
+        "colour hue tint tetromino tetrimino màu",
         "term",
-        "Many modern Tetris games use the same color scheme for the tetrominoes. The colors are:\nZ–red, S–green, J–blue, L–orange, T–purple, O–yellow, and I–cyan.\n\nTechmino also uses this “standard” coloring for the tetrominoes.",
+        "Nhiều game xếp gạch hiện đại đang sử dụng cùng một bảng màu cho Tetromino, dù chính thức hay do fan làm. Những màu này bao gồm:\nZ–Đỏ, S–Lục, J–Lam, L–Cam, T–Tím, O–Vàng, và I–Lục lam.\n\nTechmino cũng sử dụng bảng màu “chuẩn” này để tô màu cho Tetromino.",
     },
     {"IRS",
         "initialrotationsystem",
         "term",
-        "Initial Rotation System\nHolding a rotation key during spawn delay to spawn the piece pre-rotated. Sometimes prevents death.",
+        "Initial Rotation System\nGiữ phím xoay trong khoảng thời gian spawn delay để gạch xoay sẵn lúc xuất hiện. Đôi khi có thể giúp bạn thoát chết.",
     },
     {"IHS",
         "initialholdsystem",
         "term",
-        "Initial Hold System\nHolding the Hold key during spawn delay to spawn the held piece (or next piece in the Next queue if there is no held piece) instead of the current piece, and put the current piece in the Hold as if the player has performed the held before spawning. Sometimes prevents death.",
+        "Initial Hold System\nGiữ phím Hold trong khoảng thời gian spawn delay để lấy gạch từ HOLD (hoặc gạch tiếp theo trong NEXT nếu chưa có gạch nào trong HOLD) thay vì sử dụng gạch hiện tại, và đặt gạch hiện tại vào trong HOLD. Đôi khi có thể giúp bạn thoát chết.",
     },
     {"IMS",
         "initialmovesystem",
         "term",
-        "*Chỉ có trên Techmino*\nInitial Movement System\nHolding a sideways movement key during spawn delay to spawn the piece one block off to the side. Sometimes prevents death.\nNote that DAS needs to be fully charged when a new piece appears.",
+        "*Chỉ có trên Techmino*\n\nInitial Movement System\nGiữ một phím di chuyển trong khoảng thời gian spawn delay để gạch sinh ra ở một bên. Đôi khi có thể giúp bạn thoát chết.\nLưu ý: DAS buộc phải được \"sạc\" đủ trước khi gạch xuất hiện.",
     },
-    {"Next",
+    {"Next (Kế/Tiếp)",
         "nextpreview",
         "term",
         "Displays the next few pieces to come. It is an essential skill to plan ahead where to place blocks in the Next queue to improve your Tetris skill.",
@@ -1172,7 +1181,7 @@ Dưới đây là một số quy tắc chung, nhưng chúng không phải là qu
     {"DAS cut",
         "dascut dcd",
         "term",
-        "*Chỉ có trên Techmino* In Techmino, the DAS timer can be cleared or discharged for a short time when the player starts to control a new piece. This can reduce the case where a piece instantly starts moving if spawned with a direction button held.\n\nOther games may have a similar feature but may function differently.",
+        "*Chỉ có trên Techmino*\n\nIn Techmino, the DAS timer can be cleared or discharged for a short time when the player starts to control a new piece. This can reduce the case where a piece instantly starts moving if spawned with a direction button held.\n\nOther games may have a similar feature but may function differently.",
     },
     {"Auto-lock cut",
         "autolockcut mdcut",
@@ -1207,12 +1216,12 @@ Dưới đây là một số quy tắc chung, nhưng chúng không phải là qu
     {"bagES generator",
         "bages easy start",
         "term",
-        "*Chỉ có trên Techmino*\nBag Easy-Start, an improved Bag generator. The first piece in the first bag won’t be those hard-to-place pieces (S/Z/O/S5/Z5/F/E/W/X/N/H).",
+        "*Chỉ có trên Techmino*\\nnBag Easy-Start, an improved Bag generator. The first piece in the first bag won’t be those hard-to-place pieces (S/Z/O/S5/Z5/F/E/W/X/N/H).",
     },
     {"Reverb generator",
         "reverb",
         "term",
-        "*Chỉ có trên Techmino*\nA generator derived from Bag. The Reverb generator repeats each piece several times based on the Bag generator. The probability of repetition decreases when a certain piece repeats too frequently and vice versa.",
+        "*Chỉ có trên Techmino*\n\nA generator derived from Bag. The Reverb generator repeats each piece several times based on the Bag generator. The probability of repetition decreases when a certain piece repeats too frequently and vice versa.",
     },
     {"Hypertapping",
         "hypertapping",
