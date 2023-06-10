@@ -5,7 +5,7 @@ on:
     branches: [main, ci*]
     tags: [pre*, v*]
   pull_request:
-    branches: [main]
+    branches: [main, VietnameseTranslation]
 
 env:
   BUILD_TYPE: ${{ fromJSON('["dev", "release"]')[startsWith(github.ref, 'refs/tags/v')] }}
