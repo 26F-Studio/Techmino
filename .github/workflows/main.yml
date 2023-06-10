@@ -144,6 +144,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
     # if: github.event_name != 'pull_request'
+    if: always()
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
