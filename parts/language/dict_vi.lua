@@ -941,7 +941,7 @@ Dưới đây là một số quy tắc chung, nhưng chúng không phải là qu
         ]],
     },
     {"H.dạng của Tetro.",
-        "shape structure form tetromino tetrimino",
+        "shape structure form tetromino tetrimino hình dạng",
         "term",
         "Trong những game xếp gạch chuẩn, tất cả toàn bộ gạch đều là Tetromino. Tức là, những gạch này được liên kết bởi 4 ô, bám dính vào mặt chứ không bám vào góc.\n\nCó 7 loại Tetromino, (nếu ta cho phép xoay nhưng không được lật ngang hay dọc). 7 Tetromino này được đặt tên theo hình dạng của chúng. Đó là Z, S, J, L, T, O, và I. Hãy xem mục “Gạch & tên tg. ứng” để có thêm thông tin.",
     },
@@ -1166,13 +1166,13 @@ Trong Techmino, tốc độ rơi được mô tả là số khung hình cần th
         "finesse lỗi di chuyển",
         "term",
         [[
-Một kỹ thuật để di chuyển gạch vào vị trí mong muốn với số lần nhấn phím ít nhất. Giúp tiết kiệm thời gian và giảm khả năng misdrop.
+Một kỹ thuật di chuyển gạch vào vị trí mong muốn với số lần nhấn phím ít nhất. Giúp tiết kiệm thời gian và giảm khả năng misdrop.
 Bạn có thể luyện tập bằng cách dùng tính năng “Chơi lại nếu mắc lỗi di chuyển” hoặc là để ý tới hiệu ứng âm thanh báo lỗi di chuyển của Techmino.
 
 Techmino phát hiện lỗi di chuyển không dựa trên “số lần nhấn phím tối thiểu để di chuyển theo lý thuyết”, mà thay vào đó chỉ kiểm tra lỗi di chuyển dựa trên số lần nhấn phím tương đương đã được quy định trước *khi gạch được đặt tại một vị trí mà không cần dùng Thả rơi nhẹ*. Có nghĩa là Techmino sẽ không tính lỗi di chuyển nếu bạn phải “nhét” gạch đó để lấp hố hoặc thực hiện spin
 Techmino có kiểm tra bổ sung một số điều kiện nữa, như nếu bạn giữ gạch mà cả gạch hiện tại giống với gạch đang giữ, hoặc là giữ gạch khi bạn đã di chuyển gạch hiện tại, cũng đều tính là lỗi di chuyển.
 Finesse% trong Techmino được tính như sau: 100% nếu số phím bằng hoặc ít hơn par, 50% nếu quá par 1 phím, 25% nếu quá par 2 phím, và 0% nếu quá par 3 phím hoặc hơn.
-Lưu ý thêm nữa: trong 20G vẫn kiểm tra lỗi di chuyển, việc này có thể gây ra kết quả không chính xác.
+Lưu ý thêm nữa: trong 20G nếu vẫn kiểm tra lỗi di chuyển, kết quả có thể không chính xác.
 
 Thông tin thêm: Par là một thuật ngữ được dùng chủ yếu trong trò đánh golf, thường được sử dụng để chỉ số lượt gậy dự kiến cần để có thể đưa bóng vào hố (hole) hoặc một vòng đánh golf (round of golf). Hãy tra Google để biết thêm thông tin.
         ]],
@@ -1241,9 +1241,9 @@ Những yếu tố ảnh hưởng tới việc xử lý gạch của bạn:
         "Soft Drop Factor (Hệ số tốc độ rơi nhẹ)\n\nMột cách để xác định tốc độ gạch rơi khi nhấn phím “Thả rơi nhẹ”. Ở những game chính thức: SDF = tốc độ rơi × 20 → SDF của những game này là 20. Techmino không dùng SDF để xác định tốc độ rơi nhẹ, mà dùng SDARR (giống như ARR nhưng thông số này không giống với ARR và chỉ được dùng cho phím “Thả rơi nhẹ”).",
     },
     {"Gạch & tên tg. ứng",
-        "mino",
+        "mino gạch & tên tương ứng",
         "term",
-        "Đây là danh sách gạch mà Techmino sử dụng cùng với tên tương ứng của chúng:\nTetrominos:\nZ: "..CHAR.mino.Z..",  S: "..CHAR.mino.S..",  J: "..CHAR.mino.J..",  L: "..CHAR.mino.L..",  T: "..CHAR.mino.T..",  O: "..CHAR.mino.O..",  I: "..CHAR.mino.I..";\n\nPentominos:\nZ5: "..CHAR.mino.Z5..",  S5: "..CHAR.mino.S5..",  P: "..CHAR.mino.P..",  Q: "..CHAR.mino.Q..",  F: "..CHAR.mino.F..",  E: "..CHAR.mino.E..",  T5: "..CHAR.mino.T5..",  U: "..CHAR.mino.U..",  V: "..CHAR.mino.V..",  W: "..CHAR.mino.W..",  X: "..CHAR.mino.X..",  J5: "..CHAR.mino.J5..",  L5: "..CHAR.mino.L5..",  R: "..CHAR.mino.R..",  Y: "..CHAR.mino.Y..",  N: "..CHAR.mino.N..",  H: "..CHAR.mino.H..",  I5: "..CHAR.mino.I5..";\n\nTriminos, Domino, and Mino:\nI3: "..CHAR.mino.I3..",  C: "..CHAR.mino.C..",  I2: "..CHAR.mino.I2..",  O1: "..CHAR.mino.O1..".",
+        "Đây là danh sách gạch mà Techmino sử dụng cùng với tên tương ứng của chúng:\nTetromino:\nZ: "..CHAR.mino.Z..",  S: "..CHAR.mino.S..",  J: "..CHAR.mino.J..",  L: "..CHAR.mino.L..",  T: "..CHAR.mino.T..",  O: "..CHAR.mino.O..",  I: "..CHAR.mino.I..";\n\nPentomino:\nZ5: "..CHAR.mino.Z5..",  S5: "..CHAR.mino.S5..",  P: "..CHAR.mino.P..",  Q: "..CHAR.mino.Q..",  F: "..CHAR.mino.F..",  E: "..CHAR.mino.E..",  T5: "..CHAR.mino.T5..",  U: "..CHAR.mino.U..",  V: "..CHAR.mino.V..",  W: "..CHAR.mino.W..",  X: "..CHAR.mino.X..",  J5: "..CHAR.mino.J5..",  L5: "..CHAR.mino.L5..",  R: "..CHAR.mino.R..",  Y: "..CHAR.mino.Y..",  N: "..CHAR.mino.N..",  H: "..CHAR.mino.H..",  I5: "..CHAR.mino.I5..";\n\nTrimino, Domino, and Mino:\nI3: "..CHAR.mino.I3..",  C: "..CHAR.mino.C..",  I2: "..CHAR.mino.I2..",  O1: "..CHAR.mino.O1..".",
     },
     {"Kiểu xáo Túi 7",
         "bag7bag randomgenerator",
@@ -1251,8 +1251,8 @@ Những yếu tố ảnh hưởng tới việc xử lý gạch của bạn:
         [[
 Hay còn gọi là “7-Bag Generator”. Tên tiếng Việt là “Kiểu xáo Túi 7 gạch”. Còn tên gọi chính thức của nó là “Random Generator” (“Trình xáo gạch ngẫu nhiên”)
 
-Đây là thuật toán hay được sử dụng bởi các trò chơi xếp gạch hiện đại. Từ lúc bắt đầu game, bạn luôn luôn được đảm bảo là bạn sẽ có đủ 7 Tetromino mỗi 7 viên gạch bạn đã thả rơi.
-Một vài ví dụ: ZSJLTOI OTSLZIJ LTISZOJ.
+Đây là thuật toán hay được sử dụng bởi các trò chơi xếp gạch hiện đại. Từ khi bắt đầu game, bạn luôn được đảm bảo rằng bạn sẽ có đủ 7 Tetromino mỗi 7 viên gạch bạn đã thả rơi.
+Một vài ví dụ: ZSJLTOI  OTSLZIJ     LTISZOJ.
         ]],
     },
     {"Kiểu xáo His",
@@ -1261,7 +1261,7 @@ Một vài ví dụ: ZSJLTOI OTSLZIJ LTISZOJ.
         [[
 Kiểu xáo His, tên đầy đủ là History - Roll. (Tên tiếng Việt là Nhớ - Lặp)
 
-Một phương pháp xáo gạch được sử dụng nhiều trong các game Tetris: The Grand Master. Mỗi lần một Tetromino sẽ được chọn ngẫu nhiên. Nhưng nếu nó là một trong những gạch đã bốc ra trước đó, thì bốc lại thêm lần nữa cho tới khi bốc được gạch không phải là những viên gạch kia, hoặc là hết lượt bốc lại. Ví dụ, “his 4 roll 6” (h4r6) (nhớ 4 lặp 6) sẽ nhớ 4 gạch đã bốc cuối cùng, và chỉ được bốc lại tối đa 6 lần nếu cần thiết.
+Một phương pháp xáo gạch được sử dụng nhiều trong các game Tetris: The Grand Master. Mỗi lần một Tetromino sẽ được chọn ngẫu nhiên: Nếu nó là một trong những gạch đã bốc ra trước đó, thì bốc lại thêm lần nữa cho tới khi bốc được gạch không phải là những viên gạch kia, hoặc là hết lượt bốc lại. Ví dụ: “his 4 roll 6” (h4r6) (nhớ 4 lặp 6) sẽ nhớ 4 gạch đã bốc cuối cùng, và chỉ được bốc lại tối đa 6 lần nếu cần thiết.
 
 Kiểu xáo His cũng có một vài biến thể khác, như “his4 roll6 pool35” (nhớ 4 - bốc 6 - rổ 35), giảm kha khá tính ngẫu nhiên của chuỗi gạch. Xem chi tiết tại mục “Kiểu xáo HisPool”.
 
@@ -1274,7 +1274,7 @@ Trong Techmino, số lần bốc lại ngẫu nhiên sẽ là một nửa độ 
         [[
 Kiểu xáo HisPool, tên đầy đủ là History (- Roll) - Pool. (Tên tiếng Việt là Nhớ - Lặp - Rổ)
 
-Một kiểu xáo dựa trên kiểu xáo His. Nó giới thiệu một cơ chế mới: “Pool” (Rổ)[*]. Khi bốc gạch, HisPool sẽ chọn ngẫu nhiên một viên gạch trong cái Rổ và tăng khả năng xuất hiện của gạch ít xuất hiện nhất. (Bạn có thể tra mục tiếp theo để tìm hiểu về cơ chế Pool nếu bạn tò mò)
+Một kiểu xáo dựa trên kiểu xáo His. Nó giới thiệu một cơ chế mới: “Pool” (Rổ)[*]. Mỗi lần bốc gạch, HisPool sẽ chọn ngẫu nhiên một viên gạch trong cái Rổ và tăng khả năng xuất hiện của gạch ít xuất hiện nhất. (Bạn có thể tra mục tiếp theo để tìm hiểu về cơ chế Pool nếu bạn tò mò)
 
 Cơ chế này giúp chuỗi gạch ổn định hơn và tránh tình trạng drought xảy ra quá lâu
 
@@ -1325,7 +1325,7 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
         [[
 Một phương pháp khác để khai thác nhanh ở chế độ trọng lực cao (khoảng 1G) (với cài đặt DAS/ARR chậm).
 Khi bạn thực hiện thao tác rolling, bạn cố định ngón tay của bạn trên phím bạn muốn nhấn ở một bên tay, sau đó dùng các ngón tay ở bên kia gõ mạnh liên tục ở mặt sau của tay cầm. Phương pháp này nhanh hơn nhiều so với việc nhấn liên tục (xem mục “Hypertapping” để biết thêm thông tin) và yêu cầu ít công sức hơn.
-Phương pháp này lần đầu tiên được phát hiện ra bởi Cheez-fish, cũng như anh ấy đã đạt tốc độ nhấn lên tới 20 Hz.
+Phương pháp này lần đầu tiên được phát hiện ra bởi Cheez-fish - người đã đạt tốc độ nhấn lên tới 20 Hz.
         ]],
     },
     {"Passthrough",
@@ -1392,7 +1392,7 @@ Cũng trong Techmino nhưng trong bản tiếng Việt, từ “gạch []” đ�
         "term",
         "Tên tiếng Anh: Invisible\nChỉ một luật trong đó gạch sẽ tàng hình ngay tức thì sau khi đặt xuống\nGhi chú: Nếu mode tàng hình hoàn toàn mà có hiệu ứng biến mất thì vẫn được chấp nhận. Tuy vậy, nó làm game dễ hơn đôi chút, cho nên ở Techmino, chế độ tàng hình hoàn toàn mà không có hiệu ứng biến mất được gọi là “Sudden Invisible.”",
     },
-    {"MPH mode",
+    {"Chế độ MPH",
         "mph",
         "term",
         "Sự kết hợp của ba quy tắc: “Không nhớ gì” (chuỗi gạch tạo ra hoàn toàn ngẫu nhiên), “Không biết trước gạch nào sẽ tới” (không hiện NEXT), và “Không giữ được”. Một chế độ đòi hỏi tốc độ phản ứng.",
@@ -1563,7 +1563,7 @@ Setup này thường phải đạt cả ba yêu cầu sau:
     {"STMB Cave",
         "stmb",
         "pattern",
-        "STMB cave, một setup dạng donation bằng cách sử dụng S/Z để bịt tường rộng 3 ô.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "STMB cave, một setup dạng donation bằng cách sử dụng S/Z để bịt tường rộng 3 ô và làm T-Spin Double.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
         "https://harddrop.com/wiki?search=stmb_cave",
     },
     {"Fractal",
