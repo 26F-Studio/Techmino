@@ -1,4 +1,8 @@
 local C=COLOR
+
+-- There are some strings, due to game's history, temproary be commented just in case
+-- If it is not used anymore, it will be removed, in one day...
+
 return {
     fallback='en',
     loadText={
@@ -71,11 +75,11 @@ return {
     switchSpawnSFX="Vui lòng bật Spawn SFX để chơi!",
     needRestart="Khởi động lại để áp dụng mọi thay đổi.",
 
-    loadError_errorMode="'$1' tải lên thất bại: không có chế độ tải lên '$2'",
-    loadError_read="'$1' tải lên thất bại: đọc thất bại",
-    loadError_noFile="'$1' tải lên thất bại: không có file",
-    loadError_other="'$1' tải lên thất bại: $2",
-    loadError_unknown="'$1' tải lên thất bại: không rõ lý do",
+    loadError_errorMode="'$1' tải thất bại: không có chế độ tải '$2'",
+    loadError_read="'$1' tải thất bại: đọc thất bại",
+    loadError_noFile="'$1' tải thất bại: không có file",
+    loadError_other="'$1' tải thất bại: $2",
+    loadError_unknown="'$1' tải thất bại: không rõ lý do",
 
     saveError_duplicate="'$1' lưu thất bại: trùng tên file",
     saveError_encode="'$1' lưu thất bại: mã hoá thất bại",
@@ -140,12 +144,13 @@ return {
             noticeNotFound="Không có thông báo",
         },
         PlayerManager={
-            invalidCode="Mã không hợp lệ",
-            invalidEmail="Email không hợp lệ",
-            playerNotFound="Không tìm thấy người chơi",
-            invalidEmailPass="Email hoặc người chơi không hợp lệ",
-            emailExists="Email đã tồn tại",
-            emailSendError="Lỗi gửi email",
+            -- invalidCode="Mã không hợp lệ",
+            -- invalidEmail="Email không hợp lệ",
+            -- playerNotFound="Không tìm thấy người chơi",
+            -- invalidEmailPass="Email hoặc người chơi không hợp lệ",
+            -- emailExists="Email đã tồn tại",
+            -- emailSendError="Lỗi gửi email",
+            invalidAccessToken="Mã xác thực không hợp lệ",
         },
         -- Strategies
         PlayerRole={
@@ -231,7 +236,7 @@ return {
         "Hàng/Đào:",
         "Gửi/Gửi khi đào:",
         "Nhận:",
-        "Clear:",
+        "Xóa (hàng):",
         "Spin:",
         "B2B/B3B/PC/HPC:",
         "Lỗi di chuyển:",
@@ -246,7 +251,7 @@ return {
         "Gạch/Hàng/Gửi:",
         "Nhận/Phản/Đẩy:",
         "Đào/Gửi khi đào:",
-        "Eff./Dig Eff.:",
+        "H.quả/H.quả khi Đào:",
         "B2B/B3B:",
         "PC/HPC:",
         "Lỗi di chuyển/Tỉ lệ:",
