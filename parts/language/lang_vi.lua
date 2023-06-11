@@ -568,7 +568,8 @@ return {
             apply="Chọn",
         },
         setting_control={
-            title="Cài đặt Điều khiển",
+            -- title="Cài đặt Điều khiển",
+            title="Hiệu chỉnh thg. số",
             preview="Xem trước",
 
             das="DAS",arr="ARR",
@@ -767,7 +768,7 @@ return {
             title="Đăng Nhập",
             ticket="Mã uỷ quyền",
             authorize="Mở trang uỷ quyền",
-            -- paste="Paste Ticket",
+            paste="Dán mã",
             submit="Gửi",
         },
         -- reset_password={

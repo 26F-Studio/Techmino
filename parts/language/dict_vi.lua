@@ -858,7 +858,7 @@ Bias Rotation System | Hệ thống xoay Bias. Hệ thống xoay 'độc quyền
 Hệ thống sẽ điều chỉnh độ lệch khi xoay tùy vào bạn giữ phím trái/phải/rơi nhẹ khi nhấn phím xoay
 
 Quá trình thử của hệ thống này diễn ra như sau:
-    1. Thử dịch chuyển gạch sang trái/phải/xuống tùy thuộc vào phím đang giữ (là phím Sang trái/Sang phải/Thả rơi nhẹ); có thêm độ lệch xuống dưới
+    1. Thử dịch chuyển gạch sang trái/phải/xuống tùy thuộc vào phím đang giữ (là phím Sang trái/Sang phải/Thả nhẹ); có thêm độ lệch xuống dưới
     2. Nếu thất bại, cũng thử di chuyển sang bên trái/bên phải/đi xuống tùy thuộc vào phím đang giữ; nhưng lúc này không thêm độ lệch xuống dưới
     3. Nếu thất bại... thì việc xoay thất bại luôn (cái này thì không còn gì để nói)
 
@@ -983,7 +983,7 @@ Dưới đây là một số quy tắc chung, nhưng chúng không phải là qu
     {"Deepdrop (Rơi sâu)",
         "shenjiang",
         "term",
-        "*Chỉ có trên Techmino*\n\nMột chức năng cho phép cho phép gạch có thể teleport xuyên đất để xuống phía dưới. Khi gạch đụng vào đáy hoặc một gạch khác, nhấn phím Thả rơi nhẹ để kích hoạt Deepdrop. Giả sử có một cái hố phù hợp với hình dạng của gạch. Trong trường hợp đó, gạch sẽ được teleport vào hố đó.\nCơ chế này đặc biệt hữu ích cho AI vì nó cho phép AI bỏ qua sự khác biệt giữa các hệ thống xoay khác nhau.",
+        "*Chỉ có trên Techmino*\n\nMột chức năng cho phép cho phép gạch có thể teleport xuyên đất để xuống phía dưới. Khi gạch đụng vào đáy hoặc một gạch khác, nhấn phím Thả nhẹ để kích hoạt Deepdrop. Giả sử có một cái hố phù hợp với hình dạng của gạch. Trong trường hợp đó, gạch sẽ được teleport vào hố đó.\nCơ chế này đặc biệt hữu ích cho AI vì nó cho phép AI bỏ qua sự khác biệt giữa các hệ thống xoay khác nhau.",
     },
     {"Misdrop",
         "md misdrop",
@@ -1169,7 +1169,7 @@ Trong Techmino, tốc độ rơi được mô tả là số khung hình cần th
 Một kỹ thuật di chuyển gạch vào vị trí mong muốn với số lần nhấn phím ít nhất. Giúp tiết kiệm thời gian và giảm khả năng misdrop.
 Bạn có thể luyện tập bằng cách dùng tính năng “Chơi lại nếu mắc lỗi di chuyển” hoặc là để ý tới hiệu ứng âm thanh báo lỗi di chuyển của Techmino.
 
-Techmino phát hiện lỗi di chuyển không dựa trên “số lần nhấn phím tối thiểu để di chuyển theo lý thuyết”, mà thay vào đó chỉ kiểm tra lỗi di chuyển dựa trên số lần nhấn phím tương đương đã được quy định trước *khi gạch được đặt tại một vị trí mà không cần dùng Thả rơi nhẹ*. Có nghĩa là Techmino sẽ không tính lỗi di chuyển nếu bạn phải “nhét” gạch đó để lấp hố hoặc thực hiện spin
+Techmino phát hiện lỗi di chuyển không dựa trên “số lần nhấn phím tối thiểu để di chuyển theo lý thuyết”, mà thay vào đó chỉ kiểm tra lỗi di chuyển dựa trên số lần nhấn phím tương đương đã được quy định trước *khi gạch được đặt tại một vị trí mà không cần dùng Thả nhẹ*. Có nghĩa là Techmino sẽ không tính lỗi di chuyển nếu bạn phải “nhét” gạch đó để lấp hố hoặc thực hiện spin
 Techmino có kiểm tra bổ sung một số điều kiện nữa, như nếu bạn giữ gạch mà cả gạch hiện tại giống với gạch đang giữ, hoặc là giữ gạch khi bạn đã di chuyển gạch hiện tại, cũng đều tính là lỗi di chuyển.
 Finesse% trong Techmino được tính như sau: 100% nếu số phím bằng hoặc ít hơn par, 50% nếu quá par 1 phím, 25% nếu quá par 2 phím, và 0% nếu quá par 3 phím hoặc hơn.
 Lưu ý thêm nữa: trong 20G nếu vẫn kiểm tra lỗi di chuyển, kết quả có thể không chính xác.
@@ -1233,12 +1233,12 @@ Những yếu tố ảnh hưởng tới việc xử lý gạch của bạn:
     {"Auto-lock cut",
         "autolockcut mdcut",
         "term",
-        "Một tính năng được thiết kế để ngăn chặn việc mis-harddrop (thả gạch rơi mạnh không đúng thời điểm) do việc nhấn phím “Thả rơi mạnh” ngay sau khi gạch cuối cùng bị khóa một cách tự nhiên\nPhím “Thả rơi mạnh” sẽ tạm thời bị vô hiệu trong vòng vài khung hình (tùy vào từng game/cài đặt của người chơi) ngay sau khi có gạch bị khóa một cách tự nhiên.\n\nNhững game khác có thể có tính năng này nhưng cách hoạt động có thể đôi chút khác biệt.",
+        "Một tính năng được thiết kế để ngăn chặn việc mis-harddrop (thả gạch rơi mạnh không đúng thời điểm) do việc nhấn phím “Thả mạnh” ngay sau khi gạch cuối cùng bị khóa một cách tự nhiên\nPhím “Thả mạnh” sẽ tạm thời bị vô hiệu trong vòng vài khung hình (tùy vào từng game/cài đặt của người chơi) ngay sau khi có gạch bị khóa một cách tự nhiên.\n\nNhững game khác có thể có tính năng này nhưng cách hoạt động có thể đôi chút khác biệt.",
     },
     {"SDF",
         "softdropfactor",
         "term",
-        "Soft Drop Factor (Hệ số tốc độ rơi nhẹ)\n\nMột cách để xác định tốc độ gạch rơi khi nhấn phím “Thả rơi nhẹ”. Ở những game chính thức: SDF = tốc độ rơi × 20 → SDF của những game này là 20. Techmino không dùng SDF để xác định tốc độ rơi nhẹ, mà dùng SDARR (giống như ARR nhưng thông số này không giống với ARR và chỉ được dùng cho phím “Thả rơi nhẹ”).",
+        "Soft Drop Factor (Hệ số tốc độ rơi nhẹ)\n\nMột cách để xác định tốc độ gạch rơi khi nhấn phím “Thả nhẹ”. Ở những game chính thức: SDF = tốc độ rơi × 20 → SDF của những game này là 20. Techmino không dùng SDF để xác định tốc độ rơi nhẹ, mà dùng SDARR (giống như ARR nhưng thông số này không giống với ARR và chỉ được dùng cho phím “Thả nhẹ”).",
     },
     {"Gạch & tên tg. ứng",
         "mino gạch & tên tương ứng",
@@ -1428,7 +1428,7 @@ Opener thường là các setup thường dùng ở đầu trận. Bạn vẫn c
 Setup này thường phải đạt cả ba yêu cầu sau:
 - Có thể thích ứng với các vị trí gạch khác nhau,
 - Tấn công mạnh, ít lãng phí gạch T,
-- Ít yêu cầu phải thả rơi nhẹ để có thể đặt gạch nhanh hơn và yêu cầu sử dụng finesse.
+- Ít yêu cầu phải Thả nhẹ để có thể đặt gạch nhanh hơn và yêu cầu sử dụng finesse.
 - Có chiến lược rõ ràng và ít nhánh/biến thể.
 
 Đa số opener sẽ tận dụng Kiểu xáo Túi 7 gạch và khai thác một điều thực tế là kiểu xáo gạch này luôn cung cấp một cho mỗi loại gạch sau mỗi 7 gạch khác nhau. Yếu tố dự đoán này giúp có thể có các setup tin cậy hơn.
