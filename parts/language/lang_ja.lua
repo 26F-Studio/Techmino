@@ -261,7 +261,7 @@ return {
         "ゲームは、必ず公式から入手してください",
         "他から入手した場合は、安全性を保証しません",
         "同時に制作者は、責任を負いません",
-        FNNS and "/" or "ゲーム自体は無料ですが、寄付できるならありがたいです。",
+        FNNS and "/" or "ゲームは無料ですが寄付はありがたいです!",
         FNNS and "/" or "詳しくはZictionaryをご覧ください",
     },
     staff={
@@ -493,8 +493,8 @@ return {
             menuPos="メニューの位置",
             sysCursor="システムカーソル",
             autoPause="ゲーム中断時のオートポーズ",
-            autoSave="最高得点を更新したときオートセーブ",
-            simpMode="シンプルなホーム画面",
+            autoSave="最高記録を更新時にオートセーブ",
+            simpMode="シンプルなホーム",
         },
         setting_video={
             title="画面の設定",
@@ -720,7 +720,7 @@ return {
         },
         about={
             staff="スタッフ",
-            his="歴史",
+            his="更新情報",
             legals="法的情報",
         },
         dict={
@@ -750,7 +750,7 @@ return {
             title="サインイン",
             ticket="認証チケット",
             authorize="認証ページにアクセス",
-            -- paste="Paste Ticket",
+            paste="認証チケット貼り付け",
             submit="送信",
         },
         reset_password={
