@@ -1279,17 +1279,17 @@ function Player:hold_norm(ifpre)
                     if not self:ifoverlap(H.bk,X,Y) then
                         x,y=X,Y
                         success=true
-                        break-- goto BREAK_success
+                        break
                     end
                 end
+                if success then
+                    break
+                end
             end
-            -- <for-else> All test failed, interrupt with sound
-            if not success then
+            if not success then -- All test failed, interrupt with sound
                 SFX.play('drop_cancel')
                 do return end
             end
-            -- <for-end>
-            -- ::BREAK_success::
 
             self.spinLast=false
 
@@ -1344,23 +1344,23 @@ function Player:hold_swap(ifpre)
 
             local iki=phyHoldKickX[x==int(x)]
             local success
-            for Y=int(y),ceil(y+.5) do
-                for i=1,#iki do
-                    local X=x+iki[i]
-                    if not self:ifoverlap(H.bk,X,Y) then
-                        x,y=X,Y
-                        success=true
-                        break-- goto BREAK_success
+                for Y=int(y),ceil(y+.5) do
+                    for i=1,#iki do
+                        local X=x+iki[i]
+                        if not self:ifoverlap(H.bk,X,Y) then
+                            x,y=X,Y
+                            success=true
+                            break
+                        end
+                    end
+                    if success then
+                        break
                     end
                 end
-            end
-            -- <for-else> All test failed, interrupt with sound
-            if not success then
+            if not success then -- All test failed, interrupt with sound
                 SFX.play('finesseError')
                 do return end
             end
-            -- <for-end>
-            -- ::BREAK_success::
 
             self.spinLast=false
 
