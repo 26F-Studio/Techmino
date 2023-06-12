@@ -195,15 +195,19 @@ function scene.touchMove()
     for n=1,#keys do
         local B=keys[n]
         if B.ava then
+            local nextKey
             for i=1,#L,2 do
                 if (L[i]-B.x)^2+(L[i+1]-B.y)^2<=B.r^2 then
-                    goto CONTINUE_nextKey
+                    nextKey=true
+                    break-- goto CONTINUE_nextKey
                 end
             end
-            PLAYERS[1]:releaseKey(n)
-            VK.release(n)
+            if not nextKey then
+                PLAYERS[1]:releaseKey(n)
+                VK.release(n)
+            end
+            -- ::CONTINUE_nextKey::
         end
-        ::CONTINUE_nextKey::
     end
 end
 function scene.keyDown(key,isRep)

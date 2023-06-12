@@ -153,32 +153,34 @@ function player:click(y,x)
             SFX.play('touch')
 
             local merged
-            ::REPEAT_merge::
-            local cur=self.board[y][x]
-            local b1=TABLE.shift(self.board)
-            self.mergedTiles={}
-            local count=self:merge(b1,cur,y,x)
-            if count>2 then
-                merged=true
-                self.board=b1
-                b1[y][x]=cur+1
+            repeat-- ::REPEAT_merge::
+                local repeating
+                local cur=self.board[y][x]
+                local b1=TABLE.shift(self.board)
+                self.mergedTiles={}
+                local count=self:merge(b1,cur,y,x)
+                if count>2 then
+                    merged=true
+                    self.board=b1
+                    b1[y][x]=cur+1
 
-                if cur+1>self.maxTile then
-                    self.maxTile=cur+1
-                    if self.maxTile>=6 then
-                        ins(self.progress,("%s - %.3fs"):format(self.maxTile,TIME()-player.startTime))
+                    if cur+1>self.maxTile then
+                        self.maxTile=cur+1
+                        if self.maxTile>=6 then
+                            ins(self.progress,("%s - %.3fs"):format(self.maxTile,TIME()-player.startTime))
+                        end
+                        SFX.play('reach')
                     end
-                    SFX.play('reach')
-                end
 
-                local getScore=4^cur*count
-                self.score=self.score+getScore
-                TEXT.show(getScore,player.x+self.selectX*100-50,player.y+self.selectY*100-50,40,'score',1.626/math.log(getScore,3))
-                for i=1,#self.mergedTiles do
-                    newMergeFX(self.mergedTiles[i][1],self.mergedTiles[i][2],cur+1)
+                    local getScore=4^cur*count
+                    self.score=self.score+getScore
+                    TEXT.show(getScore,player.x+self.selectX*100-50,player.y+self.selectY*100-50,40,'score',1.626/math.log(getScore,3))
+                    for i=1,#self.mergedTiles do
+                        newMergeFX(self.mergedTiles[i][1],self.mergedTiles[i][2],cur+1)
+                    end
+                    repeating=true-- goto REPEAT_merge
                 end
-                goto REPEAT_merge
-            end
+            until not repeating
 
             ins(self.nexts,self:newTile())
 

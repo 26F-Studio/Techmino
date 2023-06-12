@@ -569,36 +569,37 @@ for _,fileName in next,fs.getDirectoryItems('replay') do
         player, fileData=STRING.readLine(fileData) if player=="Local Player" then player="Stacker" end
         local success
         success,fileData=pcall(love.data.decompress,'string','zlib',fileData)
-        if not success then goto BREAK_cannotParse end
-        seed,   fileData=STRING.readLine(fileData)
-        setting,fileData=STRING.readLine(fileData)setting=JSON.decode(setting)
-        mod,    fileData=STRING.readLine(fileData)mod=JSON.decode(mod)
-        if
-            not setting or
-            not mod or
-            not mode or
-            #mode==0
-        then goto BREAK_cannotParse end
+        repeat
+            if not success then break end-- goto BREAK_cannotParse
+            seed,   fileData=STRING.readLine(fileData)
+            setting,fileData=STRING.readLine(fileData)setting=JSON.decode(setting)
+            mod,    fileData=STRING.readLine(fileData)mod=JSON.decode(mod)
+            if
+                not setting or
+                not mod or
+                not mode or
+                #mode==0
+            then break end-- goto BREAK_cannotParse
 
-        fs.remove('replay/'..fileName)
-        local newName=fileName:sub(1,10)..fileName:sub(15)
-        fs.write('replay/'..newName,
-            love.data.compress('string','zlib',
-                JSON.encode{
-                    date=date,
-                    mode=mode,
-                    version=version,
-                    player=player,
-                    seed=seed,
-                    setting=setting,
-                    mod=mod,
-                }.."\n"..
-                fileData
+            fs.remove('replay/'..fileName)
+            local newName=fileName:sub(1,10)..fileName:sub(15)
+            fs.write('replay/'..newName,
+                love.data.compress('string','zlib',
+                    JSON.encode{
+                        date=date,
+                        mode=mode,
+                        version=version,
+                        player=player,
+                        seed=seed,
+                        setting=setting,
+                        mod=mod,
+                    }.."\n"..
+                    fileData
+                )
             )
-        )
-        fileName=newName
+            fileName=newName
+        until true-- ::BREAK_cannotParse::
     end
-    ::BREAK_cannotParse::
     local rep=DATA.parseReplay('replay/'..fileName)
     table.insert(REPLAY,rep)
 end

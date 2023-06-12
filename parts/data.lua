@@ -376,22 +376,26 @@ function DATA.parseReplay(fileName,ifFull)
     return DATA.parseReplayData(fileName,fileData,ifFull)
 end
 function DATA.parseReplayData(fileName,fileData,ifFull)
-    local success,metaData,rep
+    local success,metaData
+    local rep={-- unavailable replay object
+        fileName=fileName,
+        available=false,
+    }
 
-    if not (fileData and #fileData>0) then goto BREAK_cannotParse end
+    if not (fileData and #fileData>0) then return rep end-- goto BREAK_cannotParse
 
     -- Decompress file
     success,fileData=pcall(love.data.decompress,'string','zlib',fileData)
-    if not success then goto BREAK_cannotParse end
+    if not success then return rep end-- goto BREAK_cannotParse
 
     -- Load metadata
     metaData,fileData=STRING.readLine(fileData)
     metaData=JSON.decode(metaData)
-    if not metaData then goto BREAK_cannotParse end
+    if not metaData then return rep end-- goto BREAK_cannotParse
 
     -- Convert ancient replays
     metaData.mode=MODE_UPDATE_MAP[metaData.mode] or metaData.mode
-    if not MODES[metaData.mode] then goto BREAK_cannotParse end
+    if not MODES[metaData.mode] then return rep end-- goto BREAK_cannotParse
 
     -- Create replay object
     rep={
@@ -409,13 +413,6 @@ function DATA.parseReplayData(fileName,fileData,ifFull)
         tasUsed=metaData.tasUsed,
     }
     if ifFull then rep.data=fileData end
-    do return rep end
-
-    -- Create unavailable replay object
-    ::BREAK_cannotParse::
-    return {
-        fileName=fileName,
-        available=false,
-    }
+    return rep
 end
 return DATA
