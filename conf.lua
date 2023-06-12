@@ -2,7 +2,7 @@ SYSTEM=love._os if SYSTEM=='OS X' then SYSTEM='macOS' end
 MOBILE=SYSTEM=='Android' or SYSTEM=='iOS'
 FNNS=SYSTEM:find'\79\83'-- What does FNSF stand for? IDK so don't ask me lol
 
-if SYSTEM=='Linux' then
+if SYSTEM=='Web' then
     local oldRead=love.filesystem.read
     function love.filesystem.read(name,size)
         if love.filesystem.getInfo(name) then
