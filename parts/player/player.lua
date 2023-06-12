@@ -1282,13 +1282,11 @@ function Player:hold_norm(ifpre)
                         break
                     end
                 end
-                if success then
-                    break
-                end
+                if success then break end
             end
             if not success then -- All test failed, interrupt with sound
                 SFX.play('drop_cancel')
-                do return end
+                return
             end
 
             self.spinLast=false
@@ -1353,13 +1351,11 @@ function Player:hold_swap(ifpre)
                             break
                         end
                     end
-                    if success then
-                        break
-                    end
+                    if success then break end
                 end
             if not success then -- All test failed, interrupt with sound
                 SFX.play('finesseError')
-                do return end
+                return
             end
 
             self.spinLast=false
