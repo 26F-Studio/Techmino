@@ -15,8 +15,8 @@ Cách phát hiện spin:
         - Cứ một trong hai điều kiện trên được thỏa mãn, thì sẽ được tính là Spin
 
         Nếu việc xoay không đạt điều kiện thứ hai của hệ thống xoay, +1 điểm
-        - Spin sẽ là Mini nếu chỉ được 2 điểm; gạch dùng để làm là S, Z, J, L hoặc T;
-        VÀ gạch đó không được xóa hết sau khi xóa hàng.
+        - Spin sẽ là Mini nếu chỉ được 2 điểm;
+        gạch dùng để làm là S, Z, J, L hoặc T VÀ gạch đó không được xóa hết sau khi xóa hàng.
 
 Hệ thống tấn công:
         Kiểu xóa Đặc biệt (Special clear):
