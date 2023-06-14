@@ -3,6 +3,7 @@ MOBILE=SYSTEM=='Android' or SYSTEM=='iOS'
 FNNS=SYSTEM:find'\79\83'-- What does FNSF stand for? IDK so don't ask me lol
 
 if SYSTEM=='Web' then
+    POLYFILL = require"polyfill"
     local oldRead=love.filesystem.read
     function love.filesystem.read(name,size)
         if love.filesystem.getInfo(name) then
