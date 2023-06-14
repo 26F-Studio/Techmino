@@ -142,6 +142,23 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         - Bố cục phím
         - Khả năng xử lý gạch
         - Các phím xoay
+10. Wiki; các trang web bày setup & cung cấp câu đố, chia sẻ setup
+        10A. Wiki: Huiji Wiki, Hard Drop Wiki, tetris.wiki, Tetris Wiki Fandom
+        10B. Bày setup: Four.lol, Tetris Hall, Tetris Template Collections, tetristemplate.info
+        10C. Chia sẻ câu đố: TTT, TTPC, NAZO, TPO
+        10D. Chia sẻ setup: Fumen, Fumen bản Điện thoại
+11. Cộng đồng
+        - Tetris Online Servers
+        - Tetris Việt Nam
+        - VTT (this item may not be existed)
+        ]]
+    },
+    {
+        "Mục lục [7/_]", --TODO: make index
+        "mucluc",
+        "help",
+        [[
+
         ]]
     }
 }
