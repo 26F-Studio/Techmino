@@ -119,10 +119,7 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         "help",
         [[
 […] (Tiếp tục từ trang 3 | Phần đầu tiên của mục này nằm ở trang 2)
-        5M. Các thuật ngữ khác
-            * sub
-            * 'Doing Research'
-            * Bone block
+        5M. Các thuật ngữ khác: sub, 'Doing Research', Bone block
 6. Các game xếp gạch
         (Danh sách dài, bạn hãy gõ trên thanh tìm kiếm "nhom6" để xem danh sách đầy đủ ở cột danh sách bên trái)
 7. Một vài cơ chế và chế độ của một số game
