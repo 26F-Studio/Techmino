@@ -158,7 +158,32 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         "mucluc",
         "help",
         [[
-
+12. Xếp lên và đào xuống
+        12A. Stacking --> Stacking (Xếp lên)
+            * Side/Center/Partial well
+            * Side/Center 1/2/3/4-wide
+            * Residual
+            * 6-3 Stacking
+        12B. Digging (Đào xuống)
+13. Setup (Opener, Mid-game setup, Donation, Spin related)
+        13A. Freestyle
+        13B. Donation
+        13C. Opener: DT Cannon, DTPC, BT Cannon, BTPC, TKI 3 Perfect Clear, QT Cannon, Mini-Triple, Trinity, Wolfmoon Cannon, Sewer, TKI, God Spin, Albatross, Pelican, Perrfect Clear Opener, Grace System, DPC, Gamushiro Stacking
+        13D. Mid-game: C-spin, STSD, STMB Cave, Fractal, LST stacking, Hamburger, Imperial Cross, Kaidan, Shachiku Train, Cut Copy, King Crimson, PC liên tiếp (1+2+3)
+14. Cách tính tấn công: Tetris OL attack, Techmino attack
+        ]]
+    },
+    {
+        "Mục lục [8/_]", --TODO: make index
+        "mucluc",
+        "help",
+        [[
+15. Console và chuyện quản lý dữ liệu game
+        - Console
+        - Đặt lại thiết lập, tình trạng mở khóa, bố cục phím
+        - Xóa toàn bộ thành tích, kỷ lục, bản phát lại, bộ nhớ đệm
+16. Các thuật ngữ không liên quan gì tới Tetris (tiếng Anh): SFX, BGM, TAS, AFK
+17. Phụ lục
         ]]
     }
 }
