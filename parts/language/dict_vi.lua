@@ -16,7 +16,7 @@ Vì bản dịch là bản dịch đã qua một ngôn ngữ trung gian khác l�
 
 Muốn gửi đóng góp cho bản dịch? Hay là xem những ai đã đóng góp cho bản dịch này? Nếu thế, hãy nhấn vào biểu tượng quả địa cầu ở góc dưới bên phải để mở trang web.
 
-    Dịch bởi Squishy, xem và sửa bởi <ai đó>.
+Dịch bởi Squishy, xem và sửa bởi <ai đó>.
         ]],
         "https://github.com/26F-Studio/Techmino/blob/main/parts/language/dict_vi.lua",
     },
@@ -32,14 +32,14 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         ]]
     },
     {
-        "Mục lục [1/_]", --TODO: make index
+        "Mục lục [1/8]", 
         "mucluc",
         "help",
         [[
 1. Về Zictionary
         - Giới thiệu bản dịch
         - Cách tìm kiếm trong Zictionary
-2. Mục lục                  <-- bạn đang xem cái này
+2. Mục lục                  <-- bạn đang xem mục này
 3. Dự án Techmino
         - Trang web chính thức
         - Dự án trên GitHub
@@ -47,7 +47,7 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         ]]
     },
     {
-        "Mục lục [2/_]", --TODO: make index
+        "Mục lục [2/8]", 
         "mucluc",
         "help",
         [[
@@ -70,7 +70,7 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         ]]
     },
     {
-        "Mục lục [3/_]", --TODO: make index
+        "Mục lục [3/8]", 
         "mucluc",
         "help",
         [[
@@ -87,11 +87,13 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
             5H1. Tốc độ: LPM, PPS, BPM, KPM
             5H2. Kỹ thuật: Hypertapping, Rolling, Finesse
             5H3. Độ trễ đầu vào
+
+
 […] (Phần cuối của mục này ở trang 5)
         ]]
     },
     {
-        "Mục lục [4/_]", --TODO: make index
+        "Mục lục [4/8]", 
         "mucluc",
         "help",
         [[
@@ -114,14 +116,14 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         ]]
     },
     {
-        "Mục lục [5/_]", --TODO: make index
+        "Mục lục [5/8]", 
         "mucluc",
         "help",
         [[
-[…] (Tiếp tục từ trang 3 | Phần đầu tiên của mục này nằm ở trang 2)
+[…] (Tiếp tục từ trang 4 | Phần đầu tiên của mục này nằm ở trang 2)
         5M. Các thuật ngữ khác: sub, 'Doing Research', Bone block
 6. Các game xếp gạch
-        (Danh sách dài, bạn hãy gõ trên thanh tìm kiếm "nhom6" để xem danh sách đầy đủ ở cột danh sách bên trái)
+        (Danh sách khá là dài nên xin phép không liệt kê ở đây, bạn hãy gõ trên thanh tìm kiếm "nhom6" để xem danh sách đầy đủ ở cột danh sách bên trái)
 7. Một vài cơ chế và chế độ của một số game
         - Tàng hình một phần/hoàn toàn
         - Chế độ MPH
@@ -131,7 +133,7 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         ]]
     },
     {
-        "Mục lục [6/_]", --TODO: make index
+        "Mục lục [6/8]", 
         "mucluc",
         "help",
         [[
@@ -154,7 +156,7 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         ]]
     },
     {
-        "Mục lục [7/_]", --TODO: make index
+        "Mục lục [7/8]", 
         "mucluc",
         "help",
         [[
@@ -170,11 +172,11 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         13B. Donation
         13C. Opener: DT Cannon, DTPC, BT Cannon, BTPC, TKI 3 Perfect Clear, QT Cannon, Mini-Triple, Trinity, Wolfmoon Cannon, Sewer, TKI, God Spin, Albatross, Pelican, Perrfect Clear Opener, Grace System, DPC, Gamushiro Stacking
         13D. Mid-game: C-spin, STSD, STMB Cave, Fractal, LST stacking, Hamburger, Imperial Cross, Kaidan, Shachiku Train, Cut Copy, King Crimson, PC liên tiếp (1+2+3)
-14. Cách tính tấn công: Tetris OL attack, Techmino attack
+14. Cách tính lượng sát thơng gây ra: Tetris OL, Techmino
         ]]
     },
     {
-        "Mục lục [8/_]", --TODO: make index
+        "Mục lục [8/8]", 
         "mucluc",
         "help",
         [[
@@ -185,5 +187,20 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
 16. Các thuật ngữ không liên quan gì tới Tetris (tiếng Anh): SFX, BGM, TAS, AFK
 17. Phụ lục
         ]]
-    }
+    },
+
+    -- # 3. Dự án Techmino
+    
+    {"Website chính thức",
+        "homepage mainpage websites".."website homepage  trang chủ ",
+        "org",
+        "Trang web chính thức của Techmino!\nBạn có thể lấy bản ổn định mới nhất của Techmino cũng như tạo tài khoản, thay avatar ngay tại đó\nNhấn vào biểu tượng quả địa cầu để mở website đó trong trình duyệt",
+        "http://studio26f.org",
+    },
+    {"Dự án trên GitHub",
+        "githubrepository sourcecode src".."mã nguồn mở  dự án  kho lưu trữ",
+        "org",
+        "Kho lưu trữ chính thức của Techmino trên GitHub. Chúng tôi đánh giá cao nếu bạn tặng cho chúng tôi một ngôi sao! (bạn có thể tặng sao miễn phí).",
+        "https://github.com/26F-Studio/Techmino",
+    },
 }
