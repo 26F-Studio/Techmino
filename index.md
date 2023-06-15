@@ -53,14 +53,12 @@ This is the **BASE** to organize everything in game's Zictionary
 - Hệ thống điều khiển
     * IRS, IHS, IMS
 
-- Cách kiểu xáo gạch
+- Cách kiểu xáo gạch & vấn đề của một số kiểu
     * Kiểu xáo Túi 7
     * Kiểu xáo His
     * Kiểu xáo EZ-Start
     * Kiểu xáo Reverb
     * Kiểu xáo C2
-
-- Vấn đề của vài kiểu xáo gạch
     * Drought & Flood
 
 - Thông số
