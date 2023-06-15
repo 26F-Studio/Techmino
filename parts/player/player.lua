@@ -77,16 +77,19 @@ function Player:createLockFX()
         for i=1,#CB do
             local y=self.curY+i-1
             local L=self.clearedRow
+            local skip
             for j=1,#L do
-                if L[j]==y then goto CONTINUE_skip end
+                if L[j]==y then skip=true break end-- goto CONTINUE_skip
             end
-            y=-30*y
-            for j=1,#CB[1] do
-                if CB[i][j] then
-                    ins(self.lockFX,{30*(self.curX+j-2),y,0,t})
+            if not skip then
+                y=-30*y
+                for j=1,#CB[1] do
+                    if CB[i][j] then
+                        ins(self.lockFX,{30*(self.curX+j-2),y,0,t})
+                    end
                 end
             end
-            ::CONTINUE_skip::
+            -- ::CONTINUE_skip::
         end
     end
 end
@@ -610,6 +613,7 @@ do-- function Player:dropPosition(x,y,size)
             vy=vy+.0626
             self:setPosition(x,y,size)
             if y>2600 then
+                table.remove(PLAYERS,TABLE.find(PLAYERS,self))
                 return true
             end
         end
@@ -1041,16 +1045,20 @@ function Player:_checkClear(field,start,height,CB,CX)
 
         h=h+1
         -- Row filled
+        local full=true
         for x=1,10 do
             if field[h][x]<=0 then
-                goto CONTINUE_notFull
+                full=false
+                break-- goto CONTINUE_notFull
             end
         end
-        cc=cc+1
-        if field[h].garbage then gbcc=gbcc+1 end
-        ins(self.clearingRow,h-cc+1)
-        ins(self.clearedRow,h)
-        ::CONTINUE_notFull::
+        if full then
+            cc=cc+1
+            if field[h].garbage then gbcc=gbcc+1 end
+            ins(self.clearingRow,h-cc+1)
+            ins(self.clearedRow,h)
+        end
+        -- ::CONTINUE_notFull::
     end
     return cc,gbcc
 end
@@ -1265,20 +1273,22 @@ function Player:hold_norm(ifpre)
             y=y+(#C.bk-#H.bk)*.5
 
             local iki=phyHoldKickX[x==int(x)]
+            local success
             for Y=int(y),ceil(y+.5) do
                 for i=1,#iki do
                     local X=x+iki[i]
                     if not self:ifoverlap(H.bk,X,Y) then
                         x,y=X,Y
-                        goto BREAK_success
+                        success=true
+                        break
                     end
                 end
+                if success then break end
             end
-            -- <for-else> All test failed, interrupt with sound
+            if not success then -- All test failed, interrupt with sound
                 SFX.play('drop_cancel')
-                do return end
-            -- <for-end>
-            ::BREAK_success::
+                return
+            end
 
             self.spinLast=false
 
@@ -1332,20 +1342,22 @@ function Player:hold_swap(ifpre)
             y=y+(#C.bk-#H.bk)*.5
 
             local iki=phyHoldKickX[x==int(x)]
-            for Y=int(y),ceil(y+.5) do
-                for i=1,#iki do
-                    local X=x+iki[i]
-                    if not self:ifoverlap(H.bk,X,Y) then
-                        x,y=X,Y
-                        goto BREAK_success
+            local success
+                for Y=int(y),ceil(y+.5) do
+                    for i=1,#iki do
+                        local X=x+iki[i]
+                        if not self:ifoverlap(H.bk,X,Y) then
+                            x,y=X,Y
+                            success=true
+                            break
+                        end
                     end
+                    if success then break end
                 end
-            end
-            -- <for-else> All test failed, interrupt with sound
+            if not success then -- All test failed, interrupt with sound
                 SFX.play('finesseError')
-                do return end
-            -- <for-end>
-            ::BREAK_success::
+                return
+            end
 
             self.spinLast=false
 
@@ -2508,90 +2520,92 @@ local function update_alive(P,dt)
     local stopAtFalling
 
     -- Falling animation
-    if P.falling>0 then
-        stopAtFalling=true
-        P:_updateFalling(P.falling-1)
+    repeat
         if P.falling>0 then
-            goto THROW_stop
-        end
-    end
-
-    -- Update block state
-    if P.control then
-        -- Try spawn new block
-        if not P.cur then
-            if not stopAtFalling and P.waiting>0 then
-                P.waiting=P.waiting-1
+            stopAtFalling=true
+            P:_updateFalling(P.falling-1)
+            if P.falling>0 then
+                break-- goto THROW_stop
             end
-            if P.waiting<=0 then
-                P:popNext()
-            end
-            goto THROW_stop
         end
 
-        -- Natural block falling
-        if P.cur then
-            if P.curY>P.ghoY then
-                local D=P.dropDelay
-                local dist-- Drop distance
-                if D>1 then
-                    D=D-1
-                    if P.keyPressing[7] and P.downing>=ENV.sddas then
-                        D=D-ceil(ENV.drop/ENV.sdarr)
-                    end
-                    if D<=0 then
-                        dist=1
-                        P.dropDelay=(D-1)%ENV.drop+1
-                    else
-                        P.dropDelay=D
-                        goto THROW_stop
-                    end
-                elseif D==1 then-- We don't know why dropDelay is 1, so checking ENV.drop>1 is neccessary
-                    if ENV.drop>1 and P.downing>=ENV.sddas and (P.downing-ENV.sddas)%ENV.sdarr==0 then
-                        dist=2
-                    else
-                        dist=1
-                    end
-                    -- Reset drop delay
-                    P.dropDelay=ENV.drop
-                else-- High gravity case (>1G)
-                    -- Add extra 1 if time to auto softdrop
-                    if P.downing>ENV.sddas and (P.downing-ENV.sddas)%ENV.sdarr==0 then
-                        dist=1/D+1
-                    else
-                        dist=1/D
-                    end
+        -- Update block state
+        if P.control then
+            -- Try spawn new block
+            if not P.cur then
+                if not stopAtFalling and P.waiting>0 then
+                    P.waiting=P.waiting-1
                 end
+                if P.waiting<=0 then
+                    P:popNext()
+                end
+                break-- goto THROW_stop
+            end
 
-                -- Limit dropping to ghost at max
-                dist=min(dist,P.curY-P.ghoY)
-
-                -- Drop and create FXs
-                if ENV.moveFX and ENV.block and dist>1 then
-                    for _=1,dist do
-                        P:createMoveFX('down')
-                        P.curY=P.curY-1
+            -- Natural block falling
+            if P.cur then
+                if P.curY>P.ghoY then
+                    local D=P.dropDelay
+                    local dist-- Drop distance
+                    if D>1 then
+                        D=D-1
+                        if P.keyPressing[7] and P.downing>=ENV.sddas then
+                            D=D-ceil(ENV.drop/ENV.sdarr)
+                        end
+                        if D<=0 then
+                            dist=1
+                            P.dropDelay=(D-1)%ENV.drop+1
+                        else
+                            P.dropDelay=D
+                            break-- goto THROW_stop
+                        end
+                    elseif D==1 then-- We don't know why dropDelay is 1, so checking ENV.drop>1 is neccessary
+                        if ENV.drop>1 and P.downing>=ENV.sddas and (P.downing-ENV.sddas)%ENV.sdarr==0 then
+                            dist=2
+                        else
+                            dist=1
+                        end
+                        -- Reset drop delay
+                        P.dropDelay=ENV.drop
+                    else-- High gravity case (>1G)
+                        -- Add extra 1 if time to auto softdrop
+                        if P.downing>ENV.sddas and (P.downing-ENV.sddas)%ENV.sdarr==0 then
+                            dist=1/D+1
+                        else
+                            dist=1/D
+                        end
                     end
+
+                    -- Limit dropping to ghost at max
+                    dist=min(dist,P.curY-P.ghoY)
+
+                    -- Drop and create FXs
+                    if ENV.moveFX and ENV.block and dist>1 then
+                        for _=1,dist do
+                            P:createMoveFX('down')
+                            P.curY=P.curY-1
+                        end
+                    else
+                        P.curY=P.curY-dist
+                    end
+
+                    P.spinLast=false
+                    P:freshBlock('fresh')
+                    P:checkTouchSound()
                 else
-                    P.curY=P.curY-dist
-                end
-
-                P.spinLast=false
-                P:freshBlock('fresh')
-                P:checkTouchSound()
-            else
-                P.lockDelay=P.lockDelay-1
-                if P.lockDelay>=0 then
-                    goto THROW_stop
-                end
-                P:drop(true)
-                if P.bot then
-                    P.bot:lockWrongPlace()
+                    P.lockDelay=P.lockDelay-1
+                    if P.lockDelay>=0 then
+                        break-- goto THROW_stop
+                    end
+                    P:drop(true)
+                    if P.bot then
+                        P.bot:lockWrongPlace()
+                    end
                 end
             end
         end
-    end
-    ::THROW_stop::
+    until true
+    -- ::THROW_stop::
 
     -- B2B bar animation
     if P.b2b1~=P.b2b then
@@ -2911,16 +2925,20 @@ function Player:lose(force)
         self:dropPosition()
         freshPlayerPosition('update')
 
+        local finished=true
         for i=1,#PLY_ALIVE-1 do
             if PLY_ALIVE[i].group==0 or PLY_ALIVE[i].group~=PLY_ALIVE[i+1].group then
-                goto BREAK_notFinished
+                finished=false
+                break-- goto BREAK_notFinished
             end
         end
         -- Only 1 people or only 1 team survived, they win
-        for i=1,#PLY_ALIVE do
-            PLY_ALIVE[i]:win()
+        if finished then
+            for i=1,#PLY_ALIVE do
+                PLY_ALIVE[i]:win()
+            end
         end
-        ::BREAK_notFinished::
+        -- ::BREAK_notFinished::
     end
 end
 --------------------------<\Event>--------------------------

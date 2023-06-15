@@ -981,7 +981,7 @@ do-- function resetGameData(args)
             GAME.replaying=true
         else
             GAME.frameStart=args:find'n' and 0 or 180-SETTING.reTime*60
-            GAME.seed=seed or math.random(1046101471,2662622626)
+            GAME.seed=seed or math.random(1046101471)
             GAME.pauseTime=0
             GAME.pauseCount=0
             GAME.saved=false

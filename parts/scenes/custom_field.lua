@@ -195,14 +195,17 @@ function scene.keyDown(key)
         local F=FIELD[page]
         local cleared=false
         for i=#F,1,-1 do
+            local full
             for j=1,10 do
-                if F[i][j]<=0 then goto CONTINUE_notFull end
+                if F[i][j]<=0 then full=false break end-- goto CONTINUE_notFull
             end
-            cleared=true
-            SYSFX.newShade(3,200,660-30*i,300,30)
-            SYSFX.newRectRipple(3,200,660-30*i,300,30)
-            rem(F,i)
-            ::CONTINUE_notFull::
+            if full then
+                cleared=true
+                SYSFX.newShade(3,200,660-30*i,300,30)
+                SYSFX.newRectRipple(3,200,660-30*i,300,30)
+                rem(F,i)
+            end
+            -- ::CONTINUE_notFull::
         end
         if cleared then
             SFX.play('clear_3',.8)

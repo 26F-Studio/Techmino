@@ -65,13 +65,15 @@ local seqGenerators={
                 local r
                 for _=1,hisLen do-- Reroll up to [hisLen] times
                     r=rndGen:random(len)
+                    local rollAgain
                     for i=1,hisLen do
                         if r==history[i] then
-                            goto CONTINUE_rollAgain
+                            rollAgain=true
+                            break-- goto CONTINUE_rollAgain
                         end
                     end
-                    do break end
-                    ::CONTINUE_rollAgain::
+                    if not rollAgain then break end
+                    -- ::CONTINUE_rollAgain::
                 end
                 if history[1]~=0 then
                     P:getNext(seq0[r])
@@ -128,16 +130,21 @@ local seqGenerators={
                     -- print"======================"
                 -- Pick a mino from pool
                 local tryTime=0
-                ::REPEAT_pickAgain::
-                local r=_poolPick()-- Random mino-index in pool
-                for i=1,len do
-                    if r==history[i] then
-                        tryTime=tryTime+1
-                        if tryTime<hisLen then
-                            goto REPEAT_pickAgain
+                local r
+                repeat-- ::REPEAT_pickAgain::
+                    local pickAgain
+                    r=_poolPick()-- Random mino-index in pool
+                    for i=1,len do
+                        if r==history[i] then
+                            tryTime=tryTime+1
+                            if tryTime<hisLen then
+                                pickAgain=true
+                                break-- goto REPEAT_pickAgain
+                            end
                         end
                     end
-                end
+                    if not pickAgain then break end
+                until true
 
                 -- Give mino to player & update history
                 if history[1]~=0 then

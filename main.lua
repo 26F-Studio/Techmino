@@ -10,8 +10,7 @@
     Instructions:
     1. I made a framework called Zframework, *most* code in Zframework are not directly relevant to game;
     2. "xxx" are texts for reading by player, 'xxx' are string values just used in program;
-    3. Some goto statement are used for better performance. All goto-labes have detailed names so don't be afraid;
-    4. Except "gcinfo" function of lua itself, other "gc" are short for "graphics";
+    3. Except "gcinfo" function of lua itself, other "gc" are short for "graphics";
 ]]--
 
 
@@ -560,16 +559,15 @@ applySettings()
 
 -- Load replays
 for _,fileName in next,fs.getDirectoryItems('replay') do
-    if fileName:sub(12,12):match("[a-zA-Z]") then
+    if fileName:sub(12,12):match("[a-zA-Z]") then repeat
         local date,mode,version,player,seed,setting,mod
-        local fileData=fs.read('replay/'..fileName)
+        local success,fileData=true,fs.read('replay/'..fileName)
         date,   fileData=STRING.readLine(fileData)date=date:gsub("[a-zA-Z]","")
         mode,   fileData=STRING.readLine(fileData)mode=MODE_UPDATE_MAP[mode] or mode
         version,fileData=STRING.readLine(fileData)
         player, fileData=STRING.readLine(fileData) if player=="Local Player" then player="Stacker" end
-        local success
         success,fileData=pcall(love.data.decompress,'string','zlib',fileData)
-        if not success then goto BREAK_cannotParse end
+        if not success then break end
         seed,   fileData=STRING.readLine(fileData)
         setting,fileData=STRING.readLine(fileData)setting=JSON.decode(setting)
         mod,    fileData=STRING.readLine(fileData)mod=JSON.decode(mod)
@@ -578,7 +576,7 @@ for _,fileName in next,fs.getDirectoryItems('replay') do
             not mod or
             not mode or
             #mode==0
-        then goto BREAK_cannotParse end
+        then break end
 
         fs.remove('replay/'..fileName)
         local newName=fileName:sub(1,10)..fileName:sub(15)
@@ -597,8 +595,7 @@ for _,fileName in next,fs.getDirectoryItems('replay') do
             )
         )
         fileName=newName
-    end
-    ::BREAK_cannotParse::
+    until true end
     local rep=DATA.parseReplay('replay/'..fileName)
     table.insert(REPLAY,rep)
 end
