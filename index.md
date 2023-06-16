@@ -186,17 +186,18 @@ This is the **BASE** to organize everything in game's Zictionary
     * tetris.wiki
     * Tetris Wiki Fandom
 
+- Cung cấp câu đố
+    * TTT
+    * TTPC
+    * NAZO
+    * TPO
+
 - Bày setup
     * Four.lol
     * Tetris Hall
     * Tetris Template Collections
     * tetristemplate.info
 
-- Cung cấp câu đố
-    * TTT
-    * TTPC
-    * NAZO
-    * TPO
 - Chia sẻ setup
     * Fumen
     * Fumen bản Điện thoại
@@ -214,7 +215,7 @@ This is the **BASE** to organize everything in game's Zictionary
     * 6-3 Stacking
 - Digging (Đào xuống)
 
-## 13. Setup (Opener, Mid-game setup, Donation, Spin related)
+## 13. Setup (Opener, Mid-game setup, Donation, Pattern)
 - Freestyle
 - Opener
     * DT Cannon
@@ -245,9 +246,10 @@ This is the **BASE** to organize everything in game's Zictionary
     * King Crimson
     * Fin, Neo, Iso
     * PC liên tiếp (1+2+3)
+
 - Donation
-    * Hamburger
     * STMB Cave
+    * Hamburger
     * Kaidan
     * Shachiku Train
     * Cut Copy
