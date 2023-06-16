@@ -192,7 +192,7 @@ This is the **BASE** to organize everything in game's Zictionary
     * Tetris Template Collections
     * tetristemplate.info
 
-- Chia sẻ câu đố
+- Cung cấp câu đố
     * TTT
     * TTPC
     * NAZO
