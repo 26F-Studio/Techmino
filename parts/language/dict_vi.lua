@@ -5,7 +5,7 @@ return {
     {
         "=[NHÓM 1]=",
         "nhom1",
-        "help",
+        "name",
         "NHÓM 1: VỀ ZICTIONARY"
     },
     {
@@ -38,7 +38,7 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
     {
         "=[NHÓM 2]=",
         "nhom2 mucluc",
-        "help",
+        "name",
         "NHÓM 2: MỤC LỤC"
     },
     {
@@ -200,7 +200,7 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
 -----------------
     {"=[NHÓM 3]=",
         "nhom3",
-        "org",
+        "name",
         "NHÓM 3: DỰ ÁN TECHMINO",
     },
     {"Website chính thức",
@@ -218,52 +218,51 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
     {"Discord",
         "nhom3",
         "org",
-        -- SweetSea's version (old)
+        -- SweetSea's version
         [[
 Cùng gặp gỡ và nói chuyện với tác giả của Techmino ở trong Discord
 Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đơn giản là ngồi tám chuyện cho vui :)
 
 [Sea: bạn cũng có thể vào server và hỏi mình về vấn đề dịch thuật. Hãy xem mục 17_ để biết cách liên hệ mình nếu cần.]
         ]],      --TODO: write the 17th group. IDK when I can do it lol
-        "",
         "https://discord.gg/f9pUvkh"
     },
     not FNNS and {"=[NHÓM 4]=",
         "nhom4",
-        "org",
+        "name",
         "NHÓM 4: ỦNG HỘ CHO TÁC GIẢ CỦA TECHMINO",
     } or {"=[NHÓM 4]=",
         "nhom4",
-        "org",
-        "Nội dung của nhóm này (gồm có 3 mục) đã bị ẩn đi do yêu cầu của nền tảng. Nhưng bạn vẫn có thể hỏi về nội dung này trong server Discord của chúng tôi."
+        "name",
+        "Nội dung của nhóm này đã bị ẩn đi do yêu cầu của nền tảng. Nhưng bạn vẫn có thể hỏi về nội dung này trong server Discord của chúng tôi."
         },
     not FNNS and {"Ủng hộ 1",
         "nhom4 support wechat vx weixin alipay zfb zhifubao",
         "org",
         "Để ủng hộ cho Techmino thông qua WeChat Pay hoặc Alipay, gõ “support” ở trong console và quét mã QR.",
-    } or {"*ĐÃ ẨN*", "nhom4", "org", ""},
+    } or {"*ĐÃ ẨN*", "", "org", ""},
     not FNNS and {"Ủng hộ 2",
         "nhom4 support afdian aidadian",
         "org",
         "Để ủng hộ cho Techmino qua Aifadian, hãy nhấn vào biểu tượng quả địa cầu để mở URL trực tiếp vào trình duyệt. Lưu ý là Aifadian sẽ trừ bạn 6% phí giao dịch.",
         "https://afdian.net/@MrZ_26",
-    } or {"*ĐÃ ẨN*", "nhom4", "org", ""},
+    } or {"*ĐÃ ẨN*", "", "org", ""},
     not FNNS and {"Ủng hộ 3",
         "nhom4 support patreon",
         "org",
         "Để ủng hộ cho Techmino qua Patreon, hãy nhấn vào biểu tượng quả địa cầu. Lưu ý rằng Patreon có thể tính phí dịch vụ cho bạn đối với các giao dịch trên một số tiền nhất định.",
         "https://www.patreon.com/techmino",
-    } or {"*ĐÃ ẨN*", "nhom4", "org", ""},
+    } or {"*ĐÃ ẨN*", "", "org", ""},
 
 -----------------
     {"=[NHÓM 5]=",
         "nhom5",
-        "term",
+        "name",
         "NHÓM 5: TETRIS VÀ CÁC THUẬT NGỮ",
     },
     {">A|Tetris hiện đại",
         "nhom5a modern",
-        "term",
+        "name",
         [[
 Khái niệm về trò chơi Tetris hay trò chơi xếp gạch “hiện đại” rất mờ nhạt. Nói chung, một trò chơi xếp gạch hiện đại thường sẽ bám sát theo Tetris Design Guideline (Nguyên tắc thiết kế Tetris hiện đại).
 Dưới đây là một số quy tắc chung, nhưng chúng không phải là quy tắc bắt buộc
@@ -318,7 +317,7 @@ Techmino không kiểm tra điều kiện Lock out và Top out.
     },
     {">B|Gạch",
         "nhom5b",
-        "term",
+        "name",
         ""
     },
     {"H.dạng của Tetro.",
@@ -354,7 +353,7 @@ Ví dụ:
     },
     {">C|Hệ thống xoay",
         "nhom5c",
-        "term",
+        "name",
         [[
 Một hệ thống để xác định cách gạch xoay.
 
@@ -445,7 +444,7 @@ Khoảng cách euclide của độ lệch của cú đá được chọn không 
     },
     {">D|Hệ thg đ.khiển",
         "nhom5d",
-        "term",
+        "name",
         "NHÓM 5D: HỆ THỐNG ĐIỀU KHIỂN"
     },
     {"IRS",
@@ -465,7 +464,7 @@ Khoảng cách euclide của độ lệch của cú đá được chọn không 
     },
     {">E|Các kiểu xáo",
         "nhom5e",
-        "term",
+        "name",
         ""
     },
     {"Kiểu xáo Túi 7",
@@ -539,12 +538,12 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
     },
     {">F|Thông số",
         "nhom5f",
-        "term",
+        "name",
         ""
     },
     {">F1|Thg số game",
         "nhom5f1",
-        "term",
+        "name",
         "NHÓM 5F1: THÔNG SỐ GAME"
     },
     {"Tốc độ rơi",
@@ -591,9 +590,9 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
         "term",
         "Khi có một viên gạch chặn ngay tại vị trí xuất hiện của gạch mới, spawn ARE sẽ được cộng với một khoảng thời gian nữa để tạo thành Death ARE. Cơ chế này có thể được sử dụng cùng với IHS và IRS để cho phép bạn có thể thoát chết.\nÝ tưởng ban đầu của NOT_A_ROBOT.",
     },
-    {"5F2|Thg số đ.khiển",
+    {">F2|Thg số đ.khiển",
         "nhom5f2",
-        "term",
+        "name",
         "NHÓM 5F2: THÔNG SỐ ĐIỀU KHIỂN"
     },
     {"DAS (đơn giản)",
@@ -628,12 +627,12 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
     },
     {">G|Điều khiển",
         "nhom5g",
-        "term",
+        "name",
         "",
     },
     {">G1|Tốc độ đ.khiển",
         "nhom5g1",
-        "term",
+        "name",
         "NHÓM 5G1: TỐC ĐỘ ĐIỀU KHIỂN",
     },
     {"LPM",
@@ -667,7 +666,7 @@ Mỗi game có cách tính LPM khác nhau. Ví dụ như, Tetris Online tính LP
     },
     {">G2|K.thuật đ.khiển",
         "nhom5g2",
-        "term",
+        "name",
         "NHÓM 5G2: KỸ THUẬT ĐIỀU KHIỂN",
     },
     {"Finesse",
@@ -702,12 +701,12 @@ Phương pháp này lần đầu tiên được phát hiện ra bởi Cheez-fish
     },
     {">G3|Độ trễ input",
         "nhom5g3 input delay",
-        "term",
+        "name",
         "Độ trễ đầu vào\nBất kỳ thiết bị đầu vào cũng cần một khoảng thời gian để tín hiệu có thể tới game. Độ trễ này từ vài ms cho tới mấy trăm ms.\nNếu độ trễ đầu vào quá cao, thì việc điều khiển sẽ không thoải mái.\nĐộ trễ này thường do phần cứng và phần mềm, thứ mà bạn khó mà kiểm soát được. Bật chế độ Hiệu suất cao (Performance mode) hoặc tắt chế độ tiết kiệm năng lượng (Energy saving), đồng thời bật chế độ Gaming trên màn hình máy tính/TV, có thể giúp giảm độ trễ.",
     },
-    {"5H|K.năng t.công",
+    {">H|K.năng t.công",
         "nhom5h",
-        "term",
+        "name",
         "NHÓM 5H: KHẢ NĂNG TẤN CÔNG"
     },
     {"APM",
@@ -773,7 +772,7 @@ Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1
     },
     {">I|Mis-action",
         "nhom5i",
-        "term",
+        "name",
         "NHÓM 5I: HÀNH ĐỘNG BẤT CẨN (MIS-)"
     },
     {"Misdrop",
@@ -788,7 +787,7 @@ Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1
     },
     {">J|Spin",
         "nhom5j",
-        "term",
+        "name",
         ""
     },
     {"Spin",
@@ -821,7 +820,7 @@ Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1
     },
     {">K|K.thuật xóa hàng",
         "nhom5k",
-        "term",
+        "name",
         "NHÓM 5K: KỸ THUẬT XÓA HÀNG"
     },
     {"Single",
@@ -897,7 +896,7 @@ Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1
     },
     {">L|T.ngữ khác",
         "nhom5l",
-        "term",
+        "name",
         "NHÓM 5L: CÁC THUẬT NGỮ KHÁC"
     },
     {"sub",
@@ -923,7 +922,7 @@ Cũng trong Techmino nhưng trong bản tiếng Việt, từ “gạch []” đ�
     },
     {"=[NHÓM 6]=",
         "nhom6",
-        "game",
+        "name",
         [[
 NHÓM 6: CÁC GAME XẾP GẠCH
 
@@ -933,5 +932,683 @@ Sea cũng có một số lời nhận xét và thông tin bổ sung, được đ
 
 Hãy nhớ là không phải game nào được nhắc đến đều có lời nhận xét, và chúng chỉ là những ý kiến chủ quan. Đọc chỉ để tham khảo, những nhận xét này không có tính chuyên môn.
         ]]
-    }
+    },
+    {"King of Stackers",
+        "nhom6 kos kingofstackers",
+        "game",
+        [[
+Chơi trên trình duyệt | Chơi trực tuyến | Hỗ trợ điện thoại
+
+Gọi tắt là KoS. Một game xếp gạch chơi trên trình duyệt theo lượt. Các quy tắc chính như sau: người chơi thay phiên nhau đặt các gạch trong bảng của họ theo chu kỳ 7 gạch. Các cuộc tấn công chỉ vào bảng khi một gạch được đặt mà không xóa một hàng nào. Trò chơi mang tính chiến lược cao và có các tùy chọn khác nhau cho cơ chế tấn công.
+        ]],
+        "https://kingofstackers.com/games.php",
+    },
+    {"Tetr.js",
+        "nhom6 tetrjs tetr.js",
+        "game",
+        [[
+Chơi trên trình duyệt | Chơi đơn | Hỗ trợ điện thoại
+
+Một game xếp gạch chơi trên trình duyệt với nhiều điều chỉnh và chế độ chuyên nghiệp.
+Liên kết của mục này sẽ đưa bạn tới bản của Farter (bản này là một bản đã mod, đã thêm một vài chế độ khác)
+Bạn cũng có thể tìm một phiên bản khác có tên là "Tetr.js Enhanced" - bản mod này do Dr Ocelot làm
+
+[MrZ: Giao diện đơn giản với hầu như không có bất kỳ hiệu ứng (animation) nào. Chỉ có một số tổ hợp phím ảo khả dụng cho thiết bị di động.]
+
+[Sea: Hiện tại Tetr.js Enhanced không còn khả dụng nữa. Và Dr Ocelot cũng không muốn mang Tetr.js Enhanced quay lại]
+        ]],
+        "http://farter.cn/t",
+    },
+    {"Tetra Legends",
+        "nhom6 tl tetralegends",
+        "game",
+        [[
+Chơi trên trình duyệt | Chơi đơn | Không hỗ trợ điện thoại
+
+Gọi tắt là TL. Một tựa game chứa nhiều chế độ chơi đơn + 2 chế độ nhịp điệu. INó cũng hình dung các cơ chế thường ẩn trong các trò chơi Tetris khác. Quá trình phát triển đã dừng lại (và bỏ hoang) từ tháng 12 năm 2020.
+        ]],
+        "https://tetralegends.app",
+    },
+    {"Ascension",
+        "nhom6 asc ASC",
+        "game",
+        [[
+Chơi trên trình duyệt | Chơi đơn/Chơi trực tuyến
+
+Gọi tắt là ASC. Game sử dụng hệ thống xoay có tên là ASC và có nhiều chế độ chơi đơn. Chế độ 1 đấu 1 hiện vẫn còn trong giai đoạn Alpha (16/T4/2022). Chế độ Stack của Techmino cũng bắt nguồn ý tưởng từ game này.
+        ]],
+        "https://asc.winternebs.com",
+    },
+    {"Jstris",
+        "nhom6 js jstris",
+        "game",
+        [[
+Chơi trên trình duyệt | Chơi đơn/Chơi trực tuyến | Hỗ trợ điện thoại
+
+Gọi tắt là JS. Nó có một số chế độ chơi đơn với thông số có thể điều chỉnh được. Có thể điều chỉnh phím ảo trên màn hình, nhưng trò chơi này không có hiệu ứng động nào cả.
+        ]],
+        "https://jstris.jezevec10.com",
+    },
+    {"TETR.IO",
+        "nhom6 io tetrio tetr.io teto",
+        "game",
+        [[
+Chơi trên trình duyệt/Chơi trên client chính thức | Chơi đơn/Chơi trực tuyến
+
+Gọi tắt là teto hoặc IO. Trò chơi này có một hệ thống xếp rank cũng như có chế độ tự do với nhiều thông số có thể tùy chỉnh. Trò chơi này cũng có một client dành cho máy tính, giúp cải thiện tốc độ, giảm độ trễ và gỡ bỏ quảng cáo
+        
+[MrZ: Có vẻ như Safari không thể mở game này.]
+        ]],
+        "https://tetr.io",
+    },
+    {"Nuketris",
+        "nhom6 nuketris",
+        "game",
+        [[
+Chơi trên trình duyệt | Chơi đơn/Chơi trực tuyến
+
+Một trò xếp gạch có chế độ 1 đấu 1 có xếp rank + các chế độ chơi đơn thông thường
+        ]],
+        "https://nuketris.com",
+    },
+    {"Worldwide Combos",
+        "nhom6 wwc worldwidecombos",
+        "game",
+        [[
+Chơi trên trình duyệt | Chơi đơn/Chơi trực tuyến
+
+Gọi tắt là WWC. Có chế độ 1 đấu 1 toàn cầu: chơi với người thật hoặc chơi với bản ghi trận đấu; có vài quy tắc khác nhau, với các trận đấu gửi rác bằng bom."
+        ]],
+        "https://worldwidecombos.com",
+    },
+    {"Tetris Friends",
+        "nhom6 tf tetrisfriends notrisfoes",
+        "game",
+        [[
+Chơi trên trình duyệt/Chơi trên client chính thức | Chơi đơn/Chơi trực tuyến
+
+Gọi tắt là TF. Một trò chơi Tetris dựa trên một plugin đã bị khai tử từ lâu. Từng rất phổ biến trong quá khứ, nhưng tất cả trò chơi đã đóng cửa từ mấy năm trước. Hiện giờ còn một máy chủ riêng tư tên là “Notris Foes” vẫn còn tồn tại. Nhấn vào biểu tượng quả địa cầu để mở ở trong trình duyệt
+
+[Sea: Lưu ý bạn cần phải cài một client cho Notris Foes thì mới có thể chạy game. Sẽ tốn công vô ích nếu bạn cố cài tiện ích bổ sung trên trình duyệt bạn hay dùng để chạy game.]
+        ]],
+        "https://notrisfoes.com",
+    },
+    {"tetris.com",
+        "nhom6 tetris online official",
+        "game",
+        [[
+Chơi trên trình duyệt | Chơi đơn | Hỗ trợ điện thoại
+
+Game Tetris chính thức tetris.com, mà chỉ có một chế độ (Marathon). Bù lại, có hỗ trợ hệ thống điều khiển thông minh bằng chuột
+
+[Sea: Thông tin thêm: nếu bạn ở trên điện thoại thì có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart), "bàn phím". Bạn có thể thử nghiệm với cả ba chế độ điều khiển để tìm xem chế độ nào phù hợp với mình nhất. Để điều khiển bằng "bàn phím" thì bạn chỉ cần kết nối với bàn phím là được (miễn là điện thoại có thể nhận bàn phím thì game cũng sẽ nhận thôi), còn để đổi giữa "vuốt" và "thông minh" thì hãy mở Options của game.]
+        ]],
+    },
+    {"Tetris Gems",
+        "nhom6 tetris online official gem",
+        "game",
+        [[
+Chơi trên trình duyệt | Chơi đơn | Hỗ trợ điện thoại
+
+Một game xếp gạch khác từ tetris.com . Có cơ chế trọng lực và mỗi ván chỉ kéo dài trong 1 phút. Có 3 loại gem (ngọc) khác nhau với khả năng riêng biệt.
+        ]],
+    },
+    {"Tetris Mind Bender",
+        "nhom6 tetris online official gem",
+        "game",
+        [[
+Chơi trên trình duyệt | Chơi đơn | Hỗ trợ điện thoại
+
+Một game xếp gạch khác từ tetris.com . Một chế độ Marathon vô tận với một mino đặc biệt gọi là "Mind Bender" sẽ đưa cho bạn ngẫu nhiên một hiệu ứng nào đó (có thể là tốt hoặc xấu).
+        ]],
+    },
+    {"Techmino",
+        "nhom6 techmino",
+        "game",
+        [[
+Đa nền tảng | Chơi đơn/Chơi trực tuyến
+
+Gọi tắt là Tech. Một tựa game xếp gạch được phát triển bởi MrZ. Sử dụng engine LÖVE (love2d). Có rất nhiều chế độ chơi đơn, cũng như có nhiều thông số có thể tùy chỉnh được. Tuy nhiên, chế độ nhiều người chơi hiện tại vẫn đang còn phát triển
+        ]],
+    },
+    {"Falling Lightblocks",
+        "nhom6 fl fallinglightblocks",
+        "game",
+        [[
+Chơi trên trình duyệt/iOS/Android | Chơi đơn/Chơi trực tuyến
+
+Một game xếp gạch đa nền tảng có thể chơi ở chế độ dọc hoặc ngang. Game này có DAS và ARE khi xóa hàng cố định; và có thể điều chỉnh cơ chế điều khiển trên điện thoại. Hầu hết các chế độ trong game đều được thiết kế dựa trên NES Tetris, nhưng cũng có vài chế độ hiện đại. Chế độ Battle theo kiểu nửa "theo lượt", nửa "theo thời gian thực", rác cũng không vào hàng chờ hay có thể hủy được.
+        ]],
+        "https://golfgl.de/lightblocks/",
+    },
+    {"Cambridge",
+        "nhom6 cambridge",
+        "game",
+        [[
+Đa nền tảng | Chơi đơn
+
+Một game xếp gạch được phát triển bằng LÖVE và được dảnh riêng để tạo ra một nền tảng mạnh mẽ, dễ dàng tùy chỉnh để tạo ra các chế độ mới. Ban đầu được phát triển bởi Joe Zeng, Milla đã tiếp quản quá trình phát triển từ 08/T10/2020, kể từ V0.1.5.
+
+— Tetris Wiki
+        ]],
+    },
+    {"Nanamino",
+        "nhom6 nanamino",
+        "game",
+        [[
+Windows/Android | Chơi đơn
+        
+Một trò chơi do fan làm đang được phát triển với hệ thống xoay đặc trưng cực kỳ thú vị,
+        ]],
+    },
+    {"TGM",
+        "nhom6 tetrisgrandmaster tetristhegrandmaster",
+        "game",
+        [[
+Chỉ có trên game thùng | Chơi đơn/Chơi qua mạng cục bộ
+
+Tetris The Grand Master, một series Tetris dành cho máy thùng. Những thứ như S13 hay GM cũng từ chính series này. TGM3 được coi là tựa game nổi tiếng nhất của series này.
+        ]],
+    },
+    {"DTET",
+        "nhom6 dtet",
+        "game",
+        [[
+Windows | Chơi đơn
+
+Một game xếp gạch dựa trên quy tắc Cổ điển của TGM + 20G với hệ thống xoay gạch mạnh mẽ. Cơ chế điều khiển tốt nhưng không có tùy chỉnh nào ngoài tùy chỉnh gán phím. Game này bây giờ hơi khó tìm và bạn có thể phải cài tệp DLL cần thiết bằng tay 
+
+[Sea: Lưu ý rằng game không chạy được trên Windows Vista, bạn có thể phải sử dụng máy ảo (virutal machine) cài hệ điều hành Windows XP mới có thể chạy được.]
+        ]],
+    },
+    {"Heboris",
+        "nhom6 hb heboris",
+        "game",
+        [[
+Windows | Chơi đơn
+
+Một game với phong cách chơi Arcade, có khả năng mô phỏng nhiều chế độ của các trò chơi Tetris khác.
+        ]],
+    },
+    {"Texmaster",
+        "nhom6 txm texmaster",
+        "game",
+        [[
+Windows | Chơi đơn
+
+Một game bao gồm tất cả chế độ trong TGM để có thể sử dụng để thực hành TGM. Lưu ý rằng quy tắc Rule trong Texmaster hơi khác một chút so với TGM
+        ]],
+    },
+    {"Tetris Effect",
+        "nhom6 tec tetriseffectconnected",
+        "game",
+        [[
+PS/Oculus Quest/Xbox/NS/Windows | Chơi đơn/Chơi trực tuyến
+
+Gọi tắt là TE(C). Một game xếp gạch chính thức với đồ họa và nhạc nền lạ mắt chuyển động theo sự điều khiển của bạn. Phiên bản cơ bản (Tetris Effect, không có chữ "Connected") chỉ có các chế độ chơi đơn. Phiên bản mở rộng, Tetris Effected Connected có 4 chế độ chơi trực tuyến đó là: Connected (VS), Zone Battle, Score Attack, và Classic Score Attack.
+        ]],
+    },
+    {"Tetris 99",
+        "nhom6 t99 tetris99",
+        "game",
+        [[
+Nintendo Switch | Chơi đơn/Chơi trực tuyến
+
+Một trò chơi nổi tiếng với chế độ Battle Royale 99 người và có nhiều chiến lược thú vị mà không có trong các trò chơi chiến đấu truyền thống. Nó cũng có các chế độ chơi đơn hạn chế như Marathon hay các trận đấu bot có sẵn dưới dạng DLC
+        ]],
+    },
+    {"Puyo Puyo Tetris",
+        "nhom6 ppt puyopuyotetris",
+        "game",
+        [[
+PS/NS/Xbox/Windows | Chơi đơn/Chơi trực tuyến
+
+Đây là một tựa game ghép từ hai trò chơi giải đố: Tetris  và Puyo Puyo, và bạn có thể chơi đối đầu trong cả hai game này. Có nhiều chế độ chơi đơn và chơi trực tuyến.
+
+[MrZ: Bản PC (Steam) có cơ chế điều khiển và trải nghiệm trực tuyến khá là tệ.]
+        ]],
+    },
+    {"Tetris Online",
+        "nhom6 top tetrisonline",
+        "game",
+        [[
+Windows | Chơi đơn/Chơi trực tuyến
+
+Một game xếp gạch của Nhật Bản đã bị khai tử từ lâu. Có chế độ chơi đơn và chơi trực tuyến. Có thể điều chỉnh DAS và ARR nhưng không thể đặt thành 0. Độ trễ đầu vào nhỏ. Tuy server chính ở Nhật đã bị đóng cửa còn lâu nhưng vẫn còn tồn tại server riêng. Game rất phù hợp cho những người mới bắt đầu.
+        ]],
+    },
+    {"Tetra Online",
+        "nhom6 TO tetraonline",
+        "game",
+        [[
+Windows/macOS/Linux | Chơi đơn/Chơi trực tuyến
+
+Gọi tắt là TO. Một tựa game xếp gạch được phát triển bởi Dr Ocelot và Mine. Các loại độ trễ như AREs được cố tình đẩy ở giá trị cao, và những ai đã từng quen chơi xếp gạch mà có độ trễ thấp/không có độ trễ sẽ khó làm quen với game này
+Game đã bị gỡ ra khỏi Steam vào ngày 9/T12/2020 do TTC gửi thông báo DMCA
+Dù sao thì, vẫn còn một bản build có thể tải từ GitHub.
+        ]],
+        "https://github.com/Juan-Cartes/Tetra-Offline/releases/tag/1.0",
+    },
+    {"Cultris II",
+        "nhom6 c2 cultris2 cultrisii",
+        "game",
+        [[
+Windows/OS X | Chơi đơn/Chơi trực tuyến
+
+Gọi tắt là C2. Được thiết kế dựa trên Tetris cổ điển, Cultris II cho phép bạn có thể điều chỉnh DAS và ARR. Chế độ chiến đấu tập trung vào các combo dựa trên thời gian, thử thách người chơi về mặt tốc độ, n-wide setup và kỹ năng đào xuống của người chơi
+
+[MrZ: Phiên bản dành cho Mac đã không được bảo trì trong thời gian dài. Nếu bạn đang dùng macOS Catalina hoặc macOS mới hơn thì không thể chạy game này.]
+        ]],
+    },
+    {"Nullpomino",
+        "nhom6 np nullpomino",
+        "game",
+        [[
+Windows/macOS/Linux | Chơi đơn/Chơi trực tuyến
+
+Gọi tắt là NP. Một game xếp gạch chuyên nghiệp có khả năng tùy biến cao. Gần như mọi thông số trong game đều có thể điều chỉnh được.
+
+[MrZ: Giao diện của game mang phong cách retro. Ngoài ra, game chỉ có thể điều khiển thông qua bàn phím, nên một vài người chơi mới sẽ gặp khó khi làm quen. Ngoài ra, có vẻ như macOS Monterey không thể chạy được game này.]
+        ]],
+    },
+    {"Misamino",
+        "nhom6 misamino",
+        "game",
+        [[
+Windows | Chơi đơn
+
+Chỉ có chế độ chơi 1 đấu 1 với bot, chủ yếu là chơi theo lượt. Bạn có thể viết bot cho game này (nhưng bạn cần phải học API của game này).
+
+Misamino cũng là tên của bot trong game này.
+        ]],
+    },
+    {"Touhoumino",
+        "nhom6 touhoumino",
+        "game",
+        [[
+Windows | Chơi đơn
+
+Một game Tetris do fan làm. Game này là một bản chỉnh sửa của Nullpomino
+
+[MrZ: Được đề xuất cho những người chơi có ít nhất một nửa kỹ năng, nếu không, bạn thậm chí không biết mình đã chết như thế nào]
+        ]],
+    },
+    {"Tetris Blitz",
+        "nhom6 blitz ea mobile phone",
+        "game",
+        [[
+iOS/Android | Chơi đơn
+
+Một game xếp gạch được làm bởi Electronic Arts (EA). Có cơ chế trọng lực, và mỗi ván game chỉ kéo dài trong vòng 2 phút. Sẽ có một vài gạch sẽ rơi xuống (làm đệm) mỗi khi bắt đầu mỗi ván, và bạn có thể kích hoạt chế độ “Frenzy” bằng cách liên tục xóa hàng. Có rất nhiều loại power-up khác nhau, thậm chí có cả Finisher giúp cho màn chơi kết thúc của bạn thêm đẹp mắt và tăng mạnh số điểm của bạn lên. Game không có cơ chế top-out. Khi mà gạch vừa tới đè lên gạch đang có thì tự động một vài hàng trên cùng sẽ tự động xóa 
+
+Game đã bị khai tử từ tháng 4 năm 2020
+        ]],
+    },
+    {"Tetris (EA)",
+        "nhom6 tetris ea galaxy universe cosmos mobile phone",
+        "game",
+        [[
+iOS/Android | Chơi đơn/Chơi trực tuyến?
+
+Một tựa game xếp gạch được phát triển bởi EA. Có hai cách điều khiển: Swipe (Vuốt) và One-Touch (Một chạm). Game này có chế độ Galaxy ngoài chế độ Marathon (với cơ chế trọng lực), và mục tiêu của chế độ này là xóa hết tất cả các gạch của Galaxy trước khi hết chuỗi gạch
+
+Game đã bị khai tử từ tháng 4 năm 2020
+
+[Sea: game đang nhắc ở đây là bản năm 2011 (phát hành khoảng 2011 - 2012)]
+        ]],
+    },
+    {"Tetris (N3TWORK)",
+        "nhom6 tetris n3twork mobile phone",
+        "game",
+        [[
+iOS/Android | Chơi đơn
+
+Một tựa game xếp gạch, trước đây được phát triển bởi N3TWORK. Nhưng từ cuối tháng 11 năm 2021, PlayStudios đã giành được bản quyền để phát triển độc lập. Từ đó PlayStudios tiếp tục phát triển game này. Có chế độ Chơi nhanh 3 phút, Marathon, chế độ Royale 100 người chơi và chế độ Phiêu lưu (nơi mà bạn sẽ phải hoàn thành toàn bộ mục tiêu trước khi hết lượt).
+
+Ghi chú: từ tháng 11 hoặc tháng 12 năm 2022 và sau này, tất cả các tài khoản mới tạo chỉ có chế độ Marathon và chế độ Phiêu lưu. Tức là chế độ Chơi nhanh và Royale sẽ không xuất hiện trên những tài khoản này
+
+[MrZ: UI thì tuyệt nhưng cơ chế điều khiển thì tệ]
+
+[Sea: Z nói cơ chế điều khiển tệ là vì: phím trên màn hình cảm ứng nó khá là nhỏ, nhỏ hơn cả ngón tay mình có thể bấm. Mà cơ chế vuốt cũng không ổn lắm.]
+        ]],
+    },
+    {"Tetris Beat",
+        "nhom6 n3twork rhythm",
+        "game",
+        [[
+iOS | Chơi đơn
+        
+Một game xếp gạch tới từ nhà N3TWORK nhưng chỉ dành cho Apple Arcade. Nó có một chế độ gọi là “Beat” ngoài chế độ Marathon, nhưng bạn chỉ có thể thả gạch theo nhịp của bài thôi.
+
+[Hiệu ứng của game rất là nặng và cơ chế điều khiển không tốt]
+        ]],
+    },
+    {"Tetris Journey",
+        "nhom6 tetrisjourney mobile phone huanyouji",
+        "game",
+        [[
+iOS/Android | Chơi đơn
+
+[Sea: mục này mình xin phép viết lại cho dễ đọc, MrZ viết rối quá mình dịch không nổi. Có tham khảo từ Tetris.wiki]
+
+Một game xếp gạch chính thức đã bị khai tử được phát triển bởi Tencent (chỉ có ở Trung Quốc).
+
+Có 5 chế độ chơi đơn: Marathon, Sprint (40 hàng), Ultra (2 phút), Road to Master (chế độ luyện tập, chứa nhiều bài học về các kỹ thuật khác nhau), Adventure (chế độ câu chuyện với minigame).
+
+Cùng với 3 chế độ chơi trực tuyến gồm: League Battle (chế độ đối đầu có xếp rank), Melee 101 (na ná như Tetris 99 nhưng mỗi phòng có 101 người), Relax Battle (cũng chế độ đối đầu nhưng không xếp rank)
+Mỗi trận trong chế độ chơi trực tuyến thường dài 2 phút, nếu không ai bị top out thì ai gửi nhiều hàng nhất sẽ giành chiến thắng
+
+Có thể điều chỉnh vị trí và kích thước phím ảo, nhưng không thể điều chỉnh DAS và ARR.
+        ]],
+    },
+    {"JJ Tetris",
+        "nhom6 jjtetris",
+        "game",
+        [[
+Android | Chơi trực tuyến
+
+(JJ块)
+
+Một game bình thưởng trên JJ Card Games (JJ棋牌). Chơi ở màn hình dọc, độ trễ đầu vào thấp, điều khiển mượt. DAS/ARR có thể điều chỉnh được, nhưng hạn chế về tùy biến bố cục phím ảo. Không Hold cũng như B2B, không bộ đệm rác hay hủy rác được [giống như FULL Passthough trong tetr.io]. Mỗi tấn công gửi tối đa 4 hàng, còn combo thì "ao chình". Phần còn lại thì tương tự như Tetris hiện đại.
+        ]],
+    },
+    {"Huopin Tetris",
+        "nhom6 huopin qq",
+        "game",
+        [[
+Windows | Chơi trực tuyến
+
+(火拼俄罗斯)
+
+Một game xếp gạch ở trên Tencent Game Center, bảng rộng 12 ô, DAS và ARR giống với DAS và ARR hay dùng trong các app gõ văn bản, 1 Next, không Hold. Chỉ có thể gửi rác bằng Tetris (gửi 3 hàng rác) và xóa 3 hàng (gửi 2 hàng rác). Hàng rác có cấu trúc bàn cờ và gần như không thể đào xuống
+        ]],
+    },
+    {"=[NHÓM 7]=",
+        "nhom7",
+        "name",
+        "NHÓM 7: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME"
+    },
+    {"Tàng hình một phần",
+        "nhom7 half invisible semi",
+        "term",
+        "Tên tiếng Anh: Semi-invisible\nChỉ một luật trong đó gạch sẽ tàng hình sau một khoảng thời gian từ lúc nó được đặt xuống.\nKhoảng thời gian đó thường không được định sẵn, nên có thể chấp nhận mô tả nó là “biến mất sau một vài giây”.",
+    },
+    {"Tàng hình hoàn toàn",
+        "nhom7 invisible",
+        "term",
+        "Tên tiếng Anh: Invisible\nChỉ một luật trong đó gạch sẽ tàng hình ngay tức thì sau khi đặt xuống\nGhi chú: Nếu mode tàng hình hoàn toàn mà có hiệu ứng biến mất thì vẫn được chấp nhận. Tuy vậy, nó làm game dễ hơn đôi chút, cho nên ở Techmino, chế độ tàng hình hoàn toàn mà không có hiệu ứng biến mất được gọi là “Sudden Invisible.”",
+    },
+    {"Chế độ MPH",
+        "nhom7 mph",
+        "term",
+        "Sự kết hợp của ba quy tắc: “Không nhớ gì” (chuỗi gạch tạo ra hoàn toàn ngẫu nhiên), “Không biết trước gạch nào sẽ tới” (không hiện NEXT), và “Không giữ được”. Một chế độ đòi hỏi tốc độ phản ứng.",
+    },
+    {"Secret Grade",
+        "nhom7 larger than",
+        "term",
+        "Một chế độ dạng easter egg trong series TGM. Ở lối chơi “secret grade”, người chơi sẽ làm một đường dích dắc (zigzag) (trông giống như “>” hay “<”) bằng cách tạo ra 1 ô trống duy nhất cho từng hàng. Mục tiêu cuối cùng là hoàn thành đường dích dắc bằng 19 hàng (hoặc hơn).\nĐể biết thêm thông tin, vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để biết thêm thông tin.",
+        "https://harddrop.com/wiki?search=Secret_Grade_Techniques",
+    },
+    {"Deepdrop (Rơi sâu)",
+        "nhom7 shenjiang",
+        "term",
+        "*Chỉ có trên Techmino*\n\nMột chức năng cho phép cho phép gạch có thể teleport xuyên đất để xuống phía dưới. Khi gạch đụng vào đáy hoặc một gạch khác, nhấn phím Thả nhẹ để kích hoạt Deepdrop. Nếu có một cái hố phù hợp với hình dạng của gạch ở dưới vị trí gạch đang rơi, gạch sẽ được teleport vào hố đó.\nCơ chế này đặc biệt hữu ích cho AI vì nó cho phép AI bỏ qua sự khác biệt giữa các hệ thống xoay khác nhau.",
+    },
+    {"=[NHÓM 8]=",
+        "nhom8",
+        "name",
+        "NHÓM 8: BOT\n\nLưu ý: Misamino cũng là một tên của bot nhưng do mục này đã trùng ở mục 6 nên xin phép không nhắc lại."
+    },
+    {"Cold Clear",
+        "nhom8 cc coldclear ai bot",
+        "term",
+        "Một bot chơi Tetris. Được viết bởi MinusKelvin, ban đầu dành cho Puyo Puyo Tetris.\nBản Cold Clear ở trong Techmino có hỗ trợ All-spin và hệ thống TRS.",
+    },
+    {"ZZZbot",
+        "nhom8 ai bot zzztoj",
+        "term",
+        "Một bot chơi Tetris. Được viết bởi một người chơi Tetris Trung Quốc có tên là 奏之章 (Zòu Zhī Zhāng, xem mục bên dưới) và hoạt động khá tốt trong nhiều game (sau khi điều chỉnh thông số)",
+    },
+    {"=[NHÓM 9]=",
+        "nhom9",
+        "name",
+        "NHÓM 9: MẸO & LỜI KHUYÊN HỮU ÍCH"
+    },
+    {"Đề xuất l.tập [1/2]",
+        "nhom9 readme noob new guides recommendations suggestions helps"..
+        "hướng dẫn  người mới chơi  lời khuyên",
+        "help",
+[[
+Lời khuyên khi tập chơi (Trang 1/2):
+Chúng tôi có các đề xuất để cải thiện kỹ năng Tetris của bạn (danh sách đề xuất nằm ở mục tiếp theo). Nếu bạn từng cảm thấy khó khăn trong quá trình luyện tập, bạn có thể thư giãn và dành thời gian chơi các chế độ mà bạn yêu thích. Chơi vui vẻ!
+
+Hãy nhớ: mặc dù các đề xuất này được xếp thành nhóm, bạn vẫn nên làm cả ba nhóm cùng lúc thay vì làm từng cái một.
+
+Lưu ý: Nhóm C rất linh động, bạn có thể điều chỉnh độ khó tùy vào khả năng của bạn (ví dụ như "không làm bạn chơi quá chậm")
+Sau khi bạn hoàn thành hết nhóm C, hãy tiếp tục luyện tập nhóm A, đây là một kỹ năng RẤT quan trọng trong bất kỳ tựa game xếp gạch nào; và bạn sẽ có thể dần dần làm chủ bất kỳ chế độ nào, lúc đó chỉ cần nhìn lướt qua NEXT là đủ rồi.
+]],
+    },
+    {"Đề xuất l.tập [2/2]",
+        "nhom9 readme noob new guides recommendations suggestions helps"..
+        "hướng dẫn  người mới chơi  lời khuyên  trợ giúp",
+        "help",
+[[
+Lời khuyên khi tập chơi (Trang 2/2):
+Danh sách các đề xuất mà bạn cần làm theo khi tập chơi:
+
+A. Stacking (Xếp gạch)
+    A1. Suy nghĩ kỹ trước khi đặt gạch. Chưa vừa ý? Suy nghĩ thêm lần nữa.
+    A2. Xếp gạch càng phẳng càng tốt để bạn có thể ra quyết định đặt gạch dễ dàng hơn.
+    A3. Lên kế hoạch trước cách xếp, hãy tận dụng tối đa NEXT và HOLD để giữ được thế đẹp. 
+
+B. Efficiency & Speed (Hiệu quả & Tốc độ)
+    B1. Trước mỗi lần đặt gạch, hãy suy nghĩ xem bạn sẽ đặt gạch ở đâu? Bấm những phím nào để gạch tới chỗ đó và đứng đúng tư thế? Thay vì dựa dẫm vào gạch ma quá nhiều
+    B2. Nên sử dụng 2 (hoặc 3, tùy game) phím xoay thay vì nhấn 1 phím xoay liên tục trong thời gian dài.
+    B3. Đừng lo lắng về tốc độ khi bạn mới tập chơi Finesse, đây là chuyện bình thường. Hơn nữa bạn có thể tập chơi nhanh hơn một khi bạn đã quen tay — việc này không khó đâu!
+
+C. Practice (Luyện tập)
+    C1. Hoàn thành chế độ "40 hàng".
+    C2. Hoàn thành chế độ "40 hàng" mà không dùng HOLD.
+    C3. Hoàn thành chế độ "40 hàng" mà chỉ được làm Techrash.
+    C4. Hoàn thành chế độ "40 hàng" mà chỉ được làm Techrash và không được dùng HOLD.
+]]
+    },
+    {"Học làm T-spin",
+        "nhom9 tspins learning study guides tips recommendations suggestions helps",
+        "help",
+        [[
+Xin lưu ý rằng T-spin là một kỹ năng khá là cao cấp trong Tetris, vì vậy bạn không thể thành thạo nó nếu chỉ đơn thuần nhìn vào địa hình nơi T-spin được thực hiện. Tất nhiên, bạn phải có kỹ năng xếp gạch tốt và có thể nhìn quét xa dãy NEXT. Nếu bạn thực sự muốn làm T-spin, hãy đảm bảo bạn thành thạo những kỹ năng cơ bản trước khi học và làm.
+
+Lời khuyên của chúng tôi: chỉ nên bắt đầu học làm T-spin khi bạn có thể xóa 40 hàng với 60 giây hoặc ít hơn (hoặc từ 40-120s tùy vào điều kiện của bạn), 40 hàng chỉ dùng Tetris, 40 hàng chỉ dùng Tetris + không Hold. Tất cả mà không làm bạn bị tụt tốc độ quá nhiều (Phát triển khả năng để xem trước và suy nghĩ đủ kỹ trước khi thả rơi gạch.)
+        ]],
+    },
+    {"Hiệu chỉnh DAS",
+        "nhom9 das tuning",
+        "help",
+        "Với những người chơi nâng cao mà muốn chơi nhanh hơn, có thể điều chỉnh DAS thành 4-6 f (67-100 ms) và ARR 0 f (0 ms); đây là hai giá trị khuyên dùng. (Ở ARR 0ms, các viên gạch sẽ ngay lập tức dính vào tường khi bạn vượt qua DAS.)\n\nĐây là cấu hình lý tưởng cho người nâng cao, với chiến lược là cắt giảm DAS trong khi vẫn có thể kiểm soát được gạch một cách tin cậy mặc dù ARR bằng 0 nếu có thể hoặc càng thấp càng tốt.",
+    },
+    {"Bố cục phím",
+        "feel",
+        "help",
+        [[
+Dưới đây là vài lời khuyên hữu ích khi bạn đang chỉnh sửa bố cục phím
+
+1.  Một ngón tay chỉ nên thực hiện một chức năng khác nhau. Ví dụ như: 1 ngón cho sang trái, 1 ngón cho sang phải, 1 ngón cho phím xoay phải, 1 ngón cho rơi mạnh
+
+2.  Trừ khi bạn tự tin với ngót út của mình, thì không nên để ngón tay này làm bất kì việc hết! Ngoài ra, nên xài ngón trỏ và ngón giữa vì hai ngón này là nhanh nhẹn nhất, nhưng bạn cũng có thể thoải mái tìm hiểu xem các ngón tay của mình nhanh chậm thế nào, mạnh yếu ra sao.
+
+3.  Không nhất thiết phải sao chép bố cục phím của người khác, vì không ai giống ai. Thay vào đó hãy chỉnh theo cách của bạn, miễn là bạn chơi thoải mái là được.
+        ]],
+    },
+    {"Khả năng xử lý gạch",
+        "feel handling",
+        "help",
+        [[
+Những yếu tố ảnh hưởng tới việc xử lý gạch của bạn:
+
+(1) Độ trễ đầu vào, có thể là do cấu hình, thông số hoặc tình trạng của thiết bị. Khởi động lại trò chơi, bảo dưỡng, sửa chữa hoặc thay đổi thiết bị của bạn có thể khắc phục vấn đề này.
+(2) Trò chơi không ổn định/thiết kế quá sơ sài và nhiều lỗi. Có thể giảm tình trạng này bằng cách chỉnh sửa cài đặt hiệu ứng để ở mức thấp.
+(3) Cái gì cũng có mục đích của nó, ngay cả thiết kế cũng vậy. Việc làm quen với chúng có thể giúp bạn.
+(4) Cài đặt thông số xử lý gạch không phù hợp (ví dụ: DAS, ARR, SDARR,…). Thay đổi cài đặt.
+(5) Tư thế chơi ko hợp lý, có thể gây ra bất tiện trong những lúc quan trọng. Nên tìm tư thế chơi phù hợp sao cho thuận tiện khi chơi.
+(6) Thao tác không quen sau khi đổi vị trí phím hay  đổi sang thiết bị mới. Tập làm quen với chúng hoặc thay đổi cài đặt có thể hữu ích.
+(7) Mỏi cơ, chuột rút,… làm cho việc phản ứng và phối hợp tay khó khăn hơn. Hãy nghỉ ngơi và trở lại sau một hoặc vài ngày.
+        ]],
+    },
+    {"Các phím xoay (1/2)",
+        "doublerotation",
+        "help",
+        "Dùng cả phím xoay phải và xoay trái giảm số lầm phím cần nhấn bằng cách thay thế nhấn 3 lần phím xoay một bên bằng cách nhấn 1 lần phím xoay bên kia.\nLỗi di chuyển cũng có tính đến việc có sử dụng cả hai phím xoay hai không.",
+    },
+    {"Các phím xoay (2/2)",
+        "triplerotation",
+        "help",
+        "Sử dụng cả ba phím xoay (phím thứ ba là xoay 180°), tất cả các gạch muốn xoay thì chỉ cần duy nhất nhấn một phím một lần.\nTuy nhiên, việc này không phải lúc nào cũng hữu dụng vì không phải game nào đều hỗ trợ cả 3 phím xoay. Hơn nữa, sự cải thiện về tốc độ khi so sánh dùng 3 phím so với 2 phím không nhiều bằng dùng 2 phím so với 1 phím. Bạn có thể bỏ qua kỹ thuật này trừ khi bạn muốn đạt tốc độ cực cao.",
+    },
+    {"=[NHÓM 10]=",
+        "nhom10",
+        "name",
+        "NHÓM 10: WIKI; CÁC TRANG WEB BÀY SETUP, CUNG CẤP CÂU ĐỐ & CHIA SẺ SETUP"
+    },
+    {">A|Wiki",
+        "nhom10a",
+        "name",
+        ""
+    },
+    {"Huiji Wiki",
+        "nhom10a huiji wiki",
+        "help",
+        "(灰机wiki)\n\nMột wiki về Tetris của những người đam mê Tetris từ các nhóm Cộng đồng Nghiên cứu Tetris Trung Quốc và các nhóm phụ của nó. Hiện tại hầu hết các trang đều được tham khảo và dịch từ Hard Drop Wiki và Tetris Wiki. Liên kết sẽ dẫn bạn tới bản tiếng Trung giản thể.",
+        "https://tetris.huijiwiki.com",
+    },
+    {"Hard Drop Wiki",
+        "nhom10a harddrop hd wiki",
+        "help",
+        "Một wiki về Tetris được host bởi cộng đồng Hard Drop.",
+        "https://harddrop.com/wiki/Tetris_Wiki",
+    },
+    {"Tetris.wiki",
+        "nhom10a tetris wiki",
+        "help",
+        "Tetris.wiki là một wiki tập trung vào các nội dung liên quan đến Tetris. Wiki được tạo ra từ năm 2015 bởi Myndzi. Trong những năm qua, hàng nghìn đóng góp đã được thực hiện để ghi lại các game xếp gạch chính thức và các game do fan làm, các series, những cơ chế của game,... cũng như tạo ra những bài hướng dẫn để cải thiện cách chơi.",
+        "https://tetris.wiki",
+    },
+    {"Tetris Wiki Fandom",
+        "nhom10a tetris wiki fandom",
+        "help",
+        "Cũng là một wiki về Tetris nhưng nó ở trên Fandom",
+        "https://tetris.fandom.com/wiki/Tetris_Wiki",
+    },
+    {">B|Câu đố",
+        "nhom10b",
+        "name",
+        "NHÓM 10B: CÁC TRANG WEB CUNG CẤP CÂU ĐỐ"
+    },
+    {"TTT",
+        "nhom10b tetris trainer tres bien",
+        "game",
+        [[
+Tetris Trainer Très-Bien (viết bởi こな “kona”). Một website chứa các hướng dẫn thực hành các kỹ thuật nâng cao trong Tetris hiện đại (lưu ý: website này chỉ hỗ trợ bàn phím vật lý, không phải bàn phím ảo).
+Đề xuất cho những người chơi có thể hoàn thành chế độ 40L chỉ làm Tetris + không dùng Hold
+Website này đề cập tới T-spin, finesse, SRS và một số setup để chơi Battle
+Liên kết sẽ dẫn bạn tới phiên bản tiếng Anh, được dịch bởi User670 (Bản gốc là bản tiếng Nhật).
+        ]],
+        "https://user670.github.io/tetris-trainer-tres-bien/",
+    },
+    {"TTPC",
+        "nhom10b tetris perfect clear challenge",
+        "game",
+        [[
+Tetris Perfect Clear Challenge (viết bởi chokotia). Một website hướng dẫn bạn cách làm Perfect Clear khi sử dụng hệ thống xoay SRS và Bag-7 (chỉ hỗ trợ bàn phím). Đề xuất sử dụng nếu bạn đã hoàn thành TTT và đã làm quen với SRS
+
+Liên kết sẽ dẫn bạn tới phiên bản tiếng Anh, bản gốc là tiếng Nhật
+        ]],
+        "https://teatube.cn/ttpc/ttpc/",
+    },
+    {"NAZO",
+        "nazo",
+        "game",
+        [[
+(ナゾ)
+
+Một website chứa các loại câu đố SRS từ dễ đến cực kỳ khó, bao gồm T-spin và All spin. Đề xuất cho những người đã hoàn thành TTT.
+
+Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên bản bằng tiếng Nhật.
+        ]],
+        "https://teatube.cn/nazo/",
+    },
+    {"TPO",
+        "nazo",
+        "game",
+        "Tetris Puzzle O. Một trang web bằng tiếng Nhật được viết bởi TCV100 (có lấy một vài câu đố từ NAZO sang).",
+        "http://121.36.2.245:3000/tpo",
+    },
+    {">C|Setup",
+        "nhom10c",
+        "name",
+        "NHÓM 10C: CÁC TRANG WEB BÀY SETUP"
+    },
+    {"Four.lol",
+        "four wiki",
+        "help",
+        "Một website chứa các setup để làm opener",
+        "https://four.lol",
+    },
+    {"‘Tetris Hall’",
+        "",
+        "help",
+        "(テトリス堂)\n\nMột trang web tiếng Nhật, chứa nhiều setup, hướng dẫn cũng như có các minigame. Nó cũng có mô tả chi tiết về PC liên tiếp",
+        "https://shiwehi.com/tetris/",
+    },
+    {"‘Tetris Template Collections’",
+        "",
+        "help",
+        "(テトリステンプレ集@テト譜)\n\nMột trang web tiếng Nhật với các setup và các danh mục chi tiết. Hầu hết các setup đều có ảnh minh họa, vì vậy việc chia sẻ với người khác sẽ dễ dàng hơn.",
+        "https://w.atwiki.jp/tetrismaps/",
+    },
+    {"tetristemplate.info",
+        "",
+        "help",
+        "(テトリスブログ - PerfectClear)\n\nMột trang web ở Nhật Bản chứa một số setup. Tuy số lượng không bằng các trang web khác nhưng bù lại các setup đều được giải thích rất chi tiết",
+        "https://tetristemplate.info/",
+    },
+    {">D|Chia sẻ setup",
+        "nhom10d",
+        "name",
+        "NHÓM 10D: CÁC TRANG WEB CHIA SẺ SETUP"
+    },
+    {"Fumen",
+        "fumen",
+        "help",
+        "Đây là một công cụ chỉnh sửa bảng dành cho Tetris bằng tiếng Nhật. Thường được sử dụng để chia sẻ setup, PC solution (hướng đi để làm PC), v.v. Liên kết của mục này sẽ dẫn bạn tới bản tiếng Anh.",
+        "http://fumen.zui.jp/#english.js",
+    },
+    {"Fumen bản Đ.thoại",
+        "fumenformobile fm",
+        "help",
+        "Fumen for Mobile (Fumen bản dành cho Điện thoại)\n\nCũng là Fumen nhưng hỗ trợ cho màn hình cảm ứng",
+        "https://knewjade.github.io/fumen-for-mobile/",
+    },
+    {"=[NHÓM 11]=",
+        "nhom11",
+        "name",
+        "NHÓM 11: CỘNG ĐỒNG"
+    },
+    {"Tetris OL Servers",
+        "nhom11 tetrisonline servers tos".."server  tos",
+        "org",
+        "Hãy lên Google tra “Tetris Online Poland” để tìm server ở Ba Lan.\nCòn nếu tìm server Tetris Online Study được đặt tại Trung Quốc (cung cấp bởi Teatube) thì nhấn vào biểu tượng quả địa cầu",
+        "https://teatube.cn/tos/",
+    },
+    {
+    "Tetris Việt Nam",      -- I will edit it later
+        "nhom11 community vietnam  việt nam ",
+        "org",
+        [[
+Một trong những cộng đồng xếp gạch tại Việt Nam. Cộng đồng này hiện có một nhóm Facebook và một server tại Discord.
+
+Liên kết ở mục này sẽ dẫn bạn tới server Discord, còn để tìm nhóm Facebook thì lên Facebook và tìm "Tetris Việt Nam"
+        ]],
+        "https://discord.gg/jX7BX9g",
+    },
 }
