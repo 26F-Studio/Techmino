@@ -136,10 +136,10 @@ end
 return {
     drop=64,
     lock=30,
-    wait=6,
-    fall=4,
+    wait=12,
+    fall=8,
     keyCancel={10,11,12,14,15,16,17,18,19,20},
-    das=6,arr=1,
+    das=10,arr=1,
     minsdarr=1,
     ihs=true,irs=true,ims=false,
     mesDisp=function(P)
