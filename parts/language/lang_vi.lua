@@ -491,9 +491,9 @@ return {
             -- ctrl="Cài đặt điều khiển",
             -- key="Cài đặt bố cục phím",
             -- touch="Cài đặt cảm ứng",
-            ctrl="Hiệu chỉnh thg. số",
-            key="Sửa bố cục (bàn phím)",
-            touch="Sửa bố cục (cảm ứng)",
+            ctrl="Điều chỉnh thg. số",
+            key="Sửa bố cục bàn phím",
+            touch="Sửa bố cục cảm ứng",
             showVK="Bật điều khiển bằng cảm ứng", -- Pull from Galaxy
             reTime="Đếm ngược bắt đầu",
             RS="Hệ thống xoay gạch",
@@ -574,7 +574,7 @@ return {
         },
         setting_control={
             -- title="Cài đặt Điều khiển",
-            title="Hiệu chỉnh thg. số",
+            title="Đ.chỉnh thg. số",
             preview="Xem trước",
 
             das="DAS",arr="ARR",

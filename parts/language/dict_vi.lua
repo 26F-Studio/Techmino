@@ -169,7 +169,7 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         "help",
         [[
 12. Xếp lên và đào xuống
-        12A. Stacking --> Stacking (Xếp lên)
+        12A. Stacking (Xếp lên)
             * Side/Center/Partial well
             * Side/Center 1/2/3/4-wide
             * Residual
@@ -177,9 +177,9 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         12B. Digging (Đào xuống)
 13. Setup (Opener, Mid-game setup, Donation, và các setup có liên quan tới Spin)
         13A. Freestyle
-        13B. Donation
-        13C. Opener: DT Cannon, DTPC, BT Cannon, BTPC, TKI 3 Perfect Clear, QT Cannon, Mini-Triple, Trinity, Wolfmoon Cannon, Sewer, TKI, God Spin, Albatross, Pelican, Perrfect Clear Opener, Grace System, DPC, Gamushiro Stacking
-        13D. Mid-game: C-spin, STSD, STMB Cave, Fractal, LST stacking, Hamburger, Imperial Cross, Kaidan, Shachiku Train, Cut Copy, King Crimson, PC liên tiếp (1+2+3)
+        13B. Opener: DT Cannon, DTPC, BT Cannon, BTPC, TKI 3 Perfect Clear, QT Cannon, Mini-Triple, Trinity, Wolfmoon Cannon, Sewer, TKI, God Spin, Albatross, Pelican, Perrfect Clear Opener, Grace System, DPC, Gamushiro Stacking
+        13C. Mid-game: C-spin, STSD, Fractal, LST stacking, Imperial Cross, King Crimson, Fin, Neo, Iso, PC liên tiếp (1+2+3)
+        13D. Donation: Hamburger, STMB Cave, Kaidan, Shachiku Train, Cut Copy
 14. Cách tính lượng sát thơng gây ra: Tetris OL, Techmino
         ]]
     },
@@ -261,7 +261,7 @@ Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đ
         "term",
         "NHÓM 5: TETRIS VÀ CÁC THUẬT NGỮ",
     },
-    {"5A|Tetris hiện đại",
+    {">A|Tetris hiện đại",
         "nhom5a modern",
         "term",
         [[
@@ -316,7 +316,7 @@ Techmino không kiểm tra điều kiện Lock out và Top out.
         "Tên tiếng Anh là “Vanish Zone”. Thường dùng để nhắc tới những hàng có độ cao từ 40 ô và cao hơn. Cái này chỉ có thể phát hiện ra bằng cách sử dụng C4W và đống hàng rác. Thông thường, nếu cột cao nhất trong bảng đụng vào vùng biến mất.\nTuy nhiên, có một số game có những phản ứng khác nhau. Một số game sẽ bị lỗi và sập khi có gạch đi vào vùng biến mất (ví dụ như Tetris Online). Riêng ở một số game thì game sẽ có hành động lạ (bạn có thể tham khảo video này, hãy nhấn vào biểu tượng quả địa cầu để mở video).\n\nThông tin thêm: Jstris không có vùng đệm, chỉ có vùng biến mất được đặt từ hàng thứ 22.",
         "https://youtu.be/z4WtWISkrdU",
     },
-    {"[5B|Gạch",
+    {">B|Gạch",
         "nhom5b",
         "term",
         ""
@@ -352,7 +352,7 @@ Ví dụ:
     2→R nghĩa là xoay gạch ngược chiều kim đồng hồ, từ hướng 180° (2) sang hướng bên phải (R).
         ]],
     },
-    {"5C|Hệ thống xoay",
+    {">C|Hệ thống xoay",
         "nhom5c",
         "term",
         [[
@@ -443,10 +443,10 @@ Khoảng cách euclide của độ lệch của cú đá được chọn không 
         "term",
         "X rotation system | Hệ thống xoay X, một hệ thống xoay được dùng trong T-ex.\n\nHệ thống giới thiệu một tính năng với tác dụng “dùng một bảng 'đá' tường khác khi giữ một phím mũi tên,” cho phép người chơi có thể nói game hướng mà gạch nên di chuyển theo ý muốn của họ.",
     },
-    {"5D|Hệ thg điều khiển",
+    {">D|Hệ thg đ.khiển",
         "nhom5d",
         "term",
-        ""
+        "NHÓM 5D: HỆ THỐNG ĐIỀU KHIỂN"
     },
     {"IRS",
         "nhom5d initialrotationsystem",
@@ -463,7 +463,7 @@ Khoảng cách euclide của độ lệch của cú đá được chọn không 
         "term",
         "*Chỉ có trên Techmino*\n\nInitial Movement System\nGiữ một phím di chuyển trong khoảng thời gian spawn delay để gạch sinh ra ở một bên. Đôi khi có thể giúp bạn thoát chết.\nLưu ý: DAS buộc phải được “sạc” đủ trước khi gạch xuất hiện.",
     },
-    {"5E|Các kiểu xáo",
+    {">E|Các kiểu xáo",
         "nhom5e",
         "term",
         ""
@@ -537,12 +537,12 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
         "term",
         "Ban đầu toàn bộ Tetromino sẽ có khối lượng (“weight”) là 0.\nSau mỗi lần xáo gạch, toàn bộ cân nặng của các gạch sẽ bị chia hết cho 2, và được cộng một số thực dương ngẫu nhiên từ 0 tới 1. Gạch có khối lượng cao nhất sẽ được bốc, và sau đó cân nặng của nó sẽ bị chia cho 3.5.",
     },
-    {"5F|Thông số",
+    {">F|Thông số",
         "nhom5f",
         "term",
         ""
     },
-    {"5F1|Thg số game",
+    {">F1|Thg số game",
         "nhom5f1",
         "term",
         "NHÓM 5F1: THÔNG SỐ GAME"
@@ -626,12 +626,12 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
         "term",
         "Soft Drop Factor (Hệ số tốc độ rơi nhẹ)\n\nMột cách để xác định tốc độ gạch rơi khi nhấn phím “Thả nhẹ”. Ở những game chính thức: SDF = tốc độ rơi × 20 → SDF của những game này là 20. Techmino không dùng SDF để xác định tốc độ rơi nhẹ, mà dùng SDARR (giống như ARR nhưng thông số này không giống với ARR và chỉ được dùng cho phím “Thả nhẹ”).",
     },
-    {"5G|Điều khiển",
+    {">G|Điều khiển",
         "nhom5g",
         "term",
         "",
     },
-    {"5G1|Tốc độ đ.khiển",
+    {">G1|Tốc độ đ.khiển",
         "nhom5g1",
         "term",
         "NHÓM 5G1: TỐC ĐỘ ĐIỀU KHIỂN",
@@ -665,7 +665,7 @@ Mỗi game có cách tính LPM khác nhau. Ví dụ như, Tetris Online tính LP
         "term",
         "Keypresses per piece | Số lần nhấn mỗi viên gạch\n\tPhản ánh mức độ hiệu quả việc điều khiển gạch. Giảm con số này bằng cách học Finesse",
     },
-    {"5G2|K.thuật đ.khiển",
+    {">G2|K.thuật đ.khiển",
         "nhom5g2",
         "term",
         "NHÓM 5G2: KỸ THUẬT ĐIỀU KHIỂN",
@@ -700,10 +700,10 @@ Phương pháp này lần đầu tiên được phát hiện ra bởi Cheez-fish
         ]],
         "",
     },
-    {"Độ trễ đầu vào",
+    {">G3|Độ trễ input",
         "nhom5g3 input delay",
         "term",
-        "Bất kỳ thiết bị đầu vào cũng cần một khoảng thời gian để tín hiệu có thể tới game. Độ trễ này từ vài ms cho tới mấy trăm ms.\nNếu độ trễ đầu vào quá cao, thì việc điều khiển sẽ không thoải mái.\nĐộ trễ này thường do phần cứng và phần mềm, thứ mà bạn khó mà kiểm soát được. Bật chế độ Hiệu suất cao (Performance mode) hoặc tắt chế độ tiết kiệm năng lượng (Energy saving), đồng thời bật chế độ Gaming trên màn hình máy tính/TV, có thể giúp giảm độ trễ.",
+        "Độ trễ đầu vào\nBất kỳ thiết bị đầu vào cũng cần một khoảng thời gian để tín hiệu có thể tới game. Độ trễ này từ vài ms cho tới mấy trăm ms.\nNếu độ trễ đầu vào quá cao, thì việc điều khiển sẽ không thoải mái.\nĐộ trễ này thường do phần cứng và phần mềm, thứ mà bạn khó mà kiểm soát được. Bật chế độ Hiệu suất cao (Performance mode) hoặc tắt chế độ tiết kiệm năng lượng (Energy saving), đồng thời bật chế độ Gaming trên màn hình máy tính/TV, có thể giúp giảm độ trễ.",
     },
     {"5H|K.năng t.công",
         "nhom5h",
@@ -771,7 +771,7 @@ Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1
         "term",
         "Đề cập đến một tình huống mà trong đó cả hai người chơi đều gửi tấn công, nhưng thay vì chúng hủy bỏ lẫn nhau thì nó lại gửi thẳng vào bảng của đối phương. Một thuật ngữ khác là “pingthrough” đề cập tình huống passthrough xảy ra do ping cao.",
     },
-    {"5i|Mis-action",
+    {">I|Mis-action",
         "nhom5i",
         "term",
         "NHÓM 5I: HÀNH ĐỘNG BẤT CẨN (MIS-)"
@@ -786,5 +786,152 @@ Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1
         "term",
         "Vô tình nhấn nhầm phím Hold. Việc này có thể dẫn đến việc dùng một viên gạch không mong muốn, và có thể bỏ lỡ cơ hội có thể làm PC.",
     },
+    {">J|Spin",
+        "nhom5j",
+        "term",
+        ""
+    },
+    {"Spin",
+        "nhom5j spin",
+        "term",
+        "Xoay gạch để di chuyển tới một vị trí mà thông thường sẽ không tiếp cận được. Ở một số game, thao tác này sẽ gửi thêm hàng rác hoặc là tăng thêm điểm. Game khác nhau sẽ có cách kiểm tra Spin khác nhau.",
+    },
+    {"Mini",
+        "nhom5j mini",
+        "term",
+        "Một thuật ngữ bổ sung khác chỉ những Spin mà game nghĩ là có thể thực hiện dễ dàng (bởi vì trong một game cũ nó được gọi là “Ez T-spin”). Bonus điểm và hàng rác đều bị giảm so với Spin thông thường.\nCác game khác nhau có các quy tắc khác nhau để kiểm tra chúng có phải là Mini-Spin hay không. Bạn chỉ cần nhớ mấy cái bố cục làm Mini-spin là được.",
+    },
+    {"All-spin",
+        "nhom5j allspin",
+        "term",
+        "Một quy luật mà trong đó, làm Spin bằng gạch gì đều cũng được thưởng thêm điểm và gửi thêm hàng rác; đối lập với việc chỉ được Spin bằng gạch T (hay còn gọi là “Chỉ làm T-spin”).",
+    },
+    {"T-spin",
+        "nhom5j tspin",
+        "term",
+        [[
+    Spin được thực hiện bởi Tetromino T.
+    Trong các game hiện đại chính thức, T-spins chủ yếu được phát hiện bởi quy luật 3 góc. Tức là, nếu 3 trong 4 góc của một hình chữ nhật (có tâm là tâm xoay của gạch T) bị đè bởi bất kỳ gạch nào, thì Spin đó được tính là T-spin. Một vài game cũng sẽ có thêm vài quy tắc để xem T-spin đó có phải là T-spin thường không hay Mini T-spin.
+        ]],
+    },
+    {"O-Spin",
+        "nhom5j ospin",
+        "term",
+        "Bởi vì gạch O “tròn”, không đổi hình dạng khi xoay, nên không có cách nào để nó “đá” được. Từ đó có một meme trong cộng đồng Tetris: Đã có một người làm một fake video hướng dẫn làm O-Spin trong Tetris 99 và Tetris Friends, sau đó thì được viral\n\nTrong khi đó:\n\tXRS cho phép gạch O có thể “teleport” tới một cái hố.\n\tTRS cho phép gạch O “teleport” hoặc “biến hình” (theo nghĩa đen) thành một gạch có hình dạng khác",
+    },
+    {">K|K.thuật xóa hàng",
+        "nhom5k",
+        "term",
+        "NHÓM 5K: KỸ THUẬT XÓA HÀNG"
+    },
+    {"Single",
+        "nhom5k single 1",
+        "term",
+        "Xóa 1 hàng cùng một lúc.",
+    },
+    {"Double",
+        "nhom5k double 2",
+        "term",
+        "Xóa 2 hàng cùng một lúc.",
+    },
+    {"Triple",
+        "nhom5k triple 3",
+        "term",
+        "Xóa 3 hàng cùng một lúc.",
+    },
+    {"Techrash",
+        "nhom5k techrash tetris 4",
+        "term",
+        "*Chỉ có trên Techmino*\n\nXóa 4 hàng cùng một lúc.",
+    },
+    {"Tetris",
+        "nhom5k tetris 4",
+        "term",
+        "Đây chính là tên game (cũng như là tên thương hiệu của nó). Đây cũng là thuật ngữ chỉ việc xóa 4 hàng cùng lúc trong các game chính thức.\nĐược ghép từ 2 từ: Tetra (<τέτταρες>, có nghĩa là số 4 trong tiếng Hy Lạp) and Tennis (quần vợt, môn thể thao yêu thích nhất của người đã sáng tạo ra Tetris). Nhân tiện những game xếp gạch được phát triển bởi Nintendo và SEGA đều được cấp phép bởi TTC. Hai công ty này không có bản quyền của Tetris",
+        -- _comment: original Lua file had this comment: "Thanks to Alexey Pajitnov!"
+    },
+    {"TSS",
+        "nhom5k t1 tspinsingle",
+        "term",
+        "T-spin Single | T-spin Đơn\nXóa một hàng bằng T-spin",
+    },
+    {"TSD",
+        "nhom5k t2 tspindouble",
+        "term",
+        "T-spin Double | T-spin Đôi\nXóa hai hàng bằng T-spin.",
+    },
+    {"TST",
+        "nhom5k t3 tspintriple",
+        "term",
+        "T-spin Triple | T-spin Tam\nXóa ba hàng bằng T-spin.",
+    },
+    {"MTSS",
+        "nhom5k minitspinsingle tsms tspinminisingle",
+        "term",
+        "Mini T-spin Single | Mini T-spin Đơn\nTrước đây từng biết tới với tên là T-spin Mini Single (TSMS) (T-spin Mini Đơn).\nXóa một hàng bằng Mini T-spin.\nMỗi game sẽ có cách khác nhau để xác định xem T-spin đó có phải là Mini hay không.",
+    },
+    {"MTSD",
+        "nhom5k minitspindouble tsmd tspinminidouble",
+        "term",
+        "Mini T-spin Double | Mini T-spin Đôi\nTrước đây từng biết tới với tên là T-spin Mini Double (TSMD) (T-spin Mini Đôi).\nXóa hai hàng bằng Mini T-spin. MTSD chỉ xuất hiện trong một vài game hạn chế và có các cách kích khác nhau.",
+    },
+    {"Back to Back",
+        "nhom5k b2b btb backtoback",
+        "term",
+        "Hay còn gọi là B2B. Xóa 2 hoặc nhiều lần xóa theo kiểu 'kỹ thuật' (như Tetris hay Spin) liên tiếp (nhưng không xóa theo kiểu 'thông thường'; gửi thêm hàng rác khi tấn công\nKhông như combo, Back To Back sẽ không bị mất khi đặt gạch.",
+    },
+    {"B2B2B",
+        "nhom5k b3b backtobacktoback",
+        "term",
+        "*Chỉ có trên Techmino*\n\nBack to back to back, hay còn gọi là B3B (hoặc B2B2B). Thực hiện nhiều Back to Back liên tiếp để lấp đầy thanh B3B; cuối cùng khi bạn đã lấp B3B vượt một mức nhất định, bạn có thể tấn công mạnh hơn khi làm được B2B, nhờ sức mạnh từ B3B",
+    },
+    {"All Clear",
+        "nhom5k pc perfectclear ac allclear",
+        "term",
+        "Còn được biết tới là Perfect Clear (PC). Đây là thuật ngữ được dùng nhiều trong cộng đồng và cũng như được dùng trong Techmino\nXóa toàn bộ gạch ra khỏi bảng, không trừ gạch nào\n\n[Sea: từ này còn một tên khác nữa giờ ít dùng đó là “Bravo”]",
+    },
+    {"HPC",
+        "nhom5k hc clear halfperfectclear",
+        "term",
+        "*Chỉ có trên Techmino*\n\nHalf Perfect Clear\nMột biến thể của All Clear. Nếu hàng đó bị xóa mà rõ ràng giống với Perfect Clear khi bỏ qua những hàng bên dưới, thì được tính là Half Perfect Clear và sẽ gửi thêm một lượng hàng rác nhỏ",
+    },
+    {">L|T.ngữ khác",
+        "nhom5l",
+        "term",
+        "NHÓM 5L: CÁC THUẬT NGỮ KHÁC"
+    },
+    {"sub",
+        "nhom5l sub",
+        "term",
+        "Sub-[số] có nghĩa là khoảng thời gian ở dưới một mốc nhất định. Đơn vị thời gian thường được bỏ qua và có thể tự suy ra. Ví dụ: “sub-30” có nghĩa là hoàn thành chế độ 40 hàng dưới 30 giây, “sub-15” có nghĩa là hoàn thành chế độ 1000 hàng dưới 15 phút.",
+    },
+    {"‘Doing Research’",
+        "nhom5l scientificresearch",
+        "term",
+        "“Doing scientific research” (“Nghiên cứu khoa học”) là một thuật ngữ đôi khi được dùng ở cộng đồng Tetris Trung Quốc (không dùng ở cộng đồng Tetris Việt Nam), chỉ việc nghiên cứu/luyện tập kỹ thuật nào đó trong môi trường chơi đơn và tốc độ rơi thấp..",
+    },
+    {"Bone block",
+        "nhom5l bone tgm",
+        "term",
+        [[
+Đây là skin được dùng trong những phiên bản đời đầu của Tetris
+Trước đây, tất cả máy tính đều sử dụng Giao diện Dòng lệnh (Command-Line Interfaces) (nó na ná như cmd trên Windows, Terminal trên Mac, hay Console trên Linux), cho nên mỗi ô gạch đều được hiển thị dưới dạng 2 ngoặc vuông (như thế này: [ ]). Nó nhìn giống như xương, nên đôi khi được gọi là skin bone block (gạch xương).
+Trong Techmino, bone block được mô tả là “một skin gạch duy nhất, lạ mắt mà tất cả các gạch đều sử dụng.” Skin khác nhau sẽ có skin bone block khác nhau.
 
+Cũng trong Techmino nhưng trong bản tiếng Việt, từ “gạch []” để chỉ bone block.
+        ]],
+    },
+    {"=[NHÓM 6]=",
+        "nhom6",
+        "game",
+        [[
+NHÓM 6: CÁC GAME XẾP GẠCH
+
+Nội dung sau đây là những giới thiệu ngắn gọn về một số game xếp gạch chính thức và do fan làm có mức độ phổ biến cao. MrZ - tác giả của Techmino đã để lại một vài lời nhận xét.
+
+Sea cũng có một số lời nhận xét và thông tin bổ sung, được để ở nhóm 17A (nhóm Phụ lục mục Thông tin bổ sung & lời nhận xét cho game)
+
+Hãy nhớ là không phải game nào được nhắc đến đều có lời nhận xét, và chúng chỉ là những ý kiến chủ quan. Đọc chỉ để tham khảo, những nhận xét này không có tính chuyên môn.
+        ]]
+    }
 }

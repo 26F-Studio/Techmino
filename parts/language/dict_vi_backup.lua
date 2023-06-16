@@ -1615,7 +1615,7 @@ Setup này thường phải đạt cả ba yêu cầu sau:
     {"Cut Copy",
         "qianniao cutcopy",
         "pattern",
-        "Một setup dạng donate để làm T-spin Double trên một cái hố nhỏ và có thể làm thêm một TSD nữa sau đó.",
+        "Một setup dạng donation để làm T-spin Double trên một cái hố nhỏ và có thể làm thêm một TSD nữa sau đó.",
     },
     {"King Crimson",
         "kingcrimson",
