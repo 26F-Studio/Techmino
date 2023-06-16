@@ -82,6 +82,7 @@ This is the **BASE** to organize everything in game's Zictionary
         * PPS
         * BPM
         * KPM
+        * KPP
     * Kỹ thuật
         * Hypertapping
         * Rolling
@@ -107,15 +108,14 @@ This is the **BASE** to organize everything in game's Zictionary
 - Spin
     * (Mini)/(All -)/(T -) spin
     * O-spin
-    * Fin, Neo, Iso
     
 - Kỹ thuật xóa hàng
     * Single, Double, Triple
     * Techrash
     * Tetris
-    * (Half) Perfect Clear
     * TSS, TSD, TST, MTSS, MSTSD
     * Back to Back & B3B
+    * (Half) Perfect Clear
 
 - Các thuật ngữ khác
     * sub
@@ -216,7 +216,6 @@ This is the **BASE** to organize everything in game's Zictionary
 
 ## 13. Setup (Opener, Mid-game setup, Donation, Spin related)
 - Freestyle
-- Donation
 - Opener
     * DT Cannon
     * DTPC
@@ -240,16 +239,18 @@ This is the **BASE** to organize everything in game's Zictionary
 - Mid-game
     * C-spin
     * STSD
-    * STMB Cave
     * Fractal
     * LST stacking
-    * Hamburger
     * Imperial Cross
+    * King Crimson
+    * Fin, Neo, Iso
+    * PC liên tiếp (1+2+3)
+- Donation
+    * Hamburger
+    * STMB Cave
     * Kaidan
     * Shachiku Train
     * Cut Copy
-    * King Crimson
-    * PC liên tiếp (1+2+3)
 
 ## 14. Cách tính tấn công
 - Tetris OL attack
