@@ -44,6 +44,7 @@ This is the **BASE** to organize everything in game's Zictionary
     * BiRS
     * C2RS
     * C2sym
+    * DRS
     * NRS
     * SRS
     * SRS+
@@ -55,7 +56,7 @@ This is the **BASE** to organize everything in game's Zictionary
 
 - Cách kiểu xáo gạch & vấn đề của một số kiểu
     * Kiểu xáo Túi 7
-    * Kiểu xáo His
+    * Kiểu xáo His, HisPool
     * Kiểu xáo EZ-Start
     * Kiểu xáo Reverb
     * Kiểu xáo C2
@@ -66,10 +67,10 @@ This is the **BASE** to organize everything in game's Zictionary
         * Tốc độ rơi
         * 20G
         * Lockdown Delay
-        * ARE, Line ARE, Death ARE
         * Spawn & Clear delay
+        * ARE, Line ARE, Death ARE
     - Thông số điều khiển
-        * DAS (simple) --> DAS
+        * DAS (simple) --> DAS (đơn giản)
         * DAS & ARR
         * Hiệu chỉnh DAS
         * DAS cut
@@ -89,6 +90,8 @@ This is the **BASE** to organize everything in game's Zictionary
         * Finesse
     * Độ trễ đầu vào
 
+- Hành động bất cẩn (Mis-)
+    * Misdrop, Mishold
 
 - Khả năng tấn công
     * APM
@@ -102,8 +105,6 @@ This is the **BASE** to organize everything in game's Zictionary
     * Debt
     * Passthrough
 
-- Hành động bất cẩn (Mis-)
-    * Misdrop, Mishold
 
 - Spin
     * (Mini)/(All -)/(T -) spin
