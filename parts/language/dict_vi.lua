@@ -16,11 +16,11 @@ return {
 Đây là bản dịch tiếng Việt của TetroDictionary từ bản tiếng Anh.
 Bản tiếng Anh được dịch từ bản tiếng Trung Giản thể và do User670 và C₂₉H₂₅N₃O₅ vừa dịch vừa sửa chữa.
 
-Vì bản dịch là bản dịch đã qua một ngôn ngữ trung gian khác là tiếng Anh, nên nội dung đôi khi hoặc có thể không giống với bản tiếng Trung Giản thể.
+Lưu ý: nội dung đôi khi hoặc có thể không giống với bản tiếng Trung Giản thể.
 
 Muốn gửi đóng góp cho bản dịch? Hay là xem những ai đã đóng góp cho bản dịch này? Nếu thế, hãy nhấn vào biểu tượng quả địa cầu ở góc dưới bên phải để mở trang web.
 
-Dịch bởi Squishy, xem và sửa bởi <ai đó>.
+Dịch (và sắp xếp lại) bởi Sea-no-sweet, hiệu đính bởi <ai đó>.
         ]],
         "https://github.com/26F-Studio/Techmino/blob/main/parts/language/dict_vi.lua",
     },
@@ -33,6 +33,8 @@ Có thể tìm một mục bằng cách gõ một phần hoặc toàn bộ tiêu
 
 Nếu bạn muốn lọc theo nhóm, đầu tiên hãy mở Mục lục, sau đó thì tìm tới nhóm bạn cần. Lấy số ở đầu tiêu đề rồi gõ trên thanh tìm kiếm với cú pháp: "nhom<n>"
 Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", hãy gõ vào thanh tìm kiếm "nhom06". Hoặc để xem các hệ thống xoay gạch, gõ "nhom05c"
+
+Lưu ý: không thể tìm mục ở trong nhóm 17A bằng cách gõ tên mục. Nhưng vẫn có thể gõ tên nhóm.
         ]]
     },
     {
@@ -91,7 +93,7 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         "nhom02 mucluc",
         "help",
         [[
-[…] (Tiếp tục từ trang 2 | Phần đầu tiên của mục này nằm ở trang 2)
+[…] (Tiếp tục từ trang trước)
         05H. Khả năng tấn công
             * APM, SPM, DPM, RPM, ADPM, APL
             * Tấn công & Phòng thủ
@@ -115,7 +117,7 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         "help",
         [[
 06. Các game xếp gạch
-        (Danh sách khá là dài nên xin phép không liệt kê ở đây, bạn hãy gõ trên thanh tìm kiếm "nhom06" để xem danh sách đầy đủ ở cột danh sách bên trái)
+        (Danh sách dài nên không liệt kê ở đây, gõ trên thanh tìm kiếm "nhom06" để xem danh sách đầy đủ)
 07. Một vài cơ chế và chế độ của một số game
         - Chế độ: Tàng hình một phần/hoàn toàn, Chế độ MPH, Secert Grade
         - Cơ chế: Deepdrop
@@ -132,7 +134,6 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
 11. Cộng đồng
         - Tetris Online Servers
         - Tetris Việt Nam
-        - VTT (this item may not be existed)
         ]]
     },
     {
@@ -152,17 +153,16 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         13B. Opener: DT Cannon, DTPC, BT Cannon, BTPC, TKI 3 Perfect Clear, QT Cannon, Mini-Triple, Trinity, Wolfmoon Cannon, Sewer, TKI, God Spin, Albatross, Pelican, Perrfect Clear Opener, Grace System, DPC, Gamushiro Stacking
         13C. Mid-game: C-spin, STSD, Fractal, LST stacking, Imperial Cross, King Crimson, Fin, Neo, Iso, PC liên tiếp (1+2+3)
         13D. Donation: Hamburger, STMB Cave, Kaidan, Shachiku Train, Cut Copy
-        14. Cách tính lượng sát thơng gây ra: Tetris OL, Techmino
+14. Cách tính lượng sát thơng gây ra: Tetris OL, Techmino
 15. Console và chuyện quản lý dữ liệu game
-        - Console
-        - Đặt lại thiết lập, tình trạng mở khóa, bố cục phím
+        - Console, đặt lại thiết lập, tình trạng mở khóa, bố cục phím
         - Xóa toàn bộ thành tích, kỷ lục, bản phát lại, bộ nhớ đệm
 16. Các thuật ngữ không liên quan gì tới Tetris (tiếng Anh): SFX, BGM, TAS, AFK
 17. Phụ lục
+        A. Thông tin bổ sung & lời nhận xét của Sea cho một số game
+        B. Techmino CopyPasta
         ]]
     },
-
------------------
     {"=[NHÓM 03]=",
         "nhom03",
         "name",
@@ -188,8 +188,8 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
 Cùng gặp gỡ và nói chuyện với tác giả của Techmino ở trong Discord
 Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đơn giản là ngồi tám chuyện cho vui :)
 
-[Sea: bạn cũng có thể vào server và hỏi mình về vấn đề dịch thuật. Hãy xem mục 17_ để biết cách liên hệ mình nếu cần.]
-        ]],      --TODO: write the 17th group. IDK when I can do it lol
+[Sea: bạn cũng có thể vào server và hỏi mình về vấn đề dịch thuật nếu bạn có thắc mắc/đề xuất]
+        ]],
         "https://discord.gg/f9pUvkh"
     },
     not FNNS and {"=[NHÓM 04]=",
@@ -218,8 +218,6 @@ Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đ
         "Để ủng hộ cho Techmino qua Patreon, hãy nhấn vào biểu tượng quả địa cầu. Lưu ý rằng Patreon có thể tính phí dịch vụ cho bạn đối với các giao dịch trên một số tiền nhất định.",
         "https://www.patreon.com/techmino",
     } or {"*ĐÃ ẨN*", "", "org", ""},
-
------------------
     {"=[NHÓM 05]=",
         "nhom05",
         "name",
@@ -893,7 +891,7 @@ NHÓM 06: CÁC GAME XẾP GẠCH
 
 Nội dung sau đây là những giới thiệu ngắn gọn về một số game xếp gạch chính thức và do fan làm có mức độ phổ biến cao. MrZ - tác giả của Techmino đã để lại một vài lời nhận xét.
 
-Sea cũng có một số lời nhận xét và thông tin bổ sung, được để ở nhóm 17A (nhóm Phụ lục mục Thông tin bổ sung & lời nhận xét cho game)
+Sea cũng có một số lời nhận xét và thông tin bổ sung, được để ở nhóm 17A (Phụ lục\Thông tin bổ sung & lời nhận xét cho game). Các game có trong nhóm 17A là: Tetr.js, Tetris Friends, tetris.com, DTET, Tetris (EA) và Tetris (N3TWORK)
 
 Hãy nhớ là không phải game nào được nhắc đến đều có lời nhận xét, và chúng chỉ là những ý kiến chủ quan. Đọc chỉ để tham khảo, những nhận xét này không có tính chuyên môn.
         ]]
@@ -919,8 +917,6 @@ Liên kết của mục này sẽ đưa bạn tới bản của Farter (bản n�
 Bạn cũng có thể tìm một phiên bản khác có tên là "Tetr.js Enhanced" - bản mod này do Dr Ocelot làm
 
 [MrZ: Giao diện đơn giản với hầu như không có bất kỳ hiệu ứng (animation) nào. Chỉ có một số tổ hợp phím ảo khả dụng cho thiết bị di động.]
-
-[Sea: Hiện tại Tetr.js Enhanced không còn khả dụng nữa. Và Dr Ocelot cũng không muốn mang Tetr.js Enhanced quay lại]
         ]],
         "http://farter.cn/t",
     },
@@ -960,7 +956,7 @@ Gọi tắt là JS. Nó có một số chế độ chơi đơn với thông số
         [[
 Chơi trên trình duyệt/Chơi trên client chính thức | Chơi đơn/Chơi trực tuyến
 
-Gọi tắt là teto hoặc IO. Trò chơi này có một hệ thống xếp rank cũng như có chế độ tự do với nhiều thông số có thể tùy chỉnh. Trò chơi này cũng có một client dành cho máy tính, giúp cải thiện tốc độ, giảm độ trễ và gỡ bỏ quảng cáo
+Gọi tắt là tetrio hoặc IO. Trò chơi này có một hệ thống xếp rank cũng như có chế độ tự do với nhiều thông số có thể tùy chỉnh. Trò chơi này cũng có một client dành cho máy tính, giúp cải thiện tốc độ, giảm độ trễ và gỡ bỏ quảng cáo
         
 [MrZ: Có vẻ như Safari không thể mở game này.]
         ]],
@@ -993,8 +989,6 @@ Gọi tắt là WWC. Có chế độ 1 đấu 1 toàn cầu: chơi với ngườ
 Chơi trên trình duyệt/Chơi trên client chính thức | Chơi đơn/Chơi trực tuyến
 
 Gọi tắt là TF. Một trò chơi Tetris dựa trên một plugin đã bị khai tử từ lâu. Từng rất phổ biến trong quá khứ, nhưng tất cả trò chơi đã đóng cửa từ mấy năm trước. Hiện giờ còn một máy chủ riêng tư tên là “Notris Foes” vẫn còn tồn tại. Nhấn vào biểu tượng quả địa cầu để mở ở trong trình duyệt
-
-[Sea: Lưu ý bạn cần phải cài một client cho Notris Foes thì mới có thể chạy game. Sẽ tốn công vô ích nếu bạn cố cài tiện ích bổ sung trên trình duyệt bạn hay dùng để chạy game.]
         ]],
         "https://notrisfoes.com",
     },
@@ -1005,8 +999,6 @@ Gọi tắt là TF. Một trò chơi Tetris dựa trên một plugin đã bị k
 Chơi trên trình duyệt | Chơi đơn | Hỗ trợ điện thoại
 
 Game Tetris chính thức tetris.com, mà chỉ có một chế độ (Marathon). Bù lại, có hỗ trợ hệ thống điều khiển thông minh bằng chuột
-
-[Sea: Thông tin thêm: nếu bạn ở trên điện thoại thì có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart), "bàn phím". Bạn có thể thử nghiệm với cả ba chế độ điều khiển để tìm xem chế độ nào phù hợp với mình nhất. Để điều khiển bằng "bàn phím" thì bạn chỉ cần kết nối với bàn phím là được (miễn là điện thoại có thể nhận bàn phím thì game cũng sẽ nhận thôi), còn để đổi giữa "vuốt" và "thông minh" thì hãy mở Options của game.]
         ]],
     },
     {"Tetris Gems",
@@ -1081,9 +1073,7 @@ Tetris The Grand Master, một series Tetris dành cho máy thùng. Những th�
         [[
 Windows | Chơi đơn
 
-Một game xếp gạch dựa trên quy tắc Cổ điển của TGM + 20G với hệ thống xoay gạch mạnh mẽ. Cơ chế điều khiển tốt nhưng không có tùy chỉnh nào ngoài tùy chỉnh gán phím. Game này bây giờ hơi khó tìm và bạn có thể phải cài tệp DLL cần thiết bằng tay 
-
-[Sea: Lưu ý rằng game không chạy được trên Windows Vista, bạn có thể phải sử dụng máy ảo (virutal machine) cài hệ điều hành Windows XP mới có thể chạy được.]
+Một game xếp gạch dựa trên quy tắc Cổ điển của TGM + 20G với hệ thống xoay gạch mạnh mẽ. Cơ chế điều khiển tốt nhưng không có tùy chỉnh nào ngoài tùy chỉnh gán phím. Game này bây giờ hơi khó tìm và bạn có thể phải cài tệp DLL cần thiết bằng tay.
         ]],
     },
     {"Heboris",
@@ -1228,13 +1218,11 @@ Game đã bị khai tử từ tháng 4 năm 2020
         [[
 iOS/Android | Chơi đơn
 
-Một tựa game xếp gạch, trước đây được phát triển bởi N3TWORK. Nhưng từ cuối tháng 11 năm 2021, PlayStudios đã giành được bản quyền để phát triển độc lập. Từ đó PlayStudios tiếp tục phát triển game này. Có chế độ Chơi nhanh 3 phút, Marathon, chế độ Royale 100 người chơi và chế độ Phiêu lưu (nơi mà bạn sẽ phải hoàn thành toàn bộ mục tiêu trước khi hết lượt).
+Một tựa game xếp gạch, trước đây được phát triển bởi N3TWORK; hiện đã nhượng lại bản quyền cho PlayStudio từ cuối tháng 11 năm 2021. Có chế độ Chơi nhanh 3 phút, Marathon, chế độ Royale 100 người chơi và chế độ Phiêu lưu (nơi mà bạn sẽ phải hoàn thành toàn bộ mục tiêu trước khi hết lượt).
 
-Ghi chú: từ tháng 11 hoặc tháng 12 năm 2022 và sau này, tất cả các tài khoản mới tạo chỉ có chế độ Marathon và chế độ Phiêu lưu. Tức là chế độ Chơi nhanh và Royale sẽ không xuất hiện trên những tài khoản này
+Ghi chú: từ T11/T12 năm 2022 và sau này, tất cả các tài khoản mới tạo chỉ có chế độ Marathon và chế độ Phiêu lưu. Tức là chế độ Chơi nhanh và Royale sẽ không xuất hiện trên những tài khoản này
 
 [MrZ: UI thì tuyệt nhưng cơ chế điều khiển thì tệ]
-
-[Sea: Z nói cơ chế điều khiển tệ là vì: phím trên màn hình cảm ứng nó khá là nhỏ, nhỏ hơn cả ngón tay mình có thể bấm. Mà cơ chế vuốt cũng không ổn lắm.]
         ]],
     },
     {"Tetris Beat",
@@ -1252,16 +1240,14 @@ Một game xếp gạch tới từ nhà N3TWORK nhưng chỉ dành cho Apple Arc
         "nhom06 tetrisjourney mobile phone huanyouji",
         "game",
         [[
-iOS/Android | Chơi đơn
+iOS/Android | Chơi đơn          [Sea: Mục này đã viết lại. Có tham khảo từ Tetris.wiki]
 
-[Sea: mục này mình xin phép viết lại cho dễ đọc, MrZ viết rối quá mình dịch không nổi. Có tham khảo từ Tetris.wiki]
+Một game xếp gạch chính thức đã bị khai tử từng được phát triển bởi Tencent dành cho Trung Quốc.
 
-Một game xếp gạch chính thức đã bị khai tử được phát triển bởi Tencent (chỉ có ở Trung Quốc).
+Có 5 chế độ chơi đơn: Marathon, 40 hàng, Ultra (2 phút), Road to Master (chứa nhiều bài học về các kỹ thuật khác nhau), Adventure (chế độ câu chuyện với minigame).
 
-Có 5 chế độ chơi đơn: Marathon, Sprint (40 hàng), Ultra (2 phút), Road to Master (chế độ luyện tập, chứa nhiều bài học về các kỹ thuật khác nhau), Adventure (chế độ câu chuyện với minigame).
-
-Cùng với 3 chế độ chơi trực tuyến gồm: League Battle (chế độ đối đầu có xếp rank), Melee 101 (na ná như Tetris 99 nhưng mỗi phòng có 101 người), Relax Battle (cũng chế độ đối đầu nhưng không xếp rank)
-Mỗi trận trong chế độ chơi trực tuyến thường dài 2 phút, nếu không ai bị top out thì ai gửi nhiều hàng nhất sẽ giành chiến thắng
+Có 3 chế độ chơi trực tuyến: League Battle (chế độ đối đầu có xếp rank), Melee 101 (giống với Tetris 99 nhưng có 101 người/phòng), Relax Battle (chế độ đối đầu nhưng không xếp rank)
+Mỗi trận trong chế độ chơi trực tuyến dài 2 phút, nếu không ai bị top out thì ai gửi nhiều hàng nhất sẽ giành chiến thắng
 
 Có thể điều chỉnh vị trí và kích thước phím ảo, nhưng không thể điều chỉnh DAS và ARR.
         ]],
@@ -1975,4 +1961,62 @@ All Clear gửi thêm 6 hàng rác. Nhưng 6 hàng rác này sẽ gửi thẳng 
         "english",
         "Từ viết tắt của “Away From Keyboard” (dịch sát nghĩa: “Đang ở xa bàn phím”), hay theo nghĩa rộng hơn, khoảng thời gian bạn không chơi game.\nNghỉ giải lao thường xuyên giúp bạn giảm căng cơ và giúp bạn chơi tốt hơn khi quay trở lại.",
     },
+    {"=[NHÓM 17]=",
+        "nhom17",
+        "name",
+        "NHÓM 17: PHỤ LỤC"
+    },
+    {">A. Game",
+        "nhom17a",
+        "name",
+        [[
+NHÓM 17A: THÔNG TIN BỔ SUNG & LỜI NHẬN XÉT CHO MỘT SỐ GAME
+
+Nội dung ở nhóm 17A này sẽ là nội dung của Sea, có nghĩa là đây là nội dung bên ngoài và sẽ không xuất hiện ở trong Zictionary ngôn ngữ khác. Hơn nữa, lưu ý rằng: lời nhận xét của mình không mang tính chuyên môn đâu. Đọc để tham khảo là tốt nhất.
+
+Về phần thông tin bổ sung: MrZ có vẻ như đã không cập nhật mục này trong một khoảng thời gian khá dài nên một số nội dung bị lỗi thời. Mục này mình tạo ra để cung cấp thêm thông tin trong khi vẫn giữ lại thông tin gốc từ Zictionary để các bạn có thể tham khảo.
+
+Tất cả các mục ở trong nhóm 17A sẽ không thể tìm bằng tên mục để tránh bị trùng với nhóm 6. Nhưng bạn vẫn có thể tìm bằng tên nhóm
+        ]]
+    },
+    {"Tetr.js",
+        "nhom17a",
+        "game",
+        "Tetr.js Enhanced đã ngừng phát triển từ lâu và đã bị gỡ xuống (có vẻ như đã trở thành lost game). Tetr.js Enhanced đã được thay thế bằng Tetra Legend. Tuy nhiên Tetra Legends cũng bị ngừng phát triển (và bỏ rơi hoàn toàn sau đó) từ T10/2020"
+    },
+    {"Tetris Friends",
+        "nhom17a",
+        "game",
+        "Lý do vì sao mà mình ghi “Chơi trên tình duyệt/Chơi trên client chính thức”. Đó là bởi vì bạn chơi Tetris Friends ở trên trình duyệt; còn Notris Foes thì các bạn phải chơi trên client.\n\nVì game này được viết trên plugin đã bị khai tử từ lâu vì có nhiều lỗ hổng bảo mật, nên chạy trong một client sẽ là an toàn nhất."
+    },
+    {"tetris.com",
+        "nhom17a",
+        "game",
+        [[
+[Mục này có thể áp dụng cho "Tetris Gems" và "Tetris Mind Bender"]
+
+Trước đây bạn không thể mở game này trên điện thoại nhưng giờ bạn có thể chơi được rồi. (Trong Zictionary tiếng Anh không có ghi "Hỗ trợ điện thoại".)
+
+Hiện có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart), "bàn phím". Bạn có thể thử nghiệm với cả ba chế độ điều khiển để tìm xem chế độ nào tối ưu với mình nhất
+
+Để điều khiển bằng bàn phím thì bạn chỉ cần kết nối với bàn phím là được (miễn là điện thoại có thể nhận bàn phím thì game cũng sẽ nhận thôi)
+Để đổi giữa "vuốt" và "thông minh" thì hãy mở Options của game.
+        ]]
+    },
+    {"DTET",
+        "nhom17a",
+        "game",
+        "Nhấn vào biểu tượng quả địa cầu để mở link hướng dẫn cài DTET.\n\nCẢNH BÁO: MrZ, 26F Studio, Sea, và link hướng dẫn trên sẽ KHÔNG CHỊU TRÁCH NHIỆM VỀ MỌI THIỆT HẠI cho việc tải file DLL không rõ nguồn gốc",
+        "https://t-sp.in/dtet"
+    },
+    {"Tetris (EA)",
+        "nhom17a",
+        "game",
+        "Game đang nhắc ở trong Zictionary này là bản năm 2011"
+    },
+    {"Tetris (N3TWORK)",
+        "nhom17a",
+        "game",
+        "MrZ nói cơ chế điều khiển tệ là vì: phím trên màn hình cảm ứng nó khá là nhỏ, nhỏ hơn cả ngón tay mình có thể bấm. Mà cơ chế vuốt cũng không ổn lắm. Game khá là nhiều quảng cáo nên là chuẩn bị adblocker đi. Và nếu bạn thấy game lag thì có thể tắt cả nhạc lẫn SFX."
+    }
 }
