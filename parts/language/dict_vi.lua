@@ -1982,17 +1982,18 @@ Tất cả các mục ở trong nhóm 17A sẽ không thể tìm bằng tên m�
     {"Tetr.js",
         "nhom17a",
         "game",
-        "Tetr.js Enhanced đã ngừng phát triển từ lâu và đã bị gỡ xuống (có vẻ như đã trở thành lost game). Tetr.js Enhanced đã được thay thế bằng Tetra Legend. Tuy nhiên Tetra Legends cũng bị ngừng phát triển (và bỏ rơi hoàn toàn sau đó) từ T10/2020"
+        "NHÓM 17A\\Tetr.js\n\nTetr.js Enhanced đã ngừng phát triển từ lâu và đã bị gỡ xuống (có vẻ như đã trở thành lost game). Tetr.js Enhanced đã được thay thế bằng Tetra Legend. Tuy nhiên Tetra Legends cũng bị ngừng phát triển (và bỏ rơi hoàn toàn sau đó) từ T10/2020"
     },
     {"Tetris Friends",
         "nhom17a",
         "game",
-        "Lý do vì sao mà mình ghi “Chơi trên tình duyệt/Chơi trên client chính thức”. Đó là bởi vì bạn chơi Tetris Friends ở trên trình duyệt; còn Notris Foes thì các bạn phải chơi trên client.\n\nVì game này được viết trên plugin đã bị khai tử từ lâu vì có nhiều lỗ hổng bảo mật, nên chạy trong một client sẽ là an toàn nhất."
+        "NHÓM 17A\\Tetris Friends\n\nLý do vì sao mà mình ghi “Chơi trên tình duyệt/Chơi trên client chính thức”. Đó là bởi vì bạn chơi Tetris Friends ở trên trình duyệt; còn Notris Foes thì các bạn phải chơi trên client.\n\nVì game này được viết trên plugin đã bị khai tử từ lâu vì có nhiều lỗ hổng bảo mật, nên chạy trong một client sẽ là an toàn nhất."
     },
     {"tetris.com",
         "nhom17a",
         "game",
         [[
+NHÓM 17A\tetris.com
 [Mục này có thể áp dụng cho "Tetris Gems" và "Tetris Mind Bender"]
 
 Trước đây bạn không thể mở game này trên điện thoại nhưng giờ bạn có thể chơi được rồi. (Trong Zictionary tiếng Anh không có ghi "Hỗ trợ điện thoại".)
@@ -2006,17 +2007,17 @@ Hiện có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart), "b
     {"DTET",
         "nhom17a",
         "game",
-        "Nhấn vào biểu tượng quả địa cầu để mở link hướng dẫn cài DTET.\n\nCẢNH BÁO: MrZ, 26F Studio, Sea, và link hướng dẫn trên sẽ KHÔNG CHỊU TRÁCH NHIỆM VỀ MỌI THIỆT HẠI cho việc tải file DLL không rõ nguồn gốc",
+        "NHÓM 17A\\DTET\n\nNhấn vào biểu tượng quả địa cầu để mở link hướng dẫn cài DTET.\n\nCẢNH BÁO: MrZ, 26F Studio, Sea, và link hướng dẫn trên sẽ KHÔNG CHỊU TRÁCH NHIỆM VỀ MỌI THIỆT HẠI cho việc tải file DLL không rõ nguồn gốc",
         "https://t-sp.in/dtet"
     },
     {"Tetris (EA)",
         "nhom17a",
         "game",
-        "Game đang nhắc ở trong Zictionary này là bản năm 2011"
+        "NHÓM 17A\\Tetris (EA)\n\nGame đang nhắc ở trong Zictionary này là bản năm 2011"
     },
     {"Tetris (N3TWORK)",
         "nhom17a",
         "game",
-        "MrZ nói cơ chế điều khiển tệ là vì: phím trên màn hình cảm ứng nó khá là nhỏ, nhỏ hơn cả ngón tay mình có thể bấm. Mà cơ chế vuốt cũng không ổn lắm. Game khá là nhiều quảng cáo nên là chuẩn bị adblocker đi. Và nếu bạn thấy game lag thì có thể tắt cả nhạc lẫn SFX."
+        "NHÓM 17A\\Tetris (N3TWORK)\n\nMrZ nói cơ chế điều khiển tệ là vì: phím trên màn hình cảm ứng nó khá là nhỏ, nhỏ hơn cả ngón tay mình có thể bấm. Mà cơ chế vuốt cũng không ổn lắm. Game khá là nhiều quảng cáo nên là chuẩn bị adblocker đi. Và nếu bạn thấy game lag thì có thể tắt cả nhạc lẫn SFX."
     }
 }
