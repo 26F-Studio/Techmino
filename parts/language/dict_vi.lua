@@ -32,7 +32,7 @@ Dịch bởi Squishy, xem và sửa bởi <ai đó>.
 Có thể tìm một mục bằng cách gõ một phần hoặc toàn bộ tiêu đề
 
 Nếu bạn muốn lọc theo nhóm, đầu tiên hãy mở Mục lục, sau đó thì tìm tới nhóm bạn cần. Lấy số ở đầu tiêu đề rồi gõ trên thanh tìm kiếm với cú pháp: "nhom<n>"
-Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", hãy gõ vào thanh tìm kiếm cú pháp "nhom06". Hoặc để xem các hệ thống xoay gạch, gõ "nhom05c"
+Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", hãy gõ vào thanh tìm kiếm "nhom06". Hoặc để xem các hệ thống xoay gạch, gõ "nhom05c"
         ]]
     },
     {
@@ -53,6 +53,7 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
 03. Dự án Techmino
         - Trang web chính thức
         - Dự án trên GitHub
+        - Discord
 04. Ủng hộ cho tác giả của Techmino
         ]]
     },
@@ -63,28 +64,13 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         [[
 05. Tetris và các thuật ngữ
         05A. Tetris hiện đại
-            * Next
-            * Hold, Swap
+            * Next, Hold, Swap
             * Topping out
-            * Vùng đệm
-            * Vùng biến mất
-        05B. Gạch
-            * Hình dạng, màu, hướng của gạch
-            * Gạch & tên tương ứng
+            * Vùng đệm, Vùng biến mất
+        05B. Gạch: Hình dạng, màu, hướng và tên của gạch
         05C. Hệ thống xoay gạch: ARS, ASC, ASC+, BRS, BiRS, C2RS, C2sym, NRS, SRS, SRS+, TRS, XRS
         05D. Hệ thống điều khiển: IRS, IHS, IMS
-        05E. Cách kiểu xáo gạch: Túi 7 gạch, His, EZ-Start, Reverb, C2; 
-            và một vấn đề của một số kiểu xáo gạch: Drought & Flood
-
-[…] (Phần cuối của mục này ở trang 4)
-        ]]
-    },
-    {
-        "Mục lục [3/8]", 
-        "nhom02 mucluc",
-        "help",
-        [[
-[…] (Tiếp tục từ trang 2 | Phần đầu tiên của mục này nằm ở trang 2)
+        05E. Cách kiểu xáo gạch: Túi 7 gạch, His, EZ-Start, Reverb, C2;  và một vấn đề Drought & Flood của một vài kiểu xáo.
         05F. Thông số
             05F1. Thông số của game
                 * Tốc độ rơi, 20G
@@ -94,20 +80,18 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
                 * DAS & ARR, DAS cut, Hiệu chỉnh DAS
                 * Auto-lock cut, SDF
         05G. Điều khiển
-            5G1. Tốc độ: LPM, PPS, BPM, KPM, KPP
-            5G2. Kỹ thuật: Hypertapping, Rolling, Finesse
-            5G3. Độ trễ đầu vào
-
-
+            05G1. Tốc độ: LPM, PPS, BPM, KPM, KPP
+            05G2. Kỹ thuật: Hypertapping, Rolling, Finesse
+            05G3. Độ trễ đầu vào
 […] (Phần cuối của mục này ở trang 4)
         ]]
     },
     {
-        "Mục lục [4/8]", 
+        "Mục lục [3/8]", 
         "nhom02 mucluc",
         "help",
         [[
-[…] (Tiếp tục từ trang 3 | Phần đầu tiên của mục này nằm ở trang 2)
+[…] (Tiếp tục từ trang 2 | Phần đầu tiên của mục này nằm ở trang 2)
         05H. Khả năng tấn công
             * APM, SPM, DPM, RPM, ADPM, APL
             * Tấn công & Phòng thủ
@@ -126,32 +110,20 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         ]]
     },
     {
-        "Mục lục [5/8]", 
+        "Mục lục [4/8]", 
         "nhom02 mucluc",
         "help",
         [[
 06. Các game xếp gạch
         (Danh sách khá là dài nên xin phép không liệt kê ở đây, bạn hãy gõ trên thanh tìm kiếm "nhom06" để xem danh sách đầy đủ ở cột danh sách bên trái)
 07. Một vài cơ chế và chế độ của một số game
-        - Tàng hình một phần/hoàn toàn
-        - Chế độ MPH
-        - Secert Grade
-        - Deepdrop
+        - Chế độ: Tàng hình một phần/hoàn toàn, Chế độ MPH, Secert Grade
+        - Cơ chế: Deepdrop
 08. Bot: Cold Clear, ZZZbot
-        ]]
-    },
-    {
-        "Mục lục [6/8]", 
-        "nhom02 mucluc",
-        "help",
-        [[
 09. Mẹo và lời khuyên hữu ích
-        - Đề xuất luyện tập
-        - Học làm T-spin
-        - Hiệu chỉnh DAS
-        - Bố cục phím
-        - Khả năng xử lý gạch
-        - Các phím xoay
+        - Đề xuất luyện tập				- Bố cục phím
+        - Học làm T-spin					 - Khả năng xử lý gạch
+        - Hiệu chỉnh DAS					 - Các phím xoay
 10. Wiki; các trang web bày setup & cung cấp câu đố, chia sẻ setup
         10A. Wiki: Huiji Wiki, Hard Drop Wiki, tetris.wiki, Tetris Wiki Fandom
         10B. Bày setup: Four.lol, Tetris Hall, Tetris Template Collections, tetristemplate.info
@@ -164,7 +136,7 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         ]]
     },
     {
-        "Mục lục [7/8]", 
+        "Mục lục [5/8]", 
         "nhom02 mucluc",
         "help",
         [[
@@ -180,14 +152,7 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
         13B. Opener: DT Cannon, DTPC, BT Cannon, BTPC, TKI 3 Perfect Clear, QT Cannon, Mini-Triple, Trinity, Wolfmoon Cannon, Sewer, TKI, God Spin, Albatross, Pelican, Perrfect Clear Opener, Grace System, DPC, Gamushiro Stacking
         13C. Mid-game: C-spin, STSD, Fractal, LST stacking, Imperial Cross, King Crimson, Fin, Neo, Iso, PC liên tiếp (1+2+3)
         13D. Donation: Hamburger, STMB Cave, Kaidan, Shachiku Train, Cut Copy
-14. Cách tính lượng sát thơng gây ra: Tetris OL, Techmino
-        ]]
-    },
-    {
-        "Mục lục [8/8]", 
-        "nhom02 mucluc",
-        "help",
-        [[
+        14. Cách tính lượng sát thơng gây ra: Tetris OL, Techmino
 15. Console và chuyện quản lý dữ liệu game
         - Console
         - Đặt lại thiết lập, tình trạng mở khóa, bố cục phím
@@ -704,43 +669,58 @@ Phương pháp này lần đầu tiên được phát hiện ra bởi Cheez-fish
         "name",
         "Độ trễ đầu vào\nBất kỳ thiết bị đầu vào cũng cần một khoảng thời gian để tín hiệu có thể tới game. Độ trễ này từ vài ms cho tới mấy trăm ms.\nNếu độ trễ đầu vào quá cao, thì việc điều khiển sẽ không thoải mái.\nĐộ trễ này thường do phần cứng và phần mềm, thứ mà bạn khó mà kiểm soát được. Bật chế độ Hiệu suất cao (Performance mode) hoặc tắt chế độ tiết kiệm năng lượng (Energy saving), đồng thời bật chế độ Gaming trên màn hình máy tính/TV, có thể giúp giảm độ trễ.",
     },
-    {">H|K.năng t.công",
+    {">H|Mis-action",
         "nhom05h",
         "name",
-        "NHÓM 5H: KHẢ NĂNG TẤN CÔNG"
+        "NHÓM 5H: HÀNH ĐỘNG BẤT CẨN (MIS-)"
+    },
+    {"Misdrop",
+        "nhom05h md misdrop",
+        "term",
+        "Vô tình thả rơi/đặt gạch vào nơi không mong muốn.",
+    },
+    {"Mishold",
+        "nhom05h mh mishold",
+        "term",
+        "Vô tình nhấn nhầm phím Hold. Việc này có thể dẫn đến việc dùng một viên gạch không mong muốn, và có thể bỏ lỡ cơ hội có thể làm PC.",
+    },
+    {">I|K.năng t.công",
+        "nhom05i",
+        "name",
+        "NHÓM 5I: KHẢ NĂNG TẤN CÔNG"
     },
     {"APM",
-        "nhom05h attackperminute",
+        "nhom05i attackperminute",
         "term",
         "Attack per minute | Số hàng tấn công mỗi phút\n\tPhản ánh sức mạnh tấn công của người chơi",
     },
     {"SPM",
-        "nhom05h linessentperminute",
+        "nhom05i linessentperminute",
         "term",
         "[lines] Sent per minute | Số hàng gửi mỗi phút \n\tPhản ánh sức mạnh tấn công *thực tế* của người chơi (không tính các hàng được xóa để xử những hàng rác trong bộ đệm).",
     },
     {"DPM",
-        "nhom05h digperminute defendperminute",
+        "nhom05i digperminute defendperminute",
         "term",
         "Dig/Defend per minute | Số hàng đào xuống mỗi phút\n\tĐôi khi có thể phản ánh mức độ sống sót của người chơi khi nhận được rác",
     },
     {"RPM",
-        "nhom05h receive jieshou",
+        "nhom05i receive jieshou",
         "term",
         "[lines] Receive per Minute\n\tPhản ánh áp lực hiện có của người chơi",
     },
     {"ADPM",
-        "nhom05h attackdigperminute vs",
+        "nhom05i attackdigperminute vs",
         "term",
         "Attack & Dig per minute | Số hàng tấn công & đào xuống mỗi phút\n\tDùng để so sánh sự khác nhau về kỹ năng của hai người chơi trong một trận đấu; chính xác hơn một chút so với APM\n\tNhân tiện thì VS Score (điểm VS) trong tetr.io chính là ADPM mỗi 100 giây",
     },
     {"APL",
-        "nhom05h attackperline efficiency",
+        "nhom05i attackperline efficiency",
         "term",
         "Attack per line (cleared) | Số hàng tấn công / Số hàng đã xóa\n\tCòn được biết với tên “efficiency” (độ hiệu quả). Phản ánh độ hiệu quả khi tấn công sau mỗi lần xóa hàng. Ví dụ Tetris và T-spin có độ hiệu quả cao hơn so với Xóa 2 hàng và Xóa 3 hàng.",
     },
     {"Tấn công & Phg thủ",
-        "nhom05h attacking defending phòng thủ",
+        "nhom05i attacking defending phòng thủ",
         "term",
         [[
 Tấn công: Gửi hàng rác tới đối thủ bằng cách xóa hàng.
@@ -751,39 +731,24 @@ Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1
         ]],
     },
     {"Combo",
-        "nhom05h ren combo",
+        "nhom05i ren combo",
         "term",
         "Ở Nhật Bản, từ này được gọi là REN.\nXóa hàng liên tiếp để tạo ra combo. Từ lần xóa hàng thứ 2 thì tính là 1 Combo, và từ lần xóa hàng thứ 3 thì tính là 2 Combo, và cứ như thế.\nKhông như Back to Back, đặt một viên gạch = phá combo.",
     },
     {"Spike",
-        "nhom05h spike",
+        "nhom05i spike",
         "term",
         "Làm nhiều đợt tấn công trong thời gian ngắn.\n\nKể cả Techmino và TETR.IO đều có bộ đếm spike, sẽ hiện cho bạn bao nhiêu hàng bạn đã gửi cho đối thủ.\n\nLưu ý rằng hàng rác mà bị tích lũy do mạng lag thì không được tính là spike.",
     },
     {"‘Debt’",
-        "nhom05h qianzhai debt owe",
+        "nhom05i qianzhai debt owe",
         "term",
         "Một thuật ngữ hay được sử dụng trong cộng đồng Tetris Trung Quốc. “Debt” đề cập đến tình huống mà trước mắt một người chơi phải hoàn thành việc thực hiện một setup cụ thể trước khi học có thể thực hiện một/nhiều T-spin để có thể thực sự tấn công. Cho nên, khi đang làm một hoặc nhiều debt liên tiếp, người chơi buộc phải để ý tới đối thủ để đảm bảo an toàn; nếu không, khả năng người chơi sẽ bị đá bay trước khi xây dựng xong là khá cao\n\nThuật ngữ này hay được sử dụng để diễn tả một số setup như TST tower.\nHãy nhớ bạn thực sự KHÔNG THỂ thực hiện tấn công nếu như đang làm debt.",
     },
     {"Passthrough",
-        "nhom05h pingthrough",
+        "nhom05i pingthrough",
         "term",
         "Đề cập đến một tình huống mà trong đó cả hai người chơi đều gửi tấn công, nhưng thay vì chúng hủy bỏ lẫn nhau thì nó lại gửi thẳng vào bảng của đối phương. Một thuật ngữ khác là “pingthrough” đề cập tình huống passthrough xảy ra do ping cao.",
-    },
-    {">I|Mis-action",
-        "nhom05i",
-        "name",
-        "NHÓM 5I: HÀNH ĐỘNG BẤT CẨN (MIS-)"
-    },
-    {"Misdrop",
-        "nhom05i md misdrop",
-        "term",
-        "Vô tình thả rơi/đặt gạch vào nơi không mong muốn.",
-    },
-    {"Mishold",
-        "nhom05i mh mishold",
-        "term",
-        "Vô tình nhấn nhầm phím Hold. Việc này có thể dẫn đến việc dùng một viên gạch không mong muốn, và có thể bỏ lỡ cơ hội có thể làm PC.",
     },
     {">J|Spin",
         "nhom05j",
@@ -1428,7 +1393,7 @@ Lời khuyên của chúng tôi: chỉ nên bắt đầu học làm T-spin khi b
         "Với những người chơi nâng cao mà muốn chơi nhanh hơn, có thể điều chỉnh DAS thành 4-6 f (67-100 ms) và ARR 0 f (0 ms); đây là hai giá trị khuyên dùng. (Ở ARR 0ms, các viên gạch sẽ ngay lập tức dính vào tường khi bạn vượt qua DAS.)\n\nĐây là cấu hình lý tưởng cho người nâng cao, với chiến lược là cắt giảm DAS trong khi vẫn có thể kiểm soát được gạch một cách tin cậy mặc dù ARR bằng 0 nếu có thể hoặc càng thấp càng tốt.",
     },
     {"Bố cục phím",
-        "feel",
+        "nhom09 feel",
         "help",
         [[
 Dưới đây là vài lời khuyên hữu ích khi bạn đang chỉnh sửa bố cục phím
@@ -1441,7 +1406,7 @@ Dưới đây là vài lời khuyên hữu ích khi bạn đang chỉnh sửa b�
         ]],
     },
     {"Khả năng xử lý gạch",
-        "feel handling",
+        "nhom09 feel handling",
         "help",
         [[
 Những yếu tố ảnh hưởng tới việc xử lý gạch của bạn:
@@ -1456,12 +1421,12 @@ Những yếu tố ảnh hưởng tới việc xử lý gạch của bạn:
         ]],
     },
     {"Các phím xoay (1/2)",
-        "doublerotation",
+        "nhom09 doublerotation",
         "help",
         "Dùng cả phím xoay phải và xoay trái giảm số lầm phím cần nhấn bằng cách thay thế nhấn 3 lần phím xoay một bên bằng cách nhấn 1 lần phím xoay bên kia.\nLỗi di chuyển cũng có tính đến việc có sử dụng cả hai phím xoay hai không.",
     },
     {"Các phím xoay (2/2)",
-        "triplerotation",
+        "nhom09 triplerotation",
         "help",
         "Sử dụng cả ba phím xoay (phím thứ ba là xoay 180°), tất cả các gạch muốn xoay thì chỉ cần duy nhất nhấn một phím một lần.\nTuy nhiên, việc này không phải lúc nào cũng hữu dụng vì không phải game nào đều hỗ trợ cả 3 phím xoay. Hơn nữa, sự cải thiện về tốc độ khi so sánh dùng 3 phím so với 2 phím không nhiều bằng dùng 2 phím so với 1 phím. Bạn có thể bỏ qua kỹ thuật này trừ khi bạn muốn đạt tốc độ cực cao.",
     },
@@ -1526,7 +1491,7 @@ Liên kết sẽ dẫn bạn tới phiên bản tiếng Anh, bản gốc là ti�
         "https://teatube.cn/ttpc/ttpc/",
     },
     {"NAZO",
-        "nazo",
+        "nhom10b nazo",
         "game",
         [[
 (ナゾ)
@@ -1538,7 +1503,7 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
         "https://teatube.cn/nazo/",
     },
     {"TPO",
-        "nazo",
+        "nhom10b nazo",
         "game",
         "Tetris Puzzle O. Một trang web bằng tiếng Nhật được viết bởi TCV100 (có lấy một vài câu đố từ NAZO sang).",
         "http://121.36.2.245:3000/tpo",
@@ -1549,25 +1514,25 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
         "NHÓM 10C: CÁC TRANG WEB BÀY SETUP"
     },
     {"Four.lol",
-        "four wiki",
+        "nhom10c four wiki",
         "help",
         "Một website chứa các setup để làm opener",
         "https://four.lol",
     },
     {"‘Tetris Hall’",
-        "",
+        "nhom10c ",
         "help",
         "(テトリス堂)\n\nMột trang web tiếng Nhật, chứa nhiều setup, hướng dẫn cũng như có các minigame. Nó cũng có mô tả chi tiết về PC liên tiếp",
         "https://shiwehi.com/tetris/",
     },
     {"‘Tetris Template Collections’",
-        "",
+        "nhom10c ",
         "help",
         "(テトリステンプレ集@テト譜)\n\nMột trang web tiếng Nhật với các setup và các danh mục chi tiết. Hầu hết các setup đều có ảnh minh họa, vì vậy việc chia sẻ với người khác sẽ dễ dàng hơn.",
         "https://w.atwiki.jp/tetrismaps/",
     },
     {"tetristemplate.info",
-        "",
+        "nhom10c ",
         "help",
         "(テトリスブログ - PerfectClear)\n\nMột trang web ở Nhật Bản chứa một số setup. Tuy số lượng không bằng các trang web khác nhưng bù lại các setup đều được giải thích rất chi tiết",
         "https://tetristemplate.info/",
@@ -1578,13 +1543,13 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
         "NHÓM 10D: CÁC TRANG WEB CHIA SẺ SETUP"
     },
     {"Fumen",
-        "fumen",
+        "nhom10d fumen",
         "help",
         "Đây là một công cụ chỉnh sửa bảng dành cho Tetris bằng tiếng Nhật. Thường được sử dụng để chia sẻ setup, PC solution (hướng đi để làm PC), v.v. Liên kết của mục này sẽ dẫn bạn tới bản tiếng Anh.",
         "http://fumen.zui.jp/#english.js",
     },
     {"Fumen bản Đ.thoại",
-        "fumenformobile fm",
+        "nhom10d fumenformobile fm",
         "help",
         "Fumen for Mobile (Fumen bản dành cho Điện thoại)\n\nCũng là Fumen nhưng hỗ trợ cho màn hình cảm ứng",
         "https://knewjade.github.io/fumen-for-mobile/",
@@ -1859,12 +1824,6 @@ Setup này thường phải đạt cả ba yêu cầu sau:
         "Che hố hình chữ thập bằng phần nhô ra để thực hiện hai lần T-spin Double\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
         "https://harddrop.com/wiki?search=imperial_cross",
     },
-    {"Shachiku Train",
-        "nhom13c shachikutrain shechu",
-        "pattern",
-        "Một setup dạng donation cho phép làm thêm hai TSD từ setup TST.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
-        "https://harddrop.com/wiki?search=Shachiku_Train",
-    },
     {"King Crimson",
         "nhom13c kingcrimson",
         "pattern",
@@ -1912,9 +1871,108 @@ Setup này thường phải đạt cả ba yêu cầu sau:
         "Một setup dạng donation có thể làm TSD trên địa hình cầu thang.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
         "https://harddrop.com/wiki?search=kaidan",
     },
+    {"Shachiku Train",
+        "nhom13d shachikutrain shechu",
+        "pattern",
+        "Một setup dạng donation cho phép làm thêm hai TSD từ setup TST.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "https://harddrop.com/wiki?search=Shachiku_Train",
+    },
     {"Cut Copy",
         "nhom13d qianniao cutcopy",
         "pattern",
         "Một setup dạng donation để làm T-spin Double trên một cái hố nhỏ và có thể làm thêm một TSD nữa sau đó.",
+    },
+    {"=[NHÓM 14]=",
+        "nhom14",
+        "name",
+        "NHÓM 14: CÁCH TÍNH TẤN CÔNG"
+    },
+    {"Tetris OL attack",
+        "nhom14 top tetrisonlineattack",
+        "term",
+        [[
+Cách tính tấn công trong Tetris Online
+
+Đơn/Đôi/Tam/Tetris gửi 0/1/2/4 hàng rác.
+T-spin Đơn/Đôi/Tam gửi 2/4/6 hàng rác, cắt một nửa nếu là Mini.
+Combo gửi thêm 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 5 hàng rác.
+Back to Back gửi thêm 1 (hoặc 2 nếu T-spin Triple).
+All Clear gửi thêm 6 hàng rác. Nhưng 6 hàng rác này sẽ gửi thẳng vào bảng đối thủ, chứ không hủy rác tới.
+        ]],
+    },
+    {"Techmino attack",
+        "nhom14 techminoattack",
+        "term",
+        "Cách tính tấn công trong Techmino\n\nTra “hướng dẫn sử dụng” bằng cách nhấn phím ở góc dưới bên phải trên màn hình chính của game.",
+    },
+    {"=[NHÓM 15]=",
+        "nhom15",
+        "name",
+        "NHÓM 15: CONSOLE VÀ CHUYỆN QUẢN LÝ DỮ LIỆU GAME"
+    },
+    {"Console",
+        "nhom15 cmd commamd minglinghang kongzhitai terminal",
+        "command",
+        "Techmino có một console cho phép kích hoạt tính năng gỡ lỗi và bật các tính năng nâng cao.\nĐể truy cập, hãy chạm/nhấn vào logo Techmino/ nhấn phím C 4 lần, tại màn hình chính.\n\nHành động bất cẩn trong console có thể dẫn đến HƯ HỎNG/ MẤT TOÀN BỘ dữ liệu đã lưu KHÔNG THỂ PHỤC HỒI.\n\nCÓ RỦI RO KHI TIẾN HÀNH\nKHÔNG AI CHỊU TRÁCH NHIỆM MỌI MẤT MÁT CÓ THỂ XẢY RA TRỪ CHÍNH BẠN!",
+    },
+    {"Đặt lại thiết lập",
+        "nhom15 reset setting",
+        "command",
+        "Vào console, gõ “rm conf/setting” sau đó nhấn Enter/Return.\nKhởi động lại Techmino để thay đổi có hiệu lực.\nĐể hoàn tác/hủy bỏ thay đổi đã thực hiện, hãy vào Cài đặt rồi trở ra.",
+    },
+    {"Xóa t.bộ thành tích",
+        "nhom15 reset statistic data",
+        "command",
+        "Xóa toàn bộ thành tích\n\nVào console, gõ “rm conf/data” sau đó nhấn Enter/Return.\nKhởi động lại Techmino để thay đổi có hiệu lực.\nĐể hoàn tác/hủy bỏ thay đổi đã thực hiện, chơi một chế độ bất kỳ sau đó nhận màn hình Thắng/Thua",
+    },
+    {"Đặt lại t.trg mở khóa",
+        "nhom15 reset unlock",
+        "command",
+        "Đặt lại tình trạng mở khóa của (hầu hết) các chế độ trong game\n\nVào console, gõ “rm conf/unlock” sau đó nhấn Enter/Return.\nKhởi động lại Techmino để thay đổi có hiệu lực.\nĐể hoàn tác/hủy bỏ thay đổi đã thực hiện, cập nhật lại tình trạng của một chế độ bất kỳ.",
+    },
+    {"Xóa t.bộ kỷ lục",
+        "nhom15 reset record",
+        "command",
+        "Xóa toàn bộ kỷ lục\n\nVào console, gõ “rm -s record” sau đó nhấn Enter/Return.\nKhởi động lại Techmino để thay đổi có hiệu lực.\nBạn có thể hoàn nguyên hành động này trên cơ sở từng chế độ; chơi một chế độ và cập nhật bảng xếp hạng để khôi phục bảng xếp hạng của chế độ đó.",
+    },
+    {"Đặt lại bố cục phím",
+        "nhom15 reset virtualkey",
+        "command",
+        "Vào console, gõ “rm conf/[File_bố_cục_phím]” sau đó nhấn Enter/Return.\nThay [File_bố_cục_phím] với file cần xóa: File bố cục bàn phím trên máy tính: key; File bố cục nút trên màn hình: virtualkey; Bản lưu bố cục nút trên màn hình: vkSave1, vkSave2\nKhởi động lại Techmino để hai thay đổi đầu tiên có hiệu lực.\nVào một trang chỉnh sửa bố cục phím/nút sau đó trở ra để lấy lại file tương ứng.",
+    },
+    {"Xóa t.bộ bản phát lại",
+        "nhom15 delete recording",
+        "command",
+        "Xóa toàn bộ bản phát lại\n\nVào console, gõ “rm -s replay“ sau đó nhấn Enter/Return.\nHiệu lực tức thì, KHÔNG THỂ HOÀN TÁC",
+    },
+    {"Xóa bộ nhớ đệm",
+        "nhom15 delete cache",
+        "command",
+        "Vào console, gõ “rm -s cache” sau đó nhấn Enter/Return.\nHiệu lực tức thì, KHÔNG THỂ HOÀN TÁC",
+    },
+    {"=[NHÓM 16]=",
+        "nhom16",
+        "name",
+        "NHÓM 16: CÁC THUẬT NGỮ KHÔNG LIÊN QUAN TỚI TETRIS (TIẾNG ANH)"
+    },
+    {"SFX",
+        "nhom16 soundeffects",
+        "english",
+        "Từ viết tắt của “Sound Effects” (Hiệu ứng âm thanh). Ở Nhật Bản, từ này được viết tắt là “SE”.",
+    },
+    {"BGM",
+        "nhom16 backgroundmusic",
+        "english",
+        "Từ viết tắt của “Background Music (Nhạc nền).”",
+    },
+    {"TAS",
+        "nhom16 tas",
+        "english",
+        "Từ viết tắt của “Tool-Assisted Speedrun (Superplay)” (Công cụ hỗ trợ Speedrun)\nChơi một game nào đó mà không cần công cụ đặc biệt để phá vỡ quy tắc của game (ở cấp độ chương trình/phần mềm).\nNó thường được sử dụng để đạt điểm tối đa theo lý thuyết/đạt được những mục tiêu thú vị\nMột công cụ TAS như vậy cũng có sẵn, nhưng là bản nhỏ gọn, được đi kèm với Techmino.",
+    },
+    {"AFK",
+        "nhom16 afk",
+        "english",
+        "Từ viết tắt của “Away From Keyboard” (dịch sát nghĩa: “Đang ở xa bàn phím”), hay theo nghĩa rộng hơn, khoảng thời gian bạn không chơi game.\nNghỉ giải lao thường xuyên giúp bạn giảm căng cơ và giúp bạn chơi tốt hơn khi quay trở lại.",
     },
 }
