@@ -274,3 +274,7 @@ This is the **BASE** to organize everything in game's Zictionary
 - BGM
 - TAS
 - AFK
+
+## 17. Phụ lục
+- Thông tin bổ sung cho game
+- Techmino CopyPasta
