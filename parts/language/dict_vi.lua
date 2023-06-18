@@ -33,15 +33,18 @@ Có thể tìm một mục bằng cách gõ một phần hoặc toàn bộ tiêu
 
 Nếu bạn muốn lọc theo nhóm, đầu tiên hãy mở Mục lục, sau đó thì tìm tới nhóm bạn cần. Lấy số ở đầu tiêu đề rồi gõ trên thanh tìm kiếm với cú pháp: "nhom<n>"
 Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", hãy gõ vào thanh tìm kiếm "nhom06". Hoặc để xem các hệ thống xoay gạch, gõ "nhom05c"
-
-Lưu ý: không thể tìm mục ở trong nhóm 17A bằng cách gõ tên mục. Nhưng vẫn có thể gõ tên nhóm.
         ]]
     },
     {
         "=[NHÓM 02]=",
         "nhom02 mucluc",
         "name",
-        "NHÓM 02: MỤC LỤC"
+        [[
+NHÓM 02: MỤC LỤC
+
+Đây là mục lục của toàn bộ Zictionary
+Bạn có thể quay lại đây bằng cách gõ trên thanh tìm kiếm "nhom02" hoặc "mucluc"
+        ]]
     },
     {
         "Mục lục [1/8]", 
@@ -1982,7 +1985,7 @@ Tất cả các mục ở trong nhóm 17A sẽ không thể tìm bằng tên m�
     {"Tetr.js",
         "nhom17a",
         "game",
-        "NHÓM 17A\\Tetr.js\n\nTetr.js Enhanced đã ngừng phát triển từ lâu và đã bị gỡ xuống (có vẻ như đã trở thành lost game). Tetr.js Enhanced đã được thay thế bằng Tetra Legend. Tuy nhiên Tetra Legends cũng bị ngừng phát triển (và bỏ rơi hoàn toàn sau đó) từ T10/2020"
+        "Tetr.js Enhanced đã ngừng phát triển từ lâu và đã bị gỡ xuống (có vẻ như đã trở thành lost game). Tetr.js Enhanced đã được thay thế bằng Tetra Legend. Tuy nhiên Tetra Legends cũng bị ngừng phát triển (và bỏ rơi hoàn toàn sau đó) từ T10/2020"
     },
     {"Tetris Friends",
         "nhom17a",
@@ -1993,7 +1996,6 @@ Tất cả các mục ở trong nhóm 17A sẽ không thể tìm bằng tên m�
         "nhom17a",
         "game",
         [[
-NHÓM 17A\tetris.com
 [Mục này có thể áp dụng cho "Tetris Gems" và "Tetris Mind Bender"]
 
 Trước đây bạn không thể mở game này trên điện thoại nhưng giờ bạn có thể chơi được rồi. (Trong Zictionary tiếng Anh không có ghi "Hỗ trợ điện thoại".)
@@ -2007,7 +2009,7 @@ Hiện có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart), "b
     {"DTET",
         "nhom17a",
         "game",
-        "NHÓM 17A\\DTET\n\nNhấn vào biểu tượng quả địa cầu để mở link hướng dẫn cài DTET.\n\nCẢNH BÁO: MrZ, 26F Studio, Sea, và link hướng dẫn trên sẽ KHÔNG CHỊU TRÁCH NHIỆM VỀ MỌI THIỆT HẠI cho việc tải file DLL không rõ nguồn gốc",
+        "Nhấn vào biểu tượng quả địa cầu để mở link hướng dẫn cài DTET.\n\nCẢNH BÁO: MrZ, 26F Studio, Sea, và bài hướng dẫn trên sẽ KHÔNG CHỊU TRÁCH NHIỆM VỀ MỌI THIỆT HẠI do việc tải file DLL không rõ nguồn gốc",
         "https://t-sp.in/dtet"
     },
     {"Tetris (EA)",
@@ -2018,6 +2020,6 @@ Hiện có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart), "b
     {"Tetris (N3TWORK)",
         "nhom17a",
         "game",
-        "NHÓM 17A\\Tetris (N3TWORK)\n\nMrZ nói cơ chế điều khiển tệ là vì: phím trên màn hình cảm ứng nó khá là nhỏ, nhỏ hơn cả ngón tay mình có thể bấm. Mà cơ chế vuốt cũng không ổn lắm. Game khá là nhiều quảng cáo nên là chuẩn bị adblocker đi. Và nếu bạn thấy game lag thì có thể tắt cả nhạc lẫn SFX."
+        "MrZ nói cơ chế điều khiển tệ là vì: phím trên màn hình cảm ứng nó khá là nhỏ, nhỏ hơn cả ngón tay mình có thể bấm. Mà cơ chế vuốt cũng không ổn lắm. Game khá là nhiều quảng cáo nên là chuẩn bị adblocker đi. Và nếu bạn thấy game lag thì có thể tắt cả nhạc lẫn SFX."
     }
 }
