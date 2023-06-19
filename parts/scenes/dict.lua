@@ -58,11 +58,14 @@ local function _clearResult()
 end
 local function _search()
     local input=inputBox:getText():lower()
+    -- [SEA]: Can the search function prioritize the best match? Yes for almost all the time except Vietnamese
+    -- (due to the it's group system)
+    local prioritizeBestMatch = not SETTING.locale:find"vi"
     _clearResult()
     local first
     for i=1,#dict do
         local pos=find(dict[i].title:lower(),input,nil,true) or find(dict[i].keywords,input,nil,true)
-        if pos==1 and not first then
+        if pos==1 and not first and prioritizeBestMatch then
             ins(result,1,dict[i])
             first=true
         elseif pos then
