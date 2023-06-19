@@ -1,12 +1,39 @@
--- Toàn bộ nội dung này được sao chép y nguyên từ dict_en.lua
--- Và file này được sửa bằng tay, không dùng tool của User670: https://github.com/user670/techmino-dictionary-converter/blob/master/tool.py
+--[[
+Techmino CopyPasta hide switch, don't turn it off if you haven't asked Not A Robot or Reggyxt yet
+By default, it will be turned off by commenting, you will have to toggle comment to show/hide
+Don't forget to set hide_techmino_copypasta to true :)
+]]
 
-return {
+-- hide_techmino_copypasta = true   -- HIDE Techmino CopyPasta
+
+return {                            -- HIDE Techmino CopyPasta (default)
+-- return TABLE.connect({           -- SHOW Techmino CopyPasta
+    -- Original Zictionary part
     {
         "=[NHÓM 01]=",
-        "nhom01",
+        "nhom01 giới thiệu bản dịch cách tìm kiếm ",
         "name",
-        "NHÓM 01: VỀ ZICTIONARY"
+        [[
+NHÓM 01: VỀ ZICTIONARY
+
+Chào bạn, Zictionary là một từ điển về game xếp gạch cực kì hữu ích. Bạn có thể sử dụng để tra những từ hay thuật ngữ mà bạn không hiểu.
+Bạn bị rối vì kích thước của từ điển ư? Đừng lo, Zictionary đã được chia nhỏ thành 16 nhóm (+1 nhóm Phụ lục cho thông tin bổ sung)
+Bạn có thể xem phần Mục lục (ở Nhóm 2, hoặc bạn có thể gõ trên thanh tìm kiếm "mucluc" hoặc "nhom2" để xem mục lục) để biết mỗi nhóm trong 16+1 nhóm chứa nội dung gì nhé
+
+Cách điều hướng (Mặc định hiện nút "Copy" & "Mở link" (hình quả địa cầu), trên điện thoại sẽ hiện thêm 4 nút mũi tên để điều hướng):
+        Mũi tên Lên/Xuống | Lăn chuột: di chuyển giữa các mục
+        Mũi tên Trái/Phải: di chuyển nhanh hơn, nhảy qua 12 mục mỗi lần
+        Ctrl+C | Nhấn nút "Copy": sao chép nội dung của mục đang mở
+        Menu/Application (nằm ở cạnh phím Ctrl phải) | Nhấn nút "Mở link": mở link đi kèm với mục (nếu có)
+
+Cách tìm kiếm:
+        Gõ bất kỳ chữ cái nào để nhập vào thanh tìm kiếm
+        Backspace: xóa một ký tự
+        Esc: xóa toàn bộ chữ trong ô tìm kiếm, trả về toàn bộ từ điển
+
+P/s: Hiện tại chỉ có bản dịch Tiếng Việt là có hệ thống nhóm thôi (do Sea-no-sweet tự làm hệ thống này)
+Ở các hệ thống khác thì không có hệ thống nhóm, do đó trật tự của các mục sẽ bị đảo lại nếu bạn chuyển sang tiếng Anh.
+        ]]
     },
     {
         "Giới thiệu bản dịch",
@@ -16,7 +43,7 @@ return {
 Đây là bản dịch tiếng Việt của TetroDictionary từ bản tiếng Anh.
 Bản tiếng Anh được dịch từ bản tiếng Trung Giản thể và do User670 và C₂₉H₂₅N₃O₅ vừa dịch vừa sửa chữa.
 
-Lưu ý: nội dung đôi khi hoặc có thể không giống với bản tiếng Trung Giản thể.
+Lưu ý: nội dung đôi khi/có thể không giống với bản tiếng Trung Giản thể.
 
 Muốn gửi đóng góp cho bản dịch? Hay là xem những ai đã đóng góp cho bản dịch này? Nếu thế, hãy nhấn vào biểu tượng quả địa cầu ở góc dưới bên phải để mở trang web.
 
@@ -37,7 +64,7 @@ Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", h�
     },
     {
         "=[NHÓM 02]=",
-        "nhom02 mucluc",
+        "nhom02 mucluc mucluc1 mucluc2 mucluc3 mucluc4 mucluc5",
         "name",
         [[
 NHÓM 02: MỤC LỤC
@@ -47,8 +74,8 @@ Bạn có thể quay lại đây bằng cách gõ trên thanh tìm kiếm "nhom0
         ]]
     },
     {
-        "Mục lục [1/8]", 
-        "nhom02 mucluc",
+        "Mục lục [1/5]", 
+        "nhom02 mucluc1",
         "help",
         [[
 01. Về Zictionary
@@ -63,8 +90,8 @@ Bạn có thể quay lại đây bằng cách gõ trên thanh tìm kiếm "nhom0
         ]]
     },
     {
-        "Mục lục [2/8]", 
-        "nhom02 mucluc",
+        "Mục lục [2/5]", 
+        "nhom02 mucluc2",
         "help",
         [[
 05. Tetris và các thuật ngữ
@@ -92,8 +119,8 @@ Bạn có thể quay lại đây bằng cách gõ trên thanh tìm kiếm "nhom0
         ]]
     },
     {
-        "Mục lục [3/8]", 
-        "nhom02 mucluc",
+        "Mục lục [3/5]", 
+        "nhom02 mucluc3",
         "help",
         [[
 […] (Tiếp tục từ trang trước)
@@ -115,8 +142,8 @@ Bạn có thể quay lại đây bằng cách gõ trên thanh tìm kiếm "nhom0
         ]]
     },
     {
-        "Mục lục [4/8]", 
-        "nhom02 mucluc",
+        "Mục lục [4/5]", 
+        "nhom02 mucluc4",
         "help",
         [[
 06. Các game xếp gạch
@@ -140,9 +167,10 @@ Bạn có thể quay lại đây bằng cách gõ trên thanh tìm kiếm "nhom0
         ]]
     },
     {
-        "Mục lục [5/8]", 
-        "nhom02 mucluc",
+        "Mục lục [5/5]", 
+        "nhom02 mucluc5",
         "help",
+        -- string.format("%s%s",        -- SHOW Techmino CopyPasta
         [[
 12. Xếp lên và đào xuống
         12A. Stacking (Xếp lên)
@@ -163,8 +191,8 @@ Bạn có thể quay lại đây bằng cách gõ trên thanh tìm kiếm "nhom0
 16. Các thuật ngữ không liên quan gì tới Tetris (tiếng Anh): SFX, BGM, TAS, AFK
 17. Phụ lục
         A. Thông tin bổ sung & lời nhận xét của Sea cho một số game
-        B. Techmino CopyPasta
-        ]]
+]],
+--        not hide_techmino_copypasta and "        B. Techmino CopyPasta" or " " ),     -- SHOW Techmino CopyPasta
     },
     {"=[NHÓM 03]=",
         "nhom03",
@@ -172,19 +200,19 @@ Bạn có thể quay lại đây bằng cách gõ trên thanh tìm kiếm "nhom0
         "NHÓM 03: DỰ ÁN TECHMINO",
     },
     {"Website chính thức",
-        "nhom03 homepage mainpage websites trang chủ ",
+        "nhom03 websites trang chủ ",
         "org",
         "Trang web chính thức của Techmino!\nBạn có thể lấy bản ổn định mới nhất của Techmino cũng như tạo tài khoản, thay avatar ngay tại đó\nNhấn vào biểu tượng quả địa cầu để mở website đó trong trình duyệt",
         "http://studio26f.org",
     },
     {"Dự án trên GitHub",
-        "nhom03 githubrepository sourcecode src".."mã nguồn mở  dự án  kho lưu trữ",
+        "nhom03".."mã nguồn mở".."dự án".."github".."repository".."kho lưu trữ",
         "org",
         "Kho lưu trữ chính thức của Techmino trên GitHub. Chúng tôi đánh giá cao nếu bạn tặng cho chúng tôi một ngôi sao! (bạn có thể tặng sao miễn phí).",
         "https://github.com/26F-Studio/Techmino",
     },
     {"Discord",
-        "nhom03",
+        "nhom03 máy chủ server",
         "org",
         -- SweetSea's version
         [[
@@ -2022,4 +2050,46 @@ Hiện có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart), "b
         "game",
         "MrZ nói cơ chế điều khiển tệ là vì: phím trên màn hình cảm ứng nó khá là nhỏ, nhỏ hơn cả ngón tay mình có thể bấm. Mà cơ chế vuốt cũng không ổn lắm. Game khá là nhiều quảng cáo nên là chuẩn bị adblocker đi. Và nếu bạn thấy game lag thì có thể tắt cả nhạc lẫn SFX."
     }
+-- },       -- SHOW Techmino CopyPasta
 }
+-- Techmino CopyPasta part, hidden by default
+-- To show Techmino CopyPasta, toggle comment from the next line to the end
+
+-- not hide_techmino_copypasta and {
+--     {">B. CopyPasta",
+--         "nhom17b",
+--         "name",
+--         [[
+-- NHÓM 17B: TECHMINO COPYPASTA [J4F]
+
+-- Nghe thì đáng sợ thế nhưng thực chất chỉ là bài quảng cáo thôi
+-- Đọc cho vui, chứ mình nghĩ MrZ sẽ không bao giờ lấy làm chiến dịch quảng cáo đâu. (Làm thế thì TTC đánh gậy thẳng vào đầu liền, đau lắm)
+
+-- Trong Zictionary này mình sẽ giới thiệu hai bản, một bản của Not_A_Robot và Reggyxt
+--         ]]
+--     },
+--     {"Not_A_Robot [1/2]",
+--         "nhom17b",
+--         "term",
+--         [[
+-- Ây, khi nhắc tới những tựa game xếp gạch do fan làm, bạn có biết rằng Techmino là game tốt nhất không?
+-- Không những chứa nhiều chế độ, game được làm trên engine Love2D. Có nghĩa là không chỉ có thể chạy được trên Windows, Mac, Linux, Android, và iOS. Mà độ trễ đầu vào sẽ rất là thấp, kể cả PC thuộc loại đời "Tống". Và tất nhiên, yêu cầu hệ thống của game này thấp lắm, so với những tựa game hiện đại như Tetris Effect.
+
+-- Vì game mã nguồn mở, đã có rất nhiều lập trình viên đóng góp vào làm cho game tốt hơn và có nhiều chế độ hơn, thay vì chỉ có một hoặc hai như TETR.IO. Đồng nghĩa quá trình phát triển sẽ nhanh hơn, tuyệt! Không những thế, game được viết trên Love2D, bạn có thể dễ dàng mod game và tự thêm những tính năng mới nếu bạn biết code. Có nghĩa là sẽ có gần như vô hạn tính năng mới bạn có thể làm và thêm vào.
+
+-- Game cũng có “Chế độ tự do”, và có nhiều tùy chọn có thể tùy biến hơn, hơn cả TETR.IO và TETR.IO Plus gộp lại!
+-- Hơn nữa, ngay cả khi bạn đã hoàn thành bản đồ, game cũng có một hệ thống xếp hạng để đo khả năng chơi của bạn với từng chế độ, với hạng cao nhất là hạng X. Sẽ có rất nhiều màn chơi bạn vẫn phải làm nếu muốn bản đồ của bạn toàn X. Nhưng mà khoan, vẫn còn nhiều thứ lắm! Ngay cả khi bạn lấy được hết toàn bộ chế độ X trên bản đồ, vẫn còn nhiều chế độ ẩn được trải khắp game. Và chưa dừng lại ở đó! Có một số minigame đi kèm ở trong Techmino, như 2048, Pong, Mahjong, và hơn thế nữa!
+
+-- Tuy nhiên, lật mở chức năng “Nhiều người chơi” ra. Server chỉ có tỉ lệ 0.01% hoạt động, và thường có khả năng server sẽ bị trục trặc giữa trận. Và hơn thế nữa, ít ai chơi chế độ này, bởi vì game không được phổ biến lắm. Hơn nữa có lẽ bạn sẽ cần VPN để có thể chơi. Vẫn còn một số bug tồn đọng, có khả năng bị desync, và vài tính năng chưa được hoàn thành.
+
+-- Kết luận, Techmino có rất nhiều thứ để bạn chơi, độ trễ đầu vào cùng với cấu hình tối thiểu thấp, cùng với việc có nhiều lập trình viên làm cho game được phát triển nhanh hơn; chế độ nhiều người chơi vẫn còn dở lắm.
+--         ]]
+--     },
+--     {"Reggyxt",
+--         "nhom17b",
+--         "term",
+--         [[
+-- I'm too lazy to do this lol!
+--         ]]
+--     }
+-- } or {})
