@@ -60,7 +60,7 @@ local function _search()
     local input=inputBox:getText():lower()
     -- [SEA]: Can the search function prioritize the best match? Yes for almost all the time except Vietnamese
     -- (due to the it's group system)
-    local prioritizeBestMatch = not SETTING.locale:find"vi"
+    local prioritizeBestMatch=not SETTING.locale:find"vi"
     _clearResult()
     local first
     for i=1,#dict do
