@@ -64,7 +64,7 @@ local function _search()
     local prioritizeBestMatch=not SETTING.locale:find"vi"
     local first
     for i=1,#dict do
-        local pos=find(dict[i].title:lower(),input,nil,true) or find(dict[i].keywords,input,nil,true) or find(dict[i].keywords:lower(),input,nil,true)
+        local pos=find(dict[i].title:lower(),input,nil,true) or find(dict[i].keywords:lower(),input,nil,true)
         if pos==1 and not first and prioritizeBestMatch then
             ins(result,1,dict[i])
             first=true
