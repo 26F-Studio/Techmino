@@ -172,17 +172,18 @@ return {
     versionNotMatch="Phiên bản không khớp",
     notFinished="Sắp ra mắt!",
 
-    noUsername="Vui lòng nhập email của bạn",
-    wrongEmail="Địa chỉ email không hợp lệ",
-    wrongCode="Mã xác minh không hợp lệ",
-    noPassword="Vui lòng nhập mật khẩu của bạn",
-    diffPassword="Mật khẩu không đúng",
-    checkEmail="Yêu cầu đăng ký đã được gửi.",
+    -- Deprecated
+    -- noUsername="Vui lòng nhập email của bạn",
+    -- wrongEmail="Địa chỉ email không hợp lệ",
+    -- wrongCode="Mã xác minh không hợp lệ",
+    -- noPassword="Vui lòng nhập mật khẩu của bạn",
+    -- diffPassword="Mật khẩu không đúng",
+    -- checkEmail="Yêu cầu đăng ký đã được gửi.",
 
     wsFailed="Kết nối WebSocket đã thất bại: $1",
     wsClose="WebSocket đã đóng: $1",
     netTimeout="Kết nối đã quá hạn",
-    serverDown="Ối! Server bị sập rồi",
+    serverDown="Ối! Server sập! Hãy quay lại sau",
     requestFailed="Yêu cầu thất bại",
 
     onlinePlayerCount="Trực tuyến: $1",
@@ -198,13 +199,13 @@ return {
 
 
 
-    keySettingInstruction="Nhấn một phím để gán phím đó\nescape (esc): Huỷ\nbackspace: Xoá",
+    keySettingInstruction="Nhấn một phím để gán phím đó\nescape (esc): Hủy\nbackspace: Xoá",
     customBGhelp="Kéo một tấm ảnh vào đây để áp dụng ảnh nền tuỳ chỉnh",
     customBGloadFailed="Định dạng ảnh không được hỗ trợ",
 
     errorMsg="Techmino bị lỗi và cần phải được khởi động lại\nBạn có thể gửi error log để giúp dev sửa game nhanh hơn.",
 
-    modInstruction="Hãy chọn mod bạn muốn.\nMod sẽ cho bạn thay đổi trò chơi, và có thể làm sập trò chơi.\nĐiểm sẽ không được lưu lại khi dùng mod.",
+    modInstruction="Hãy chọn mod bạn muốn.\nMod cho phép bạn có thể tùy biến game, nhưng cũng có thể làm game sập.\nĐiểm sẽ không được lưu lại khi dùng mod.",
     modInfo={
         next="NEXT\nGhi đè số gạch hiển thị ở cột NEXT",
         hold="HOLD\nGhi đè số lượng gạch được giữ ở cột HOLD",
@@ -223,8 +224,8 @@ return {
         forceB2B="B2B Only\nKết thúc trò chơi khi cột B2B giảm xuống dưới vạch ban đầu",
         forceFinesse="Finesse Only\nKết thúc trò chơi khi có lỗi di chuyển",
         tele="Teleport\nDAS = 0, ARR = 0",
-        noRotation="No Rotation\nKhông được xoay gạch",
-        noMove="No Movement\nKhông được di chuyển trái phải",
+        noRotation="No Rotation\nKhông thể xoay gạch",
+        noMove="No Movement\nKhông thể di chuyển trái phải",
         customSeq="Randomizer\nGhi đè trình xáo gạch",
         pushSpeed="Garbage Speed\nGhi đề tốc độ xuất hiện của hàng rác",
         boneBlock="[ ]\nChơi với skin [ ]",
@@ -480,7 +481,7 @@ return {
         net_game={
             ready="Sẵn sàng",
             spectate="Theo dõi",
-            cancel="Huỷ sẵn sàng",
+            cancel="Huỷ",
         },
         setting_game={
             title="Cài đặt trò chơi",
@@ -495,6 +496,7 @@ return {
             key="Sửa bố cục bàn phím",
             touch="Sửa bố cục cảm ứng",
             showVK="Bật điều khiển bằng cảm ứng", -- Pull from Galaxy
+            
             reTime="Đếm ngược bắt đầu",
             RS="Hệ thống xoay gạch",
             menuPos="Vị trí nút Menu",
@@ -519,13 +521,13 @@ return {
             grid="Lưới",
             lineNum="# hàng",
 
-            lockFX="Lock FX",
-            dropFX="Drop FX",
-            moveFX="Move FX",
-            clearFX="Clear FX",
-            splashFX="Splash FX",
+            lockFX="H.ứng Khóa gạch",
+            dropFX="H.ứng Thả nhẹ",
+            moveFX="H.ứng Di chuyển",
+            clearFX="H.ứng Xóa hàng",
+            splashFX="H.ứng Gạch “rụng”",
             shakeFX="Độ nảy bảng",
-            atkFX="Atk FX",
+            atkFX="H.ứng Tấn công",
 
             frame="Tần suất cập nhật khung hình (%)",
 

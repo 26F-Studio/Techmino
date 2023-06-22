@@ -1,7 +1,15 @@
+local tetro_name = " tetromino tetramino tetrimino "
+
 --[[
-Techmino CopyPasta hide switch, don't turn it off if you haven't asked Not A Robot or Reggyxt yet
-By default, it will be turned off by commenting, you will have to toggle comment to show/hide
-Don't forget to set hide_techmino_copypasta to true :)
+    The keyword part of item have been structured like this:
+        - "<the group's name>; <keyword in English>; <keyword in Vietnamese>"
+        .."<Name of items"
+]]
+
+--[[
+    Techmino CopyPasta hide switch, don't turn it off if you haven't asked Not A Robot or Reggyxt yet
+    By default, it will be turned off by commenting, you will have to toggle comment to show/hide
+    Don't forget to set hide_techmino_copypasta to true :)
 ]]
 
 -- hide_techmino_copypasta = true   -- HIDE Techmino CopyPasta
@@ -16,7 +24,7 @@ return {                            -- HIDE Techmino CopyPasta (default)
         [[
 NHÓM 01: VỀ ZICTIONARY
 
-Chào bạn, Zictionary là một từ điển về game xếp gạch cực kì hữu ích. Bạn có thể sử dụng để tra những từ hay thuật ngữ mà bạn không hiểu.
+Zictionary là một từ điển về game xếp gạch cực kì hữu ích. Bạn có thể sử dụng để tra những từ hay thuật ngữ mà bạn không hiểu.
 Bạn bị rối vì kích thước của từ điển ư? Đừng lo, Zictionary đã được chia nhỏ thành 16 nhóm (+1 nhóm Phụ lục cho thông tin bổ sung)
 Bạn có thể xem phần Mục lục (ở Nhóm 2, hoặc bạn có thể gõ trên thanh tìm kiếm "mucluc" hoặc "nhom2" để xem mục lục) để biết mỗi nhóm trong 16+1 nhóm chứa nội dung gì nhé
 
@@ -37,40 +45,42 @@ P/s: Hiện tại chỉ có bản dịch Tiếng Việt là có hệ thống nh�
     },
     {
         "Giới thiệu bản dịch",
-        "nhom01",
+        "nhom01 introduction about",
         "help",
         [[
-Đây là bản dịch tiếng Việt của TetroDictionary từ bản tiếng Anh.
-Bản tiếng Anh được dịch từ bản tiếng Trung Giản thể và do User670 và C₂₉H₂₅N₃O₅ vừa dịch vừa sửa chữa.
+Bản dịch này được cung cấp bởi Squishy (SweetSea#9018, à mà username trên Discord này có thể sẽ bị thay thế bởi hệ thống username mới). Nếu không tìm thấy mình thì hãy vào server Discord của Techmino nếu cần.
 
-Lưu ý: nội dung đôi khi/có thể không giống với bản tiếng Trung Giản thể.
+Bản dịch này dịch lại từ bản tiếng Anh, được cung cấp bởi User670 và C₂₉H₂₅N₃O₅
 
-Muốn gửi đóng góp cho bản dịch? Hay là xem những ai đã đóng góp cho bản dịch này? Nếu thế, hãy nhấn vào biểu tượng quả địa cầu ở góc dưới bên phải để mở trang web.
-
-Dịch (và sắp xếp lại) bởi Sea-no-sweet, hiệu đính bởi <ai đó>.
+Bản dịch có thể không phản ánh 100% nội dung của Zictionary tiếng Trung (bản gốc) (Chuyện này bình thường hay xảy ra ở các bản dịch do cộng đồng làm rồi, nhưng bản dịch này dùng bản dịch trung gian nữa nên khả năng xảy ra cũng cao hơn bình thường một chút)
         ]],
         "https://github.com/26F-Studio/Techmino/blob/main/parts/language/dict_vi.lua",
     },
     {
         "Cách tìm kiếm",
-        "nhom01",
+        "nhom01 howtosearch search",
         "help",
         [[
 Có thể tìm một mục bằng cách gõ một phần hoặc toàn bộ tiêu đề
 
 Nếu bạn muốn lọc theo nhóm, đầu tiên hãy mở Mục lục, sau đó thì tìm tới nhóm bạn cần. Lấy số ở đầu tiêu đề rồi gõ trên thanh tìm kiếm với cú pháp: "nhom<n>"
-Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", hãy gõ vào thanh tìm kiếm "nhom06". Hoặc để xem các hệ thống xoay gạch, gõ "nhom05c"
+Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", hãy gõ vào thanh tìm kiếm "nhom06". Hoặc để xem các hệ thống xoay gạch, gõ "nhom05c".
+
+Lưu ý nhẹ: khi các bạn gõ xong thì ở cột bên trái sẽ hiện kết quả; các bạn sẽ để ý là trong kết quả tìm kiếm vẫn hiện các mục Tên nhóm (như "=[NHÓM 06]=") và thường mục này sẽ bị chọn để hiện ngay sau khi có kết quả. Mình cho hiện mục Tên nhóm có bởi vì có mục ở Nhóm 17 bị trùng tên ở Nhóm 6. (Thi thoảng mấy mục kiểu này sẽ không xuất hiện)
+Thật ra mặc dù mình có thể sửa lại cái hành vi của thanh Tìm kiếm để nó chọn mục sát chữ nhất Nhưng làm vậy sẽ làm rối tung code ban đầu của MrZ. Mình đã phải sửa code để tắt hành vi "xếp ưu tiên kết quả sát nhất lên hàng đầu" để tránh làm rối mục cột Kết quả rồi. Chỉ mong các bạn thông cảm.
         ]]
     },
     {
         "=[NHÓM 02]=",
-        "nhom02 mucluc mucluc1 mucluc2 mucluc3 mucluc4 mucluc5",
+        "nhom02 index mucluc mucluc1 mucluc2 mucluc3 mucluc4 mucluc5",
         "name",
         [[
 NHÓM 02: MỤC LỤC
 
 Đây là mục lục của toàn bộ Zictionary
 Bạn có thể quay lại đây bằng cách gõ trên thanh tìm kiếm "nhom02" hoặc "mucluc"
+
+Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục mà thôi, thì bạn có thể gõ "mucluc<trang_cần_mở>". Ví dụ: "mucluc3"
         ]]
     },
     {
@@ -195,18 +205,19 @@ Bạn có thể quay lại đây bằng cách gõ trên thanh tìm kiếm "nhom0
 --        not hide_techmino_copypasta and "        B. Techmino CopyPasta" or " " ),     -- SHOW Techmino CopyPasta
     },
     {"=[NHÓM 03]=",
-        "nhom03",
+        "nhom03; website; trang chủ; máy chủ; server; mã nguồn mở; dự án; github; repository; kho lưu trữ"
+        .."website chính thức; dự án trên github; discord",
         "name",
         "NHÓM 03: DỰ ÁN TECHMINO",
     },
     {"Website chính thức",
-        "nhom03 websites trang chủ ",
+        "nhom03 websites; trang chủ",
         "org",
         "Trang web chính thức của Techmino!\nBạn có thể lấy bản ổn định mới nhất của Techmino cũng như tạo tài khoản, thay avatar ngay tại đó\nNhấn vào biểu tượng quả địa cầu để mở website đó trong trình duyệt",
         "http://studio26f.org",
     },
     {"Dự án trên GitHub",
-        "nhom03".."mã nguồn mở".."dự án".."github".."repository".."kho lưu trữ",
+        "nhom03; mã nguồn mở; dự án; github; repository; kho lưu trữ",
         "org",
         "Kho lưu trữ chính thức của Techmino trên GitHub. Chúng tôi đánh giá cao nếu bạn tặng cho chúng tôi một ngôi sao! (bạn có thể tặng sao miễn phí).",
         "https://github.com/26F-Studio/Techmino",
@@ -224,7 +235,8 @@ Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đ
         "https://discord.gg/f9pUvkh"
     },
     not FNNS and {"=[NHÓM 04]=",
-        "nhom04",
+        "nhom04 wechat alipay afdian aidadian patreon"
+        .."ủng hộ 1; ủng hộ 2; ủng hộ 3",
         "name",
         "NHÓM 04: ỦNG HỘ CHO TÁC GIẢ CỦA TECHMINO",
     } or {"=[NHÓM 04]=",
@@ -233,29 +245,31 @@ Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đ
         "Nội dung của nhóm này đã bị ẩn đi do yêu cầu của nền tảng. Nhưng bạn vẫn có thể hỏi về nội dung này trong server Discord của chúng tôi."
         },
     not FNNS and {"Ủng hộ 1",
-        "nhom04 support wechat vx weixin alipay zfb zhifubao",
+        "nhom04; ủng hộ 1; wechat alipay",
         "org",
         "Để ủng hộ cho Techmino thông qua WeChat Pay hoặc Alipay, gõ “support” ở trong console và quét mã QR.",
     } or {"*ĐÃ ẨN*", "", "org", ""},
     not FNNS and {"Ủng hộ 2",
-        "nhom04 support afdian aidadian",
+        "nhom04; ủng hộ 2; afdian aidadian",
         "org",
         "Để ủng hộ cho Techmino qua Aifadian, hãy nhấn vào biểu tượng quả địa cầu để mở URL trực tiếp vào trình duyệt. Lưu ý là Aifadian sẽ trừ bạn 6% phí giao dịch.",
         "https://afdian.net/@MrZ_26",
     } or {"*ĐÃ ẨN*", "", "org", ""},
     not FNNS and {"Ủng hộ 3",
-        "nhom04 support patreon",
+        "nhom04; ủng hộ 3; patreon",
         "org",
         "Để ủng hộ cho Techmino qua Patreon, hãy nhấn vào biểu tượng quả địa cầu. Lưu ý rằng Patreon có thể tính phí dịch vụ cho bạn đối với các giao dịch trên một số tiền nhất định.",
         "https://www.patreon.com/techmino",
     } or {"*ĐÃ ẨN*", "", "org", ""},
     {"=[NHÓM 05]=",
-        "nhom05",
+        "nhom05 modern; arikrotationsystem atarirotationsystem ascension ascplus bulletproofsoftware biasrs biasrotationsystem c2rs cultris2 dtetrotationsystem nintendorotationsystem superrotationsystem srsplus superrotationsystemplus techminorotationsystem xrs; initialrotationsystem initialholdsystem initialmovesystem; bag7 randomgenerator túi 7 gạch historygenerator hisgenerator hispool historypoolgenerator bages easy start khởi đầu suôn sẻ reverb cultris2generator cultrisiigenerator c2generator; k.xáo hispool; "..tetro_name
+        .."tetris hiện đại; next; hold; swap; topping out; vùng đệm; vùng biến mất; gạch; hình dạng của tetromino; màu của tetromino; hướng gạch; gạch & tên tương ứng; hệ thống xoay gạch; ars; asc; asc+; brs; birs; c2rs; c2sym; drs; nrs; srs; srs+; trs; xrs; hệ thống điều khiển; irs; ihs; ims; cách kiểu xáo gạch; kiểu xáo túi 7; kiểu xáo his; hispool; kiểu xáo ez start; kiểu xáo reverb; kiểu xáo c2; drought flood; thông số; thông số của game; tốc độ rơi; 20g; lockdown delay; spawn & clear delay; are; line are; death are; thông số điều khiển; das đơn giản; das arr; hiệu chỉnh das; das cut; auto lock cut; sdf; điều khiển; tốc độ; lpm; pps; bpm; kpm; kpp; kỹ thuật; hypertapping; rolling; finesse; độ trễ đầu vào; hành động bất cẩn; misdrop; mishold; khả năng tấn công; apm; spm; dpm; rpm; adpm; apl; tấn công phòng thủ; combo; spike; debt; passthrough; spin; mini spin; t spin; all spin; o spin; kỹ thuật xóa hàng; single; double; triple; techrash; tetris; tss; tsd; tst; mtss; mstsd; back to back; b3b; perfect clear; half prefect clear; các thuật ngữ khác; sub; doing research; bone block",      -- All the items in Group but was normalized,
         "name",
         "NHÓM 05: TETRIS VÀ CÁC THUẬT NGỮ",
     },
     {">A|Tetris hiện đại",
-        "nhom05a modern",
+        "nhom05a modern"
+        .."next; hold; swap; vùng đệm; topout; toppingout; topping out; vùng biến mất; gone vanish zone",
         "name",
         [[
 Khái niệm về trò chơi Tetris hay trò chơi xếp gạch “hiện đại” rất mờ nhạt. Nói chung, một trò chơi xếp gạch hiện đại thường sẽ bám sát theo Tetris Design Guideline (Nguyên tắc thiết kế Tetris hiện đại).
@@ -273,7 +287,7 @@ Dưới đây là một số quy tắc chung, nhưng chúng không phải là qu
         ]],
     },
     {"Next (Kế/Tiếp)",
-        "nhom05a nextpreview",
+        "nhom05a next preview",
         "term",
         "Hiện một vài gạch tiếp theo sẽ xuất hiện. Có một kỹ năng cần thiết để lên kế hoạch trước nơi đặt các gạch từ hàng đợi NEXT.",
     },
@@ -288,7 +302,7 @@ Dưới đây là một số quy tắc chung, nhưng chúng không phải là qu
         "Tương tự như *Hold*, nhưng sẽ lấy gạch tiếp theo từ Next; gạch đang rơi hiện tại sẽ đứng cuối hàng. Bạn chỉ có thể đổi gạch một lần trong đa số trương hợp.",
     },
     {"Topping out",
-        "nhom05a die death topout toppingout",
+        "nhom05a topout toppingout",
         "term",
         [[
 Một tựa game xếp gạch hiện đại thường có 3 điều kiện để “game over”:
@@ -299,38 +313,39 @@ Techmino không kiểm tra điều kiện Lock out và Top out.
     ]],
     },
     {"Vùng đệm",
-        "nhom05a above super invisible disappear buffer zone",
+        "nhom05a invisible buffer zone",
         "term",
         "Tên tiếng Anh là “Buffer Zone”. Thường dùng để nhắc tới những hàng có độ cao từ ô thứ 21-40, vùng này là vùng ở trên vùng nhìn thấy của bảng. Bởi vì gạch có thể cao hơn vùng nhìn thấy (thường xảy ra nếu có quá nhiều rác tới cùng một lúc) cho nên vùng đệm được tạo ra để cho phép những gạch ở trên cao có thể quay lại (sau) khi người chơi xóa hàng rác. Ngoài ra, vùng đệm thường nằm ở độ cao từ 21-40 vì chúng có thể áp dụng cho hầu hết các trường hợp. Tuy nhiên vẫn có những trường hợp ngoại lệ, hãy tham khảo “Vanish Zone” để biết thêm thông tin chi tiết",
     },
     {"Vùng biến mất",
-        "nhom05a disappear gone cut die vanish zone",
+        "nhom05a gone vanish zone",
         "term",
         "Tên tiếng Anh là “Vanish Zone”. Thường dùng để nhắc tới những hàng có độ cao từ 40 ô và cao hơn. Cái này chỉ có thể phát hiện ra bằng cách sử dụng C4W và đống hàng rác. Thông thường, nếu cột cao nhất trong bảng đụng vào vùng biến mất.\nTuy nhiên, có một số game có những phản ứng khác nhau. Một số game sẽ bị lỗi và sập khi có gạch đi vào vùng biến mất (ví dụ như Tetris Online). Riêng ở một số game thì game sẽ có hành động lạ (bạn có thể tham khảo video này, hãy nhấn vào biểu tượng quả địa cầu để mở video).\n\nThông tin thêm: Jstris không có vùng đệm, chỉ có vùng biến mất được đặt từ hàng thứ 22.",
         "https://youtu.be/z4WtWISkrdU",
     },
     {">B|Gạch",
-        "nhom05b",
+        "nhom05b; hình dạng; màu; mino; gạch & tên tương ứng"
+        .."h.dạng của tetro.; màu của tetromino; gạch & tên tg. ứng; hướng gạch",
         "name",
-        ""
+        "",
     },
     {"H.dạng của Tetro.",
-        "nhom05b shape structure form tetromino tetrimino hình dạng",
+        "nhom05b hình dạng của tetro. hình dạng của tetromino"..tetro_name,
         "term",
         "Trong những game xếp gạch chuẩn, tất cả toàn bộ gạch đều là Tetromino. Tức là, những gạch này được liên kết bởi 4 ô, bám dính vào mặt chứ không bám vào góc.\n\nCó 7 loại Tetromino, (nếu ta cho phép xoay nhưng không được lật ngang hay dọc). 7 Tetromino này được đặt tên theo hình dạng của chúng. Đó là Z, S, J, L, T, O, và I. Hãy xem mục “Gạch & tên tg. ứng” để có thêm thông tin.",
     },
     {"Màu của Tetromino",
-        "nhom05b colour hue tint tetromino tetrimino màu",
+        "nhom05b màu"..tetro_name,
         "term",
         "Nhiều game xếp gạch hiện đại đang sử dụng cùng một bảng màu cho Tetromino, dù chính thức hay do fan làm. Những màu này bao gồm:\nZ - Đỏ, S - Lục, J - Lam, L - Cam, T - Tím, O - Vàng, và I - Lục lam.\n\nTechmino cũng sử dụng bảng màu “chuẩn” này để tô màu cho Tetromino.",
     },
     {"Gạch & tên tg. ứng",
-        "nhom05b mino gạch & tên tương ứng",
+        "nhom05b mino gạch & tên tương ứng"..tetro_name,
         "term",
         "Đây là danh sách gạch mà Techmino sử dụng cùng với tên tương ứng của chúng:\nTetromino:\nZ: "..CHAR.mino.Z..",  S: "..CHAR.mino.S..",  J: "..CHAR.mino.J..",  L: "..CHAR.mino.L..",  T: "..CHAR.mino.T..",  O: "..CHAR.mino.O..",  I: "..CHAR.mino.I..";\n\nPentomino:\nZ5: "..CHAR.mino.Z5..",  S5: "..CHAR.mino.S5..",  P: "..CHAR.mino.P..",  Q: "..CHAR.mino.Q..",  F: "..CHAR.mino.F..",  E: "..CHAR.mino.E..",  T5: "..CHAR.mino.T5..",  U: "..CHAR.mino.U..",  V: "..CHAR.mino.V..",  W: "..CHAR.mino.W..",  X: "..CHAR.mino.X..",  J5: "..CHAR.mino.J5..",  L5: "..CHAR.mino.L5..",  R: "..CHAR.mino.R..",  Y: "..CHAR.mino.Y..",  N: "..CHAR.mino.N..",  H: "..CHAR.mino.H..",  I5: "..CHAR.mino.I5..";\n\nTrimino, Domino, and Mino:\nI3: "..CHAR.mino.I3..",  C: "..CHAR.mino.C..",  I2: "..CHAR.mino.I2..",  O1: "..CHAR.mino.O1..".",
     },
     {"Hướng gạch",
-        "nhom05b direction 0r2l 02 20 rl lr",
+        "nhom05b 0r2l 02 20 rl lr"..tetro_name,
         "term",
         [[
 Trong hệ thống xoay SRS và các biến thể của SRS, có một hệ thống các ký hiệu tiêu chuẩn mô tả hướng của các gạch:
@@ -346,7 +361,9 @@ Ví dụ:
         ]],
     },
     {">C|Hệ thống xoay",
-        "nhom05c",
+        "nhom05c"
+        .."ARS, ASC, ASC+, BRS, BiRS, C2RS, C2sym, NRS, SRS, SRS+, TRS, XRS"
+        .."arikrotationsystem atarirotationsystem ascension ascplus bulletproofsoftware biasrs biasrotationsystem c2rs cultris2 dtetrotationsystem nintendorotationsystem superrotationsystem srsplus superrotationsystemplus techminorotationsystem xrs",
         "name",
         [[
 Một hệ thống để xác định cách gạch xoay.
@@ -437,7 +454,7 @@ Khoảng cách euclide của độ lệch của cú đá được chọn không 
         "X rotation system | Hệ thống xoay X, một hệ thống xoay được dùng trong T-ex.\n\nHệ thống giới thiệu một tính năng với tác dụng “dùng một bảng 'đá' tường khác khi giữ một phím mũi tên,” cho phép người chơi có thể nói game hướng mà gạch nên di chuyển theo ý muốn của họ.",
     },
     {">D|Hệ thg đ.khiển",
-        "nhom05d",
+        "nhom05d initialrotationsystem initialholdsystem initialmovesystem",
         "name",
         "NHÓM 5D: HỆ THỐNG ĐIỀU KHIỂN"
     },
@@ -457,12 +474,13 @@ Khoảng cách euclide của độ lệch của cú đá được chọn không 
         "*Chỉ có trên Techmino*\n\nInitial Movement System\nGiữ một phím di chuyển trong khoảng thời gian spawn delay để gạch sinh ra ở một bên. Đôi khi có thể giúp bạn thoát chết.\nLưu ý: DAS buộc phải được “sạc” đủ trước khi gạch xuất hiện.",
     },
     {">E|Các kiểu xáo",
-        "nhom05e",
+        "nhom05e bag7 randomgenerator túi 7 gạch historygenerator hisgenerator hispool historypoolgenerator bages easy start khởi đầu suôn sẻ reverb cultris2generator cultrisiigenerator c2generator"
+        .."Kiểu xáo Túi 7 gạch; Kiểu xáo His; Kiểu xáo HisPool; Kiểu xáo EZ-Start; Kiểu xáo Reverb; Kiểu xáo C2",
         "name",
         ""
     },
     {"Kiểu xáo Túi 7",
-        "nhom05e bag7bag randomgenerator",
+        "nhom05e bag7 randomgenerator túi 7 gạch; kiểu xáo túi 7 gạch",
         "term",
         [[
 Hay còn gọi là “7-Bag Generator”. Tên tiếng Việt là “Kiểu xáo Túi 7 gạch”. Còn tên gọi chính thức của nó là “Random Generator” (Trình xáo gạch ngẫu nhiên)
@@ -472,7 +490,7 @@ Một vài ví dụ: ZSJLTOI, OTSLZIJ, LTISZOJ.
         ]],
     },
     {"Kiểu xáo His",
-        "nhom05e history hisgenerator",
+        "nhom05e historygenerator hisgenerator",
         "term",
         [[
 Kiểu xáo His, tên đầy đủ là History - Roll. (Tên tiếng Việt là Nhớ - Lặp)
@@ -485,7 +503,7 @@ Trong Techmino, số lần bốc lại ngẫu nhiên sẽ là một nửa độ 
         ]],
     },
     {"K.xáo HisPool [1/2]",
-        "nhom05e hisPool history pool",
+        "nhom05e hispool historypoolgenerator kiểu xáo hispool",
         "term",
         [[
 Kiểu xáo HisPool, tên đầy đủ là History (- Roll) - Pool. (Tên tiếng Việt là Nhớ - Lặp - Rổ)
@@ -498,7 +516,7 @@ Cơ chế này giúp chuỗi gạch ổn định hơn và tránh tình trạng d
         ]],
     },
     {"K.xáo HisPool [2/2]",
-        "nhom05e hisPool history pool",
+        "nhom05e hispool historypoolgenerator kiểu xáo hispool",
         "term",
         [[
 [Sea: Phần này không có trong Zictionary ngôn ngữ khác!]
@@ -516,12 +534,12 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
         ]],
     },
     {"Kiểu xáo EZ-Start",
-        "nhom05e bages easy start khởi đầu suôn sẻ",
+        "nhom05e bages easy start khởi đầu suôn sẻ; kiểu xáo ez-start' kiểu xáo ezstart",
         "term",
         "*Chỉ có trên Techmino*\n\nKiểu xáo Túi “Khởi đầu suôn sẻ” (Bag Easy-Start generator), một kiểu xáo được cải tiến từ kiểu xáo Túi thông thường. Gạch đầu tiên của mỗi túi sẽ không bao giờ là gạch khó đặt (S/Z/O/S5/Z5/F/E/W/X/N/H).",
     },
     {"Kiểu xáo Reverb",
-        "nhom05e reverb",
+        "nhom05e kiểu xáo reverb",
         "term",
         "*Chỉ có trên Techmino*\n\nMột cách xáo gạch có nguồn gốc từ cách xáo Túi. Kiểu xáo Reverb sẽ lặp ngẫu nhiên một vài gạch từ kiểu xáo Túi thông thường. Khả năng lặp lại gạch giảm nếu gạch bị lặp quá nhiều và ngược lại",
     },
@@ -531,17 +549,19 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
         "Ban đầu toàn bộ Tetromino sẽ có khối lượng (“weight”) là 0.\nSau mỗi lần xáo gạch, toàn bộ cân nặng của các gạch sẽ bị chia hết cho 2, và được cộng một số thực dương ngẫu nhiên từ 0 tới 1. Gạch có khối lượng cao nhất sẽ được bốc, và sau đó cân nặng của nó sẽ bị chia cho 3.5.",
     },
     {">F|Thông số",
-        "nhom05f",
+        "nhom05f trọng lực; ngay lập tức; lockdelay lockdowndelay lockdowntimer; thời gian chờ khóa gạch; spawndelay cleardelay; thời gian chờ gạch sinh ra; thời gian chờ xóa hàng; spawn appearance delay; die delay; das arr delayedautoshift autorepeatrate dascut dcd autolockcut softdropfactor"
+        .."tốc độ rơi; 20g; lockdown delay; spawn & clear delay; are; line are; death are; DAS (đơn giản); DAS & ARR; Hiệu chỉnh DAS; DAS cut; Auto-lock cut; SDF",
         "name",
         ""
     },
     {">F1|Thg số game",
-        "nhom05f1",
+        "nhom05f1 trọng lực; ngay lập tức; lockdelay lockdowndelay lockdowntimer; thời gian chờ khóa gạch; spawndelay cleardelay; thời gian chờ gạch sinh ra; thời gian chờ xóa hàng; spawn appearance delay; die delay;"
+        .."tốc độ rơi; 20g; lockdown delay; spawn & clear delay; are; line are; death are",
         "name",
         "NHÓM 5F1: THÔNG SỐ GAME"
     },
     {"Tốc độ rơi",
-        "nhom05f1 fallingspeed gravity",
+        "nhom05f1 trọng lực",
         "term",
         [[
 Đơn vị của tốc độ rơi là “G”, có nghĩa là gạch rơi xuống bao nhiêu ô mỗi một khung hình.
@@ -551,17 +571,17 @@ Trong Techmino, tốc độ rơi được mô tả là số khung hình cần th
         ]],
     },
     {"20G",
-        "nhom05f1 gravity instant",
+        "nhom05f1 trọng lực; ngay lập tức",
         "term",
         "Tốc độ nhanh nhất trong các game xếp gạch hiện đại. Trong các chế độ xài tốc độ 20G, các viên gạch thay vì rơi từ từ, nó sẽ xuất hiện ngay lập tức ở đáy bảng. Việc này đôi khi sẽ làm bạn không thể di chuyển được theo phương ngang như ý bạn muốn; vì gạch không thể leo qua chỗ lồi lõm hoặc ra khỏi hố sâu.\nBạn có thể tìm hiểu thêm về đơn vị “G” trong mục “Tốc độ rơi”.",
     },
     {"Lockdown Delay",
-        "nhom05f1 lockdelay lockdowndelay lockdowntimer",
+        "nhom05f1 lockdelay lockdowndelay lockdowntimer; thời gian chờ khóa gạch",
         "term",
         "Thời gian chờ khóa gạch\n\nĐây là khoảng thời gian sau khi gạch chạm đất và trước khi gạch bị khóa (lockdown) (giống như kiểu: bạn không thể điều khiển gạch đó nữa vì nó đã dính cố định tại chỗ rồi; và bạn sẽ điều khiển gạch vừa mới xuất hiện).\nCác game Tetris hiện đại thường có cơ chế trì hoãn việc khóa gạch, trong đó bạn có thể di chuyển hoặc xoay gạch để đặt lại thời gian chờ (tối đa 15 lần trong đa số game); bạn có thể sử dụng để thêm (một chút) thời gian chờ. Tetris cổ điển hầu như không có thời gian này (thật ra là có nhưng nó ngắn tới nỗi mà bạn gần như chỉ có thể đưa gạch sang 1 ô 1 hướng duy nhất khi cần lấp mấy ô trống)",
     },
     {"Spawn&Clear Delay",
-        "nhom05f1 spawndelay cleardelay",
+        "nhom05f1 spawndelay cleardelay; thời gian chờ gạch sinh ra; thời gian chờ xóa hàng",
         "term",
         [[
 Spawn Delay (Thời gian chờ gạch sinh ra): Khoảng thời gian từ lúc gạch bị khóa cho tới khi gạch mới được sinh ra.
@@ -580,17 +600,18 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
         "Khoảng thời gian khi hiệu ứng xóa hàng bắt đầu chạy cho tới khi gạch mới sinh ra.",
     },
     {"Death ARE",
-        "nhom05f1 die delay dd",
+        "nhom05f1 die delay",
         "term",
         "Khi có một viên gạch chặn ngay tại vị trí xuất hiện của gạch mới, spawn ARE sẽ được cộng với một khoảng thời gian nữa để tạo thành Death ARE. Cơ chế này có thể được sử dụng cùng với IHS và IRS để cho phép bạn có thể thoát chết.\nÝ tưởng ban đầu của NOT_A_ROBOT.",
     },
     {">F2|Thg số đ.khiển",
-        "nhom05f2",
+        "nhom05f2 das arr delayedautoshift autorepeatrate dascut dcd autolockcut softdropfactor"
+        .."DAS (đơn giản); DAS & ARR; Hiệu chỉnh DAS; DAS cut; Auto-lock cut; SDF",
         "name",
         "NHÓM 5F2: THÔNG SỐ ĐIỀU KHIỂN"
     },
     {"DAS (đơn giản)",
-        "nhom05f2 das arr delayedautoshift autorepeatrate",
+        "nhom05f2 das delayedautoshift",
         "term",
         "Tưởng tượng bạn đang gõ chữ, và bạn nhấn giữ phím “O”. \nVà bạn sẽ nhận được một chuỗi toàn là o.\nỞ trên thanh thời gian thì nó trông như thế này: o—————o-o-o-o-o-o-o-o-o…\n“—————” là DAS, còn “-” là ARR.",
     },
@@ -610,27 +631,29 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
         "*Chỉ có trên Techmino*\n\nTrong Techmino, bạn có thể hủy hoặc rút một khoảng thời gian từ bộ đếm ngược của DAS. Có thể giảm được tình trạng gạch di chuyển ngay lập tức khi vừa mới xuất hiện nếu có phím di chuyển nào đang được giữ.\n\nNhững game khác có thể có tính năng này nhưng cách hoạt động có thể đôi chút khác biệt.",
     },
     {"Auto-lock cut",
-        "nhom05f2 autolockcut mdcut",
+        "nhom05f2 autolockcut",
         "term",
         "Một tính năng được thiết kế để ngăn chặn việc mis-harddrop (thả gạch rơi mạnh không đúng thời điểm) do việc nhấn phím “Thả mạnh” ngay sau khi gạch cuối cùng bị khóa một cách tự nhiên\nPhím “Thả mạnh” sẽ tạm thời bị vô hiệu trong vòng vài khung hình (tùy vào từng game/cài đặt của người chơi) ngay sau khi có gạch bị khóa một cách tự nhiên.\n\nNhững game khác có thể có tính năng này nhưng cách hoạt động có thể đôi chút khác biệt.",
     },
     {"SDF",
         "nhom05f2 softdropfactor",
         "term",
-        "Soft Drop Factor (Hệ số tốc độ rơi nhẹ)\n\nMột cách để xác định tốc độ gạch rơi khi nhấn phím “Thả nhẹ”. Ở những game chính thức: SDF = tốc độ rơi × 20 → SDF của những game này là 20. Techmino không dùng SDF để xác định tốc độ rơi nhẹ, mà dùng SDARR (giống như ARR nhưng thông số này không giống với ARR và chỉ được dùng cho phím “Thả nhẹ”).",
+        "Soft Drop Factor (Hệ số tốc độ rơi nhẹ)\n\nMột cách để xác định tốc độ gạch rơi khi nhấn phím “Thả nhẹ”. Ở những game chính thức: Tốc độ rơi nhẹ = Tốc độ rơi × 20 → SDF của những game này là 20. Techmino không dùng SDF để xác định tốc độ rơi nhẹ, mà dùng SDARR (thông số này có cách hoạt động giống với ARR, nhưng điểm khác là chỉ dùng cho “Thả nhẹ”).",
     },
     {">G|Điều khiển",
-        "nhom05g",
+        "nhom05g điều khiển; tốc độ điều khiển; linesperminute; số hàng mỗi phút; piecespersecond số gạch mỗi giây; blocksperminute piecesperminute số gạch mỗi phút; keysperminute keypressesperminute số lần nhấn mỗi phút; số phím mỗi phút; số lần nhấn mỗi gạch; số phím mỗi gạch; tốc độ; finesse lỗi di chuyển; nhấn liên tục; input delay"
+        .."LPM PPS BPM KPM KPP; Hypertapping, Rolling, Độ trễ input",
         "name",
         "",
     },
     {">G1|Tốc độ đ.khiển",
-        "nhom05g1",
+        "nhom05g1 tốc độ điều khiển; linesperminute; số hàng mỗi phút; piecespersecond số gạch mỗi giây; blocksperminute piecesperminute số gạch mỗi phút; keysperminute keypressesperminute số lần nhấn mỗi phút; số phím mỗi phút; số lần nhấn mỗi gạch; số phím mỗi gạch; tốc độ"
+        .."LPM PPS BPM KPM KPP",
         "name",
         "NHÓM 5G1: TỐC ĐỘ ĐIỀU KHIỂN",
     },
     {"LPM",
-        "nhom05g1 linesperminute speed",
+        "nhom05g1 linesperminute; số hàng mỗi phút; tốc độ",
         "term",
         [[
 Lines per minute | Số hàng mỗi phút
@@ -639,27 +662,28 @@ Mỗi game có cách tính LPM khác nhau. Ví dụ như, Tetris Online tính LP
         ]],
     },
     {"PPS",
-        "nhom05g1 piecespersecond speed",
+        "nhom05g1 piecespersecond số gạch mỗi giây; tốc độ",
         "term",
         "Pieces per second | Số gạch mỗi giây\n\tPhản ánh tốc độ chơi.",
     },
     {"BPM",
-        "nhom05g1 blocksperminute piecesperminute speed",
+        "nhom05g1 blocksperminute piecesperminute số gạch mỗi phút; tốc độ",
         "term",
         "Blocks per minute | Số gạch mỗi phút\n\tPhản ánh tốc độ chơi.\n\tNgoài ra chúng được gọi là PPM (để tránh nhầm lẫn với một thuật ngữ trong âm nhạc) (P là viết tắt của từ Pieces).",
     },
     {"KPM",
-        "nhom05g1 keysperminute keypressesperminute",
+        "nhom05g1 keysperminute keypressesperminute số lần nhấn mỗi phút; số phím mỗi phút",
         "term",
-        "Keypresses per minute | Số lần nhấn mỗi phút\n\tPHản ánh tốc độ người chơi nhấn phím hoặc nút.",
+        "Keypresses per minute | Số lần nhấn mỗi phút\n\tPhản ánh tốc độ người chơi nhấn phím hoặc nút.",
     },
     {"KPP",
-        "nhom05g1 keysperpiece keypressesperpiece",
+        "nhom05g1 số lần nhấn mỗi gạch; số phím mỗi gạch",
         "term",
         "Keypresses per piece | Số lần nhấn mỗi viên gạch\n\tPhản ánh mức độ hiệu quả việc điều khiển gạch. Giảm con số này bằng cách học Finesse",
     },
     {">G2|K.thuật đ.khiển",
-        "nhom05g2",
+        "nhom05g2 finesse lỗi di chuyển; nhấn liên tục; input delay"
+        .."Hypertapping, Rolling, Độ trễ input",
         "name",
         "NHÓM 5G2: KỸ THUẬT ĐIỀU KHIỂN",
     },
@@ -679,12 +703,12 @@ Thông tin thêm: Par là một thuật ngữ được dùng chủ yếu trong t
         ]],
     },
     {"Hypertapping",
-        "nhom05g2 hypertapping",
+        "nhom05g2 nhấn liên tục",
         "term",
         "Hypertapping (Nhấn liên tục)\n\nĐề cập tới một kỹ năng là khi bạn rung tay liên tục để nhấn liên tục làm tốc độ di chuyển nhanh hơn\nKỹ năng này được dùng nhiều trong xếp gạch cổ điển (Classic Tetris). Nhưng bạn không cần dùng vì DAS ngắn hơn nhiều so với trước đây.",
     },
     {"Rolling",
-        "nhom05g2 rolling",
+        "nhom05g2",
         "term",
         [[
 Một phương pháp khác để khai thác nhanh ở chế độ trọng lực cao (khoảng 1G) (với cài đặt DAS/ARR chậm).
@@ -693,13 +717,13 @@ Phương pháp này lần đầu tiên được phát hiện ra bởi Cheez-fish
         ]],
         "",
     },
-    {">G3|Độ trễ input",
+    {">G3|Độ trễ input",        -- TODO: sáng mai tiếp tục làm từ đoạn G3 về nhóm G
         "nhom05g3 input delay",
         "name",
         "Độ trễ đầu vào\nBất kỳ thiết bị đầu vào cũng cần một khoảng thời gian để tín hiệu có thể tới game. Độ trễ này từ vài ms cho tới mấy trăm ms.\nNếu độ trễ đầu vào quá cao, thì việc điều khiển sẽ không thoải mái.\nĐộ trễ này thường do phần cứng và phần mềm, thứ mà bạn khó mà kiểm soát được. Bật chế độ Hiệu suất cao (Performance mode) hoặc tắt chế độ tiết kiệm năng lượng (Energy saving), đồng thời bật chế độ Gaming trên màn hình máy tính/TV, có thể giúp giảm độ trễ.",
     },
     {">H|Mis-action",
-        "nhom05h",
+        "nhom05h misdrop mishold md mh",
         "name",
         "NHÓM 5H: HÀNH ĐỘNG BẤT CẨN (MIS-)"
     },
@@ -714,42 +738,43 @@ Phương pháp này lần đầu tiên được phát hiện ra bởi Cheez-fish
         "Vô tình nhấn nhầm phím Hold. Việc này có thể dẫn đến việc dùng một viên gạch không mong muốn, và có thể bỏ lỡ cơ hội có thể làm PC.",
     },
     {">I|K.năng t.công",
-        "nhom05i",
+        "nhom05i attackperminute; linessentperminute; digperminute defendperminute; receive; receiveperminute; attackdigperminute vs; attackperline efficiency; attacking defending; ren; owe; pingthrough; phòng thủ; tấn công & phòng thủ; tấn công và phòng thủ; số hàng tấn công; số hàng gửi mỗi phút; số hàng gửi trong một phút; số hàng đào xuống mỗi phút; số hàng đào xuống trong một phút; số hàng rác phải nhận mỗi phút; số rác phải nhận mỗi phút; số hàng rác phải nhận trong một phút; số rác phải nhận trong mỗi phút; số hàng tấn công và đào xuống mỗi phút; số hàng tấn công và đào xuống mỗi phút; số hàng tấn công; số hàng đã xóa; độ hiệu quả"
+        .."APM SPM DPM RPM ADPM APL; Tấn công & Phg thủ; Combo; Spike; Debt; Passthrough",
         "name",
         "NHÓM 5I: KHẢ NĂNG TẤN CÔNG"
     },
     {"APM",
-        "nhom05i attackperminute",
+        "nhom05i attackperminute; số hàng tấn công mỗi phút; số hàng tấn công trong một phút",
         "term",
         "Attack per minute | Số hàng tấn công mỗi phút\n\tPhản ánh sức mạnh tấn công của người chơi",
     },
     {"SPM",
-        "nhom05i linessentperminute",
+        "nhom05i linessentperminute; số hàng gửi mỗi phút; số hàng gửi trong một phút",
         "term",
-        "[lines] Sent per minute | Số hàng gửi mỗi phút \n\tPhản ánh sức mạnh tấn công *thực tế* của người chơi (không tính các hàng được xóa để xử những hàng rác trong bộ đệm).",
+        "[lines] Sent per minute | Số hàng gửi mỗi phút \n\tPhản ánh sức mạnh tấn công *thực tế* của người chơi (không tính các hàng dùng để chặn rác tới).",
     },
     {"DPM",
-        "nhom05i digperminute defendperminute",
+        "nhom05i digperminute defendperminute số hàng đào xuống mỗi phút; số hàng đào xuống trong một phút",
         "term",
         "Dig/Defend per minute | Số hàng đào xuống mỗi phút\n\tĐôi khi có thể phản ánh mức độ sống sót của người chơi khi nhận được rác",
     },
     {"RPM",
-        "nhom05i receive jieshou",
+        "nhom05i receive; receiveperminute; số hàng rác phải nhận mỗi phút; số rác phải nhận mỗi phút; số hàng rác phải nhận trong một phút; số rác phải nhận trong mỗi phút",
         "term",
-        "[lines] Receive per Minute\n\tPhản ánh áp lực hiện có của người chơi",
+        "[lines] Receive per Minute | Số (hàng) rác phải nhận mỗi phút\n\tPhản ánh áp lực hiện có của người chơi",
     },
     {"ADPM",
-        "nhom05i attackdigperminute vs",
+        "nhom05i attackdigperminute vs; số hàng tấn công và đào xuống mỗi phút; số hàng tấn công và đào xuống mỗi phút",
         "term",
         "Attack & Dig per minute | Số hàng tấn công & đào xuống mỗi phút\n\tDùng để so sánh sự khác nhau về kỹ năng của hai người chơi trong một trận đấu; chính xác hơn một chút so với APM\n\tNhân tiện thì VS Score (điểm VS) trong tetr.io chính là ADPM mỗi 100 giây",
     },
     {"APL",
-        "nhom05i attackperline efficiency",
+        "nhom05i attackperline efficiency; số hàng tấn công; số hàng đã xóa; độ hiệu quả",
         "term",
         "Attack per line (cleared) | Số hàng tấn công / Số hàng đã xóa\n\tCòn được biết với tên “efficiency” (độ hiệu quả). Phản ánh độ hiệu quả khi tấn công sau mỗi lần xóa hàng. Ví dụ Tetris và T-spin có độ hiệu quả cao hơn so với Xóa 2 hàng và Xóa 3 hàng.",
     },
     {"Tấn công & Phg thủ",
-        "nhom05i attacking defending phòng thủ",
+        "nhom05i attacking defending phòng thủ; tấn công & phòng thủ; tấn công và phòng thủ",
         "term",
         [[
 Tấn công: Gửi hàng rác tới đối thủ bằng cách xóa hàng.
@@ -762,15 +787,15 @@ Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1
     {"Combo",
         "nhom05i ren combo",
         "term",
-        "Ở Nhật Bản, từ này được gọi là REN.\nXóa hàng liên tiếp để tạo ra combo. Từ lần xóa hàng thứ 2 thì tính là 1 Combo, và từ lần xóa hàng thứ 3 thì tính là 2 Combo, và cứ như thế.\nKhông như Back to Back, đặt một viên gạch = phá combo.",
+        "Trong tiếng Nhật gọi là REN.\nXóa hàng liên tiếp để tạo ra combo. Từ lần xóa hàng thứ 2 thì tính là 1 Combo, và từ lần xóa hàng thứ 3 thì tính là 2 Combo, và cứ như thế.\nKhông như Back to Back, đặt một viên gạch = phá combo.",
     },
     {"Spike",
         "nhom05i spike",
         "term",
-        "Làm nhiều đợt tấn công trong thời gian ngắn.\n\nKể cả Techmino và TETR.IO đều có bộ đếm spike, sẽ hiện cho bạn bao nhiêu hàng bạn đã gửi cho đối thủ.\n\nLưu ý rằng hàng rác mà bị tích lũy do mạng lag thì không được tính là spike.",
+        "Làm nhiều đợt tấn công liên tiếp trong một khoảng thời gian ngắn.\n\nKể cả Techmino và TETR.IO đều có bộ đếm spike, sẽ hiện cho bạn bao nhiêu hàng bạn đã gửi cho đối thủ.\n\nLưu ý rằng hàng rác mà bị tích lũy do mạng lag thì không được tính là spike.",
     },
     {"‘Debt’",
-        "nhom05i qianzhai debt owe",
+        "nhom05i debt owe",
         "term",
         "Một thuật ngữ hay được sử dụng trong cộng đồng Tetris Trung Quốc. “Debt” đề cập đến tình huống mà trước mắt một người chơi phải hoàn thành việc thực hiện một setup cụ thể trước khi học có thể thực hiện một/nhiều T-spin để có thể thực sự tấn công. Cho nên, khi đang làm một hoặc nhiều debt liên tiếp, người chơi buộc phải để ý tới đối thủ để đảm bảo an toàn; nếu không, khả năng người chơi sẽ bị đá bay trước khi xây dựng xong là khá cao\n\nThuật ngữ này hay được sử dụng để diễn tả một số setup như TST tower.\nHãy nhớ bạn thực sự KHÔNG THỂ thực hiện tấn công nếu như đang làm debt.",
     },
@@ -780,17 +805,13 @@ Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1
         "Đề cập đến một tình huống mà trong đó cả hai người chơi đều gửi tấn công, nhưng thay vì chúng hủy bỏ lẫn nhau thì nó lại gửi thẳng vào bảng của đối phương. Một thuật ngữ khác là “pingthrough” đề cập tình huống passthrough xảy ra do ping cao.",
     },
     {">J|Spin",
-        "nhom05j",
+        "nhom05j spin mini allspin tspin ospin"
+        .."All-spin T-spin O-spin",
         "name",
-        ""
-    },
-    {"Spin",
-        "nhom05j spin",
-        "term",
-        "Xoay gạch để di chuyển tới một vị trí mà thông thường sẽ không tiếp cận được. Ở một số game, thao tác này sẽ gửi thêm hàng rác hoặc là tăng thêm điểm. Game khác nhau sẽ có cách kiểm tra Spin khác nhau.",
+        "Xoay gạch để di chuyển tới một vị trí mà thông thường sẽ không tiếp cận được. Ở một số game, thao tác này sẽ gửi thêm hàng rác hoặc là tăng thêm điểm. Game khác nhau sẽ có cách kiểm tra Spin khác nhau."
     },
     {"Mini",
-        "nhom05j mini",
+        "nhom05j",
         "term",
         "Một thuật ngữ bổ sung khác chỉ những Spin mà game nghĩ là có thể thực hiện dễ dàng (bởi vì trong một game cũ nó được gọi là “Ez T-spin”). Bonus điểm và hàng rác đều bị giảm so với Spin thông thường.\nCác game khác nhau có các quy tắc khác nhau để kiểm tra chúng có phải là Mini-Spin hay không. Bạn chỉ cần nhớ mấy cái bố cục làm Mini-spin là được.",
     },
@@ -813,58 +834,59 @@ Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1
         "Bởi vì gạch O “tròn”, không đổi hình dạng khi xoay, nên không có cách nào để nó “đá” được. Từ đó có một meme trong cộng đồng Tetris: Đã có một người làm một fake video hướng dẫn làm O-Spin trong Tetris 99 và Tetris Friends, sau đó thì được viral\n\nTrong khi đó:\n\tXRS cho phép gạch O có thể “teleport” tới một cái hố.\n\tTRS cho phép gạch O “teleport” hoặc “biến hình” (theo nghĩa đen) thành một gạch có hình dạng khác",
     },
     {">K|K.thuật xóa hàng",
-        "nhom05k",
+        "nhom05k kỹ thuật xóa hàng; kĩ thuật xóa hàng; 1 2 3 4; t1 t2 t3; minitspinsingle tsms tspinminisingle; minitspindouble tsmd tspinminidouble; b2b btb backtoback; b3b backtobacktoback; pc perfectclear ac allclear; hc halfperfectclear; T-spin Đơn; T-spin Đôi; T-spin Tam; Mini T-spin Đơn; Mini T-spin Đôi; Mini T-spin Tam"
+        .."Single Double Triple Techrash Tetris TSS TSD TST MTSS MTSD; Back to Back; B2B2B; All Clear; HPC",
         "name",
         "NHÓM 5K: KỸ THUẬT XÓA HÀNG"
     },
     {"Single",
-        "nhom05k single 1",
+        "nhom05k 1",
         "term",
         "Xóa 1 hàng cùng một lúc.",
     },
     {"Double",
-        "nhom05k double 2",
+        "nhom05k 2",
         "term",
         "Xóa 2 hàng cùng một lúc.",
     },
     {"Triple",
-        "nhom05k triple 3",
+        "nhom05k 3",
         "term",
         "Xóa 3 hàng cùng một lúc.",
     },
     {"Techrash",
-        "nhom05k techrash tetris 4",
+        "nhom05k tetris 4",
         "term",
         "*Chỉ có trên Techmino*\n\nXóa 4 hàng cùng một lúc.",
     },
     {"Tetris",
-        "nhom05k tetris 4",
+        "nhom05k 4",
         "term",
         "Đây chính là tên game (cũng như là tên thương hiệu của nó). Đây cũng là thuật ngữ chỉ việc xóa 4 hàng cùng lúc trong các game chính thức.\nĐược ghép từ 2 từ: Tetra (<τέτταρες>, có nghĩa là số 4 trong tiếng Hy Lạp) and Tennis (quần vợt, môn thể thao yêu thích nhất của người đã sáng tạo ra Tetris). Nhân tiện những game xếp gạch được phát triển bởi Nintendo và SEGA đều được cấp phép bởi TTC. Hai công ty này không có bản quyền của Tetris",
         -- _comment: original Lua file had this comment: "Thanks to Alexey Pajitnov!"
     },
     {"TSS",
-        "nhom05k t1 tspinsingle",
+        "nhom05k t1 tspinsingle T-spin Đơn",
         "term",
         "T-spin Single | T-spin Đơn\nXóa một hàng bằng T-spin",
     },
     {"TSD",
-        "nhom05k t2 tspindouble",
+        "nhom05k t2 tspindouble T-spin Đôi",
         "term",
         "T-spin Double | T-spin Đôi\nXóa hai hàng bằng T-spin.",
     },
     {"TST",
-        "nhom05k t3 tspintriple",
+        "nhom05k t3 tspintriple T-spin Tam",
         "term",
         "T-spin Triple | T-spin Tam\nXóa ba hàng bằng T-spin.",
     },
     {"MTSS",
-        "nhom05k minitspinsingle tsms tspinminisingle",
+        "nhom05k minitspinsingle tsms tspinminisingle Mini T-spin Đơn",
         "term",
         "Mini T-spin Single | Mini T-spin Đơn\nTrước đây từng biết tới với tên là T-spin Mini Single (TSMS) (T-spin Mini Đơn).\nXóa một hàng bằng Mini T-spin.\nMỗi game sẽ có cách khác nhau để xác định xem T-spin đó có phải là Mini hay không.",
     },
     {"MTSD",
-        "nhom05k minitspindouble tsmd tspinminidouble",
+        "nhom05k minitspindouble tsmd tspinminidouble Mini T-spin Đôi",
         "term",
         "Mini T-spin Double | Mini T-spin Đôi\nTrước đây từng biết tới với tên là T-spin Mini Double (TSMD) (T-spin Mini Đôi).\nXóa hai hàng bằng Mini T-spin. MTSD chỉ xuất hiện trong một vài game hạn chế và có các cách kích khác nhau.",
     },
@@ -884,12 +906,13 @@ Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1
         "Còn được biết tới là Perfect Clear (PC). Đây là thuật ngữ được dùng nhiều trong cộng đồng và cũng như được dùng trong Techmino\nXóa toàn bộ gạch ra khỏi bảng, không trừ gạch nào\n\n[Sea: từ này còn một tên khác nữa giờ ít dùng đó là “Bravo”]",
     },
     {"HPC",
-        "nhom05k hc clear halfperfectclear",
+        "nhom05k hc halfperfectclear",
         "term",
         "*Chỉ có trên Techmino*\n\nHalf Perfect Clear\nMột biến thể của All Clear. Nếu hàng đó bị xóa mà rõ ràng giống với Perfect Clear khi bỏ qua những hàng bên dưới, thì được tính là Half Perfect Clear và sẽ gửi thêm một lượng hàng rác nhỏ",
     },
     {">L|T.ngữ khác",
-        "nhom05l",
+        "nhom05l thuật ngữ khác; scientificresearch; bone tgm"
+        .."sub; Doing Research; Bone block",
         "name",
         "NHÓM 5L: CÁC THUẬT NGỮ KHÁC"
     },
@@ -915,7 +938,8 @@ Cũng trong Techmino nhưng trong bản tiếng Việt, từ “gạch []” đ�
         ]],
     },
     {"=[NHÓM 06]=",
-        "nhom06",
+        "nhom06"
+        .."king of stackers; tetr.js; tetra legends; ascension; jstris; tetr.io; nuketris; worldwide combos; tetris friends; tetris.com; tetris gems; tetris mind bender; techmino; falling lightblocks; cambridge; nanamino; tgm; dtet; heboris; texmaster; tetris effect; tetris 99; puyo puyo tetris; tetris online; tetra online; cultris ii; nullpomino; misamino; touhoumino; tetris blitz; tetris ea; tetris n3twork; tetris beat; tetris journey; jj tetris; huopin tetris.",
         "name",
         [[
 NHÓM 06: CÁC GAME XẾP GẠCH

@@ -10,7 +10,7 @@ Hệ thống xoay gạch:
         Game cho phép người chơi chọn các hệ thống xoay gạch phổ biến khác (thường không cần thiết)
 
 Cách phát hiện spin:
-        Thỏa mãn quy tắc “3 góc”       +2 điểm
+        Thỏa mãn quy tắc “3 góc”         +2 điểm
         Thỏa mãn quy tắc “bất động” +2 điểm
         - Cứ một trong hai điều kiện trên được thỏa mãn, thì sẽ được tính là Spin
 
@@ -25,9 +25,8 @@ Hệ thống tấn công:
         Kiểu xóa Siêu cấp (Super clear):
                 Kiểu xóa Siêu cấp chỉ trường hợp bạn thực hiện Kiểu xóa Đặc biệt khi thanh B2B không trống.
 
-        Kiểu xóa Đặc biệt (spin):
-                gửi đòn tấn công (số hàng xóa × 2) hàng,
-                - B2B gửi thêm 1/1/2/4/8 cho Spin Đơn/Đôi/Tam/Techrash/Techrash+
+        Kiểu xóa Đặc biệt (spin): gửi đòn tấn công (số hàng xóa × 2) hàng,
+                - B2B gửi thêm 1/1/2/4/8 cho Spin Đơn/Spin Đôi/Spin Tam/Techrash/Techrash+
                 - B2B2B gửi thêm (số hàng xóa × 0.5) trên B2B và +1 hàng để hủy rác tới
                 - Mini sẽ bị cắt còn 25% (hệ số ×0.25)
 
@@ -40,17 +39,26 @@ Hệ thống tấn công:
 
         Combo (REN):
                 Số combo = số lần bạn xóa hàng liên tiếp - 1 (dừng tính ở combo 12, từ combo 13 trở đi sẽ tính là combo 12).
-                Toàn bộ sát thương được kể trên (trừ tấn công được làm bởi PC/HPC) nhận thêm bonus (combo × 25%), hoặc (combo ×15%) cho việc xóa 1 hàng.
+                Toàn bộ sát thương được kể trên (trừ tấn công từ PC/HPC) nhận thêm bonus (combo × 25%), hoặc (combo ×15%) cho việc xóa 1 hàng.
                 +1 hàng để tấn công từ Combo 2 trở đi.
 
         Hemi Perfect Clear (a P.C. “mà vẫn còn gạch ở dưới.”). Nếu chỉ còn 1 hàng xóa, thì toàn bộ gạch còn lại không phải do người chơi đặt:
                 - +4 hàng để tấn công, +2 hàng để hủy rác tới
 
         Perfect Clear (All Clear):
-                - Gửi 8 tới 16 hàng rác (6 + 2 * số PC đã làm trong game; dừng tính ở 5 PC, từ 6 PC trở đi vẫn sẽ tính là 5 PC) HOẶC sát thương thông thường, tùy vào sát thương nào mạnh hơn.
+                - Gửi 8 → 16 hàng rác (6 + 2 * số PC đã làm; số PC được tính tối đa là 5) HOẶC sát thương thông thường, tùy vào sát thương nào mạnh hơn.
                 - +2 hàng để hủy rác.
 
-        Sau khi tính toán xong, giá trị sát thương sẽ bị làm tròn XUỐNG rồi mới gửi.
+        Sau khi tính toán xong, lượng sát thương sẽ bị làm tròn XUỐNG rồi mới gửi.
+        --------------------------
+        Lấy ví dụ về cách tính số hàng tấn công (giả sử đối thủ chưa gửi rác tới):
+        bạn vừa mở màn bằng opener SDPC
+        
+        Bạn sẽ làm Spin Đơn rồi Spin Đôi và cuối cùng là Perfect Clear
+        Spin Đơn --> 2 hàng
+        Spin Đôi --> 4 hàng
+        Perfect Clear --> 8 hàng
+        Tổng: 16 hàng
 
 
 Thanh Back to Back (B2B):
@@ -69,8 +77,8 @@ Thanh Back to Back (B2B):
                 Thanh B2B không thể làm đầy qua vạch 800 bằng cách này.
 
 Hệ thống tính điểm:
-        [Sea: hệ thống tính điểm rất phức tạp + hai người làm bản tiếng Anh lười quá không làm.
-        Nên thành ra mình tạm bí ý tưởng cách tính điểm của Techmino
+        [Sea: hệ thống tính điểm rất phức tạp + bản dịch tiếng Anh không ghi thông tin nên chẳng biết phải viết gì.
+        Nên thành ra mình tạm thời hoàn toàn không biết gì về cách tính điểm
         Và mình cũng không thể đọc được bản tiếng Trung, nên đành để trống vậy
         Mình sẽ cập nhật phần này ở những phiên bản sau của Techmino]
 
