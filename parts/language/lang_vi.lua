@@ -832,7 +832,7 @@ return {
             unlock="Tiến trình",
             data="Thống kê",
             setting="Cài đặt",
-            vk="Bố cục phím ảo",
+            vk="Bố cục cảm ứng",
 
             couldSave="Lưu qua Cloud (CẢNH BÁO: ĐANG THỬ NGHIỆM)",
             notLogin="[Đăng nhập để lưu]",

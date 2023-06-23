@@ -39,7 +39,7 @@ Hệ thống tấn công:
 
         Combo (REN):
                 Số combo = số lần bạn xóa hàng liên tiếp - 1 (dừng tính ở combo 12, từ combo 13 trở đi sẽ tính là combo 12).
-                Toàn bộ sát thương được kể trên (trừ tấn công từ PC/HPC) nhận thêm bonus (combo × 25%), hoặc (combo × 15%) cho việc xóa 1 hàng.
+                Toàn bộ sát thương kể trên (trừ tấn công từ PC/HPC) nhận thêm bonus (combo × 25%) HOẶC (combo × 15%) nếu chỉ xóa 1 hàng.
                 +1 hàng để tấn công từ Combo 2 trở đi.
 
         Hemi Perfect Clear (PC mà “vẫn còn gạch ở dưới.”). Nếu chỉ còn 1 hàng xóa, thì toàn bộ gạch còn lại không phải do người chơi đặt:
@@ -81,9 +81,9 @@ Khoảng thời gian chờ trước khi tấn công:
         Minis cũng góp phần kéo dài thời gian chờ nữa.
 
 Phản công:
-        Khi bạn gửi tấn công, nếu có rác trong hàng chờ, thì hàng dùng để hủy rác sẽ được dùng trước, sau đó mới dùng tới hàng dùng để tấn công
+        Khi bạn gửi tấn công, nếu có rác trong hàng chờ, thì ưu tiên dùng hàng để hủy rác trước, sau đó mới dùng tới hàng để tấn công sau.
         Tỉ lệ phản công sẽ là 1:1
-        Bất kỳ hàng nào dùng để phản công không dùng tới sẽ bị hủy; và cuối cùng, số hàng dùng để tấn công còn lại sẽ gửi tới đối thủ của bạn.
+        Bất kỳ hàng nào để phản công không dùng tới sẽ bỏ hết; cuối cùng, số hàng để tấn công còn lại sẽ gửi tới đối thủ của bạn.
 
 Chế độ Battle Royale:
         Một chế độ có nhiều người chơi cùng chơi trong một ván cùng lúc (nhưng mà là AI, chứ không phải người thật).
