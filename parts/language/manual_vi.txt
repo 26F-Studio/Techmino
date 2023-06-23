@@ -28,37 +28,43 @@ Hệ thống tấn công:
         Kiểu xóa Đặc biệt (spin): gửi đòn tấn công (số hàng xóa × 2) hàng,
                 - B2B gửi thêm 1/1/2/4/8 cho Spin Đơn/Spin Đôi/Spin Tam/Techrash/Techrash+
                 - B2B2B gửi thêm (số hàng xóa × 0.5) trên B2B và +1 hàng để hủy rác tới
-                - Mini sẽ bị cắt còn 25% (hệ số ×0.25)
+                - Mini sẽ bị cắt còn 25% (hệ số × 0.25)
 
-        Kiểu xóa Đặc biệt (Techrash/techrash+ không dùng spin):
-                - B2B gửi thêm 1 hàng nữa
+        Kiểu xóa Đặc biệt (Techrash/Techrash+ không dùng spin):
+                - Techrash gửi 4 hàng; Techrash+ gửi hơn 4 hàng (chưa biết chính xác là bao nhiêu hàng)
+                - B2B gửi thêm 1 hàng
                 - B2B2B sẽ boost 50% tấn công và +1 hàng để hủy rác tới
 
-        Kiểu xóa không Đặc biệt:
-                gửi (số hàng xóa - 0.5) hàng.
+        Kiểu xóa không Đặc biệt: gửi (số hàng vừa xóa - 0,5) hàng
 
         Combo (REN):
                 Số combo = số lần bạn xóa hàng liên tiếp - 1 (dừng tính ở combo 12, từ combo 13 trở đi sẽ tính là combo 12).
-                Toàn bộ sát thương được kể trên (trừ tấn công từ PC/HPC) nhận thêm bonus (combo × 25%), hoặc (combo ×15%) cho việc xóa 1 hàng.
+                Toàn bộ sát thương được kể trên (trừ tấn công từ PC/HPC) nhận thêm bonus (combo × 25%), hoặc (combo × 15%) cho việc xóa 1 hàng.
                 +1 hàng để tấn công từ Combo 2 trở đi.
 
-        Hemi Perfect Clear (a P.C. “mà vẫn còn gạch ở dưới.”). Nếu chỉ còn 1 hàng xóa, thì toàn bộ gạch còn lại không phải do người chơi đặt:
+        Hemi Perfect Clear (PC mà “vẫn còn gạch ở dưới.”). Nếu chỉ còn 1 hàng xóa, thì toàn bộ gạch còn lại không phải do người chơi đặt:
                 - +4 hàng để tấn công, +2 hàng để hủy rác tới
 
         Perfect Clear (All Clear):
-                - Gửi 8 → 16 hàng rác (6 + 2 * số PC đã làm; số PC được tính tối đa là 5) HOẶC sát thương thông thường, tùy vào sát thương nào mạnh hơn.
+                - Gửi 8 → 16 hàng rác (6 + 2 * số PC đã làm; tính tối đa 5PC) HOẶC sát thương thường, tùy vào sát thương nào mạnh hơn.
                 - +2 hàng để hủy rác.
 
-        Sau khi tính toán xong, lượng sát thương sẽ bị làm tròn XUỐNG rồi mới gửi.
+        Sau khi tính toán xong, lượng sát thương sẽ bị làm tròn XUỐNG trước khi gửi.
         --------------------------
-        Lấy ví dụ về cách tính số hàng tấn công (giả sử đối thủ chưa gửi rác tới):
-        bạn vừa mở màn bằng opener SDPC
-        
-        Bạn sẽ làm Spin Đơn rồi Spin Đôi và cuối cùng là Perfect Clear
-        Spin Đơn --> 2 hàng
-        Spin Đôi --> 4 hàng
-        Perfect Clear --> 8 hàng
-        Tổng: 16 hàng
+        Lấy ví dụ về cách tấn công:
+        CẢNH BÁO: phần này đang conflict với các phần khác trong game!
+
+        Bạn đã làm xong Stack 6-3 khá là cao và cần phải đào xuống.
+        Tình cờ bạn vừa dùng gạch J/L để làm một setup T-spin Double,
+        cùng với 1 gạch T, 3 gạch I vào thanh NEXT; quá là hoàn hảo để tạo Spike
+
+        Giả sử bạn không có gì trong thanh B2B
+        T-spin Double → 4 hàng
+        B2B Techrash (Combo 1) → (4 + 1 hàng từ B2B) × 25% từ Combo = 6,25 → 6 hàng
+        B2B Techrash (Combo 2) → (4 + 1 hàng từ B2B + 1 hàng từ Combo) × 50% từ Combo = 7.5 → 8 hàng
+        B2B Techrash (Combo 3) → (4 + 1 hàng từ B2B + 1 hàng từ Combo) × 75% từ Combo = 8.75 → 9 hàng
+
+        Tổng: 4 + 6 + 8 + 9 = 27 hàng 
 
 
 Thanh Back to Back (B2B):
