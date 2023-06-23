@@ -262,7 +262,29 @@ Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đ
         "https://www.patreon.com/techmino",
     } or {"*ĐÃ ẨN*", "", "org", ""},
     {"=[NHÓM 05]=",
-        "nhom05 modern; arikrotationsystem atarirotationsystem ascension ascplus bulletproofsoftware biasrs biasrotationsystem c2rs cultris2 dtetrotationsystem nintendorotationsystem superrotationsystem srsplus superrotationsystemplus techminorotationsystem xrs; initialrotationsystem initialholdsystem initialmovesystem; bag7 randomgenerator túi 7 gạch historygenerator hisgenerator hispool historypoolgenerator bages easy start khởi đầu suôn sẻ reverb cultris2generator cultrisiigenerator c2generator; k.xáo hispool; "..tetro_name
+        [[
+nhom05 modern; arikrotationsystem atarirotationsystem ascension ascplus bulletproofsoftware biasrs biasrotationsystem c2rs cultris2 dtetrotationsystem nintendorotationsystem superrotationsystem srsplus superrotationsystemplus techminorotationsystem xrs;
+
+initialrotationsystem initialholdsystem initialmovesystem;
+
+bag7 randomgenerator túi 7 gạch historygenerator hisgenerator hispool historypoolgenerator bages easy start khởi đầu suôn sẻ reverb cultris2generator cultrisiigenerator c2generator; k.xáo hispool;
+
+trọng lực falling speed gravity; ngay lập tức instantly; lockdelay lockdowndelay lockdowntimer; thời gian chờ khóa gạch; spawndelay cleardelay; thời gian chờ gạch sinh ra; thời gian chờ xóa hàng; spawn appearance delay; die delay;
+
+das arr delayedautoshift autorepeatrate dascut dcd autolockcut softdropfactor;
+
+điều khiển; tốc độ điều khiển; linesperminute; số hàng mỗi phút; piecespersecond số gạch mỗi giây; blocksperminute piecesperminute số gạch mỗi phút; keysperminute keypressesperminute số lần nhấn mỗi phút; số phím mỗi phút; số lần nhấn mỗi gạch; số phím mỗi gạch; finesse lỗi di chuyển;
+nhấn liên tục; input delay; misdrop mishold md mh;
+
+attackperminute; linessentperminute; digperminute defendperminute; receive; receiveperminute; attackdigperminute vs; attackperline efficiency; attacking defending; ren; owe; pingthrough; phòng thủ; tấn công & phòng thủ; tấn công và phòng thủ;
+số hàng tấn công; số hàng gửi mỗi phút; số hàng gửi trong một phút; số hàng đào xuống mỗi phút; số hàng đào xuống trong một phút; số hàng rác phải nhận mỗi phút; số rác phải nhận mỗi phút; số hàng rác phải nhận trong một phút; số rác phải nhận trong mỗi phút; số hàng tấn công và đào xuống mỗi phút; số hàng tấn công và đào xuống mỗi phút; số hàng tấn công; số hàng đã xóa; độ hiệu quả;
+
+spin mini allspin tspin ospin;
+
+kỹ thuật xóa hàng; kĩ thuật xóa hàng; 1 2 3 4; t1 t2 t3; minitspinsingle tsms tspinminisingle; minitspindouble tsmd tspinminidouble; b2b btb backtoback; b3b backtobacktoback; pc perfectclear ac allclear; hc halfperfectclear; T-spin Đơn; T-spin Đôi; T-spin Tam; Mini T-spin Đơn; Mini T-spin Đôi; Mini T-spin Tam;
+
+thuật ngữ khác; scientificresearch; bone tgm
+        ]]..tetro_name
         .."tetris hiện đại; next; hold; swap; topping out; vùng đệm; vùng biến mất; gạch; hình dạng của tetromino; màu của tetromino; hướng gạch; gạch & tên tương ứng; hệ thống xoay gạch; ars; asc; asc+; brs; birs; c2rs; c2sym; drs; nrs; srs; srs+; trs; xrs; hệ thống điều khiển; irs; ihs; ims; cách kiểu xáo gạch; kiểu xáo túi 7; kiểu xáo his; hispool; kiểu xáo ez start; kiểu xáo reverb; kiểu xáo c2; drought flood; thông số; thông số của game; tốc độ rơi; 20g; lockdown delay; spawn & clear delay; are; line are; death are; thông số điều khiển; das đơn giản; das arr; hiệu chỉnh das; das cut; auto lock cut; sdf; điều khiển; tốc độ; lpm; pps; bpm; kpm; kpp; kỹ thuật; hypertapping; rolling; finesse; độ trễ đầu vào; hành động bất cẩn; misdrop; mishold; khả năng tấn công; apm; spm; dpm; rpm; adpm; apl; tấn công phòng thủ; combo; spike; debt; passthrough; spin; mini spin; t spin; all spin; o spin; kỹ thuật xóa hàng; single; double; triple; techrash; tetris; tss; tsd; tst; mtss; mstsd; back to back; b3b; perfect clear; half prefect clear; các thuật ngữ khác; sub; doing research; bone block",      -- All the items in Group but was normalized,
         "name",
         "NHÓM 05: TETRIS VÀ CÁC THUẬT NGỮ",
@@ -549,19 +571,19 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
         "Ban đầu toàn bộ Tetromino sẽ có khối lượng (“weight”) là 0.\nSau mỗi lần xáo gạch, toàn bộ cân nặng của các gạch sẽ bị chia hết cho 2, và được cộng một số thực dương ngẫu nhiên từ 0 tới 1. Gạch có khối lượng cao nhất sẽ được bốc, và sau đó cân nặng của nó sẽ bị chia cho 3.5.",
     },
     {">F|Thông số",
-        "nhom05f trọng lực; ngay lập tức; lockdelay lockdowndelay lockdowntimer; thời gian chờ khóa gạch; spawndelay cleardelay; thời gian chờ gạch sinh ra; thời gian chờ xóa hàng; spawn appearance delay; die delay; das arr delayedautoshift autorepeatrate dascut dcd autolockcut softdropfactor"
+        "nhom05f trọng lực falling speed gravity; ngay lập tức instantly; lockdelay lockdowndelay lockdowntimer; thời gian chờ khóa gạch; spawndelay cleardelay; thời gian chờ gạch sinh ra; thời gian chờ xóa hàng; spawn appearance delay; die delay; das arr delayedautoshift autorepeatrate dascut dcd autolockcut softdropfactor"
         .."tốc độ rơi; 20g; lockdown delay; spawn & clear delay; are; line are; death are; DAS (đơn giản); DAS & ARR; Hiệu chỉnh DAS; DAS cut; Auto-lock cut; SDF",
         "name",
         ""
     },
     {">F1|Thg số game",
-        "nhom05f1 trọng lực; ngay lập tức; lockdelay lockdowndelay lockdowntimer; thời gian chờ khóa gạch; spawndelay cleardelay; thời gian chờ gạch sinh ra; thời gian chờ xóa hàng; spawn appearance delay; die delay;"
+        "nhom05f1 trọng lực falling speed gravity; ngay lập tức instantly; lockdelay lockdowndelay lockdowntimer; thời gian chờ khóa gạch; spawndelay cleardelay; thời gian chờ gạch sinh ra; thời gian chờ xóa hàng; spawn appearance delay; die delay"
         .."tốc độ rơi; 20g; lockdown delay; spawn & clear delay; are; line are; death are",
         "name",
         "NHÓM 5F1: THÔNG SỐ GAME"
     },
     {"Tốc độ rơi",
-        "nhom05f1 trọng lực",
+        "nhom05f1 trọng lực falling speed gravity",
         "term",
         [[
 Đơn vị của tốc độ rơi là “G”, có nghĩa là gạch rơi xuống bao nhiêu ô mỗi một khung hình.
@@ -571,7 +593,7 @@ Trong Techmino, tốc độ rơi được mô tả là số khung hình cần th
         ]],
     },
     {"20G",
-        "nhom05f1 trọng lực; ngay lập tức",
+        "nhom05f1 trọng lực; ngay lập tức; gravity instantly",
         "term",
         "Tốc độ nhanh nhất trong các game xếp gạch hiện đại. Trong các chế độ xài tốc độ 20G, các viên gạch thay vì rơi từ từ, nó sẽ xuất hiện ngay lập tức ở đáy bảng. Việc này đôi khi sẽ làm bạn không thể di chuyển được theo phương ngang như ý bạn muốn; vì gạch không thể leo qua chỗ lồi lõm hoặc ra khỏi hố sâu.\nBạn có thể tìm hiểu thêm về đơn vị “G” trong mục “Tốc độ rơi”.",
     },
@@ -938,7 +960,35 @@ Cũng trong Techmino nhưng trong bản tiếng Việt, từ “gạch []” đ�
         ]],
     },
     {"=[NHÓM 06]=",
-        "nhom06"
+        [[
+nhom06 mobile phone game
+
+kos kingofstackers
+tetrjs tetr.js
+tl tetralegends
+asc
+js
+io tetrio
+wwc worldwidecombos
+tf tetrisfriends notrisfoes
+tetris online official gem
+fl fallinglightblocks
+tetrisgrandmaster tetristhegrandmaster
+hb
+txm
+tec tetriseffectconnected
+t99 tetris99
+ppt puyopuyotetris
+top tetrisonline
+TO tetraonline
+c2 cultris2 cultrisii
+np
+ea galaxy universe cosmos
+n3twork rhythm
+tetrisjourney huanyouji
+jjtetris
+huopin qq
+        ]]
         .."king of stackers; tetr.js; tetra legends; ascension; jstris; tetr.io; nuketris; worldwide combos; tetris friends; tetris.com; tetris gems; tetris mind bender; techmino; falling lightblocks; cambridge; nanamino; tgm; dtet; heboris; texmaster; tetris effect; tetris 99; puyo puyo tetris; tetris online; tetra online; cultris ii; nullpomino; misamino; touhoumino; tetris blitz; tetris ea; tetris n3twork; tetris beat; tetris journey; jj tetris; huopin tetris.",
         "name",
         [[
@@ -986,7 +1036,7 @@ Gọi tắt là TL. Một tựa game chứa nhiều chế độ chơi đơn + 2 
         "https://tetralegends.app",
     },
     {"Ascension",
-        "nhom06 asc ASC",
+        "nhom06 asc",
         "game",
         [[
 Chơi trên trình duyệt | Chơi đơn/Chơi trực tuyến
@@ -996,7 +1046,7 @@ Gọi tắt là ASC. Game sử dụng hệ thống xoay có tên là ASC và có
         "https://asc.winternebs.com",
     },
     {"Jstris",
-        "nhom06 js jstris",
+        "nhom06 js",
         "game",
         [[
 Chơi trên trình duyệt | Chơi đơn/Chơi trực tuyến | Hỗ trợ điện thoại
@@ -1006,7 +1056,7 @@ Gọi tắt là JS. Nó có một số chế độ chơi đơn với thông số
         "https://jstris.jezevec10.com",
     },
     {"TETR.IO",
-        "nhom06 io tetrio tetr.io teto",
+        "nhom06 io tetrio",
         "game",
         [[
 Chơi trên trình duyệt/Chơi trên client chính thức | Chơi đơn/Chơi trực tuyến
@@ -1018,7 +1068,7 @@ Gọi tắt là tetrio hoặc IO. Trò chơi này có một hệ thống xếp r
         "https://tetr.io",
     },
     {"Nuketris",
-        "nhom06 nuketris",
+        "nhom06",
         "game",
         [[
 Chơi trên trình duyệt | Chơi đơn/Chơi trực tuyến
@@ -1075,7 +1125,7 @@ Một game xếp gạch khác từ tetris.com . Một chế độ Marathon vô t
         ]],
     },
     {"Techmino",
-        "nhom06 techmino",
+        "nhom06",
         "game",
         [[
 Đa nền tảng | Chơi đơn/Chơi trực tuyến
@@ -1094,7 +1144,7 @@ Một game xếp gạch đa nền tảng có thể chơi ở chế độ dọc h
         "https://golfgl.de/lightblocks/",
     },
     {"Cambridge",
-        "nhom06 cambridge",
+        "nhom06",
         "game",
         [[
 Đa nền tảng | Chơi đơn
@@ -1105,7 +1155,7 @@ Một game xếp gạch được phát triển bằng LÖVE và được dảnh 
         ]],
     },
     {"Nanamino",
-        "nhom06 nanamino",
+        "nhom06",
         "game",
         [[
 Windows/Android | Chơi đơn
@@ -1123,7 +1173,7 @@ Tetris The Grand Master, một series Tetris dành cho máy thùng. Những th�
         ]],
     },
     {"DTET",
-        "nhom06 dtet",
+        "nhom06",
         "game",
         [[
 Windows | Chơi đơn
@@ -1132,7 +1182,7 @@ Một game xếp gạch dựa trên quy tắc Cổ điển của TGM + 20G với
         ]],
     },
     {"Heboris",
-        "nhom06 hb heboris",
+        "nhom06 hb",
         "game",
         [[
 Windows | Chơi đơn
@@ -1141,7 +1191,7 @@ Một game với phong cách chơi Arcade, có khả năng mô phỏng nhiều c
         ]],
     },
     {"Texmaster",
-        "nhom06 txm texmaster",
+        "nhom06 txm",
         "game",
         [[
 Windows | Chơi đơn
@@ -1211,7 +1261,7 @@ Gọi tắt là C2. Được thiết kế dựa trên Tetris cổ điển, Cultr
         ]],
     },
     {"Nullpomino",
-        "nhom06 np nullpomino",
+        "nhom06 np",
         "game",
         [[
 Windows/macOS/Linux | Chơi đơn/Chơi trực tuyến
@@ -1222,7 +1272,7 @@ Gọi tắt là NP. Một game xếp gạch chuyên nghiệp có khả năng tù
         ]],
     },
     {"Misamino",
-        "nhom06 misamino",
+        "nhom06",
         "game",
         [[
 Windows | Chơi đơn
@@ -1233,7 +1283,7 @@ Misamino cũng là tên của bot trong game này.
         ]],
     },
     {"Touhoumino",
-        "nhom06 touhoumino",
+        "nhom06",
         "game",
         [[
 Windows | Chơi đơn
@@ -1330,7 +1380,8 @@ Một game xếp gạch ở trên Tencent Game Center, bảng rộng 12 ô, DAS 
         ]],
     },
     {"=[NHÓM 07]=",
-        "nhom07",
+        "nhom07 invisible half semi mph; larger than"
+        .."Tàng hình một phần; Tàng hình hoàn toàn; Chế độ MPH; Secret Grade; Deepdrop (Rơi sâu)",
         "name",
         "NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME"
     },
@@ -1356,14 +1407,14 @@ Một game xếp gạch ở trên Tencent Game Center, bảng rộng 12 ô, DAS 
         "https://harddrop.com/wiki?search=Secret_Grade_Techniques",
     },
     {"Deepdrop (Rơi sâu)",
-        "nhom07 shenjiang",
+        "nhom07",
         "term",
         "*Chỉ có trên Techmino*\n\nMột chức năng cho phép cho phép gạch có thể teleport xuyên đất để xuống phía dưới. Khi gạch đụng vào đáy hoặc một gạch khác, nhấn phím Thả nhẹ để kích hoạt Deepdrop. Nếu có một cái hố phù hợp với hình dạng của gạch ở dưới vị trí gạch đang rơi, gạch sẽ được teleport vào hố đó.\nCơ chế này đặc biệt hữu ích cho AI vì nó cho phép AI bỏ qua sự khác biệt giữa các hệ thống xoay khác nhau.",
     },
     {"=[NHÓM 08]=",
-        "nhom08",
+        "nhom08 ai bot cc coldclear zzztoj",
         "name",
-        "NHÓM 08: BOT\n\nLưu ý: Misamino cũng là một tên của bot nhưng do mục này đã trùng ở mục 6 nên xin phép không nhắc lại."
+        "NHÓM 08: BOT"
     },
     {"Cold Clear",
         "nhom08 cc coldclear ai bot",
@@ -1375,14 +1426,13 @@ Một game xếp gạch ở trên Tencent Game Center, bảng rộng 12 ô, DAS 
         "term",
         "Một bot chơi Tetris. Được viết bởi một người chơi Tetris Trung Quốc có tên là 奏之章 (Zòu Zhī Zhāng, xem mục bên dưới) và hoạt động khá tốt trong nhiều game (sau khi điều chỉnh thông số)",
     },
-    {"=[NHÓM 09]=",
+    {"=[NHÓM 09]=",     -- TODO: Ngày mai bắt đầu làm từ đây
         "nhom09",
         "name",
         "NHÓM 09: MẸO & LỜI KHUYÊN HỮU ÍCH"
     },
     {"Đề xuất l.tập [1/2]",
-        "nhom09 readme noob new guides recommendations suggestions helps"..
-        "hướng dẫn  người mới chơi  lời khuyên",
+        "nhom09 readme noob new guides recommendations suggestions helps; đề xuất luyện tập; người mới chơi; hướng dẫn; lời khuyên; gợi ý",
         "help",
 [[
 Lời khuyên khi tập chơi (Trang 1/2):
@@ -1395,8 +1445,7 @@ Sau khi bạn hoàn thành hết nhóm C, hãy tiếp tục luyện tập nhóm 
 ]],
     },
     {"Đề xuất l.tập [2/2]",
-        "nhom09 readme noob new guides recommendations suggestions helps"..
-        "hướng dẫn  người mới chơi  lời khuyên  trợ giúp",
+        "nhom09 readme noob new guides recommendations suggestions helps; đề xuất luyện tập; người mới chơi; hướng dẫn; lời khuyên; gợi ý",
         "help",
 [[
 Lời khuyên khi tập chơi (Trang 2/2):
@@ -1420,7 +1469,7 @@ C. Practice (Luyện tập)
 ]]
     },
     {"Học làm T-spin",
-        "nhom09 tspins learning study guides tips recommendations suggestions helps",
+        "nhom09 tspin học; hướng dẫn; mẹo; lời khuyên; đề xuất",
         "help",
         [[
 Xin lưu ý rằng T-spin là một kỹ năng khá là cao cấp trong Tetris, vì vậy bạn không thể thành thạo nó nếu chỉ đơn thuần nhìn vào địa hình nơi T-spin được thực hiện. Tất nhiên, bạn phải có kỹ năng xếp gạch tốt và có thể nhìn quét xa dãy NEXT. Nếu bạn thực sự muốn làm T-spin, hãy đảm bảo bạn thành thạo những kỹ năng cơ bản trước khi học và làm.
@@ -1462,12 +1511,12 @@ Những yếu tố ảnh hưởng tới việc xử lý gạch của bạn:
         ]],
     },
     {"Các phím xoay (1/2)",
-        "nhom09 doublerotation",
+        "nhom09 doublerotation hai phím xoay",
         "help",
         "Dùng cả phím xoay phải và xoay trái giảm số lầm phím cần nhấn bằng cách thay thế nhấn 3 lần phím xoay một bên bằng cách nhấn 1 lần phím xoay bên kia.\nLỗi di chuyển cũng có tính đến việc có sử dụng cả hai phím xoay hai không.",
     },
     {"Các phím xoay (2/2)",
-        "nhom09 triplerotation",
+        "nhom09 triplerotation ba phím xoay",
         "help",
         "Sử dụng cả ba phím xoay (phím thứ ba là xoay 180°), tất cả các gạch muốn xoay thì chỉ cần duy nhất nhấn một phím một lần.\nTuy nhiên, việc này không phải lúc nào cũng hữu dụng vì không phải game nào đều hỗ trợ cả 3 phím xoay. Hơn nữa, sự cải thiện về tốc độ khi so sánh dùng 3 phím so với 2 phím không nhiều bằng dùng 2 phím so với 1 phím. Bạn có thể bỏ qua kỹ thuật này trừ khi bạn muốn đạt tốc độ cực cao.",
     },
