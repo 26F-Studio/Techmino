@@ -50,21 +50,6 @@ Hệ thống tấn công:
                 - +2 hàng để hủy rác.
 
         Sau khi tính toán xong, lượng sát thương sẽ bị làm tròn XUỐNG trước khi gửi.
-        --------------------------
-        Lấy ví dụ về cách tấn công:
-        CẢNH BÁO: phần này đang conflict với các phần khác trong game!
-
-        Bạn đã làm xong Stack 6-3 khá là cao và cần phải đào xuống.
-        Tình cờ bạn vừa dùng gạch J/L để làm một setup T-spin Double,
-        cùng với 1 gạch T, 3 gạch I vào thanh NEXT; quá là hoàn hảo để tạo Spike
-
-        Giả sử bạn không có gì trong thanh B2B
-        T-spin Double → 4 hàng
-        B2B Techrash (Combo 1) → (4 + 1 hàng từ B2B) × 25% từ Combo = 6,25 → 6 hàng
-        B2B Techrash (Combo 2) → (4 + 1 hàng từ B2B + 1 hàng từ Combo) × 50% từ Combo = 7.5 → 8 hàng
-        B2B Techrash (Combo 3) → (4 + 1 hàng từ B2B + 1 hàng từ Combo) × 75% từ Combo = 8.75 → 9 hàng
-
-        Tổng: 4 + 6 + 8 + 9 = 27 hàng 
 
 
 Thanh Back to Back (B2B):
