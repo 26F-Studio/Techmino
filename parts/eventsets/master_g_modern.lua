@@ -380,5 +380,5 @@ return {
                 P:win('finish')
             end
         end
-    end,
+    end
 }
