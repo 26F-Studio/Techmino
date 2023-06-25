@@ -32,11 +32,9 @@ P/s: Hiện tại chỉ có bản dịch Tiếng Việt là có hệ thống nh�
         "nhom01 introduction about",
         "help",
         [[
-Bản dịch này được cung cấp bởi Squishy (Discord: sweetsea). Nếu không tìm thấy mình thì hãy vào server Discord của Techmino nếu cần.
+Bản dịch này là bản dịch tiếng Việt của Squishy từ bản dịch tiếng Anh của User670 và C₂₉H₂₅N₃O₅
 
-Bản dịch này dịch lại từ bản tiếng Anh, được cung cấp bởi User670 và C₂₉H₂₅N₃O₅
-
-Bản dịch có thể không phản ánh 100% nội dung của Zictionary tiếng Trung (bản gốc) (Chuyện này bình thường hay xảy ra ở các bản dịch do cộng đồng làm rồi, nhưng bản dịch này dùng bản dịch trung gian nữa nên khả năng xảy ra cũng cao hơn bình thường một chút)
+Bản dịch có thể không phản ánh 100% nội dung của Zictionary tiếng Trung (bản gốc) (Chuyện này bình thường hay xảy ra ở các bản dịch do cộng đồng làm, mà bản dịch này dùng bản dịch trung gian nên khả năng xảy ra cũng cao hơn bình thường)
         ]],
         "https://github.com/26F-Studio/Techmino/blob/main/parts/language/dict_vi.lua",
     },
@@ -63,7 +61,7 @@ NHÓM 02: MỤC LỤC
 Đây là mục lục của toàn bộ Zictionary
 Bạn có thể quay lại đây bằng cách gõ trên thanh tìm kiếm "nhom02" hoặc "mucluc"
 
-Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục mà thôi, thì bạn có thể gõ "mucluc<trang_cần_mở>". Ví dụ: "mucluc3"
+Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục, thì bạn có thể gõ "mucluc<trang_cần_mở>". Ví dụ: "mucluc3"
         ]]
     },
     {
@@ -92,7 +90,7 @@ Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục mà
             * APM, SPM, DPM, RPM, ADPM, APL
             * Tấn công & Phòng thủ
             * Combo, Spike, Debt, Passthrough
-[…] (Phần cuối của mục này ở trang 3)
+[…] (Còn tiếp)
         ]]
     },
     {
@@ -320,10 +318,10 @@ Ví dụ:
         [[
 Một hệ thống để xác định cách gạch xoay.
 
-Trong các trò Tetris hiện đại, mỗi gạch có thể xoay dựa trên một tâm xoay cố định (có thể không hiện diện trong vài trò chơi). Nếu gạch sau khi xoay đè lên gạch khác hoặc ra ngoài khỏi bảng, hệ thống sẽ thử di chuyển gạch ở các vị trí xung quanh vị trí đang đứng (một quá trình được gọi “wall-kicking” ('đá' tường)).
-'Đá' tường cho phép gạch có thể đến những hố có hình dạng nào đó mà bình thường không thể tiếp cận được. Các vị trí mà gạch có thể 'đá' được chứa trong một bảng gọi là “wall-kick table” (bảng các vị trí 'đá' tường)
+Trong các trò Tetris hiện đại, mỗi gạch có thể xoay dựa trên một tâm xoay cố định (có thể không hiện diện trong vài trò chơi). Nếu gạch sau khi xoay đè lên gạch khác hoặc ra ngoài khỏi bảng, hệ thống sẽ thử di chuyển gạch ở các vị trí xung quanh vị trí đang đứng (một quá trình được gọi “wall-kicking” (đá tường)).
+Đá tường cho phép gạch có thể đến những hố có hình dạng nào đó mà bình thường không thể tiếp cận được. Các vị trí mà gạch có thể đá được chứa trong một bảng gọi là “wall-kick table” (bảng các vị trí đá tường)
 
-P/s: trong Zictionary (TetroDictionary), từ “bảng các vị trí 'đá' tường” viết tắt là “bảng 'đá' tường” (do lười gõ, mà cái này có thể thay đổi sau)
+P/s: trong Zictionary, từ “bảng các vị trí đá tường” viết tắt là “bảng đá tường” (do lười gõ, mà cái này có thể thay đổi sau)
         ]]
     },
     {"ARS",
@@ -334,12 +332,12 @@ P/s: trong Zictionary (TetroDictionary), từ “bảng các vị trí 'đá' t�
     {"ASC",
         "nhom05c ascension",
         "term",
-        "Hệ thống xoay được dùng trong Ascension - một bản sao (chính xác là clone) của Tetris. Tất cả các gạch đều sử dụng chung một bảng 'đá' tường (một dành cho xoay phải, một dành cho xoay trái), và vùng 'đá' nằm trong khoảng cách ± 2 ô ở cả hai trục.",
+        "Hệ thống xoay được dùng trong Ascension - một bản sao (chính xác là clone) của Tetris. Tất cả các gạch đều sử dụng chung một bảng đá tường (một dành cho xoay phải, một dành cho xoay trái), và vùng đá nằm trong khoảng cách ± 2 ô ở cả hai trục.",
     },
     {"ASC+",
         "nhom05c ascension ascplus",
         "term",
-        "Một phiên bản chỉnh sửa của ASC trong Techmino, hỗ trợ 'đá' tường cho trường hợp xoay 180°.",
+        "Một phiên bản chỉnh sửa của ASC trong Techmino, hỗ trợ đá tường cho trường hợp xoay 180°.",
     },
     {"BRS",
         "nhom05c bulletproofsoftware",
@@ -358,9 +356,9 @@ Hệ thống sẽ điều chỉnh độ lệch khi xoay tùy vào bạn giữ ph
 Quá trình thử của hệ thống này diễn ra như sau:
 1. Thử dịch chuyển gạch sang trái/phải/xuống tùy thuộc vào phím đang giữ (là phím Sang trái/Sang phải/Thả nhẹ); có thêm độ lệch xuống dưới
 2. Nếu thất bại, cũng thử di chuyển sang bên trái/bên phải/đi xuống tùy thuộc vào phím đang giữ; nhưng lúc này không thêm độ lệch xuống dưới
-3. Nếu thất bại... thì việc xoay thất bại luôn (cái này thì không còn gì để nói)
+3. Nếu thất bại… thì việc xoay coi như thất bại (cái này thì không còn gì để nói)
 
-Khi so sánh với XRS, BiRS dễ nhớ hơn nhiều vì nó chỉ dùng một bảng 'đá' tường; nhưng vẫn giữ nguyên được tính năng vượt địa hình của SRS.
+Khi so sánh với XRS, BiRS dễ nhớ hơn nhiều vì nó chỉ dùng một bảng đá tường; nhưng vẫn giữ nguyên được tính năng vượt địa hình của SRS.
 
 Khoảng cách euclide của độ lệch của cú đá được chọn không được lớn hơn √5; và nếu có độ lệch theo chiều ngang, thì hướng của cú đá đó không được là hướng ngược lại với hướng đã chọn (từ việc giữ phím)
         ]],
@@ -368,7 +366,7 @@ Khoảng cách euclide của độ lệch của cú đá được chọn không 
     {"C2RS",
         "nhom05c c2rs cultris2",
         "term",
-        "Cultris II rotation system | Hệ thống xoay Cultris II, một hệ thống xoay được dùng trong Cultris II - một bản sao (clone) của Tetris.\nToàn bộ gạch và cả hướng xoay đều sử dụng chung một bảng 'đá' tường (trái, phải, xuống, xuống + trái, xuống + phải, trái 2, phải 2), với ưu tiên về phía bên trái so với bên phải.\n\nTrong Techmino có một bản chỉnh sửa của hệ thống này, đó là C2sym. C2sym sẽ ưu tiên hướng theo hình dạng của gạch",
+        "Cultris II rotation system | Hệ thống xoay Cultris II, một hệ thống xoay được dùng trong Cultris II - một bản sao (clone) của Tetris.\nToàn bộ gạch và cả hướng xoay đều sử dụng chung một bảng đá tường (trái, phải, xuống, xuống + trái, xuống + phải, trái 2, phải 2), với ưu tiên về phía bên trái so với bên phải.\n\nTrong Techmino có một bản chỉnh sửa của hệ thống này, đó là C2sym. C2sym sẽ ưu tiên hướng theo hình dạng của gạch",
     },
     {"C2sym",
         "nhom05c cultris2",
@@ -393,17 +391,17 @@ Khoảng cách euclide của độ lệch của cú đá được chọn không 
     {"SRS+",
         "nhom05c srsplus superrotationsystemplus",
         "term",
-        "Một biến thể của SRS, hỗ trợ bảng 'đá' tường khi xoay 180°.",
+        "Một biến thể của SRS, hỗ trợ bảng đá tường khi xoay 180°.",
     },
     {"TRS",
         "nhom05c techminorotationsystem",
         "term",
-        "*Chỉ có trên Techmino*\n\nTechmino Rotation System | Hệ thống xoay Techmino\nHệ thống xoay được dùng trong Techmino, dựa trên SRS.\nHệ thống này sửa những trường hợp gạch S/Z bị kẹt và không thể xoay trong một vài trường hợp; cũng như bổ sung thêm những vị trí 'đá' hữu dụng. Pentomino cũng có bảng 'đá' tường dựa trên logic của SRS. TRS cũng hỗ trợ O-Spin (O-Spin cho phép gạch có thể 'đá' và có thể 'biến hình').",
+        "*Chỉ có trên Techmino*\n\nTechmino Rotation System | Hệ thống xoay Techmino\nHệ thống xoay được dùng trong Techmino, dựa trên SRS.\nHệ thống này sửa những trường hợp gạch S/Z bị kẹt và không thể xoay trong một vài trường hợp; cũng như bổ sung thêm những vị trí đá hữu dụng. Pentomino cũng có bảng đá tường dựa trên logic của SRS. TRS cũng hỗ trợ O-Spin (O-Spin cho phép gạch có thể đá và có thể 'biến hình').",
     },
     {"XRS",
         "nhom05c xrs",
         "term",
-        "X rotation system | Hệ thống xoay X, một hệ thống xoay được dùng trong T-ex.\n\nHệ thống giới thiệu một tính năng với tác dụng “dùng một bảng 'đá' tường khác khi giữ một phím mũi tên,” cho phép người chơi có thể nói game hướng mà gạch nên di chuyển theo ý muốn của họ.",
+        "X rotation system | Hệ thống xoay X, một hệ thống xoay được dùng trong T-ex.\n\nHệ thống giới thiệu một tính năng với tác dụng “dùng một bảng đá tường khác khi giữ một phím mũi tên,” cho phép người chơi có thể nói game hướng mà gạch nên di chuyển theo ý muốn của họ.",
     },
     {">D|Hệ thg đ.khiển",
         "nhom05d initialrotationsystem initialholdsystem initialmovesystem",
@@ -498,7 +496,7 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
     {"Kiểu xáo C2",
         "nhom05e cultris2generator cultrisiigenerator c2generator",
         "term",
-        "Ban đầu toàn bộ Tetromino sẽ có khối lượng (“weight”) là 0.\nSau mỗi lần xáo gạch, toàn bộ cân nặng của các gạch sẽ bị chia hết cho 2, và được cộng một số thực dương ngẫu nhiên từ 0 tới 1. Gạch có khối lượng cao nhất sẽ được bốc, và sau đó cân nặng của nó sẽ bị chia cho 3.5.",
+        "Ban đầu toàn bộ Tetromino sẽ có trọng số (“weight”) là 0.\nSau mỗi lần xáo gạch, toàn bộ trọng số của các gạch sẽ bị chia hết cho 2, và được cộng một số thực dương ngẫu nhiên từ 0 tới 1. Gạch có khối lượng cao nhất sẽ được bốc, và sau đó cân nặng của nó sẽ bị chia cho 3.5.",
     },
     {">F|Thông số",
         "nhom05f trọng lực falling speed gravity; ngay lập tức instantly; lockdelay lockdowndelay lockdowntimer; thời gian chờ khóa gạch; spawndelay cleardelay; thời gian chờ gạch sinh ra; thời gian chờ xóa hàng; spawn appearance delay; die delay; das arr delayedautoshift autorepeatrate dascut dcd autolockcut softdropfactor"
@@ -1486,7 +1484,7 @@ four wiki; tetris hall; tetris template connection; tetristemplate.info
     {"Tetris.wiki",
         "nhom10a tetris wiki",
         "help",
-        "Tetris.wiki là một wiki tập trung vào các nội dung liên quan đến Tetris. Wiki được tạo ra từ năm 2015 bởi Myndzi. Trong những năm qua, hàng nghìn đóng góp đã được thực hiện để ghi lại các game xếp gạch chính thức và các game do fan làm, các series, những cơ chế của game,... cũng như tạo ra những bài hướng dẫn để cải thiện cách chơi.",
+        "Tetris.wiki là một wiki tập trung vào các nội dung liên quan đến Tetris. Wiki được tạo ra từ năm 2015 bởi Myndzi. Trong những năm qua, hàng nghìn đóng góp đã được thực hiện để ghi lại các game xếp gạch chính thức và các game do fan làm, các series, những cơ chế của game,… cũng như tạo ra những bài hướng dẫn để cải thiện cách chơi.",
         "https://tetris.wiki",
     },
     {"Tetris Wiki Fandom",
@@ -1654,7 +1652,7 @@ residual
     {"Side 1-wide",
         "nhom12a s1w side1wide sidewelltetris",
         "term",
-        "Hay còn gọi là Side well Tetris.\nĐây là cách chơi xếp gạch kinh điển nhất, và để làm được thì bạn sẽ phải xây một cái hố (duy nhất) sâu rộng 1 ô ở một mặt bên của bảng. Dễ thực hiện trong Tetris hiện đại và có thể làm tấn công... nửa vời [*]. Nhưng setup này hiếm khi được sử dụng trong những trận đấu hạng cao do hiệu quả của Tetris thấp hơn so với T-spin.\n\n[*] [Sea]: cái này mình không có viết vào, Zictionary nó viết như vậy á.",
+        "Hay còn gọi là Side well Tetris.\nĐây là cách chơi xếp gạch kinh điển nhất, và để làm được thì bạn sẽ phải xây một cái hố (duy nhất) sâu rộng 1 ô ở một mặt bên của bảng. Dễ thực hiện trong Tetris hiện đại và có thể làm tấn công… nửa vời [*]. Nhưng setup này hiếm khi được sử dụng trong những trận đấu hạng cao do hiệu quả của Tetris thấp hơn so với T-spin.\n\n[*] [Sea]: cái này mình không có viết vào, Zictionary nó viết như vậy á.",
     },
     {"Side 2-wide",
         "nhom12a s2w side2wide",
@@ -2063,7 +2061,7 @@ All Clear gửi thêm 6 hàng rác. Nhưng 6 hàng rác này sẽ gửi thẳng 
         "Từ viết tắt của “Away From Keyboard” (dịch sát nghĩa: “Đang ở xa bàn phím”), hay theo nghĩa rộng hơn, khoảng thời gian bạn không chơi game.\nNghỉ giải lao thường xuyên giúp bạn giảm căng cơ và giúp bạn chơi tốt hơn khi quay trở lại.",
     },
     {"=[NHÓM 17]=",
-        "nhom17",
+        "nhom17 tetrjs tetr.js; tf tetrisfriends notrisfoes Tetris Friends; tetris.com tetris online official; DTET; ea galaxy universe cosmos Tetris (EA); n3twork Tetris (N3TWORK)",
         "name",
         [[
 NHÓM 17: THÔNG TIN BỔ SUNG & LỜI NHẬN XÉT CHO MỘT SỐ GAME
@@ -2081,12 +2079,12 @@ Tất cả các mục ở trong nhóm 17A sẽ không thể tìm bằng tên m�
         "Tetr.js Enhanced đã ngừng phát triển từ lâu và đã bị gỡ xuống (có vẻ như đã trở thành lost game). Tetr.js Enhanced đã được thay thế bằng Tetra Legend. Tuy nhiên Tetra Legends cũng bị ngừng phát triển (và bỏ rơi hoàn toàn sau đó) từ T10/2020"
     },
     {"Tetris Friends",
-        "nhom17 tf tetrisfriends notrisfoes",
+        "nhom17 tf tetrisfriends notrisfoes Tetris Friends",
         "game",
         "Lý do vì sao mà mình ghi “Chơi trên tình duyệt/Chơi trên client chính thức”. Đó là bởi vì bạn chơi Tetris Friends ở trên trình duyệt; còn Notris Foes thì các bạn phải chơi trên client.\n\nVì game này được viết trên plugin đã bị khai tử từ lâu vì có nhiều lỗ hổng bảo mật, nên chạy trong một client sẽ là an toàn nhất."
     },
     {"tetris.com",
-        "nhom17",
+        "nhom17 tetris online official",
         "game",
         [[
 [Mục này có thể áp dụng cho "Tetris Gems" và "Tetris Mind Bender"]
@@ -2108,16 +2106,16 @@ Hiện có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart), "b
     {"Tetris (EA)",
         "nhom17 ea galaxy universe cosmos",
         "game",
-        "NHÓM 17A\\Tetris (EA)\n\nGame đang nhắc ở trong Zictionary này là bản năm 2011"
+        "Game đang nhắc ở trong Zictionary này là bản năm 2011"
     },
     {"Tetris (N3TWORK)",
         "nhom17 n3twork",
         "game",
-        "MrZ nói cơ chế điều khiển tệ là vì: phím trên màn hình cảm ứng nó khá là nhỏ, nhỏ hơn cả ngón tay mình có thể bấm. Mà cơ chế vuốt cũng không ổn lắm. Game khá là nhiều quảng cáo nên là chuẩn bị adblocker đi. Và nếu bạn thấy game lag thì có thể tắt cả nhạc lẫn SFX."
+        "MrZ nói cơ chế điều khiển tệ, mình cũng thấy thế: phím trên màn hình cảm ứng nó khá là nhỏ, nhỏ hơn cả ngón tay mình có thể bấm. Mà cơ chế vuốt cũng không đủ ổn định lắm. Game khá là nhiều quảng cáo nên là chuẩn bị adblocker đi. Và nếu bạn thấy game lag thì có thể tắt cả nhạc lẫn SFX."
     }
 }
 
--- Old Techmino CopyPasta
+-- Old Techmino CopyPasta (removed)
 --     {">B. CopyPasta",
 --         "nhom17b",
 --         "name",
