@@ -23,7 +23,7 @@ Cách tìm kiếm:
         Backspace: xóa một ký tự
         Esc: xóa toàn bộ chữ trong ô tìm kiếm, trả về toàn bộ từ điển
 
-P/s: Hiện tại chỉ có bản dịch Tiếng Việt là có hệ thống nhóm thôi (do Sea-no-sweet tự làm hệ thống này)
+P/s: Hiện tại chỉ có bản dịch Tiếng Việt là có hệ thống nhóm thôi (do Squishy tự làm hệ thống này)
 Ở các hệ thống khác thì không có hệ thống nhóm, do đó trật tự của các mục sẽ bị đảo lại nếu bạn chuyển sang tiếng Anh.
         ]]
     },
@@ -67,87 +67,65 @@ Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục mà
         ]]
     },
     {
-        "Mục lục [1/5]", 
+        "Mục lục [1/3]", 
         "nhom02 mucluc1",
         "help",
         [[
-01. Về Zictionary
-        - Giới thiệu bản dịch
-        - Cách tìm kiếm trong Zictionary
+01. Về Zictionary: Giới thiệu bản dịch, Cách tìm kiếm trong Zictionary
 02. Mục lục                  <-- bạn đang xem mục này
-03. Dự án Techmino
-        - Trang web chính thức
-        - Dự án trên GitHub
-        - Discord
+03. Dự án Techmino: Trang web chính thức, Dự án trên GitHub, Discord
 04. Ủng hộ cho tác giả của Techmino
-        ]]
-    },
-    {
-        "Mục lục [2/5]", 
-        "nhom02 mucluc2",
-        "help",
-        [[
 05. Tetris và các thuật ngữ
-        05A. Tetris hiện đại
-            * Next, Hold, Swap
-            * Topping out
-            * Vùng đệm, Vùng biến mất
+        05A. Tetris hiện đại: Next, Hold, Swap, Topping out, Vùng đệm, Vùng biến mất
         05B. Gạch: Hình dạng, màu, hướng và tên của gạch
         05C. Hệ thống xoay gạch: ARS, ASC, ASC+, BRS, BiRS, C2RS, C2sym, NRS, SRS, SRS+, TRS, XRS
         05D. Hệ thống điều khiển: IRS, IHS, IMS
         05E. Cách kiểu xáo gạch: Túi 7 gạch, His, EZ-Start, Reverb, C2;  và một vấn đề Drought & Flood của một vài kiểu xáo.
         05F. Thông số
-            05F1. Thông số của game
-                * Tốc độ rơi, 20G
-                * Lockdown Delay, Spawn & Clear delay
-                * ARE, Line ARE, Death ARE
-            05F2. Thông số điều khiển
-                * DAS & ARR, DAS cut, Hiệu chỉnh DAS
-                * Auto-lock cut, SDF
+            05F1. Thông số của game: Tốc độ rơi, 20G, Lockdown Delay, Spawn & Clear delay, ARE, Line ARE, Death ARE
+            05F2. Thông số điều khiển: DAS & ARR, DAS cut, Hiệu chỉnh DAS, Auto-lock cut, SDF
         05G. Điều khiển
             05G1. Tốc độ: LPM, PPS, BPM, KPM, KPP
             05G2. Kỹ thuật: Hypertapping, Rolling, Finesse
             05G3. Độ trễ đầu vào
-[…] (Phần cuối của mục này ở trang 4)
-        ]]
-    },
-    {
-        "Mục lục [3/5]", 
-        "nhom02 mucluc3",
-        "help",
-        [[
-[…] (Tiếp tục từ trang trước)
         05H. Khả năng tấn công
             * APM, SPM, DPM, RPM, ADPM, APL
             * Tấn công & Phòng thủ
-            * Combo, Spike
-            * Debt
-            * Passthrough
-        05I. Hành động bất cẩn (Mis-): Misdrop, Mishold
-        05J. Spin
-            * (Mini)/(All-)/(T-)/(O-) spin
-            * Fin, Neo, Iso
-        05K: Kỹ thuật xóa hàng:
-            * Single, Double, Triple, Techrash, Tetris
-            * Perfect Clear, Half Perfect Clear
-            * TSS, TSD, TST, MTSS, MSTSD
-        05L. Các thuật ngữ khác: sub, 'Doing Research', Bone block
-06. Các game xếp gạch (Danh sách dài nên không liệt kê ở đây, gõ trên thanh tìm kiếm "nhom06" để xem danh sách đầy đủ)
-07. Một vài cơ chế và chế độ của một số game: Tàng hình một phần/hoàn toàn, Chế độ MPH, Secert Grade, Deepdrop
-08. Bot: Cold Clear, ZZZbot
-09. Mẹo và lời khuyên hữu ích: Đề xuất luyện tập, Học làm T-spin, Hiệu chỉnh DAS, Bố cục phím, Khả năng xử lý gạch, Các phím xoay
+            * Combo, Spike, Debt, Passthrough
+[…] (Phần cuối của mục này ở trang 3)
         ]]
     },
     {
-        "Mục lục [4/5]", 
-        "nhom02 mucluc4",
+        "Mục lục [2/3]", 
+        "nhom02 mucluc2",
         "help",
         [[
+[…] (Tiếp tục từ trang trước)
+        05I. Hành động bất cẩn (Mis-): Misdrop, Mishold
+        05J. Spin: (Mini)/(All-)/(T-)/(O-) spin; Fin, Neo, Iso
+        05K: Kỹ thuật xóa hàng:
+            * Single, Double, Triple, Techrash, Tetris
+            * TSS, TSD, TST, MTSS, MSTSD
+            * Perfect Clear, Half Perfect Clear
+        05L. Các thuật ngữ khác: sub, 'Doing Research', Bone block
+06. Các game xếp gạch
+        (Danh sách dài nên không liệt kê ở đây, gõ trên thanh tìm kiếm "nhom06" để xem danh sách đầy đủ)
+
+07. Một vài cơ chế và chế độ của một số game: Tàng hình một phần/hoàn toàn, Chế độ MPH, Secert Grade, Deepdrop
+08. Bot: Cold Clear, ZZZbot
+09. Mẹo và lời khuyên hữu ích: Đề xuất luyện tập, Học làm T-spin, Hiệu chỉnh DAS, Bố cục phím, Khả năng xử lý gạch, Các phím xoay
 10. Wiki; các trang web bày setup & cung cấp câu đố, chia sẻ setup
         10A. Wiki: Huiji Wiki, Hard Drop Wiki, tetris.wiki, Tetris Wiki Fandom
         10B. Bày setup: Four.lol, Tetris Hall, Tetris Template Collections, tetristemplate.info
         10C. Chia sẻ câu đố: TTT, TTPC, NAZO, TPO
         10D. Chia sẻ setup: Fumen, Fumen bản Điện thoại
+        ]]
+    },
+    {
+        "Mục lục [3/3]", 
+        "nhom02 mucluc3",
+        "help",
+        [[
 11. Cộng đồng: Tetris Online Servers, Tetris Việt Nam
 12. Xếp lên và đào xuống
         12A. Stacking (Xếp lên): Side/Center/Partial well, Side/Center 1/2/3/4-wide, Residual, 6-3 Stacking
@@ -162,7 +140,7 @@ Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục mà
         - Console, đặt lại thiết lập, tình trạng mở khóa, bố cục phím
         - Xóa toàn bộ thành tích, kỷ lục, bản phát lại, bộ nhớ đệm
 16. Các thuật ngữ không liên quan gì tới Tetris (tiếng Anh): SFX, BGM, TAS, AFK
-17. Phụ lục: Thông tin bổ sung & lời nhận xét của Sea cho một số game
+17. Phụ lục: Thông tin bổ sung & lời nhận xét của Squishy cho một số game
         ]]
     },
     {"=[NHÓM 03]=",
