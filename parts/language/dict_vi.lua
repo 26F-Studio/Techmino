@@ -202,7 +202,7 @@ Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đ
     } or {"*ĐÃ ẨN*", "", "org", ""},
     {"=[NHÓM 05]=",
         [[
-nhom05 tetris và các thuật ngữ
+nhom05
 modern; preview; topout toppingout; invisible buffer zone; gone vanish zone
 hình dạng; màu; mino; gạch & tên tương ứng; hướng gạch; tetromino tetramino tetrimino
 arikrotationsystem atarirotationsystem ascension ascplus bulletproofsoftware biasrs biasrotationsystem c2rs cultris2 dtetrotationsystem nintendorotationsystem superrotationsystem srsplus superrotationsystemplus techminorotationsystem xrs
@@ -1358,7 +1358,7 @@ Một game xếp gạch ở trên Tencent Game Center, bảng rộng 12 ô, DAS 
     },
     {"=[NHÓM 09]=",
         [[
-nhom09 mẹo và lời khuyên hữu ích
+nhom09
 readme noob new guides recommendations suggestions helps; đề xuất luyện tập; người mới chơi; hướng dẫn; lời khuyên; gợi ý
 tspin; học; hướng dẫn; mẹo; lời khuyên; đề xuất
 das tuning; feel handling
@@ -1458,8 +1458,9 @@ Những yếu tố ảnh hưởng tới việc xử lý gạch của bạn:
     },
     {"=[NHÓM 10]=",
         [[
-nhom10 wiki; các trang web bày setup, cung cấp câu đố & chia sẻ setup
-
+nhom10
+huiji wiki; harddrop hd wiki; tetris wiki fandom Tetris.wiki Tetris Wiki Fandom
+four wiki; tetris hall; tetris template connection; tetristemplate.info
         ]],
         "name",
         "NHÓM 10: WIKI; CÁC TRANG WEB BÀY SETUP, CUNG CẤP CÂU ĐỐ & CHIA SẺ SETUP"
@@ -1495,7 +1496,7 @@ nhom10 wiki; các trang web bày setup, cung cấp câu đố & chia sẻ setup
         "https://tetris.fandom.com/wiki/Tetris_Wiki",
     },
     {">B|Câu đố",
-        "nhom10b các trang web cung cấp câu đố; tetris trainer tres bien; perfect clear challenge; nazo",
+        "nhom10b tetris trainer tres bien; perfect clear challenge; nazo",
         "name",
         "NHÓM 10B: CÁC TRANG WEB CUNG CẤP CÂU ĐỐ"
     },
@@ -1539,7 +1540,7 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
         "http://121.36.2.245:3000/tpo",
     },
     {">C|Setup",
-        "nhom10c Setup; Các trang web bày setup; four wiki; tetris hall; tetris template connection; tetristemplate.info",
+        "nhom10c; four wiki; tetris hall; tetris template connection; tetristemplate.info",
         "name",
         "NHÓM 10C: CÁC TRANG WEB BÀY SETUP"
     },
@@ -1585,7 +1586,7 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
         "https://knewjade.github.io/fumen-for-mobile/",
     },
     {"=[NHÓM 11]=",
-        "nhom11 Cộng đồng; tetrisonline servers tos Tetris OL Servers; Tetris Việt Nam community vietnam việt nam",
+        "nhom11 tetrisonline servers tos Tetris OL Servers; Tetris Việt Nam community vietnam việt nam",
         "name",
         "NHÓM 11: CỘNG ĐỒNG"
     },
@@ -1608,8 +1609,7 @@ Liên kết ở mục này sẽ dẫn bạn tới server Discord, còn để tì
     },
     {"=[NHÓM 12]=",
         [[
-nhom12 xếp lên và đào xuống
-stacking
+nhom12
 
 xếp lên; stacking
 ren combo
@@ -1707,10 +1707,7 @@ residual
         "Digging (Đào xuống))\n\nDọn hàng rác để tiếp xúc đáy bảng. Hay còn gọi là downstacking.",
     },
     {"=[NHÓM 13]=",
-        [[        
-nhom13 setup; opener; mid-game setup; donation; pattern
-freestyle
-        ]],
+        "nhom13 setup; freestyle; opener; mid-game setup; donation",
         "name",
         "NHÓM 13: Setup (Opener, Mid-game setup, Donation, Pattern)"
     },
@@ -1972,7 +1969,7 @@ Cut Copy cutcopy
         "Một setup dạng donation để làm T-spin Double trên một cái hố nhỏ và có thể làm thêm một TSD nữa sau đó.",
     },
     {"=[NHÓM 14]=",
-        "nhom14 Cách tính tấn công; top tetrisonlineattack Tetris OL attack; techminoattack Techmino attack",
+        "nhom14 top tetrisonlineattack Tetris OL attack; techminoattack Techmino attack",
         "name",
         "NHÓM 14: CÁCH TÍNH TẤN CÔNG"
     },
@@ -1995,7 +1992,7 @@ All Clear gửi thêm 6 hàng rác. Nhưng 6 hàng rác này sẽ gửi thẳng 
         "Cách tính tấn công trong Techmino\n\nTra “hướng dẫn sử dụng” bằng cách nhấn phím ở góc dưới bên phải trên màn hình chính của game.\n\nHoặc bạn cũng có thể bấm vào quả địa cầu để xem bảng tính tấn công để có thể tự tính.",
         "https://media.discordapp.net/attachments/743861514057941204/1093386431096950815/Untitled.jpg"
     },
-    {"=[NHÓM 15]=",     -- TODO: continue from this
+    {"=[NHÓM 15]=",
         "nhom15 cmd commamd terminal console; reset settings Đặt lại thiết lập; reset unlock Đặt lại t.trg mở khóa Đặt lại tình trạng mở khóa; reset record Xóa t.bộ kỷ lục Xóa toàn bộ kỷ lục; reset virtualkey Đặt lại bố cục phím; delete recordings Xóa t.bộ lại bản phát lại Xóa toàn bộ bản phát lại; delete chache; Xóa bộ nhớ đệm",
         "name",
         "NHÓM 15: CONSOLE VÀ CHUYỆN QUẢN LÝ DỮ LIỆU GAME"
