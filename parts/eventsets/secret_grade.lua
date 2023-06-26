@@ -76,15 +76,17 @@ return {
         D.rankPts=1
         for i=1,#P.field do
             local h=getOpenHole(i)
+            local flag
             for j=1,10 do
-                if P.field[i][j]>0 and h==j then goto post_pts_calc end
-                if P.field[i][j]==0 and h~=j then goto post_pts_calc end
+                if P.field[i][j]>0 and h==j then flag=true break end-- goto post_pts_calc
+                if P.field[i][j]==0 and h~=j then flag=true break end-- goto post_pts_calc
             end
-            if i==#P.field then goto post_pts_calc end
-            if P.field[i+1][h]==0 then goto post_pts_calc end
+            if flag then break end
+            if i==#P.field then break end-- goto post_pts_calc
+            if P.field[i+1][h]==0 then break end-- goto post_pts_calc
             D.rankPts=D.rankPts+1
         end
-        ::post_pts_calc::
+        -- ::post_pts_calc::
         generateGuide(D.rankPts+20)
     end
 }

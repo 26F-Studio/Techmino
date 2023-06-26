@@ -38,13 +38,15 @@ local function restart()
 end
 local function checkBoard(b,p)
     for i=1,8 do
+        local testNextLine
         for j=1,3 do
             if b[lines[i][j]]~=p then
-                goto CONTINUE_testNextLine
+                testNextLine=true
+                break-- goto CONTINUE_testNextLine
             end
         end
-        do return true end
-        ::CONTINUE_testNextLine::
+        if not testNextLine then return true end
+        -- ::CONTINUE_testNextLine::
     end
 end
 local function full(L)

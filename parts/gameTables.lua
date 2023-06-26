@@ -652,7 +652,7 @@ do-- Userdata tables
         showSpike=true,
         highCam=true,
         nextPos=true,
-        fullscreen=true,
+        fullscreen=SYSTEM~='Web',
         portrait=false,
         msaa=0,
         bg='on',
