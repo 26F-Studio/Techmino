@@ -319,6 +319,7 @@ Ví dụ:
 Một hệ thống để xác định cách gạch xoay.
 
 Trong các trò Tetris hiện đại, mỗi gạch có thể xoay dựa trên một tâm xoay cố định (có thể không hiện diện trong vài trò chơi). Nếu gạch sau khi xoay đè lên gạch khác hoặc ra ngoài khỏi bảng, hệ thống sẽ thử di chuyển gạch ở các vị trí xung quanh vị trí đang đứng (một quá trình được gọi “wall-kicking” (đá tường)).
+
 Đá tường cho phép gạch có thể đến những hố có hình dạng nào đó mà bình thường không thể tiếp cận được. Các vị trí mà gạch có thể đá được chứa trong một bảng gọi là “wall-kick table” (bảng các vị trí đá tường)
 
 P/s: trong Zictionary, từ “bảng các vị trí đá tường” viết tắt là “bảng đá tường” (do lười gõ, mà cái này có thể thay đổi sau)
