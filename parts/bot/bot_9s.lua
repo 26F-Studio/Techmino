@@ -65,14 +65,19 @@ local function _getScore(field,cb,cy)
     local hole=0
 
     for i=cy+#cb-1,cy,-1 do
+        local full=true
         for j=1,10 do
             if field[i][j]==0 then
-                goto CONTINUE_notFull
+                -- goto CONTINUE_notFull
+                full=false
+                break
             end
         end
-        discardRow(rem(field,i))
-        clear=clear+1
-        ::CONTINUE_notFull::
+        if full then
+            -- ::CONTINUE_notFull::
+            discardRow(rem(field,i))
+            clear=clear+1
+        end
     end
     if #field==0 then-- PC
         return 1e99

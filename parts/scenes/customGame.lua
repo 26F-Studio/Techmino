@@ -104,20 +104,23 @@ function scene.keyDown(key,isRep)
     elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
         local str=sys.getClipboardText()
         local args=str:sub((str:find(":") or 0)+1):split("!")
-        if #args<4 then goto THROW_fail end
-        if not (
-            DATA.pasteQuestArgs(args[1]) and
-            DATA.pasteSequence(args[2]) and
-            DATA.pasteMission(args[3])
-        ) then goto THROW_fail end
-        TABLE.cut(FIELD)
-        FIELD[1]=DATA.newBoard()
-        for i=4,#args do
-            if args[i]:find("%S") and not DATA.pasteBoard(args[i],i-3) and i<#args then goto THROW_fail end
-        end
-        MES.new('check',text.importSuccess)
-        do return end
-        ::THROW_fail::MES.new('error',text.dataCorrupted)
+        repeat
+            if #args<4 then break end-- goto THROW_fail
+            if not (
+                DATA.pasteQuestArgs(args[1]) and
+                DATA.pasteSequence(args[2]) and
+                DATA.pasteMission(args[3])
+            ) then break end-- goto THROW_fail
+            TABLE.cut(FIELD)
+            FIELD[1]=DATA.newBoard()
+            for i=4,#args do
+                if args[i]:find("%S") and not DATA.pasteBoard(args[i],i-3) and i<#args then break end-- goto THROW_fail
+            end
+            MES.new('check',text.importSuccess)
+            return
+        until true
+        -- ::THROW_fail::
+        MES.new('error',text.dataCorrupted)
     else
         return true
     end
