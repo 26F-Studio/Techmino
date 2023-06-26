@@ -23,8 +23,9 @@ Cách tìm kiếm:
         Backspace: xóa một ký tự
         Esc: xóa toàn bộ chữ trong ô tìm kiếm, trả về toàn bộ từ điển
 
-P/s: Hiện tại chỉ có bản dịch Tiếng Việt là có hệ thống nhóm thôi (do Squishy tự làm hệ thống này)
-Ở các hệ thống khác thì không có hệ thống nhóm, do đó trật tự của các mục sẽ bị đảo lại nếu bạn chuyển sang tiếng Anh.
+P/s: Hiện tại chỉ có bản dịch Tiếng Việt là có hệ thống nhóm (do Squishy tự tay sắp xếp lại để làm hệ thống này)
+Ở các bản Zictionary ở ngôn ngữ khác không có hệ thống nhóm,
+do đó trật tự của các mục sẽ bị đảo lại nếu bạn chuyển sang ngôn ngữ khác (như tiếng Anh).
         ]]
     },
     {
@@ -48,12 +49,12 @@ Có thể tìm một mục bằng cách gõ một phần hoặc toàn bộ tiêu
 Nếu bạn muốn lọc theo nhóm, đầu tiên hãy mở Mục lục, sau đó thì tìm tới nhóm bạn cần. Lấy số ở đầu tiêu đề rồi gõ trên thanh tìm kiếm với cú pháp: "nhom<n>"
 Ví dụ: nếu muốn lọc các mục trong nhóm "Các game xếp gạch", hãy gõ vào thanh tìm kiếm "nhom06". Hoặc để xem các hệ thống xoay gạch, gõ "nhom05c".
 
-Lưu ý: ĐỪNG gõ tên nhóm để hiện toàn bộ mục trong nhóm đó. Thay vào đó, hãy sử dụng số thứ tự của mục đó trong mục lục.
+Lưu ý: ĐỪNG gõ tên nhóm để hiện toàn bộ mục trong nhóm đó. Thay vào đó, hãy sử dụng số thứ tự của nhóm đó ở trong mục lục.
         ]]
     },
     {
         "=[NHÓM 02]=",
-        "nhom02 index mucluc mucluc1 mucluc2 mucluc3 mucluc4 mucluc5",
+        "nhom02 index mucluc mucluc1 mucluc2 mucluc3",
         "name",
         [[
 NHÓM 02: MỤC LỤC
@@ -70,7 +71,7 @@ Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục, th
         "help",
         [[
 01. Về Zictionary: Giới thiệu bản dịch, Cách tìm kiếm trong Zictionary
-02. Mục lục                  <-- bạn đang xem mục này
+02. Mục lục      ← bạn đang xem mục này
 03. Dự án Techmino: Trang web chính thức, Dự án trên GitHub, Discord
 04. Ủng hộ cho tác giả của Techmino
 05. Tetris và các thuật ngữ
@@ -90,7 +91,7 @@ Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục, th
             * APM, SPM, DPM, RPM, ADPM, APL
             * Tấn công & Phòng thủ
             * Combo, Spike, Debt, Passthrough
-[…] (Còn tiếp)
+        05I. Hành động bất cẩn (Mis-): Misdrop, Mishold
         ]]
     },
     {
@@ -98,16 +99,15 @@ Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục, th
         "nhom02 mucluc2",
         "help",
         [[
-[…] (Tiếp tục từ trang trước)
-        05I. Hành động bất cẩn (Mis-): Misdrop, Mishold
         05J. Spin: (Mini)/(All-)/(T-)/(O-) spin; Fin, Neo, Iso
         05K: Kỹ thuật xóa hàng:
             * Single, Double, Triple, Techrash, Tetris
             * TSS, TSD, TST, MTSS, MSTSD
             * Perfect Clear, Half Perfect Clear
         05L. Các thuật ngữ khác: sub, 'Doing Research', Bone block
+
 06. Các game xếp gạch
-        (Danh sách dài nên không liệt kê ở đây, gõ trên thanh tìm kiếm "nhom06" để xem danh sách đầy đủ)
+        (Danh sách rất dài, gõ trên thanh tìm kiếm "nhom06" để xem danh sách đầy đủ)
 
 07. Một vài cơ chế và chế độ của một số game: Tàng hình một phần/hoàn toàn, Chế độ MPH, Secert Grade, Deepdrop
 08. Bot: Cold Clear, ZZZbot
@@ -117,6 +117,10 @@ Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục, th
         10B. Bày setup: Four.lol, Tetris Hall, Tetris Template Collections, tetristemplate.info
         10C. Chia sẻ câu đố: TTT, TTPC, NAZO, TPO
         10D. Chia sẻ setup: Fumen, Fumen bản Điện thoại
+11. Cộng đồng: Tetris Online Servers, Tetris Việt Nam
+12. Xếp lên và đào xuống
+        12A. Stacking (Xếp lên): Side/Center/Partial well, Side/Center 1/2/3/4-wide, Residual, 6-3 Stacking
+        12B. Digging (Đào xuống)
         ]]
     },
     {
@@ -124,16 +128,12 @@ Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục, th
         "nhom02 mucluc3",
         "help",
         [[
-11. Cộng đồng: Tetris Online Servers, Tetris Việt Nam
-12. Xếp lên và đào xuống
-        12A. Stacking (Xếp lên): Side/Center/Partial well, Side/Center 1/2/3/4-wide, Residual, 6-3 Stacking
-        12B. Digging (Đào xuống)
 13. Setup (Opener, Mid-game setup, Donation, Pattern)
         13A. Freestyle
         13B. Opener: DT Cannon, DTPC, BT Cannon, BTPC, TKI 3 Perfect Clear, QT Cannon, Mini-Triple, Trinity, Wolfmoon Cannon, Sewer, TKI, God Spin, Albatross, Pelican, Perrfect Clear Opener, Grace System, DPC, Gamushiro Stacking
         13C. Mid-game: C-spin, STSD, Fractal, LST stacking, Imperial Cross, King Crimson, Fin, Neo, Iso, PC liên tiếp (1+2+3)
         13D. Donation: Hamburger, STMB Cave, Kaidan, Shachiku Train, Cut Copy
-14. Cách tính lượng sát thơng gây ra: Tetris OL, Techmino
+14. Cách tính lượng sát thơng gây ra: Tetris Online/Notris Foes, Techmino
 15. Console và chuyện quản lý dữ liệu game
         - Console, đặt lại thiết lập, tình trạng mở khóa, bố cục phím
         - Xóa toàn bộ thành tích, kỷ lục, bản phát lại, bộ nhớ đệm
@@ -202,7 +202,7 @@ Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đ
         [[
 nhom05
 modern; preview; topout toppingout; invisible buffer zone; gone vanish zone
-hình dạng; màu; mino; gạch & tên tương ứng; hướng gạch; tetromino tetramino tetrimino
+hình dạng; màu; mino; gạch & tên tương ứng gạch và tên tương ứng; hướng gạch; tetromino tetramino tetrimino
 arikrotationsystem atarirotationsystem ascension ascplus bulletproofsoftware biasrs biasrotationsystem c2rs cultris2 dtetrotationsystem nintendorotationsystem superrotationsystem srsplus superrotationsystemplus techminorotationsystem xrs
 initialrotationsystem initialholdsystem initialmovesystem
 bag7 randomgenerator túi 7 gạch; historygenerator hisgenerator hispool historypoolgenerator; bages easy start khởi đầu suôn sẻ; reverb; cultris2generator cultrisiigenerator c2generator
@@ -213,7 +213,7 @@ spin mini allspin tspin ospin
 kỹ thuật xóa hàng; kĩ thuật xóa hàng; 1 2 3 4; t1 t2 t3; minitspinsingle tsms tspinminisingle; minitspindouble tsmd tspinminidouble; b2b btb backtoback; b3b backtobacktoback; pc perfectclear ac allclear; hc halfperfectclear; T-spin Đơn; T-spin Đôi; T-spin Tam; Mini T-spin Đơn; Mini T-spin Đôi; Mini T-spin Tam
 thuật ngữ khác; scientificresearch; bone tgm
         ]]..tetromino
-          .."tetris hiện đại; next; hold; swap; topping out; vùng đệm; vùng biến mất; gạch; hình dạng của tetromino; màu của tetromino; hướng gạch; gạch & tên tương ứng; hệ thống xoay gạch; ars; asc; asc+; brs; birs; c2rs; c2sym; drs; nrs; srs; srs+; trs; xrs; hệ thống điều khiển; irs; ihs; ims; cách kiểu xáo gạch; kiểu xáo túi 7; kiểu xáo his; hispool; kiểu xáo ez start; kiểu xáo reverb; kiểu xáo c2; drought flood; thông số; thông số của game; tốc độ rơi; 20g; lockdown delay; spawn & clear delay; are; line are; death are; thông số điều khiển; das đơn giản; das arr; hiệu chỉnh das; das cut; auto lock cut; sdf; điều khiển; tốc độ; lpm; pps; bpm; kpm; kpp; kỹ thuật; hypertapping; rolling; finesse; độ trễ đầu vào; hành động bất cẩn; misdrop; mishold; khả năng tấn công; apm; spm; dpm; rpm; adpm; apl; tấn công phòng thủ; combo; spike; debt; passthrough; spin; mini spin; t spin; all spin; o spin; kỹ thuật xóa hàng; single; double; triple; techrash; tetris; tss; tsd; tst; mtss; mstsd; back to back; b3b; perfect clear; half prefect clear; các thuật ngữ khác; sub; doing research; bone block",      -- All the items in Group but was normalized,
+          .."tetris hiện đại; next; hold; swap; topping out; vùng đệm; vùng biến mất; gạch; hình dạng của tetromino; màu của tetromino; hướng gạch; gạch & tên tương ứng gạch và tên tương ứng; hệ thống xoay gạch; ars; asc; asc+; brs; birs; c2rs; c2sym; drs; nrs; srs; srs+; trs; xrs; hệ thống điều khiển; irs; ihs; ims; cách kiểu xáo gạch; kiểu xáo túi 7; kiểu xáo his; hispool; kiểu xáo ez start; kiểu xáo reverb; kiểu xáo c2; drought flood; thông số; thông số của game; tốc độ rơi; 20g; lockdown delay; spawn & clear delay; are; line are; death are; thông số điều khiển; das đơn giản; das arr; hiệu chỉnh das; das cut; auto lock cut; sdf; điều khiển; tốc độ; lpm; pps; bpm; kpm; kpp; kỹ thuật; hypertapping; rolling; finesse; độ trễ đầu vào; hành động bất cẩn; misdrop; mishold; khả năng tấn công; apm; spm; dpm; rpm; adpm; apl; tấn công phòng thủ; combo; spike; debt; passthrough; spin; mini spin; t spin; all spin; o spin; kỹ thuật xóa hàng; single; double; triple; techrash; tetris; tss; tsd; tst; mtss; mstsd; back to back; b3b; perfect clear; half prefect clear; các thuật ngữ khác; sub; doing research; bone block",      -- All the items in Group but was normalized,
         "name",
         "NHÓM 05: TETRIS VÀ CÁC THUẬT NGỮ",
     },
@@ -274,7 +274,7 @@ Techmino không kiểm tra điều kiện Lock out và Top out.
         "https://youtu.be/z4WtWISkrdU",
     },
     {">B|Gạch",
-        "nhom05b; hình dạng; màu; mino; gạch & tên tương ứng"
+        "nhom05b; hình dạng; màu; mino; gạch & tên tương ứng gạch và tên tương ứng"
         .."h.dạng của tetro.; màu của tetromino; gạch & tên tg. ứng; hướng gạch",
         "name",
         "",
@@ -290,7 +290,7 @@ Techmino không kiểm tra điều kiện Lock out và Top out.
         "Nhiều game xếp gạch hiện đại đang sử dụng cùng một bảng màu cho Tetromino, dù chính thức hay do fan làm. Những màu này bao gồm:\nZ - Đỏ, S - Lục, J - Lam, L - Cam, T - Tím, O - Vàng, và I - Lục lam.\n\nTechmino cũng sử dụng bảng màu “chuẩn” này để tô màu cho Tetromino.",
     },
     {"Gạch & tên tg. ứng",
-        "nhom05b mino gạch & tên tương ứng"..tetromino,
+        "nhom05b mino gạch & tên tương ứng gạch và tên tương ứng"..tetromino,
         "term",
         "Đây là danh sách gạch mà Techmino sử dụng cùng với tên tương ứng của chúng:\nTetromino:\nZ: "..CHAR.mino.Z..",  S: "..CHAR.mino.S..",  J: "..CHAR.mino.J..",  L: "..CHAR.mino.L..",  T: "..CHAR.mino.T..",  O: "..CHAR.mino.O..",  I: "..CHAR.mino.I..";\n\nPentomino:\nZ5: "..CHAR.mino.Z5..",  S5: "..CHAR.mino.S5..",  P: "..CHAR.mino.P..",  Q: "..CHAR.mino.Q..",  F: "..CHAR.mino.F..",  E: "..CHAR.mino.E..",  T5: "..CHAR.mino.T5..",  U: "..CHAR.mino.U..",  V: "..CHAR.mino.V..",  W: "..CHAR.mino.W..",  X: "..CHAR.mino.X..",  J5: "..CHAR.mino.J5..",  L5: "..CHAR.mino.L5..",  R: "..CHAR.mino.R..",  Y: "..CHAR.mino.Y..",  N: "..CHAR.mino.N..",  H: "..CHAR.mino.H..",  I5: "..CHAR.mino.I5..";\n\nTrimino, Domino, and Mino:\nI3: "..CHAR.mino.I3..",  C: "..CHAR.mino.C..",  I2: "..CHAR.mino.I2..",  O1: "..CHAR.mino.O1..".",
     },
@@ -500,7 +500,7 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
     },
     {">F|Thông số",
         "nhom05f trọng lực falling speed gravity; ngay lập tức instantly; lockdelay lockdowndelay lockdowntimer; thời gian chờ khóa gạch; spawndelay cleardelay; thời gian chờ gạch sinh ra; thời gian chờ xóa hàng; spawn appearance delay; die delay; das arr delayedautoshift autorepeatrate dascut dcd autolockcut softdropfactor"
-        .."tốc độ rơi; 20g; lockdown delay; spawn & clear delay; are; line are; death are; DAS (đơn giản); DAS & ARR; Hiệu chỉnh DAS; DAS cut; Auto-lock cut; SDF",
+        .."tốc độ rơi; 20g; lockdown delay; spawn & clear delay; are; line are; death are; DAS (đơn giản); DAS & ARR DAS và ARR; Hiệu chỉnh DAS; DAS cut; Auto-lock cut; SDF",
         "name",
         ""
     },
@@ -556,7 +556,7 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
     },
     {">F2|Thg số đ.khiển",
         "nhom05f2 das arr delayedautoshift autorepeatrate dascut dcd autolockcut softdropfactor"
-        .."DAS (đơn giản); DAS & ARR; Hiệu chỉnh DAS; DAS cut; Auto-lock cut; SDF",
+        .."DAS (đơn giản); DAS & ARR DAS và ARR; Hiệu chỉnh DAS; DAS cut; Auto-lock cut; SDF",
         "name",
         "NHÓM 5F2: THÔNG SỐ ĐIỀU KHIỂN"
     },
@@ -1016,7 +1016,7 @@ Gọi tắt là WWC. Có chế độ 1 đấu 1 toàn cầu: chơi với ngườ
         "https://worldwidecombos.com",
     },
     {"Tetris Friends",
-        "nhom06 tf tetrisfriends notrisfoes",
+        "nhom06 tetris friends tf tetrisfriends notrisfoes",
         "game",
         [[
 Chơi trên trình duyệt/Chơi trên client chính thức | Chơi đơn/Chơi trực tuyến
@@ -2068,9 +2068,7 @@ NHÓM 17: THÔNG TIN BỔ SUNG & LỜI NHẬN XÉT CHO MỘT SỐ GAME
 
 Nội dung ở nhóm 17A này sẽ là nội dung của Sea, có nghĩa là đây là nội dung bên ngoài và sẽ không xuất hiện ở trong Zictionary ngôn ngữ khác. Hơn nữa, lưu ý rằng: lời nhận xét của mình không mang tính chuyên môn đâu. Đọc để tham khảo là tốt nhất.
 
-Về phần thông tin bổ sung: MrZ có vẻ như đã không cập nhật mục này trong một khoảng thời gian khá dài nên một số nội dung bị lỗi thời. Mục này mình tạo ra để cung cấp thêm thông tin trong khi vẫn giữ lại thông tin gốc từ Zictionary để các bạn có thể tham khảo.
-
-Tất cả các mục ở trong nhóm 17A sẽ không thể tìm bằng tên mục để tránh bị trùng với nhóm 6. Nhưng bạn vẫn có thể tìm bằng tên nhóm
+Về phần thông tin bổ sung: MrZ có vẻ như đã không cập nhật mục này trong một khoảng thời gian khá dài nên một số nội dung bị lỗi thời. Mục này mình tạo ra để cung cấp thêm thông tin trong khi vẫn tách ra được khỏi thông tin gốc từ Zictionary để tránh tạo ra rắc rối cho MrZ vì hiện tượng nhiễu/sai thông tin.
         ]]
     },
     {"Tetr.js",
@@ -2100,7 +2098,7 @@ Hiện có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart), "b
     {"DTET",
         "nhom17",
         "game",
-        "Nhấn vào biểu tượng quả địa cầu để mở link hướng dẫn cài DTET.\n\nCẢNH BÁO: MrZ, 26F Studio, Sea, và bài hướng dẫn trên sẽ KHÔNG CHỊU TRÁCH NHIỆM VỀ MỌI THIỆT HẠI do việc tải file DLL không rõ nguồn gốc",
+        "Nhấn vào biểu tượng quả địa cầu để mở link hướng dẫn cài DTET.\n\n\"\"\"CẢNH BÁO: MrZ, 26F Studio, Sea, và bài hướng dẫn trên sẽ KHÔNG CHỊU TRÁCH NHIỆM VỀ MỌI THIỆT HẠI do việc tải file DLL không rõ nguồn gốc\"\"\"",
         "https://t-sp.in/dtet"
     },
     {"Tetris (EA)",
