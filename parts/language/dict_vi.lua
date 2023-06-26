@@ -1254,7 +1254,7 @@ iOS/Android | Chơi đơn
 
 Một tựa game xếp gạch, trước đây được phát triển bởi N3TWORK; hiện đã nhượng lại bản quyền cho PlayStudio từ cuối tháng 11 năm 2021. Có chế độ Chơi nhanh 3 phút, Marathon, chế độ Royale 100 người chơi và chế độ Phiêu lưu (nơi mà bạn sẽ phải hoàn thành toàn bộ mục tiêu trước khi hết lượt).
 
-Ghi chú: từ T11/T12 năm 2022 và sau này, tất cả các tài khoản mới tạo chỉ có chế độ Marathon và chế độ Phiêu lưu. Tức là chế độ Chơi nhanh và Royale sẽ không xuất hiện trên những tài khoản này
+Ghi chú: từ T11/T12 năm 2022 và sau này, tất cả các tài khoản mới tạo chỉ có thể chơi chế độ Marathon và chế độ Phiêu lưu.
 
 [MrZ: UI thì tuyệt nhưng cơ chế điều khiển thì tệ]
         ]],
