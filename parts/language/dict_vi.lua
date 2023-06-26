@@ -343,7 +343,7 @@ P/s: trong Zictionary, từ “bảng các vị trí đá tường” viết t�
     {"BRS",
         "nhom05c bulletproofsoftware",
         "term",
-        "BPS rotation system | Hệ thống xoay BPS, được dùng trong các game Tetris được viết bởi Bullet-Proof Software.",
+        "BPS rotation system | Hệ thống xoay BPS\nĐược dùng trong các game Tetris được viết bởi Bullet-Proof Software.",
     },
     {"BiRS",
         "nhom05c biasrs biasrotationsystem",
@@ -351,23 +351,23 @@ P/s: trong Zictionary, từ “bảng các vị trí đá tường” viết t�
         [[
 *Chỉ có trên Techmino*
 
-Bias Rotation System | Hệ thống xoay Bias. Hệ thống xoay 'độc quyền' của Techmino, dựa trên SRS và XRS
-Hệ thống sẽ điều chỉnh độ lệch khi xoay tùy vào bạn giữ phím trái/phải/rơi nhẹ khi nhấn phím xoay
+Bias Rotation System | Hệ thống xoay Bias. Hệ thống xoay chỉ có trong Techmino, dựa trên SRS và XRS
+Hệ thống sẽ điều chỉnh độ lệch khi xoay tùy thuộc phím đang giữ phím Sang trái/Sang phải/Thả nhẹ khi nhấn phím xoay
 
 Quá trình thử của hệ thống này diễn ra như sau:
-1. Thử dịch chuyển gạch sang trái/phải/xuống tùy thuộc vào phím đang giữ (là phím Sang trái/Sang phải/Thả nhẹ); có thêm độ lệch xuống dưới
-2. Nếu thất bại, cũng thử di chuyển sang bên trái/bên phải/đi xuống tùy thuộc vào phím đang giữ; nhưng lúc này không thêm độ lệch xuống dưới
-3. Nếu thất bại… thì việc xoay coi như thất bại (cái này thì không còn gì để nói)
+1. Thử dịch chuyển gạch sang trái/phải/xuống tùy thuộc vào phím đang giữ; có cộng thêm độ lệch xuống dưới
+2. Nếu thất bại, thử lại như bước 1, nhưng không cộng thêm độ lệch xuống dưới
+Nếu cả 2 bước thất bại thì việc xoay thất bại nốt.
 
-Khi so sánh với XRS, BiRS dễ nhớ hơn nhiều vì nó chỉ dùng một bảng đá tường; nhưng vẫn giữ nguyên được tính năng vượt địa hình của SRS.
+Khi so với XRS, BiRS dễ nhớ hơn nhiều vì nó chỉ dùng một bảng đá tường; nhưng vẫn giữ nguyên được tính năng vượt địa hình của SRS.
 
-Khoảng cách euclide của độ lệch của cú đá được chọn không được lớn hơn √5; và nếu có độ lệch theo chiều ngang, thì hướng của cú đá đó không được là hướng ngược lại với hướng đã chọn (từ việc giữ phím)
+Khoảng cách euclide của độ lệch cú đá được chọn phải bé hơn √5; và nếu có độ lệch theo chiều ngang, thì hướng của cú đá đó không được là hướng ngược lại với hướng đã chọn.
         ]],
     },
     {"C2RS",
         "nhom05c c2rs cultris2",
         "term",
-        "Cultris II rotation system | Hệ thống xoay Cultris II, một hệ thống xoay được dùng trong Cultris II - một bản sao (clone) của Tetris.\nToàn bộ gạch và cả hướng xoay đều sử dụng chung một bảng đá tường (trái, phải, xuống, xuống + trái, xuống + phải, trái 2, phải 2), với ưu tiên về phía bên trái so với bên phải.\n\nTrong Techmino có một bản chỉnh sửa của hệ thống này, đó là C2sym. C2sym sẽ ưu tiên hướng theo hình dạng của gạch",
+        "Cultris II rotation system | Hệ thống xoay Cultris II\n\nMột hệ thống xoay được dùng trong Cultris II - một bản sao (clone) của Tetris.\nToàn bộ gạch và cả hướng xoay đều sử dụng chung một bảng đá tường (trái, phải, xuống, xuống + trái, xuống + phải, trái 2, phải 2), với ưu tiên về phía bên trái so với bên phải.\n\nTrong Techmino có một bản chỉnh sửa của hệ thống này, đó là C2sym. C2sym sẽ ưu tiên hướng theo hình dạng của gạch",
     },
     {"C2sym",
         "nhom05c cultris2",
@@ -382,12 +382,12 @@ Khoảng cách euclide của độ lệch của cú đá được chọn không 
     {"NRS",
         "nhom05c nintendorotationsystem",
         "term",
-        "Nintendo Rotation System | Hệ thống xoay Nintendo\nHệ thống được sử dụng trong hai game Tetris, một dành cho máy NES, một dành cho máy Game Boy.\nHệ thống xoay này cũng có hai phiên bản ngược chiều nhau: trên Game Boy thì gạch sẽ căn về bên trái; trên NES thì gạch sẽ căn về bên phải.",
+        "Nintendo Rotation System | Hệ thống xoay Nintendo\n\nHệ thống được sử dụng trong hai game Tetris, một dành cho máy NES, một dành cho máy Game Boy.\nHệ thống xoay này cũng có hai phiên bản ngược chiều nhau: trên Game Boy thì gạch sẽ căn về bên trái; trên NES thì gạch sẽ căn về bên phải.",
     },
     {"SRS",
         "nhom05c superrotationsystem",
         "term",
-        "Super Rotation System | Hệ thống xoay Siêu cấp [*], là hệ thống xoay được sử dụng rất nhiều trong các game xếp gạch và có rất nhiều hệ thống xoay do fan làm ra cũng dựa vào hệ thống này. Có 4 hướng cho Tetromino và có thể xoay phải và xoay trái (nhưng không thể xoay 180°). Nếu Tetromino đụng tường, đụng đáy, hay đè lên gạch khác sau khi xoay; hệ thống sẽ kiểm tra các vị trí xung quanh. Bạn có thể xem .\n\n[*] [Sea]: ban đầu tính dịch thành “Hệ thống xoay Super”, nhưng thôi mình chọn cụm từ này để dịch cho sát nghĩa.",
+        "Super Rotation System | Hệ thống xoay Siêu cấp\n\nHệ thống xoay được sử dụng rất nhiều trong các game xếp gạch và có rất nhiều hệ thống xoay do fan làm ra cũng dựa vào hệ thống này. Có 4 hướng cho Tetromino và có thể xoay phải và xoay trái (nhưng không thể xoay 180°). Nếu Tetromino đụng tường, đụng đáy, hay đè lên gạch khác sau khi xoay; hệ thống sẽ kiểm tra các vị trí xung quanh. Bạn có thể xem đầy đủ bảng đá tuờng trên Tetris.wiki",
     },
     {"SRS+",
         "nhom05c srsplus superrotationsystemplus",
@@ -397,7 +397,7 @@ Khoảng cách euclide của độ lệch của cú đá được chọn không 
     {"TRS",
         "nhom05c techminorotationsystem",
         "term",
-        "*Chỉ có trên Techmino*\n\nTechmino Rotation System | Hệ thống xoay Techmino\nHệ thống xoay được dùng trong Techmino, dựa trên SRS.\nHệ thống này sửa những trường hợp gạch S/Z bị kẹt và không thể xoay trong một vài trường hợp; cũng như bổ sung thêm những vị trí đá hữu dụng. Pentomino cũng có bảng đá tường dựa trên logic của SRS. TRS cũng hỗ trợ O-Spin (O-Spin cho phép gạch có thể đá và có thể 'biến hình').",
+        "Techmino Rotation System | Hệ thống xoay Techmino\n*Chỉ có trên Techmino*\n\nHệ thống xoay được dùng trong Techmino, dựa trên SRS.\nHệ thống này sửa những trường hợp gạch S/Z bị kẹt và không thể xoay trong một vài trường hợp; cũng như bổ sung thêm những vị trí đá hữu dụng. Pentomino cũng có bảng đá tường dựa trên logic của SRS. TRS cũng hỗ trợ O-Spin (O-Spin cho phép gạch có thể đá và có thể 'biến hình').",
     },
     {"XRS",
         "nhom05c xrs",
