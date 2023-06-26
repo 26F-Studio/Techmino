@@ -352,14 +352,14 @@ P/s: trong Zictionary, từ “bảng các vị trí đá tường” viết t�
 *Chỉ có trên Techmino*
 
 Bias Rotation System | Hệ thống xoay Bias. Hệ thống xoay chỉ có trong Techmino, dựa trên SRS và XRS
-Hệ thống sẽ điều chỉnh độ lệch khi xoay tùy thuộc phím đang giữ phím Sang trái/Sang phải/Thả nhẹ khi nhấn phím xoay
+Hệ thống sẽ điều chỉnh độ lệch khi xoay tùy thuộc phím đang giữ phím là Sang trái/Sang phải/Thả nhẹ khi nhấn phím xoay
 
 Quá trình thử của hệ thống này diễn ra như sau:
 1. Thử dịch chuyển gạch sang trái/phải/xuống tùy thuộc vào phím đang giữ; có cộng thêm độ lệch xuống dưới
-2. Nếu thất bại, thử lại như bước 1, nhưng không cộng thêm độ lệch xuống dưới
-Nếu cả 2 bước thất bại thì việc xoay thất bại nốt.
+2. Nếu thất bại, thử lại bước 1, nhưng không cộng thêm độ lệch xuống dưới
+Nếu cả 2 bước trên đều thất bại thì việc xoay thất bại nốt.
 
-Khi so với XRS, BiRS dễ nhớ hơn nhiều vì nó chỉ dùng một bảng đá tường; nhưng vẫn giữ nguyên được tính năng vượt địa hình của SRS.
+So với XRS, BiRS dễ nhớ hơn nhiều vì nó chỉ dùng một bảng đá tường; nhưng vẫn giữ nguyên được tính năng vượt địa hình của SRS.
 
 Khoảng cách euclide của độ lệch cú đá được chọn phải bé hơn √5; và nếu có độ lệch theo chiều ngang, thì hướng của cú đá đó không được là hướng ngược lại với hướng đã chọn.
         ]],
@@ -859,7 +859,7 @@ Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1
     {"HPC",
         "nhom05k hc halfperfectclear",
         "term",
-        "*Chỉ có trên Techmino*\n\nHalf Perfect Clear\nMột biến thể của All Clear. Nếu hàng đó bị xóa mà rõ ràng giống với Perfect Clear khi bỏ qua những hàng bên dưới, thì được tính là Half Perfect Clear và sẽ gửi thêm một lượng hàng rác nhỏ",
+        "*Chỉ có trên Techmino*\nHalf Perfect Clear\n\nMột biến thể của All Clear. Nếu hàng đó bị xóa mà rõ ràng giống với Perfect Clear khi bỏ qua những hàng bên dưới, thì được tính là Half Perfect Clear và sẽ gửi thêm một lượng hàng rác nhỏ",
     },
     {">L|T.ngữ khác",
         "nhom05l thuật ngữ khác; scientificresearch; bone tgm"
