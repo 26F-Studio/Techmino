@@ -10,16 +10,15 @@ NHÓM 01: VỀ ZICTIONARY
 
 Zictionary là một từ điển về game xếp gạch cực kì hữu ích. Bạn có thể sử dụng để tra những từ hay thuật ngữ mà bạn không hiểu.
 Bạn bị rối vì kích thước của từ điển ư? Đừng lo, Zictionary đã được chia nhỏ thành 16 nhóm (+1 nhóm Phụ lục cho thông tin bổ sung)
-Bạn có thể xem phần Mục lục (ở Nhóm 2, hoặc bạn có thể gõ trên thanh tìm kiếm "mucluc" hoặc "nhom2" để xem mục lục) để biết mỗi nhóm trong 16+1 nhóm chứa nội dung gì nhé
+Bạn có thể xem phần Mục lục (ở Nhóm 2, hoặc bạn có thể gõ trên thanh tìm kiếm "mucluc" hoặc "nhom2" để xem mục lục) để biết mỗi nhóm chứa những mục nào
 
-Cách điều hướng (Mặc định hiện nút "Copy" & "Mở link" (hình quả địa cầu), trên điện thoại sẽ hiện thêm 4 nút mũi tên để điều hướng):
+Cách điều hướng: (󰂗: "Mở link", 󰃇: "Chép thông tin của mục")
         Mũi tên Lên/Xuống | Lăn chuột: di chuyển giữa các mục
         Mũi tên Trái/Phải: di chuyển nhanh hơn, nhảy qua 12 mục mỗi lần
-        Ctrl+C | Nhấn nút "Copy": sao chép nội dung của mục đang mở
-        Menu/Application (nằm ở cạnh phím Ctrl phải) | Nhấn nút "Mở link": mở link đi kèm với mục (nếu có)
+        Ctrl+C | Nhấn nút 󰂗: sao chép nội dung của mục đang mở
+        󰂀 (trên bàn phím) | Nhấn nút 󰃇: mở link đi kèm với mục (nếu có)
 
-Cách tìm kiếm:
-        Gõ bất kỳ chữ cái nào để nhập vào thanh tìm kiếm
+Cách tìm kiếm: Gõ bất kỳ chữ cái nào để nhập vào thanh tìm kiếm
         Backspace: xóa một ký tự
         Esc: xóa toàn bộ chữ trong ô tìm kiếm, trả về toàn bộ từ điển
 
@@ -150,7 +149,7 @@ Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục, th
     {"Website chính thức",
         "nhom03 websites; trang chủ",
         "org",
-        "Trang web chính thức của Techmino!\nBạn có thể lấy bản ổn định mới nhất của Techmino cũng như tạo tài khoản, thay avatar ngay tại đó\nNhấn vào biểu tượng quả địa cầu để mở website đó trong trình duyệt",
+        "Trang web chính thức của Techmino!\nBạn có thể lấy bản ổn định mới nhất của Techmino cũng như tạo tài khoản, thay avatar ngay tại đó\nNhấn vào nút “Mở link” để mở website đó trong trình duyệt",
         "http://studio26f.org",
     },
     {"Dự án trên GitHub",
@@ -189,13 +188,13 @@ Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đ
     not FNNS and {"Ủng hộ 2",
         "nhom04; ủng hộ 2; afdian aidadian",
         "org",
-        "Để ủng hộ cho Techmino qua Aifadian, hãy nhấn vào biểu tượng quả địa cầu để mở URL trực tiếp vào trình duyệt. Lưu ý là Aifadian sẽ trừ bạn 6% phí giao dịch.",
+        "Để ủng hộ cho Techmino qua Aifadian, hãy nhấn vào nút “Mở link” để mở URL trực tiếp vào trình duyệt. Lưu ý là Aifadian sẽ trừ bạn 6% phí giao dịch.",
         "https://afdian.net/@MrZ_26",
     } or {"*ĐÃ ẨN*", "", "org", ""},
     not FNNS and {"Ủng hộ 3",
         "nhom04; ủng hộ 3; patreon",
         "org",
-        "Để ủng hộ cho Techmino qua Patreon, hãy nhấn vào biểu tượng quả địa cầu. Lưu ý rằng Patreon có thể tính phí dịch vụ cho bạn đối với các giao dịch trên một số tiền nhất định.",
+        "Để ủng hộ cho Techmino qua Patreon, hãy nhấn vào nút “Mở link”. Lưu ý rằng Patreon có thể tính phí dịch vụ cho bạn đối với các giao dịch trên một số tiền nhất định.",
         "https://www.patreon.com/techmino",
     } or {"*ĐÃ ẨN*", "", "org", ""},
     {"=[NHÓM 05]=",
@@ -270,7 +269,7 @@ Techmino không kiểm tra điều kiện Lock out và Top out.
     {"Vùng biến mất",
         "nhom05a gone vanish zone",
         "term",
-        "Tên tiếng Anh là “Vanish Zone”. Thường dùng để nhắc tới những hàng có độ cao từ 40 ô và cao hơn. Cái này chỉ có thể phát hiện ra bằng cách sử dụng C4W và đống hàng rác. Thông thường, nếu cột cao nhất trong bảng đụng vào vùng biến mất.\nTuy nhiên, có một số game có những phản ứng khác nhau. Một số game sẽ bị lỗi và sập khi có gạch đi vào vùng biến mất (ví dụ như Tetris Online). Riêng ở một số game thì game sẽ có hành động lạ (bạn có thể tham khảo video này, hãy nhấn vào biểu tượng quả địa cầu để mở video).\n\nThông tin thêm: Jstris không có vùng đệm, chỉ có vùng biến mất được đặt từ hàng thứ 22.",
+        "Tên tiếng Anh là “Vanish Zone”. Thường dùng để nhắc tới những hàng có độ cao từ 40 ô và cao hơn. Cái này chỉ có thể phát hiện ra bằng cách sử dụng C4W và đống hàng rác. Thông thường, nếu cột cao nhất trong bảng đụng vào vùng biến mất.\nTuy nhiên, có một số game có những phản ứng khác nhau. Một số game sẽ bị lỗi và sập khi có gạch đi vào vùng biến mất (ví dụ như Tetris Online). Riêng ở một số game thì game sẽ có hành động lạ (bạn có thể tham khảo video này, hãy nhấn vào nút “Mở link” để mở video).\n\nThông tin thêm: Jstris không có vùng đệm, chỉ có vùng biến mất được đặt từ hàng thứ 22.",
         "https://youtu.be/z4WtWISkrdU",
     },
     {">B|Gạch",
@@ -287,7 +286,7 @@ Techmino không kiểm tra điều kiện Lock out và Top out.
     {"Màu của Tetromino",
         "nhom05b màu"..tetromino,
         "term",
-        "Nhiều game xếp gạch hiện đại đang sử dụng cùng một bảng màu cho Tetromino, dù chính thức hay do fan làm. Những màu này bao gồm:\nZ - Đỏ, S - Lục, J - Lam, L - Cam, T - Tím, O - Vàng, và I - Lục lam.\n\nTechmino cũng sử dụng bảng màu “chuẩn” này để tô màu cho Tetromino.",
+        "Nhiều game xếp gạch hiện đại đang sử dụng cùng một bảng màu cho Tetromino, dù chính thức hay do fan làm. Những màu này bao gồm:\nZ - Đỏ, S - Lục, J - Lam, L - Cam, T - Tím, O - Vàng, và I - Lục lam.\n\nTechmino cũng sử dụng bảng màu này để tô màu cho Tetromino.",
     },
     {"Gạch & tên tg. ứng",
         "nhom05b mino gạch & tên tương ứng gạch và tên tương ứng"..tetromino,
@@ -318,11 +317,9 @@ Ví dụ:
         [[
 Một hệ thống để xác định cách gạch xoay.
 
-Trong các trò Tetris hiện đại, mỗi gạch có thể xoay dựa trên một tâm xoay cố định (có thể không hiện diện trong vài trò chơi). Nếu gạch sau khi xoay đè lên gạch khác hoặc ra ngoài khỏi bảng, hệ thống sẽ thử di chuyển gạch ở các vị trí xung quanh vị trí đang đứng (một quá trình được gọi “wall-kicking” (đá tường)).
+Trong các trò Tetris hiện đại, mỗi gạch có thể xoay dựa trên một tâm xoay cố định (có thể không hiện diện trong vài trò chơi). Nếu gạch sau khi xoay đè lên gạch khác hoặc ra ngoài bảng, hệ thống sẽ thử di chuyển gạch ở các vị trí xung quanh vị trí đang đứng (một quá trình được gọi “wall-kicking” (đá tường)).
 
-Đá tường cho phép gạch có thể đến những hố có hình dạng nào đó mà bình thường không thể tiếp cận được. Các vị trí mà gạch có thể đá được chứa trong một bảng gọi là “wall-kick table” (bảng các vị trí đá tường)
-
-P/s: trong Zictionary, từ “bảng các vị trí đá tường” viết tắt là “bảng đá tường” (do lười gõ, mà cái này có thể thay đổi sau)
+Đá tường cho phép gạch có thể đến những hố có hình dạng nào đó mà bình thường không thể tiếp cận được. Các vị trí mà gạch có thể đá được chứa trong một bảng gọi là “wall-kick table” (bảng (các vị trí) đá tường)
         ]]
     },
     {"ARS",
@@ -355,9 +352,9 @@ Bias Rotation System | Hệ thống xoay Bias. Hệ thống xoay chỉ có trong
 Hệ thống sẽ điều chỉnh độ lệch khi xoay tùy thuộc phím đang giữ phím là Sang trái/Sang phải/Thả nhẹ khi nhấn phím xoay
 
 Quá trình thử của hệ thống này diễn ra như sau:
-1. Thử dịch chuyển gạch sang trái/phải/xuống tùy thuộc vào phím đang giữ; có cộng thêm độ lệch xuống dưới
-2. Nếu thất bại, thử lại bước 1, nhưng không cộng thêm độ lệch xuống dưới
-Nếu cả 2 bước trên đều thất bại thì việc xoay thất bại nốt.
+1. Thử dịch chuyển gạch sang trái/phải/xuống tùy thuộc vào phím đang giữ (là phím Sang trái/Sang phải/Thả nhẹ); có thêm độ lệch xuống dưới
+2. Nếu thất bại, thử lại như Bước 1; nhưng không thêm độ lệch xuống dưới
+3. Nếu thất bại… thì việc xoay coi như thất bại (cái này thì không còn gì để nói)
 
 So với XRS, BiRS dễ nhớ hơn nhiều vì nó chỉ dùng một bảng đá tường; nhưng vẫn giữ nguyên được tính năng vượt địa hình của SRS.
 
@@ -1022,7 +1019,7 @@ Gọi tắt là WWC. Có chế độ 1 đấu 1 toàn cầu: chơi với ngườ
         [[
 Chơi trên trình duyệt/Chơi trên client chính thức | Chơi đơn/Chơi trực tuyến
 
-Gọi tắt là TF. Một trò chơi Tetris dựa trên một plugin đã bị khai tử từ lâu. Từng rất phổ biến trong quá khứ, nhưng tất cả trò chơi đã đóng cửa từ mấy năm trước. Hiện giờ còn một máy chủ riêng tư tên là “Notris Foes” vẫn còn tồn tại. Nhấn vào biểu tượng quả địa cầu để mở ở trong trình duyệt
+Gọi tắt là TF. Một trò chơi Tetris dựa trên một plugin đã bị khai tử từ lâu. Từng rất phổ biến trong quá khứ, nhưng tất cả trò chơi đã đóng cửa từ mấy năm trước. Hiện giờ còn một máy chủ riêng tư tên là “Notris Foes” vẫn còn tồn tại. Nhấn vào nút “Mở link” để mở ở trong trình duyệt
         ]],
         "https://notrisfoes.com",
     },
@@ -1332,7 +1329,7 @@ Một game xếp gạch ở trên Tencent Game Center, bảng rộng 12 ô, DAS 
     {"Secret Grade",
         "nhom07 larger than",
         "term",
-        "Một chế độ dạng easter egg trong series TGM. Ở lối chơi “secret grade”, người chơi sẽ làm một đường dích dắc (zigzag) (trông giống như “>” hay “<”) bằng cách tạo ra 1 ô trống duy nhất cho từng hàng. Mục tiêu cuối cùng là hoàn thành đường dích dắc bằng 19 hàng (hoặc hơn).\nĐể biết thêm thông tin, vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để biết thêm thông tin.",
+        "Một chế độ dạng easter egg trong series TGM. Ở lối chơi “secret grade”, người chơi sẽ làm một đường dích dắc (zigzag) (trông giống như “>” hay “<”) bằng cách tạo ra 1 ô trống duy nhất cho từng hàng. Mục tiêu cuối cùng là hoàn thành đường dích dắc bằng 19 hàng (hoặc hơn).\nĐể biết thêm thông tin, vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để biết thêm thông tin.",
         "https://harddrop.com/wiki?search=Secret_Grade_Techniques",
     },
     {"Deepdrop (Rơi sâu)",
@@ -1592,7 +1589,7 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
     {"Tetris OL Servers",
         "nhom11 tetrisonline servers tos",
         "org",
-        "Hãy lên Google tra “Tetris Online Poland” để tìm server ở Ba Lan.\nCòn nếu tìm server Tetris Online Study được đặt tại Trung Quốc (cung cấp bởi Teatube) thì nhấn vào biểu tượng quả địa cầu",
+        "Hãy lên Google tra “Tetris Online Poland” để tìm server ở Ba Lan.\nCòn nếu tìm server Tetris Online Study được đặt tại Trung Quốc (cung cấp bởi Teatube) thì nhấn vào nút “Mở link”",
         "https://teatube.cn/tos/",
     },
     {
@@ -1753,37 +1750,37 @@ Setup này thường phải đạt cả ba yêu cầu sau:
     {"DT Cannon",
         "nhom13b dtcannon doubletriplecannon",
         "setup",
-        "Double-Triple Cannon (Pháo T-spin Đôi-Tam).\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Double-Triple Cannon (Pháo T-spin Đôi-Tam).\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=dt",
     },
     {"DTPC",
         "nhom13b dtcannon doubletriplecannon",
         "setup",
-        "Phần tiếp theo của DT Cannon kết thúc bằng All Clear.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Phần tiếp theo của DT Cannon kết thúc bằng All Clear.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=dt",
     },
     {"BT Cannon",
         "nhom13b btcannon betacannon",
         "setup",
-        "β Cannon, Beta Cannon.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "β Cannon, Beta Cannon.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=bt_cannon",
     },
     {"BTPC",
         "nhom13b btcannon betacannon",
         "setup",
-        "Phần tiếp theo của DT Cannon kết thúc bằng All Clear.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Phần tiếp theo của DT Cannon kết thúc bằng All Clear.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=bt_cannon",
     },
     {"TKI 3 Perfect Clear",
         "nhom13b ddpc tki3perfectclear",
         "setup",
-        "Một opener dạng TSD dẫn đến Double-Double-All Clear.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Một opener dạng TSD dẫn đến Double-Double-All Clear.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=TKI_3_Perfect_Clear",
     },
     {"QT Cannon",
         "nhom13b qtcannon",
         "setup",
-        "Một setup gần giống với DT Cannon và khả năng gửi DT Attack cao (DT Attack = T-spin Double + T-spin Triple).\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Một setup gần giống với DT Cannon và khả năng gửi DT Attack cao (DT Attack = T-spin Double + T-spin Triple).\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=QT_cannon",
     },
     {"Mini-Triple",
@@ -1801,43 +1798,43 @@ Setup này thường phải đạt cả ba yêu cầu sau:
     {"Wolfmoon Cannon",
         "nhom13b wolfmooncannon",
         "setup",
-        "Một opener.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Một opener.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=wolfmoon_cannon",
     },
     {"Sewer",
         "nhom13b",
         "setup",
-        "Một opener.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Một opener.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=sewer",
     },
     {"TKI",
         "nhom13b tki-3 tki3",
         "setup",
-        "TKI-3. Có thể chỉ TKI-3 bắt đầu bằng một TSD hoặc C-spin bắt đầu bằng một TST.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "TKI-3. Có thể chỉ TKI-3 bắt đầu bằng một TSD hoặc C-spin bắt đầu bằng một TST.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=tki_3_opening",
     },
     {"God Spin",
         "nhom13b godspin",
         "setup",
-        "Một setup nhìn đẹp mắt [nhưng khó sử dụng trên thực tế]. Được phát minh bởi Windkey.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Một setup nhìn đẹp mắt [nhưng khó sử dụng trên thực tế]. Được phát minh bởi Windkey.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=godspin",
     },
     {"Albatross",
         "nhom13b",
         "setup",
-        "Một opener nhìn đẹp mắt, nhịp độ nhanh với TSD - TST - TSD - All Clear, khó mà lãng phí gạch T.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Một opener nhìn đẹp mắt, nhịp độ nhanh với TSD - TST - TSD - All Clear, khó mà lãng phí gạch T.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=Albatross_Special",
     },
     {"Pelican",
         "nhom13b",
         "setup",
-        "Một opener kiểu Alabatross được sử dụng trong trường hợp trật tự gạch tới không ủng hộ opener Alabatross nguyên gốc.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Một opener kiểu Alabatross được sử dụng trong trường hợp trật tự gạch tới không ủng hộ opener Alabatross nguyên gốc.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=Pelican",
     },
     {"Perfect Clear Opener",
         "nhom13b 7piecepuzzle",
         "setup",
-        "Một Opener làm All Clear có khả năng thành công cao (~84.6% nếu bạn đang giữ I trong ô Hold và ~61.2% nếu không giữ). Trong chế độ PC Training (Luyện tập PC), setup này được sử dụng để tạo ra setup chưa hoàn chỉnh, không tạo ra hố.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Một Opener làm All Clear có khả năng thành công cao (~84.6% nếu bạn đang giữ I trong ô Hold và ~61.2% nếu không giữ). Trong chế độ PC Training (Luyện tập PC), setup này được sử dụng để tạo ra setup chưa hoàn chỉnh, không tạo ra hố.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=Perfect_Clear_Opener",
     },
     {"Grace System",
@@ -1855,7 +1852,7 @@ Setup này thường phải đạt cả ba yêu cầu sau:
     {"Gamushiro Stacking",
         "nhom13b",
         "setup",
-        "(ガムシロ積み) Một opener để làm TD Attack (TD Attack = T-spin Triple + T-spin Double).\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "(ガムシロ積み) Một opener để làm TD Attack (TD Attack = T-spin Triple + T-spin Double).\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=Gamushiro_Stacking",
     },
     {"C|Mid-game",
@@ -1875,19 +1872,19 @@ PC liên tiếp pcloop
     {"C-spin",
         "nhom13c cspin",
         "pattern",
-        "Một setup gửi tấn công bằng T-spin Triple + T-spin Double, known as TKI in Japan.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Một setup gửi tấn công bằng T-spin Triple + T-spin Double, known as TKI in Japan.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=c-spin",
     },
     {"STSD",
         "nhom13c",
         "pattern",
-        "Super T-spin Double, một setup cho phép làm T-spin Double.\nNhưng nếu có rác ngay dưới hố STSD thì không tài nào làm T-spin Double được\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Super T-spin Double, một setup cho phép làm T-spin Double.\nNhưng nếu có rác ngay dưới hố STSD thì không tài nào làm T-spin Double được\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=stsd",
     },
     {"Fractal",
         "nhom13c fractal spider",
         "pattern",
-        "Một setup dùng để làm T-spin.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Một setup dùng để làm T-spin.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=Fractal",
     },
     {"LST stacking",
@@ -1899,13 +1896,13 @@ PC liên tiếp pcloop
     {"Imperial Cross",
         "nhom13c imperialcross",
         "pattern",
-        "Che hố hình chữ thập bằng phần nhô ra để thực hiện hai lần T-spin Double\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Che hố hình chữ thập bằng phần nhô ra để thực hiện hai lần T-spin Double\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=imperial_cross",
     },
     {"King Crimson",
         "nhom13c kingcrimson",
         "pattern",
-        "Xếp chồng để làm (các) TSD trên STSD.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Xếp chồng để làm (các) TSD trên STSD.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=King_Crimson",
     },
     {"PC liên tiếp (1/3)",
@@ -1941,25 +1938,25 @@ Cut Copy cutcopy
     {"STMB Cave",
         "nhom13d stmb",
         "pattern",
-        "STMB cave, một setup dạng donation bằng cách sử dụng S/Z để bịt tường rộng 3 ô và làm T-spin Double.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "STMB cave, một setup dạng donation bằng cách sử dụng S/Z để bịt tường rộng 3 ô và làm T-spin Double.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=stmb_cave",
     },
     {"Hamburger",
         "nhom13d",
         "pattern",
-        "Một setup dạng donation setup dùng để tạo cơ hội làm Tetris.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Một setup dạng donation setup dùng để tạo cơ hội làm Tetris.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=hamburger",
     },
     {"Kaidan",
         "nhom13d kaidan stairs",
         "pattern",
-        "Một setup dạng donation có thể làm TSD trên địa hình cầu thang.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Một setup dạng donation có thể làm TSD trên địa hình cầu thang.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=kaidan",
     },
     {"Shachiku Train",
         "nhom13d shachikutrain shechu",
         "pattern",
-        "Một setup dạng donation cho phép làm thêm hai TSD từ setup TST.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào biểu tượng quả địa cầu để mở link.",
+        "Một setup dạng donation cho phép làm thêm hai TSD từ setup TST.\nĐể có thêm thông tin, xin vui lòng tra wiki Hard Drop. Hãy nhấn vào nút “Mở link” để mở link.",
         "https://harddrop.com/wiki?search=Shachiku_Train",
     },
     {"Cut Copy",
@@ -1988,7 +1985,7 @@ All Clear gửi thêm 6 hàng rác. Nhưng 6 hàng rác này sẽ gửi thẳng 
     {"Techmino attack",
         "nhom14 techminoattack",
         "term",
-        "Cách tính tấn công trong Techmino\n\nTra “hướng dẫn sử dụng” bằng cách nhấn phím ở góc dưới bên phải trên màn hình chính của game.\n\nHoặc bạn cũng có thể bấm vào quả địa cầu để xem bảng tính tấn công để có thể tự tính.",
+        "Cách tính tấn công trong Techmino\n\nĐể biết công thức tính, hãy xem “hướng dẫn sử dụng” bằng cách nhấn nút "..CHAR.icon.help.." ở màn hình chính của game.\n\nNhấn nút “Mở link” sẽ dẫn bạn tới một bảng tấn công đã được tính sẵn chỉ việc cộng dồn lại.",
         "https://media.discordapp.net/attachments/743861514057941204/1093386431096950815/Untitled.jpg"
     },
     {"=[NHÓM 15]=",
@@ -2099,7 +2096,7 @@ Hiện có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart), "b
     {"DTET",
         "nhom17",
         "game",
-        "Nhấn vào biểu tượng quả địa cầu để mở link hướng dẫn cài DTET.\n\n\"\"\"CẢNH BÁO: MrZ, 26F Studio, Sea, và bài hướng dẫn trên sẽ KHÔNG CHỊU TRÁCH NHIỆM VỀ MỌI THIỆT HẠI do việc tải file DLL không rõ nguồn gốc\"\"\"",
+        "Nhấn vào nút “Mở link” để mở link hướng dẫn cài DTET.\n\n\"\"\"CẢNH BÁO: MrZ, 26F Studio, Sea, và bài hướng dẫn trên sẽ KHÔNG CHỊU TRÁCH NHIỆM VỀ MỌI THIỆT HẠI do việc tải file DLL không rõ nguồn gốc\"\"\"",
         "https://t-sp.in/dtet"
     },
     {"Tetris (EA)",
