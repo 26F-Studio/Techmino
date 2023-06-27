@@ -15,8 +15,8 @@ Bạn có thể xem phần Mục lục (ở Nhóm 2, hoặc bạn có thể gõ 
 Cách điều hướng: (󰂗: "Mở link", 󰃇: "Chép thông tin của mục")
         Mũi tên Lên/Xuống | Lăn chuột: di chuyển giữa các mục
         Mũi tên Trái/Phải: di chuyển nhanh hơn, nhảy qua 12 mục mỗi lần
-        Ctrl+C | Nhấn nút 󰂗: sao chép nội dung của mục đang mở
-        󰂀 (trên bàn phím) | Nhấn nút 󰃇: mở link đi kèm với mục (nếu có)
+        Ctrl+C | Nhấn nút 󰃇: sao chép nội dung của mục đang mở
+        󰂀 (trên bàn phím) | Nhấn nút 󰂗: mở link đi kèm với mục (nếu có)
 
 Cách tìm kiếm: Gõ bất kỳ chữ cái nào để nhập vào thanh tìm kiếm
         Backspace: xóa một ký tự
