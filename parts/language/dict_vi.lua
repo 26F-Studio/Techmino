@@ -90,7 +90,6 @@ Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục, th
             * APM, SPM, DPM, RPM, ADPM, APL
             * Tấn công & Phòng thủ
             * Combo, Spike, Debt, Passthrough
-        05I. Hành động bất cẩn (Mis-): Misdrop, Mishold
         ]]
     },
     {
@@ -98,6 +97,7 @@ Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục, th
         "nhom02 mucluc2",
         "help",
         [[
+        05I. Hành động bất cẩn (Mis-): Misdrop, Mishold
         05J. Spin: (Mini)/(All-)/(T-)/(O-) spin; Fin, Neo, Iso
         05K: Kỹ thuật xóa hàng:
             * Single, Double, Triple, Techrash, Tetris
@@ -110,16 +110,14 @@ Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục, th
 
 07. Một vài cơ chế và chế độ của một số game: Tàng hình một phần/hoàn toàn, Chế độ MPH, Secert Grade, Deepdrop
 08. Bot: Cold Clear, ZZZbot
-09. Mẹo và lời khuyên hữu ích: Đề xuất luyện tập, Học làm T-spin, Hiệu chỉnh DAS, Bố cục phím, Khả năng xử lý gạch, Các phím xoay
+09. Mẹo và lời khuyên hữu ích:
+        * Đề xuất luyện tập, Học làm T-spin, Hiệu chỉnh DAS
+        * Bố cục phím, Khả năng xử lý gạch, Các phím xoay
 10. Wiki; các trang web bày setup & cung cấp câu đố, chia sẻ setup
         10A. Wiki: Huiji Wiki, Hard Drop Wiki, tetris.wiki, Tetris Wiki Fandom
         10B. Bày setup: Four.lol, Tetris Hall, Tetris Template Collections, tetristemplate.info
         10C. Chia sẻ câu đố: TTT, TTPC, NAZO, TPO
         10D. Chia sẻ setup: Fumen, Fumen bản Điện thoại
-11. Cộng đồng: Tetris Online Servers, Tetris Việt Nam
-12. Xếp lên và đào xuống
-        12A. Stacking (Xếp lên): Side/Center/Partial well, Side/Center 1/2/3/4-wide, Residual, 6-3 Stacking
-        12B. Digging (Đào xuống)
         ]]
     },
     {
@@ -127,6 +125,10 @@ Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục, th
         "nhom02 mucluc3",
         "help",
         [[
+11. Cộng đồng: Tetris Online Servers, Tetris Việt Nam
+12. Xếp lên và đào xuống
+        12A. Stacking (Xếp lên): Side/Center/Partial well, Side/Center 1/2/3/4-wide, Residual, 6-3 Stacking
+        12B. Digging (Đào xuống)
 13. Setup (Opener, Mid-game setup, Donation, Pattern)
         13A. Freestyle
         13B. Opener: DT Cannon, DTPC, BT Cannon, BTPC, TKI 3 Perfect Clear, QT Cannon, Mini-Triple, Trinity, Wolfmoon Cannon, Sewer, TKI, God Spin, Albatross, Pelican, Perrfect Clear Opener, Grace System, DPC, Gamushiro Stacking
@@ -352,9 +354,9 @@ Bias Rotation System | Hệ thống xoay Bias. Hệ thống xoay chỉ có trong
 Hệ thống sẽ điều chỉnh độ lệch khi xoay tùy thuộc phím đang giữ phím là Sang trái/Sang phải/Thả nhẹ khi nhấn phím xoay
 
 Quá trình thử của hệ thống này diễn ra như sau:
-1. Thử dịch chuyển gạch sang trái/phải/xuống tùy thuộc vào phím đang giữ (là phím Sang trái/Sang phải/Thả nhẹ); có thêm độ lệch xuống dưới
-2. Nếu thất bại, thử lại như Bước 1; nhưng không thêm độ lệch xuống dưới
-3. Nếu thất bại… thì việc xoay coi như thất bại (cái này thì không còn gì để nói)
+1. Thử dịch chuyển gạch sang trái/phải/xuống tùy thuộc vào phím đang giữ (là phím Sang trái/Sang phải/Thả nhẹ); có cộng thêm độ lệch xuống dưới
+2. Nếu thất bại, thử lại như Bước 1; nhưng không cộng thêm độ lệch xuống dưới
+3. Nếu thất bại… thì việc xoay coi như thất bại, gạch sẽ không được xoay!
 
 So với XRS, BiRS dễ nhớ hơn nhiều vì nó chỉ dùng một bảng đá tường; nhưng vẫn giữ nguyên được tính năng vượt địa hình của SRS.
 
@@ -460,7 +462,8 @@ Một kiểu xáo dựa trên kiểu xáo His. Nó giới thiệu một cơ ch�
 
 Cơ chế này giúp chuỗi gạch ổn định hơn và tránh tình trạng drought xảy ra quá lâu
 
-[*][Sea: thật ra thì từ Pool có nghĩa là cái hồ bơi, hồ nước (ngoài ra còn có nghĩa là tiền đặt cược). Nhưng mình nghĩ nếu dịch thành “Nhớ - Lặp - Hồ” thì không ổn lắm nên mình mới bịa ra “Nhớ - Lặp - Hồ”]
+[*][Sea: thật ra thì từ “pool” nghĩa là cái hồ bơi, hồ nước (còn có nghĩa là tiền đặt cược).
+Nhưng mình nghĩ nếu dịch thành “Nhớ - Lặp - Hồ” thì không ổn lắm nên mình mới bịa ra tên “Nhớ - Lặp - Rổ”]
         ]],
     },
     {"K.xáo HisPool [2/2]",
@@ -665,10 +668,10 @@ Phương pháp này lần đầu tiên được phát hiện ra bởi Cheez-fish
         ]],
         "",
     },
-    {">G3|Độ trễ input",        -- TODO: sáng mai tiếp tục làm từ đoạn G3 về nhóm G
+    {">G3|Độ trễ input",
         "nhom05g3 input delay",
         "name",
-        "Độ trễ đầu vào\nBất kỳ thiết bị đầu vào cũng cần một khoảng thời gian để tín hiệu có thể tới game. Độ trễ này từ vài ms cho tới mấy trăm ms.\nNếu độ trễ đầu vào quá cao, thì việc điều khiển sẽ không thoải mái.\nĐộ trễ này thường do phần cứng và phần mềm, thứ mà bạn khó mà kiểm soát được. Bật chế độ Hiệu suất cao (Performance mode) hoặc tắt chế độ tiết kiệm năng lượng (Energy saving), đồng thời bật chế độ Gaming trên màn hình máy tính/TV, có thể giúp giảm độ trễ.",
+        "Độ trễ đầu vào\n\nBất kỳ thiết bị đầu vào cũng cần một khoảng thời gian để tín hiệu có thể tới game, không cao thì thấp, từ mấy ms đến cả trăm ms.\n\nNếu độ trễ đầu vào quá cao, thì việc điều khiển sẽ không thoải mái.\n\nĐộ trễ này thường do phần cứng và phần mềm, thứ mà bạn khó mà kiểm soát được.\nBật chế độ Hiệu suất cao (Performance mode) hoặc tắt chế độ tiết kiệm năng lượng (Energy saving), đồng thời bật chế độ Gaming trên màn hình máy tính/TV, có thể giúp giảm độ trễ.",
     },
     {">H|Mis-action",
         "nhom05h misdrop mishold md mh",
@@ -1309,17 +1312,24 @@ Một game xếp gạch ở trên Tencent Game Center, bảng rộng 12 ô, DAS 
         "nhom07 invisible half semi mph; larger than"
         .."Tàng hình một phần; Tàng hình hoàn toàn; Chế độ MPH; Secret Grade; Deepdrop (Rơi sâu)",
         "name",
-        "NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME"
+        [[
+NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
+
+Ghi chú từ Sea: Tại thời điểm mình đang làm bản dịch này thì có yêu cầu #908 ở dự án trên GitHub nói rằng người Anh không dùng từ "Half Invisible", "Full Invisible" hay "Sudden Invisible"
+
+Google Dịch dịch "Tàng hình một phần" → "Partially Invisible"; "Tàng hình hoàn toàn" → Compelete Invisible"
+Hiện tại mình không chắc nên vẫn đang giữ nguyên các từ của Zictionary
+        ]]
     },
     {"Tàng hình một phần",
         "nhom07 half invisible semi",
         "term",
-        "Tên tiếng Anh: Semi-invisible\nChỉ một luật trong đó gạch sẽ tàng hình sau một khoảng thời gian từ lúc nó được đặt xuống.\nKhoảng thời gian đó thường không được định sẵn, nên có thể chấp nhận mô tả nó là “biến mất sau một vài giây”.",
+        "Tên tiếng Anh: Semi-invisible\nChỉ một quy tắc trong đó gạch sẽ tàng hình sau một khoảng thời gian từ lúc nó được đặt xuống.\nKhoảng thời gian đó thường không được định sẵn, nên có thể chấp nhận mô tả nó là “biến mất sau một vài giây”.",
     },
     {"Tàng hình hoàn toàn",
         "nhom07 invisible",
         "term",
-        "Tên tiếng Anh: Invisible\nChỉ một luật trong đó gạch sẽ tàng hình ngay tức thì sau khi đặt xuống\nGhi chú: Nếu mode tàng hình hoàn toàn mà có hiệu ứng biến mất thì vẫn được chấp nhận. Tuy vậy, nó làm game dễ hơn đôi chút, cho nên ở Techmino, chế độ tàng hình hoàn toàn mà không có hiệu ứng biến mất được gọi là “Sudden Invisible.”",
+        "Tên tiếng Anh: Invisible\nChỉ một quy tắc trong đó gạch sẽ tàng hình ngay tức thì sau khi đặt xuống\nNếu mode tàng hình hoàn toàn mà có hiệu ứng biến mất thì vẫn được chấp nhận. Tuy nhiên, nó làm game dễ hơn đôi chút\n\nỞ Techmino, chế độ tàng hình hoàn toàn mà không có hiệu ứng biến mất được gọi là “Sudden Invisible.”",
     },
     {"Chế độ MPH",
         "nhom07 mph",
@@ -1389,7 +1399,7 @@ A. Stacking (Xếp gạch)
     A3. Lên kế hoạch trước cách xếp, hãy tận dụng tối đa NEXT và HOLD để giữ được thế đẹp. 
 
 B. Efficiency & Speed (Hiệu quả & Tốc độ)
-    B1. Trước mỗi lần đặt gạch, hãy suy nghĩ xem bạn sẽ đặt gạch ở đâu? Bấm những phím nào để gạch tới chỗ đó và đứng đúng tư thế? Thay vì dựa dẫm vào gạch ma quá nhiều
+    B1. Trước mỗi lần đặt gạch, hãy suy nghĩ xem bạn sẽ đặt gạch ở đâu? Bấm những phím nào để gạch tới chỗ đó và đứng đúng tư thế? Thay vì dựa dẫm vào bóng gạch quá nhiều
     B2. Nên sử dụng 2 (hoặc 3, tùy game) phím xoay thay vì nhấn 1 phím xoay liên tục trong thời gian dài.
     B3. Đừng lo lắng về tốc độ khi bạn mới tập chơi Finesse, đây là chuyện bình thường. Hơn nữa bạn có thể tập chơi nhanh hơn một khi bạn đã quen tay — việc này không khó đâu!
 
@@ -1432,6 +1442,8 @@ Dưới đây là vài lời khuyên hữu ích khi bạn đang chỉnh sửa b�
         "help",
         [[
 Những yếu tố ảnh hưởng tới việc xử lý gạch của bạn:
+
+
 
 (1) Độ trễ đầu vào, có thể là do cấu hình, thông số hoặc tình trạng của thiết bị. Khởi động lại trò chơi, bảo dưỡng, sửa chữa hoặc thay đổi thiết bị của bạn có thể khắc phục vấn đề này.
 (2) Trò chơi không ổn định/thiết kế quá sơ sài và nhiều lỗi. Có thể giảm tình trạng này bằng cách chỉnh sửa cài đặt hiệu ứng để ở mức thấp.
@@ -1597,9 +1609,9 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
         "nhom11 community vietnam tetris việt nam",
         "org",
         [[
-Một trong những cộng đồng xếp gạch tại Việt Nam. Cộng đồng này hiện có một nhóm Facebook và một server tại Discord.
+Một trong những cộng đồng xếp gạch tại Việt Nam. Cộng đồng này hiện có một nhóm Facebook và một server Discord.
 
-Liên kết ở mục này sẽ dẫn bạn tới server Discord, còn để tìm nhóm Facebook thì lên Facebook và tìm "Tetris Việt Nam"
+Nhấn nút “Mở link” để vào server Discord, còn nếu muốn vào nhóm Facebook thì lên Facebook và tìm "Tetris Việt Nam"
         ]],
         "https://discord.gg/jX7BX9g",
     },
@@ -1650,7 +1662,7 @@ residual
     {"Side 1-wide",
         "nhom12a s1w side1wide sidewelltetris",
         "term",
-        "Hay còn gọi là Side well Tetris.\nĐây là cách chơi xếp gạch kinh điển nhất, và để làm được thì bạn sẽ phải xây một cái hố (duy nhất) sâu rộng 1 ô ở một mặt bên của bảng. Dễ thực hiện trong Tetris hiện đại và có thể làm tấn công… nửa vời [*]. Nhưng setup này hiếm khi được sử dụng trong những trận đấu hạng cao do hiệu quả của Tetris thấp hơn so với T-spin.\n\n[*] [Sea]: cái này mình không có viết vào, Zictionary nó viết như vậy á.",
+        "Hay còn gọi là Side well Tetris.\nĐây là cách chơi xếp gạch kinh điển nhất, và để làm được thì bạn sẽ phải xây một cái hố (duy nhất) sâu rộng 1 ô ở một mặt bên của bảng. Dễ thực hiện trong Tetris hiện đại và có thể làm tấn công… nửa vời. Nhưng setup này hiếm khi được sử dụng trong những trận đấu hạng cao do hiệu quả của Tetris thấp hơn so với T-spin.",
     },
     {"Side 2-wide",
         "nhom12a s2w side2wide",
