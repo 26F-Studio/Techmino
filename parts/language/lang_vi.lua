@@ -468,7 +468,7 @@ return {
             lockout="Thua khi Lock Out",
             easyFresh="Lock Reset Thường",
             deepDrop="Thả rơi sâu",
-            bone="Dùng gạch []",
+            bone="Dùng skin []",
 
             eventSet="Rule Set",
 
