@@ -422,7 +422,7 @@ Và nếu có độ lệch theo chiều ngang, thì hướng của cú đá đó
     {"IMS",
         "nhom05d initialmovesystem",
         "term",
-        "*Chỉ có trên Techmino*\n\nInitial Movement System\nGiữ một phím di chuyển trong khoảng thời gian spawn delay để gạch sinh ra ở một bên. Đôi khi có thể giúp bạn thoát chết.\nLưu ý: DAS buộc phải được “sạc” đủ trước khi gạch xuất hiện.",
+        "Initial Movement System\n*Chỉ có trên Techmino*\n\nGiữ một phím di chuyển trong khoảng thời gian spawn delay để gạch sinh ra ở một bên. Đôi khi có thể giúp bạn thoát chết.\nLưu ý: DAS buộc phải được “sạc” đủ trước khi gạch xuất hiện.",
     },
     {">E|Các kiểu xáo",
         "nhom05e bag7 randomgenerator túi 7 gạch historygenerator hisgenerator hispool historypoolgenerator bages easy start khởi đầu suôn sẻ reverb cultris2generator cultrisiigenerator c2generator"
@@ -434,7 +434,9 @@ Và nếu có độ lệch theo chiều ngang, thì hướng của cú đá đó
         "nhom05e bag7 randomgenerator túi 7 gạch; kiểu xáo túi 7 gạch",
         "term",
         [[
-Hay còn gọi là “7-Bag Generator”. Tên tiếng Việt là “Kiểu xáo Túi 7 gạch”. Còn tên gọi chính thức của nó là “Random Generator” (Trình xáo gạch ngẫu nhiên)
+Tên gọi chính thức là “Random Generator” (Trình xáo gạch ngẫu nhiên)
+Ngoài ra nó còn có tên là “7-Bag Generator”.
+Tên tiếng Việt: “Kiểu xáo Túi 7 gạch”.
 
 Đây là thuật toán hay được sử dụng bởi các trò chơi xếp gạch hiện đại. Từ khi bắt đầu game, bạn luôn được đảm bảo rằng bạn sẽ có đủ 7 Tetromino mỗi 7 viên gạch bạn đã thả rơi.
 Một vài ví dụ: ZSJLTOI, OTSLZIJ, LTISZOJ.
@@ -444,7 +446,7 @@ Một vài ví dụ: ZSJLTOI, OTSLZIJ, LTISZOJ.
         "nhom05e historygenerator hisgenerator",
         "term",
         [[
-Kiểu xáo His, tên đầy đủ là History - Roll. (Tên tiếng Việt là Nhớ - Lặp)
+Kiểu xáo His, tên đầy đủ là History - Roll. (Tên tiếng Việt: “Nhớ - Lặp”)
 
 Một phương pháp xáo gạch được sử dụng nhiều trong các game Tetris: The Grand Master. Mỗi lần một Tetromino sẽ được chọn ngẫu nhiên: Nếu nó là một trong những gạch đã bốc ra trước đó, thì bốc lại thêm lần nữa cho tới khi bốc được gạch không phải là những viên gạch kia, hoặc là hết lượt bốc lại. Ví dụ: “his 4 roll 6” (h4r6) (nhớ 4 lặp 6) sẽ nhớ 4 gạch đã bốc cuối cùng, và chỉ được bốc lại tối đa 6 lần nếu cần thiết.
 
@@ -459,11 +461,11 @@ Trong Techmino, số lần bốc lại ngẫu nhiên sẽ là một nửa độ 
         [[
 Kiểu xáo HisPool, tên đầy đủ là History (- Roll) - Pool. (Tên tiếng Việt là Nhớ - Lặp - Rổ)
 
-Một kiểu xáo dựa trên kiểu xáo His. Nó giới thiệu một cơ chế mới: “Pool” (Rổ)[*]. Mỗi lần bốc gạch, HisPool sẽ chọn ngẫu nhiên một viên gạch trong cái Rổ và tăng khả năng xuất hiện của gạch ít xuất hiện nhất. (Bạn có thể tra mục tiếp theo để tìm hiểu về cơ chế Pool nếu bạn tò mò)
+Một kiểu xáo dựa trên kiểu xáo His. Nó giới thiệu một cơ chế mới: “Pool” (Rổ)¹. Mỗi lần bốc gạch, HisPool sẽ chọn ngẫu nhiên một viên gạch trong cái Rổ và tăng khả năng xuất hiện của gạch ít xuất hiện nhất. (Bạn có thể tra mục tiếp theo để tìm hiểu về cơ chế Pool nếu bạn tò mò)
 
 Cơ chế này giúp chuỗi gạch ổn định hơn và tránh tình trạng drought xảy ra quá lâu
 
-[*][Sea: thật ra thì từ “pool” nghĩa là cái hồ bơi, hồ nước (còn có nghĩa là tiền đặt cược).
+(1)[Sea: thật ra thì từ “pool” nghĩa là cái hồ bơi, hồ nước (còn có nghĩa là tiền đặt cược).
 Nhưng mình nghĩ nếu dịch thành “Nhớ - Lặp - Hồ” thì không ổn lắm nên mình mới bịa ra tên “Nhớ - Lặp - Rổ”]
         ]],
     },
@@ -648,10 +650,10 @@ Bạn có thể luyện tập bằng cách dùng tính năng “Chơi lại nế
 
 Techmino phát hiện lỗi di chuyển không dựa trên “số lần nhấn phím tối thiểu để di chuyển theo lý thuyết”, mà thay vào đó chỉ kiểm tra lỗi di chuyển dựa trên số lần nhấn phím tương đương đã được quy định trước *khi gạch được đặt tại một vị trí mà không cần dùng Thả nhẹ*. Có nghĩa là Techmino sẽ không tính lỗi di chuyển nếu bạn phải “nhét” gạch đó để lấp hố hoặc thực hiện spin
 Techmino có kiểm tra bổ sung một số điều kiện nữa, như nếu bạn giữ gạch mà cả gạch hiện tại giống với gạch đang giữ, hoặc là giữ gạch khi bạn đã di chuyển gạch hiện tại, cũng đều tính là lỗi di chuyển.
-Finesse% trong Techmino được tính như sau: 100% nếu số phím bằng hoặc ít hơn par, 50% nếu quá par 1 phím, 25% nếu quá par 2 phím, và 0% nếu quá par 3 phím hoặc hơn.
+Finesse% trong Techmino được tính như sau: 100% nếu số phím bằng hoặc ít hơn par¹, 50% nếu quá par 1 phím, 25% nếu quá par 2 phím, và 0% nếu quá par 3 phím hoặc hơn.
 Lưu ý thêm nữa: trong 20G nếu vẫn kiểm tra lỗi di chuyển, kết quả có thể không chính xác.
 
-Thông tin thêm: Par là một thuật ngữ được dùng chủ yếu trong trò đánh golf, thường được sử dụng để chỉ số lượt gậy dự kiến cần để có thể đưa bóng vào hố (hole) hoặc một vòng đánh golf (round of golf). Hãy tra Google để biết thêm thông tin.
+(1) Par: thuật ngữ trò đánh golf, thường được sử dụng để chỉ số lượt gậy dự kiến cần để có thể đưa bóng vào hố (hole) hoặc một vòng đánh golf (round of golf). Hãy tra Google để biết thêm thông tin.
         ]],
     },
     {"Hypertapping",
@@ -1791,7 +1793,7 @@ Setup này thường phải đạt cả ba yêu cầu sau:
     {"QT Cannon",
         "nhom13b qtcannon",
         "setup",
-        "Một setup gần giống với DT Cannon và khả năng gửi DT Attack[*] cao.\nĐể có thêm thông tin, bạn có thể nhấn nút “Mở link” để mở bài ở trên wiki Hard Drop\n\n[*]: DT Attack = T-spin Double + T-spin Triple",
+        "Một setup gần giống với DT Cannon và khả năng gửi DT Attack¹ cao.\nĐể có thêm thông tin, bạn có thể nhấn nút “Mở link” để mở bài ở trên wiki Hard Drop\n\n¹: DT Attack = T-spin Double + T-spin Triple",
         "https://harddrop.com/wiki?search=QT_cannon",
     },
     {"Mini-Triple",
