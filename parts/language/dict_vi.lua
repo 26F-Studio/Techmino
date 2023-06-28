@@ -1623,7 +1623,7 @@ nhom12
 xếp lên; stacking
 ren combo
 sidewell centerwell partialwell 
-sidewelltetris side 1-wide; side2wide side 2-wide; s3w side3wide side 3-wide; s4w side4wide side 4-wide
+sidewelltetris side1well side 1-wide; side2wide side 2-wide; s3w side3wide side 3-wide; s4w side4wide side 4-wide
 c1w center1wide centerwelltetris center 1-wide; c2w center2wide center 2-wide; c3w center3wide center 3-wide; c4w center4wide center 4-wide
 residual; 63stacking six-three sixthree 6 - 3 Stacking
 
@@ -1637,7 +1637,7 @@ residual; 63stacking six-three sixthree 6 - 3 Stacking
 nhom12a stacking
 ren combo
 sidewell centerwell partialwell 
-sidewelltetris side 1-wide; side2wide side 2-wide; s3w side3wide side 3-wide; s4w side4wide side 4-wide
+sidewelltetris side1wide side 1-wide; side2wide side 2-wide; s3w side3wide side 3-wide; s4w side4wide side 4-wide
 c1w center1wide centerwelltetris center 1-wide; c2w center2wide center 2-wide; c3w center3wide center 3-wide; c4w center4wide center 4-wide
 residual
 63stacking six-three sixthree 6 - 3 Stacking
