@@ -53,7 +53,7 @@ Lưu ý: ĐỪNG gõ tên nhóm để hiện toàn bộ mục trong nhóm đó. 
     },
     {
         "=[NHÓM 02]=",
-        "nhom02 index mucluc mucluc1 mucluc2 mucluc3",
+        "nhom02 index index1 index2 index3 mucluc mucluc1 mucluc2 mucluc3",
         "name",
         [[
 NHÓM 02: MỤC LỤC
@@ -66,7 +66,7 @@ Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục, th
     },
     {
         "Mục lục [1/3]", 
-        "nhom02 mucluc1",
+        "nhom02 index1 mucluc1",
         "help",
         [[
 01. Về Zictionary: Giới thiệu bản dịch, Cách tìm kiếm trong Zictionary
@@ -94,7 +94,7 @@ Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục, th
     },
     {
         "Mục lục [2/3]", 
-        "nhom02 mucluc2",
+        "nhom02 index2 mucluc2",
         "help",
         [[
         05I. Hành động bất cẩn (Mis-): Misdrop, Mishold
@@ -122,7 +122,7 @@ Nhân tiện nếu bạn muốn mở một trang nào đó của Mục lục, th
     },
     {
         "Mục lục [3/3]", 
-        "nhom02 mucluc3",
+        "nhom02 index3 mucluc3",
         "help",
         [[
 11. Cộng đồng: Tetris Online Servers, Tetris Việt Nam
