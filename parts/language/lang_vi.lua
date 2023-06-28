@@ -468,7 +468,7 @@ return {
             lockout="Thua khi Lock Out",
             easyFresh="Lock Reset Thường",
             deepDrop="Thả rơi sâu",
-            bone="Dùng gạch []",
+            bone="Dùng skin []",
 
             eventSet="Rule Set",
 
@@ -1033,7 +1033,7 @@ return {
         "Techmino trên Nspire-CX ư? Có thật đấy! Mà khoan đã, hai game này không giống nhau chút nào cả!",
         "TetroDictionary đã ra mắt (đã có bản tiếng Việt rồi, nhưng mà hơi bruh, thôi vẫn đủ xài!)",
         "Những cái tên xuất hiện ở phần nền trong trang Đội Ngũ là danh sách các nhà tài trợ của chúng tôi",
-        "Toàn bộ nhạc game này đã có mặt trên Soundcloud! rồi đấy",
+        "Toàn bộ nhạc game này đã có mặt trên Soundcloud rồi đấy!",
         "The stacker future is yours in Techmino!", 
         "Bạn có biết: Có một số chế độ đã bị ẩn khỏi map không?",
         "Có tất cả 18 miếng pentomino khác nhau",
