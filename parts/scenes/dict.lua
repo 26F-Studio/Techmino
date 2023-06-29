@@ -59,8 +59,8 @@ end
 local function _search()
     local input=inputBox:getText():lower()
     _clearResult()
-    -- [SEA]: Can the search function prioritize the best match? Yes for almost all the time except Vietnamese
-    -- (due to the it's group system)
+    -- This change was made by Sea. Should the search function prioritize the best match result and move it to the top of the search result
+    -- Usually yes except Vietnamese version of Zictionary
     local prioritizeBestMatch=not SETTING.locale:find"vi"
     local first
     for i=1,#dict do
