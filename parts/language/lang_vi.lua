@@ -1,7 +1,7 @@
 local C=COLOR
 
 -- There are some strings, due to game's history, temproary be commented just in case
--- If it is not used anymore, it will be removed, in one day...
+-- If it is not used anymore, it will be removed, in one day…
 
 return {
     fallback='en',
@@ -259,7 +259,7 @@ return {
     },
     aboutTexts={
         "Đây chỉ là một trò chơi xếp gạch *thông thường*. Không, thật đấy, chỉ có vậy thôi",
-        "Lấy cảm hứng từ C2/IO/JS/WWC/KOS etc.",
+        "Lấy cảm hứng từ C2/IO/JS/WWC/KOS v.v.",
         "",
         "Chạy bằng LÖVE",
         "Chúng tôi đánh giá cao mọi đề xuất và báo cáo lỗi do các bạn gửi đến",
@@ -430,7 +430,7 @@ return {
         },
         net_rooms={
             password="Mật khẩu",
-            refreshing="Đang làm mới...",
+            refreshing="Đang làm mới…",
             noRoom="Hiện không có phòng nào",
             refresh="Làm mới",
             new="Phòng mới",
@@ -582,10 +582,10 @@ return {
             das="DAS",arr="ARR",
             dascut="DAS cut",
             dropcut="Auto-lock cut",
-            sddas="DAS thả rơi",sdarr="ARR thả rơi",
-            ihs="Initial Hold",         -- "Giữ       tức thì"
-            irs="Initial Rotation",     -- "Xoay      tức thì"
-            ims="Initial Movement",     -- "Di chuyển tức thì"
+            sddas="DAS thả nhẹ",sdarr="ARR thả nhẹ",
+            ihs="Giữ tức thì",
+            irs="Xoay tức thì",
+            ims="Di chuyển tức thì",
             reset="Đặt lại",
         },
         setting_key={
@@ -933,7 +933,7 @@ return {
         ['tech_l_plus']=    {"Tech",              "RẤT KHÓ+",       "Chỉ được clear Spin hoặc PC"},
         ['tech_finesse']=   {"Tech",              "HOÀN HẢO",       "Không được phép có lỗi di chuyển!"},
         ['tech_finesse_f']= {"Tech",              "HOÀN HẢO+",      "Không được phép có lỗi di chuyển hoặc loại Xoá hàng thường!"},
-        ['tsd_e']=          {"TSD Challenge",     "DỄ",             "Chỉ được làm T-Spin Double!"},    -- Chỉ được clear...
+        ['tsd_e']=          {"TSD Challenge",     "DỄ",             "Chỉ được làm T-Spin Double!"},    -- Chỉ được clear…
         ['tsd_h']=          {"TSD Challenge",     "KHÓ",            "Chỉ được làm T-Spin Double!"},
         ['tsd_u']=          {"TSD Challenge",     "THÁCH ĐẤU",      "Chỉ được làm T-Spin Double!"},
         ['backfire_n']=     {"Backfire",          "THƯỜNG",         "Sống sót những hàng rác do chính bạn gửi"},
@@ -987,7 +987,7 @@ return {
         "Đừng để những thứ nhỏ nhặt làm bạn nản chí!",
         "Đây không phải là lỗi, đây là tính năng!",
         "Hệ thống xoay gạch của Techmino rất đẹp trai!",
-        "Em rất tốt nhưng anh rất tiếc...", 
+        "Em rất tốt nhưng anh rất tiếc…", 
         "Đừng quên xem qua phần cài đặt!",
         "Nếu bạn thấy có vấn đề gì, hãy lên trang GitHub báo lại cho chúng tôi!",
         "Game xếp gạch nhưng có thêm chế độ FFA!",
@@ -1000,14 +1000,14 @@ return {
         "Chỉ có 2 loại trimino là I3 và L3",
         "if a==true", 
         "Việc tăng tần số khung hình sẽ mang trải nghiệm tốt hơn cho bạn",
-        "Initial [action] system có thể cứu bạn đấy",
+        "[Hành động] tức thì có thể cứu bạn đấy!",
         "B2B2B2B là gì? Ăn được không?",
         "Nó vừa load cutscene, vừa load game đấy!",
         "Bạn có thể xoá 40 hàng mà không cần dùng nút trái/phải",
         "Bạn có thể xoá 40 hàng mà không cần dùng nút xoay",
         "Hãy tham gia Discord của chúng tôi!",
         "l-=-1", 
-        "Nổi lửa lên em, NỔI LỬA LÊN EM",
+        "Nổi lửa lên em, NỔI LỬA LÊN EM!",
         "Việc giảm tần số khung hình sẽ mang trải nghiệm tệ hơn cho bạn",
         "LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF", 
         "Lua No.1", 
