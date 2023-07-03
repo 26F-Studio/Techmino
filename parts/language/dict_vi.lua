@@ -9,18 +9,16 @@ return {
 NHÓM 01: VỀ ZICTIONARY
 
 Zictionary là một từ điển về game xếp gạch cực kì hữu ích. Bạn có thể sử dụng để tra những từ hay thuật ngữ mà bạn không hiểu.
-Bạn bị rối vì kích thước của từ điển ư? Đừng lo, Zictionary đã được chia nhỏ thành 16 nhóm (+1 nhóm Phụ lục cho thông tin bổ sung)
+Zictionary được chia nhỏ thành 16 nhóm (+1 nhóm Phụ lục cho thông tin bổ sung) để cho dễ đọc.
 Bạn có thể xem phần Mục lục (ở Nhóm 2, hoặc bạn có thể gõ trên thanh tìm kiếm "mucluc" hoặc "nhom2" để xem mục lục) để biết mỗi nhóm chứa những mục nào
 
 Cách điều hướng: (󰂗: "Mở link", 󰃇: "Chép thông tin của mục")
-        Mũi tên Lên/Xuống | Lăn chuột: di chuyển giữa các mục
-        Mũi tên Trái/Phải: di chuyển nhanh hơn, nhảy qua 12 mục mỗi lần
+        󰄘/󰄙: Di chuyển lên/xuống 1 mục | 󰄚/󰄛 (󰂍/󰂎): Di chuyển lên/xuống 12 mục
         Ctrl+C | Nhấn nút 󰃇: sao chép nội dung của mục đang mở
         󰂀 (trên bàn phím) | Nhấn nút 󰂗: mở link đi kèm với mục (nếu có)
 
 Cách tìm kiếm: Gõ bất kỳ chữ cái nào để nhập vào thanh tìm kiếm
-        Backspace: xóa một ký tự
-        Esc: xóa toàn bộ chữ trong ô tìm kiếm, trả về toàn bộ từ điển
+        Backspace: xóa một ký tự; Esc: xóa ô tìm kiếm, hiện toàn bộ từ điển
 
 P/s: Hiện tại chỉ có bản dịch Tiếng Việt là có hệ thống nhóm (do Squishy tự tay sắp xếp lại để làm hệ thống này)
 Ở các bản Zictionary ở ngôn ngữ khác không có hệ thống nhóm,
@@ -33,8 +31,9 @@ do đó trật tự của các mục sẽ bị đảo lại nếu bạn chuyển
         "help",
         [[
 Bản dịch này là bản dịch tiếng Việt của Squishy từ bản dịch tiếng Anh của User670 và C₂₉H₂₅N₃O₅
+Bản dịch có thể không phản ánh 100% nội dung của Zictionary tiếng Trung (bản gốc)
 
-Bản dịch có thể không phản ánh 100% nội dung của Zictionary tiếng Trung (bản gốc) (Chuyện này bình thường hay xảy ra ở các bản dịch do cộng đồng làm, mà bản dịch này dùng bản dịch trung gian nên khả năng xảy ra cũng cao hơn bình thường)
+Đây là bản phát hành đầu, có thể sẽ có một số chỗ bị sai sót hoặc đọc bị cấn miệng. Nếu bạn muốn đóng góp, bạn có thể nhấn nút "Mở link" để đóng góp bản dịch cho mình. Câu hỏi? Liên hệ qua Discord của Techmino, tìm người có tên "Squishy/Sea". Bạn cứ thoải mái hỏi đi tại mình cũng đang hóng feedback để hoàn chỉnh bản dịch cho tốt hơn.
         ]],
         "https://github.com/26F-Studio/Techmino/blob/main/parts/language/dict_vi.lua",
     },
@@ -266,12 +265,12 @@ Techmino không kiểm tra điều kiện Lock out và Top out.
     {"Vùng đệm",
         "nhom05a invisible buffer zone",
         "term",
-        "Tên tiếng Anh là “Buffer Zone”. Thường dùng để nhắc tới những hàng có độ cao từ ô thứ 21-40, vùng này là vùng ở trên vùng nhìn thấy của bảng. Bởi vì gạch có thể cao hơn vùng nhìn thấy (thường xảy ra nếu có quá nhiều rác tới cùng một lúc) cho nên vùng đệm được tạo ra để cho phép những gạch ở trên cao có thể quay lại (sau) khi người chơi xóa hàng rác. Ngoài ra, vùng đệm thường nằm ở độ cao từ 21-40 vì chúng có thể áp dụng cho hầu hết các trường hợp. Tuy nhiên vẫn có những trường hợp ngoại lệ, hãy tham khảo “Vanish Zone” để biết thêm thông tin chi tiết",
+        "Tên tiếng Anh là “Buffer Zone”. Chỉ những hàng có độ cao từ ô thứ 21-40, vùng này là vùng ở trên vùng nhìn thấy của bảng. Bởi vì gạch có thể cao hơn vùng nhìn thấy (thường xảy ra nếu có quá nhiều rác tới cùng một lúc) cho nên vùng đệm được tạo ra để cho phép những gạch ở trên cao có thể quay lại (sau) khi người chơi xóa hàng rác. Ngoài ra, vùng đệm thường nằm ở độ cao từ 21-40 vì chúng có thể áp dụng cho hầu hết các trường hợp. Tuy nhiên vẫn có những trường hợp ngoại lệ, hãy tham khảo “Vanish Zone” để biết thêm thông tin chi tiết",
     },
     {"Vùng biến mất",
         "nhom05a gone vanish zone",
         "term",
-        "Tên tiếng Anh là “Vanish Zone”. Thường dùng để nhắc tới những hàng có độ cao từ 40 ô và cao hơn. Cái này chỉ có thể phát hiện ra bằng cách sử dụng C4W và đống hàng rác. Thông thường, nếu cột cao nhất trong bảng đụng vào vùng biến mất.\nTuy nhiên, có một số game có những phản ứng khác nhau. Một số game sẽ bị lỗi và sập khi có gạch đi vào vùng biến mất (ví dụ như Tetris Online). Riêng ở một số game thì game sẽ có hành động lạ (bạn có thể tham khảo video này, hãy nhấn vào nút “Mở link” để mở video).\n\nThông tin thêm: Jstris không có vùng đệm, chỉ có vùng biến mất được đặt từ hàng thứ 22.",
+        "Tên tiếng Anh là “Vanish Zone”. Chỉ những hàng có độ cao từ 40 ô và cao hơn. Cái này chỉ có thể phát hiện ra bằng cách sử dụng C4W và đống hàng rác. Thông thường, nếu cột cao nhất trong bảng đụng vào vùng biến mất.\nTuy nhiên, có một số game có những phản ứng khác nhau. Một số game sẽ bị lỗi và sập khi có gạch đi vào vùng biến mất (ví dụ như Tetris Online). Riêng ở một số game thì game sẽ có hành động lạ (bạn có thể tham khảo video này, hãy nhấn vào nút “Mở link” để mở video).\n\nThông tin thêm: Jstris không có vùng đệm, chỉ có vùng biến mất được đặt từ hàng thứ 22.",
         "https://youtu.be/z4WtWISkrdU",
     },
     {">B|Gạch",
@@ -299,7 +298,7 @@ Techmino không kiểm tra điều kiện Lock out và Top out.
         "nhom05b 0r2l 02 20 rl lr"..tetromino,
         "term",
         [[
-Trong hệ thống xoay SRS và các biến thể của SRS, có một hệ thống các ký hiệu tiêu chuẩn mô tả hướng của các gạch:
+Trong hệ thống xoay SRS và các biến thể của SRS, có một hệ thống tiêu chuẩn sử dụng số và chữ cái để mô tả hướng của các gạch:
     0: Hướng mặc định của hệ thống xoay
     R: Xoay phải, góc 90° theo chiều kim đồng hồ
     L: Xoay trái, góc 90° theo ngược chiều kim đồng hồ
@@ -319,7 +318,7 @@ Ví dụ:
         [[
 Một hệ thống để xác định cách gạch xoay.
 
-Trong các trò Tetris hiện đại, mỗi gạch có thể xoay dựa trên một tâm xoay cố định (có thể không hiện diện trong vài trò chơi). Nếu gạch sau khi xoay đè lên gạch khác hoặc ra ngoài bảng, hệ thống sẽ thử di chuyển gạch ở các vị trí xung quanh vị trí đang đứng (một quá trình được gọi “wall-kicking” (đá tường)).
+Trong các trò Tetris hiện đại, mỗi gạch có thể xoay dựa trên một tâm xoay cố định (có thể không xuất hiện trong vài trò chơi). Nếu gạch sau khi xoay đè lên gạch khác hoặc ra ngoài bảng, hệ thống sẽ thử di chuyển gạch ở các vị trí xung quanh vị trí đang đứng (một quá trình được gọi “wall-kicking” (đá tường)).
 
 Đá tường cho phép gạch có thể đến những hố có hình dạng nào đó mà bình thường không thể tiếp cận được. Các vị trí mà gạch có thể đá được chứa trong một bảng gọi là “wall-kick table” (bảng (các vị trí) đá tường)
         ]]
@@ -332,7 +331,7 @@ Trong các trò Tetris hiện đại, mỗi gạch có thể xoay dựa trên m�
     {"ASC",
         "nhom05c ascension",
         "term",
-        "Hệ thống xoay được dùng trong Ascension - một bản sao (chính xác là clone) của Tetris. Tất cả các gạch đều sử dụng chung một bảng đá tường (một dành cho xoay phải, một dành cho xoay trái), và vùng đá nằm trong khoảng cách ± 2 ô ở cả hai trục.",
+        "Hệ thống xoay được dùng trong Ascension - một bản clone của Tetris. Tất cả các gạch đều sử dụng chung một bảng đá tường (một dành cho xoay phải, một dành cho xoay trái), và vùng đá nằm trong khoảng cách ± 2 ô ở cả hai trục.",
     },
     {"ASC+",
         "nhom05c ascension ascplus",
@@ -358,7 +357,7 @@ Quá trình thử của hệ thống này diễn ra như sau:
 2. Nếu thất bại, thử lại như Bước 1; nhưng không cộng thêm độ lệch xuống dưới
 3. Nếu thất bại… thì việc xoay coi như thất bại, gạch sẽ không được xoay!
 
-So với XRS, BiRS dễ nhớ hơn nhiều vì nó chỉ dùng một bảng đá tường; nhưng vẫn giữ nguyên được tính năng vượt địa hình của SRS.
+So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một bảng đá tường; nhưng vẫn giữ nguyên được khả năng vượt địa hình của SRS.
 
 Khoảng cách euclide của độ lệch cú đá được chọn phải bé hơn √5
 Và nếu có độ lệch theo chiều ngang, thì hướng của cú đá đó không được là hướng ngược lại với hướng đã chọn.
@@ -930,7 +929,7 @@ Nội dung sau đây là những giới thiệu ngắn gọn về một số gam
 
 Sea cũng có một số lời nhận xét và thông tin bổ sung, được để ở nhóm 17A (Phụ lục\Thông tin bổ sung & lời nhận xét cho game). Các game có trong nhóm 17A là: Tetr.js, Tetris Friends, tetris.com, DTET, Tetris (EA) và Tetris (N3TWORK)
 
-Hãy nhớ là không phải game nào được nhắc đến đều có lời nhận xét, và chúng chỉ là những ý kiến chủ quan. Đọc chỉ để tham khảo, những nhận xét này không có tính chuyên môn.
+Hãy nhớ là không phải game nào được nói đến đều có lời nhận xét, chúng chỉ là những ý kiến chủ quan. Đọc chỉ để tham khảo, những nhận xét này không có tính chuyên môn.
         ]]
     },
     {"King of Stackers",
@@ -2109,7 +2108,7 @@ Hiện có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart), "b
     {"DTET",
         "nhom17",
         "game",
-        "Nhấn vào nút “Mở link” để mở link hướng dẫn cài DTET.\n\n\"\"\"CẢNH BÁO: MrZ, 26F Studio, Sea, và bài hướng dẫn trên sẽ KHÔNG CHỊU TRÁCH NHIỆM VỀ MỌI THIỆT HẠI do việc tải file DLL không rõ nguồn gốc\"\"\"",
+        "Nhấn vào nút “Mở link” để mở link hướng dẫn cài DTET.\n\n\"\"\"CẢNH BÁO: TUYÊN BỐ TỪ CHỐI TRÁCH NHIỆM!\nMrZ, 26F Studio, Squishy, và bài hướng dẫn trên sẽ KHÔNG CHỊU TRÁCH NHIỆM VỀ MỌI THIỆT HẠI (bao gồm nhưng không miễn trừ việc mất mát dữ liệu do xung đột phần mềm, phần mềm độc hại xâm nhập, hỏng vật lý máy tính một phần/hoàn toàn, thiệt hại tâm lý, v.v) do việc tải file DLL không rõ nguồn gốc!\"\"\"",
         "https://t-sp.in/dtet"
     },
     {"Tetris (EA)",
