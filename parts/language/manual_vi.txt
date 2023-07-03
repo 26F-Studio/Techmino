@@ -1,0 +1,111 @@
+Lối chơi:
+        Hệ thống sẽ cung cấp bạn các tetromino (gạch 4 ô),
+        có tổng 7 loại, và người chơi cần điều khiển chúng (di chuyển sang trái và phải; xoay 90, 180, hoặc 270 độ).
+        Cứ mỗi hàng được lấp đầy trong bảng, chúng sẽ bị xóa.
+        Nếu có đối thủ, đối thủ sẽ bị tấn công mạnh nhẹ thế nào tùy vào kiểu xóa bạn vừa thực hiện.
+        Chơi hết hoặc đạt mục tiêu của cấp độ để chiến thắng.
+
+Hệ thống xoay gạch:
+        Mặc định sẽ sử dụng TRS (Techmino Rotation System - Hệ thống xoay gạch Techmino).
+        Game cho phép người chơi chọn các hệ thống xoay gạch phổ biến khác (thường không cần thiết)
+
+Cách phát hiện spin:
+        Thỏa mãn quy tắc “3 góc”         +2 điểm
+        Thỏa mãn quy tắc “bất động” +2 điểm
+        - Cứ một trong hai điều kiện trên được thỏa mãn, thì sẽ được tính là Spin
+
+        Nếu việc xoay không đạt điều kiện thứ hai của hệ thống xoay, +1 điểm
+        - Spin sẽ là Mini nếu chỉ được 2 điểm;
+        gạch dùng để làm là S, Z, J, L hoặc T VÀ gạch đó không được xóa hết sau khi xóa hàng.
+
+Hệ thống tấn công:
+        Kiểu xóa Đặc biệt (Special clear):
+                Kiểu xóa Đặc biệt chỉ trường hợp bạn thực hiện spin, Techrash (hoặc xóa hơn 4 hàng cùng lúc), PC, hoặc HPC.
+                Kiểu xóa Đặc biệt có thể làm đầy thanh B2B.
+        Kiểu xóa Siêu cấp (Super clear):
+                Kiểu xóa Siêu cấp chỉ trường hợp bạn thực hiện Kiểu xóa Đặc biệt khi thanh B2B không trống.
+
+        Kiểu xóa Đặc biệt (spin): gửi đòn tấn công (số hàng xóa × 2) hàng,
+                - B2B gửi thêm 1/1/2/4/8 cho Spin Đơn/Spin Đôi/Spin Tam/Techrash/Techrash+
+                - B2B2B gửi thêm (số hàng xóa × 0.5) trên B2B và +1 hàng để hủy rác tới
+                - Mini sẽ bị cắt còn 25% (hệ số × 0.25)
+
+        Kiểu xóa Đặc biệt (Techrash/Techrash+ không dùng spin):
+                - Techrash gửi 4 hàng; Techrash+ gửi hơn 4 hàng (chưa biết chính xác là bao nhiêu hàng)
+                - B2B gửi thêm 1 hàng
+                - B2B2B sẽ boost 50% tấn công và +1 hàng để hủy rác tới
+
+        Kiểu xóa không Đặc biệt: gửi (số hàng vừa xóa - 0,5) hàng
+
+        Combo (REN):
+                Số combo = số lần bạn xóa hàng liên tiếp - 1 (dừng tính ở combo 12, từ combo 13 trở đi sẽ tính là combo 12).
+                Toàn bộ sát thương kể trên (trừ tấn công từ PC/HPC) nhận thêm bonus (combo × 25%) HOẶC (combo × 15%) nếu chỉ xóa 1 hàng.
+                +1 hàng để tấn công từ Combo 2 trở đi.
+
+        Hemi Perfect Clear (PC mà “vẫn còn gạch ở dưới.”). Nếu chỉ còn 1 hàng xóa, thì toàn bộ gạch còn lại không phải do người chơi đặt:
+                - +4 hàng để tấn công, +2 hàng để hủy rác tới
+
+        Perfect Clear (All Clear):
+                - Gửi 8 → 16 hàng rác (6 + 2 * số PC đã làm; tính tối đa 5PC) HOẶC sát thương thường, tùy vào sát thương nào mạnh hơn.
+                - +2 hàng để hủy rác.
+
+        Sau khi tính toán xong, lượng sát thương sẽ bị làm tròn XUỐNG trước khi gửi.
+
+
+Thanh Back to Back (B2B):
+        Thanh B2B có giá trị từ 0 tới 1,000. Kiểu xóa đặc biệt là B2B nếu thanh vượt qua vạch 50, B2B2B nếu qua vạch 800.
+
+        Nếu có hàng được xóa:
+                Kiểu xóa đặc biệt:
+                - Spin Đơn/Đôi/Tam/Techrash/Techrash+ + 50/100/180/800/1000 (×50% nếu là Mini)
+                - Techrash/Techrash+ + 150/200/...
+                - PC nếu số PC làm được trong một ván >4, +800
+                - HPC, +100
+                Kiểu xóa thường -250
+
+        Nếu không:
+                - Spin (0 hàng) +20. 
+                Thanh B2B không thể làm đầy qua vạch 800 bằng cách này.
+
+Hệ thống tính điểm:
+        [Sea: hệ thống tính điểm rất phức tạp + bản dịch tiếng Anh không ghi thông tin nên chẳng biết phải viết gì.
+        Nên thành ra mình tạm thời hoàn toàn không biết gì về cách tính điểm
+        Và mình cũng không thể đọc được bản tiếng Trung, nên đành để trống vậy
+        Mình sẽ cập nhật phần này ở những phiên bản sau của Techmino]
+
+Khoảng thời gian chờ trước khi tấn công:
+        Sát thường từ Đôi và Tam có hiệu lực nhanh nhất;
+        Theo sau là Techrash và Spin, chúng thường gửi tấn công chậm hơn;
+        Combo dài gửi lâu nhất;
+        Với B2B và B2B2B, có thể kéo dài thời gian chờ cũng như có thể thêm hàng;
+        Minis cũng góp phần kéo dài thời gian chờ nữa.
+
+Phản công:
+        Khi bạn gửi tấn công, nếu có rác trong hàng chờ, thì ưu tiên dùng hàng để hủy rác trước, sau đó mới dùng tới hàng để tấn công sau.
+        Tỉ lệ phản công sẽ là 1:1
+        Bất kỳ hàng nào để phản công không dùng tới sẽ bỏ hết; cuối cùng, số hàng để tấn công còn lại sẽ gửi tới đối thủ của bạn.
+
+Chế độ Battle Royale:
+        Một chế độ có nhiều người chơi cùng chơi trong một ván cùng lúc (nhưng mà là AI, chứ không phải người thật).
+        Cứ sau một số người chơi bị loại nhất định, gạch sẽ rơi nhanh hơn, và rác cũng sẽ phát tác sớm hơn và dâng nhanh hơn.
+        Đánh bật đối thủ khác để nhận một huy hiệu và toàn bộ huy hiệu của người chơi để tăng sức mạnh tấn công.
+        Người chơi có thể chọn 1 trong 4 chế độ tấn công sau đây:
+                1. Ngẫu nhiên: Cứ mỗi lần tấn công, có 10% khả năng nhắm vào một người chơi ngẫu nhiên.
+                2. Huy hiệu: Sau khi bạn tấn công, hoặc mục tiêu bị chết, tư động ngắm vào người chơi có nhiều huy hiệu nhất.
+                3. K.O.: Nhắm vào người chơi có bảng cao nhất sau khi bạn tấn công hoặc đối thủ bạn đang nhắm đã chết.
+                4. Phản công: tấn công tất cả người chơi đang khóa vào chính mình.
+                Bạn sẽ gửi tấn công đến tất cả bọn họ.
+                Nếu bạn không nhắm vào mục tiêu nào, thì bạn sẽ tấn công một người chơi ngẫu nhiên (không nhắm)
+        Khi toàn bộ đối thủ bị triệt hạ, thì người sống sót tận cùng sẽ chiến thắng.
+
+Chế độ tự do:
+        Bạn có thể tự do tùy chỉnh nhiều thông số (nhưng không bao gồm các hiệu ứng đặc biệt từ các chế độ khác).
+        Bạn có thể vẽ một cái bảng để tập xóa hoặc làm mẫu để tập build.
+        Ở trong chế độ Build (Puzzle):
+                Nhấn phím F1 để hiện/ẩn mẫu
+                ô có X thì không được có gạch;
+                ô trống thì có thể ở bất kỳ tình trạng nào;
+                ô có màu thì gạch đặt vào ô phải khớp màu;
+                ô có màu của hàng rác thì có thể là bất kỳ gạch nào nhưng không thể là không khí.
+        Một khi bạn làm khớp với mẫu ban đầu, bạn thắng.
+.
