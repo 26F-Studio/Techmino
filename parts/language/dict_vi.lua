@@ -268,7 +268,7 @@ Techmino không kiểm tra điều kiện Lock out và Top out.
     {"Vùng biến mất",
         "nhom05a gone vanish zone",
         "term",
-        "Tên tiếng Anh: “Vanish Zone”. Chỉ những hàng từ hàng thứ 40 và cao hơn. Chỉ có thể phát hiện ra bằng cách sử dụng C4W và đống hàng rác. Bình thường, nếu cột cao nhất trong bảng đụng vào vùng biến mất.\nTuy nhiên, có một số game có những phản ứng khác nhau. Một số game sẽ bị lỗi và sập khi có gạch đi vào vùng biến mất (ví dụ như Tetris Online). Riêng ở một số game thì game sẽ có hành động lạ (bạn có thể tham khảo video này, hãy nhấn vào nút “Mở link” để mở video).\n\nThông tin thêm: Jstris không có vùng đệm, chỉ có vùng biến mất được đặt từ hàng thứ 22.",
+        "Tên tiếng Anh: “Vanish Zone”. Chỉ những hàng từ hàng thứ 40 và cao hơn. Chỉ có thể phát hiện ra bằng cách sử dụng C4W và đống hàng rác. Bình thường, nếu có gạch nào đụng vào vùng biến mất thì game sẽ crash ngay.\nTuy nhiên, có một số game có những phản ứng khác nhau. Một số game sẽ bị lỗi và sập khi có gạch đi vào vùng biến mất (ví dụ như Tetris Online). Riêng ở một số game thì game sẽ có hành động lạ (bạn có thể tham khảo video này, hãy nhấn vào nút “Mở link” để mở video).\n\nThông tin thêm: Jstris không có vùng đệm, chỉ có vùng biến mất được đặt từ hàng thứ 22.",
         "https://youtu.be/z4WtWISkrdU",
     },
     {">B|Gạch",
