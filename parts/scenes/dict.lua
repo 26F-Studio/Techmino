@@ -59,13 +59,10 @@ end
 local function _search()
     local input=inputBox:getText():lower()
     _clearResult()
-    -- This change was made by Sea. Should the search function prioritize the best match result and move it to the top of the search result
-    -- Usually yes except Vietnamese version of Zictionary
-    local prioritizeBestMatch=not SETTING.locale:find"vi"
     local first
     for i=1,#dict do
         local pos=find(dict[i].title:lower(),input,nil,true) or find(dict[i].keywords:lower(),input,nil,true)
-        if pos==1 and not first and prioritizeBestMatch then
+        if pos==1 and not first then
             ins(result,1,dict[i])
             first=true
         elseif pos then
