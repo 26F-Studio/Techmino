@@ -546,7 +546,7 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
     {"Auto-lock cut",
         "nhom05f2 autolockcut",
         "term",
-        "Một tính năng được thiết kế để ngăn chặn việc mis-harddrop (thả gạch rơi mạnh không đúng thời điểm) do việc nhấn phím “Thả mạnh” ngay sau khi gạch cuối cùng bị khóa một cách tự nhiên\nPhím “Thả mạnh” sẽ tạm thời bị vô hiệu trong vòng vài khung hình (tùy vào từng game/cài đặt của người chơi) ngay sau khi có gạch bị khóa một cách tự nhiên.\n\nNhững game khác có thể có tính năng này nhưng cách hoạt động có thể đôi chút khác biệt.",
+        "Một tính năng được thiết kế để ngăn chặn việc mis-harddrop do việc vô tình nhấn phím “Thả mạnh” vào trúng vài giây mili giây sau khi gạch trước đó đã được đặt một cách tự nhiên\nPhím “Thả mạnh” sẽ tạm thời bị vô hiệu trong vòng vài khung hình (tùy vào từng game/cài đặt của người chơi) ngay sau khi có gạch bị khóa một cách tự nhiên.\n\nNhững game khác có thể có tính năng này nhưng cách hoạt động có thể đôi chút khác biệt.",
     },
     {"SDF",
         "nhom05f2 softdropfactor",
@@ -594,8 +594,7 @@ Mỗi game có cách tính LPM khác nhau. Ví dụ như, Tetris Online tính LP
         "Keypresses per piece | Số lần nhấn mỗi viên gạch\n\tPhản ánh mức độ hiệu quả việc điều khiển gạch. Giảm con số này bằng cách học Finesse",
     },
     {">G2|K.th. đ.khiển",
-        "nhom05g2 finesse lỗi di chuyển; nhấn liên tục; input delay"
-        .."Hypertapping, Rolling, Độ trễ input",
+        "nhom05g2",
         "name",
         "NHÓM 5G2: KỸ THUẬT ĐIỀU KHIỂN",
     },
@@ -609,11 +608,8 @@ Bạn có thể luyện tập bằng cách dùng tính năng “Chơi lại nế
 Techmino phát hiện lỗi di chuyển không dựa trên “số lần nhấn phím tối thiểu để di chuyển theo lý thuyết”, mà thay vào đó chỉ kiểm tra lỗi di chuyển dựa trên số lần nhấn phím tương đương đã được quy định trước *khi gạch được đặt tại một vị trí mà không cần dùng Thả nhẹ*. Có nghĩa là Techmino sẽ không tính lỗi di chuyển nếu bạn phải “nhét” gạch đó để lấp hố hoặc thực hiện spin
 Techmino có kiểm tra bổ sung một số điều kiện nữa, như nếu bạn giữ gạch mà cả gạch hiện tại giống với gạch đang giữ, hoặc là giữ gạch khi bạn đã di chuyển gạch hiện tại, cũng đều tính là lỗi di chuyển.
 
-Finesse% trong Techmino được tính như sau:
-    * 100% nếu số phím bằng hoặc ít hơn par¹
-    * 50%/25%/0% nếu quá par 1/2/3+ phím
-
-Lưu ý thêm nữa: trong 20G nếu vẫn kiểm tra lỗi di chuyển, kết quả có thể không chính xác.
+Finesse% trong Techmino được tính như sau: 100% nếu số phím bằng hoặc ít hơn par¹, 50%/25%/0% nếu quá par 1/2/3+ phím
+LƯU Ý: trong 20G nếu vẫn kiểm tra lỗi di chuyển, kết quả có thể không chính xác.
 
 (1) Par: thuật ngữ trò đánh golf, thường được sử dụng để chỉ số lượt gậy dự kiến cần để có thể đưa bóng vào hố (hole) hoặc một vòng đánh golf (round of golf).
         ]],
@@ -743,8 +739,8 @@ Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1
         "nhom05j tspin",
         "term",
         [[
-    Spin được thực hiện bởi Tetromino T.
-    Trong các game chính thức, T-spins chủ yếu được phát hiện bởi “quy luật 3 góc”. Tức là, nếu 3 trong 4 góc của một hình chữ nhật (có tâm là tâm xoay của gạch T) bị đè bởi bất kỳ gạch nào, thì spin đó được tính là T-spin. Một vài game cũng sẽ có thêm vài quy tắc để phân biệt spin đó là T-spin hoặc là Mini T-spin.
+Spin được thực hiện bởi Tetromino T.
+Trong các game chính thức, T-spins chủ yếu được phát hiện bởi “quy luật 3 góc”. Tức là, nếu 3 trong 4 góc của một hình chữ nhật (có tâm là tâm xoay của gạch T) bị đè bởi bất kỳ gạch nào, thì spin đó được tính là T-spin. Một vài game cũng sẽ có thêm vài quy tắc để phân biệt spin đó là T-spin hoặc là Mini T-spin.
         ]],
     },
     {"O-Spin",
@@ -1049,9 +1045,9 @@ Một trò chơi do fan làm đang được phát triển với hệ thống xoa
         "nhom06 tetrisgrandmaster tetristhegrandmaster",
         "game",
         [[
-Chỉ có trên game thùng | Chơi đơn/Chơi qua mạng cục bộ
+Chỉ có trên máy thùng | Chơi đơn/Chơi qua mạng cục bộ
 
-Tetris The Grand Master, một series Tetris dành cho máy thùng. Những thứ như S13 hay GM cũng từ chính series này. TGM3 được coi là tựa game nổi tiếng nhất của series này.
+Tetris The Grand Master, một series Tetris dành cho máy thùng, nổi tiếng với độ khó cực cao - được xem là series game khó nhất (tại thời điểm ra mắt). Những thứ như S13 hay GM cũng từ chính series này. TGM3 được coi là tựa game nổi tiếng nhất của series này.
         ]],
     },
     {"DTET",
@@ -1060,9 +1056,9 @@ Tetris The Grand Master, một series Tetris dành cho máy thùng. Những th�
         [[
 Windows | Chơi đơn
 
-Một game xếp gạch dựa trên quy tắc Cổ điển của TGM + 20G với hệ thống xoay gạch mạnh mẽ. Cơ chế điều khiển tốt nhưng không có tùy chỉnh nào ngoài tùy chỉnh gán phím. Game này bây giờ hơi khó tìm và bạn có thể phải cài tệp DLL cần thiết bằng tay. Tuy nhiên cũng may là có một bài hướng dẫn cách cài DTET, bạn có thể nhấn nút “Mở link” để mở bài viết.
+Một game xếp gạch dựa trên quy tắc Cổ điển của TGM + 20G với hệ thống xoay gạch mạnh mẽ. Cơ chế điều khiển tốt nhưng không có tùy chỉnh nào ngoài việc có thể gán lại phím. Game này bây giờ hơi khó tìm và bạn có thể phải cài tệp DLL cần thiết bằng tay. Tuy nhiên cũng may là có một bài hướng dẫn cách cài DTET, bạn có thể nhấn nút “Mở link” để mở bài viết.
 
-Nhưng nhớ là cẩn thận khi tải file DLL về! 
+CẢNH BÁO: cẩn thận khi tải file DLL về! 
 Vì chỉ có bạn chịu trách nhiệm nếu trong trường hợp xảy ra thiệt hại
         ]],
         "https://t-sp.in/dtet"
