@@ -1433,7 +1433,7 @@ function Player:popNext(ifhold)-- Pop nextQueue to hand
 
     if self.nextQueue[1] then
         self.cur=rem(self.nextQueue,1)
-        self.newNext()
+        self:newNext()
         self.pieceCount=self.pieceCount+1
 
         local pressing=self.keyPressing

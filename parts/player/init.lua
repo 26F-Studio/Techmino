@@ -328,19 +328,37 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
         ENV.nextPos=false
     end
 
-    P.newNext=coroutine.wrap(getSeqGen(P))
-    P:newNext(P.gameEnv.seqData)
-    if ENV.noInitSZO then
-        for _=1,5 do
-            local C=P.nextQueue[1]
-            if C and (C.id==1 or C.id==2 or C.id==6) then
-                table.remove(P.nextQueue,1)
-            else
-                break
-            end
+    local seqGen=coroutine.create(getSeqGen(P))
+    local seqCalled=false
+    function P:newNext()
+        local status,piece
+        if seqCalled then
+            status,piece=coroutine.resume(seqGen,P.field,P.stat)
+        else
+            status,piece=coroutine.resume(seqGen,P.seqRND,P.gameEnv.seqData)
         end
+        seqCalled=true
+        if status and piece then
+            P:getNext(piece)
+        elseif not status then
+            assert(piece=='cannot resume dead coroutine')
+        end
+    end
+    for _=1,ENV.nextCount do
         P:newNext()
     end
+    -- TODO: make noInitSZO work
+    -- if ENV.noInitSZO then
+    --     for _=1,5 do
+    --         local C=P.nextQueue[1]
+    --         if C and (C.id==1 or C.id==2 or C.id==6) then
+    --             table.remove(P.nextQueue,1)
+    --         else
+    --             break
+    --         end
+    --     end
+    --     P:newNext()
+    -- end
 
     if P.miniMode then
         ENV.lockFX=false
