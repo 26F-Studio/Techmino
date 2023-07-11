@@ -353,7 +353,7 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
             assert(piece=='cannot resume dead coroutine')
         end
     end
-    for _=1,ENV.nextCount do
+    for _=1,ENV.trueNextCount do
         P:newNext()
     end
 

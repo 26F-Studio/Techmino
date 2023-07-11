@@ -71,7 +71,7 @@ return {
                 field,stat=yield(wei[seqRND:random(#wei)])
             end
         end,
-        nextCount=1,holdCount=0,
+        trueNextCount=1,nextCount=1,holdCount=0,
         ospin=false,
         freshLimit=15,
         eventSet='checkLine_100',
