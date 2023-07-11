@@ -223,8 +223,7 @@ local seqGenerators={
         end
     end,
 }
-return function(P)-- Return a piece-generating function for player P
-    local s=P.gameEnv.sequence
+return function(s)-- Return a piece-generating function for player P
     if type(s)=='function' then
         return s
     elseif type(s)=='string' and seqGenerators[s] then
@@ -235,7 +234,6 @@ return function(P)-- Return a piece-generating function for player P
             "No sequence mode called "..s or
             "Wrong sequence generator"
         )
-        P.gameEnv.sequence='bag'
         return seqGenerators.bag
     end
 end

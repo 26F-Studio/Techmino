@@ -328,7 +328,7 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
         ENV.nextPos=false
     end
 
-    local seqGen=coroutine.create(getSeqGen(P))
+    local seqGen=coroutine.create(getSeqGen(ENV.sequence))
     local seqCalled=false
     local initSZOcount=0
     function P:newNext()
