@@ -19,7 +19,8 @@ Cách điều hướng: (󰂗: "Mở link", 󰃇: "Chép thông tin của mục"
 Cách tìm kiếm: Gõ bất kỳ chữ cái nào để nhập vào thanh tìm kiếm
         Backspace: xóa một ký tự; Esc: xóa ô tìm kiếm, hiện toàn bộ từ điển
 
-        Lưu ý: để hiện toàn bộ mục nào đó trong nhóm, gõ "nhom<n>" với n là số từ 1 tới 16 (lưu ý viết 2 chữ số, ví dụ như: 06 hay 16). KHÔNG GÕ TÊN NHÓM! Bạn vẫn có thể tìm một mục riêng lẻ bằng cách gõ một phần hoặc đầy đủ tên mục
+        Lưu ý: để hiện toàn bộ mục nào đó trong nhóm, gõ "nhom<n>" với n là số từ 1 tới 16 (viết 2 chữ số, ví dụ như: 06 hay 16).
+        KHÔNG GÕ TÊN NHÓM! Bạn vẫn có thể tìm một mục riêng lẻ bằng cách gõ một phần hoặc đầy đủ tên mục
         ]]
     },
     {
@@ -28,9 +29,10 @@ Cách tìm kiếm: Gõ bất kỳ chữ cái nào để nhập vào thanh tìm k
         "help",
         [[
 Bản dịch này là bản dịch tiếng Việt của Squishy từ bản dịch tiếng Anh của User670 và C₂₉H₂₅N₃O₅
-Bản dịch có thể không phản ánh 100% nội dung của Zictionary tiếng Trung (bản gốc)
+Bản dịch có thể không thể hiện 100% nội dung của Zictionary tiếng Trung (bản gốc)
 
-Đây là bản phát hành đầu, có thể sẽ có một số chỗ bị sai sót hoặc đọc bị cấn miệng. Nếu bạn muốn đóng góp, bạn có thể nhấn nút "Mở link" để đóng góp bản dịch cho mình. Câu hỏi? Liên hệ qua Discord của Techmino, tìm người có tên "Squishy/Sea". Bạn cứ thoải mái hỏi đi tại mình cũng đang chờ feedback để hoàn chỉnh bản dịch cho tốt hơn.
+Đây là bản phát hành đầu, có thể sẽ có một số chỗ bị sai sót hoặc đọc bị cấn miệng. Nếu bạn muốn đóng góp, có thể vào trang dự án Techmino ở trên GitHub để đóng góp bản dịch. 
+Có câu hỏi? Liên hệ mkfnh qua server Techmino. Bạn cứ thoải mái hỏi đi tại mình cũng đang chờ feedback để hoàn chỉnh bản dịch cho tốt hơn.
         ]],
         "https://github.com/26F-Studio/Techmino/blob/main/parts/language/dict_vi.lua",
     },
@@ -57,7 +59,7 @@ Nếu muốn mở một trang nào đó của Mục lục, thì bạn có thể 
 03. Dự án Techmino: Trang web chính thức, Dự án trên GitHub, Discord
 04. Ủng hộ cho tác giả của Techmino
 05. Tetris và các thuật ngữ
-        05A. Tetris hiện đại: Next, Hold, Swap, Topping out, Vùng đệm, Vùng biến mất
+        05A. Các yếu tố chính làm nên game Tetris hiện đại: Next, Hold, Swap, Topping out, Vùng đệm, Vùng biến mất
         05B. Gạch: Hình dạng, màu, hướng và tên của gạch
         05C. Hệ thống xoay gạch: ARS, ASC, ASC+, BRS, BiRS, C2RS, C2sym, NRS, SRS, SRS+, TRS, XRS
         05D. Hệ thống điều khiển: IRS, IHS, IMS
@@ -188,12 +190,14 @@ Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đ
         "name",
         "NHÓM 05: TETRIS VÀ CÁC THUẬT NGỮ",
     },
-    {">A|Tetris hiện đại",
+    {">A|Các yếu tố chính",
         "nhom05a",
         "name",
         [[
-Khái niệm về trò chơi Tetris hay trò chơi xếp gạch “hiện đại” rất mờ nhạt. Nói chung, một trò chơi xếp gạch hiện đại thường sẽ bám sát theo Tetris Design Guideline (Nguyên tắc thiết kế Tetris hiện đại).
-Dưới đây là một số quy tắc chung, nhưng chúng không phải là quy tắc bắt buộc
+Khái niệm về trò chơi Tetris hay trò chơi xếp gạch “hiện đại” khá là mờ nhạt.
+Nói chung, một game xếp gạch hiện đại thường sẽ bám sát theo Tetris Design Guideline (Bộ nguyên tắc thiết kế cho Tetris).
+
+Dưới đây là các yếu tố chính để làm nên Tetris, tuy nhiên chúng không bắt buộc phải xuất hiện trong mọi game
     1. Phần có thể nhìn được của bảng có kích thước 10 × 20 (rộng × dài), cùng với 2 - 3 hàng ẩn ở bên nhau.
     2. Gạch sẽ được sinh ra ở giữa trên cùng của ma trận có thể nhìn thấy (thường là ở hàng 21-22). Mỗi mảnh đều có màu sắc và hướng quay mặc định riêng.
     3. Có một bộ xáo gạch như 7-bag hay His.
@@ -246,7 +250,7 @@ Techmino không kiểm tra điều kiện Lock out và Top out.
     {">B|Gạch",
         "nhom05b",
         "name",
-        "",
+        "1 Mino | 1 Domino | 2 Trimino | 7 Tetromino | 18 Pentomino",
     },
     {"H.dạng của Tetro.",
         "nhom05b hình dạng của tetro. hình dạng của tetromino"..tetromino,
@@ -559,7 +563,7 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
         "",
     },
     {">G1|Tốc độ đ.khiển",
-        "nhom05g1 tốc độ điều khiển; linesperminute; số hàng mỗi phút; piecespersecond số gạch mỗi giây; blocksperminute piecesperminute số gạch mỗi phút; keysperminute keypressesperminute số lần nhấn mỗi phút; số phím mỗi phút; số lần nhấn mỗi gạch; số phím mỗi gạch; tốc độ"
+        "nhom05g1"
         .."LPM PPS BPM KPM KPP",
         "name",
         "NHÓM 5G1: TỐC ĐỘ ĐIỀU KHIỂN",
@@ -746,7 +750,7 @@ Trong các game chính thức, T-spins chủ yếu được phát hiện bởi �
     {"O-Spin",
         "nhom05j ospin",
         "term",
-        "Bởi vì gạch O “tròn”, không đổi hình dạng khi xoay, nên nó không thể “đá” được. Từ đó có một người làm một fake video hướng dẫn làm O-Spin trong Tetris 99 và Tetris Friends, sau đó nó trở thành meme luôn\n\nTrong khi đó:\n\tXRS cho phép gạch O có thể “teleport” tới một cái hố.\n\tTRS cho phép gạch O “teleport” hoặc “biến hình” (theo nghĩa đen) thành một gạch có hình dạng khác",
+        "Bởi vì gạch O “tròn”, không đổi hình dạng khi xoay, nên nó không thể “đá” được. Từ đó có một người làm một fake video hướng dẫn làm O-Spin trong Tetris 99 và Tetris Friends, sau đó nó trở thành meme luôn\n\nTrong khi đó:\n\tXRS cho phép gạch O có thể “teleport” tới một cái hố.\n\tTRS cho phép gạch O “teleport” và “biến hình”",
     },
     {">K|K.th. xóa hàng",
         "nhom05k",
@@ -868,7 +872,7 @@ Hãy nhớ là không phải game nào được nói đến đều có lời nh�
         "nhom06 kos kingofstackers",
         "game",
         [[
-Chơi trên trình duyệt | Chơi trực tuyến | Hỗ trợ điện thoại
+Chơi trên trình duyệt | Chơi trực tuyến | Hỗ trợ màn hình cảm ứng
 
 Gọi tắt là KoS. Một game xếp gạch chơi trên trình duyệt theo lượt. Về cơ bản: người chơi thay phiên nhau đặt các gạch trong bảng của họ theo chu kỳ 7 gạch. Hàng rác chỉ có thể vào bảng khi một gạch được đặt mà không xóa một hàng nào. Trò chơi mang tính chiến lược cao và có các tùy chọn khác nhau cho cơ chế tấn công.
         ]],
@@ -878,7 +882,7 @@ Gọi tắt là KoS. Một game xếp gạch chơi trên trình duyệt theo lư
         "nhom06 tetrjs tetr.js",
         "game",
         [[
-Chơi trên trình duyệt | Chơi đơn | Hỗ trợ điện thoại
+Chơi trên trình duyệt | Chơi đơn | Hỗ trợ màn hình cảm ứng
 
 Một game xếp gạch chơi trên trình duyệt với nhiều điều chỉnh và chế độ chuyên nghiệp.
 Liên kết của mục này sẽ đưa bạn tới bản của Farter (bản này là một bản đã mod, đã thêm một vài chế độ khác)
@@ -892,7 +896,7 @@ Bạn cũng có thể tìm một phiên bản khác có tên là "Tetr.js Enhanc
         "nhom06 tl tetralegends",
         "game",
         [[
-Chơi trên trình duyệt | Chơi đơn | Không hỗ trợ điện thoại
+Chơi trên trình duyệt | Chơi đơn
 
 Gọi tắt là TL. Một tựa game chứa nhiều chế độ chơi đơn + 2 chế độ nhịp điệu. Nó cũng hình dung các cơ chế thường ẩn trong các trò chơi Tetris khác. Quá trình phát triển đã dừng lại hoàn toàn từ T12/2020.
         ]],
@@ -904,7 +908,8 @@ Gọi tắt là TL. Một tựa game chứa nhiều chế độ chơi đơn + 2 
         [[
 Chơi trên trình duyệt | Chơi đơn/Chơi trực tuyến
 
-Gọi tắt là ASC. Game sử dụng hệ thống xoay có tên là ASC và có nhiều chế độ chơi đơn. Chế độ 1 đấu 1 hiện vẫn còn trong giai đoạn Alpha (16/T4/2022). Chế độ Stack của Techmino cũng bắt nguồn từ game này.
+Gọi tắt là ASC. Game sử dụng hệ thống xoay có tên là ASC và có nhiều chế độ chơi đơn. Chế độ 1 đấu 1 hiện vẫn còn trong giai đoạn Alpha (tính tới 16/T4/2022).
+Chế độ Stack của Techmino cũng bắt nguồn từ game này.
         ]],
         "https://asc.winternebs.com",
     },
@@ -912,7 +917,7 @@ Gọi tắt là ASC. Game sử dụng hệ thống xoay có tên là ASC và có
         "nhom06 js",
         "game",
         [[
-Chơi trên trình duyệt | Chơi đơn/Chơi trực tuyến | Hỗ trợ điện thoại
+Chơi trên trình duyệt | Chơi đơn/Chơi trực tuyến | Hỗ trợ cảm ứng
 
 Gọi tắt là JS. Nó có một số chế độ chơi đơn với thông số có thể điều chỉnh được. Có thể điều chỉnh phím ảo trên màn hình, nhưng trò chơi này không có hiệu ứng động nào cả.
         ]],
@@ -964,7 +969,7 @@ Gọi tắt là TF. Một trò chơi Tetris được viết dựa trên một pl
         "nhom06 tetris online official",
         "game",
         [[
-Chơi trên trình duyệt | Chơi đơn | Hỗ trợ điện thoại
+Chơi trên trình duyệt | Chơi đơn | Hỗ trợ màn hình cảm ứng
 
 Game Tetris chính thức tetris.com, mà chỉ có một chế độ (Marathon). Bù lại, có hỗ trợ hệ thống điều khiển thông minh bằng chuột
         ]],
@@ -976,7 +981,8 @@ Game Tetris chính thức tetris.com, mà chỉ có một chế độ (Marathon)
 [Mục này được viết bởi Squishy, không xuất hiện ở ngôn ngữ khác
 Có thể áp dụng cho "Tetris Gems" và "Tetris Mind Bender"]
 
-Trước đây bạn không thể mở game này trên điện thoại nhưng giờ bạn có thể chơi được rồi. (Trong Zictionary tiếng Anh không có ghi "Hỗ trợ điện thoại".)
+Hiện tại game đã Hỗ trợ màn hình cảm ứng
+(Trong Zictionary tiếng Anh không có ghi "Hỗ trợ màn hình cảm ứng".)
 
 Hiện có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart), "bàn phím". Bạn có thể thử nghiệm với cả ba chế độ điều khiển để tìm xem chế độ nào tối ưu với mình nhất
 
@@ -988,7 +994,7 @@ Hiện có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart), "b
         "nhom06 tetris online official gem",
         "game",
         [[
-Chơi trên trình duyệt | Chơi đơn | Hỗ trợ điện thoại
+Chơi trên trình duyệt | Chơi đơn | Hỗ trợ màn hình cảm ứng
 
 Một game xếp gạch khác từ tetris.com. Có cơ chế trọng lực và mỗi ván chỉ kéo dài trong 1 phút. Có 3 loại gem (ngọc) khác nhau với khả năng riêng biệt.
         ]],
@@ -997,7 +1003,7 @@ Một game xếp gạch khác từ tetris.com. Có cơ chế trọng lực và m
         "nhom06 tetris online official gem",
         "game",
         [[
-Chơi trên trình duyệt | Chơi đơn | Hỗ trợ điện thoại
+Chơi trên trình duyệt | Chơi đơn | Hỗ trợ màn hình cảm ứng
 
 Một game xếp gạch khác từ tetris.com . Một chế độ Marathon vô tận với một mino đặc biệt gọi là "Mind Bender" sẽ đưa cho bạn ngẫu nhiên một hiệu ứng nào đó (có thể là tốt hoặc xấu).
         ]],
@@ -1247,7 +1253,7 @@ Android | Chơi trực tuyến
 
 (JJ块)
 
-Một game bình thưởng trên JJ Card Games (JJ棋牌). Chơi ở màn hình dọc, độ trễ đầu vào thấp, điều khiển mượt. DAS/ARR có thể điều chỉnh được, nhưng hạn chế về tùy biến bố cục phím ảo. Không Hold cũng như B2B, không bộ đệm rác hay hủy rác được [giống như FULL Passthough trong TETR.IO]. Mỗi tấn công gửi tối đa 4 hàng, còn combo thì "ao chình". Phần còn lại thì tương tự như Tetris hiện đại.
+Một game bình thưởng trên JJ Card Games (JJ棋牌). Chơi ở màn hình dọc, độ trễ đầu vào thấp, điều khiển mượt. DAS/ARR có thể điều chỉnh được, nhưng hạn chế về tùy biến bố cục phím ảo. Không Hold cũng như B2B, không bộ đệm rác hay hủy rác được. Mỗi tấn công gửi tối đa 4 hàng, còn combo thì "ao chình". Phần còn lại thì tương tự như Tetris hiện đại.
         ]],
     },
     {"Huopin Tetris",
@@ -1258,7 +1264,7 @@ Windows | Chơi trực tuyến
 
 (火拼俄罗斯)
 
-Một game xếp gạch ở trên Tencent Game Center, bảng rộng 12 ô, DAS và ARR giống với DAS và ARR hay dùng trong các app gõ văn bản, 1 Next, không Hold. Chỉ có thể gửi rác bằng Tetris (gửi 3 hàng rác) và xóa 3 hàng (gửi 2 hàng rác). Hàng rác có cấu trúc bàn cờ và gần như không thể đào xuống
+Một game xếp gạch ở trên Tencent Game Center, bảng rộng 12 ô, DAS và ARR giống với DAS và ARR hay dùng trong các app gõ văn bản, 1 Next, không Hold. Chỉ có thể gửi rác bằng Tetris (gửi 3 hàng rác) và xóa 3 hàng (gửi 2 hàng rác). Hàng rác có cấu trúc xen kẽ và gần như không thể đào xuống
         ]],
     },
     {"=[NHÓM 07]=",

@@ -2,7 +2,7 @@ Lối chơi:
         Hệ thống sẽ cung cấp bạn các tetromino (gạch 4 ô),
         có tổng 7 loại, và người chơi cần điều khiển chúng (di chuyển sang trái và phải; xoay 90, 180, hoặc 270 độ).
         Cứ mỗi hàng được lấp đầy trong bảng bởi các viên gạch, chúng sẽ bị xóa ra khỏi bảng.
-        Nếu có đối thủ, đối thủ sẽ bị tấn công mạnh hoặc nhẹ tùy theo số hàng rác bạn gửi.
+        Nếu có đối thủ, đối thủ sẽ bị tấn công mạnh hoặc nhẹ tùy theo số hàng bạn gửi.
         Chơi hết hoặc đạt mục tiêu của cấp độ để thắng.
 
 
