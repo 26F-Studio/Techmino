@@ -1089,114 +1089,115 @@ return {
     -- Và giờ thì tui mang lại sang đây, nhưng không phải tất cả
     -- Mà nè, đám này có lẽ tui sẽ ẩn đi một thời gian, chắc là tới Cá tháng 4 năm 2024 mới mang lên đây?
 
-        -- I wonder how many people playing games actually care about who made the game.",
-        {C.W,"Z: ",C.white,"Tôi tự hỏi là có bao nhiêu người chơi game thực sự quan tâm tới ai viết ra nó."},
-        -- Enabling vibration on some mobile systems may cause severe lag."
-        "Bật rung trên điện thoại có thể tạo ra vài cú giật lag",
-        -- Eat the button? Really? I suggest you play it back to see if you pressed it and how long it took you to press it"
-        "Phím không ăn? Đùa à? Xem lại replay để chắc rằng ông đã nhấn và xem thử mất bao nhiêu thời gian để ông nhấn",
-        -- Probably someone will read the tip
-        "Chắc chắn có người đang đọc cái dòng chữ nhỏ nhỏ xinh xinh đang chạy ở dưới này",
-        -- I haven't studied music composition. I just composed it myself. If you really think it's good, that's great!
-        {C.W,"Z: ",C.white,"Tôi chưa từng học sáng tác nhạc, và tôi chỉ tự sáng tác chúng. Nếu bạn thấy những bản nhạc này hay, thật tuyệt!"},
-        -- It seems like no one has reached a high level by playing with their feet yet.
-        "Hình như tới giờ chưa ai chơi xếp gạch giỏi bằng bàn chân…",
-        -- Moderate gaming is good for the brain. Addiction to games is harmful. Plan your time
-        "Chơi game vừa phải có thể tốt cho bộ não. Nhưng nếu nghiện thì rất nguy hiểm. Nhớ quản lý thời gian nhé!",
-        -- The ability to dig is extremely important in battles!!!
-        "Khả năng đào xuống (downstacking) của bạn là RẤT QUAN TRỌNG trong chiến đấu!!!",
-        -- I can't write cool music (crying)
-        {C.W,"Z: ",C.white,"Tôi không thể nào viết một bản nhạc nào trông ngầu cả (sadge)."},
-        -- Who is MrZ
-        "Ai là MrZ vậy?",
-        -- How do you pronounce Techmino?
-        "Phát âm từ Techmino như thế nào mới đúng?",
-        -- English UK: /'tɛkminəʊ/; English US: /tɛkminoʊ/
-        "Techmino phát âm trong tiếng Anh là /'tɛkminəʊ/; còn tiếng Mỹ là /tɛkminoʊ/.",
-        --
-        "Ủa Techmino phải đọc là “Tét-mai-nô” hay là “Tét-mi-nô” vậy?",
-        -- Where to download Techmino? (Blai - intentional misspelling)
-        "Ây tải Techmino ở đâu vậy? Tui chả tìm thấy game này trong CH Blai nên chắc chắn là nó ở nơi khác rồi.",
-        -- Techmino's birthday
-        "Ngày sinh nhật của Techmino? Hiện tại (đang giả định) là 26/T6.",
-        -- How to O-spin: Rotate 626 times in one second (mistaken)
-        "Cách O-spin? Nhấn phím xoay 626 lần (ĐÙA ĐẤY ĐỪNG TIN!)",
-        -- Hope you all like Z... Oh no, like Techmino
-        "Mong các bạn sẽ thích Z… Chết, không phải, thích Techmino cơ! Nhầm nhầm nhầm!",
-        -- Don't act weak! Don't act weak! Don't act weak!
-        "Đừng tỏ ra yếu đuối! Đừng tỏ ra yếu đuối! Đừng tỏ ra yếu đuối!",
-        -- What else can I write for tips?
-        {C.W,"Z: ",C.white,"Còn mẹo nào tôi có thể viết ra nhỉ?"},
-        -- Warning: No pretending to be weak.
-        "CẢNH BÁO! Đừng giả vờ yếu đuối",
-        -- "Meow!"
-        "Meow!",
-        -- Getting popup messages in the middle of a game? Go to settings and disable them.
-        "Popup tự dưng hiện lên giữa game? Vào cài đặt và vô hiệu nó đi",
-        "Đang chơi trên điện thoại tự dưng có thông báo trồi xuống làm phiền? Hãy bật chế độ Do Not Distrub (Đừng làm phiền)",
-        -- Don't play with your phone if your homework isn't finished.
-        "Đừng chơi điện thoại khi bài tập về nhà còn chưa hoàn thành",
+    --     -- I wonder how many people playing games actually care about who made the game.",
+    --     {C.W,"Z: ",C.white,"Tôi tự hỏi là có bao nhiêu người chơi game thực sự quan tâm tới ai viết ra nó."},
+    --     -- Enabling vibration on some mobile systems may cause severe lag."
+    --     "Bật rung trên điện thoại có thể tạo ra vài cú giật lag",
+    --     -- Eat the button? Really? I suggest you play it back to see if you pressed it and how long it took you to press it"
+    --     "Phím không ăn? Đùa à? Xem lại replay để chắc rằng ông đã nhấn và xem thử mất bao nhiêu thời gian để ông nhấn",
+    --     -- Probably someone will read the tip
+    --     "Chắc chắn có người đang đọc cái dòng chữ nhỏ nhỏ xinh xinh đang chạy ở dưới này",
+    --     -- I haven't studied music composition. I just composed it myself. If you really think it's good, that's great!
+    --     {C.W,"Z: ",C.white,"Tôi chưa từng học sáng tác nhạc, và tôi chỉ tự sáng tác chúng. Nếu bạn thấy những bản nhạc này hay, thật tuyệt!"},
+    --     -- It seems like no one has reached a high level by playing with their feet yet.
+    --     "Hình như tới giờ chưa ai chơi xếp gạch giỏi bằng bàn chân…",
+    --     -- Moderate gaming is good for the brain. Addiction to games is harmful. Plan your time
+    --     "Chơi game vừa phải có thể tốt cho bộ não. Nhưng nếu nghiện thì rất nguy hiểm. Nhớ quản lý thời gian nhé!",
+    --     -- The ability to dig is extremely important in battles!!!
+    --     "Khả năng đào xuống (downstacking) của bạn là RẤT QUAN TRỌNG trong chiến đấu!!!",
+    --     -- I can't write cool music (crying)
+    --     {C.W,"Z: ",C.white,"Tôi không thể nào viết một bản nhạc nào trông ngầu cả (sadge)."},
+    --     -- Who is MrZ
+    --     "Ai là MrZ vậy?",
+    --     -- How do you pronounce Techmino?
+    --     "Phát âm từ Techmino như thế nào mới đúng?",
+    --     -- English UK: /'tɛkminəʊ/; English US: /tɛkminoʊ/
+    --     "Techmino phát âm trong tiếng Anh là /'tɛkminəʊ/; còn tiếng Mỹ là /tɛkminoʊ/.",
+    --     --
+    --     "Ủa Techmino phải đọc là “Tét-mai-nô” hay là “Tét-mi-nô” vậy?",
+    --     -- Where to download Techmino? (Blai - intentional misspelling)
+    --     "Ây tải Techmino ở đâu vậy? Tui không tìm thấy game này trong CH Blai nên chắc chắn là nó ở nơi khác rồi.",
+    --     -- Techmino's birthday
+    --     "Ngày sinh nhật của Techmino? Hiện tại (đang giả định) là 26/T6.",
+    --     -- How to O-spin: Rotate 626 times in one second (mistaken)
+    --     "Cách O-spin? Nhấn phím xoay 626 lần (ĐÙA ĐẤY ĐỪNG TIN!)",
+    --     -- Hope you all like Z... Oh no, like Techmino
+    --     "Mong các bạn sẽ thích Z… Chết, không phải, thích Techmino cơ! Nhầm nhầm nhầm!",
+    --     -- Don't act weak! Don't act weak! Don't act weak!
+    --     "Đừng tỏ ra yếu đuối! Đừng tỏ ra yếu đuối! Đừng tỏ ra yếu đuối!",
+    --     -- What else can I write for tips?
+    --     {C.W,"Z: ",C.white,"Còn mẹo nào tôi có thể viết ra nhỉ?"},
+    --     -- Warning: No pretending to be weak.
+    --     "CẢNH BÁO! Đừng giả vờ yếu đuối",
+    --     -- "Meow!"
+    --     "Meow!",
+    --     -- Getting popup messages in the middle of a game? Go to settings and disable them.
+    --     "Popup tự dưng hiện lên giữa game? Vào cài đặt và vô hiệu nó đi",
+    --     "Đang chơi trên điện thoại tự dưng có thông báo trồi xuống làm phiền? Hãy bật chế độ Do Not Distrub (Đừng làm phiền)",
+    --     -- Don't play with your phone if your homework isn't finished.
+    --     "Đừng chơi điện thoại khi bài tập về nhà còn chưa hoàn thành",
 
-    -- IT
-        "git pull --recursive https://github.com/26F-Studio/Techmino.git",
-        "git merge --rebase",
-        "git stash",
-        "git submodule update",
-        "shutdown /s /t 0",         -- Turn off computer completely (no Fast Boot)
-        "shutdown /s /t 0 /hybrid", -- Turn off computer with Fast Boot still activated
-        -- Techmino has reached the limit.
-        "Bạn không thể mở Techmino vì đã đạt tới giới hạn",
-        -- Techmino.exe has stopped working.
-        "Techmino.exe đã (đột ngột) dừng lại",
-        "Techmino đã (đột ngột) thoát",
-        -- If you have a real interest in programming, I recommend Lua. Easy installation, simple syntax, and fast execution speed. Stay away from boring school programming (haha)
-        {"Nếu bạn thực sự có hứng thú trong việc viết app, tôi đề xuất sử dụng Lua. Dễ cài, cú pháp đơn giản, và tốc độ thực thi nhanh. Rồi tránh xa chương trình học nhàm chán ở trên trường luôn! (haha) - ",C.W,"Z",C.white," said."},
+    -- -- IT
+    --     "git pull --recursive https://github.com/26F-Studio/Techmino.git",
+    --     "git merge --rebase",
+    --     "git stash",
+    --     "git submodule update",
+    --     "shutdown /s /t 0",         -- Turn off computer completely (no Fast Boot)
+    --     "shutdown /s /t 0 /hybrid", -- Turn off computer with Fast Boot still activated
+    --     -- Techmino has reached the limit.
+    --     "Bạn không thể mở Techmino vì đã đạt tới giới hạn",
+    --     -- Techmino.exe has stopped working.
+    --     "Techmino.exe đã (đột ngột) dừng lại",
+    --     "Techmino đã (đột ngột) thoát",
+    --     -- If you have a real interest in programming, I recommend Lua. Easy installation, simple syntax, and fast execution speed. Stay away from boring school programming (haha)
+    --     {"Nếu bạn thực sự có hứng thú trong việc viết app, tôi đề xuất sử dụng Lua. Dễ cài, cú pháp đơn giản, và tốc độ thực thi nhanh. Rồi tránh xa chương trình học nhàm chán ở trên trường luôn! (haha) - ",C.W,"Z",C.white," said."},
 
-    -- CHANGELOG
-        "Nhật ký thay đổi - ".."V0.0.091726"..": Đã thêm hệ thống xoay TRS",
-        "Nhật ký thay đổi - ".."V0.7.9 "    ..": Đã thêm O-spin",
-        "Nhật ký thay đổi - ".."V0.7.19"    ..": Đã thêm hệ thống voice",
-        "Nhật ký thay đổi - ".."V0.7.22"    ..": Đã thêm hiệu ứng rơi mượt",
-        "Nhật ký thay đổi - ".."V0.8.5 "    ..": Đã thêm bản đồ các chế độ",
-        "Nhật ký thay đổi - ".."V0.8.19"    ..": Đã thêm Pentomino",
-        "Nhật ký thay đổi - ".."V0.9.0 "    ..": Đã thêm chế độ và chuỗi gạch tùy chỉnh",
-        "Nhật ký thay đổi - ".."V0.10.0"    ..": Đã thêm hệ thống replay",
-        "Nhật ký thay đổi - ".."V0.11.1"    ..": Đã thêm Little Z Dictionary (Zictionary)",
-        "Nhật ký thay đổi - ".."V0.12.2"    ..": Đã thêm hệ thống mod",
-        "Nhật ký thay đổi - ".."V0.13.0"    ..": Thử nghiệm chế độ trực tuyến",
-        "Nhật ký thay đổi - ".."V0.13.2"    ..": Đã thêm chiều cao bảng tùy ý",
-        "Nhật ký thay đổi - ".."V0.13.3"    ..": Đã thêm console",
-        "Nhật ký thay đổi - ".."V0.14.5"    ..": Đã thêm BGM đầu tiên được tạo bởi cộng đồng",
-        "Nhật ký thay đổi - ".."V0.15.5"    ..": Đã thêm menu replay",
-        "Nhật ký thay đổi - ".."V0.16.0"    ..": Đã thêm hệ thống xoay BIRS",
-        "Nhật ký thay đổi - ".."V0.16.2"    ..": Đã thêm studio âm thanh với kiểu hit pad",
-        "Nhật ký thay đổi - ".."V0.17.0"    ..": Đã thêm joystick và công tắc kích hoạt hỗ trợ điều khiển bằng joystick",
-        "Nhật ký thay đổi - ".."V0.17.3"    ..": Dừng phát triển Techmino (cũ), Techmino bắt đầu vào vòng đời bảo trì",
+    -- -- CHANGELOG
+    --     "Nhật ký thay đổi - ".."V0.0.091726"..": Đã thêm hệ thống xoay TRS",
+    --     "Nhật ký thay đổi - ".."V0.7.9 "    ..": Đã thêm O-spin",
+    --     "Nhật ký thay đổi - ".."V0.7.19"    ..": Đã thêm hệ thống voice",
+    --     "Nhật ký thay đổi - ".."V0.7.22"    ..": Đã thêm hiệu ứng rơi mượt",
+    --     "Nhật ký thay đổi - ".."V0.8.5 "    ..": Đã thêm bản đồ các chế độ",
+    --     "Nhật ký thay đổi - ".."V0.8.19"    ..": Đã thêm Pentomino",
+    --     "Nhật ký thay đổi - ".."V0.9.0 "    ..": Đã thêm chế độ và chuỗi gạch tùy chỉnh",
+    --     "Nhật ký thay đổi - ".."V0.10.0"    ..": Đã thêm hệ thống replay",
+    --     "Nhật ký thay đổi - ".."V0.11.1"    ..": Đã thêm Little Z Dictionary (Zictionary)",
+    --     "Nhật ký thay đổi - ".."V0.12.2"    ..": Đã thêm hệ thống mod",
+    --     "Nhật ký thay đổi - ".."V0.13.0"    ..": Thử nghiệm chế độ trực tuyến",
+    --     "Nhật ký thay đổi - ".."V0.13.2"    ..": Đã thêm chiều cao bảng tùy ý",
+    --     "Nhật ký thay đổi - ".."V0.13.3"    ..": Đã thêm console",
+    --     "Nhật ký thay đổi - ".."V0.14.5"    ..": Đã thêm BGM đầu tiên được tạo bởi cộng đồng",
+    --     "Nhật ký thay đổi - ".."V0.15.5"    ..": Đã thêm menu replay",
+    --     "Nhật ký thay đổi - ".."V0.16.0"    ..": Đã thêm hệ thống xoay BIRS",
+    --     "Nhật ký thay đổi - ".."V0.16.2"    ..": Đã thêm studio âm thanh với kiểu hit pad",
+    --     "Nhật ký thay đổi - ".."V0.17.0"    ..": Đã thêm joystick và công tắc kích hoạt hỗ trợ điều khiển bằng joystick",
+    --     "Nhật ký thay đổi - ".."V0.17.3"    ..": Dừng phát triển Techmino (cũ), Techmino bắt đầu vào vòng đời bảo trì",
 
-        -- MATH FORMULAS
-        "(a+b)³=a³+3a²b+3ab²+b³",
-        "∫u dv=uv-∫v du",
-        "cos(α+β)=CαCβ-SβSα",
-        "cos²α-cos²β=-S(α+β)S(α-β)",
-        "cos²α-sin²β=C(α+β)C(α-β)",
-        "cos2α=C²α-S²α",
-        "e^(πi)=-1",
-        "e^(πi/2)=i",
-        "e^(πi/4)=(1+i)/√2",
-        "lim x→c f(x)/g(x)=lim x→c f'(x)/g'(x)",
-        "S△ABC=√(h(h-a)(h-b)(h-c))，h=(a+b+c)/2",
-        "sin(α+β)=SαCβ+SβCα",
-        "sin²α-cos²β=-C(α+β)C(α-β)",
-        "sin²α-sin²β=S(α+β)S(α-β)",
-        "sin2α=2SαCα",
+    --     -- MATH FORMULAS
+    --     "(a+b)³=a³+3a²b+3ab²+b³",
+    --     "∫u dv=uv-∫v du",
+    --     "cos(α+β)=CαCβ-SβSα",
+    --     "cos²α-cos²β=-S(α+β)S(α-β)",
+    --     "cos²α-sin²β=C(α+β)C(α-β)",
+    --     "cos2α=C²α-S²α",
+    --     "e^(πi)=-1",
+    --     "e^(πi/2)=i",
+    --     "e^(πi/4)=(1+i)/√2",
+    --     "lim x→c f(x)/g(x)=lim x→c f'(x)/g'(x)",
+    --     "S△ABC=√(h(h-a)(h-b)(h-c))，h=(a+b+c)/2",
+    --     "sin(α+β)=SαCβ+SβCα",
+    --     "sin²α-cos²β=-C(α+β)C(α-β)",
+    --     "sin²α-sin²β=S(α+β)S(α-β)",
+    --     "sin2α=2SαCα",
 
-    -- OTHER
-        {C.W,"uid:225238922"},
+    -- -- OTHER
+    --     {C.W,"uid:225238922"},
 
-    -- FROM SEA
-        {"Có một số người ở Trung Quốc thích gọi ",C.W,"MrZ",C.white," với cái tên dễ thương hơn, đó là: ",C.W,"Z-Chan",C.white,"."},
-        "Có hơn 400 mẹo bạn có thể nhìn thấy ở đây, dòng chữ này, nếu bạn đang chơi Techmino với tiếng Trung",
-        {C.sea,"Sea: ",C.white,"Tui không có đủ mặn để có thể chọc cười ai đó. Nên một số câu đang chạy ở đây được viết bởi ",C.yellow,"Shard Nguyễn",C.white,"Em cảm ơn anh!"}
+    -- -- FROM SEA
+    --     {"Có một số người ở Trung Quốc thích gọi ",C.W,"MrZ",C.white," với cái tên dễ thương hơn, đó là: ",C.W,"Z-Chan",C.white,"."},
+    --     "Có hơn 400 mẹo bạn có thể nhìn thấy ở đây, dòng chữ này, nếu bạn đang chơi Techmino với tiếng Trung",
+    --     {C.sea,"Sea: ",C.white,"Tui không có đủ mặn để có thể chọc cười ai đó. Nên một số câu đang chạy ở đây được viết bởi ",C.yellow,"Shard Nguyễn",C.white,". “Em cảm ơn anh!”"},
+    --     {C.sea,"Sea: ",C.white,"Tui đang tự hỏi liệu còn bao nhiêu lỗi tui bỏ sót lúc dịch game không? Tính ra tôi đã cập nhật đi cập nhật lại cũng 4-5 lần rồi. Rất sợ để sót lỗi"},
     },
     pumpkin="Tôi là một quả bí ngô",
 }
