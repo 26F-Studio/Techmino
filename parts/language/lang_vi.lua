@@ -1018,7 +1018,6 @@ return {
         "Hầu hết nhạc trong game được tạo bằng Beepbox",
         "Nghe nhạc làm bạn phân tâm? Tắt nó đi",
         "Nếu mà Chế độ đơn giản được bật thì bạn sẽ không thấy điều đặc biệt nào đâu!",
-        "O-Spin Triple!",
         "Thương cho tấm thân cơ hàn, ngậm ngùi lặng nhìn con đò sang ngang",
         "Chơi game một tay chưa?",
         "Có công mài sắt, có ngày nên kim!",
@@ -1065,6 +1064,7 @@ return {
         {C.C,"Also try osu!"},
         {C.C,"Also try Phigros!"},
         {C.C,"Also try Puyo Puyo!"},
+        {C.C,"Also try Quatrack"},
         {C.C,"Also try Rubik’s cube!"},
         {C.C,"Also try Terraria!"},
         {C.C,"Also try Touhou Project!"},
@@ -1122,7 +1122,7 @@ return {
         -- How to O-spin: Rotate 626 times in one second (mistaken)
         "Cách O-spin? Nhấn phím xoay 626 lần (ĐÙA ĐẤY ĐỪNG TIN!)",
         -- Hope you all like Z... Oh no, like Techmino
-        "Mong các bạn sẽ thích Z… Ối, không phải, thích Techmino cơ! Nhầm nhầm nhầm!",
+        {"Mong các bạn sẽ thích ",C.W,"Z",C.white,"… Ối! Không phải, thích ",C.green,"Techmino",C.white," cơ! Nhầm nhầm nhầm!"},
         -- Don't act weak! Don't act weak! Don't act weak!
         "Đừng tỏ ra yếu đuối! Đừng tỏ ra yếu đuối! ĐỪNG TỎ RA YẾU ĐUỐI!",
         -- What else can I write for tips?
@@ -1132,15 +1132,18 @@ return {
         -- "Meow!"
         "Meow!",
         -- Getting popup messages in the middle of a game? Go to settings and disable them.
-        "Popup tự dưng hiện lên giữa game? Vào cài đặt của app tạo ra popup và tắt nó đi",
-        "Đang chơi trên điện thoại tự dưng có thông báo trồi xuống làm phiền? Hãy bật chế độ Do Not Distrub (Đừng làm phiền)",
+        "Thông báo tự dưng hiện lên giữa game? Vào cài đặt của app tạo ra popup và tắt nó đi",
+        "Đang chơi trên điện thoại tự dưng có thông báo làm phiền? Hãy bật chế độ Do Not Distrub (Đừng làm phiền)",
         -- Don't play with your phone if your homework isn't finished.
         "Đừng chơi điện thoại khi bài tập về nhà còn chưa hoàn thành",
--- 
+        -- I hope Minimalistic Mode is fine.
+        {C.W,"Z: ",C.white,"Tôi mong là Chế độ Đơn giản đủ tốt"},
+
     -- IT
-        "git pull --recursive https://github.com/26F-Studio/Techmino.git",
+        "git clone --recursive https://github.com/26F-Studio/Techmino.git",
         "git merge --rebase",
         "git stash",
+        "git stash apply",
         "git submodule update",
         "shutdown /s /t 0",         -- Turn off computer completely (no Fast Boot)
         "shutdown /s /t 0 /hybrid", -- Turn off computer with Fast Boot still activated
@@ -1151,27 +1154,27 @@ return {
         "Techmino đã đột ngột dừng lại",
         -- If you have a real interest in programming, I recommend Lua. Easy installation, simple syntax, and fast execution speed. Stay away from boring school programming (haha)
         {"Nếu bạn thực sự có hứng thú trong việc viết app, tôi đề xuất sử dụng Lua. Dễ cài, cú pháp đơn giản, và tốc độ thực thi nhanh. Rồi tránh xa chương trình học nhàm chán ở trên trường luôn! (haha) - ",C.W,"Z",C.white," said."},
--- 
+
     -- CHANGELOG
-        "V0.0.091726"..": Đã thêm hệ thống xoay TRS",
-        "V0.7.9 "    ..": Đã thêm O-spin",
-        "V0.7.19"    ..": Đã thêm hệ thống voice",
-        "V0.7.22"    ..": Đã thêm hiệu ứng rơi mượt",
-        "V0.8.5 "    ..": Đã thêm bản đồ các chế độ",
-        "V0.8.19"    ..": Đã thêm Pentomino",
-        "V0.9.0 "    ..": Đã thêm chế độ và chuỗi gạch tùy chỉnh",
-        "V0.10.0"    ..": Đã thêm hệ thống replay",
-        "V0.11.1"    ..": Đã thêm Little Z Dictionary (Zictionary)",
-        "V0.12.2"    ..": Đã thêm hệ thống mod",
-        "V0.13.0"    ..": Thử nghiệm chế độ trực tuyến",
-        "V0.13.2"    ..": Đã thêm chiều cao bảng tùy ý",
-        "V0.13.3"    ..": Đã thêm console",
-        "V0.14.5"    ..": Đã thêm BGM đầu tiên được tạo bởi cộng đồng",
-        "V0.15.5"    ..": Đã thêm menu replay",
-        "V0.16.0"    ..": Đã thêm hệ thống xoay BIRS",
-        "V0.16.2"    ..": Đã thêm studio âm thanh với kiểu hit pad",
-        "V0.17.0"    ..": Đã thêm joystick và công tắc kích hoạt hỗ trợ điều khiển bằng joystick",
-        "V0.17.3"    ..": Dừng phát triển Techmino (cũ), Techmino bắt đầu vào vòng đời bảo trì",
+        {C.lW, "V0.0.091726",": ",C.white, "Đã thêm hệ thống xoay TRS"},
+        {C.lW, "V0.7.9 "    ,": ",C.white, "Đã thêm ",C.yellow,"O-spin"},
+        {C.lW, "V0.7.19"    ,": ",C.white, "Đã thêm hệ thống voice"},
+        {C.lW, "V0.7.22"    ,": ",C.white, "Đã thêm hiệu ứng rơi mượt"},
+        {C.lW, "V0.8.5 "    ,": ",C.white, "Đã thêm map và sắp xếp lại các chế độ"},
+        {C.lW, "V0.8.19"    ,": ",C.white, "Đã thêm Pentomino"},
+        {C.lW, "V0.9.0 "    ,": ",C.white, "Đã thêm chế độ tự do và khả năng tùy biến chuỗi gạch"},
+        {C.lW, "V0.10.0"    ,": ",C.white, "Đã thêm hệ thống replay"},
+        {C.lW, "V0.11.1"    ,": ",C.white, "Đã thêm Little Z Dictionary (Zictionary)"},
+        {C.lW, "V0.12.2"    ,": ",C.white, "Đã thêm hệ thống mod"},
+        {C.lW, "V0.13.0"    ,": ",C.white, "Thử nghiệm chế độ trực tuyến"},
+        {C.lW, "V0.13.2"    ,": ",C.white, "Đã thêm chiều cao bảng tùy ý"},
+        {C.lW, "V0.13.3"    ,": ",C.white, "Đã thêm console"},
+        {C.lW, "V0.14.5"    ,": ",C.white, "Đã thêm BGM đầu tiên được tạo bởi cộng đồng"},
+        {C.lW, "V0.15.5"    ,": ",C.white, "Đã thêm menu replay"},
+        {C.lW, "V0.16.0"    ,": ",C.white, "Đã thêm hệ thống xoay BIRS"},
+        {C.lW, "V0.16.2"    ,": ",C.white, "Đã thêm studio SFX với phong cách hit pad"},
+        {C.lW, "V0.17.0"    ,": ",C.white, "Đã thêm joystick và công tắc kích hoạt hỗ trợ điều khiển bằng joystick"},
+        {C.lW, "V0.17.3"    ,": ",C.white, "Techmino bước vào vòng đời bảo trì, sẽ không có thêm tính năng mới"},
 -- 
         -- MATH FORMULAS
         "(a+b)³=a³+3a²b+3ab²+b³",
@@ -1194,10 +1197,13 @@ return {
         {C.W,"uid:225238922"},
 -- 
     -- FROM SEA
-        {"Có một số người ở Trung Quốc thích gọi ",C.W,"MrZ",C.white," với cái tên dễ thương hơn, đó là: ",C.W,"Z-Chan",C.white,"."},
-        "Có hơn 400 mẹo bạn có thể nhìn thấy ở đây, dòng chữ này, nếu bạn đang chơi Techmino với tiếng Trung",
+        {C.W,"MrZ",C.white," còn một biệt danh dễ thương hơn, đó là ",C.W,"Z-Chan",C.white,"(. Ây! ",C.W,"MrZ",C.white," không phải là con gái đâu nha!"},
+        "Có hơn 400 mẹo bạn có thể nhìn thấy ở đây, là cái dòng chữ này, nếu bạn đang chơi Techmino với tiếng Trung",
+
         {C.sea,"Sea: ",C.white,"Tui không có đủ mặn để có thể chọc cười ai đó. Nên một số câu đang chạy ở đây được viết bởi ",C.yellow,"Shard Nguyễn",C.white,". “Em cảm ơn anh!”"},
-        {C.sea,"Sea: ",C.white,"Tui đang tự hỏi liệu còn bao nhiêu lỗi tui bỏ sót lúc dịch game không? Tính ra tui đã cập nhật đi cập nhật lại cũng 4-5 lần rồi. Rất sợ để sót lỗi"},
+        {C.sea,"Sea: ",C.white,"Tui đang tự hỏi liệu còn bao nhiêu lỗi tui bỏ sót lúc dịch game không? Tính ra tui đã cập nhật đi cập nhật lại cũng 4-5 lần rồi."},
+
+        {"Tetris ",C.red,"Việt ",C.lYellow,"Nam ",C.white,"https://discord.gg/jX7BX9g"}, -- Tetris Vietnam
     },
     pumpkin="Tôi là một quả bí ngô",
 }
