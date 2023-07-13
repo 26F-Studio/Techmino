@@ -2,7 +2,7 @@ local ins,rem=table.insert,table.remove
 local yield=coroutine.yield
 
 local seqGenerators={
-    none=function() while true do yield() end end,
+    none=function() end,
     bag=function(rndGen,seq0)
         local len=#seq0
         local bag={}
@@ -220,6 +220,79 @@ local seqGenerators={
     fixed=function(rndGen,seq0)
         for i=#seq0,1,-1 do
             yield(seq0[i])
+        end
+    end,
+    bagP1inf=function(rndGen,seq0)
+        local len=#seq0
+        local function new()
+            local res={}
+            local higher=nil
+            local higher_dist={}
+            for i=1,len do
+                higher_dist[i]=1
+            end
+            local remaining=len+1
+            local unknown={}
+            local extra=-1
+            local function init()
+                for i=1,len do
+                    unknown[i]=1
+                end
+                remaining=len+1
+                extra=-1
+            end
+            init()
+            function res.next_dist()
+                if extra>=0 then
+                    return remaining,unknown
+                end
+                local temp={}
+                local temp_sum=0
+                for i=1,len do
+                    local item=higher_dist[i]*(2-unknown[i])
+                    temp[i]=item
+                    temp_sum=temp_sum+item
+                end
+                local sum=0
+                for i=1,len do
+                    temp[i]=temp[i]+temp_sum*unknown[i]
+                    sum=sum+temp[i]
+                end
+                return sum,temp
+            end
+            function res.update(i)
+                if unknown[i]==0 then
+                    assert(extra<0,"extra should be -1")
+                    extra=i
+                else
+                    unknown[i]=0
+                end
+                remaining=remaining-1
+                if remaining>0 then
+                    return
+                end
+                if higher==nil then
+                    higher=new()
+                end
+                higher.update(extra)
+                local _
+                _,higher_dist=higher.next_dist()
+                init()
+            end
+            return res
+        end
+        local dist=new()
+        while true do
+            local sum,mydist=dist.next_dist()
+            local r=rndGen:random(sum)
+            for i=1,len do
+                r=r-mydist[i]
+                if r<=0 then
+                    yield(seq0[i])
+                    dist.update(i)
+                    break
+                end
+            end
         end
     end,
 }
