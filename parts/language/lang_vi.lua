@@ -1116,7 +1116,7 @@ return {
         --
         "Ủa Techmino phải đọc là “Tét-mai-nô” hay là “Tét-mi-nô” vậy?",
         -- Where to download Techmino? (Blai - intentional misspelling)
-        "Ây tải Techmino ở đâu vậy? Tui không tìm thấy game này trong CH Blai nên chắc chắn là nó ở nơi khác rồi.",
+        "Cho em hỏi tải Techmino ở đâu vậy? Tui không tìm thấy game này trong CH Blai nên chắc chắn là nó ở nơi khác rồi.",
         -- Techmino's birthday
         "Ngày sinh nhật của Techmino? Hiện tại (đang giả định) là 26/T6.",
         -- How to O-spin: Rotate 626 times in one second (mistaken)
@@ -1139,7 +1139,7 @@ return {
         -- I hope Minimalistic Mode is fine.
         {C.W,"Z: ",C.white,"Tôi mong là Chế độ Đơn giản đủ tốt"},
 
-    -- IT
+    -- IT JOKES
         "git clone --recursive https://github.com/26F-Studio/Techmino.git",
         "git merge --rebase",
         "git stash",
@@ -1167,13 +1167,13 @@ return {
         {C.lW, "V0.11.1"    ,": ",C.white, "Đã thêm Little Z Dictionary (Zictionary)"},
         {C.lW, "V0.12.2"    ,": ",C.white, "Đã thêm hệ thống mod"},
         {C.lW, "V0.13.0"    ,": ",C.white, "Thử nghiệm chế độ trực tuyến"},
-        {C.lW, "V0.13.2"    ,": ",C.white, "Đã thêm chiều cao bảng tùy ý"},
+        {C.lW, "V0.13.2"    ,": ",C.white, "Đã thêm khả năng tùy biến chiều co bảng"},
         {C.lW, "V0.13.3"    ,": ",C.white, "Đã thêm console"},
-        {C.lW, "V0.14.5"    ,": ",C.white, "Đã thêm BGM đầu tiên được tạo bởi cộng đồng"},
+        {C.lW, "V0.14.5"    ,": ",C.white, "Đã thêm BGM đầu tiên được làm bởi cộng đồng"},
         {C.lW, "V0.15.5"    ,": ",C.white, "Đã thêm menu replay"},
         {C.lW, "V0.16.0"    ,": ",C.white, "Đã thêm hệ thống xoay BIRS"},
         {C.lW, "V0.16.2"    ,": ",C.white, "Đã thêm studio SFX với phong cách hit pad"},
-        {C.lW, "V0.17.0"    ,": ",C.white, "Đã thêm joystick và công tắc kích hoạt hỗ trợ điều khiển bằng joystick"},
+        {C.lW, "V0.17.0"    ,": ",C.white, "Đã thêm hõ trợ điều khiển bằng joystick"},
         {C.lW, "V0.17.3"    ,": ",C.white, "Techmino bước vào vòng đời bảo trì, sẽ không có thêm tính năng mới"},
 -- 
         -- MATH FORMULAS
@@ -1198,12 +1198,12 @@ return {
 -- 
     -- FROM SEA
         {C.W,"MrZ",C.white," còn một biệt danh dễ thương hơn, đó là ",C.W,"Z-Chan",C.white,"(. Ây! ",C.W,"MrZ",C.white," không phải là con gái đâu nha!"},
-        "Có hơn 400 mẹo bạn có thể nhìn thấy ở đây, là cái dòng chữ này, nếu bạn đang chơi Techmino với tiếng Trung",
+        "Có hơn 400 mẹo bạn có thể nhìn thấy ở đây, là cái dòng chữ này, nếu bạn đang chơi Techmino tiếng Trung",
 
-        {C.sea,"Sea: ",C.white,"Tui không có đủ mặn để có thể chọc cười ai đó. Nên một số câu đang chạy ở đây được viết bởi ",C.yellow,"Shard Nguyễn",C.white,". “Em cảm ơn anh!”"},
+        {C.sea,"Sea: ",C.white,"Tui không có đủ mặn để viết joke. Nên một số câu đang chạy ở đây được viết bởi ",C.yellow,"Shard Nguyễn",C.white,". “Em cảm ơn anh!”"},
         {C.sea,"Sea: ",C.white,"Tui đang tự hỏi liệu còn bao nhiêu lỗi tui bỏ sót lúc dịch game không? Tính ra tui đã cập nhật đi cập nhật lại cũng 4-5 lần rồi."},
 
-        {"Tetris ",C.red,"Việt ",C.lYellow,"Nam ",C.white,"https://discord.gg/jX7BX9g"}, -- Tetris Vietnam
+        {"Tetris ",C.red,"Việt ",C.lYellow,"Nam ",C.white,": https://discord.gg/jX7BX9g"}, -- Tetris Vietnam
     },
     pumpkin="Tôi là một quả bí ngô",
 }
