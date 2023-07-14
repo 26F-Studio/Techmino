@@ -1217,6 +1217,10 @@ C. Tay cầm chơi game (Gamepad)
         {C.W,"uid:225238922"},
         {"Ai là ",C.W,"MrZ",C.white," vậy?"},
 --
+    -- MrZ
+        {C.W,"uid:225238922"},
+        {"Ai là ",C.W,"MrZ",C.white," vậy?"},
+--
     -- Z SAID
         -- I can't write cool music (crying)
         {C.W,"Z: ",C.white,"Tôi không thể nào viết một bản nhạc nào trông ngầu cả (sadge)."},
