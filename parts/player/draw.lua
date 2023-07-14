@@ -91,6 +91,10 @@ local seqGenBanner=setmetatable({
     fixed=GC.DO{100,10,
         {'fRect',40,4,20,2},
     },
+    --TODO: add new banner for bagP1inf
+    bagP1inf=GC.DO{100,10,
+        {'fRect',40,4,20,2},
+    },
 },{__index=function(self,k)
     self[k]=self.none
     return self.none
