@@ -1157,6 +1157,10 @@ return {
         -- The button with a question mark in the bottom-right corner is the game manual (assuming you haven't enabled the concise mode).
         "Cái nút "..CHAR.icon.help.." ở góc phải dưới cùng đấy hả? (Nếu không bật Chế độ đơn giản). À nó là hướng dẫn của game ấy, nhưng nó là manual chứ không phải tutorial (hướng dẫn tập chơi) đâu",
 --
+    -- MrZ
+        {C.W,"uid:225238922"},
+        {"Ai là ",C.W,"MrZ",C.white," vậy?"},
+--
     -- Z SAID
         -- I can't write cool music (crying)
         {C.W,"Z: ",C.white,"Tôi không thể nào viết một bản nhạc nào trông ngầu cả (sadge)."},
