@@ -45,8 +45,6 @@ NHÓM 02: MỤC LỤC
 
 Đây là mục lục của toàn bộ Zictionary
 Bạn có thể quay lại đây bằng cách gõ trên thanh tìm kiếm "nhom02" hoặc "mucluc"
-
-Nếu muốn mở một trang nào đó của Mục lục, thì bạn có thể gõ "mucluc<trang_cần_mở>". Ví dụ: "mucluc3"
         ]]
     },
     {
@@ -470,7 +468,7 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
         "name",
         ""
     },
-    {">F1|Thg số game",
+    {">E1|Thg số game",
         "nhom05e1",
         "name",
         "NHÓM 5F1: THÔNG SỐ GAME"
@@ -519,7 +517,7 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
         "term",
         "Khi có một viên gạch chặn ngay tại vị trí xuất hiện của gạch mới, spawn ARE sẽ được cộng với một khoảng thời gian nữa để tạo thành Death ARE. Cơ chế này có thể được sử dụng cùng với IHS và IRS để cho phép bạn có thể thoát chết.\nÝ tưởng về cơ chế này là của NOT_A_ROBOT.",
     },
-    {">F2|Thg số đ.khiển",
+    {">E2|Thg số đ.khiển",
         "nhom05e2",
         "name",
         "NHÓM 5F2: THÔNG SỐ ĐIỀU KHIỂN"
@@ -554,12 +552,12 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
         "term",
         "Soft Drop Factor (Hệ số tốc độ rơi nhẹ)\n\nMột cách để xác định tốc độ gạch rơi khi nhấn phím “Thả nhẹ”. Ở những game chính thức: Tốc độ rơi nhẹ = Tốc độ rơi × 20 → SDF của những game này là 20. Techmino không dùng SDF để xác định tốc độ rơi nhẹ, mà dùng SDARR (thông số này có cách hoạt động giống với ARR, nhưng điểm khác là chỉ dùng cho “Thả nhẹ”).",
     },
-    {">G|Điều khiển",
+    {">F|Điều khiển",
         "nhom05f",
         "name",
         "",
     },
-    {">G1|Tốc độ đ.khiển",
+    {">F1|Tốc độ đ.khiển",
         "nhom05f1"
         .."LPM PPS BPM KPM KPP",
         "name",
@@ -594,7 +592,7 @@ Mỗi game có cách tính LPM khác nhau. Ví dụ như, Tetris Online tính LP
         "term",
         "Keypresses per piece | Số lần nhấn mỗi viên gạch\n\tPhản ánh mức độ hiệu quả việc điều khiển gạch. Giảm con số này bằng cách học Finesse",
     },
-    {">G2|K.th. đ.khiển",
+    {">F2|K.th. đ.khiển",
         "nhom05f2",
         "name",
         "NHÓM 5G2: KỸ THUẬT ĐIỀU KHIỂN",
@@ -633,12 +631,12 @@ Phương pháp này nhanh hơn nhiều so với việc nhấn liên tục (xem m
 Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish - người đã đạt tốc độ nhấn lên tới 20 Hz.
         ]],
     },
-    {">G3|Độ trễ input",
+    {">F3|Độ trễ input",
         "nhom05f3 input delay",
         "name",
         "Độ trễ đầu vào\n\nBất kỳ thiết bị đầu vào cũng cần một khoảng thời gian để tín hiệu có thể tới game, không cao thì thấp, từ mấy ms đến cả trăm ms.\n\nNếu độ trễ đầu vào quá cao, thì việc điều khiển sẽ không thoải mái.\n\nĐộ trễ này thường do phần cứng và phần mềm, thứ mà bạn khó mà kiểm soát được.\nBật chế độ Hiệu suất cao (Performance mode) hoặc tắt chế độ tiết kiệm năng lượng (Energy saving), đồng thời bật chế độ Gaming trên màn hình máy tính/TV, có thể giúp giảm độ trễ.",
     },
-    {">H|Mis-action",
+    {">G|Mis-action",
         "nhom05g",
         "name",
         "NHÓM 5H: HÀNH ĐỘNG BẤT CẨN (MIS-)"
@@ -653,7 +651,7 @@ Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish - n
         "term",
         "Vô tình nhấn nhầm phím Hold. Việc này có thể dẫn đến việc dùng một viên gạch không mong muốn, và có thể bỏ lỡ cơ hội có thể làm PC.",
     },
-    {">I|K.năng t.công",
+    {">H|K.năng t.công",
         "nhom05h"
         .."APM SPM DPM RPM ADPM APL; Tấn công & Phg thủ; Combo; Spike; Debt; Passthrough",
         "name",
@@ -720,7 +718,7 @@ Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1
         "term",
         "Đề cập đến một tình huống mà trong đó cả hai người chơi đều gửi tấn công, nhưng thay vì chúng hủy bỏ lẫn nhau thì nó lại gửi thẳng vào bảng của đối phương. Một thuật ngữ khác là “pingthrough” đề cập tình huống passthrough xảy ra do ping cao.",
     },
-    {">J|Spin",
+    {">I|Spin",
         "nhom05i"
         .."All-spin T-spin O-spin",
         "name",
@@ -749,7 +747,7 @@ Trong các game chính thức, T-spins chủ yếu được phát hiện bởi �
         "term",
         "Bởi vì gạch O “tròn”, không đổi hình dạng khi xoay, nên nó không thể “đá” được. Từ đó có một người làm một fake video hướng dẫn làm O-Spin trong Tetris 99 và Tetris Friends, sau đó nó trở thành meme luôn\n\nTrong khi đó:\n\tXRS cho phép gạch O có thể “teleport” tới một cái hố.\n\tTRS cho phép gạch O “teleport” và “biến hình”",
     },
-    {">K|K.th. xóa hàng",
+    {">J|K.th. xóa hàng",
         "nhom05j",
         "name",
         "NHÓM 5K: KỸ THUẬT XÓA HÀNG"
@@ -825,7 +823,7 @@ Trong các game chính thức, T-spins chủ yếu được phát hiện bởi �
         "term",
         "*Chỉ có trên Techmino*\nHalf Perfect Clear\n\nMột biến thể của All Clear. Nếu hàng đó bị xóa mà rõ ràng giống với Perfect Clear khi bỏ qua những hàng bên dưới, thì được tính là Half Perfect Clear và sẽ gửi thêm một lượng hàng rác nhỏ",
     },
-    {">L|T.ngữ khác",
+    {">K|T.ngữ khác",
         "nhom05k thuật ngữ khác; scientificresearch; bone tgm"
         .."sub; Doing Research; Bone block",
         "name",
