@@ -1084,13 +1084,13 @@ return {
 
     -- Và giờ thì tui mang lại sang đây, nhưng không phải tất cả
     -- Mà nè, đám này có lẽ tui sẽ ẩn đi một thời gian, chắc là tới Cá tháng 4 năm 2024 mới mang lên đây?
---
+-- 
     -- TECHMINO FUN FACT
         -- How do you pronounce Techmino?
         "Phát âm từ Techmino như thế nào mới đúng?",
         -- English UK: /'tɛkminəʊ/; English US: /tɛkminoʊ/
         "Techmino phát âm trong tiếng Anh là /'tɛkminəʊ/; còn tiếng Mỹ là /tɛkminoʊ/.",
-        --
+        -- 
         "Ủa Techmino phải đọc là “Tét-mai-nô” hay là “Tét-mi-nô” vậy?",
         -- Where to download Techmino?
         "Tải Techmino ở đâu vậy? Lên GitHub xem đi!",
@@ -1107,11 +1107,11 @@ return {
         "Một tên khác của game này là “Tiehu Minuo”",
         -- This game is not called Teachmino
         "Tên game không phải là Teachmino!",
-        --
+        -- 
         "Muốn game có thứ gì đó đặc biệt lúc mở game? Hãy chỉnh đồng hồ trên điện thoại vào một ngày đặc biệt nào đó đi!",
-        --
-        "Trừ khi bạn đang chơi Techmino: “O-spin is a lie!” (O-spin là lời nói dối của em)",
---
+        -- 
+        "Trừ khi bạn đang chơi Techmino: “O-spin is a lie!” (O-spin là lời nói dối (của em)!)",
+-- 
     -- TIPS WHEN PLAYING
         -- Don't act weak! Don't act weak! Don't act weak!
         "Đừng tỏ ra yếu đuối! Đừng tỏ ra yếu đuối! ĐỪNG TỎ RA YẾU ĐUỐI!",
@@ -1127,7 +1127,7 @@ return {
         -- Enabling vibration on some mobile systems may cause severe lag."
         "Bật rung trên điện thoại có thể khiến máy giật lag.",
         -- Eat the button? Really? I suggest you play it back to see if you pressed it and how long it took you to press it"
-        "Phím không ăn? Đùa à? Xem lại replay để chắc rằng ông đã nhấn và xem thử mất bao nhiêu thời gian để ông nhấn.",
+        "Phím không ăn? Giỡn à? Xem lại replay để chắc rằng ông đã nhấn và xem thử mất bao nhiêu thời gian để ông nhấn phím đó.",
         -- Probably someone will read the tip
         "Chắc chắn có người đang đọc cái dòng chữ nhỏ đang chạy ở dưới này.",
         -- It seems like no one has reached a high level by playing with their feet yet.
@@ -1138,16 +1138,14 @@ return {
         "Khả năng đào xuống (downstacking) của bạn là RẤT QUAN TRỌNG trong chiến đấu!!!",
         -- Skilled players of the Classic Tetris game are also formidable; don't underestimate them
         "Xếp gạch cổ điển cũng không đơn giản gì như xếp gạch hiện đại đâu. Đừng có mà xem thường những người chơi hệ cổ điển!",
-        -- Classic Tetris and the Modern Tetris are not the same thing.
-        "Xếp gạch cổ điển và xếp gạch hiện đại, nó không phải là một đâu!",
-        -- Although the calculation of Minimalist Combo and Minimalist Rate may seem strange, you'll discover that they are quite scientific!
-        -- TODO: DO IT LATER
+        -- Classic Tetris and Modern Tetris are two different games; being skilled in one doesn't mean you'll be skilled in the other. You have to start from scratch.
+        "Xếp gạch cổ điển và xếp gạch hiện đại là hai thể loại game khác nhau đấy! Giỏi một trong hai có nghĩa là bạn giỏi cả bên còn lại đâu. Bạn phải học từ đầu đấy! Không đơn giản đâu.",
         -- To protect the players' well-being, the game has a temporary and simplified anti-addiction system! (But you probably won't trigger it, haha)
         "Để tránh việc người chơi nào đó chơi quá lâu, game đã có hệ thống chống nghiện đơn giản (và tạm thời) (Nhưng bạn có lẽ sẽ không bao giờ kích hoạt chúng đâu, haha)",
         -- Basic stacking and digging skills are crucial; those who neglect these two aspects often regret it (trust me)
-        {"Kỹ năng xếp vào đào xuống là 2 kỹ năng RẤT quan trọng; những ai coi thường hoặc bỏ bê hai khía cạnh này thường hay bị bón hành súp mặt lờ (tin ",C.W,"MrZ",C.white,"đi)"},
+        {"Kỹ năng xếp vào đào xuống là 2 kỹ năng RẤT quan trọng; những ai coi thường hoặc bỏ bê hai khía cạnh này thường hay bị bón hành súp mặt lờ (tin ",C.W,"MrZ",C.white," đi!)"},
         -- Even if you're topped out, don't give up; every line of garbage can potentially become your weapon.
-        "Ngay cả khi bạn sắp bị top out, đừng bỏ cuộc; vì từng hàng rác có thể trở thành vũ khí của bạn!",
+        "Ngay cả khi bạn sắp bị top out, đừng bỏ cuộc; vì từng hàng rác có tiềm năng trở thành vũ khí của bạn!",
         -- The video shown above is not a recording; it's the robot playing in real-time.
         "Cái ở trên là replay hả? Không, là AI đang chơi trong thời gian thực đấy!",
         -- Extended gaming sessions will gradually deteriorate your performance! Remember to take breaks when playing for a long time~
@@ -1155,12 +1153,14 @@ return {
         -- Be careful of tenosynovitis!
         "Cẩn thận coi chừng bị bệnh viêm bao gân cổ tay!",
         -- The button with a question mark in the bottom-right corner is the game manual (assuming you haven't enabled the concise mode).
-        "Cái nút "..CHAR.icon.help.." ở góc phải dưới cùng đấy hả? (Nếu không bật Chế độ đơn giản). À nó là hướng dẫn của game ấy, nhưng nó là manual chứ không phải tutorial (hướng dẫn tập chơi) đâu",
---
+        "Cái nút "..CHAR.icon.help.." ở góc phải dưới cùng trong menu (không bật chế độ Đơn giản) đấy hả?. Nó là manual (hướng dẫn sử dụng) của game đấy!",
+        -- If you're new to blocks, just play more games; there isn't much specific targeted practice beyond 40 lines in two minutes
+        "Bạn mới tập chơi xếp gạch à? Nếu vậy cứ chơi nhiều hơn đi. Không có nhiều mục tiêu luyện tập cụ thể ngoài xóa 40 hàng trong 2 phút.",
+-- 
     -- MrZ
         {C.W,"uid:225238922"},
         {"Ai là ",C.W,"MrZ",C.white," vậy?"},
---
+-- 
     -- Z SAID
         -- I can't write cool music (crying)
         {C.W,"Z: ",C.white,"Tôi không thể nào viết một bản nhạc nào trông ngầu cả (sadge)."},
@@ -1172,7 +1172,7 @@ return {
         {C.W,"Z: ",C.white,"Tôi mong là Chế độ Đơn giản đủ tốt"},
         -- I wonder how many people playing games actually care about who made the game.",
         {C.W,"Z: ",C.white,"Tôi tự hỏi là có bao nhiêu người chơi game thực sự quan tâm ai viết ra nó."},
---
+-- 
     -- IT JOKES
         "git clone --recursive https://github.com/26F-Studio/Techmino.git",
         "git merge --rebase",
@@ -1192,7 +1192,7 @@ return {
         "Techmino đã đột ngột dừng lại",
         -- If you have a real interest in programming, I recommend Lua. Easy installation, simple syntax, and fast execution speed. Stay away from boring school programming (haha)
         {"Nếu bạn thực sự có hứng thú trong việc viết app, tôi đề xuất sử dụng Lua. Dễ cài, cú pháp đơn giản, và tốc độ thực thi nhanh. Rồi tránh xa chương trình học nhàm chán ở trên trường luôn! (haha) - ",C.W,"Z",C.white," said."},
---
+-- 
     -- CHANGELOG
         {C.lW, "V0.0.091726",": ",C.white, "Đã thêm hệ thống xoay TRS"},
         {C.lW, "V0.7.9 "    ,": ",C.white, "Đã thêm ",C.yellow,"O-spin"},
@@ -1247,7 +1247,7 @@ return {
         {"Cộng đồng Tetris ",C.red,"Việt ",C.lYellow,"Nam ",C.white,": https://discord.gg/jX7BX9g"}, -- Tetris Vietnam
         {C.W,"MrZ ",C.white,"vẫn chưa biết chọn tên nào để đặt từ điển của Techmino. Hiện có 3 tên đã biết là: “Zictionary”, “TetroDictionary” và “Little Z Dictionary”"},
         "Ủa tao nhớ game này tên là xếp hình mà? Ừ thì đúng nhưng để giữ độ đồng nhất và tránh bị cấn mồm thì nên gọi game này là game xếp gạch.",
-        {"Bây giờ là ",os.date("%H"),"giờ",os.date("%M")}, -- Nokia 1280, you can let it to read the time by pressing * at main menu
+        {"Bây giờ là ",os.date("%H")," giờ ",os.date("%M")," phút."}, -- Nokia 1280, you can let it to read the time by holding * key at main menu
     },
     pumpkin="Tôi là một quả bí ngô",
 }
