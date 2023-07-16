@@ -70,6 +70,11 @@ local seqGenBanner=setmetatable({
         {'fRect',70-2,5-2,4,4},
         {'fRect',80-1,5-1,2,2},
     },
+    bagP1inf=GC.DO{100,10,
+        {'fRect',10,4,40,2},
+        {'fRect',55,4,20,2},
+        {'fRect',80,4,10,2},
+    },
     rnd=GC.DO{100,10,
         {'fRect',30-3,1,6,6},
         {'fRect',70-3,1,6,6},
@@ -90,11 +95,6 @@ local seqGenBanner=setmetatable({
     },
     fixed=GC.DO{100,10,
         {'fRect',40,4,20,2},
-    },
-    bagP1inf=GC.DO{100,10,
-        {'fRect',10,4,40,2},
-        {'fRect',55,4,20,2},
-        {'fRect',80,4,10,2},
     },
 },{__index=function(self,k)
     self[k]=self.none

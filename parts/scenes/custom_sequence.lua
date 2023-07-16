@@ -174,7 +174,7 @@ scene.widgetList={
     WIDGET.newText{name='subTitle',x=530,y=50,lim=170,font=35,align='L',color='H'},
 
     WIDGET.newSelector{name='sequence',x=1080,y=60,w=200,color='Y',
-        list={'bag','bagES','his','hisPool','c2','rnd','mess','reverb','loop','fixed','bagP1inf'},
+        list={'bag','bagES','his','hisPool','c2','bagP1inf','rnd','mess','reverb','loop','fixed'},
         disp=CUSval('sequence'),code=CUSsto('sequence')
     },
 
