@@ -187,7 +187,7 @@ Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đ
         "nhom05",
         "name",
         [[
-NHÓM 05: CÁC YẾU TÓ TẠO NÊN TETRIS HIỆN ĐẠI
+NHÓM 05: CÁC YẾU TỐ TẠO NÊN TETRIS HIỆN ĐẠI
 
 Khái niệm về trò chơi Tetris hay trò chơi xếp gạch “hiện đại” khá là mờ nhạt.
 Nói chung, một game xếp gạch hiện đại thường sẽ bám sát theo Tetris Design Guideline (Bộ nguyên tắc thiết kế cho Tetris).
@@ -208,12 +208,12 @@ Dưới đây là các yếu tố chính để làm nên Tetris, tuy nhiên chú
     {"Next (Kế/Tiếp)",
         "nhom05 preview",
         "term",
-        "Hiện một vài gạch tiếp theo sẽ xuất hiện. Có một kỹ năng cần thiết để lên kế hoạch trước nơi đặt các gạch từ hàng đợi NEXT.",
+        "Hiện một vài gạch tiếp theo sẽ xuất hiện. Có một kỹ năng cần thiết đó là lên kế hoạch trước nơi đặt các gạch từ hàng đợi NEXT.",
     },
     {"Hold (Giữ)",
         "nhom05 hold",
         "term",
-        "Lưu gạch hiện tại của bạn để sử dụng sau này; và lấy gạch đã giữ trước đó nếu đã giữ gạch trước đó rồi, hoặc lấy gạch tiếp theo từ NEXT, để dùng. Bạn chỉ có thể giữ gạch 1 lần.\n\n*Chỉ có trên Techmino*: Techmino có một tính năng gọi là “In-place Hold” (“Giữ ngay tại chỗ”). Khi được bật thì gạch được lấy ra từ Hold sẽ xuất hiện ngay tại vị trí gạch đang rơi, thay vì xuất hiện ngay ở trên cùng bảng",
+        "Lưu gạch để sử dụng sau, và lấy gạch tiếp theo từ NEXT\nNếu có gạch đang giữ, tráo đổi giữa gạch đang rơi và gạch trong HOLD\n\n*Chỉ có trên Techmino*: Techmino có một tính năng gọi là “In-place Hold” (“Giữ ngay tại chỗ”). Khi được bật thì gạch được lấy ra từ Hold sẽ xuất hiện ngay tại vị trí gạch đang rơi, thay vì xuất hiện ngay ở trên cùng bảng",
     },
     {"Swap",
         "nhom05 hold",
@@ -239,13 +239,13 @@ Techmino không kiểm tra điều kiện Lock out và Top out.
     {"Vùng biến mất",
         "nhom05 gone vanish zone",
         "term",
-        "Tên tiếng Anh: “Vanish Zone”. Chỉ những hàng từ hàng thứ 40 và cao hơn. Chỉ có thể phát hiện ra bằng cách sử dụng C4W và đống hàng rác. Bình thường, nếu có gạch nào đụng vào vùng biến mất thì game sẽ crash ngay.\nTuy nhiên, có một số game có những phản ứng khác nhau. Một số game sẽ bị lỗi và sập khi có gạch đi vào vùng biến mất (ví dụ như Tetris Online). Riêng ở một số game thì game sẽ có hành động lạ (bạn có thể tham khảo video này, hãy nhấn vào nút “Mở link” để mở video).\n\nThông tin thêm: Jstris không có vùng đệm, chỉ có vùng biến mất được đặt từ hàng thứ 22.",
+        "Tên tiếng Anh: “Vanish Zone”. Chỉ những hàng từ hàng thứ 40 và cao hơn. Chỉ có thể phát hiện ra bằng cách sử dụng C4W và một đống hàng rác. Bình thường, nếu có gạch nào đụng vào vùng biến mất thì game sẽ crash ngay.\nTuy nhiên, có một số game có những phản ứng khác nhau. Một số game sẽ bị lỗi và sập khi có gạch đi vào vùng biến mất (ví dụ như Tetris Online). Riêng ở một số game thì game sẽ có hành động lạ (bạn có thể tham khảo video này, hãy nhấn vào nút “Mở link” để mở video).\n\nThông tin thêm: Jstris không có vùng đệm, chỉ có vùng biến mất được đặt từ hàng thứ 22.",
         "https://youtu.be/z4WtWISkrdU",
     },
     {">A|Gạch",
         "nhom05a",
         "name",
-        "1 Mino | 1 Domino | 2 Trimino | 7 Tetromino | 18 Pentomino",
+        "Bạn có biết? Có 29 gạch có thể chơi được trong game này!\n1 Mino | 1 Domino | 2 Trimino | 7 Tetromino | 18 Pentomino",
     },
     {"H.dạng của Tetro.",
         "nhom05a hình dạng của tetro. hình dạng của tetromino"..tetromino,
@@ -313,14 +313,15 @@ Một hệ thống để xác định cách gạch xoay.
         "nhom05b biasrs biasrotationsystem",
         "term",
         [[
+Bias Rotation System | Hệ thống xoay Bias.
 *Chỉ có trên Techmino*
 
-Bias Rotation System | Hệ thống xoay Bias. Hệ thống xoay chỉ có trong Techmino, dựa trên SRS và XRS
-Hệ thống sẽ điều chỉnh độ lệch khi xoay tùy thuộc phím đang giữ phím là Sang trái/Sang phải/Thả nhẹ khi nhấn phím xoay
+Một hệ thống xoay dựa trên SRS và XRS
+Có khả năng điều chỉnh độ lệch khi xoay tùy thuộc phím di chuyển nào đang giữ khi nhấn phím xoay
 
 Quá trình thử của hệ thống này diễn ra như sau:
-1. Thử dịch chuyển gạch sang trái/phải/xuống tùy thuộc vào phím đang giữ; có cộng thêm độ lệch xuống dưới
-2. Nếu thất bại, làm lại Bước 1; nhưng không cộng thêm độ lệch xuống dưới
+1. Thử dịch chuyển gạch sang trái/phải/xuống tùy thuộc vào phím đang giữ + độ lệch xuống phía dưới
+2. Nếu thất bại, làm lại Bước 1; nhưng bỏ đi độ lệch xuống dưới
 Nếu cả 2 bước trên thất bại thì việc xoay gạch coi như hỏng!
 
 So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một bảng đá tường; nhưng vẫn giữ được khả năng vượt địa hình của SRS.
@@ -362,7 +363,7 @@ Nếu có độ lệch theo chiều ngang, hướng của cú đá đó phải l
     {"TRS",
         "nhom05b techminorotationsystem",
         "term",
-        "Techmino Rotation System | Hệ thống xoay Techmino\n*Chỉ có trên Techmino*\n\nHệ thống xoay trong Techmino, dựa trên SRS.\nHệ thống này khắc phục được hiện tượng gạch S/Z bị kẹt trong một số trường hợp; cũng như bổ sung thêm những vị trí đá hữu dụng.\n\nHơn nữa, TRS có một bảng đá tường dành cho Pentomino dựa trên logic của SRS.\n\nHệ thống cũng hỗ trợ O-Spin (cho phép gạch có thể đá và có thể 'biến hình').",
+        "Techmino Rotation System | Hệ thống xoay Techmino\n*Chỉ có trên Techmino*\n\nMột hệ thống xoay dựa trên SRS.\nHệ thống này khắc phục được hiện tượng gạch S/Z bị kẹt trong một số trường hợp; cũng như bổ sung thêm những vị trí đá hữu dụng.\n\nHơn nữa, TRS có một bảng đá tường dành cho Pentomino dựa trên logic của SRS.\n\nHệ thống cũng hỗ trợ O-Spin (cho phép gạch có thể đá và có thể 'biến hình').",
     },
     {"XRS",
         "nhom05b xrs",
@@ -424,7 +425,7 @@ Trong Techmino, số lần bốc lại ngẫu nhiên sẽ là một nửa độ 
         [[
 Tên đầy đủ là History (- Roll) - Pool. (Tên tiếng Việt là Nhớ - Lặp - Rổ)
 
-Một kiểu xáo dựa trên kiểu xáo His. Nó giới thiệu một cơ chế mới: “Pool” (Rổ)¹. Mỗi lần bốc gạch, HisPool sẽ chọn ngẫu nhiên một viên gạch trong cái Rổ và tăng khả năng xuất hiện của gạch ít xuất hiện nhất. (Bạn có thể tra mục tiếp theo để tìm hiểu về cơ chế Pool nếu bạn tò mò)
+Một kiểu xáo dựa trên kiểu xáo His. Nó giới thiệu một cơ chế mới: “Pool” (Rổ). Mỗi lần bốc gạch, HisPool sẽ chọn ngẫu nhiên một viên gạch trong cái Rổ và tăng khả năng xuất hiện của gạch ít xuất hiện nhất. (Bạn có thể tra mục tiếp theo để tìm hiểu về cơ chế Pool nếu bạn tò mò)
 
 Cơ chế này giúp chuỗi gạch ổn định hơn và tránh tình trạng drought xảy ra quá lâu
 Kiểu xáo thường gặp nhất là kiểu xáo “his4 roll6 pool35” (nhớ 4 lặp 6 rổ 35)
@@ -478,9 +479,9 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
         "term",
         [[
 Đơn vị của tốc độ rơi là “G”, có nghĩa là gạch rơi xuống bao nhiêu ô mỗi một khung hình.
-“G” là đơn vị thường có số khá lớn. Tốc độ của Level 1 trong chế độ Marathon thường là 1/60G (1 ô/giây), và ở Level 13 thường là 1G.
+“G” là đơn vị thường có số khá lớn. Tốc độ của Level 1 trong chế độ Marathon thường là 1/60G (1 ô/giây = 1 ô/60 khung hình), và ở Level 13 là gần/bằng 1G (trong khoảng từ 50-60 ô/giây).
 Tốc độ cao nhất trong các game Tetris hiện đại là 20G. Ý nghĩa thật sự của 20G là “Tốc độ rơi vô cực” (“Infinite falling speed”), và kể cả có chỉnh bảng cao hơn 20 hàng, chế độ 20G sẽ ép gạch phải xuất hiện ở dưới đáy bảng. Bạn có thể tìm hiểu về 20G ở mục “20G”
-Trong Techmino, tốc độ rơi được mô tả là số khung hình cần thiết để gạch rơi xuống một đơn vị; ví dụ, 60 để chỉ gạch rơi mỗi ô một giây (mà game mặc định chạy ở 60FPS).
+Trong Techmino, tốc độ rơi được mô tả là số khung hình cần thiết để gạch rơi xuống một đơn vị; ví dụ, 60 để chỉ gạch rơi mỗi ô một giây (nếu game mặc định chạy ở 60FPS).
         ]],
     },
     {"20G",
