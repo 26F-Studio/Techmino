@@ -157,8 +157,7 @@ Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đ
         "https://discord.gg/f9pUvkh"
     },
     not FNNS and {"=[NHÓM 04]=",
-        "nhom04"
-        .."ủng hộ 1; ủng hộ 2; ủng hộ 3",
+        "nhom04",
         "name",
         "NHÓM 04: ỦNG HỘ CHO TÁC GIẢ CỦA TECHMINO",
     } or {"=[NHÓM 04]=",
@@ -559,8 +558,7 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
         "",
     },
     {">F1|Tốc độ đ.khiển",
-        "nhom05f1"
-        .."LPM PPS BPM KPM KPP",
+        "nhom05f1",
         "name",
         "NHÓM 5G1: TỐC ĐỘ ĐIỀU KHIỂN",
     },
@@ -653,8 +651,7 @@ Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish - n
         "Vô tình nhấn nhầm phím Hold. Việc này có thể dẫn đến việc dùng một viên gạch không mong muốn, và có thể bỏ lỡ cơ hội có thể làm PC.",
     },
     {">H|K.năng t.công",
-        "nhom05h"
-        .."APM SPM DPM RPM ADPM APL; Tấn công & Phg thủ; Combo; Spike; Debt; Passthrough",
+        "nhom05h",
         "name",
         "NHÓM 5I: KHẢ NĂNG TẤN CÔNG"
     },
@@ -825,8 +822,7 @@ Trong các game chính thức, T-spins chủ yếu được phát hiện bởi �
         "*Chỉ có trên Techmino*\nHalf Perfect Clear\n\nMột biến thể của All Clear. Nếu hàng đó bị xóa mà rõ ràng giống với Perfect Clear khi bỏ qua những hàng bên dưới, thì được tính là Half Perfect Clear và sẽ gửi thêm một lượng hàng rác nhỏ",
     },
     {">K|T.ngữ khác",
-        "nhom05k thuật ngữ khác; scientificresearch; bone tgm"
-        .."sub; Doing Research; Bone block",
+        "nhom05k",
         "name",
         "NHÓM 5L: CÁC THUẬT NGỮ KHÁC"
     },
