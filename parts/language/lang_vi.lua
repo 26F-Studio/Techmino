@@ -1216,9 +1216,9 @@ return {
         {C.lW, "V0.16.0"    ,": ",C.white, "Đã thêm hệ thống xoay BiRS"},
         {C.lW, "V0.16.2"    ,": ",C.white, "Đã thêm studio SFX với phong cách hit pad"},
         {C.lW, "V0.17.0"    ,": ",C.white, "Đã thêm hõ trợ điều khiển bằng joystick"},
-        {C.lW, "V0.17.2"    ,": ",C.white, "Đã thêm ngôn ngữ tiếng Việt"},
         {C.lW, "V0.17.3"    ,": ",C.white, "Dừng phát triển Techmino, tập trung phát triển game mới"},
-        {C.lW, "V0.17.5"    ,": ",C.white, "Cập nhật bản dịch tiếng Việt: thêm Zictionary + HDSD & cải thiện câu từ trong game"},
+        {C.lW, "V0.17.12"   ,": ",C.white, "Đã thêm ngôn ngữ tiếng Việt"},
+        {C.lW, "V0.17.15"   ,": ",C.white, "Cập nhật bản dịch tiếng Việt: thêm Zictionary + HDSD & cải thiện câu từ trong game + sửa lỗi font"},
 -- 
         -- MATH FORMULAS
         "(a+b)²=a²+2ab+b²",
