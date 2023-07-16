@@ -1248,6 +1248,9 @@ return {
         {C.W,"MrZ ",C.white,"vẫn chưa biết chọn tên nào để đặt từ điển của Techmino. Hiện có 3 tên đã biết là: “Zictionary”, “TetroDictionary” và “Little Z Dictionary”"},
         "Ủa tao nhớ game này tên là xếp hình mà? Ừ thì đúng nhưng để giữ độ đồng nhất và tránh bị cấn mồm thì nên gọi game này là game xếp gạch.",
         {"Bây giờ là ",os.date("%H")," giờ ",os.date("%M")," phút."}, -- Nokia 1280, you can let it to read the time by holding * key at main menu
+        "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
+        -- "I am on my way to shoot Vy's ball",
+        -- "Trao đổi cần phô mai, mua nem chua Thanh Hóa từ chợ đen",
     },
     pumpkin="Tôi là một quả bí ngô",
 }
