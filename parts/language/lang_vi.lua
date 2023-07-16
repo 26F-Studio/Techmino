@@ -1141,23 +1141,25 @@ return {
         -- Skilled players of the Classic Tetris game are also formidable; don't underestimate them
         "Xếp gạch cổ điển cũng không đơn giản gì như xếp gạch hiện đại đâu. Đừng có mà xem thường những người chơi hệ cổ điển!",
         -- Classic Tetris and Modern Tetris are two different games; being skilled in one doesn't mean you'll be skilled in the other. You have to start from scratch.
-        "Xếp gạch cổ điển và xếp gạch hiện đại là hai thể loại game khác nhau đấy! Giỏi một trong hai có nghĩa là bạn giỏi cả bên còn lại đâu. Bạn phải học từ đầu đấy! Không đơn giản đâu.",
+        "Xếp gạch cổ điển và xếp gạch hiện đại là hai thể loại game khác nhau đấy! Giỏi một trong hai không có nghĩa là bạn giỏi cả bên còn lại đâu. Bạn phải học từ đầu đấy! Không đơn giản đâu.",
         -- To protect the players' well-being, the game has a temporary and simplified anti-addiction system! (But you probably won't trigger it, haha)
-        "Để tránh việc người chơi nào đó chơi quá lâu, game đã có hệ thống chống nghiện đơn giản (và tạm thời) (Nhưng bạn có lẽ sẽ không bao giờ kích hoạt chúng đâu, haha)",
+        "Để tránh việc người chơi nào đó chơi quá lâu, game đã có hệ thống chống nghiện đơn giản tạm thời (Nhưng bạn có lẽ sẽ không bao giờ kích hoạt chúng đâu, haha)",
         -- Basic stacking and digging skills are crucial; those who neglect these two aspects often regret it (trust me)
-        {"Kỹ năng xếp vào đào xuống là 2 kỹ năng RẤT quan trọng; những ai coi thường hoặc bỏ bê hai khía cạnh này thường hay bị bón hành súp mặt lờ (tin ",C.W,"MrZ",C.white," đi!)"},
+        {"Kỹ năng xếp lên vào đào xuống là 2 kỹ năng RẤT quan trọng; những ai coi thường hoặc bỏ bê hai khía cạnh này thường hay bị bón hành súp mặt lờ (tin ",C.W,"MrZ",C.white," đi!)"},
         -- Even if you're topped out, don't give up; every line of garbage can potentially become your weapon.
         "Ngay cả khi bạn sắp bị top out, đừng bỏ cuộc; vì từng hàng rác có tiềm năng trở thành vũ khí của bạn!",
         -- The video shown above is not a recording; it's the robot playing in real-time.
         "Cái ở trên là replay hả? Không, là AI đang chơi trong thời gian thực đấy!",
         -- Extended gaming sessions will gradually deteriorate your performance! Remember to take breaks when playing for a long time~
-        "Những phiên chơi game kéo dài thường xuyên dần dần làm giảm hiệu suất chơi game (trong trường hợp tệ nhất bạn có thể bị stall). Nhớ nghỉ ngơi khi chơi lâu",
+        "Những lần chơi game kéo dài thường xuyên dần dần làm giảm hiệu suất chơi game (trong trường hợp tệ nhất bạn có thể bị stall). Nhớ nghỉ ngơi khi chơi lâu",
         -- Be careful of tenosynovitis!
-        "Cẩn thận coi chừng bị bệnh viêm bao gân cổ tay!",
+        "COI CHỪNG! Hãy cẩn thận kẻo bị bệnh viêm bao gân cổ tay!",
         -- The button with a question mark in the bottom-right corner is the game manual (assuming you haven't enabled the concise mode).
         "Cái nút "..CHAR.icon.help.." ở góc phải dưới cùng trong menu (không bật chế độ Đơn giản) đấy hả?. Nó là manual (hướng dẫn sử dụng) của game đấy!",
         -- If you're new to blocks, just play more games; there isn't much specific targeted practice beyond 40 lines in two minutes
         "Bạn mới tập chơi xếp gạch à? Nếu vậy cứ chơi nhiều hơn đi. Không có nhiều mục tiêu luyện tập cụ thể ngoài xóa 40 hàng trong 2 phút.",
+        --
+        "Hãy ra ngoài và chạm cỏ đi!",
 -- 
     -- MrZ
         {C.W,"uid:225238922"},
@@ -1216,6 +1218,7 @@ return {
         {C.lW, "V0.17.0"    ,": ",C.white, "Đã thêm hõ trợ điều khiển bằng joystick"},
         {C.lW, "V0.17.2"    ,": ",C.white, "Đã thêm ngôn ngữ tiếng Việt"},
         {C.lW, "V0.17.3"    ,": ",C.white, "Dừng phát triển Techmino, tập trung phát triển game mới"},
+        {C.lW, "V0.17.5"    ,": ",C.white, "Cập nhật bản dịch tiếng Việt: thêm Zictionary + HDSD & cải thiện câu từ trong game"},
 -- 
         -- MATH FORMULAS
         "(a+b)²=a²+2ab+b²",
@@ -1251,8 +1254,7 @@ return {
         "Ủa tao nhớ game này tên là xếp hình mà? Ừ thì đúng nhưng để giữ độ đồng nhất và tránh bị cấn mồm thì nên gọi game này là game xếp gạch.",
         {"Bây giờ là ",os.date("%H")," giờ ",os.date("%M")," phút."}, -- Nokia 1280, you can let it to read the time by holding * key at main menu
         "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
-        -- "I am on my way to shoot Vy's ball",
-        -- "Trao đổi cần phô mai, mua nem chua Thanh Hóa từ chợ đen",
+        {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.white," không?"},
     },
     pumpkin="Tôi là một quả bí ngô",
 }
