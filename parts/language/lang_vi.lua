@@ -1111,6 +1111,8 @@ return {
         "Muốn game có thứ gì đó đặc biệt lúc mở game? Hãy chỉnh đồng hồ trên điện thoại vào một ngày đặc biệt nào đó đi!",
         -- 
         "Trừ khi bạn đang chơi Techmino: “O-spin is a lie!” (O-spin là lời nói dối (của em)!)",
+        -- techminohaowan
+        "Hảo hán Techmino",
 -- 
     -- TIPS WHEN PLAYING
         -- Don't act weak! Don't act weak! Don't act weak!
