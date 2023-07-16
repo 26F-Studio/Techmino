@@ -98,7 +98,7 @@ Bạn có thể quay lại đây bằng cách gõ trên thanh tìm kiếm "nhom0
         * Bố cục phím, Khả năng xử lý gạch, Các nút xoay
 10. Wiki; các trang web bày setup & cung cấp câu đố, chia sẻ setup
         10A. Wiki: Huiji Wiki, Wiki Hard Drop, tetris.wiki, Tetris Wiki Fandom
-        10B. Bày setup: Four.lol, Tetris Hall, Tetris Template Collections, tetristemplate.info
+        10B. Bày setup: Four.lol, Tetris Hall, Tetris Template Collections, tetristemplate.info, 4-Wide Trainer
         10C. Chia sẻ câu đố: TTT, TTPC, NAZO, TPO
         10D. Chia sẻ setup: Fumen, Fumen bản Điện thoại
         ]]
@@ -372,7 +372,7 @@ Nếu có độ lệch theo chiều ngang, hướng của cú đá đó phải l
     {">C|Hệ thg đ.khiển",
         "nhom05c",
         "name",
-        "NHÓM 5D: HỆ THỐNG ĐIỀU KHIỂN"
+        "NHÓM 5C: HỆ THỐNG ĐIỀU KHIỂN"
     },
     {"IRS",
         "nhom05c initialrotationsystem",
@@ -477,21 +477,21 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
         "nhom05e1 trọng lực falling speed gravity",
         "term",
         [[
-Đơn vị của tốc độ rơi là “G”, có nghĩa là gạch rơi xuống bao nhiêu ô mỗi một khung hình.
-“G” là đơn vị thường có số khá lớn. Tốc độ của Level 1 trong chế độ Marathon thường là 1/60G (1 ô/giây = 1 ô/60 khung hình), và ở Level 13 là gần/bằng 1G (trong khoảng từ 50-60 ô/giây).
-Tốc độ cao nhất trong các game Tetris hiện đại là 20G. Ý nghĩa thật sự của 20G là “Tốc độ rơi vô cực” (“Infinite falling speed”), và kể cả có chỉnh bảng cao hơn 20 hàng, chế độ 20G sẽ ép gạch phải xuất hiện ở dưới đáy bảng. Bạn có thể tìm hiểu về 20G ở mục “20G”
+Đơn vị của tốc độ rơi là “G” - một đơn vị có số khá lớn, có nghĩa là gạch rơi xuống bao nhiêu ô/khung hình.
+Tốc độ của Level 1 trong chế độ Marathon thường là 1/60G (1 ô/giây = 1 ô/60 khung hình), ở Level 13 là gần/bằng 1G (từ 50-60 ô/giây).
+Tốc độ cao nhất trong các game Tetris hiện đại là 20G. Ý nghĩa thật sự của 20G là “Tốc độ rơi vô tận”. Bạn có thể tìm hiểu về 20G ở mục “20G”
 Trong Techmino, tốc độ rơi được mô tả là số khung hình cần thiết để gạch rơi xuống một đơn vị; ví dụ, 60 để chỉ gạch rơi mỗi ô một giây (nếu game mặc định chạy ở 60FPS).
         ]],
     },
     {"20G",
         "nhom05e1 trọng lực; ngay lập tức; gravity instantly",
         "term",
-        "Tốc độ nhanh nhất trong các game xếp gạch hiện đại. Trong các chế độ xài tốc độ 20G, các viên gạch sẽ xuất hiện ngay lập tức ở đáy bảng thay vì rơi từ từ. Việc này đôi khi sẽ làm bạn không thể di chuyển được theo phương ngang như ý; vì gạch không thể leo qua chỗ lồi lõm hoặc ra khỏi hố sâu.\nBạn có thể tìm hiểu thêm về đơn vị “G” trong mục “Tốc độ rơi”.",
+        "Tốc độ nhanh nhất trong các game xếp gạch hiện đại. Trong các chế độ xài tốc độ 20G, các viên gạch sẽ xuất hiện ngay lập tức ở đáy bảng thay vì rơi từ từ, bất chấp độ cao bảng là 20 hàng hoặc hơn. Việc này đôi khi sẽ làm bạn không thể di chuyển được theo phương ngang như ý; vì gạch không thể leo qua chỗ lồi lõm hoặc ra khỏi hố sâu.\nBạn có thể tìm hiểu thêm về đơn vị “G” trong mục “Tốc độ rơi”.",
     },
     {"Lockdown Delay",
         "nhom05e1 lockdelay lockdowndelay lockdowntimer; thời gian chờ khóa gạch",
         "term",
-        "Thời gian chờ khóa gạch\n\nĐây là khoảng thời gian sau khi gạch chạm đất và trước khi gạch bị khóa (lockdown) (kiểu như: bạn không thể điều khiển gạch đó nữa vì nó đã dính cố định tại chỗ rồi; và bạn phải điều khiển gạch mới).\n\nCác game Tetris hiện đại thường có cơ chế trì hoãn việc khóa gạch, trong đó bạn có thể di chuyển hoặc xoay gạch để đặt lại thời gian chờ (tối đa 15 lần trong đa số các game); bạn có thể sử dụng để kéo dài thời gian chờ. Tetris cổ điển vẫn có khoảng thời gian này nhưng cực kì ngắn.",
+        "Thời gian chờ khóa gạch\n\nĐây là khoảng thời gian sau khi gạch chạm đất và trước khi gạch bị khóa (lockdown) (và bạn sẽ phải điều khiển gạch tiếp theo).\n\nCác game Tetris hiện đại thường có cơ chế trì hoãn việc khóa gạch, trong đó bạn có thể di chuyển hoặc xoay gạch để đặt lại thời gian chờ (tối đa 15 lần trong đa số các game); bạn có thể sử dụng để kéo dài thời gian chờ. Tetris cổ điển vẫn có khoảng thời gian này nhưng cực kì ngắn.",
     },
     {"Spawn&Clear Delay",
         "nhom05e1 spawndelay cleardelay; thời gian chờ gạch sinh ra; thời gian chờ xóa hàng",
@@ -638,7 +638,7 @@ Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish - n
     {">G|Mis-action",
         "nhom05g",
         "name",
-        "NHÓM 5H: HÀNH ĐỘNG BẤT CẨN (MIS-)"
+        "NHÓM 5G: HÀNH ĐỘNG BẤT CẨN (MIS-)"
     },
     {"Misdrop",
         "nhom05g md misdrop",
@@ -648,12 +648,12 @@ Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish - n
     {"Mishold",
         "nhom05g mh mishold",
         "term",
-        "Vô tình nhấn nhầm phím Hold. Việc này có thể dẫn đến việc dùng một viên gạch không mong muốn, và có thể bỏ lỡ cơ hội có thể làm PC.",
+        "Vô tình nhấn nhầm phím Hold. Việc này có thể dẫn đến việc dùng một viên gạch không mong muốn, và có thể làm bạn mất luôn cơ hội để làm PC.",
     },
     {">H|K.năng t.công",
         "nhom05h",
         "name",
-        "NHÓM 5I: KHẢ NĂNG TẤN CÔNG"
+        "NHÓM 5H: KHẢ NĂNG TẤN CÔNG"
     },
     {"APM",
         "nhom05h attackperminute; số hàng tấn công mỗi phút; số hàng tấn công trong một phút",
@@ -678,7 +678,7 @@ Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish - n
     {"ADPM",
         "nhom05h attackdigperminute vs; số hàng tấn công và đào xuống mỗi phút; số hàng tấn công và đào xuống mỗi phút",
         "term",
-        "Attack & Dig per minute | Số hàng tấn công & đào xuống mỗi phút\n\tDùng để so sánh sự khác nhau về kỹ năng của hai người chơi trong một trận đấu; chính xác hơn một chút so với APM\n\tNhân tiện thì VS Score (điểm VS) trong TETR.IO chính là ADPM mỗi 100 giây",
+        "Attack & Dig per minute | Số hàng tấn công & đào xuống mỗi phút\n\tDùng để so sánh sự khác nhau về kỹ năng của hai người chơi trong một trận đấu; chính xác hơn một chút so với APM\n\tVS Score (điểm VS) trong TETR.IO chính là ADPM mỗi 100 giây",
     },
     {"APL",
         "nhom05h attackperline efficiency; số hàng tấn công; số hàng đã xóa; độ hiệu quả",
@@ -693,7 +693,7 @@ Tấn công: Gửi hàng rác tới đối thủ bằng cách xóa hàng.
 Phòng thủ: Loại hàng rác ra khỏi hàng chờ bằng cách xóa hàng sau khi đối thủ gửi hàng rác.
 Phản công: Gửi hàng rác lại sau khi nhận đòn tấn công, hoặc trong khi/sau khi tấn công.
 
-Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1, một lần tấn công đánh phản lại một lần nhận rác.
+Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1 - một lần tấn công đánh phản lại một lần nhận rác.
         ]],
     },
     {"Combo",
@@ -717,15 +717,14 @@ Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1
         "Đề cập đến một tình huống mà trong đó cả hai người chơi đều gửi tấn công, nhưng thay vì chúng hủy bỏ lẫn nhau thì nó lại gửi thẳng vào bảng của đối phương. Một thuật ngữ khác là “pingthrough” đề cập tình huống passthrough xảy ra do ping cao.",
     },
     {">I|Spin",
-        "nhom05i"
-        .."All-spin T-spin O-spin",
+        "nhom05i",
         "name",
         "Xoay gạch để di chuyển tới một vị trí mà bình thường sẽ không tiếp cận được. Ở một số game, thao tác này sẽ gửi thêm hàng rác hoặc là tăng thêm điểm. Game khác nhau sẽ có cách kiểm tra Spin khác nhau."
     },
     {"Mini",
         "nhom05i",
         "term",
-        "Một thuật ngữ bổ sung khác chỉ những Spin mà game nghĩ là có thể thực hiện dễ dàng (bởi vì trong một game cũ nó được gọi là “Ez T-spin”). Bonus điểm và hàng rác đều bị giảm so với Spin bình thường.\nCác game khác nhau có các quy tắc khác nhau để kiểm tra chúng có phải là Mini-Spin hay không. Bạn chỉ cần nhớ mấy cái bố cục làm Mini-spin là được.",
+        "Một thuật ngữ bổ sung khác chỉ những Spin mà game nghĩ là có thể thực hiện dễ dàng (bởi vì trong một game cũ nó được gọi là “Ez T-spin”). Lượng điểm bổ sung và hàng rác đều ít hơn so với.\nCác game khác nhau có các quy tắc khác nhau để kiểm tra chúng có phải là Mini-Spin hay không. Nhưng bạn chỉ cần nhớ mấy cái bố cục làm Mini-spin là được.",
     },
     {"All-spin",
         "nhom05i allspin",
@@ -743,12 +742,12 @@ Trong các game chính thức, T-spins chủ yếu được phát hiện bởi �
     {"O-Spin",
         "nhom05i ospin",
         "term",
-        "Bởi vì gạch O “tròn”, không đổi hình dạng khi xoay, nên nó không thể “đá” được. Từ đó có một người làm một fake video hướng dẫn làm O-Spin trong Tetris 99 và Tetris Friends, sau đó nó trở thành meme luôn\n\nTrong khi đó:\n\tXRS cho phép gạch O có thể “teleport” tới một cái hố.\n\tTRS cho phép gạch O “teleport” và “biến hình”",
+        "“O-spin is a lie!” (O-spin là một lời nói dối). Một quả meme được nhiều người biết tới.\nNguồn gốc meme này bắt nguồn từ việc gạch O “tròn”, không đổi hình dạng khi xoay ở bất cứ hướng nào, nên nó không thể “đá” được.\n\nTrong khi đó:\n\tXRS cho phép gạch O có thể “teleport” tới một cái hố.\n\tTRS cho phép gạch O “teleport” và “biến hình”",
     },
     {">J|K.th. xóa hàng",
         "nhom05j",
         "name",
-        "NHÓM 5K: KỸ THUẬT XÓA HÀNG"
+        "NHÓM 5J: KỸ THUẬT XÓA HÀNG"
     },
     {"Single",
         "nhom05j 1",
@@ -1318,12 +1317,16 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
         "help",
 [[
 Lời khuyên khi tập chơi (Trang 1/2):
-Chúng tôi có các đề xuất để cải thiện kỹ năng Tetris của bạn (danh sách đề xuất nằm ở mục tiếp theo). Nếu gặp khó khăn trong quá trình luyện tập, bạn có thể thư giãn và dành thời gian chơi các chế độ mà bạn yêu thích. Chơi vui vẻ!
+Chúng tôi có các đề xuất để cải thiện kỹ năng Tetris của bạn (danh sách nằm ở mục tiếp theo).
+Nếu gặp khó khăn trong lúc luyện tập, hãy thư giãn…
+và dành thời gian chơi các chế độ mà bạn yêu thích. Chơi vui vẻ!
 
-Hãy nhớ: mặc dù các đề xuất này được xếp thành nhóm, bạn vẫn nên làm cả ba nhóm cùng lúc thay vì làm từng cái một.
+Mặc dù các đề xuất này được xếp thành nhóm, hãy làm cả ba nhóm cùng lúc thay vì làm từng cái một.
 
-Lưu ý: Nhóm C rất linh động, bạn có thể điều chỉnh độ khó tùy vào khả năng của bạn (ví dụ như "không làm bạn chơi quá chậm")
-Sau khi bạn hoàn thành hết nhóm C, hãy tiếp tục luyện tập nhóm A, đây là kỹ năng RẤT quan trọng trong bất kỳ game xếp gạch nào; và bạn sẽ có thể từ từ làm chủ bất kỳ chế độ nào trong khi bạn chỉ cần nhìn lướt qua NEXT thôi
+Mẹo: Bạn có thể điều chỉnh độ khó nhóm C tùy vào khả năng của bạn
+(kiểu như "đừng làm bạn chơi quá chậm")
+
+Sau khi xong nhóm C, hãy luyện tập tiếp nhóm A, đây là kỹ năng RẤT quan trọng trong bất kỳ game xếp gạch nào. Bạn sẽ có thể dần làm chủ bất kỳ chế độ nào trong khi bạn chỉ cần nhìn lướt qua NEXT.
 ]],
     },
     {"Đề xuất l.tập [2/2]",
@@ -1354,15 +1357,16 @@ C. Practice (Luyện tập)
         "nhom09 tspin; học; hướng dẫn; mẹo; lời khuyên; đề xuất",
         "help",
         [[
-Xin lưu ý rằng T-spin là một kỹ năng khá là cao cấp trong Tetris, vì vậy bạn không thể thành thạo nó nếu chỉ đơn thuần nhìn vào địa hình nơi T-spin được thực hiện. Tất nhiên, bạn phải có kỹ năng xếp gạch tốt và có thể nhìn quét xa dãy NEXT. Nếu bạn thực sự muốn làm T-spin, hãy đảm bảo bạn thành thạo những kỹ năng cơ bản trước khi học và làm.
+Xin lưu ý rằng T-spin là một kỹ năng khá khó, vì vậy bạn không thể thành thạo nó nếu chỉ đơn thuần nhìn vào địa hình nơi T-spin được thực hiện. Tất nhiên, bạn phải có kỹ năng xếp gạch tốt và có thể nhìn lướt NEXT.
+Nếu bạn thực sự muốn làm T-spin, hãy đảm bảo bạn thành thạo những kỹ năng cơ bản trước khi học và làm.
 
-Lời khuyên của chúng tôi: chỉ nên bắt đầu học làm T-spin khi bạn có thể xóa 40 hàng với 60 giây hoặc ít hơn (hoặc từ 40-120s tùy vào điều kiện của bạn), 40 hàng chỉ dùng Tetris, 40 hàng chỉ dùng Tetris + không Hold. Tất cả mà không làm bạn bị tụt tốc độ quá nhiều (Phát triển khả năng để xem trước và suy nghĩ đủ kỹ trước khi thả rơi gạch.)
+Lời khuyên của chúng tôi: chỉ nên bắt đầu học làm T-spin khi bạn có thể xóa 40 hàng với ≤ 60s/40-120s (tùy điều kiện), 40 hàng chỉ dùng Tetris, 40 hàng chỉ dùng Tetris + không Hold. Tất cả mà không làm bạn bị tụt tốc độ quá nhiều (phát triển khả năng để xem NEXT và suy nghĩ đủ kỹ trước khi thả rơi gạch.)
         ]],
     },
     {"Hiệu chỉnh DAS",
         "nhom09 das tuning",
         "help",
-        "Với những người chơi nâng cao mà muốn chơi nhanh hơn, có thể điều chỉnh DAS thành 4-6 f (67-100 ms) và ARR 0 f (0 ms); đây là hai giá trị khuyên dùng. (Ở ARR 0ms, các viên gạch sẽ ngay lập tức dính vào tường khi bạn vượt qua DAS.)\n\nĐây là cấu hình lý tưởng cho người nâng cao, với chiến lược là cắt giảm DAS trong khi vẫn có thể kiểm soát được gạch một cách tin cậy mặc dù ARR bằng 0 nếu có thể hoặc càng thấp càng tốt.",
+        "Với những người chơi nâng cao mà muốn chơi nhanh hơn, có thể điều chỉnh DAS thành 4-6 f (67-100 ms) và ARR 0 f (0 ms); đây là hai giá trị khuyên dùng. (Ở ARR 0ms, các viên gạch sẽ ngay lập tức bay vào tường khi bạn vượt qua DAS.)\n\nĐây là cấu hình lý tưởng cho người nâng cao, với chiến lược là cắt giảm DAS trong khi vẫn có thể kiểm soát được gạch một cách tin cậy mặc dù ARR bằng 0 nếu có thể hoặc càng thấp càng tốt.",
     },
     {"Bố cục phím",
         "nhom09 feel",
@@ -1480,6 +1484,12 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
         "Tetris Puzzle O. Một trang web bằng tiếng Nhật được viết bởi TCV100 (có lấy một vài câu đố từ NAZO sang).",
         "http://121.36.2.245:3000/tpo",
     },
+    {"4-wide Trainer",
+        "nhom10b nazo",
+        "game",
+        "Một công cụ được viết bởi DDRKirby(ISQ) để học & làm quen 4-wide.",
+        "https://ddrkirby.com/games/4-wide-trainer/4-wide-trainer.html",
+    },
     {">C|Setup",
         "nhom10c",
         "name",
@@ -1561,7 +1571,7 @@ Nhấn nút “Mở link” để vào server Discord, còn nếu muốn vào nh
     {"Side well",
         "nhom12a ren combo sidewell",
         "term",
-        "Một phương pháp xếp gạch mà bạn sẽ để lại một cái hố có một chiều rộng nhất định ở một bên bảng .\nSetup Side 1-wide là setup truyền thống để làm Tetris (ví dụ như, Side well Tetris).\nCác loại setup như Side 2-, 3-, hay 4-wide; là những setup được dùng để làm combo. Đối với những người chơi mới, đây là cách hiệu quả nhất để tấn công. Nhưng, đối thủ có thể dễ dàng tấn công lại bạn, một là chết còn không thì stack của bạn sẽ bị cắt ngắn do bạn phải phản công lại. Chính vì lẽ đó, những người chơi nâng cao thường sẽ không xây giếng sâu thăm thẳm, thay vào đó họ sẽ giữ một lượng T-spins và Tetris nhất định để có thể tấn công đối thủ khi đối thủ không có khả năng dọn rác tới.",
+        "Một phương pháp xếp gạch mà bạn sẽ để lại một cái hố có một chiều rộng nhất định ở một bên bảng .\nSetup Side 1-wide là setup truyền thống để làm Tetris (ví dụ như, Side well Tetris).\nCác loại setup như Side 2-, 3-, hay 4-wide; là những setup được dùng để làm combo. Đối với những người chơi mới, đây là cách hiệu quả nhất để tấn công. NHƯNG, đối thủ có thể dễ dàng tấn công lại bạn, một là chết còn không thì stack của bạn sẽ bị cắt ngắn do bạn phải phản công lại. vì lẽ đó, những người chơi GIỎI thường sẽ không xây quá cao, thay vào đó họ sẽ giữ một lượng T-spins và Tetris nhất định để có thể tấn công đối thủ khi đối thủ không có khả năng dọn rác tới.",
     },
     {"Center well",
         "nhom12a ren combo centerwell",
@@ -1581,7 +1591,7 @@ Nhấn nút “Mở link” để vào server Discord, còn nếu muốn vào nh
     {"Side 2-wide",
         "nhom12a s2w side2wide",
         "term",
-        "Tương tự như Side 1-wide nhưng hố rộng 2 ô. Một setup để làm combo phổ biến.\nDễ sử dụng. Những người mới chơi có thể thử và tạo ra một số kết hợp nửa vời khi kết hợp với Hold. Nhưng setup này hiếm khi được sử dụng trong những trận đấu hạng cao, bởi vì tốn thời gian để xây, nhường thời gian cho đối thủ tấn công và có thể làm stack của bạn bị cắt ngắn. Và nó cũng không tốt lắm về mặt hiệu quả (efficiency).",
+        "Tương tự như Side 1-wide nhưng hố rộng 2 ô. Một setup để làm combo phổ biến.\nDễ sử dụng. Những người mới chơi có thể thử và tạo ra tấn công nửa vời khi kết hợp với Hold. Nhưng setup này hiếm khi được sử dụng trong những trận đấu hạng cao, bởi vì tốn thời gian để xây, nhường thời gian cho đối thủ tấn công và có thể làm stack của bạn bị cắt ngắn. Và nó cũng không tốt lắm về mặt hiệu quả (efficiency).",
     },
     {"Side 3-wide",
         "nhom12a s3w side3wide",
@@ -1591,7 +1601,7 @@ Nhấn nút “Mở link” để vào server Discord, còn nếu muốn vào nh
     {"Side 4-wide",
         "nhom12a s4w side4wide",
         "term",
-        "Tương tự như Side 1-, 2- hay 3-wide nhưng hố rộng 4 ô.\nNếu làm tốt thì nó có thể tạo ra những combo rất ấn tượng. Hơn nữa, setup này mất ít thời gian hơn để xây dựng, vì vậy có thể tranh thủ làm combo trước khi rác đến. Tuy nhiên, bạn vẫn có thể bị đá bay nếu có quá nhiều rác, do đó trong một số trường hợp, nó khó mà có thể áp đảo lại.", -- TODO: Find the proper word for "overpower" (SEA)
+        "Tương tự như Side 1-, 2- hay 3-wide nhưng hố rộng 4 ô.\nNếu làm tốt thì nó có thể tạo ra những combo rất ấn tượng. Hơn nữa, setup này mất ít thời gian hơn để xây dựng, vì vậy có thể tranh thủ làm combo trước khi rác đến. Tuy nhiên, bạn vẫn có thể bị bay màu nếu có quá nhiều rác, do đó trong một số trường hợp, nó khó mà có thể áp đảo lại lượng rác tới.",
     },
     {"Center 1-wide",
         "nhom12a c1w center1wide centerwelltetris",
@@ -1611,7 +1621,7 @@ Nhấn nút “Mở link” để vào server Discord, còn nếu muốn vào nh
     {"Center 4-wide",
         "nhom12a c4w center4wide",
         "term",
-        "Tượng tự như Center 1-, 2- hay 3-wide, nhưng rộng 4 ô.\nĐây là một setup combo không được phổ biến lắm, nhưng cho phép bạn gửi nhiều combo trong khi đánh bật luôn cả điều kiện game over nếu bạn nhận một vài hàng rác. Nhiều người chơi thường ghét kỹ thuật này, bởi vì chúng làm mất cân bằng trong game.",
+        "Tượng tự như Center 1-, 2- hay 3-wide, nhưng rộng 4 ô.\nĐây là một setup combo không được phổ biến lắm, nhưng cho phép bạn gửi nhiều combo trong khi đánh bật luôn cả điều kiện game over nếu bạn nhận một vài hàng rác. Nhiều người chơi thường ghét kỹ thuật này, bởi vì chúng phá đi sự cân bằng trong game.",
     },
     {"Residual",
         "nhom12a c4w s4w",
@@ -1636,7 +1646,7 @@ Nhấn nút “Mở link” để vào server Discord, còn nếu muốn vào nh
     {">A|FreeStyle",
         "nhom13a",
         "name",
-        "Thuật ngữ hay được sử dụng trong thử thách 20TSD. Freestyle nghĩa là hoàn thành thử thách 20TSD mà không sử dụng phương pháp xếp gạch cố định nào. Làm 20TSD với Freestyle khó hơn nhiều so với việc sử dụng phương pháp nào đó như LST, và màn chạy có thể đại diễn cho các kỹ năng T-spin có được trong các trận đấu.",
+        "Thuật ngữ hay được sử dụng trong thử thách 20TSD. Freestyle nghĩa là hoàn thành thử thách 20TSD mà không sử dụng phương pháp xếp gạch cố định nào. Làm 20TSD với Freestyle khó hơn nhiều so với việc sử dụng phương pháp nào đó như LST, và màn chạy có thể đại diện cho các kỹ năng T-spin có được trong các trận đấu.",
     },
     {">B|Opener",
         "nhom13b",
@@ -1946,6 +1956,6 @@ All Clear gửi thêm 6 hàng rác. Nhưng 6 hàng rác này sẽ gửi thẳng 
     {"AFK",
         "nhom16",
         "english",
-        "Từ viết tắt của “Away From Keyboard” (dịch sát nghĩa: “Đang ở xa bàn phím”), hay theo nghĩa rộng hơn, khoảng thời gian bạn không chơi game.\nNghỉ giải lao thường xuyên giúp bạn giảm căng cơ và giúp bạn chơi tốt hơn khi quay trở lại.",
+        "Từ viết tắt của “Away From Keyboard” nghĩa là hiện đang nghỉ ngơi/làm việc khác VÀ không đụng game.\nNghỉ giải lao thường xuyên giúp bạn giảm căng cơ và giúp bạn chơi tốt hơn khi quay trở lại.",
     },
 }

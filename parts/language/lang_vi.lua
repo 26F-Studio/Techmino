@@ -1038,7 +1038,7 @@ return {
         "Chế độ nhiều người đã ra mắt rồi, hãy thử nó đi!",
         "Thử sử dụng nhiều ô Hold đi!",
         "Thử dùng 2 nút xoay đi. Dùng cả 3 thì càng tốt",
-        "Cảnh báo: Cấu trúc dữ liệu và Giải thuật",
+        "CẢNH BÁO: Cấu trúc dữ liệu và Giải thuật",
         "20 PC thì sao?",
         "Thế còn 23 PC trong 100 hàng?",
         "26 TSD có nổi không thế?",
@@ -1155,9 +1155,9 @@ return {
         -- Be careful of tenosynovitis!
         "COI CHỪNG! Hãy cẩn thận kẻo bị bệnh viêm bao gân cổ tay!",
         -- The button with a question mark in the bottom-right corner is the game manual (assuming you haven't enabled the concise mode).
-        "Cái nút "..CHAR.icon.help.." ở góc phải dưới cùng trong menu (không bật chế độ Đơn giản) đấy hả?. Nó là manual (hướng dẫn sử dụng) của game đấy!",
+        "Cái nút "..CHAR.icon.help.." ở góc phải dưới cùng trong menu (không bật chế độ Đơn giản) đấy hả? Nó là manual (hướng dẫn sử dụng) của game đấy!",
         -- If you're new to blocks, just play more games; there isn't much specific targeted practice beyond 40 lines in two minutes
-        "Bạn mới tập chơi xếp gạch à? Nếu vậy cứ chơi nhiều hơn đi. Không có nhiều mục tiêu luyện tập cụ thể ngoài xóa 40 hàng trong 2 phút.",
+        "Bạn mới tập chơi xếp gạch à? Nếu vậy cứ chơi nhiều lên. Không có nhiều mục tiêu luyện tập cụ thể ngoài xóa 40 hàng trong 2 phút.",
         --
         "Hãy ra ngoài và chạm cỏ đi!",
 -- 
@@ -1252,7 +1252,7 @@ return {
         {"Cộng đồng Tetris ",C.red,"Việt ",C.lYellow,"Nam ",C.white,": https://discord.gg/jX7BX9g"}, -- Tetris Vietnam
         {C.W,"MrZ ",C.white,"vẫn chưa biết chọn tên nào để đặt từ điển của Techmino. Hiện có 3 tên đã biết là: “Zictionary”, “TetroDictionary” và “Little Z Dictionary”"},
         "Ủa tao nhớ game này tên là xếp hình mà? Ừ thì đúng nhưng để giữ độ đồng nhất và tránh bị cấn mồm thì nên gọi game này là game xếp gạch.",
-        {"Bây giờ là ",os.date("%H")," giờ ",os.date("%M")," phút."}, -- Nokia 1280, you can let it to read the time by holding * key at main menu
+        {"Bây giờ là ",os.date("%H")," giờ ",os.date("%M")," phút."}, -- Nokia 1280, activating talking clock by holding * key at main menu
         "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
         {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.white," không?"},
     },
