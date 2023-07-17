@@ -1,4 +1,5 @@
 local C=COLOR
+local all_month={"T01","T02","T03","T04","T05","T06","T07","T08","T09","T10","T11","T12"}
 
 -- There are some strings, due to game's history, temproary be commented just in case
 -- If it is not used anymore, it will be removed, in one day…
@@ -1112,7 +1113,7 @@ return {
         -- 
         "Trừ khi bạn đang chơi Techmino: “O-spin is a lie!” (O-spin là lời nói dối (của em)!)",
         -- techminohaowan
-        "Hảo hán Techmino",
+        "Hảo Techmino",
 -- 
     -- TIPS WHEN PLAYING
         -- Don't act weak! Don't act weak! Don't act weak!
@@ -1252,9 +1253,9 @@ return {
         {"Cộng đồng Tetris ",C.red,"Việt ",C.lYellow,"Nam ",C.white,": https://discord.gg/jX7BX9g"}, -- Tetris Vietnam
         {C.W,"MrZ ",C.white,"vẫn chưa biết chọn tên nào để đặt cho từ điển của Techmino. Hiện có 3 tên: “Zictionary”, “TetroDictionary” và “Little Z Dictionary”"},
         "Ủa tao nhớ game này tên là xếp hình mà? Ừ thì đúng nhưng để giữ độ đồng nhất và tránh bị cấn mồm thì nên gọi game này là game xếp gạch.",
-        {"Hôm nay là ngày ",os.date("%d"),"/T",os.date("%m"),"/",os.date("YYYY")}, -- inspired from Nokia 1280, activating talking clock by holding * key at main menu
         "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
         {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.white," không?"},
+        {"Hôm nay là ngày ",os.date("%d"),"/",all_month[tonumber(os.date("%m"))],"/",os.date("%Y")}, -- inspired from Nokia 1280, activating talking clock by holding * key at main menu
     },
     pumpkin="Tôi là một quả bí ngô",
 }
