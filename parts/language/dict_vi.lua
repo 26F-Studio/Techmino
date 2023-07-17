@@ -854,7 +854,7 @@ NHÓM 06: CÁC GAME XẾP GẠCH
 
 Nội dung sau đây là những giới thiệu ngắn gọn về một số game xếp gạch chính thức và do fan làm có mức độ phổ biến cao. MrZ - tác giả của Techmino đã để lại một vài lời nhận xét.
 
-Squishy cũng có một số lời nhận xét và thông tin bổ sung, được để ở nhóm 17A (Phụ lục: Thông tin bổ sung & lời nhận xét cho game). Các game có trong nhóm 17A là: Tetr.js, Tetris Friends, tetris.com, DTET, Tetris (EA) và Tetris (N3TWORK)
+Squishy cũng có một số lời nhận xét và thông tin bổ sung, lời này được đánh dấu bắt đầu bằng "Sea"
 
 Hãy nhớ là không phải game nào được nói đến đều có lời nhận xét, chúng chỉ là những ý kiến chủ quan. Đọc chỉ để tham khảo, những nhận xét này không có tính chuyên môn.
         ]]
