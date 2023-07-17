@@ -200,7 +200,7 @@ return {
 
 
     keySettingInstruction="Nhấn một phím để gán phím đó\nescape (esc): Hủy\nbackspace: Xoá",
-    customBGhelp="Kéo một tấm ảnh vào đây để áp dụng ảnh nền tuỳ chỉnh",
+    customBGhelp=not MOBILE and "Kéo một tấm ảnh vào đây để áp dụng ảnh nền tuỳ chỉnh" or "Chưa hỗ trợ ảnh nền cho điện thoại",
     customBGloadFailed="Định dạng ảnh không được hỗ trợ",
 
     errorMsg="Techmino bị lỗi và cần phải được khởi động lại\nBạn có thể gửi error log để giúp dev sửa game nhanh hơn.",
@@ -237,7 +237,7 @@ return {
         "Hàng/Đào:",
         "Gửi/Gửi khi đào:",
         "Nhận:",
-        "Xóa (hàng):",
+        "Xóa:",
         "Spin:",
         "B2B/B3B/PC/HPC:",
         "Lỗi di chuyển:",
@@ -255,7 +255,7 @@ return {
         "H.quả/H.quả khi Đào:",
         "B2B/B3B:",
         "PC/HPC:",
-        "Lỗi di chuyển/Tỉ lệ:",
+        "Lỗi di chuyển/Tỉ lệ ko mắc:",
     },
     aboutTexts={
         "Đây chỉ là một trò chơi xếp gạch *thông thường*. Không, thật đấy, chỉ có vậy thôi",
@@ -834,7 +834,7 @@ return {
             setting="Cài đặt",
             vk="Bố cục cảm ứng",
 
-            couldSave="Lưu qua Cloud (CẢNH BÁO: ĐANG THỬ NGHIỆM)",
+            couldSave="Lưu qua Cloud (CẢNH BÁO: ĐANG THỬ NGHIỆM!)",
             notLogin="[Đăng nhập để lưu]",
             upload="Tải lên Cloud",
             download="Tải xuống từ Cloud",
@@ -1038,7 +1038,7 @@ return {
         "Chế độ nhiều người đã ra mắt rồi, hãy thử nó đi!",
         "Thử sử dụng nhiều ô Hold đi!",
         "Thử dùng 2 nút xoay đi. Dùng cả 3 thì càng tốt",
-        "CẢNH BÁO: Cấu trúc dữ liệu và Giải thuật",
+        {C.red,"CẢNH BÁO! ",C.white,"Cấu trúc dữ liệu và Giải thuật"},
         "20 PC thì sao?",
         "Thế còn 23 PC trong 100 hàng?",
         "26 TSD có nổi không thế?",
@@ -1118,7 +1118,7 @@ return {
         -- Don't act weak! Don't act weak! Don't act weak!
         "Đừng tỏ ra yếu đuối! Đừng tỏ ra yếu đuối! ĐỪNG TỎ RA YẾU ĐUỐI!",
         -- Warning: No pretending to be weak.
-        "CẢNH BÁO! Đừng giả vờ yếu đuối",
+        {C.red,"CẢNH BÁO! ",C.white,"Đừng giả vờ yếu đuối"},
         -- "Meow!"
         "Meow!",
         -- Getting popup messages in the middle of a game? Go to settings and disable them.
@@ -1153,7 +1153,7 @@ return {
         -- Extended gaming sessions will gradually deteriorate your performance! Remember to take breaks when playing for a long time~
         "Những lần chơi game kéo dài thường xuyên dần dần làm giảm hiệu suất chơi game (trong trường hợp tệ nhất bạn có thể bị stall). Nhớ nghỉ ngơi khi chơi lâu",
         -- Be careful of tenosynovitis!
-        "COI CHỪNG! Hãy cẩn thận kẻo bị bệnh viêm bao gân cổ tay!",
+        {C.red,"CẢNH BÁO! ",C.white,"Bệnh viêm bao gân cổ tay!"},
         -- The button with a question mark in the bottom-right corner is the game manual (assuming you haven't enabled the concise mode).
         "Cái nút "..CHAR.icon.help.." ở góc phải dưới cùng trong menu (không bật chế độ Đơn giản) đấy hả? Nó là manual (hướng dẫn sử dụng) của game đấy!",
         -- If you're new to blocks, just play more games; there isn't much specific targeted practice beyond 40 lines in two minutes
@@ -1250,9 +1250,9 @@ return {
         {C.lSea,"Sea: ",C.white,"Tui đang tự hỏi liệu còn bao nhiêu lỗi tui bỏ sót lúc dịch game không? Tính ra tui đã cập nhật đi cập nhật lại cũng 4-5 lần rồi."},
 
         {"Cộng đồng Tetris ",C.red,"Việt ",C.lYellow,"Nam ",C.white,": https://discord.gg/jX7BX9g"}, -- Tetris Vietnam
-        {C.W,"MrZ ",C.white,"vẫn chưa biết chọn tên nào để đặt từ điển của Techmino. Hiện có 3 tên đã biết là: “Zictionary”, “TetroDictionary” và “Little Z Dictionary”"},
+        {C.W,"MrZ ",C.white,"vẫn chưa biết chọn tên nào để đặt cho từ điển của Techmino. Hiện có 3 tên: “Zictionary”, “TetroDictionary” và “Little Z Dictionary”"},
         "Ủa tao nhớ game này tên là xếp hình mà? Ừ thì đúng nhưng để giữ độ đồng nhất và tránh bị cấn mồm thì nên gọi game này là game xếp gạch.",
-        {"Bây giờ là ",os.date("%H")," giờ ",os.date("%M")," phút."}, -- Nokia 1280, activating talking clock by holding * key at main menu
+        {"Hôm nay là ngày ",os.date("%d"),"/T",os.date("%m"),"/",os.date("YYYY")}, -- inspired from Nokia 1280, activating talking clock by holding * key at main menu
         "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
         {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.white," không?"},
     },
