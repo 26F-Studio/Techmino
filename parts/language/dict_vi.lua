@@ -285,7 +285,7 @@ Một hệ thống để xác định cách gạch xoay.
 
 Ở các trò xếp gạch hiện đại, mỗi gạch có thể xoay dựa trên một tâm xoay cố định (có thể không xuất hiện trong một vài game). Nếu gạch sau khi xoay đè lên gạch khác/ra ngoài bảng, hệ thống sẽ thử đẩy gạch sang các vị trí xung quanh (một quá trình được gọi là “wall-kicking” (đá tường)).
 
-Đá tường cho phép gạch có thể đến những hố có hình dạng nào đó mà bình thường không thể tiếp cận được. Các vị trí mà gạch có thể đá được chứa trong một bảng gọi là “wall-kick table” (bảng (các vị trí) đá tường)
+Đá tường cho phép gạch có thể đến những lỗ có hình dạng nào đó mà bình thường không thể tiếp cận được. Các vị trí mà gạch có thể đá được chứa trong một bảng gọi là “wall-kick table” (bảng (các vị trí) đá tường)
         ]]
     },
     {"ARS",
@@ -603,13 +603,13 @@ Mỗi game có cách tính LPM khác nhau. Ví dụ như, Tetris Online tính LP
 Một kỹ thuật di chuyển gạch vào vị trí mong muốn với số lần nhấn phím ít nhất. Giúp tiết kiệm thời gian và giảm khả năng misdrop.
 Bạn có thể luyện tập bằng cách dùng tính năng “Chơi lại nếu mắc lỗi di chuyển” hoặc là để ý tới hiệu ứng âm thanh báo lỗi di chuyển của Techmino.
 
-Techmino phát hiện lỗi di chuyển không dựa trên “số lần nhấn phím tối thiểu để di chuyển theo lý thuyết”, mà thay vào đó chỉ kiểm tra lỗi di chuyển dựa trên số lần nhấn phím tương đương đã được quy định trước *khi gạch được đặt tại một vị trí mà không cần dùng Thả nhẹ*. Có nghĩa là Techmino sẽ không tính lỗi di chuyển nếu bạn phải “nhét” gạch đó để lấp hố hoặc thực hiện spin
+Techmino phát hiện lỗi di chuyển không dựa trên “số lần nhấn phím tối thiểu để di chuyển theo lý thuyết”, mà thay vào đó chỉ kiểm tra lỗi di chuyển dựa trên số lần nhấn phím tương đương đã được quy định trước *khi gạch được đặt tại một vị trí mà không cần dùng Thả nhẹ*. Có nghĩa là Techmino sẽ không tính lỗi di chuyển nếu bạn phải “nhét” gạch đó để lấp lỗ hoặc thực hiện spin
 Techmino có kiểm tra bổ sung một số điều kiện nữa, như nếu bạn giữ gạch mà cả gạch hiện tại giống với gạch đang giữ, hoặc là giữ gạch khi bạn đã di chuyển gạch hiện tại, cũng đều tính là lỗi di chuyển.
 
 Finesse% trong Techmino được tính như sau: 100% nếu số phím bằng hoặc ít hơn par¹, 50%/25%/0% nếu quá par 1/2/3+ phím
 LƯU Ý: trong 20G nếu vẫn kiểm tra lỗi di chuyển, kết quả có thể không chính xác.
 
-(1) Par: thuật ngữ trò đánh golf, thường được sử dụng để chỉ số lượt gậy dự kiến cần để có thể đưa bóng vào hố (hole) hoặc một vòng đánh golf (round of golf).
+(1) Par: thuật ngữ trò đánh golf, thường được sử dụng để chỉ số lượt gậy dự kiến cần để có thể đưa bóng vào lỗ (hole) hoặc một vòng đánh golf (round of golf).
         ]],
     },
     {"Hypertapping",
@@ -742,7 +742,7 @@ Trong các game chính thức, T-spins chủ yếu được phát hiện bởi �
     {"O-Spin",
         "nhom05i ospin",
         "term",
-        "“O-spin is a lie!” (O-spin là một lời nói dối). Một quả meme được nhiều người biết tới.\nNguồn gốc meme này bắt nguồn từ việc gạch O “tròn”, không đổi hình dạng khi xoay ở bất cứ hướng nào, nên nó không thể “đá” được.\n\nTrong khi đó:\n\tXRS cho phép gạch O có thể “teleport” tới một cái hố.\n\tTRS cho phép gạch O “teleport” và “biến hình”",
+        "“O-spin is a lie!” (O-spin là một lời nói dối). Một quả meme được nhiều người biết tới.\nNguồn gốc meme này bắt nguồn từ việc gạch O “tròn”, không đổi hình dạng khi xoay ở bất cứ hướng nào, nên nó không thể “đá” được.\n\nTrong khi đó:\n\tXRS cho phép gạch O có thể “teleport” tới một cái lỗ.\n\tTRS cho phép gạch O “teleport” và “biến hình”",
     },
     {">J|K.th. xóa hàng",
         "nhom05j",
@@ -1290,7 +1290,7 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
     {"Deepdrop (Rơi sâu)",
         "nhom07",
         "term",
-        "*Chỉ có trên Techmino*\n\nMột chức năng cho phép cho phép gạch có thể teleport xuyên đất để xuống phía dưới. Khi gạch đụng vào đáy hoặc một gạch khác, nhấn phím Thả nhẹ để kích hoạt Deepdrop. Nếu có một cái hố phù hợp với hình dạng của gạch ở dưới vị trí gạch đang rơi, gạch sẽ được teleport vào hố đó.\nCơ chế này đặc biệt hữu ích cho AI vì nó cho phép AI bỏ qua sự khác biệt giữa các hệ thống xoay khác nhau.",
+        "*Chỉ có trên Techmino*\n\nMột chức năng cho phép cho phép gạch có thể teleport xuyên đất để xuống phía dưới. Khi gạch đụng vào đáy hoặc một gạch khác, nhấn phím Thả nhẹ để kích hoạt Deepdrop. Nếu có một cái lỗ phù hợp với hình dạng của gạch ở dưới vị trí gạch đang rơi, gạch sẽ được teleport vào lỗ đó.\nCơ chế này đặc biệt hữu ích cho AI vì nó cho phép AI bỏ qua sự khác biệt giữa các hệ thống xoay khác nhau.",
     },
     {"=[NHÓM 08]=",
         "nhom08",
@@ -1566,12 +1566,12 @@ Nhấn nút “Mở link” để vào server Discord, còn nếu muốn vào nh
     {"A|Stacking",
         "nhom12a",
         "name",
-        "NHÓM 12A: STACKING (XẾP LÊN)\n\nDùng để chỉ việc xếp các gạch mà không để lại một cái hố.",
+        "NHÓM 12A: STACKING (XẾP LÊN)\n\nDùng để chỉ việc xếp các gạch mà không để lại một cái lỗ.",
     },
     {"Side well",
         "nhom12a ren combo sidewell",
         "term",
-        "Một phương pháp xếp gạch mà bạn sẽ để lại một cái hố có một chiều rộng nhất định ở một bên bảng .\nSetup Side 1-wide là setup truyền thống để làm Tetris (ví dụ như, Side well Tetris).\nCác loại setup như Side 2-, 3-, hay 4-wide; là những setup được dùng để làm combo. Đối với những người chơi mới, đây là cách hiệu quả nhất để tấn công. NHƯNG, đối thủ có thể dễ dàng tấn công lại bạn, một là chết còn không thì stack của bạn sẽ bị cắt ngắn do bạn phải phản công lại. vì lẽ đó, những người chơi GIỎI thường sẽ không xây quá cao, thay vào đó họ sẽ giữ một lượng T-spins và Tetris nhất định để có thể tấn công đối thủ khi đối thủ không có khả năng dọn rác tới.",
+        "Một phương pháp xếp gạch mà bạn sẽ để lại một cái lỗ có một chiều rộng nhất định ở một bên bảng .\nSetup Side 1-wide là setup truyền thống để làm Tetris (ví dụ như, Side well Tetris).\nCác loại setup như Side 2-, 3-, hay 4-wide; là những setup được dùng để làm combo. Đối với những người chơi mới, đây là cách hiệu quả nhất để tấn công. NHƯNG, đối thủ có thể dễ dàng tấn công lại bạn, một là chết còn không thì stack của bạn sẽ bị cắt ngắn do bạn phải phản công lại. vì lẽ đó, những người chơi GIỎI thường sẽ không xây quá cao, thay vào đó họ sẽ giữ một lượng T-spins và Tetris nhất định để có thể tấn công đối thủ khi đối thủ không có khả năng dọn rác tới.",
     },
     {"Center well",
         "nhom12a ren combo centerwell",
@@ -1586,22 +1586,22 @@ Nhấn nút “Mở link” để vào server Discord, còn nếu muốn vào nh
     {"Side 1-wide",
         "nhom12a s1w side1wide sidewelltetris",
         "term",
-        "Hay còn gọi là Side well Tetris.\nĐây là cách chơi xếp gạch kinh điển nhất, và để làm được thì bạn sẽ phải xây một cái hố (duy nhất) sâu rộng 1 ô ở một mặt bên của bảng. Dễ thực hiện trong Tetris hiện đại và có thể làm tấn công… nửa vời. Nhưng setup này hiếm khi được sử dụng trong những trận đấu hạng cao do hiệu quả của Tetris thấp hơn so với T-spin.",
+        "Hay còn gọi là Side well Tetris.\nĐây là cách chơi xếp gạch kinh điển nhất, và để làm được thì bạn sẽ phải xây một cái lỗ (duy nhất) sâu rộng 1 ô ở một mặt bên của bảng. Dễ thực hiện trong Tetris hiện đại và có thể làm tấn công… nửa vời. Nhưng setup này hiếm khi được sử dụng trong những trận đấu hạng cao do hiệu quả của Tetris thấp hơn so với T-spin.",
     },
     {"Side 2-wide",
         "nhom12a s2w side2wide",
         "term",
-        "Tương tự như Side 1-wide nhưng hố rộng 2 ô. Một setup để làm combo phổ biến.\nDễ sử dụng. Những người mới chơi có thể thử và tạo ra tấn công nửa vời khi kết hợp với Hold. Nhưng setup này hiếm khi được sử dụng trong những trận đấu hạng cao, bởi vì tốn thời gian để xây, nhường thời gian cho đối thủ tấn công và có thể làm stack của bạn bị cắt ngắn. Và nó cũng không tốt lắm về mặt hiệu quả (efficiency).",
+        "Tương tự như Side 1-wide nhưng lỗ rộng 2 ô. Một setup để làm combo phổ biến.\nDễ sử dụng. Những người mới chơi có thể thử và tạo ra tấn công nửa vời khi kết hợp với Hold. Nhưng setup này hiếm khi được sử dụng trong những trận đấu hạng cao, bởi vì tốn thời gian để xây, nhường thời gian cho đối thủ tấn công và có thể làm stack của bạn bị cắt ngắn. Và nó cũng không tốt lắm về mặt hiệu quả (efficiency).",
     },
     {"Side 3-wide",
         "nhom12a s3w side3wide",
         "term",
-        "Tương tự như Side 1-wide hay Side 2-wide nhưng hố rộng 3 ô. Ít phổ biến hơn so với Side 2-wide.\nTuy có thể làm nhiều combo hơn với setup này, nhưng lại khó xây, và dễ làm hỏng combo.",
+        "Tương tự như Side 1-wide hay Side 2-wide nhưng lỗ rộng 3 ô. Ít phổ biến hơn so với Side 2-wide.\nTuy có thể làm nhiều combo hơn với setup này, nhưng lại khó xây, và dễ làm hỏng combo.",
     },
     {"Side 4-wide",
         "nhom12a s4w side4wide",
         "term",
-        "Tương tự như Side 1-, 2- hay 3-wide nhưng hố rộng 4 ô.\nNếu làm tốt thì nó có thể tạo ra những combo rất ấn tượng. Hơn nữa, setup này mất ít thời gian hơn để xây dựng, vì vậy có thể tranh thủ làm combo trước khi rác đến. Tuy nhiên, bạn vẫn có thể bị bay màu nếu có quá nhiều rác, do đó trong một số trường hợp, nó khó mà có thể áp đảo lại lượng rác tới.",
+        "Tương tự như Side 1-, 2- hay 3-wide nhưng lỗ rộng 4 ô.\nNếu làm tốt thì nó có thể tạo ra những combo rất ấn tượng. Hơn nữa, setup này mất ít thời gian hơn để xây dựng, vì vậy có thể tranh thủ làm combo trước khi rác đến. Tuy nhiên, bạn vẫn có thể bị bay màu nếu có quá nhiều rác, do đó trong một số trường hợp, nó khó mà có thể áp đảo lại lượng rác tới.",
     },
     {"Center 1-wide",
         "nhom12a c1w center1wide centerwelltetris",
@@ -1611,12 +1611,12 @@ Nhấn nút “Mở link” để vào server Discord, còn nếu muốn vào nh
     {"Center 2-wide",
         "nhom12a c2w center2wide",
         "term",
-        "Tương tự như Center 1-wide, nhưng hố rộng 2 ô. Tuy nhiên nó không được phổ biến lắm.",
+        "Tương tự như Center 1-wide, nhưng lỗ rộng 2 ô. Tuy nhiên nó không được phổ biến lắm.",
     },
     {"Center 3-wide",
         "nhom12a c3w center3wide",
         "term",
-        "Tương tự như Center 1- hay 2-wide, nhưng hố rộng 3 ô. Tuy nhiên nó cũng không được phổ biến lắm.",
+        "Tương tự như Center 1- hay 2-wide, nhưng lỗ rộng 3 ô. Tuy nhiên nó cũng không được phổ biến lắm.",
     },
     {"Center 4-wide",
         "nhom12a c4w center4wide",
@@ -1626,7 +1626,7 @@ Nhấn nút “Mở link” để vào server Discord, còn nếu muốn vào nh
     {"Residual",
         "nhom12a c4w s4w",
         "term",
-        "Đề cập đến có bao nhiêu gạch được đặt trong cái hố khi sử dụng setup combo 4-wide.\nPhổ biến nhất là 3-residual và 6-residual.\n\n3-residual có ít biến thể và dễ học dễ nhớ hơn, và có khả năng thành công cao, rất hữu dựng trong combat.\n6-residual lại có nhiều biến thể hơn và khó học khó xài hơn, nhưng chúng thường ổn định nếu dùng tốt. Residual cũng có thể được sử dụng trong những thử thách đặc biệt như lấy 100 combo trong một thử thánh 4-wide vô tận.\n\nVề nguyên tắc, hãy dùng 6-Res trước, sau đó 5-Res rồi 3-Res, và cuối cùng là 4-Res.",
+        "Đề cập đến có bao nhiêu gạch được đặt trong cái lỗ khi sử dụng setup combo 4-wide.\nPhổ biến nhất là 3-residual và 6-residual.\n\n3-residual có ít biến thể và dễ học dễ nhớ hơn, và có khả năng thành công cao, rất hữu dựng trong combat.\n6-residual lại có nhiều biến thể hơn và khó học khó xài hơn, nhưng chúng thường ổn định nếu dùng tốt. Residual cũng có thể được sử dụng trong những thử thách đặc biệt như lấy 100 combo trong một thử thánh 4-wide vô tận.\n\nVề nguyên tắc, hãy dùng 6-Res trước, sau đó 5-Res rồi 3-Res, và cuối cùng là 4-Res.",
     },
     {"6 - 3 Stacking",
         "nhom12a 63stacking six-three sixthree",
@@ -1750,13 +1750,13 @@ Setup này thường phải đạt cả ba yêu cầu sau:
     {"Perfect Clear Opener",
         "nhom13b 7piecepuzzle",
         "setup",
-        "Một Opener làm All Clear có khả năng thành công cao (~84.6% nếu bạn đang giữ I trong ô Hold và ~61.2% nếu không giữ). Trong chế độ PC Training (Luyện tập PC), setup này được sử dụng để tạo ra setup chưa hoàn chỉnh, không tạo ra hố.\nĐể có thêm thông tin, bạn có thể nhấn nút “Mở link” để mở bài ở trên wiki Hard Drop",
+        "Một Opener làm All Clear có khả năng thành công cao (~84.6% nếu bạn đang giữ I trong ô Hold và ~61.2% nếu không giữ). Trong chế độ PC Training (Luyện tập PC), setup này được sử dụng để tạo ra setup chưa hoàn chỉnh, không tạo ra lỗ.\nĐể có thêm thông tin, bạn có thể nhấn nút “Mở link” để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=Perfect_Clear_Opener",
     },
     {"Grace System",
         "nhom13b gracesystem 1stpc",
         "setup",
-        "Một opener làm PC có khả năng thành công ~88.57%. Hố vuông 4x4 trong chế độ PC Training cũng dựa trên setup này.\nĐể có thêm thông tin, bạn có thể nhấn nút “Mở link” để mở bài ở trên Four.lol",
+        "Một opener làm PC có khả năng thành công ~88.57%. Lỗ hình vuông 4x4 trong chế độ PC Training cũng dựa trên setup này.\nĐể có thêm thông tin, bạn có thể nhấn nút “Mở link” để mở bài ở trên Four.lol",
         "https://four.lol/perfect-clears/grace-system",
     },
     {"DPC",
@@ -1785,7 +1785,7 @@ Setup này thường phải đạt cả ba yêu cầu sau:
     {"STSD",
         "nhom13c",
         "pattern",
-        "Super T-spin Double, một setup cho phép làm T-spin Double.\nNhưng nếu có rác ngay dưới hố STSD thì không tài nào làm T-spin Double được\nĐể có thêm thông tin, bạn có thể nhấn nút “Mở link” để mở bài ở trên wiki Hard Drop",
+        "Super T-spin Double, một setup cho phép làm T-spin Double.\nNhưng nếu có rác ngay dưới setup này thì không tài nào làm T-spin Double được\nĐể có thêm thông tin, bạn có thể nhấn nút “Mở link” để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=stsd",
     },
     {"Fractal",
@@ -1803,7 +1803,7 @@ Setup này thường phải đạt cả ba yêu cầu sau:
     {"Imperial Cross",
         "nhom13c imperialcross",
         "pattern",
-        "Che hố hình chữ thập bằng phần nhô ra để thực hiện hai lần T-spin Double\nĐể có thêm thông tin, bạn có thể nhấn nút “Mở link” để mở bài ở trên wiki Hard Drop",
+        "Che lỗ hình chữ thập bằng phần nhô ra để thực hiện hai lần T-spin Double\nĐể có thêm thông tin, bạn có thể nhấn nút “Mở link” để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=imperial_cross",
     },
     {"King Crimson",
@@ -1862,7 +1862,7 @@ Setup này thường phải đạt cả ba yêu cầu sau:
     {"Cut Copy",
         "nhom13d cutcopy",
         "pattern",
-        "Một setup dạng donation để làm T-spin Double trên một cái hố nhỏ và có thể làm thêm một TSD nữa sau đó.",
+        "Một setup dạng donation để làm T-spin Double trên một cái lỗ nhỏ và có thể làm thêm một TSD nữa sau đó.",
     },
     {"=[NHÓM 14]=",
         "nhom14",
