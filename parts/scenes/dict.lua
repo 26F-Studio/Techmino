@@ -165,6 +165,9 @@ function scene.update(dt)
     end
 end
 
+local function listStencil()
+    GC.rectangle('fill',20,180,280,526)
+end
 function scene.draw()
     gc.setColor(COLOR.dX)
     gc.rectangle('fill',300,180,958,526,5)
@@ -189,19 +192,16 @@ function scene.draw()
     gc.setColor(1,1,1,.4+.05*sin(TIME()*12.6))
     gc.rectangle('fill',20,143+35*(selected-scrollPos),280,35)
 
+    GC.stencil(listStencil)
+    GC.setStencilTest('equal',1)
     setFont(30)
     for i=1,min(#list,15) do
         local y=142+35*i
         i=i+scrollPos
         local item=list[i]
-        gc.setColor(COLOR.D)
-        gc.print(item.title,29,y-1)
-        gc.print(item.title,29,y+1)
-        gc.print(item.title,31,y-1)
-        gc.print(item.title,31,y+1)
-        gc.setColor(typeColor[item.type])
-        gc.print(item.title,30,y)
+        GC.shadedPrint(item.title,30,y,'left',1,COLOR.D,typeColor[item.type])
     end
+    GC.setStencilTest()
 
     if searchWait>0 then
         local r=TIME()*2

@@ -613,7 +613,10 @@ do-- function Player:dropPosition(x,y,size)
             vy=vy+.0626
             self:setPosition(x,y,size)
             if y>2600 then
-                table.remove(PLAYERS,TABLE.find(PLAYERS,self))
+                local index=TABLE.find(PLAYERS,self)
+                if index then
+                    table.remove(PLAYERS,index)
+                end
                 return true
             end
         end
@@ -1433,7 +1436,7 @@ function Player:popNext(ifhold)-- Pop nextQueue to hand
 
     if self.nextQueue[1] then
         self.cur=rem(self.nextQueue,1)
-        self.newNext()
+        self:newNext()
         self.pieceCount=self.pieceCount+1
 
         local pressing=self.keyPressing
