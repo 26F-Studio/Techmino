@@ -123,8 +123,8 @@ Bạn có thể quay lại đây bằng cách gõ trên thanh tìm kiếm "nhom0
         13D. Donation: Hamburger, STMB Cave, Kaidan, Shachiku Train, Cut Copy
 14. Cách tính lượng sát thơng gây ra: Tetris Online/Notris Foes, Techmino
 15. Console và chuyện quản lý dữ liệu game
-        - Console, đặt lại thiết lập, tình trạng mở khóa, bố cục phím
-        - Xóa toàn bộ thành tích, kỷ lục, bản phát lại, bộ nhớ đệm
+        — Console, đặt lại thiết lập, tình trạng mở khóa, bố cục phím
+        — Xóa toàn bộ thành tích, kỷ lục, bản phát lại, bộ nhớ đệm
 16. Các thuật ngữ không liên quan gì tới Tetris (tiếng Anh): SFX, BGM, TAS, AFK
         ]]
     },
@@ -192,7 +192,7 @@ Khái niệm về trò chơi Tetris hay trò chơi xếp gạch “hiện đại
 Nói chung, một game xếp gạch hiện đại thường sẽ bám sát theo Tetris Design Guideline (Bộ nguyên tắc thiết kế cho Tetris).
 
 Dưới đây là các yếu tố chính để làm nên Tetris, tuy nhiên chúng không bắt buộc phải xuất hiện trong mọi game
-    1. Phần có thể nhìn được của bảng có kích thước 10 × 20 (rộng × dài), cùng với 2 - 3 hàng ẩn ở bên nhau.
+    1. Phần có thể nhìn được của bảng có kích thước 10 × 20 (rộng × dài), cùng với 2 — 3 hàng ẩn ở bên nhau.
     2. Gạch sẽ được sinh ra ở giữa trên cùng của ma trận có thể nhìn thấy (thường là ở hàng 21-22). Mỗi mảnh đều có màu sắc và hướng quay mặc định riêng.
     3. Có một bộ xáo gạch như 7-bag hay His.
     4. Có hẳn một hệ thống xoay, và cho phép xoay theo ít nhất 2 hướng.
@@ -254,7 +254,7 @@ Techmino không kiểm tra điều kiện Lock out và Top out.
     {"Màu của Tetromino",
         "nhom05a màu"..tetromino,
         "term",
-        "Nhiều game xếp gạch hiện đại, từ chính thức tới fan làm, đã và đang sử dụng cùng một bảng màu duy nhất cho Tetromino. Những màu này bao gồm:\nZ - Đỏ, S - Lục, J - Lam, L - Cam, T - Tím, O - Vàng, và I - Lục lam.\n\nTechmino cũng sử dụng bảng màu này để tô màu cho Tetromino.",
+        "Nhiều game xếp gạch hiện đại, từ chính thức tới fan làm, đã và đang sử dụng cùng một bảng màu duy nhất cho Tetromino. Những màu này bao gồm:\nZ — Đỏ, S — Lục, J — Lam, L — Cam, T — Tím, O — Vàng, và I — Lục lam.\n\nTechmino cũng sử dụng bảng màu này để tô màu cho Tetromino.",
     },
     {"Gạch & tên tg. ứng",
         "nhom05a mino gạch & tên tương ứng gạch và tên tương ứng"..tetromino,
@@ -296,7 +296,7 @@ Một hệ thống để xác định cách gạch xoay.
     {"ASC",
         "nhom05b ascension",
         "term",
-        "Hệ thống xoay được dùng trong Ascension - một bản clone của Tetris. Tất cả các gạch đều sử dụng chung một bảng đá tường (một dành cho xoay phải, một dành cho xoay trái), và vùng đá nằm trong khoảng cách ± 2 ô ở cả hai trục.",
+        "Hệ thống xoay được dùng trong Ascension — một bản clone của Tetris. Tất cả các gạch đều sử dụng chung một bảng đá tường (một dành cho xoay phải, một dành cho xoay trái), và vùng đá nằm trong khoảng cách ± 2 ô ở cả hai trục.",
     },
     {"ASC+",
         "nhom05b ascension ascplus",
@@ -332,7 +332,7 @@ Nếu có độ lệch theo chiều ngang, hướng của cú đá đó phải l
     {"C2RS",
         "nhom05b c2rs cultris2",
         "term",
-        "Cultris II rotation system | Hệ thống xoay Cultris II\n\nMột hệ thống xoay ở trong Cultris II - một bản clone của Tetris.\nToàn bộ gạch và cả hướng xoay đều sử dụng chung một bảng đá tường (trái, phải, xuống, xuống + trái, xuống + phải, trái 2, phải 2), với ưu tiên về phía bên trái so với bên phải.\n\nTrong Techmino có một bản chỉnh sửa của hệ thống này, đó là C2sym. C2sym sẽ ưu tiên hướng theo hình dạng của gạch",
+        "Cultris II rotation system | Hệ thống xoay Cultris II\n\nMột hệ thống xoay ở trong Cultris II — một bản clone của Tetris.\nToàn bộ gạch và cả hướng xoay đều sử dụng chung một bảng đá tường (trái, phải, xuống, xuống + trái, xuống + phải, trái 2, phải 2), với ưu tiên về phía bên trái so với bên phải.\n\nTrong Techmino có một bản chỉnh sửa của hệ thống này, đó là C2sym. C2sym sẽ ưu tiên hướng theo hình dạng của gạch",
     },
     {"C2sym",
         "nhom05b cultris2",
@@ -410,7 +410,7 @@ Một vài ví dụ: ZSJLTOI, OTSLZIJ, LTISZOJ.
         "nhom05d historygenerator hisgenerator",
         "term",
         [[
-Tên đầy đủ là History - Roll. (Tên tiếng Việt: “Nhớ - Lặp”)
+Tên đầy đủ là History — Roll. (Tên tiếng Việt: “Nhớ — Lặp”)
 
 Một kiểu xáo gạch được sử dụng nhiều trong series game Tetris: The Grand Master. Mỗi lần một Tetromino sẽ được chọn ngẫu nhiên: Nếu nó là một trong những gạch đã bốc ra trước đó, thì bốc lại thêm lần nữa cho tới khi bốc được gạch không phải là những viên gạch kia, hoặc là hết lượt bốc lại. Ví dụ: “his4 roll6” (h4r6) (nhớ 4 lặp 6) sẽ nhớ 4 gạch đã bốc cuối cùng, và chỉ được bốc lại tối đa 6 lần nếu cần thiết.
 Kiểu xáo His cũng có một vài biến thể khác. Xem chi tiết tại mục “Kiểu xáo HisPool”.
@@ -422,7 +422,7 @@ Trong Techmino, số lần bốc lại ngẫu nhiên sẽ là một nửa độ 
         "nhom05d hispool historypoolgenerator kiểu xáo hispool",
         "term",
         [[
-Tên đầy đủ là History (- Roll) - Pool. (Tên tiếng Việt là Nhớ - Lặp - Rổ)
+Tên đầy đủ là History (- Roll) — Pool. (Tên tiếng Việt là Nhớ — Lặp — Rổ)
 
 Một kiểu xáo dựa trên kiểu xáo His. Nó giới thiệu một cơ chế mới: “Pool” (Rổ). Mỗi lần bốc gạch, HisPool sẽ chọn ngẫu nhiên một viên gạch trong cái Rổ và tăng khả năng xuất hiện của gạch ít xuất hiện nhất. (Bạn có thể tra mục tiếp theo để tìm hiểu về cơ chế Pool nếu bạn tò mò)
 
@@ -435,7 +435,7 @@ Kiểu xáo thường gặp nhất là kiểu xáo “his4 roll6 pool35” (nh�
         "term",
         [[
 [Sea: Phần này không có trong Zictionary ngôn ngữ khác!]
-Cách hoạt động của kiểu xáo “Nhớ - Lặp - Rổ” diễn ra tuần tự như sau:
+Cách hoạt động của kiểu xáo “Nhớ — Lặp — Rổ” diễn ra tuần tự như sau:
 
 Đầu tiên, lấy một viên gạch ngẫu nhiên trong cái Rổ. Nếu gạch đó là một trong những gạch đã bốc ra trước đó thì bốc lại cho tới khi gạch đó không còn là một trong những viên gạch kia, hoặc là hết lượt bốc lại.
 Gạch được bốc trúng sẽ được lấy ra khỏi Rổ. Với các gạch khác, mỗi viên gạch sẽ bị cộng 1 lần vào số lần không xuất hiện của chúng.
@@ -477,7 +477,7 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
         "nhom05e1 trọng lực falling speed gravity",
         "term",
         [[
-Đơn vị của tốc độ rơi là “G” - một đơn vị có số khá lớn, có nghĩa là gạch rơi xuống bao nhiêu ô/khung hình.
+Đơn vị của tốc độ rơi là “G” — một đơn vị có số khá lớn, có nghĩa là gạch rơi xuống bao nhiêu ô/khung hình.
 Tốc độ của Level 1 trong chế độ Marathon thường là 1/60G (1 ô/giây = 1 ô/60 khung hình), ở Level 13 là gần/bằng 1G (từ 50-60 ô/giây).
 Tốc độ cao nhất trong các game Tetris hiện đại là 20G. Ý nghĩa thật sự của 20G là “Tốc độ rơi vô tận”. Bạn có thể tìm hiểu về 20G ở mục “20G”
 Trong Techmino, tốc độ rơi được mô tả là số khung hình cần thiết để gạch rơi xuống một đơn vị; ví dụ, 60 để chỉ gạch rơi mỗi ô một giây (nếu game mặc định chạy ở 60FPS).
@@ -601,10 +601,11 @@ Mỗi game có cách tính LPM khác nhau. Ví dụ như, Tetris Online tính LP
         "term",
         [[
 Một kỹ thuật di chuyển gạch vào vị trí mong muốn với số lần nhấn phím ít nhất. Giúp tiết kiệm thời gian và giảm khả năng misdrop.
-Bạn có thể luyện tập bằng cách dùng tính năng “Chơi lại nếu mắc lỗi di chuyển” hoặc là để ý tới hiệu ứng âm thanh báo lỗi di chuyển của Techmino.
+Bạn có thể luyện tập bằng cách dùng tính năng “Chơi lại nếu mắc lỗi” hoặc là để ý tới hiệu ứng âm thanh báo lỗi di chuyển của Techmino.
 
-Techmino phát hiện lỗi di chuyển không dựa trên “số lần nhấn phím tối thiểu để di chuyển theo lý thuyết”, mà thay vào đó chỉ kiểm tra lỗi di chuyển dựa trên số lần nhấn phím tương đương đã được quy định trước *khi gạch được đặt tại một vị trí mà không cần dùng Thả nhẹ*. Có nghĩa là Techmino sẽ không tính lỗi di chuyển nếu bạn phải “nhét” gạch đó để lấp lỗ hoặc thực hiện spin
-Techmino có kiểm tra bổ sung một số điều kiện nữa, như nếu bạn giữ gạch mà cả gạch hiện tại giống với gạch đang giữ, hoặc là giữ gạch khi bạn đã di chuyển gạch hiện tại, cũng đều tính là lỗi di chuyển.
+Techmino phát hiện lỗi di chuyển không dựa vào “số lần nhấn phím tối thiểu để di chuyển theo lý thuyết”.
+Thay vào đó, chỉ kiểm tra lỗi di chuyển dựa trên số lần nhấn phím tương đương đã được quy định *trước khi gạch được đặt tại một vị trí mà không cần dùng Thả nhẹ* ——→ Techmino sẽ không tính lỗi di chuyển nếu bạn phải “nhét” gạch đó để lấp lỗ/thực hiện spin
+Techmino còn kiểm tra thêm một số điều kiện nữa, như nếu bạn giữ gạch mà cả gạch hiện tại giống với gạch đang giữ, hoặc là giữ gạch khi bạn đã di chuyển gạch hiện tại, cũng đều tính là lỗi di chuyển.
 
 Finesse% trong Techmino được tính như sau: 100% nếu số phím bằng hoặc ít hơn par¹, 50%/25%/0% nếu quá par 1/2/3+ phím
 LƯU Ý: trong 20G nếu vẫn kiểm tra lỗi di chuyển, kết quả có thể không chính xác.
@@ -627,7 +628,7 @@ Một phương pháp khác để di chuyển nhanh ở chế độ trọng lực
     * Sau đó dùng các ngón tay ở bên kia gõ mạnh liên tục ở mặt sau của tay cầm.
     
 Phương pháp này nhanh hơn nhiều so với việc nhấn liên tục (xem mục “Hypertapping” để biết thêm thông tin) và yêu cầu ít công sức hơn.
-Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish - người đã đạt tốc độ nhấn lên tới 20 Hz.
+Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish — người đã đạt tốc độ nhấn lên tới 20 Hz.
         ]],
     },
     {">F3|Độ trễ input",
@@ -693,7 +694,7 @@ Tấn công: Gửi hàng rác tới đối thủ bằng cách xóa hàng.
 Phòng thủ: Loại hàng rác ra khỏi hàng chờ bằng cách xóa hàng sau khi đối thủ gửi hàng rác.
 Phản công: Gửi hàng rác lại sau khi nhận đòn tấn công, hoặc trong khi/sau khi tấn công.
 
-Trong hầu hết các trò chơi, tỷ lệ phản công rác thường là 1:1 - một lần tấn công đánh phản lại một lần nhận rác.
+Trong hầu hết các game, tỷ lệ phản công rác thường là 1:1 — một lần tấn công đánh phản lại một lần nhận rác.
         ]],
     },
     {"Combo",
@@ -852,7 +853,7 @@ Cũng trong Techmino nhưng trong bản tiếng Việt, từ “gạch []” đ�
         [[
 NHÓM 06: CÁC GAME XẾP GẠCH
 
-Nội dung sau đây là những giới thiệu ngắn gọn về một số game xếp gạch chính thức và do fan làm có mức độ phổ biến cao. MrZ - tác giả của Techmino đã để lại một vài lời nhận xét.
+Nội dung sau đây là những giới thiệu ngắn gọn về một số game xếp gạch chính thức và do fan làm có mức độ phổ biến cao. MrZ — tác giả của Techmino đã để lại một vài lời nhận xét.
 
 Squishy cũng có một số lời nhận xét và thông tin bổ sung, lời này được đánh dấu bắt đầu bằng "Sea"
 
@@ -877,7 +878,7 @@ Chơi trên trình duyệt | Chơi đơn | Hỗ trợ màn hình cảm ứng
 
 Một game xếp gạch chơi trên trình duyệt với nhiều điều chỉnh và chế độ chuyên nghiệp.
 Liên kết của mục này sẽ đưa bạn tới bản của Farter (bản này là một bản đã mod, đã thêm một vài chế độ khác)
-Bạn cũng có thể tìm một phiên bản khác có tên là "Tetr.js Enhanced" - bản mod này do Dr Ocelot làm (đã bị gỡ xuống và thay thế bằng Tetra Legends, nhưng cũng bị dừng phát triển hoàn toàn từ T12/2020)
+Bạn cũng có thể tìm một phiên bản khác có tên là "Tetr.js Enhanced" — bản mod này do Dr Ocelot làm (đã bị gỡ xuống và thay thế bằng Tetra Legends, nhưng cũng bị dừng phát triển hoàn toàn từ T12/2020)
 
 [MrZ: Giao diện đơn giản với hầu như không có bất kỳ hiệu ứng (animation) nào. Chỉ có một số tổ hợp phím ảo khả dụng cho thiết bị di động.]
         ]],
@@ -1044,7 +1045,7 @@ Một trò chơi do fan làm đang được phát triển với hệ thống xoa
         [[
 Chỉ có trên máy thùng | Chơi đơn/Chơi qua mạng cục bộ
 
-Tetris The Grand Master, một series Tetris dành cho máy thùng, nổi tiếng với độ khó cực cao - được xem là series game khó nhất (tại thời điểm ra mắt). Những thứ như S13 hay GM cũng từ chính series này. TGM3 được coi là tựa game nổi tiếng nhất của series này.
+Tetris The Grand Master, một series Tetris dành cho máy thùng, nổi tiếng với độ khó cực cao — được xem là series game khó nhất (tại thời điểm ra mắt). Những thứ như S13 hay GM cũng từ chính series này. TGM3 được coi là tựa game nổi tiếng nhất của series này.
         ]],
     },
     {"DTET",
@@ -1193,7 +1194,7 @@ Một tựa game xếp gạch được phát triển bởi EA. Có hai cách đi
 
 Ra mắt lần đầu năm 2011, bị khai tử từ T04/2020
 
-[Sea: game đang nhắc ở đây là bản năm 2011 (phát hành khoảng 2011 - 2012)]
+[Sea: game đang nhắc ở đây là bản năm 2011 (phát hành khoảng 2011 — 2012)]
         ]],
     },
     {"Tetris (N3TWORK)",
@@ -1502,13 +1503,13 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
         "https://four.lol",
     },
     {"‘Tetris Hall’",
-        "nhom10c",
+        "nhom10c tetris hall",
         "help",
         "(テトリス堂)\n\nMột trang web tiếng Nhật, chứa nhiều setup, hướng dẫn cũng như có các minigame. Nó cũng có mô tả chi tiết về PC liên tiếp",
         "https://shiwehi.com/tetris/",
     },
     {"‘Tetris Template Collections’",
-        "nhom10c",
+        "nhom10c tetris template collections",
         "help",
         "(テトリステンプレ集@テト譜)\n\nMột trang web tiếng Nhật với các setup và các danh mục chi tiết. Hầu hết các setup đều có ảnh minh họa, vì vậy việc chia sẻ với người khác sẽ dễ dàng hơn.",
         "https://w.atwiki.jp/tetrismaps/",
@@ -1516,7 +1517,7 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
     {"tetristemplate.info",
         "nhom10c",
         "help",
-        "(テトリスブログ - PerfectClear)\n\nMột trang web ở Nhật Bản chứa một số setup. Tuy số lượng không bằng các trang web khác nhưng bù lại các setup đều được giải thích rất chi tiết",
+        "(テトリスブログ — PerfectClear)\n\nMột trang web ở Nhật Bản chứa một số setup. Tuy số lượng không bằng các trang web khác nhưng bù lại các setup đều được giải thích rất chi tiết",
         "https://tetristemplate.info/",
     },
     {">D|Chia sẻ setup",
@@ -1628,7 +1629,7 @@ Nhấn nút “Mở link” để vào server Discord, còn nếu muốn vào nh
         "term",
         "Đề cập đến có bao nhiêu gạch được đặt trong cái lỗ khi sử dụng setup combo 4-wide.\nPhổ biến nhất là 3-residual và 6-residual.\n\n3-residual có ít biến thể và dễ học dễ nhớ hơn, và có khả năng thành công cao, rất hữu dựng trong combat.\n6-residual lại có nhiều biến thể hơn và khó học khó xài hơn, nhưng chúng thường ổn định nếu dùng tốt. Residual cũng có thể được sử dụng trong những thử thách đặc biệt như lấy 100 combo trong một thử thánh 4-wide vô tận.\n\nVề nguyên tắc, hãy dùng 6-Res trước, sau đó 5-Res rồi 3-Res, và cuối cùng là 4-Res.",
     },
-    {"6 - 3 Stacking",
+    {"6 — 3 Stacking",
         "nhom12a 63stacking six-three sixthree",
         "term",
         "Một phương pháp để xếp gạch, bạn sẽ phải tạo ra một bức tường cao có chiều rộng rộng 6 ô ở bên trái và một bức tường cao nữa có chiều rộng 3 ô ở bên phải.\nĐối với một người chơi có kỹ năng, phương pháp cho phép người chơi giảm số phím cần nhấn, và đây là một phương pháp phổ biến để chơi Sprint (như 10 hàng, 20 hàng, 40 hàng,…). Phương pháp này hoạt động được nhờ việc gạch xuất hiện hay bị căn lệch về bên trái.",
@@ -1738,7 +1739,7 @@ Setup này thường phải đạt cả ba yêu cầu sau:
     {"Albatross",
         "nhom13b",
         "setup",
-        "Một opener nhìn đẹp mắt, nhịp độ nhanh với TSD - TST - TSD - All Clear, khó mà lãng phí được gạch T.\nĐể có thêm thông tin, bạn có thể nhấn nút “Mở link” để mở bài ở trên wiki Hard Drop",
+        "Một opener nhìn đẹp mắt, nhịp độ nhanh với TSD — TST — TSD — All Clear, khó mà lãng phí được gạch T.\nĐể có thêm thông tin, bạn có thể nhấn nút “Mở link” để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=Albatross_Special",
     },
     {"Pelican",

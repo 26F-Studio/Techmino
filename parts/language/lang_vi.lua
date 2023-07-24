@@ -41,7 +41,7 @@ return {
     stage="Chặng $1 hoàn thành!",
     great="Tốt lắm!",
     awesome="Tuyệt vời!",
-    almost="Gần xong rồi!",
+    almost="Gần được rồi!",
     continue="Cố gắng lên!",
     maxspeed="TỐC ĐỘ TỐI ĐA!",
     speedup="Tăng tốc nào!",
@@ -1254,7 +1254,7 @@ return {
         {C.W,"MrZ ",C.white,"vẫn chưa biết chọn tên nào để đặt cho từ điển của Techmino. Hiện có 3 tên: “Zictionary”, “TetroDictionary” và “Little Z Dictionary”"},
         "Ủa tao nhớ game này tên là xếp hình mà? Ừ thì đúng nhưng để giữ độ đồng nhất và tránh bị cấn mồm thì nên gọi game này là game xếp gạch.",
         "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
-        {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.white," không?"},
+        {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.white," không?"}, -- Little joking
         {"Hôm nay là ngày ",os.date("%d"),"/",all_month[tonumber(os.date("%m"))],"/",os.date("%Y")}, -- inspired from Nokia 1280, activating talking clock by holding * key at main menu
     },
     pumpkin="Tôi là một quả bí ngô",
