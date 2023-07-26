@@ -1,6 +1,6 @@
 local gc=love.graphics
 
-local infoBox =WIDGET.newTextBox {name='infoBox',x=320,y=180,w=840,h=526,font=25,fix=true}
+local infoBox =WIDGET.newTextBox {name='infoBox',x=320,y=180,w=850,h=526,font=25,fix=true}
 local inputBox=WIDGET.newInputBox{name='input',  x=20, y=110,w=762,h=60, font=40,limit=32}
 
 local int,abs=math.floor,math.abs
@@ -38,14 +38,8 @@ local typeColor={
 
 local function _filter(word_org)
     local word=word_org
-    word=word:gsub("[Tt]etris",CHAR.zChan.thinking)
+    word=word:gsub("[Tt][Ee][Tt][Rr][Ii][Ss]",CHAR.zChan.thinking)
     if FNNS then word=word:gsub("[Pp]\97\116\114\101\111\110",CHAR.zChan.qualified) end
-    return word,word_org
-end
-local function _defilter(word_org)
-    local word=word_org
-    word=word:gsub(CHAR.zChan.thinking,"Tetris")
-    if FNNS then word=word:gsub(CHAR.zChan.qualified,"P\97\116\114\101\111\110") end
     return word,word_org
 end
 local function _scanDict(D)
@@ -89,6 +83,22 @@ local function _search()
     end
     lastSearch=input
 end
+local function _jumpover12(key)
+    if key=='left' or key=='pageup' or key =='cUp' then
+         for _=1,12 do scene.widgetList.listBox:arrowKey('up')   end
+    else for _=1,12 do scene.widgetList.listBox:arrowKey('down') end end
+end
+local function _resetZoom()
+    currentFontSize,infoBox.font,infoBox.lineH,lastSelected=25,25,25*7/5,0
+end
+local function _setzoom(z)
+    if z~=0 then
+        currentFontSize=MATH.clamp(currentFontSize+z,15,40)
+        infoBox.font =currentFontSize
+        infoBox.lineH=currentFontSize*7/5   -- Recalculate the line's height
+        lastSelected=0   -- Force textbox to be updated
+    end
+end
 
 function scene.enter()
     dict=require("parts.language.dict_"..(SETTING.locale:find'zh' and 'zh' or SETTING.locale:find'ja' and 'ja' or SETTING.locale:find'vi' and 'vi' or 'en'))
@@ -111,14 +121,15 @@ function scene.wheelMoved(_,y)
 end
 function scene.keyDown(key)
     selected=scene.widgetList.listBox.selected
-    local currentX,currentY=love.mouse.getPosition()
-    if key=='up' or key == 'down' then
+    if (key=='up' or key=='down') and not love.mouse.isDown(2) then
         if WIDGET.isFocus(scene.widgetList.listBox)
         then scene.widgetList.listBox:scroll(key=='up' and -1 or 1)
         else infoBox:scroll(key == "up" and -5 or 5) end
-    elseif key=='left' or key=='pageup' then
+    elseif love.keyboard.isDown('lctrl','rctrl','lalt','ralt','lshift','rshift')
+    and    love.keyboard.isDown('left','right','pageup','pagedown') then _jumpover12(key)
+    elseif love.keyboard.isDown('left','pageup') or (key=='up' and love.mouse.isDown(2)) then
         scene.widgetList.listBox:arrowKey('up')
-    elseif key=='right' or key=='pagedown' then
+    elseif love.keyboard.isDown('right','pagedown') or (key=='down' and love.mouse.isDown(2)) then
         scene.widgetList.listBox:arrowKey('down')
     elseif key=='application' then
         local url=_getList()[selected].url
@@ -142,6 +153,13 @@ function scene.keyDown(key)
         scene.widgetList.copy.hide=true
         MES.new('info',text.copyDone)
         return
+    elseif love.keyboard.isDown('lctrl','rctrl')
+    and    love.keyboard.isDown('-','=','kp-','kp+') then
+        if key=='-' or key=='kp-'
+        then _setzoom(-5)
+        else _setzoom(5) end
+    elseif love.keyboard.isDown('lctrl','rctrl')
+    and    love.keyboard.isDown('0','kp0') then _resetZoom()
     else
         if not WIDGET.isFocus(inputBox) then
             WIDGET.focus(inputBox)
@@ -175,13 +193,22 @@ local function listStencil()
 end
 function scene.draw()
 
+    -- Order: list, info, keys
+    -- Draw background
     gc.setColor(COLOR.dX)
-    gc.rectangle('fill',300,180,958,526,5)
-    gc.rectangle('fill',20,180,280,526,5)
+    -- gc.rectangle('fill',20,180,280,526,5)
+    -- gc.rectangle('fill',300,180,870,526,5)
+    gc.rectangle('fill',1180,180,80,526,5)
+    -- Draw outline
     gc.setLineWidth(2)
     gc.setColor(COLOR.Z)
-    -- gc.rectangle('line',300,180,958,526,5)
     gc.rectangle('line',20,180,280,526,5)
+    -- gc.rectangle('line',300,180,958,526,5)
+    gc.rectangle('line',1180,180,80,526,5)
+    -- Draw key seperating outline
+    gc.rectangle('line',1180,255,80,1,0)
+    gc.rectangle('line',1180,405,80,1,0)
+    gc.rectangle('line',1180,560,80,1,0)
 
     local list=_getList()
     setFont(30)
@@ -195,7 +222,8 @@ function scene.draw()
         selected=lastSelected
         justSearched=false
         gc.setColor(COLOR.Z)
-        local _w,t=FONT.get(25):getWrap(list[selected].content,820)
+        local _w,t=FONT.get(currentFontSize):getWrap(list[selected].content,820)
+        infoBox.font=currentFontSize
         infoBox:setTexts(t)
         scene.widgetList.copy.hide=false
     end
@@ -242,15 +270,17 @@ scene.widgetList={
     -- Draw list box /
     inputBox,
     infoBox,
-    WIDGET.newKey    {name='link',     x=1210,y=575,w=80,font=55,fText=CHAR.icon.globe, code=pressKey'application',hideF=function() return not _getList()[scene.widgetList.listBox.selected].url end},
-    WIDGET.newKey    {name='copy',     x=1210,y=665,w=80,font=50,fText=CHAR.icon.copy,  code=pressKey'cC'},
+    WIDGET.newKey    {name='link',     x=1220,y=600,w=60,font=45,fText=CHAR.icon.globe, code=pressKey'application',hideF=function() return not _getList()[scene.widgetList.listBox.selected].url end},
+    WIDGET.newKey    {name='copy',     x=1220,y=670,w=60,font=40,fText=CHAR.icon.copy,  code=pressKey'cC'},
 
-    WIDGET.newKey    {name='pageup',   x=1210,y=395,w=80,font=50,fText=CHAR.icon.toUp,  code=pressKey'pageup'},
-    WIDGET.newKey    {name='pagedown', x=1210,y=485,w=80,font=50,fText=CHAR.icon.toDown,code=pressKey'pagedown'},
+    WIDGET.newKey    {name='pageup',   x=1220,y=445,w=60,font=40,fText=CHAR.icon.toUp,  code=function() _jumpover12('left') end},
+    WIDGET.newKey    {name='pagedown', x=1220,y=520,w=60,font=40,fText=CHAR.icon.toDown,code=function() _jumpover12('right') end},
 
-    WIDGET.newKey    {name='zoomsmall',x=1210,y=215,w=80,font=50,fText="a"             ,},
-    WIDGET.newKey    {name='zoombig',  x=1210,y=305,w=80,font=50,fText="A"             ,},
+    WIDGET.newKey    {name='zoomsmall',x=1220,y=295,w=60,font=40,fText="a"             ,code=function() _setzoom(-5) end},
+    WIDGET.newKey    {name='zoombig',  x=1220,y=365,w=60,font=40,fText="A"             ,code=function() _setzoom(5)  end},
+
+    WIDGET.newKey    {name='help',     x=1220,y=215,w=60,font=40,fText=CHAR.icon.help   },
     WIDGET.newButton {name='back',     x=1165,y=60, w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
-
+-- NOTE: The gap between Link-Copy, Page, Zoom, Help is 60*1.5-10=80 :) The gap between 2 buttons in one group is 60+10=70
 return scene
