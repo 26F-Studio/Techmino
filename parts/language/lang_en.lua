@@ -381,7 +381,92 @@ return {
     dict={
         sizeChanged="Changed font size: $1",
         sizeReset="Reset font size: 25",
-        helpText=[[]]
+        helpText=
+[[
+If you are using joystick and want to exit Zictionary
+Then press [MENU] ($15) to exit!
+
+Opening/closing Help:
+        On keyboard: Press [F1] key
+        On joystick: Press [Y] key
+        On touch screen/using mouse: Tap [$12] key
+
+Scrolling text:
+        On keyboard: Press
+                [$1] to scroll up,
+                [$2] to scroll down
+        On joystick: Press
+                [$6] to scroll up,
+                [$7] to scroll down
+        On touch screen:
+            You can use scrolling gestures that you already know and are used to in other apps
+
+
+Opening previous/next item in the list:
+        On keyboard: Press
+                [$3] to open previous item,
+                [$4] to open next one.
+        On joystick: Press
+                [$8] to open previous item,
+                [$9] to open next one.
+        On touch screen: Tap the item below the currently selected item in the list.
+
+
+Jumping backward/forward through 12 items
+        On keyboard:
+            Hold [Ctrl]/[Shift]/[Alt] key first
+            Then you can press
+                    [$3] to jump backward,
+                    [$4] to jump forward
+        On joystick:
+            Hold [A] key first
+            Then you can press
+                    [$8] key to jump backward,
+                    [$9] to jump forward!
+
+
+Changing font size (DEFAULT: 25)
+        On keyboard:
+            Hold Ctrl key first
+            Then you can press 
+                    [–] to make the text smaller,
+                    [+] to make the text bigger
+                    [0] reset the font size
+        On joystick:
+            Hold [A] key first
+            Then you can press
+                    [$6] to make the text smaller
+                    [$7] to make the text bigger
+
+            P/S: there is no getsure to reset the font size!
+            But you can change it back by set the font size to 25
+
+        On touch screen/using mouse
+            Press [aA] to show [a] and [A] button
+            Click/touch
+                    [a] to make the text smaller
+                    [A] to make the text bigger
+            
+            P/S: if you want to reset the font size:
+                First, waiting for 3 seconds to wait for [aA] and [100%] reappear
+                Then you can click/touch [100%] to reset.
+
+Copying the content:
+        On keyboard: press [Ctrl] + [C]
+        Using mouse/on touch screen: press [$13] key
+        
+        P/s: there is no getsure to copy the content!
+
+Opening item's URL (if item has it's URL):
+        On keyboard: press [$5] (Context menu/Application key)
+        Using mouse/on touch screen: press [$14] key
+        
+        P/s: there is no getsure to copy the content!
+]]
+        -- 1-4: Up, Down, Left, Right
+        -- 6-9: Up, Down, Left, Right but D-Pad
+        -- 10,11: Y, A
+        -- 12-15: Help, Copy, Open, MENU
     },
     WidgetText={
         main={

@@ -58,7 +58,7 @@ local function _getList() return result[1] and result or dict end
 -- Drawing objects
 local infoBox =WIDGET.newTextBox {name='infoBox',x=320,y=180,w=862,h=526,font=25,fix=true}
 local inputBox=WIDGET.newInputBox{name='input',  x=20, y=110,w=762,h=60, font=40,limit=32}
-local listBox =WIDGET.newListBox{name='listBox', x=20,  y=180,w=280,h=526,font=30,lineH=35,drawF=function(item,id,ifSel)
+local listBox =WIDGET.newListBox {name='listBox',x=20, y=180,w=280,h=526,font=30,lineH=35,drawF=function(item,id,ifSel)
     -- Draw list box
         -- Background
     if ifSel then
@@ -126,7 +126,28 @@ end
 local function _updateInfoBox(c)
     local _t,t
     if c==nil then
-        if showingHelp then t=text.dict.helpText
+        if showingHelp then
+            _t=true
+            t=text.dict.helpText:repD(
+                CHAR.key.up,
+                CHAR.key.down,
+                CHAR.key.left,
+                CHAR.key.right,
+                CHAR.key.winMenu,
+
+                CHAR.controller.dpadU,
+                CHAR.controller.dpadD,
+                CHAR.controller.dpadL,
+                CHAR.controller.dpadR,
+
+                CHAR.controller.xboxY,
+                CHAR.controller.xboxA,
+
+                CHAR.icon.help,
+                CHAR.icon.copy,
+                CHAR.icon.globe,
+                CHAR.controller.xboxMenu
+            )
         else _t,t=pcall(function() return _getList()[listBox.selected].content end) end
         if _t then c=t else c={""} end
         _t,t=nil,nil
@@ -149,15 +170,16 @@ end
 -- Zoom and reset zoom
 local function _openZoom() zoomWait=3 end
 local function _resetZoom()
-    currentFontSize,infoBox.font,infoBox.lineH=25,25,25*7/5
+    currentFontSize,infoBox.font,infoBox.lineH,infoBox.capacity=25,25,35,math.ceil(infoBox.h-10/35)
     _updateInfoBox()
     MES.new("check",text.dict.sizeReset,1.26)
 end
 local function _setZoom(z)
     if z~=0 then
-        currentFontSize=MATH.clamp(currentFontSize+z,15,50)
-        infoBox.font =currentFontSize
+        currentFontSize=MATH.clamp(currentFontSize+z,15,40)
+        infoBox.font=currentFontSize
         infoBox.lineH=currentFontSize*7/5   -- Recalculate the line's height
+        infoBox.capacity=math.ceil(infoBox.h-10/infoBox.lineH)
         _updateInfoBox()
         _openZoom()
         MES.new("check",text.dict.sizeChanged:repD(currentFontSize),1.26)
