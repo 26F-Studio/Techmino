@@ -378,6 +378,11 @@ return {
         sha2 [Egor Skriptunoff]
     ]],
     support="Support the author",
+    dict={
+        sizeChanged="Changed font size: $1",
+        sizeReset="Reset font size: 25",
+        helpText=[[]]
+    },
     WidgetText={
         main={
             offline="Single Player",
