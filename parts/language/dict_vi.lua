@@ -1529,7 +1529,7 @@ Nhấn nút “Mở link” để vào server Discord, còn nếu muốn vào nh
     {"Side well",
         "nhom11a ren combo sidewell",
         "term",
-        "Một phương pháp xếp gạch mà bạn sẽ để lại một cái lỗ có một chiều rộng nhất định ở một bên bảng .\nSetup Side 1-wide là setup truyền thống để làm Tetris (ví dụ như, Side well Tetris).\nCác loại setup như Side 2-, 3-, hay 4-wide; là những setup được dùng để làm combo. Đối với những người chơi mới, đây là cách hiệu quả nhất để tấn công. NHƯNG, đối thủ có thể dễ dàng tấn công lại bạn, một là chết còn không thì stack của bạn sẽ bị cắt ngắn do bạn phải phản công lại. vì lẽ đó, những người chơi GIỎI thường sẽ không xây quá cao, thay vào đó họ sẽ giữ một lượng T-spins và Tetris nhất định để có thể tấn công đối thủ khi đối thủ không có khả năng dọn rác tới.",
+        "Một phương pháp xếp gạch mà bạn sẽ để lại một cái lỗ có một chiều rộng nhất định ở một bên bảng .\nSetup Side 1-wide là setup truyền thống để làm Tetris (ví dụ như, Side well Tetris).\nCác loại setup như Side 2-, 3-, hay 4-wide; là những setup được dùng để làm combo. Đối với những người chơi mới, đây là cách hiệu quả nhất để tấn công. NHƯNG, đối thủ có thể dễ dàng tấn công lại bạn, một là chết còn không thì stack của bạn sẽ bị cắt ngắn do bạn phải phản công lại. vì lẽ đó, những người chơi giỏi thường sẽ không xây quá cao, thay vào đó họ sẽ giữ một lượng T-spins và Tetris nhất định để có thể tấn công đối thủ khi đối thủ không có khả năng dọn rác tới.",
     },
     {"Center well",
         "nhom11a ren combo centerwell",
