@@ -133,21 +133,23 @@ local function _updateInfoBox(c)
                 CHAR.key.down,
                 CHAR.key.left,
                 CHAR.key.right,
-                CHAR.key.winMenu,
 
                 CHAR.controller.dpadU,
                 CHAR.controller.dpadD,
                 CHAR.controller.dpadL,
                 CHAR.controller.dpadR,
 
+                CHAR.controller.xboxX,
                 CHAR.controller.xboxY,
                 CHAR.controller.xboxA,
+                CHAR.controller.xboxB,
 
                 CHAR.icon.help,
                 CHAR.icon.copy,
                 CHAR.icon.globe,
                 CHAR.icon.toUp,
-                CHAR.icon.toDown
+                CHAR.icon.toDown,
+                CHAR.key.winMenu
             )
         else _t,t=pcall(function() return _getList()[listBox.selected].content end) end
         if _t then c=t else c={""} end
@@ -171,7 +173,8 @@ end
 -- Zoom and reset zoom
 local function _openZoom() zoomWait=2 end
 local function _resetZoom()
-    currentFontSize,infoBox.font,infoBox.lineH,infoBox.capacity=25,25,35,math.ceil(infoBox.h-10/35)
+    currentFontSize,infoBox.font=25,25
+    infoBox.lineH,infoBox.capacity=35,math.ceil((infoBox.h-10)/35)
     _updateInfoBox()
     MES.new("check",text.dict.sizeReset,1.26)
 end
@@ -180,7 +183,7 @@ local function _setZoom(z)
         currentFontSize=MATH.clamp(currentFontSize+z,15,40)
         infoBox.font=currentFontSize
         infoBox.lineH=currentFontSize*7/5   -- Recalculate the line's height
-        infoBox.capacity=math.ceil(infoBox.h-10/infoBox.lineH)
+        infoBox.capacity=math.ceil((infoBox.h-10)/infoBox.lineH)
         _updateInfoBox()
         _openZoom()
         MES.new("check",text.dict.sizeChanged:repD(currentFontSize),1.26)
@@ -212,6 +215,7 @@ function scene.enter()
     inputBox:clear()
     result={}
 
+    if showingHelp then _toggleHelp() end
     searchWait=0
     lastSelected=0
     listBox.selected=1
@@ -225,7 +229,7 @@ function scene.wheelMoved(_,y)
     WHEELMOV(y)
 end
 function scene.keyDown(key)
-    -- Switching between items
+    -- Switching selected items
     if key=='up' or key=='down' then
         if not showingHelp then
             if love.mouse.isDown(2,3) then 
@@ -238,13 +242,15 @@ function scene.keyDown(key)
         end
         infoBox:scroll(key=='up' and -5 or 5)
 
-    elseif (key=='left'  or key=='pageup'
-    or      key=='right' or key=='pagedown')
-    then   _jumpover(key,love.keyboard.isDown('lctrl','rctrl','lalt','ralt','lshift','rshift') and 12 or 1)
+    elseif (key=='left'  or key=='pageup' or key=='right' or key=='pagedown')
+    then
+        if love.keyboard.isDown('lctrl','rctrl','lalt','ralt','lshift','rshift')
+            then _jumpover(key,12)
+            else _jumpover(key,1)
+            end
 
     -- Copy & Zoom
-    elseif love.keyboard.isDown('lctrl','rctrl')
-    and    not showingHelp then
+    elseif love.keyboard.isDown('lctrl','rctrl') then
         if key == 'c' and not showingHelp then _copy() return
         elseif love.keyboard.isDown('-','=','kp-','kp+') then _setZoom((key=='-' or key=='kp-') and -5 or 5)
         elseif love.keyboard.isDown('0','kp0') then _resetZoom() end
@@ -275,6 +281,22 @@ function scene.keyDown(key)
     end
 end
 function scene.gamepadDown(key)
+    local Joystick=love.joystick.getJoysticks()[love.joystick.getJoystickCount()]
+
+    -- Scrolling text & zooming
+    if (key=='dpup' or key=='dpdown') then
+        if   Joystick:isGamepadDown('a')
+        then _setZoom(key=='dpup' and 5 or -5)
+        else infoBox:scroll(key=='dpup' and -5 or 5)
+        end
+    -- Switching selected items
+    elseif key=='dpleft' or key=='dpright' then
+        _jumpover(key:gsub('dp',''),Joystick:isGamepadDown('a') and 12 or 1)
+    -- Activate help
+    elseif key=='y' then _toggleHelp()
+    -- Exit
+    elseif key=='back' then SCN.back()
+    end
 end
 
 function scene.update(dt)
@@ -372,14 +394,14 @@ scene.widgetList={
     
     WIDGET.newKey   {name='openzoom', x=1234,y=300,w=60,font=25,fText="aA",            code=function() _openZoom()  end,hide=false},
     WIDGET.newKey   {name='resetzoom',x=1234,y=370,w=60,font=25,fText="100%",          code=function() _resetZoom() end,hide=false},
-    WIDGET.newKey   {name='zoomout',  x=1234,y=300,w=60,font=40,fText="a",             code=function() _setZoom(-5) end,hide=true},
-    WIDGET.newKey   {name='zoomin',   x=1234,y=370,w=60,font=40,fText="A",             code=function() _setZoom(5)  end,hide=true},
+    WIDGET.newKey   {name='zoomin',   x=1234,y=300,w=60,font=40,fText="A",             code=function() _setZoom(5)  end,hide=true},
+    WIDGET.newKey   {name='zoomout',  x=1234,y=370,w=60,font=40,fText="a",             code=function() _setZoom(-5) end,hide=true},
 
-    WIDGET.newKey   {name='pageup',   x=1234,y=450,w=60,font=40,fText=CHAR.icon.toUp,  code=function() _jumpover('left')  end,hideF=function() return love.mouse.isDown(2,3) or showingHelp end},
-    WIDGET.newKey   {name='pagedown', x=1234,y=520,w=60,font=40,fText=CHAR.icon.toDown,code=function() _jumpover('right') end,hideF=function() return love.mouse.isDown(2,3) or showingHelp end},
+    WIDGET.newKey   {name='pageup',   x=1234,y=450,w=60,font=40,fText=CHAR.icon.toUp,  hideF=function() return love.mouse.isDown(2,3) or showingHelp end,code=function() _jumpover('left')  end},
+    WIDGET.newKey   {name='pagedown', x=1234,y=520,w=60,font=40,fText=CHAR.icon.toDown,hideF=function() return love.mouse.isDown(2,3) or showingHelp end,code=function() _jumpover('right') end},
 
-    WIDGET.newKey   {name='pageup1',  x=1234,y=450,w=60,font=40,fText=CHAR.key.up,     code=function() _jumpover('left')  end,hideF=function() return not love.mouse.isDown(2,3) or showingHelp end,color="A"},
-    WIDGET.newKey   {name='pagedown1',x=1234,y=520,w=60,font=40,fText=CHAR.key.down,   code=function() _jumpover('right') end,hideF=function() return not love.mouse.isDown(2,3) or showingHelp end,color="A"},
+    WIDGET.newKey   {name='pageup1',  x=1234,y=450,w=60,font=40,fText=CHAR.key.up,     hideF=function() return not love.mouse.isDown(2,3) or showingHelp end,color="A"},
+    WIDGET.newKey   {name='pagedown1',x=1234,y=520,w=60,font=40,fText=CHAR.key.down,   hideF=function() return not love.mouse.isDown(2,3) or showingHelp end,color="A"},
 
     WIDGET.newKey   {name='help0',    x=1234,y=220,w=60,font=40,fText=CHAR.icon.help,  code=pressKey'f1',hideF=function() return     showingHelp end},
     WIDGET.newKey   {name='help1',    x=1234,y=220,w=60,font=40,fText=CHAR.icon.help,  code=pressKey'f1',hideF=function() return not showingHelp end,color='lF'},
