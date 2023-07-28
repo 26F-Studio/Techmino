@@ -383,85 +383,53 @@ return {
         sizeReset="Reset font size: 25",
         helpText=
 [[
-If you are using joystick and want to exit Zictionary
-Then press [MENU] ($15) to exit!
+ZICTIONARY NAVIGATION INSTRUCTION
+
+NOTE: Some functions may not have specific gestures for joystick input.
+In such cases, you can use alternative input methods or follow the provided instructions.
+
+Exiting Zictionary:
+        Joystick: Press [MENU] button.
+        Keyboard: Press [Esc] key.
+        Mouse/Touch screen: Press the Back button in the top right corner of the screen.
 
 Opening/closing Help:
-        On keyboard: Press [F1] key
-        On joystick: Press [Y] key
-        On touch screen/using mouse: Tap [$12] key
+        Keyboard: Press [F1] key.
+        Joystick: Press [Y] key.
+        Mouse/Touch screen: Tap [$12] key.
 
 Scrolling text:
-        On keyboard: Press
-                [$1] to scroll up,
-                [$2] to scroll down
-        On joystick: Press
-                [$6] to scroll up,
-                [$7] to scroll down
-        On touch screen:
-            You can use scrolling gestures that you already know and are used to in other apps
-
+        Keyboard: Use [$1] to scroll up, and [$2] to scroll down.
+        Joystick: Use [$6] to scroll up, and [$7] to scroll down.
+        Mouse/Touch screen: Use familiar scrolling gestures.
 
 Opening previous/next item in the list:
-        On keyboard: Press
-                [$3] to open previous item,
-                [$4] to open next one.
-        On joystick: Press
-                [$8] to open previous item,
-                [$9] to open next one.
-        On touch screen: Tap the item below the currently selected item in the list.
+        Keyboard: Press [$3] to open the previous item, and [$4] to open the next one.
+        Joystick: Press [$8] to open the previous item, and [$9] to open the next one.
+        Mouse/Touch screen: Click/touch the item below the currently selected one in the list.
 
+Jumping backward/forward through 12 items:
+        Keyboard: Hold [Ctrl]/[Shift]/[Alt] key first, then press [$3] to jump backward, and [$4] to jump forward.
+        Joystick: Hold [A] key first, then press [$8] to jump backward, and [$9] to jump forward.
+        Mouse/Touch screen: Click/Touch [$15] to jump backward, [$16] to jump forward
 
-Jumping backward/forward through 12 items
-        On keyboard:
-            Hold [Ctrl]/[Shift]/[Alt] key first
-            Then you can press
-                    [$3] to jump backward,
-                    [$4] to jump forward
-        On joystick:
-            Hold [A] key first
-            Then you can press
-                    [$8] key to jump backward,
-                    [$9] to jump forward!
-
-
-Changing font size (DEFAULT: 25)
-        On keyboard:
-            Hold Ctrl key first
-            Then you can press 
-                    [–] to make the text smaller,
-                    [+] to make the text bigger
-                    [0] reset the font size
-        On joystick:
-            Hold [A] key first
-            Then you can press
-                    [$6] to make the text smaller
-                    [$7] to make the text bigger
-
-            P/S: there is no getsure to reset the font size!
-            But you can change it back by set the font size to 25
-
-        On touch screen/using mouse
-            Press [aA] to show [a] and [A] button
-            Click/touch
-                    [a] to make the text smaller
-                    [A] to make the text bigger
-            
-            P/S: if you want to reset the font size:
-                First, waiting for 3 seconds to wait for [aA] and [100%] reappear
-                Then you can click/touch [100%] to reset.
+Changing font size (DEFAULT: 25):
+        Keyboard: Hold Ctrl key first, then press [-] to make the text smaller, [+] to make it bigger, and [0] to reset the font size to default.
+        Joystick: Hold [A] key first, then press [$6] to make the text smaller, and [$7] to make it bigger.
+        Touch screen/Mouse:
+                Press [aA] to show [a] and [A] buttons.
+                Click/touch [a] to make the text smaller.
+                Click/touch [A] to make the text bigger.
+                To reset the font size, wait for 3 seconds for [aA] and [100%] to reappear, then click/touch [100%] to reset.
+    Note: There's no gesture to reset the font size with the joystick, but you can set it back to 25.
 
 Copying the content:
-        On keyboard: press [Ctrl] + [C]
-        Using mouse/on touch screen: press [$13] key
-        
-        P/s: there is no getsure to copy the content!
+        Keyboard: Press [Ctrl] + [C].
+        Mouse/Touch screen: Press [$13] key.
 
-Opening item's URL (if item has it's URL):
-        On keyboard: press [$5] (Context menu/Application key)
-        Using mouse/on touch screen: press [$14] key
-        
-        P/s: there is no getsure to copy the content!
+Opening item's URL (if available):
+        Keyboard: Press [$5] (Context menu/Application key).
+        Mouse/Touch screen: Press [$14] key.
 ]]
         -- 1-4: Up, Down, Left, Right
         -- 6-9: Up, Down, Left, Right but D-Pad

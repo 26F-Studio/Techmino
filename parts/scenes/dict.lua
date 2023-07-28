@@ -146,7 +146,8 @@ local function _updateInfoBox(c)
                 CHAR.icon.help,
                 CHAR.icon.copy,
                 CHAR.icon.globe,
-                CHAR.controller.xboxMenu
+                CHAR.icon.toUp,
+                CHAR.icon.toDown
             )
         else _t,t=pcall(function() return _getList()[listBox.selected].content end) end
         if _t then c=t else c={""} end
@@ -168,7 +169,7 @@ local function _toggleHelp()
 end
 
 -- Zoom and reset zoom
-local function _openZoom() zoomWait=3 end
+local function _openZoom() zoomWait=2 end
 local function _resetZoom()
     currentFontSize,infoBox.font,infoBox.lineH,infoBox.capacity=25,25,35,math.ceil(infoBox.h-10/35)
     _updateInfoBox()
@@ -224,57 +225,56 @@ function scene.wheelMoved(_,y)
     WHEELMOV(y)
 end
 function scene.keyDown(key)
-    if showingHelp then
-        if     key=='up'     or key=='down' then infoBox:scroll(key=='up' and -5 or 5)
-        elseif key=='escape' or key=='f1' then _toggleHelp() end
-        return
-    end
-
     -- Switching between items
     if key=='up' or key=='down' then
-        if love.mouse.isDown(2,3) then listBox:arrowKey(key)
-        elseif WIDGET.isFocus(listBox)
-            then listBox:scroll(key=='up' and -1 or 1)
-            else infoBox:scroll(key=='up' and -5 or 5)
+        if not showingHelp then
+            if love.mouse.isDown(2,3) then 
+                listBox:arrowKey(key)
+                return
+            elseif WIDGET.isFocus(listBox) then
+                listBox:scroll(key=='up' and -1 or 1)
+                return
+            end
         end
+        infoBox:scroll(key=='up' and -5 or 5)
 
     elseif (key=='left'  or key=='pageup'
     or      key=='right' or key=='pagedown')
-    then   _jumpover(
-        key, love.keyboard.isDown('lctrl','rctrl','lalt','ralt','lshift','rshift') and 12 or 1)
+    then   _jumpover(key,love.keyboard.isDown('lctrl','rctrl','lalt','ralt','lshift','rshift') and 12 or 1)
 
-    -- Zoom
-    elseif love.keyboard.isDown('lctrl','rctrl') then
-        if key == 'c' then _copy() return
+    -- Copy & Zoom
+    elseif love.keyboard.isDown('lctrl','rctrl')
+    and    not showingHelp then
+        if key == 'c' and not showingHelp then _copy() return
         elseif love.keyboard.isDown('-','=','kp-','kp+') then _setZoom((key=='-' or key=='kp-') and -5 or 5)
         elseif love.keyboard.isDown('0','kp0') then _resetZoom() end
 
-    -- Clear search box, exit
-    elseif key=='application' then
+    -- Clear search input, open URL
+    elseif key=='application' and not showingHelp then
         local url=_getList()[listBox.selected].url
         if url then love.system.openURL(url) end
-    elseif key=='delete' then
+    elseif key=='delete' and not showingHelp then
         if inputBox:hasText() then
             _clearResult()
             inputBox:clear()
             SFX.play('hold')
         end
+
+    -- Get out of Zictionary
     elseif key=='escape' then
-        if inputBox:hasText() then
-            scene.keyDown('delete')
-        else
-            SCN.back()
+        if inputBox:hasText() then scene.keyDown('delete')
+        elseif showingHelp then _toggleHelp()
+        else SCN.back()
         end
     -- Calling Help
-    elseif key=='f1' then
-        _toggleHelp()
+    elseif key=='f1' then _toggleHelp()
     -- Focus on the search box
     else
-        if not WIDGET.isFocus(inputBox) then
-            WIDGET.focus(inputBox)
-        end
+        if not WIDGET.isFocus(inputBox) then WIDGET.focus(inputBox) end
         return true
     end
+end
+function scene.gamepadDown(key)
 end
 
 function scene.update(dt)
