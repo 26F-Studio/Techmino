@@ -395,27 +395,27 @@ Exiting Zictionary:
 
 Opening/closing Help:
         Keyboard: Press [F1] key.
-        Joystick: Press [Y] key.
-        Mouse/Touch screen: Tap [$12] key.
+        Joystick: Press $9 key.
+        Mouse/Touch screen: Tap [$13] key.
 
 Scrolling text:
         Keyboard: Use [$1] to scroll up, and [$2] to scroll down.
-        Joystick: Use [$6] to scroll up, and [$7] to scroll down.
+        Joystick: Use $5 to scroll up, and $6 to scroll down.
         Mouse/Touch screen: Use familiar scrolling gestures.
 
 Opening previous/next item in the list:
         Keyboard: Press [$3] to open the previous item, and [$4] to open the next one.
-        Joystick: Press [$8] to open the previous item, and [$9] to open the next one.
+        Joystick: Press $7 to open the previous item, and $8 to open the next one.
         Mouse/Touch screen: Click/touch the item below the currently selected one in the list.
 
 Jumping backward/forward through 12 items:
         Keyboard: Hold [Ctrl]/[Shift]/[Alt] key first, then press [$3] to jump backward, and [$4] to jump forward.
-        Joystick: Hold [A] key first, then press [$8] to jump backward, and [$9] to jump forward.
-        Mouse/Touch screen: Click/Touch [$15] to jump backward, [$16] to jump forward
+        Joystick: Hold $10 key first, then press $7 to jump backward, and $8 to jump forward.
+        Mouse/Touch screen: Click/Touch [$16] to jump backward, [$17] to jump forward
 
 Changing font size (DEFAULT: 25):
         Keyboard: Hold Ctrl key first, then press [-] to make the text smaller, [+] to make it bigger, and [0] to reset the font size to default.
-        Joystick: Hold [A] key first, then press [$6] to make the text smaller, and [$7] to make it bigger.
+        Joystick: Hold $11 key first, then press $6 to make the text smaller, and $5 to make it bigger.
         Touch screen/Mouse:
                 Press [aA] to show [a] and [A] buttons.
                 Click/touch [a] to make the text smaller.
@@ -425,16 +425,16 @@ Changing font size (DEFAULT: 25):
 
 Copying the content:
         Keyboard: Press [Ctrl] + [C].
-        Mouse/Touch screen: Press [$13] key.
+        Mouse/Touch screen: Press [$14] key.
 
 Opening item's URL (if available):
-        Keyboard: Press [$5] (Context menu/Application key).
-        Mouse/Touch screen: Press [$14] key.
+        Keyboard: Press [$18] (Context menu/Application key).
+        Mouse/Touch screen: Press [$15] key.
 ]]
         -- 1-4: Up, Down, Left, Right
-        -- 6-9: Up, Down, Left, Right but D-Pad
-        -- 10,11: Y, A
-        -- 12-15: Help, Copy, Open, MENU
+        -- 6-8: Up, Down, Left, Right but D-Pad
+        -- 9-12: X, Y, A, B
+        -- 13-18: Help, Copy, Open, Forward, Backward, MENU
     },
     WidgetText={
         main={
