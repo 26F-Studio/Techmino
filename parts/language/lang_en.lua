@@ -388,20 +388,20 @@ ZICTIONARY NAVIGATION INSTRUCTION
 NOTE: Some functions may not have specific gestures for joystick input.
 In such cases, you can use alternative input methods or follow the provided instructions.
 
+Scrolling text:
+        Keyboard: Use [$1] to scroll up, and [$2] to scroll down.
+        Joystick: Use $5 to scroll up, and $6 to scroll down.
+        Mouse/Touch screen: Use the familiar scrolling gestures.
+
 Exiting Zictionary:
-        Joystick: Press [MENU] button.
+        Joystick: Press [BACK] button.
         Keyboard: Press [Esc] key.
         Mouse/Touch screen: Press the Back button in the top right corner of the screen.
 
 Opening/closing Help:
         Keyboard: Press [F1] key.
-        Joystick: Press $9 key.
+        Joystick: Press $10 key.
         Mouse/Touch screen: Tap [$13] key.
-
-Scrolling text:
-        Keyboard: Use [$1] to scroll up, and [$2] to scroll down.
-        Joystick: Use $5 to scroll up, and $6 to scroll down.
-        Mouse/Touch screen: Use familiar scrolling gestures.
 
 Opening previous/next item in the list:
         Keyboard: Press [$3] to open the previous item, and [$4] to open the next one.
@@ -410,7 +410,7 @@ Opening previous/next item in the list:
 
 Jumping backward/forward through 12 items:
         Keyboard: Hold [Ctrl]/[Shift]/[Alt] key first, then press [$3] to jump backward, and [$4] to jump forward.
-        Joystick: Hold $10 key first, then press $7 to jump backward, and $8 to jump forward.
+        Joystick: Hold $11 key first, then press $7 to jump backward, and $8 to jump forward.
         Mouse/Touch screen: Click/Touch [$16] to jump backward, [$17] to jump forward
 
 Changing font size (DEFAULT: 25):
@@ -432,7 +432,7 @@ Opening item's URL (if available):
         Mouse/Touch screen: Press [$15] key.
 ]]
         -- 1-4: Up, Down, Left, Right
-        -- 6-8: Up, Down, Left, Right but D-Pad
+        -- 5-8: Up, Down, Left, Right but D-Pad
         -- 9-12: X, Y, A, B
         -- 13-18: Help, Copy, Open, Forward, Backward, MENU
     },
