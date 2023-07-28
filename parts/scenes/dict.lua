@@ -250,6 +250,7 @@ function scene.keyDown(key)
             end
 
     -- Copy & Zoom
+    elseif key=='cC' then _copy()
     elseif love.keyboard.isDown('lctrl','rctrl') then
         if key == 'c' and not showingHelp then _copy() return
         elseif love.keyboard.isDown('-','=','kp-','kp+') then _setZoom((key=='-' or key=='kp-') and -5 or 5)
