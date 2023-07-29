@@ -129,27 +129,11 @@ local function _updateInfoBox(c)
         if showingHelp then
             _t=true
             t=text.dict.helpText:repD(
-                CHAR.key.up,
-                CHAR.key.down,
-                CHAR.key.left,
-                CHAR.key.right,
-
-                CHAR.controller.dpadU,
-                CHAR.controller.dpadD,
-                CHAR.controller.dpadL,
-                CHAR.controller.dpadR,
-
-                CHAR.controller.xboxX,
-                CHAR.controller.xboxY,
-                CHAR.controller.xboxA,
-                CHAR.controller.xboxB,
-
-                CHAR.icon.help,
-                CHAR.icon.copy,
-                CHAR.icon.globe,
-                CHAR.icon.toUp,
-                CHAR.icon.toDown,
-                CHAR.key.winMenu
+                CHAR.key.up,           CHAR.key.down,         CHAR.key.left,         CHAR.key.right,
+                CHAR.controller.xboxX, CHAR.controller.xboxY, CHAR.controller.xboxA, CHAR.controller.xboxB,
+                
+                CHAR.icon.help, CHAR.icon.copy,   CHAR.icon.globe,
+                CHAR.icon.toUp, CHAR.icon.toDown, CHAR.key.winMenu
             )
         else _t,t=pcall(function() return _getList()[listBox.selected].content end) end
         if _t then c=t else c={""} end
@@ -194,7 +178,7 @@ end
 -- currentCountdown: the variable that tracking waiting time
 -- timeEndF: run this function if the time reach 0
 -- nTimeEndF: run this function if the time has not reached 0
-
+--
 -- NOTE: This function will return the modified value of currentcountdown
 local function _waitingfor(currentcountdown, timeEndF, nTimeEndF)
     currentcountdown = currentcountdown or 0
