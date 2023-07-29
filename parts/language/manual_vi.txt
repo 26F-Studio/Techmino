@@ -12,19 +12,22 @@ Hệ thống xoay gạch:
 
 
 Cách phát hiện spin:
-        Thỏa mãn quy tắc “3 góc” +2 điểm
+        Thỏa mãn quy tắc “3 góc” +2 điểm (LƯU Ý: )
         Thỏa mãn quy tắc “bất động” +2 điểm
         - Cứ một trong hai điều kiện trên được thỏa mãn, thì sẽ được tính là Spin
 
-        Nếu việc xoay không đạt điều kiện thứ hai của hệ thống xoay, +1 điểm
-        - Spin sẽ là Mini nếu chỉ được 2 điểm;
-        gạch dùng để làm là S, Z, J, L hoặc T VÀ gạch đó không được xóa hết sau khi xóa hàng.
+        Nếu việc xoay thỏa mãn ngay vị trí đầu tiên trong bảng đá tường, +1 điểm
+
+        - Spin sẽ là Mini nếu:
+                Tổng điểm sau khi kiểm tra các quy tắc chỉ được 2 điểm
+                HOẶC
+                Gạch dùng để làm là S, Z, J, L hoặc T vẫn còn tàn dư của gạch đó sau khi xóa hàng.
 
 
 Hệ thống tấn công:
         Kiểu xóa Đặc biệt (Special clear):
                 Kiểu xóa Đặc biệt chỉ trường hợp bạn thực hiện Spin, Techrash/Techrash+, PC/HPC.
-                Kiểu xóa Đặc biệt có thể sạc (đầy) thanh B2B.
+                Kiểu xóa Đặc biệt có thể sạc đầy thanh B2B.
 
         Kiểu xóa Siêu cấp (Super clear):
                 Kiểu xóa Siêu cấp chỉ trường hợp bạn thực hiện Kiểu xóa Đặc biệt khi thanh B2B không trống.

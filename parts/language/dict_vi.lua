@@ -242,7 +242,7 @@ Một hệ thống để xác định cách gạch xoay.
 
 Ở các trò xếp gạch hiện đại, mỗi gạch có thể xoay dựa trên một tâm xoay cố định (có thể không xuất hiện trong một vài game). Nếu gạch sau khi xoay đè lên gạch khác/ra ngoài bảng, hệ thống sẽ thử đẩy gạch sang các vị trí xung quanh (một quá trình được gọi là “wall-kicking” (đá tường)).
 
-Đá tường cho phép gạch có thể đến những lỗ có hình dạng nào đó mà bình thường không thể tiếp cận được. Các vị trí mà gạch có thể đá được chứa trong một bảng gọi là “wall-kick table” (bảng (các vị trí) đá tường)
+Đá tường cho phép gạch có thể đến những lỗ có hình dạng nào đó mà bình thường không thể tiếp cận được. Các vị trí mà gạch hệ thống xoay có thể thử được chứa trong một bảng gọi là “wall-kick table” (bảng (các vị trí) đá tường)
         ]]
     },
     {"ARS",
