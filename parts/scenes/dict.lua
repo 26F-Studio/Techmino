@@ -22,7 +22,7 @@ local showingHelp=false  -- Help is triggered or not
 local zoomWait=0         -- The last time zoom is triggered
 
 local oldScrollPos=0
-local lastMousePos, lastTouchPos
+local lastMouseX,lastMouseY,lastTouchX,lastTouchY
 
 local typeColor={
     help=COLOR.Y,
@@ -197,6 +197,19 @@ local function _waitingfor(currentcountdown, timeEndF, nTimeEndF)
     return currentcountdown
 end
 
+local function fixScrollingByTouch(x,y,lastX,lastY)
+    if WIDGET.isFocus(listBox) then
+        if abs(oldScrollPos-listBox.scrollPos)>26 then
+            oldScrollPos=listBox.scrollPos
+            listBox.selected=lastSelected
+            listBox.scrollPos=oldScrollPos
+        else
+            lastSelected=listBox.selected
+            scene.widgetList.copy.hide=false
+            _updateInfoBox()
+        end
+    end
+end
 
 -- Reset everything when opening Zictionary
 function scene.enter()
@@ -294,38 +307,18 @@ function scene.gamepadDown(key)
 end
 
 function scene.mouseDown(mx,my)
-    lastMousePos={mx,my}
+    lastMouseX,lastMouseY=mx,my
 end
 function scene.touchDown(mx,my)
-    lastTouchPos={mx,my}
+    lastTouchX,lastTouchY=mx,my
 end
 
 -- Check if left mouse key is released
 function scene.mouseUp(mx,my)
-    if WIDGET.isFocus(listBox) then
-        if oldScrollPos~=listBox.scrollPos and {mx,my}~=lastMousePos then
-            oldScrollPos=listBox.scrollPos
-            listBox.selected=lastSelected
-            listBox.scrollPos=oldScrollPos
-        else
-            lastSelected=listBox.selected
-            scene.widgetList.copy.hide=false
-            _updateInfoBox()
-        end
-    end
+    fixScrollingByTouch(mx,my,lastMouseX,lastMouseY)
 end
 function scene.touchUp(mx,my)
-    if WIDGET.isFocus(listBox) then
-        if oldScrollPos~=listBox.scrollPos and {mx,my}~=lastTouchPos then
-            oldScrollPos=listBox.scrollPos
-            listBox.selected=lastSelected
-            listBox.scrollPos=oldScrollPos
-        else
-            lastSelected=listBox.selected
-            scene.widgetList.copy.hide=false
-            _updateInfoBox()
-        end
-    end
+    fixScrollingByTouch(mx,my,lastTouchX,lastTouchY)
 end
 
 function scene.update(dt)
@@ -368,19 +361,15 @@ function scene.draw()
     -- Order: list, info, keys
     -- Draw background
     gc.setColor(COLOR.dX)
-    -- gc.rectangle('fill',20,180,280,526,5)
-    -- gc.rectangle('fill',300,180,870,526,5)
-    gc.rectangle('fill',1194,180,80,526,5)
+    gc.rectangle('fill',1194,180,80,526,5)  -- keys
     -- Draw outline
     gc.setLineWidth(2)
     gc.setColor(COLOR.Z)
-    gc.rectangle('line',20,180,280,526,5)
-    -- gc.rectangle('line',300,180,958,526,5)
-    gc.rectangle('line',1194,180,80,526,5)
+    gc.rectangle('line',1194,180,80,526,5)  -- keys
     -- Draw key seperating outline
-    gc.rectangle('line',1194,260,80,1,0)
-    gc.rectangle('line',1194,410,80,1,0)
-    gc.rectangle('line',1194,560,80,1,0)
+    gc.rectangle('line',1194,260,80,1,0)    -- A | B
+    gc.rectangle('line',1194,410,80,1,0)    -- B | C
+    gc.rectangle('line',1194,560,80,1,0)    -- C | D
 
     local list=_getList()
     setFont(30)
