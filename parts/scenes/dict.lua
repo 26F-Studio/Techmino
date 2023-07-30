@@ -307,9 +307,9 @@ function scene.mouseUp()
         else
             lastSelected=listBox.selected
             scene.widgetList.copy.hide=false
+            _updateInfoBox()
         end
     end
-    _updateInfoBox()
 end
 
 function scene.update(dt)
