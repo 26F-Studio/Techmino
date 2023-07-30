@@ -177,12 +177,6 @@ local function _setZoom(z)
     end
 end
 
-local function _trackMouseHeldTime(key,timeVar)
-    if love.mouse.isDown(key) then
-        return love.timer.getDelta+timeVar
-    else return 0 end
-end
-
 -- Checking if waiting countdown reach 0 to run the function.
 --
 -- currentCountdown: the variable that tracking waiting time
