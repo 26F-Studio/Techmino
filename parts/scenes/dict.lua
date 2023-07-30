@@ -131,13 +131,13 @@ local function _updateInfoBox(c)
     if c==nil then
         if showingHelp then
             if text.dict.helpText then
-                _t,t=text.dict.helpText:repD(
+                t,_t=text.dict.helpText:repD(
                         CHAR.key.up,           CHAR.key.down,         CHAR.key.left,         CHAR.key.right,
                         CHAR.controller.xboxX, CHAR.controller.xboxY, CHAR.controller.xboxA, CHAR.controller.xboxB,
                         
                         CHAR.icon.help, CHAR.icon.copy,   CHAR.icon.globe,
                         CHAR.icon.toUp, CHAR.icon.toDown, CHAR.key.winMenu
-                )
+                ),true
             else _t,t=true,{"NO HELP TEXT AVAILABLE!\n","Please switch language to English and try again to read the help text"} end
         else _t,t=pcall(function() return _getList()[listBox.selected].content end) end
         if _t then c=t else c={""} end
@@ -245,7 +245,7 @@ function scene.keyDown(key)
                 return
             end
         end
-        infoBox:scroll(key=='up' and -5 or 5)
+        infoBox:scroll(key=='up' and -3 or 3)
 
     elseif (key=='left'  or key=='pageup' or key=='right' or key=='pagedown')
     then
@@ -294,7 +294,7 @@ function scene.gamepadDown(key)
     if (key=='dpup' or key=='dpdown') then
         if   Joystick:isGamepadDown('a')
         then _setZoom(key=='dpup' and 5 or -5)
-        else infoBox:scroll(key=='dpup' and -5 or 5)
+        else infoBox:scroll(key=='dpup' and -3 or 3)
         end
     -- Switching selected items
     elseif key=='dpleft' or key=='dpright' then
