@@ -130,14 +130,15 @@ local function _updateInfoBox(c)
     local _t,t
     if c==nil then
         if showingHelp then
-            _t=true
-            t=text.dict.helpText:repD(
-                CHAR.key.up,           CHAR.key.down,         CHAR.key.left,         CHAR.key.right,
-                CHAR.controller.xboxX, CHAR.controller.xboxY, CHAR.controller.xboxA, CHAR.controller.xboxB,
-                
-                CHAR.icon.help, CHAR.icon.copy,   CHAR.icon.globe,
-                CHAR.icon.toUp, CHAR.icon.toDown, CHAR.key.winMenu
-            )
+            if text.dict.helpText then
+                _t,t=text.dict.helpText:repD(
+                        CHAR.key.up,           CHAR.key.down,         CHAR.key.left,         CHAR.key.right,
+                        CHAR.controller.xboxX, CHAR.controller.xboxY, CHAR.controller.xboxA, CHAR.controller.xboxB,
+                        
+                        CHAR.icon.help, CHAR.icon.copy,   CHAR.icon.globe,
+                        CHAR.icon.toUp, CHAR.icon.toDown, CHAR.key.winMenu
+                )
+            else _t,t=true,{"NO HELP TEXT AVAILABLE!\n","Please switch language to English and try again to read the help text"} end
         else _t,t=pcall(function() return _getList()[listBox.selected].content end) end
         if _t then c=t else c={""} end
         _t,t=nil,nil
