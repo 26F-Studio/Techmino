@@ -21,6 +21,9 @@ local currentFontSize=25 -- Current font size, default: 25
 local showingHelp=false  -- Help is triggered or not
 local zoomWait=0         -- The last time zoom is triggered
 
+local oldScrollPos=0
+local lastMousePos
+
 local typeColor={
     help=COLOR.Y,
     org=COLOR.lF,
@@ -173,6 +176,13 @@ local function _setZoom(z)
         MES.new("check",text.dict.sizeChanged:repD(currentFontSize),1.26)
     end
 end
+
+local function _trackMouseHeldTime(key,timeVar)
+    if love.mouse.isDown(key) then
+        return love.timer.getDelta+timeVar
+    else return 0 end
+end
+
 -- Checking if waiting countdown reach 0 to run the function.
 --
 -- currentCountdown: the variable that tracking waiting time
@@ -192,6 +202,8 @@ local function _waitingfor(currentcountdown, timeEndF, nTimeEndF)
     return currentcountdown
 end
 
+
+-- Reset everything when opening Zictionary
 function scene.enter()
     dict=require("parts.language.dict_"..(SETTING.locale:find'zh' and 'zh' or SETTING.locale:find'ja' and 'ja' or SETTING.locale:find'vi' and 'vi' or 'en'))
     _scanDict(dict)
@@ -200,6 +212,7 @@ function scene.enter()
     result={}
 
     if showingHelp then _toggleHelp() end
+
     searchWait=0
     lastSelected=0
     listBox.selected=1
@@ -265,6 +278,7 @@ function scene.keyDown(key)
         return true
     end
 end
+
 function scene.gamepadDown(key)
     local Joystick=love.joystick.getJoysticks()[love.joystick.getJoystickCount()]
 
@@ -282,6 +296,25 @@ function scene.gamepadDown(key)
     -- Exit
     elseif key=='back' then SCN.back()
     end
+end
+
+function scene.mouseDown()
+    lastMousePos=love.mouse.getPosition()
+end
+
+-- Check if left mouse key is released
+function scene.mouseUp()
+    if WIDGET.isFocus(listBox) then
+        if oldScrollPos~=listBox.scrollPos and love.mouse.getPosition()~=lastMousePos then
+            oldScrollPos=listBox.scrollPos
+            listBox.selected=lastSelected
+            listBox.scrollPos=oldScrollPos
+        else
+            lastSelected=listBox.selected
+            scene.widgetList.copy.hide=false
+        end
+    end
+    _updateInfoBox()
 end
 
 function scene.update(dt)
@@ -345,19 +378,15 @@ function scene.draw()
     if showingHelp then
         listBox.selected=0
         scene.widgetList.copy.hide,scene.widgetList.link.hide=true,true
-
     -- If not then, check the selected item if it is changed or not?
-    -- If yes then, update lastSelected then update the textbox!
+    -- If yes, update lastSelected then update the textbox!
     elseif justSearched then
         listBox:setList(_getList())
         justSearched=false
-        -- Do we have to update the content?
-    elseif lastSelected~=listBox.selected then
-        -- Do a refresh
-        lastSelected=listBox.selected
-        justSearched,forceRefresh=false,true
-        scene.widgetList.copy.hide=false
+    elseif lastSelected~=listBox.selected and not love.mouse.isDown(1) then
         _updateInfoBox()
+        lastSelected=listBox.selected
+        scene.widgetList.copy.hide=false
     end
 
     if searchWait>0 then
@@ -374,7 +403,7 @@ scene.widgetList={
     listBox,
     inputBox,
     infoBox,
-    WIDGET.newKey   {name='link',     x=1234,y=600,w=60,font=45,fText=CHAR.icon.globe, code=pressKey'application',hideF=function() return (not (showingHelp or listBox.selected==0)) and not _getList()[listBox.selected].url end},
+    WIDGET.newKey   {name='link',     x=1234,y=600,w=60,font=45,fText=CHAR.icon.globe, code=pressKey'application',hideF=function() return not ((not (showingHelp or listBox.selected==0)) and _getList()[listBox.selected].url) end},
     WIDGET.newKey   {name='copy',     x=1234,y=670,w=60,font=40,fText=CHAR.icon.copy,  code=pressKey'cC'},
     
     WIDGET.newKey   {name='openzoom', x=1234,y=300,w=60,font=25,fText="aA",            code=function() _openZoom()  end,hide=false},
