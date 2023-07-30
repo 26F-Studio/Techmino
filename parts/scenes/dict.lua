@@ -22,7 +22,7 @@ local showingHelp=false  -- Help is triggered or not
 local zoomWait=0         -- The last time zoom is triggered
 
 local oldScrollPos=0
-local lastMousePos
+local lastMousePos, lastTouchPos
 
 local typeColor={
     help=COLOR.Y,
@@ -293,14 +293,30 @@ function scene.gamepadDown(key)
     end
 end
 
-function scene.mouseDown()
-    lastMousePos=love.mouse.getPosition()
+function scene.mouseDown(mx,my)
+    lastMousePos={mx,my}
+end
+function scene.touchDown(mx,my)
+    lastTouchPos={mx,my}
 end
 
 -- Check if left mouse key is released
-function scene.mouseUp()
+function scene.mouseUp(mx,my)
     if WIDGET.isFocus(listBox) then
-        if oldScrollPos~=listBox.scrollPos and love.mouse.getPosition()~=lastMousePos then
+        if oldScrollPos~=listBox.scrollPos and {mx,my}~=lastMousePos then
+            oldScrollPos=listBox.scrollPos
+            listBox.selected=lastSelected
+            listBox.scrollPos=oldScrollPos
+        else
+            lastSelected=listBox.selected
+            scene.widgetList.copy.hide=false
+            _updateInfoBox()
+        end
+    end
+end
+function scene.touchUp(mx,my)
+    if WIDGET.isFocus(listBox) then
+        if oldScrollPos~=listBox.scrollPos and {mx,my}~=lastTouchPos then
             oldScrollPos=listBox.scrollPos
             listBox.selected=lastSelected
             listBox.scrollPos=oldScrollPos
