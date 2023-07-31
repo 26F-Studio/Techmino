@@ -21,7 +21,7 @@ local currentFontSize=25 -- Current font size, default: 25
 local showingHelp=false  -- Help is triggered or not
 local zoomWait=0         -- The last time zoom is triggered
 
-local lastScrollPos=0
+local lastScrollPos
 local lastMouseX,lastMouseY,lastTouchX,lastTouchY
 
 local typeColor={
@@ -101,6 +101,7 @@ local function _search()
             ins(result,dict[i])
         end
     end
+
     if #result>0 then SFX.play('reach') end
     justSearched=true
     lastSearch=input
