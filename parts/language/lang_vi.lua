@@ -397,7 +397,7 @@ A. Chuột và màn hình cảm ứng
         - Giữ và kéo lên/xuống hoặc lăn chuột để cuộn văn bản.
 
         - Nhấn/chạm vào một mục trong danh sách ở bên trái để chọn mục cần tra.
-        - Nhấn/chạm [$16] hoặc [$17] để nhanh chóng cuộn qua danh sách. Bạn cũng có thể nhấn giữa chuột giữa hoặc chuột phải sau đó lăn chuột để chuyển qua các mục.
+        - Nhấn/chạm [$16] hoặc [$17] để nhanh chóng cuộn qua danh sách. Bạn cũng có thể nhấn giữ chuột giữa hoặc chuột phải sau đó lăn chuột để chuyển qua các mục.
 
         - Nhấn/chạm [aA] để hiện 2 nút điều khiển cỡ chữ.
         - Nhấn/chạm [a] để giảm cỡ chữ và [A] để tăng cỡ chữ.
