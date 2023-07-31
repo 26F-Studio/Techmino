@@ -1355,7 +1355,7 @@ Những yếu tố ảnh hưởng tới việc xử lý gạch của bạn:
         ]],
     },
     {"Các nút xoay",
-        "nhom09 doublerotation hai phím xoay",
+        "nhom08 doublerotation hai phím xoay",
         "help",
         "Dùng cả nút xoay phải và xoay trái giảm số lầm nút cần nhấn bằng cách thay thế việc nhấn 3 lần nút xoay một bên bằng việc nhấn 1 lần phím xoay bên kia.\nLỗi di chuyển cũng có tính đến việc có sử dụng cả hai nút xoay hay ko.\n\n----------------\n\nSử dụng cả ba nút xoay (nút thứ ba là xoay 180°), tất cả các gạch muốn xoay thì chỉ cần duy nhất nhấn một nút một lần. Tuy nhiên, việc này không phải lúc nào cũng hữu dụng vì không phải game nào đều hỗ trợ cả 3 nút xoay.\nHơn nữa, sự cải thiện về tốc độ khi so sánh dùng 3 nút so với dùng 2 nút không nhiều nếu so sánh chúng với dùng 2 phím so với dùng 1 phím. Bạn có thể bỏ qua kỹ thuật này trừ khi bạn muốn đạt tốc độ cực cao.",
     },
