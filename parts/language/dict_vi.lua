@@ -15,7 +15,7 @@ Bản dịch này là bản dịch tiếng Việt của Squishy từ bản dịc
 Bản dịch có thể không thể hiện 100% nội dung của Zictionary tiếng Trung (bản gốc)
 
 Đây là bản phát hành đầu, có thể sẽ có một số chỗ bị sai sót hoặc đọc bị cấn miệng. Nếu bạn muốn đóng góp, có thể vào trang dự án Techmino ở trên GitHub để đóng góp bản dịch. 
-Có câu hỏi? Liên hệ mkfnh qua server Techmino. Bạn cứ thoải mái hỏi đi tại mình cũng đang chờ feedback để hoàn chỉnh bản dịch cho tốt hơn.
+Có câu hỏi? Liên hệ mình qua server Techmino trên Discord. Mình hiện tại đang chờ feedback để hoàn chỉnh bản dịch cho tốt hơn.
         ]],
         "https://github.com/26F-Studio/Techmino/blob/main/parts/language/dict_vi.lua",
     },
@@ -1354,15 +1354,10 @@ Những yếu tố ảnh hưởng tới việc xử lý gạch của bạn:
 (7) Mỏi cơ, chuột rút,… làm cho việc phản ứng và phối hợp tay khó khăn hơn. Hãy nghỉ ngơi và trở lại sau một hoặc vài ngày.
         ]],
     },
-    {"Các nút xoay (1/2)",
-        "nhom08 doublerotation hai phím xoay",
+    {"Các nút xoay",
+        "nhom09 doublerotation hai phím xoay",
         "help",
-        "Dùng cả nút xoay phải và xoay trái giảm số lầm nút cần nhấn bằng cách thay thế việc nhấn 3 lần nút xoay một bên bằng việc nhấn 1 lần phím xoay bên kia.\nLỗi di chuyển cũng có tính đến việc có sử dụng cả hai nút xoay hai không.",
-    },
-    {"Các nút xoay (2/2)",
-        "nhom08 triplerotation ba phím xoay",
-        "help",
-        "Sử dụng cả ba nút xoay (nút thứ ba là xoay 180°), tất cả các gạch muốn xoay thì chỉ cần duy nhất nhấn một nút một lần.\nTuy nhiên, việc này không phải lúc nào cũng hữu dụng vì không phải game nào đều hỗ trợ cả 3 nút xoay. Hơn nữa, sự cải thiện về tốc độ khi so sánh dùng 3 nút so với dùng 2 nút không nhiều nếu so sánh chúng với dùng 2 phím so với dùng 1 phím. Bạn có thể bỏ qua kỹ thuật này trừ khi bạn muốn đạt tốc độ cực cao.",
+        "Dùng cả nút xoay phải và xoay trái giảm số lầm nút cần nhấn bằng cách thay thế việc nhấn 3 lần nút xoay một bên bằng việc nhấn 1 lần phím xoay bên kia.\nLỗi di chuyển cũng có tính đến việc có sử dụng cả hai nút xoay hay ko.\n\n----------------\n\nSử dụng cả ba nút xoay (nút thứ ba là xoay 180°), tất cả các gạch muốn xoay thì chỉ cần duy nhất nhấn một nút một lần. Tuy nhiên, việc này không phải lúc nào cũng hữu dụng vì không phải game nào đều hỗ trợ cả 3 nút xoay.\nHơn nữa, sự cải thiện về tốc độ khi so sánh dùng 3 nút so với dùng 2 nút không nhiều nếu so sánh chúng với dùng 2 phím so với dùng 1 phím. Bạn có thể bỏ qua kỹ thuật này trừ khi bạn muốn đạt tốc độ cực cao.",
     },
     {"=[NHÓM 09]=",
         "nhom09",
