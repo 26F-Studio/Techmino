@@ -12,7 +12,7 @@ Hệ thống xoay gạch:
 
 
 Cách phát hiện spin:
-        Thỏa mãn quy tắc “3 góc” +2 điểm (LƯU Ý: )
+        Thỏa mãn quy tắc “3 góc” +2 điểm [*]
         Thỏa mãn quy tắc “bất động” +2 điểm
         - Cứ một trong hai điều kiện trên được thỏa mãn, thì sẽ được tính là Spin
 
@@ -23,6 +23,7 @@ Cách phát hiện spin:
                 HOẶC
                 Gạch dùng để làm là S, Z, J, L hoặc T vẫn còn tàn dư của gạch đó sau khi xóa hàng.
 
+        [*] LƯU Ý: quy tắc “góc sau lưng gạch” có thể ảnh hưởng đến kết quả kiểm tra của quy tắc “3 góc”!
 
 Hệ thống tấn công:
         Kiểu xóa Đặc biệt (Special clear):
