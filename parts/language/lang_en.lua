@@ -380,7 +380,7 @@ return {
     support="Support the author",
     dict={
         sizeChanged="Changed font size: $1",
-        sizeReset="Reset font size: 25",
+        sizeReset="Font size has been reset!",
         helpText=
 [[
 INSTRUCTIONS FOR NAVIGATION IN TETRODICTIONARY

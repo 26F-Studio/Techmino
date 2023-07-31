@@ -386,8 +386,8 @@ return {
     ]],
     support="Hỗ trợ người làm game",
     dict={
-        sizeChanged="Changed font size: $1",
-        sizeReset="Reset font size: 25",
+        sizeChanged="Đã đổi cỡ phông: $1",
+        sizeReset="Đã đặt lại cỡ phông!",
         helpText=
 [[
 HƯỚNG DẪN ĐIỀU HƯỚNG TRONG TETRODICTIONARY
