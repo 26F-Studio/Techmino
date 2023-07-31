@@ -1083,9 +1083,7 @@ return {
         {C.Z,"Gì? ",C.lC,"Xspin?"},
 
 
-    -- Và giờ thì tui mang lại sang đây, nhưng không phải tất cả
-    -- Mà nè, đám này có lẽ tui sẽ ẩn đi một thời gian, chắc là tới Cá tháng 4 năm 2024 mới mang lên đây?
--- 
+
     -- TECHMINO FUN FACT
         -- How do you pronounce Techmino?
         "Phát âm từ Techmino như thế nào mới đúng?",
