@@ -385,6 +385,59 @@ return {
         sha2 [Egor Skriptunoff]
     ]],
     support="Hỗ trợ người làm game",
+    dict={
+        sizeChanged="Changed font size: $1",
+        sizeReset="Reset font size: 25",
+        helpText=
+[[
+HƯỚNG DẪN ĐIỀU HƯỚNG TRONG TETRODICTIONARY
+
+A. Chuột và màn hình cảm ứng
+        - Nhấn/chạm [$13] để mở Trợ giúp.
+        - Giữ và kéo lên/xuống hoặc lăn chuột để cuộn văn bản.
+
+        - Nhấn/chạm vào một mục trong danh sách ở bên trái để chọn mục cần tra.
+        - Nhấn/chạm [$16] hoặc [$17] để nhanh chóng cuộn qua danh sách. Bạn cũng có thể nhấn giữa chuột giữa hoặc chuột phải sau đó lăn chuột để chuyển qua các mục.
+
+        - Nhấn/chạm [aA] để hiện 2 nút điều khiển cỡ chữ.
+        - Nhấn/chạm [a] để giảm cỡ chữ và [A] để tăng cỡ chữ.
+        - Để đặt cỡ chữ về cỡ mặc định, chờ một vài giây để nút [100%] xuất hiện, sau đó nhấn [100%].
+
+        - Nhấn/chạm [$14] để sao chép nội dung của mục đang xem.
+        - Nhấn/chạm [$15] để mở link của mục đang xem (nếu có).
+
+        - Nhấp vào nút quay lại ở góc trên bên phải để thoát TetroDictionary
+
+
+B. Bàn phím
+    Nhấn…
+        - [F1] để hiển thị Trợ giúp.
+        - [$1] hoặc [$2] để cuộn qua văn bản.
+        - [$3] để mở mục trước đó và [$4] để mở mục tiếp theo.
+
+        - [Ctrl] + [-] để giảm cỡ chữ, [Ctrl] + [+] để tăng cỡ chữ.
+        - [Ctrl] + [0] để khôi phục về cỡ chữ mặc định
+
+        - [Ctrl] + [C] để sao chép văn bản
+        - [$18] (phím Menu ngữ cảnh/phím Ứng dụng)
+        để mở liên kết của mục đang xem (nếu có)
+
+        - [Esc] để thoát TetroDictionary
+
+
+C. Tay cầm chơi game (Gamepad)
+        Nhấn $10 để hiển thị trợ giúp.
+        Nhấn $5 hoặc $6 để cuộn văn bản.
+        Nhấn $7 để mở mục trước và $8 để mở mục tiếp theo.
+        Giữ $11 và nhấn $7 hoặc $8 để cuộn nhanh qua danh sách.
+        Giữ $11 và nhấn $6 để giảm cỡ chữ hoặc $5 để tăng cỡ chữ.
+        Nhấn [BACK] để thoát TetroDictionary.
+]]
+        -- 1-4: Up, Down, Left, Right
+        -- 5-8: Up, Down, Left, Right but D-Pad
+        -- 9-12: X, Y, A, B
+        -- 13-18: Help, Copy, Open, Forward, Backward, MENU
+    },
     WidgetText={
         main={
             offline="Chơi đơn",
