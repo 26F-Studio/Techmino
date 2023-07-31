@@ -142,9 +142,9 @@ local function _updateInfoBox(c)
                 "OUCH! I can't seem to find any translated Help text anywhere.",
                 "\nI guess you'll have to switch to English and try again to read it instead!",
                 "\n\nOn another note, you could make an issue on GitHub or send this to Techmino's Discord server.",
-                "\nThe cause? I'm not sure... My guess is that there's something seriously wrong with the language files or the source code of this scene. BUT all the language files have a callback, and even the original language - Chinese - has a version of the Help text! I'm not entirely certain, though.",
+                "\nThe cause? I'm not sure... My guess is that there's something seriously wrong with the language files or the source code of this scene. BUT all the language files have a callback to English, and the original language - Chinese - has a version of the Help text! I'm not entirely certain if it worked or not, though.",
                 "\n\nOh, and it would be nice if you could let us know about it or you can fix it by yourself!",
-                "\n\n-- Sea, the one who rewrote the Zictionary scene and wrote this message just in case."
+                "\n\n-- Sea, the one who rewrote the Zictionary scene and left this message just in case."
             } end
         else _t,t=pcall(function() return _getList()[listBox.selected].content end) end
         if _t then c=t else c={""} end
