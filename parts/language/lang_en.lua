@@ -380,56 +380,50 @@ return {
     support="Support the author",
     dict={
         sizeChanged="Changed font size: $1",
-        sizeReset="Reset font size: 25",
+        sizeReset="Font size has been reset!",
         helpText=
 [[
-ZICTIONARY NAVIGATION INSTRUCTION
+INSTRUCTIONS FOR NAVIGATION IN TETRODICTIONARY
 
-NOTE: Some functions may not have specific gestures for gamepad input.
-In such cases, you can use alternative input methods or follow the provided instructions.
+A. Mouse and Touchscreen
+        - Press/touch [$13] to open Help.
+        - Hold and drag up/down or scroll the mouse to navigate through the text.
 
-Scrolling text:
-        Keyboard: Use [$1] to scroll up, [$2] to scroll down.
-        Gamepad: Use $5 to scroll up, $6 to scroll down.
-        Mouse/Touch screen: Use the familiar scrolling gestures.
+        - Press/touch a term in the list on the left to select the entry you want to look up.
+        - Press/touch [$16] or [$17] to quickly scroll through the list. You can also click the middle mouse button or right mouse button and then scroll the mouse to switch between entries.
 
-Exiting Zictionary:
-        Keyboard: Press [Esc] key.
-        Gamepad: Press [BACK] button.
-        Mouse/Touch screen: Press the Back button in the top right corner of the screen.
+        - Press/touch [aA] to display the font control buttons.
+        - Press/touch [a] to decrease the font size and [A] to increase the font size.
+        - To reset the font size to the default size, wait for a few seconds until the [100%] button appears, then press [100%].
 
-Opening/closing Help:
-        Keyboard: Press [F1] key.
-        Gamepad: Press $10 key.
-        Mouse/Touch screen: Tap [$13] key.
+        - Press/touch [$14] to copy the content of the current entry.
+        - Press/touch [$15] to open the link of the current entry (if available).
 
-Opening previous/next item in the list:
-        Keyboard: Press [$3] to open the previous item, [$4] to open the next one.
-        Gamepad: Press $7 to open the previous item, $8 to open the next one.
-        Mouse/Touch screen: Click/touch the item below the currently selected one in the list.
+        - Click the back button in the top right corner to exit TetroDictionary.
 
-Jumping backward/forward through 12 items:
-        Keyboard: Hold [Ctrl]/[Shift]/[Alt] key first, then press [$3] to jump backward, [$4] to jump forward.
-        Gamepad: Hold $11 key first, then press $7 to jump backward, and $8 to jump forward.
-        Mouse/Touch screen: Click/Touch [$16] to jump backward, [$17] to jump forward
 
-Changing font size (DEFAULT: 25):
-        Keyboard: Hold Ctrl key first, then press [-] to make the text smaller, [+] to make it bigger, [0] to reset the font size to default.
-        Gamepad: Hold $11 key first, then press $6 to make the text smaller, and $5 to make it bigger.
-        Mouse/Touch screen:
-                Press [aA] to show [a] and [A] buttons.
-                Click/touch [a] to make the text smaller.
-                Click/touch [A] to make the text bigger.
-                To reset the font size, wait for 3 seconds for [aA] [100%] to reappear, then click/touch [100%] to reset.
-    Note: There's no gesture to reset the font size with the Gamepad, but you can set it back to 25.
+B. Keyboard
+    Press...
+        - [F1] to display Help.
+        - [$1] or [$2] to scroll through the text.
+        - [$3] to open the previous entry and [$4] to open the next entry.
 
-Copying the content:
-        Keyboard: Press [Ctrl] + [C].
-        Mouse/Touch screen: Press [$14] key.
+        - [Ctrl] + [-] to decrease the font size, [Ctrl] + [+] to increase the font size.
+        - [Ctrl] + [0] to restore the default font size.
 
-Opening item's URL (if available):
-        Keyboard: Press [$18] (Context menu/Application key).
-        Mouse/Touch screen: Press [$15] key.
+        - [Ctrl] + [C] to copy text.
+        - [$18] (Context Menu key/Application key)
+        - to open the link of the current entry (if available).
+
+        - [Esc] to exit TetroDictionary.
+
+C. Gamepad
+        - Press $10 to display Help.
+        - Press $5 or $6 to scroll through the text.
+        - Press $7 to open the previous entry and $8 to open the next entry.
+        - Hold $11 and press $7 or $8 to scroll quickly through the list.
+        - Hold $11 and press $6 to decrease the font size or $5 to increase the font size.
+        - Press [BACK] to exit TetroDictionary.
 ]]
         -- 1-4: Up, Down, Left, Right
         -- 5-8: Up, Down, Left, Right but D-Pad

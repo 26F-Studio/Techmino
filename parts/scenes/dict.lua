@@ -21,7 +21,7 @@ local currentFontSize=25 -- Current font size, default: 25
 local showingHelp=false  -- Help is triggered or not
 local zoomWait=0         -- The last time zoom is triggered
 
-local oldScrollPos=0
+local lastScrollPos
 local lastMouseX,lastMouseY,lastTouchX,lastTouchY
 
 local typeColor={
@@ -101,10 +101,9 @@ local function _search()
             ins(result,dict[i])
         end
     end
-    if #result>0 then
-        SFX.play('reach')
-        justSearched=true
-    end
+
+    if #result>0 then SFX.play('reach') end
+    justSearched=true
     lastSearch=input
 end
 
@@ -132,13 +131,21 @@ local function _updateInfoBox(c)
         if showingHelp then
             if text.dict.helpText then
                 t,_t=text.dict.helpText:repD(
-                        CHAR.key.up,           CHAR.key.down,         CHAR.key.left,         CHAR.key.right,
-                        CHAR.controller.xboxX, CHAR.controller.xboxY, CHAR.controller.xboxA, CHAR.controller.xboxB,
+                        CHAR.key.up,          CHAR.key.down,        CHAR.key.left,        CHAR.key.right,
+                        CHAR.controller.dpadU,CHAR.controller.dpadD,CHAR.controller.dpadL,CHAR.controller.dpadR,
+                        CHAR.controller.xboxX,CHAR.controller.xboxY,CHAR.controller.xboxA,CHAR.controller.xboxB,
                         
-                        CHAR.icon.help, CHAR.icon.copy,   CHAR.icon.globe,
-                        CHAR.icon.toUp, CHAR.icon.toDown, CHAR.key.winMenu
+                        CHAR.icon.help,CHAR.icon.copy,  CHAR.icon.globe,
+                        CHAR.icon.toUp,CHAR.icon.toDown,CHAR.key.winMenu
                 ),true
-            else _t,t=true,{"NO HELP TEXT AVAILABLE!\n","Please switch language to English and try again to read the help text"} end
+            else _t,t=true,{
+                "OUCH! I can't seem to find any translated Help text anywhere.",
+                "\nI guess you'll have to switch to English and try again to read it instead!",
+                "\n\nOn another note, you could make an issue on GitHub or send this to Techmino's Discord server.",
+                "\nThe cause? I'm not sure... My guess is that there's something seriously wrong with the language files or the source code of this scene. BUT all the language files have a callback to English, and the original language - Chinese - has a version of the Help text! I'm not entirely certain if it worked or not, though.",
+                "\n\nOh, and it would be nice if you could let us know about it or you can fix it by yourself!",
+                "\n\n-- Sea, the one who rewrote the Zictionary scene and left this message just in case."
+            } end
         else _t,t=pcall(function() return _getList()[listBox.selected].content end) end
         if _t then c=t else c={""} end
         _t,t=nil,nil
@@ -199,10 +206,9 @@ end
 
 local function fixScrollingByTouch(x,y,lastX,lastY)
     if WIDGET.isFocus(listBox) then
-        if abs(oldScrollPos-listBox.scrollPos)>26 then
-            oldScrollPos=listBox.scrollPos
+        if abs(lastScrollPos-listBox.scrollPos)>26 then
+            lastScrollPos=listBox.scrollPos
             listBox.selected=lastSelected
-            listBox.scrollPos=oldScrollPos
         else
             lastSelected=listBox.selected
             scene.widgetList.copy.hide=false
@@ -224,6 +230,8 @@ function scene.enter()
     searchWait=0
     lastSelected=0
     listBox.selected=1
+    listBox.scrollPos=0
+    lastScrollPos=0
     lastSearch=false
 
     if not MOBILE then WIDGET.focus(inputBox) end
@@ -242,6 +250,7 @@ function scene.keyDown(key)
                 return
             elseif WIDGET.isFocus(listBox) then
                 listBox:scroll(key=='up' and -1 or 1)
+                lastScrollPos=listBox.scrollPos
                 return
             end
         end
@@ -382,6 +391,7 @@ function scene.draw()
     -- If yes, update lastSelected then update the textbox!
     elseif justSearched then
         listBox:setList(_getList())
+        _updateInfoBox()
         justSearched=false
     elseif lastSelected~=listBox.selected and not love.mouse.isDown(1) then
         _updateInfoBox()
@@ -406,7 +416,7 @@ scene.widgetList={
     WIDGET.newKey   {name='link',     x=1234,y=600,w=60,font=45,fText=CHAR.icon.globe, code=pressKey'application',hideF=function() return not ((not (showingHelp or listBox.selected==0)) and _getList()[listBox.selected].url) end},
     WIDGET.newKey   {name='copy',     x=1234,y=670,w=60,font=40,fText=CHAR.icon.copy,  code=pressKey'cC'},
     
-    WIDGET.newKey   {name='openzoom', x=1234,y=300,w=60,font=25,fText="aA",            code=function() _openZoom()  end,hide=false},
+    WIDGET.newKey   {name='openzoom', x=1234,y=300,w=60,font=30,fText="aA",            code=function() _openZoom()  end,hide=false},
     WIDGET.newKey   {name='resetzoom',x=1234,y=370,w=60,font=25,fText="100%",          code=function() _resetZoom() end,hide=false},
     WIDGET.newKey   {name='zoomin',   x=1234,y=300,w=60,font=40,fText="A",             code=function() _setZoom(5)  end,hide=true},
     WIDGET.newKey   {name='zoomout',  x=1234,y=370,w=60,font=40,fText="a",             code=function() _setZoom(-5) end,hide=true},
