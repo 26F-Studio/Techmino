@@ -663,26 +663,46 @@ local function _drawLife(life)
     end
 end
 local function _drawMission(curMission,L,missionkill)
+    if curMission~=prevMissionNum or not TABLE.compare(L,prevL) then
+        prevMissionNum=curMission
+        prevL=TABLE.copy(L)
+        RLEMissions=TABLE.RLE(TABLE.sub(L,curMission))
+    end
+
     -- Draw current mission
-    setFont(35)
     if missionkill then
         gc_setColor(1,.7+.2*sin(TIME()*6.26),.4)
     else
         gc_setColor(.97,.97,.97)
     end
-    gc_print(ENUM_MISSION[L[curMission]],85,110)
-
-    -- Draw next mission
-    setFont(20)
-    for i=1,3 do
-        local m=L[curMission+i]
-        if m then
-            m=ENUM_MISSION[m]
-            gc_print(m,87-28*i,117)
-        else
-            break
+    gc_push()
+        if RLEMissions[1][2]>1 then
+            setFont(20)
+            gc_print("×"..RLEMissions[1][2],98,130)
+            gc_translate(-30,0)
         end
-    end
+        
+        setFont(35)
+        gc_print(ENUM_MISSION[RLEMissions[1][1]],85,110)
+
+        -- Draw next mission
+        for i=2,4 do
+            local m=RLEMissions[i]
+            if m then
+                local amt=m[2]
+                m=ENUM_MISSION[m[1]]
+                if RLEMissions[i][2]>1 then
+                    setFont(14)
+                    gc_print("×"..amt,118-28*i,127)
+                    gc_translate(-18,0)
+                end
+                setFont(20)
+                gc_print(m,115-28*i,117)
+            else
+                break
+            end
+        end
+    gc_pop()
 end
 local function _drawStartCounter(time)
     time=179-time
