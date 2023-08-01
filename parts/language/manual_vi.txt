@@ -71,7 +71,7 @@ Thanh Back to Back (B2B):
                 - HPC, +100
                 Kiểu xóa thường -250
 
-        Nếu không: Spin (0 hàng) +20. 
+        Nếu không: Spin (0 hàng) +20.
                 LƯU Ý! Thanh B2B không thể sạc qua vạch 800 bằng cách này.
 
 
@@ -117,4 +117,3 @@ Chế độ Tự do:
                 ô có màu thì gạch đặt vào ô phải khớp màu;
                 ô có màu của hàng rác thì có thể là bất kỳ gạch nào nhưng không thể là không khí.
         Một khi bạn làm khớp với mẫu ban đầu, bạn thắng.
-.

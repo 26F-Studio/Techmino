@@ -14,13 +14,13 @@ Bạn có thể xem phần Mục lục bằng cách gõ trên thanh tìm kiếm 
 Bản dịch này là bản dịch tiếng Việt của Squishy từ bản dịch tiếng Anh của User670 và C₂₉H₂₅N₃O₅
 Bản dịch có thể không thể hiện 100% nội dung của Zictionary tiếng Trung (bản gốc)
 
-Đây là bản phát hành đầu, có thể sẽ có một số chỗ bị sai sót hoặc đọc bị cấn miệng. Nếu bạn muốn đóng góp, có thể vào trang dự án Techmino ở trên GitHub để đóng góp bản dịch. 
+Đây là bản phát hành đầu, có thể sẽ có một số chỗ bị sai sót hoặc đọc bị cấn miệng. Nếu bạn muốn đóng góp, có thể vào trang dự án Techmino ở trên GitHub để đóng góp bản dịch.
 Có câu hỏi? Liên hệ mình qua server Techmino trên Discord. Mình hiện tại đang chờ feedback để hoàn chỉnh bản dịch cho tốt hơn.
         ]],
         "https://github.com/26F-Studio/Techmino/blob/main/parts/language/dict_vi.lua",
     },
     {
-        "Mục lục", 
+        "Mục lục",
         "nhom02 index mucluc",
         "help",
         [[
@@ -67,7 +67,7 @@ Có câu hỏi? Liên hệ mình qua server Techmino trên Discord. Mình hiện
         09D. Chia sẻ setup: Fumen, Fumen bản Điện thoại
 10. Cộng đồng: Tetris Online Servers, Tetris Việt Nam
 11. Xếp lên và đào xuống
-        11A. Stacking (Xếp lên): 
+        11A. Stacking (Xếp lên):
             * Side/Center/Partial well
             * Side/Center 1/2/3/4-wide
             * Residual
@@ -580,10 +580,10 @@ LƯU Ý: trong 20G nếu vẫn kiểm tra lỗi di chuyển, kết quả có th�
         "term",
         [[
 Một phương pháp khác để di chuyển nhanh ở chế độ trọng lực cao (khoảng 1G) (với cài đặt DAS/ARR chậm).
-Để thực hiện thao tác rolling: 
+Để thực hiện thao tác rolling:
     * Cố định ngón tay của bạn trên phím bạn muốn nhấn ở một bên tay
     * Sau đó dùng các ngón tay ở bên kia gõ mạnh liên tục ở mặt sau của tay cầm.
-    
+
 Phương pháp này nhanh hơn nhiều so với việc nhấn liên tục (xem mục “Hypertapping” để biết thêm thông tin) và yêu cầu ít công sức hơn.
 Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish — người đã đạt tốc độ nhấn lên tới 20 Hz.
         ]],
@@ -879,7 +879,7 @@ Gọi tắt là JS. Nó có một số chế độ chơi đơn với thông số
 Chơi trên trình duyệt/Chơi trên client chính thức | Chơi đơn/Chơi trực tuyến
 
 Gọi tắt là tetrio hoặc IO. Trò chơi này có một hệ thống xếp rank cũng như có chế độ tự do với nhiều thông số có thể tùy chỉnh. Trò chơi này cũng có một client dành cho máy tính, giúp cải thiện tốc độ, giảm độ trễ và gỡ bỏ quảng cáo
-        
+
 [MrZ: Có vẻ như Safari không thể mở game này.]
         ]],
         "https://tetr.io",
@@ -992,7 +992,7 @@ Một game xếp gạch được phát triển bằng LÖVE và được dảnh 
         "game",
         [[
 Windows/Android | Chơi đơn
-        
+
 Một trò chơi do fan làm đang được phát triển với hệ thống xoay đặc trưng cực kỳ thú vị,
         ]],
     },
@@ -1013,7 +1013,7 @@ Windows | Chơi đơn
 
 Một game xếp gạch dựa trên quy tắc Cổ điển của TGM + 20G với hệ thống xoay gạch mạnh mẽ. Cơ chế điều khiển tốt nhưng không có tùy chỉnh nào ngoài việc có thể gán lại phím. Game này bây giờ hơi khó tìm và bạn có thể phải cài tệp DLL cần thiết bằng tay. Tuy nhiên cũng may là có một bài hướng dẫn cách cài DTET, bạn có thể nhấn nút “Mở link” để mở bài viết.
 
-CẢNH BÁO: cẩn thận khi tải file DLL về! 
+CẢNH BÁO: cẩn thận khi tải file DLL về!
 Vì chỉ có bạn chịu trách nhiệm nếu trong trường hợp xảy ra thiệt hại
         ]],
         "https://t-sp.in/dtet"
@@ -1136,7 +1136,7 @@ Một game Tetris do fan làm. Game này là một bản chỉnh sửa của Nul
         [[
 iOS/Android | Chơi đơn
 
-Một game xếp gạch được làm bởi Electronic Arts (EA). Có cơ chế trọng lực, và mỗi ván game chỉ kéo dài trong vòng 2 phút. Sẽ có một vài gạch sẽ rơi xuống (làm đệm) mỗi khi bắt đầu mỗi ván, và bạn có thể kích hoạt chế độ “Frenzy” bằng cách liên tục xóa hàng. Có rất nhiều loại power-up khác nhau, thậm chí có cả Finisher giúp cho màn chơi kết thúc của bạn thêm đẹp mắt và tăng mạnh số điểm của bạn lên. Game không có cơ chế top-out. Khi mà gạch vừa tới đè lên gạch đang có thì tự động một vài hàng trên cùng sẽ tự động xóa 
+Một game xếp gạch được làm bởi Electronic Arts (EA). Có cơ chế trọng lực, và mỗi ván game chỉ kéo dài trong vòng 2 phút. Sẽ có một vài gạch sẽ rơi xuống (làm đệm) mỗi khi bắt đầu mỗi ván, và bạn có thể kích hoạt chế độ “Frenzy” bằng cách liên tục xóa hàng. Có rất nhiều loại power-up khác nhau, thậm chí có cả Finisher giúp cho màn chơi kết thúc của bạn thêm đẹp mắt và tăng mạnh số điểm của bạn lên. Game không có cơ chế top-out. Khi mà gạch vừa tới đè lên gạch đang có thì tự động một vài hàng trên cùng sẽ tự động xóa
 
 Game đã bị khai tử từ T04/2020
         ]],
@@ -1172,7 +1172,7 @@ Ghi chú: từ T11-T12/2022 và sau này, tất cả các tài khoản mới t�
         "game",
         [[
 iOS | Chơi đơn
-        
+
 Một game xếp gạch tới từ nhà N3TWORK nhưng chỉ dành cho Apple Arcade. Nó có một chế độ gọi là “Beat” ngoài chế độ Marathon, nhưng bạn chỉ có thể thả gạch theo nhịp của bài thôi.
 
 [Hiệu ứng của game rất là nặng và cơ chế điều khiển không tốt]
@@ -1297,7 +1297,7 @@ Danh sách các đề xuất mà bạn cần làm theo khi tập chơi:
 A. Stacking (Xếp gạch)
     A1. Suy nghĩ kỹ trước khi đặt gạch. Chưa vừa ý? Suy nghĩ thêm lần nữa.
     A2. Xếp gạch càng phẳng càng tốt để bạn có thể ra quyết định đặt gạch dễ dàng hơn.
-    A3. Lên kế hoạch trước cách xếp, hãy tận dụng tối đa NEXT và HOLD để giữ được thế đẹp. 
+    A3. Lên kế hoạch trước cách xếp, hãy tận dụng tối đa NEXT và HOLD để giữ được thế đẹp.
 
 B. Efficiency & Speed (Hiệu quả & Tốc độ)
     B1. Trước mỗi lần đặt gạch, hãy suy nghĩ xem bạn sẽ đặt gạch ở đâu? Bấm những phím nào để gạch tới chỗ đó và đứng đúng tư thế? Thay vì dựa dẫm vào bóng gạch quá nhiều

@@ -550,7 +550,7 @@ C. Tay cầm chơi game (Gamepad)
             key="Sửa bố cục bàn phím",
             touch="Sửa bố cục cảm ứng",
             showVK="Bật điều khiển bằng cảm ứng", -- Pull from Galaxy
-            
+
             reTime="Đếm ngược bắt đầu",
             RS="Hệ thống xoay gạch",
             menuPos="Vị trí nút Menu",
@@ -945,7 +945,7 @@ C. Tay cầm chơi game (Gamepad)
         ['master_ex']=      {"GrandMaster",       "EXTRA",          "Cũng là lấy điểm cao nhất có thể nhưng mà gắt hơn!"},
         ['master_instinct']={"Master",            "INSTINCT",       "Lấy điểm cao nhất có thể nhưng với gạch tàng hình!"},
         ['strategy_e']=     {"Strategy",          "DỄ",             "Quyết định nhanh hoặc là thua"},
-        ['strategy_h']=     {"Strategy",          "KHÓ",            "Quyết định nhanh hoặc là thua"}, 
+        ['strategy_h']=     {"Strategy",          "KHÓ",            "Quyết định nhanh hoặc là thua"},
         ['strategy_u']=     {"Strategy",          "THÁCH ĐẤU",      "Quyết định nhanh hoặc là thua"},
         ['strategy_e_plus']={"Strategy",          "DỄ+",            "Quyết định nhanh và không được Hold!"},
         ['strategy_h_plus']={"Strategy",          "KHÓ+",           "Quyết định nhanh và không được Hold!"},
@@ -1043,16 +1043,16 @@ C. Tay cầm chơi game (Gamepad)
         "Đừng để những thứ nhỏ nhặt làm bạn nản chí!",
         "Đây không phải là lỗi, đây là tính năng!",
         "Hệ thống xoay gạch của Techmino rất đẹp trai!",
-        "Em rất tốt nhưng anh rất tiếc…", 
+        "Em rất tốt nhưng anh rất tiếc…",
         "Đừng quên xem qua phần cài đặt!",
         "Nếu bạn thấy có vấn đề gì, hãy lên trang GitHub báo lại cho chúng tôi!",
         "Game xếp gạch nhưng có thêm chế độ FFA!",
         "Bạn muốn đóng góp ý tưởng? Hãy vào Discord của chúng tôi!",
         "Bạn có biết khi gạch xoay thì nó biến thành gì không?",
         "Khuyến khích đeo tai nghe để có trải nghiệm tốt hơn",
-        "Hello world!", 
+        "Hello world!",
         "Chỉ có 2 loại trimino là I3 và L3",
-        "if a==true", 
+        "if a==true",
         "Việc tăng tần số khung hình sẽ mang trải nghiệm tốt hơn cho bạn",
         "[Hành động] tức thì có thể cứu bạn đấy!",
         "B2B2B2B là gì? Ăn được không?",
@@ -1060,10 +1060,10 @@ C. Tay cầm chơi game (Gamepad)
         "Bạn có thể xoá 40 hàng mà không cần dùng nút trái/phải",
         "Bạn có thể xoá 40 hàng mà không cần dùng nút xoay",
         "Hãy tham gia Discord của chúng tôi!",
-        "l-=-1", 
+        "l-=-1",
         "Nổi lửa lên em, NỔI LỬA LÊN EM!",
         "Việc giảm tần số khung hình sẽ mang trải nghiệm tệ hơn cho bạn",
-        "LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF", 
+        "LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF",
         "Mix clear sắp ra mắt!",
         "Hầu hết các biểu tượng của các nút được vẽ tay vào trong bảng Unicode Private Use Area",
         "Hầu hết nhạc trong game được tạo bằng Beepbox",
@@ -1074,7 +1074,7 @@ C. Tay cầm chơi game (Gamepad)
         "Có công mài sắt, có ngày nên kim!",
         "Chạy bằng LÖVE",
         "Chạy bằng Un..LÖVE",
-        "pps-0.01", 
+        "pps-0.01",
         "Dit me VNPT",
         "Một số yêu cầu để đạt được rank X là rất khó, kể cả đối với những người giỏi nhất",
         "Bạn sẽ sớm được chơi với mọi người trên thế giới thôi",
@@ -1085,7 +1085,7 @@ C. Tay cầm chơi game (Gamepad)
         "TetroDictionary đã ra mắt (có bản tiếng Việt rồi, nhưng mà hơi bruh, thôi vẫn đủ xài!)",
         "Những cái tên xuất hiện ở phần nền trong trang Đội Ngũ là danh sách các nhà tài trợ của chúng tôi",
         "Toàn bộ nhạc game này đã có mặt trên Soundcloud rồi đấy!",
-        "The stacker future is yours in Techmino!", 
+        "The stacker future is yours in Techmino!",
         "Bạn có biết: Có một số chế độ đã bị ẩn khỏi map không?",
         "Có tất cả 18 miếng pentomino khác nhau",
         "Có tất cả 7 miếng tetromino khác nhau",
@@ -1097,7 +1097,7 @@ C. Tay cầm chơi game (Gamepad)
         "Thế còn 23 PC trong 100 hàng?",
         "26 TSD có nổi không thế?",
         "Game rác v*i c*t",
-        "while (false)", 
+        "while (false)",
         "Bạn là Nhất!",
         "Bạn có thể giúp chúng tôi viết BGM và SFX!",
         "Bạn có thể cắm bàn phím vào điện thoại hoặc máy tính bảng (đối với iOS thì không)",
@@ -1142,7 +1142,7 @@ C. Tay cầm chơi game (Gamepad)
         "Phát âm từ Techmino như thế nào mới đúng?",
         -- English UK: /'tɛkminəʊ/; English US: /tɛkminoʊ/
         "Techmino phát âm trong tiếng Anh là /'tɛkminəʊ/; còn tiếng Mỹ là /tɛkminoʊ/.",
-        -- 
+        --
         "Ủa Techmino phải đọc là “Tét-mai-nô” hay là “Tét-mi-nô” vậy?",
         -- Where to download Techmino?
         "Tải Techmino ở đâu vậy? Trên GitHub đấy!",
@@ -1159,13 +1159,13 @@ C. Tay cầm chơi game (Gamepad)
         "Một tên khác của game này là “Tiehu Minuo”",
         -- This game is not called Teachmino
         "Tên game không phải là Teachmino!",
-        -- 
+        --
         "Muốn game có thứ gì đó đặc biệt lúc mở game? Hãy chỉnh đồng hồ trên điện thoại vào một ngày đặc biệt nào đó đi!",
-        -- 
+        --
         "Trừ khi bạn đang chơi Techmino: “O-spin is a lie!” (O-spin là lời nói dối (của em)!)",
         -- techminohaowan
         "Hảo Techmino",
--- 
+--
     -- TIPS WHEN PLAYING
         -- Don't act weak! Don't act weak! Don't act weak!
         "Đừng tỏ ra yếu đuối! Đừng tỏ ra yếu đuối! ĐỪNG TỎ RA YẾU ĐUỐI!",
@@ -1212,11 +1212,11 @@ C. Tay cầm chơi game (Gamepad)
         "Bạn mới tập chơi xếp gạch à? Nếu vậy cứ chơi nhiều lên. Không có nhiều mục tiêu luyện tập cụ thể ngoài xóa 40 hàng trong 2 phút.",
         --
         "Hãy ra ngoài và chạm cỏ đi!",
--- 
+--
     -- MrZ
         {C.W,"uid:225238922"},
         {"Ai là ",C.W,"MrZ",C.white," vậy?"},
--- 
+--
     -- Z SAID
         -- I can't write cool music (crying)
         {C.W,"Z: ",C.white,"Tôi không thể nào viết một bản nhạc nào trông ngầu cả (sadge)."},
@@ -1228,7 +1228,7 @@ C. Tay cầm chơi game (Gamepad)
         {C.W,"Z: ",C.white,"Tôi mong là Chế độ Đơn giản đủ tốt"},
         -- I wonder how many people playing games actually care about who made the game.",
         {C.W,"Z: ",C.white,"Tôi tự hỏi là có bao nhiêu người chơi game thực sự quan tâm ai viết ra nó."},
--- 
+--
     -- IT JOKES
         "git clone --recursive https://github.com/26F-Studio/Techmino.git",
         "git merge --rebase",
@@ -1237,7 +1237,7 @@ C. Tay cầm chơi game (Gamepad)
         "git submodule update",
         "git commit -m \".\"",
         "git push -f",
-        "Lua No.1", 
+        "Lua No.1",
         "sudo rm -rf /*",
         "shutdown /s /t 0",         -- Turn off computer completely (no Fast Boot)
         "shutdown /s /t 0 /hybrid", -- Turn off computer with Fast Boot still activated
@@ -1250,7 +1250,7 @@ C. Tay cầm chơi game (Gamepad)
         {"Nếu bạn thực sự có hứng thú trong lập trình, tôi đề xuất sử dụng Lua. Dễ xài, cú pháp đơn giản, và tốc độ thực thi nhanh. Rồi tránh xa chương trình học nhàm chán ở trên trường luôn! (haha) - ",C.W,"Z",C.white," said."},
          -- COLD CLEAR PATH
          "Đường dẫn của Cold Clear: "..(SYSTEM=='Windows' and "<root>\\CCLoader.dll" or SYSTEM=='Linux' and "<root>/ColCLoader.so" or SYSTEM=='Android' and "<root>/libAndroid/arm64-v8a (hoặc armeabi-v7a)/CCLoader.so" or SYSTEM=='OS X' and "<root/CCLoader.dylib" or "(Tui không rõ bạn đang dùng HĐH nào nên tui không biết :3)"),
--- 
+--
     -- CHANGELOG
         {C.lW, "V0.0.091726",": ",C.white, "Đã thêm hệ thống xoay TRS"},
         {C.lW, "V0.7.9 "    ,": ",C.white, "Đã thêm ",C.yellow,"O-spin"},
@@ -1273,7 +1273,7 @@ C. Tay cầm chơi game (Gamepad)
         {C.lW, "V0.17.3"    ,": ",C.white, "Dừng phát triển Techmino, tập trung phát triển game mới"},
         {C.lW, "V0.17.12"   ,": ",C.white, "Đã thêm ngôn ngữ tiếng Việt"},
         {C.lW, "V0.17.15"   ,": ",C.white, "Cập nhật bản dịch tiếng Việt: thêm Zictionary + HDSD & cải thiện câu từ trong game + sửa lỗi font"},
--- 
+--
         -- MATH FORMULAS
         "(a+b)²=a²+2ab+b²",
         "a²-b²=(a-b)(a+b)",
@@ -1295,7 +1295,7 @@ C. Tay cầm chơi game (Gamepad)
         "sin²α-cos²β=-C(α+β)C(α-β)",
         "sin²α-sin²β=S(α+β)S(α-β)",
         "sin2α=2SαCα",
--- 
+--
     -- FROM SEA
         {C.W,"MrZ",C.white," còn có một biệt danh dễ thương hơn, đó là ",C.W,"Z-Chan"},
         "Có hơn 400 mẹo bạn có thể nhìn thấy ở đây, là cái dòng chữ này, nếu bạn đang chơi Techmino tiếng Trung",
