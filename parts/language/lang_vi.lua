@@ -1092,7 +1092,7 @@ return {
         -- 
         "Ủa Techmino phải đọc là “Tét-mai-nô” hay là “Tét-mi-nô” vậy?",
         -- Where to download Techmino?
-        "Tải Techmino ở đâu vậy? Lên GitHub xem đi!",
+        "Tải Techmino ở đâu vậy? Trên GitHub đấy!",
         -- Techmino's birthday
         "Ngày sinh nhật của Techmino? Hiện tại (đang giả định) là 26/T6.",
         -- How to O-spin: Rotate 626 times in one second (mistaken)
@@ -1194,7 +1194,9 @@ return {
         "Techmino.exe hiện không phản hồi",
         "Techmino đã đột ngột dừng lại",
         -- If you have a real interest in programming, I recommend Lua. Easy installation, simple syntax, and fast execution speed. Stay away from boring school programming (haha)
-        {"Nếu bạn thực sự có hứng thú trong việc viết app, tôi đề xuất sử dụng Lua. Dễ cài, cú pháp đơn giản, và tốc độ thực thi nhanh. Rồi tránh xa chương trình học nhàm chán ở trên trường luôn! (haha) - ",C.W,"Z",C.white," said."},
+        {"Nếu bạn thực sự có hứng thú trong lập trình, tôi đề xuất sử dụng Lua. Dễ xài, cú pháp đơn giản, và tốc độ thực thi nhanh. Rồi tránh xa chương trình học nhàm chán ở trên trường luôn! (haha) - ",C.W,"Z",C.white," said."},
+         -- COLD CLEAR PATH
+         "Bạn muốn gặp Cold Clear à? "..(SYSTEM=='Windows' and "Hãy tới <root>\\ColdClear.dll" or SYSTEM=='Linux' and "Hãy tới <root>/ColdClear.so" or SYSTEM=='Android' and "Hãy tới <root>/libAndroid/arm64-v8a (hoặc armeabi-v7a)/CCloader.so" or "Hiện ổng đang bận rồi!)
 -- 
     -- CHANGELOG
         {C.lW, "V0.0.091726",": ",C.white, "Đã thêm hệ thống xoay TRS"},
