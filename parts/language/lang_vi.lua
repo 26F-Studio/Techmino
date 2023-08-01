@@ -1246,15 +1246,21 @@ C. Tay cầm chơi game (Gamepad)
         "shutdown /s /t 0",         -- Turn off computer completely (no Fast Boot)
         "shutdown /s /t 0 /hybrid", -- Turn off computer with Fast Boot still activated
         -- Techmino has reached the limit.
-        "Bạn không thể mở Techmino vì đã đạt tới giới hạn",
+        "Không thể mở Techmino vì bạn đã quá nghiện game này rồi :>",
         -- Techmino.exe has stopped working.
         "Techmino.exe hiện không phản hồi",
         "Techmino đã đột ngột dừng lại",
         -- If you have a real interest in programming, I recommend Lua. Easy installation, simple syntax, and fast execution speed. Stay away from boring school programming (haha)
         {"Nếu bạn thực sự có hứng thú trong lập trình, tôi đề xuất sử dụng Lua. Dễ xài, cú pháp đơn giản, và tốc độ thực thi nhanh. Rồi tránh xa chương trình học nhàm chán ở trên trường luôn! (haha) - ",C.W,"Z",C.white," said."},
          -- COLD CLEAR PATH
-         "Đường dẫn của Cold Clear: "..(SYSTEM=='Windows' and "<root>\\CCLoader.dll" or SYSTEM=='Linux' and "<root>/ColCLoader.so" or SYSTEM=='Android' and "<root>/libAndroid/arm64-v8a (hoặc armeabi-v7a)/CCLoader.so" or SYSTEM=='OS X' and "<root/CCLoader.dylib" or "(Tui không rõ bạn đang dùng HĐH nào nên tui không biết :3)"),
---
+        "Đường dẫn của Cold Clear: "..(
+            SYSTEM=='Windows' and "<root>\\CCloader.dll" or
+            SYSTEM=='Linux'   and "<root>/CCloader.so" or
+            SYSTEM=='Android' and "<root>/libAndroid/arm64-v8a (hoặc armeabi-v7a)/CCloader.so" or
+            SYSTEM=='OS X'    and "<root/CCloader.dylib" or
+            "(… Tui… không biết :3)"
+        ),
+-- 
     -- CHANGELOG
         {C.lW, "V0.0.091726",": ",C.white, "Đã thêm hệ thống xoay TRS"},
         {C.lW, "V0.7.9 "    ,": ",C.white, "Đã thêm ",C.yellow,"O-spin"},
