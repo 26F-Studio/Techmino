@@ -142,13 +142,6 @@ FNNS and     {"赞助3",
         -- id: support-3
         -- platform-restriction: non-apple
     },
-    {"赞助2",
-        "support aifadian afdian zanzhu daqian",
-        "org",
-        "Afdian",
-        -- id: support-2
-        -- platform-restriction: apple
-    },
     -- # 游戏（题库）
     {"TTT",
         "教程 trainer tres bien",

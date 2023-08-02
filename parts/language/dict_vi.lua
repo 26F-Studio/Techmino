@@ -21,7 +21,7 @@ Có câu hỏi? Liên hệ mình qua server Techmino trên Discord. Mình hiện
     },
     {
         "Mục lục",
-        "nhom02 index mucluc",
+        "nhom01 index mucluc",
         "help",
         [[
 01. Về Zictionary & Bản dịch game & Mục lục ← bạn đang xem mục này
