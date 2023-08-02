@@ -218,7 +218,7 @@ local seqGenerators={
         end
     end,
     fixed=function(rndGen,seq0)
-        for i=#seq0,1,-1 do
+        for i=1,#seq0 do
             yield(seq0[i])
         end
     end,
