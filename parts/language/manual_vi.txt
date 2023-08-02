@@ -25,7 +25,6 @@ Cách phát hiện spin:
 
         [*] LƯU Ý: quy tắc “góc sau lưng gạch” có thể ảnh hưởng đến kết quả kiểm tra của quy tắc “3 góc”!
 
-
 Hệ thống tấn công:
         Kiểu xóa Đặc biệt (Special clear):
                 Kiểu xóa Đặc biệt chỉ trường hợp bạn thực hiện Spin, Techrash/Techrash+, PC/HPC.
