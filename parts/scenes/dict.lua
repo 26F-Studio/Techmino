@@ -108,7 +108,7 @@ local function _copy()
 end
 
 -- Update the infobox
-local function _updateInfoBox(c)
+local function _updateTextBox(c)
     local _t,t
     if c==nil then
         if listBox.selected==0 then
@@ -142,7 +142,7 @@ end
 local function _resetZoom()
     currentFontSize,textBox.font=25,25
     textBox.lineH,textBox.capacity=35,math.ceil((textBox.h-10)/35)
-    _updateInfoBox()
+    _updateTextBox()
     MES.new("check",text.dict.sizeReset,1.26)
 end
 local function _setZoom(z)
@@ -151,7 +151,7 @@ local function _setZoom(z)
         textBox.font=currentFontSize
         textBox.lineH=currentFontSize*7/5   -- Recalculate the line's height
         textBox.capacity=math.ceil((textBox.h-10)/textBox.lineH)
-        _updateInfoBox()
+        _updateTextBox()
         MES.new("check",text.dict.sizeChanged:repD(currentFontSize),1.26)
     end
 end
@@ -207,7 +207,7 @@ function scene.keyDown(key)
             _clearResult()
             inputBox:clear()
             SFX.play('hold')
-            _updateInfoBox()
+            _updateTextBox()
         end
     elseif key=='escape' then
         if inputBox:hasText() then
@@ -219,7 +219,7 @@ function scene.keyDown(key)
         listBox.selected=0
         inputBox:clear()
         searchWait=0
-        _updateInfoBox()
+        _updateTextBox()
     else
         if not WIDGET.isFocus(inputBox) then WIDGET.focus(inputBox) end
         return true
@@ -241,7 +241,7 @@ function scene.gamepadDown(key)
         listBox.selected=0
         inputBox:clear()
         searchWait=0
-        _updateInfoBox()
+        _updateTextBox()
     elseif key=='back' then
         SCN.back()
     end
@@ -266,7 +266,7 @@ function scene.update(dt)
     end
 
     if lastSelected~=listBox.selected then
-        _updateInfoBox()
+        _updateTextBox()
         lastSelected=listBox.selected
         scene.widgetList.copy.hide=false
     end
