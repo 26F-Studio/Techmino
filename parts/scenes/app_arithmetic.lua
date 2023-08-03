@@ -53,7 +53,7 @@ local function drawChar(char,x,y,scale,alignLeft)
 end
 
 local levels={
-    function()-- 1~3 <+> [,10] 
+    function()-- 1~3 <+> [,10]
         local s=rnd(2,9)
         local a=rnd(1,s)
         return a.."+"..s-a,s,function()

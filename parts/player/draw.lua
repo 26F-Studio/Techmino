@@ -681,7 +681,7 @@ local function _drawMission(curMission,L,missionkill)
             gc_print("×"..RLEMissions[1][2],98,130)
             gc_translate(-30,0)
         end
-        
+
         setFont(35)
         gc_print(ENUM_MISSION[RLEMissions[1][1]],85,110)
 

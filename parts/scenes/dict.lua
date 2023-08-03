@@ -17,7 +17,7 @@ local lastSearch-- Last searched string
 local lastSelected -- Last selected item
 local justSearched -- Just searched or not?
 
-local currentFontSize=25 -- Current font size, default: 25 
+local currentFontSize=25 -- Current font size, default: 25
 local showingHelp=false  -- Help is triggered or not
 local zoomWait=0         -- The last time zoom is triggered
 
@@ -134,7 +134,7 @@ local function _updateInfoBox(c)
                         CHAR.key.up,          CHAR.key.down,        CHAR.key.left,        CHAR.key.right,
                         CHAR.controller.dpadU,CHAR.controller.dpadD,CHAR.controller.dpadL,CHAR.controller.dpadR,
                         CHAR.controller.xboxX,CHAR.controller.xboxY,CHAR.controller.xboxA,CHAR.controller.xboxB,
-                        
+
                         CHAR.icon.help,CHAR.icon.copy,  CHAR.icon.globe,
                         CHAR.icon.toUp,CHAR.icon.toDown,CHAR.key.winMenu
                 ),true
@@ -245,7 +245,7 @@ function scene.keyDown(key)
     -- Switching selected items
     if key=='up' or key=='down' then
         if not showingHelp then
-            if love.mouse.isDown(2,3) then 
+            if love.mouse.isDown(2,3) then
                 listBox:arrowKey(key)
                 return
             elseif WIDGET.isFocus(listBox) then
@@ -415,7 +415,7 @@ scene.widgetList={
     infoBox,
     WIDGET.newKey   {name='link',     x=1234,y=600,w=60,font=45,fText=CHAR.icon.globe, code=pressKey'application',hideF=function() return not ((not (showingHelp or listBox.selected==0)) and _getList()[listBox.selected].url) end},
     WIDGET.newKey   {name='copy',     x=1234,y=670,w=60,font=40,fText=CHAR.icon.copy,  code=pressKey'cC'},
-    
+
     WIDGET.newKey   {name='openzoom', x=1234,y=300,w=60,font=30,fText="aA",            code=function() _openZoom()  end,hide=false},
     WIDGET.newKey   {name='resetzoom',x=1234,y=370,w=60,font=25,fText="100%",          code=function() _resetZoom() end,hide=false},
     WIDGET.newKey   {name='zoomin',   x=1234,y=300,w=60,font=40,fText="A",             code=function() _setZoom(5)  end,hide=true},
