@@ -51,7 +51,7 @@ local function _scanDict(D)
 end
 local function _getList() return result[1] and result or dict end
 
-local infoBox =WIDGET.newTextBox {name='infoBox',x=320,y=180,w=862,h=526,font=25,fix=true}
+local textBox =WIDGET.newTextBox {name='infoBox',x=320,y=180,w=862,h=526,font=25,fix=true}
 local inputBox=WIDGET.newInputBox{name='input',  x=20, y=110,w=762,h=60, font=40,limit=32}
 local listBox =WIDGET.newListBox {name='listBox',x=20, y=180,w=280,h=526,font=30,lineH=35,drawF=function(item,id,ifSel)
     -- Background
@@ -135,22 +135,22 @@ local function _updateInfoBox(c)
         _t,t=nil,nil
     end
     local _w,c=FONT.get(currentFontSize):getWrap(c,840)
-    infoBox:setTexts(c)
+    textBox:setTexts(c)
 end
 
 -- Zoom and reset zoom
 local function _resetZoom()
-    currentFontSize,infoBox.font=25,25
-    infoBox.lineH,infoBox.capacity=35,math.ceil((infoBox.h-10)/35)
+    currentFontSize,textBox.font=25,25
+    textBox.lineH,textBox.capacity=35,math.ceil((textBox.h-10)/35)
     _updateInfoBox()
     MES.new("check",text.dict.sizeReset,1.26)
 end
 local function _setZoom(z)
     if z~=0 then
         currentFontSize=MATH.clamp(currentFontSize+z,15,40)
-        infoBox.font=currentFontSize
-        infoBox.lineH=currentFontSize*7/5   -- Recalculate the line's height
-        infoBox.capacity=math.ceil((infoBox.h-10)/infoBox.lineH)
+        textBox.font=currentFontSize
+        textBox.lineH=currentFontSize*7/5   -- Recalculate the line's height
+        textBox.capacity=math.ceil((textBox.h-10)/textBox.lineH)
         _updateInfoBox()
         MES.new("check",text.dict.sizeChanged:repD(currentFontSize),1.26)
     end
@@ -175,12 +175,16 @@ function scene.enter()
 end
 
 function scene.wheelMoved(_,y)
-    WHEELMOV(y)
+    if WIDGET.sel==listBox then
+        listBox:scroll(-y)
+    else
+        textBox:scroll(-y)
+    end
 end
 function scene.keyDown(key)
     -- Switching selected items
     if key=='up' or key=='down' then
-        listBox:scroll(key=='up' and -1 or 1)
+        textBox:scroll(key=='up' and -1 or 1)
 
     elseif (key=='left' or key=='pageup' or key=='right' or key=='pagedown') then
         _jumpover(key,love.keyboard.isDown('lctrl','rctrl','lalt','ralt','lshift','rshift') and 12)
@@ -229,7 +233,7 @@ function scene.gamepadDown(key)
         if Joystick:isGamepadDown('a') then
             _setZoom(key=='dpup' and 5 or -5)
         else
-            infoBox:scroll(key=='dpup' and -3 or 3)
+            textBox:scroll(key=='dpup' and -3 or 3)
         end
     elseif key=='dpleft' or key=='dpright' then
         _jumpover(key:gsub('dp',''),Joystick:isGamepadDown('a') and 12)
@@ -294,7 +298,7 @@ scene.widgetList={
     WIDGET.newText   {name='title',   x=100, y=15, font=70,align='L'},
     listBox,
     inputBox,
-    infoBox,
+    textBox,
     WIDGET.newKey   {name='link',     x=1234,y=600,w=60,font=45,fText=CHAR.icon.globe, code=pressKey'application',hideF=function() return not (listBox.selected>0 and _getList()[listBox.selected].url) end},
     WIDGET.newKey   {name='copy',     x=1234,y=670,w=60,font=40,fText=CHAR.icon.copy,  code=pressKey'cC',hideF=function() return not (listBox.selected>0) end},
 
