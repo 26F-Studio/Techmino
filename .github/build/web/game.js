@@ -90,7 +90,6 @@ Module.expectedDataFileDownloads++;
       function assert(check, msg) {
         if (!check) throw msg + new Error().stack;
       }
-      
 
       function DataRequest(start, end, crunched, audio) {
         this.start = start;

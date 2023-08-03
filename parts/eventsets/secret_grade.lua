@@ -33,8 +33,8 @@ end
 
 local function generateGuide(num)
     local l=#F
-    if l>num then 
-        return 
+    if l>num then
+        return
     end
     for i=l,num do
         F[i] = {}

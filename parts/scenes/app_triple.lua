@@ -152,11 +152,10 @@ function player:click(y,x)
             self.board[y][x]=rem(self.nexts,1)
             SFX.play('touch')
 
-            local merged
-            repeat-- ::REPEAT_merge::
-                local repeating
-                local cur=self.board[y][x]
+            local cur,merged
+            repeat
                 local b1=TABLE.shift(self.board)
+                cur=b1[y][x]
                 self.mergedTiles={}
                 local count=self:merge(b1,cur,y,x)
                 if count>2 then
@@ -178,9 +177,8 @@ function player:click(y,x)
                     for i=1,#self.mergedTiles do
                         newMergeFX(self.mergedTiles[i][1],self.mergedTiles[i][2],cur+1)
                     end
-                    repeating=true-- goto REPEAT_merge
                 end
-            until not repeating
+            until count<=2
 
             ins(self.nexts,self:newTile())
 
