@@ -399,28 +399,27 @@ A. Chuột và màn hình cảm ứng
         - Nhấn/chạm [$14] để sao chép nội dung của mục đang xem
         - Nhấn/chạm [$15] để mở link của mục đang xem (nếu có)
 
-B. Bàn phím
-    Nhấn…
+B. Bàn phím: Nhấn…
         - [F1] để hiển thị Trợ giúp
         - [$1] hoặc [$2] để cuộn qua văn bản
-        - [$3] để mở mục trước đó và [$4] để mở mục tiếp theo
+        - [$3] để mở mục trước đó và [$4] để mở mục tiếp theo, giữ [Ctrl] để lướt nhanh hơn
 
         - [-] để giảm cỡ chữ, [+] để tăng cỡ chữ
         - [0] để khôi phục về cỡ chữ mặc định
 
         - [Ctrl + C] để sao chép văn bản
-        - [$16] (phím Menu ngữ cảnh/phím Ứng dụng)
+        - [$16] (phím Menu ngữ cảnh/phím Ứng dụng) để mở link (nếu có)
 
-C. Tay cầm chơi game (Gamepad)
-        Nhấn $10 để hiển thị trợ giúp
-        Nhấn $5 hoặc $6 để cuộn văn bản, speed up with $11
-        Nhấn $7 để mở mục trước và $8 để mở mục tiếp theo
-        Giữ $11 và nhấn $7 hoặc $8 để cuộn nhanh qua danh sách
+C. Tay cầm chơi game (Gamepad):
+        - Nhấn $10 để hiển thị trợ giúp
+        - Nhấn $5 hoặc $6 để cuộn văn bản, giữ $11 để cuộn nhanh hơn
+        - Nhấn $7 để mở mục trước và $8 để mở mục tiếp theo
+        - Giữ $11 và nhấn $6 để giảm cỡ chữ hoặc $5 để tăng lên
 ]]
         -- 1-4: Up, Down, Left, Right
         -- 5-8: Up, Down, Left, Right but D-Pad
         -- 9-12: X, Y, A, B
-        -- 13-18: Help, Copy, Open, Forward, Backward, MENU
+        -- 13-16: Help, Copy, Open, MENU
     },
     WidgetText={
         main={
@@ -1075,7 +1074,7 @@ C. Tay cầm chơi game (Gamepad)
         "Chế độ nhiều người đã ra mắt rồi, hãy thử nó đi!",
         "Thử sử dụng nhiều ô Hold đi!",
         "Thử dùng 2 nút xoay đi. Dùng cả 3 thì càng tốt",
-        {C.red,"CẢNH BÁO! ",C.white,"Cấu trúc dữ liệu và Giải thuật"},
+        {C.R,"CẢNH BÁO! ",C.Z,"Cấu trúc dữ liệu và Giải thuật"},
         "20 PC thì sao?",
         "Thế còn 23 PC trong 100 hàng?",
         "26 TSD có nổi không thế?",
@@ -1134,7 +1133,7 @@ C. Tay cầm chơi game (Gamepad)
         -- How to O-spin: Rotate 626 times in one second (mistaken)
         "Cách O-spin? Nhấn phím xoay 626 lần (ĐÙA ĐẤY ĐỪNG TIN!)",
         -- Hope you all like Z... Oh no, like Techmino
-        {"Mình mong các bạn sẽ thích ",C.W,"Z",C.white,"… Ối! Không phải, thích ",C.green,"Techmino",C.white," cơ! Nhầm nhầm nhầm!"},
+        {"Mình mong các bạn sẽ thích ",C.W,"Z",C.Z,"… Ối! Không phải, thích ",C.G,"Techmino",C.Z," cơ! Nhầm nhầm nhầm!"},
         -- 2021 was the year of Techmino's online debut.
         "2021 là năm ra mắt chế độ trực tuyến của Techmino.",
         -- The Chinese name of this game is 'Block Research Institute'.
@@ -1145,7 +1144,7 @@ C. Tay cầm chơi game (Gamepad)
         --
         "Muốn game có thứ gì đó đặc biệt lúc mở game? Hãy chỉnh đồng hồ trên điện thoại vào một ngày đặc biệt nào đó đi!",
         --
-        "Trừ khi bạn đang chơi Techmino: “O-spin is a lie!” (O-spin là lời nói dối (của em)!)",
+        "Trừ khi bạn đang chơi Techmino: “O-spin is a lie!”)",
         -- techminohaowan
         "Hảo Techmino",
 --
@@ -1153,7 +1152,7 @@ C. Tay cầm chơi game (Gamepad)
         -- Don't act weak! Don't act weak! Don't act weak!
         "Đừng tỏ ra yếu đuối! Đừng tỏ ra yếu đuối! ĐỪNG TỎ RA YẾU ĐUỐI!",
         -- Warning: No pretending to be weak.
-        {C.red,"CẢNH BÁO! ",C.white,"Đừng giả vờ yếu đuối"},
+        {C.R,"CẢNH BÁO! ",C.Z,"Đừng giả vờ yếu đuối"},
         -- "Meow!"
         "Meow!",
         -- Getting popup messages in the middle of a game? Go to settings and disable them.
@@ -1180,7 +1179,7 @@ C. Tay cầm chơi game (Gamepad)
         -- To protect the players' well-being, the game has a temporary and simplified anti-addiction system! (But you probably won't trigger it, haha)
         "Để tránh việc người chơi nào đó chơi quá lâu, game đã có hệ thống chống nghiện đơn giản tạm thời (Nhưng bạn có lẽ sẽ không bao giờ kích hoạt chúng đâu, haha)",
         -- Basic stacking and digging skills are crucial; those who neglect these two aspects often regret it (trust me)
-        {"Kỹ năng xếp lên vào đào xuống là 2 kỹ năng RẤT quan trọng; những ai coi thường hoặc bỏ bê hai khía cạnh này thường hay bị bón hành súp mặt lờ (tin ",C.W,"MrZ",C.white," đi!)"},
+        {"Kỹ năng xếp lên vào đào xuống là 2 kỹ năng RẤT quan trọng; những ai coi thường hoặc bỏ bê hai khía cạnh này thường hay bị bón hành súp mặt lờ (tin ",C.W,"MrZ",C.Z," đi!)"},
         -- Even if you're topped out, don't give up; every line of garbage can potentially become your weapon.
         "Ngay cả khi bạn sắp bị top out, đừng bỏ cuộc; vì từng hàng rác có tiềm năng trở thành vũ khí của bạn!",
         -- The video shown above is not a recording; it's the robot playing in real-time.
@@ -1188,7 +1187,7 @@ C. Tay cầm chơi game (Gamepad)
         -- Extended gaming sessions will gradually deteriorate your performance! Remember to take breaks when playing for a long time~
         "Những lần chơi game kéo dài thường xuyên dần dần làm giảm hiệu suất chơi game (trong trường hợp tệ nhất bạn có thể bị stall). Nhớ nghỉ ngơi khi chơi lâu",
         -- Be careful of tenosynovitis!
-        {C.red,"CẢNH BÁO! ",C.white,"Bệnh viêm bao gân cổ tay!"},
+        {C.R,"CẢNH BÁO! ",C.Z,"Bệnh viêm bao gân cổ tay!"},
         -- The button with a question mark in the bottom-right corner is the game manual (assuming you haven't enabled the concise mode).
         "Cái nút "..CHAR.icon.help.." ở góc phải dưới cùng trong menu (không bật chế độ Đơn giản) đấy hả? Nó là manual (hướng dẫn sử dụng) của game đấy!",
         -- If you're new to blocks, just play more games; there isn't much specific targeted practice beyond 40 lines in two minutes
@@ -1198,19 +1197,19 @@ C. Tay cầm chơi game (Gamepad)
 --
     -- MrZ
         {C.W,"uid:225238922"},
-        {"Ai là ",C.W,"MrZ",C.white," vậy?"},
+        {"Ai là ",C.W,"MrZ",C.Z," vậy?"},
 --
     -- Z SAID
         -- I can't write cool music (crying)
-        {C.W,"Z: ",C.white,"Tôi không thể nào viết một bản nhạc nào trông ngầu cả (sadge)."},
+        {C.W,"Z: ",C.Z,"Tôi không thể nào viết một bản nhạc nào trông ngầu cả (sadge)."},
         -- I haven't studied music composition. I just composed it myself. If you really think it's good, that's great!
-        {C.W,"Z: ",C.white,"Tôi chưa từng học sáng tác nhạc, và tôi chỉ tự sáng tác chúng. Nếu bạn thấy những bản nhạc này hay, thật tuyệt!"},
+        {C.W,"Z: ",C.Z,"Tôi chưa từng học sáng tác nhạc, và tôi chỉ tự sáng tác chúng. Nếu bạn thấy những bản nhạc này hay, thật tuyệt!"},
         -- What else can I write for tips?
-        {C.W,"Z: ",C.white,"Còn mẹo nào tôi có thể viết ra nhỉ?"},
+        {C.W,"Z: ",C.Z,"Còn mẹo nào tôi có thể viết ra nhỉ?"},
         -- I hope Minimalistic Mode is fine.
-        {C.W,"Z: ",C.white,"Tôi mong là Chế độ Đơn giản đủ tốt"},
+        {C.W,"Z: ",C.Z,"Tôi mong là Chế độ Đơn giản đủ tốt"},
         -- I wonder how many people playing games actually care about who made the game.",
-        {C.W,"Z: ",C.white,"Tôi tự hỏi là có bao nhiêu người chơi game thực sự quan tâm ai viết ra nó."},
+        {C.W,"Z: ",C.Z,"Tôi tự hỏi là có bao nhiêu người chơi game thực sự quan tâm ai viết ra nó."},
 --
     -- IT JOKES
         "git clone --recursive https://github.com/26F-Studio/Techmino.git",
@@ -1230,7 +1229,7 @@ C. Tay cầm chơi game (Gamepad)
         "Techmino.exe hiện không phản hồi",
         "Techmino đã đột ngột dừng lại",
         -- If you have a real interest in programming, I recommend Lua. Easy installation, simple syntax, and fast execution speed. Stay away from boring school programming (haha)
-        {"Nếu bạn thực sự có hứng thú trong lập trình, tôi đề xuất sử dụng Lua. Dễ xài, cú pháp đơn giản, và tốc độ thực thi nhanh. Rồi tránh xa chương trình học nhàm chán ở trên trường luôn! (haha) - ",C.W,"Z",C.white," said."},
+        {"Nếu bạn thực sự có hứng thú trong lập trình, tôi đề xuất sử dụng Lua. Dễ cài đặt, cú pháp đơn giản, tốc độ thực thi nhanh. Hãy tránh xa những tiết học lập trình chán ngắt ở trên trường luôn đi! (haha) - ",C.W,"MrZ",C.Z," said."},
         -- COLD CLEAR PATH
         "Đường dẫn của Cold Clear: "..(
             SYSTEM=='Windows' and "<root>\\CCloader.dll" or
@@ -1241,27 +1240,27 @@ C. Tay cầm chơi game (Gamepad)
         ),
 --
     -- CHANGELOG
-        {C.lW, "V0.0.091726",": ",C.white, "Đã thêm hệ thống xoay TRS"},
-        {C.lW, "V0.7.9 "    ,": ",C.white, "Đã thêm ",C.yellow,"O-spin"},
-        {C.lW, "V0.7.19"    ,": ",C.white, "Đã thêm hệ thống voice"},
-        {C.lW, "V0.7.22"    ,": ",C.white, "Đã thêm hiệu ứng rơi mượt"},
-        {C.lW, "V0.8.5 "    ,": ",C.white, "Đã thêm map và sắp xếp lại các chế độ"},
-        {C.lW, "V0.8.19"    ,": ",C.white, "Đã thêm Pentomino"},
-        {C.lW, "V0.9.0 "    ,": ",C.white, "Đã thêm chế độ tự do và khả năng tùy biến chuỗi gạch"},
-        {C.lW, "V0.10.0"    ,": ",C.white, "Đã thêm hệ thống replay"},
-        {C.lW, "V0.11.1"    ,": ",C.white, "Đã thêm Little Z Dictionary (Zictionary)"},
-        {C.lW, "V0.12.2"    ,": ",C.white, "Đã thêm hệ thống mod"},
-        {C.lW, "V0.13.0"    ,": ",C.white, "Thử nghiệm chế độ trực tuyến"},
-        {C.lW, "V0.13.2"    ,": ",C.white, "Đã thêm khả năng tùy biến chiều cao bảng"},
-        {C.lW, "V0.13.3"    ,": ",C.white, "Đã thêm console"},
-        {C.lW, "V0.14.5"    ,": ",C.white, "Đã thêm BGM đầu tiên được làm bởi cộng đồng"},
-        {C.lW, "V0.15.5"    ,": ",C.white, "Đã thêm menu replay"},
-        {C.lW, "V0.16.0"    ,": ",C.white, "Đã thêm hệ thống xoay BiRS"},
-        {C.lW, "V0.16.2"    ,": ",C.white, "Đã thêm studio SFX với phong cách hit pad"},
-        {C.lW, "V0.17.0"    ,": ",C.white, "Đã thêm hõ trợ điều khiển bằng joystick"},
-        {C.lW, "V0.17.3"    ,": ",C.white, "Dừng phát triển Techmino, tập trung phát triển game mới"},
-        {C.lW, "V0.17.12"   ,": ",C.white, "Đã thêm ngôn ngữ tiếng Việt"},
-        {C.lW, "V0.17.15"   ,": ",C.white, "Cập nhật bản dịch tiếng Việt: thêm Zictionary + HDSD & cải thiện câu từ trong game + sửa lỗi font"},
+        {C.lW, "V0.0.091726",": ",C.Z, "Đã thêm hệ thống xoay TRS"},
+        {C.lW, "V0.7.9 "    ,": ",C.Z, "Đã thêm ",C.yellow,"O-spin"},
+        {C.lW, "V0.7.19"    ,": ",C.Z, "Đã thêm hệ thống voice"},
+        {C.lW, "V0.7.22"    ,": ",C.Z, "Đã thêm hiệu ứng rơi mượt"},
+        {C.lW, "V0.8.5 "    ,": ",C.Z, "Đã thêm map và sắp xếp lại các chế độ"},
+        {C.lW, "V0.8.19"    ,": ",C.Z, "Đã thêm Pentomino"},
+        {C.lW, "V0.9.0 "    ,": ",C.Z, "Đã thêm chế độ tự do và khả năng tùy biến chuỗi gạch"},
+        {C.lW, "V0.10.0"    ,": ",C.Z, "Đã thêm hệ thống replay"},
+        {C.lW, "V0.11.1"    ,": ",C.Z, "Đã thêm Little Z Dictionary (Zictionary)"},
+        {C.lW, "V0.12.2"    ,": ",C.Z, "Đã thêm hệ thống mod"},
+        {C.lW, "V0.13.0"    ,": ",C.Z, "Thử nghiệm chế độ trực tuyến"},
+        {C.lW, "V0.13.2"    ,": ",C.Z, "Đã thêm khả năng tùy biến chiều cao bảng"},
+        {C.lW, "V0.13.3"    ,": ",C.Z, "Đã thêm console"},
+        {C.lW, "V0.14.5"    ,": ",C.Z, "Đã thêm BGM đầu tiên được làm bởi cộng đồng"},
+        {C.lW, "V0.15.5"    ,": ",C.Z, "Đã thêm menu replay"},
+        {C.lW, "V0.16.0"    ,": ",C.Z, "Đã thêm hệ thống xoay BiRS"},
+        {C.lW, "V0.16.2"    ,": ",C.Z, "Đã thêm studio SFX với phong cách hit pad"},
+        {C.lW, "V0.17.0"    ,": ",C.Z, "Đã thêm hõ trợ điều khiển bằng joystick"},
+        {C.lW, "V0.17.3"    ,": ",C.Z, "Dừng phát triển Techmino, tập trung phát triển game mới"},
+        {C.lW, "V0.17.12"   ,": ",C.Z, "Đã thêm ngôn ngữ tiếng Việt"},
+        {C.lW, "V0.17.15"   ,": ",C.Z, "Hoàn thiện bản dịch tiếng Việt?"},
 --
         -- MATH FORMULAS
         "(a+b)²=a²+2ab+b²",
@@ -1286,17 +1285,17 @@ C. Tay cầm chơi game (Gamepad)
         "sin2α=2SαCα",
 --
     -- FROM SEA
-        {C.W,"MrZ",C.white," còn có một biệt danh dễ thương hơn, đó là ",C.W,"Z-Chan"},
+        {C.W,"MrZ",C.Z," còn có một biệt danh dễ thương hơn, đó là ",C.W,"Z-Chan"},
         "Có hơn 400 mẹo bạn có thể nhìn thấy ở đây, là cái dòng chữ này, nếu bạn đang chơi Techmino tiếng Trung",
 
-        {C.lSea,"Sea: ",C.white,"Tui không có đủ mặn để viết joke. Nên một số câu đùa đang chạy ở đây được viết bởi ",C.yellow,"Shard Nguyễn",C.white,". “Em cảm ơn anh!”"},
-        {C.lSea,"Sea: ",C.white,"Tui đang tự hỏi liệu còn bao nhiêu lỗi tui bỏ sót lúc dịch game không? Tính ra tui đã cập nhật đi cập nhật lại cũng 4-5 lần rồi."},
+        {C.lSea,"Sea: ",C.Z,"Tui không có đủ mặn để viết joke. Nên một số câu đùa đang chạy ở đây được viết bởi ",C.yellow,"Shard Nguyễn",C.Z,". “Em cảm ơn anh!”"},
+        {C.lSea,"Sea: ",C.Z,"Tui đang tự hỏi liệu còn bao nhiêu lỗi tui bỏ sót lúc dịch game không? Tính ra tui đã cập nhật đi cập nhật lại cũng 4-5 lần rồi."},
 
-        {"Cộng đồng Tetris ",C.red,"Việt ",C.lYellow,"Nam ",C.white,": https://discord.gg/jX7BX9g"}, -- Tetris Vietnam
-        {C.W,"MrZ ",C.white,"vẫn chưa biết chọn tên nào để đặt cho từ điển của Techmino. Hiện có 3 tên: “Zictionary”, “TetroDictionary” và “Little Z Dictionary”"},
+        {"Cộng đồng Tetris ",C.R,"Việt ",C.lY,"Nam ",C.Z,": https://discord.gg/jX7BX9g"}, -- Tetris Vietnam
+        {C.W,"MrZ ",C.Z,"vẫn chưa biết chọn tên nào để đặt cho từ điển của Techmino. Hiện có 3 tên: “Zictionary”, “TetroDictionary” và “Little Z Dictionary”"},
         "Ủa tao nhớ game này tên là xếp hình mà? Ừ thì đúng nhưng để giữ độ đồng nhất và tránh bị cấn mồm thì nên gọi game này là game xếp gạch.",
         "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
-        {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.white," không?"}, -- Little joking
+        {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.Z," không?"}, -- A joke
         {"Hôm nay là ngày ",os.date("%d"),"/",all_month[tonumber(os.date("%m"))],"/",os.date("%Y")}, -- inspired from Nokia 1280, activating talking clock by holding * key at main menu
     },
     pumpkin="Tôi là một quả bí ngô",
