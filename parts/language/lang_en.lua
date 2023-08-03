@@ -385,50 +385,34 @@ return {
 [[
 INSTRUCTIONS FOR NAVIGATION IN TETRODICTIONARY
 
-A. Mouse and Touchscreen
-        - Press/touch [$13] to open Help.
-        - Hold and drag up/down or scroll the mouse to navigate through the text.
+A. Mouse / Touchscreen
+        - Press/touch a term in the list on the left to select the entry
 
-        - Press/touch a term in the list on the left to select the entry you want to look up.
-        - Press/touch [$16] or [$17] to quickly scroll through the list. You can also click the middle mouse button or right mouse button and then scroll the mouse to switch between entries.
-
-        - Press/touch [aA] to display the font control buttons.
-        - Press/touch [a] to decrease the font size and [A] to increase the font size.
-        - To reset the font size to the default size, wait for a few seconds until the [100%] button appears, then press [100%].
-
-        - Press/touch [$14] to copy the content of the current entry.
-        - Press/touch [$15] to open the link of the current entry (if available).
-
-        - Click the back button in the top right corner to exit TetroDictionary.
-
+        - Press/touch [$14] to copy the content of the current entry
+        - Press/touch [$15] to open the link of the current entry (if available)
 
 B. Keyboard
     Press...
-        - [F1] to display Help.
-        - [$1] or [$2] to scroll through the text.
-        - [$3] to open the previous entry and [$4] to open the next entry.
+        - [F1] to display Help
+        - [$1] or [$2] to scroll through the text
+        - [$3] to open the previous entry and [$4] to open the next entry, speed up with [Ctrl]
 
-        - [Ctrl] + [-] to decrease the font size, [Ctrl] + [+] to increase the font size.
-        - [Ctrl] + [0] to restore the default font size.
+        - [-] to decrease the font size, [+] to increase the font size
+        - [0] to restore the default font size
 
-        - [Ctrl] + [C] to copy text.
-        - [$18] (Context Menu key/Application key)
-        - to open the link of the current entry (if available).
-
-        - [Esc] to exit TetroDictionary.
+        - [Ctrl + C] to copy text
+        - [$16] (Context Menu key/Application key) to open the link of the current entry (if available)
 
 C. Gamepad
-        - Press $10 to display Help.
-        - Press $5 or $6 to scroll through the text.
-        - Press $7 to open the previous entry and $8 to open the next entry.
-        - Hold $11 and press $7 or $8 to scroll quickly through the list.
-        - Hold $11 and press $6 to decrease the font size or $5 to increase the font size.
-        - Press [BACK] to exit TetroDictionary.
+        - Press $10 to display Help
+        - Press $5 or $6 to scroll through the text, speed up with $11
+        - Press $7 to open the previous entry and $8 to open the next entry. Speed up with $11
+        - Hold $11 and press $6 to decrease the font size or $5 to increase
 ]]
         -- 1-4: Up, Down, Left, Right
         -- 5-8: Up, Down, Left, Right but D-Pad
         -- 9-12: X, Y, A, B
-        -- 13-18: Help, Copy, Open, Forward, Backward, MENU
+        -- 13-16: Help, Copy, Open, MENU
     },
     WidgetText={
         main={
