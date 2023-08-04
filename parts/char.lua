@@ -130,6 +130,12 @@ local L={
         bomb=           0xF00C5,
         garbage=        0xF00C6,
         copy=           0xF00C7,
+        tas=            0xF00C8,
+        pencil=         0xF00C9,
+        magGlass=       0xF00CA,
+        zoomIn=         0xF00CB,
+        zoomOut=        0xF00CC,
+        zoomDefault=    0xF00CD,
     },
     key={-- F0100~F017F
         macCmd=                 0xF0100,
