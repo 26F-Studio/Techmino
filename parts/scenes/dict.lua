@@ -171,7 +171,7 @@ function scene.enter()
     lastSearch=false
 
     if not MOBILE then WIDGET.focus(inputBox) end
-    BG.set('galaxy2')
+    BG.set('rainbow')
 end
 
 function scene.wheelMoved(_,y)
