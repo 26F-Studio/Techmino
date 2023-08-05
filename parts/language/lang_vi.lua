@@ -387,7 +387,7 @@ return {
     ]],
     support="Hỗ trợ người làm game",
     dict={
-        sizeChanged="Đã đổi cỡ phông: $1",
+        sizeChanged="Đã chỉnh cỡ phông: $1",
         sizeReset="Đã đặt lại cỡ phông!",
         helpText=
 [[
@@ -549,7 +549,7 @@ C. Tay cầm chơi game (Gamepad):
             block="Hiện gạch đang rơi",
             smooth="Rơi mượt",
             upEdge="Gạch 3D",
-            bagLine="Vạch tách Túi gạch",
+            bagLine="Vạch chia túi gạch",
 
             ghostType="Loại bóng gạch",
             ghost="Độ bóng",
@@ -1025,7 +1025,7 @@ C. Tay cầm chơi game (Gamepad):
         "Đừng để những thứ nhỏ nhặt làm bạn nản chí!",
         "Đây không phải là lỗi, đây là tính năng!",
         "Hệ thống xoay gạch của Techmino rất đẹp trai!",
-        "Em rất tốt nhưng anh rất tiếc…",
+        "Em rất tốt nhưng anh rất tiếc…",   -- EXCELLENT! But… let's go better next time
         "Đừng quên xem qua phần cài đặt!",
         "Nếu bạn thấy có vấn đề gì, hãy lên trang GitHub báo lại cho chúng tôi!",
         "Game xếp gạch nhưng có thêm chế độ FFA!",
@@ -1156,14 +1156,14 @@ C. Tay cầm chơi game (Gamepad):
         -- "Meow!"
         "Meow!",
         -- Getting popup messages in the middle of a game? Go to settings and disable them.
-        "Thông báo tự dưng hiện lên giữa game? Vào cài đặt của app tạo ra popup và tắt nó đi.",
-        "Do Not Distrub (Không làm phiền) sẽ là cứu tinh của bạn khi có quá nhiều thông báo cùng làm phiền.",
+        "Thông báo tự dưng hiện lên giữa game? Vào cài đặt tắt nó đi!",
+        "Hãy bật Do Not Distrub (Không làm phiền) nếu bạn có quá nhiều thông báo.",
         -- Don't play with your phone if your homework isn't finished.
         "Đừng chơi điện thoại khi bài tập về nhà còn chưa hoàn thành.",
         -- Enabling vibration on some mobile systems may cause severe lag."
-        "Bật rung trên điện thoại có thể khiến máy giật lag.",
+        "Bật rung trên điện thoại có thể khiến máy phải thở oxy.",
         -- Eat the button? Really? I suggest you play it back to see if you pressed it and how long it took you to press it"
-        "Phím không ăn? Giỡn à? Xem lại replay để chắc rằng ông đã nhấn và xem thử mất bao nhiêu thời gian để ông nhấn phím đó.",
+        "Phím không ăn? Đùa à? Xem lại replay để chắc rằng ông đã nhấn và xem thử mất bao nhiêu thời gian để ông nhấn phím đó.",
         -- Probably someone will read the tip
         "Chắc chắn có người đang đọc cái dòng chữ nhỏ đang chạy ở dưới này.",
         -- It seems like no one has reached a high level by playing with their feet yet.
@@ -1175,17 +1175,17 @@ C. Tay cầm chơi game (Gamepad):
         -- Skilled players of the Classic Tetris game are also formidable; don't underestimate them
         "Xếp gạch cổ điển cũng không đơn giản gì như xếp gạch hiện đại đâu. Đừng có mà xem thường những người chơi hệ cổ điển!",
         -- Classic Tetris and Modern Tetris are two different games; being skilled in one doesn't mean you'll be skilled in the other. You have to start from scratch.
-        "Xếp gạch cổ điển và xếp gạch hiện đại là hai thể loại game khác nhau đấy! Giỏi một trong hai không có nghĩa là bạn giỏi cả bên còn lại đâu. Bạn phải học từ đầu đấy! Không đơn giản đâu.",
+        "Xếp gạch cổ điển và xếp gạch hiện đại là hai thể loại game khác nhau đấy! Giỏi một trong hai chưa chắc bạn giỏi cả bên còn lại đâu. Bạn phải học lại từ đầu đấy",
         -- To protect the players' well-being, the game has a temporary and simplified anti-addiction system! (But you probably won't trigger it, haha)
         "Để tránh việc người chơi nào đó chơi quá lâu, game đã có hệ thống chống nghiện đơn giản tạm thời (Nhưng bạn có lẽ sẽ không bao giờ kích hoạt chúng đâu, haha)",
         -- Basic stacking and digging skills are crucial; those who neglect these two aspects often regret it (trust me)
-        {"Kỹ năng xếp lên vào đào xuống là 2 kỹ năng RẤT quan trọng; những ai coi thường hoặc bỏ bê hai khía cạnh này thường hay bị bón hành súp mặt lờ (tin ",C.W,"MrZ",C.Z," đi!)"},
+        {"Kỹ năng xếp lên vào đào xuống là 2 kỹ năng RẤT quan trọng; những ai (đã/từng) coi thường/bỏ bê hai khía cạnh này thường hay bị bón hành súp mặt lờ (tin ",C.W,"MrZ",C.Z," đi!)"},
         -- Even if you're topped out, don't give up; every line of garbage can potentially become your weapon.
         "Ngay cả khi bạn sắp bị top out, đừng bỏ cuộc; vì từng hàng rác có tiềm năng trở thành vũ khí của bạn!",
         -- The video shown above is not a recording; it's the robot playing in real-time.
         "Cái ở trên là replay hả? Không, là AI đang chơi trong thời gian thực đấy!",
         -- Extended gaming sessions will gradually deteriorate your performance! Remember to take breaks when playing for a long time~
-        "Những lần chơi game kéo dài thường xuyên dần dần làm giảm hiệu suất chơi game (trong trường hợp tệ nhất bạn có thể bị stall). Nhớ nghỉ ngơi khi chơi lâu",
+        "THường xuyên chơi game lâu có thể khiến bạn có thể bị đuối sức (cả thể chất và tinh thần, tệ nhất có thể bị stall). Hãy nhớ nghỉ giải lao sau khi chơi lâu nhé!",
         -- Be careful of tenosynovitis!
         {C.R,"CẢNH BÁO! ",C.Z,"Bệnh viêm bao gân cổ tay!"},
         -- The button with a question mark in the bottom-right corner is the game manual (assuming you haven't enabled the concise mode).
@@ -1214,6 +1214,7 @@ C. Tay cầm chơi game (Gamepad):
     -- IT JOKES
         "git clone --recursive https://github.com/26F-Studio/Techmino.git",
         "git merge --rebase",
+        "git merge --squash",
         "git stash",
         "git stash apply",
         "git submodule update",
@@ -1230,14 +1231,6 @@ C. Tay cầm chơi game (Gamepad):
         "Techmino đã đột ngột dừng lại",
         -- If you have a real interest in programming, I recommend Lua. Easy installation, simple syntax, and fast execution speed. Stay away from boring school programming (haha)
         {"Nếu bạn thực sự có hứng thú trong lập trình, tôi đề xuất sử dụng Lua. Dễ cài đặt, cú pháp đơn giản, tốc độ thực thi nhanh. Hãy tránh xa những tiết học lập trình chán ngắt ở trên trường luôn đi! (haha) - ",C.W,"MrZ",C.Z," said."},
-        -- COLD CLEAR PATH
-        "Đường dẫn của Cold Clear: "..(
-            SYSTEM=='Windows' and "<root>\\CCloader.dll" or
-            SYSTEM=='Linux'   and "<root>/CCloader.so" or
-            SYSTEM=='Android' and "<root>/libAndroid/arm64-v8a (hoặc armeabi-v7a)/CCloader.so" or
-            SYSTEM=='OS X'    and "<root/CCloader.dylib" or
-            "(… Tui… không biết :3)"
-        ),
 --
     -- CHANGELOG
         {C.lW, "V0.0.091726",": ",C.Z, "Đã thêm hệ thống xoay TRS"},
