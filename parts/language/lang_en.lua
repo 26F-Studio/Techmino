@@ -41,7 +41,7 @@ return {
     speedup="Speed Up!",
     missionFailed="Wrong Clear",
 
-    speedLV="Speed Level",
+    speedLV="Speed Level",speed="Speed",nextLife="Next life in",
     piece="Piece",line="Lines",atk="Attack",eff="Efficiency",
     rpm="RPM",tsd="TSD",
     grade="Grade",techrash="Techrash",
@@ -915,6 +915,7 @@ C. Gamepad
         ['classic_h']=      {"Classic",           "HARD",           "A medium-speed recreation from the 80s"},
         ['classic_l']=      {"Classic",           "LUNATIC",        "A high-speed recreation from the 80s"},
         ['classic_u']=      {"Classic",           "ULTIMATE",       "A very high-speed recreation from the 80s"},
+        ['classic_beyond']= {"Classic",           "BEYOND",         "Going beyond 1G requires additional mechanics."},
         ['survivor_e']=     {"Survival",          "EASY",           "How long can you survive?"},
         ['survivor_n']=     {"Survival",          "NORMAL",         "How long can you survive?"},
         ['survivor_h']=     {"Survival",          "HARD",           "How long can you survive?"},
