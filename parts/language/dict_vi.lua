@@ -27,58 +27,80 @@ Có câu hỏi? Liên hệ mình qua server Techmino trên Discord. Mình hiện
 01. Về Zictionary & Bản dịch game & Mục lục ← bạn đang xem mục này
 02. Dự án Techmino: Trang web chính thức, Dự án trên GitHub, Discord
 03. Ủng hộ cho tác giả của Techmino
+
 04. Các yếu tố chính làm nên game Tetris hiện đại:
-        * Next, Hold, Swap, Topping out, Vùng đệm, Vùng biến mất
+        — Next, Hold, Swap, Topping out, Vùng đệm, Vùng biến mất
         04A. Gạch: Hình dạng, màu, hướng và tên của gạch
         04B. Hệ thống xoay gạch: ARS, ASC, ASC+, BRS, BiRS, C2RS, C2sym, NRS, SRS, SRS+, TRS, XRS
         04C. Hệ thống điều khiển: IRS, IHS, IMS
-        04D. Cách kiểu xáo gạch: Túi 7 gạch, His, EZ-Start, Reverb, C2;  và một vấn đề Drought & Flood của một vài kiểu xáo.
+        04D. Cách kiểu xáo gạch: Túi 7 gạch, His, EZ-Start, Reverb, C2
+            (và vấn đề Drought & Flood của một vài kiểu xáo)
+
         04E. Thông số
-            04E1. Thông số của game: Tốc độ rơi, 20G, Lockdown Delay, Spawn & Clear delay, ARE, Line ARE, Death ARE
-            04E2. Thông số điều khiển: DAS & ARR, DAS cut, Hiệu chỉnh DAS, Auto-lock cut, SDF
+            04E1. Thông số của game:
+                — Tốc độ rơi, 20G
+                — ARE, Line ARE, Death ARE
+                — Lockdown Delay, Spawn & Clear delay
+            04E2. Thông số điều khiển:
+                — DAS & ARR, DAS cut, Hiệu chỉnh DAS
+                — Auto-lock cut, SDF
         04F. Điều khiển
             04F1. Tốc độ: LPM, PPS, BPM, KPM, KPP
             04F2. Kỹ thuật: Hypertapping, Rolling, Finesse
             04F3. Độ trễ đầu vào
         04G. Khả năng tấn công
-            * APM, SPM, DPM, RPM, ADPM, APL
-            * Tấn công & Phòng thủ
-            * Combo, Spike, Debt, Passthrough
+            — APM, SPM, DPM, RPM, ADPM, APL
+            — Tấn công & Phòng thủ
+            — Combo, Spike, Debt, Passthrough
+
         04H. Hành động bất cẩn (Mis-): Misdrop, Mishold
         04I. Spin: (Mini)/(All-)/(T-)/(O-) spin; Fin, Neo, Iso
         04J: Kỹ thuật xóa hàng:
-            * Single, Double, Triple, Techrash, Tetris
-            * TSS, TSD, TST, MTSS, MSTSD
-            * Perfect Clear, Half Perfect Clear
+            — Single, Double, Triple, Techrash, Tetris
+            — TSS, TSD, TST, MTSS, MSTSD
+            — Perfect Clear, Half Perfect Clear
         04K. Các thuật ngữ khác: sub, 'Doing Research', Bone block
 
 05. Các game xếp gạch
         (Danh sách rất dài, gõ trên thanh tìm kiếm "nhom05" để xem danh sách đầy đủ)
 
-06. Một vài cơ chế và chế độ của một số game: Tàng hình một phần/hoàn toàn, Chế độ MPH, Secert Grade, Deepdrop
+06. Một vài cơ chế và chế độ của một số game:
+            — Tàng hình một phần, tàng hình hoàn toàn
+            — Chế độ MPH, Secert Grade, Deepdrop
 07. Bot: Cold Clear, ZZZbot
+
 08. Mẹo và lời khuyên hữu ích:
-        * Đề xuất luyện tập, Học làm T-spin, Hiệu chỉnh DAS
-        * Bố cục phím, Khả năng xử lý gạch, Các nút xoay
+            — Đề xuất luyện tập, Học làm T-spin, Hiệu chỉnh DAS
+            — Bố cục phím, Khả năng xử lý gạch, Các nút xoay
 09. Wiki; các trang web bày setup & cung cấp câu đố, chia sẻ setup
         09A. Wiki: Huiji Wiki, Wiki Hard Drop, tetris.wiki, Tetris Wiki Fandom
-        09B. Bày setup: Four.lol, Tetris Hall, Tetris Template Collections, tetristemplate.info, 4-Wide Trainer
+        09B. Bày setup:
+            — Four.lol
+            — Tetris Hall
+            — Tetris Template Collections
+            — tetristemplate.info
+            — 4-Wide Trainer
         09C. Chia sẻ câu đố: TTT, TTPC, NAZO, TPO
         09D. Chia sẻ setup: Fumen, Fumen bản Điện thoại
+
 10. Cộng đồng: Tetris Online Servers, Tetris Việt Nam
+
 11. Xếp lên và đào xuống
         11A. Stacking (Xếp lên):
-            * Side/Center/Partial well
-            * Side/Center 1/2/3/4-wide
-            * Residual
-            * 6-3 Stacking
+            — Side/Center/Partial well
+            — Side/Center 1/2/3/4-wide
+            — Residual
+            — 6-3 Stacking
         11B. Digging (Đào xuống)
+
 12. Setup (Opener, Mid-game setup, Donation, Pattern)
         12A. Freestyle
         12B. Opener: DT Cannon, DTPC, BT Cannon, BTPC, TKI 3 Perfect Clear, QT Cannon, Mini-Triple, Trinity, Wolfmoon Cannon, Sewer, TKI, God Spin, Albatross, Pelican, Perrfect Clear Opener, Grace System, DPC, Gamushiro Stacking
         12C. Mid-game: C-spin, STSD, Fractal, LST stacking, Imperial Cross, King Crimson, Fin, Neo, Iso, PC liên tiếp (1+2+3)
         12D. Donation: Hamburger, STMB Cave, Kaidan, Shachiku Train, Cut Copy
+
 13. Cách tính lượng sát thơng gây ra: Tetris Online/Notris Foes, Techmino
+
 14. Console và chuyện quản lý dữ liệu game
         — Console, đặt lại thiết lập, tình trạng mở khóa, bố cục phím
         — Xóa toàn bộ thành tích, kỷ lục, bản phát lại, bộ nhớ đệm
@@ -581,8 +603,8 @@ LƯU Ý: trong 20G nếu vẫn kiểm tra lỗi di chuyển, kết quả có th�
         [[
 Một phương pháp khác để di chuyển nhanh ở chế độ trọng lực cao (khoảng 1G) (với cài đặt DAS/ARR chậm).
 Để thực hiện thao tác rolling:
-    * Cố định ngón tay của bạn trên phím bạn muốn nhấn ở một bên tay
-    * Sau đó dùng các ngón tay ở bên kia gõ mạnh liên tục ở mặt sau của tay cầm.
+    — Cố định ngón tay của bạn trên phím bạn muốn nhấn ở một bên tay
+    — Sau đó dùng các ngón tay ở bên kia gõ mạnh liên tục ở mặt sau của tay cầm.
 
 Phương pháp này nhanh hơn nhiều so với việc nhấn liên tục (xem mục “Hypertapping” để biết thêm thông tin) và yêu cầu ít công sức hơn.
 Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish — người đã đạt tốc độ nhấn lên tới 20 Hz.
