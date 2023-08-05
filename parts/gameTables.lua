@@ -476,7 +476,7 @@ do-- Mod data
         },
         {no=19,id="CS",name="customSeq",
             key="b",x=680,y=470,color='lB',
-            list={'bag','bagES','his','hisPool','c2','rnd','mess','reverb'},
+            list={'bag','bagES','his','hisPool','c2','bagP1inf','rnd','mess','reverb'},
             func=function(P,O) P.gameEnv.sequence=O end,
             unranked=true,
         },

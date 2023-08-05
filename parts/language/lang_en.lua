@@ -378,6 +378,42 @@ return {
         sha2 [Egor Skriptunoff]
     ]],
     support="Support the author",
+    dict={
+        sizeChanged="Changed font size: $1",
+        sizeReset="Font size has been reset!",
+        helpText=
+[[
+INSTRUCTIONS FOR NAVIGATION IN TETRODICTIONARY
+
+A. Mouse / Touchscreen
+        - Press/touch a term in the list on the left to select the entry
+
+        - Press/touch [$14] to copy the content of the current entry
+        - Press/touch [$15] to open the link of the current entry (if available)
+
+B. Keyboard
+    Press...
+        - [F1] to display Help
+        - [$1] or [$2] to scroll through the text
+        - [$3] to open the previous entry and [$4] to open the next entry, speed up with [Ctrl]
+
+        - [-] to decrease the font size, [+] to increase the font size
+        - [0] to restore the default font size
+
+        - [Ctrl + C] to copy text
+        - [$16] (Context Menu key/Application key) to open the link of the current entry (if available)
+
+C. Gamepad
+        - Press $10 to display Help
+        - Press $5 or $6 to scroll through the text, speed up with $11
+        - Press $7 to open the previous entry and $8 to open the next entry. Speed up with $11
+        - Hold $11 and press $6 to decrease the font size or $5 to increase
+]]
+        -- 1-4: Up, Down, Left, Right
+        -- 5-8: Up, Down, Left, Right but D-Pad
+        -- 9-12: X, Y, A, B
+        -- 13-16: Help, Copy, Open, MENU
+    },
     WidgetText={
         main={
             offline="Single Player",

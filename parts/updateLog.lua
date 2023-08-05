@@ -24,7 +24,7 @@ return[=[
 
 0.17.12: 暂停 Break
         新增:
-                添加越南语(By Shard Nguyễn, Squishy và cộng đồng TVN) #835
+                添加越南语(By Shard Nguyễn, Squishy and TVN community) #835
                 新语音包: 俊达萌 (By C₂₉H₂₅N₃O₅)
                 开启竖屏选项时1P玩家强行放大至两倍
         新Bug:

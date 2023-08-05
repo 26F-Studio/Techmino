@@ -195,7 +195,7 @@ function scene.keyDown(key)
         local F=FIELD[page]
         local cleared=false
         for i=#F,1,-1 do
-            local full
+            local full=true
             for j=1,10 do
                 if F[i][j]<=0 then full=false break end-- goto CONTINUE_notFull
             end

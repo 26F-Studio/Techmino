@@ -379,6 +379,37 @@ return {
         sha2 [Egor Skriptunoff]
     ]],
     support="支持作者",
+    dict={          -- Message from Sea: credit to User670 for helping me out this part.
+        sizeChanged="已更改字号为$1",
+        sizeReset="字号已重置",
+        helpText=
+[[
+小Z词典操作说明
+
+鼠标/触摸屏：
+        点击左侧列表中的项目以选择词条
+        点击 [$14] 复制词条文本
+        点击 [$15] 打开词条中的链接（如有）
+
+键盘：
+        按 [F1] 显示帮助
+        按 [$1] 或 [$2] 滚动文本
+        按 [$3] 打开上一词条，按 [$4] 打开下一词条。按住 [Ctrl] 加速
+        按 [-] 缩小字号，[+] 增大字号，[0] 恢复默认字号
+        按 [Ctrl + C] 复制词条文本
+        按 [$16] （上下文菜单键/应用程序键）打开词条中的链接（如有）
+
+手柄：
+        按 $10 to 显示帮助
+        按 $5 或 $6 滚动文本, 按 $11 加速
+        按 $7 打开上一词条，按 $8 打开下一词条。按住 $11 加速
+        按住 $11 并按 $6 缩小字号，或 $5 增大字号
+]]
+        -- 1-4: Up, Down, Left, Right
+        -- 5-8: Up, Down, Left, Right but D-Pad
+        -- 9-12: X, Y, A, B
+        -- 13-16: Help, Copy, Open, MENU
+    },
     WidgetText={
         main={
             offline="单机游戏",
