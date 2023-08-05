@@ -117,7 +117,7 @@ local function _updateTextBox(c)
                     CHAR.key.up,CHAR.key.down,CHAR.key.left,CHAR.key.right,
                     CHAR.controller.dpadU,CHAR.controller.dpadD,CHAR.controller.dpadL,CHAR.controller.dpadR,
                     CHAR.controller.xboxX,CHAR.controller.xboxY,CHAR.controller.xboxA,CHAR.controller.xboxB,
-                    CHAR.icon.help,CHAR.icon.copy,CHAR.icon.globe,CHAR.key.winMenu,CHAR.icon.zoomIn,CHAR.icon.zoomOut,CHAR.icon.zoomDefault
+                    CHAR.icon.help,CHAR.icon.copy,CHAR.icon.globe,CHAR.key.winMenu
                 )
             else
                 _t,t=true,{
@@ -171,7 +171,7 @@ function scene.enter()
     lastSearch=false
 
     if not MOBILE then WIDGET.focus(inputBox) end
-    BG.set('rainbow')
+    BG.set('galaxy2')
 end
 
 function scene.wheelMoved(_,y)
