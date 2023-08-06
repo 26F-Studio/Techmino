@@ -975,7 +975,7 @@ C. Gamepad
         "1next 1hold!",
         "1next 6hold!",
         "20G actually is a brand new game rule!",
-        "40-line Sprint WR: 14.708s by hiryu",
+        "40-line Sprint WR: 14.188s by Lurny",
         "6next 1hold!",
         "6next 6hold?!",
         "A choke a day keeps record away",
