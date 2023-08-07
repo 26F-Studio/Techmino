@@ -68,7 +68,7 @@ end}
 local function _clearResult()
     TABLE.cut(result)
     listBox.selected=1
-    searchWait,lastSearch=0,false
+    searchWait,lastSelected,lastSearch=0,0,false
     scene.widgetList.copy.hide=false
 end
 -- Search through the dictionary
@@ -108,7 +108,7 @@ local function _copy()
 end
 
 -- Update the infobox
-local function _updateTextBox(c)
+local function _updateInfoBox(c)
     local _t,t
     if c==nil then
         if listBox.selected==0 then
@@ -138,22 +138,14 @@ local function _updateTextBox(c)
     textBox:setTexts(c)
 end
 
--- Zoom and reset zoom
-local function _resetZoom()
-    currentFontSize,textBox.font=25,25
-    textBox.lineH,textBox.capacity=35,math.ceil((textBox.h-10)/35)
-    _updateTextBox()
-    MES.new("check",text.dict.sizeReset,1.26)
-end
+-- Changing font size, z=0 --> reset
 local function _setZoom(z)
-    if z~=0 then
-        currentFontSize=MATH.clamp(currentFontSize+z,15,40)
-        textBox.font=currentFontSize
-        textBox.lineH=currentFontSize*7/5   -- Recalculate the line's height
-        textBox.capacity=math.ceil((textBox.h-10)/textBox.lineH)
-        _updateTextBox()
-        MES.new("check",text.dict.sizeChanged:repD(currentFontSize),1.26)
-    end
+    currentFontSize=MATH.clamp(z~=0 and currentFontSize+z or 25,15,40)
+    textBox.font=currentFontSize
+    textBox.lineH=currentFontSize*7/5   -- Recalculate the line's height
+    textBox.capacity=math.ceil((textBox.h-10)/textBox.lineH)
+    _updateInfoBox()
+    MES.new("check",z~=0 and text.dict.sizeChanged:repD(currentFontSize) or text.dict.sizeReset,1.26)
 end
 
 -- Reset everything when opening Zictionary
@@ -169,6 +161,7 @@ function scene.enter()
     listBox.selected=1
     listBox.scrollPos=0
     lastSearch=false
+    scene.widgetList.help.color=COLOR.Z
 
     if not MOBILE then WIDGET.focus(inputBox) end
     BG.set('rainbow')
@@ -182,6 +175,8 @@ function scene.wheelMoved(_,y)
     end
 end
 function scene.keyDown(key)
+    local inputBoxFocus=WIDGET.isFocus(inputBox)
+
     -- Switching selected items
     if key=='up' or key=='down' then
         textBox:scroll(key=='up' and -1 or 1)
@@ -194,10 +189,9 @@ function scene.keyDown(key)
             _copy()
         end
 
-    elseif key=='-' or key=='=' then
-        _setZoom((key=='-' or key=='kp-') and -5 or 5)
-    elseif key=='0' then
-        _resetZoom()
+    elseif (key=='-' or key=='=' or key=='0') and (inputBox:getText()=="" or not inputBoxFocus) then
+        _setZoom(key=='0' and 0 or key=='-' and -5 or 5)
+        WIDGET.unFocus(true)
 
     elseif key=='application' and listBox.selected>=0 then
         local url=_getList()[listBox.selected].url
@@ -207,7 +201,7 @@ function scene.keyDown(key)
             _clearResult()
             inputBox:clear()
             SFX.play('hold')
-            _updateTextBox()
+            _updateInfoBox()
         end
     elseif key=='escape' then
         if inputBox:hasText() then
@@ -217,11 +211,12 @@ function scene.keyDown(key)
         end
     elseif key=='f1' then
         listBox.selected=listBox.selected==0 and lastSelected or 0
+        scene.widgetList.help.color=listBox.selected==0 and COLOR.W or COLOR.Z
         inputBox:clear()
         searchWait=0
-        _updateTextBox()
+        _updateInfoBox()
     else
-        if not WIDGET.isFocus(inputBox) then WIDGET.focus(inputBox) end
+        if not inputBoxFocus then WIDGET.focus(inputBox) end
         return true
     end
 end
@@ -241,7 +236,7 @@ function scene.gamepadDown(key)
         listBox.selected=0
         inputBox:clear()
         searchWait=0
-        _updateTextBox()
+        _updateInfoBox()
     elseif key=='back' then
         SCN.back()
     end
@@ -265,23 +260,24 @@ function scene.update(dt)
         end
     end
 
-    if lastSelected~=listBox.selected and listBox.selected>0 then
-        _updateTextBox()
+    if lastSelected~=listBox.selected and listBox.selected~=0 then
+        _updateInfoBox()
         lastSelected=listBox.selected
         scene.widgetList.copy.hide=false
     end
 end
 
 function scene.draw()
-    -- Order: list, info, keys
     -- Draw background
     gc.setColor(COLOR.dX)
-    gc.rectangle('fill',1194,335,80,371,5)
+    gc.rectangle('fill',1194,335,80,370,5)
+    gc.rectangle('fill',1194,180,80,80 ,5) -- Help key
     -- Draw outline
     gc.setLineWidth(2)
     gc.setColor(COLOR.Z)
-    gc.rectangle('line',1194,335,80,371,5)
+    gc.rectangle('line',1194,335,80,370,5)
     gc.line(1194,555,1274,555)
+    gc.rectangle('line',1194,180,80,80 ,5) -- Help key
 
     setFont(30)
 
@@ -294,8 +290,8 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newText   {name='book',    x=20,  y=15, font=70,align='L',fText=CHAR.icon.zBook},
-    WIDGET.newText   {name='title',   x=100, y=15, font=70,align='L'},
+    WIDGET.newText  {name='book',    x=20,  y=15, font=70,align='L',fText=CHAR.icon.zBook},
+    WIDGET.newText  {name='title',   x=100, y=15, font=70,align='L'},
     listBox,
     inputBox,
     textBox,
@@ -304,12 +300,12 @@ scene.widgetList={
 
     WIDGET.newKey   {name='zoomin',   x=1234,y=375,w=60,font=40,fText=CHAR.icon.zoomIn,     code=function() _setZoom(5)  end},
     WIDGET.newKey   {name='zoomout',  x=1234,y=445,w=60,font=40,fText=CHAR.icon.zoomOut,    code=function() _setZoom(-5) end},
-    WIDGET.newKey   {name='resetzoom',x=1234,y=515,w=60,font=40,fText=CHAR.icon.zoomDefault,code=function() _resetZoom() end},
+    WIDGET.newKey   {name='resetzoom',x=1234,y=515,w=60,font=40,fText=CHAR.icon.zoomDefault,code=function() _setZoom(0)  end},
 
     WIDGET.newKey   {name='help',     x=1234,y=220,w=60,font=40,fText=CHAR.icon.help,   code=pressKey'f1'},
 
     WIDGET.newButton{name='back',     x=1165,y=60, w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
     WIDGET.newText  {name='buttontip',x=1274,y=110,w=762,h=60,font=40,align='R',fText=CHAR.controller.xboxY.."/[F1]: "..CHAR.icon.help}
 }
--- NOTE: The gap between Link-Copy, Zoom, is 60*1.5-10=80 :) The gap between 2 buttons in one group is 60+10=70
+-- NOTE: The gap between Link-Copy, Zoom is 60*1.5-10=80 :) The gap between 2 buttons in one group is 60+10=70
 return scene
