@@ -8,8 +8,8 @@ return {
         [[
 NHÓM 01: VỀ ZICTIONARY & BẢN DỊCH
 
-Zictionary là một từ điển về game xếp gạch cực kì hữu ích. Bạn có thểtra những thuật ngữ mà bạn cảm thấy khó hiểu ở trong này.
-Mở mục tiếp theo để xem mục lục, hoặc có thể nhảy tới mục lục bất kì lúc nào bằng cách gõ "mucluc"
+Zictionary là một từ điển về game xếp gạch cực kì hữu ích. Bạn có thể tra những thuật ngữ mà bạn cảm thấy khó hiểu ở trong này.
+Mở mục tiếp theo để xem mục lục, hoặc có thể nhảy tới mục lục bất kì lúc nào bằng cách tra "mucluc"
 
 Đây là bản dịch tiếng Việt của Squishy từ bản dịch tiếng Anh của User670 và C₂₉H₂₅N₃O₅
 Bản dịch có thể không thể hiện 100% nội dung của Zictionary tiếng Trung (bản gốc)
