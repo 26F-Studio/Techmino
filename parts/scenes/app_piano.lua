@@ -12,68 +12,11 @@ local inst
 local offset
 local showingKey
 
-local scene={}
-
--- Set all virtual key's text
-local function _setNoteName(offset)
-    for key,note in pairs(keys) do
-        scene.widgetList['key'..key:upper()]:setObject(SFX.getNoteName(note+offset))
-    end
-end
--- Show virtual key
-local function _showVirtualKey(switch)
-    for key,note in pairs(keys) do
-        scene.widgetList['key'..key:upper()].hide=not switch
-    end
-    showingKey=switch
-end
-
-
--- Set scene's variables
-function scene.enter()
-    inst='lead'
-    offset=0
-    _setNoteName(0)
-    _showVirtualKey(MOBILE and true or false)
-end
-
-function scene.touchDown(x,y,k)
-    -- TODO
-end
-scene.mouseDown=scene.touchDown
-
-function scene.keyDown(key,isRep)
-    if not isRep and keys[key] then
-        local note=keys[key]+offset
-        WIDGET.focus(scene.widgetList['key'..key:upper()])
-        if kb.isDown('lshift','rshift') then note=note+1 end
-        if kb.isDown('lctrl','rctrl') then note=note-1 end
-        SFX.playSample(inst,note)
-        TEXT.show(SFX.getNoteName(note),math.random(150,1130),math.random(140,500),60,'score',.8)
-    elseif key=='tab' then
-        inst=TABLE.next(instList,inst)
-    elseif key=='lalt' then
-        offset=math.max(offset-1,-12)
-        _setNoteName(offset)
-    elseif key=='ralt' then
-        offset=math.min(offset+1,12)
-        _setNoteName(offset)
-    elseif key=='escape' then
-        SCN.back()
-    end
-end
-
-function scene.draw()
-    setFont(30)
-    GC.setColor(1,1,1)
-    gc.print(inst,40,60)
-    gc.print(offset,40,100)
-end
-
-scene.widgetList={
-    WIDGET.newButton{name='back'        ,x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
-    WIDGET.newSwitch{name='showKey'     ,x=1180,y=100,fText='Virtual key',disp=function() return showingKey end,code=function() _showVirtualKey(not showingKey) end},
-
+-- PREPARE VIRTUAL KEYS
+-- PREPARE VIRTUAL KEYS
+-- NOTE: I made this list because I want to use WIDGET.draw() and don't need another function
+-- I will handling the behavior in an other function
+local virtualKeys={
     -- Number row:  01234567890-=
     WIDGET.newKey   {name='key1'        ,x=  65,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='R',code=pressKey'1'        },
     WIDGET.newKey   {name='key2'        ,x= 160,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='M',code=pressKey'2'        },
@@ -129,5 +72,76 @@ scene.widgetList={
     WIDGET.newKey   {name='key,'        ,x= 870,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='L',code=pressKey','},
     WIDGET.newKey   {name='key.'        ,x= 965,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='G',code=pressKey'.'},
     WIDGET.newKey   {name='key/'        ,x=1060,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='C',code=pressKey'/'},
+}
+setmetatable(virtualKeys,{__index=function(L,k) for i=1,#L do if L[i].name==k then return L[i] end end end})
+--/ PREPARE VIRTUAL KEYS
+--/ PREPARE VIRTUAL KEYS
+
+local scene={}
+
+-- Set all virtual key's text
+local function _setNoteName(offset)
+    for key,note in pairs(keys) do
+        virtualKeys['key'..key:upper()]:setObject(SFX.getNoteName(note+offset))
+    end
+end
+-- Show virtual key
+local function _showVirtualKey(switch)
+    for key,note in pairs(keys) do
+        virtualKeys['key'..key:upper()].hide=not switch
+    end
+    showingKey=switch
+end
+
+
+-- Set scene's variables
+function scene.enter()
+    inst='lead'
+    offset=0
+    _setNoteName(0)
+    _showVirtualKey(MOBILE and true or false)
+end
+
+function scene.touchDown(x,y,k)
+    -- TODO
+end
+scene.mouseDown=scene.touchDown
+
+function scene.keyDown(key,isRep)
+    if not isRep and keys[key] then
+        local note=keys[key]+offset
+        if kb.isDown('lshift','rshift') then note=note+1 end
+        if kb.isDown('lctrl','rctrl') then note=note-1 end
+        SFX.playSample(inst,note)
+        TEXT.show(SFX.getNoteName(note),math.random(150,1130),math.random(140,500),60,'score',.8)
+    elseif key=='tab' then
+        inst=TABLE.next(instList,inst)
+    elseif key=='lalt' then
+        offset=math.max(offset-1,-12)
+        _setNoteName(offset)
+    elseif key=='ralt' then
+        offset=math.min(offset+1,12)
+        _setNoteName(offset)
+    elseif key=='escape' then
+        SCN.back()
+    end
+end
+
+function scene.draw()
+    setFont(30)
+    GC.setColor(1,1,1)
+    gc.print(inst,40,60)
+    gc.print(offset,40,100)
+
+    if showingKey then
+        for key,note in pairs(keys) do
+            virtualKeys['key'..key:upper()]:draw()
+        end
+    end
+end
+
+scene.widgetList={
+    WIDGET.newButton{name='back'        ,x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newSwitch{name='showKey'     ,x=1180,y=100,fText='Virtual key',disp=function() return showingKey end,code=function() _showVirtualKey(not showingKey) end},
 }
 return scene
