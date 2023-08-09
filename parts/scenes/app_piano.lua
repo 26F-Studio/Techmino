@@ -10,12 +10,31 @@ local keys={
 }
 local inst
 local offset
+local showingKey
 
 local scene={}
 
+-- Set all virtual key's text
+local function _setNoteName(offset)
+    for key,note in pairs(keys) do
+        scene.widgetList['key'..key:upper()]:setObject(SFX.getNoteName(note+offset))
+    end
+end
+-- Show virtual key
+local function _showVirtualKey(switch)
+    for key,note in pairs(keys) do
+        scene.widgetList['key'..key:upper()].hide=not switch
+    end
+    showingKey=switch
+end
+
+
+-- Set scene's variables
 function scene.enter()
     inst='lead'
     offset=0
+    _setNoteName(0)
+    _showVirtualKey(MOBILE and true or false)
 end
 
 function scene.touchDown(x,y,k)
@@ -26,6 +45,7 @@ scene.mouseDown=scene.touchDown
 function scene.keyDown(key,isRep)
     if not isRep and keys[key] then
         local note=keys[key]+offset
+        WIDGET.focus(scene.widgetList['key'..key:upper()])
         if kb.isDown('lshift','rshift') then note=note+1 end
         if kb.isDown('lctrl','rctrl') then note=note-1 end
         SFX.playSample(inst,note)
@@ -34,8 +54,10 @@ function scene.keyDown(key,isRep)
         inst=TABLE.next(instList,inst)
     elseif key=='lalt' then
         offset=math.max(offset-1,-12)
+        _setNoteName(offset)
     elseif key=='ralt' then
         offset=math.min(offset+1,12)
+        _setNoteName(offset)
     elseif key=='escape' then
         SCN.back()
     end
@@ -43,66 +65,69 @@ end
 
 function scene.draw()
     setFont(30)
+    GC.setColor(1,1,1)
     gc.print(inst,40,60)
     gc.print(offset,40,100)
 end
 
 scene.widgetList={
-    WIDGET.newButton{name='back', x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='back'        ,x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newSwitch{name='showKey'     ,x=1180,y=100,fText='Virtual key',disp=function() return showingKey end,code=function() _showVirtualKey(not showingKey) end},
 
     -- Number row:  01234567890-=
-    WIDGET.newKey   {name='key1' ,x= 115,y=231,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='key2' ,x= 210,y=231,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='key3' ,x= 305,y=231,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='key4' ,x= 400,y=231,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='key5' ,x= 495,y=231,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='key6' ,x= 590,y=231,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='key7' ,x= 685,y=231,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='key8' ,x= 780,y=231,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='key9' ,x= 875,y=231,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='key0' ,x= 970,y=231,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='key01',x=1065,y=231,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='key02',x=1160,y=231,w=80 ,h=80 ,sound=false ,fText=''},
+    WIDGET.newKey   {name='key1'        ,x=  65,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='R',code=pressKey'1'        },
+    WIDGET.newKey   {name='key2'        ,x= 160,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='M',code=pressKey'2'        },
+    WIDGET.newKey   {name='key3'        ,x= 255,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='V',code=pressKey'3'        },
+    WIDGET.newKey   {name='key4'        ,x= 350,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='S',code=pressKey'4'        },
+    WIDGET.newKey   {name='key5'        ,x= 445,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'5'        },
+    WIDGET.newKey   {name='key6'        ,x= 540,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'6'        },
+    WIDGET.newKey   {name='key7'        ,x= 635,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='O',code=pressKey'7'        },
+    WIDGET.newKey   {name='key8'        ,x= 730,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='L',code=pressKey'8'        },
+    WIDGET.newKey   {name='key9'        ,x= 825,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='G',code=pressKey'9'        },
+    WIDGET.newKey   {name='key0'        ,x= 920,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='C',code=pressKey'0'        },
+    WIDGET.newKey   {name='key-'        ,x=1015,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'-'        },
+    WIDGET.newKey   {name='key='        ,x=1110,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'='        },
+    WIDGET.newKey   {name='keyBACKSPACE',x=1205,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'backspace'},
 
     -- Top row:     QWERTYUIOP[]\
-    WIDGET.newKey   {name='keyQ' ,x=  65,y=326,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyW' ,x= 160,y=326,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyE' ,x= 255,y=326,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyR' ,x= 350,y=326,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyT' ,x= 445,y=326,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyY' ,x= 540,y=326,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyU' ,x= 635,y=326,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyI' ,x= 730,y=326,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyO' ,x= 825,y=326,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyP' ,x= 920,y=326,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyP1',x=1015,y=326,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyP2',x=1110,y=326,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyP3',x=1205,y=326,w=80 ,h=80 ,sound=false ,fText=''},
+    WIDGET.newKey   {name='keyQ'        ,x=  65,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='R',code=pressKey'q' },
+    WIDGET.newKey   {name='keyW'        ,x= 160,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='M',code=pressKey'w' },
+    WIDGET.newKey   {name='keyE'        ,x= 255,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='V',code=pressKey'e' },
+    WIDGET.newKey   {name='keyR'        ,x= 350,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='S',code=pressKey'r' },
+    WIDGET.newKey   {name='keyT'        ,x= 445,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey't' },
+    WIDGET.newKey   {name='keyY'        ,x= 540,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'y' },
+    WIDGET.newKey   {name='keyU'        ,x= 635,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='O',code=pressKey'u' },
+    WIDGET.newKey   {name='keyI'        ,x= 730,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='L',code=pressKey'i' },
+    WIDGET.newKey   {name='keyO'        ,x= 825,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='G',code=pressKey'o' },
+    WIDGET.newKey   {name='keyP'        ,x= 920,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='C',code=pressKey'p' },
+    WIDGET.newKey   {name='key['        ,x=1015,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'[' },
+    WIDGET.newKey   {name='key]'        ,x=1110,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey']' },
+    WIDGET.newKey   {name='key\\'       ,x=1205,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'\\'},
 
     -- Home row     ASDFGHJKL;''<ENTER>
-    WIDGET.newKey   {name='keyA' ,x= 115,y=421,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyS' ,x= 210,y=421,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyD' ,x= 305,y=421,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyF' ,x= 400,y=421,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyG' ,x= 495,y=421,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyH' ,x= 590,y=421,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyJ' ,x= 685,y=421,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyK' ,x= 780,y=421,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyL' ,x= 875,y=421,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyL1',x= 970,y=421,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyL2',x=1065,y=421,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyEn',x=1160,y=421,w=80 ,h=80 ,sound=false ,fText=''},
+    WIDGET.newKey   {name='keyA'        ,x= 110,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='R',code=pressKey'a'     },
+    WIDGET.newKey   {name='keyS'        ,x= 205,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='M',code=pressKey's'     },
+    WIDGET.newKey   {name='keyD'        ,x= 300,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='V',code=pressKey'd'     },
+    WIDGET.newKey   {name='keyF'        ,x= 395,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='S',code=pressKey'f'     },
+    WIDGET.newKey   {name='keyG'        ,x= 490,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'g'     },
+    WIDGET.newKey   {name='keyH'        ,x= 585,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'h'     },
+    WIDGET.newKey   {name='keyJ'        ,x= 680,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='O',code=pressKey'j'     },
+    WIDGET.newKey   {name='keyK'        ,x= 775,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='L',code=pressKey'k'     },
+    WIDGET.newKey   {name='keyL'        ,x= 870,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='G',code=pressKey'l'     },
+    WIDGET.newKey   {name='key;'        ,x= 965,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='C',code=pressKey';'     },
+    WIDGET.newKey   {name='key\''       ,x=1060,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'\''    },
+    WIDGET.newKey   {name='keyRETURN'   ,x=1155,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'return'},
 
     -- Bottom row   ZXCVBNM,./
-    WIDGET.newKey   {name='keyZ' ,x= 196,y=516,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyX' ,x= 291,y=516,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyC' ,x= 386,y=516,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyV' ,x= 481,y=516,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyB' ,x= 576,y=516,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyN' ,x= 671,y=516,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyM' ,x= 766,y=516,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyM1',x= 861,y=516,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyM2',x= 956,y=516,w=80 ,h=80 ,sound=false ,fText=''},
-    WIDGET.newKey   {name='keyM3',x=1051,y=516,w=80 ,h=80 ,sound=false ,fText=''},
+    WIDGET.newKey   {name='keyZ'        ,x= 205,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='R',code=pressKey'z'},
+    WIDGET.newKey   {name='keyX'        ,x= 300,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='M',code=pressKey'x'},
+    WIDGET.newKey   {name='keyC'        ,x= 395,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='V',code=pressKey'c'},
+    WIDGET.newKey   {name='keyV'        ,x= 490,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='S',code=pressKey'v'},
+    WIDGET.newKey   {name='keyB'        ,x= 585,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'b'},
+    WIDGET.newKey   {name='keyN'        ,x= 680,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'n'},
+    WIDGET.newKey   {name='keyM'        ,x= 775,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='O',code=pressKey'm'},
+    WIDGET.newKey   {name='key,'        ,x= 870,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='L',code=pressKey','},
+    WIDGET.newKey   {name='key.'        ,x= 965,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='G',code=pressKey'.'},
+    WIDGET.newKey   {name='key/'        ,x=1060,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='C',code=pressKey'/'},
 }
 return scene
