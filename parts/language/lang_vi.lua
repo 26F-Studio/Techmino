@@ -1004,7 +1004,7 @@ C. Tay cầm chơi game (Gamepad):
         "1next 1hold!",
         "1next 6hold!",
         "20G thực chất là một chế độ mới đấy!",
-        "Kỷ lục Sprint 40 hàng: 14.708s (hiryu)",
+        "Kỷ lục Sprint 40 hàng: 14.188s (Lurny)",
         "6next 1hold!",
         "6next 6hold?!",
         "Rất gần nhưng lại rất xa",
