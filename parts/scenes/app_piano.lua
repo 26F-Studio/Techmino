@@ -17,37 +17,37 @@ local showingKey
 -- NOTE: I made this list because I want to use WIDGET.draw() and don't need another function
 -- I will handling the behavior in an other function
 local virtualKeys={
-    -- Number row:  01234567890-=
-    WIDGET.newKey   {name='key1'        ,x=  65,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='R',code=pressKey'1'        },
-    WIDGET.newKey   {name='key2'        ,x= 160,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='M',code=pressKey'2'        },
-    WIDGET.newKey   {name='key3'        ,x= 255,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='V',code=pressKey'3'        },
-    WIDGET.newKey   {name='key4'        ,x= 350,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='S',code=pressKey'4'        },
-    WIDGET.newKey   {name='key5'        ,x= 445,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'5'        },
-    WIDGET.newKey   {name='key6'        ,x= 540,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'6'        },
-    WIDGET.newKey   {name='key7'        ,x= 635,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='O',code=pressKey'7'        },
-    WIDGET.newKey   {name='key8'        ,x= 730,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='L',code=pressKey'8'        },
-    WIDGET.newKey   {name='key9'        ,x= 825,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='G',code=pressKey'9'        },
-    WIDGET.newKey   {name='key0'        ,x= 920,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='C',code=pressKey'0'        },
-    WIDGET.newKey   {name='key-'        ,x=1015,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'-'        },
-    WIDGET.newKey   {name='key='        ,x=1110,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'='        },
-    WIDGET.newKey   {name='keyBACKSPACE',x=1205,y=231,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'backspace'},
+    -- Number row:  01234567890-=           13
+    WIDGET.newKey   {name='key1'        ,x=  65,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='R',code=pressKey'1'        },
+    WIDGET.newKey   {name='key2'        ,x= 160,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='M',code=pressKey'2'        },
+    WIDGET.newKey   {name='key3'        ,x= 255,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='V',code=pressKey'3'        },
+    WIDGET.newKey   {name='key4'        ,x= 350,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='S',code=pressKey'4'        },
+    WIDGET.newKey   {name='key5'        ,x= 445,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'5'        },
+    WIDGET.newKey   {name='key6'        ,x= 540,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'6'        },
+    WIDGET.newKey   {name='key7'        ,x= 635,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='O',code=pressKey'7'        },
+    WIDGET.newKey   {name='key8'        ,x= 730,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='L',code=pressKey'8'        },
+    WIDGET.newKey   {name='key9'        ,x= 825,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='G',code=pressKey'9'        },
+    WIDGET.newKey   {name='key0'        ,x= 920,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='C',code=pressKey'0'        },
+    WIDGET.newKey   {name='key-'        ,x=1015,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'-'        },
+    WIDGET.newKey   {name='key='        ,x=1110,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'='        },
+    WIDGET.newKey   {name='keyBACKSPACE',x=1205,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'backspace'},
 
-    -- Top row:     QWERTYUIOP[]\
-    WIDGET.newKey   {name='keyQ'        ,x=  65,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='R',code=pressKey'q' },
-    WIDGET.newKey   {name='keyW'        ,x= 160,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='M',code=pressKey'w' },
-    WIDGET.newKey   {name='keyE'        ,x= 255,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='V',code=pressKey'e' },
-    WIDGET.newKey   {name='keyR'        ,x= 350,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='S',code=pressKey'r' },
-    WIDGET.newKey   {name='keyT'        ,x= 445,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey't' },
-    WIDGET.newKey   {name='keyY'        ,x= 540,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'y' },
-    WIDGET.newKey   {name='keyU'        ,x= 635,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='O',code=pressKey'u' },
-    WIDGET.newKey   {name='keyI'        ,x= 730,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='L',code=pressKey'i' },
-    WIDGET.newKey   {name='keyO'        ,x= 825,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='G',code=pressKey'o' },
-    WIDGET.newKey   {name='keyP'        ,x= 920,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='C',code=pressKey'p' },
-    WIDGET.newKey   {name='key['        ,x=1015,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'[' },
-    WIDGET.newKey   {name='key]'        ,x=1110,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey']' },
-    WIDGET.newKey   {name='key\\'       ,x=1205,y=326,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'\\'},
+    -- Top row:     QWERTYUIOP[]\           13
+    WIDGET.newKey   {name='keyQ'        ,x=  65,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='R',code=pressKey'q' },
+    WIDGET.newKey   {name='keyW'        ,x= 160,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='M',code=pressKey'w' },
+    WIDGET.newKey   {name='keyE'        ,x= 255,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='V',code=pressKey'e' },
+    WIDGET.newKey   {name='keyR'        ,x= 350,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='S',code=pressKey'r' },
+    WIDGET.newKey   {name='keyT'        ,x= 445,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey't' },
+    WIDGET.newKey   {name='keyY'        ,x= 540,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'y' },
+    WIDGET.newKey   {name='keyU'        ,x= 635,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='O',code=pressKey'u' },
+    WIDGET.newKey   {name='keyI'        ,x= 730,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='L',code=pressKey'i' },
+    WIDGET.newKey   {name='keyO'        ,x= 825,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='G',code=pressKey'o' },
+    WIDGET.newKey   {name='keyP'        ,x= 920,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='C',code=pressKey'p' },
+    WIDGET.newKey   {name='key['        ,x=1015,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'[' },
+    WIDGET.newKey   {name='key]'        ,x=1110,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey']' },
+    WIDGET.newKey   {name='key\\'       ,x=1205,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'\\'},
 
-    -- Home row     ASDFGHJKL;''<ENTER>
+    -- Home row     ASDFGHJKL;''<ENTER>     12
     WIDGET.newKey   {name='keyA'        ,x= 110,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='R',code=pressKey'a'     },
     WIDGET.newKey   {name='keyS'        ,x= 205,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='M',code=pressKey's'     },
     WIDGET.newKey   {name='keyD'        ,x= 300,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='V',code=pressKey'd'     },
@@ -61,7 +61,7 @@ local virtualKeys={
     WIDGET.newKey   {name='key\''       ,x=1060,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'\''    },
     WIDGET.newKey   {name='keyRETURN'   ,x=1155,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'return'},
 
-    -- Bottom row   ZXCVBNM,./
+    -- Bottom row   ZXCVBNM,./              10
     WIDGET.newKey   {name='keyZ'        ,x= 205,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='R',code=pressKey'z'},
     WIDGET.newKey   {name='keyX'        ,x= 300,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='M',code=pressKey'x'},
     WIDGET.newKey   {name='keyC'        ,x= 395,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='V',code=pressKey'c'},
