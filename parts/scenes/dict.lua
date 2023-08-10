@@ -212,7 +212,6 @@ function scene.keyDown(key)
     elseif key=='f1' then
         listBox.selected=listBox.selected==0 and lastSelected or 0
         scene.widgetList.help.color=listBox.selected==0 and COLOR.W or COLOR.Z
-        inputBox:clear()
         searchWait=0
         _updateInfoBox()
     else
@@ -302,7 +301,7 @@ scene.widgetList={
     WIDGET.newKey   {name='zoomout',  x=1234,y=445,w=60,font=40,fText=CHAR.icon.zoomOut,    code=function() _setZoom(-5) end},
     WIDGET.newKey   {name='resetzoom',x=1234,y=515,w=60,font=40,fText=CHAR.icon.zoomDefault,code=function() _setZoom(0)  end},
 
-    WIDGET.newKey   {name='help',     x=1234,y=220,w=60,font=40,fText=CHAR.icon.help,   code=pressKey'f1'},
+    WIDGET.newKey   {name='help',     x=1234,y=220,w=60,font=40,fText=CHAR.icon.help,       code=pressKey'f1'},
 
     WIDGET.newButton{name='back',     x=1165,y=60, w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
     WIDGET.newText  {name='buttontip',x=1274,y=110,w=762,h=60,font=40,align='R',fText=CHAR.controller.xboxY.."/[F1]: "..CHAR.icon.help}
