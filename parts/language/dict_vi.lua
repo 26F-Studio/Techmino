@@ -188,7 +188,7 @@ B. Efficiency & Speed (Hiệu quả & Tốc độ)
         B3. Đừng lo lắng về tốc độ khi bạn mới tập chơi Finesse, đây là chuyện bình thường. Hơn nữa bạn có thể tập chơi nhanh hơn một khi bạn đã quen tay — việc này không khó đâu!
 
 C. Practice (Luyện tập):
-    Hãy hoàn thành một các ổn định các chế độ sau
+    Hãy hoàn thành một cách ổn định các chế độ sau
         C1. "40 hàng".
         C2. "40 hàng" mà không dùng HOLD.
         C3. "40 hàng" mà chỉ được làm Techrash.
@@ -234,7 +234,7 @@ Dưới đây là vài lời khuyên hữu ích khi bạn đang chỉnh sửa b�
         [[
 Những yếu tố ảnh hưởng tới việc xử lý gạch của bạn:
 
-(1) Độ trễ đầu vào, có thể là do cấu hình, thông số hoặc tình trạng của thiết bị. Khởi động lại trò chơi, bảo dưỡng, sửa chữa hoặc thay đổi thiết bị của bạn có thể khắc phục vấn đề này.
+(1) Độ trễ đầu vào, có thể là do cấu hình, thông số hoặc tình trạng của thiết bị. Khởi động lại trò chơi; bảo dưỡng, sửa chữa thiết bị của bạn hoặc đổi sang thiết bị mới có thể khắc phục vấn đề này.
 (2) Trò chơi không ổn định/thiết kế quá sơ sài và nhiều lỗi. Có thể giảm tình trạng này bằng cách chỉnh sửa cài đặt hiệu ứng để ở mức thấp.
 (3) Cái gì cũng có mục đích của nó, ngay cả thiết kế cũng vậy. Việc làm quen với chúng có thể giúp bạn.
 (4) Cài đặt thông số xử lý gạch không phù hợp (ví dụ: DAS, ARR, SDARR,…). Thay đổi cài đặt.
@@ -246,7 +246,7 @@ Những yếu tố ảnh hưởng tới việc xử lý gạch của bạn:
     {"Các nút xoay",
         "nhom04 doublerotation hai phím xoay",
         "help",
-        "Dùng cả nút xoay phải và xoay trái giảm số lầm nút cần nhấn bằng cách thay thế việc nhấn 3 lần nút xoay một bên bằng việc nhấn 1 lần phím xoay bên kia.\nLỗi di chuyển cũng có tính đến việc có sử dụng cả hai nút xoay hay ko.\n\nNgoài ra, có thể sử dụng cả ba nút xoay (nút thứ ba là xoay 180°). Khi đó, chỉ cần 1 lần nhấn nút là có thể xoay theo ý muốn.\nTuy nhiên, việc này không phải lúc nào cũng hữu dụng vì không phải game nào đều hỗ trợ xoay 180°.\nHơn nữa, khi so sánh giữa việc dùng 2 nút và 3 nút, ta thấy có sự cải thiện nhưng không đáng kể.\n\nBạn có thể bỏ qua kỹ thuật này trừ khi bạn muốn đạt tốc độ cực cao.",
+        "Dùng cả nút xoay trái và phải để giảm số lần nhấn nút.\nLỗi di chuyển cũng tính tới việc bạn có sử dụng hai nút xoay hay không.\n\nCó thể dùng thêm nút xoay 180° nếu bạn muốn chơi cực kì nhanh.\nKhông khuyến khích vì không phải game nào cũng hỗ trợ xoay 180°.\nBạn có thể bỏ qua kỹ thuật này.",
     },
     {"=[NHÓM 05]=",
         "nhom05",
@@ -264,9 +264,9 @@ Dưới đây là các yếu tố chính để làm nên Tetris, tuy nhiên chú
     4. Có hẳn một hệ thống xoay, và cho phép xoay theo ít nhất 2 hướng.
     5. Có một hệ thống trì hoãn khóa gạch thích hợp.
     6. Có điều kiện kiểm tra gạch có đè lên gạch khác hay không.
-    7. Có hiện NEXT, với nhiều gạch sắp rơi xuất hiện trong đó (thường là từ 3-6), những gạch này được hiện với hướng mà chúng sẽ đứng khi chúng được sinh ra.
+    7. Có NEXT - hiện một vài (thường từ 3-6) gạch sắp rơi, những gạch này xuất hiện ở tư thế mà chúng sẽ xuất hiện khi được sinh ra.
     8. Cho phép giữ gạch (Hold).
-    9. Nếu có spawn delay hoặc clear delay, thì game thường sẽ có hệ thống IRS và IHS.
+    9. Nếu có spawn delay hoặc clear delay, game thường sẽ có hệ thống IRS và IHS.
     10. Có hệ thống DAS cho các chuyển động ngang chính xác và nhanh chóng.
         ]],
     },
@@ -776,12 +776,12 @@ Trong hầu hết các game, tỷ lệ phản công rác thường là 1:1.
     {"‘Debt’",
         "nhom05h debt owe",
         "term",
-        "Một thuật ngữ hay được sử dụng trong cộng đồng Tetris Trung Quốc. “Debt” đề cập đến tình huống mà trước mắt một người chơi phải hoàn thành việc thực hiện một setup cụ thể trước khi học có thể thực hiện một/nhiều T-spin để có thể thực sự tấn công. Cho nên, khi đang làm một hoặc nhiều debt liên tiếp, người chơi buộc phải để ý tới đối thủ để đảm bảo an toàn; nếu không, khả năng người chơi sẽ bị đá bay trước khi xây dựng xong là khá cao\n\nThuật ngữ này hay được sử dụng để diễn tả một số setup như TST tower.\nHãy nhớ bạn thực sự KHÔNG THỂ thực hiện tấn công nếu như đang làm debt.",
+        "Một thuật ngữ hay được sử dụng trong cộng đồng Tetris Trung Quốc. “Debt” đề cập đến tình huống mà trước mắt một người chơi phải hoàn thành việc thực hiện một setup cụ thể trước khi họ có thể thực hiện một/nhiều T-spin để tấn công. Cho nên, khi đang làm một hoặc nhiều debt liên tiếp, người chơi buộc phải để ý tới đối thủ để đảm bảo an toàn; nếu không, khả năng người chơi bị bón hành sấp mặt khá là cao.\n\nThuật ngữ này hay được sử dụng để diễn tả một số setup như TST tower.\nHãy nhớ bạn KHÔNG THỂ tấn công nếu đang làm debt.",
     },
     {"Passthrough",
         "nhom05h pingthrough",
         "term",
-        "Đề cập đến một tình huống mà trong đó cả hai người chơi đều gửi tấn công, nhưng thay vì chúng hủy bỏ lẫn nhau thì nó lại gửi thẳng vào bảng của đối phương. Một thuật ngữ khác là “pingthrough” đề cập tình huống passthrough xảy ra do ping cao.",
+        "Chỉ tình huống cả hai người chơi cùng gửi tấn công lẫn nhau, nhưng thay vì chúng hủy bỏ lẫn nhau thì nó lại gửi thẳng vào bảng của đối phương.\nMột thuật ngữ khác là “pingthrough” đề cập tình huống passthrough xảy ra do ping cao.",
     },
     {">I|Spin",
         "nhom05i",
@@ -803,13 +803,13 @@ Trong hầu hết các game, tỷ lệ phản công rác thường là 1:1.
         "term",
         [[
 Spin được thực hiện bởi Tetromino T.
-Trong các game chính thức, T-spins chủ yếu được phát hiện bởi “quy luật 3 góc”. Tức là, nếu 3 trong 4 góc của một hình chữ nhật (có tâm là tâm xoay của gạch T) bị đè bởi bất kỳ gạch nào, thì spin đó được tính là T-spin. Một vài game cũng sẽ có thêm vài quy tắc để phân biệt spin đó là T-spin hoặc là Mini T-spin.
+Trong các game chính thức, T-spins chủ yếu được phát hiện bởi “quy luật 3 góc”. Tức là, nếu 3 trong 4 góc của một hình chữ nhật (có tâm là tâm xoay của gạch T) bị đè bởi bất kỳ gạch nào, thì spin đó được tính là T-spin. Ngoài quy tắc đó ra thì còn có một số quy tắc để phát hiện T-spin và phân biệt giữa T-spin và Mini T-spin.
         ]],
     },
     {"O-Spin",
         "nhom05i ospin",
         "term",
-        "“O-spin is a lie!” (O-spin là một lời nói dối). Một quả meme được nhiều người biết tới.\nNguồn gốc meme này bắt nguồn từ việc gạch O “tròn”, không đổi hình dạng khi xoay ở bất cứ hướng nào, nên nó không thể “đá” được.\n\nTrong khi đó:\n\tXRS cho phép gạch O có thể “teleport” tới một cái lỗ.\n\tTRS cho phép gạch O “teleport” và “biến hình”",
+        "“O-spin is a lie!”. Đây là một quả meme được nhiều người chơi biết tới.\nNguồn gốc meme này bắt nguồn từ việc gạch O “tròn”, không đổi hình dạng khi xoay ở bất cứ hướng nào, nên nó không thể “đá” được.\n\nTrong khi đó:\n\tXRS cho phép gạch O có thể “teleport” tới một cái lỗ.\n\tTRS cho phép gạch O “teleport” và “biến hình”",
     },
     {">J|K.th. xóa hàng",
         "nhom05j",
@@ -923,7 +923,7 @@ Nội dung sau đây là những giới thiệu ngắn gọn về một số gam
 
 Squishy cũng có một số lời nhận xét và thông tin bổ sung, lời này được đánh dấu bắt đầu bằng "Sea"
 
-Hãy nhớ là không phải game nào được nói đến đều có lời nhận xét, chúng chỉ là những ý kiến chủ quan. Đọc chỉ để tham khảo, những nhận xét này không có tính chuyên môn.
+Hãy nhớ là không phải game nào được nói đến đều có lời nhận xét, chúng chỉ là những ý kiến chủ quan và không có tính chuyên môn. Chỉ dùng để tham khảo.
         ]]
     },
     {"King of Stackers",
@@ -1019,7 +1019,7 @@ Gọi tắt là WWC. Có chế độ 1 đấu 1 toàn cầu: chơi với ngườ
         [[
 Chơi trên trình duyệt/Chơi trên client chính thức | Chơi đơn/Chơi trực tuyến
 
-Gọi tắt là TF. Một trò chơi Tetris được viết dựa trên một plugin đã bị khai tử từ năm 2021. Từng rất phổ biến trong quá khứ, nhưng tất cả trò chơi đã đóng cửa từ mấy năm trước. Hiện giờ vẫn còn một máy chủ riêng tên là “Notris Foes”. Nhấn vào nút “Mở link” để mở ở trong trình duyệt
+Gọi tắt là TF. Một trò chơi Tetris được viết bằng một ngôn ngữ của plugin đã bị khai tử từ năm 2021. Từng rất phổ biến trong quá khứ, nhưng tất cả trò chơi đã đóng cửa từ mấy năm trước. Hiện giờ vẫn còn một máy chủ riêng tên là “Notris Foes”. Nhấn vào nút “Mở link” để mở ở trong trình duyệt
         ]],
         "https://notrisfoes.com",
     },
@@ -1123,7 +1123,7 @@ Windows | Chơi đơn
 Một game xếp gạch dựa trên quy tắc Cổ điển của TGM + 20G với hệ thống xoay gạch mạnh mẽ. Cơ chế điều khiển tốt nhưng không có tùy chỉnh nào ngoài việc có thể gán lại phím. Game này bây giờ hơi khó tìm và bạn có thể phải cài tệp DLL cần thiết bằng tay. Tuy nhiên cũng may là có một bài hướng dẫn cách cài DTET, bạn có thể nhấn nút “Mở link” để mở bài viết.
 
 CẢNH BÁO: cẩn thận khi tải file DLL về!
-Vì chỉ có bạn chịu trách nhiệm nếu trong trường hợp xảy ra thiệt hại
+Vì chỉ có bạn chịu trách nhiệm nếu trong trường hợp xảy ra thiệt hại/hư hỏng!
         ]],
         "https://t-sp.in/dtet"
     },
@@ -1151,7 +1151,7 @@ Một game bao gồm tất cả chế độ trong TGM để có thể sử dụn
         [[
 PS/Oculus Quest/Xbox/NS/Windows | Chơi đơn/Chơi trực tuyến
 
-Gọi tắt là TE(C). Một game xếp gạch chính thức với đồ họa và nhạc nền lạ mắt chuyển động theo sự điều khiển của bạn. Phiên bản cơ bản (Tetris Effect, không có chữ "Connected") chỉ có các chế độ chơi đơn. Phiên bản mở rộng, Tetris Effected Connected có 4 chế độ chơi trực tuyến đó là: Connected (VS), Zone Battle, Score Attack, và Classic Score Attack.
+Gọi tắt là TE(C). Một game xếp gạch chính thức với đồ họa và nhạc nền lạ mắt chuyển động theo điều khiển của bạn. Phiên bản cơ bản (Tetris Effect, không có chữ "Connected") chỉ có các chế độ chơi đơn. Phiên bản mở rộng, Tetris Effected Connected có 4 chế độ chơi trực tuyến đó là: Connected (VS), Zone Battle, Score Attack, và Classic Score Attack.
         ]],
     },
     {"Tetris 99",
@@ -1292,14 +1292,10 @@ Một game xếp gạch tới từ nhà N3TWORK nhưng chỉ dành cho Apple Arc
         "game",
         [[
 iOS/Android | Chơi đơn
-[Sea: Mục này đã viết lại. Có tham khảo từ Tetris.wiki]
 
 Một game xếp gạch chính thức đã bị khai tử từng được phát triển bởi Tencent dành cho Trung Quốc.
-
-Có 5 chế độ chơi đơn: Marathon, 40 hàng, Ultra (2 phút), Road to Master (chứa nhiều bài học về các kỹ thuật khác nhau), Adventure (chế độ câu chuyện với minigame).
-
-Có 3 chế độ chơi trực tuyến: League Battle (chế độ đối đầu có xếp rank), Melee 101 (giống với Tetris 99 nhưng có 101 người/phòng), Relax Battle (chế độ đối đầu nhưng không xếp rank)
-Mỗi trận trong chế độ chơi trực tuyến dài 2 phút, nếu không ai bị top out thì ai gửi nhiều hàng nhất sẽ giành chiến thắng
+Có 3 chế độ chơi trực tuyến, 4 chế độ chơi đơn cùng với một chế độ dựa trên cấp độ
+Mỗi trận trong chế độ chơi trực tuyến dài 2 phút, nếu không ai bị top out thì ai gửi nhiều hàng nhất sẽ giành chiến thắng.
 
 Có thể điều chỉnh vị trí và kích thước phím ảo, nhưng không thể điều chỉnh DAS và ARR.
         ]],
@@ -1534,7 +1530,7 @@ Nhấn nút “Mở link” để vào server Discord, còn nếu muốn vào nh
     {"A|Stacking",
         "nhom11a",
         "name",
-        "NHÓM 11A: STACKING (XẾP LÊN)\n\nDùng để chỉ việc xếp các gạch mà không để lại một cái lỗ.",
+        "NHÓM 11A: STACKING (XẾP LÊN)\n\nDùng để chỉ việc xếp các gạch làm sao mà không để lại một cái lỗ.",
     },
     {"Side well",
         "nhom11a ren combo sidewell",

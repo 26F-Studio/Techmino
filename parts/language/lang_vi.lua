@@ -1213,13 +1213,15 @@ C. Tay cầm chơi game (Gamepad):
 --
     -- IT JOKES
         "git clone --recursive https://github.com/26F-Studio/Techmino.git",
-        "git merge --rebase",
-        "git merge --squash",
+        "git commit -m \".\"",
+        "git pull = git fetch + git merge",
+        "git push",
+        "git push -f",
         "git stash",
         "git stash apply",
         "git submodule update",
-        "git commit -m \".\"",
-        "git push -f",
+        "git merge --rebase",
+        "git merge --squash",
         "Lua No.1",
         "sudo rm -rf /*",
         "shutdown /s /t 0",         -- Turn off computer completely (no Fast Boot)
