@@ -1,5 +1,6 @@
 local gc=love.graphics
 local kb=love.keyboard
+local min,max=math.min,math.max
 
 local instList={'lead','bell','bass'}
 local keys={
@@ -49,9 +50,9 @@ local virtualKeys={
 
     -- Home row     ASDFGHJKL;''<ENTER>     12
     WIDGET.newKey   {name='keyA'        ,x= 110,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='R',code=pressKey'a'     },
-    WIDGET.newKey   {name='keyS'        ,x= 205,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='M',code=pressKey's'     },
-    WIDGET.newKey   {name='keyD'        ,x= 300,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='V',code=pressKey'd'     },
-    WIDGET.newKey   {name='keyF'        ,x= 395,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='S',code=pressKey'f'     },
+    WIDGET.newKey   {name='keyS'        ,x= 205,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='W',code=pressKey's'     },
+    WIDGET.newKey   {name='keyD'        ,x= 300,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='P',code=pressKey'd'     },
+    WIDGET.newKey   {name='keyF'        ,x= 395,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='N',code=pressKey'f'     },
     WIDGET.newKey   {name='keyG'        ,x= 490,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'g'     },
     WIDGET.newKey   {name='keyH'        ,x= 585,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'h'     },
     WIDGET.newKey   {name='keyJ'        ,x= 680,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='O',code=pressKey'j'     },
@@ -74,6 +75,26 @@ local virtualKeys={
     WIDGET.newKey   {name='key/'        ,x=1060,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'/'},
 }
 setmetatable(virtualKeys,{__index=function(L,k) for i=1,#L do if L[i].name==k then return L[i] end end end})
+
+for k=1,#virtualKeys do
+    local K=virtualKeys[k]
+    function K:update(activateState)
+        local dt=love.timer.getDelta()
+        local ATV=self.ATV
+        local maxTime=6.2
+
+        self.activateState=ATV<maxTime and (self.activateState or activateState)
+        
+        -- When I can emulate holding key
+        -- if activateState then self.activateState=activateState end
+
+        if self.activateState then
+            if ATV<maxTime then self.ATV=min(ATV+dt*60,maxTime) end
+        else
+            if ATV>0       then self.ATV=max(ATV-dt*30,0)       end
+        end
+    end
+end
 --/ PREPARE VIRTUAL KEYS
 --/ PREPARE VIRTUAL KEYS
 
@@ -114,6 +135,7 @@ function scene.keyDown(key,isRep)
         if kb.isDown('lshift','rshift') then note=note+1 end
         if kb.isDown('lctrl','rctrl') then note=note-1 end
         SFX.playSample(inst,note)
+        virtualKeys['key'..key:upper()]:update(true)
         TEXT.show(SFX.getNoteName(note),math.random(150,1130),math.random(140,500),60,'score',.8)
     elseif key=='tab' then
         inst=TABLE.next(instList,inst)
@@ -138,6 +160,12 @@ function scene.draw()
         for k=1,#virtualKeys do
             virtualKeys[k]:draw()
         end
+    end
+end
+
+function scene.update()
+    for k=1,#virtualKeys do
+        virtualKeys[k]:update()
     end
 end
 
