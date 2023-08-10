@@ -18,31 +18,31 @@ local showingKey
 -- I will handling the behavior in an other function
 local virtualKeys={
     -- Number row:  01234567890-=           13
-    WIDGET.newKey   {name='key1'        ,x=  65,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='R',code=pressKey'1'        },
-    WIDGET.newKey   {name='key2'        ,x= 160,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='M',code=pressKey'2'        },
-    WIDGET.newKey   {name='key3'        ,x= 255,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='V',code=pressKey'3'        },
-    WIDGET.newKey   {name='key4'        ,x= 350,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='S',code=pressKey'4'        },
+    WIDGET.newKey   {name='key1'        ,x=  65,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'1'        },
+    WIDGET.newKey   {name='key2'        ,x= 160,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'2'        },
+    WIDGET.newKey   {name='key3'        ,x= 255,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'3'        },
+    WIDGET.newKey   {name='key4'        ,x= 350,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'4'        },
     WIDGET.newKey   {name='key5'        ,x= 445,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'5'        },
     WIDGET.newKey   {name='key6'        ,x= 540,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'6'        },
-    WIDGET.newKey   {name='key7'        ,x= 635,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='O',code=pressKey'7'        },
-    WIDGET.newKey   {name='key8'        ,x= 730,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='L',code=pressKey'8'        },
-    WIDGET.newKey   {name='key9'        ,x= 825,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='G',code=pressKey'9'        },
-    WIDGET.newKey   {name='key0'        ,x= 920,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='C',code=pressKey'0'        },
+    WIDGET.newKey   {name='key7'        ,x= 635,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'7'        },
+    WIDGET.newKey   {name='key8'        ,x= 730,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'8'        },
+    WIDGET.newKey   {name='key9'        ,x= 825,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'9'        },
+    WIDGET.newKey   {name='key0'        ,x= 920,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'0'        },
     WIDGET.newKey   {name='key-'        ,x=1015,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'-'        },
     WIDGET.newKey   {name='key='        ,x=1110,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'='        },
     WIDGET.newKey   {name='keyBACKSPACE',x=1205,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'backspace'},
 
     -- Top row:     QWERTYUIOP[]\           13
-    WIDGET.newKey   {name='keyQ'        ,x=  65,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='R',code=pressKey'q' },
-    WIDGET.newKey   {name='keyW'        ,x= 160,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='M',code=pressKey'w' },
-    WIDGET.newKey   {name='keyE'        ,x= 255,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='V',code=pressKey'e' },
-    WIDGET.newKey   {name='keyR'        ,x= 350,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='S',code=pressKey'r' },
+    WIDGET.newKey   {name='keyQ'        ,x=  65,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'q' },
+    WIDGET.newKey   {name='keyW'        ,x= 160,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'w' },
+    WIDGET.newKey   {name='keyE'        ,x= 255,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'e' },
+    WIDGET.newKey   {name='keyR'        ,x= 350,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'r' },
     WIDGET.newKey   {name='keyT'        ,x= 445,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey't' },
     WIDGET.newKey   {name='keyY'        ,x= 540,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'y' },
-    WIDGET.newKey   {name='keyU'        ,x= 635,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='O',code=pressKey'u' },
-    WIDGET.newKey   {name='keyI'        ,x= 730,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='L',code=pressKey'i' },
-    WIDGET.newKey   {name='keyO'        ,x= 825,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='G',code=pressKey'o' },
-    WIDGET.newKey   {name='keyP'        ,x= 920,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='C',code=pressKey'p' },
+    WIDGET.newKey   {name='keyU'        ,x= 635,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'u' },
+    WIDGET.newKey   {name='keyI'        ,x= 730,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'i' },
+    WIDGET.newKey   {name='keyO'        ,x= 825,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'o' },
+    WIDGET.newKey   {name='keyP'        ,x= 920,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'p' },
     WIDGET.newKey   {name='key['        ,x=1015,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'[' },
     WIDGET.newKey   {name='key]'        ,x=1110,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey']' },
     WIDGET.newKey   {name='key\\'       ,x=1205,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'\\'},
@@ -62,16 +62,16 @@ local virtualKeys={
     WIDGET.newKey   {name='keyRETURN'   ,x=1155,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'return'},
 
     -- Bottom row   ZXCVBNM,./              10
-    WIDGET.newKey   {name='keyZ'        ,x= 205,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='R',code=pressKey'z'},
-    WIDGET.newKey   {name='keyX'        ,x= 300,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='M',code=pressKey'x'},
-    WIDGET.newKey   {name='keyC'        ,x= 395,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='V',code=pressKey'c'},
-    WIDGET.newKey   {name='keyV'        ,x= 490,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='S',code=pressKey'v'},
+    WIDGET.newKey   {name='keyZ'        ,x= 205,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'z'},
+    WIDGET.newKey   {name='keyX'        ,x= 300,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'x'},
+    WIDGET.newKey   {name='keyC'        ,x= 395,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'c'},
+    WIDGET.newKey   {name='keyV'        ,x= 490,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'v'},
     WIDGET.newKey   {name='keyB'        ,x= 585,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'b'},
     WIDGET.newKey   {name='keyN'        ,x= 680,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'n'},
-    WIDGET.newKey   {name='keyM'        ,x= 775,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='O',code=pressKey'm'},
-    WIDGET.newKey   {name='key,'        ,x= 870,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='L',code=pressKey','},
-    WIDGET.newKey   {name='key.'        ,x= 965,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='G',code=pressKey'.'},
-    WIDGET.newKey   {name='key/'        ,x=1060,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='C',code=pressKey'/'},
+    WIDGET.newKey   {name='keyM'        ,x= 775,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'm'},
+    WIDGET.newKey   {name='key,'        ,x= 870,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey','},
+    WIDGET.newKey   {name='key.'        ,x= 965,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'.'},
+    WIDGET.newKey   {name='key/'        ,x=1060,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'/'},
 }
 setmetatable(virtualKeys,{__index=function(L,k) for i=1,#L do if L[i].name==k then return L[i] end end end})
 --/ PREPARE VIRTUAL KEYS
@@ -81,14 +81,15 @@ local scene={}
 
 -- Set all virtual key's text
 local function _setNoteName(offset)
-    for key,note in pairs(keys) do
-        virtualKeys['key'..key:upper()]:setObject(SFX.getNoteName(note+offset))
+    for k=1,#virtualKeys do
+        local K=virtualKeys[k]
+        K:setObject(SFX.getNoteName(keys[string.sub(K.name:lower(),-1)]+offset))
     end
 end
 -- Show virtual key
 local function _showVirtualKey(switch)
-    for key,note in pairs(keys) do
-        virtualKeys['key'..key:upper()].hide=not switch
+    for k=1,#virtualKeys do
+        virtualKeys[k].hide=not switch
     end
     showingKey=switch
 end
@@ -134,8 +135,8 @@ function scene.draw()
     gc.print(offset,40,100)
 
     if showingKey then
-        for key,note in pairs(keys) do
-            virtualKeys['key'..key:upper()]:draw()
+        for k=1,#virtualKeys do
+            virtualKeys[k]:draw()
         end
     end
 end
