@@ -2,7 +2,7 @@ local gc=love.graphics
 local msIsDown,kbIsDown,tcTouches=love.mouse.isDown,love.keyboard.isDown,love.touch.getTouches
 local setColor,rectangle=gc.setColor,gc.rectangle
 
-local int,rnd=math.floor,math.random
+local floor,rnd=math.floor,math.random
 local ins,rem=table.insert,table.remove
 local setFont,mStr=FONT.set,GC.mStr
 
@@ -90,7 +90,7 @@ local function merge()
     until not connected[1]
     if count>1 then
         board[cy][cx]=chosen+1
-        local getScore=3^(chosen-1)*math.min(int(.5+count/2),4)
+        local getScore=3^(chosen-1)*math.min(floor(.5+count/2),4)
         score=score+getScore
         TEXT.show(getScore,cx*128+256,cy*128-40,40,'score')
         SYSFX.newRectRipple(2,320+cx*128-128,40+cy*128-128,128,128)
@@ -163,7 +163,7 @@ function scene.keyDown(key,isRep)
     end
 end
 function scene.mouseMove(x,y)
-    cx,cy=int((x-192)/128),int((y+88)/128)
+    cx,cy=floor((x-192)/128),floor((y+88)/128)
     if cx<1 or cx>5 or cy<1 or cy>5 then
         cx,cy=false
     end

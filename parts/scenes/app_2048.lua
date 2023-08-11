@@ -1,7 +1,7 @@
 local gc,kb=love.graphics,love.keyboard
 local setColor,rectangle=gc.setColor,gc.rectangle
 
-local int,abs=math.floor,math.abs
+local floor,abs=math.floor,math.abs
 local rnd,min=math.random,math.min
 local ins=table.insert
 local setFont=FONT.set
@@ -400,7 +400,7 @@ function scene.draw()
     -- Board
     for i=1,16 do
         if board[i] then
-            local x,y=1+(i-1)%4,int((i+3)/4)
+            local x,y=1+(i-1)%4,floor((i+3)/4)
             local N=board[i]
             if i~=prevPos or prevSpawnTime==1 then
                 if not invis or i==prevPos then
@@ -460,7 +460,7 @@ function scene.draw()
     end
 
     -- New tile position
-    local x,y=1+(prevPos-1)%4,int((prevPos+3)/4)
+    local x,y=1+(prevPos-1)%4,floor((prevPos+3)/4)
     gc.setLineWidth(8)
     setColor(.2,.8,0,prevSpawnTime)
     local d=25-prevSpawnTime*25

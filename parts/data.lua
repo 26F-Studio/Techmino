@@ -1,4 +1,4 @@
-local int=math.floor
+local floor=math.floor
 local char,byte=string.char,string.byte
 local ins=table.insert
 
@@ -120,7 +120,7 @@ function DATA.pasteBoard(str,page)-- Paste [str] data to [page] board
 
         local id=b%32-1-- Block id
         if id>26 then return end-- Illegal blockid
-        b=int(b/32)-- Mode id
+        b=floor(b/32)-- Mode id
 
         F[fY][fX]=id
         if fX<10 then
@@ -265,10 +265,10 @@ function DATA.dumpRecording(list,ptr)
         prevFrm=list[ptr]
         if t>=128 then
             buffer2=char(t%128)
-            t=int(t/128)
+            t=floor(t/128)
             while t>=128 do
                 buffer2=char(128+t%128)..buffer2
-                t=int(t/128)
+                t=floor(t/128)
             end
             buffer=buffer..char(128+t)..buffer2
         else
@@ -279,10 +279,10 @@ function DATA.dumpRecording(list,ptr)
         t=list[ptr+1]
         if t>=128 then
             buffer2=char(t%128)
-            t=int(t/128)
+            t=floor(t/128)
             while t>=128 do
                 buffer2=char(128+t%128)..buffer2
-                t=int(t/128)
+                t=floor(t/128)
             end
             buffer=buffer..char(128+t)..buffer2
         else

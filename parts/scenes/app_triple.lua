@@ -1,7 +1,7 @@
 local gc=love.graphics
 local setColor,rectangle=gc.setColor,gc.rectangle
 
-local int,rnd=math.floor,math.random
+local floor,rnd=math.floor,math.random
 local ins,rem=table.insert,table.remove
 
 local setFont,mStr=FONT.set,GC.mStr
@@ -270,7 +270,7 @@ function scene.enter()
 end
 
 function scene.mouseClick(x,y)
-    x,y=int((x-player.x)/100)+1,int((y-player.y)/100)+1
+    x,y=floor((x-player.x)/100)+1,floor((y-player.y)/100)+1
     if x>=1 and x<=6 and y>=1 and y<=6 then
         player:click(y,x)
     end
