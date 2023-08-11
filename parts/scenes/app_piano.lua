@@ -172,8 +172,8 @@ end
 function scene.draw()
     setFont(30)
     GC.setColor(1,1,1)
-    gc.print(inst,40,60)
-    gc.print(offset,40,100)
+    gc.print(inst.." | "..offset,40,60)
+    -- gc.print(offset,40,100)
 
     -- Drawing virtual keys
     if showingKey then
@@ -193,7 +193,7 @@ function scene.update()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name='back'        ,x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
-    WIDGET.newSwitch{name='showKey'     ,x=1180,y=100,fText='Virtual key',disp=function() return showingKey end,code=function() _showVirtualKey(not showingKey) end},
+    WIDGET.newButton{name='back'        ,x=1140,y=80,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newSwitch{name='showKey'     ,x=960 ,y=80,fText='Virtual key',disp=function() return showingKey end,code=function() _showVirtualKey(not showingKey) end},
 }
 return scene
