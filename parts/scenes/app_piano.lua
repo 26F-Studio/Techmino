@@ -169,10 +169,6 @@ function scene.touchDown(x,y,_)
         else _notHoldCS() end
     end
 end
-function scene.touchUp(x,y,_)
-    if showingKey and not virtualKeys['keyCtrl']:isAbove(x,y) and not virtualKeys['keyShift']:isAbove(x,y)
-    then _notHoldCS() end
-end
 scene.mouseDown=scene.touchDown
 scene.mouseUp  =scene.touchUp
 
