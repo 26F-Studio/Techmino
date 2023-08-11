@@ -19,65 +19,67 @@ local showingKey
 -- I will handling the behavior in an other function
 local virtualKeys={
     -- Number row:  01234567890-=           13
-    WIDGET.newKey   {name='key1'        ,x=  65,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'1'        },
-    WIDGET.newKey   {name='key2'        ,x= 160,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'2'        },
-    WIDGET.newKey   {name='key3'        ,x= 255,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'3'        },
-    WIDGET.newKey   {name='key4'        ,x= 350,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'4'        },
-    WIDGET.newKey   {name='key5'        ,x= 445,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'5'        },
-    WIDGET.newKey   {name='key6'        ,x= 540,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'6'        },
-    WIDGET.newKey   {name='key7'        ,x= 635,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'7'        },
-    WIDGET.newKey   {name='key8'        ,x= 730,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'8'        },
-    WIDGET.newKey   {name='key9'        ,x= 825,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'9'        },
-    WIDGET.newKey   {name='key0'        ,x= 920,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'0'        },
-    WIDGET.newKey   {name='key-'        ,x=1015,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'-'        },
-    WIDGET.newKey   {name='key='        ,x=1110,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'='        },
-    WIDGET.newKey   {name='keyBACKSPACE',x=1205,y=231,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'backspace'},
+    WIDGET.newKey   {name='key1'        ,x=  75,y=231,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'1'        },
+    WIDGET.newKey   {name='key2'        ,x= 165,y=231,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'2'        },
+    WIDGET.newKey   {name='key3'        ,x= 255,y=231,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'3'        },
+    WIDGET.newKey   {name='key4'        ,x= 345,y=231,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'4'        },
+    WIDGET.newKey   {name='key5'        ,x= 435,y=231,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'5'        },
+    WIDGET.newKey   {name='key6'        ,x= 525,y=231,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'6'        },
+    WIDGET.newKey   {name='key7'        ,x= 615,y=231,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'7'        },
+    WIDGET.newKey   {name='key8'        ,x= 755,y=231,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'8'        },
+    WIDGET.newKey   {name='key9'        ,x= 845,y=231,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'9'        },
+    WIDGET.newKey   {name='key0'        ,x= 935,y=231,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'0'        },
+    WIDGET.newKey   {name='key-'        ,x=1025,y=231,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'-'        },
+    WIDGET.newKey   {name='key='        ,x=1115,y=231,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'='        },
+    WIDGET.newKey   {name='keyBACKSPACE',x=1205,y=231,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'backspace'},
 
     -- Top row:     QWERTYUIOP[]\           13
-    WIDGET.newKey   {name='keyQ'        ,x=  65,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'q' },
-    WIDGET.newKey   {name='keyW'        ,x= 160,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'w' },
-    WIDGET.newKey   {name='keyE'        ,x= 255,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'e' },
-    WIDGET.newKey   {name='keyR'        ,x= 350,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'r' },
-    WIDGET.newKey   {name='keyT'        ,x= 445,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey't' },
-    WIDGET.newKey   {name='keyY'        ,x= 540,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'y' },
-    WIDGET.newKey   {name='keyU'        ,x= 635,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'u' },
-    WIDGET.newKey   {name='keyI'        ,x= 730,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'i' },
-    WIDGET.newKey   {name='keyO'        ,x= 825,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'o' },
-    WIDGET.newKey   {name='keyP'        ,x= 920,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'p' },
-    WIDGET.newKey   {name='key['        ,x=1015,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'[' },
-    WIDGET.newKey   {name='key]'        ,x=1110,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey']' },
-    WIDGET.newKey   {name='key\\'       ,x=1205,y=326,w=75 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'\\'},
+    WIDGET.newKey   {name='keyQ'        ,x=  75,y=326,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'q' },
+    WIDGET.newKey   {name='keyW'        ,x= 165,y=326,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'w' },
+    WIDGET.newKey   {name='keyE'        ,x= 255,y=326,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'e' },
+    WIDGET.newKey   {name='keyR'        ,x= 345,y=326,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'r' },
+    WIDGET.newKey   {name='keyT'        ,x= 435,y=326,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey't' },
+    WIDGET.newKey   {name='keyY'        ,x= 525,y=326,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'y' },
+    WIDGET.newKey   {name='keyU'        ,x= 615,y=326,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'u' },
+    WIDGET.newKey   {name='keyI'        ,x= 755,y=326,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'i' },
+    WIDGET.newKey   {name='keyO'        ,x= 845,y=326,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'o' },
+    WIDGET.newKey   {name='keyP'        ,x= 935,y=326,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'p' },
+    WIDGET.newKey   {name='key['        ,x=1025,y=326,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'[' },
+    WIDGET.newKey   {name='key]'        ,x=1115,y=326,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey']' },
+    WIDGET.newKey   {name='key\\'       ,x=1205,y=326,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'\\'},
 
     -- Home row     ASDFGHJKL;''<ENTER>     12
-    WIDGET.newKey   {name='keyA'        ,x= 110,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='R',code=pressKey'a'     },
-    WIDGET.newKey   {name='keyS'        ,x= 205,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='W',code=pressKey's'     },
-    WIDGET.newKey   {name='keyD'        ,x= 300,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='P',code=pressKey'd'     },
-    WIDGET.newKey   {name='keyF'        ,x= 395,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='N',code=pressKey'f'     },
-    WIDGET.newKey   {name='keyG'        ,x= 490,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'g'     },
-    WIDGET.newKey   {name='keyH'        ,x= 585,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'h'     },
-    WIDGET.newKey   {name='keyJ'        ,x= 680,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='O',code=pressKey'j'     },
-    WIDGET.newKey   {name='keyK'        ,x= 775,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='L',code=pressKey'k'     },
-    WIDGET.newKey   {name='keyL'        ,x= 870,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='G',code=pressKey'l'     },
-    WIDGET.newKey   {name='key;'        ,x= 965,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='C',code=pressKey';'     },
-    WIDGET.newKey   {name='key\''       ,x=1060,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'\''    },
-    WIDGET.newKey   {name='keyRETURN'   ,x=1155,y=421,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'return'},
+    WIDGET.newKey   {name='keyA'        ,x=  75,y=421,w=75 ,h=75,sound=false ,font=35,fText='',color='R',code=pressKey'a'     },
+    WIDGET.newKey   {name='keyS'        ,x= 165,y=421,w=75 ,h=75,sound=false ,font=35,fText='',color='W',code=pressKey's'     },
+    WIDGET.newKey   {name='keyD'        ,x= 255,y=421,w=75 ,h=75,sound=false ,font=35,fText='',color='P',code=pressKey'd'     },
+    WIDGET.newKey   {name='keyF'        ,x= 345,y=421,w=75 ,h=75,sound=false ,font=35,fText='',color='N',code=pressKey'f'     },
+    WIDGET.newKey   {name='keyG'        ,x= 435,y=421,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'g'     },
+    WIDGET.newKey   {name='keyH'        ,x= 525,y=421,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'h'     },
+    WIDGET.newKey   {name='keyJ'        ,x= 615,y=421,w=75 ,h=75,sound=false ,font=35,fText='',color='O',code=pressKey'j'     },
+    WIDGET.newKey   {name='keyK'        ,x= 755,y=421,w=75 ,h=75,sound=false ,font=35,fText='',color='L',code=pressKey'k'     },
+    WIDGET.newKey   {name='keyL'        ,x= 845,y=421,w=75 ,h=75,sound=false ,font=35,fText='',color='G',code=pressKey'l'     },
+    WIDGET.newKey   {name='key;'        ,x= 935,y=421,w=75 ,h=75,sound=false ,font=35,fText='',color='C',code=pressKey';'     },
+    WIDGET.newKey   {name='key\''       ,x=1025,y=421,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'\''    },
+    WIDGET.newKey   {name='keyRETURN'   ,x=1115,y=421,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'return'},
 
     -- Bottom row   ZXCVBNM,./              10
-    WIDGET.newKey   {name='keyZ'        ,x= 205,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'z'},
-    WIDGET.newKey   {name='keyX'        ,x= 300,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'x'},
-    WIDGET.newKey   {name='keyC'        ,x= 395,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'c'},
-    WIDGET.newKey   {name='keyV'        ,x= 490,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'v'},
-    WIDGET.newKey   {name='keyB'        ,x= 585,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'b'},
-    WIDGET.newKey   {name='keyN'        ,x= 680,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'n'},
-    WIDGET.newKey   {name='keyM'        ,x= 775,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'm'},
-    WIDGET.newKey   {name='key,'        ,x= 870,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey','},
-    WIDGET.newKey   {name='key.'        ,x= 965,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'.'},
-    WIDGET.newKey   {name='key/'        ,x=1060,y=516,w=80 ,h=80,sound=false ,font=40,fText='',color='Z',code=pressKey'/'},
+    WIDGET.newKey   {name='keyZ'        ,x=  75,y=516,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'z'},
+    WIDGET.newKey   {name='keyX'        ,x= 165,y=516,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'x'},
+    WIDGET.newKey   {name='keyC'        ,x= 255,y=516,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'c'},
+    WIDGET.newKey   {name='keyV'        ,x= 345,y=516,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'v'},
+    WIDGET.newKey   {name='keyB'        ,x= 435,y=516,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'b'},
+    WIDGET.newKey   {name='keyN'        ,x= 525,y=516,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'n'},
+    WIDGET.newKey   {name='keyM'        ,x= 615,y=516,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'm'},
+    WIDGET.newKey   {name='key,'        ,x= 755,y=516,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey','},
+    WIDGET.newKey   {name='key.'        ,x= 845,y=516,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'.'},
+    WIDGET.newKey   {name='key/'        ,x= 935,y=516,w=75 ,h=75,sound=false ,font=35,fText='',color='Z',code=pressKey'/'},
 }
 setmetatable(virtualKeys,{__index=function(L,k) for i=1,#L do if L[i].name==k then return L[i] end end end})
 
+-- Overwrite some functions
 for k=1,#virtualKeys do
     local K=virtualKeys[k]
+    -- Overwrite the update function
     function K:update(activateState)
         local dt=love.timer.getDelta()
         local ATV=self.ATV
@@ -86,7 +88,7 @@ for k=1,#virtualKeys do
         self.activateState=ATV<maxTime and (self.activateState or activateState)
         
         -- When I can emulate holding key
-        -- if activateState then self.activateState=activateState end
+        -- self.activateState=if activateState and activateState or not ATV>maxTime and self.activateState or false end
 
         if self.activateState then
             if ATV<maxTime then self.ATV=min(ATV+dt*60,maxTime) end
@@ -94,6 +96,18 @@ for k=1,#virtualKeys do
             if ATV>0       then self.ATV=max(ATV-dt*30,0)       end
         end
     end
+
+    -- -- Add setPosition()
+    -- function K:setPosition(x,y)
+    --     self.x=x-self.w*.5
+    --     self.y=y-self.h*.5
+    -- end
+
+    -- Remove unnecessary function (reduce memory usage)
+    function K:getCenter() end
+    function K:getInfo()   end
+    function K:drag()      end
+    function K:release()   end
 end
 --/ PREPARE VIRTUAL KEYS
 --/ PREPARE VIRTUAL KEYS
@@ -104,7 +118,7 @@ local scene={}
 local function _setNoteName(offset)
     for k=1,#virtualKeys do
         local K=virtualKeys[k]
-        K:setObject(SFX.getNoteName(keys[string.sub(K.name:lower(),-1)]+offset))
+        K:setObject(SFX.getNoteName(keys[string.sub(K.name:lower(),4)]+offset))
     end
 end
 -- Show virtual key
@@ -125,7 +139,12 @@ function scene.enter()
 end
 
 function scene.touchDown(x,y,k)
-    -- TODO
+    if showingKey then
+        for k=1,#virtualKeys do
+            local K=virtualKeys[k]
+            if K:isAbove(x,y) then K.code() end
+        end
+    end
 end
 scene.mouseDown=scene.touchDown
 
@@ -156,10 +175,14 @@ function scene.draw()
     gc.print(inst,40,60)
     gc.print(offset,40,100)
 
+    -- Drawing virtual keys
     if showingKey then
         for k=1,#virtualKeys do
             virtualKeys[k]:draw()
         end
+        gc.setLineWidth(1)
+        gc.setColor(COLOR.Z)
+        gc.line(685.5,194,685.5,553)
     end
 end
 
