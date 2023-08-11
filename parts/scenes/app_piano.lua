@@ -194,6 +194,7 @@ function scene.keyDown(key,isRep)
     elseif key=='ralt' then
         offset=math.min(offset+1,12)
         if showingKey then _setNoteName(offset) end
+    elseif key=='f5' then _showVirtualKey(not showingKey)
     elseif key=='escape' then
         BGM.play(lastPlayBGM)
         SCN.back()
@@ -230,7 +231,7 @@ end
 
 scene.widgetList={
     WIDGET.newButton{name='back'        ,x=1180,y=60,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=pressKey'escape'},
-    WIDGET.newSwitch{name='showKey'     ,x=1000,y=60,fText='Virtual key',disp=function() return showingKey end,code=function() _showVirtualKey(not showingKey) end},
+    WIDGET.newSwitch{name='showKey'     ,x=1000,y=60,fText='Virtual key (F5)',disp=function() return showingKey end,code=pressKey'f5'},
     WIDGET.newKey   {name='changeIns'   ,x=305 ,y=60,w=280,h=60,fText='Change instrument',code=pressKey"tab" ,hideF=function() return not showingKey end},
     WIDGET.newKey   {name='offset-'     ,x=485 ,y=60,w=60 ,h=60,fText=CHAR.key.left      ,code=pressKey"lalt",hideF=function() return not showingKey end},
     WIDGET.newKey   {name='offset+'     ,x=555 ,y=60,w=60 ,h=60,fText=CHAR.key.right     ,code=pressKey"ralt",hideF=function() return not showingKey end},
