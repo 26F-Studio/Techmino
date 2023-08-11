@@ -346,6 +346,12 @@ local function check(val)
         until newQ~=question
         question=newQ
         SFX.play('reach')
+    else
+        if #tostring(val)==#tostring(answer) then
+            SFX.play('finesseError_long')
+            input=""
+            inputTime=0
+        end
     end
 end
 
@@ -536,8 +542,8 @@ scene.widgetList={
     WIDGET.newKey{name='7',      x=540, y=320,w=90,font=60,fText="7",code=pressKey'7',hideF=isDrawing},
     WIDGET.newKey{name='8',      x=640, y=320,w=90,font=60,fText="8",code=pressKey'8',hideF=isDrawing},
     WIDGET.newKey{name='9',      x=740, y=320,w=90,font=60,fText="9",code=pressKey'9',hideF=isDrawing},
-    WIDGET.newKey{name='D',      x=440, y=620,w=90,font=60,fText="D",code=pressKey'd',hideF=isDrawing},
-    WIDGET.newKey{name='D_d',    x=1200,y=80 ,w=80,font=50,fText="D",code=pressKey'd',hideF=isntDrawing},
+    WIDGET.newKey{name='D',      x=440, y=620,w=90,font=60,fText=CHAR.icon.pencil,code=pressKey'd',hideF=isDrawing},
+    WIDGET.newKey{name='D_d',    x=1200,y=80 ,w=80,font=50,fText=CHAR.icon.pencil,code=pressKey'd',hideF=isntDrawing},
     WIDGET.newKey{name='A',      x=1120,y=80 ,w=80,font=50,fText="A",code=pressKey'a',hideF=isntDrawing},
     WIDGET.newKey{name='X_d',    x=1040,y=80 ,w=80,font=50,fText=CHAR.key.clear,code=pressKey'backspace',hideF=isntDrawing},
     WIDGET.newKey{name='undo',   x=960, y=80, w=80,font=50,fText=CHAR.icon.retry_spin,code=pressKey'ctrl_z',hideF=isntDrawing},
