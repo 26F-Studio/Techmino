@@ -140,6 +140,7 @@ local function _holdingShift()
     _setNoteName(offset+1)
 end
 local function _notHoldCS()
+    flattt,sharpt=false,false
     virtualKeys['keyCtrl'].color,virtualKeys['keyShift'].color=COLOR.Z,COLOR.Z
     _setNoteName(offset)
 end
@@ -157,7 +158,7 @@ function scene.enter()
     _notHoldCS()
 end
 
-function scene.touchDown(x,y,k)
+function scene.touchDown(x,y,_)
     if showingKey then
         for k=1,#virtualKeys do
             local K=virtualKeys[k]
@@ -169,6 +170,7 @@ function scene.touchDown(x,y,k)
     end
 end
 scene.mouseDown=scene.touchDown
+scene.mouseUp  =scene.touchUp
 
 function scene.keyDown(key,isRep)
     if not isRep and keys[key] then
@@ -176,7 +178,6 @@ function scene.keyDown(key,isRep)
         if kb.isDown('lshift','rshift') or sharpt then note=note+1 end
         if kb.isDown('lctrl','rctrl')   or flattt then note=note-1 end
         SFX.playSample(inst,note)
-        if sharpt or flattt then sharpt,flattt=false,false end
         if showingKey then
             virtualKeys['key'..key:upper()]:update(true)
             TEXT.show(SFX.getNoteName(note),math.random(75,1205),math.random(160,260),60,'score',.8)
