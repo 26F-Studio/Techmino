@@ -1,5 +1,5 @@
 local gc=love.graphics
-local rnd,int,max=math.random,math.floor,math.max
+local rnd,floor,max=math.random,math.floor,math.max
 local setFont,mStr=FONT.set,GC.mStr
 
 -- This mini-game is written for TI-nSpire CX CAS many years ago.
@@ -176,7 +176,7 @@ end
 setmetatable(backColor,backColor)
 function scene.draw()
     -- Background
-    local lv,height=int(camY/700),camY%700
+    local lv,height=floor(camY/700),camY%700
     gc.setColor(backColor[lv+1] or COLOR.D)
     gc.rectangle('fill',0,720,1280,height-700)
     gc.setColor(backColor[lv+2] or COLOR.D)

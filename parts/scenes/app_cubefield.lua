@@ -1,5 +1,5 @@
 local gc,kb,tc=love.graphics,love.keyboard,love.touch
-local rnd,int,abs=math.random,math.floor,math.abs
+local rnd,floor,abs=math.random,math.floor,math.abs
 local max,min=math.max,math.min
 local setFont,mStr=FONT.set,GC.mStr
 
@@ -36,7 +36,7 @@ local function hurt(i)
         menu,play=1,false
         speed=speed*.5
         moveDir=0
-        score=int(score)
+        score=floor(score)
         SFX.play('clear_4')
     else
         SFX.play('clear_2')
@@ -206,7 +206,7 @@ function scene.update(dt)
             local t=love.system.getClipboardText()
             if type(t)=='string' then
                 t=t:lower():match("^s=(%d+)$")
-                t=t and tonumber(t) and tonumber(t)>0 and tonumber(t)<=8000 and int(tonumber(t))
+                t=t and tonumber(t) and tonumber(t)>0 and tonumber(t)<=8000 and floor(tonumber(t))
             end
             score=type(t)=='number' and t or 0
             life=1000
@@ -276,8 +276,8 @@ function scene.draw()
     -- Draw menu
     if play then
         setFont(60)
-        mStr(int(score),-300,-640)
-        mStr(int(score),300,-640)
+        mStr(floor(score),-300,-640)
+        mStr(floor(score),300,-640)
         if score%1000>920 then
             gc.setColor(1,1,1,abs(score%1000-970)*8)
             setFont(70)
