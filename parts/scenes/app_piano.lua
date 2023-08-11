@@ -180,9 +180,9 @@ function scene.keyDown(key,isRep)
         SFX.playSample(inst,note)
         if showingKey then
             virtualKeys['key'..key:upper()]:update(true)
-            TEXT.show(SFX.getNoteName(note),math.random(75,1205),math.random(160,260),60,'score',.8)
+            TEXT.show(SFX.getNoteName(note),math.random(75,1205),math.random(162,260),60,'score',.8)
         else
-            TEXT.show(SFX.getNoteName(note),math.random(75,1205),math.random(160,500),60,'score',.8)
+            TEXT.show(SFX.getNoteName(note),math.random(75,1205),math.random(162,620),60,'score',.8)
         end
     elseif kb.isDown('lctrl','rctrl')   then _holdingCtrl()
     elseif kb.isDown('lshift','rshift') then _holdingShift()
