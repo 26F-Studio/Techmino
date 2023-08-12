@@ -1,5 +1,5 @@
 local gc,ms=love.graphics,love.mouse
-local int,rnd=math.floor,math.random
+local floor,rnd=math.floor,math.random
 local rem=table.remove
 local setFont,mStr=FONT.set,GC.mStr
 
@@ -45,8 +45,8 @@ local function tapBoard(x,y)
             startTime=TIME()
             progress=0
         elseif state==1 then
-            local X=int((x-320)/640*R)
-            local Y=int((y-40)/640*R)
+            local X=floor((x-320)/640*R)
+            local Y=floor((y-40)/640*R)
             x=R*Y+X+1
             if board[x]==progress+1 then
                 progress=progress+1

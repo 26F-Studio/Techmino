@@ -8,7 +8,7 @@ local gc_print,gc_printf=GC.print,GC.printf
 local ms,kb,tc=love.mouse,love.keyboard,love.touch
 
 local max,min=math.max,math.min
-local int,abs=math.floor,math.abs
+local floor,abs=math.floor,math.abs
 
 local mapCam={
     sel=false,-- Selected mode ID
@@ -319,7 +319,7 @@ function scene.draw()
             elseif L[1] then
                 for i=1,#L do
                     local t=M.scoreDisp(L[i])
-                    local f=int((30-#t*.5)/5)*5
+                    local f=floor((30-#t*.5)/5)*5
                     setFont(f)
                     gc_print(t,955,275+25*i+17-f*.7)
                     _=L[i].date

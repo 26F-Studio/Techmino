@@ -4,7 +4,7 @@ local gc=love.graphics
 local gc_setColor,gc_rectangle,gc_draw=gc.setColor,gc.rectangle,gc.draw
 local setFont,mStr=FONT.set,GC.mStr
 
-local int,rnd,abs=math.floor,math.random,math.abs
+local floor,rnd,abs=math.floor,math.random,math.abs
 local max,min=math.max,math.min
 local ins,rem=table.insert,table.remove
 
@@ -73,7 +73,7 @@ local function resetBoard()
     field.c,field.r=levels[level].c,levels[level].r
 
     local total=field.r*field.c/2-- Total cell count
-    local pool=TABLE.new(int(total/colors),colors)
+    local pool=TABLE.new(floor(total/colors),colors)
     for i=1,total%colors do pool[i]=pool[i]+1 end
     for i=1,#pool do pool[i]=pool[i]*2 end
     field.remain=total
@@ -186,7 +186,7 @@ local function tap(x,y)
                     field.full=false
 
                     -- Score
-                    local s=1000+int(combo^.9)
+                    local s=1000+floor(combo^.9)
                     score=score+s
                     TEXT.show("+"..s,1205,600,20,'score')
 
@@ -206,7 +206,7 @@ local function tap(x,y)
                             SFX.play('clear_4')
                             TEXT.show("FULL COMBO",640,360,100,'beat',.626)
                             comboTime=comboTime+3
-                            score=int(score*1.1)
+                            score=floor(score*1.1)
                         end
                         ins(progress,
                             noComboBreak and
@@ -270,8 +270,8 @@ function scene.keyDown(key,isRep)
     end
 end
 local function touch(x,y)
-    x=int((x-field.x)/field.w*field.c+1)
-    y=int((y-field.y)/field.h*field.r+1)
+    x=floor((x-field.x)/field.w*field.c+1)
+    y=floor((y-field.y)/field.h*field.r+1)
     tap(x,y)
 end
 function scene.mouseDown(x,y,k) if k==1 or k==2 or not k then touch(x,y) end end
@@ -283,7 +283,7 @@ function scene.update(dt)
     if state==1 then
         time=TIME()-startTime
         comboTime=max(comboTime-dt,0)
-        score1=score1+MATH.sign(score-score1)+int((score-score1)*.1+.5)
+        score1=score1+MATH.sign(score-score1)+floor((score-score1)*.1+.5)
     end
 
     for i=#lines,1,-1 do

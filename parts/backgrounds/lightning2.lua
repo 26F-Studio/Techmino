@@ -1,5 +1,5 @@
 -- Fast lightning + spining tetromino
-local int,rnd=math.floor,math.random
+local floor,rnd=math.floor,math.random
 local back={}
 
 local t
@@ -12,7 +12,7 @@ function back.update(dt)
     t=t+dt
 end
 function back.draw()
-    local R=7-int(t*.5%7)
+    local R=7-floor(t*.5%7)
     local T=1.2-t%15%6%1.8
     if T<.26 then GC.clear(T,T,T)
     else GC.clear(0,0,0)

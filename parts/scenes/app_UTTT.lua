@@ -1,5 +1,5 @@
 local gc=love.graphics
-local int=math.floor
+local floor=math.floor
 
 local lines={
     {1,2,3},
@@ -103,8 +103,8 @@ function scene.enter()
 end
 
 function scene.mouseMove(x,y)
-    x,y=int((x-280)/80),int(y/80)
-    curX,curx=int(x/3)+int(y/3)*3+1,x%3+y%3*3+1
+    x,y=floor((x-280)/80),floor(y/80)
+    curX,curx=floor(x/3)+floor(y/3)*3+1,x%3+y%3*3+1
     if
         x<0 or x>8 or
         y<0 or y>8 or
@@ -143,7 +143,7 @@ function scene.draw()
     -- Draw target area
     gc.setColor(1,1,1,math.sin((TIME()-placeTime)*5)*.1+.15)
     if target then
-        gc.rectangle('fill',(target-1)%3*30,int((target-1)/3)*30,30,30)
+        gc.rectangle('fill',(target-1)%3*30,floor((target-1)/3)*30,30,30)
     elseif not gameover then
         gc.rectangle('fill',0,0,90,90)
     end
@@ -151,7 +151,7 @@ function scene.draw()
     -- Draw cursor
     if curX then
         gc.setColor(1,1,1,.3)
-        gc.rectangle('fill',(curX-1)%3*30+(curx-1)%3*10-.5,int((curX-1)/3)*30+int((curx-1)/3)*10-.5,11,11)
+        gc.rectangle('fill',(curX-1)%3*30+(curx-1)%3*10-.5,floor((curX-1)/3)*30+floor((curx-1)/3)*10-.5,11,11)
     end
 
     gc.setLineWidth(.8)
@@ -164,13 +164,13 @@ function scene.draw()
             else
                 gc.setColor(COLOR.D)
             end
-            gc.rectangle('fill',(X-1)%3*30,int((X-1)/3)*30,30,30)
+            gc.rectangle('fill',(X-1)%3*30,floor((X-1)/3)*30,30,30)
         end
         for x=1,9 do
             local c=board[X][x]
             if c then
                 local _x=(X-1)%3*30+(x-1)%3*10
-                local _y=int((X-1)/3)*30+int((x-1)/3)*10
+                local _y=floor((X-1)/3)*30+floor((x-1)/3)*10
                 if c==0 then
                     gc.setColor(1,.2,.2)
                     gc.rectangle('line',_x+2.25,_y+2.25,5.5,5.5)
@@ -195,7 +195,7 @@ function scene.draw()
     if lastX then
         gc.setColor(.5,1,.4,.8)
         local r=.5+.5*math.sin(TIME()*6.26)
-        gc.rectangle('line',(lastX-1)%3*30+(lastx-1)%3*10-r,int((lastX-1)/3)*30+int((lastx-1)/3)*10-r,10+2*r,10+2*r)
+        gc.rectangle('line',(lastX-1)%3*30+(lastx-1)%3*10-r,floor((lastX-1)/3)*30+floor((lastx-1)/3)*10-r,10+2*r,10+2*r)
     end
     gc.pop()
 

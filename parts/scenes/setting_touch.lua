@@ -1,5 +1,5 @@
 local gc,ms=love.graphics,love.mouse
-local int,sin=math.floor,math.sin
+local floor,sin=math.floor,math.sin
 local VK_ORG=VK_ORG
 
 local scene={}
@@ -74,7 +74,7 @@ end
 function scene.touchUp()
     if selected then
         local B=VK_ORG[selected]
-        B.x,B.y=int(B.x/snapUnit+.5)*snapUnit,int(B.y/snapUnit+.5)*snapUnit
+        B.x,B.y=floor(B.x/snapUnit+.5)*snapUnit,floor(B.y/snapUnit+.5)*snapUnit
     end
 end
 function scene.touchMove(_,_,dx,dy)
