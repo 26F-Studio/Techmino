@@ -131,19 +131,24 @@ local function _showVirtualKey(switch)
     end
 end
 
-local function _holdingCtrl()
-    virtualKeys['keyCtrl'].color=COLOR.R
-    _setNoteName(offset-1)
-end
-local function _holdingShift()
-    virtualKeys['keyShift'].color=COLOR.R
-    _setNoteName(offset+1)
-end
 local function _notHoldCS()
     flattt,sharpt=false,false
     virtualKeys['keyCtrl'].color,virtualKeys['keyShift'].color=COLOR.Z,COLOR.Z
     _setNoteName(offset)
 end
+local function _holdingCtrl()
+    _notHoldCS()
+    flattt=true
+    virtualKeys['keyCtrl'].color=COLOR.R
+    _setNoteName(offset-1)
+end
+local function _holdingShift()
+    _notHoldCS()
+    sharpt=true
+    virtualKeys['keyShift'].color=COLOR.R
+    _setNoteName(offset+1)
+end
+
 
 
 
