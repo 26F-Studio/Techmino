@@ -1,7 +1,7 @@
 local gc,sys=love.graphics,love.system
 local kb=love.keyboard
 
-local max,min,int=math.max,math.min,math.floor
+local max,min,floor=math.max,math.min,math.floor
 local ins,rem=table.insert,table.remove
 
 local FIELD=FIELD
@@ -129,7 +129,7 @@ function scene.leave()
 end
 
 function scene.mouseMove(x,y)
-    local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
+    local sx,sy=floor((x-200)/30)+1,20-floor((y-60)/30)
     if sx>=1 and sx<=10 and sy>=1 and sy<=20 then
         penX,penY=sx,sy
         if curPen then
@@ -434,7 +434,7 @@ function scene.draw()
     gc.setColor(1,1,1)
     for i=1,7 do
         local skin=SETTING.skin[i]-1
-        GC.mStr(text.block[i],580+(skin%8)*80,90+80*int(skin/8))
+        GC.mStr(text.block[i],580+(skin%8)*80,90+80*floor(skin/8))
     end
 end
 

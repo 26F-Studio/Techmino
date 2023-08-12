@@ -1,7 +1,7 @@
 local gc,sys=love.graphics,love.system
 local kb=love.keyboard
 
-local int,sin=math.floor,math.sin
+local floor,sin=math.floor,math.sin
 local ins,rem=table.insert,table.remove
 
 local scene={}
@@ -151,7 +151,7 @@ function scene.draw()
             end
             if i<=j then
                 setFont(35)
-                local N=int(L[i]*.1)
+                local N=floor(L[i]*.1)
                 if N>0 then
                     gc.setColor(libColor[set[N]])
                 elseif L[i]>4 then

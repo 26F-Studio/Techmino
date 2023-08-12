@@ -1,5 +1,5 @@
 local gc,kb,sys=love.graphics,love.keyboard,love.system
-local int=math.floor
+local floor=math.floor
 local CUSTOMENV=CUSTOMENV
 
 local sList={
@@ -132,7 +132,7 @@ function scene.draw()
 
     -- Sequence
     if #MISSION>0 then
-        gc.setColor(1,CUSTOMENV.missionKill and 0 or 1,int(TIME()*6.26)%2)
+        gc.setColor(1,CUSTOMENV.missionKill and 0 or 1,floor(TIME()*6.26)%2)
         gc.print("#"..#MISSION,70,220)
     end
 
@@ -157,14 +157,14 @@ function scene.draw()
         end end
         gc.pop()
         if #FIELD>1 then
-            gc.setColor(1,1,int(TIME()*6.26)%2)
+            gc.setColor(1,1,floor(TIME()*6.26)%2)
             gc.print("+"..#FIELD-1,490,220)
         end
     end
 
     -- Sequence
     if #BAG>0 then
-        gc.setColor(1,1,int(TIME()*6.26)%2)
+        gc.setColor(1,1,floor(TIME()*6.26)%2)
         gc.print("#"..#BAG,615,220)
     end
 

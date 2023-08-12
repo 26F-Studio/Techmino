@@ -4,7 +4,7 @@
 
 local Player={}-- Player class
 
-local int,ceil,rnd=math.floor,math.ceil,math.random
+local floor,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,abs,modf=math.max,math.min,math.abs,math.modf
 local assert,ins,rem=assert,table.insert,table.remove
 local resume,yield,status=coroutine.resume,coroutine.yield,coroutine.status
@@ -42,7 +42,7 @@ function Player:_rotateField(dir)
 end
 function Player:shakeField(strength)-- Range: 1~10
     if self.gameEnv.shakeFX then
-        self.shakeTimer=max(self.shakeTimer,3*self.gameEnv.shakeFX+int(4*min(max(strength,1),10)))
+        self.shakeTimer=max(self.shakeTimer,3*self.gameEnv.shakeFX+floor(4*min(max(strength,1),10)))
     end
 end
 function Player:checkTouchSound()
@@ -198,7 +198,7 @@ function Player:createBeam(R,send)
         local r,g,b=c[1]*2,c[2]*2,c[3]*2
         local a=(power+2)*.0626
         if self.type~='human' and R.type~='human' then a=a*.2 end
-        SYSFX.newAttack(1-power*.1,x1,y1,x2,y2,int(send^.7*(4+power)),r,g,b,a)
+        SYSFX.newAttack(1-power*.1,x1,y1,x2,y2,floor(send^.7*(4+power)),r,g,b,a)
     end
 end
 --------------------------</FX>--------------------------
@@ -874,7 +874,7 @@ function Player:receive(A,send,time,line)
             cd0=time,
             time=0,
             sent=false,
-            lv=min(int(send^.69),5),
+            lv=min(floor(send^.69),5),
         })-- Sorted insert(by time)
         self.atkBufferSum=self.atkBufferSum+send
         self.stat.recv=self.stat.recv+send
@@ -1127,7 +1127,7 @@ function Player:_checkMission(piece,mission)
     elseif mission==9 then
         return piece.pc
     elseif mission<90 then
-        return piece.row==mission%10 and piece.name==int(mission/10) and piece.spin
+        return piece.row==mission%10 and piece.name==floor(mission/10) and piece.spin
     end
     return false
 end
@@ -1148,8 +1148,8 @@ function Player:resetBlock()-- Reset Block's position and execute I*S
     local C=self.cur
     local sc=C.RS.centerPos[C.id][C.dir]
 
-    self.curX=int(6-#C.bk[1]*.5)
-    local y=int(self.gameEnv.fieldH+1-modf(sc[1]))+ceil(self.fieldBeneath/30)
+    self.curX=floor(6-#C.bk[1]*.5)
+    local y=floor(self.gameEnv.fieldH+1-modf(sc[1]))+ceil(self.fieldBeneath/30)
     self.curY=y
     self.minY=y+sc[1]
 
@@ -1191,7 +1191,7 @@ end
 
 function Player:getNextSpawn()
     local cur = self.nextQueue[1]
-    return int(self.gameEnv.fieldH+1-modf(cur.RS.centerPos[cur.id][cur.dir][1]))+ceil(self.fieldBeneath/30)
+    return floor(self.gameEnv.fieldH+1-modf(cur.RS.centerPos[cur.id][cur.dir][1]))+ceil(self.fieldBeneath/30)
 end
 
 function Player:spin(d,ifpre)
@@ -1275,9 +1275,9 @@ function Player:hold_norm(ifpre)
             x=x+(#C.bk[1]-#H.bk[1])*.5
             y=y+(#C.bk-#H.bk)*.5
 
-            local iki=phyHoldKickX[x==int(x)]
+            local iki=phyHoldKickX[x==floor(x)]
             local success
-            for Y=int(y),ceil(y+.5) do
+            for Y=floor(y),ceil(y+.5) do
                 for i=1,#iki do
                     local X=x+iki[i]
                     if not self:ifoverlap(H.bk,X,Y) then
@@ -1321,7 +1321,7 @@ function Player:hold_norm(ifpre)
         self:_checkSuffocate()
     end
 
-    self.freshTime=int(min(self.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((self.holdTime+1)/ENV.holdCount),ENV.freshLimit))
+    self.freshTime=floor(min(self.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((self.holdTime+1)/ENV.holdCount),ENV.freshLimit))
     if not ENV.infHold then
         self.holdTime=self.holdTime-1
     end
@@ -1344,9 +1344,9 @@ function Player:hold_swap(ifpre)
             x=x+(#C.bk[1]-#H.bk[1])*.5
             y=y+(#C.bk-#H.bk)*.5
 
-            local iki=phyHoldKickX[x==int(x)]
+            local iki=phyHoldKickX[x==floor(x)]
             local success
-                for Y=int(y),ceil(y+.5) do
+                for Y=floor(y),ceil(y+.5) do
                     for i=1,#iki do
                         local X=x+iki[i]
                         if not self:ifoverlap(H.bk,X,Y) then
@@ -1386,7 +1386,7 @@ function Player:hold_swap(ifpre)
         self:_checkSuffocate()
     end
 
-    self.freshTime=int(min(self.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((self.holdTime+1)/ENV.holdCount),ENV.freshLimit))
+    self.freshTime=floor(min(self.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((self.holdTime+1)/ENV.holdCount),ENV.freshLimit))
     if not ENV.infHold then
         self.holdTime=self.holdTime-1
     end
@@ -1847,7 +1847,7 @@ do
                 self:showText(text.clear[cc],0,-30,35,'appear',(8-cc)*.3)
                 yomi = text.clear[cc]..yomi
                 atk=cc-.5
-                sendTime=20+int(atk*20)
+                sendTime=20+floor(atk*20)
                 cscore=cscore+clearSCR[cc]
                 piece.special=false
             end
@@ -1925,10 +1925,10 @@ do
             end
 
             -- Send Lines
-            atk=int(atk*(1+self.strength*.25))-- Badge Buff
+            atk=floor(atk*(1+self.strength*.25))-- Badge Buff
             send=atk
             if exblock>0 then
-                exblock=int(exblock*(1+self.strength*.25))-- Badge Buff
+                exblock=floor(exblock*(1+self.strength*.25))-- Badge Buff
                 self:showText("+"..exblock,0,53,20,'fly')
                 off=off+self:cancel(exblock)
             end
@@ -2017,7 +2017,7 @@ do
             cscore=cscore*(.9+self.dropSpeed/600)
         end
 
-        cscore=int(cscore)
+        cscore=floor(cscore)
         self:popScore(cscore)
 
         piece.row,piece.dig=cc,gbcc
@@ -2049,7 +2049,7 @@ do
         -- Prevent sudden death if hang>0
         if ENV.hang>ENV.wait and self.nextQueue[1] then
             local B=self.nextQueue[1]
-            if self:ifoverlap(B.bk,int(6-#B.bk[1]*.5),int(ENV.fieldH+1-modf(B.RS.centerPos[B.id][B.dir][1]))+ceil(self.fieldBeneath/30)) then
+            if self:ifoverlap(B.bk,floor(6-#B.bk[1]*.5),floor(ENV.fieldH+1-modf(B.RS.centerPos[B.id][B.dir][1]))+ceil(self.fieldBeneath/30)) then
                 self.waiting=self.waiting+ENV.hang
             end
         end
@@ -2075,7 +2075,7 @@ do
         if atk>0 then
             Stat.atk=Stat.atk+atk
             if send>0 then
-                Stat.send=Stat.send+int(send)
+                Stat.send=Stat.send+floor(send)
             end
             if off>0 then
                 Stat.off=Stat.off+off
@@ -2642,9 +2642,9 @@ local function update_streaming(P)
             P:releaseKey(event-32)
         elseif event>0x2000000000000 then-- Sending lines
             local sid=event%0x100
-            local amount=int(event/0x100)%0x100
-            local time=int(event/0x10000)%0x10000
-            local line=int(event/0x100000000)%0x10000
+            local amount=floor(event/0x100)%0x100
+            local time=floor(event/0x10000)%0x10000
+            local line=floor(event/0x100000000)%0x10000
             for _,p in next,PLY_ALIVE do
                 if p.sid==sid then
                     P.netAtk=P.netAtk+amount
@@ -2665,9 +2665,9 @@ local function update_streaming(P)
                 if p.sid==sid then
                     P:receive(
                         p,
-                        int(event/0x100)%0x100,-- amount
-                        int(event/0x10000)%0x10000,-- time
-                        int(event/0x100000000)%0x10000-- line
+                        floor(event/0x100)%0x100,-- amount
+                        floor(event/0x10000)%0x10000,-- time
+                        floor(event/0x100000000)%0x10000-- line
                     )
                     break
                 end

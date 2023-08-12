@@ -1,6 +1,6 @@
 local gc=love.graphics
 local rnd=math.random
-local int,ceil=math.floor,math.ceil
+local floor,ceil=math.floor,math.ceil
 local ins,rem=table.insert,table.remove
 
 local timing,time
@@ -10,22 +10,22 @@ local function b8(i) return STRING.toOct(i).."₈" end
 local function b16(i) return STRING.toHex(i).."₁₆" end
 
 local charData={
-["0"]={5,40, 15,40,20,35,20,5, 15,0, 5,0,  0,5,  0,35, 5,40},
-["1"]={2,8, 10,0, 10,40, 2,40, 1,40, 2,40, 18,40},
-["2"]={0,5,  5,0,  15,0, 20,5, 20,20,0,39, 0,40, 25,40},
-["3"]={0,5,  5,0,  15,0, 20,5, 20,15,15,20,5,20, 4,20, 5,20, 15,20,20,25,20,35,15,40,5,40,0,35},
-["4"]={20,20,0,20, 13,0, 13,40},
-["5"]={20,0, 0,0,  0,20, 5,15, 15,15,20,20,20,35,15,40,5,40, 0,35},
-["6"]={20,5, 15,0, 5,0,  0,5,  0,35, 5,40, 15,40,20,35,20,20,15,15,5,15, 0,20},
-["7"]={0,0,  20,0, 5,40},
-["8"]={5,0,  15,0, 20,5, 20,15,15,20,5,20, 0,25, 0,35, 5,40, 15,40,20,35,20,25,15,20,5,20,0,15,0,5,5,0},
-["9"]={20,15,15,20,5,20, 0,15, 0,5,  5,0,  15,0, 20,5, 20,35,15,40,5,40, 0,35},
-    A={0,40, 10,0, 20,40,0,0,  20,40,15,20,5,20},
-    B={0,40, 0,0,  15,0, 20,5, 20,15,15,20,0,20, -1,20,0,20, 15,20,20,25,20,35,15,40,0,40},
-    C={20,35,15,40,5,40, 0,35, 0,5,  5,0,  15,0, 20,5},
-    D={0,40, 0,0,  10,0, 20,10,20,30,10,40,0,40},
-    E={20,0, 0,0,  0,20, 15,20,20,20,0,20, 0,40,20,40},
-    F={20,0, 0,0,  0,20, 15,20,20,20,0,20, 0,40}
+    ["0"]={5,40,15,40,20,35,20,5,15,0,5,0,0,5,0,35,5,40},
+    ["1"]={2,8,10,0,10,40,2,40,1,40,2,40,18,40},
+    ["2"]={0,5,5,0,15,0,20,5,20,20,0,39,0,40,25,40},
+    ["3"]={0,5,5,0,15,0,20,5,20,15,15,20,5,20,4,20,5,20,15,20,20,25,20,35,15,40,5,40,0,35},
+    ["4"]={20,20,0,20,13,0,13,40},
+    ["5"]={20,0,0,0,0,20,5,15,15,15,20,20,20,35,15,40,5,40,0,35},
+    ["6"]={20,5,15,0,5,0,0,5,0,35,5,40,15,40,20,35,20,20,15,15,5,15,0,20},
+    ["7"]={0,0,20,0,5,40},
+    ["8"]={5,0,15,0,20,5,20,15,15,20,5,20,0,25,0,35,5,40,15,40,20,35,20,25,15,20,5,20,0,15,0,5,5,0},
+    ["9"]={20,15,15,20,5,20,0,15,0,5,5,0,15,0,20,5,20,35,15,40,5,40,0,35},
+    ["A"]={0,40,10,0,20,40,0,0,20,40,15,20,5,20},
+    ["B"]={0,40,0,0,15,0,20,5,20,15,15,20,0,20,-1,20,0,20,15,20,20,25,20,35,15,40,0,40},
+    ["C"]={20,35,15,40,5,40,0,35,0,5,5,0,15,0,20,5},
+    ["D"]={0,40,0,0,10,0,20,10,20,30,10,40,0,40},
+    ["E"]={20,0,0,0,0,20,15,20,20,20,0,20,0,40,20,40},
+    ["F"]={20,0,0,0,0,20,15,20,20,20,0,20,0,40}
 }
 local drawing
 local drawLines,drawVel,indexes
@@ -66,7 +66,7 @@ local levels={
     end,nil,nil,
     function()-- 4~6 <+> [,20]
         local s=rnd(10,18)
-        local a=rnd(s-9,int(s/2))
+        local a=rnd(s-9,floor(s/2))
         return a.."+"..s-a,s,function()
             drawChar(a,600,200)
             drawChar(s-a,600,350)
@@ -77,7 +77,7 @@ local levels={
     end,nil,nil,
     function()-- 7~9 <+> [,100]
         local s=rnd(22,99)
-        local a=rnd(11,int(s/2))
+        local a=rnd(11,floor(s/2))
         return a.."+"..s-a,s,function()
             drawChar(a,600,200)
             drawChar(s-a,600,350)
@@ -98,7 +98,7 @@ local levels={
     end,nil,nil,
     function()-- 13~15 <-> [,100]
         local s=rnd(22,99)
-        local a=rnd(11,int(s/2))
+        local a=rnd(11,floor(s/2))
         return s.."-"..a,s-a,function()
             drawChar(s,600,200)
             drawChar(a,600,350)
@@ -122,7 +122,7 @@ local levels={
     function()-- 21~25 <*> [,100]
         local b=rnd(21,89)
         local a=rnd(ceil(b/10),9)
-        b=int(b/a)
+        b=floor(b/a)
         return a.."*"..b,a*b,function()
             drawChar(a>b and a or b,600,200)
             drawChar(a>b and b or a,600,350)
@@ -144,7 +144,7 @@ local levels={
     function()-- 29~33 </> [,100]
         local b=rnd(21,89)
         local a=rnd(ceil(b/10),9)
-        b=int(b/a)
+        b=floor(b/a)
         return a*b.."/"..a,b,function()
             drawChar(a*b,560,300,1,true)
             drawChar(a,400,300)
@@ -172,7 +172,7 @@ local levels={
         local a=rnd(2,9)
         return {COLOR.N,b2(a)},a,function()
             local b=STRING.toBin(a)
-            local l=math.floor(math.log(a,2)+1)
+            local l=floor(math.log(a,2)+1)
             for i=1,l do
                 drawChar(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
                 ins(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
@@ -191,7 +191,7 @@ local levels={
         local a=rnd(9,63)
         return {COLOR.lR,b8(a)},a,function()
         local b=STRING.toOct(a)
-        local l=math.floor(math.log(a,8)+1)
+        local l=floor(math.log(a,8)+1)
         for i=1,l do
             drawChar(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
             ins(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
@@ -210,7 +210,7 @@ local levels={
         local a=rnd(17,255)
         return {COLOR.J,b16(a)},a,function()
             local b=STRING.toHex(a)
-            local l=math.floor(math.log(a,16)+1)
+            local l=floor(math.log(a,16)+1)
             for i=1,l do
                 local c=string.sub(b,i,i)
                 if ("0123456789"):find(c,nil,true) then
@@ -233,14 +233,14 @@ local levels={
     end,nil,nil,
     function()-- 54~58 <b+>
         local s=rnd(9,31)
-        local a=rnd(5,int(s/2))
+        local a=rnd(5,floor(s/2))
         return {COLOR.N,b2(a),COLOR.Z,"+",COLOR.N,b2(s-a)},s,function()
             drawChar(tonumber(STRING.toBin(a)),220,200,.6)
             drawChar(tonumber(STRING.toBin(s-a)),220,335,.6)
             ins(drawLines,{0,470,300,470})
             ins(drawLines,{320,470,400,470})
             ins(drawLines,{360,430,360,510})
-            local l=math.floor(math.log(s,2)+1)
+            local l=floor(math.log(s,2)+1)
             for i=1,l do
                 ins(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
                 ins(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
@@ -256,14 +256,14 @@ local levels={
     end,nil,nil,nil,nil,
     function()-- 59~62 <o+>
         local s=rnd(18,63)
-        local a=rnd(9,int(s/2))
+        local a=rnd(9,floor(s/2))
         return {COLOR.lR,b8(a),COLOR.Z,"+",COLOR.lR,b8(s-a)},s,function()
             drawChar(tonumber(STRING.toOct(a)),220,200,.6)
             drawChar(tonumber(STRING.toOct(s-a)),220,335,.6)
             ins(drawLines,{0,470,300,470})
             ins(drawLines,{320,470,400,470})
             ins(drawLines,{360,430,360,510})
-            local l=math.floor(math.log(s,8)+1)
+            local l=floor(math.log(s,8)+1)
             for i=1,l do
                 ins(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
                 ins(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
@@ -279,14 +279,14 @@ local levels={
     end,nil,nil,nil,
     function()-- 63~65 <h+>
         local s=rnd(34,255)
-        local a=rnd(17,int(s/2))
+        local a=rnd(17,floor(s/2))
         return {COLOR.J,b16(a),COLOR.Z,"+",COLOR.J,b16(s-a)},s,function()
             drawChar(tonumber(STRING.toHex(a)),220,200,.6)
             drawChar(tonumber(STRING.toHex(s-a)),220,335,.6)
             ins(drawLines,{0,470,300,470})
             ins(drawLines,{320,470,400,470})
             ins(drawLines,{360,430,360,510})
-            local l=math.floor(math.log(s,16)+1)
+            local l=floor(math.log(s,16)+1)
             for i=1,l do
                 ins(drawLines,{620,580-100*(l-i),660,540-100*(l-i)})
                 ins(drawLines,{620,540-100*(l-i),660,580-100*(l-i)})
@@ -351,16 +351,6 @@ end
 
 local function isDrawing() return drawing end -- for hiding widgets
 local function isntDrawing() return not drawing end
-local function drawDrawing()
-    gc.setLineWidth(10)
-    -- gc.setLineWidth(drawVel[i][(j+1)/2])      (couldn't implement without weird looking disjointed lines)
-    gc.setLineJoin('bevel')
-    for i=1,#drawLines do
-        if #drawLines[i]>=4 then
-            gc.line(drawLines[i])
-        end
-    end
-end
 
 
 local scene={}
@@ -487,7 +477,15 @@ function scene.update(dt)
 end
 function scene.draw()
     gc.setColor(drawing and COLOR.Z or COLOR.H)
-    drawDrawing()
+    gc.setLineWidth(10)
+    -- gc.setLineWidth(drawVel[i][(j+1)/2])      (couldn't implement without weird looking disjointed lines)
+    gc.setLineJoin('bevel')
+    for i=1,#drawLines do
+        if #drawLines[i]>=4 then
+            gc.line(drawLines[i])
+        end
+    end
+
     gc.setColor(COLOR.Z)
     if not drawing then
         FONT.set(45)
@@ -536,8 +534,8 @@ scene.widgetList={
     WIDGET.newKey{name='7',      x=540, y=320,w=90,font=60,fText="7",code=pressKey'7',hideF=isDrawing},
     WIDGET.newKey{name='8',      x=640, y=320,w=90,font=60,fText="8",code=pressKey'8',hideF=isDrawing},
     WIDGET.newKey{name='9',      x=740, y=320,w=90,font=60,fText="9",code=pressKey'9',hideF=isDrawing},
-    WIDGET.newKey{name='D',      x=440, y=620,w=90,font=60,fText="D",code=pressKey'd',hideF=isDrawing},
-    WIDGET.newKey{name='D_d',    x=1200,y=80 ,w=80,font=50,fText="D",code=pressKey'd',hideF=isntDrawing},
+    WIDGET.newKey{name='D',      x=440, y=620,w=90,font=60,fText=CHAR.icon.pencil,code=pressKey'd',hideF=isDrawing},
+    WIDGET.newKey{name='D_d',    x=1200,y=80 ,w=80,font=50,fText=CHAR.icon.pencil,code=pressKey'd',hideF=isntDrawing},
     WIDGET.newKey{name='A',      x=1120,y=80 ,w=80,font=50,fText="A",code=pressKey'a',hideF=isntDrawing},
     WIDGET.newKey{name='X_d',    x=1040,y=80 ,w=80,font=50,fText=CHAR.key.clear,code=pressKey'backspace',hideF=isntDrawing},
     WIDGET.newKey{name='undo',   x=960, y=80, w=80,font=50,fText=CHAR.icon.retry_spin,code=pressKey'ctrl_z',hideF=isntDrawing},
