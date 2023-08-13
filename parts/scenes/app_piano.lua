@@ -89,19 +89,24 @@ for k=1,#virtualKeys do
     local K=virtualKeys[k]
     -- Overwrite the update function
     function K:update(activateState)
+        -- activateState
+            -- 0 - On
+            -- 1 - On then off
+            -- 2 - On
         local dt=love.timer.getDelta()
         local ATV=self.ATV
         local maxTime=6.2
 
-        self.activateState=ATV<maxTime and (self.activateState or activateState)
+        if activateState~=nil then self.activateState=activateState
+        elseif (self.activateState==1 and ATV==maxTime) or not self.activateState then self.activateState=0 end
 
         -- When I can emulate holding key
         -- self.activateState=activateState and activateState or not ATV>maxTime and self.activateState end
 
-        if self.activateState then
-            if ATV<maxTime then self.ATV=min(ATV+dt*60,maxTime) end
-        else
-            if ATV>0       then self.ATV=max(ATV-dt*30,0)       end
+        if self.activateState>0 then
+            self.ATV=min(ATV+dt*60,maxTime)
+        elseif ATV>0 then
+            self.ATV=max(ATV-dt*30,0)
         end
     end
     -- Remove unnecessary function (reduce memory usage)
@@ -131,20 +136,21 @@ local function _showVirtualKey(switch)
     end
 end
 
+local function _notHoldCS(a)
+    flattt,sharpt=false,false
+    virtualKeys['keyCtrl'].color,virtualKeys['keyShift'].color=COLOR.Z,COLOR.Z
+    if not a then _setNoteName(offset) end
+end
 local function _holdingCtrl()
+    _notHoldCS(1)
     virtualKeys['keyCtrl'].color=COLOR.R
     _setNoteName(offset-1)
 end
 local function _holdingShift()
+    _notHoldCS(1)
     virtualKeys['keyShift'].color=COLOR.R
     _setNoteName(offset+1)
 end
-local function _notHoldCS()
-    flattt,sharpt=false,false
-    virtualKeys['keyCtrl'].color,virtualKeys['keyShift'].color=COLOR.Z,COLOR.Z
-    _setNoteName(offset)
-end
-
 
 
 -- Set scene's variables
@@ -153,16 +159,15 @@ function scene.enter()
     offset=0
     lastPlayBGM=BGM.getPlaying()[1]
     BGM.stop()
-    _setNoteName(0)
-    _showVirtualKey(MOBILE and true or false)
     _notHoldCS()
+    _showVirtualKey(MOBILE and true or false)
 end
 
 function scene.touchDown(x,y,_)
     if showingKey then
         for k=1,#virtualKeys do
             local K=virtualKeys[k]
-            if K:isAbove(x,y) then K.code(); K:update(true) end end
+            if K:isAbove(x,y) then K.code(); K:update(1) end end
         -- Change Shift/Ctrl key's color when shift note temproraily
         if flattt or sharpt then
             if flattt then _holdingCtrl() else _holdingShift() end
@@ -179,7 +184,7 @@ function scene.keyDown(key,isRep)
         if kb.isDown('lctrl','rctrl')   or flattt then note=note-1 end
         SFX.playSample(inst,note)
         if showingKey then
-            virtualKeys['key'..key:upper()]:update(true)
+            virtualKeys['key'..key:upper()]:update(1)
             TEXT.show(SFX.getNoteName(note),math.random(75,1205),math.random(162,260),60,'score',.8)
         else
             TEXT.show(SFX.getNoteName(note),math.random(75,1205),math.random(162,620),60,'score',.8)
@@ -209,7 +214,6 @@ function scene.draw()
     setFont(30)
     GC.setColor(1,1,1)
     gc.print(inst.." | "..offset,30,40)
-    -- gc.print(offset,40,100)
 
     -- Drawing virtual keys
     if showingKey then
@@ -224,9 +228,7 @@ end
 
 function scene.update()
     -- Call actions
-    for k=1,#virtualKeys do
-        virtualKeys[k]:update()
-    end
+    for k=1,#virtualKeys do virtualKeys[k]:update() end
 end
 
 scene.widgetList={
