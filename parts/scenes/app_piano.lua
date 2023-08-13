@@ -90,7 +90,7 @@ for k=1,#virtualKeys do
     -- Overwrite the update function
     function K:update(activateState)
         -- activateState
-            -- 0 - On
+            -- 0 - Off
             -- 1 - On then off
             -- 2 - On
         local dt=love.timer.getDelta()
