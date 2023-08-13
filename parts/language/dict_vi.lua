@@ -14,7 +14,7 @@ Mở mục tiếp theo để xem mục lục, hoặc có thể nhảy tới mụ
 Đây là bản dịch tiếng Việt của Squishy từ bản dịch tiếng Anh của User670 và C₂₉H₂₅N₃O₅
 Bản dịch có thể không thể hiện 100% nội dung của Zictionary tiếng Trung (bản gốc)
 
-Đây là bản phát hành đầu, có thể sẽ có một số chỗ bị sai sót hoặc đọc bị cấn miệng. Nếu bạn muốn đóng góp, có thể vào trang dự án Techmino ở trên GitHub để đóng góp bản dịch.
+Có đóng góp? Bạn có thể vào trang dự án Techmino trên GitHub để đóng góp bản dịch.
 Có câu hỏi? Liên hệ mình qua server Techmino trên Discord. Mình hiện tại đang chờ feedback để hoàn chỉnh bản dịch cho tốt hơn.
         ]],
         "https://github.com/26F-Studio/Techmino/blob/main/parts/language/dict_vi.lua",
@@ -188,7 +188,7 @@ B. Efficiency & Speed (Hiệu quả & Tốc độ)
         B3. Đừng lo lắng về tốc độ khi bạn mới tập chơi Finesse, đây là chuyện bình thường. Hơn nữa bạn có thể tập chơi nhanh hơn một khi bạn đã quen tay — việc này không khó đâu!
 
 C. Practice (Luyện tập):
-    Hãy hoàn thành một cách ổn định các chế độ sau
+    Cố gắng hoàn thành các chế độ sau
         C1. "40 hàng".
         C2. "40 hàng" mà không dùng HOLD.
         C3. "40 hàng" mà chỉ được làm Techrash.
@@ -265,7 +265,7 @@ Dưới đây là các yếu tố chính để làm nên Tetris, tuy nhiên chú
     5. Có một hệ thống trì hoãn khóa gạch thích hợp.
     6. Có điều kiện kiểm tra gạch có đè lên gạch khác hay không.
     7. Có NEXT - hiện một vài (thường từ 3-6) gạch sắp rơi, những gạch này xuất hiện ở tư thế mà chúng sẽ xuất hiện khi được sinh ra.
-    8. Cho phép giữ gạch (Hold).
+    8. Cho phép Hold
     9. Nếu có spawn delay hoặc clear delay, game thường sẽ có hệ thống IRS và IHS.
     10. Có hệ thống DAS cho các chuyển động ngang chính xác và nhanh chóng.
         ]],
@@ -278,7 +278,7 @@ Dưới đây là các yếu tố chính để làm nên Tetris, tuy nhiên chú
     {"Hold (Giữ)",
         "nhom05 hold",
         "term",
-        "Lưu gạch để sử dụng sau, và lấy gạch tiếp theo từ NEXT\nNếu có gạch đang giữ, tráo đổi giữa gạch đang rơi và gạch trong HOLD\n\n*Chỉ có trên Techmino*: Techmino có một tính năng gọi là “In-place Hold” (“Giữ ngay tại chỗ”). Khi được bật thì gạch được lấy ra từ Hold sẽ xuất hiện ngay tại vị trí gạch đang rơi, thay vì xuất hiện ngay ở trên cùng bảng",
+        "Cất gạch đang rơi khi không cần và có thể lấy nó ra khi cần thiết, và lấy gạch tiếp theo từ NEXT\nNếu có gạch đang giữ, mang gạch trong HOLD ra dùng và giữ gạch đang rơi.\n\n*Chỉ có trên Techmino*: Techmino có một tính năng gọi là “In-place Hold” (“Giữ ngay tại chỗ”). Khi được bật, gạch lấy ra từ Hold sẽ xuất hiện ngay tại vị trí mà gạch kia đang rơi, thay vì rơi ở phía trên cùng của bảng ",
     },
     {"Swap",
         "nhom05 hold",
@@ -290,7 +290,7 @@ Dưới đây là các yếu tố chính để làm nên Tetris, tuy nhiên chú
         "term",
         [[
 Một tựa game xếp gạch hiện đại thường có 3 điều kiện để “game over”:
-1. Block out: Gạch mới được sinh ra chồng chéo với một gạch đã đặt;
+1. Block out: Gạch mới nằm chồng lên một gạch đã đặt;
 2. Lock out: Có gạch nằm trên vùng skyline (đường chân trời);
 3. Top out: Độ cao của bảng vượt quá độ cao cho phép (độ cao cho phép thường là 40 ô).
 Techmino không kiểm tra điều kiện Lock out và Top out.
@@ -1342,7 +1342,7 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
     {"Chế độ MPH",
         "nhom07 mph",
         "term",
-        "Sự kết hợp của ba quy tắc: “Không nhớ gì” (chuỗi gạch tạo ra hoàn toàn ngẫu nhiên), “Không biết trước gạch nào sẽ tới” (không hiện NEXT), và “Không giữ được”. Một chế độ đòi hỏi tốc độ phản ứng.",
+        "Sự kết hợp của ba quy tắc: “Memoryless — Không nhớ gì” (chuỗi gạch tạo ra hoàn toàn ngẫu nhiên), “Previewless — Không biết trước gạch nào sẽ tới” (không hiện NEXT), và “Previewless — Không Hold được”. Một chế độ đòi hỏi tốc độ phản ứng.",
     },
     {"Secret Grade",
         "nhom07 larger than",
