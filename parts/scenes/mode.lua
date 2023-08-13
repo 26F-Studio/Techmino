@@ -344,7 +344,8 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newKey{name='mod',     x=140,y=655,w=220,h=80,font=35,code=goScene'mod'},
+    WIDGET.newKey   {name='mod',  x=140,y=655,w=220,h=80,font=35,code=goScene'mod',hideF=function() return #GAME.mod~=0 end},
+    WIDGET.newButton{name='mod',  x=140,y=655,w=220,h=80,color='O',font=35,text=LANG.get('mod'),code=goScene'mod',hideF=function() return #GAME.mod==0 end},
     WIDGET.newButton{name='start',x=1040,y=655,w=180,h=80,font=40,code=pressKey'return',hideF=function() return not mapCam.sel end},
     WIDGET.newButton{name='back', x=1200,y=655,w=120,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
