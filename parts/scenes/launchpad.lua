@@ -5,7 +5,7 @@ local gc_rectangle,gc_circle=GC.rectangle,GC.circle
 
 local isDown=love.keyboard.isDown
 
-local int,max,min=math.floor,math.max,math.min
+local floor,max,min=math.floor,math.max,math.min
 
 local mStr=GC.mStr
 
@@ -169,7 +169,7 @@ local function press(x,y)
 end
 
 function scene.touchDown(x,y)
-    x,y=int((x-pad.x)/80),int((y-pad.y)/80)
+    x,y=floor((x-pad.x)/80),floor((y-pad.y)/80)
     if x>=0 and x<=8 and y>=0 and y<=7 then
         press(x,y+1)
     end

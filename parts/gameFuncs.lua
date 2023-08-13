@@ -5,7 +5,7 @@ local gc_setShader=GC.setShader
 local gc_draw,gc_rectangle,gc_printf=GC.draw,GC.rectangle,GC.printf
 
 local ins,rem=table.insert,table.remove
-local int,rnd=math.floor,math.random
+local floor,rnd=math.floor,math.random
 local approach=MATH.expApproach
 
 local SETTING,GAME,SCR=SETTING,GAME,SCR
@@ -283,7 +283,7 @@ function royaleLevelup()
     if GAME.curMode.name:find("_u") then
         for i=1,#PLY_ALIVE do
             local P=PLY_ALIVE[i]
-            P.gameEnv.drop=int(P.gameEnv.drop*.4)
+            P.gameEnv.drop=floor(P.gameEnv.drop*.4)
             if P.gameEnv.drop==0 then
                 P.curY=P.ghoY
                 P:set20G(true)

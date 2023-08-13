@@ -1,7 +1,7 @@
 local gc=love.graphics
 local setFont,mStr=FONT.set,GC.mStr
 
-local int,rnd=math.floor,math.random
+local floor,rnd=math.floor,math.random
 local ins,rem=table.insert,table.remove
 
 local targets={
@@ -274,7 +274,7 @@ function scene.mouseDown(x)
 end
 function scene.touchDown(x)
     if state==2 then return end
-    x=int((x-300)/170+1)
+    x=floor((x-300)/170+1)
     if x>=1 and x<=4 then
         touch(x)
     end

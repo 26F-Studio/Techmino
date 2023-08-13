@@ -1,5 +1,5 @@
 local gc=love.graphics
-local int=math.floor
+local floor=math.floor
 local sin=math.sin
 
 local selRS
@@ -119,7 +119,7 @@ scene.widgetList={
                 SETTING.face[i]=0
             end
             for i=1,7 do
-                minoRot0[i]=(int(minoRot0[i]/6.2831853)+(minoRot0[i]%6.2831853>4 and 1 or 0))*6.2831853
+                minoRot0[i]=(floor(minoRot0[i]/6.2831853)+(minoRot0[i]%6.2831853>4 and 1 or 0))*6.2831853
             end
             SFX.play('hold')
         end},

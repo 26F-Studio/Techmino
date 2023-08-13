@@ -7,7 +7,7 @@ local gc_print,gc_printf=gc.print,gc.printf
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
 
-local int,ceil,rnd=math.floor,math.ceil,math.random
+local floor,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,sin,modf=math.max,math.min,math.sin,math.modf
 local setFont=FONT.set
 local SKIN,TEXTURE,IMG=SKIN,TEXTURE,IMG
@@ -124,8 +124,8 @@ local function _applyField(P)
 
     -- Apply shaking
     if P.shakeTimer>0 then
-        local dx=int(P.shakeTimer/2)
-        local dy=int(P.shakeTimer/3)
+        local dx=floor(P.shakeTimer/2)
+        local dy=floor(P.shakeTimer/3)
         gc_translate(dx^1.6*(dx%2*2-1)*(P.gameEnv.shakeFX+1)/30,dy^1.4*(dy%2*2-1)*(P.gameEnv.shakeFX+1)/30)
     end
 
@@ -172,7 +172,7 @@ end
 local function _drawField(P,showInvis)
     local ENV=P.gameEnv
     local V,F=P.visTime,P.field
-    local start=int((P.fieldBeneath+P.fieldUp)/30+1)
+    local start=floor((P.fieldBeneath+P.fieldUp)/30+1)
     local texture=P.skinLib
     if P.falling==0 then-- Blocks only
         if ENV.upEdge then
@@ -358,9 +358,9 @@ local function _drawBlock(CB,curX,curY,texture)
 end
 local function _drawNextPreview(B,fieldH,fieldBeneath)
     gc_setColor(1,1,1,.8)
-    local y=int(fieldH+1-modf(B.RS.centerPos[B.id][B.dir][1]))+ceil(fieldBeneath/30)
+    local y=floor(fieldH+1-modf(B.RS.centerPos[B.id][B.dir][1]))+ceil(fieldBeneath/30)
     B=B.bk
-    local x=int(6-#B[1]*.5)
+    local x=floor(6-#B[1]*.5)
     local cross=TEXTURE.puzzleMark[-1]
     for i=1,#B do for j=1,#B[1] do
         if B[i][j] then
@@ -370,9 +370,9 @@ local function _drawNextPreview(B,fieldH,fieldBeneath)
 end
 local function _drawHoldPreview(B,fieldH,fieldBeneath)
     gc_setColor(1,1,1,.3)
-    local y=int(fieldH+1-modf(B.RS.centerPos[B.id][B.dir][1]))+ceil(fieldBeneath/30)+.14
+    local y=floor(fieldH+1-modf(B.RS.centerPos[B.id][B.dir][1]))+ceil(fieldBeneath/30)+.14
     B=B.bk
-    local x=int(6-#B[1]*.5)
+    local x=floor(6-#B[1]*.5)
     local cross=TEXTURE.puzzleMark[-1]
     for i=1,#B do for j=1,#B[1] do
         if B[i][j] then
@@ -431,7 +431,7 @@ local function _drawBuffer(atkBuffer,bufferWarn,atkBufferSum1,atkBufferSum)
                     gc_translate(d^.5*(rnd()-.5)*15,d^.5*(rnd()-.5)*15)
                 end
             end
-            gc_printf(int(sum),-300,-20,292,'right')
+            gc_printf(floor(sum),-300,-20,292,'right')
             gc_pop()
         end
     end
@@ -614,7 +614,7 @@ local _drawDial do
         else
             gc.circle('line',x+40,y+40,37)
         end
-        setFont(30)GC.mStr(int(speed),x+40,y+19)
+        setFont(30)GC.mStr(floor(speed),x+40,y+19)
     end
 end
 local function _drawFinesseCombo_norm(P)
@@ -709,7 +709,7 @@ local function _drawStartCounter(time)
     gc_push('transform')
         gc_translate(300,300)
         local r,g,b
-        local num=int(time/60)+1
+        local num=floor(time/60)+1
         local d=time%60
         if num==3 then
             r,g,b=.7,.8,.98
