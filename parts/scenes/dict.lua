@@ -158,8 +158,7 @@ function scene.enter()
 
     searchWait=0
     lastSelected=0
-    listBox.selected=1
-    listBox.scrollPos=0
+    listBox:setList(_getList())
     lastSearch=false
     scene.widgetList.help.color=COLOR.Z
 
