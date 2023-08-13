@@ -158,8 +158,8 @@ function scene.enter()
 
     searchWait=0
     lastSelected=0
-    listBox:setList(_getList())
     lastSearch=false
+    listBox:setList(_getList())
     scene.widgetList.help.color=COLOR.Z
 
     if not MOBILE then WIDGET.focus(inputBox) end
