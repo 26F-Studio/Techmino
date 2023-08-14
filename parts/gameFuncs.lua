@@ -932,15 +932,12 @@ do-- function resetGameData(args)
         local time=0
         while true do
             coroutine.yield()
-            time=time+1
             if time%20==0 then
-                local M=GAME.mod[time/20]
-                if M then
-                    TEXT.show(M.id,700+(time-20)%120*4,36,45,'spin',.5)
-                else
-                    return
-                end
+                local M=GAME.mod[time/20+1]
+                if not M then return end
+                TEXT.show(M.id,640+(time/20%5-2)*80,26,45,'spin')
             end
+            time=time+1
         end
     end
     local gameSetting={
@@ -1021,7 +1018,7 @@ do-- function resetGameData(args)
             GAME.stage=1
         end
         TASK.removeTask_code(task_showMods)
-        if GAME.setting.allowMod then
+        if PLAYERS[1].gameEnv.allowMod then
             TASK.new(task_showMods)
         end
         playReadySFX(3)
