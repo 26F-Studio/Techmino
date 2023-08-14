@@ -197,7 +197,7 @@ return {
     customBGloadFailed="Unsupported image format for custom background",
 
     errorMsg="Techmino ran into a problem and needs to restart.\nYou can send the error log to the developers.",
-    tryAnotherBuild="UTF-8 decoding error. If you are using Microsoft Windows, please try to download the build with the different architecture. If you are using the x86 version of Techmino, try downloading the x64 version and vice versa."
+    tryAnotherBuild="UTF-8 decoding error. If you are using Microsoft Windows, please try to download the build with the different architecture. If you are using the x86 version of Techmino, try downloading the x64 version and vice versa.",
 
     modInstruction="Choose your modifiers here!\nMods allow you to change the rules in various ways, but they can also crash the game. Feel free to play the game your way!\nNote that scores are not saved when using mods. You can also toggle mods using your keyboard keys (hold Shift to reverse).",
     modInfo={
