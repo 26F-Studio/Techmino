@@ -935,6 +935,7 @@ do-- function resetGameData(args)
             if time%20==0 then
                 local M=GAME.mod[time/20+1]
                 if not M then return end
+                SFX.play('collect',.2)
                 TEXT.show(M.id,640+(time/20%5-2)*80,26,45,'spin')
             end
             time=time+1
