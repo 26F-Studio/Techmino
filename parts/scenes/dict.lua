@@ -74,10 +74,15 @@ end
 -- Search through the dictionary
 local function _search()
     local input=inputBox:getText():lower()
+    local pos
     _clearResult()
     local first
     for i=1,#dict do
-        local pos=find(STRING.lowerUTF8(dict[i].title),STRING.lowerUTF8(input),nil,true) or find(STRING.lowerUTF8(dict[i].keywords),STRING.lowerUTF8(input),nil,true)
+        if dict=='vi' then
+            pos=find(STRING.lowerUTF8(dict[i].title),STRING.lowerUTF8(input),nil,true) or find(STRING.lowerUTF8(dict[i].keywords),STRING.lowerUTF8(input),nil,true)
+        else
+            pos=find(dict[i].title:lower(),input:lower(),nil,true) or find(dict[i].keywords:lower(),input:lower(),nil,true)
+        end
         if pos==1 and not first then
             ins(result,1,dict[i])
             first=true
