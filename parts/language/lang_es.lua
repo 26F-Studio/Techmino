@@ -222,7 +222,7 @@ return {
         customSeq="Randomizer\nSobreescribe el randomizador de la secuencia de piezas.",
         pushSpeed="Garbage Speed\nSobreescribe la velocidad de subida de lineas basura (bloques/frame).",
         boneBlock="[ ]\n Juega con bloques [ ], a la Electronika 60.",
-     },
+    },
     pauseStat={
         "Tiempo:",
         "Tecla/Rot./Reserva:",

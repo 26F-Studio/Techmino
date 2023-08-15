@@ -456,7 +456,7 @@ FNNS and     {"Support 3",
         "tetris 4",
         "term",
         "The name of the game (and its trademark). Also the name for clearing four lines at a time in official games.\nIt is a portmanteau word coined from Tetra (Greek for \"four\" <τέτταρες>, \"téttares\") and Tennis (favorite sport of the creator of Tetris). Also, the Tetris games developed by Nintendo and SEGA were licensed by TTC. These two companies do not have the copyright of Tetris.",
-        -- _comment: original Lua file had this comment: "Thanks to Alexey Pajitnov!"
+        -- Thanks to Alexey Pajitnov!
     },
     {"All Clear",
         "pc perfectclear ac allclear",
@@ -878,7 +878,7 @@ FNNS and     {"Support 3",
         "mino",
         "term",
         "Here is a list of the all the blocks used by Techmino and their corresponding names:\nTetrominos:\nZ: "..CHAR.mino.Z..",  S: "..CHAR.mino.S..",  J: "..CHAR.mino.J..",  L: "..CHAR.mino.L..",  T: "..CHAR.mino.T..",  O: "..CHAR.mino.O..",  I: "..CHAR.mino.I..";\n\nPentominos:\nZ5: "..CHAR.mino.Z5..",  S5: "..CHAR.mino.S5..",  P: "..CHAR.mino.P..",  Q: "..CHAR.mino.Q..",  F: "..CHAR.mino.F..",  E: "..CHAR.mino.E..",  T5: "..CHAR.mino.T5..",  U: "..CHAR.mino.U..",  V: "..CHAR.mino.V..",  W: "..CHAR.mino.W..",  X: "..CHAR.mino.X..",  J5: "..CHAR.mino.J5..",  L5: "..CHAR.mino.L5..",  R: "..CHAR.mino.R..",  Y: "..CHAR.mino.Y..",  N: "..CHAR.mino.N..",  H: "..CHAR.mino.H..",  I5: "..CHAR.mino.I5..";\n\nTriminos, Domino, and Monomino:\nI3: "..CHAR.mino.I3..",  C: "..CHAR.mino.C..",  I2: "..CHAR.mino.I2..",  O1: "..CHAR.mino.O1..".",
-    },--starts here
+    },
     {"Bag7 generator",
         "bag7bag randomgenerator",
         "term",
@@ -933,7 +933,7 @@ FNNS and     {"Support 3",
         "cultris2generator cultrisiigenerator c2generator",
         "term",
         "The generator in Culturis 2 uses the following algorithm to generate block sequences:\n1. Set the weight of all tetrominoes to 0 at the beginning of the game.\n2. Divide all weights by 2, then add a random number (0-1) to all weights.\n3. Pick the tetromino with the highest weight, then divide that tetromino's weight by 3.5.\n4. Repeat from step 2.",
-        -- Original Lua file contains this comment: "Discovered by zxc"
+        -- Discovered by zxc
     },
     {"Stacking",
         "stacking",

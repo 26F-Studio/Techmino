@@ -1,23 +1,23 @@
 Gameplay:
-        The system provides the player with 7 types of tetrominoes (4-mino blocks), which the player must control 
-        (by moving left and right, and rotating 90°, 180°, or 270°) until they fall to the bottom of the screen and are locked. 
-        A line is cleared when it is filled. If an opponent is present, an attack will be sent based on the type of line clear. 
+        The system provides the player with 7 types of tetrominoes (4-mino blocks), which the player must control
+        (by moving left and right, and rotating 90°, 180°, or 270°) until they fall to the bottom of the screen and are locked.
+        A line is cleared when it is filled. If an opponent is present, an attack will be sent based on the type of line clear.
         You can win by surviving to the end or by completing the level's objective.
 
 Rotation System:
-        TRS (Techmino Rotation System) is used by default in Techmino, 
+        TRS (Techmino Rotation System) is used by default in Techmino,
         but it can be changed to other commonly used ones (though generally unnecessary).
 
 Spin Detection:
-        Spins in Techmino are calculated by a point system. 
+        Spins in Techmino are calculated by a point system.
 
-        2 points are added if the spin satisfies the 3-corner rule (see entry in the dictionary), 
-        and another 2 points are added if the block is immobile after the spin. 
+        2 points are added if the spin satisfies the 3-corner rule (see entry in the dictionary),
+        and another 2 points are added if the block is immobile after the spin.
         *A rotation is counted as a spin as long as one of the above conditions is true.*
 
         1 point is added if the rotation does not use the second test in the kick table.
 
-        A spin is considered "mini" if it has only 2 points, the block being rotated is S, Z, J, L, or T, 
+        A spin is considered "mini" if it has only 2 points, the block being rotated is S, Z, J, L, or T,
         and the line clear does not clear the entire block (i.e. with residue).
 
 Attack System:
@@ -29,16 +29,16 @@ Attack System:
 
         Special Clears with spins:
                 This sends an attack with twice the number of line(s) cleared.
-                - Extra 1, 1, 2, 4, and 8 attacks are added for single, double, triple, Techrash, and Techrash+ (4+ lines), respectively, 
+                - Extra 1, 1, 2, 4, and 8 attacks are added for single, double, triple, Techrash, and Techrash+ (4+ lines), respectively,
                 when the player is in B2B status.
-                - Extra attacks with half the number of line clears and an extra line of blocking are added when the player is in B3B status 
+                - Extra attacks with half the number of line clears and an extra line of blocking are added when the player is in B3B status
                 in addition to B2B.
-                - A mini spin reduces the attack to ¼ of the original value. 
+                - A mini spin reduces the attack to ¼ of the original value.
 
         Special Clears (Techrash or Techrash+ but no spins):
                 This sends an attack with the same number of line clears.
                 - A extra line of attack is added if a player is in B2B status.
-                - Extra attacks with half the number of line clears and an extra line of blocking are added when the player is in B3B status 
+                - Extra attacks with half the number of line clears and an extra line of blocking are added when the player is in B3B status
                 in addition to B2B.
 
         Non-special clears:
@@ -54,7 +54,7 @@ Attack System:
                 This sends Four extra lines of attack and gives you two extra lines of blocking.
 
         Perfect Clear (or All Clear):
-                This sends anywhere from 8 to 16 attacks. The first PC gives you 8 lines of attack, and each additional PC in a game gives you 
+                This sends anywhere from 8 to 16 attacks. The first PC gives you 8 lines of attack, and each additional PC in a game gives you
                 2 extra lines of attack (up to 16). It also gives you two extra lines of blocking.
                 Note that PC attacks are calculated separately. The final attacks will be the greater of the PC attack and other attacks combined.
 
@@ -69,7 +69,7 @@ Back to Back (B2B) meter:
 
         Line Clears:
                 Special Clears:
-                - Spins that clear a single, double, triple, Techrash, and Techrash+ are worth 50, 100, 180, 800, and 1000 points respectively. 
+                - Spins that clear a single, double, triple, Techrash, and Techrash+ are worth 50, 100, 180, 800, and 1000 points respectively.
                 The points are halved if it is a mini spin.
                 - A Techrash is worth 150 points, and any additional line cleared at the same time is worth another 50 points.
                 - A PC is worth 800 points if you have already cleared more than 4 lines in this game.
@@ -77,7 +77,7 @@ Back to Back (B2B) meter:
                 - A non-Special line clear deducts 250 points from the B2B meter.
 
         Non-Line Clears
-                - A spin with no line clear is worth 20 points. An empty spin adds no points once the meter reaches 800 points 
+                - A spin with no line clear is worth 20 points. An empty spin adds no points once the meter reaches 800 points
                 and subtracts 40 points if you are in B3B status (until the meter reaches 800).
 
 Scoring system:
@@ -85,31 +85,31 @@ Scoring system:
         Generally speaking, the better you play, the higher the score. Scoring is also independent of the individual modes.
 
 Attack delay:
-        An attack will not take effect immediately to give the player some reaction time before defending. 
+        An attack will not take effect immediately to give the player some reaction time before defending.
         Different attacks have their own delay before they can enter the field, but they generally follow this order:
-        Doubles and Triples have the least delay, followed by Techrashes, spins, and combo attacks. B2B and B3B also increase delay slightly, 
+        Doubles and Triples have the least delay, followed by Techrashes, spins, and combo attacks. B2B and B3B also increase delay slightly,
         and Minis increase delay significantly.
 
 Counter Attacks:
-        When a player tries to send attacks, the extra blocking from special clears is used to clear the garbage lines 
+        When a player tries to send attacks, the extra blocking from special clears is used to clear the garbage lines
         before the actual attacks are used (at a 1:1 ratio). The earliest attacks will be canceled out first.
         Any extra blockings not used are discarded. The remaining attacks are sent to the opponent.
 
 Battle Royale modes:
-        In Battle Royale modes, the player fights against many bots at once. 
-        As the bots are eliminated, the gravity increases, the attack delays decrease, and the garbage lines rise faster. 
+        In Battle Royale modes, the player fights against many bots at once.
+        As the bots are eliminated, the gravity increases, the attack delays decrease, and the garbage lines rise faster.
         Defeating a bot gives you a badge and all the badges that the bot has, which increases your attack.
 
         A player can choose from the following four attack modes.
                 1. Random: Move the target of the attack to another random bot (with a 10% probability) after each attack.
                 2. Badges: Move the target of the attack to the bot with the most badges after each attack or when the target is defeated.
                 3. K.O.s: Moves the target of the attack to the bot with the highest stack in the field. Refreshes every second.
-                4. Attackers: Moves the target of the attack to all bots targeting you. If there is no bot targeting you, a random bot will be targeted.     
+                4. Attackers: Moves the target of the attack to all bots targeting you. If there is no bot targeting you, a random bot will be targeted.
 
         The last player remaining in the game is the winner when all opponents have been eliminated.
 
 Custom Games:
-        You can freely adjust most parameters (not including special effects of other game modes). 
+        You can freely adjust most parameters (not including special effects of other game modes).
         You can also draw a stack in the field to be cleared (Clear mode), or create a template to use as a target for building (Puzzle Mode).
 
         In Puzzle mode, you can use the function keys to toggle the display of the template. In order to win,
