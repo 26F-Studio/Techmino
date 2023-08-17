@@ -61,10 +61,10 @@ Có câu hỏi? Liên hệ mình qua server Techmino trên Discord. Mình hiện
             — Combo, Spike, Debt, Passthrough
 
         05H. Hành động bất cẩn (Mis-): Misdrop, Mishold
-        05I. Spin: (Mini) / (All-) / (T-) / (O-) spin; Fin, Neo, Iso
+        05I. Spin: (Mini) / (All-) / (T-) / (O-) spin; Fin, Neo, Iso; Freestyle
         05J: Kỹ thuật xóa hàng:
             — Single, Double, Triple, Techrash, Tetris
-            — TSS, TSD, TST, MTSS, MSTSD
+            — TSS, TSD, TST, MTSS, MTSD
             — Perfect Clear, Half Perfect Clear
         05K. Các thuật ngữ khác: sub, 'Doing Research', Bone block
 
@@ -100,7 +100,7 @@ Có câu hỏi? Liên hệ mình qua server Techmino trên Discord. Mình hiện
 12. Setup (Opener, Mid-game setup, Donation, Pattern)
         12A. Freestyle
         12B. Opener: DT Cannon, DTPC, BT Cannon, BTPC, TKI 3 Perfect Clear, QT Cannon, Mini-Triple, Trinity, Wolfmoon Cannon, Sewer, TKI, God Spin, Albatross, Pelican, Perrfect Clear Opener, Grace System, DPC, Gamushiro Stacking
-        12C. Mid-game: C-spin, STSD, Fractal, LST stacking, Imperial Cross, King Crimson, Fin-Neo-Iso, PC liên tiếp (1+2+3)
+        12C. Mid-game: C-spin, STSD, Fractal, LST stacking, Imperial Cross, King Crimson, PC liên tiếp (1+2+3)
         12D. Donation: Hamburger, STMB Cave, Kaidan, Shachiku Train, Cut Copy
 
 13. Cách tính lượng sát thơng gây ra: Tetris Online / Notris Foes, Techmino
@@ -317,20 +317,32 @@ Dưới đây là các yếu tố chính:
 Một tựa game xếp gạch hiện đại thường có 3 điều kiện để \"game over\":
 1. Block out: Gạch mới nằm chồng lên một gạch đã đặt;
 2. Lock out: Có gạch nằm trên vùng skyline (đường chân trời);
-3. Top out: Độ cao của bảng vượt quá độ cao cho phép (độ cao cho phép thường là 40 ô).
-Techmino không kiểm tra điều kiện Lock out và Top out.
+3. Top out: Độ cao của bảng vượt quá độ cao cho phép (thường là 40 hàng). Cái này đa số là do hàng rác đẩy bảng lên quá cao.
+Techmino không kiểm tra điều kiện Lock out và Top out theo mặc định.
     ]],
     },
     {"Vùng đệm",
         "nhom05 invisible buffer zone",
         "term",
-        "Tên tiếng Anh: \"Buffer Zone\". Chỉ những hàng từ hàng thứ 21-40, vùng này là vùng ở trên vùng nhìn thấy của bảng. Bởi vì gạch có thể cao hơn vùng nhìn thấy (thường xảy ra nếu có quá nhiều rác tới cùng một lúc) cho nên vùng đệm được tạo ra để cho phép những gạch ở trên cao có thể quay lại (sau) khi người chơi xóa hàng rác. Ngoài ra, vùng đệm thường nằm ở độ cao từ 21-40 vì chúng có thể áp dụng cho hầu hết các trường hợp. Tuy nhiên vẫn có những trường hợp ngoại lệ, hãy tham khảo \"Vanish Zone\" để biết thêm thông tin chi tiết",
+        "Tên tiếng Anh là \"Buffer Zone\".Chỉ bao gồm các hàng từ hàng thứ 21-40\n(nằm ở trên vùng nhìn thấy).\n\nỞ trong các trận đấu, có lúc sẽ có quá nhiều rác cùng một lúc đẩy gạch lên cao. Nếu may mắn bạn chưa bị block-out, những hàng gạch nào đi quá vùng nhìn thấy được sẽ đi vào vùng đệm.\nKhi bạn đã xử lý xong các hàng rác, toàn bộ hàng gạch đang ở vùng đệm sẽ được đưa trở lại về vùng nhìn thấy được.\n\nVùng đệm thường nằm ở độ cao từ 21-40 vì chúng có thể áp dụng cho hầu hết các trường hợp. Tuy nhiên vẫn có những trường hợp ngoại lệ, ví dụ như có một số game sẽ có vùng đệm cao không giới hạn.\n\nNhớ đọc thêm: \"Vanish Zone\"",
     },
     {"Vùng biến mất",
         "nhom05 gone vanish zone",
         "term",
-        "Tên tiếng Anh: \"Vanish Zone\". Chỉ những hàng từ hàng thứ 40 và cao hơn. Chỉ có thể phát hiện ra bằng cách sử dụng C4W và một đống hàng rác. Bình thường, nếu có gạch nào đụng vào vùng biến mất thì game sẽ crash ngay.\nTuy nhiên, có một số game có những phản ứng khác nhau. Một số game sẽ bị lỗi và sập khi có gạch đi vào vùng biến mất (ví dụ như Tetris Online). Riêng ở một số game thì game sẽ có hành động lạ (bạn có thể tham khảo video này, hãy nhấn vào nút \"Mở link\" để mở video).\n\nThông tin thêm: Jstris không có vùng đệm, chỉ có vùng biến mất được đặt từ hàng thứ 22.",
-        "https://youtu.be / z4WtWISkrdU",
+        [[
+Tên tiếng Anh: "Vanish Zone".
+Chỉ bao gồm các hàng từ hàng thứ 40 trở đi (nằm ở trên vùng đệm của bảng).
+
+Lưu ý: Jstris không có vùng đệm, chỉ có vùng biến mất được đặt từ hàng thứ 21 trở về sau.
+
+Bình thường, nếu có gạch đi vào vùng này thì game sẽ kích ngay cơ chế top-out.
+Tuy nhiên, tùy từng game mà chúng sẽ có phản ứng khác nhau. Ví dụ:
+    — Vì vùng biến mất được đặt ở hàng 21 và trở về sau, nên những gạch nào mà đi qua hàng thứ 21 sẽ "một đi không trở lại" theo đúng nghĩa đen.
+    — Một số game được viết để hỗ trợ vùng đệm nhưng làm thiếu chỉnh chu thì có 2 trường hợp:
+        —— Game sập (Tetris Online)
+        —— Có biểu hiện lạ (ví dụ: trong trường hợp của video được đi kèm với mục này (nhấn nút "Mở link" để xem), toàn bộ hàng gạch khi đi vào vùng biến mất sẽ bị copy vô hạn lần khi chúng trở về vùng nhìn thấy được)
+    ]],
+        "https://youtu.be/z4WtWISkrdU",
     },
     {">A|Gạch",
         "nhom05a",
@@ -469,7 +481,10 @@ So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một wall-kick table; nhưng
     {"IRS",
         "nhom05c initialrotationsystem",
         "term",
-        "Initial Rotation System\nCho phép bạn giữ phím xoay trong khoảng thời gian spawn delay để gạch xoay sẵn lúc xuất hiện. Có thể giúp bạn thoát chết trong một vài tình huống.",
+        "Initial Rotation System\nCho phép bạn giữ phím xoay trong khoảng thời gian spawn delay để gạch xoay sẵn lúc xuất hiện. Có thể giúp bạn thoát chết trong một vài tình huống."
+        -- Stupid joke moment
+        -- Hello is this 113? I just caught ameagarain is evading $50 million in taxes in red hands!
+        .."\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAlo 113 hả? Tôi vừa bắt quả tang thằng ameagarain nó trốn thuế 50 triệu đô kìa!",
     },
     {"IHS",
         "nhom05c initialholdsystem",
@@ -510,7 +525,7 @@ Kiểu xáo His cũng có một vài biến thể khác. Xem chi tiết tại m�
 Trong Techmino, số lần bốc lại ngẫu nhiên sẽ là một nửa độ dài chuỗi gạch.
         ]],
     },
-    {"K.xáo HisPool [1 / 2]",
+    {"K.xáo HisPool [1/2]",
         "nhom05d hispool historypoolgenerator kiểu xáo hispool",
         "term",
         [[
@@ -522,7 +537,7 @@ Cơ chế này giúp chuỗi gạch ổn định hơn và tránh tình trạng d
 Kiểu xáo thường gặp nhất là kiểu xáo \"his4 roll6 pool35\" (nhớ 4 lặp 6 rổ 35)
         ]],
     },
-    {"K.xáo HisPool [2 / 2]",
+    {"K.xáo HisPool [2/2]",
         "nhom05d hispool historypoolgenerator kiểu xáo hispool",
         "term",
         [[
@@ -569,21 +584,29 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
         "nhom05e1 trọng lực falling speed gravity",
         "term",
         [[
-Đơn vị của tốc độ rơi là \"G\" — một đơn vị có số khá lớn, có nghĩa là gạch rơi xuống bao nhiêu ô / khung hình.
-Tốc độ của Level 1 trong chế độ Marathon thường là 1 / 60G (1 ô / giây = 1 ô / 60 khung hình), ở Level 13 là gần / bằng 1G (từ 50-60 ô / giây).
-Tốc độ cao nhất trong các game Tetris hiện đại là 20G. Ý nghĩa thật sự của 20G là \"Tốc độ rơi vô tận\". Bạn có thể tìm hiểu về 20G ở mục \"20G\"
-Trong Techmino, tốc độ rơi được mô tả là số khung hình cần thiết để gạch rơi xuống một đơn vị; ví dụ, 60 để chỉ gạch rơi mỗi ô một giây (nếu game mặc định chạy ở 60FPS).
+Tốc độ gạch rơi xuống. Được đo với đơn vị "G".
+Đây là số hàng mà gạch rơi xuống trong một khung hình.
+Con số này thường đi kèm với giả thiết là game đang chạy ở 60FPS.
+
+Ví dụ: một gạch có tốc độ rơi là ¹⁄₆₀ G khi chúng di chuyển xuống 1 ô / 60 khung hình hoặc 1 ô / 1 giây.
+
+Tốc độ tối đa của game xếp gạch hiện đại là 20G (bởi vì có 20 hàng trong vùng nhìn thấy được).
+
+Trong Techmino, tốc độ còn được mô tả dưới dạng gạch cần bao nhiêu khung hình để xuống 1 ô. 60 ở hệ thống đó tương đương với 1 ô / 1 giây hoặc 1G.
+
+Trong thực tiễn, "20G" còn được dùng để chỉ "Tốc độ tối đa"
+Hãy xem mục "20G" để biết thêm thông tin.
         ]],
     },
     {"20G",
         "nhom05e1 trọng lực; ngay lập tức; gravity instantly",
         "term",
-        "Tốc độ nhanh nhất trong các game xếp gạch hiện đại. Trong các chế độ xài tốc độ 20G, các viên gạch sẽ xuất hiện ngay lập tức ở đáy bảng thay vì rơi từ từ, bất chấp độ cao bảng là 20 hàng hoặc hơn. Việc này đôi khi sẽ làm bạn không thể di chuyển được theo phương ngang như ý; vì gạch không thể leo qua chỗ lồi lõm hoặc ra khỏi hố sâu.\nBạn có thể tìm hiểu thêm về đơn vị \"G\" trong mục \"Tốc độ rơi\".",
+        "Tốc độ tối đa trong các game xếp gạch hiện đại.\n\nMặc dù nhìn qua thuật ngữ này thể hiện tốc độ rơi là 20 hàng / khung hình, nhưng thật ra chúng được dùng để chỉ tốc độ vô tận.\n\nHơn nữa, trong các chế độ 20G, game sẽ ưu tiên di chuyển gạch xuống đáy hơn là bất cứ thao tác di chuyển nào từ người chơi.\nLấy ví dụ: ngay cả khi ARR được đặt là 0, gạch vẫn cứ di chuyển một mạch xuống phía dưới một cách hồn nhiên giống như người chơi chưa nhấn gì.\nViệc này gây khó cho người chơi khi họ muốn gạch leo ra khỏi hố hoặc nhảy ra khỏi lỗ trong một số tình huống.",
     },
     {"Lockdown Delay",
-        "nhom05e1 lockdelay lockdowndelay lockdowntimer; thời gian chờ khóa gạch",
+        "nhom05e1 lockdelay lockdowndelay lockdowntimer ld; thời gian chờ khóa gạch",
         "term",
-        "Thời gian chờ khóa gạch\n\nĐây là khoảng thời gian sau khi gạch chạm đất và trước khi gạch bị khóa (lockdown) (và bạn sẽ phải điều khiển gạch tiếp theo).\n\nCác game Tetris hiện đại thường có cơ chế trì hoãn việc khóa gạch, trong đó bạn có thể di chuyển hoặc xoay gạch để đặt lại thời gian chờ (tối đa 15 lần trong đa số các game); bạn có thể sử dụng để kéo dài thời gian chờ. Tetris cổ điển vẫn có khoảng thời gian này nhưng cực kì ngắn.",
+        "Thời gian chờ khóa gạch, viết tắt là LD.\nĐây là khoảng thời gian sau khi gạch chạm đất và trước khi gạch bị khóa (không thể điều khiển được nữa).\n\nTrong các game xếp gạch cổ điển, khoảng thời gian chờ này = khoảng thời gian gạch cần có để di chuyển xuống 1 ô, và không có cơ chế nào để trì hoãn việc khóa gạch.\n\nTrong các game xếp gạch hiện đại, thời gian chờ được thong thả hơn, và trong game thường có cơ chế trì hoãn việc khóa gạch, trong đó bạn có thể di chuyển hoặc xoay gạch để đặt lại thời gian chờ (tối đa 15 lần trong hầu hết các game).",
     },
     {"Spawn&Clear Delay",
         "nhom05e1 spawndelay cleardelay; thời gian chờ gạch sinh ra; thời gian chờ xóa hàng",
@@ -597,17 +620,17 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
     {"ARE",
         "nhom05e1 spawn appearance delay",
         "term",
-        "Tên đầy đủ: Apperance Delay (đôi khi được gọi là Entry Delay) (Thời gian trì hoãn sự xuất hiện của gạch mới). ARE chỉ khoảng thời gian sau khi gạch bị khóa và trước khi gạch mới sinh ra.",
+        "Thời gian chờ xuất hiện gạch mới\nHay còn được biết với tên: Appearance Delay và Entry Delay.\n\n\"ARE\" chỉ khoảng thời gian sau khi gạch bị khóa và trước khi gạch mới xuất hiện\n\nTừ \"ARE\" không phải là từ viết tắt hay hay là một dạng của \"be\" trong tiếng Anh; nó bắt nguồn từ <あれ> (a-re) trong tiếng Nhật, có nghĩa là \"nó\" hoặc \"cái đó\" / \"cái kia\" / \"cái ấy\".",
     },
     {"Line ARE",
         "nhom05e1 appearance delay",
         "term",
-        "Khoảng thời gian khi hiệu ứng xóa hàng bắt đầu chạy cho tới khi gạch mới sinh ra.",
+        "Khoảng thời gian khi hiệu ứng xóa hàng bắt đầu chạy cho tới khi gạch mới xuất hiện.",
     },
     {"Death ARE",
         "nhom05e1 die delay",
         "term",
-        "Khi có một viên gạch chặn ngay tại vị trí xuất hiện của gạch mới, spawn ARE sẽ được cộng với một khoảng thời gian nữa để tạo thành Death ARE. Cơ chế này có thể được sử dụng cùng với IHS và IRS để cho phép bạn có thể thoát chết.\nÝ tưởng về cơ chế này là của NOT_A_ROBOT.",
+        "Một cơ chế đặc biệt cho phép tránh game over trong một số trường hợp.\n\nDeath ARE sẽ được kích hoạt khi có một viên gạch chặn ngay tại vị trí xuất hiện của gạch mới (dẫn tới hiện tượng block out)\nKhi kích hoạt, spawn ARE sẽ được cộng với một khoảng thời gian bổ sung để cho phép người chơi dùng IRS, IHS hoặc IMS.\n\nÝ tưởng về cơ chế này được đề xuất lần đầu bởi @NOT_A_ROBOT.",
     },
     {">E2|Thg số đ.khiển",
         "nhom05e2",
@@ -692,11 +715,13 @@ Mỗi game có cách tính LPM khác nhau. Ví dụ như, Tetris Online tính LP
         "nhom05f2 finesse lỗi di chuyển",
         "term",
         [[
-Một kỹ thuật di chuyển gạch vào vị trí mong muốn với số lần nhấn phím ít nhất. Giúp tiết kiệm thời gian và giảm khả năng misdrop.
-Bạn có thể luyện tập bằng cách dùng tính năng \"Chơi lại nếu mắc lỗi\" hoặc là để ý tới hiệu ứng âm thanh báo lỗi di chuyển của Techmino.
+Một kỹ thuật di chuyển gạch vào vị trí mong muốn với số lần nhấn phím tói thiểu. Tiết kiệm thời gian và giảm khả năng misdrop.
 
-Techmino phát hiện lỗi di chuyển không dựa vào \"số lần nhấn phím tối thiểu để di chuyển theo lý thuyết\".
-Thay vào đó, chỉ kiểm tra lỗi di chuyển dựa trên số lần nhấn phím tương đương đã được quy định *trước khi gạch được đặt tại một vị trí mà không cần dùng Thả nhẹ* --→ Techmino sẽ không tính lỗi di chuyển nếu bạn phải \"nhét\" gạch đó để lấp lỗ / thực hiện spin
+Bạn nên bắt đầu học Finesse càng sớm càng tốt. Có nhiều video hướng dẫn bạn có thể tìm thấy trên Youtube. Bắt đầu bằng các thao tác cơ bản và sau đó bắt đầu thực hành. Nhớ ưu tiên độ chính xác hơn tốc độ.
+
+-- TODO
+Techmino phát hiện lỗi di chuyển không dựa vào "số lần nhấn phím tối thiểu để di chuyển theo lý thuyết".
+Thay vào đó, chỉ kiểm tra lỗi di chuyển dựa trên số lần nhấn phím tương đương đã được quy định *trước khi gạch được đặt tại một vị trí mà không cần dùng Thả nhẹ* → Techmino sẽ không tính lỗi di chuyển nếu bạn phải \"nhét\" gạch đó để lấp lỗ / thực hiện spin
 Techmino còn kiểm tra thêm một số điều kiện nữa, như nếu bạn giữ gạch mà cả gạch hiện tại giống với gạch đang giữ, hoặc là giữ gạch khi bạn đã di chuyển gạch hiện tại, cũng đều tính là lỗi di chuyển.
 
 Finesse% trong Techmino được tính như sau: 100% nếu số phím bằng hoặc ít hơn par¹, 50% / 25% / 0% nếu quá par 1 / 2 / 3+ phím
@@ -839,6 +864,17 @@ T-spin chủ yếu được phát hiện bởi "quy luật 3 góc". Tức là, n
         "term",
         "Gạch O vốn dĩ \"tròn\", không đổi hình dạng khi xoay ở bất cứ hướng nào, nên nó không thể \"đá\" được. Do đó gạch O không tài nào leo ra khỏi \"lỗ\" hoặc \"hố\" nếu bị kẹt. Từ việc này, có một người đã làm một cái video fake cách làm O-spin trong Tetris 99 và Tetris Friends\n\nHiện tại có 2 hệ thống xoay hỗ trợ O-spin:\n\tXRS cho phép gạch O có thể \"teleport\" tới một cái lỗ.\n\tTRS cho phép gạch O \"teleport\" và \"biến hình\"",
     },
+    {"Fin, Neo, Iso",
+        "nhom05i fin neo iso",
+        "pattern",
+        "Tên của 3 kiểu T-spin sử dụng wall-kick table đặc biệt của gạch T. Các game khác nhau có cách phản công khác nhau với loại này: có game tính là Mini-spin, nhưng cũng có game không tính luôn =))).\n\nTrên thực tế chúng không được sử dụng nhiều vì game thường sẽ nerf loại T-spin này; hơn nữa setup của ba loại này khá là phức tạp."
+    },
+    {"FreeStyle",
+        "nhom05i",
+        "term",
+        "Thuật ngữ hay được sử dụng trong thử thách 20TSD. Freestyle nghĩa là hoàn thành một số lượng T-spin Double nhất định mà không sử dụng phương pháp xếp gạch cố định nào.\n\nFreestyle khó hơn nhiều so với việc sử dụng phương pháp nào đó như LST, và màn chạy có thể đại diện cho các kỹ năng T-spin của người chơi trong các trận đấu trong thế giới thực.",
+    },
+
     {">J|K.th. xóa hàng",
         "nhom05j",
         "name",
@@ -1588,47 +1624,47 @@ Nhấn nút "Mở link" để vào server Discord, còn nếu muốn vào nhóm 
     {"Side 2-wide",
         "nhom11a s2w side2wide sidewell",
         "term",
-        "Hay còn gọi là S2W. Với setup này bạn sẽ xây một cái giếng sâu rộng 2 ô ở một bên bảng\n\nS2W rất dễ xây và có thể tạo ra combo khá dài khi kết hợp với Hold.\nTuy nhiên, những người chơi giỏi hơn cũng sẽ ít khi dùng setup này vì các lý do tương tự như S1W.",
+        "Hay còn gọi là S2W.\nVới setup này bạn sẽ xây một cái giếng sâu rộng 2 ô ở một bên bảng.\n\nS2W rất dễ xây và có thể tạo ra combo khá dài khi kết hợp với Hold.\nTuy nhiên, những người chơi giỏi hơn cũng sẽ ít khi dùng setup này vì các lý do tương tự như S1W.",
     },
     {"Side 3-wide",
         "nhom11a s3w side3wide sidewell",
         "term",
-        "Hay còn gọi là S3W. Với setup này bạn sẽ xây một cái giếng sâu rộng 3 ô ở một bên bảng\nĐây là setup it phổ biến hơn so với Side 2-wide.\n\nMặc dù khi so sánh, S3W có thể làm nhiều combo hơn so với S2W nhưng S3W hay dễ bị hỏng combo.",
+        "Hay còn gọi là S3W.\nVới setup này bạn sẽ xây một cái giếng sâu rộng 3 ô ở một bên bảng.\n\nĐây là setup it phổ biến hơn so với Side 2-wide.\n\nMặc dù khi so sánh, S3W có thể làm nhiều combo hơn so với S2W nhưng S3W hay dễ bị hỏng combo.",
     },
     {"Side 4-wide",
         "nhom11a s4w side4wide sidewell",
         "term",
-        "Hay còn gọi là S4W. Với setup này bạn sẽ xây một cái giếng sâu rộng 4 ô ở một bên bảng\nĐây là setup phổ biến dùng để làm combo.\n\nNgoài việc tạo ra được những combo dài hơn, S4W lại tốn ít thời gian hơn để xây so với setup side well khác. Việc này cho phép người chơi gửi tấn công sớm hơn trước khi đối thủ có thể trở tay kịp.\n\nSo với C4W, S4W được coi là cân bằng hơn vì người chơi có thể bị top-out trong khi đang xây setup này.",
+        "Hay còn gọi là S4W.\nVới setup này bạn sẽ xây một cái giếng sâu rộng 4 ô ở một bên bảng.\n\nĐây là setup phổ biến dùng để làm combo.\n\nNgoài việc tạo ra được những combo dài hơn, S4W lại tốn ít thời gian hơn để xây so với setup side well khác. Việc này cho phép người chơi gửi tấn công sớm hơn trước khi đối thủ có thể trở tay kịp.\n\nSo với C4W, S4W được coi là cân bằng hơn vì người chơi có thể bị top-out trong khi đang xây setup này.",
     },
     {"Center 1-wide",
         "nhom11a c1w center1wide centerwelltetris",
         "term",
-        "Hay còn gọi là Center well Tetris.\nMột phương pháp xếp gạch mà bạn sẽ để lại một cái hô sâu rộng 1 ô ở giữa bảng. Chủ yếu dùng trong combat bởi vì cho phép làm Tetris và T-spin trong khi nó không quá khó để làm.",
+        "Hay còn gọi là C1W.\nVới setup này bạn sẽ xây một cái giếng sâu rộng 1 ô ở giữa bảng.\n\nChủ yếu dùng trong combat bởi vì cho phép làm Tetris và T-spin trong khi nó không quá khó để làm.",
     },
     {"Center 2-wide",
         "nhom11a c2w center2wide",
         "term",
-        "Tương tự như Center 1-wide, nhưng lỗ rộng 2 ô. Tuy nhiên nó không được phổ biến lắm.",
+        "Hay còn gọi là C2W.\nVới setup này bạn sẽ xây một cái giếng sâu rộng 2 ô ở giữa bảng.\n\nĐây là một setup combo có thể làm được nhưng ít phổ biến lắm.",
     },
     {"Center 3-wide",
         "nhom11a c3w center3wide",
         "term",
-        "Tương tự như Center 1- hay 2-wide, nhưng lỗ rộng 3 ô. Tuy nhiên nó cũng không được phổ biến lắm.",
+        "Hay còn gọi là C3W.\nVới setup này bạn sẽ xây một cái giếng sâu rộng 1 ô ở giữa bảng.\n\nĐây là một setup combo có thể làm được nhưng ít phổ biến lắm.",
     },
     {"Center 4-wide",
         "nhom11a c4w center4wide",
         "term",
-        "Tượng tự như Center 1-, 2- hay 3-wide, nhưng rộng 4 ô.\nĐây là một setup combo không được phổ biến lắm, nhưng cho phép bạn gửi nhiều combo trong khi đánh bật luôn cả điều kiện game over nếu bạn nhận một vài hàng rác. Nhiều người chơi thường ghét kỹ thuật này, bởi vì chúng phá đi sự cân bằng trong game.",
+        "Hay còn gọi là C4W.\nVới setup này bạn sẽ xây một cái giếng sâu rộng 1 ô ở giữa bảng.\n\nĐây là một setup khét tiếng có thể tạo ra lượng combo rất lớn nếu người xây tận dụng tốt.\nSetup này rất dễ xây, và có khả năng phòng thủ tốt trước các đòn tấn công bằng cách lợi dụng một lỗ hổng khi kiểm tra điều kiện chết trong (đa số) các game xếp gạch.\n\nRất nhiều người chơi ghét setup này vì nhiều lý do khác nhau; nhưng chủ yếu là vì phần thắng luôn thuộc về những người dùng setup này.\nHãy cẩn thận khi dùng setup này trong các trận đấu thực tế.",
     },
     {"Residual",
         "nhom11a c4w s4w",
         "term",
-        "Đề cập đến có bao nhiêu gạch được đặt trong cái lỗ khi sử dụng setup combo 4-wide.\nPhổ biến nhất là 3-residual và 6-residual.\n\n3-residual có ít biến thể và dễ học dễ nhớ hơn, và có khả năng thành công cao, rất hữu dựng trong combat.\n6-residual lại có nhiều biến thể hơn và khó học khó xài hơn, nhưng chúng thường ổn định nếu dùng tốt. Residual cũng có thể được sử dụng trong những thử thách đặc biệt như lấy 100 combo trong một thử thánh 4-wide vô tận.\n\nVề nguyên tắc, hãy dùng 6-Res trước, sau đó 5-Res rồi 3-Res, và cuối cùng là 4-Res.",
+        "Thuật ngữ này đề cập đến số ô gạch được để dư trong cái giếng sau khi xây xong setup 4-wide.\nCác combo dài chủ yếu được thực hiện bằng cách dùng 3-residual (3-res) hay 6-residual (6-res).\n\n3-res dễ học hơn tại vì nó có ít biến thể hơn và có cơ hội cao để tạo ra combo dài hơn\n6-res linh hoạt hơn nhiều đồng nghĩa với việc khó nhớ hơn, nhưng combo tạo ra lại dài hơn 3-res nếu mọi thứ thuận lợi.\n\nNói chung, thứ tự ưu tiên của setup này là 6-res, rồi 3 sau đó 5, và cuối cùng là 4-res.",
     },
     {"6 - 3 Stacking",
         "nhom11a 63stacking six-three sixthree",
         "term",
-        "Một phương pháp để xếp gạch, bạn sẽ phải tạo ra một bức tường cao có chiều rộng rộng 6 ô ở bên trái và một bức tường cao nữa có chiều rộng 3 ô ở bên phải.\nĐối với một người chơi có kỹ năng, phương pháp cho phép người chơi giảm số phím cần nhấn, và đây là một phương pháp phổ biến để chơi Sprint (như 10 hàng, 20 hàng, 40 hàng,…). Phương pháp này hoạt động được nhờ việc gạch xuất hiện hay bị căn lệch về bên trái.",
+        "Một phương pháp để xếp gạch đặc biệt, khi bạn sẽ phải tạo ra một bức tường cao rộng 6 ô ở bên trái và một bức tường cao nữa rộng 3 ô ở bên phải.\n\nĐối với một người chơi có kỹ năng, phương pháp cho phép người chơi giảm số phím cần nhấn, và đây là một phương pháp phổ biến để chơi Sprint (như 10 hàng, 20 hàng, 40 hàng,…). Phương pháp này hoạt động được nhờ việc vị trí xuất hiện của 3 gạch J, L, T hay dịch về bên trái 1 ô.\n\nNhắc nhẹ: Phương pháp này có thể tăng số lần nhấn phím ở người mới tập chơi.",
     },
     {">B|Digging",
         "nhom11b",
@@ -1640,11 +1676,7 @@ Nhấn nút "Mở link" để vào server Discord, còn nếu muốn vào nhóm 
         "name",
         "NHÓM 12: Setup (Opener, Mid-game setup, Donation, Pattern)"
     },
-    {">A|FreeStyle",
-        "nhom12a",
-        "name",
-        "Thuật ngữ hay được sử dụng trong thử thách 20TSD. Freestyle nghĩa là hoàn thành thử thách 20TSD mà không sử dụng phương pháp xếp gạch cố định nào. Làm 20TSD với Freestyle khó hơn nhiều so với việc sử dụng phương pháp nào đó như LST, và màn chạy có thể đại diện cho các kỹ năng T-spin có được trong các trận đấu.",
-    },
+
     {">B|Opener",
         "nhom12b",
         "name",
@@ -1808,11 +1840,6 @@ Setup này thường phải đạt cả ba yêu cầu sau:
         "pattern",
         "Xếp chồng để làm (các) TSD trên STSD.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=King_Crimson",
-    },
-    {"Fin, Neo, Iso",
-        "nhom12c fin neo iso",
-        "pattern",
-        "Tên của 3 kiểu T-spin sử dụng wall-kick table đặc biệt của gạch T. Các game khác nhau có cách phản công khác nhau với loại này: có game tính là Mini-spin, nhưng cũng có game không tính luôn =))).\n\nTrên thực tế chúng không được sử dụng nhiều vì game thường sẽ nerf loại T-spin này; hơn nữa setup của ba loại này khá là phức tạp."
     },
     {"PC liên tiếp (1 / 3)",
         "nhom12c pcloop",

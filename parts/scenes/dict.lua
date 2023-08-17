@@ -236,10 +236,7 @@ function scene.gamepadDown(key)
     elseif key=='dpleft' or key=='dpright' then
         _jumpover(key:gsub('dp',''),Joystick:isGamepadDown('a') and 12)
     elseif key=='y' then
-        listBox.selected=0
-        inputBox:clear()
-        searchWait=0
-        _updateInfoBox()
+        scene.keyDown('f1')
     elseif key=='back' then
         SCN.back()
     end
