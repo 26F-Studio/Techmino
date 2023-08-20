@@ -10,7 +10,7 @@ return {
         loadSFX="Đang tải các hiệu ứng âm thanh",
         loadSample="Đang tải các mẫu nhạc cụ",
         loadVoice="Đang tải các gói voice",
-        loadFont="Đang tải phông chữ",
+        loadFont="Đang tải phông ch",
         loadModeIcon="Đang tải các biểu tượng",
         loadMode="Đang tải các chế độ chơi",
         loadOther="Đang tải các tài nguyên khác",
@@ -92,7 +92,7 @@ return {
     exportSuccess="Đã xuất thành công",
     importSuccess="Đã nhập thành công",
     dataCorrupted="Dữ liệu bị hỏng",
-    pasteWrongPlace="Bạn đã dán ở nhầm nơi rồi",
+    pasteWrongPlace="Bạn có dán đúng nơi không đấy?",
     noFile="Thiếu tệp",
 
     nowPlaying="Đang phát:",
@@ -205,6 +205,7 @@ return {
     customBGloadFailed="Định dạng ảnh không được hỗ trợ",
 
     errorMsg="Techmino bị lỗi và cần phải được khởi động lại\nBạn có thể gửi error log để giúp dev sửa game nhanh hơn.",
+    tryAnotherBuild="CO LOI KHI GIAI MA UTF-8! Neu dang choi Techmino tren Windows: neu dang dung ban x64 (64 bit) thi hay doi sang x86 (32 bit) va nguoc lai.",
 
     modInstruction="Hãy chọn mod bạn muốn.\nMod cho phép bạn có thể tùy biến game, nhưng cũng có thể làm game sập.\nĐiểm sẽ không được lưu lại khi dùng mod.",
     modInfo={

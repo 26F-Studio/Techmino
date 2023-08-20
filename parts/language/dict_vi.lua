@@ -15,7 +15,7 @@ Zictionary là một từ điển về game xếp gạch cực kì hữu ích. B
 Bản dịch có thể không thể hiện 100% nội dung của Zictionary tiếng Trung (bản gốc)
 
 Khi đọc, bạn hãy lưu ý là: từ "lỗ" với từ "hố" được sử dụng như từ "hole"
-Trong khi đó từ "giếng" được sử dụng cho từ "well"
+Trong khi đó từ "giếng" được sử dụng như từ "well"
 
 Có đóng góp? Bạn có thể vào trang dự án Techmino trên GitHub để đóng góp bản dịch.
 Có câu hỏi? Liên hệ mình qua server Techmino trên Discord. Mình hiện tại đang chờ feedback để hoàn chỉnh bản dịch cho tốt hơn.
@@ -41,7 +41,7 @@ Có câu hỏi? Liên hệ mình qua server Techmino trên Discord. Mình hiện
         05B. Hệ thống xoay gạch: ARS, ASC, ASC+, BRS, BiRS, C2RS, C2sym, NRS, SRS, SRS+, TRS, XRS
         05C. Hệ thống điều khiển: IRS, IHS, IMS
         05D. Cách kiểu xáo gạch: Túi 7 gạch, His, EZ-Start, Reverb, C2
-            (và vấn đề Drought & Flood của một vài kiểu xáo)
+            (và vấn đề Drought của một vài kiểu xáo)
 
         05E. Thông số
             05E1. Thông số của game:
@@ -178,9 +178,9 @@ Chúng tôi có vài lời khuyên dành cho những người mới chơi xếp 
     2 thứ cơ bản:
         1. Chọn những game xếp gạch chuyên nghiệp có cơ chế điều khiển tốt. Techmino, TETR.IO, Jstris và Tetris Online là một số lựa chọn khá tốt đấy. Hãy tránh xa những game kém chất lượng ra bởi đa số chúng đi lệch ra khỏi Guideline, hoặc có cơ chế điều khiển tệ hại, sẽ không tốt cho việc luyện tập của bạn.
         2. Hãy dành thời gian để học các kỹ năng cơ bản đã. Cố gắng dàh nhiều thời gian hơn cho các kỹ năng như đọc NEXT hoặc có thể xóa Tetris một cách nhất quán. Làm chủ các phần cơ bản trước khi nghĩ tới những kỹ năng nâng cao hơn như T-spin.
-    3 kỹ năng cơ bản:
+    3 kỹ năng cần có:
         1. Nhớ các vị trí xuất hiện của gạch.
-        2. Nhớ các thao tác để di chuyển gạch đến vị trí mong muốn.
+        2. Nhớ các chuỗi thao tác để di chuyển gạch đến vị trí mong muốn.
         3. Suy nghĩ trước về vị trí đặt viên gạch sắp tới.
 
 Bạn có thể nhấn nút Mở link để mở bài "Suggestion for new players to Tetris Online", viết bởi Tatianyi — một người chơi xếp gạch ở Trung Quốc (dịch sang tiếng Anh bởi User670).
@@ -191,7 +191,7 @@ Bạn có thể nhấn nút Mở link để mở bài "Suggestion for new player
         "nhom04 readme noob new guides recommendations suggestions helps; đề xuất luyện tập; người mới chơi; hướng dẫn; lời khuyên; gợi ý",
         "help",
 [[
-Lời khuyên khi tập chơi (Trang 1 / 2):
+Lời khuyên khi tập chơi:
 Sau đây là vài lời khuyên của chúng tôi để cải thiện kỹ năng chơi của bạn. Cảm thấy bị kẹt giữa chừng? Bạn có thể nghỉ ngơi và dành nhiều thời gian hơn để chơi những chế độ bạn thích. Chơi vui vẻ!
 
 Những lời khuyên này đã được sắp xếp thành nhóm với độ khó tăng dần. Tuy vậy, chúng tôi khuyên bạn hãy làm cả 3 cùng lúc thay vì từng cái một (A → B → C)
@@ -240,11 +240,11 @@ Lời khuyên của chúng tôi: chỉ nên bắt đầu học làm T-spin khi b
         [[
 Dưới đây là vài lời khuyên hữu ích khi bạn đang chỉnh sửa bố cục phím
 
-1.  Một ngón tay chỉ nên thực hiện một chức năng khác nhau. Ví dụ như: 1 ngón cho sang trái, 1 ngón cho sang phải, 1 ngón cho phím xoay phải, 1 ngón cho rơi mạnh
+1.  Một ngón tay chỉ nên thực hiện một chức năng khác nhau. Ví dụ như: 1 ngón cho sang trái, 1 ngón cho sang phải, 1 ngón cho rơi mạnh,…; và gán một ngón tay cho cả phím xoay trái và xoay phải (vì chúng thuờng không bao giờ đuợc nhấn cùng lúc)
 
-2.  Trừ khi bạn tự tin với ngót út của mình, thì không nên để ngón tay này làm bất kì việc hết! Ngoài ra, nên xài ngón trỏ và ngón giữa vì hai ngón này là nhanh nhẹn nhất, nhưng bạn cũng có thể thoải mái tìm hiểu xem các ngón tay của mình nhanh chậm thế nào, mạnh yếu ra sao.
+2.  Trừ khi bạn tự tin với ngót út của mình, thì không nên để ngón tay này làm bất kì việc hết! (Vì chúng rất kém linh hoạt). Lời khuyên: nên xài ngón trỏ và ngón giữa vì hai ngón này là nhanh nhẹn nhất, nhưng bạn cũng có thể thoải mái tìm hiểu xem các ngón tay của mình nhanh chậm thế nào, mạnh yếu ra sao.
 
-3.  Không nhất thiết phải sao chép bố cục phím của người khác, vì không ai giống ai. Thay vào đó hãy chỉnh theo cách của bạn, miễn là bạn chơi thoải mái là được.
+3.  Không nhất thiết phải sao chép bố cục phím của người khác, vì không ai giống ai. Bố cục phím thờng không ảnh huởng quá nhiều đến kỹ năng của bạn nếu bạn đã tuân theo quy tắc 1 và 2.
         ]],
     },
     {"Khả năng xử lý gạch",
@@ -253,13 +253,13 @@ Dưới đây là vài lời khuyên hữu ích khi bạn đang chỉnh sửa b�
         [[
 Những yếu tố ảnh hưởng tới việc xử lý gạch của bạn:
 
-(1) Độ trễ đầu vào, có thể là do cấu hình, thông số hoặc tình trạng của thiết bị. Khởi động lại trò chơi; bảo dưỡng, sửa chữa thiết bị của bạn hoặc đổi sang thiết bị mới có thể khắc phục vấn đề này.
-(2) Trò chơi không ổn định / thiết kế quá sơ sài và nhiều lỗi. Có thể giảm tình trạng này bằng cách chỉnh sửa cài đặt hiệu ứng để ở mức thấp.
-(3) Cái gì cũng có mục đích của nó, ngay cả thiết kế cũng vậy. Việc làm quen với chúng có thể giúp bạn.
-(4) Cài đặt thông số xử lý gạch không phù hợp (ví dụ: DAS, ARR, SDARR,…). Thay đổi cài đặt.
-(5) Tư thế chơi ko hợp lý, có thể gây ra bất tiện trong những lúc quan trọng. Nên tìm tư thế chơi phù hợp sao cho thuận tiện khi chơi.
-(6) Thao tác không quen sau khi đổi vị trí phím hay  đổi sang thiết bị mới. Tập làm quen với chúng hoặc thay đổi cài đặt có thể hữu ích.
-(7) Mỏi cơ, chuột rút,… làm cho việc phản ứng và phối hợp tay khó khăn hơn. Hãy nghỉ ngơi và trở lại sau một hoặc vài ngày.
+1. Độ trễ đầu vào, có thể là do cấu hình, thông số hoặc tình trạng của thiết bị. Khởi động lại trò chơi; bảo dưỡng, sửa chữa thiết bị của bạn hoặc đổi sang thiết bị mới có thể khắc phục vấn đề này.
+2. Trò chơi không ổn định, có thể do cách thiết kế và cách lạp trình của game. Có thể giảm tình trạng này bằng cách tắt hiệu ứng hình ảnh hoặc để chất lượng đò họa ở mức thấp.
+3. Thiết kế trong game có chủ đích.
+4. Thông số điều khiển gạch cha hợp lí (ví dụ: DAS, ARR, SDARR,…). Thay đổi cài đặt có thể giúp bạn.
+5. Tư thế chơi ko hợp lý. Hãy thử tìm tư thế chơi thuận tiện.
+6. Thao tác không quen sau khi đổi bố cục phím hoặc thiết bị. Tập làm quen với chúng hoặc thay đổi cài đặt có thể hữu ích.
+7. Mỏi cơ, chuột rút,… làm cho việc phản ứng và phối hợp tay khó khăn hơn. Hãy nghỉ ngơi và trở lại sau một hoặc vài ngày.
         ]],
     },
     {"Các nút xoay",
@@ -303,12 +303,12 @@ Dưới đây là các yếu tố chính:
     {"In-place Hold",
         "nhom05 inplace hold",
         "term",
-        "\"Giữ ngay tại chỗ\".\n*Chỉ có trên Techmino*\nMột kiểu Hold đặc biệt cho phép gạch lấy ra từ Hold sẽ xuất hiện ngay tại vị trí mà gạch vừa cất đang rơi (trái ngược với Hold thông thường, khi mà gạch sẽ xuất hiện ở trên cùng của bảng).\nCó thể bật chức năng này trong Chế độ tự do\n\nFun fact: Tiếng Trung gọi cái này là \"Physical Hold\"",
+        "*Chỉ có trên Techmino*\n\"Giữ ngay tại chỗ\".\n\nMột kiểu Hold đặc biệt cho phép gạch lấy ra từ Hold sẽ xuất hiện ngay tại vị trí mà gạch vừa cất đang rơi (trái ngược với Hold thông thường, khi mà gạch sẽ xuất hiện ở trên cùng của bảng).\nCó thể bật chức năng này trong Chế độ tự do\n\nFun fact: Tiếng Trung gọi cái này là \"Physical Hold\"",
     },
     {"Swap",
         "nhom05 hold",
         "term",
-        "Tương tự như *Hold*, nhưng sẽ lấy gạch tiếp theo từ Next; gạch đang rơi hiện tại sẽ đứng cuối hàng. Bạn chỉ có thể đổi gạch một lần trong đa số trương hợp.",
+        "Tương tự như \"Hold\", nhưng sẽ lấy gạch tiếp theo từ Next; gạch đang rơi hiện tại sẽ đứng cuối hàng. Bạn chỉ có thể đổi gạch một lần trong đa số trương hợp.",
     },
     {"Topping out",
         "nhom05 topout toppingout game over",
@@ -375,9 +375,9 @@ Trong hệ thống xoay SRS và các biến thể của SRS, có một hệ th�
     2: Xoay 2 lần, góc 180° theo bất kì chiều nào.
 
 Ví dụ:
-    0→L nghĩa là xoay gạch ngược chiều kim đồng hồ, từ hướng ban đầu (0) sang hướng bên trái (L)
-    0→R nghĩa là xoay gạch theo chiều kim đồng hồ, từ hướng ban đầu (0) sang hướng bên phải (R)
-    2→R nghĩa là xoay gạch ngược chiều kim đồng hồ, từ hướng 180° (2) sang hướng bên phải (R).
+    0 → L nghĩa là xoay gạch ngược chiều kim đồng hồ, từ hướng ban đầu (0) sang hướng bên trái (L)
+    0 → R nghĩa là xoay gạch theo chiều kim đồng hồ, từ hướng ban đầu (0) sang hướng bên phải (R)
+    2R nghĩa là xoay gạch theo chiều kim đồng hồ, từ hướng 180° (2) sang hướng bên phải (R).
         ]],
     },
     {">B|Hệ thống xoay",
@@ -505,70 +505,95 @@ So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một wall-kick table; nhưng
         "nhom05d bag7 randomgenerator túi 7 gạch; kiểu xáo túi 7 gạch",
         "term",
         [[
-Tên gọi chính thức là \"Random Generator\" (Trình xáo gạch ngẫu nhiên)
-Ngoài ra nó còn có tên là \"7-Bag Generator\".
-Tên tiếng Việt: \"Kiểu xáo Túi 7 gạch\".
+Tên gọi chính thức là "Random Generator" (Trình xáo gạch ngẫu nhiên) hay "7-Bag Generator" (Kiểu xáo Túi 7 gạch).
 
-Đây là kiểu xáo hay được sử dụng bởi các trò chơi xếp gạch hiện đại. Từ khi bắt đầu game, bạn luôn được đảm bảo rằng bạn sẽ có đủ 7 Tetromino mỗi 7 viên gạch bạn đã thả rơi.
-Một vài ví dụ: ZSJLTOI, OTSLZIJ, LTISZOJ.
+Đây là kiểu xáo hay được sử dụng bởi đa số các xếp gạch hiện đại.
+
+Chuỗi gạch sẽ được chia thành các nhóm (túi). Mỗi túi gạch phải có dủ 7 Tetrominoes nhưng trình tự thì ngẫu nhiên.
+Kiểu xáo này cho phép ngăn chặn tình trạng sự xuất hiện không đồng đều của các viên gạch.
+Một vài ví dụ về chuỗi gạch: ZSJLTOI, OTSLZIJ, LTISZOJ.
         ]],
     },
     {"Kiểu xáo His",
         "nhom05d historygenerator hisgenerator",
         "term",
         [[
-Tên đầy đủ là History — Roll. (Tên tiếng Việt: \"Nhớ — Lặp\")
+Một kiểu xáo gạch được sử dụng nhiều trong series game Tetris: The Grand Master.
 
-Một kiểu xáo gạch được sử dụng nhiều trong series game Tetris: The Grand Master. Mỗi lần một Tetromino sẽ được chọn ngẫu nhiên: Nếu nó là một trong những gạch đã bốc ra trước đó, thì bốc lại thêm lần nữa cho tới khi bốc được gạch không phải là những viên gạch kia, hoặc là hết lượt bốc lại. Ví dụ: \"his4 roll6\" (h4r6) (nhớ 4 lặp 6) sẽ nhớ 4 gạch đã bốc cuối cùng, và chỉ được bốc lại tối đa 6 lần nếu cần thiết.
-Kiểu xáo His cũng có một vài biến thể khác. Xem chi tiết tại mục \"Kiểu xáo HisPool\".
+Trong kiểu xáo này, cách chọn gạch diễn ra như nhau:
+    — Bước 1: Chọn ngẫu nhiên một trong bảy Tetromino.
+    — Bước 2: Kiểm tra xem liệu gạch đã bốc trúng có phải là một trong những gạch đã xuất hiện gần nhất không.
+        —— Đúng: Tới Bước 3
+        —— Sai: Nhảy tới Bước 4
+    — Bước 3: Cộng 1 vào số lần đã bốc lại, kiểm tra xem liệu số lần đã bốc lại có vượt qua giới hạn tối đa hay không?
+        —— Đúng: Tới Bước 4
+        —— Sai: nhảy về Bước 1
+    — Bước 4: Dùng gạch đã bốc trúng
 
-Trong Techmino, số lần bốc lại ngẫu nhiên sẽ là một nửa độ dài chuỗi gạch.
+Kiểu xáo này hay được mô tả bằng "His [A] Roll [B]"
+Trong đó:
+    — Nhớ A gạch đã xuất hiện gần nhất.
+    — Chỉ có thể bốc lại tối đa B lần.
+Ví dụ: His4 Roll6
+    — Nhớ 4 gạch xuất hiện gần nhất.
+    — Chỉ có thể bốc lại tối đa 6 lần.
+
+Trong Techmino, số lần bốc lại gạch bằng một nửa số gạch đã kiểm tra của kiểu/hệ thống xáo.
+
+Kiểu xáo His là phiên bản cải tiến so với kiểu xáo ngẫu nhiên đơn giản và giảm tình trạng chuỗi S và Z liên tục.
         ]],
     },
     {"K.xáo HisPool [1/2]",
         "nhom05d hispool historypoolgenerator kiểu xáo hispool",
         "term",
         [[
-Tên đầy đủ là History (- Roll) — Pool. (Tên tiếng Việt là Nhớ — Lặp — Rổ)
+Một biến thể của kiểu xáo gạch His.
 
-Một kiểu xáo dựa trên kiểu xáo His. Nó giới thiệu một cơ chế mới: \"Pool\" (Rổ). Mỗi lần bốc gạch, HisPool sẽ chọn ngẫu nhiên một viên gạch trong cái Rổ và tăng khả năng xuất hiện của gạch ít xuất hiện nhất. (Bạn có thể tra mục tiếp theo để tìm hiểu về cơ chế Pool nếu bạn tò mò)
+Đi kèm với cơ chế \"Pool\" (Rổ) dựa trên những gạch đã xuất hiện gằn nhất,cho phép gạch chưa được xuất hiện quá lâu có cơ hội xuất hiện cao hơn.
 
-Cơ chế này giúp chuỗi gạch ổn định hơn và tránh tình trạng drought xảy ra quá lâu
-Kiểu xáo thường gặp nhất là kiểu xáo \"his4 roll6 pool35\" (nhớ 4 lặp 6 rổ 35)
+Kiểu xáo này giúp ổn định chuỗi gạch và đảm bảo rằng flood & drought không xảy ra quá lâu.
+
+Độ ổn định của kiểu xáo này tùy thuộc vào chuỗi gạch gần nhất và túi gạch.
         ]],
     },
     {"K.xáo HisPool [2/2]",
         "nhom05d hispool historypoolgenerator kiểu xáo hispool",
         "term",
         [[
-[Sea: Phần này không có trong Zictionary ngôn ngữ khác!]
-Cách hoạt động của kiểu xáo \"Nhớ — Lặp — Rổ\" diễn ra tuần tự như sau:
+[Sea: Phần này không có trong Zictionary ngôn ngữ khác!
+Cách hoạt động của kiểu xáo HisPool diễn ra tuần tự như sau:
 
 Đầu tiên, lấy một viên gạch ngẫu nhiên trong cái Rổ. Nếu gạch đó là một trong những gạch đã bốc ra trước đó thì bốc lại cho tới khi gạch đó không còn là một trong những viên gạch kia, hoặc là hết lượt bốc lại.
-Gạch được bốc trúng sẽ được lấy ra khỏi Rổ. Với các gạch khác, mỗi viên gạch sẽ bị cộng 1 lần vào số lần không xuất hiện của chúng.
+Gạch được bốc trúng sẽ được lấy ra khỏi Rổ. Với các gạch khác, mỗi viên gạch sẽ bị cộng 1 lần vào số lần chưa xuất hiện của chúng.
 
-Vấn đề là, chiếc Rổ lúc này chỉ còn 34 gạch, nhưng yêu cầu đặt ra là chiếc Rổ phải có 35 gạch. Bây giờ phải kiếm thêm gạch từ đâu ra?
+Vấn đề là, chiếc Rổ lúc này chỉ còn 34 gạch, nhưng yêu cầu đặt ra là chiếc Rổ phải có 35 gạch trong toàn bộ thời gian.
+Bây giờ phải kiếm thêm gạch từ đâu ra?
 
-Câu trả lời là: lấy gạch có *số lần không xuất hiện nhiều nhất* (hiểu nôm na là gạch ít xuất hiện nhất) (\"The droughtest piece\") để thêm ngược lại Rổ. Và lẽ tất nhiên game có theo dõi các viên gạch đã không xuất hiện bao nhiêu lần để biết gạch nào cần lấy chứ :)
+Câu trả lời là: lấy gạch có *số lần chưa xuất hiện nhiều nhất* để thêm ngược lại Rổ.
 
-Sau khi gạch đó đã thêm vào Rổ, số lần không xuất hiện của nó sẽ bị đặt lại về 0
+Sau khi gạch đó đã thêm vào Rổ, số lần chưa xuất hiện của nó sẽ bị đặt lại về 0
 Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu tiên.
         ]],
     },
-    {"Kiểu xáo EZ-Start",
-        "nhom05d bages easy start khởi đầu suôn sẻ; kiểu xáo ez-start' kiểu xáo ezstart",
+    {"Kiểu xáo bagES",
+        "nhom05d bages easy start khởi đầu suôn sẻ; kiểu xáo ez-start; kiểu xáo ezstart",
         "term",
-        "*Chỉ có trên Techmino*\n\nKiểu xáo Túi \"Khởi đầu suôn sẻ\" (Bag Easy-Start generator), một kiểu xáo được cải tiến từ kiểu xáo Túi. Gạch đầu tiên của mỗi túi sẽ không bao giờ là gạch khó đặt (S / Z / O / S5 / Z5 / F / E / W / X / N / H).",
+        "*Chỉ có trên Techmino*\nTên khác: EZ-Start generator (Khởi đầu suôn sẻ)\n\nMột biến thể của kiểu xáo Túi. Gạch đầu tiên của mỗi túi sẽ không bao giờ là gạch khó đặt: S / Z / O / S5 / Z5 / F / E / W / X / N / H.",
     },
     {"Kiểu xáo Reverb",
         "nhom05d kiểu xáo reverb",
         "term",
-        "*Chỉ có trên Techmino*\n\nMột cách xáo gạch có nguồn gốc từ cách xáo Túi. Kiểu xáo Reverb sẽ lặp ngẫu nhiên một vài gạch từ kiểu xáo Túi. Khả năng lặp lại gạch giảm nếu gạch bị lặp quá nhiều và ngược lại",
+        "*Chỉ có trên Techmino*\nMột biến thể của kiểu xáo Túi. \n\nKiểu xáo Reverb sẽ lặp ngẫu nhiên một vài gạch từ kiểu xáo Túi. Xác suất suất lặp lại gạch giảm nếu gạch đã xuất hiện và ngược lại\nSố lần lặp lại trên lý thuyết nằm từ 0 tới 6",
     },
     {"Kiểu xáo C2",
         "nhom05d cultris2generator cultrisiigenerator c2generator",
         "term",
-        "Ban đầu toàn bộ Tetromino sẽ có trọng số (\"weight\") là 0.\nSau mỗi lần xáo gạch, toàn bộ trọng số của các gạch sẽ bị chia hết cho 2, và được cộng một số thực ngẫu nhiên từ 0 tới 1. Gạch có trọng số cao nhất sẽ được bốc, và sau đó trọng số của nó sẽ bị chia cho 3.5.",
+        "Đây là kiểu xáo được dùng trong Cultris II với cách hoạt động như sau:\n\t1.Ban đầu toàn bộ Tetromino sẽ có trọng số (\"weight\") là 0.\n\t2. Cứ sau mỗi lần xáo gạch, toàn bộ trọng số của các gạch sẽ bị chia hết cho 2, và được cộng một số thực ngẫu nhiên từ 0 tới 1.\n\t3. Gạch có trọng số cao nhất, và sau đó trọng số của nó sẽ bị chia cho 3.5. Về Bước 2 và tiếp tục lặp lại",
+    },
+    {"Drought",
+        "drought",
+        "term",
+        "Một tình huống mà một viên gạch người chơi muốn nhưng lại không xuất hiện. Thường dùng để chỉ hiện tượng khát gạch I trong mấy game cổ điển vì chúng thường dùng bộ xáo gạch ngẫu nhiên đơn giản.\n\n. Tuy nhiên, trong các game hiện đại, hiện tượng drought không thể xảy ra vì khoảng cách tối đa giữa 2 gạch cùng loại là 13 gạch. ",
     },
     {">E|Thông số",
         "nhom05e",
@@ -643,29 +668,29 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
         "Tưởng tượng bạn đang gõ chữ, và bạn nhấn giữ phím \"O\". \nVà bạn sẽ nhận được một chuỗi toàn là o.\nỞ trên thanh thời gian thì nó trông như thế này: o—————o-o-o-o-o-o-o-o-o…\n\"—————\" là DAS, còn \"-\" là ARR.",
     },
     {"DAS & ARR",
-        "nhom05e2 das arr delayedautoshift autorepeatrate",
+        "nhom05e2 das và arr delayedautoshift autorepeatrate",
         "term",
-        "DAS viết tắt của từ Delayed Auto Shift, chỉ cách viên gạch di chuyển khi bạn giữ phím di chuyển sang trái hoặc phải. Thuật ngữ này còn ám chỉ khoảng thời gian từ lúc bạn nhấn phím cho tới khi gạch có thể tự động di chuyển liên tục. DAS chỉ được tính một lần và sẽ bị đặt lại khi bạn nhả phím\n\nARR viết tắt của từ Auto-Repeat Rate, nó là khoảng thời gian nghỉ sau khi gạch di chuyển được 1 ô trong quá trình di chuyển liên tục (sau khi đã qua DAS).\n\nTrong một vài game, DAS và ARR được tính bằng f (frame, khung hình). Nhân f với 16.7 (nếu bạn đang chạy game ở 60 FPS) để đổi sang ms (mili giây).",
+        "DAS, hay Delayed Auto-shift, chỉ khoảng thời gian sau khi gạch di chuyển sang một hướng đã chọn 1 ô cho đến truớc khi gạch di chuển một cách tự động.\n\nARR, hay Auto-Repeat Rate, chỉ khoảng cách thời gian giữ 2 lần di chuyển sang 1 ô trong lúc gạch đang tự động di chuyển.\n\nDAS và ARR được tính bằng f (khung hình) (¹/₆₀ ở 60FPS). 1ms = 16²/₃ khung hình.",
     },
     {"Hiệu chỉnh DAS",
         "nhom05e2 das tuning",
         "term",
-        "Với những người chơi nâng cao mà muốn chơi nhanh hơn, có thể điều chỉnh DAS thành 4-6 f (67-100 ms) và ARR 0 f (0 ms); đây là hai giá trị khuyên dùng. (Ở ARR 0ms, các viên gạch sẽ ngay lập tức dính vào tường khi bạn vượt qua DAS.)\n\nĐây là cấu hình lý tưởng cho người nâng cao, với chiến lược là cắt giảm DAS trong khi vẫn có thể kiểm soát được gạch một cách tin cậy mặc dù ARR bằng 0 nếu có thể hoặc càng thấp càng tốt.",
+        "Với những người chơi nâng cao mà muốn chơi nhanh hơn, có thể điều chỉnh DAS thành 4-6 f (67-100 ms) và ARR 0 f (0 ms, các viên gạch sẽ ngay lập tức dính vào tường khi bạn vừa vượt qua DAS); đây là hai giá trị khuyên dùng.\n\nNếu bạn thấy khó điều khiển, thử tăng DAS lên 1-2 f, nhưng hãy giữ ARR bé hơn 2 f (33 ms).\nTóm lại, DAS nên để thấp nhất có thể nhng vẫn phải đảm bảo được game có thể phân biệt được bạn đang nhấn hay giữ phím trong khi ARR để ở mức thấp nhất (nếu không để thành 0).",
     },
     {"DAS cut",
         "nhom05e2 dascut dcd",
         "term",
-        "*Chỉ có trên Techmino*\n\nTrong Techmino, bạn có thể hủy hoặc rút một khoảng thời gian từ bộ đếm ngược của DAS. Có thể giảm được tình trạng gạch di chuyển ngay lập tức khi vừa mới xuất hiện nếu có phím di chuyển nào đang được giữ.\n\nNhững game khác có thể có tính năng này nhưng cách hoạt động có thể đôi chút khác biệt.",
+        "Cơ chế đặc biệt sẽ được kích hoạt khi gạch mới xuất hiện. Khi kích hoạt, cơ chế này sẽ tăng DAS lên một chút để gạch không tự di chuyển ngay khi đang có phím được giữ.\n\nCác game khác có thể có tính năng tương tự nhưng cách hoạt động có thể khác nhau.",
     },
     {"Auto-lock cut",
         "nhom05e2 autolockcut",
         "term",
-        "Một tính năng được thiết kế để ngăn chặn việc mis-harddrop do việc vô tình nhấn phím \"Thả mạnh\" vào trúng vài giây mili giây sau khi gạch trước đó đã được đặt một cách tự nhiên\nPhím \"Thả mạnh\" sẽ tạm thời bị vô hiệu trong vòng vài khung hình (tùy vào từng game / cài đặt của người chơi) ngay sau khi có gạch bị khóa một cách tự nhiên.\n\nNhững game khác có thể có tính năng này nhưng cách hoạt động có thể đôi chút khác biệt.",
+        "Một tính năng trong Techmino cho phép ngăn chặn việc misdrop khi gạch mới vừa xuất hiện. Nút Thả mạnh sẽ bị vô hiệu tạm thời trong một khoảng thời gian ngắn sau khi gạch trước đó bị khóa.\n\nCác game khác có thể có tính năng tương tự nhưng cách hoạt động có thể khác nhau.",
     },
     {"SDF",
         "nhom05e2 softdropfactor",
         "term",
-        "Soft Drop Factor (Hệ số tốc độ rơi nhẹ)\n\nMột cách để xác định tốc độ gạch rơi khi nhấn phím \"Thả nhẹ\". Ở những game chính thức: Tốc độ rơi nhẹ = Tốc độ rơi × 20 → SDF của những game này là 20. Techmino không dùng SDF để xác định tốc độ rơi nhẹ, mà dùng SDARR (thông số này có cách hoạt động giống với ARR, nhưng điểm khác là chỉ dùng cho \"Thả nhẹ\").",
+        "Soft Drop Factor (Hệ số tốc độ rơi nhẹ)\n\nMột cách để xác định tốc độ gạch rơi khi nhấn phím \"Thả nhẹ\". Hầu hết các game xác đinh tốc độ rơi bằng công thức: Tốc độ thả nhẹ = SDF × 20\n\nTuy nhiên trong Techmino, tốc độ thả nhẹ là cố định với thông số SDARR (ARR nhưng dành cho nút \"thả nhẹ\").",
     },
     {">F|Điều khiển",
         "nhom05f",
@@ -675,7 +700,7 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
     {">F1|Tốc độ đ.khiển",
         "nhom05f1",
         "name",
-        "NHÓM 5G1: TỐC ĐỘ ĐIỀU KHIỂN",
+        "NHÓM 5F1: TỐC ĐỘ ĐIỀU KHIỂN",
     },
     {"LPM",
         "nhom05f1 linesperminute; số hàng mỗi phút; tốc độ",
@@ -709,7 +734,7 @@ Mỗi game có cách tính LPM khác nhau. Ví dụ như, Tetris Online tính LP
     {">F2|K.th. đ.khiển",
         "nhom05f2",
         "name",
-        "NHÓM 5G2: KỸ THUẬT ĐIỀU KHIỂN",
+        "NHÓM 5F2: KỸ THUẬT ĐIỀU KHIỂN",
     },
     {"Finesse",
         "nhom05f2 finesse lỗi di chuyển",
@@ -717,17 +742,14 @@ Mỗi game có cách tính LPM khác nhau. Ví dụ như, Tetris Online tính LP
         [[
 Một kỹ thuật di chuyển gạch vào vị trí mong muốn với số lần nhấn phím tói thiểu. Tiết kiệm thời gian và giảm khả năng misdrop.
 
-Bạn nên bắt đầu học Finesse càng sớm càng tốt. Có nhiều video hướng dẫn bạn có thể tìm thấy trên Youtube. Bắt đầu bằng các thao tác cơ bản và sau đó bắt đầu thực hành. Nhớ ưu tiên độ chính xác hơn tốc độ.
+Hãy lưu ý rằng, finesse trong Techmino không phải là "chuỗi phím bấm đơn giản nhất về lý thuyết để di chuyển một viên gạch đến một vị trí cụ thể". Việc kiểm tra finesse chỉ được thực hiện nếu gạch được gạch đặt mà không sử dụng thả nhẹ — combo finesse của bạn sẽ không bị đặt lại nếu bạn làm spin hoặc nhét gạch vào.
 
--- TODO
-Techmino phát hiện lỗi di chuyển không dựa vào "số lần nhấn phím tối thiểu để di chuyển theo lý thuyết".
-Thay vào đó, chỉ kiểm tra lỗi di chuyển dựa trên số lần nhấn phím tương đương đã được quy định *trước khi gạch được đặt tại một vị trí mà không cần dùng Thả nhẹ* → Techmino sẽ không tính lỗi di chuyển nếu bạn phải \"nhét\" gạch đó để lấp lỗ / thực hiện spin
-Techmino còn kiểm tra thêm một số điều kiện nữa, như nếu bạn giữ gạch mà cả gạch hiện tại giống với gạch đang giữ, hoặc là giữ gạch khi bạn đã di chuyển gạch hiện tại, cũng đều tính là lỗi di chuyển.
-
-Finesse% trong Techmino được tính như sau: 100% nếu số phím bằng hoặc ít hơn par¹, 50% / 25% / 0% nếu quá par 1 / 2 / 3+ phím
-LƯU Ý: trong 20G nếu vẫn kiểm tra lỗi di chuyển, kết quả có thể không chính xác.
-
-(1) Par: thuật ngữ trò đánh golf, thường được sử dụng để chỉ số lượt gậy dự kiến cần để có thể đưa bóng vào lỗ (hole) hoặc một vòng đánh golf (round of golf).
+Trong Techmino, tỉ lệ finesse (%) được xác định như sau:
+    — 100% (Hoàn hảo — Perfect) khi số lần nhấn phím bằng hoặc ít hơn mức chuẩn
+    — 50% (Tuyệt vời — Great) khi số lần nhấn phím cao hơn mức chuẩn 1 phím
+    — 25% (Xấu — Bad) khi số lần nhấn phím cao hơn mức chuẩn 2 phím
+    — 0% (Truợt — Miss) khi số lần nhấn phím cao hơn mức chuẩn 3 phím
+Một Bad hoặc Miss sẽ phá vỡ combo finesse.
         ]],
     },
     {"Hypertapping",
@@ -751,7 +773,7 @@ Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish —
     {">F3|Độ trễ input",
         "nhom05f3 input delay",
         "name",
-        "Độ trễ đầu vào\n\nBất kỳ thiết bị đầu vào cũng cần một khoảng thời gian để tín hiệu có thể tới game, không cao thì thấp, từ mấy ms đến cả trăm ms.\n\nNếu độ trễ đầu vào quá cao, thì việc điều khiển sẽ không thoải mái.\n\nĐộ trễ này thường do phần cứng và phần mềm, thứ mà bạn khó mà kiểm soát được.\nBật chế độ Hiệu suất cao (Performance mode) hoặc tắt chế độ tiết kiệm năng lượng (Energy saving), đồng thời bật chế độ Gaming trên màn hình máy tính / TV, có thể giúp giảm độ trễ.",
+        "Độ trễ đầu vào\n\nBất kỳ thiết bị đầu vào cũng cần một khoảng thời gian để tín hiệu có thể tới game, không cao thì thấp, từ mấy ms đến cả trăm ms.\n\nNếu độ trễ đầu vào quá cao, thì việc điều khiển sẽ không thoải mái.\n\nĐộ trễ này thường do phần cứng và phần mềm, thứ mà bạn gần như không kiểm soát được. Hiệu ứng này dễ thấy nhất ở trong các game như Tenis online hay Tetra Effect.\n\nBật chế độ Hiệu suất cao (Performance mode) hoặc tắt chế độ tiết kiệm năng lượng (Energy saving), đồng thời bật chế độ Gaming trên màn hình máy tính / TV, có thể giúp giảm độ trễ.",
     },
     {">G|K.năng t.công",
         "nhom05g",
@@ -761,7 +783,7 @@ Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish —
     {"APM",
         "nhom05g attackperminute; số hàng tấn công mỗi phút; số hàng tấn công trong một phút",
         "term",
-        "Attack per minute \n\tSố hàng tấn công trung bình mà một người chơi có thể tạo ra mỗi phút, bất kể đó là đòn tấn công hoặc chỉ dùng để hủy đòn tấn công của đối thủ\n\tPhản ánh sức mạnh tấn công của người chơi",
+        "Attack per minute\n\tSố hàng tấn công trung bình mà một người chơi có thể tạo ra mỗi phút, bất kể đó là đòn tấn công hoặc chỉ dùng để hủy đòn tấn công của đối thủ\n\tPhản ánh sức mạnh tấn công của người chơi",
     },
     {"SPM",
         "nhom05g linessentperminute; số hàng gửi mỗi phút; số hàng gửi trong một phút.",
@@ -798,7 +820,7 @@ Phản công: Gửi hàng rác lại sau khi xử xong toàn bộ hàng rác tro
 
 Trong hầu hết các game, tấn công và phòng thủ là tương đương nhau: một cuộc tấn công hủy một hàng rác đến.
 
-Trong hầu hết các game, tỷ lệ phản công rác thường là 1:1.
+Trong hầu hết các game, tỉ lệ phản công rác thường là 1:1.
         ]],
     },
     {"Combo",
@@ -912,7 +934,7 @@ T-spin chủ yếu được phát hiện bởi "quy luật 3 góc". Tức là, n
         "T-spin Single | T-spin Đơn\nXóa một hàng bằng T-spin",
     },
     {"TSD",
-        "nhom05j t2 tspindouble T-spin Đôi",
+        "nhom05j  tsndouble T-spn Đôi",
         "term",
         "T-spin Double | T-spin Đôi\nXóa hai hàng bằng T-spin.",
     },
@@ -922,7 +944,7 @@ T-spin chủ yếu được phát hiện bởi "quy luật 3 góc". Tức là, n
         "T-spin Triple | T-spin Tam\nXóa ba hàng bằng T-spin.",
     },
     {"MTSS",
-        "nhom05j minitspinsingle tsms tspinminisingle Mini T-spin Đơn",
+        "nhom05j mintspinsingle tsms tspinminisingle Mini T-spin Đơn",
         "term",
         "Mini T-spin Single | Mini T-spin Đơn\nTrước đây từng biết tới với cái tên \"T-spin Mini Single\" (TSMS) (T-spin Mini Đơn).\nXóa một hàng bằng Mini T-spin.\nMỗi game sẽ có cách khác nhau để xác định xem T-spin đó có phải là Mini hay không.",
     },
@@ -961,10 +983,10 @@ T-spin chủ yếu được phát hiện bởi "quy luật 3 góc". Tức là, n
         "term",
         "Sub-[số] có nghĩa là khoảng thời gian ở dưới một mốc nhất định. Đơn vị thời gian thường được bỏ qua và có thể tự suy ra. Ví dụ: \"sub-30\" có nghĩa là hoàn thành chế độ 40 hàng dưới 30 giây, \"sub-15\" có nghĩa là hoàn thành chế độ 1000 hàng dưới 15 phút. \"Sub\" thường được sử dụng với số đã được làm tròn (cho nên hiếm khi người ta sử dụng thứ giống như \"sub-62\")",
     },
-    {"‘Doing Research’",
-        "nhom05k scientificresearch",
+    {"‘Researching’",
+        "nhom05k scientificresearching",
         "term",
-        "\"Doing scientific research\" (\"Nghiên cứu khoa học\") là một thuật ngữ đôi khi được dùng ở cộng đồng Tetris Trung Quốc, chỉ việc nghiên cứu / luyện tập kỹ thuật nào đó trong môi trường chơi đơn và tốc độ rơi thấp..",
+        "(<科研>, ké yán)\n\nMột thuật ngữ đôi khi được dùng ở cộng đồng Tetris Trung Quốc, chỉ việc nghiên cứu / luyện tập kỹ thuật nào đó (ví dụ như một setup T-spin mới) trong môi trường chơi đơn và tốc độ rơi thấp…\nTrong Techmino, thuật ngữ này chỉ những mode đòi hỏi bạn gần như phải dùng spin suốt màn chạy.",
     },
     {"Bone block",
         "nhom05k bone tgm",
@@ -1175,7 +1197,7 @@ Một trò chơi do fan làm đang được phát triển với hệ thống xoa
         [[
 Chỉ có trên máy thùng | Chơi đơn / Chơi hai người
 
-Tetris The Grand Master, một series Tetris dành cho máy thùng, nổi tiếng với độ khó cực cao — được xem là series game khó nhất (tại thời điểm ra mắt). Những thứ như S13 hay GM cũng từ chính series này. TGM3 được coi là tựa game nổi tiếng nhất của series này.
+Tetris: The Grand Master, một series Tetris dành cho máy thùng, nổi tiếng với độ khó cực cao — được xem là series game khó nhất (tại thời điểm ra mắt). Những thứ như S13 hay GM cũng từ chính series này. TGM3 được coi là tựa game nổi tiếng nhất của series này.
         ]],
     },
     {"DTET",
@@ -1388,7 +1410,7 @@ Windows | Chơi trực tuyến
 
 (火拼俄罗斯)
 
-Một game xếp gạch ở trên Tencent Game Center — một nền tảng chơi game trực tuyến dành riêng tại Trung Quốc. Có bảng rộng 12 ô, 1 Next, 0 Hold. DAS và ARR giống với DAS và ARR hay dùng trong các app gõ văn bản, 1 Next, không Hold. Chỉ có thể gửi rác bằng Tetris (gửi 3 hàng rác) và xóa 3 hàng (gửi 2 hàng rác). Hàng rác có cấu trúc xen kẽ và gần như không thể đào xuống
+Một game xếp gạch ở trên Tencent Game Center — một nền tảng chơi game trực tuyến dành riêng tại Trung Quốc. Có bảng rộng 12 ô, 1 Next, 0 Hold. DAS và ARR giống với DAS và ARR hay dùng trong các app gõ văn bản, 1 Next, không Hold. Chỉ có thể gửi rác bằng Tetris (gửi 3 hàng rác) và xóa 3 hàng (gửi 2 hàng rác). Hàng rác có cấu trúc xen kẽ và gần như không thể đào .
         ]],
     },
     {"=[NHÓM 07]=",
@@ -1401,28 +1423,28 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
     {"Tàng hình một phần",
         "nhom07 half invisible semi",
         "term",
-        "Tên tiếng Anh: Semi-invisible\nChỉ một quy tắc trong đó gạch sẽ tàng hình sau một khoảng thời gian từ lúc nó được đặt xuống.\nKhoảng thời gian đó thường không được định sẵn, nên có thể chấp nhận mô tả nó là \"biến mất sau một vài giây\".",
+        "Tên tiếng Anh: Semi-invisible\nChỉ một quy tắc trong đó gạch sẽ tàng hình sau một khoảng thời gian từ lúc nó được đặt xuống.\nKhoảng thời gian đó thường không được cố định, nên vẫn có thể mô tả nó là \"biến mất sau một vài giây\".",
     },
-    {"Tàng hình hoàn toàn",
+    {"Tàng hình",
         "nhom07 invisible",
         "term",
-        "Tên tiếng Anh: Invisible\nChỉ một quy tắc trong đó gạch sẽ tàng hình ngay tức thì sau khi đặt xuống\nNếu mode tàng hình hoàn toàn mà có hiệu ứng biến mất thì vẫn được chấp nhận. Tuy nhiên, nó làm game dễ hơn đôi chút\n\nỞ Techmino, chế độ tàng hình hoàn toàn mà không có hiệu ứng biến mất được gọi là \"Sudden Invisible.\"",
+        "Tên tiếng Anh: Invisible\nChỉ một quy tắc trong đó gạch sẽ tàng hình ngay lập tức sau khi đặt xuống\n \nNếu mode tàng hình hoàn toàn mà có hiệu ứng biến mất thì vẫn được chấp nhận. Tuy nhiên, nó làm game dễ hơn đôi chút\n\nỞ Techmino, chế độ tàng hình mà không có hiệu ứng biến mất được gọi là \"sudden invisible.\"",
     },
     {"Chế độ MPH",
         "nhom07 mph",
         "term",
-        "Sự kết hợp của ba quy tắc: \"Memoryless — Không nhớ gì\" (chuỗi gạch tạo ra hoàn toàn ngẫu nhiên), \"Previewless — Không biết trước gạch nào sẽ tới\" (không hiện NEXT), và \"Previewless — Không Hold được\". Một chế độ đòi hỏi tốc độ phản ứng.",
+        "Sự kết hợp của ba quy tắc: \"Memoryless — Không nhớ gì\" (chuỗi gạch tạo ra hoàn toàn ngẫu nhiên), \"Previewless — Không biết trước gạch nào sẽ tới\" (không hiện NEXT), và \"Holdless— Không Hold được\". Một chế độ đòi hỏi tốc độ phản ứng.",
     },
     {"Secret Grade",
         "nhom07 larger than",
         "term",
-        "Một chế độ dạng easter egg trong series TGM. Ở lối chơi \"secret grade\", người chơi sẽ làm một đường dích dắc (zigzag) (trông giống như \">\" hay \"<\") bằng cách tạo ra 1 ô trống duy nhất cho từng hàng. Mục tiêu cuối cùng là hoàn thành đường dích dắc bằng 19 hàng (hoặc hơn).\nĐể biết thêm thông tin, vui lòng tra wiki Hard Drop. Hãy nhấn vào nút \"Mở link\" để biết thêm thông tin.",
+        "Một chế độ dạng easter egg trong series TGM. Ở lối chơi \"secret grade\", người chơi sẽ làm một đường dích dắc (zigzag) (trông giống như \">\" hay \"<\") bằng cách tạo ra 1 ô trống duy nhất cho từng hàng. Mục tiêu cuối cùng là hoàn thành đường dích dắc bằng 19 hàng (hoặc hơn).\n\nNhấn vào nút \"Mở link\" để xem các kỹ thuật dùng để đạt được Secret Grade.",
         "https://harddrop.com/wiki?search=Secret_Grade_Techniques",
     },
     {"Deepdrop (Rơi sâu)",
         "nhom07",
         "term",
-        "*Chỉ có trên Techmino*\n\nMột chức năng cho phép cho phép gạch có thể teleport xuyên đất để xuống phía dưới. Khi gạch đụng vào đáy hoặc một gạch khác, nhấn phím Thả nhẹ để kích hoạt Deepdrop. Nếu có một cái lỗ phù hợp với hình dạng của gạch ở dưới vị trí gạch đang rơi, gạch sẽ được teleport vào lỗ đó.\nCơ chế này đặc biệt hữu ích cho AI vì nó cho phép AI bỏ qua sự khác biệt giữa các hệ thống xoay khác nhau.",
+        "*Chỉ có trên Techmino*\n\nMột chức năng cho phép cho phép gạch có thể teleport xuyên đất để xuống phía dưới. Khi gạch đụng vào gạch đã đặt, nhấn phím Thả nhẹ để kích hoạt Deepdrop. Nếu có một cái lỗ phù hợp với hình dạng của gạch ở dưới vị trí gạch đang rơi, gạch sẽ được teleport vào lỗ đó.\nCơ chế này đặc biệt hữu ích cho AI vì nó cho phép AI bỏ qua sự khác biệt giữa các hệ thống xoay khác nhau.",
     },
     {"=[NHÓM 08]=",
         "nhom08",
@@ -1437,7 +1459,7 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
     {"ZZZbot",
         "nhom08 ai bot zzztoj",
         "term",
-        "Một bot chơi xếp gạch. Được viết bởi một người chơi Tetris Trung Quốc có tên là 奏之章 (Zòu Zhī Zhāng, xem mục bên dưới) và hoạt động khá tốt trong nhiều game (sau khi điều chỉnh thông số). Bạn cũng có thể sử dụng bot này trên TETR.IO",
+        "Một bot chơi xếp gạch. Được viết bởi một người chơi Tetris Trung Quốc có tên là 奏之章 (Zòu Zhī Zhāng, xem mục bên dưới) và hoạt động khá tốt trong nhiều game (sau khi điều chỉnh thông số). Bạn cũng có thể sử dụng bot này trên TETR.IO.",
     },
     {"=[NHÓM 09]=",
         "nhom09",
@@ -1587,7 +1609,7 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
         [[
 Một trong những cộng đồng xếp gạch tại Việt Nam. Đây là nơi chia sẻ kinh nghiệm và thông tin: bao gồm cả game, các giải đấu và các sự kiên liên quan đến xếp gạch.
 
-Nhấn nút "Mở link" để vào server Discord, còn nếu muốn vào nhóm Facebook thì hãy vào Facebook và tìm nhóm "Tetris Việt Nam"
+Nhấn nút "Mở link" để vào server Discord, còn nếu muốn vào nhóm Facebook thì hãy vào Facebook và tìm nhóm "Tetris Việt Nam".
         ]],
         "https://discord.gg/jX7BX9g",
     },
@@ -1599,7 +1621,7 @@ Nhấn nút "Mở link" để vào server Discord, còn nếu muốn vào nhóm 
     {"A|Stacking",
         "nhom11a",
         "name",
-        "NHÓM 11A: STACKING (XẾP LÊN)\n\nDùng để chỉ việc xếp các gạch làm sao mà không để lại một cái lỗ.",
+        "NHÓM 11A: STACKING (XẾP LÊN)\n\nDùng để chỉ việc xếp các gạch làm sao mà không để lại một cái lỗ.\nĐây là kỹ năng càn thiết yêu càu khả năng tận dụng Next.\nBạn có thể cải thiện kỹ năng này bằng cách luyện tập 40L với 0 HOLD",
     },
     {"Side well",
         "nhom11a ren combo sidewell",
@@ -1674,222 +1696,216 @@ Nhấn nút "Mở link" để vào server Discord, còn nếu muốn vào nhóm 
     {"=[NHÓM 12]=",
         "nhom12",
         "name",
-        "NHÓM 12: Setup (Opener, Mid-game setup, Donation, Pattern)"
+        "NHÓM 12: Setup (Opener, Mid-game setup, Donation)"
     },
-
-    {">B|Opener",
-        "nhom12b",
+    {">A|Opener",
+        "nhom12a opener",
         "name",
         [[
+NHÓM 12A: OPENER
 Opener thường là các setup thường dùng ở đầu trận. Bạn vẫn có thể làm những setup này giữa trận, nhưng thường sẽ yêu cầu một tập hợp các vị trí gạch khác nhau.
 
-Setup này thường phải đạt cả ba yêu cầu sau:
-- Có thể thích ứng với các vị trí gạch khác nhau,
-- Tấn công mạnh, ít lãng phí gạch T,
-- Ít yêu cầu phải Thả nhẹ để có thể đặt gạch nhanh hơn và yêu cầu sử dụng finesse.
-- Có chiến lược rõ ràng và ít nhánh / biến thể.
+Opener phải đạt 2 trong 4 tiêu chí sau
+— Có thể thích ứng với các chuỗi gạch khác nhau,
+— Tấn công mạnh, ít lãng phí gạch T
+— Dùng Finesse trong đa số hành động, ít dùng thả nhẹ
+— Có chiến lược rõ ràng và ít nhánh / biến thể.
 
-Đa số opener sẽ tận dụng Kiểu xáo Túi 7 gạch và khai thác một điều thực tế là kiểu xáo gạch này luôn cung cấp một cho mỗi loại gạch sau mỗi 7 gạch khác nhau. Yếu tố này giúp có thể có các setup tin cậy hơn.
+Đa số opener được thiết kế cho kiểu xáo Túi 7. Chúng có thể không hoạt động với các kiểu xáo khác.
         ]],
     },
     {"DT Cannon",
-        "nhom12b dtcannon doubletriplecannon",
+        "nhom12a opener dtcannon doubletriplecannon",
         "setup",
         "Double-Triple Cannon (Súng thần công T-spin Đôi-Tam).\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=dt",
     },
     {"DTPC",
-        "nhom12b dtcannon doubletriplecannon",
+        "nhom12a opener dtcannon doubletriplecannon",
         "setup",
         "Phần tiếp theo của DT Cannon kết thúc bằng All Clear.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=dt",
     },
     {"BT Cannon",
-        "nhom12b btcannon betacannon",
+        "nhom12a opener btcannon betacannon",
         "setup",
         "β Cannon, Beta Cannon.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=bt_cannon",
     },
     {"BTPC",
-        "nhom12b btcannon betacannon",
+        "nhom12a opener btcannon betacannon",
         "setup",
         "Phần tiếp theo của DT Cannon kết thúc bằng All Clear.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=bt_cannon",
     },
     {"TKI 3 Perfect Clear",
-        "nhom12b ddpc tki3perfectclear",
+        "nhom12a opener ddpc tki3perfectclear",
         "setup",
         "Một opener làm TSD dẫn đến Double-Double-All Clear.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=TKI_3_Perfect_Clear",
     },
     {"QT Cannon",
-        "nhom12b qtcannon",
+        "nhom12a opener qtcannon",
         "setup",
         "Một setup gần giống với DT Cannon và khả năng gửi DT Attack¹ cao.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop\n\n¹: DT Attack = T-spin Double + T-spin Triple",
         "https://harddrop.com/wiki?search=QT_cannon",
     },
     {"Mini-Triple",
-        "nhom12b mt minitriple",
+        "nhom12a opener mt minitriple",
         "setup",
         "Một setup làm Mini T-spin và T-spin Triple.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=mt",
     },
     {"Trinity",
-        "nhom12b",
+        "nhom12a opener",
         "setup",
         "Một setup làm TSD + TSD + TSD hoặc TSMS + TST + TSD. Để có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=trinity",
     },
     {"Wolfmoon Cannon",
-        "nhom12b wolfmooncannon",
+        "nhom12a opener wolfmooncannon",
         "setup",
         "Một opener.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=wolfmoon_cannon",
     },
     {"Sewer",
-        "nhom12b",
+        "nhom12a opener",
         "setup",
         "Một opener.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=sewer",
     },
     {"TKI",
-        "nhom12b tki-3 tki3",
+        "nhom12a opener tki-3 tki3",
         "setup",
         "TKI-3. Có thể chỉ TKI-3 bắt đầu bằng một TSD hoặc C-spin bắt đầu bằng một TST.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=tki_3_opening",
     },
     {"God Spin",
-        "nhom12b godspin",
+        "nhom12a opener godspin",
         "setup",
         "Một setup nhìn đẹp mắt [nhưng khó sử dụng trên thực tế]. Được phát minh bởi Windkey.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=godspin",
     },
     {"Albatross",
-        "nhom12b",
+        "nhom12a opener",
         "setup",
         "Một opener nhìn đẹp mắt, nhịp độ nhanh với TSD — TST — TSD — All Clear, khó mà lãng phí được gạch T.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=Albatross_Special",
     },
     {"Pelican",
-        "nhom12b",
+        "nhom12a opener",
         "setup",
         "Một opener kiểu Alabatross được sử dụng trong trường hợp trật tự gạch tới không ủng hộ opener Alabatross gốc.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=Pelican",
     },
     {"Perfect Clear Opener",
-        "nhom12b 7piecepuzzle",
+        "nhom12a opener 7piecepuzzle",
         "setup",
         "Một Opener làm All Clear có khả năng thành công cao (~84.6% nếu bạn đang giữ I trong ô Hold và ~61.2% nếu không giữ). Trong chế độ PC Training (Luyện tập PC), setup này được sử dụng để tạo ra setup chưa hoàn chỉnh, không tạo ra lỗ.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=Perfect_Clear_Opener",
     },
     {"Grace System",
-        "nhom12b gracesystem 1stpc",
+        "nhom12a opener gracesystem 1stpc",
         "setup",
         "Một opener làm PC có khả năng thành công ~88.57%. Lỗ hình vuông 4x4 trong chế độ PC Training cũng dựa trên setup này.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên Four.lol",
         "https://four.lol/perfect-clears/grace-system",
     },
     {"DPC",
-        "nhom12b",
+        "nhom12a opener",
         "setup",
         "Một setup làm TSD + PC gần như 100% không có gạch nào trong bảng và gạch cuối cùng trong Túi 7 gạch trong hàng đợi NEXT.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên tetristemplate.info.",
         "https://tetristemplate.info/dpc/",
     },
     {"Gamushiro Stacking",
-        "nhom12b",
+        "nhom12a opener",
         "setup",
         "(ガムシロ積み) Một opener làm TD Attack (TD Attack = T-spin Triple + T-spin Double).\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=Gamushiro_Stacking",
     },
-    {">C|Mid-game",
-        "nhom12c",
+    {">B|Mid-game",
+        "nhom12b midgame mid-game",
         "name",
-        "NHÓM 12C: MID-GAME SETUP\n\nChỉ những setup cho phép gửi nhiều rác giữa trận. Một số có thể dùng làm opener, nhưng hầu như chúng không cần thiết.",
+        "NHÓM 12B: MID-GAME SETUP\n\nChỉ những setup cho phép gửi nhiều rác giữa trận. Một số có thể dùng làm opener, nhưng hầu như chúng không cần thiết.",
     },
     {"C-spin",
-        "nhom12c cspin",
+        "nhom12b midgame mid-game cspin",
         "pattern",
         "Một setup gửi tấn công bằng T-spin Triple + T-spin Double, known as TKI in Japan.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=c-spin",
     },
     {"STSD",
-        "nhom12c",
+        "nhom12b midgame mid-game",
         "pattern",
         "Super T-spin Double, một setup cho phép làm T-spin Double.\nNhưng nếu có rác ngay dưới setup này thì không tài nào làm T-spin Double được\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=stsd",
     },
     {"Fractal",
-        "nhom12c fractal spider",
+        "nhom12b midgame mid-game fractal spider",
         "pattern",
         "Một setup dùng để làm T-spin.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=Fractal",
     },
     {"LST stacking",
-        "nhom12c",
+        "nhom12b midgame mid-game",
         "pattern",
         "Một setup dùng để làm T-spin với số lượng vô tận.",
         "https://four.lol/stacking/lst",
     },
     {"Imperial Cross",
-        "nhom12c imperialcross",
+        "nhom12b midgame mid-game imperialcross",
         "pattern",
         "Che lỗ hình chữ thập bằng phần nhô ra để thực hiện hai lần T-spin Double\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=imperial_cross",
     },
     {"King Crimson",
-        "nhom12c kingcrimson",
+        "nhom12b midgame mid-game kingcrimson",
         "pattern",
         "Xếp chồng để làm (các) TSD trên STSD.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=King_Crimson",
     },
-    {"PC liên tiếp (1 / 3)",
-        "nhom12c pcloop",
+    {"PC liên tiếp [1/2]",
+        "nhom12b midgame mid-game pcloop",
         "pattern",
-        "Bạn có thể tìm hướng dẫn đầy đủ trên \"Tetris Hall\" từ PC đầu → PC thứ 4 và thứ 7. Sau khi hoàn thành PC thứ 7, bạn đã dùng chính xác 70 gạch và bạn có thể quay lại và làm PC đầu.",
-        "https://shiwehi.com/tetris/template/consecutivepc.php",
+        "four.lol có hướng dẫn cách làm Perfect Clear liên tiếp. Sau khi hoàn thành PC thứ 7 khi bạn cũng vừa xài đúng 70 gạch (10 túi 7 gạch) nên bạn có thể quay về PC thứ nhất. Nhấn nút \"Mở link\" để xem setup cho PC thứ nhất (để xem các setup sau, hãy thay 1st trong link bằng 2nd / 3rd / 4th / 5th / 6th / 7th)",
+        "https://four.lol/perfect-clears/1st",
     },
-    {"PC liên tiếp (2 / 3)",
-        "nhom12c pcloop",
-        "pattern",
-        "four.lol có hướng dẫn cho PC thứ 5 và thứ 6.",
-        "https://four.lol/perfect-clears/5th",
-    },
-    {"PC liên tiếp (3 / 3)",
-        "nhom12c pcloop",
+    {"PC liên tiếp [2/2]",
+        "nhom12b midgame mid-game pcloop",
         "pattern",
         "Một hướng dẫn làm vòng lặp PC hoàn chỉnh được viết bởi NitenTeria.",
         "https://docs.qq.com/sheet/DRmxvWmt3SWxwS2tV",
     },
-    {">D|Donation",
-        "nhom12d",
+    {">C|Donation",
+        "nhom12c donation pattern",
         "name",
         "NHÓM 12D: DONATION\n\nBiến một hố hoặc một cái giếng (ban đầu được tính để làm Tetris) thành setup T-spin bằng cách \"cắm thêm gạch vào\". Sau khi làm T-spin, hố đó sẽ được mở ra để cho phép bạn làm Tetris hoặc làm donation khác. \"Cắm thêm gạch\" vào hố hoặc giếng vốn không được tính để làm Tetris thì vẫn có thể gọi là \"donation\" như thường.",
     },
     {"STMB Cave",
-        "nhom12d stmb",
+        "nhom12c donation pattern stmb",
         "pattern",
         "STMB cave, một setup dạng donation bằng cách sử dụng S / Z để bịt tường rộng 3 ô và làm T-spin Double.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=stmb_cave",
     },
     {"Hamburger",
-        "nhom12d",
+        "nhom12c donation pattern",
         "pattern",
         "Một setup dạng donation setup dùng để tạo cơ hội làm Tetris.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=hamburger",
     },
     {"Kaidan",
-        "nhom12d kaidan stairs",
+        "nhom12c donation pattern kaidan stairs",
         "pattern",
         "Một setup dạng donation có thể làm TSD trên địa hình cầu thang.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=kaidan",
     },
     {"Shachiku Train",
-        "nhom12d shachikutrain shechu",
+        "nhom12c donation pattern shachikutrain shechu",
         "pattern",
         "Một setup dạng donation cho phép làm thêm hai TSD từ setup TST.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=Shachiku_Train",
     },
     {"Cut Copy",
-        "nhom12d cutcopy",
+        "nhom12c donation pattern cutcopy",
         "pattern",
         "Một setup dạng donation để làm T-spin Double trên một cái lỗ nhỏ và có thể làm thêm một TSD nữa sau đó.",
     },
@@ -1950,7 +1966,7 @@ All Clear gửi thêm 6 hàng rác. Nhưng 6 hàng rác này sẽ gửi thẳng 
     {"Đặt lại bố cục phím",
         "nhom14 reset virtualkey",
         "command",
-        "Vào console, gõ \"rm conf / [File_bố_cục_phím]\" sau đó nhấn Enter / Return.\nThay [File_bố_cục_phím] với file cần xóa:\n\tFile bố cục bàn phím trên máy tính: key;\n\tFile bố cục nút trên màn hình: virtualkey;\n\tBản lưu bố cục nút trên màn hình: vkSave1, vkSave2\n\nKhởi động lại Techmino để hai thay đổi đầu tiên có hiệu lực.\nVào một trang chỉnh sửa bố cục phím / nút sau đó trở ra để lấy lại file tương ứng.",
+        "Vào console, gõ \"rm conf / [File_bố_cục_phím]\" sau đó nhấn Enter / Return.\nThay [File_bố_cục_phím] với file cần xóa:\n\t— File bố cục bàn phím trên máy tính: key;\n\t— File bố cục nút trên màn hình: virtualkey;\n\t— File chứa 2 slot bố cục nút trên màn hình: vkSave1, vkSave2\n\nKhởi động lại Techmino để hai thay đổi đầu tiên có hiệu lực.\nVào một trang chỉnh sửa bố cục phím / nút sau đó trở ra để lấy lại file tương ứng.",
     },
     {"Xóa t.bộ bản phát lại",
         "nhom14 delete recording",
@@ -1986,5 +2002,17 @@ All Clear gửi thêm 6 hàng rác. Nhưng 6 hàng rác này sẽ gửi thẳng 
         "nhom15",
         "english",
         "Từ viết tắt của \"Away From Keyboard\" nghĩa là hiện đang nghỉ ngơi / làm việc khác VÀ không đụng game.\nNghỉ giải lao thường xuyên giúp bạn giảm căng cơ và giúp bạn chơi tốt hơn khi quay trở lại.",
+    },
+    {"osk",
+        "nhom15",
+        "english",
+        [[
+Có 2 nghĩa:
+    — "On screen keyboard" — bàn phím ảo trên màn hình.
+        Nếu bạn cần gõ chữ nhưng bàn phím vật lý của bạn  bị hỏng, có thể mở bàn phím ảo bằng cách mở "C:\Windows\System32\osk.exe"
+    — Tác giả của game TETR.IO
+    
+Nghĩa của từ này sẽ thay đổi tùy trường hợp.
+        ]],
     },
 }

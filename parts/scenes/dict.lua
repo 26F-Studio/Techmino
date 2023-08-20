@@ -8,6 +8,7 @@ local scene={}
 
 local dict-- Dict list
 local result-- Result Lable
+local localeFile -- Language file name, used for force reload
 
 local lastTickInput
 local searchWait-- Searching animation timer
@@ -59,6 +60,7 @@ local listBox =WIDGET.newListBox {name='listBox',x=20, y=180,w=280,h=526,font=30
         gc.setColor(1,1,1,.4)
         gc.rectangle('fill',0,0,280,35)
     end
+    setFont(30)
     -- Name & color
     GC.shadedPrint(item.title,10,-3,'left',1,COLOR.D,typeColor[item.type])
 end}
@@ -155,7 +157,8 @@ end
 
 -- Reset everything when opening Zictionary
 function scene.enter()
-    dict=require("parts.language.dict_"..(SETTING.locale:find'zh' and 'zh' or SETTING.locale:find'ja' and 'ja' or SETTING.locale:find'vi' and 'vi' or 'en'))
+    localeFile='parts.language.dict_'..(SETTING.locale:find'zh' and 'zh' or SETTING.locale:find'ja' and 'ja' or SETTING.locale:find'vi' and 'vi' or 'en')
+    dict=require(localeFile)
     _scanDict(dict)
 
     inputBox:clear()
@@ -193,9 +196,9 @@ function scene.keyDown(key)
             _copy()
         end
 
-    elseif (key=='-' or key=='=' or key=='0') and (inputBox:getText()=="" or not inputBoxFocus) then
-        _setZoom(key=='0' and 0 or key=='-' and -5 or 5)
+    elseif (key=='-' or key=='=' or key=='0') and (inputBox:getText()=="" or not inputBoxFocus) and not MOBILE then
         WIDGET.unFocus(true)
+        _setZoom(key=='0' and 0 or key=='-' and -5 or 5)
 
     elseif key=='application' and listBox.selected>=0 then
         local url=_getList()[listBox.selected].url
@@ -218,6 +221,15 @@ function scene.keyDown(key)
         scene.widgetList.help.color=listBox.selected==0 and COLOR.W or COLOR.Z
         searchWait=0
         _updateInfoBox()
+    -- ***FOR DEBUGGING ONLY***
+    -- ***Commenting out this code if you don't use
+    -- elseif key=='f5' then
+    --     pcall(function() package.loaded[localeFile]=nil end)
+    --     dict=require(localeFile)
+    --     _scanDict(dict)
+    --     listBox:setList(_getList())
+    --     listBox.selected=lastSelected
+    --     _updateInfoBox()
     else
         if not inputBoxFocus then WIDGET.focus(inputBox) end
         return true
@@ -278,8 +290,6 @@ function scene.draw()
     gc.rectangle('line',1194,335,80,370,5)
     gc.line(1194,555,1274,555)
     gc.rectangle('line',1194,180,80,80 ,5) -- Help key
-
-    setFont(30)
 
     if searchWait>0 then
         local r=TIME()*2
