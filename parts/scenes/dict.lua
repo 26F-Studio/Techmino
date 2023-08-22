@@ -119,22 +119,19 @@ local function _updateInfoBox(c)
     local _t,t
     if c==nil then
         if listBox.selected==0 then
-            if text.dict.helpText then
+            if not text.dict.helpText then
                 _t,t=true,text.dict.helpText:repD(
                     CHAR.key.up,CHAR.key.down,CHAR.key.left,CHAR.key.right,
                     CHAR.controller.dpadU,CHAR.controller.dpadD,CHAR.controller.dpadL,CHAR.controller.dpadR,
                     CHAR.controller.xboxX,CHAR.controller.xboxY,CHAR.controller.xboxA,CHAR.controller.xboxB,
                     CHAR.icon.help,CHAR.icon.copy,CHAR.icon.globe,CHAR.key.winMenu
                 )
-            else
-                _t,t=true,{
-                "OUCH! I can't seem to find any translated Help text anywhere.",
-                "\nI guess you'll have to switch to English and try again to read it instead!",
-                "\n\nOn another note, you could make an issue on GitHub or send this to Techmino's Discord server.",
-                "\nThe cause? I'm not sure... My guess is that there's something seriously wrong with the language files or the source code of this scene. BUT all the language files have a callback to English, and the original language - Chinese - has a version of the Help text! I'm not entirely certain if it worked or not, though.",
-                "\n\nOh, and it would be nice if you could let us know about it or you can fix it by yourself!",
-                "\n\n-- Sea, the one who rewrote the Zictionary scene and left this message just in case."
-            } end
+            else    -- Fallback
+                listBox.selected=lastSelected
+                scene.widgetList.help.color=COLOR.Z
+                MES.new("error","Cannot found the Help text! Maybe just a mistake?")
+                return
+            end
         else
             _t,t=pcall(function() return _getList()[listBox.selected].content end)
         end
@@ -222,7 +219,7 @@ function scene.keyDown(key)
         searchWait=0
         _updateInfoBox()
     -- ***FOR DEBUGGING ONLY***
-    -- ***Commenting out this code if you don't use
+    -- ***Please commenting out this code if you don't use***
     -- elseif key=='f5' then
     --     pcall(function() package.loaded[localeFile]=nil end)
     --     dict=require(localeFile)
