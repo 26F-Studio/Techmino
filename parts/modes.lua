@@ -104,7 +104,7 @@ return {
     {name='pc_l',                 x=1100,      y=-140,     size=40,shape=3,icon="pc"},
     {name='pc_inf',               x=1100,      y=-280,     size=40,shape=2,icon="pc"},
 
-    {name='sprintAtk',            x=500,       y=-280,     size=40,shape=1,icon="sprint2",     unlock={'sprintEff','tech_n','tech_finesse','tech_finesse_lock','tsd_e','backfire_n'}},
+    {name='sprintAtk',            x=500,       y=-280,     size=40,shape=1,icon="sprint2",     unlock={'sprintEff','tech_n','tech_finesse','tsd_e','backfire_n'}},
     {name='sprintEff',            x=360,       y=-150,     size=40,shape=1,icon="sprint2"},
 
     {name='tech_n',               x=400,       y=20,       size=40,shape=1,icon="tech",        unlock={'tech_n_plus','tech_h'}},
@@ -114,16 +114,16 @@ return {
     {name='tech_l',               x=400,       y=320,      size=40,shape=1,icon="tech",        unlock={'tech_l_plus'}},
     {name='tech_l_plus',          x=200,       y=290,      size=35,shape=3,icon="tech"},
 
-    {name='tech_finesse',         x=800,       y=20,       size=40,shape=1,icon="tech",        unlock={'tech_finesse_f'}},
+    {name='tech_finesse',         x=800,       y=20,       size=40,shape=1,icon="tech",        unlock={'tech_finesse_f','tech_finesse_lock'}},
     {name='tech_finesse_f',       x=1000,      y=20,       size=40,shape=1,icon="tech"},
-    {name='tech_finesse_lock',    x=750,       y=170,      size=40,shape=1,icon="tech",        unlock={'tech_finesse_lock_f'}},
-    {name='tech_finesse_lock_f',  x=950,       y=170,      size=40,shape=1,icon="tech"},
+    {name='tech_finesse_lock',    x=900,       y=170,      size=40,shape=1,icon="tech",        unlock={'tech_finesse_lock_f'}},
+    {name='tech_finesse_lock_f',  x=1100,       y=170,      size=40,shape=1,icon="tech"},
 
-    {name='tsd_e',                x=700,       y=320,      size=40,shape=1,icon="tsd",         unlock={'tsd_h'}},
-    {name='tsd_h',                x=900,       y=320,      size=40,shape=1,icon="tsd",         unlock={'tsd_u'}},
-    {name='tsd_u',                x=1100,      y=320,      size=40,shape=1,icon="tsd"},
+    {name='tsd_e',                x=700,       y=170,      size=40,shape=1,icon="tsd",         unlock={'tsd_h'}},
+    {name='tsd_h',                x=850,       y=320,      size=40,shape=1,icon="tsd",         unlock={'tsd_u'}},
+    {name='tsd_u',                x=1050,      y=320,      size=40,shape=1,icon="tsd"},
 
-    {name='backfire_n',           x=650,       y=470,      size=40,shape=1,icon="backfire",    unlock={'backfire_h'}},
+    {name='backfire_n',           x=650,       y=320,      size=40,shape=1,icon="backfire",    unlock={'backfire_h'}},
     {name='backfire_h',           x=850,       y=470,      size=40,shape=1,icon="backfire",    unlock={'backfire_l'}},
     {name='backfire_l',           x=1050,      y=470,      size=40,shape=3,icon="backfire",    unlock={'backfire_u'}},
     {name='backfire_u',           x=1250,      y=470,      size=35,shape=2,icon="backfire"},
