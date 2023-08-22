@@ -950,6 +950,8 @@ C. ゲームパッド
         ['tech_l_plus']=    {"テクニック",            "LUNATIC+",   "回転入れとパフェだけ!"},
         ['tech_finesse']=   {"テクニック",            "FINESSE",    "最適化!"},
         ['tech_finesse_f']= {"テクニック",            "FINESSE+",   "最適化はそのまま、通常line消去禁止!"},
+        --['tech_finesse_lock']=   {"Tech",              "FINESSE LOCK",   "No finesse errors, combined with limited inputs!"},
+        --['tech_finesse_lock_f']= {"Tech",              "FINESSE+ LOCK",  "No normal clears or finesse errors combined with limited inputs!"},
         ['tsd_e']=          {"TSDチャレンジ",         "EASY",       "TSDだけ!"},
         ['tsd_h']=          {"TSDチャレンジ",         "HARD",       "TSDだけ!"},
         ['tsd_u']=          {"TSDチャレンジ",         "ULTIMATE",   "TSDだけ!"},

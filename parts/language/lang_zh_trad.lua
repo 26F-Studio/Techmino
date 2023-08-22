@@ -907,6 +907,8 @@ return {
         ['tech_l_plus']=    {"科研",        "瘋狂+",     "僅允許spin與PC"},
         ['tech_finesse']=   {"科研",        "finesse",      "強制finesse"},
         ['tech_finesse_f']= {"科研",        "finesse+",     "禁止普通清除，強制finesse"},
+        --['tech_finesse_lock']=   {"Tech",              "FINESSE LOCK",   "No finesse errors, combined with limited inputs!"},
+        --['tech_finesse_lock_f']= {"Tech",              "FINESSE+ LOCK",  "No normal clears or finesse errors combined with limited inputs!"},
         ['tsd_e']=          {"TSD挑戰",     "簡單",      "你能連續做幾個TSD？"},
         ['tsd_h']=          {"TSD挑戰",     "困難",      "你能連續做幾個TSD？"},
         ['tsd_u']=          {"TSD挑戰",     "極限",      "你能連續做幾個TSD？"},

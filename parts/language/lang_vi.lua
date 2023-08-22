@@ -969,6 +969,8 @@ C. Tay cầm chơi game (Gamepad):
         ['tech_l_plus']=    {"Tech",              "RẤT KHÓ+",       "Chỉ được clear Spin hoặc PC"},
         ['tech_finesse']=   {"Tech",              "HOÀN HẢO",       "Không được phép có lỗi di chuyển!"},
         ['tech_finesse_f']= {"Tech",              "HOÀN HẢO+",      "Không được phép có lỗi di chuyển hoặc loại Xoá hàng thường!"},
+        --['tech_finesse_lock']=   {"Tech",              "FINESSE LOCK",   "No finesse errors, combined with limited inputs!"},
+        --['tech_finesse_lock_f']= {"Tech",              "FINESSE+ LOCK",  "No normal clears or finesse errors combined with limited inputs!"},
         ['tsd_e']=          {"TSD Challenge",     "DỄ",             "Chỉ được làm T-Spin Double!"},    -- Chỉ được clear…
         ['tsd_h']=          {"TSD Challenge",     "KHÓ",            "Chỉ được làm T-Spin Double!"},
         ['tsd_u']=          {"TSD Challenge",     "THÁCH ĐẤU",      "Chỉ được làm T-Spin Double!"},
