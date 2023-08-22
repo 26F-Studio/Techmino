@@ -119,7 +119,7 @@ local function _updateInfoBox(c)
     local _t,t
     if c==nil then
         if listBox.selected==0 then
-            if not text.dict.helpText then
+            if text.dict.helpText then
                 _t,t=true,text.dict.helpText:repD(
                     CHAR.key.up,CHAR.key.down,CHAR.key.left,CHAR.key.right,
                     CHAR.controller.dpadU,CHAR.controller.dpadD,CHAR.controller.dpadL,CHAR.controller.dpadR,
