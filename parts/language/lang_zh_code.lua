@@ -311,6 +311,7 @@ return {
         "huaji2369",
         "Lexitik",
         "Tourahi Anime",
+        "PopUpWaffles",
         "[All other test staff]",
         "…And You!",
     },

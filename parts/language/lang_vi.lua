@@ -370,6 +370,7 @@ return {
         "huaji2369",
         "Lexitik",
         "Tourahi Anime",
+        "PopUpWaffles",
         "[cùng với các thành viên thử nghiệm khác]",
         "…và BẠN!",
     },

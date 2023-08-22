@@ -362,6 +362,7 @@ return {
         "huaji2369",
         "Lexitik",
         "Tourahi Anime",
+        "PopUpWaffles",
         "[Todo el staff de testeo]",
         "…Y a ti!",
     },
