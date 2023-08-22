@@ -10,7 +10,7 @@ return {
         loadSFX="Đang tải các hiệu ứng âm thanh",
         loadSample="Đang tải các mẫu nhạc cụ",
         loadVoice="Đang tải các gói voice",
-        loadFont="Đang tải phông ch",
+        loadFont="Đang tải phông chữ",
         loadModeIcon="Đang tải các biểu tượng",
         loadMode="Đang tải các chế độ chơi",
         loadOther="Đang tải các tài nguyên khác",
@@ -115,21 +115,21 @@ return {
 
     -- Server's warn/error messages
     Techrater={
-        internalError="Lỗi nội bộ",
-        databaseError="Lỗi cơ sở dữ liệu",
-        invalidFormat="Định dạng không hợp lệ",
-        invalidArguments="Đối số không hợp lệ",
-        tooFrequent="Quá thường xuyên",
-        notAvailable="Không khả dụng",
-        noPermission="Không có quyền",
-        roomNotFound="Không tìm thấy phòng",
+        internalError="Lỗi nội bộ\nInternal error",
+        databaseError="Lỗi cơ sở dữ liệu\nDatabase error",
+        invalidFormat="Định dạng không hợp lệ\nInvalid format",
+        invalidArguments="Đối số không hợp lệ\nInvalid arguments",
+        tooFrequent="Quá thường xuyên\nToo frequent",
+        notAvailable="Không khả dụng\nNot available",
+        noPermission="Không có quyền\nNo permission",
+        roomNotFound="Không tìm thấy phòng\nRoom not found",
 
         -- Controllers
         WebSocket={
-            invalidConnection="Kết nối không hợp lệ",
-            invalidAction="Hành động không hợp lệ",
-            playerNotFound="Không tìm thấy người chơi",
-            connectionFailed="Kết nối thất bại",
+            invalidConnection="Kết nối không hợp lệ\nInvalid connection",
+            invalidAction="Hành động không hợp lệ\nInvalid action",
+            playerNotFound="Không tìm thấy người chơi\nPlayer not found",
+            connectionFailed="Kết nối thất bại\nConnection failed",
         },
         -- Filters
         CheckPermission={
@@ -139,7 +139,7 @@ return {
         ConnectionManager={
             playerInvalid="Người chơi không hợp lệ",
             playerNotFound="Không tìm thấy người chơi",
-            connectionReplaced="Đã thay đổi kết nối",
+            connectionReplaced="Đã thay đổi kết nối\nConnection replaced",
         },
         NoticeManager={
             noticeNotFound="Không có thông báo",
@@ -187,7 +187,7 @@ return {
     serverDown="Ối! Server sập! Hãy quay lại sau",
     requestFailed="Yêu cầu thất bại",
 
-    onlinePlayerCount="Trực tuyến: $1",
+    onlinePlayerCount="$1 người đang trực tuyến",
     createRoomSuccessed="Tạo phòng thành công",
     playerKicked="$1 đã đá $2 khỏi phòng",
     becomeHost="$1 giờ là chủ phòng",
@@ -205,7 +205,7 @@ return {
     customBGloadFailed="Định dạng ảnh không được hỗ trợ",
 
     errorMsg="Techmino bị lỗi và cần phải được khởi động lại\nBạn có thể gửi error log để giúp dev sửa game nhanh hơn.",
-    tryAnotherBuild="CO LOI KHI GIAI MA UTF-8! Neu dang choi Techmino tren Windows: neu dang dung ban x64 (64 bit) thi hay doi sang x86 (32 bit) va nguoc lai.",
+    tryAnotherBuild="CO LOI KHI GIAI MA UTF-8! Neu dang choi Techmino tren Windows: hay doi tu x86 sang x64 va nguoc lai.",
 
     modInstruction="Hãy chọn mod bạn muốn.\nMod cho phép bạn có thể tùy biến game, nhưng cũng có thể làm game sập.\nĐiểm sẽ không được lưu lại khi dùng mod.",
     modInfo={
@@ -245,7 +245,7 @@ return {
         "Lỗi di chuyển:",
     },
     radar={"DEF","OFF","ATK","SEND","SPD","DIG"},
-    radarData={"D’PM","ADPM","APM","SPM","L’PM","DPM"},
+    radarData={"D’PM","ADPM","APM","SPM","L'PM","DPM"},
     stat={
         "Số lần bật trò chơi:",
         "Số ván đã chơi:",
@@ -267,6 +267,8 @@ return {
         "Chúng tôi đánh giá cao mọi đề xuất và báo cáo lỗi do các bạn gửi đến",
         "Hãy đảm bảo trò chơi được tải về từ nguồn chính thức",
         "vì các nguồn khác có thể không an toàn.",
+        "Techmino chỉ hỏi quyền được rung điện thoại và kết nối Internet.",
+        "",
         "Tác giả KHÔNG CHỊU TRÁCH NHIỆM với bất kỳ bản sửa đổi nào.",
         FNNS and "" or "Trò chơi này hoàn toàn miễn phí! Nếu các bạn thích nó, các bạn có thể ủng hộ chúng tôi!",
         FNNS and "" or "Kiểm tra Zictionary để có thêm thông tin chi tiết",
@@ -312,11 +314,12 @@ return {
         "(旋律星萤)",
         "(T0722)",
         "",
-        "Minh hoạ",
+        "Hiệu ứng âm thanh & Voice Pack",
         "Miya",
-        "Mono",
         "Xiaoya",
-        "葉枭",
+        "Mono",
+        "MrZ",
+        "Trebor",
         "",
         "Thiết kế âm nhạc",
         "MrZ",
@@ -475,7 +478,7 @@ C. Tay cầm chơi game (Gamepad):
         },
         net_newRoom={
             title="Cấu hình phòng",
-            roomName="Tên phòng (Mặc định: “[username]'s room”)",
+            roomName="Tên phòng (Mặc định: \"[username]'s room\")",
             password="Mật khẩu",
             description="Mô tả phòng",
 
@@ -562,7 +565,7 @@ C. Tay cầm chơi game (Gamepad):
             dropFX="H.ứng Thả nhẹ",
             moveFX="H.ứng Di chuyển",
             clearFX="H.ứng Xóa hàng",
-            splashFX="H.ứng Gạch “rụng”",
+            splashFX="H.ứng Gạch \"rụng\"",
             shakeFX="Độ nảy bảng",
             atkFX="H.ứng Tấn công",
 
@@ -755,7 +758,7 @@ C. Tay cầm chơi game (Gamepad):
             push="Thêm Hàng (K)",
             del="Xoá Hàng (L)",
 
-            demo="Không hiện “×”",
+            demo="Không hiện \"×\"",
 
             newPg="Trang mới (N)",
             delPg="Xoá trang (M)",
@@ -883,7 +886,7 @@ C. Tay cầm chơi game (Gamepad):
         ['sprint_40l']=     {"Sprint",            "40L",            "Xoá 40 hàng!"},
         ['sprint_100l']=    {"Sprint",            "100L",           "Xoá 100 hàng!"},
         ['sprint_400l']=    {"Sprint",            "400L",           "Xoá 400 hàng!"},
-        ['sprint_1000l']=   {"Sprint",            "1,000L",         "Xoá 1,000 hàng!"},
+        ['sprint_1000l']=   {"Sprint",            "1000L",         "Xoá 1000 hàng!"},
         ['sprintPenta']=    {"Sprint",            "PENTOMINO",      "Xoá 40 hàng với 18 pentomino"},
         ['sprintMPH']=      {"Sprint",            "MPH",            "Memoryless\nPreviewless\nHoldless"},
         ['sprint123']=      {"Sprint",            "M123",           "Xoá 40 hàng chỉ với monomino, domino, và trimino"},
@@ -917,8 +920,8 @@ C. Tay cầm chơi game (Gamepad):
         ['round_h']=        {"Turn-Based",        "KHÓ",            "Chơi theo lượt và đánh bại AI!"},
         ['round_l']=        {"Turn-Based",        "RẤT KHÓ",        "Chơi theo lượt và đánh bại AI!"},
         ['round_u']=        {"Turn-Based",        "THÁCH ĐẤU",      "Chơi theo lượt và đánh bại AI!"},
-        ['big_n']=          {"Big",               "THƯỜNG",         "Chơi với một bảng nhỏ hơn!"},
-        ['big_h']=          {"Big",               "KHÓ",            "Chơi với một bảng nhỏ hơn!"},
+        ['big_n']=          {"Big",               "THƯỜNG",         "Chơi với một bảng 5 × 10!"},
+        ['big_h']=          {"Big",               "KHÓ",            "Chơi với một bảng 5 × 10!"},
         ['master_n']=       {"Master",            "THƯỜNG",         "Dành cho người mới chơi 20G"},
         ['master_h']=       {"Master",            "KHÓ",            "Dành cho người chơi đã quen 20G"},
         ['master_m']=       {"Master",            "M21",            "Dành cho cao thủ 20G"},
@@ -992,22 +995,22 @@ C. Tay cầm chơi game (Gamepad):
     -- Lưu ý dành cho những bạn sửa phần này: Nguyên đoạn này là lấy từ bản tiếng Anh
     -- Nhưng User670 khi dịch từ tiếng Trung sang đã chọn lược bỏ bớt một số câu
         ":dcgpray:",
-        "Không thể mở “Techmino.app” vì người làm game đã bay màu",
-        "“Techmino.app” là vi rút đấy. Xoá đi",
-        "“TechminOS”",
+        "Không thể mở \"Techmino.app\" vì người làm game đã bay màu",
+        "\"Techmino.app\" là vi rút đấy. Xoá đi",
+        "\"TechminOS\"",
         "(RUR’U’)R’FR2U’R’U’(RUR’F’)",
         "\\jezevec/\\jezevec/\\jezevec/",
         "\\osk/\\osk/\\osk/",
         "↑↑↓↓←→←→BA",
         "$include<studio.h>",
-        "0next 0hold",
-        "1next 0hold",
-        "1next 1hold!",
-        "1next 6hold!",
+        "0 next 0 hold",
+        "1 next 0 hold",
+        "1 next 1 hold!",
+        "1 next 6 hold!",
+        "6 next 1 hold!",
+        "6 next 6 hold?!",
         "20G thực chất là một chế độ mới đấy!",
         "Kỷ lục Sprint 40 hàng: 14.188s (Lurny)",
-        "6next 1hold!",
-        "6next 6hold?!",
         "Rất gần nhưng lại rất xa",
         "ALL SPIN!",
         "Am G F G",
@@ -1062,7 +1065,7 @@ C. Tay cầm chơi game (Gamepad):
         "Một số yêu cầu để đạt được rank X là rất khó, kể cả đối với những người giỏi nhất",
         "Bạn sẽ sớm được chơi với mọi người trên thế giới thôi",
         "Split clear sắp ra mắt!",
-        "Techmino là sự kết hợp giữa “technique” và “tetromino”",
+        "Techmino là sự kết hợp giữa \"technique\" và \"tetromino\"",
         "Hình như mình nghiện Techmino rồi!",
         "Techmino trên Nspire-CX ư? Có thật đấy! Mà khoan đã, hai game này không giống nhau chút nào cả!",
         "TetroDictionary đã ra mắt (có bản tiếng Việt rồi, nhưng mà hơi bruh, thôi vẫn đủ xài!)",
@@ -1111,7 +1114,7 @@ C. Tay cầm chơi game (Gamepad):
         {C.N,"Lua",C.Z," No.1"},
         {C.P,"T-spin!"},
         {C.R,"DMCA là gì?"},
-        {C.R,"“Luật sở hữu trí tuệ”"},
+        {C.R,"\"Luật sở hữu trí tuệ\""},
         {C.R,"DD",C.Z," Cannon=",C.P,"TS",C.R,"D",C.Z,"+",C.P,"TS",C.R,"D",C.Z," Cannon"},
         {C.R,"DT",C.Z," Cannon=",C.P,"TS",C.R,"D",C.Z,"+",C.P,"TS",C.R,"T",C.Z," Cannon"},
         {C.R,"LrL ",C.G,"RlR ",C.B,"LLr ",C.O,"RRl ",C.P,"RRR ",C.P,"LLL ",C.C,"FFF ",C.Y,"RfR ",C.Y,"RRf ",C.Y,"rFF"},
@@ -1126,7 +1129,7 @@ C. Tay cầm chơi game (Gamepad):
         -- English UK: /'tɛkminəʊ/; English US: /tɛkminoʊ/
         "Techmino phát âm trong tiếng Anh là /'tɛkminəʊ/; còn tiếng Mỹ là /tɛkminoʊ/.",
         --
-        "Ủa Techmino phải đọc là “Tét-mai-nô” hay là “Tét-mi-nô” vậy?",
+        "Ủa Techmino phải đọc là \"Tét-mai-nô\" hay là \"Tét-mi-nô\" vậy?",
         -- Where to download Techmino?
         "Tải Techmino ở đâu vậy? Trên GitHub đấy!",
         -- Techmino's birthday
@@ -1138,14 +1141,14 @@ C. Tay cầm chơi game (Gamepad):
         -- 2021 was the year of Techmino's online debut.
         "2021 là năm ra mắt chế độ trực tuyến của Techmino.",
         -- The Chinese name of this game is 'Block Research Institute'.
-        "Tên chính thức của game là “方块研究所” (Block Research Institute).",
-        "Một tên khác của game này là “Tiehu Minuo”",
+        "Tên chính thức của game là \"方块研究所\" (Block Research Institute).",
+        "Một tên khác của game này là \"Tiehu Minuo\"",
         -- This game is not called Teachmino
         "Tên game không phải là Teachmino!",
         --
         "Muốn game có thứ gì đó đặc biệt lúc mở game? Hãy chỉnh đồng hồ trên điện thoại vào một ngày đặc biệt nào đó đi!",
         --
-        "Trừ khi bạn đang chơi Techmino: “O-spin is a lie!”)",
+        "Trừ khi bạn đang chơi Techmino: \"O-spin is a lie!\")",
         -- techminohaowan
         "Hảo Techmino",
 --
@@ -1284,11 +1287,11 @@ C. Tay cầm chơi game (Gamepad):
         {C.W,"MrZ",C.Z," còn có một biệt danh dễ thương hơn, đó là ",C.W,"Z-Chan"},
         "Có hơn 400 mẹo bạn có thể nhìn thấy ở đây, là cái dòng chữ này, nếu bạn đang chơi Techmino tiếng Trung",
 
-        {C.lSea,"Sea: ",C.Z,"Tui không có đủ mặn để viết joke. Nên một số câu đùa đang chạy ở đây được viết bởi ",C.yellow,"Shard Nguyễn",C.Z,". “Em cảm ơn anh!”"},
+        {C.lSea,"Sea: ",C.Z,"Tui không có đủ mặn để viết joke. Nên một số câu đùa đang chạy ở đây được viết bởi ",C.yellow,"Shard Nguyễn",C.Z,". \"Em cảm ơn anh!\""},
         {C.lSea,"Sea: ",C.Z,"Tui đang tự hỏi liệu còn bao nhiêu lỗi tui bỏ sót lúc dịch game không? Tính ra tui đã cập nhật đi cập nhật lại cũng 4-5 lần rồi."},
 
         {"Cộng đồng Tetris ",C.R,"Việt ",C.lY,"Nam ",C.Z,": https://discord.gg/jX7BX9g"}, -- Tetris Vietnam
-        {C.W,"MrZ ",C.Z,"vẫn chưa biết chọn tên nào để đặt cho từ điển của Techmino. Hiện có 3 tên: “Zictionary”, “TetroDictionary” và “Little Z Dictionary”"},
+        {C.W,"MrZ ",C.Z,"vẫn chưa biết chọn tên nào để đặt cho từ điển của Techmino. Hiện có 3 tên: \"Zictionary\", \"TetroDictionary\" và \"Little Z Dictionary\""},
         "Ủa tao nhớ game này tên là xếp hình mà? Ừ thì đúng nhưng để giữ độ đồng nhất và tránh bị cấn mồm thì nên gọi game này là game xếp gạch.",
         "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
         {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.Z," không?"}, -- A joke
