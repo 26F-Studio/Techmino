@@ -242,14 +242,28 @@ local function _mergeFuncTable(f,L)
     end
     return L
 end
+local hooks = {
+    'mesDisp',
+    'hook_left',
+    'hook_left_manual',
+    'hook_left_auto',
+    'hook_right',
+    'hook_right_manual',
+    'hook_right_auto',
+    'hook_rotLeft',
+    'hook_rotRight',
+    'hook_rot180',
+    'hook_drop',
+    'hook_die',
+    'task'
+}
 local function _applyGameEnv(P)-- Finish gameEnv processing
     local ENV=P.gameEnv
 
     -- Apply events
-    ENV.mesDisp=_mergeFuncTable(ENV.mesDisp,{})
-    ENV.hook_drop=_mergeFuncTable(ENV.hook_drop,{})
-    ENV.hook_die=_mergeFuncTable(ENV.hook_die,{})
-    ENV.task=_mergeFuncTable(ENV.task,{})
+    for i=1,#hooks do
+        ENV[hooks[i]]=_mergeFuncTable(ENV[hooks[i]],{})
+    end
 
     -- Apply eventSet
     if ENV.eventSet and ENV.eventSet~="X" then
@@ -257,12 +271,7 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
             local eventSet=require('parts.eventsets.'..ENV.eventSet)
             if eventSet then
                 for k,v in next,eventSet do
-                    if
-                        k=='mesDisp' or
-                        k=='hook_drop' or
-                        k=='hook_die' or
-                        k=='task'
-                    then
+                    if TABLE.find(hooks,k) then
                         _mergeFuncTable(v,ENV[k])
                     elseif type(v)=='table' then
                         ENV[k]=TABLE.copy(v)
