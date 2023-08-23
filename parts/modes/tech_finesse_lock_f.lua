@@ -2,9 +2,10 @@ return {
     env={
         arr=0,
         drop=1e99,lock=60,
+        b2bKill=true,
         freshLimit=15,
         bg='flink',bgm='infinite',
-        eventSet='tech_finesse_lock_f'
+        eventSet='tech_finesse_lock',
     },
     slowMark=true,
     score=function(P) return {P.stat.atk<=100 and math.floor(P.stat.atk) or 100,P.stat.time} end,
