@@ -226,8 +226,10 @@ function Player:act_moveLeft(auto)
     end
     if self.cur then
         if self.cur and not self:ifoverlap(self.cur.bk,self.curX-1,self.curY) then
+            self:_triggerEvent('hook_left')
+            self:_triggerEvent('hook_left_'..(auto and 'auto' or 'manual'))
             self:createMoveFX('left')
-            self.curX=self.curX-1
+            self.curX=self.curX+self.movDir
             self:freshBlock('move')
             if not auto then
                 self.moving=0
@@ -248,8 +250,10 @@ function Player:act_moveRight(auto)
     end
     if self.cur then
         if self.cur and not self:ifoverlap(self.cur.bk,self.curX+1,self.curY) then
+            self:_triggerEvent('hook_right')
+            self:_triggerEvent('hook_right_'..(auto and 'auto' or 'manual'))
             self:createMoveFX('right')
-            self.curX=self.curX+1
+            self.curX=self.curX+self.movDir
             self:freshBlock('move')
             if not auto then
                 self.moving=0
@@ -267,6 +271,7 @@ function Player:act_rotRight()
     if self.cur then
         self.ctrlCount=self.ctrlCount+1
         self:spin(1)
+        self:_triggerEvent('hook_rotRight')
         self.keyPressing[3]=false
     end
 end
@@ -275,6 +280,7 @@ function Player:act_rotLeft()
     if self.cur then
         self.ctrlCount=self.ctrlCount+1
         self:spin(3)
+        self:_triggerEvent('hook_rotLeft')
         self.keyPressing[4]=false
     end
 end
@@ -283,6 +289,7 @@ function Player:act_rot180()
     if self.cur then
         self.ctrlCount=self.ctrlCount+2
         self:spin(2)
+        self:_triggerEvent('hook_rot180')
         self.keyPressing[5]=false
     end
 end
