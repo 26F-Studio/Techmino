@@ -364,6 +364,7 @@ return {
         "huaji2369",
         "Lexitik",
         "Tourahi Anime",
+        "PopUpWaffles",
         "[All other test staff]",
         "…And You!",
     },
@@ -380,15 +381,15 @@ return {
         sha2 [Egor Skriptunoff]
     ]],
     support="制作者を支援する",
-     dict={
+    dict={
         sizeChanged="フォントサイズ: $1",
         sizeReset="フォントサイズ: 25",
         helpText=
 [[
 Zictionaryの使い方
-        
+
 Zictionaryはテトリス(と落ちものパズルゲーム)についての様々な情報が載っている辞書のようなものです
-        
+
 TetroDictionary下の検索バーに単語を入れると該当する用語が表示されます
 該当用語が0件の場合、すべての用語が表示されます
 希望する単語で欲しい用語が検索できない場合、Githubのページから編集できます
@@ -400,7 +401,7 @@ A. マウス/タッチ操作
         - 左欄の項目をタッチ/クリックすると表示されます
         - [$14]でテキストをクリップボードにコピーします
         - [$15]で設定されているURLにアクセスします
-        
+
 B. キーボード
         - [F1]でヘルプを表示
         - [$1]または、[$2]でテキストをスクロール
@@ -950,6 +951,8 @@ C. ゲームパッド
         ['tech_l_plus']=    {"テクニック",            "LUNATIC+",   "回転入れとパフェだけ!"},
         ['tech_finesse']=   {"テクニック",            "FINESSE",    "最適化!"},
         ['tech_finesse_f']= {"テクニック",            "FINESSE+",   "最適化はそのまま、通常line消去禁止!"},
+        --['tech_finesse_lock']=   {"Tech",              "FINESSE LOCK",   "No finesse errors, combined with limited inputs!"},
+        --['tech_finesse_lock_f']= {"Tech",              "FINESSE+ LOCK",  "No normal clears or finesse errors combined with limited inputs!"},
         ['tsd_e']=          {"TSDチャレンジ",         "EASY",       "TSDだけ!"},
         ['tsd_h']=          {"TSDチャレンジ",         "HARD",       "TSDだけ!"},
         ['tsd_u']=          {"TSDチャレンジ",         "ULTIMATE",   "TSDだけ!"},

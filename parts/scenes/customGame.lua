@@ -167,9 +167,14 @@ function scene.draw()
         gc.setColor(1,1,floor(TIME()*6.26)%2)
         gc.print("#"..#BAG,615,220)
     end
-
     gc.setColor(COLOR.Z)
     gc.print(CUSTOMENV.sequence,610,250)
+
+    -- Mod indicator
+    if #GAME.mod>0 then
+        gc.setColor(.42,.26,.62,.62+.26*math.sin(TIME()*12.6))
+        gc.rectangle('fill',1110-230/2,200-90/2,230,90,5,5)
+    end
 
     gc.translate(0,WIDGET.scrollPos)
 end
