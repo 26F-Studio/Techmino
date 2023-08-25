@@ -243,13 +243,13 @@ function scene.keyDown(key)
             SFX.play('finesseError_long')
             _,_r=FONT.get(30):getWrap(tostring(_r),1000)
             MES.new("error","Cannot hotload! May need restarting!\n\n"..table.concat(_r,"\n"))
-            return
+        else
+            listBox:setList(_getList())
+            if #inputBox:getText()>0 then _search() end
+            listBox.selected=lastSelected
+            _updateInfoBox()
+            SFX.play('pc')
         end
-        listBox:setList(_getList())
-        if #inputBox:getText()>0 then _search() end
-        listBox.selected=lastSelected
-        _updateInfoBox()
-        SFX.play('pc')
     else
         if not inputBoxFocus then WIDGET.focus(inputBox) end
         return true
@@ -291,13 +291,11 @@ function scene.update(dt)
             _search()
         end
     end
-end
-
-function scene.touchUp()
-    if WIDGET.isFocus(listBox) and listBox.selected~=lastSelected then
-        _updateInfoBox()
+    if listBox.selected~=lastSelected and listBox.selected~=0 then
+        if listBox.selected==0 then scene.keyDown('f1') end
         lastSelected=listBox.selected
         scene.widgetList.copy.hide=false
+        _updateInfoBox()
     end
 end
 
