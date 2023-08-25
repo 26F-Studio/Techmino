@@ -66,54 +66,6 @@ local listBox =WIDGET.newListBox {name='listBox',x=20, y=180,w=280,h=526,font=30
 end}
 
 -- Necessary local functions
--- Clear the result
-local function _clearResult()
-    TABLE.cut(result)
-    listBox.selected=1
-    searchWait,lastSelected,lastSearch=0,0,false
-    scene.widgetList.copy.hide=false
-end
--- Search through the dictionary
-local function _search()
-    local input=inputBox:getText():lower()
-    local pos
-    _clearResult()
-    local first
-    for i=1,#dict do
-        if dict=='vi' then
-            pos=find(STRING.lowerUTF8(dict[i].title),STRING.lowerUTF8(input),nil,true) or find(STRING.lowerUTF8(dict[i].keywords),STRING.lowerUTF8(input),nil,true)
-        else
-            pos=find(dict[i].title:lower(),input:lower(),nil,true) or find(dict[i].keywords:lower(),input:lower(),nil,true)
-        end
-        if pos==1 and not first then
-            ins(result,1,dict[i])
-            first=true
-        elseif pos then
-            ins(result,dict[i])
-        end
-    end
-
-    listBox:setList(_getList())
-
-    if #result>0 then SFX.play('reach') end
-    lastSearch=input
-end
-
--- Jump over n items
-local function _jumpover(key,n)
-    local dir=(key=='left' or key=='pageup') and 'up' or 'down'
-    for _=1,n or 1 do scene.widgetList.listBox:arrowKey(dir) end
-end
-
--- Copy the content
-local function _copy()
-    local t=_getList()[listBox.selected]
-    t=t.title_Org..":\n"..t.content_Org..(t.url and "\n[ "..t.url.." ]\n" or "\n")..text.dictNote
-    love.system.setClipboardText(t)
-    scene.widgetList.copy.hide=true
-    MES.new('info',text.copyDone)
-end
-
 -- Update the infobox
 local function _updateInfoBox(c)
     local _t,t
@@ -140,6 +92,63 @@ local function _updateInfoBox(c)
     end
     local _w,c=FONT.get(currentFontSize):getWrap(c,840)
     textBox:setTexts(c)
+end
+-- Clear the result
+local function _clearResult()
+    TABLE.cut(result)
+    listBox.selected,lastSelected,searchWait,lastSearch=1,1,0,false
+    scene.widgetList.copy.hide=false
+    _updateInfoBox()
+end
+-- Search through the dictionary
+local function _search()
+    local input=inputBox:getText()
+    local pos
+    _clearResult()
+    local first
+    if dict=='vi' then
+        local success,input=pcall(function() STRING.lowerUTF8(input) end)
+        if not success then input=inpur:lower() end
+    else
+        input=input:lower() end
+    for i=1,#dict do
+        if dict=='vi' then
+            pos=find(STRING.lowerUTF8(dict[i].title),input,nil,true) or find(STRING.lowerUTF8(dict[i].keywords),input,nil,true)
+        else
+            pos=find(dict[i].title:lower(),input,nil,true) or find(dict[i].keywords:lower(),input,nil,true)
+        end
+        if pos==1 and not first then
+            ins(result,1,dict[i])
+            first=true
+        elseif pos then
+            ins(result,dict[i])
+        end
+    end
+
+    listBox:setList(_getList())
+
+    if #result>0 then SFX.play('reach') end
+    lastSearch=input
+    _updateInfoBox()
+end
+
+-- Jump over n items
+local function _jumpover(key,n)
+    local dir=(key=='left' or key=='pageup') and 'up' or 'down'
+    for _=1,n or 1 do scene.widgetList.listBox:arrowKey(dir) end
+    
+    _updateInfoBox()
+    lastSelected=listBox.selected
+    scene.widgetList.copy.hide=false
+end
+
+-- Copy the content
+local function _copy()
+    local t=_getList()[listBox.selected]
+    t=t.title_Org..":\n"..t.content_Org..(t.url and "\n[ "..t.url.." ]\n" or "\n")..text.dictNote
+    love.system.setClipboardText(t)
+    scene.widgetList.copy.hide=true
+    MES.new('info',text.copyDone)
 end
 
 -- Changing font size, z=0 --> reset
@@ -214,19 +223,33 @@ function scene.keyDown(key)
             SCN.back()
         end
     elseif key=='f1' then
+        -- inputBox:clear()
+        -- _clearResult()
         listBox.selected=listBox.selected==0 and lastSelected or 0
         scene.widgetList.help.color=listBox.selected==0 and COLOR.W or COLOR.Z
         searchWait=0
         _updateInfoBox()
     -- ***FOR DEBUGGING ONLY***
     -- ***Please commenting out this code if you don't use***
-    -- elseif key=='f5' then
-    --     pcall(function() package.loaded[localeFile]=nil end)
-    --     dict=require(localeFile)
-    --     _scanDict(dict)
-    --     listBox:setList(_getList())
-    --     listBox.selected=lastSelected
-    --     _updateInfoBox()
+    elseif key=='f5' then
+        local _
+        local success,_r=pcall(function()
+            package.loaded[localeFile]=nil
+            dict=require(localeFile)
+            _scanDict(dict)
+        end
+        )
+        if not success then
+            SFX.play('finesseError_long')
+            _,_r=FONT.get(30):getWrap(tostring(_r),1000)
+            MES.new("error","Cannot hotload! May need restarting!\n\n"..table.concat(_r,"\n"))
+            return
+        end
+        listBox:setList(_getList())
+        if #inputBox:getText()>0 then _search() end
+        listBox.selected=lastSelected
+        _updateInfoBox()
+        SFX.play('pc')
     else
         if not inputBoxFocus then WIDGET.focus(inputBox) end
         return true
@@ -268,8 +291,10 @@ function scene.update(dt)
             _search()
         end
     end
+end
 
-    if lastSelected~=listBox.selected and listBox.selected~=0 then
+function scene.touchUp()
+    if WIDGET.isFocus(listBox) and listBox.selected~=lastSelected then
         _updateInfoBox()
         lastSelected=listBox.selected
         scene.widgetList.copy.hide=false

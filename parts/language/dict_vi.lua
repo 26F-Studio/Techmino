@@ -142,7 +142,7 @@ Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đ
     not FNNS and {"=[NHÓM 03]=",
         "nhom03",
         "name",
-        "NHÓM 03: ỦNG HỘ CHO TÁC GIẢ CỦA TECHMINO",
+        "NHÓM 03: ỦNG HỘ CHO TÁC GIẢ CỦA TECHMINO0",
     } or {"=[NHÓM 03]=",
         "nhom03",
         "name",
@@ -277,7 +277,7 @@ Khái niệm về trò chơi Tetris hay trò chơi xếp gạch "hiện đại" 
 Nói chung, một game xếp gạch hiện đại thường sẽ bám sát theo Tetris Design Guideline (Bộ nguyên tắc thiết kế cho Tetris). Cứ game nào thỏa mãn đa số các tiêu chí dưới đây có thể coi là game xếp gạch hiện đại.
 
 Dưới đây là các yếu tố chính:
-    1. Phần có thể nhìn được của bảng có kích thước 10  20, cùng với 2 — 3 hàng ẩn ở trên. (Kích thước bảng thực tế ở trong mã nguồn game thường cố định ở 10 × 40)
+    1. Phần có thể nhìn được của bảng có kích thước 10 × 20, cùng với 2 — 3 hàng ẩn ở trên. (Kích thước bảng thực tế ở trong mã nguồn game thường cố định ở 10 × 40)
     2. Gạch mới xuất hiện ở giữa trên cùng của vùng có thể nhìn thấy (thường là ở hàng 21-22). Mỗi viên đều có màu sắc và hướng xuất hiện mặc định riêng. Với những gạch có chiều dài lẻ có thể lệch sang trái hoặc phải 1 ô.
     3. Có một bộ xáo gạch như Túi 7 hay His được thiết kế để giảm / tránh tình trạng Flood hay Drought
     4. Có hẳn một hệ thống xoay, và cho phép xoay theo ít nhất 2 hướng. Ưu tiên hệ thống xoay SRS hoặc các biến thể tương tự.
@@ -292,7 +292,7 @@ Dưới đây là các yếu tố chính:
     {"Next (Kế / Tiếp)",
         "nhom05 preview",
         "term",
-        "Hiện một vài gạch tiếp theo sẽ xuất hiện. Có một kỹ năng cần thiết đó là lên kế hoạch trước nơi đặt các gạch từ hàng đợi NEXT.",
+        "Hiện chuỗi gạch sẽ lần lượt xuất hiện. Có một kỹ năng cần thiết đó là lên kế hoạch trước nơi đặt các gạch từ hàng đợi NEXT.",
     },
     {"Hold (Giữ)",
         "nhom05 hold",
