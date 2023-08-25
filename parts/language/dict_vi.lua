@@ -9,7 +9,7 @@ return {
 NHÓM 01: VỀ ZICTIONARY & BẢN DỊCH
 
 Zictionary là một từ điển về game xếp gạch cực kì hữu ích. Bạn có thể tra những thuật ngữ mà bạn cảm thấy khó hiểu ở trong này.
-Để nhảy nhanh tới mục lục, hãy gõ trên thanh tìm kiếm "mucluc"
+Để nhảy nhanh tới mục lục, hãy gõ "mucluc" trên thanh tìm kiếm.
 
 Đây là bản dịch tiếng Việt của Squishy từ bản dịch tiếng Anh của User670 và C₂₉H₂₅N₃O₅
 Bản dịch có thể không thể hiện 100% nội dung của Zictionary tiếng Trung (bản gốc)
@@ -18,7 +18,6 @@ Khi đọc, bạn hãy lưu ý là: từ "lỗ" với từ "hố" được sử 
 Trong khi đó từ "giếng" được sử dụng như từ "well"
 
 Có đóng góp? Bạn có thể vào trang dự án Techmino trên GitHub để đóng góp bản dịch.
-Có câu hỏi? Liên hệ mình qua server Techmino trên Discord. Mình hiện tại đang chờ feedback để hoàn chỉnh bản dịch cho tốt hơn.
         ]],
         "https://github.com/26F-Studio/Techmino/blob/main/parts/language/dict_vi.lua",
     },
@@ -63,7 +62,7 @@ Có câu hỏi? Liên hệ mình qua server Techmino trên Discord. Mình hiện
         05H. Hành động bất cẩn (Mis-): Misdrop, Mishold
         05I. Spin: (Mini) / (All-) / (T-) / (O-) spin; Fin, Neo, Iso; Freestyle
         05J: Kỹ thuật xóa hàng:
-            — Single, Double, Triple, Techrash, Tetris
+            — Single, Double, Triple (Xóa 1/2/3 hàng); Techrash; Tetris
             — TSS, TSD, TST, MTSS, MTSD
             — Perfect Clear, Half Perfect Clear
         05K. Các thuật ngữ khác: sub, 'Doing Research', Bone block
@@ -142,7 +141,7 @@ Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đ
     not FNNS and {"=[NHÓM 03]=",
         "nhom03",
         "name",
-        "NHÓM 03: ỦNG HỘ CHO TÁC GIẢ CỦA TECHMINO0",
+        "NHÓM 03: ỦNG HỘ CHO TÁC GIẢ CỦA TECHMINO",
     } or {"=[NHÓM 03]=",
         "nhom03",
         "name",
@@ -177,7 +176,7 @@ Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đ
 Chúng tôi có vài lời khuyên dành cho những người mới chơi xếp gạch:
     2 thứ cơ bản:
         1. Chọn những game xếp gạch chuyên nghiệp có cơ chế điều khiển tốt. Techmino, TETR.IO, Jstris và Tetris Online là một số lựa chọn khá tốt đấy. Hãy tránh xa những game kém chất lượng ra bởi đa số chúng đi lệch ra khỏi Guideline, hoặc có cơ chế điều khiển tệ hại, sẽ không tốt cho việc luyện tập của bạn.
-        2. Hãy dành thời gian để học các kỹ năng cơ bản đã. Cố gắng dàh nhiều thời gian hơn cho các kỹ năng như đọc NEXT hoặc có thể xóa Tetris một cách nhất quán. Làm chủ các phần cơ bản trước khi nghĩ tới những kỹ năng nâng cao hơn như T-spin.
+        2. Hãy dành thời gian để học các kỹ năng cơ bản đã. Cố gắng dành nhiều thời gian hơn cho các kỹ năng như đọc NEXT hoặc có thể xóa Tetris một cách nhất quán. Làm chủ các phần cơ bản trước khi nghĩ tới những kỹ năng nâng cao hơn như T-spin.
     3 kỹ năng cần có:
         1. Nhớ các vị trí xuất hiện của gạch.
         2. Nhớ các chuỗi thao tác để di chuyển gạch đến vị trí mong muốn.
@@ -242,7 +241,7 @@ Dưới đây là vài lời khuyên hữu ích khi bạn đang chỉnh sửa b�
 
 1.  Một ngón tay chỉ nên thực hiện một chức năng khác nhau. Ví dụ như: 1 ngón cho sang trái, 1 ngón cho sang phải, 1 ngón cho rơi mạnh,…; và gán một ngón tay cho cả phím xoay trái và xoay phải (vì chúng thuờng không bao giờ đuợc nhấn cùng lúc)
 
-2.  Trừ khi bạn tự tin với ngót út của mình, thì không nên để ngón tay này làm bất kì việc hết! (Vì chúng rất kém linh hoạt). Lời khuyên: nên xài ngón trỏ và ngón giữa vì hai ngón này là nhanh nhẹn nhất, nhưng bạn cũng có thể thoải mái tìm hiểu xem các ngón tay của mình nhanh chậm thế nào, mạnh yếu ra sao.
+2.  Trừ khi bạn tự tin với ngón út của mình, thì không nên để ngón tay này làm bất kì việc hết! (Vì chúng rất kém linh hoạt). Lời khuyên: nên xài ngón trỏ và ngón giữa vì hai ngón này là nhanh nhẹn nhất, nhưng bạn cũng có thể thoải mái tìm hiểu xem các ngón tay của mình nhanh chậm thế nào, mạnh yếu ra sao.
 
 3.  Không nhất thiết phải sao chép bố cục phím của người khác, vì không ai giống ai. Bố cục phím thờng không ảnh huởng quá nhiều đến kỹ năng của bạn nếu bạn đã tuân theo quy tắc 1 và 2.
         ]],
@@ -314,17 +313,19 @@ Dưới đây là các yếu tố chính:
         "nhom05 topout toppingout game over",
         "term",
         [[
-Một tựa game xếp gạch hiện đại thường có 3 điều kiện để \"game over\":
+Một tựa game xếp gạch hiện đại thường có 3 điều kiện để "game over":
+
 1. Block out: Gạch mới nằm chồng lên một gạch đã đặt;
 2. Lock out: Có gạch nằm trên vùng skyline (đường chân trời);
 3. Top out: Độ cao của bảng vượt quá độ cao cho phép (thường là 40 hàng). Cái này đa số là do hàng rác đẩy bảng lên quá cao.
+
 Techmino không kiểm tra điều kiện Lock out và Top out theo mặc định.
     ]],
     },
     {"Vùng đệm",
         "nhom05 invisible buffer zone",
         "term",
-        "Tên tiếng Anh là \"Buffer Zone\".Chỉ bao gồm các hàng từ hàng thứ 21-40\n(nằm ở trên vùng nhìn thấy).\n\nỞ trong các trận đấu, có lúc sẽ có quá nhiều rác cùng một lúc đẩy gạch lên cao. Nếu may mắn bạn chưa bị block-out, những hàng gạch nào đi quá vùng nhìn thấy được sẽ đi vào vùng đệm.\nKhi bạn đã xử lý xong các hàng rác, toàn bộ hàng gạch đang ở vùng đệm sẽ được đưa trở lại về vùng nhìn thấy được.\n\nVùng đệm thường nằm ở độ cao từ 21-40 vì chúng có thể áp dụng cho hầu hết các trường hợp. Tuy nhiên vẫn có những trường hợp ngoại lệ, ví dụ như có một số game sẽ có vùng đệm cao không giới hạn.\n\nNhớ đọc thêm: \"Vanish Zone\"",
+        "Tên tiếng Anh là \"Buffer Zone\". Chỉ bao gồm các hàng từ hàng thứ 21-40 (nằm ở trên vùng nhìn thấy).\n\nỞ trong các trận đấu, có lúc sẽ có quá nhiều rác cùng một lúc đẩy gạch lên cao. Nếu may mắn bạn chưa bị block-out, những hàng gạch nào đi quá vùng nhìn thấy được sẽ đi vào vùng đệm.\nKhi bạn đã xử lý xong các hàng rác, toàn bộ hàng gạch đang ở vùng đệm sẽ được đưa trở lại về vùng nhìn thấy được.\n\nVùng đệm thường nằm ở độ cao từ 21-40 vì chúng có thể áp dụng cho hầu hết các trường hợp. Tuy nhiên vẫn có những trường hợp ngoại lệ, ví dụ như có một số game sẽ có vùng đệm cao không giới hạn.\n\nNhớ đọc thêm: \"Vanish Zone\"",
     },
     {"Vùng biến mất",
         "nhom05 gone vanish zone",
@@ -340,7 +341,7 @@ Tuy nhiên, tùy từng game mà chúng sẽ có phản ứng khác nhau. Ví d�
     — Vì vùng biến mất được đặt ở hàng 21 và trở về sau, nên những gạch nào mà đi qua hàng thứ 21 sẽ "một đi không trở lại" theo đúng nghĩa đen.
     — Một số game được viết để hỗ trợ vùng đệm nhưng làm thiếu chỉnh chu thì có 2 trường hợp:
         —— Game sập (Tetris Online)
-        —— Có biểu hiện lạ (ví dụ: trong trường hợp của video được đi kèm với mục này (nhấn nút "Mở link" để xem), toàn bộ hàng gạch khi đi vào vùng biến mất sẽ bị copy vô hạn lần khi chúng trở về vùng nhìn thấy được)
+        —— Có biểu hiện lạ (nhấn nút "Mở link" để xem một ví dụ trong Puyo Puyo Tetris, khi tất cả hàng gạch khi đi vào vùng biến mất sẽ bị copy vô hạn lần khi chúng trở về vùng nhìn thấy được)
     ]],
         "https://youtu.be/z4WtWISkrdU",
     },
@@ -593,7 +594,7 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
     {"Drought",
         "drought",
         "term",
-        "Một tình huống mà một viên gạch người chơi muốn nhưng lại không xuất hiện. Thường dùng để chỉ hiện tượng khát gạch I trong mấy game cổ điển vì chúng thường dùng bộ xáo gạch ngẫu nhiên đơn giản.\n\n. Tuy nhiên, trong các game hiện đại, hiện tượng drought không thể xảy ra vì khoảng cách tối đa giữa 2 gạch cùng loại là 13 gạch. ",
+        "Một tình huống mà một viên gạch người chơi muốn nhưng lại không xuất hiện. Thường dùng để chỉ hiện tượng khát gạch I trong mấy game cổ điển vì chúng thường dùng bộ xáo gạch ngẫu nhiên đơn giản.\n\nTuy nhiên, trong các game hiện đại, hiện tượng drought không thể xảy ra vì khoảng cách tối đa giữa 2 gạch cùng loại là 13 gạch. ",
     },
     {">E|Thông số",
         "nhom05e",
@@ -603,7 +604,7 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
     {">E1|Thg số game",
         "nhom05e1",
         "name",
-        "NHÓM 5F1: THÔNG SỐ GAME"
+        "NHÓM 5E1: THÔNG SỐ GAME"
     },
     {"Tốc độ rơi",
         "nhom05e1 trọng lực falling speed gravity",
@@ -633,7 +634,7 @@ Hãy xem mục "20G" để biết thêm thông tin.
         "term",
         "Thời gian chờ khóa gạch, viết tắt là LD.\nĐây là khoảng thời gian sau khi gạch chạm đất và trước khi gạch bị khóa (không thể điều khiển được nữa).\n\nTrong các game xếp gạch cổ điển, khoảng thời gian chờ này = khoảng thời gian gạch cần có để di chuyển xuống 1 ô, và không có cơ chế nào để trì hoãn việc khóa gạch.\n\nTrong các game xếp gạch hiện đại, thời gian chờ được thong thả hơn, và trong game thường có cơ chế trì hoãn việc khóa gạch, trong đó bạn có thể di chuyển hoặc xoay gạch để đặt lại thời gian chờ (tối đa 15 lần trong hầu hết các game).",
     },
-    {"Spawn&Clear Delay",
+    {"Spawn&ClearDelay",
         "nhom05e1 spawndelay cleardelay; thời gian chờ gạch sinh ra; thời gian chờ xóa hàng",
         "term",
         [[
@@ -660,7 +661,7 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
     {">E2|Thg số đ.khiển",
         "nhom05e2",
         "name",
-        "NHÓM 5F2: THÔNG SỐ ĐIỀU KHIỂN"
+        "NHÓM 5E2: THÔNG SỐ ĐIỀU KHIỂN"
     },
     {"DAS (đơn giản)",
         "nhom05e2 das delayedautoshift",
@@ -749,6 +750,7 @@ Trong Techmino, tỉ lệ finesse (%) được xác định như sau:
     — 50% (Tuyệt vời — Great) khi số lần nhấn phím cao hơn mức chuẩn 1 phím
     — 25% (Xấu — Bad) khi số lần nhấn phím cao hơn mức chuẩn 2 phím
     — 0% (Truợt — Miss) khi số lần nhấn phím cao hơn mức chuẩn 3 phím
+
 Một Bad hoặc Miss sẽ phá vỡ combo finesse.
         ]],
     },
@@ -766,14 +768,14 @@ Một phương pháp khác để di chuyển nhanh ở chế độ trọng lực
     — Cố định ngón tay của bạn trên phím bạn muốn nhấn ở một bên tay
     — Sau đó dùng các ngón tay ở bên kia gõ mạnh liên tục ở mặt sau của tay cầm.
 
-Phương pháp này nhanh hơn nhiều so với việc nhấn liên tục (xem mục \"Hypertapping\" để biết thêm thông tin) và yêu cầu ít công sức hơn.
+Phương pháp này nhanh hơn nhiều so với việc nhấn liên tục (xem mục "Hypertapping" để biết thêm thông tin) và yêu cầu ít công sức hơn.
 Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish — người đã đạt tốc độ nhấn lên tới 20 Hz.
         ]],
     },
     {">F3|Độ trễ input",
         "nhom05f3 input delay",
         "name",
-        "Độ trễ đầu vào\n\nBất kỳ thiết bị đầu vào cũng cần một khoảng thời gian để tín hiệu có thể tới game, không cao thì thấp, từ mấy ms đến cả trăm ms.\n\nNếu độ trễ đầu vào quá cao, thì việc điều khiển sẽ không thoải mái.\n\nĐộ trễ này thường do phần cứng và phần mềm, thứ mà bạn gần như không kiểm soát được. Hiệu ứng này dễ thấy nhất ở trong các game như Tenis online hay Tetra Effect.\n\nBật chế độ Hiệu suất cao (Performance mode) hoặc tắt chế độ tiết kiệm năng lượng (Energy saving), đồng thời bật chế độ Gaming trên màn hình máy tính / TV, có thể giúp giảm độ trễ.",
+        "Độ trễ đầu vào\n\nBất kỳ thiết bị đầu vào cũng cần một khoảng thời gian để tín hiệu có thể tới game, không cao thì thấp, từ mấy ms đến cả trăm ms.\n\nNếu độ trễ đầu vào quá cao, thì việc điều khiển sẽ không thoải mái.\n\nĐộ trễ này thường do phần cứng và phần mềm, thứ mà bạn gần như không kiểm soát được. Hiệu ứng này dễ thấy nhất ở trong các game như Tetris Online hay Tetris Effect.\n\nBật chế độ Hiệu suất cao (Performance mode) hoặc tắt chế độ tiết kiệm năng lượng (Energy saving), đồng thời bật chế độ Gaming trên màn hình máy tính / TV, có thể giúp giảm độ trễ.",
     },
     {">G|K.năng t.công",
         "nhom05g",
@@ -788,7 +790,7 @@ Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish —
     {"SPM",
         "nhom05g linessentperminute; số hàng gửi mỗi phút; số hàng gửi trong một phút.",
         "term",
-        "[lines] Sent per minute\n\tSố hàng tấn công trung bình mà được gửi vào đối thủ trong một phút.\n\tPhản ánh sức mạnh tấn công *thực tế* của người chơi (không tính các hàng dùng để chặn rác tới).",
+        "[lines] Sent per minute\n\tSố hàng tấn công trung bình mà được gửi vào đối thủ trong một phút.\n\tPhản ánh sức mạnh tấn công \"thực tế\" của người chơi (không tính các hàng dùng để chặn rác tới).",
     },
     {"DPM",
         "nhom05g digperminute defendperminute số hàng đào xuống mỗi phút; số hàng đào xuống trong một phút",
@@ -798,7 +800,7 @@ Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish —
     {"RPM",
         "nhom05g receive; receiveperminute; số hàng rác phải nhận mỗi phút; số rác phải nhận mỗi phút; số hàng rác phải nhận trong một phút; số rác phải nhận trong mỗi phút",
         "term",
-        "[lines] Receive per Minute | Số hàng rác trung bình nhận được mỗi phút\n\tPhản ánh áp lực hiện có của người chơi phải chịu ở một mức độ nào đó.",
+        "[lines] Receive per Minute\n\tSố hàng rác trung bình nhận được mỗi phút\n\tPhản ánh áp lực hiện có của người chơi phải chịu ở một mức độ nào đó.",
     },
     {"ADPM",
         "nhom05g attackdigperminute vs; số hàng tấn công và đào xuống mỗi phút; số hàng tấn công và đào xuống mỗi phút",
@@ -815,11 +817,14 @@ Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish —
         "term",
         [[
 Tấn công: Gửi hàng rác tới đối thủ bằng cách gửi nhiều hàng.
+
 Phòng thủ: Loại hàng rác ra khỏi hàng chờ bằng cách thực hiện các kiểu xóa đặc biệt sau khi đối thủ gửi hàng rác.
+
 Phản công: Gửi hàng rác lại sau khi xử xong toàn bộ hàng rác trong hàng chờ.
 
-Trong hầu hết các game, tấn công và phòng thủ là tương đương nhau: một cuộc tấn công hủy một hàng rác đến.
+__________________________
 
+Trong hầu hết các game, tấn công và phòng thủ là tương đương nhau: một cuộc tấn công hủy một hàng rác đến.
 Trong hầu hết các game, tỉ lệ phản công rác thường là 1:1.
         ]],
     },
@@ -836,7 +841,7 @@ Trong hầu hết các game, tỉ lệ phản công rác thường là 1:1.
     {"'Debt'",
         "nhom05g debt owe",
         "term",
-        "Một thuật ngữ hay được sử dụng trong cộng đồng Tetris Trung Quốc. \"Debt\" đề cập đến tình huống mà bạn chỉ có thể làm một / nhiều T-spin khi setup được hoàn thành (và không thể làm trước khi setup được làm xong). Cho nên, khi đang làm một hoặc nhiều debt liên tiếp, người chơi bắt buộc phải để ý tới đối thủ để đảm bảo an toàn; còn không, bạn có thể bị bón hành sấp mặt.\n\nThuật ngữ này hay được sử dụng để diễn tả một số setup như TST tower.",
+        "Một thuật ngữ hay được sử dụng trong cộng đồng Tetris Trung Quốc.\n\n\"Debt\" đề cập đến tình huống mà bạn chỉ có thể làm một / nhiều T-spin khi setup được hoàn thành (và không thể làm trước khi setup được làm xong). Cho nên, khi đang làm một hoặc nhiều debt liên tiếp, người chơi bắt buộc phải để ý tới đối thủ để đảm bảo an toàn; còn không, bạn có thể bị bón hành sấp mặt.\n\nThuật ngữ này hay được sử dụng để diễn tả một số setup như TST tower.",
     },
     {"Passthrough",
         "nhom05g pingthrough",
@@ -844,29 +849,19 @@ Trong hầu hết các game, tỉ lệ phản công rác thường là 1:1.
         "Chỉ tình huống cả hai người chơi cùng gửi tấn công lẫn nhau, nhưng thay vì chúng hủy bỏ lẫn nhau thì nó lại gửi thẳng vào bảng của đối phương.\nMột thuật ngữ khác là \"pingthrough\" đề cập tình huống passthrough xảy ra do ping cao.",
     },
     {">H|Mis-action",
-        "nhom05h",
+        "nhom05h misaction misdrop mishold",
         "name",
-        "NHÓM 5G: HÀNH ĐỘNG BẤT CẨN (MIS-)"
-    },
-    {"Misdrop",
-        "nhom05h md misdrop",
-        "term",
-        "Vô tình thả rơi / đặt gạch vào nơi không mong muốn.",
-    },
-    {"Mishold",
-        "nhom05h mh mishold",
-        "term",
-        "Vô tình nhấn nhầm phím Hold. Việc này có thể dẫn đến việc dùng một viên gạch không mong muốn, và có thể làm bạn mất luôn cơ hội để làm PC.",
+        "Misdrop: Vô tình thả rơi / đặt gạch vào nơi không mong muốn.\nMishold: Vô tình nhấn nhầm phím Hold. Việc này có thể dẫn đến việc dùng một viên gạch không mong muốn.\n\nCả misdrop và mishold có thể làm bạn mất cơ hội để làm PC"
     },
     {">I|Spin",
         "nhom05i",
         "name",
-        "(Ở trong một số game) Xoay gạch để di chuyển tới một vị trí mà bình thường sẽ không tiếp cận được. Ở một số game, thao tác này sẽ gửi thêm hàng rác hoặc là tăng thêm điểm. Mỗi game sẽ có cách kiểm tra Spin khác nhau."
+        "(Ở trong một số game)\n\nXoay gạch để di chuyển tới một vị trí mà bình thường sẽ không tiếp cận được. Ở một số game, thao tác này sẽ gửi thêm hàng rác hoặc là tăng thêm điểm. Mỗi game sẽ có cách kiểm tra Spin khác nhau."
     },
     {"Mini",
         "nhom05i",
         "term",
-        "Một kiểu spin (được cho là) dễ làm hơn so với spin thông thường (bởi vì trong một số game cũ, chúng được gọi là \"Ez T-spin\"). Lượng điểm bổ sung và hàng rác đều ít hơn so với.\nMỗi game sẽ có các quy tắc khác nhau để kiểm tra và chúng có thể không trực quan.\nNhưng bạn chỉ cần nhớ mấy cái bố cục làm Mini-spin là được!",
+        "Một kiểu spin (được cho là) dễ làm hơn so với spin thông thường (vì trong một số game cũ, chúng được gọi là \"Ez T-spin\").\nLượng điểm bổ sung và hàng rác đều ít hơn so với spin thông thường.\n\nMỗi game sẽ có các quy tắc khác nhau để kiểm tra và chúng có thể không trực quan.\nNhưng bạn chỉ cần nhớ mấy cái bố cục làm Mini-spin là được!",
     },
     {"All-spin",
         "nhom05i allspin",
@@ -878,7 +873,11 @@ Trong hầu hết các game, tỉ lệ phản công rác thường là 1:1.
         "term",
         [[
 Spin được thực hiện bởi Tetromino T.
-T-spin chủ yếu được phát hiện bởi "quy luật 3 góc". Tức là, nếu 3 trong 4 góc của một hình chữ nhật (có tâm là tâm xoay của gạch T) bị đè bởi bất kỳ gạch nào, thì spin đó được tính là T-spin. Ngoài quy tắc đó ra thì còn có một số quy tắc để phát hiện T-spin và phân biệt giữa T-spin và Mini T-spin.
+
+T-spin chủ yếu được phát hiện bởi "quy luật 3 góc".
+Tức là, nếu 3 trong 4 góc của một hình chữ nhật (có tâm là tâm xoay của gạch T) bị đè bởi bất kỳ gạch nào, thì spin đó được tính là T-spin.
+
+Ngoài quy tắc đó ra thì còn có một số quy tắc để phát hiện T-spin và phân biệt giữa T-spin và Mini T-spin.
         ]],
     },
     {"O-Spin",
@@ -891,7 +890,7 @@ T-spin chủ yếu được phát hiện bởi "quy luật 3 góc". Tức là, n
         "pattern",
         "Tên của 3 kiểu T-spin sử dụng wall-kick table đặc biệt của gạch T. Các game khác nhau có cách phản công khác nhau với loại này: có game tính là Mini-spin, nhưng cũng có game không tính luôn =))).\n\nTrên thực tế chúng không được sử dụng nhiều vì game thường sẽ nerf loại T-spin này; hơn nữa setup của ba loại này khá là phức tạp."
     },
-    {"FreeStyle",
+    {"Freestyle",
         "nhom05i",
         "term",
         "Thuật ngữ hay được sử dụng trong thử thách 20TSD. Freestyle nghĩa là hoàn thành một số lượng T-spin Double nhất định mà không sử dụng phương pháp xếp gạch cố định nào.\n\nFreestyle khó hơn nhiều so với việc sử dụng phương pháp nào đó như LST, và màn chạy có thể đại diện cho các kỹ năng T-spin của người chơi trong các trận đấu trong thế giới thực.",
@@ -902,56 +901,36 @@ T-spin chủ yếu được phát hiện bởi "quy luật 3 góc". Tức là, n
         "name",
         "NHÓM 5J: KỸ THUẬT XÓA HÀNG"
     },
-    {"Single",
-        "nhom05j 1",
+    {"Xóa 1 / 2 / 3 hàng",
+        "nhom05j 1 2 3 single double triple",
         "term",
-        "Xóa 1 hàng cùng một lúc.",
-    },
-    {"Double",
-        "nhom05j 2",
-        "term",
-        "Xóa 2 hàng cùng một lúc.",
-    },
-    {"Triple",
-        "nhom05j 3",
-        "term",
-        "Xóa 3 hàng cùng một lúc.",
+        "Single: Xóa 1 hàng cùng một lúc.\nDouble: Xóa 2 hàng cùng lúc.\nTriple: Xóa 3 hàng cùng lúc.",
     },
     {"Techrash",
         "nhom05j tetris 4",
         "term",
-        "*Chỉ có trên Techmino*\n\nXóa 4 hàng cùng một lúc.",
+        "*Chỉ có trên Techmino*\nXóa 4 hàng cùng một lúc.",
     },
     {"Tetris",
         "nhom05j 4",
         "term",
-        "Đây chính là tên của một tựa game (và cũng là tên thương hiệu của nó). Đây cũng là thuật ngữ chỉ việc xóa 4 hàng cùng lúc trong các game chính thức.\nĐược ghép từ 2 từ: Tetra (<τέτταρες>, \"téttares\", có nghĩa là số 4 trong tiếng Hy Lạp) and tennis (quần vợt, môn thể thao yêu thích nhất của người đã sáng tạo ra Tetris). Nhắc nhẹ: những game xếp gạch được phát triển bởi Nintendo và SEGA đều được cấp phép bởi TTC. Hai công ty này không (hề) sở hữu bản quyền của Tetris",
+        "Đây chính là tên của một tựa game (và cũng là tên thương hiệu của nó). Đây cũng là thuật ngữ chỉ việc xóa 4 hàng cùng lúc trong các game chính thức.\n\nĐược ghép từ 2 từ: Tetra (<τέτταρες>, \"téttares\", có nghĩa là số 4 trong tiếng Hy Lạp) and tennis (quần vợt, môn thể thao yêu thích nhất của người đã sáng tạo ra Tetris).\n\nNhắc nhẹ: những game xếp gạch được phát triển bởi Nintendo và SEGA đều được cấp phép bởi TTC. Hai công ty này không (hề) sở hữu bản quyền của Tetris",
         -- _comment: original Lua file had this comment: "Thanks to Alexey Pajitnov!"
     },
-    {"TSS",
-        "nhom05j t1 tspinsingle T-spin Đơn",
+    {"TSS, TSD, TST",
+        "nhom05j t1 tspinsingle T-spin Đơn t2 tspindouble T-spn Đôi t3 tspintriple T-spin Tam",
         "term",
-        "T-spin Single | T-spin Đơn\nXóa một hàng bằng T-spin",
-    },
-    {"TSD",
-        "nhom05j  tsndouble T-spn Đôi",
-        "term",
-        "T-spin Double | T-spin Đôi\nXóa hai hàng bằng T-spin.",
-    },
-    {"TST",
-        "nhom05j t3 tspintriple T-spin Tam",
-        "term",
-        "T-spin Triple | T-spin Tam\nXóa ba hàng bằng T-spin.",
+        "T-spin Single   (TSS) | T-spin Đơn — Xóa một hàng bằng T-spin\nT-spin Double (TSD) | T-spin Đôi — Xóa hai hàng bằng T-spin\nT-spin Triple    (TST) | T-spin Tam — Xóa ba hàng bằng T-spin."
     },
     {"MTSS",
         "nhom05j mintspinsingle tsms tspinminisingle Mini T-spin Đơn",
         "term",
-        "Mini T-spin Single | Mini T-spin Đơn\nTrước đây từng biết tới với cái tên \"T-spin Mini Single\" (TSMS) (T-spin Mini Đơn).\nXóa một hàng bằng Mini T-spin.\nMỗi game sẽ có cách khác nhau để xác định xem T-spin đó có phải là Mini hay không.",
+        "Mini T-spin Single | Mini T-spin Đơn\nTừng biết tới với cái tên \"T-spin Mini Single\" (TSMS) (T-spin Mini Đơn).\n\nXóa một hàng bằng Mini T-spin.\n\nMỗi game sẽ có cách khác nhau để xác định xem T-spin đó có phải là Mini hay không.",
     },
     {"MTSD",
         "nhom05j minitspindouble tsmd tspinminidouble Mini T-spin Đôi",
         "term",
-        "Mini T-spin Double | Mini T-spin Đôi\nTrước đây từng biết tới với với cái tên \"T-spin Mini Double\"  (TSMD) (T-spin Mini Đôi).\nXóa hai hàng bằng Mini T-spin. MTSD chỉ xuất hiện trong một vài game hạn chế và có các cách kích khác nhau.",
+        "Mini T-spin Double | Mini T-spin Đôi\nTừng biết tới với cái tên \"T-spin Mini Double\" (TSMD) (T-spin Mini Đôi).\n\nXóa hai hàng bằng Mini T-spin.\n\nMTSD chỉ xuất hiện trong một vài game hạn chế và có các cách kích hoạt khác nhau.",
     },
     {"Back to Back",
         "nhom05j b2b btb backtoback",
@@ -981,7 +960,7 @@ T-spin chủ yếu được phát hiện bởi "quy luật 3 góc". Tức là, n
     {"sub",
         "nhom05k sub",
         "term",
-        "Sub-[số] có nghĩa là khoảng thời gian ở dưới một mốc nhất định. Đơn vị thời gian thường được bỏ qua và có thể tự suy ra. Ví dụ: \"sub-30\" có nghĩa là hoàn thành chế độ 40 hàng dưới 30 giây, \"sub-15\" có nghĩa là hoàn thành chế độ 1000 hàng dưới 15 phút. \"Sub\" thường được sử dụng với số đã được làm tròn (cho nên hiếm khi người ta sử dụng thứ giống như \"sub-62\")",
+        "Sub-[số] có nghĩa là khoảng thời gian ở dưới một mốc nhất định. Đơn vị thời gian thường được bỏ qua và có thể tự suy ra.\n\nVí dụ: \"sub-30\" có nghĩa là hoàn thành chế độ 40 hàng dưới 30 giây, \"sub-15\" có nghĩa là hoàn thành chế độ 1000 hàng dưới 15 phút.\n\n\"Sub\" thường được sử dụng với số đã được làm tròn (cho nên hiếm khi người ta sử dụng theo kiểu \"sub-62\")",
     },
     {"‘Researching’",
         "nhom05k scientificresearching",
@@ -993,10 +972,14 @@ T-spin chủ yếu được phát hiện bởi "quy luật 3 góc". Tức là, n
         "term",
         [[
 Đây là skin được dùng trong những phiên bản đời đầu của Tetris
-Trước đây, tất cả máy tính đều sử dụng Giao diện Dòng lệnh (Command-Line Interfaces) (nó na ná như cmd trên Windows, Terminal trên Mac, hay Console trên Linux), cho nên mỗi ô gạch đều được hiển thị dưới dạng 2 ngoặc vuông (như thế này: [ ]). Nó nhìn giống như xương, nên đôi khi được gọi là skin bone block (gạch xương).
-Trong Techmino, bone block được mô tả là \"một skin gạch duy nhất, lạ mắt mà tất cả các gạch đều sử dụng.\" Skin khác nhau sẽ có skin bone block khác nhau.
 
-Cũng trong Techmino nhưng trong bản tiếng Việt, từ "gạch []" để chỉ bone block.
+Trước đây, tất cả máy tính đều sử dụng Giao diện Dòng lệnh (Command-Line Interfaces, gần giống như cmd trên Windows, Terminal trên Mac, hay Console trên Linux), cho nên mỗi ô gạch đều được hiển thị dưới dạng 2 ngoặc vuông (như thế này: [ ]).
+Trông nó nhìn rất giống cục xương, nên đôi khi được gọi là skin bone block (gạch xương).
+
+Trong Techmino, bone block được mô tả là "một skin gạch duy nhất, lạ mắt mà tất cả các gạch đều sử dụng".
+Skin khác nhau sẽ có skin bone block khác nhau.
+
+Cũng trong Techmino nhưng ở tiếng Việt, từ "gạch []" được dùng để chỉ bone block.
         ]],
     },
     {"=[NHÓM 06]=",
@@ -1032,7 +1015,8 @@ Một game xếp gạch chơi trên trình duyệt với nhiều điều chỉnh
 Liên kết của mục này sẽ đưa bạn tới bản của Farter (bản này là một bản đã mod, đã thêm một vài chế độ khác)
 Bạn cũng có thể tìm một phiên bản khác có tên là "Tetr.js Enhanced" — bản mod này do Dr Ocelot làm (đã bị gỡ xuống và thay thế bằng Tetra Legends, nhưng cũng bị dừng phát triển hoàn toàn từ T12 / 2020)
 
-[MrZ: Giao diện đơn giản với hầu như không có bất kỳ hiệu ứng (animation) nào. Chỉ có một số tổ hợp phím ảo khả dụng cho thiết bị di động.]
+[MrZ: Giao diện đơn giản với hầu như không có bất kỳ animation nào.
+Chỉ có một số tổ hợp phím ảo khả dụng cho thiết bị di động.]
         ]],
         "http://farter.cn/t",
     },
@@ -1128,9 +1112,9 @@ Có thể áp dụng cho "Tetris Gems" và "Tetris Mind Bender"]
 Hiện tại game đã Hỗ trợ màn hình cảm ứng
 (Trong Zictionary tiếng Anh không có ghi "Hỗ trợ màn hình cảm ứng".)
 
-Hiện có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart), "bàn phím". Bạn có thể thử nghiệm với cả ba chế độ điều khiển để tìm xem chế độ nào tối ưu với mình nhất
+Hiện có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart) và "bàn phím". Bạn có thể thử nghiệm với cả ba chế độ điều khiển để tìm xem chế độ nào tối ưu với mình nhất
 
-Để điều khiển bằng bàn phím thì bạn chỉ cần kết nối với bàn phím là được (miễn là điện thoại có thể nhận bàn phím thì game cũng sẽ nhận thôi)
+Để điều khiển bằng bàn phím thì hãy kết nối bàn phím (miễn là điện thoại nhận được bàn phím thì game cũng sẽ nhận thôi)
 Để đổi giữa "vuốt" và "thông minh" thì hãy mở Options của game.
         ]]
     },
@@ -1140,7 +1124,8 @@ Hiện có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart), "b
         [[
 Chơi trên trình duyệt | Chơi đơn | Hỗ trợ màn hình cảm ứng
 
-Một game xếp gạch khác từ tetris.com. Có cơ chế trọng lực và mỗi ván chỉ kéo dài trong 1 phút. Có 3 loại gem (ngọc) khác nhau với khả năng riêng biệt.
+Một game xếp gạch khác từ tetris.com
+Có cơ chế trọng lực và mỗi ván chỉ kéo dài trong 1 phút. Có 3 loại gem (ngọc) khác nhau với khả năng riêng biệt.
         ]],
     },
     {"Tetris Mind Bender",
@@ -1149,7 +1134,8 @@ Một game xếp gạch khác từ tetris.com. Có cơ chế trọng lực và m
         [[
 Chơi trên trình duyệt | Chơi đơn | Hỗ trợ màn hình cảm ứng
 
-Một game xếp gạch khác từ tetris.com . Một chế độ Marathon vô tận với một mino đặc biệt gọi là "Mind Bender" sẽ đưa cho bạn ngẫu nhiên một hiệu ứng nào đó (có thể là tốt hoặc xấu).
+Một game xếp gạch khác từ tetris.com
+Một chế độ Marathon vô tận với một mino đặc biệt gọi là "Mind Bender" sẽ đưa cho bạn ngẫu nhiên một hiệu ứng nào đó (có thể là tốt hoặc xấu).
         ]],
     },
     {"Techmino",
@@ -1206,12 +1192,17 @@ Tetris: The Grand Master, một series Tetris dành cho máy thùng, nổi tiế
         [[
 Windows | Chơi đơn
 
-Một game xếp gạch dựa trên quy tắc Cổ điển của TGM + 20G với hệ thống xoay gạch mạnh mẽ. Cơ chế điều khiển tốt nhưng không có tùy chỉnh nào ngoài việc có thể gán lại phím. Game này bây giờ hơi khó tìm và bạn có thể phải cài tệp DLL cần thiết bằng tay. Tuy nhiên cũng may là có một bài hướng dẫn cách cài DTET, bạn có thể nhấn nút "Mở link" để mở bài viết.
+Một game xếp gạch dựa trên quy tắc Cổ điển của TGM + 20G với hệ thống xoay gạch mạnh mẽ. Cơ chế điều khiển tốt nhưng không có tùy chỉnh nào ngoài việc có thể gán lại phím.
 
-CẢNH BÁO: cẩn thận khi tải file DLL về!
-Vì chỉ có bạn chịu trách nhiệm nếu trong trường hợp xảy ra thiệt hại / hư hỏng!
+Game này bây giờ hơi khó tìm và bạn có thể phải cài tệp DLL cần thiết bằng tay. Tuy nhiên cũng may là có một bài hướng dẫn cách cài DTET, bạn có thể nhấn nút "Mở link" để mở bài viết.
+
+CẢNH BÁO: Hãy cẩn thận khi tải bất cứ thứ gì về, kể cả file DLL hay EXE!
+CẢNH BÁO: Hãy cẩn thận khi tải bất cứ thứ gì về, kể cả file DLL hay EXE!
+CẢNH BÁO: Hãy cẩn thận khi tải bất cứ thứ gì về, kể cả file DLL hay EXE!
+
+("Cái gì quan trọng thì hãy nhắc lại 3 lần"™ /joking_đùa_thôi)
         ]],
-        "https://t-sp.in / dtet"
+        "https://t-sp.in/dtet"
     },
     {"Heboris",
         "nhom06 hb",
@@ -1433,12 +1424,12 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
     {"Chế độ MPH",
         "nhom07 mph",
         "term",
-        "Sự kết hợp của ba quy tắc: \"Memoryless — Không nhớ gì\" (chuỗi gạch tạo ra hoàn toàn ngẫu nhiên), \"Previewless — Không biết trước gạch nào sẽ tới\" (không hiện NEXT), và \"Holdless— Không Hold được\". Một chế độ đòi hỏi tốc độ phản ứng.",
+        "Sự kết hợp của ba quy tắc:\n\n\"Memoryless — Không nhớ gì\" (chuỗi gạch tạo ra hoàn toàn ngẫu nhiên)\n\"Previewless — Không biết trước gạch nào sẽ tới\" (không hiện NEXT)\n\"Holdless— Không Hold được\".\n\nMột chế độ đòi hỏi tốc độ và phản ứng nhạy bén từ người chơi.",
     },
     {"Secret Grade",
         "nhom07 larger than",
         "term",
-        "Một chế độ dạng easter egg trong series TGM. Ở lối chơi \"secret grade\", người chơi sẽ làm một đường dích dắc (zigzag) (trông giống như \">\" hay \"<\") bằng cách tạo ra 1 ô trống duy nhất cho từng hàng. Mục tiêu cuối cùng là hoàn thành đường dích dắc bằng 19 hàng (hoặc hơn).\n\nNhấn vào nút \"Mở link\" để xem các kỹ thuật dùng để đạt được Secret Grade.",
+        "Một chế độ dạng easter egg trong series TGM.\n\nỞ lối chơi \"secret grade\", người chơi sẽ làm một đường dích dắc (zigzag) (trông giống như \">\" hay \"<\") bằng cách tạo ra 1 ô trống duy nhất cho từng hàng. Mục tiêu cuối cùng là hoàn thành đường dích dắc cao (hơn) 19 hàng.\n\nNhấn vào nút \"Mở link\" để xem các kỹ thuật dùng để đạt được Secret Grade.",
         "https://harddrop.com/wiki?search=Secret_Grade_Techniques",
     },
     {"Deepdrop (Rơi sâu)",
@@ -1626,7 +1617,7 @@ Nhấn nút "Mở link" để vào server Discord, còn nếu muốn vào nhóm 
     {"Side well",
         "nhom11a ren combo sidewell",
         "term",
-        "Một phương pháp xếp gạch đặc biệt mà bạn sẽ để lại một cái lỗ có một chiều rộng nhất định ở một bên bảng.\nCó 4 loại setup này: Setup Side 1-wide là setup truyền thống để làm Tetris (ví dụ như, Side well Tetris). Các loại setup như Side 2-, 3-, hay 4-wide; là những setup được dùng để làm combo.\n\nĐối với những người chơi mới, đây là cách hiệu quả nhất để tấn công. NHƯNG, đối thủ có thể dễ dàng tấn công lại bạn, một là chết còn không thì stack của bạn sẽ bị cắt ngắn do bạn phải phản công lại. Thay vào đó, họ build setup này sau khi xây xong setup T-spin hoặc là nếu như đối thủ chưa thể tấn công ngay. Trong những trường hợp đó, side well có thể được sử dụng để tăng số cú tấn công tức thì.",
+        "Một phương pháp xếp gạch đặc biệt mà bạn sẽ để lại một cái lỗ có một chiều rộng nhất định ở một bên bảng.\n\nCó 4 loại setup này: Setup Side 1-wide là setup truyền thống để làm Tetris (ví dụ như, Side well Tetris). Các loại setup như Side 2-, 3-, hay 4-wide; là những setup được dùng để làm combo.\n\nĐối với những người chơi mới, đây là cách hiệu quả nhất để tấn công. NHƯNG, đối thủ có thể dễ dàng tấn công lại bạn, một là chết còn không thì stack của bạn sẽ bị cắt ngắn do bạn phải phản công lại. Thay vào đó, họ build setup này sau khi xây xong setup T-spin hoặc là nếu như đối thủ chưa thể tấn công ngay. Trong những trường hợp đó, side well có thể được sử dụng để tăng số cú tấn công tức thì.",
     },
     {"Center well",
         "nhom11a ren combo centerwell",
@@ -1671,12 +1662,12 @@ Nhấn nút "Mở link" để vào server Discord, còn nếu muốn vào nhóm 
     {"Center 3-wide",
         "nhom11a c3w center3wide",
         "term",
-        "Hay còn gọi là C3W.\nVới setup này bạn sẽ xây một cái giếng sâu rộng 1 ô ở giữa bảng.\n\nĐây là một setup combo có thể làm được nhưng ít phổ biến lắm.",
+        "Hay còn gọi là C3W.\nVới setup này bạn sẽ xây một cái giếng sâu rộng 3 ô ở giữa bảng.\n\nĐây là một setup combo có thể làm được nhưng ít phổ biến lắm.",
     },
     {"Center 4-wide",
         "nhom11a c4w center4wide",
         "term",
-        "Hay còn gọi là C4W.\nVới setup này bạn sẽ xây một cái giếng sâu rộng 1 ô ở giữa bảng.\n\nĐây là một setup khét tiếng có thể tạo ra lượng combo rất lớn nếu người xây tận dụng tốt.\nSetup này rất dễ xây, và có khả năng phòng thủ tốt trước các đòn tấn công bằng cách lợi dụng một lỗ hổng khi kiểm tra điều kiện chết trong (đa số) các game xếp gạch.\n\nRất nhiều người chơi ghét setup này vì nhiều lý do khác nhau; nhưng chủ yếu là vì phần thắng luôn thuộc về những người dùng setup này.\nHãy cẩn thận khi dùng setup này trong các trận đấu thực tế.",
+        "Hay còn gọi là C4W.\nVới setup này bạn sẽ xây một cái giếng sâu rộng 4 ô ở giữa bảng.\n\nĐây là một setup khét tiếng có thể tạo ra lượng combo rất lớn nếu người xây tận dụng tốt.\nSetup này rất dễ xây, và có khả năng phòng thủ tốt trước các đòn tấn công bằng cách lợi dụng một lỗ hổng khi kiểm tra điều kiện chết trong (đa số) các game xếp gạch.\n\nRất nhiều người chơi ghét setup này vì nhiều lý do khác nhau; nhưng chủ yếu là vì phần thắng luôn thuộc về những người dùng setup này.\nHãy cẩn thận khi dùng setup này trong các trận đấu thực tế.",
     },
     {"Residual",
         "nhom11a c4w s4w",
@@ -1686,7 +1677,7 @@ Nhấn nút "Mở link" để vào server Discord, còn nếu muốn vào nhóm 
     {"6 - 3 Stacking",
         "nhom11a 63stacking six-three sixthree",
         "term",
-        "Một phương pháp để xếp gạch đặc biệt, khi bạn sẽ phải tạo ra một bức tường cao rộng 6 ô ở bên trái và một bức tường cao nữa rộng 3 ô ở bên phải.\n\nĐối với một người chơi có kỹ năng, phương pháp cho phép người chơi giảm số phím cần nhấn, và đây là một phương pháp phổ biến để chơi Sprint (như 10 hàng, 20 hàng, 40 hàng,…). Phương pháp này hoạt động được nhờ việc vị trí xuất hiện của 3 gạch J, L, T hay dịch về bên trái 1 ô.\n\nNhắc nhẹ: Phương pháp này có thể tăng số lần nhấn phím ở người mới tập chơi.",
+        "Một phương pháp để xếp gạch đặc biệt, khi bạn sẽ phải tạo ra một bức tường cao rộng 6 ô ở bên trái và một bức tường cao nữa rộng 3 ô ở bên phải.\n\nĐối với một người chơi có kỹ năng, phương pháp cho phép người chơi giảm số phím cần nhấn, và đây là một phương pháp phổ biến để chơi Sprint (như 10 hàng, 20 hàng, 40 hàng,…). Phương pháp này hoạt động được nhờ việc vị trí xuất hiện của 3 gạch J, L, T hay dịch về bên trái 1 ô.\n\nNhắc nhẹ: Phương pháp này CÓ THỂ tăng số lần nhấn phím ở người mới tập chơi.",
     },
     {">B|Digging",
         "nhom11b",
@@ -1866,7 +1857,7 @@ Opener phải đạt 2 trong 4 tiêu chí sau
     {"PC liên tiếp [1/2]",
         "nhom12b midgame mid-game pcloop",
         "pattern",
-        "four.lol có hướng dẫn cách làm Perfect Clear liên tiếp. Sau khi hoàn thành PC thứ 7 khi bạn cũng vừa xài đúng 70 gạch (10 túi 7 gạch) nên bạn có thể quay về PC thứ nhất. Nhấn nút \"Mở link\" để xem setup cho PC thứ nhất (để xem các setup sau, hãy thay 1st trong link bằng 2nd / 3rd / 4th / 5th / 6th / 7th)",
+        "four.lol có hướng dẫn cách làm Perfect Clear liên tiếp. Sau khi hoàn thành PC thứ 7 khi bạn cũng vừa xài đúng 70 gạch (10 túi 7 gạch) nên bạn có thể quay về PC thứ nhất.\n\nNhấn nút \"Mở link\" để xem setup cho PC thứ nhất (để xem các setup sau, hãy thay 1st trong link bằng 2nd / 3rd / 4th / 5th / 6th / 7th)",
         "https://four.lol/perfect-clears/1st",
     },
     {"PC liên tiếp [2/2]",
@@ -2008,11 +1999,10 @@ All Clear gửi thêm 6 hàng rác. Nhưng 6 hàng rác này sẽ gửi thẳng 
         "english",
         [[
 Có 2 nghĩa:
-    — "On screen keyboard" — bàn phím ảo trên màn hình.
-        Nếu bạn cần gõ chữ nhưng bàn phím vật lý của bạn  bị hỏng, có thể mở bàn phím ảo bằng cách mở "C:\Windows\System32\osk.exe"
+    — "On screen keyboard" — một phần mềm cung cấp bàn phím ảo trên màn hình được đi kèm trong đa số các hệ điều hành. Trong Windows, có thể mở bàn phím ảo tại "C:\Windows\System32\osk.exe"
     — Tác giả của game TETR.IO
     
-Nghĩa của từ này sẽ thay đổi tùy trường hợp.
+Nghĩa của từ này sẽ thay đổi tùy trường hợp. Tuy nhiên hãy ưu tiên nghĩa đầu tiên nếu bàn phím của bạn… có vài phím bị kẹt hoặc hỏng và không thể nhấn được nữa.
         ]],
     },
 }

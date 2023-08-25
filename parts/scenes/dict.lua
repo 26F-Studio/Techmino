@@ -242,11 +242,13 @@ function scene.keyDown(key)
     --     if not success then
     --         SFX.play('finesseError_long')
     --         _,_r=FONT.get(30):getWrap(tostring(_r),1000)
-    --         MES.new("error","Cannot hotload! May need restarting!\n\n"..table.concat(_r,"\n"))
+    --         MES.new("error","Hotload failed! May need restarting!\n\n"..table.concat(_r,"\n"))
     --     else
+    --         local lastScrollPos=listBox.scrollPos
     --         listBox:setList(_getList())
     --         if #inputBox:getText()>0 then _search() end
     --         listBox.selected=lastSelected
+    --         listBox.scrollPos=lastScrollPos
     --         _updateInfoBox()
     --         SFX.play('pc')
     --     end
@@ -334,7 +336,7 @@ scene.widgetList={
 
     WIDGET.newKey   {name='help',     x=1234,y=220,w=60,font=40,fText=CHAR.icon.help,       code=pressKey'f1'},
 
-    WIDGET.newButton{name='back',     x=1165,y=60, w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='back',     x=1185,y=60, w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
     WIDGET.newText  {name='buttontip',x=1274,y=110,w=762,h=60,font=40,align='R',fText=CHAR.controller.xboxY.."/[F1]: "..CHAR.icon.help}
 }
 -- NOTE: The gap between Link-Copy, Zoom is 60*1.5-10=80 :) The gap between 2 buttons in one group is 60+10=70
