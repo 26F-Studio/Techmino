@@ -1,11 +1,10 @@
 local function onMove(P)
-    -- if piece under overhang or active piece is nil then return
-    if (P.curY>P.gameEnv.fieldH-2 or P:_roofCheck()) or not P.cur then return end
+    if not P.cur then return end
     P.holdTime=0
     VK.keys[8].ava=false
     VK.release(8)
     P.modeData.moveCount=P.modeData.moveCount+1
-    if P.modeData.moveCount>=2 then
+    if P.modeData.moveCount>=2 and not (P.curY>P.gameEnv.fieldH-2 or P:_roofCheck()) then
         P.keyAvailable[1]=false
         P.keyAvailable[2]=false
         VK.keys[1].ava=false
@@ -15,13 +14,12 @@ local function onMove(P)
     end
 end
 local function onRotate(P)
-    -- if piece under overhang or active piece is nil then return
-    if (P.curY>P.gameEnv.fieldH-2 or P:_roofCheck()) or not P.cur then return end
+    if not P.cur then return end
     P.holdTime=0
     VK.keys[8].ava=false
     VK.release(8)
     P.modeData.rotations=P.modeData.rotations+1
-    if P.modeData.rotations>=2 then
+    if P.modeData.rotations>=2 and not (P.curY>P.gameEnv.fieldH-2 or P:_roofCheck()) then
         P.keyAvailable[3]=false
         P.keyAvailable[4]=false
         P.keyAvailable[5]=false
@@ -42,6 +40,7 @@ local function resetLock(P)
     P.modeData.rotations=0
     P.holdTime=1
 end
+
 return {
     arr=0,
     mesDisp=function(P)
@@ -56,6 +55,14 @@ return {
     end,
     hook_drop=function(P)
         resetLock(P)
+
+        local C=P.lastPiece
+        if C.row>0 then
+            if not C.special then
+                P:lose()
+                return
+            end
+        end
         if P.stat.atk>=100 then
             P:win('finish')
         end
