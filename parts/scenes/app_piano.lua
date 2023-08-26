@@ -17,6 +17,7 @@ local tempoffset=0
 local showingKey
 local sharpt,flattt=false,false
 local virtualKeys={}   -- Virtual key set is near the end of the file.
+local touchPosition={}
 
 local scene={}
 
@@ -82,11 +83,10 @@ function scene.mouseDown(x,y,_)
     end
 end
 function scene.multipleTouch()     -- Check for every touch keys
-    local touchList=touch.getTouches()
-    if next(touchList)~=nil then
-        for index,id in next,touchList do
-            local x,y=touch.getPosition(id)
-            MES.new("error",x.." "..y)
+    if next(touchPosition) then
+        for _,pos in pairs(touchPosition) do
+            local x,y=pos
+            table.remove(touchPosition,_)
             for i,currentKey in pairs(virtualKeys) do
                 if not (currentKey.name=="keyCtrl" or currentKey.name=="keyShift") then
                     if currentKey:isAbove(x,y) then currentKey:code(); currentKey:update(1) end
@@ -96,8 +96,12 @@ function scene.multipleTouch()     -- Check for every touch keys
         end
     end
 end
-function scene.touchDown()
-    scene.multipleTouch()
+function scene.touchDown(x,y)
+    table.insert(touchPosition,1,{x,y})
+end
+function scene.touchUp(x,y)
+    local pos={x,y}
+    table.remove(touchPosition,TABLE.find(touchPosition,pos))
 end
 
 function scene.keyDown(key,isRep)
@@ -151,7 +155,7 @@ function scene.update()
     for i,currentKey in pairs(virtualKeys) do
         currentKey:update()
     end
-    
+    scene.multipleTouch()
 end
 
 scene.widgetList={
