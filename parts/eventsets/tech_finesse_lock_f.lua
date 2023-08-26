@@ -2,18 +2,22 @@ local function onMove(P)
     if not P.cur then return end
     P.holdTime=0
     VK.keys[8].ava=false
+    VK.release(8)
     P.modeData.moveCount=P.modeData.moveCount+1
     if P.modeData.moveCount>=2 and (P.curY>P.gameEnv.fieldH-2 or P:_roofCheck()) then
         P.keyAvailable[1]=false
         P.keyAvailable[2]=false
         VK.keys[1].ava=false
         VK.keys[2].ava=false
+        VK.release(1)
+        VK.release(2)
     end
 end
 local function onRotate(P)
     if not P.cur then return end
     P.holdTime=0
     VK.keys[8].ava=false
+    VK.release(8)
     P.modeData.rotations=P.modeData.rotations+1
     if P.modeData.rotations>=2 and (P.curY>P.gameEnv.fieldH-2 or P:_roofCheck()) then
         P.keyAvailable[3]=false
@@ -22,6 +26,9 @@ local function onRotate(P)
         VK.keys[3].ava=false
         VK.keys[4].ava=false
         VK.keys[5].ava=false
+        VK.release(3)
+        VK.release(4)
+        VK.release(5)
     end
 end
 local function resetLock(P)
