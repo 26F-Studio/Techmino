@@ -85,7 +85,7 @@ end
 function scene.multipleTouch()     -- Check for every touch keys
     if next(touchPosition) then
         for _,pos in pairs(touchPosition) do
-            local x,y=pos
+            local x,y=pos[1],pos[2]
             table.remove(touchPosition,_)
             for i,currentKey in pairs(virtualKeys) do
                 if not (currentKey.name=="keyCtrl" or currentKey.name=="keyShift") then
