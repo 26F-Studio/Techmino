@@ -92,9 +92,11 @@ function scene.multipleTouch()     -- Check for every touch keys
                     if currentKey:isAbove(x,y) then currentKey:code(); currentKey:update(1) end
                 end
             end
-            if not (virtualKeys.keyCtrl:isAbove(x,y) or virtualKeys.keyShift:isAbove(x,y)) then _notHoldCS() end
+            if     virtualKeys.keyCtrl :isAbove(x,y) then _holdingCtrl()
+            elseif virtualKeys.keyShift:isAbove(x,y) then _holdingShift() end
         end
     end
+    if not flattt and not sharpt then _notHoldCS() end
 end
 function scene.touchDown(x,y)
     table.insert(touchPosition,1,{x,y})
