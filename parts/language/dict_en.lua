@@ -1256,4 +1256,15 @@ FNNS and     {"Support 3",
         "term",
         "In Tetris, timing refers to the choice of moments to attack with optimal effort. Good timing can help you to defend yourself while crushing your opponent. However, we recommend new players focus on their own fields and improve their speeds before learning timing.",
     },
+    {"osk",
+        "",
+        "english",
+        [[
+There are 2 meanings:
+    — "On screen keyboard" — a software that provides a virtual on-screen keyboard included with most operating systems. In Windows, the virtual keyboard can be opened at "C:\Windows\System32\osk.exe"
+    — Author of the game TETR.IO
+    
+The meaning of this word will change depending on the case. However, prioritize the first meaning if your keyboard… some keys are stuck or broken and can't be pressed anymore.
+        ]]
+    }
 }

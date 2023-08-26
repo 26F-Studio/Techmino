@@ -30,9 +30,9 @@ Có đóng góp? Bạn có thể vào trang dự án Techmino trên GitHub để
 02. Dự án Techmino: Trang web chính thức, Dự án trên GitHub, Discord
 03. Ủng hộ cho tác giả của Techmino
 04. Mẹo và lời khuyên hữu ích:
-            — Lời khuyên dành cho những người mới tập chơi
-            — Đề xuất luyện tập, Học làm T-spin, Hiệu chỉnh DAS
-            — Bố cục phím, Khả năng xử lý gạch, Các nút xoay
+        — Lời khuyên dành cho những người mới tập chơi
+        — Đề xuất luyện tập, Học làm T-spin, Hiệu chỉnh DAS
+        — Bố cục phím, Khả năng xử lý gạch, Các nút xoay
 
 05. Các yếu tố cần thiết của các game xếp gạch hiện đại:
         — Next, Hold, In-place Hold, Swap, Topping out, Vùng đệm, Vùng biến mất
@@ -58,6 +58,7 @@ Có đóng góp? Bạn có thể vào trang dự án Techmino trên GitHub để
             — APM, SPM, DPM, RPM, ADPM, APL
             — Tấn công & Phòng thủ
             — Combo, Spike, Debt, Passthrough
+            — Timing
 
         05H. Hành động bất cẩn (Mis-): Misdrop, Mishold
         05I. Spin: (Mini) / (All-) / (T-) / (O-) spin; Fin, Neo, Iso; Freestyle
@@ -302,7 +303,7 @@ Dưới đây là các yếu tố chính:
     {"In-place Hold",
         "nhom05 inplace hold",
         "term",
-        "*Chỉ có trên Techmino*\n\"Giữ ngay tại chỗ\".\n\nMột kiểu Hold đặc biệt cho phép gạch lấy ra từ Hold sẽ xuất hiện ngay tại vị trí mà gạch vừa cất đang rơi (trái ngược với Hold thông thường, khi mà gạch sẽ xuất hiện ở trên cùng của bảng).\nCó thể bật chức năng này trong Chế độ tự do\n\nFun fact: Tiếng Trung gọi cái này là \"Physical Hold\"",
+        "*Chỉ có trên Techmino*\n\"Giữ ngay tại chỗ\".\n\nMột kiểu Hold đặc biệt cho phép gạch lấy ra từ Hold sẽ xuất hiện ngay tại vị trí mà gạch vừa cất đang rơi (trái ngược với Hold thông thường, khi mà gạch sẽ xuất hiện ở trên cùng của bảng).\nCó thể bật chức năng này trong Chế độ tự do\n\nFun fact: người Trung gọi cái này là \"Physical Hold\"",
     },
     {"Swap",
         "nhom05 hold",
@@ -348,7 +349,7 @@ Tuy nhiên, tùy từng game mà chúng sẽ có phản ứng khác nhau. Ví d�
     {">A|Gạch",
         "nhom05a",
         "name",
-        "Bạn có biết? Có 29 gạch có thể chơi được trong game này!\n1 Mino | 1 Domino | 2 Trimino | 7 Tetromino | 18 Pentomino",
+        "Bạn có biết? Có 29 gạch có thể chơi được trong game này!\n1 Mino | 1 Domino | 2 Trimino | 7 Tetromino | 18 Pentomino\n\nMino: gạch 1 ô\nDomino: gạch 2 ô\nTrimino: gạch 3 ô\nTetromino: gạch 4 ô\nPentomino: gạch 5 ô\n\nHexomino có tồn tại đấy nhưng khi nào chúng xuất hiện trong game?",
     },
     {"H.dạng của Tetro.",
         "nhom05a hình dạng của tetro. hình dạng của tetromino"..tetromino,
@@ -358,12 +359,12 @@ Tuy nhiên, tùy từng game mà chúng sẽ có phản ứng khác nhau. Ví d�
     {"Màu của Tetromino",
         "nhom05a màu"..tetromino,
         "term",
-        "Nhiều game xếp gạch hiện đại, từ chính thức tới fan làm, đã và đang sử dụng cùng một bảng màu duy nhất cho Tetromino. Những màu này bao gồm:\nZ — Đỏ, S — Lục, J — Lam, L — Cam, T — Tím, O — Vàng, và I — Lục lam.\n\nTechmino cũng sử dụng bảng màu này để tô màu cho Tetromino.",
+        "Nhiều game xếp gạch hiện đại, từ chính thức tới fan làm, đã và đang sử dụng cùng một bảng màu duy nhất cho Tetromino.\n\nNhững màu này bao gồm:\nZ — Đỏ, S — Lục, J — Lam, L — Cam, T — Tím, O — Vàng, và I — Lục lam.\n\nTechmino cũng sử dụng bảng màu này để tô màu cho Tetromino.",
     },
     {"Gạch & tên tg. ứng",
         "nhom05a mino gạch & tên tương ứng gạch và tên tương ứng"..tetromino,
         "term",
-        "Đây là danh sách gạch mà Techmino sử dụng cùng với tên tương ứng của chúng:\nTetromino:\nZ: "..CHAR.mino.Z..",  S: "..CHAR.mino.S..",  J: "..CHAR.mino.J..",  L: "..CHAR.mino.L..",  T: "..CHAR.mino.T..",  O: "..CHAR.mino.O..",  I: "..CHAR.mino.I..";\n\nPentomino:\nZ5: "..CHAR.mino.Z5..",  S5: "..CHAR.mino.S5..",  P: "..CHAR.mino.P..",  Q: "..CHAR.mino.Q..",  F: "..CHAR.mino.F..",  E: "..CHAR.mino.E..",  T5: "..CHAR.mino.T5..",  U: "..CHAR.mino.U..",  V: "..CHAR.mino.V..",  W: "..CHAR.mino.W..",  X: "..CHAR.mino.X..",  J5: "..CHAR.mino.J5..",  L5: "..CHAR.mino.L5..",  R: "..CHAR.mino.R..",  Y: "..CHAR.mino.Y..",  N: "..CHAR.mino.N..",  H: "..CHAR.mino.H..",  I5: "..CHAR.mino.I5..";\n\nTrimino, Domino, and Mino:\nI3: "..CHAR.mino.I3..",  C: "..CHAR.mino.C..",  I2: "..CHAR.mino.I2..",  O1: "..CHAR.mino.O1..".",
+        "Đây là danh sách gạch mà Techmino sử dụng\n(cùng với tên tương ứng của chúng):\n\nTetromino:\nZ: "..CHAR.mino.Z..",  S: "..CHAR.mino.S..",  J: "..CHAR.mino.J..",  L: "..CHAR.mino.L..",  T: "..CHAR.mino.T..",  O: "..CHAR.mino.O..",  I: "..CHAR.mino.I..";\n\nPentomino:\nZ5: "..CHAR.mino.Z5..",  S5: "..CHAR.mino.S5..",  P: "..CHAR.mino.P..",  Q: "..CHAR.mino.Q..",  F: "..CHAR.mino.F..",  E: "..CHAR.mino.E..",  T5: "..CHAR.mino.T5..",  U: "..CHAR.mino.U..",  V: "..CHAR.mino.V..",  W: "..CHAR.mino.W..",  X: "..CHAR.mino.X..",  J5: "..CHAR.mino.J5..",  L5: "..CHAR.mino.L5..",  R: "..CHAR.mino.R..",  Y: "..CHAR.mino.Y..",  N: "..CHAR.mino.N..",  H: "..CHAR.mino.H..",  I5: "..CHAR.mino.I5..";\n\nTrimino, Domino, and Mino:\nI3: "..CHAR.mino.I3..",  C: "..CHAR.mino.C..",  I2: "..CHAR.mino.I2..",  O1: "..CHAR.mino.O1..".",
     },
     {"Hướng gạch",
         "nhom05a 0r2l 02 20 rl lr"..tetromino,
@@ -378,7 +379,7 @@ Trong hệ thống xoay SRS và các biến thể của SRS, có một hệ th�
 Ví dụ:
     0 → L nghĩa là xoay gạch ngược chiều kim đồng hồ, từ hướng ban đầu (0) sang hướng bên trái (L)
     0 → R nghĩa là xoay gạch theo chiều kim đồng hồ, từ hướng ban đầu (0) sang hướng bên phải (R)
-    2R nghĩa là xoay gạch theo chiều kim đồng hồ, từ hướng 180° (2) sang hướng bên phải (R).
+    2 → R nghĩa là xoay gạch theo chiều kim đồng hồ, từ hướng 180° (2) sang hướng bên phải (R).
         ]],
     },
     {">B|Hệ thống xoay",
@@ -387,7 +388,9 @@ Ví dụ:
         [[
 Một hệ thống để xác định cách gạch xoay.
 
-Ở các trò xếp gạch hiện đại, mỗi gạch có thể xoay dựa trên một tâm xoay cố định (vài game có thể không có tâm xoay cố định). Nếu gạch sau khi xoay đè lên gạch khác / ra ngoài bảng, hệ thống sẽ thử "wall-kicking" (đẩy gạch sang các vị trí xung quanh). Tuy nhiên, nếu khoảng cách quá lớn thì hệ thống xoay không thể đá gạch được
+Ở các trò xếp gạch hiện đại, mỗi gạch có thể xoay dựa trên một tâm xoay cố định (vài game có thể không có tâm xoay cố định).
+Nếu gạch sau khi xoay đè lên gạch khác / ra ngoài bảng, hệ thống sẽ thử "wall-kicking" (đẩy gạch sang các vị trí xung quanh).
+Tuy nhiên, nếu khoảng cách quá lớn thì hệ thống xoay không thể đá gạch được
 
 Wall-kick cho phép gạch có thể đến những lỗ có hình dạng nào đó mà bình thường không thể tiếp cận được. Các vị trí mà gạch hệ thống xoay có thể thử được chứa trong một bảng gọi là "wall-kick table".
         ]]
@@ -589,7 +592,7 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
     {"Kiểu xáo C2",
         "nhom05d cultris2generator cultrisiigenerator c2generator",
         "term",
-        "Đây là kiểu xáo được dùng trong Cultris II với cách hoạt động như sau:\n\t1.Ban đầu toàn bộ Tetromino sẽ có trọng số (\"weight\") là 0.\n\t2. Cứ sau mỗi lần xáo gạch, toàn bộ trọng số của các gạch sẽ bị chia hết cho 2, và được cộng một số thực ngẫu nhiên từ 0 tới 1.\n\t3. Gạch có trọng số cao nhất, và sau đó trọng số của nó sẽ bị chia cho 3.5. Về Bước 2 và tiếp tục lặp lại",
+        "Đây là kiểu xáo được dùng trong Cultris II với cách hoạt động như sau:\n\t— Bước 1. Ban đầu toàn bộ Tetromino sẽ có trọng số (\"weight\") là 0.\n\t— Bước 2. Cứ sau mỗi lần xáo gạch, toàn bộ trọng số của các gạch sẽ bị chia hết cho 2, và được cộng một số thực ngẫu nhiên từ 0 tới 1.\n\t— Bước 3. Gạch có trọng số cao nhất, và sau đó trọng số của nó sẽ bị chia cho 3.5.\n\t— Bước 4: Về Bước 2 và tiếp tục lặp lại",
     },
     {"Drought",
         "drought",
@@ -709,28 +712,29 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
         [[
 Lines per minute | Số hàng mỗi phút
 Phản ánh tốc độ chơi.
+
 Mỗi game có cách tính LPM khác nhau. Ví dụ như, Tetris Online tính LPM dựa trên PPS (nhìn mục ở bên dưới), trong đó 1 PPS = 24 LPM; do đó số hàng rác sẽ không được tính vào LPM và làm cho LPM lệch đi so với nghĩa đen của nó. Trong Techmino, giá trị LPM theo cách tính đó gọi là "L'PM"
         ]],
     },
     {"PPS",
         "nhom05f1 piecespersecond số gạch mỗi giây; tốc độ",
         "term",
-        "Pieces per second | Số gạch mỗi giây\n\tPhản ánh tốc độ chơi.",
+        "Pieces per second | Số gạch mỗi giây\nPhản ánh tốc độ chơi.",
     },
     {"BPM",
         "nhom05f1 blocksperminute piecesperminute số gạch mỗi phút; tốc độ",
         "term",
-        "Blocks per minute | Số gạch mỗi phút\n\tPhản ánh tốc độ chơi.\n\tNgoài ra chúng được gọi là PPM (để tránh nhầm lẫn với một thuật ngữ trong âm nhạc) (P là viết tắt của từ Pieces).",
+        "Blocks per minute | Số gạch mỗi phút\nPhản ánh tốc độ chơi.\n\nNgoài ra chúng được gọi là PPM (để tránh nhầm lẫn với một thuật ngữ trong âm nhạc) (P là viết tắt của từ Pieces).",
     },
     {"KPM",
         "nhom05f1 keysperminute keypressesperminute số lần nhấn mỗi phút; số phím mỗi phút",
         "term",
-        "Keypresses per minute | Số lần nhấn mỗi phút\n\tPhản ánh tốc độ người chơi nhấn phím hoặc nút.",
+        "Keypresses per minute | Số lần nhấn mỗi phút\nPhản ánh tốc độ người chơi nhấn phím hoặc nút.",
     },
     {"KPP",
         "nhom05f1 số lần nhấn mỗi gạch; số phím mỗi gạch",
         "term",
-        "Keypresses per piece | Số lần nhấn mỗi viên gạch\n\tPhản ánh mức độ hiệu quả việc điều khiển gạch. Có thể giảm con số này bằng cách học Finesse",
+        "Keypresses per piece | Số lần nhấn mỗi viên gạch\nPhản ánh mức độ hiệu quả việc điều khiển gạch.\nCó thể giảm con số này bằng cách học Finesse",
     },
     {">F2|K.th. đ.khiển",
         "nhom05f2",
@@ -757,13 +761,14 @@ Một Bad hoặc Miss sẽ phá vỡ combo finesse.
     {"Hypertapping",
         "nhom05f2 nhấn liên tục",
         "term",
-        "Hypertapping (Nhấn liên tục)\n\nĐề cập tới một kỹ năng là khi bạn rung tay liên tục để nhấn liên tục làm tốc độ di chuyển nhanh hơn\nKỹ năng này được dùng nhiều trong xếp gạch cổ điển (Classic Tetris). Nhưng bạn không cần dùng vì DAS ngắn hơn nhiều so với trước đây.",
+        "Hypertapping (Nhấn liên tục)\n\nĐề cập tới một kỹ năng là khi bạn rung tay liên tục để nhấn liên tục làm tốc độ di chuyển nhanh hơn.\n\nKỹ năng này được dùng nhiều trong xếp gạch cổ điển (Classic Tetris). Nhưng bạn không cần dùng vì DAS ngắn hơn nhiều so với trước đây.",
     },
     {"Rolling",
         "nhom05f2",
         "term",
         [[
 Một phương pháp khác để di chuyển nhanh ở chế độ trọng lực cao (khoảng 1G) (với cài đặt DAS / ARR chậm).
+
 Để thực hiện thao tác rolling:
     — Cố định ngón tay của bạn trên phím bạn muốn nhấn ở một bên tay
     — Sau đó dùng các ngón tay ở bên kia gõ mạnh liên tục ở mặt sau của tay cầm.
@@ -785,34 +790,34 @@ Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish —
     {"APM",
         "nhom05g attackperminute; số hàng tấn công mỗi phút; số hàng tấn công trong một phút",
         "term",
-        "Attack per minute\n\tSố hàng tấn công trung bình mà một người chơi có thể tạo ra mỗi phút, bất kể đó là đòn tấn công hoặc chỉ dùng để hủy đòn tấn công của đối thủ\n\tPhản ánh sức mạnh tấn công của người chơi",
+        "Attack per minute\n\tSố hàng tấn công trung bình mà một người chơi có thể tạo ra mỗi phút (bất kể đó là đòn tấn công hoặc chỉ dùng để hủy đòn tấn công của đối thủ)\n\nPhản ánh sức mạnh tấn công của người chơi",
     },
     {"SPM",
         "nhom05g linessentperminute; số hàng gửi mỗi phút; số hàng gửi trong một phút.",
         "term",
-        "[lines] Sent per minute\n\tSố hàng tấn công trung bình mà được gửi vào đối thủ trong một phút.\n\tPhản ánh sức mạnh tấn công \"thực tế\" của người chơi (không tính các hàng dùng để chặn rác tới).",
+        "[lines] Sent per minute\n\tSố hàng tấn công trung bình mà được gửi vào đối thủ trong một phút.\n\nPhản ánh sức mạnh tấn công \"thực tế\" của người chơi (không tính các hàng dùng để chặn rác tới).",
     },
     {"DPM",
         "nhom05g digperminute defendperminute số hàng đào xuống mỗi phút; số hàng đào xuống trong một phút",
         "term",
-        "Dig / Defend per minute\n\tSố hàng đào xuống trung bình mỗi phút\n\tĐôi khi có thể phản ánh mức độ sống sót của người chơi khi nhận được rác",
+        "Dig / Defend per minute\n\tSố hàng đào xuống trung bình mỗi phút\n\nĐôi khi có thể phản ánh mức độ sống sót của người chơi khi nhận được rác",
     },
     {"RPM",
         "nhom05g receive; receiveperminute; số hàng rác phải nhận mỗi phút; số rác phải nhận mỗi phút; số hàng rác phải nhận trong một phút; số rác phải nhận trong mỗi phút",
         "term",
-        "[lines] Receive per Minute\n\tSố hàng rác trung bình nhận được mỗi phút\n\tPhản ánh áp lực hiện có của người chơi phải chịu ở một mức độ nào đó.",
+        "[lines] Receive per Minute\n\tSố hàng rác trung bình nhận được mỗi phút\n\nPhản ánh áp lực hiện có của người chơi phải chịu ở một mức độ nào đó.",
     },
     {"ADPM",
         "nhom05g attackdigperminute vs; số hàng tấn công và đào xuống mỗi phút; số hàng tấn công và đào xuống mỗi phút",
         "term",
-        "Attack & Dig per minute | Số hàng tấn công & đào xuống trung bình mỗi phút\n\tDùng để so sánh sự khác nhau về kỹ năng của hai người chơi trong cùng một trận đấu; chính xác hơn một chút so với APM\n\tVS Score (điểm VS) trong TETR.IO chính là ADPM mỗi 100 giây",
+        "Attack & Dig per minute\n\tSố hàng tấn công & đào xuống trung bình mỗi phút\n\nDùng để so sánh sự khác nhau về kỹ năng của hai người chơi trong cùng một trận đấu; chính xác hơn một chút so với APM\n\nVS Score (điểm VS) trong TETR.IO chính là ADPM mỗi 100 giây",
     },
     {"APL",
         "nhom05g attackperline efficiency; số hàng tấn công; số hàng đã xóa; độ hiệu quả",
         "term",
-        "Attack per line (cleared) | Số hàng tấn công / Số hàng đã xóa\n\tCòn được biết với tên \"efficiency\" (độ hiệu quả). Phản ánh độ hiệu quả khi tấn công sau mỗi lần xóa hàng. Ví dụ Tetris và T-spin có độ hiệu quả cao hơn so với xóa 2 / 3 hàng.",
+        "Attack per line (cleared) | Số hàng tấn công / Số hàng đã xóa\n\nCòn được biết với tên \"efficiency\" (độ hiệu quả). Phản ánh độ hiệu quả khi tấn công sau mỗi lần xóa hàng.\nVí dụ Tetris và T-spin có độ hiệu quả cao hơn so với xóa 2 / 3 hàng.",
     },
-    {"Tấn công & Phg thủ",
+    {"Tấn công&Phg thủ",
         "nhom05g attacking defending phòng thủ; tấn công & phòng thủ; tấn công và phòng thủ",
         "term",
         [[
@@ -846,7 +851,12 @@ Trong hầu hết các game, tỉ lệ phản công rác thường là 1:1.
     {"Passthrough",
         "nhom05g pingthrough",
         "term",
-        "Chỉ tình huống cả hai người chơi cùng gửi tấn công lẫn nhau, nhưng thay vì chúng hủy bỏ lẫn nhau thì nó lại gửi thẳng vào bảng của đối phương.\nMột thuật ngữ khác là \"pingthrough\" đề cập tình huống passthrough xảy ra do ping cao.",
+        "Chỉ tình huống cả hai người chơi cùng gửi tấn công lẫn nhau, nhưng thay vì chúng hủy bỏ lẫn nhau thì nó lại gửi thẳng vào bảng của đối phương.\n\nMột thuật ngữ khác là \"pingthrough\" đề cập tình huống passthrough xảy ra do ping cao.",
+    },
+    {"Timing",
+        "nhom05g",
+        "term",
+        "Timimg đề cập đến việc lựa chọn khoảnh khắc để tấn công với nỗ lực tối ưu. Chọn đúng thời điểm cho phép bạn có thể phòng thủ trong khi đè bẹp đối thủ của bạn. Tuy nhiên, chúng tôi đề nghị những người chơi mới tập trung vào bảng và cải thiện tốc độ trước khi tập trung vào timing."
     },
     {">H|Mis-action",
         "nhom05h misaction misdrop mishold",
@@ -1055,7 +1065,7 @@ Gọi tắt là JS. Nó có một số chế độ chơi đơn với thông số
         "nhom06 io tetrio",
         "game",
         [[
-Chơi trên trình duyệt / Chơi trên client chính thức | Chơi đơn / Chơi trực tuyến
+Chơi trên trình duyệt / client chính thức | Chơi đơn / Chơi trực tuyến
 
 Gọi tắt là tetrio hoặc IO. Trò chơi này có một hệ thống xếp rank cũng như có chế độ tự do với nhiều thông số có thể tùy chỉnh. Trò chơi này cũng có một client dành cho máy tính, giúp cải thiện tốc độ, giảm độ trễ và gỡ bỏ quảng cáo
 
@@ -1087,7 +1097,7 @@ Gọi tắt là WWC. Có chế độ 1 đấu 1 toàn cầu: chơi với ngườ
         "nhom06 tetris friends tf tetrisfriends notrisfoes",
         "game",
         [[
-Chơi trên trình duyệt / Chơi trên client chính thức | Chơi đơn / Chơi trực tuyến
+Chơi trên trình duyệt / client chính thức | Chơi đơn / Chơi trực tuyến
 
 Gọi tắt là TF. Một trò chơi Tetris được viết bằng một ngôn ngữ của plugin đã bị khai tử từ năm 2021. Từng rất phổ biến trong quá khứ, nhưng tất cả trò chơi đã đóng cửa từ mấy năm trước. Hiện giờ vẫn còn một máy chủ riêng tên là \"Notris Foes\". Nhấn vào nút \"Mở link\" để mở ở trong trình duyệt
         ]],
@@ -1450,12 +1460,12 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
     {"ZZZbot",
         "nhom08 ai bot zzztoj",
         "term",
-        "Một bot chơi xếp gạch. Được viết bởi một người chơi Tetris Trung Quốc có tên là 奏之章 (Zòu Zhī Zhāng, xem mục bên dưới) và hoạt động khá tốt trong nhiều game (sau khi điều chỉnh thông số). Bạn cũng có thể sử dụng bot này trên TETR.IO.",
+        "Một bot chơi xếp gạch. Được viết bởi một người chơi Tetris Trung Quốc có tên là 奏之章 (Zòu Zhī Zhāng) và hoạt động khá tốt trong nhiều game (sau khi điều chỉnh các thông số cần thiết).\nBạn cũng có thể sử dụng bot này trên TETR.IO.",
     },
     {"=[NHÓM 09]=",
         "nhom09",
         "name",
-        "NHÓM 09: WIKI; CÁC TRANG WEB BÀY SETUP, CUNG CẤP CÂU ĐỐ & CHIA SẺ SETUP"
+        "NHÓM 09: WIKI; CÁC TRANG WEB BÀY SETUP,\nCUNG CẤP CÂU ĐỐ & CHIA SẺ SETUP"
     },
     {">A|Wiki",
         "nhom09a",
@@ -1792,13 +1802,13 @@ Opener phải đạt 2 trong 4 tiêu chí sau
     {"Perfect Clear Opener",
         "nhom12a opener 7piecepuzzle",
         "setup",
-        "Một Opener làm All Clear có khả năng thành công cao (~84.6% nếu bạn đang giữ I trong ô Hold và ~61.2% nếu không giữ). Trong chế độ PC Training (Luyện tập PC), setup này được sử dụng để tạo ra setup chưa hoàn chỉnh, không tạo ra lỗ.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Một opener làm All Clear có khả năng thành công cao (~84.6% nếu bạn đang giữ I trong ô Hold và ~61.2% nếu không giữ).\n\nTrong chế độ PC Training (Luyện tập PC), setup này được sử dụng để tạo ra setup chưa hoàn chỉnh, không tạo ra lỗ.\n\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=Perfect_Clear_Opener",
     },
     {"Grace System",
         "nhom12a opener gracesystem 1stpc",
         "setup",
-        "Một opener làm PC có khả năng thành công ~88.57%. Lỗ hình vuông 4x4 trong chế độ PC Training cũng dựa trên setup này.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên Four.lol",
+        "Một opener làm PC có khả năng thành công ~88.57%. Lỗ hình vuông 4 × 4 trong chế độ PC Training cũng dựa trên setup này.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên Four.lol",
         "https://four.lol/perfect-clears/grace-system",
     },
     {"DPC",
