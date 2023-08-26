@@ -57,8 +57,7 @@ Có đóng góp? Bạn có thể vào trang dự án Techmino trên GitHub để
         05G. Khả năng tấn công
             — APM, SPM, DPM, RPM, ADPM, APL
             — Tấn công & Phòng thủ
-            — Combo, Spike, Debt, Passthrough
-            — Timing
+            — Combo, Spike, Debt, Passthrough, Timing
 
         05H. Hành động bất cẩn (Mis-): Misdrop, Mishold
         05I. Spin: (Mini) / (All-) / (T-) / (O-) spin; Fin, Neo, Iso; Freestyle
