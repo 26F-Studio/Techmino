@@ -33,6 +33,7 @@ local function resetLock(P)
     P.modeData.rotations=0
     P.holdTime=1
 end
+
 return {
     arr=0,
     mesDisp=function(P)
@@ -47,6 +48,14 @@ return {
     end,
     hook_drop=function(P)
         resetLock(P)
+
+        local C=P.lastPiece
+        if C.row>0 then
+            if not C.special then
+                P:lose()
+                return
+            end
+        end
         if P.stat.atk>=100 then
             P:win('finish')
         end
