@@ -86,6 +86,7 @@ function scene.multipleTouch()     -- Check for every touch keys
     if next(touchList)~=nil then
         for index,id in next,touchList do
             local x,y=touch.getPosition(id)
+            MES.new("error",x.." "..y)
             for i,currentKey in pairs(virtualKeys) do
                 if not (currentKey.name=="keyCtrl" or currentKey.name=="keyShift") then
                     if currentKey:isAbove(x,y) then currentKey:code(); currentKey:update(1) end
@@ -98,7 +99,6 @@ end
 function scene.touchDown()
     scene.multipleTouch()
 end
-scene.touchUp=scene.touchDown
 
 function scene.keyDown(key,isRep)
     if not isRep and keys[key] then
