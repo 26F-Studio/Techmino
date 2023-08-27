@@ -229,7 +229,8 @@ function scene.keyDown(key)
         scene.widgetList.help.color=listBox.selected==0 and COLOR.W or COLOR.Z
         searchWait=0
         _updateInfoBox()
-    -- ***FOR DEBUGGING ONLY***
+
+    -- ***ONLY USE FOR HOTLOADING ZICTIONARY WHILE IN GAME!***
     -- ***Please commenting out this code if you don't use***
     -- elseif key=='f5' then
     --     local _
