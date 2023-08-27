@@ -108,7 +108,7 @@ local function _search()
     local first
     if dict=='vi' then
         local success,input=pcall(function() STRING.lowerUTF8(input) end)
-        if not success then input=inpur:lower() end
+        if not success then input=input:lower() end
     else
         input=input:lower() end
     for i=1,#dict do
@@ -256,7 +256,7 @@ function scene.keyDown(key)
     --     end
     else
         if not inputBoxFocus then WIDGET.focus(inputBox) end
-        return
+        return true
     end
 end
 
