@@ -98,7 +98,7 @@ function scene.multipleTouch()     -- Check for every touch keys
     -- end
 end
 function scene.touchDown(x,y)
-    table.insert(touchPosition,1,{x,y})
+    table.insert(touchPosition,{x,y})
     scene.multipleTouch()
 end
 function scene.touchUp(x,y)
