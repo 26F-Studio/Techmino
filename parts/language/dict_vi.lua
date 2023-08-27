@@ -4,7 +4,7 @@ return {
     {
         "=[NHÓM 01]=",
         "nhom01 giới thiệu bản dịch",
-        "name",
+        "",
         [[
 NHÓM 01: VỀ ZICTIONARY & BẢN DỊCH
 
@@ -31,7 +31,7 @@ Có đóng góp? Bạn có thể vào trang dự án Techmino trên GitHub để
 03. Ủng hộ cho tác giả của Techmino
 04. Mẹo và lời khuyên hữu ích:
         — Lời khuyên dành cho những người mới tập chơi
-        — Đề xuất luyện tập, Học làm T-spin, Hiệu chỉnh DAS
+        — Đề xuất luyện tập, Học làm T-spin, Điều chỉnh DAS
         — Bố cục phím, Khả năng xử lý gạch, Các nút xoay
 
 05. Các yếu tố cần thiết của các game xếp gạch hiện đại:
@@ -47,9 +47,7 @@ Có đóng góp? Bạn có thể vào trang dự án Techmino trên GitHub để
                 — Tốc độ rơi, 20G
                 — ARE, Line ARE, Death ARE
                 — Lockdown Delay, Spawn & Clear delay
-            05E2. Thông số điều khiển:
-                — DAS & ARR, DAS cut, Hiệu chỉnh DAS
-                — Auto-lock cut, SDF
+            05E2. Thông số điều khiển: DAS & ARR, DAS cut, Auto-lock cut, SDF
         05F. Điều khiển
             05F1. Tốc độ: LPM, PPS, BPM, KPM, KPP
             05F2. Kỹ thuật: Hypertapping, Rolling, Finesse
@@ -77,15 +75,9 @@ Có đóng góp? Bạn có thể vào trang dự án Techmino trên GitHub để
 
 09. Wiki; các trang web bày setup & cung cấp câu đố, chia sẻ setup
         09A. Wiki: Huiji Wiki, Wiki Hard Drop, tetris.wiki, Tetris Wiki Fandom
-        09B. Bày setup:
-            — Four.lol
-            — Tetris Hall
-            — Tetris Template Collections
-            — tetristemplate.info
-            — 4-Wide Trainer
+        09B. Bày setup: Four.lol, Tetris Hall, Tetris Template Collections, tetristemplate.info, 4-Wide Trainer
         09C. Chia sẻ câu đố: TTT, TTPC, NAZO, TPO
         09D. Chia sẻ setup: Fumen, Fumen bản Điện thoại
-
 10. Cộng đồng: Tetris Online Servers, Tetris Việt Nam
 
 11. Xếp lên và đào xuống
@@ -112,7 +104,7 @@ Có đóng góp? Bạn có thể vào trang dự án Techmino trên GitHub để
     },
     {"=[NHÓM 02]=",
         "nhom02",
-        "name",
+        "",
         "NHÓM 02: DỰ ÁN TECHMINO",
     },
     {"Website chính thức",
@@ -140,11 +132,11 @@ Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đ
     },
     not FNNS and {"=[NHÓM 03]=",
         "nhom03",
-        "name",
+        "",
         "NHÓM 03: ỦNG HỘ CHO TÁC GIẢ CỦA TECHMINO",
     } or {"=[NHÓM 03]=",
         "nhom03",
-        "name",
+        "",
         "Nội dung của nhóm này đã bị ẩn đi do yêu cầu của nền tảng. Nhưng bạn vẫn có thể hỏi về nội dung này trong server Discord của chúng tôi."
         },
     not FNNS and {"Ủng hộ 1",
@@ -166,7 +158,7 @@ Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đ
     } or {"*ĐÃ ẨN*", "", "org", ""},
     {"=[NHÓM 04]=",
         "nhom04",
-        "name",
+        "",
         "NHÓM 04: MẸO & LỜI KHUYÊN HỮU ÍCH"
     },
     {"Mới tập chơi?",
@@ -268,7 +260,7 @@ Những yếu tố ảnh hưởng tới việc xử lý gạch của bạn:
     },
     {"=[NHÓM 05]=",
         "nhom05",
-        "name",
+        "",
         [[
 NHÓM 05: CÁC YẾU TỐ CẦN THIẾT CỦA CÁC GAME XẾP GẠCH HIỆN ĐẠI
 
@@ -347,7 +339,7 @@ Tuy nhiên, tùy từng game mà chúng sẽ có phản ứng khác nhau. Ví d�
     },
     {">A|Gạch",
         "nhom05a",
-        "name",
+        "",
         "Bạn có biết? Có 29 gạch có thể chơi được trong game này!\n1 Mino | 1 Domino | 2 Trimino | 7 Tetromino | 18 Pentomino\n\nMino: gạch 1 ô\nDomino: gạch 2 ô\nTrimino: gạch 3 ô\nTetromino: gạch 4 ô\nPentomino: gạch 5 ô\n\nHexomino có tồn tại đấy nhưng khi nào chúng xuất hiện trong game?",
     },
     {"H.dạng của Tetro.",
@@ -383,7 +375,7 @@ Ví dụ:
     },
     {">B|Hệ thống xoay",
         "nhom05b",
-        "name",
+        "",
         [[
 Một hệ thống để xác định cách gạch xoay.
 
@@ -478,7 +470,7 @@ So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một wall-kick table; nhưng
     },
     {">C|Hệ thg đ.khiển",
         "nhom05c",
-        "name",
+        "",
         "NHÓM 5C: HỆ THỐNG ĐIỀU KHIỂN"
     },
     {"IRS",
@@ -501,7 +493,7 @@ So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một wall-kick table; nhưng
     },
     {">D|Các kiểu xáo",
         "nhom05d",
-        "name",
+        "",
         ""
     },
     {"Kiểu xáo Túi 7",
@@ -600,12 +592,12 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
     },
     {">E|Thông số",
         "nhom05e",
-        "name",
+        "",
         ""
     },
     {">E1|Thg số game",
         "nhom05e1",
-        "name",
+        "",
         "NHÓM 5E1: THÔNG SỐ GAME"
     },
     {"Tốc độ rơi",
@@ -662,7 +654,7 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
     },
     {">E2|Thg số đ.khiển",
         "nhom05e2",
-        "name",
+        "",
         "NHÓM 5E2: THÔNG SỐ ĐIỀU KHIỂN"
     },
     {"DAS (đơn giản)",
@@ -697,12 +689,12 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
     },
     {">F|Điều khiển",
         "nhom05f",
-        "name",
+        "",
         "",
     },
     {">F1|Tốc độ đ.khiển",
         "nhom05f1",
-        "name",
+        "",
         "NHÓM 5F1: TỐC ĐỘ ĐIỀU KHIỂN",
     },
     {"LPM",
@@ -737,7 +729,7 @@ Mỗi game có cách tính LPM khác nhau. Ví dụ như, Tetris Online tính LP
     },
     {">F2|K.th. đ.khiển",
         "nhom05f2",
-        "name",
+        "",
         "NHÓM 5F2: KỸ THUẬT ĐIỀU KHIỂN",
     },
     {"Finesse",
@@ -778,12 +770,12 @@ Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish —
     },
     {">F3|Độ trễ input",
         "nhom05f3 input delay",
-        "name",
+        "",
         "Độ trễ đầu vào\n\nBất kỳ thiết bị đầu vào cũng cần một khoảng thời gian để tín hiệu có thể tới game, không cao thì thấp, từ mấy ms đến cả trăm ms.\n\nNếu độ trễ đầu vào quá cao, thì việc điều khiển sẽ không thoải mái.\n\nĐộ trễ này thường do phần cứng và phần mềm, thứ mà bạn gần như không kiểm soát được. Hiệu ứng này dễ thấy nhất ở trong các game như Tetris Online hay Tetris Effect.\n\nBật chế độ Hiệu suất cao (Performance mode) hoặc tắt chế độ tiết kiệm năng lượng (Energy saving), đồng thời bật chế độ Gaming trên màn hình máy tính / TV, có thể giúp giảm độ trễ.",
     },
     {">G|K.năng t.công",
         "nhom05g",
-        "name",
+        "",
         "NHÓM 5G: KHẢ NĂNG TẤN CÔNG"
     },
     {"APM",
@@ -859,12 +851,12 @@ Trong hầu hết các game, tỉ lệ phản công rác thường là 1:1.
     },
     {">H|Mis-action",
         "nhom05h misaction misdrop mishold",
-        "name",
+        "",
         "Misdrop: Vô tình thả rơi / đặt gạch vào nơi không mong muốn.\nMishold: Vô tình nhấn nhầm phím Hold. Việc này có thể dẫn đến việc dùng một viên gạch không mong muốn.\n\nCả misdrop và mishold có thể làm bạn mất cơ hội để làm PC"
     },
     {">I|Spin",
         "nhom05i",
-        "name",
+        "",
         "(Ở trong một số game)\n\nXoay gạch để di chuyển tới một vị trí mà bình thường sẽ không tiếp cận được. Ở một số game, thao tác này sẽ gửi thêm hàng rác hoặc là tăng thêm điểm. Mỗi game sẽ có cách kiểm tra Spin khác nhau."
     },
     {"Mini",
@@ -907,7 +899,7 @@ Ngoài quy tắc đó ra thì còn có một số quy tắc để phát hiện T
 
     {">J|K.th. xóa hàng",
         "nhom05j",
-        "name",
+        "",
         "NHÓM 5J: KỸ THUẬT XÓA HÀNG"
     },
     {"Xóa 1 / 2 / 3 hàng",
@@ -963,7 +955,7 @@ Ngoài quy tắc đó ra thì còn có một số quy tắc để phát hiện T
     },
     {">K|T.ngữ khác",
         "nhom05k",
-        "name",
+        "",
         "NHÓM 5L: CÁC THUẬT NGỮ KHÁC"
     },
     {"sub",
@@ -993,7 +985,7 @@ Cũng trong Techmino nhưng ở tiếng Việt, từ "gạch []" được dùng 
     },
     {"=[NHÓM 06]=",
         "nhom06",
-        "name",
+        "",
         [[
 NHÓM 06: CÁC GAME XẾP GẠCH
 
@@ -1415,7 +1407,7 @@ Một game xếp gạch ở trên Tencent Game Center — một nền tảng ch�
     },
     {"=[NHÓM 07]=",
         "nhom07",
-        "name",
+        "",
         [[
 NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
         ]]
@@ -1448,7 +1440,7 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
     },
     {"=[NHÓM 08]=",
         "nhom08",
-        "name",
+        "",
         "NHÓM 08: BOT"
     },
     {"Cold Clear",
@@ -1463,12 +1455,12 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
     },
     {"=[NHÓM 09]=",
         "nhom09",
-        "name",
+        "",
         "NHÓM 09: WIKI; CÁC TRANG WEB BÀY SETUP,\nCUNG CẤP CÂU ĐỐ & CHIA SẺ SETUP"
     },
     {">A|Wiki",
         "nhom09a",
-        "name",
+        "",
         ""
     },
     {"Huiji Wiki",
@@ -1497,7 +1489,7 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
     },
     {">B|Câu đố",
         "nhom09b",
-        "name",
+        "",
         "NHÓM 09B: CÁC TRANG WEB CUNG CẤP CÂU ĐỐ"
     },
     {"TTT",
@@ -1547,7 +1539,7 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
     },
     {">C|Setup",
         "nhom09c",
-        "name",
+        "",
         "NHÓM 09C: CÁC TRANG WEB BÀY SETUP"
     },
     {"Four.lol",
@@ -1576,7 +1568,7 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
     },
     {">D|Chia sẻ setup",
         "nhom09d",
-        "name",
+        "",
         "NHÓM 09D: CÁC TRANG WEB CHIA SẺ SETUP"
     },
     {"Fumen",
@@ -1593,7 +1585,7 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
     },
     {"=[NHÓM 10]=",
         "nhom10",
-        "name",
+        "",
         "NHÓM 10: CỘNG ĐỒNG"
     },
     {"Tetris OL Servers",
@@ -1615,12 +1607,12 @@ Nhấn nút "Mở link" để vào server Discord, còn nếu muốn vào nhóm 
     },
     {"=[NHÓM 11]=",
         "nhom11",
-        "name",
+        "",
         "NHÓM 11: XẾP LÊN VÀ ĐÀO XUỐNG"
     },
     {"A|Stacking",
         "nhom11a",
-        "name",
+        "",
         "NHÓM 11A: STACKING (XẾP LÊN)\n\nDùng để chỉ việc xếp các gạch làm sao mà không để lại một cái lỗ.\nĐây là kỹ năng càn thiết yêu càu khả năng tận dụng Next.\nBạn có thể cải thiện kỹ năng này bằng cách luyện tập 40L với 0 HOLD",
     },
     {"Side well",
@@ -1690,17 +1682,17 @@ Nhấn nút "Mở link" để vào server Discord, còn nếu muốn vào nhóm 
     },
     {">B|Digging",
         "nhom11b",
-        "name",
+        "",
         "Digging (Đào xuống))\nCòn được biết tới với tên là Downstacking\n\nDọn hàng rác để tiếp xúc đáy bảng.",
     },
     {"=[NHÓM 12]=",
         "nhom12",
-        "name",
+        "",
         "NHÓM 12: Setup (Opener, Mid-game setup, Donation)"
     },
     {">A|Opener",
         "nhom12a opener",
-        "name",
+        "",
         [[
 NHÓM 12A: OPENER
 Opener thường là các setup thường dùng ở đầu trận. Bạn vẫn có thể làm những setup này giữa trận, nhưng thường sẽ yêu cầu một tập hợp các vị trí gạch khác nhau.
@@ -1824,7 +1816,7 @@ Opener phải đạt 2 trong 4 tiêu chí sau
     },
     {">B|Mid-game",
         "nhom12b midgame mid-game",
-        "name",
+        "",
         "NHÓM 12B: MID-GAME SETUP\n\nChỉ những setup cho phép gửi nhiều rác giữa trận. Một số có thể dùng làm opener, nhưng hầu như chúng không cần thiết.",
     },
     {"C-spin",
@@ -1877,7 +1869,7 @@ Opener phải đạt 2 trong 4 tiêu chí sau
     },
     {">C|Donation",
         "nhom12c donation pattern",
-        "name",
+        "",
         "NHÓM 12D: DONATION\n\nBiến một hố hoặc một cái giếng (ban đầu được tính để làm Tetris) thành setup T-spin bằng cách \"cắm thêm gạch vào\". Sau khi làm T-spin, hố đó sẽ được mở ra để cho phép bạn làm Tetris hoặc làm donation khác. \"Cắm thêm gạch\" vào hố hoặc giếng vốn không được tính để làm Tetris thì vẫn có thể gọi là \"donation\" như thường.",
     },
     {"STMB Cave",
@@ -1911,7 +1903,7 @@ Opener phải đạt 2 trong 4 tiêu chí sau
     },
     {"=[NHÓM 13]=",
         "nhom13",
-        "name",
+        "",
         "NHÓM 13: CÁCH TÍNH TẤN CÔNG"
     },
     {"Tetris OL attack",
@@ -1935,7 +1927,7 @@ All Clear gửi thêm 6 hàng rác. Nhưng 6 hàng rác này sẽ gửi thẳng 
     },
     {"=[NHÓM 14]=",
         "nhom14",
-        "name",
+        "",
         "NHÓM 14: CONSOLE VÀ CHUYỆN QUẢN LÝ DỮ LIỆU GAME"
     },
     {"Console",
@@ -1980,7 +1972,7 @@ All Clear gửi thêm 6 hàng rác. Nhưng 6 hàng rác này sẽ gửi thẳng 
     },
     {"=[NHÓM 15]=",
         "nhom15",
-        "name",
+        "",
         "NHÓM 15: CÁC THUẬT NGỮ KHÔNG LIÊN QUAN TỚI TETRIS (TIẾNG ANH)"
     },
     {"SFX",
@@ -2002,16 +1994,5 @@ All Clear gửi thêm 6 hàng rác. Nhưng 6 hàng rác này sẽ gửi thẳng 
         "nhom15",
         "english",
         "Từ viết tắt của \"Away From Keyboard\" nghĩa là hiện đang nghỉ ngơi / làm việc khác VÀ không đụng game.\nNghỉ giải lao thường xuyên giúp bạn giảm căng cơ và giúp bạn chơi tốt hơn khi quay trở lại.",
-    },
-    {"osk",
-        "nhom15",
-        "english",
-        [[
-Có 2 nghĩa:
-    — "On screen keyboard" — một phần mềm cung cấp bàn phím ảo trên màn hình được đi kèm trong đa số các hệ điều hành. Trong Windows, có thể mở bàn phím ảo tại "C:\Windows\System32\osk.exe"
-    — Tác giả của game TETR.IO
-    
-Nghĩa của từ này sẽ thay đổi tùy trường hợp. Tuy nhiên hãy ưu tiên nghĩa đầu tiên nếu bàn phím của bạn… có vài phím bị kẹt hoặc hỏng và không thể nhấn được nữa.
-        ]],
     },
 }
