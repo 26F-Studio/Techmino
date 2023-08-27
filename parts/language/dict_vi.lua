@@ -894,7 +894,7 @@ Trong hầu hết các game, tỉ lệ phản công rác thường là 1:1.
     {"TSS, TSD, TST",
         "nhom05j t1 tspinsingle T-spin Đơn t2 tspindouble T-spn Đôi t3 tspintriple T-spin Tam",
         "term",
-        "T-spin Single   (TSS) | T-spin Đơn — Xóa một hàng bằng T-spin\nT-spin Double (TSD) | T-spin Đôi — Xóa hai hàng bằng T-spin\nT-spin Triple    (TST) | T-spin Tam — Xóa ba hàng bằng T-spin."
+        "T-spin Single (TSS) | T-spin Đơn\n\tXóa một hàng bằng T-spin.\n\nT-spin Double (TSD) | T-spin Đôi\n\tXóa hai hàng bằng T-spin.\n\nT-spin Triple (TST) | T-spin Tam\n\tXóa ba hàng bằng T-spin."
     },
     {"MTSS",
         "nhom05j mintspinsingle tsms tspinminisingle Mini T-spin Đơn",
@@ -1656,7 +1656,7 @@ Nhấn nút "Mở link" để vào server Discord, còn nếu muốn vào nhóm 
     {">B|Digging",
         "nhom11b",
         "",
-        "Digging (Đào xuống))\nCòn được biết tới với tên là Downstacking\n\nDọn hàng rác để tiếp xúc đáy bảng.",
+        "Digging (Đào xuống)\nCòn được biết tới với tên là Downstacking\n\nDọn hàng rác để tiếp xúc đáy bảng.",
     },
     {"=[NHÓM 12]=",
         "nhom12",
@@ -1843,7 +1843,7 @@ Opener phải đạt 2 trong 4 tiêu chí sau
     {">C|Donation",
         "nhom12c donation pattern",
         "",
-        "NHÓM 12D: DONATION\n\nBiến một hố hoặc một cái giếng (ban đầu được tính để làm Tetris) thành setup T-spin bằng cách \"cắm thêm gạch vào\". Sau khi làm T-spin, hố đó sẽ được mở ra để cho phép bạn làm Tetris hoặc làm donation khác. \"Cắm thêm gạch\" vào hố hoặc giếng vốn không được tính để làm Tetris thì vẫn có thể gọi là \"donation\" như thường.",
+        "NHÓM 12C: DONATION\n\nBiến một hố hoặc một cái giếng (ban đầu được tính để làm Tetris) thành setup T-spin bằng cách \"cắm thêm gạch vào\". Sau khi làm T-spin, hố đó sẽ được mở ra để cho phép bạn làm Tetris hoặc làm donation khác. \"Cắm thêm gạch\" vào hố hoặc giếng vốn không được tính để làm Tetris thì vẫn có thể gọi là \"donation\" như thường.",
     },
     {"STMB Cave",
         "nhom12c donation pattern stmb",
