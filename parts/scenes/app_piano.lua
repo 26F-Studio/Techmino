@@ -96,7 +96,6 @@ function scene.multipleTouch()     -- Check for every touch keys
             elseif virtualKeys.keyShift:isAbove(x,y) then _holdingShift() end
         end
     end
-    if not flattt and not sharpt then _notHoldCS() end
 end
 function scene.touchDown(x,y)
     table.insert(touchPosition,1,{x,y})
@@ -104,6 +103,7 @@ end
 function scene.touchUp(x,y)
     local pos={x,y}
     table.remove(touchPosition,TABLE.find(touchPosition,pos))
+    if not flattt and not sharpt then _notHoldCS() end
 end
 
 function scene.keyDown(key,isRep)
