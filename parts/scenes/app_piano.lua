@@ -17,7 +17,7 @@ local tempoffset=0
 local showingKey
 local sharpt,flattt=false,false
 local virtualKeys={}   -- Virtual key set is near the end of the file.
-local touchPosition={}
+-- local touchPosition={}
 
 local scene={}
 
@@ -83,26 +83,26 @@ function scene.mouseDown(x,y,_)
     end
 end
 function scene.multipleTouch()     -- Check for every touch keys
-    if next(touchPosition) then
-        for _,pos in pairs(touchPosition) do
-            local x,y=pos[1],pos[2]
-            for i,currentKey in pairs(virtualKeys) do
-                if not (currentKey.name=="keyCtrl" or currentKey.name=="keyShift") then
-                    if currentKey:isAbove(x,y) then currentKey:code(); currentKey:update(1) end
+    function scene.multipleTouch()     -- Check for every touch keys
+        local touchList=touch.getTouches()
+        if next(touchList)~=nil then
+            for index,id in next,touchList do
+                local x,y=touch.getPosition(id)
+                for i,currentKey in pairs(virtualKeys) do
+                    if not (currentKey.name=="keyCtrl" or currentKey.name=="keyShift") then
+                        if currentKey:isAbove(x,y) then currentKey:code(); currentKey:update(1) end
+                    end
                 end
             end
-            if     virtualKeys.keyCtrl :isAbove(x,y) then _holdingCtrl()
-            elseif virtualKeys.keyShift:isAbove(x,y) then _holdingShift() end
         end
     end
 end
 function scene.touchDown(x,y)
-    table.insert(touchPosition,1,{x,y})
+    -- table.insert(touchPosition,1,{x,y})
 end
 function scene.touchUp(x,y)
-    local pos={x,y}
-    MES.new('',TABLE.find(touchPosition,pos))
-    table.remove(touchPosition,TABLE.find(touchPosition,pos))
+    -- local pos={x,y}
+    -- table.remove(touchPosition,TABLE.find(touchPosition,pos))
     if not flattt and not sharpt then _notHoldCS() end
 end
 
