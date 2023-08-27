@@ -84,18 +84,16 @@ function scene.mouseDown(x,y,_)
 end
 function scene.multipleTouch()     -- Check for every touch keys
     _notHoldCS()
-    -- if next(touchPosition) then
-        for _,pos in pairs(touchPosition) do
-            local x,y=pos[1],pos[2]
-            for i,currentKey in pairs(virtualKeys) do
-                if not (currentKey.name=="keyCtrl" or currentKey.name=="keyShift") then
-                    if currentKey:isAbove(x,y) then currentKey:code(); currentKey:update(1) end
-                end
+    for _,pos in pairs(touchPosition) do
+        local x,y=pos[1],pos[2]
+        for i,currentKey in pairs(virtualKeys) do
+            if not (currentKey.name=="keyCtrl" or currentKey.name=="keyShift") then
+                if currentKey:isAbove(x,y) then currentKey:code(); currentKey:update(1) end
             end
-            if     virtualKeys.keyCtrl :isAbove(x,y) then _holdingCtrl()
-            elseif virtualKeys.keyShift:isAbove(x,y) then _holdingShift() end
         end
-    -- end
+        if     virtualKeys.keyCtrl :isAbove(x,y) then _holdingCtrl()
+        elseif virtualKeys.keyShift:isAbove(x,y) then _holdingShift() end
+    end
 end
 function scene.touchDown(x,y)
     table.insert(touchPosition,{x,y})
