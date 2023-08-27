@@ -220,10 +220,10 @@ Khuyến nghị: Nên làm chủ được các kỹ năng cơ bản.
 Lời khuyên của chúng tôi: chỉ nên bắt đầu học làm T-spin khi bạn có thể xóa 40 hàng với ≤ 60s / 40-120s (tùy khả năng), 40 hàng chỉ dùng Tetris, 40 hàng chỉ dùng Tetris + không Hold. Tất cả mà không làm bạn bị tụt tốc độ quá nhiều (phát triển khả năng đọc NEXT và suy nghĩ đủ kỹ trước khi thả rơi gạch.)
         ]],
     },
-    {"Hiệu chỉnh DAS",
-        "nhom04 das tuning",
+    {"Điều chỉnh DAS",
+        "nhom05e2 das tuning",
         "help",
-        "Với những người chơi nâng cao mà muốn chơi nhanh hơn, có thể đặt DAS thành 4-6 f (67-100 ms) và ARR thành 0 f (0 ms); đây là hai giá trị khuyên dùng. (Ở ARR 0ms, các viên gạch sẽ ngay lập tức bay vào tường khi bạn vượt qua DAS.)\n\nĐây là cấu hình lý tưởng cho người nâng cao, với chiến lược là cắt giảm DAS trong khi vẫn có thể kiểm soát được gạch một cách tin cậy mặc dù ARR bằng 0 nếu có thể hoặc càng thấp càng tốt.",
+        "Với những người chơi nâng cao mà muốn chơi nhanh hơn, có thể điều chỉnh DAS thành 4-6 f (67-100 ms) và ARR 0 f (0 ms, các viên gạch sẽ ngay lập tức dính vào tường khi bạn vừa vượt qua DAS); đây là hai giá trị khuyên dùng.\n\nNếu bạn thấy khó điều khiển, thử tăng DAS lên 1-2 f, nhưng hãy giữ ARR bé hơn 2 f (33 ms).\nTóm lại, DAS nên để thấp nhất có thể nhng vẫn phải đảm bảo được game có thể phân biệt được bạn đang nhấn hay giữ phím trong khi ARR để ở mức thấp nhất (nếu không để thành 0).",
     },
     {"Bố cục phím",
         "nhom04 feel",
@@ -288,7 +288,7 @@ Dưới đây là các yếu tố chính:
     {"Hold (Giữ)",
         "nhom05 hold",
         "term",
-        "Một chức năng cho phép cất gạch đang rơi khi thấy không cần thiết (nếu chưa có gạch nào trong HOLD) hoặc đổi gạch hiện tại với gạch trong HOLD\nBình thường, Hold chỉ có thể được sử dụng 1 lần cho mỗi viên gạch.\n\nTrên thực tế, việc dùng Hold hay không cũng có điểm lợi riêng của nó.\nNếu sử dụng Hold:\n\t— Có thể giảm khối lượng công việc đè lên người chơi\n\t— Đồng thời có thể giảm số phím / nút cần nhấn trong game → có thể tăng KPS lên.\nTrên thực tế, đã có nhiều kỷ lục 40L được xác lập mà không cần Hold.\n\nNếu dùng Hold:\n\t— Hold có thể có ích trong nhiều trường hợp khác nhau (ví dụ như khi đang chơi ở tốc độ rơi cao)\n\t— Cho phép người chơi có thể làm được nhiều setup phức tạp hơn mà không làm tăng quá nhiều khối lượng công việc\n\t— Giúp giảm số lần nhấn phím.\n\n"
+        "Một chức năng cho phép cất gạch đang rơi khi chưa cần cái đó (nếu chưa có gạch nào trong HOLD) hoặc đổi gạch hiện tại với gạch trong HOLD\nBình thường, Hold chỉ có thể được sử dụng 1 lần cho mỗi viên gạch.\n\nTrên thực tế, việc dùng Hold hay không cũng có điểm lợi riêng của nó.\nNếu sử dụng Hold:\n\t— Có thể giảm khối lượng công việc đè lên người chơi\n\t— Đồng thời có thể giảm số phím / nút cần nhấn trong game → có thể tăng KPS lên.\nTrên thực tế, đã có nhiều kỷ lục 40L được xác lập mà không cần Hold.\n\nNếu dùng Hold:\n\t— Hold có thể có ích trong nhiều trường hợp khác nhau (ví dụ như khi đang chơi ở tốc độ rơi cao)\n\t— Cho phép người chơi có thể làm được nhiều setup phức tạp hơn mà không làm tăng quá nhiều khối lượng công việc\n\t— Giúp giảm số lần nhấn phím.\n\n"
         -- .."Ở một diễn biến khác…\n\tAnother Soul: \"I'm pretty ok with both using Hold and not using it. Just not using it makes the game more difficult, and you more vulnerable towards piece dependencies.\"\n\t(Tôi khá là ok giữa việc dùng Hold hay không. Nó chỉ làm cho game khó hơn và bạn dễ bị phụ thuộc vào gạch hơn thôi.)",
     },
     {"In-place Hold",
@@ -345,7 +345,7 @@ Tuy nhiên, tùy từng game mà chúng sẽ có phản ứng khác nhau. Ví d�
     {"H.dạng của Tetro.",
         "nhom05a hình dạng của tetro. hình dạng của tetromino"..tetromino,
         "term",
-        "Trong đa số các game xếp gạch chuẩn, tất cả gạch đều là Tetromino — gạch được liên kết bởi 4 ô, bám dính vào mặt chứ không bám vào góc.\n\nCó 7 loại Tetromino, (nếu ta cho phép xoay nhưng không được lật ngang hay dọc) gồm: Z, S, J, L, T, O, và I. Hãy xem mục \"Gạch & tên tương ứng\" để có thêm thông tin.",
+        "Trong đa số các game xếp gạch chuẩn, tất cả gạch đều là Tetromino — gạch được liên kết bởi 4 ô, bám dính vào mặt chứ không bám vào góc.\n\nCó 7 loại Tetromino, (nếu cho phép xoay nhưng không được lật ngang hay dọc) gồm: Z, S, J, L, T, O, và I. Hãy xem mục \"Gạch & tên tương ứng\" để có thêm thông tin.",
     },
     {"Màu của Tetromino",
         "nhom05a màu"..tetromino,
@@ -361,7 +361,7 @@ Tuy nhiên, tùy từng game mà chúng sẽ có phản ứng khác nhau. Ví d�
         "nhom05a 0r2l 02 20 rl lr"..tetromino,
         "term",
         [[
-Trong hệ thống xoay SRS và các biến thể của SRS, có một hệ thống tiêu chuẩn sử dụng số và chữ cái để mô tả hướng của các gạch được chấp nhận rộng rãi (kể cả không theo tiêu chuẩn của SRS):
+Trong hệ thống xoay SRS và các biến thể của SRS, có một hệ thống tiêu chuẩn sử dụng số và chữ cái để mô tả hướng của gạch được chấp nhận rộng rãi (kể cả không theo tiêu chuẩn của SRS):
     0: Hướng mặc định của hệ thống xoay
     R: Xoay phải, góc 90° theo chiều kim đồng hồ
     L: Xoay trái, góc 90° theo ngược chiều kim đồng hồ
@@ -477,9 +477,6 @@ So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một wall-kick table; nhưng
         "nhom05c initialrotationsystem",
         "term",
         "Initial Rotation System\nCho phép bạn giữ phím xoay trong khoảng thời gian spawn delay để gạch xoay sẵn lúc xuất hiện. Có thể giúp bạn thoát chết trong một vài tình huống."
-        -- Stupid joke moment
-        -- Hello is this 113? I just caught ameagarain is evading $50 million in taxes in red hands!
-        .."\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAlo 113 hả? Tôi vừa bắt quả tang thằng ameagarain nó trốn thuế 50 triệu đô kìa!",
     },
     {"IHS",
         "nhom05c initialholdsystem",
@@ -504,7 +501,7 @@ Tên gọi chính thức là "Random Generator" (Trình xáo gạch ngẫu nhiê
 
 Đây là kiểu xáo hay được sử dụng bởi đa số các xếp gạch hiện đại.
 
-Chuỗi gạch sẽ được chia thành các nhóm (túi). Mỗi túi gạch phải có dủ 7 Tetrominoes nhưng trình tự thì ngẫu nhiên.
+Chuỗi gạch sẽ được chia thành các nhóm (túi). Mỗi túi gạch đều có dủ 7 Tetromino nhưng trình tự thì ngẫu nhiên.
 Kiểu xáo này cho phép ngăn chặn tình trạng sự xuất hiện không đồng đều của các viên gạch.
 Một vài ví dụ về chuỗi gạch: ZSJLTOI, OTSLZIJ, LTISZOJ.
         ]],
@@ -558,16 +555,17 @@ Kiểu xáo này giúp ổn định chuỗi gạch và đảm bảo rằng flood
 [Sea: Phần này không có trong Zictionary ngôn ngữ khác!
 Cách hoạt động của kiểu xáo HisPool diễn ra tuần tự như sau:
 
-Đầu tiên, lấy một viên gạch ngẫu nhiên trong cái Rổ. Nếu gạch đó là một trong những gạch đã bốc ra trước đó thì bốc lại cho tới khi gạch đó không còn là một trong những viên gạch kia, hoặc là hết lượt bốc lại.
-Gạch được bốc trúng sẽ được lấy ra khỏi Rổ. Với các gạch khác, mỗi viên gạch sẽ bị cộng 1 lần vào số lần chưa xuất hiện của chúng.
+Bước 1: Lấy một viên gạch ngẫu nhiên trong cái Rổ.
+    — Nếu gạch đó là một trong những gạch đã bốc ra trước đó: bốc lại cho tới khi gạch đó không còn là một trong những viên gạch kia, hoặc là hết lượt bốc lại.
 
-Vấn đề là, chiếc Rổ lúc này chỉ còn 34 gạch, nhưng yêu cầu đặt ra là chiếc Rổ phải có 35 gạch trong toàn bộ thời gian.
-Bây giờ phải kiếm thêm gạch từ đâu ra?
+Bước 2: Gạch được bốc trúng sẽ được lấy ra khỏi Rổ.
+    — Với mỗi gạch còn lại, cộng 1 vào số lần chưa bốc trúng.
+    — Rổ lúc này còn 34 gạch.
 
-Câu trả lời là: lấy gạch có *số lần chưa xuất hiện nhiều nhất* để thêm ngược lại Rổ.
+Bước 3: Thêm gạch có số lần chưa bốc trúng nhiều nhất vào lại rổ để đảm bảo số lượng là 35 gạch.
+    — Sau khi gạch đó đã thêm vào Rổ, số lần chưa bốc trúng của nó sẽ bị đặt lại về 0
 
-Sau khi gạch đó đã thêm vào Rổ, số lần chưa xuất hiện của nó sẽ bị đặt lại về 0
-Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu tiên.
+Bước 4: Thêm gạch vào chuỗi NEXT và quay về Bước 1.
         ]],
     },
     {"Kiểu xáo bagES",
@@ -578,12 +576,12 @@ Cuối cùng là thêm gạch vào chuỗi NEXT và quay về bước đầu ti�
     {"Kiểu xáo Reverb",
         "nhom05d kiểu xáo reverb",
         "term",
-        "*Chỉ có trên Techmino*\nMột biến thể của kiểu xáo Túi. \n\nKiểu xáo Reverb sẽ lặp ngẫu nhiên một vài gạch từ kiểu xáo Túi. Xác suất suất lặp lại gạch giảm nếu gạch đã xuất hiện và ngược lại\nSố lần lặp lại trên lý thuyết nằm từ 0 tới 6",
+        "*Chỉ có trên Techmino*\nMột biến thể của kiểu xáo Túi. \n\nKiểu xáo Reverb sẽ lặp ngẫu nhiên một vài gạch từ kiểu xáo Túi. Xác suất lặp lại gạch giảm nếu gạch đã xuất hiện và ngược lại\nSố lần lặp lại trên lý thuyết nằm từ 0 tới 6",
     },
     {"Kiểu xáo C2",
         "nhom05d cultris2generator cultrisiigenerator c2generator",
         "term",
-        "Đây là kiểu xáo được dùng trong Cultris II với cách hoạt động như sau:\n\t— Bước 1. Ban đầu toàn bộ Tetromino sẽ có trọng số (\"weight\") là 0.\n\t— Bước 2. Cứ sau mỗi lần xáo gạch, toàn bộ trọng số của các gạch sẽ bị chia hết cho 2, và được cộng một số thực ngẫu nhiên từ 0 tới 1.\n\t— Bước 3. Gạch có trọng số cao nhất, và sau đó trọng số của nó sẽ bị chia cho 3.5.\n\t— Bước 4: Về Bước 2 và tiếp tục lặp lại",
+        "Đây là kiểu xáo được dùng trong Cultris II với cách hoạt động như sau:\n\nBước 1. Ban đầu toàn bộ Tetromino sẽ có trọng số (\"weight\") là 0.\n\nBước 2. Cứ sau mỗi lần xáo gạch, toàn bộ trọng số của các gạch sẽ bị chia hết cho 2, và được cộng một số thực ngẫu nhiên từ 0 tới 1.\n\nBước 3. Gạch có trọng số cao nhất, và sau đó trọng số của nó sẽ bị chia cho 3.5.\n\nBước 4: Về Bước 2 và tiếp tục lặp lại",
     },
     {"Drought",
         "drought",
@@ -657,20 +655,15 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
         "",
         "NHÓM 5E2: THÔNG SỐ ĐIỀU KHIỂN"
     },
-    {"DAS (đơn giản)",
+    {"DAS&ARR (dễ hiểu)",
         "nhom05e2 das delayedautoshift",
         "term",
-        "Tưởng tượng bạn đang gõ chữ, và bạn nhấn giữ phím \"O\". \nVà bạn sẽ nhận được một chuỗi toàn là o.\nỞ trên thanh thời gian thì nó trông như thế này: o—————o-o-o-o-o-o-o-o-o…\n\"—————\" là DAS, còn \"-\" là ARR.",
+        "Tưởng tượng bạn đang gõ chữ, và bạn nhấn giữ phím \"O\".\nVà bạn sẽ nhận được một chuỗi toàn là o.\n\nỞ trên thanh thời gian thì nó trông như thế này: o—————o-o-o-o-o-o-o-o-o…\n\"—————\" là DAS, còn \"-\" là ARR.",
     },
     {"DAS & ARR",
         "nhom05e2 das và arr delayedautoshift autorepeatrate",
         "term",
         "DAS, hay Delayed Auto-shift, chỉ khoảng thời gian sau khi gạch di chuyển sang một hướng đã chọn 1 ô cho đến truớc khi gạch di chuển một cách tự động.\n\nARR, hay Auto-Repeat Rate, chỉ khoảng cách thời gian giữ 2 lần di chuyển sang 1 ô trong lúc gạch đang tự động di chuyển.\n\nDAS và ARR được tính bằng f (khung hình) (¹/₆₀ ở 60FPS). 1ms = 16²/₃ khung hình.",
-    },
-    {"Hiệu chỉnh DAS",
-        "nhom05e2 das tuning",
-        "term",
-        "Với những người chơi nâng cao mà muốn chơi nhanh hơn, có thể điều chỉnh DAS thành 4-6 f (67-100 ms) và ARR 0 f (0 ms, các viên gạch sẽ ngay lập tức dính vào tường khi bạn vừa vượt qua DAS); đây là hai giá trị khuyên dùng.\n\nNếu bạn thấy khó điều khiển, thử tăng DAS lên 1-2 f, nhưng hãy giữ ARR bé hơn 2 f (33 ms).\nTóm lại, DAS nên để thấp nhất có thể nhng vẫn phải đảm bảo được game có thể phân biệt được bạn đang nhấn hay giữ phím trong khi ARR để ở mức thấp nhất (nếu không để thành 0).",
     },
     {"DAS cut",
         "nhom05e2 dascut dcd",
