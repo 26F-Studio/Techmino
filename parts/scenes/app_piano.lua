@@ -86,7 +86,6 @@ function scene.multipleTouch()     -- Check for every touch keys
     if next(touchPosition) then
         for _,pos in pairs(touchPosition) do
             local x,y=pos[1],pos[2]
-            table.remove(touchPosition,_)
             for i,currentKey in pairs(virtualKeys) do
                 if not (currentKey.name=="keyCtrl" or currentKey.name=="keyShift") then
                     if currentKey:isAbove(x,y) then currentKey:code(); currentKey:update(1) end
