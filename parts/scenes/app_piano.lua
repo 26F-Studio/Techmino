@@ -1,6 +1,5 @@
 local gc=love.graphics
 local kb=love.keyboard
-local touch=love.touch
 local min,max=math.min,math.max
 
 local instList={'lead','bell','bass'}
@@ -68,6 +67,8 @@ function scene.enter()
 end
 
 function scene.mouseDown(x,y,_)
+    -- Behavior for mouse is different than a bit
+    -- Detail: Ctrl/Shift state will be reset after a note is clicked!
     local lastK
     if showingKey then
         for k,K in pairs(virtualKeys) do
