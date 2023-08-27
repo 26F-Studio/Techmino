@@ -102,6 +102,7 @@ function scene.touchDown(x,y)
 end
 function scene.touchUp(x,y)
     local pos={x,y}
+    MES.new('',TABLE.find(touchPosition,pos))
     table.remove(touchPosition,TABLE.find(touchPosition,pos))
     if not flattt and not sharpt then _notHoldCS() end
 end
