@@ -496,15 +496,7 @@ So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một wall-kick table; nhưng
     {"Kiểu xáo Túi 7",
         "nhom05d bag7 randomgenerator túi 7 gạch; kiểu xáo túi 7 gạch",
         "term",
-        [[
-Tên gọi chính thức là "Random Generator" (Trình xáo gạch ngẫu nhiên) hay "7-Bag Generator" (Kiểu xáo Túi 7 gạch).
-
-Đây là kiểu xáo hay được sử dụng bởi đa số các xếp gạch hiện đại.
-
-Chuỗi gạch sẽ được chia thành các nhóm (túi). Mỗi túi gạch đều có dủ 7 Tetromino nhưng trình tự thì ngẫu nhiên.
-Kiểu xáo này cho phép ngăn chặn tình trạng sự xuất hiện không đồng đều của các viên gạch.
-Một vài ví dụ về chuỗi gạch: ZSJLTOI, OTSLZIJ, LTISZOJ.
-        ]],
+        "Tên gọi chính thức là \"Random Generator\" (Trình xáo gạch ngẫu nhiên) hay \"7-Bag Generator\" (Kiểu xáo Túi 7 gạch).\nĐây là kiểu xáo hay được sử dụng bởi đa số các xếp gạch hiện đại.\n\nChuỗi gạch sẽ được chia thành các nhóm (túi). Mỗi túi gạch đều có dủ 7 Tetromino nhưng trình tự thì ngẫu nhiên.\nMột vài ví dụ về chuỗi gạch: ZSJLTOI, OTSLZIJ, LTISZOJ.\n\nKiểu xáo này cho phép ngăn chặn tình trạng sự xuất hiện không đồng đều của các viên gạch.",
     },
     {"Kiểu xáo His",
         "nhom05d historygenerator hisgenerator",
@@ -541,7 +533,7 @@ Kiểu xáo His là phiên bản cải tiến so với kiểu xáo ngẫu nhiên
         [[
 Một biến thể của kiểu xáo gạch His.
 
-Đi kèm với cơ chế \"Pool\" (Rổ) dựa trên những gạch đã xuất hiện gằn nhất,cho phép gạch chưa được xuất hiện quá lâu có cơ hội xuất hiện cao hơn.
+Đi kèm với cơ chế "Pool" (Rổ) dựa trên những gạch đã xuất hiện gằn nhất,cho phép gạch chưa được xuất hiện quá lâu có cơ hội xuất hiện cao hơn.
 
 Kiểu xáo này giúp ổn định chuỗi gạch và đảm bảo rằng flood & drought không xảy ra quá lâu.
 
@@ -693,12 +685,7 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
     {"LPM",
         "nhom05f1 linesperminute; số hàng mỗi phút; tốc độ",
         "term",
-        [[
-Lines per minute | Số hàng mỗi phút
-Phản ánh tốc độ chơi.
-
-Mỗi game có cách tính LPM khác nhau. Ví dụ như, Tetris Online tính LPM dựa trên PPS (nhìn mục ở bên dưới), trong đó 1 PPS = 24 LPM; do đó số hàng rác sẽ không được tính vào LPM và làm cho LPM lệch đi so với nghĩa đen của nó. Trong Techmino, giá trị LPM theo cách tính đó gọi là "L'PM"
-        ]],
+        "Lines per minute | Số hàng mỗi phút\nPhản ánh tốc độ chơi.\n\nMỗi game có cách tính LPM khác nhau. Ví dụ như, Tetris Online tính LPM dựa trên PPS (nhìn mục ở bên dưới), trong đó 1 PPS = 24 LPM; do đó số hàng rác sẽ không được tính vào LPM và làm cho LPM lệch đi so với nghĩa đen của nó. Trong Techmino, giá trị LPM theo cách tính đó gọi là \"L'PM\"",
     },
     {"PPS",
         "nhom05f1 piecespersecond số gạch mỗi giây; tốc độ",
@@ -865,14 +852,7 @@ Trong hầu hết các game, tỉ lệ phản công rác thường là 1:1.
     {"T-spin",
         "nhom05i tspin",
         "term",
-        [[
-Spin được thực hiện bởi Tetromino T.
-
-T-spin chủ yếu được phát hiện bởi "quy luật 3 góc".
-Tức là, nếu 3 trong 4 góc của một hình chữ nhật (có tâm là tâm xoay của gạch T) bị đè bởi bất kỳ gạch nào, thì spin đó được tính là T-spin.
-
-Ngoài quy tắc đó ra thì còn có một số quy tắc để phát hiện T-spin và phân biệt giữa T-spin và Mini T-spin.
-        ]],
+        "Spin được thực hiện bởi Tetromino T.\n\nT-spin chủ yếu được phát hiện bởi \"quy luật 3 góc\".\nTức là, nếu 3 trong 4 góc của một hình chữ nhật (có tâm là tâm xoay của gạch T) bị đè bởi bất kỳ gạch nào, thì spin đó được tính là T-spin.\n\nNgoài quy tắc đó ra thì còn có một số quy tắc để phát hiện T-spin và phân biệt giữa T-spin và Mini T-spin.",
     },
     {"O-Spin",
         "nhom05i ospin",
