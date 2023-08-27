@@ -231,29 +231,29 @@ function scene.keyDown(key)
         _updateInfoBox()
     -- ***FOR DEBUGGING ONLY***
     -- ***Please commenting out this code if you don't use***
-    elseif key=='f5' then
-        local _
-        local success,_r=pcall(function()
-            package.loaded[localeFile]=nil
-            dict=require(localeFile)
-            _scanDict(dict)
-        end
-        )
-        if not success then
-            SFX.play('finesseError_long')
-            _,_r=FONT.get(30):getWrap(tostring(_r),1000)
-            MES.new("error","Hotload failed! May need restarting!\n\n"..table.concat(_r,"\n"))
-        else
-            local lastLscrollPos=listBox.scrollPos
-            local lastTscrollPos=textBox.scrollPos
-            listBox:setList(_getList())
-            if #inputBox:getText()>0 then _search() end
-            listBox.selected=lastSelected<#dict and lastSelected or #dict   -- In case the last item is removed!
-            listBox.scrollPos=lastLscrollPos
-            _updateInfoBox()
-            textBox.scrollPos=lastTscrollPos
-            SFX.play('pc')
-        end
+    -- elseif key=='f5' then
+    --     local _
+    --     local success,_r=pcall(function()
+    --         package.loaded[localeFile]=nil
+    --         dict=require(localeFile)
+    --         _scanDict(dict)
+    --     end
+    --     )
+    --     if not success then
+    --         SFX.play('finesseError_long')
+    --         _,_r=FONT.get(30):getWrap(tostring(_r),1000)
+    --         MES.new("error","Hotload failed! May need restarting!\n\n"..table.concat(_r,"\n"))
+    --     else
+    --         local lastLscrollPos=listBox.scrollPos
+    --         local lastTscrollPos=textBox.scrollPos
+    --         listBox:setList(_getList())
+    --         if #inputBox:getText()>0 then _search() end
+    --         listBox.selected=lastSelected<#dict and lastSelected or #dict   -- In case the last item is removed!
+    --         listBox.scrollPos=lastLscrollPos
+    --         _updateInfoBox()
+    --         textBox.scrollPos=lastTscrollPos
+    --         SFX.play('pc')
+    --     end
     else
         if not inputBoxFocus then WIDGET.focus(inputBox) end
         return
