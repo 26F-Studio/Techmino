@@ -68,6 +68,7 @@ end
 
 return {
     arr=0,
+    fineKill=true,
     mesDisp=function(P)
         setFont(45)
         GC.mStr(("%d"):format(P.stat.atk),63,190)
