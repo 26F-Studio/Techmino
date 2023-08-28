@@ -1055,7 +1055,8 @@ local RSlist={
     None_plus=None_plus,
 }
 
-for _,rs in next,RSlist do
+for name,rs in next,RSlist do
+    rs.name=name
     if not rs.centerDisp then rs.centerDisp=TABLE.new(true,29) end
     if not rs.centerPos then rs.centerPos=defaultCenterPos end
     if not rs.centerTex then rs.centerTex=defaultCenterTex end

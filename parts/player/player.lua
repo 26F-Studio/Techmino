@@ -345,6 +345,7 @@ function Player:act_hold()
     if self.cur then
         if self:hold() then
             self.keyPressing[8]=false
+            self:_triggerEvent('hook_hold')
         end
     end
 end
@@ -1476,7 +1477,9 @@ function Player:popNext(ifhold)-- Pop nextQueue to hand
         self:hold(true,true)
     else-- Next queue is empty, force lose
         self:lose(true)
+        return
     end
+    self:_triggerEvent('hook_spawn')
 end
 
 function Player:cancel(N)-- Cancel Garbage

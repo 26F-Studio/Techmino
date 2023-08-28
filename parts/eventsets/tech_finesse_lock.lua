@@ -1,13 +1,32 @@
-local function unlock(P)
-    for i=1,7 do
-        P.keyAvailable[i]=true
-        VK.keys[i].ava=true
+local function lockKey(P,keys)
+    for _,v in next,keys do
+        P.keyAvailable[v]=false
+        VK.keys[v].ava=false
+        VK.release(v)
     end
+end
+local function unlockKey(P,keys)
+    for _,v in next,keys do
+        P.keyAvailable[v]=true
+        VK.keys[v].ava=true
+    end
+end
+local function lockMovement(P)
+    lockKey(P,{1,2})
+end
+local function lockRotation(P)
+    lockKey(P,{3,4,5})
+end
+local function unlock(P)
+    if P.cur and P.cur.name==6 and not P.gameEnv.skipOCheck then -- don't unlock rotation if O piece & no O-spin
+        unlockKey(P,{1,2,6,7})
+        return
+    end
+    unlockKey(P,{1,2,3,4,5,6,7})
 end
 local function resetLock(P)
     unlock(P)
-    P.keyAvailable[8]=true
-    VK.keys[8].ava=true
+    unlockKey(P,{8})
 
     P.modeData.moveCount=0
     P.modeData.rotations=0
@@ -16,54 +35,30 @@ end
 
 local function onMove(P)
     if not P.cur then return end
-    
+
     P.holdTime=0
-    VK.keys[8].ava=false
-    VK.release(8)
-    
+    lockKey(P,{8})
+
     -- return if overhang
     if P:_roofCheck() then return end
 
     P.modeData.moveCount=P.modeData.moveCount+1
-    if P.modeData.moveCount>=2 then
-        P.keyAvailable[1]=false
-        P.keyAvailable[2]=false
-
-        VK.keys[1].ava=false
-        VK.keys[2].ava=false
-
-        VK.release(1)
-        VK.release(2)
-    end
+    if P.modeData.moveCount>=2 then lockMovement(P) end
 end
 local function onAutoMove(P)
-    print('automove')
     if P:_roofCheck() then unlock(P) end
 end
 local function onRotate(P)
     if not P.cur then return end
 
     P.holdTime=0
-    VK.keys[8].ava=false
-    VK.release(8)
-    
+    lockKey(P,{8})
+
     -- return if overhang
     if P:_roofCheck() then return end
 
     P.modeData.rotations=P.modeData.rotations+1
-    if P.modeData.rotations>=2 then
-        P.keyAvailable[3]=false
-        P.keyAvailable[4]=false
-        P.keyAvailable[5]=false
-
-        VK.keys[3].ava=false
-        VK.keys[4].ava=false
-        VK.keys[5].ava=false
-
-        VK.release(3)
-        VK.release(4)
-        VK.release(5)
-    end
+    if P.modeData.rotations>=2 then lockRotation(P) end
 end
 
 return {
@@ -78,11 +73,33 @@ return {
     end,
     task=function(P)
         resetLock(P)
+        local RSname=P.RS.name
+        P.gameEnv.skipOCheck=(
+            string.find(RSname,'TRS') or
+            string.find(RSname,'BiRS') or
+            string.find(RSname,'ASC')
+        )
     end,
     hook_drop=function(P)
         resetLock(P)
         if P.stat.atk>=100 then
             P:win('finish')
+        end
+    end,
+    hook_spawn=function(P)
+        if P.gameEnv.skipOCheck then return end
+        if P.cur.name==6 then
+            lockRotation(P)
+        else
+            resetLock(P)
+        end
+    end,
+    hook_hold=function(P)
+        if P.gameEnv.skipOCheck then return end
+        if P.cur.name==6 then
+            lockRotation(P)
+        else
+            resetLock(P)
         end
     end,
     hook_left_manual=onMove, hook_right_manual=onMove,
