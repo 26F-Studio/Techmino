@@ -67,7 +67,7 @@ local function _moveMap(dx,dy)
     local k=_getK()
     local x,y=_getPos()
     if x>1300 and dx<0 or x<-1500 and dx>0 then dx=0 end
-    if y>420 and dy<0 or y<-1900 and dy>0 then dy=0 end
+    if y>620 and dy<0 or y<-1900 and dy>0 then dy=0 end
     mapCam.xOy:translate(dx/k,dy/k)
 end
 function scene.wheelMoved(_,dy)
@@ -308,9 +308,12 @@ function scene.draw()
         gc_setColor(COLOR.lX)
         gc_rectangle('fill',920,0,360,720,5)-- Info board
         gc_setColor(COLOR.Z)
-        setFont(40)GC.mStr(text.modes[sel][1],1100,5)
-        setFont(30)GC.mStr(text.modes[sel][2],1100,50)
-        setFont(25)gc_printf(text.modes[sel][3],920,110,360,'center')
+        local modeText=text.modes[sel]
+        if modeText then
+            setFont(40)GC.mStr(modeText[1],1100,5)
+            setFont(30)GC.mStr(modeText[2],1100,50)
+            setFont(25)gc_printf(modeText[3],920,110,360,'center')
+        end
         if M.slowMark then
             gc_draw(IMG.ctrlSpeedLimit,1230,50,nil,.4)
         end
