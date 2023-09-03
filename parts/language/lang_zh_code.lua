@@ -809,7 +809,7 @@ return {
         ['master_final']=   {"Master(Final);",      "",      "究极20G:无法触及的终点"},
         ['master_ph']=      {"Master(Phantasm);",   "",      "虚幻20G:？？？"},
         ['master_g']=       {"Master(Graded);",     "",      "20G段位考试"},
-		['master_g_modern']={"Master(Modern Graded);",     "",      "20G段位考试"},
+        ['master_g_modern']={"Master(Modern Graded);",     "",      "20G段位考试"},
         ['master_ex']=      {"Master(EX);",         "",      "成为方块大师"},
         ['master_instinct']={"Master(Instinct);",   "",      "当前块在出现后一小会后会隐形"},
         ['strategy_e']=     {"Strategy(Easy);",     "",      "20G堆叠中速决策练习"},

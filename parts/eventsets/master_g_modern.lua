@@ -19,7 +19,7 @@ local prevSectTime=0
 local isInRoll=false
 local isFault=false
 local rollGrades=0
-local aws_time=	{2700,2700,2520,2280,2280,1980,1980,1620,1620,0}
+local aws_time=    {2700,2700,2520,2280,2280,1980,1980,1620,1620,0}
 local cool_time={3120,3120,2940,2700,2700,2520,2520,2280,2280,0}
 local reg_time= {5400,4500,4500,4080,3600,3600,3000,3000,3000,3000}
 local fal_time= {7200,5400,5400,4500,4080,4080,3600,3600,3600,3600}
@@ -53,7 +53,7 @@ local function getLock(l)
     return
     l<900  and 30 or
     l<1100 and 17 or
-	15
+    15
 end
 local function getGrade()
     if int_grade==nil then int_grade=0 end
@@ -62,22 +62,22 @@ local function getGrade()
 end
 local function addGrade(row, cmb, chk, lvl) -- IGS = internal grade system
     if row<1 then 
-		if grade_points+1<100 and chk.spin then grade_points=grade_points+1 end
-		return
-	end
+        if grade_points+1<100 and chk.spin then grade_points=grade_points+1 end
+        return
+    end
     local pts=0
     local cmb_mult=1.0
     local lvl_mult=math.floor(lvl/250)+1
-	local spn_mult=1.0
-	
-	if chk.spin then spn_mult=spn_mult*1.5
-	elseif chk.mini then spn_mult=spn_mult*1.2
-	end
-	
-	if chk.pc then spn_mult=spn_mult*2.0
-	elseif chk.hpc then spn_mult=spn_mult*1.2
-	end
-	
+    local spn_mult=1.0
+    
+    if chk.spin then spn_mult=spn_mult*1.5
+    elseif chk.mini then spn_mult=spn_mult*1.2
+    end
+    
+    if chk.pc then spn_mult=spn_mult*2.0
+    elseif chk.hpc then spn_mult=spn_mult*1.2
+    end
+    
     if row==1 then
         pts=int_grade<5 and 10 or int_grade<10 and 5 or 2
         cmb_mult=1.0
@@ -158,22 +158,22 @@ return {
             setFont(20)
             GC.mStr(grade_points,63,208)
             setFont(45)
-			if awesomeList[math.ceil(P.modeData.pt/100+0.01)] then
+            if awesomeList[math.ceil(P.modeData.pt/100+0.01)] then
                 GC.setColor(0,1,1,1)
             elseif coolList[math.ceil(P.modeData.pt/100+0.01)] then
                 GC.setColor(0,1,0,1)
             elseif P.stat.frame-prevSectTime > cool_time[math.ceil(P.modeData.pt/100+0.01)] then
                 GC.setColor(0.7,0.7,0.7,1)
             end
-			if awesomeList[math.ceil(P.modeData.pt/100+0.01)] and faultList[math.ceil(P.modeData.pt/100+0.01)] then
+            if awesomeList[math.ceil(P.modeData.pt/100+0.01)] and faultList[math.ceil(P.modeData.pt/100+0.01)] then
                 GC.setColor(0.5,0,0.5,1)
-			elseif awesomeList[math.ceil(P.modeData.pt/100+0.01)] and regretList[math.ceil(P.modeData.pt/100+0.01)] then
+            elseif awesomeList[math.ceil(P.modeData.pt/100+0.01)] and regretList[math.ceil(P.modeData.pt/100+0.01)] then
                 GC.setColor(0.5,0.5,1,1)
-			elseif coolList[math.ceil(P.modeData.pt/100+0.01)] and faultList[math.ceil(P.modeData.pt/100+0.01)] then
+            elseif coolList[math.ceil(P.modeData.pt/100+0.01)] and faultList[math.ceil(P.modeData.pt/100+0.01)] then
                 GC.setColor(1,0.5,0,1)
             elseif coolList[math.ceil(P.modeData.pt/100+0.01)] and regretList[math.ceil(P.modeData.pt/100+0.01)] then
                 GC.setColor(1,1,0,1)
-			elseif faultList[math.ceil(P.modeData.pt/100+0.01)] then
+            elseif faultList[math.ceil(P.modeData.pt/100+0.01)] then
                 GC.setColor(0.5,0,0,1)
             elseif regretList[math.ceil(P.modeData.pt/100+0.01)] then
                 GC.setColor(1,0,0,1)
@@ -196,25 +196,25 @@ return {
 
         if c==0 and D.pt+1>=D.target then return end
         local s=c<3 and c+1 or c==3 and 5 or 7
-		local LP=P.lastPiece
-		local B2B=P.b2b
-		if c==4 then
-			if B2B>800 then s=s+2
-			elseif B2B>=50 then s=s+1
-			end
-		end
-		if LP.spin and c==0 then s=s+1
-		elseif LP.spin and c>0 then
-			if B2B>=50 then s=s+2
-			else s=s+1
-			end
-		end
-		if LP.mini and c>0 and B2B>=50 then s=s+1 end
-		if LP.pc then s=s+4 end
-		if LP.hpc then s=s+1 end
-		if P.finesseCombo>31 and c>0 then s=s+2
-		elseif P.finesseCombo>15 and c>0 then s=s+1
-		end
+        local LP=P.lastPiece
+        local B2B=P.b2b
+        if c==4 then
+            if B2B>800 then s=s+2
+            elseif B2B>=50 then s=s+1
+            end
+        end
+        if LP.spin and c==0 then s=s+1
+        elseif LP.spin and c>0 then
+            if B2B>=50 then s=s+2
+            else s=s+1
+            end
+        end
+        if LP.mini and c>0 and B2B>=50 then s=s+1 end
+        if LP.pc then s=s+4 end
+        if LP.hpc then s=s+1 end
+        if P.finesseCombo>31 and c>0 then s=s+2
+        elseif P.finesseCombo>15 and c>0 then s=s+1
+        end
         if P.combo>7 then s=s+2
         elseif P.combo>3 then s=s+1
         end
@@ -231,12 +231,12 @@ return {
         end
 
         if D.pt%100>70 and not prevDrop70 then
-			if P.stat.frame-prevSectTime < cool_time[math.ceil(D.pt/100)] then
-				cools=cools+2
-				awesomeList[math.ceil(D.pt/100)]=true
-				coolList[math.ceil(D.pt/100)]=true
-				P:_showText("AWESOME!!",0,-120,80,'fly',.8)
-				nextSpeedUp=true
+            if P.stat.frame-prevSectTime < cool_time[math.ceil(D.pt/100)] then
+                cools=cools+2
+                awesomeList[math.ceil(D.pt/100)]=true
+                coolList[math.ceil(D.pt/100)]=true
+                P:_showText("AWESOME!!",0,-120,80,'fly',.8)
+                nextSpeedUp=true
             elseif P.stat.frame-prevSectTime < cool_time[math.ceil(D.pt/100)] then
                 cools=cools+1
                 coolList[math.ceil(D.pt/100)]=true
@@ -255,10 +255,10 @@ return {
             s=D.target/100
             local E=P.gameEnv
             E.lock=getLock(spd_lvl)
-			
-			if P.stat.frame-prevSectTime > fal_time[math.ceil(s)] then
-				regrets=regrets+2
-				regretDelay=60
+            
+            if P.stat.frame-prevSectTime > fal_time[math.ceil(s)] then
+                regrets=regrets+2
+                regretDelay=60
             elseif P.stat.frame-prevSectTime > reg_time[math.ceil(s)] then
                 regrets=regrets+1
                 regretDelay=60
@@ -310,34 +310,34 @@ return {
         prevSectTime=0
         isInRoll=false
         isInRollTrans=false
-		isFault=false
-		prevDrop70=false
-		nextSpeedUp=false
-		awesomeList={false,false,false,false,false,false,false,false,false}
+        isFault=false
+        prevDrop70=false
+        nextSpeedUp=false
+        awesomeList={false,false,false,false,false,false,false,false,false}
         coolList={false,false,false,false,false,false,false,false,false}
         regretList={false,false,false,false,false,false,false,false,false,false}
-		faultList={false,false,false,false,false,false,false,false,false,false}
+        faultList={false,false,false,false,false,false,false,false,false,false}
         local decayRate={125,80,80,50,45,45,45,40,40,40,40,40,30,30,30,20,20,20,20,20,15,15,15,15,15,15,15,15,15,15,10,10,10,9,9,9,8,8,8,7,7,7,6}
         local decayTimer=0
         while true do
             coroutine.yield()
             P.modeData.grade=getGrade()
             P.modeData.gradePts=math.max(math.min(math.floor(int_grade_boosts[math.min(int_grade+1,#int_grade_boosts)]+rollGrades+cools+1-regrets),#gradeList),1)
-			if P.stat.frame-prevSectTime > fal_time[math.ceil(P.modeData.pt/100+0.01)] and not (isInRoll or isInRollTrans) then
+            if P.stat.frame-prevSectTime > fal_time[math.ceil(P.modeData.pt/100+0.01)] and not (isInRoll or isInRollTrans) then
                 regretList[math.ceil(P.modeData.pt/100)]=true
-				faultList[math.ceil(P.modeData.pt/100)]=true
-				isFault=true
+                faultList[math.ceil(P.modeData.pt/100)]=true
+                isFault=true
             elseif P.stat.frame-prevSectTime > reg_time[math.ceil(P.modeData.pt/100+0.01)] and not (isInRoll or isInRollTrans) then
                 regretList[math.ceil(P.modeData.pt/100)]=true
             end
             if regretDelay>-1 then
                 regretDelay=regretDelay-1
                 if regretDelay==-1 and isfault then 
-					P:_showText("FAULT!!!",0,-120,80,'beat',.8) 
-					isFault=false
-				else if regretDelay==1 then 
-					P:_showText("REGRET!!",0,-120,80,'beat',.8) 
-				end
+                    P:_showText("FAULT!!!",0,-120,80,'beat',.8) 
+                    isFault=false
+                else if regretDelay==1 then 
+                    P:_showText("REGRET!!",0,-120,80,'beat',.8) 
+                end
             end
             if isInRollTrans then
                 if P.waiting>=220 then

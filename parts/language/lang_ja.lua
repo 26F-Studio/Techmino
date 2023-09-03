@@ -863,7 +863,7 @@ return {
         ['master_final']=   {"マスター",             "FINAL",         "20G その先へ"},
         ['master_ph']=      {"マスター",             "PHANTASM",      "???"},
         ['master_g']=       {"マスター",             "GRADED",        "最高段位を取れ!"},
-		['master_g_modern']={"マスター",             "MODERN GRADED",        "最高段位を取れ!"},
+        ['master_g_modern']={"マスター",             "MODERN GRADED",        "最高段位を取れ!"},
         ['master_ex']=      {"グランドマスター",      "EXTRA",         "一瞬よりも短い永遠"},
         ['master_instinct']={"マスター",             "INSTINCT",      "もしミノが一切見えなくなったら?"},
         ['strategy_e']=     {"ストラテジー",          "EASY",          "20Gでの素早い判断"},

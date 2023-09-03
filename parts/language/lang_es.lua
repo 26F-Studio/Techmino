@@ -852,7 +852,7 @@ return {
         ['master_final']=   {"Master",                  "Final",         "Al 20Ginito y más allá!"},
         ['master_ph']=      {"Master",                  "Phantasm",      "???"},
         ['master_g']=       {"Master",                  "Con rangos",   "¡Consigue el rango más alto que puedas!"},
-		['master_g_modern']={"Master",                  "Con rangos modernos", "¡Consigue el rango más alto que puedas!"},
+        ['master_g_modern']={"Master",                  "Con rangos modernos", "¡Consigue el rango más alto que puedas!"},
         ['master_ex']=      {"GrandMaster",             "Extra",         "Una eternidad que dura un instante."},
         ['master_instinct']={"Master",                  "Instintivo",    "¿Y si la pieza activa es invisible?"},
         ['strategy_e']=     {"Strategy",                "Fácil",         "Decisiones rápidas en 20G."},
