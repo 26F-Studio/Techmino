@@ -311,8 +311,8 @@ return {
         isInRoll=false
         isInRollTrans=false
 		isFault=false
-        prevDrop70=false
-        nextSpeedUp=false
+		prevDrop70=false
+		nextSpeedUp=false
 		awesomeList={false,false,false,false,false,false,false,false,false}
         coolList={false,false,false,false,false,false,false,false,false}
         regretList={false,false,false,false,false,false,false,false,false,false}
