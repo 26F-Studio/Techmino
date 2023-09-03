@@ -2,7 +2,7 @@ local regretDelay=-1
 local int_grade=0
 local grade_points=0
 local int_grade_boosts={0,1,2,3,4,5,5,6,6,7,7,7,8,8,8,9,9,9,10,11,12,12,12,13,13,14,14,15,15,16,16,17,17,18,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26}
-local awsomeList={false,false,false,false,false,false,false,false,false}
+local awesomeList={false,false,false,false,false,false,false,false,false}
 local coolList={false,false,false,false,false,false,false,false,false}
 local regretList={false,false,false,false,false,false,false,false,false,false}
 local faultList={false,false,false,false,false,false,false,false,false,false}
@@ -128,10 +128,10 @@ return {
         setFont(60)
         GC.mStr(getGrade(),63,110)  -- draw grade
         for i=1,10 do -- draw cool/regret history
-            if not (awsomeList[i] or faultList[i] or coolList[i] or regretList[i]) then -- neither cool nor regret
+            if not (awesomeList[i] or faultList[i] or coolList[i] or regretList[i]) then -- neither cool nor regret
                 GC.setColor(0.6,0.6,0.6,P.modeData.pt<(i-1)*100 and 0.25 or 0.6)
             else
-                GC.setColor(faultList[i] and 0.5 or regretList[i] and 1 or 0, coolList[i] and 1 or 0, awsomeList[i] and 1 or 0, 1)
+                GC.setColor(faultList[i] and 0.5 or regretList[i] and 1 or 0, coolList[i] and 1 or 0, awesomeList[i] and 1 or 0, 1)
             end
             GC.circle('fill',-10,150+i*25,10)
             GC.setColor(1,1,1,1)
@@ -158,16 +158,16 @@ return {
             setFont(20)
             GC.mStr(grade_points,63,208)
             setFont(45)
-			if awsomeList[math.ceil(P.modeData.pt/100+0.01)] then
+			if awesomeList[math.ceil(P.modeData.pt/100+0.01)] then
                 GC.setColor(0,1,1,1)
             elseif coolList[math.ceil(P.modeData.pt/100+0.01)] then
                 GC.setColor(0,1,0,1)
             elseif P.stat.frame-prevSectTime > cool_time[math.ceil(P.modeData.pt/100+0.01)] then
                 GC.setColor(0.7,0.7,0.7,1)
             end
-			if awsList[math.ceil(P.modeData.pt/100+0.01)] and faultList[math.ceil(P.modeData.pt/100+0.01)] then
+			if awesomeList[math.ceil(P.modeData.pt/100+0.01)] and faultList[math.ceil(P.modeData.pt/100+0.01)] then
                 GC.setColor(0.5,0,0.5,1)
-			elseif awsList[math.ceil(P.modeData.pt/100+0.01)] and regretList[math.ceil(P.modeData.pt/100+0.01)] then
+			elseif awesomeList[math.ceil(P.modeData.pt/100+0.01)] and regretList[math.ceil(P.modeData.pt/100+0.01)] then
                 GC.setColor(0.5,0.5,1,1)
 			elseif coolList[math.ceil(P.modeData.pt/100+0.01)] and faultList[math.ceil(P.modeData.pt/100+0.01)] then
                 GC.setColor(1,0.5,0,1)
@@ -233,9 +233,9 @@ return {
         if D.pt%100>70 and not prevDrop70 then
 			if P.stat.frame-prevSectTime < cool_time[math.ceil(D.pt/100)] then
 				cools=cools+2
-				awsomeList[math.ceil(D.pt/100)]=true
+				awesomeList[math.ceil(D.pt/100)]=true
 				coolList[math.ceil(D.pt/100)]=true
-				P:_showText("AWSOME!!",0,-120,80,'fly',.8)
+				P:_showText("AWESOME!!",0,-120,80,'fly',.8)
 				nextSpeedUp=true
             elseif P.stat.frame-prevSectTime < cool_time[math.ceil(D.pt/100)] then
                 cools=cools+1
@@ -313,7 +313,7 @@ return {
 		isFault=false
         prevDrop70=false
         nextSpeedUp=false
-		awsomeList={false,false,false,false,false,false,false,false,false}
+		awesomeList={false,false,false,false,false,false,false,false,false}
         coolList={false,false,false,false,false,false,false,false,false}
         regretList={false,false,false,false,false,false,false,false,false,false}
 		faultList={false,false,false,false,false,false,false,false,false,false}
