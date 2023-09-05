@@ -8,7 +8,7 @@ return {
 
         local opacity=math.max(.4,MATH.expApproach(1,.36,2*(P.stat.time-P.modeData.lastChange)))
         if #P.field>15 then opacity=opacity*.7 end
-        setFont(26)
+        setFont(25)
         GC.setColor(1,1,1,opacity)
         GC.mStr(P.modeData.infHeight and text.infHeightOn or text.infHeightOff,300,80)
         setFont(20)
