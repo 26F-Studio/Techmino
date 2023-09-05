@@ -739,10 +739,12 @@ local draw={}
 draw.drawGhost=drawGhost
 draw.applyField=_applyField
 draw.cancelField=_cancelField
-function draw.drawTargetLine(P,h)
+function draw.drawTargetLine(P,h,overrideColor)
     if h<=20+(P.fieldBeneath+P.fieldUp+10)/30 and h>0 then
         gc_setLineWidth(3)
-        gc_setColor(1,h>10 and 0 or .2+.8*rnd(),.5)
+        if not overrideColor then
+            gc_setColor(1,h>10 and 0 or .2+.8*rnd(),.5)
+        end
         _applyField(P)
         h=600-30*h
         if P.falling~=-1 then
