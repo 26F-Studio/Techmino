@@ -8,29 +8,6 @@ local F={}
 -- local ranks={"10","9","8","7","6","5","4","3","2","1","S1","S2","S3","S4","S5","S6","S7","S8","S9","GM","GM+","TM","TM+","TM+₂","TM+₃", "TM+₄","TM+₅"}
 --        lines:   0   1   2   3   4   5   6   7   8   9   10   11   12   13   14   15   16   17   18   19   20    21   22     23     24      25     26
 
-local function getSmallNum(num)
-    local smalldigit={[0]="₀","₁","₂","₃","₄","₅","₆","₇","₈","₉"}
-    local str=tostring(num)
-    local out=""
-    for i=1,#str do
-        out=out..smalldigit[tonumber(string.sub(str,i,i))]
-    end
-    return out
-end
-
-local function getRank(index)
-    if index<11 then -- rank 10 - 1
-        return tostring(11-index)
-    elseif index<20 then -- S1 - S9 ranks
-        return "S"..index-10
-    elseif index<24 then -- GM, GM+, TM, TM+ ranks
-        local r={"GM","GM+","TM","TM+"}
-        return r[index-19]
-    else
-        return "TM+"..getSmallNum(index-22)
-    end
-end
-
 local function generateGuide(num)
     local l=#F
     if l>num then
@@ -51,7 +28,7 @@ return {
         mText(TEXTOBJ.grade,63,190)
         mText(TEXTOBJ.line,63,310)
         setFont(55)
-        GC.mStr(getRank(P.modeData.rankPts),63,125)
+        GC.mStr(getSecretGrade(P.modeData.rankPts),63,125)
         GC.mStr(P.modeData.rankPts-1,63,245)
         ply_applyField(P)
         local mark=TEXTURE.puzzleMark
@@ -73,7 +50,7 @@ return {
     end,
     hook_drop=function(P)
         local D=P.modeData
-        D.rankPts=1
+        D.rankPts=0
         for i=1,#P.field do
             local h=getOpenHole(i)
             local flag

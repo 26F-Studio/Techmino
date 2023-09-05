@@ -125,8 +125,8 @@ return {
     {name='tsd_u',                x=1050,      y=320,      size=40,shape=1,icon="tsd"},
 
     {name='backfire_n',           x=640,       y=420,      size=40,shape=1,icon="backfire",    unlock={'backfire_h'}},
-    {name='backfire_h',           x=790,       y=470,      size=40,shape=1,icon="backfire",    unlock={'backfire_l'}},
-    {name='backfire_l',           x=930,       y=460,      size=40,shape=3,icon="backfire",    unlock={'backfire_u'}},
+    {name='backfire_h',           x=790,       y=450,      size=40,shape=1,icon="backfire",    unlock={'backfire_l'}},
+    {name='backfire_l',           x=930,       y=450,      size=40,shape=3,icon="backfire",    unlock={'backfire_u'}},
     {name='backfire_u',           x=1070,      y=450,      size=35,shape=2,icon="backfire"},
 
     {name='zen',                  x=-1000,     y=-600,     size=40,shape=1,icon="zen",         unlock={'ultra','infinite','infinite_dig','marathon_inf'}},
