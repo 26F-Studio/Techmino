@@ -30,6 +30,9 @@ return {
     maxspeed="Velocidade máxima!",
     speedup="Mais rápido!",
     missionFailed="Missão falha",
+    -- infHeightOn="Infinite Height ON",
+    -- infHeightOff="Infinite Height OFF",
+    -- infHeightHint="Toggle with Function 1 key",
 
     speedLV="Nível de velocidade",
     piece="Peça",line="Linhas",atk="Ataque",eff="Eficiência",
