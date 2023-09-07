@@ -46,6 +46,9 @@ return {
     maxspeed="TỐC ĐỘ TỐI ĐA!",
     speedup="Tăng tốc nào!",
     missionFailed="Nhiệm vụ thất bại",
+    infHeightOn="Infinite Height ON",
+    infHeightOff="Infinite Height OFF",
+    infHeightHint="Toggle with Function 1 key",
 
     speedLV="Tốc độ rơi",
     piece="Gạch",line="Hàng",atk="Attack",eff="Efficiency",

@@ -6,7 +6,7 @@ return {
         mText(TEXTOBJ.atk,63,243)
         mText(TEXTOBJ.eff,63,363)
 
-        local opacity=math.max(.4,MATH.expApproach(1,.36,2*(P.stat.time-P.modeData.lastChange)))
+        local opacity=math.max(.4,1-(P.stat.time-P.modeData.lastChange))
         if #P.field>15 then opacity=opacity*.7 end
         setFont(25)
         GC.setColor(1,1,1,opacity)
@@ -27,11 +27,9 @@ return {
         local env=P.gameEnv
         if P.modeData.infHeight then
             env.fieldH=math.max(env.fieldH,heightTarget)
-            return
+        elseif env.fieldH~=20 then
+            -- if not infHeight, then only decrease height
+            env.fieldH=MATH.clamp(env.fieldH,heightTarget,20)
         end
-
-        -- if not infHeight, then only decrease height
-        if env.fieldH==20 then return end
-        env.fieldH=math.max(20,math.min(env.fieldH,heightTarget))
     end
 }

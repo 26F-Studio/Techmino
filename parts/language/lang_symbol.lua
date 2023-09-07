@@ -1,4 +1,3 @@
-local x,v=CHAR.icon.crossMark,CHAR.icon.checkMark
 return {
     fallback='en',
     loadText={
@@ -39,9 +38,9 @@ return {
     maxspeed="!!!",
     speedup="~!~",
     missionFailed="-X_X-",
-    infHeightOn="∞↑ "..v,
-    infHeightOff="∞↑ "..x,
-    infHeightHint=v.."/"..x..": F₁",
+    infHeightOn="∞↑ "..CHAR.icon.checkMark,
+    infHeightOff="∞↑ "..CHAR.icon.crossMark,
+    infHeightHint=CHAR.icon.checkMark.."/"..CHAR.icon.crossMark..": F₁",
 
     win=": )",
     lose=": (",

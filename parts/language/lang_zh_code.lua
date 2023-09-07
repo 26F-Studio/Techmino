@@ -39,6 +39,9 @@ return {
     maxspeed="Speed(Max);",
     speedup="Speed(Up);",
     missionFailed="Clear.Wrong();",
+    infHeightOn="infHeight=true",
+    infHeightOff="infHeight=false",
+    infHeightHint="F1:!infHeight",
 
     speedLV="P.SpeedLV",
     piece="P.Piece",line="P.Line",atk="P.ATK",eff="P.EFF",
