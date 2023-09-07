@@ -41,6 +41,9 @@ return {
     maxspeed="KECEPATAN MAXIMUM!",
     speedup="Percepatkan!",
     missionFailed="Salah",
+    infHeightOn="Ketinggian Tak Terhingga ON",
+    infHeightOff="Ketinggian Tak Terhingga OFF",
+    infHeightHint="Ubah dengan tombol Fungsi 1",
 
     speedLV="Kecptn lvl",
     piece="Blok",line="Baris",atk="Baris Terkirim",eff="Efisiensi",

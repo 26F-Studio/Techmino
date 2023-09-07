@@ -40,6 +40,9 @@ return {
     maxspeed="MAX SPEED!",
     speedup="Speed Up!",
     missionFailed="Wrong Clear",
+    infHeightOn="Infinite Height ON",
+    infHeightOff="Infinite Height OFF",
+    infHeightHint="Toggle with Function 1 key",
 
     speedLV="Speed Level",
     piece="Piece",line="Lines",atk="Attack",eff="Efficiency",

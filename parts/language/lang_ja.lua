@@ -41,6 +41,9 @@ return {
     maxspeed="最高速度!",
     speedup="スピードアップ!",
     missionFailed="ミッション失敗",
+    -- infHeightOn="Infinite Height ON",
+    -- infHeightOff="Infinite Height OFF",
+    -- infHeightHint="Toggle with Function 1 key",
 
     speedLV="レベル",
     piece="ミノ数",line="line数",atk="火力",eff="効率",
