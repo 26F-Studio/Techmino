@@ -8,6 +8,7 @@ local seqGenerators={
         local bag={}
         while true do
             if #bag==0 then
+                yield(nil)
                 for i=1,len do
                     bag[i]=seq0[len-i+1]
                 end
@@ -35,11 +36,13 @@ local seqGenerators={
                 end
             end
             -- Finish
+            yield(nil)
             for i=1,len do yield(bag[i]) end
         end
         bag={}
         while true do
             if #bag==0 then
+                yield(nil)
                 for i=1,len do
                     bag[i]=seq0[len-i+1]
                 end
@@ -189,6 +192,7 @@ local seqGenerators={
         local bufferSeq,bag={},{}
         while true do
             if #bag==0 then
+                yield(nil)
                 for i=1,#seq0 do bufferSeq[i]=seq0[i] end
                 repeat
                     local r=rem(bufferSeq,rndGen:random(#bag))
@@ -210,6 +214,7 @@ local seqGenerators={
         local bag={}
         while true do
             if #bag==0 then
+                yield(nil)
                 for i=1,len do
                     bag[i]=seq0[len-i+1]
                 end
@@ -235,6 +240,7 @@ local seqGenerators={
             local unknown={}
             local extra=-1
             local function init()
+                yield(nil)
                 for i=1,len do
                     unknown[i]=1
                 end

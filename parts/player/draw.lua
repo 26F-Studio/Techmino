@@ -569,8 +569,10 @@ local function _drawNext(P,repMode)
         end
         if ENV.bagLine then
             gc_setColor(.8,.8,.8,.8)
-            for i=-P.pieceCount%ENV.bagLine,N-1,ENV.bagLine do-- i=phase
-                gc_rectangle('fill',1,72*i+3,98,2)
+            for i=1,ENV.nextCount+1 do
+                if queue[i] and queue[i].bagLine>0 then
+                    gc_rectangle('fill',1,72*(i-1)+3,98,2)
+                end
             end
         end
     gc_translate(-488,-20)
