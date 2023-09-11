@@ -331,8 +331,6 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
     ENV.arr=max(ENV.arr,ENV.minarr)
     ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
 
-    ENV.bagLine=ENV.bagLine and (ENV.sequence=='bag' or ENV.sequence=='loop') and #ENV.seqData
-
     if ENV.nextCount==0 then
         ENV.nextPos=false
     end
@@ -340,6 +338,7 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
     local seqGen=coroutine.create(getSeqGen(ENV.sequence))
     local seqCalled=false
     local initSZOcount=0
+    local bagLineCounter=0
     function P:newNext()
         local status,piece
         if seqCalled then
@@ -348,7 +347,9 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
             status,piece=coroutine.resume(seqGen,P.seqRND,P.gameEnv.seqData)
             seqCalled=true
         end
-        if status and piece then
+        if not status then
+            assert(piece=='cannot resume dead coroutine')
+        elseif piece then
             if ENV.noInitSZO and initSZOcount<5 then
                 initSZOcount=initSZOcount+1
                 if piece==1 or piece==2 or piece==6 then
@@ -357,9 +358,13 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
                     initSZOcount=5
                 end
             end
-            P:getNext(piece)
-        elseif not status then
-            assert(piece=='cannot resume dead coroutine')
+            P:getNext(piece,bagLineCounter)
+            bagLineCounter=0
+        else
+            if ENV.bagLine then
+                bagLineCounter=bagLineCounter+1
+            end
+            P:newNext()
         end
     end
     for _=1,ENV.trueNextCount do

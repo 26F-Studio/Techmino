@@ -1415,7 +1415,7 @@ function Player:hold(ifpre,force)
     end
 end
 
-function Player:getBlock(id,name,color)-- Get a block object
+function Player:getBlock(id,name,color,bagLineCounter)-- Get a block object
     local ENV=self.gameEnv
     local dir=ENV.face[id]
     return {
@@ -1425,10 +1425,11 @@ function Player:getBlock(id,name,color)-- Get a block object
         RS=self.RS,
         name=name or id,
         color=ENV.bone and 17 or color or ENV.skin[id],
+        bagLine=bagLineCounter,
     }
 end
-function Player:getNext(id)-- Push a block to nextQueue
-    ins(self.nextQueue,self:getBlock(id))
+function Player:getNext(id,bagLineCounter)-- Push a block to nextQueue
+    ins(self.nextQueue,self:getBlock(id,nil,nil,bagLineCounter))
     if self.bot then
         self.bot:pushNewNext(id)
     end
