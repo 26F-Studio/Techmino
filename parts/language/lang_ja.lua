@@ -41,9 +41,9 @@ return {
     maxspeed="最高速度!",
     speedup="スピードアップ!",
     missionFailed="ミッション失敗",
-    -- infHeightOn="Infinite Height ON",
-    -- infHeightOff="Infinite Height OFF",
-    -- infHeightHint="Toggle with Function 1 key",
+    infHeightOn="高度無限!,
+    infHeightOff="高度制限あり",
+    infHeightHint="“ファンクション 1”キー",
 
     speedLV="レベル",
     piece="ミノ数",line="line数",atk="火力",eff="効率",
@@ -396,7 +396,7 @@ Zictionaryはテトリス(と落ちものパズルゲーム)についての様�
 TetroDictionary下の検索バーに単語を入れると該当する用語が表示されます
 該当用語が0件の場合、すべての用語が表示されます
 希望する単語で欲しい用語が検索できない場合、Githubのページから編集できます
-翻訳者からのメッセージ 1にあるリンクからアクセスしてください
+“翻訳者からのメッセージ 1”にあるリンクからアクセスしてください
 
 Zictionaryの操作方法
 
@@ -633,8 +633,8 @@ C. ゲームパッド
             a6="ハードドロップ",
             a7="ソフトドロップ",
             a8="ホールド",
-            a9="機能 1",
-            a10="機能 2",
+            a9="ファンクション 1",
+            a10="ファンクション 2",
             a11="即左移動",
             a12="即右移動",
             a13="ソニックドロップ",
@@ -953,9 +953,9 @@ C. ゲームパッド
         ['tech_l']=         {"テクニック",            "LUNATIC",    "回転入れとパフェだけ!"},
         ['tech_l_plus']=    {"テクニック",            "LUNATIC+",   "回転入れとパフェだけ!"},
         ['tech_finesse']=   {"テクニック",            "FINESSE",    "最適化!"},
-        ['tech_finesse_f']= {"テクニック",            "FINESSE+",   "最適化はそのまま、通常line消去禁止!"},
-        --['tech_finesse_lock']=   {"Tech",              "FINESSE LOCK",   "No finesse errors, combined with limited inputs!"},
-        --['tech_finesse_lock_f']= {"Tech",              "FINESSE+ LOCK",  "No normal clears or finesse errors combined with limited inputs!"},
+        ['tech_finesse_f']= {"テクニック",            "FINESSE+",   "最適化はそのまま、普通のline消去禁止!"},
+        ['tech_finesse_lock']=   {"テクニック",       "FINESSE LOCK","限られた入力数で最適化!"},
+        ['tech_finesse_lock_f']= {"Tech",          "FINESSE+ LOCK","限られた入力数で最適化、ただし普通のline消去禁止!"},
         ['tsd_e']=          {"TSDチャレンジ",         "EASY",       "TSDだけ!"},
         ['tsd_h']=          {"TSDチャレンジ",         "HARD",       "TSDだけ!"},
         ['tsd_u']=          {"TSDチャレンジ",         "ULTIMATE",   "TSDだけ!"},
