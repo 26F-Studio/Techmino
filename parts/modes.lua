@@ -66,12 +66,12 @@ return {
     {name='strategy_u_plus',      x=-300,      y=-1380,    size=30,shape=2,icon="master"},
 
     {name='blind_e',              x=150,       y=-700,     size=40,shape=1,icon="hidden",      unlock={'blind_n','master_instinct'}},
-    {name='blind_n',              x=150,       y=-800,     size=40,shape=1,icon="hidden",      unlock={'blind_h'}},
-    {name='blind_h',              x=150,       y=-900,     size=35,shape=1,icon="hidden",      unlock={'blind_l'}},
-    {name='blind_l',              x=150,       y=-1000,    size=35,shape=3,icon="hidden2",     unlock={'blind_u'}},
-    {name='blind_u',              x=150,       y=-1100,    size=30,shape=3,icon="hidden2",     unlock={'blind_wtf'}},
-    {name='blind_wtf',            x=150,       y=-1200,    size=25,shape=2,icon="hidden2"},
-    {name='master_instinct',      x=285,       y=-835,     size=40,shape=3,icon="hidden"},
+    {name='blind_n',              x=150,       y=-800,     size=40,shape=1,icon="hidden2",      unlock={'blind_h'}},
+    {name='blind_h',              x=150,       y=-900,     size=35,shape=1,icon="hidden3",      unlock={'blind_l'}},
+    {name='blind_l',              x=150,       y=-1000,    size=35,shape=3,icon="hidden4",     unlock={'blind_u'}},
+    {name='blind_u',              x=150,       y=-1100,    size=30,shape=3,icon="hidden4",     unlock={'blind_wtf'}},
+    {name='blind_wtf',            x=150,       y=-1200,    size=25,shape=2,icon="hidden5"},
+    {name='master_instinct',      x=285,       y=-835,     size=40,shape=3,icon="hidden2"},
 
     {name='classic_e',            x=-200,      y=-850,     size=40,shape=1,icon="classic",     unlock={'classic_h'}},
     {name='classic_h',            x=-300,      y=-950,     size=40,shape=3,icon="classic",     unlock={'classic_l'}},

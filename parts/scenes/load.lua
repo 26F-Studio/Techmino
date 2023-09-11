@@ -36,59 +36,127 @@ local loadingThread=coroutine.wrap(function()
 
     coroutine.yield('loadModeIcon')
     local modeIcons={}
-    modeIcons.marathon=GC.DO{64,64,
-        {'move',3,1},
-        {'fRect',20,6,-4,42},
-        {'fPoly',20,6,48,20,20,34},
-        {'fRect',8,48,20,6},
+    modeIcons.marathon=GC.DO{128,128,
+        {'move',6,2},
+        {'fRect',40,12,-8,84},
+        {'fPoly',40,12,96,40,40,68},
+        {'fRect',16,96,40,12},
     }
-    modeIcons.infinite=GC.DO{64,64,
+    modeIcons.infinite=GC.DO{128,128,
+        {'setLW',8},
+        {'dCirc',64,64,56},
+        {'line',64,28,64,64,82,82},
+        {'move',1,1},
+        {'fRect',60,14,8,8},
+        {'fRect',14,60,8,8},
+        {'fRect',104,60,8,8},
+        {'fRect',60,104,8,8},
+    }
+    modeIcons.classic=GC.DO{128,128,
+        {'setLW',12},
+        {'dRect',20,48,24,24},
+        {'dRect',52,48,24,24},
+        {'dRect',84,48,24,24},
+        {'dRect',52,80,24,24},
+    }
+    modeIcons.tsd=GC.DO{128,128,
+        {'fRect',14,14,32,32},
+        {'fRect',14,82,32,32},
+        {'fRect',82,82,32,32},
+        {'move',1,1},
+        {'setLW',2},
+        {'dPoly',14,48,112,48,112,78,78,78,78,112,48,112,48,78,14,78},
+    }
+    modeIcons.t49=GC.DO{128,128,
         {'setLW',4},
-        {'dCirc',32,32,28},
-        {'line',32,32,32,14},
-        {'line',32,32,41,41},
-        {'move',.5,.5},
-        {'fRect',30,7,4,4},
-        {'fRect',7,30,4,4},
-        {'fRect',52,30,4,4},
-        {'fRect',30,52,4,4},
-    }
-    modeIcons.classic=GC.DO{64,64,
-        {'setLW',6},
-        {'dRect',10,24,12,12},
-        {'dRect',26,24,12,12},
-        {'dRect',42,24,12,12},
-        {'dRect',26,40,12,12},
-    }
-    modeIcons.tsd=GC.DO{64,64,
-        {'fRect',7,7,16,16},
-        {'fRect',7,41,16,16},
-        {'fRect',41,41,16,16},
-        {'move',.5,.5},
-        {'setLW',1},
-        {'dPoly',7,24,56,24,56,39,39,39,39,56,24,56,24,39,7,39},
-    }
-    modeIcons.t49=GC.DO{64,64,
-        {'setLW',2},
-        {'dRect',05,05,10,20},{'dRect',49,05,10,20},
-        {'dRect',05,39,10,20},{'dRect',49,39,10,20},
-        {'dRect',20,10,23,43},
+        {'dRect',10,10,20,40},{'dRect',98,10,20,40},
+        {'dRect',10,78,20,40},{'dRect',98,78,20,40},
+        {'dRect',40,20,46,86},
         {'setCL',1,1,1,.7},
-        {'fRect',20,10,23,43},
+        {'fRect',40,20,46,86},
     }
-    modeIcons.t99=GC.DO{64,64,
-        {'setLW',2},
-        {'dRect',02,02,6,12},{'dRect',11,02,6,12},
-        {'dRect',02,18,6,12},{'dRect',11,18,6,12},
-        {'dRect',02,34,6,12},{'dRect',11,34,6,12},
-        {'dRect',02,50,6,12},{'dRect',11,50,6,12},
-        {'dRect',47,02,6,12},{'dRect',56,02,6,12},
-        {'dRect',47,18,6,12},{'dRect',56,18,6,12},
-        {'dRect',47,34,6,12},{'dRect',56,34,6,12},
-        {'dRect',47,50,6,12},{'dRect',56,50,6,12},
-        {'dRect',20,10,23,43},
+    modeIcons.t99=GC.DO{128,128,
+        {'setLW',4},
+        {'dRect',04,004,12,24},{'dRect',022,004,12,24},
+        {'dRect',04,036,12,24},{'dRect',022,036,12,24},
+        {'dRect',04,068,12,24},{'dRect',022,068,12,24},
+        {'dRect',04,100,12,24},{'dRect',022,100,12,24},
+        {'dRect',94,004,12,24},{'dRect',112,004,12,24},
+        {'dRect',94,036,12,24},{'dRect',112,036,12,24},
+        {'dRect',94,068,12,24},{'dRect',112,068,12,24},
+        {'dRect',94,100,12,24},{'dRect',112,100,12,24},
+        {'dRect',40,20,46,86},
         {'setCL',1,1,1,.7},
-        {'fRect',20,10,23,43},
+        {'fRect',40,20,46,86},
+    }
+    modeIcons.secret_grade=GC.DO{128,128,
+        {'fRect',048,000,16,16},
+        {'fRect',064,016,16,16},
+        {'fRect',080,032,16,16},
+        {'fRect',096,048,16,16},
+        {'fRect',112,064,16,16},
+        {'fRect',096,080,16,16},
+        {'fRect',080,096,16,16},
+        {'fRect',064,112,16,16},
+    }
+    do
+        local pento_polygon = {0,0, 32,0, 32,32, 96,32, 96,64, 64,64, 64,96, 32,96, 32,64, 0,64}
+        local pento_tris = love.math.triangulate(pento_polygon)
+        local draw_pentomino_table = {}
+        for i=1, #pento_tris do
+            table.insert(draw_pentomino_table,{'fPoly',unpack(pento_tris[i])})
+        end
+        modeIcons.sprint_pento=GC.DO{128,128,
+            {'move',6,64},
+            {'rotate',7*math.pi/4}, -- 45 degrees
+            
+            unpack(draw_pentomino_table),
+        }
+    end
+    modeIcons.sprint_tri=GC.DO{256,256,
+        {'rotate',math.pi/12}, -- 15 degrees
+        {'move',56,-20},
+        {'fRect',0,100,200,100},
+        {'fRect',100,0,100,100}
+    }
+    modeIcons.ultra=GC.DO{128,128,
+        {'setLW',12},
+        {'fRect',46,0,36,12},
+        {'dCirc',64,72,48},
+        {'fRect',58,42,12,38,4,4},
+        {'fRect',58,68,24,12,4,4},
+        {'rotate',math.pi/4},
+        {'fRect',90,-64,16,24,4,4}
+    }
+    modeIcons.big=GC.DO{100,100,
+        {'setLW',2},
+        {'fRect',00,80,60,20},
+        {'fRect',20,60,20,20},
+        {'setCL',unpack(COLOR.lX)},
+        {'dRect',00,80,20,20},
+        {'dRect',20,80,20,20},
+        {'dRect',40,80,20,20},
+        {'dRect',20,60,20,20},
+        
+        {'setCL',1,1,1,.5},
+        -- Draw grid
+        {'fRect',15,20,8,2},{'fRect',35,20,8,2},{'fRect',55,20,8,2},{'fRect',75,20,8,2},
+        {'fRect',15,40,8,2},{'fRect',35,40,8,2},{'fRect',55,40,8,2},{'fRect',75,40,8,2},
+        {'fRect',15,60,8,2},{'fRect',35,60,8,2},{'fRect',55,60,8,2},{'fRect',75,60,8,2},
+        {'fRect',15,80,8,2},{'fRect',35,80,8,2},{'fRect',55,80,8,2},{'fRect',75,80,8,2},
+
+        {'fRect',18,17,2,8},{'fRect',38,17,2,8},{'fRect',58,17,2,8},{'fRect',78,17,2,8},
+        {'fRect',18,37,2,8},{'fRect',38,37,2,8},{'fRect',58,37,2,8},{'fRect',78,37,2,8},
+        {'fRect',18,57,2,8},{'fRect',38,57,2,8},{'fRect',58,57,2,8},{'fRect',78,57,2,8},
+        {'fRect',18,77,2,8},{'fRect',38,77,2,8},{'fRect',58,77,2,8},{'fRect',78,77,2,8},
+    }
+    modeIcons.zen=GC.DO{128,128,
+        {'setLW',8},
+        {'dArc',30,74,20,1.45,5.1},
+        {'dArc',63,57,29,.2,-3.14},
+        {'dArc',101,79,15,-1.8,1.8},
+        {'fRect',26,89,78,9},
+        {'fRect',86,60,14,8}
     }
 
     coroutine.yield('loadMode')
