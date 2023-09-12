@@ -41,7 +41,7 @@ return {
     maxspeed="最高速度!",
     speedup="スピードアップ!",
     missionFailed="ミッション失敗",
-    infHeightOn="高度無限!,
+    infHeightOn="高度無限!",
     infHeightOff="高度制限あり",
     infHeightHint="“ファンクション 1”キー",
 
