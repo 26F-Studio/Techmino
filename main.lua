@@ -11,8 +11,7 @@
     1. I made a framework called Zframework, *most* code in Zframework are not directly relevant to game;
     2. "xxx" are texts for reading by player, 'xxx' are string values just used in program;
     3. Except "gcinfo" function of lua itself, other "gc" are short for "graphics";
-]]--
-
+]]
 
 -- Var leak check
 -- setmetatable(_G,{__newindex=function(self,k,v) print('>>'..k..string.rep(" ",26-#k),debug.traceback():match("\n.-\n\t(.-): "))rawset(self,k,v) end})
@@ -46,7 +45,7 @@ FONT.load{
 FONT.setDefault('norm')
 FONT.setFallback('norm')
 
-SCR.setSize(1280,720)-- Initialize Screen size
+SCR.setSize(1280,720) -- Initialize Screen size
 BGM.setMaxSources(5)
 VOC.setDiversion(.62)
 
@@ -101,30 +100,32 @@ CHAR=require'parts.char'
 require'parts.gameTables'
 require'parts.gameFuncs'
 
-THEME=      require'parts.theme'
-LINE=       require'parts.line'
-DATA=       require'parts.data'
+THEME  =require'parts.theme'
+LINE   =require'parts.line'
+DATA   =require'parts.data'
 
-TEXTURE=    require'parts.texture'
-SKIN=       require'parts.skin'
-USERS=      require'parts.users'
-NET=        require'parts.net'
-VK=         require'parts.virtualKey'
-BOT=        require'parts.bot'
-RSlist=     require'parts.RSlist'; DSCP=RSlist.TRS.centerPos
-PLY=        require'parts.player'
-NETPLY=     require'parts.netPlayer'
-MODES=      require'parts.modes'
+TEXTURE=require'parts.texture'
+SKIN   =require'parts.skin'
+USERS  =require'parts.users'
+NET    =require'parts.net'
+VK     =require'parts.virtualKey'
+BOT    =require'parts.bot'
+RSlist =require'parts.RSlist'; DSCP=RSlist.TRS.centerPos
+PLY    =require'parts.player'
+NETPLY =require'parts.netPlayer'
+MODES  =require'parts.modes'
 
-setmetatable(TEXTURE,{__index=function(self,k)
-    MES.new('warn',"No texture called: "..k)
-    self[k]=PAPER
-    return self[k]
-end})
+setmetatable(TEXTURE,{
+    __index=function(self,k)
+        MES.new('warn',"No texture called: "..k)
+        self[k]=PAPER
+        return self[k]
+    end,
+})
 
 -- Load mode files
 for i=1,#MODES do
-    local m=MODES[i]-- Mode template
+    local m=MODES[i] -- Mode template
     if FILE.isSafe('parts/modes/'..m.name) then
         TABLE.complete(require('parts.modes.'..m.name),MODES[i])
         MODES[m.name],MODES[i]=MODES[i]
@@ -144,7 +145,7 @@ end
 table.insert(_LOADTIMELIST_,("Load Modules: %.3fs"):format(TIME()-_LOADTIME_))
 
 -- Initialize Zframework
-do-- Z.setCursor
+do -- Z.setCursor
     local normImg=GC.DO{16,16,
         {'fCirc',8,8,4},
         {'setCL',1,1,1,.7},
@@ -196,12 +197,12 @@ Z.setOnGlobalKey('f11',function()
 end)
 Z.setVersionText(VERSION.string)
 Z.setDebugInfo{
-    {"Cache",gcinfo},
-    {"Tasks",TASK.getCount},
+    {"Cache", gcinfo},
+    {"Tasks", TASK.getCount},
     {"Voices",VOC.getQueueCount},
     {"Audios",love.audio.getSourceCount},
 }
-do-- Z.setOnFocus
+do -- Z.setOnFocus
     local function task_autoSoundOff()
         while true do
             coroutine.yield()
@@ -295,43 +296,43 @@ IMG.init{
     },
 }
 SKIN.load{
-    {name="crystal_scf",path='media/image/skin/crystal_scf.png'},
-    {name="matte_mrz",path='media/image/skin/matte_mrz.png'},
-    {name="shiny_chno",path='media/image/skin/shiny_chno.png'},
-    {name="contrast_mrz",path='media/image/skin/contrast_mrz.png'},
-    {name="polkadots_scf",path='media/image/skin/polkadots_scf.png'},
-    {name="toy_scf",path='media/image/skin/toy_scf.png'},
-    {name="smooth_mrz",path='media/image/skin/smooth_mrz.png'},
-    {name="simple_scf",path='media/image/skin/simple_scf.png'},
-    {name="glass_scf",path='media/image/skin/glass_scf.png'},
-    {name="penta_scf",path='media/image/skin/penta_scf.png'},
-    {name="bubble_scf",path='media/image/skin/bubble_scf.png'},
-    {name="minoes_scf",path='media/image/skin/minoes_scf.png'},
-    {name="pure_mrz",path='media/image/skin/pure_mrz.png'},
-    {name="bright_scf",path='media/image/skin/bright_scf.png'},
-    {name="glow_mrz",path='media/image/skin/glow_mrz.png'},
-    {name="plastic_mrz",path='media/image/skin/plastic_mrz.png'},
-    {name="paper_mrz",path='media/image/skin/paper_mrz.png'},
-    {name="yinyang_scf",path='media/image/skin/yinyang_scf.png'},
-    {name="cartooncup_earety",path='media/image/skin/cartooncup_earety.png'},
-    {name="jelly_miya",path='media/image/skin/jelly_miya.png'},
+    {name="crystal_scf",           path='media/image/skin/crystal_scf.png'},
+    {name="matte_mrz",             path='media/image/skin/matte_mrz.png'},
+    {name="shiny_chno",            path='media/image/skin/shiny_chno.png'},
+    {name="contrast_mrz",          path='media/image/skin/contrast_mrz.png'},
+    {name="polkadots_scf",         path='media/image/skin/polkadots_scf.png'},
+    {name="toy_scf",               path='media/image/skin/toy_scf.png'},
+    {name="smooth_mrz",            path='media/image/skin/smooth_mrz.png'},
+    {name="simple_scf",            path='media/image/skin/simple_scf.png'},
+    {name="glass_scf",             path='media/image/skin/glass_scf.png'},
+    {name="penta_scf",             path='media/image/skin/penta_scf.png'},
+    {name="bubble_scf",            path='media/image/skin/bubble_scf.png'},
+    {name="minoes_scf",            path='media/image/skin/minoes_scf.png'},
+    {name="pure_mrz",              path='media/image/skin/pure_mrz.png'},
+    {name="bright_scf",            path='media/image/skin/bright_scf.png'},
+    {name="glow_mrz",              path='media/image/skin/glow_mrz.png'},
+    {name="plastic_mrz",           path='media/image/skin/plastic_mrz.png'},
+    {name="paper_mrz",             path='media/image/skin/paper_mrz.png'},
+    {name="yinyang_scf",           path='media/image/skin/yinyang_scf.png'},
+    {name="cartooncup_earety",     path='media/image/skin/cartooncup_earety.png'},
+    {name="jelly_miya",            path='media/image/skin/jelly_miya.png'},
     {name="guidetris_xmiao_lusisi",path='media/image/skin/guidetris_xmiao_lusisi.png'},
-    {name="brick_notypey",path='media/image/skin/brick_notypey.png'},
-    {name="gem_notypey",path='media/image/skin/gem_notypey.png'},
-    {name="classic",path='media/image/skin/classic_unknown.png'},
-    {name="ball_shaw",path='media/image/skin/ball_shaw.png'},
-    {name="retro_notypey",path='media/image/skin/retro_notypey.png'},
-    {name="pixel_chno",path='media/image/skin/pixel_chno.png'},
-    {name="pastel_chno",path='media/image/skin/pastel_chno.png'},
-    {name="letters_chno",path='media/image/skin/letters_chno.png'},
-    {name="kanji_chno",path='media/image/skin/kanji_chno.png'},
-    {name="textbone_mrz",path='media/image/skin/textbone_mrz.png'},
-    {name="coloredbone_mrz",path='media/image/skin/coloredbone_mrz.png'},
-    {name="wtf",path='media/image/skin/wtf_mrz.png'},
+    {name="brick_notypey",         path='media/image/skin/brick_notypey.png'},
+    {name="gem_notypey",           path='media/image/skin/gem_notypey.png'},
+    {name="classic",               path='media/image/skin/classic_unknown.png'},
+    {name="ball_shaw",             path='media/image/skin/ball_shaw.png'},
+    {name="retro_notypey",         path='media/image/skin/retro_notypey.png'},
+    {name="pixel_chno",            path='media/image/skin/pixel_chno.png'},
+    {name="pastel_chno",           path='media/image/skin/pastel_chno.png'},
+    {name="letters_chno",          path='media/image/skin/letters_chno.png'},
+    {name="kanji_chno",            path='media/image/skin/kanji_chno.png'},
+    {name="textbone_mrz",          path='media/image/skin/textbone_mrz.png'},
+    {name="coloredbone_mrz",       path='media/image/skin/coloredbone_mrz.png'},
+    {name="wtf",                   path='media/image/skin/wtf_mrz.png'},
 }
 
 -- Initialize sound libs
-SFX.init((function()--[Warning] Not loading files here, just get the list of sound needed
+SFX.init((function() --[Warning] Not loading files here, just get the list of sound needed
     local L={}
     for _,v in next,fs.getDirectoryItems('media/effect/chiptune/') do
         if FILE.isSafe('media/effect/chiptune/'..v) then
@@ -364,12 +365,12 @@ table.insert(_LOADTIMELIST_,("Initialize Modules: %.3fs"):format(TIME()-_LOADTIM
 -- Load settings and statistics
 if
     not (
-        pcall(TABLE.cover, loadFile('conf/user',      '-json -canSkip') or loadFile('conf/user',      '-luaon -canSkip') or{},USER) and
-        pcall(TABLE.cover, loadFile('conf/unlock',    '-json -canSkip') or loadFile('conf/unlock',    '-luaon -canSkip') or{},RANKS) and
-        pcall(TABLE.update,loadFile('conf/settings',  '-json -canSkip') or loadFile('conf/settings',  '-luaon -canSkip') or{},SETTING) and
-        pcall(TABLE.coverR,loadFile('conf/data',      '-json -canSkip') or loadFile('conf/data',      '-luaon -canSkip') or{},STAT) and
-        pcall(TABLE.cover, loadFile('conf/key',       '-json -canSkip') or loadFile('conf/key',       '-luaon -canSkip') or{},KEY_MAP) and
-        pcall(TABLE.cover, loadFile('conf/virtualkey','-json -canSkip') or loadFile('conf/virtualkey','-luaon -canSkip') or{},VK_ORG)
+        pcall(TABLE.cover, loadFile('conf/user',      '-json -canSkip') or loadFile('conf/user',      '-luaon -canSkip') or {},USER) and
+        pcall(TABLE.cover, loadFile('conf/unlock',    '-json -canSkip') or loadFile('conf/unlock',    '-luaon -canSkip') or {},RANKS) and
+        pcall(TABLE.update,loadFile('conf/settings',  '-json -canSkip') or loadFile('conf/settings',  '-luaon -canSkip') or {},SETTING) and
+        pcall(TABLE.coverR,loadFile('conf/data',      '-json -canSkip') or loadFile('conf/data',      '-luaon -canSkip') or {},STAT) and
+        pcall(TABLE.cover, loadFile('conf/key',       '-json -canSkip') or loadFile('conf/key',       '-luaon -canSkip') or {},KEY_MAP) and
+        pcall(TABLE.cover, loadFile('conf/virtualkey','-json -canSkip') or loadFile('conf/virtualkey','-luaon -canSkip') or {},VK_ORG)
     )
 then
     MES.new('error',"An error occured during loading, and some data was lost.")
@@ -509,19 +510,21 @@ LANG.init('zh',
         -- 3. Add a button in parts/scenes/lang.lua;
     },
     {
-        block=BLOCK_NAMES
+        block=BLOCK_NAMES,
     },
     (function()
         local tipMeta={__call=function(L) return L[math.random(#L)] end}
         return function(L)
             if type(rawget(L,'getTip'))=='table' then setmetatable(L.getTip,tipMeta) end
-            setmetatable(L,{__index=function(self,k)
-                local mes="No Text ("..SETTING.locale.."): "..k
-                LOG(mes)
-                MES.new('warn',mes)
-                self[k]="["..k.."]"
-                return self[k]
-            end})
+            setmetatable(L,{
+                __index=function(self,k)
+                    local mes="No Text ("..SETTING.locale.."): "..k
+                    LOG(mes)
+                    MES.new('warn',mes)
+                    self[k]="["..k.."]"
+                    return self[k]
+                end,
+            })
         end
     end)()
 )
@@ -533,7 +536,9 @@ for _,v in next,fs.getDirectoryItems('parts/backgrounds') do
         BG.add(name,require('parts.backgrounds.'..name))
     end
 end
-BG.remList('none')BG.remList('gray')BG.remList('custom')
+BG.remList('none')
+BG.remList('gray')
+BG.remList('custom')
 
 -- Load scene files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems('parts/scenes') do
@@ -559,43 +564,52 @@ applySettings()
 
 -- Load replays
 for _,fileName in next,fs.getDirectoryItems('replay') do
-    if fileName:sub(12,12):match("[a-zA-Z]") then repeat
-        local date,mode,version,player,seed,setting,mod
-        local success,fileData=true,fs.read('replay/'..fileName)
-        date,   fileData=STRING.readLine(fileData)date=date:gsub("[a-zA-Z]","")
-        mode,   fileData=STRING.readLine(fileData)mode=MODE_UPDATE_MAP[mode] or mode
-        version,fileData=STRING.readLine(fileData)
-        player, fileData=STRING.readLine(fileData) if player=="Local Player" then player="Stacker" end
-        success,fileData=pcall(love.data.decompress,'string','zlib',fileData)
-        if not success then break end
-        seed,   fileData=STRING.readLine(fileData)
-        setting,fileData=STRING.readLine(fileData)setting=JSON.decode(setting)
-        mod,    fileData=STRING.readLine(fileData)mod=JSON.decode(mod)
-        if
-            not setting or
-            not mod or
-            not mode or
-            #mode==0
-        then break end
+    if fileName:sub(12,12):match("[a-zA-Z]") then
+        repeat
+            local date,mode,version,player,seed,setting,mod
+            local success,fileData=true,fs.read('replay/'..fileName)
+            date,fileData=STRING.readLine(fileData)
+            date=date:gsub("[a-zA-Z]","")
+            mode,fileData=STRING.readLine(fileData)
+            mode=MODE_UPDATE_MAP[mode] or mode
+            version,fileData=STRING.readLine(fileData)
+            player,fileData=STRING.readLine(fileData)
+            if player=="Local Player" then player="Stacker" end
+            success,fileData=pcall(love.data.decompress,'string','zlib',fileData)
+            if not success then break end
+            seed,fileData=STRING.readLine(fileData)
+            setting,fileData=STRING.readLine(fileData)
+            setting=JSON.decode(setting)
+            mod,fileData=STRING.readLine(fileData)
+            mod=JSON.decode(mod)
+            if
+                not setting or
+                not mod or
+                not mode or
+                #mode==0
+            then
+                break
+            end
 
-        fs.remove('replay/'..fileName)
-        local newName=fileName:sub(1,10)..fileName:sub(15)
-        fs.write('replay/'..newName,
-            love.data.compress('string','zlib',
-                JSON.encode{
-                    date=date,
-                    mode=mode,
-                    version=version,
-                    player=player,
-                    seed=seed,
-                    setting=setting,
-                    mod=mod,
-                }.."\n"..
-                fileData
+            fs.remove('replay/'..fileName)
+            local newName=fileName:sub(1,10)..fileName:sub(15)
+            fs.write('replay/'..newName,
+                love.data.compress('string','zlib',
+                    JSON.encode{
+                        date=date,
+                        mode=mode,
+                        version=version,
+                        player=player,
+                        seed=seed,
+                        setting=setting,
+                        mod=mod,
+                    }.."\n"..
+                    fileData
+                )
             )
-        )
-        fileName=newName
-    until true end
+            fileName=newName
+        until true
+    end
     local rep=DATA.parseReplay('replay/'..fileName)
     table.insert(REPLAY,rep)
 end
@@ -617,7 +631,8 @@ if TABLE.find(arg,'-- test') then
         while not LOADED do coroutine.yield() end
 
         LOG("\27[92m\27[1mAutomatic Test Started\27[0m")
-        BGM.setVol(0)SFX.setVol(0)
+        BGM.setVol(0)
+        SFX.setVol(0)
         love.keypressed('space')
         TEST.yieldUntilNextScene()
 
