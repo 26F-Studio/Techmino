@@ -1375,6 +1375,7 @@ function Player:hold_swap(ifpre)
             hb.name=C.name
             hb.color=C.color
             self.cur,self.nextQueue[hid]=self.nextQueue[hid],hb
+            self.cur.bagLine=nil
 
             self.curX,self.curY=x,y
         else-- Normal hold
@@ -1384,6 +1385,7 @@ function Player:hold_swap(ifpre)
             hb.color=C.color
             hb.name=C.name
             self.cur,self.nextQueue[hid]=self.nextQueue[hid],hb
+            self.cur.bagLine=nil
 
             self:resetBlock()
         end
@@ -1444,6 +1446,7 @@ function Player:popNext(ifhold)-- Pop nextQueue to hand
 
     if self.nextQueue[1] then
         self.cur=rem(self.nextQueue,1)
+        self.cur.bagLine=nil
         self:newNext()
         self.pieceCount=self.pieceCount+1
 
