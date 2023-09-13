@@ -1459,7 +1459,7 @@ function Player:popNext(ifhold)-- Pop nextQueue to hand
     self.spinLast=false
     self.ctrlCount=0
 
-    if #self.holdQueue>ENV.holdCount then
+    if #self.holdQueue>ENV.holdCount or ENV.holdMode=='swap' and #self.holdQueue>0 then
         self:hold(true,true)
     elseif self.nextQueue[1] then
         self.cur=rem(self.nextQueue,1)
