@@ -1079,7 +1079,7 @@ function draw.demo(P)
 
             -- Draw hold
             local N=1
-            while P.holdQueue[N] do
+            while ENV.holdMode=='hold' and N<=ENV.holdCount and P.holdQueue[N] do
                 local id=P.holdQueue[N].id
                 local _=BLOCK_COLORS[skinSet[id]]
                 gc_setColor(_[1],_[2],_[3],.3)
