@@ -356,11 +356,9 @@ local function _drawBlock(CB,curX,curY,texture)
     end end
     gc_setShader()
 end
-local function _drawNextPreview(B,fieldH,fieldBeneath)
+local function _drawNextPreview(B,x,y)
     gc_setColor(1,1,1,.8)
-    local y=floor(fieldH+1-modf(B.RS.centerPos[B.id][B.dir][1]))+ceil(fieldBeneath/30)
     B=B.bk
-    local x=floor(6-#B[1]*.5)
     local cross=TEXTURE.puzzleMark[-1]
     for i=1,#B do for j=1,#B[1] do
         if B[i][j] then
@@ -368,11 +366,10 @@ local function _drawNextPreview(B,fieldH,fieldBeneath)
         end
     end end
 end
-local function _drawHoldPreview(B,fieldH,fieldBeneath)
+local function _drawHoldPreview(B,x,y)
     gc_setColor(1,1,1,.3)
-    local y=floor(fieldH+1-modf(B.RS.centerPos[B.id][B.dir][1]))+ceil(fieldBeneath/30)+.14
+    y=y+.14
     B=B.bk
-    local x=floor(6-#B[1]*.5)
     local cross=TEXTURE.puzzleMark[-1]
     for i=1,#B do for j=1,#B[1] do
         if B[i][j] then
@@ -886,8 +883,8 @@ function draw.norm(P,repMode)
 
             -- Draw next preview
             if ENV.nextPos then
-                if P.nextQueue[1] then _drawNextPreview(P.nextQueue[1],ENV.fieldH,P.fieldBeneath) end
-                if P.holdQueue[1] then _drawHoldPreview(P.holdQueue[1],ENV.fieldH,P.fieldBeneath) end
+                if P.nextQueue[1] then _drawNextPreview(P.nextQueue[1],P:getSpawnX(P.nextQueue[1]),P:getSpawnY(P.nextQueue[1])) end
+                if P.holdQueue[1] then _drawHoldPreview(P.holdQueue[1],P:getSpawnX(P.holdQueue[1]),P:getSpawnY(P.holdQueue[1])) end
             end
 
             -- Draw AI's drop destination
@@ -1082,7 +1079,7 @@ function draw.demo(P)
 
             -- Draw hold
             local N=1
-            while P.holdQueue[N] do
+            while ENV.holdMode=='hold' and N<=ENV.holdCount and P.holdQueue[N] do
                 local id=P.holdQueue[N].id
                 local _=BLOCK_COLORS[skinSet[id]]
                 gc_setColor(_[1],_[2],_[3],.3)

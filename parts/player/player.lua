@@ -1155,8 +1155,8 @@ function Player:resetBlock()-- Reset Block's position and execute I*S
     local C=self.cur
     local sc=C.RS.centerPos[C.id][C.dir]
 
-    self.curX=floor(6-#C.bk[1]*.5)
-    local y=floor(self.gameEnv.fieldH+1-modf(sc[1]))+ceil(self.fieldBeneath/30)
+    self.curX=self:getSpawnX(C)
+    local y=self:getSpawnY(C)
     self.curY=y
     self.minY=y+sc[1]
 
@@ -1195,9 +1195,10 @@ function Player:resetBlock()-- Reset Block's position and execute I*S
         SFX.fplay(spawnSFX_name[C.id],SETTING.sfx_spawn)
     end
 end
-
-function Player:getNextSpawn()
-    local cur = self.nextQueue[1]
+function Player:getSpawnX(cur)
+    return floor(6-#cur.bk[1]*.5)
+end
+function Player:getSpawnY(cur)
     return floor(self.gameEnv.fieldH+1-modf(cur.RS.centerPos[cur.id][cur.dir][1]))+ceil(self.fieldBeneath/30)
 end
 
@@ -1317,6 +1318,11 @@ function Player:hold_norm(ifpre)
                 hb.color=C.color
                 hb.name=C.name
                 ins(self.holdQueue,hb)
+                if self:willDieWith(self.holdQueue[1]) then
+                    self.cur=nil
+                    self.waiting=ENV.hang
+                    return
+                end
             end
             self.cur=rem(self.holdQueue,1)
 
@@ -1381,10 +1387,19 @@ function Player:hold_swap(ifpre)
         else-- Normal hold
             self.spinLast=false
 
-            local hb=self:getBlock(C.id)
-            hb.color=C.color
-            hb.name=C.name
-            self.cur,self.nextQueue[hid]=self.nextQueue[hid],hb
+            if C then
+                local hb=self:getBlock(C.id)
+                hb.color=C.color
+                hb.name=C.name
+                ins(self.holdQueue,self.nextQueue[hid])
+                self.nextQueue[hid]=hb
+                if self:willDieWith(self.holdQueue[1]) then
+                    self.cur=nil
+                    self.waiting=ENV.hang
+                    return
+                end
+            end
+            self.cur=rem(self.holdQueue,1)
             self.cur.bagLine=nil
 
             self:resetBlock()
@@ -1444,7 +1459,9 @@ function Player:popNext(ifhold)-- Pop nextQueue to hand
     self.spinLast=false
     self.ctrlCount=0
 
-    if self.nextQueue[1] then
+    if #self.holdQueue>ENV.holdCount or ENV.holdMode=='swap' and #self.holdQueue>0 then
+        self:hold(true,true)
+    elseif self.nextQueue[1] then
         self.cur=rem(self.nextQueue,1)
         self.cur.bagLine=nil
         self:newNext()
@@ -1479,6 +1496,9 @@ function Player:popNext(ifhold)-- Pop nextQueue to hand
     else-- Next queue is empty, force lose
         self:lose(true)
     end
+end
+function Player:willDieWith(B)
+    return B and self:ifoverlap(B.bk,self:getSpawnX(B),self:getSpawnY(B))
 end
 
 function Player:cancel(N)-- Cancel Garbage
@@ -2058,9 +2078,8 @@ do
         self.waiting=ENV.wait
 
         -- Prevent sudden death if hang>0
-        if ENV.hang>ENV.wait and self.nextQueue[1] then
-            local B=self.nextQueue[1]
-            if self:ifoverlap(B.bk,floor(6-#B.bk[1]*.5),floor(ENV.fieldH+1-modf(B.RS.centerPos[B.id][B.dir][1]))+ceil(self.fieldBeneath/30)) then
+        if ENV.hang>ENV.wait then
+            if self:willDieWith(self.nextQueue[1]) then
                 self.waiting=self.waiting+ENV.hang
             end
         end
