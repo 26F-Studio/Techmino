@@ -2815,6 +2815,27 @@ function Player:revive()
     playClearSFX(3)
     SFX.play('emit')
 end
+function Player:torikanEnd(requiredTime)
+    if self.stat.time < requiredTime then
+        return false
+    end
+    self:_die()
+    self.result='torikan'
+    if self.type=='human' then
+        GAME.result='torikan'
+        SFX.play('win')
+        VOC.play('win')
+    end
+    self:_showText(text.torikan,0,0,90,'beat',.5,.2)
+    self:_showText(STRING.time(self.stat.time).." / "..STRING.time(requiredTime),0,160,30,'beat',.5,.2)
+    self:_showText("(+"..STRING.time_short(self.stat.time-requiredTime)..")",0,200,30,'beat',.5,.2)
+    if self.type=='human' then
+        gameOver()
+        TASK.new(task_autoPause)
+    end
+    self:newTask(task_finish)
+    return true
+end
 function Player:win(result)
     if self.result then
         return

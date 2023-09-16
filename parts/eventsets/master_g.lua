@@ -261,7 +261,7 @@ return {
             elseif s==5 then
                 if P.stat.frame>420*60 then
                     D.pt=500
-                    P:win('finish')
+                    P:torikanEnd(420)
                     return
                 else
                     BG.set('glow')

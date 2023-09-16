@@ -54,7 +54,7 @@ return {
 
     win="Win!",
     lose="Lose",
-
+    torikan="Ended",
     finish="Finished",
     gamewin="You Won",
     gameover="Game Over",
