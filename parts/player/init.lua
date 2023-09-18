@@ -254,6 +254,8 @@ local hooks = {
     'hook_rotRight',
     'hook_rot180',
     'hook_drop',
+    'hook_spawn',
+    'hook_hold',
     'hook_die',
     'task'
 }

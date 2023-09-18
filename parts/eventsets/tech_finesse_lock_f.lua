@@ -82,6 +82,14 @@ return {
     end,
     hook_drop=function(P)
         resetLock(P)
+
+        local C=P.lastPiece
+        if C.row>0 then
+            if not C.special then
+                P:lose()
+                return
+            end
+        end
         if P.stat.atk>=100 then
             P:win('finish')
         end
@@ -104,5 +112,5 @@ return {
     end,
     hook_left_manual=onMove, hook_right_manual=onMove,
     hook_left_auto=onAutoMove, hook_right_auto=onAutoMove,
-    hook_rotLeft=onRotate, hook_rotRight=onRotate, hook_rot180=onRotate,
+    hook_rotLeft=onRotate, hook_rotRight=onRotate, hook_rot180=onRotate
 }

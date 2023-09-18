@@ -345,6 +345,7 @@ function Player:act_hold()
     if self.cur then
         if self:hold() then
             self.keyPressing[8]=false
+            self:_triggerEvent('hook_hold')
         end
     end
 end
@@ -382,6 +383,7 @@ function Player:act_insLeft(auto)
     else
         self.ctrlCount=self.ctrlCount+1
     end
+    if auto then self:_triggerEvent('hook_left_auto') end
 end
 function Player:act_insRight(auto)
     if not self.control then return end
@@ -408,6 +410,7 @@ function Player:act_insRight(auto)
     else
         self.ctrlCount=self.ctrlCount+1
     end
+    if auto then self:_triggerEvent('hook_right_auto') end
 end
 function Player:act_insDown()
     if not self.control then return end
@@ -1495,7 +1498,9 @@ function Player:popNext(ifhold)-- Pop nextQueue to hand
         self:hold(true,true)
     else-- Next queue is empty, force lose
         self:lose(true)
+        return
     end
+    self:_triggerEvent('hook_spawn')
 end
 function Player:willDieWith(B)
     return B and self:ifoverlap(B.bk,self:getSpawnX(B),self:getSpawnY(B))

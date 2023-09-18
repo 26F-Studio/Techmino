@@ -5,7 +5,7 @@ return {
         b2bKill=true,
         freshLimit=15,
         bg='flink',bgm='infinite',
-        eventSet='tech_finesse_lock',
+        eventSet='tech_finesse_lock_f',
     },
     slowMark=true,
     score=function(P) return {P.stat.atk<=100 and math.floor(P.stat.atk) or 100,P.stat.time} end,
