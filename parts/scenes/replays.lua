@@ -73,6 +73,10 @@ function scene.enter()
     listBox:setList(REPLAY)
     _updateButtonVisibility()
 end
+function scene.leave()
+    for i=1,#MODOPT do MODOPT[i].sel=0 end
+    TABLE.cut(GAME.mod)
+end
 
 function scene.keyDown(key)
     if key=='return' or key=='kpenter' then
