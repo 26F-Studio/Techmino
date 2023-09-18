@@ -462,6 +462,7 @@ do
     if not RANKS.sprint_10l then RANKS.sprint_10l=0 end
     if RANKS.master_l then RANKS.master_n,RANKS.master_l=RANKS.master_l end
     if RANKS.master_u then RANKS.master_h,RANKS.master_u=RANKS.master_u end
+    if RANKS.secret_grade then RANKS.construct_sg,RANKS.secret_grade=RANKS.secret_grade end
     for _,v in next,VK_ORG do v.color=nil end
     for name,rank in next,RANKS do
         if type(name)=='number' or type(rank)~='number' then

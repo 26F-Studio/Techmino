@@ -44,6 +44,7 @@ return {
     infHeightOn="Ketinggian Tak Terhingga ON",
     infHeightOff="Ketinggian Tak Terhingga OFF",
     infHeightHint="Ubah dengan tombol Fungsi 1",
+    highestGrade="(tertinggi: $1)",
 
     speedLV="Kecptn lvl",
     piece="Blok",line="Baris",atk="Baris Terkirim",eff="Efisiensi",
@@ -828,7 +829,9 @@ return {
         ['sprintPenta']=         {"Balapan",           "PENTOMINO",           "40L dengan pentomino!"},
         ['sprintMPH']=           {"Balapan",           "MPH",                 "Tanpa ingatan\nTanpa pratinjau\nTanpa simpan"},
         ['sprint123']=           {"Balapan",           "M123",                "40L dengan hanya monomino, domino, dan trimino"},
-        ['secret_grade']=        {"Secret Grade",      "",                    "Buatlah formasi lubang zigzag, menuruti panduannya!"},
+        ['construct_sg']=        {"Membangun",         "SECRET GRADE",        "Buatlah formasi lubang zigzag, menuruti panduannya!"},
+        ['construct_checker']=   {"Membangun",         "KOTAK-KOTAK",         "Buatlah pola kotak-kotak!"},
+        ['construct_invsg']=     {"Membangun",         "SG TERBALIK",         "Buatlah pola zigzag terbalik!"},
         ['dig_10l']=             {"Gali",              "10L",                 "Gali 10 baris!"},
         ['dig_40l']=             {"Gali",              "40L",                 "Gali 40 baris!"},
         ['dig_100l']=            {"Gali",              "100L",                "Gali 100 baris!"},

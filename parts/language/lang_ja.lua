@@ -44,6 +44,7 @@ return {
     -- infHeightOn="Infinite Height ON",
     -- infHeightOff="Infinite Height OFF",
     -- infHeightHint="Toggle with Function 1 key",
+    -- highestGrade="(highest: $1)",
 
     speedLV="レベル",
     piece="ミノ数",line="line数",atk="火力",eff="効率",
@@ -871,7 +872,9 @@ C. ゲームパッド
         ['sprintPenta']=    {"スプリント",            "PENTOMINO",     "ペントミノで40line"},
         ['sprintMPH']=      {"スプリント",            "MPH",           "ミノ順なし\nネクストなし\nホールドなし!"},
         ['sprint123']=      {"スプリント",            "M123",          "モノミノ、ドミノ、トリミノで40line"},
-        ['secret_grade']=   {"裏GM",                 "",              "ガイドに従ってジグザグに穴を作れ!"},
+        ['construct_sg']=   {"コンストラクト",        "裏GM",              "ガイドに従ってジグザグに穴を作れ!"},
+        -- ['construct_checker']=   {"Construct",         "CHECKERBOARD",   "Build a checkerboard pattern!"},
+        -- ['construct_invsg']=     {"Construct",         "INV. SG",        "Build an inverted zigzag pattern!"},
         ['dig_10l']=        {"掘り",                 "10L",           "10line下穴を掘れ!"},
         ['dig_40l']=        {"掘り",                 "40L",           "40line下穴を掘れ!"},
         ['dig_100l']=       {"掘り",                 "100L",          "100line下穴を掘れ!"},
