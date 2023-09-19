@@ -377,13 +377,10 @@ function Player:act_insLeft(auto)
         self.swingOffset.vx=-1.5
     end
     if auto then
-        if self.ctrlCount==0 then
-            self.ctrlCount=1
-        end
+        self:_triggerEvent('hook_left_auto')
     else
         self.ctrlCount=self.ctrlCount+1
     end
-    if auto then self:_triggerEvent('hook_left_auto') end
 end
 function Player:act_insRight(auto)
     if not self.control then return end
@@ -404,13 +401,10 @@ function Player:act_insRight(auto)
         self.swingOffset.vx=1.5
     end
     if auto then
-        if self.ctrlCount==0 then
-            self.ctrlCount=1
-        end
+        self:_triggerEvent('hook_right_auto')
     else
         self.ctrlCount=self.ctrlCount+1
     end
-    if auto then self:_triggerEvent('hook_right_auto') end
 end
 function Player:act_insDown()
     if not self.control then return end
