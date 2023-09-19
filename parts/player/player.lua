@@ -1345,6 +1345,8 @@ end
 function Player:hold_swap(ifpre)
     local ENV=self.gameEnv
     local hid=ENV.holdCount-self.holdTime+1
+    print(ENV.holdCount,self.holdTime)
+    print(hid)
     if self.nextQueue[hid] then
         local C,H=self.cur,self.nextQueue[hid]
         self.ctrlCount=0
@@ -1408,8 +1410,9 @@ function Player:hold_swap(ifpre)
     end
 
     self.freshTime=floor(min(self.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((self.holdTime+1)/ENV.holdCount),ENV.freshLimit))
-    if not ENV.infHold then
-        self.holdTime=self.holdTime-1
+    self.holdTime=self.holdTime-1
+    if ENV.infHold and self.holdTime==0 then
+        self.holdTime=ENV.holdCount
     end
 
     if self.sound then
