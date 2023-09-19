@@ -3,6 +3,7 @@ local function lockKey(P,keys)
         P.keyAvailable[v]=false
         VK.keys[v].ava=false
         VK.release(v)
+        P:releaseKey(v)
     end
 end
 local function unlockKey(P,keys)
