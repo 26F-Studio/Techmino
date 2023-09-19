@@ -6,15 +6,15 @@ local find=string.find
 
 local scene={}
 
-local dict-- Dict list
-local result-- Result Lable
+local dict       -- Dict list
+local result     -- Result Lable
 local localeFile -- Language file name, used for force reload
 
 local lastTickInput
-local searchWait-- Searching animation timer
+local searchWait         -- Searching animation timer
 
-local lastSearch-- Last searched string
-local lastSelected -- Last selected item
+local lastSearch         -- Last searched string
+local lastSelected       -- Last selected item
 
 local currentFontSize=25 -- Current font size, default: 25
 
@@ -52,9 +52,9 @@ local function _scanDict(D)
 end
 local function _getList() return result[1] and result or dict end
 
-local textBox =WIDGET.newTextBox {name='infoBox',x=320,y=180,w=862,h=526,font=25,fix=true}
-local inputBox=WIDGET.newInputBox{name='input',  x=20, y=110,w=762,h=60, font=40,limit=32}
-local listBox =WIDGET.newListBox {name='listBox',x=20, y=180,w=280,h=526,font=30,lineH=35,drawF=function(item,id,ifSel)
+local textBox=WIDGET.newTextBox{name='infoBox',x=320,y=180,w=862,h=526,font=25,fix=true}
+local inputBox=WIDGET.newInputBox{name='input',x=20,y=110,w=762,h=60,font=40,limit=32}
+local listBox=WIDGET.newListBox{name='listBox',x=20,y=180,w=280,h=526,font=30,lineH=35,drawF=function(item,id,ifSel)
     -- Background
     if ifSel then
         gc.setColor(1,1,1,.4)
@@ -78,7 +78,7 @@ local function _updateInfoBox(c)
                     CHAR.controller.xboxX,CHAR.controller.xboxY,CHAR.controller.xboxA,CHAR.controller.xboxB,
                     CHAR.icon.help,CHAR.icon.copy,CHAR.icon.globe,CHAR.key.winMenu
                 )
-            else    -- Fallback
+            else -- Fallback
                 listBox.selected=lastSelected
                 scene.widgetList.help.color=COLOR.Z
                 MES.new("error","Cannot found the Help text! Maybe just a mistake?")
@@ -102,17 +102,19 @@ local function _clearResult()
 end
 -- Search through the dictionary
 local function _search()
+    local _utf8lower=SETTING.locale:find'vi'
     local input=inputBox:getText()
     local pos
     _clearResult()
     local first
-    if dict=='vi' then
-        local success,input=pcall(function() STRING.lowerUTF8(input) end)
-        if not success then input=input:lower() end
+    if _utf8lower then
+        local success,res=pcall(STRING.lowerUTF8,input)
+        input=success and res or input:lower()
     else
-        input=input:lower() end
+        input=input:lower()
+    end
     for i=1,#dict do
-        if dict=='vi' then
+        if _utf8lower then
             pos=find(STRING.lowerUTF8(dict[i].title),input,nil,true) or find(STRING.lowerUTF8(dict[i].keywords),input,nil,true)
         else
             pos=find(dict[i].title:lower(),input,nil,true) or find(dict[i].keywords:lower(),input,nil,true)
@@ -136,7 +138,7 @@ end
 local function _jumpover(key,n)
     local dir=(key=='left' or key=='pageup') and 'up' or 'down'
     for _=1,n or 1 do scene.widgetList.listBox:arrowKey(dir) end
-    
+
     _updateInfoBox()
     lastSelected=listBox.selected
     scene.widgetList.copy.hide=false
@@ -155,7 +157,7 @@ end
 local function _setZoom(z)
     currentFontSize=MATH.clamp(z~=0 and currentFontSize+z or 25,15,40)
     textBox.font=currentFontSize
-    textBox.lineH=currentFontSize*7/5   -- Recalculate the line's height
+    textBox.lineH=currentFontSize*7/5 -- Recalculate the line's height
     textBox.capacity=math.ceil((textBox.h-10)/textBox.lineH)
     _updateInfoBox()
     MES.new("check",z~=0 and text.dict.sizeChanged:repD(currentFontSize) or text.dict.sizeReset,1.26)
@@ -163,7 +165,12 @@ end
 
 -- Reset everything when opening Zictionary
 function scene.enter()
-    localeFile='parts.language.dict_'..(SETTING.locale:find'zh' and 'zh' or SETTING.locale:find'ja' and 'ja' or SETTING.locale:find'vi' and 'vi' or 'en')
+    localeFile='parts.language.dict_'..(
+        SETTING.locale:find'zh' and 'zh' or
+        SETTING.locale:find'ja' and 'ja' or
+        -- SETTING.locale:find'vi' and 'vi' or
+        'en'
+    )
     dict=require(localeFile)
     _scanDict(dict)
 
@@ -193,19 +200,15 @@ function scene.keyDown(key)
     -- Switching selected items
     if key=='up' or key=='down' then
         textBox:scroll(key=='up' and -1 or 1)
-
     elseif (key=='left' or key=='pageup' or key=='right' or key=='pagedown') then
         _jumpover(key,love.keyboard.isDown('lctrl','rctrl','lalt','ralt','lshift','rshift') and 12)
-
     elseif key=='cC' or key=='c' and love.keyboard.isDown('lctrl','rctrl') then
         if listBox.selected>0 then
             _copy()
         end
-
     elseif (key=='-' or key=='=' or key=='0') and (inputBox:getText()=="" or not inputBoxFocus) and not MOBILE then
         WIDGET.unFocus(true)
         _setZoom(key=='0' and 0 or key=='-' and -5 or 5)
-
     elseif key=='application' and listBox.selected>=0 then
         local url=_getList()[listBox.selected].url
         if url then love.system.openURL(url) end
@@ -230,31 +233,31 @@ function scene.keyDown(key)
         searchWait=0
         _updateInfoBox()
 
-    -- ***ONLY USE FOR HOTLOADING ZICTIONARY WHILE IN GAME!***
-    -- ***Please commenting out this code if you don't use***
-    -- elseif key=='f5' then
-    --     local _
-    --     local success,_r=pcall(function()
-    --         package.loaded[localeFile]=nil
-    --         dict=require(localeFile)
-    --         _scanDict(dict)
-    --     end
-    --     )
-    --     if not success then
-    --         SFX.play('finesseError_long')
-    --         _,_r=FONT.get(30):getWrap(tostring(_r),1000)
-    --         MES.new("error","Hotload failed! May need restarting!\n\n"..table.concat(_r,"\n"))
-    --     else
-    --         local lastLscrollPos=listBox.scrollPos
-    --         local lastTscrollPos=textBox.scrollPos
-    --         listBox:setList(_getList())
-    --         if #inputBox:getText()>0 then _search() end
-    --         listBox.selected=lastSelected<#dict and lastSelected or #dict   -- In case the last item is removed!
-    --         listBox.scrollPos=lastLscrollPos
-    --         _updateInfoBox()
-    --         textBox.scrollPos=lastTscrollPos
-    --         SFX.play('pc')
-    --     end
+        -- ***ONLY USE FOR HOTLOADING ZICTIONARY WHILE IN GAME!***
+        -- ***Please commenting out this code if you don't use***
+        -- elseif key=='f5' then
+        --     local _
+        --     local success,_r=pcall(function()
+        --         package.loaded[localeFile]=nil
+        --         dict=require(localeFile)
+        --         _scanDict(dict)
+        --     end
+        --     )
+        --     if not success then
+        --         SFX.play('finesseError_long')
+        --         _,_r=FONT.get(30):getWrap(tostring(_r),1000)
+        --         MES.new("error","Hotload failed! May need restarting!\n\n"..table.concat(_r,"\n"))
+        --     else
+        --         local lastLscrollPos=listBox.scrollPos
+        --         local lastTscrollPos=textBox.scrollPos
+        --         listBox:setList(_getList())
+        --         if #inputBox:getText()>0 then _search() end
+        --         listBox.selected=lastSelected<#dict and lastSelected or #dict   -- In case the last item is removed!
+        --         listBox.scrollPos=lastLscrollPos
+        --         _updateInfoBox()
+        --         textBox.scrollPos=lastTscrollPos
+        --         SFX.play('pc')
+        --     end
     else
         if not inputBoxFocus then WIDGET.focus(inputBox) end
         return true
@@ -308,13 +311,13 @@ function scene.draw()
     -- Draw background
     gc.setColor(COLOR.dX)
     gc.rectangle('fill',1194,335,80,370,5)
-    gc.rectangle('fill',1194,180,80,80 ,5) -- Help key
+    gc.rectangle('fill',1194,180,80,80,5) -- Help key
     -- Draw outline
     gc.setLineWidth(2)
     gc.setColor(COLOR.Z)
     gc.rectangle('line',1194,335,80,370,5)
     gc.line(1194,555,1274,555)
-    gc.rectangle('line',1194,180,80,80 ,5) -- Help key
+    gc.rectangle('line',1194,180,80,80,5) -- Help key
 
     if searchWait>0 then
         local r=TIME()*2
@@ -325,22 +328,22 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newText  {name='book',    x=20,  y=15, font=70,align='L',fText=CHAR.icon.zBook},
-    WIDGET.newText  {name='title',   x=100, y=15, font=70,align='L'},
+    WIDGET.newText{name='book',x=20,y=15,font=70,align='L',fText=CHAR.icon.zBook},
+    WIDGET.newText{name='title',x=100,y=15,font=70,align='L'},
     listBox,
     inputBox,
     textBox,
-    WIDGET.newKey   {name='link',     x=1234,y=595,w=60,font=45,fText=CHAR.icon.globe,      code=pressKey'application',hideF=function() return not (listBox.selected>0 and _getList()[listBox.selected].url) end},
-    WIDGET.newKey   {name='copy',     x=1234,y=665,w=60,font=40,fText=CHAR.icon.copy,       code=pressKey'cC',hideF=function() return not (listBox.selected>0) end},
+    WIDGET.newKey{name='link',x=1234,y=595,w=60,font=45,fText=CHAR.icon.globe,code=pressKey'application',hideF=function() return not (listBox.selected>0 and _getList()[listBox.selected].url) end},
+    WIDGET.newKey{name='copy',x=1234,y=665,w=60,font=40,fText=CHAR.icon.copy,code=pressKey'cC',hideF=function() return not (listBox.selected>0) end},
 
-    WIDGET.newKey   {name='zoomin',   x=1234,y=375,w=60,font=40,fText=CHAR.icon.zoomIn,     code=function() _setZoom(5)  end},
-    WIDGET.newKey   {name='zoomout',  x=1234,y=445,w=60,font=40,fText=CHAR.icon.zoomOut,    code=function() _setZoom(-5) end},
-    WIDGET.newKey   {name='resetzoom',x=1234,y=515,w=60,font=40,fText=CHAR.icon.zoomDefault,code=function() _setZoom(0)  end},
+    WIDGET.newKey{name='zoomin',x=1234,y=375,w=60,font=40,fText=CHAR.icon.zoomIn,code=function() _setZoom(5) end},
+    WIDGET.newKey{name='zoomout',x=1234,y=445,w=60,font=40,fText=CHAR.icon.zoomOut,code=function() _setZoom(-5) end},
+    WIDGET.newKey{name='resetzoom',x=1234,y=515,w=60,font=40,fText=CHAR.icon.zoomDefault,code=function() _setZoom(0) end},
 
-    WIDGET.newKey   {name='help',     x=1234,y=220,w=60,font=40,fText=CHAR.icon.help,       code=pressKey'f1'},
+    WIDGET.newKey{name='help',x=1234,y=220,w=60,font=40,fText=CHAR.icon.help,code=pressKey'f1'},
 
-    WIDGET.newButton{name='back',     x=1185,y=60, w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
-    WIDGET.newText  {name='buttontip',x=1274,y=110,w=762,h=60,font=40,align='R',fText=CHAR.controller.xboxY.."/[F1]: "..CHAR.icon.help}
+    WIDGET.newButton{name='back',x=1185,y=60,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newText{name='buttontip',x=1274,y=110,w=762,h=60,font=40,align='R',fText=CHAR.controller.xboxY.."/[F1]: "..CHAR.icon.help},
 }
 -- NOTE: The gap between Link-Copy, Zoom is 60*1.5-10=80 :) The gap between 2 buttons in one group is 60+10=70
 return scene
