@@ -1,6 +1,28 @@
-return[=[
+return [=[
 未来计划:
         正在点亮科技树...
+
+0.17.15: 暂停 Break
+        新增:
+                bagP1inf序列模式
+                新模式：操作次数限制 (by NOT_A_ROBOT) #946
+                无尽模式添加无限场地高度开关 (by NOT_A_ROBOT) #961
+        改动:
+                续上一块的das不再计一次操作次数
+                更新触屏按键图标/两个方块皮肤/字体 (by C₂₉H₂₅N₃O₅) #932 #944
+                重制词典界面 (by MrZ & Squishy)
+                开启mod后mod菜单按钮会闪烁
+                更新英文所有语言文件
+                更新一些模式图标 (by NOT_A_ROBOT)
+                调整挖掘-效率系列模式的分数线 (by NOT_A_ROBOT & cheese race community) #965
+                离开录像菜单时会清空mod选择状态 #973
+        修复:
+                swap模式hold和无限hold的冲突 #972
+                玩家死亡掉落动画任务能跨局把新开的局里的玩家移除 #918
+                四连块之外的ASC旋转中心不正确 #910
+                手柄摇杆左右的图标反了 #912
+                修复游戏开始时mod展示动画不见了
+                词典标题栏太长时会溢出框
 
 0.17.14: 暂停 Break
         新增:
@@ -8,7 +30,7 @@ return[=[
         改动:
                 挖掘效率模式改为和tsd模式一样的低重力+不锁定+无限hold
                 登录界面UI更好懂一点
-                Arithmetic小程序新增草稿纸 (By NOT_A_ROBOT) #800
+                Arithmetic小程序新增草稿纸 (by NOT_A_ROBOT) #800
         修复:
                 对战和stack模式中hold致死但没有完全死的时候下一块悬空导致的幽灵行
                 忘了支持消6以上的语音
@@ -24,8 +46,8 @@ return[=[
 
 0.17.12: 暂停 Break
         新增:
-                添加越南语(By Shard Nguyễn, Squishy and TVN community) #835
-                新语音包: 俊达萌 (By C₂₉H₂₅N₃O₅)
+                添加越南语(by Shard Nguyễn, Squishy and TVN community) #835
+                新语音包: 俊达萌 (by C₂₉H₂₅N₃O₅)
                 开启竖屏选项时1P玩家强行放大至两倍
         新Bug:
                 竖屏模式下放大的1P玩家会挡住其他东西，不准备修复，能用就行
