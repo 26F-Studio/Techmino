@@ -115,7 +115,7 @@ function scene.draw()
         end
     elseif state==1 then
         gc.setColor(.2,.7,.4,math.min((60-ct)/10,ct/10)*.8)
-        gc.arc('fill',640,360,260,-1.5708,-1.5708+(ct/60)*6.2832)
+        gc.arc('fill',640,360,260,math.pi/2,math.pi/2+(ct/60)*MATH.tau)
     elseif state==2 and ct<5 then
         gc.setColor(1,ct>2 and 1 or 0,0)
         gc.rectangle('fill',640-100,(up and 180 or 540)-100,200,200,10)

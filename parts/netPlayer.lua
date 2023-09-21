@@ -121,7 +121,7 @@ function NETPLY.add(d)
         place=1e99,
         stat=false,
     }
-    local a=math.random()*6.2832
+    local a=math.random()*MATH.tau
     p.x,p.y,p.w,p.h=640+2600*math.cos(a),360+2600*math.sin(a),47,47
 
     ins(PLYlist,p)
