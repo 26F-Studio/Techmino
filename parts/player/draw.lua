@@ -986,9 +986,6 @@ function draw.norm(P,repMode)
 
         -- Torikan miss amount
         if P.result=='torikan' then
-            gc_setColor(COLOR.dX)
-            gc_rectangle('fill',150,450,300,60,20,20)
-
             local diff=P.stat.time-P.stat.torikanReq
             if     diff>=60 then gc_setColor(COLOR.R)
             elseif diff>=30 then gc_setColor(COLOR.F)
@@ -997,6 +994,8 @@ function draw.norm(P,repMode)
             elseif diff>=5  then gc_setColor(COLOR.flicker(COLOR.G,COLOR.L,.1))
             else                 gc_setColor(COLOR.flicker(COLOR.G,COLOR.J,.05)) end
             setFont(40)
+            -- self:_showText(STRING.time(self.stat.time).." / "..STRING.time(requiredTime),0,160,50,'beat',.5,.2)
+            GC.mStr(STRING.time(P.stat.time).." / "..STRING.time(P.stat.torikanReq),300,401)
             GC.mStr("(+"..STRING.time_short(diff)..")",300,451)
         end
 
