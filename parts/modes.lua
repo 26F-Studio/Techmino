@@ -15,10 +15,12 @@ return {
     {name='drought_n',            x=-600,      y=400,      size=40,shape=1,icon="drought",     unlock={'drought_l'}},
     {name='drought_l',            x=-800,      y=400,      size=40,shape=1,icon="drought"},
 
-    {name='dig_10l',              x=-200,      y=-200,     size=40,shape=1,icon="dig_sprint",  unlock={'dig_40l','dig_eff_10l'}},
+    {name='dig_10l',              x=-200,      y=-200,     size=40,shape=1,icon="dig_sprint",  unlock={'dig_40l','dig_eff_10l','dig_quad_10l'}},
     {name='dig_40l',              x=-400,      y=-200,     size=40,shape=1,icon="dig_sprint",  unlock={'dig_100l'}},
     {name='dig_100l',             x=-600,      y=-200,     size=40,shape=1,icon="dig_sprint",  unlock={'dig_400l'}},
     {name='dig_400l',             x=-800,      y=-200,     size=40,shape=1,icon="dig_sprint"},
+
+    {name='dig_quad_10l',         x=-200,      y=0,        size=40,shape=1,icon="dig_sprint"},
 
     {name='dig_eff_10l',          x=-400,      y=0,        size=40,shape=1,icon="dig_sprint",  unlock={'dig_eff_40l'}},
     {name='dig_eff_40l',          x=-600,      y=0,        size=40,shape=1,icon="dig_sprint",  unlock={'dig_eff_100l'}},
