@@ -1,6 +1,7 @@
 return {
     env={
         pushSpeed=6,
+        lock=1e99, infHold=true,
         bg='bg1',bgm='way',
         mesDisp=function(P)
             setFont(55)
