@@ -304,6 +304,7 @@ return {
         "Miya",
         "Xiaoya",
         "Mono",
+        "Flore",
         "MrZ",
         "Trebor",
         "",
