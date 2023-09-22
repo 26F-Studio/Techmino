@@ -984,6 +984,22 @@ function draw.norm(P,repMode)
             ENV.mesDisp[i](P,repMode)
         end
 
+        -- Torikan miss amount
+        if P.result=='torikan' then
+            gc_setColor(COLOR.dX)
+            gc_rectangle('fill',150,450,300,60,20,20)
+
+            local diff=P.stat.time-P.stat.torikanReq
+            if     diff>=60 then gc_setColor(COLOR.R)
+            elseif diff>=30 then gc_setColor(COLOR.F)
+            elseif diff>=15 then gc_setColor(COLOR.O)
+            elseif diff>=10 then gc_setColor(COLOR.Y)
+            elseif diff>=5  then gc_setColor(COLOR.flicker(COLOR.G,COLOR.L,.1))
+            else                 gc_setColor(COLOR.flicker(COLOR.G,COLOR.J,.05)) end
+            setFont(40)
+            GC.mStr("(+"..STRING.time_short(diff)..")",300,451)
+        end
+
         if P.frameRun<180 then
             _drawStartCounter(P.frameRun)
         end

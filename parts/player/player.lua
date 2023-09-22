@@ -2827,8 +2827,7 @@ function Player:torikanEnd(requiredTime)
         VOC.play('win')
     end
     self:_showText(text.torikan,0,0,90,'beat',.5,.2)
-    self:_showText(STRING.time(self.stat.time).." / "..STRING.time(requiredTime),0,160,30,'beat',.5,.2)
-    self:_showText("(+"..STRING.time_short(self.stat.time-requiredTime)..")",0,200,30,'beat',.5,.2)
+    self.stat.torikanReq=requiredTime
     if self.type=='human' then
         gameOver()
         TASK.new(task_autoPause)
@@ -2972,6 +2971,6 @@ function Player:lose(force)
         -- ::BREAK_notFinished::
     end
 end
---------------------------<\Event>--------------------------
+--------------------------</Event>--------------------------
 
 return Player
