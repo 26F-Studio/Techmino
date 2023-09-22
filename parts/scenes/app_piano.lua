@@ -15,17 +15,17 @@ local offset
 local tempoffset=0
 local showingKey
 local sharpt,flattt=false,false
-local virtualKeys={}   -- Virtual key set is near the end of the file.
-local touchPosition={}
+local virtualKeys={} -- Virtual key set is near the end of the file.
+local touches={}
 
 local scene={}
 
 -- Set all virtual key's text
-local function _setNoteName(offset)
+local function _setNoteName(_offset)
     for k=1,#virtualKeys do
         local K=virtualKeys[k]
         local keyName=string.sub(K.name:lower(),4)
-        if keys[keyName] then K:setObject(SFX.getNoteName(keys[keyName]+offset)) end
+        if keys[keyName] then K:setObject(SFX.getNoteName(keys[keyName]+_offset)) end
     end
 end
 -- Show virtual key
@@ -55,9 +55,29 @@ local function _holdingShift()
     _setNoteName(offset+1)
 end
 
+local function checkMultiTouch() -- Check for every touch keys
+    _notHoldCS()
+    for i=1,#touches do
+        local x,y=love.touch.getPosition(touches[i])
+        for _,key in pairs(virtualKeys) do
+            if not (key.name=="keyCtrl" or key.name=="keyShift") then
+                if key:isAbove(x,y) then
+                    key:code(); key:update(1)
+                end
+            end
+        end
+        if virtualKeys.keyCtrl:isAbove(x,y) then
+            _holdingCtrl()
+        elseif virtualKeys.keyShift:isAbove(x,y) then
+            _holdingShift()
+        end
+    end
+end
+
 
 -- Set scene's variables
 function scene.enter()
+    TABLE.cut(touches)
     inst='lead'
     offset=0
     lastPlayBGM=BGM.getPlaying()[1]
@@ -72,7 +92,9 @@ function scene.mouseDown(x,y,_)
     local lastK
     if showingKey then
         for k,K in pairs(virtualKeys) do
-            if K:isAbove(x,y) then K.code(); K:update(1); lastK=string.sub(K.name:lower(),4) end
+            if K:isAbove(x,y) then
+                K.code(); K:update(1); lastK=string.sub(K.name:lower(),4)
+            end
         end
         -- Check if there is a key other than Ctrl/Shift is hold
         -- if yes then automatically swap Ctrl/Shift state
@@ -83,26 +105,13 @@ function scene.mouseDown(x,y,_)
         end
     end
 end
-function scene.multipleTouch()     -- Check for every touch keys
-    _notHoldCS()
-    for _,pos in pairs(touchPosition) do
-        local x,y=pos[1],pos[2]
-        for i,currentKey in pairs(virtualKeys) do
-            if not (currentKey.name=="keyCtrl" or currentKey.name=="keyShift") then
-                if currentKey:isAbove(x,y) then currentKey:code(); currentKey:update(1) end
-            end
-        end
-        if     virtualKeys.keyCtrl :isAbove(x,y) then _holdingCtrl()
-        elseif virtualKeys.keyShift:isAbove(x,y) then _holdingShift() end
-    end
+function scene.touchDown(_,_,id)
+    table.insert(touches,id)
+    checkMultiTouch()
 end
-function scene.touchDown(x,y)
-    table.insert(touchPosition,{x,y})
-    scene.multipleTouch()
-end
-function scene.touchUp(x,y)
-    table.remove(touchPosition,TABLE.find(touchPosition,{x,y}))
-    scene.multipleTouch()
+function scene.touchUp(_,_,id)
+    table.remove(touches,TABLE.find(touches,id))
+    checkMultiTouch()
 end
 
 function scene.keyDown(key,isRep)
@@ -115,8 +124,10 @@ function scene.keyDown(key,isRep)
         else
             TEXT.show(SFX.getNoteName(note),math.random(75,1205),math.random(162,620),60,'score',.8)
         end
-    elseif kb.isDown('lctrl','rctrl')   and not isRep then _holdingCtrl()
-    elseif kb.isDown('lshift','rshift') and not isRep then _holdingShift()
+    elseif kb.isDown('lctrl','rctrl') and not isRep then
+        _holdingCtrl()
+    elseif kb.isDown('lshift','rshift') and not isRep then
+        _holdingShift()
     elseif key=='tab' then
         inst=TABLE.next(instList,inst)
     elseif key=='lalt' then
@@ -125,7 +136,8 @@ function scene.keyDown(key,isRep)
     elseif key=='ralt' then
         offset=math.min(offset+1,12)
         if showingKey then _setNoteName(offset) end
-    elseif key=='f5' then _showVirtualKey(not showingKey)
+    elseif key=='f5' then
+        _showVirtualKey(not showingKey)
     elseif key=='escape' then
         BGM.play(lastPlayBGM)
         SCN.back()
@@ -143,8 +155,8 @@ function scene.draw()
 
     -- Drawing virtual keys
     if showingKey then
-        for i,currentKey in pairs(virtualKeys) do
-            currentKey:draw()
+        for _,key in pairs(virtualKeys) do
+            key:draw()
         end
         gc.setLineWidth(1)
         gc.setColor(COLOR.Z)
@@ -152,12 +164,11 @@ function scene.draw()
     end
 end
 
-function scene.update()
-    for i,currentKey in pairs(virtualKeys) do
-        currentKey:update()
+function scene.update(dt)
+    for _,key in pairs(virtualKeys) do
+        key:update(dt)
     end
 end
-
 scene.widgetList={
     WIDGET.newButton{name='back'        ,x=1150,y=60,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=pressKey'escape'},
     WIDGET.newSwitch{name='showKey'     ,x=970 ,y=60,fText='Virtual key (F5)',disp=function() return showingKey end,code=pressKey'f5'},
@@ -236,12 +247,11 @@ virtualKeys['keyShift']:setObject(CHAR.key.shift)
 for k=1,#virtualKeys do
     local K=virtualKeys[k]
     -- Overwrite the update function
-    function K:update(activateState)
+    function K:update(activateState,dt)
         -- activateState
             -- 0 - Off
             -- 1 - On then off
             -- 2 - On
-        local dt=love.timer.getDelta()
         local ATV=self.ATV
         local maxTime=6.2
 
@@ -251,15 +261,16 @@ for k=1,#virtualKeys do
         -- When I can emulate holding key
         -- self.activateState=activateState and activateState or not ATV>maxTime and self.activateState end
 
-        if self.activateState>0 then
-            self.ATV=min(ATV+dt*60,maxTime)
-        elseif ATV>0 then
-            self.ATV=max(ATV-dt*30,0)
+        if dt then
+            if self.activateState>0 then
+                self.ATV=min(ATV+dt*60,maxTime)
+            elseif ATV>0 then
+                self.ATV=max(ATV-dt*30,0)
+            end
         end
     end
     -- Remove unnecessary function (reduce memory usage)
     function K:getCenter() end
-    function K:getInfo()   end
     function K:drag()      end
     function K:release()   end
 end
