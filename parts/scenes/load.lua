@@ -99,25 +99,18 @@ local loadingThread=coroutine.wrap(function()
         {'fRect',080,096,16,16},
         {'fRect',064,112,16,16},
     }
-    do
-        local pento_polygon = {0,0, 32,0, 32,32, 96,32, 96,64, 64,64, 64,96, 32,96, 32,64, 0,64}
-        local pento_tris = love.math.triangulate(pento_polygon)
-        local draw_pentomino_table = {}
-        for i=1, #pento_tris do
-            table.insert(draw_pentomino_table,{'fPoly',unpack(pento_tris[i])})
-        end
-        modeIcons.sprint_pento=GC.DO{128,128,
-            {'move',6,64},
-            {'rotate',7*math.pi/4}, -- 45 degrees
-            
-            unpack(draw_pentomino_table),
-        }
-    end
+    modeIcons.sprint_pento=GC.DO{256,256,
+        {'scale',2.8},
+        {'move',-10,-5},
+        {'rotate',-.26},
+        {'setFT',100},
+        {'print',CHAR.mino.F},
+    }
     modeIcons.sprint_tri=GC.DO{256,256,
-        {'rotate',math.pi/12}, -- 15 degrees
-        {'move',56,-20},
-        {'fRect',0,100,200,100},
-        {'fRect',100,0,100,100}
+        {'move',72,20},
+        {'rotate',.26},
+        {'fRect',0,80,160,80},
+        {'fRect',80,0,80,80}
     }
     modeIcons.ultra=GC.DO{128,128,
         {'setLW',12},
@@ -137,7 +130,7 @@ local loadingThread=coroutine.wrap(function()
         {'dRect',20,80,20,20},
         {'dRect',40,80,20,20},
         {'dRect',20,60,20,20},
-        
+
         {'setCL',1,1,1,.5},
         -- Draw grid
         {'fRect',15,20,8,2},{'fRect',35,20,8,2},{'fRect',55,20,8,2},{'fRect',75,20,8,2},
