@@ -426,6 +426,7 @@ do
     end
     if RANKS.bigbang then fs.remove('record/bigbang.rec') end
     if RANKS.clearRush then fs.remove('record/clearRush.rec') end
+    if STAT.version<1715 then fs.remove('record/dig_quad_10l.rec') end
 
     if STAT.version~=VERSION.code then
         for k,v in next,MODE_UPDATE_MAP do
