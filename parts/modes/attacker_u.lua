@@ -12,11 +12,11 @@ return {
     getRank=function(P)
         local W=P.modeData.wave
         return
-        W>=50 and 5 or
-        W>=40 and 4 or
-        W>=30 and 3 or
-        W>=20 and 2 or
-        W>=10 and 1 or
-        W>=5 and 0
+            W>=50 and 5 or
+            W>=40 and 4 or
+            W>=30 and 3 or
+            W>=20 and 2 or
+            W>=10 and 1 or
+            W>=5 and 0
     end,
 }

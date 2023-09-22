@@ -13,11 +13,11 @@ return {
     getRank=function(P)
         local T=P.modeData.tsd
         return
-        T>=20 and 5 or
-        T>=18 and 4 or
-        T>=15 and 3 or
-        T>=11 and 2 or
-        T>=7 and 1 or
-        T>=3 and 0
+            T>=20 and 5 or
+            T>=18 and 4 or
+            T>=15 and 3 or
+            T>=11 and 2 or
+            T>=7 and 1 or
+            T>=3 and 0
     end,
 }

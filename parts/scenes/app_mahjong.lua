@@ -67,14 +67,14 @@ local function _getPoolCardArea(i)
     local row=math.floor((i-1)/10)
     local col=i-row*10
     return
-    240+70*col,45+95*row,
-    60,84
+        240+70*col,45+95*row,
+        60,84
 end
 
 local function _getHandCardArea(i)
     return
-    20+70*i+(i==14 and 30 or 0),480,
-    60,84
+        20+70*i+(i==14 and 30 or 0),480,
+        60,84
 end
 
 local function _newGame()

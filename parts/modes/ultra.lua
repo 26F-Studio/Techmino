@@ -14,10 +14,10 @@ return {
     getRank=function(P)
         local T=P.stat.score
         return
-        T>=62000 and 5 or
-        T>=50000 and 4 or
-        T>=26000 and 3 or
-        T>=10000 and 2 or
-        T>=6200 and 1
+            T>=62000 and 5 or
+            T>=50000 and 4 or
+            T>=26000 and 3 or
+            T>=10000 and 2 or
+            T>=6200 and 1
     end,
 }

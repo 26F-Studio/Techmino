@@ -13,11 +13,11 @@ return {
         if P.stat.dig<400 then return end
         local P=P.stat.piece
         return
-        P<=1120 and 5 or
-        P<=1280 and 4 or
-        P<=1440 and 3 or
-        P<=1600 and 2 or
-        P<=1800 and 1 or
-        0
+            P<=1120 and 5 or
+            P<=1280 and 4 or
+            P<=1440 and 3 or
+            P<=1600 and 2 or
+            P<=1800 and 1 or
+            0
     end,
 }

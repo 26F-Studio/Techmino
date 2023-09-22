@@ -45,11 +45,11 @@ return {
     getRank=function(P)
         local R=P.modeData.place
         return
-        R==1 and 5 or
-        R<=3 and 4 or
-        R<=6 and 3 or
-        R<=8 and 2 or
-        R<=10 and 1 or
-        R<=90 and 0
+            R==1 and 5 or
+            R<=3 and 4 or
+            R<=6 and 3 or
+            R<=8 and 2 or
+            R<=10 and 1 or
+            R<=90 and 0
     end,
 }

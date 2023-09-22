@@ -13,11 +13,11 @@ return {
         if P.stat.dig<10 then return end
         local P=P.stat.piece
         return
-        P<=14 and 5 or
-        P<=20 and 4 or
-        P<=25 and 3 or
-        P<=30 and 2 or
-        P<=40 and 1 or
-        0
+            P<=14 and 5 or
+            P<=20 and 4 or
+            P<=25 and 3 or
+            P<=30 and 2 or
+            P<=40 and 1 or
+            0
     end,
 }

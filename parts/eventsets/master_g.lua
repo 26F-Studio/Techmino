@@ -15,54 +15,54 @@ local cool_time={3120,3120,2940,2700,2700,2520,2520,2280,2280,0}
 local regret_time= {5400,4500,4500,4080,3600,3600,3000,3000,3000,3000}
 local function getGrav(l)
     return
-    l<30  and 64   or
-    l<35  and 43   or
-    l<40  and 32   or
-    l<50  and 26   or
-    l<60  and 21   or
-    l<70  and 16   or
-    l<80  and 8    or
-    l<90  and 6    or
-    l<120 and 4    or
-    l<160 and 3    or
-    l<200 and 2    or
-    l<220 and 64   or
-    l<230 and 8    or
-    l<233 and 4    or
-    l<236 and 3    or
-    l<243 and 2    or
-    l<300 and 1    or
-    l<360 and 0.5  or
-    l<450 and 0.25 or
-    0
+        l<30  and 64   or
+        l<35  and 43   or
+        l<40  and 32   or
+        l<50  and 26   or
+        l<60  and 21   or
+        l<70  and 16   or
+        l<80  and 8    or
+        l<90  and 6    or
+        l<120 and 4    or
+        l<160 and 3    or
+        l<200 and 2    or
+        l<220 and 64   or
+        l<230 and 8    or
+        l<233 and 4    or
+        l<236 and 3    or
+        l<243 and 2    or
+        l<300 and 1    or
+        l<360 and 0.5  or
+        l<450 and 0.25 or
+        0
 end
 local function getLock(l)
     return
-    l<900  and 30 or
-    l<1100 and 19 or
-    15
+        l<900  and 30 or
+        l<1100 and 19 or
+        15
 end
 local function getWait(l)
     return
-    l<700  and 23 or
-    l<800  and 16 or
-    l<1000 and 12 or
-    l<1100 and 7  or
-    6
+        l<700  and 23 or
+        l<800  and 16 or
+        l<1000 and 12 or
+        l<1100 and 7  or
+        6
 end
 local function getFall(l)
     return
-    l<500  and 25 or
-    l<600  and 18 or
-    l<700  and 12 or
-    l<800  and 8 or
-    4
+        l<500  and 25 or
+        l<600  and 18 or
+        l<700  and 12 or
+        l<800  and 8 or
+        4
 end
 local function getDas(l)
     return
-    l<500  and 10 or
-    l<900  and 8 or
-    6
+        l<500  and 10 or
+        l<900  and 8 or
+        6
 end
 local function getCurrentGrade(D)
     if not D.int_grade then D.int_grade=0 end

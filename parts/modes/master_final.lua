@@ -11,11 +11,11 @@ return {
     getRank=function(P)
         local S=P.modeData.pt
         return
-        S>=1000 and 5 or
-        S>=800 and 4 or
-        S>=600 and 3 or
-        S>=400 and 2 or
-        S>=200 and 1 or
-        S>=50 and 0
+            S>=1000 and 5 or
+            S>=800 and 4 or
+            S>=600 and 3 or
+            S>=400 and 2 or
+            S>=200 and 1 or
+            S>=50 and 0
     end,
 }

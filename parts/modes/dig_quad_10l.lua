@@ -39,11 +39,11 @@ return {
         local piece = P.stat.piece
         if dig < 4 then return end
         return
-        dig < 7 and 0 or
-        dig < 10 and 1 or
-        piece > 103 and 2 or
-        piece > 92 and 3 or
-        piece > 81 and 4 or
-        5
+            dig < 7 and 0 or
+            dig < 10 and 1 or
+            piece > 103 and 2 or
+            piece > 92 and 3 or
+            piece > 81 and 4 or
+            5
     end,
 }
