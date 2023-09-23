@@ -40,17 +40,17 @@ local function _notHoldCS()
     tempoffset=0
     _setNoteName(offset)
     flattt,sharpt=false,false
-    pianoVK['ctrl'].color,pianoVK['shift'].color=COLOR.Z,COLOR.Z
+    pianoVK.ctrl.color,pianoVK.shift.color=COLOR.Z,COLOR.Z
 end
 local function _holdingCtrl()
     _notHoldCS()
-    pianoVK['ctrl'].color=COLOR.R
+    pianoVK.ctrl.color=COLOR.R
     tempoffset=-1
     _setNoteName(offset-1)
 end
 local function _holdingShift()
     _notHoldCS()
-    pianoVK['shift'].color=COLOR.R
+    pianoVK.shift.color=COLOR.R
     tempoffset=1
     _setNoteName(offset+1)
 end
@@ -241,8 +241,8 @@ pianoVK={
 setmetatable(pianoVK,{__index=function(L,k) for i=1,#L do if L[i].name==k then return L[i] end end end})
 
 -- Set objects text
-pianoVK['ctrl'] :setObject(CHAR.key.ctrl )
-pianoVK['shift']:setObject(CHAR.key.shift)
+pianoVK.ctrl :setObject(CHAR.key.ctrl )
+pianoVK.shift:setObject(CHAR.key.shift)
 -- Overwrite some functions
 for k=1,#pianoVK do
     local K=pianoVK[k]
