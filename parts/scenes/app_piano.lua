@@ -15,24 +15,24 @@ local offset
 local tempoffset=0
 local showingKey
 local sharpt,flattt=false,false
-local virtualKeys={} -- Virtual key set is near the end of the file.
+local pianoVK={} -- Virtual key set is near the end of the file.
 local touches={}
 
 local scene={}
 
 -- Set all virtual key's text
 local function _setNoteName(_offset)
-    for k=1,#virtualKeys do
-        local K=virtualKeys[k]
-        local keyName=string.sub(K.name:lower(),4)
+    for k=1,#pianoVK do
+        local K=pianoVK[k]
+        local keyName=K.name
         if keys[keyName] then K:setObject(SFX.getNoteName(keys[keyName]+_offset)) end
     end
 end
 -- Show virtual key
 local function _showVirtualKey(switch)
     if switch~=nil then showingKey=switch else showingKey=not showingKey end
-    for k=1,#virtualKeys do
-        virtualKeys[k].hide=not showingKey
+    for k=1,#pianoVK do
+        pianoVK[k].hide=not showingKey
     end
 end
 
@@ -40,35 +40,35 @@ local function _notHoldCS()
     tempoffset=0
     _setNoteName(offset)
     flattt,sharpt=false,false
-    virtualKeys['keyCtrl'].color,virtualKeys['keyShift'].color=COLOR.Z,COLOR.Z
+    pianoVK['ctrl'].color,pianoVK['shift'].color=COLOR.Z,COLOR.Z
 end
 local function _holdingCtrl()
     _notHoldCS()
-    virtualKeys['keyCtrl'].color=COLOR.R
+    pianoVK['ctrl'].color=COLOR.R
     tempoffset=-1
     _setNoteName(offset-1)
 end
 local function _holdingShift()
     _notHoldCS()
-    virtualKeys['keyShift'].color=COLOR.R
+    pianoVK['shift'].color=COLOR.R
     tempoffset=1
     _setNoteName(offset+1)
 end
 
-local function checkMultiTouch() -- Check for every touch keys
+local function checkMultiTouch() -- Check for every touch
     _notHoldCS()
     for i=1,#touches do
         local x,y=love.touch.getPosition(touches[i])
-        for _,key in pairs(virtualKeys) do
-            if not (key.name=="keyCtrl" or key.name=="keyShift") then
+        for _,key in pairs(pianoVK) do
+            if not (key.name=="ctrl" or key.name=="shift") then
                 if key:isAbove(x,y) then
                     key:code(); key:update(1)
                 end
             end
         end
-        if virtualKeys.keyCtrl:isAbove(x,y) then
+        if pianoVK.ctrl:isAbove(x,y) then
             _holdingCtrl()
-        elseif virtualKeys.keyShift:isAbove(x,y) then
+        elseif pianoVK.shift:isAbove(x,y) then
             _holdingShift()
         end
     end
@@ -91,9 +91,9 @@ function scene.mouseDown(x,y,_)
     -- Detail: Ctrl/Shift state will be reset after a note is clicked!
     local lastK
     if showingKey then
-        for k,K in pairs(virtualKeys) do
+        for k,K in pairs(pianoVK) do
             if K:isAbove(x,y) then
-                K.code(); K:update(1); lastK=string.sub(K.name:lower(),4)
+                K.code(); K:update(1); lastK=K.name
             end
         end
         -- Check if there is a key other than Ctrl/Shift is hold
@@ -119,7 +119,7 @@ function scene.keyDown(key,isRep)
         local note=keys[key]+offset+tempoffset
         SFX.playSample(inst,note)
         if showingKey then
-            virtualKeys['key'..key:upper()]:update(1)
+            pianoVK[key]:update(1)
             TEXT.show(SFX.getNoteName(note),math.random(75,1205),math.random(162,260),60,'score',.8)
         else
             TEXT.show(SFX.getNoteName(note),math.random(75,1205),math.random(162,620),60,'score',.8)
@@ -155,7 +155,7 @@ function scene.draw()
 
     -- Drawing virtual keys
     if showingKey then
-        for _,key in pairs(virtualKeys) do
+        for _,key in pairs(pianoVK) do
             key:draw()
         end
         gc.setLineWidth(1)
@@ -165,7 +165,7 @@ function scene.draw()
 end
 
 function scene.update(dt)
-    for _,key in pairs(virtualKeys) do
+    for _,key in pairs(pianoVK) do
         key:update(dt)
     end
 end
@@ -178,74 +178,74 @@ scene.widgetList={
 }
 
 -- Set virtual keys (seperate from ZFramework)
-virtualKeys={
+pianoVK={
     -- Number row:  01234567890-=           13
-    WIDGET.newKey   {name='key1'        ,x=  75,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('1'        ) end},
-    WIDGET.newKey   {name='key2'        ,x= 165,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('2'        ) end},
-    WIDGET.newKey   {name='key3'        ,x= 255,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('3'        ) end},
-    WIDGET.newKey   {name='key4'        ,x= 345,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('4'        ) end},
-    WIDGET.newKey   {name='key5'        ,x= 435,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('5'        ) end},
-    WIDGET.newKey   {name='key6'        ,x= 525,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('6'        ) end},
-    WIDGET.newKey   {name='key7'        ,x= 615,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('7'        ) end},
-    WIDGET.newKey   {name='key8'        ,x= 755,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('8'        ) end},
-    WIDGET.newKey   {name='key9'        ,x= 845,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('9'        ) end},
-    WIDGET.newKey   {name='key0'        ,x= 935,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('0'        ) end},
-    WIDGET.newKey   {name='key-'        ,x=1025,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('-'        ) end},
-    WIDGET.newKey   {name='key='        ,x=1115,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('='        ) end},
-    WIDGET.newKey   {name='keyBACKSPACE',x=1205,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('backspace') end},
+    WIDGET.newKey   {name='1'        ,x=  75,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('1'        ) end},
+    WIDGET.newKey   {name='2'        ,x= 165,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('2'        ) end},
+    WIDGET.newKey   {name='3'        ,x= 255,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('3'        ) end},
+    WIDGET.newKey   {name='4'        ,x= 345,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('4'        ) end},
+    WIDGET.newKey   {name='5'        ,x= 435,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('5'        ) end},
+    WIDGET.newKey   {name='6'        ,x= 525,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('6'        ) end},
+    WIDGET.newKey   {name='7'        ,x= 615,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('7'        ) end},
+    WIDGET.newKey   {name='8'        ,x= 755,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('8'        ) end},
+    WIDGET.newKey   {name='9'        ,x= 845,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('9'        ) end},
+    WIDGET.newKey   {name='0'        ,x= 935,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('0'        ) end},
+    WIDGET.newKey   {name='-'        ,x=1025,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('-'        ) end},
+    WIDGET.newKey   {name='='        ,x=1115,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('='        ) end},
+    WIDGET.newKey   {name='backspace',x=1205,y=335,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('backspace') end},
 
     -- Top row:     QWERTYUIOP[]\           13
-    WIDGET.newKey   {name='keyQ'        ,x=  75,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('q' ) end},
-    WIDGET.newKey   {name='keyW'        ,x= 165,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('w' ) end},
-    WIDGET.newKey   {name='keyE'        ,x= 255,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('e' ) end},
-    WIDGET.newKey   {name='keyR'        ,x= 345,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('r' ) end},
-    WIDGET.newKey   {name='keyT'        ,x= 435,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('t' ) end},
-    WIDGET.newKey   {name='keyY'        ,x= 525,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('y' ) end},
-    WIDGET.newKey   {name='keyU'        ,x= 615,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('u' ) end},
-    WIDGET.newKey   {name='keyI'        ,x= 755,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('i' ) end},
-    WIDGET.newKey   {name='keyO'        ,x= 845,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('o' ) end},
-    WIDGET.newKey   {name='keyP'        ,x= 935,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('p' ) end},
-    WIDGET.newKey   {name='key['        ,x=1025,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('[' ) end},
-    WIDGET.newKey   {name='key]'        ,x=1115,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown(']' ) end},
-    WIDGET.newKey   {name='key\\'       ,x=1205,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('\\') end},
+    WIDGET.newKey   {name='q'        ,x=  75,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('q' ) end},
+    WIDGET.newKey   {name='w'        ,x= 165,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('w' ) end},
+    WIDGET.newKey   {name='e'        ,x= 255,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('e' ) end},
+    WIDGET.newKey   {name='r'        ,x= 345,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('r' ) end},
+    WIDGET.newKey   {name='t'        ,x= 435,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('t' ) end},
+    WIDGET.newKey   {name='y'        ,x= 525,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('y' ) end},
+    WIDGET.newKey   {name='u'        ,x= 615,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('u' ) end},
+    WIDGET.newKey   {name='i'        ,x= 755,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('i' ) end},
+    WIDGET.newKey   {name='o'        ,x= 845,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('o' ) end},
+    WIDGET.newKey   {name='p'        ,x= 935,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('p' ) end},
+    WIDGET.newKey   {name='['        ,x=1025,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('[' ) end},
+    WIDGET.newKey   {name=']'        ,x=1115,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown(']' ) end},
+    WIDGET.newKey   {name='\\'       ,x=1205,y=425,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('\\') end},
 
     -- Home row     ASDFGHJKL;''<ENTER>     12
-    WIDGET.newKey   {name='keyA'        ,x=  75,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='R',code=function() scene.keyDown('a'     ) end},
-    WIDGET.newKey   {name='keyS'        ,x= 165,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='W',code=function() scene.keyDown('s'     ) end},
-    WIDGET.newKey   {name='keyD'        ,x= 255,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='P',code=function() scene.keyDown('d'     ) end},
-    WIDGET.newKey   {name='keyF'        ,x= 345,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='N',code=function() scene.keyDown('f'     ) end},
-    WIDGET.newKey   {name='keyG'        ,x= 435,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('g'     ) end},
-    WIDGET.newKey   {name='keyH'        ,x= 525,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('h'     ) end},
-    WIDGET.newKey   {name='keyJ'        ,x= 615,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='O',code=function() scene.keyDown('j'     ) end},
-    WIDGET.newKey   {name='keyK'        ,x= 755,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='L',code=function() scene.keyDown('k'     ) end},
-    WIDGET.newKey   {name='keyL'        ,x= 845,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='G',code=function() scene.keyDown('l'     ) end},
-    WIDGET.newKey   {name='key;'        ,x= 935,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='C',code=function() scene.keyDown(';'     ) end},
-    WIDGET.newKey   {name='key\''       ,x=1025,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('\''    ) end},
-    WIDGET.newKey   {name='keyRETURN'   ,x=1115,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('return') end},
+    WIDGET.newKey   {name='a'        ,x=  75,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='R',code=function() scene.keyDown('a'     ) end},
+    WIDGET.newKey   {name='s'        ,x= 165,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='W',code=function() scene.keyDown('s'     ) end},
+    WIDGET.newKey   {name='d'        ,x= 255,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='P',code=function() scene.keyDown('d'     ) end},
+    WIDGET.newKey   {name='f'        ,x= 345,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='N',code=function() scene.keyDown('f'     ) end},
+    WIDGET.newKey   {name='g'        ,x= 435,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('g'     ) end},
+    WIDGET.newKey   {name='h'        ,x= 525,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('h'     ) end},
+    WIDGET.newKey   {name='j'        ,x= 615,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='O',code=function() scene.keyDown('j'     ) end},
+    WIDGET.newKey   {name='k'        ,x= 755,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='L',code=function() scene.keyDown('k'     ) end},
+    WIDGET.newKey   {name='l'        ,x= 845,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='G',code=function() scene.keyDown('l'     ) end},
+    WIDGET.newKey   {name=';'        ,x= 935,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='C',code=function() scene.keyDown(';'     ) end},
+    WIDGET.newKey   {name='\''       ,x=1025,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('\''    ) end},
+    WIDGET.newKey   {name='return'   ,x=1115,y=515,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('return') end},
 
     -- Bottom row   ZXCVBNM,./              10
-    WIDGET.newKey   {name='keyZ'        ,x=  75,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('z') end},
-    WIDGET.newKey   {name='keyX'        ,x= 165,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('x') end},
-    WIDGET.newKey   {name='keyC'        ,x= 255,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('c') end},
-    WIDGET.newKey   {name='keyV'        ,x= 345,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('v') end},
-    WIDGET.newKey   {name='keyB'        ,x= 435,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('b') end},
-    WIDGET.newKey   {name='keyN'        ,x= 525,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('n') end},
-    WIDGET.newKey   {name='keyM'        ,x= 615,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('m') end},
-    WIDGET.newKey   {name='key,'        ,x= 755,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown(',') end},
-    WIDGET.newKey   {name='key.'        ,x= 845,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('.') end},
-    WIDGET.newKey   {name='key/'        ,x= 935,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('/') end},
+    WIDGET.newKey   {name='z'        ,x=  75,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('z') end},
+    WIDGET.newKey   {name='x'        ,x= 165,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('x') end},
+    WIDGET.newKey   {name='c'        ,x= 255,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('c') end},
+    WIDGET.newKey   {name='v'        ,x= 345,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('v') end},
+    WIDGET.newKey   {name='b'        ,x= 435,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('b') end},
+    WIDGET.newKey   {name='n'        ,x= 525,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('n') end},
+    WIDGET.newKey   {name='m'        ,x= 615,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('m') end},
+    WIDGET.newKey   {name=','        ,x= 755,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown(',') end},
+    WIDGET.newKey   {name='.'        ,x= 845,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('.') end},
+    WIDGET.newKey   {name='/'        ,x= 935,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('/') end},
 
-    WIDGET.newKey   {name='keyCtrl'     ,x=1115,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() if not flattt then _holdingCtrl()  else _notHoldCS() end end},
-    WIDGET.newKey   {name='keyShift'    ,x=1205,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() if not sharpt then _holdingShift() else _notHoldCS() end end},
+    WIDGET.newKey   {name='ctrl'     ,x=1115,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() if not flattt then _holdingCtrl()  else _notHoldCS() end end},
+    WIDGET.newKey   {name='shift'    ,x=1205,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() if not sharpt then _holdingShift() else _notHoldCS() end end},
 }
-setmetatable(virtualKeys,{__index=function(L,k) for i=1,#L do if L[i].name==k then return L[i] end end end})
+setmetatable(pianoVK,{__index=function(L,k) for i=1,#L do if L[i].name==k then return L[i] end end end})
 
 -- Set objects text
-virtualKeys['keyCtrl'] :setObject(CHAR.key.ctrl )
-virtualKeys['keyShift']:setObject(CHAR.key.shift)
+pianoVK['ctrl'] :setObject(CHAR.key.ctrl )
+pianoVK['shift']:setObject(CHAR.key.shift)
 -- Overwrite some functions
-for k=1,#virtualKeys do
-    local K=virtualKeys[k]
+for k=1,#pianoVK do
+    local K=pianoVK[k]
     -- Overwrite the update function
     function K:update(activateState,dt)
         -- activateState
