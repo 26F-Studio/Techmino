@@ -44,7 +44,7 @@ return {
 
     win=": )",
     lose=": (",
-
+    torikan=": /",
     finish="&",
     gamewin=">>",
     gameover="x",

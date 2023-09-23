@@ -55,7 +55,7 @@ return {
 
     win="Menang!",
     lose="Kalah",
-
+    torikan="Tamat",
     finish="Selesai",
     gamewin="Anda menang!",
     gameover="Tamat",
