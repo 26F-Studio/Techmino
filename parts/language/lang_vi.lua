@@ -47,7 +47,7 @@ return {
     missionFailed="Nhiệm vụ thất bại",
     infHeightOn="Bảng cao vô tận: BẬT",
     infHeightOff="Bảng cao vô tận: TẮT",
-    infHeightHint="Nhấn F1 để bật/tắt",
+    infHeightHint="Nhấn phím Chức năng 1 để bật/tắt",
 
     speedLV="Tốc độ rơi",
     piece="Gạch",line="Hàng",atk="Attack",eff="Efficiency",
@@ -1300,7 +1300,7 @@ C. Tay cầm chơi game (Gamepad):
         "Ủa tao nhớ game này tên là xếp hình mà? Ừ thì đúng nhưng để giữ độ đồng nhất và tránh bị cấn mồm thì nên gọi game này là game xếp gạch.",
         "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
         {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.Z," không?"}, -- A joke
-        "Bạn sẽ chọn ai? Một em gái có thể chia tay và làm bạn buồn? Hay là chọn em Katyusha có thể làm ấm lòng bạn và 40m² của kẻ thù?", -- Based on a comment in https://www.youtube.com/watch?v=nczdLwTyWmY
+        "Bạn sẽ chọn ai? Một em gái có thể chia tay và làm bạn buồn? Hay là chọn em Katyusha có thể làm ấm lòng bạn và 40m² đất kẻ thù?", -- Based on a comment in https://www.youtube.com/watch?v=nczdLwTyWmY
     },
     pumpkin="Tôi là một quả bí ngô",
 }
