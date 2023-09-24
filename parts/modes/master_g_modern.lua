@@ -10,7 +10,7 @@ return {
         freshLimit=15,
         sequence='bagES',
         eventSet='master_g_modern',
-        bg='bg2',bgm='secret7th',
+        bg='bg3',bgm='secret7th',
     },
     score=function(P) return {P.modeData.gradePts,P.stat.time} end,
     scoreDisp=function(D) return(gradeList[D[1]] or D[1]).."   "..STRING.time(D[2]) end,

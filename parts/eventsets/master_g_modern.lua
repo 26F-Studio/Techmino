@@ -98,6 +98,7 @@ local function addGrade(row, cmb, chk, lvl) -- IGS = internal grade system
         int_grade=int_grade+1
     end
 end
+
 local function getRollGoal()
     -- get amount of grades needed for TM+
     local rem=#gradeList-(int_grade_boosts[math.min(int_grade+1,#int_grade_boosts)]+rollGrades+cools+1-regrets)
@@ -212,8 +213,22 @@ return {
         if LP.mini and c>0 and B2B>=50 then s=s+1 end
         if LP.pc then s=s+4 end
         if LP.hpc then s=s+1 end
-        if P.finesseCombo>31 and c>0 then s=s+2
-        elseif P.finesseCombo>15 and c>0 then s=s+1
+        if 650>=spd_lvl then
+            if spd_lvl>450 then
+                if P.finesseCombo>360 and c>0 then s=s+1 end
+            elseif spd_lvl>230 then
+                if P.finesseCombo>180 and c>0 then s=s+2
+                elseif P.finesseCombo>90 and c>0 then s=s+1
+                end
+            elseif spd_lvl>120 then
+                if P.finesseCombo>60 and c>0 then s=s+2
+                elseif P.finesseCombo>30 and c>0 then s=s+1
+                end
+            else
+                if P.finesseCombo>30 and c>0 then s=s+2
+                elseif P.finesseCombo>15 and c>0 then s=s+1
+                end
+            end
         end
         if P.combo>7 then s=s+2
         elseif P.combo>3 then s=s+1
@@ -335,7 +350,7 @@ return {
                 if regretDelay==-1 and isfault then 
                     P:_showText("FAULT!!!",0,-120,80,'beat',.8) 
                     isFault=false
-                else if regretDelay==1 then 
+                elseif regretDelay==1 then 
                     P:_showText("REGRET!!",0,-120,80,'beat',.8) 
                 end
             end
