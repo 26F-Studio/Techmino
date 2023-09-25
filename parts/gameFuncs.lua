@@ -5,7 +5,7 @@ local gc_setShader=GC.setShader
 local gc_draw,gc_rectangle,gc_printf=GC.draw,GC.rectangle,GC.printf
 
 local ins,rem=table.insert,table.remove
-local int,rnd=math.floor,math.random
+local floor,rnd=math.floor,math.random
 local approach=MATH.expApproach
 
 local SETTING,GAME,SCR=SETTING,GAME,SCR
@@ -13,7 +13,7 @@ local PLAYERS=PLAYERS
 
 
 
--- System
+------------------------------[System]------------------------------
 do-- function tryBack()
     local sureTime=-1e99
     function tryBack()
@@ -186,7 +186,108 @@ do-- function applySettings()
     end
 end
 
--- Royale mode
+------------------------------[Generate Grades]------------------------------
+local smallDigits={[0]="₀","₁","₂","₃","₄","₅","₆","₇","₈","₉"}
+local function getSmallNum(num)
+    local str=tostring(num)
+    local out=""
+    for i=1,#str do
+        out=out..smallDigits[tonumber(string.sub(str,i,i))]
+    end
+    return out
+end
+do -- Secret Grade
+    local r={"GM","GM+","TM","TM+"}
+    function getSecretGrade(index)
+        if index<11 then -- rank 10 - 1
+            return tostring(11-index)
+        elseif index<20 then -- S1 - S9 ranks
+            return "S"..index-10
+        elseif index<24 then -- GM, GM+, TM, TM+ ranks
+            return r[index-19]
+        else
+            return "TM+"..getSmallNum(index-22)
+        end
+    end
+end
+function getSecretGradeText(index)
+    if index<11 then
+        return "Grade "..tostring(11-index)
+    else
+        return getSecretGrade(index)
+    end
+end
+
+do -- Master GRADED
+    local master_postm_grades={"M","MK","MV","MO","MM-","MM","MM+","GM-","GM","GM+","TM-","TM","TM+"}
+    function getMasterGrade(index)
+        if index<10 then
+            return tostring(10-index)
+        elseif index<19 then
+            return "S"..index-9
+        elseif index<28 then
+            return "m"..index-18
+        elseif index<41 then
+            return master_postm_grades[index-27]
+        else
+            return master_postm_grades[#master_postm_grades]..getSmallNum(index-39)
+        end
+    end
+    local master_postm_grades_text={
+        "Master","MasterK","MasterV","MasterO","MasterM-","MasterM","MasterM+",
+        "Grand Master-","Grand Master","Grand Master+",
+        "Tech Master-","Tech Master","Tech Master+"
+    }
+    function getMasterGradeText(index)
+        if index<10 then
+            return "Grade "..tostring(10-index)
+        elseif index<19 then
+            return "S"..index-9
+        elseif index<28 then
+            return "m"..index-18
+        elseif index<41 then
+            return master_postm_grades_text[index-27]
+        else
+            return master_postm_grades_text[#master_postm_grades]..index-39
+        end
+    end
+end
+
+do -- Master GRADED MODERN
+    local modern_postm_grades={"M","MK","MV","MO","MM-","MM","MM+","GM-","GM","GM+","TM-","TM","TM+"}
+    function getMasterGradeModern(index)
+        if index<10 then
+            return tostring(10-index)
+        elseif index<19 then
+            return "S"..index-9
+        elseif index<28 then
+            return "m"..index-18
+        elseif index<41 then
+            return modern_postm_grades[index-27]
+        else
+            return modern_postm_grades[#modern_postm_grades]..getSmallNum(index-39)
+        end
+    end
+    local modern_postm_grades_text={
+        "Master","MasterK","MasterV","MasterO","MasterM-","MasterM","MasterM+",
+        "Grand Master-","Grand Master","Grand Master+",
+        "Tech Master-","Tech Master","Tech Master+"
+    }
+    function getMasterGradeModernText(index)
+        if index<10 then
+            return "Grade "..tostring(10-index)
+        elseif index<19 then
+            return "S"..index-9
+        elseif index<28 then
+            return "m"..index-18
+        elseif index<41 then
+            return modern_postm_grades_text[index-27]
+        else
+            return modern_postm_grades_text[#modern_postm_grades]..index-39
+        end
+    end
+end
+------------------------------[Royale mode]------------------------------
 function randomTarget(P)-- Return a random opponent for P
     local l=TABLE.shift(PLY_ALIVE,0)
     local count=0
@@ -283,7 +384,7 @@ function royaleLevelup()
     if GAME.curMode.name:find("_u") then
         for i=1,#PLY_ALIVE do
             local P=PLY_ALIVE[i]
-            P.gameEnv.drop=int(P.gameEnv.drop*.4)
+            P.gameEnv.drop=floor(P.gameEnv.drop*.4)
             if P.gameEnv.drop==0 then
                 P.curY=P.ghoY
                 P:set20G(true)
@@ -292,7 +393,7 @@ function royaleLevelup()
     end
 end
 
--- Sound shortcuts
+------------------------------[Sound shortcuts]------------------------------
 function playClearSFX(cc)
     if cc<=0 or cc%1~=0 then return end
     if cc<=4 then
@@ -344,7 +445,7 @@ function playReadySFX(i,vol)
 end
 
 
--- Game
+------------------------------[Game]------------------------------
 function getItem(itemName,amount)
     STAT.item[itemName]=STAT.item[itemName]+(amount or 1)
 end
@@ -932,15 +1033,13 @@ do-- function resetGameData(args)
         local time=0
         while true do
             coroutine.yield()
-            time=time+1
             if time%20==0 then
-                local M=GAME.mod[time/20]
-                if M then
-                    TEXT.show(M.id,700+(time-20)%120*4,36,45,'spin',.5)
-                else
-                    return
-                end
+                local M=GAME.mod[time/20+1]
+                if not M then return end
+                SFX.play('collect',.2)
+                TEXT.show(M.id,640+(time/20%5-2)*80,26,45,'spin')
             end
+            time=time+1
         end
     end
     local gameSetting={
@@ -1021,7 +1120,7 @@ do-- function resetGameData(args)
             GAME.stage=1
         end
         TASK.removeTask_code(task_showMods)
-        if GAME.setting.allowMod then
+        if PLAYERS[1].gameEnv.allowMod then
             TASK.new(task_showMods)
         end
         playReadySFX(3)
@@ -1065,7 +1164,7 @@ end
 
 
 
--- Game draw
+------------------------------[Graphics]------------------------------
 do-- function drawSelfProfile()
     local name
     local textObj,scaleK,width,offY
@@ -1115,7 +1214,7 @@ end
 
 
 
--- Widget function shortcuts
+------------------------------[Widget function shortcuts]------------------------------
 function backScene() SCN.back() end
 do-- function goScene(name,style)
     local cache={}
