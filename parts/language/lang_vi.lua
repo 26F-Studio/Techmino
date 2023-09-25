@@ -1288,7 +1288,7 @@ C. Tay cầm chơi game (Gamepad):
         "sin²α-sin²β=S(α+β)S(α-β)",
         "sin2α=2SαCα",
 --
-    -- SEA'S JOKE
+        -- SEA'S JOKE
         {C.W,"MrZ",C.Z," còn có một biệt danh dễ thương hơn, đó là ",C.W,"Z-Chan"},
         "Có hơn 400 mẹo bạn có thể nhìn thấy ở đây, là cái dòng chữ này, nếu bạn đang chơi Techmino tiếng Trung",
 
@@ -1300,7 +1300,7 @@ C. Tay cầm chơi game (Gamepad):
         "Ủa tao nhớ game này tên là xếp hình mà? Ừ thì đúng nhưng để giữ độ đồng nhất và tránh bị cấn mồm thì nên gọi game này là game xếp gạch.",
         "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
         {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.Z," không?"}, -- A joke
-        "Bạn sẽ chọn ai? Một em gái có thể chia tay và làm bạn buồn? Hay là chọn em Katyusha có thể làm ấm lòng bạn và 40m² đất kẻ thù?", -- Based on a comment in https://www.youtube.com/watch?v=nczdLwTyWmY
+        "Bạn sẽ chọn ai? Một em gái có thể chia tay và làm bạn buồn? Hay là chọn em Katyusha có thể làm ấm lòng bạn và 40ha đất kẻ thù?", -- Based on a comment in https://www.youtube.com/watch?v=nczdLwTyWmY
     },
     pumpkin="Tôi là một quả bí ngô",
 }
