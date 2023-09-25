@@ -213,23 +213,6 @@ return {
         if LP.mini and c>0 and B2B>=50 then s=s+1 end
         if LP.pc then s=s+4 end
         if LP.hpc then s=s+1 end
-        if 650>=spd_lvl then
-            if spd_lvl>450 then
-                if P.finesseCombo>360 and c>0 then s=s+1 end
-            elseif spd_lvl>230 then
-                if P.finesseCombo>180 and c>0 then s=s+2
-                elseif P.finesseCombo>90 and c>0 then s=s+1
-                end
-            elseif spd_lvl>120 then
-                if P.finesseCombo>60 and c>0 then s=s+2
-                elseif P.finesseCombo>30 and c>0 then s=s+1
-                end
-            else
-                if P.finesseCombo>30 and c>0 then s=s+2
-                elseif P.finesseCombo>15 and c>0 then s=s+1
-                end
-            end
-        end
         if P.combo>7 then s=s+2
         elseif P.combo>3 then s=s+1
         end
