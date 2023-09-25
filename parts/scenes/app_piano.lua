@@ -183,7 +183,13 @@ end
 
 function scene.update(dt)
     for _,key in pairs(pianoVK) do
-        key:update(dt)
+        key:update(nil,dt)
+    end
+
+    if lastKeyTime and keyCount>626 and TIME()-lastKeyTime>10 then
+        collectgarbage()
+        lastKeyTime=nil
+        keyCount=0
     end
 
     if lastKeyTime and keyCount>626 and TIME()-lastKeyTime>10 then
