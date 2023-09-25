@@ -191,6 +191,11 @@ function scene.update(dt)
         lastKeyTime=nil
         keyCount=0
     end
+
+    if lastKeyTime and keyCount>626 and TIME()-lastKeyTime>10 then
+        collectgarbage()
+        lastKeyTime=nil
+    end
 end
 scene.widgetList={
     WIDGET.newButton{name='back'     ,x=1150,y=60,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=pressKey'escape'},

@@ -1,5 +1,4 @@
 local C=COLOR
-local all_month={"T01","T02","T03","T04","T05","T06","T07","T08","T09","T10","T11","T12"}
 
 -- There are some strings, due to game's history, temproary be commented just in case
 -- If it is not used anymore, it will be removed, in one day…
@@ -20,7 +19,7 @@ return {
     sureReset="Nhấn thêm một lần nữa để đặt lại",
     sureDelete="Nhấn thêm một lần nữa để xoá",
     newDay="Một ngày mới, một khởi đầu mới!",
-    playedLong="Bạn chơi cũng lâu rồi. Hãy dành chút thời gian nghỉ ngơi đi",
+    playedLong="Bạn chơi hơi lâu rồi đó. Hãy dành chút thời gian nghỉ ngơi đi.",
     playedTooMuch="Có lẽ bạn chơi quá nhiều rồi! Đặt máy xuống và nghỉ ngơi đi bạn!",
     settingWarn="CẨN THẬN - Bạn vừa sửa một cài đặt quan trọng của game!",
     settingWarn2="Cài đặt này sẽ có hiệu lực sau khi khởi động lại",
@@ -46,9 +45,9 @@ return {
     maxspeed="TỐC ĐỘ TỐI ĐA!",
     speedup="Tăng tốc nào!",
     missionFailed="Nhiệm vụ thất bại",
-    infHeightOn="Infinite Height ON",
-    infHeightOff="Infinite Height OFF",
-    infHeightHint="Toggle with Function 1 key",
+    infHeightOn="Bảng cao vô tận: BẬT",
+    infHeightOff="Bảng cao vô tận: TẮT",
+    infHeightHint="Nhấn phím Chức năng 1 để bật/tắt",
 
     speedLV="Tốc độ rơi",
     piece="Gạch",line="Hàng",atk="Attack",eff="Efficiency",
@@ -566,13 +565,13 @@ C. Tay cầm chơi game (Gamepad):
             grid="Lưới",
             lineNum="# hàng",
 
-            lockFX="H.ứng Khóa gạch",
-            dropFX="H.ứng Thả nhẹ",
-            moveFX="H.ứng Di chuyển",
-            clearFX="H.ứng Xóa hàng",
-            splashFX="H.ứng Gạch \"rụng\"",
+            lockFX="Hiệu ứng Khóa gạch",
+            dropFX="Hiệu ứng Thả nhẹ",
+            moveFX="Hiệu ứng Di chuyển",
+            clearFX="Hiệu ứng Xóa hàng 1",
+            splashFX="Hiệu ứng Xóa hàng 2",
             shakeFX="Độ nảy bảng",
-            atkFX="H.ứng Tấn công",
+            atkFX="Hiệu ứng Tấn công",
 
             frame="Tần suất cập nhật khung hình (%)",
 
@@ -584,7 +583,7 @@ C. Tay cầm chơi game (Gamepad):
             highCam="Trượt bảng",
             warn="Cảnh báo nguy hiểm",
 
-            clickFX="Click FX",
+            clickFX="Hiệu ứng nhấp chuột",
             power="Hiện thanh pin",
             clean="Vẽ nhanh",
             fullscreen="Toàn màn hình",
@@ -1236,7 +1235,7 @@ C. Tay cầm chơi game (Gamepad):
         "Lua No.1",
         "sudo rm -rf /*",
         "shutdown /s /t 0",         -- Turn off computer completely (no Fast Boot)
-        "shutdown /s /t 0 /hybrid", -- Turn off computer with Fast Boot still activated
+        "shutdown /s /t 0 /hybrid", -- Turn off computer with Fast Boot
         -- Techmino has reached the limit.
         "Không thể mở Techmino vì bạn đã quá nghiện game này rồi :>",
         -- Techmino.exe has stopped working.
@@ -1247,12 +1246,12 @@ C. Tay cầm chơi game (Gamepad):
 --
     -- CHANGELOG
         {C.lW, "V0.0.091726",": ",C.Z, "Đã thêm hệ thống xoay TRS"},
-        {C.lW, "V0.7.9 "    ,": ",C.Z, "Đã thêm ",C.yellow,"O-spin"},
+        {C.lW, "V0.7.9"     ,": ",C.Z, "Đã thêm ",C.yellow,"O-spin"},
         {C.lW, "V0.7.19"    ,": ",C.Z, "Đã thêm hệ thống voice"},
         {C.lW, "V0.7.22"    ,": ",C.Z, "Đã thêm hiệu ứng rơi mượt"},
-        {C.lW, "V0.8.5 "    ,": ",C.Z, "Đã thêm map và sắp xếp lại các chế độ"},
+        {C.lW, "V0.8.5"     ,": ",C.Z, "Đã thêm map và sắp xếp lại các chế độ"},
         {C.lW, "V0.8.19"    ,": ",C.Z, "Đã thêm Pentomino"},
-        {C.lW, "V0.9.0 "    ,": ",C.Z, "Đã thêm chế độ tự do và khả năng tùy biến chuỗi gạch"},
+        {C.lW, "V0.9.0"     ,": ",C.Z, "Đã thêm chế độ tự do và khả năng tùy biến chuỗi gạch"},
         {C.lW, "V0.10.0"    ,": ",C.Z, "Đã thêm hệ thống replay"},
         {C.lW, "V0.11.1"    ,": ",C.Z, "Đã thêm Little Z Dictionary (Zictionary)"},
         {C.lW, "V0.12.2"    ,": ",C.Z, "Đã thêm hệ thống mod"},
@@ -1266,7 +1265,6 @@ C. Tay cầm chơi game (Gamepad):
         {C.lW, "V0.17.0"    ,": ",C.Z, "Đã thêm hõ trợ điều khiển bằng joystick"},
         {C.lW, "V0.17.3"    ,": ",C.Z, "Dừng phát triển Techmino, tập trung phát triển game mới"},
         {C.lW, "V0.17.12"   ,": ",C.Z, "Đã thêm ngôn ngữ tiếng Việt"},
-        {C.lW, "V0.17.15"   ,": ",C.Z, "Hoàn thiện bản dịch tiếng Việt?"},
 --
         -- MATH FORMULAS
         "(a+b)²=a²+2ab+b²",
@@ -1290,7 +1288,7 @@ C. Tay cầm chơi game (Gamepad):
         "sin²α-sin²β=S(α+β)S(α-β)",
         "sin2α=2SαCα",
 --
-    -- FROM SEA
+    -- SEA'S JOKE
         {C.W,"MrZ",C.Z," còn có một biệt danh dễ thương hơn, đó là ",C.W,"Z-Chan"},
         "Có hơn 400 mẹo bạn có thể nhìn thấy ở đây, là cái dòng chữ này, nếu bạn đang chơi Techmino tiếng Trung",
 
@@ -1302,7 +1300,7 @@ C. Tay cầm chơi game (Gamepad):
         "Ủa tao nhớ game này tên là xếp hình mà? Ừ thì đúng nhưng để giữ độ đồng nhất và tránh bị cấn mồm thì nên gọi game này là game xếp gạch.",
         "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
         {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.Z," không?"}, -- A joke
-        {"Hôm nay là ngày ",os.date("%d"),"/",all_month[tonumber(os.date("%m"))],"/",os.date("%Y")}, -- inspired from Nokia 1280, activating talking clock by holding * key at main menu
+        "Bạn sẽ chọn ai? Một em gái có thể chia tay và làm bạn buồn? Hay là chọn em Katyusha có thể làm ấm lòng bạn và 40m² đất kẻ thù?", -- Based on a comment in https://www.youtube.com/watch?v=nczdLwTyWmY
     },
     pumpkin="Tôi là một quả bí ngô",
 }

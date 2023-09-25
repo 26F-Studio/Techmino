@@ -16,7 +16,7 @@ Cách phát hiện spin: bằng cách sử dụng hệ thống điểm.
         +2 điểm nếu thỏa mãn quy tắc "bất động"
         +1 điểm nếu chưa kiểm tra vị trí kick thứ hai trong bảng kick
 
-        * Chỉ cần điều kiện 1 hay điều kiện 2 thỏa mãn thì cú xoay đó được tính là Spin *
+        * Chỉ cần thỏa mãn quy tắc "3 góc" hoặc quy tắc "bất động" thì cú xoay đó được tính luôn là Spin *
 
         — Spin sẽ là Mini nếu xảy ra 1 trong 3 điều kiện sau:
                 Tổng điểm sau khi kiểm tra các quy tắc chỉ được 2 điểm,
@@ -115,8 +115,10 @@ Chế độ Tự do:
         Bạn có thể tự do tùy chỉnh nhiều thông số (nhưng không bao gồm các hiệu ứng đặc biệt từ các chế độ khác).
         Bạn có thể vẽ một cái bảng để tập xóa (Clear mode) hoặc tập xây theo mẫu (Puzzle mode)
         
-        Ở chế độ Puzzle, bạn có thể nhấn F1 để chọn có hiện mẫu hay không. Để thắng được thì toàn bộ…
+        Ở chế độ Puzzle, bạn có thể nhấn F1 để chọn có hiện bảng mẫu hay không.
+        Để thắng được game ở chế độ Puzzle thì toàn bộ…
                 ô có X thì không được có gạch;
                 ô trống thì có thể ở bất kỳ tình trạng nào;
                 ô có màu thì gạch đặt vào ô phải khớp màu;
                 ô có màu của hàng rác thì có thể là bất kỳ gạch nào (không phân biệt kiểu gạch) nhưng không thể là không khí.
+        Ở chế độ Clear: bạn chỉ cần xóa sạch toàn bộ gạch của bảng mẫu là được.
