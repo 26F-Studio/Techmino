@@ -90,7 +90,7 @@ jobs:
       - name: Build core love package
         uses: love-actions/love-actions-core@v1
         with:
-          build-list: ./media/ ./parts/ ./Zframework/ ./conf.lua ./main.lua ./version.lua
+          build-list: ./media/ ./parts/ ./Zframework/ ./conf.lua ./main.lua ./version.lua ./legals.md ./license.txt
           package-path: ${{ env.CORE_LOVE_PACKAGE_PATH }}
       - name: Upload core love package
         uses: actions/upload-artifact@v3
