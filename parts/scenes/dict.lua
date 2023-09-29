@@ -301,6 +301,9 @@ function scene.update(dt)
     end
     if listBox.selected~=lastSelected and listBox.selected~=0 then
         if listBox.selected==0 then scene.keyDown('f1') end
+        -- Redraw the UI to apply the new color of Help button.
+        -- Because scene.draw will be called after scene.keyDown but before scene.update
+        scene.draw()
         lastSelected=listBox.selected
         scene.widgetList.copy.hide=false
         _updateInfoBox()
