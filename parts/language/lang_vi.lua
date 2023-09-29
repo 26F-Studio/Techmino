@@ -978,7 +978,7 @@ C. Tay cầm chơi game (Gamepad):
         ['tech_finesse']=        {"Tech",              "HOÀN HẢO",       "Không được phép có lỗi di chuyển!"},
         ['tech_finesse_f']=      {"Tech",              "HOÀN HẢO+",      "Không được phép có lỗi di chuyển hoặc loại Xoá hàng thường!"},
         ['tech_finesse_lock']=   {"Tech",              "FINESSE LOCK",   "Không được mắc lỗi di chuyển hoặc bạn không thể điều khiển gạch!"},
-        ['tech_finesse_lock_f']= {"Tech",              "FINESSE+ LOCK",  "Không được mắc lỗi di chuyển hoặc bạn không thể điều khiển gạch! Và không thể dùng kiểu xóa thường!"},
+        ['tech_finesse_lock_f']= {"Tech",              "FINESSE+ LOCK",  "Không được mắc lỗi di chuyển hoặc bạn không thể điều khiển gạch! Bạn cũng sẽ thua khi dùng kiểu xóa thường!"},
         ['tsd_e']=               {"TSD Challenge",     "DỄ",             "Chỉ được làm T-Spin Double!"},    -- Chỉ được clear…
         ['tsd_h']=               {"TSD Challenge",     "KHÓ",            "Chỉ được làm T-Spin Double!"},
         ['tsd_u']=               {"TSD Challenge",     "THÁCH ĐẤU",      "Chỉ được làm T-Spin Double!"},
@@ -1295,11 +1295,13 @@ C. Tay cầm chơi game (Gamepad):
         {C.lSea,"Sea: ",C.Z,"Tui không có đủ mặn để viết joke. Nên một số câu đùa đang chạy ở đây được viết bởi ",C.yellow,"Shard Nguyễn",C.Z,". \"Em cảm ơn anh!\""},
         {C.lSea,"Sea: ",C.Z,"Tui đang tự hỏi liệu còn bao nhiêu lỗi tui bỏ sót lúc dịch game không? Tính ra tui đã cập nhật đi cập nhật lại cũng 4-5 lần rồi."},
 
-        {"Cộng đồng Tetris ",C.R,"Việt ",C.lY,"Nam ",C.Z,": https://discord.gg/jX7BX9g"}, -- Tetris Vietnam
+        {"Cộng đồng Tetris ",C.R,"Việt ",C.lY,"Nam ",C.Z,": https://discord.gg/jX7BX9g"}, -- Tetris Vietnam (TVN)
         {C.W,"MrZ ",C.Z,"vẫn chưa biết chọn tên nào để đặt cho từ điển của Techmino. Hiện có 3 tên: \"Zictionary\", \"TetroDictionary\" và \"Little Z Dictionary\""},
         "Ủa tao nhớ game này tên là xếp hình mà? Ừ thì đúng nhưng để giữ độ đồng nhất và tránh bị cấn mồm thì nên gọi game này là game xếp gạch.",
         "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
-        {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.Z," không?"}, -- A joke
+        {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.Z," không?"}, -- A joke in TVN
+        -- Who will you choose? A girl that can break up to you and make you sad
+        -- Or choose Katyusha that can warm your heart and 40ha land of enemy.
         "Bạn sẽ chọn ai? Một em gái có thể chia tay và làm bạn buồn? Hay là chọn em Katyusha có thể làm ấm lòng bạn và 40ha đất kẻ thù?", -- Based on a comment in https://www.youtube.com/watch?v=nczdLwTyWmY
     },
     pumpkin="Tôi là một quả bí ngô",
