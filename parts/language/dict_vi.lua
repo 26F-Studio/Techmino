@@ -602,7 +602,7 @@ Trong Techmino, tốc độ còn được biểu diễn ở dạng số khung h�
 60 ở hệ thống đó tương đương với 1 ô / 1 giây hoặc 1G.
 
 Trong thực tiễn, "20G" không chỉ "20 ô / giây" mà chỉ "Tốc độ tối đa"
-Xem
+Xem mục tiếp theo để biết thêm.
         ]],
     },
     {"20G",
@@ -713,23 +713,28 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
         "nhom05f2 finesse lỗi di chuyển",
         "term",
         [[
-Một kỹ thuật di chuyển gạch vào vị trí mong muốn với số lần nhấn phím tói thiểu. Tiết kiệm thời gian và giảm khả năng misdrop.
+Một kỹ thuật di chuyển gạch vào vị trí mong muốn với chuỗi phím ngắn nhất có thể, giúp tiết kiệm thời gian và giảm khả năng misdrop.
 
-Hãy lưu ý rằng, finesse trong Techmino không phải là "chuỗi phím bấm đơn giản nhất về lý thuyết để di chuyển một viên gạch đến một vị trí cụ thể". Việc kiểm tra finesse chỉ được thực hiện nếu gạch được gạch đặt mà không sử dụng thả nhẹ - combo finesse của bạn sẽ không bị đặt lại nếu bạn làm spin hoặc nhét gạch vào.
+Đây là một kỹ năng quan trọng nên bạn hãy học Finesse sớm nhất có thể. Bạn có thể thấy khá nhiều video hướng dẫn trên Youtube cũng như các trang hướng dẫn với hình minh họa trên Google. Hãy bắt đầu từ thứ cơ bản nhất, rồi luyện tập dần để tăng độ chính xác lên. Hãy nhớ ưu tiên chính xác hơn là tốc độ nhé.
 
-Trong Techmino, tỉ lệ finesse (%) được xác định như sau:
+Có một số lưu ý cho bạn khi kiểm tra Finesse trong Techmino như sau:
+    - Bạn sẽ không bị mất Finesse khi bạn nhét gạch hay thực hiện Spin vì Techmino chỉ kiểm tra những vị trí không yêu cầu soft drop
+    - Nhưng Techmino sẽ tính lỗi di chuyển khi bạn Hold gạch sau khi di chuyển, hoặc là gạch bạn tính Hold lại trùng với gạch đang ở trong Hold
+
+Techmino cũng có finesse rate (%) (tỉ lệ *không* mắc lỗi di chuyển), được tính như sau:
     - 100% (Hoàn hảo - Perfect) khi số lần nhấn phím bằng hoặc ít hơn mức chuẩn
     - 50% (Tuyệt vời - Great) khi số lần nhấn phím cao hơn mức chuẩn 1 phím
     - 25% (Xấu - Bad) khi số lần nhấn phím cao hơn mức chuẩn 2 phím
     - 0% (Truợt - Miss) khi số lần nhấn phím cao hơn mức chuẩn 3 phím
+Một Bad hoặc Miss sẽ phá combo finesse.
 
-Một Bad hoặc Miss sẽ phá vỡ combo finesse.
+Lưu ý: Finesse thường sẽ không được tính trong một vài tình huống như tốc độ rơi cao, phải sử dụng thả nhẹ hay bảng rất cao. Tuy nhiên, bộ đếm finesse của Techmino vẫn chạy bất chấp ở điều kiện nào (kể cả tốc độ rơi cao như 20G). Do vậy finesse rate thường sẽ không mang ý nghĩa gì trong trường hợp này.
         ]],
     },
     {"Hypertapping",
-        "nhom05f2 nhấn liên tục",
+        "nhom05f2 hypertapper nhấn liên tục",
         "term",
-        "Hypertapping (Nhấn liên tục)\n\nĐề cập tới một kỹ năng là khi bạn rung tay liên tục để nhấn liên tục làm tốc độ di chuyển nhanh hơn.\n\nKỹ năng này được dùng nhiều trong xếp gạch cổ điển. Nhưng bạn không cần dùng vì DAS ngắn hơn nhiều so với ngày xưa.",
+        "Hypertapping (Nhấn liên tục)\n\nĐề cập tới một kỹ năng là khi bạn rung tay liên tục thay vì giữ phím.\n\nTrong các game xếp gạch cổ điển, thông số DAS rất cao và không thể điều chỉnh được, dẫn tới nhấn nút liên tục sẽ nhanh hơn so với giữ phím.\nBây giờ thì không cần vì các game xếp gạch hiện đại đã có DAS và ARR có thể điều chỉnh được (nếu có chăng không điều chỉnh được thì DAS cũng đã thấp hơn nhiều so với ngày trước)\n\nNhững người dùng kỹ năng này được gọi là \"hypertapper\"",
     },
     {"Rolling",
         "nhom05f2",
@@ -795,10 +800,7 @@ Phòng thủ: Loại hàng rác ra khỏi hàng chờ bằng cách thực hiện
 
 Phản công: Gửi hàng rác lại sau khi xử xong toàn bộ hàng rác trong hàng chờ.
 
-__________________________
-
-Trong hầu hết các game, tấn công và phòng thủ là tương đương nhau: một cuộc tấn công hủy một hàng rác đến.
-Trong hầu hết các game, tỉ lệ phản công rác thường là 1:1.
+Trong hầu hết các game, tấn công và phòng thủ là tương đương nhau: một đòn tấn công sẽ chặn một cú rác tới.
         ]],
     },
     {"Combo",
@@ -864,7 +866,7 @@ Trong hầu hết các game, tỉ lệ phản công rác thường là 1:1.
     {"Freestyle",
         "nhom05i",
         "term",
-        "Thuật ngữ hay được sử dụng trong thử thách 20TSD. Freestyle nghĩa là hoàn thành một số lượng T-spin Double nhất định mà không sử dụng phương pháp xếp gạch cố định nào.\n\nFreestyle khó hơn nhiều so với việc sử dụng phương pháp nào đó như LST, và màn chạy có thể đại diện cho các kỹ năng T-spin của người chơi trong các trận đấu trong thế giới thực.",
+        "Thuật ngữ hay được sử dụng trong thử thách 20TSD. Freestyle là kiểu chơi không dùng setup nào để hoàn thành một số lượng TSD nhất định nào đó.\n\nFreestyle khó hơn nhiều so với việc sử dụng phương pháp nào đó như LST, và màn chạy có thể đại diện cho các kỹ năng T-spin của người chơi trong các trận đấu trong thế giới thực.",
     },
 
     {">J|K.th. xóa hàng",
@@ -974,7 +976,7 @@ Chơi trên trình duyệt | Chơi trực tuyến | Hỗ trợ màn hình cảm 
 
 Gọi tắt là KoS. Một game xếp gạch chơi trên trình duyệt theo lượt. Về cơ bản: người chơi thay phiên nhau đặt các gạch trong bảng của họ theo chu kỳ 7 gạch. Hàng rác chỉ có thể vào bảng khi một gạch được đặt mà không xóa một hàng nào. Trò chơi mang tính chiến lược cao và có các tùy chọn khác nhau cho cơ chế tấn công.
         ]],
-        "https://kingofstackers.com / games.php",
+        "https://kingofstackers.com/games.php",
     },
     {"Tetr.js",
         "nhom06 tetrjs tetr.js",
@@ -1060,7 +1062,7 @@ Gọi tắt là WWC. Có chế độ 1 đấu 1 toàn cầu: chơi với ngườ
         [[
 Chơi trên trình duyệt / client chính thức | Chơi đơn / Chơi trực tuyến
 
-Gọi tắt là TF. Một trò chơi Tetris được viết bằng một ngôn ngữ của plugin đã bị khai tử từ năm 2021. Từng rất phổ biến trong quá khứ, nhưng tất cả trò chơi đã đóng cửa từ mấy năm trước. Hiện giờ vẫn còn một máy chủ riêng tên là \"Notris Foes\". Nhấn vào nút \"Mở link\" để mở ở trong trình duyệt
+Gọi tắt là TF. Một trò chơi Tetris được viết bằng một ngôn ngữ của plugin đã nghỉ hưu từ năm 2021. Từng rất phổ biến trong quá khứ, nhưng tất cả trò chơi đã đóng cửa từ mấy năm trước. Hiện giờ vẫn còn một máy chủ riêng tên là \"Notris Foes\". Nhấn vào nút \"Mở link\" để mở ở trong trình duyệt
         ]],
         "https://notrisfoes.com",
     },
@@ -1077,7 +1079,7 @@ Game Tetris chính thức từ tetris.com, mà chỉ có một chế độ (Mara
         "nhom06 tetris tetris.com online official",
         "game",
         [[
-[Mục này được viết bởi Squishy, không xuất hiện ở ngôn ngữ khác
+[Mục này được viết bởi Squishy, chỉ xuất hiện ở bản dịch Zictionary này
 Có thể áp dụng cho "Tetris Gems" và "Tetris Mind Bender"]
 
 Hiện có ba cách điều khiển: hai cách dành cho màn hình cảm ứng gồm "vuốt" (swipe) và "thông minh" (smart), hoặc cắm bàn phím (nếu máy hỗ trợ).
@@ -1166,10 +1168,6 @@ Một game xếp gạch dựa trên quy tắc Cổ điển của TGM + 20G với
 Game này bây giờ hơi khó tìm và bạn có thể phải cài tệp DLL cần thiết bằng tay. Tuy nhiên cũng may là có một bài hướng dẫn cách cài DTET, bạn có thể nhấn nút "Mở link" để mở bài viết.
 
 CẢNH BÁO: Hãy cẩn thận khi tải bất cứ thứ gì về, kể cả file DLL hay EXE!
-CẢNH BÁO: Hãy cẩn thận khi tải bất cứ thứ gì về, kể cả file DLL hay EXE!
-CẢNH BÁO: Hãy cẩn thận khi tải bất cứ thứ gì về, kể cả file DLL hay EXE!
-
-("Cái gì quan trọng thì hãy nhắc lại 3 lần"™ /joking_đùa_thôi)
         ]],
         "https://t-sp.in/dtet"
     },
@@ -1188,7 +1186,10 @@ Một game với phong cách chơi máy thùng, có khả năng mô phỏng nhi�
         [[
 Windows | Chơi đơn
 
-Một game bao gồm tất cả chế độ trong TGM để có thể sử dụng để thực hành TGM. Lưu ý rằng quy tắc Rule trong Texmaster hơi khác một chút so với TGM
+Một game bao gồm tất cả chế độ trong TGM để có thể sử dụng để luyện chơi TGM. Lưu ý rằng World Rule trong Texmaster hơi khác một chút so với TGM, ví dụ như Thả nhẹ-khóa tức thì* và bảng kick cũng có chút khác biệt
+
+(*): Bản Zictionary tiếng Anh ghi là "instant-lock soft drop(s)".
+Có thể hiểu là bạn giữ nút Thả nhẹ, gạch vừa chạm đất là chốt vị trí đó luôn - giống với các game xếp gạch cổ điển ấy!
         ]],
     },
     {"Tetris Effect",
@@ -1226,7 +1227,7 @@ PS / NS / Xbox / Windows | Chơi đơn / Chơi trực tuyến
         [[
 Windows | Chơi đơn / Chơi trực tuyến
 
-Một game xếp gạch của Nhật Bản đã bị khai tử từ lâu. Có chế độ chơi đơn và chơi trực tuyến. Có thể điều chỉnh DAS và ARR (nhưng không thể đặt thành 0). Độ trễ đầu vào nhỏ. Tuy server chính ở Nhật đã bị đóng cửa còn lâu nhưng vẫn còn tồn tại server riêng. Game rất phù hợp cho những người mới bắt đầu.
+Một game xếp gạch của Nhật Bản đã nghỉ hưu từ lâu. Có chế độ chơi đơn và chơi trực tuyến. Có thể điều chỉnh DAS và ARR (nhưng không thể đặt thành 0). Độ trễ đầu vào nhỏ. Tuy server chính ở Nhật đã bị đóng cửa còn lâu nhưng vẫn còn tồn tại server riêng. Game rất phù hợp cho những người mới bắt đầu.
         ]],
     },
     {"Tetra Online",
@@ -1236,7 +1237,7 @@ Một game xếp gạch của Nhật Bản đã bị khai tử từ lâu. Có ch
 Windows / macOS / Linux | Chơi đơn / Chơi trực tuyến
 
 Gọi tắt là TO. Một tựa game xếp gạch được phát triển bởi Dr Ocelot và Mine. Các loại độ trễ như AREs được cố tình đẩy ở giá trị cao, và những ai đã từng quen chơi xếp gạch mà có độ trễ thấp / không có độ trễ sẽ khó làm quen với game này
-Game đã bị gỡ ra khỏi Steam vào ngày 9 / T12 / 2020 do TTC gửi thông báo DMCA
+Game đã bị gỡ khỏi Steam vào ngày 9 / T12 / 2020 do TTC gửi thông báo DMCA
 Dù sao thì, vẫn còn một bản build có thể tải từ GitHub.
         ]],
         "https://github.com/Juan-Cartes/Tetra-Offline/releases/tag/1.0",
@@ -1284,7 +1285,9 @@ Một game Tetris do fan làm. Game này là một bản chỉnh sửa của Nul
 
 Chế độ Marathon có chứa "Spell Cards" của Touhou Project (thêm hiệu ứng đặc biệt để quấy phá màn chơi), chỉ có thể phá bằng cách đạt số điểm được yêu cầu trong thời gian có hạn.
 
-[MrZ: Được đề xuất cho những người chơi có ít nhất một nửa kỹ năng, nếu không, bạn thậm chí không biết mình đã chết như thế nào.]
+[MrZ: Chỉ nên chơi nếu bạn đã có kỹ năng ở mức nào đó*, nếu không, bạn thậm chí không biết mình đã chết như thế nào.]
+
+(*) Bản Zictionary tiếng Anh ghi là: "half-decent skills", dịch sát nghĩa là "một nửa kỹ năng"
         ]],
     },
     {"Tetris Blitz",
@@ -1295,7 +1298,7 @@ iOS / Android | Chơi đơn
 
 Một game xếp gạch được làm bởi Electronic Arts (EA). Có cơ chế trọng lực, và mỗi ván game chỉ kéo dài trong vòng 2 phút. Trước khi bắt đầu, ở mỗi ván game, chiếc bảng sẽ được làm đầy một số lượng gạch ngẫu nhiên. Game có chế độ "Frenzy" có thể kích hoạt bằng cách liên tục xóa hàng; cùng với rất nhiều loại power-up khác nhau, có cả Finisher giúp cho màn chơi kết thúc của bạn thêm đẹp mắt và buff mạnh số điểm của bạn lên. Game không có cơ chế top-out mà thay vào đó game sẽ tự động xóa các hàng trên cùng nếu có gạch chồng lên gạch đã đặt.
 
-Game đã bị khai tử từ T04 / 2020
+Game đã nghỉ hưu từ T04 / 2020
         ]],
     },
     {"Tetris (EA)",
@@ -1304,9 +1307,9 @@ Game đã bị khai tử từ T04 / 2020
         [[
 iOS / Android | Chơi đơn / Chơi trực tuyến?
 
-Một tựa game xếp gạch được phát triển bởi EA. Có hai cách điều khiển: Swipe (Vuốt) và One-Touch (Một chạm). Game này có chế độ Galaxy ngoài chế độ Marathon (với cơ chế trọng lực), và mục tiêu của chế độ này là xóa hết tất cả các gạch của Galaxy trước khi hết chuỗi gạch
+Một tựa game xếp gạch được phát triển bởi EA. Có hai cách điều khiển: Swipe (Vuốt) và One-Touch (Một chạm). Game này có chế độ Galaxy cùng với chế độ Marathon (có cơ chế trọng lực), và mục tiêu của chế độ này là xóa hết tất cả các gạch của Galaxy trước khi hết chuỗi gạch
 
-Ra mắt lần đầu năm 2011, bị khai tử từ T04 / 2020
+Ra mắt lần đầu năm 2011, nghỉ hưu từ T04 / 2020
 
 [Sea: game đang nhắc ở đây là bản năm 2011 (phát hành khoảng 2011 - 2012)]
         ]],
@@ -1322,6 +1325,7 @@ Một tựa game xếp gạch, trước đây được phát triển bởi N3TWO
 Từ cuối T11 / đầu T12 / 2022 và sau này, tất cả các tài khoản mới tạo chỉ có thể chơi chế độ Marathon và chế độ Phiêu lưu.
 
 [MrZ: UI thì tuyệt nhưng cơ chế điều khiển thì tệ]
+[Sea: Bạn tốt hơn đi kiếm game khác chứ game này bây giờ rác quá!]
         ]],
     },
     {"Tetris Beat",
@@ -1332,7 +1336,7 @@ iOS | Chơi đơn
 
 Một game xếp gạch tới từ nhà N3TWORK nhưng chỉ dành cho Apple Arcade. Ngoài chế độ Marathon cổ điển, game giới thiệu một chế độ được gọi là "Beat": Người chơi sẽ phải thả gạch theo nhịp của BGM.
 
-[Hiệu ứng của game rất là nặng và cơ chế điều khiển không được lý tưởng]
+[MrZ: Hiệu ứng của game rất là nặng và cơ chế điều khiển không được lý tưởng]
         ]],
     },
     {"Tetris Journey",
@@ -1343,7 +1347,7 @@ iOS / Android | Chơi đơn
 
 (俄罗斯方块环游记)
 
-Một game xếp gạch chính thức đã bị khai tử từng được phát triển bởi Tencent dành cho Trung Quốc.
+Một game xếp gạch chính thức đã nghỉ hưu từng được phát triển bởi Tencent dành cho Trung Quốc.
 Có 3 chế độ chơi trực tuyến, 4 chế độ chơi đơn cùng với một chế độ dựa trên cấp độ
 Mỗi trận trong chế độ chơi trực tuyến dài 2 phút, nếu không ai bị top out thì ai gửi nhiều hàng nhất sẽ giành chiến thắng.
 
@@ -1370,7 +1374,7 @@ Windows | Chơi trực tuyến
 
 (火拼俄罗斯)
 
-Một game xếp gạch ở trên Tencent Game Center - một nền tảng chơi game trực tuyến dành riêng tại Trung Quốc. Có bảng rộng 12 ô, 1 Next, 0 Hold. DAS và ARR giống với DAS và ARR hay dùng trong các app gõ văn bản, 1 Next, không Hold. Chỉ có thể gửi rác bằng Tetris (gửi 3 hàng rác) và xóa 3 hàng (gửi 2 hàng rác). Hàng rác có cấu trúc xen kẽ và gần như không thể đào .
+Một game xếp gạch ở trên Tencent Game Center - một nền tảng chơi game trực tuyến dành riêng tại Trung Quốc. Có bảng rộng 12 ô, 1 Next, 0 Hold. DAS và ARR giống với DAS và ARR hay dùng trong các app gõ văn bản, 1 Next, không Hold. Chỉ có thể gửi rác bằng Tetris (gửi 3 hàng rác) và xóa 3 hàng (gửi 2 hàng rác). Hàng rác có cấu trúc xen kẽ và gần như không thể đào.
         ]],
     },
     {"=[NHÓM 07]=",
@@ -1396,7 +1400,7 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
         "Sự kết hợp của ba quy tắc:\n\n\"Memoryless - Không nhớ gì\" (chuỗi gạch tạo ra hoàn toàn ngẫu nhiên)\n\"Previewless - Không biết trước gạch nào sẽ tới\" (không hiện NEXT)\n\"Holdless- Không Hold được\".\n\nMột chế độ đòi hỏi tốc độ và phản ứng nhạy bén từ người chơi.",
     },
     {"Secret Grade",
-        "nhom07 larger than",
+        "nhom07 larger than > <",
         "term",
         "Một chế độ dạng easter egg trong series TGM.\n\nỞ lối chơi \"secret grade\", người chơi sẽ làm một đường dích dắc (zigzag) (trông giống như \">\" hay \"<\") bằng cách tạo ra 1 ô trống duy nhất cho từng hàng. Mục tiêu cuối cùng là hoàn thành đường dích dắc cao (hơn) 19 hàng.\n\nNhấn vào nút \"Mở link\" để xem các kỹ thuật dùng để đạt được Secret Grade.",
         "https://harddrop.com/wiki?search=Secret_Grade_Techniques",
@@ -1563,7 +1567,8 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
         "https://teatube.cn/tos/",
     },
     {
-    "Tetris Việt Nam",      -- I will edit it later
+    "Tetris Việt Nam",
+    -- Need an better description! @~@
         "nhom10 community vietnam tetris việt nam",
         "org",
         [[
