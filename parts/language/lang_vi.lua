@@ -890,7 +890,7 @@ C. Tay cầm chơi game (Gamepad):
         ['sprint_40l']=          {"Sprint",            "40L",            "Xoá 40 hàng!"},
         ['sprint_100l']=         {"Sprint",            "100L",           "Xoá 100 hàng!"},
         ['sprint_400l']=         {"Sprint",            "400L",           "Xoá 400 hàng!"},
-        ['sprint_1000l']=        {"Sprint",            "1000L",         "Xoá 1000 hàng!"},
+        ['sprint_1000l']=        {"Sprint",            "1000L",          "Xoá 1000 hàng!"},
         ['sprintPenta']=         {"Sprint",            "PENTOMINO",      "Xoá 40 hàng với 18 pentomino"},
         ['sprintMPH']=           {"Sprint",            "MPH",            "Memoryless\nPreviewless\nHoldless"},
         ['sprint123']=           {"Sprint",            "M123",           "Xoá 40 hàng chỉ với monomino, domino, và trimino"},

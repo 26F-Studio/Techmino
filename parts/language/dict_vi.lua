@@ -8,16 +8,15 @@ return {
         [[
 NHÓM 01: VỀ ZICTIONARY & BẢN DỊCH
 
-Zictionary là một từ điển về game xếp gạch cực kì hữu ích. Bạn có thể tra những thuật ngữ mà bạn cảm thấy khó hiểu ở trong này.
+Zictionary là một bộ từ điển về game xếp gạch cực kì hữu ích. Ở đây, bạn có thể tìm hiểu hầu hết mọi thứ liên quan đến trò chơi này.
+
 Để nhảy nhanh tới mục lục, hãy gõ "mucluc" trên thanh tìm kiếm.
 
-Đây là bản dịch tiếng Việt của Squishy từ bản dịch tiếng Anh của User670 và C₂₉H₂₅N₃O₅
-Bản dịch có thể không thể hiện 100% nội dung của Zictionary tiếng Trung (bản gốc)
+Đây là bản Việt hóa của Squishy từ bản dịch tiếng Anh của User670 và C₂₉H₂₅N₃O₅.
+Được chuẩn hóa lại nhờ sự giúp đỡ của cộng đồng Tetris Việt Nam.
+Bản dịch có thể có sai sót so với Zictionary tiếng Trung (bản gốc).
 
-Khi đọc, bạn hãy lưu ý là: từ "lỗ" với từ "hố" được sử dụng như từ "hole"
-Trong khi đó từ "giếng" được sử dụng như từ "well"
-
-Có đóng góp? Bạn có thể vào trang dự án Techmino trên GitHub để đóng góp bản dịch.
+Bạn muốn đóng góp vào bản dịch? Bạn có thể vào trang dự án Techmino trên GitHub để làm nhé.
         ]],
         "https://github.com/26F-Studio/Techmino/blob/main/parts/language/dict_vi.lua",
     },
@@ -29,13 +28,13 @@ Có đóng góp? Bạn có thể vào trang dự án Techmino trên GitHub để
 01. Về Zictionary & Bản dịch game & Mục lục ← bạn đang xem mục này
 02. Dự án Techmino: Trang web chính thức, Dự án trên GitHub, Discord
 03. Ủng hộ cho tác giả của Techmino
-04. Mẹo và lời khuyên hữu ích:
-        — Lời khuyên dành cho những người mới tập chơi
-        — Đề xuất luyện tập, Học làm T-spin, Điều chỉnh DAS
-        — Bố cục phím, Khả năng xử lý gạch, Các nút xoay
+04. Mẹo và lời khuyên:
+        - Lời khuyên dành cho những người mới tập chơi
+        - Đề xuất luyện tập, Học làm T-spin, Điều chỉnh DAS
+        - Bố cục phím, Khả năng xử lý gạch, Các nút xoay
 
 05. Các yếu tố cần thiết của các game xếp gạch hiện đại:
-        — Next, Hold, In-place Hold, Swap, Topping out, Vùng đệm, Vùng biến mất
+        - Next, Hold, In-place Hold, Swap, Topping out, Vùng đệm, Vùng biến mất
         05A. Gạch: Hình dạng, màu, hướng và tên của gạch
         05B. Hệ thống xoay gạch: ARS, ASC, ASC+, BRS, BiRS, C2RS, C2sym, NRS, SRS, SRS+, TRS, XRS
         05C. Hệ thống điều khiển: IRS, IHS, IMS
@@ -44,33 +43,33 @@ Có đóng góp? Bạn có thể vào trang dự án Techmino trên GitHub để
 
         05E. Thông số
             05E1. Thông số của game:
-                — Tốc độ rơi, 20G
-                — ARE, Line ARE, Death ARE
-                — Lockdown Delay, Spawn & Clear delay
+                - Tốc độ rơi, 20G
+                - ARE, Line ARE, Death ARE
+                - Lockdown Delay, Spawn & Clear delay
             05E2. Thông số điều khiển: DAS & ARR, DAS cut, Auto-lock cut, SDF
         05F. Điều khiển
             05F1. Tốc độ: LPM, PPS, BPM, KPM, KPP
             05F2. Kỹ thuật: Hypertapping, Rolling, Finesse
             05F3. Độ trễ đầu vào
         05G. Khả năng tấn công
-            — APM, SPM, DPM, RPM, ADPM, APL
-            — Tấn công & Phòng thủ
-            — Combo, Spike, Debt, Passthrough, Timing
+            - APM, SPM, DPM, RPM, ADPM, APL
+            - Tấn công & Phòng thủ
+            - Combo, Spike, Debt, Passthrough, Timing
 
         05H. Hành động bất cẩn (Mis-): Misdrop, Mishold
         05I. Spin: (Mini) / (All-) / (T-) / (O-) spin; Fin, Neo, Iso; Freestyle
         05J: Kỹ thuật xóa hàng:
-            — Single, Double, Triple (Xóa 1/2/3 hàng); Techrash; Tetris
-            — TSS, TSD, TST, MTSS, MTSD
-            — Perfect Clear, Half Perfect Clear
+            - Single, Double, Triple (Xóa 1/2/3 hàng); Techrash; Tetris
+            - TSS, TSD, TST, MTSS, MTSD
+            - Perfect Clear, Half Perfect Clear
         05K. Các thuật ngữ khác: sub, 'Doing Research', Bone block
 
 06. Các game xếp gạch
         (Danh sách rất dài, gõ trên thanh tìm kiếm "nhom06" để xem danh sách đầy đủ)
 
 07. Một vài cơ chế và chế độ của một số game:
-            — Tàng hình một phần, tàng hình hoàn toàn
-            — Chế độ MPH, Secert Grade, Deepdrop
+            - Tàng hình một phần, tàng hình hoàn toàn
+            - Chế độ MPH, Secert Grade, Deepdrop
 08. Bot: Cold Clear, ZZZbot
 
 09. Wiki; các trang web bày setup & cung cấp câu đố, chia sẻ setup
@@ -82,10 +81,10 @@ Có đóng góp? Bạn có thể vào trang dự án Techmino trên GitHub để
 
 11. Xếp lên và đào xuống
         11A. Stacking (Xếp lên):
-            — Side / Center / Partial well
-            — Side / Center 1 / 2 / 3 / 4-wide
-            — Residual
-            — 6-3 Stacking
+            - Side / Center / Partial well
+            - Side / Center 1 / 2 / 3 / 4-wide
+            - Residual
+            - 6-3 Stacking
         11B. Digging (Đào xuống)
 
 12. Setup (Opener, Mid-game setup, Donation, Pattern)
@@ -97,8 +96,8 @@ Có đóng góp? Bạn có thể vào trang dự án Techmino trên GitHub để
 13. Cách tính lượng sát thơng gây ra: Tetris Online / Notris Foes, Techmino
 
 14. Console và chuyện quản lý dữ liệu game
-        — Console, đặt lại thiết lập, tình trạng mở khóa, bố cục phím
-        — Xóa toàn bộ thành tích, kỷ lục, bản phát lại, bộ nhớ đệm
+        - Console, đặt lại thiết lập, tình trạng mở khóa, bố cục phím
+        - Xóa toàn bộ thành tích, kỷ lục, bản phát lại, bộ nhớ đệm
 15. Các thuật ngữ không liên quan gì tới Tetris (tiếng Anh): SFX, BGM, TAS, AFK
         ]]
     },
@@ -110,23 +109,22 @@ Có đóng góp? Bạn có thể vào trang dự án Techmino trên GitHub để
     {"Website chính thức",
         "nhom02 websites; trang chủ",
         "org",
-        "Trang web chính thức của Techmino!\nBạn có thể lấy bản ổn định mới nhất của Techmino cũng như tạo tài khoản, thay avatar ngay tại đó\nNhấn vào nút \"Mở link\" để mở website đó trong trình duyệt",
+        "Trang web chính thức của Techmino!\nBạn có thể lấy bản mới nhất của Techmino cũng như tạo tài khoản, thay avatar ngay tại đó\nNhấn vào nút hình địa cầu ở bên phải để mở website trên trình duyệt của bạn.",
         "http://studio26f.org",
     },
     {"Dự án trên GitHub",
         "nhom02; mã nguồn mở; dự án; github; repository; kho lưu trữ",
         "org",
-        "Kho lưu trữ chính thức của Techmino trên GitHub. Chúng tôi đánh giá cao nếu bạn tặng cho chúng tôi một ngôi sao! (bạn có thể tặng sao miễn phí).",
+        "Repository chính thức của Techmino trên GitHub. Chúng tôi sẽ rất cảm kích nếu bạn tặng cho chúng tôi một ngôi sao!",
         "https://github.com/26F-Studio/Techmino",
     },
     {"Discord",
         "nhom02 máy chủ server",
         "org",
         [[
-Cùng gặp gỡ và nói chuyện với tác giả của Techmino ở trong Discord
-Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đơn giản là ngồi tám chuyện cho vui :)
+Discord của Techmino chính là nơi mà bạn có thể cập nhật mọi thông tin về Techmino, hoặc đơn giản là đến trò chuyện với tất cả mọi người.
 
-[Sea: bạn cũng có thể vào server và hỏi mình về vấn đề dịch thuật nếu bạn có thắc mắc / đề xuất]
+Nhấn nút hình địa cầu để tham gia cùng chúng tôi!
         ]],
         "https://discord.gg/f9pUvkh"
     },
@@ -147,34 +145,34 @@ Cũng như cùng thử nghiệm với sản phẩm và tính năng mới. Hay đ
     not FNNS and {"Ủng hộ 2",
         "nhom03; ủng hộ 2; afdian aidadian",
         "org",
-        "Để ủng hộ cho Techmino qua Aifadian, hãy nhấn vào nút \"Mở link\" để mở trang ủng hộ. Lưu ý là Aifadian sẽ trừ bạn 6% phí giao dịch.",
+        "Để ủng hộ cho Techmino qua Aifadian, nhấn vào nút hình địa cầu để mở trang ủng hộ này. Lưu ý là Aifadian sẽ tính thêm 6% phí giao dịch.",
         "https://afdian.net/@MrZ_26",
     } or {"*ĐÃ ẨN*", "", "org", ""},
     not FNNS and {"Ủng hộ 3",
         "nhom03; ủng hộ 3; patreon",
         "org",
-        "Để ủng hộ cho Techmino qua Patreon, hãy nhấn vào nút \"Mở link\" để mở trang ủng hộ. Lưu ý là Patreon có thể tính phí dịch vụ cho bạn đối với các giao dịch trên một số tiền nhất định.",
+        "Để ủng hộ cho Techmino qua Patreon, hãy nhấn vào nút hình địa cầu để mở trang ủng hộ này. Lưu ý là Patreon có thể tính phí dịch vụ cho bạn đối với các giao dịch trên một số tiền nhất định.",
         "https://www.patreon.com/techmino",
     } or {"*ĐÃ ẨN*", "", "org", ""},
     {"=[NHÓM 04]=",
         "nhom04",
         "",
-        "NHÓM 04: MẸO & LỜI KHUYÊN HỮU ÍCH"
+        "NHÓM 04: MẸO & LỜI KHUYÊN"
     },
     {"Mới tập chơi?",
         "guides newbie noob readme recommendations suggestions helps",
         "help",
         [[
 Chúng tôi có vài lời khuyên dành cho những người mới chơi xếp gạch:
-    2 thứ cơ bản:
-        1. Chọn những game xếp gạch chuyên nghiệp có cơ chế điều khiển tốt. Techmino, TETR.IO, Jstris và Tetris Online là một số lựa chọn khá tốt đấy. Hãy tránh xa những game kém chất lượng ra bởi đa số chúng đi lệch ra khỏi Guideline, hoặc có cơ chế điều khiển tệ hại, sẽ không tốt cho việc luyện tập của bạn.
-        2. Hãy dành thời gian để học các kỹ năng cơ bản đã. Cố gắng dành nhiều thời gian hơn cho các kỹ năng như đọc NEXT hoặc có thể xóa Tetris một cách nhất quán. Làm chủ các phần cơ bản trước khi nghĩ tới những kỹ năng nâng cao hơn như T-spin.
-    3 kỹ năng cần có:
+    Hai thứ cơ bản:
+        1. Chọn những game xếp gạch chuyên nghiệp có cơ chế điều khiển tốt. Techmino, TETR.IO, Jstris và Tetris Online là một số lựa chọn khá tốt đấy. Đừng chơi những game có đánh giá không tốt bởi vì đa số chúng không đi sát với Guideline, hoặc là có cơ chế điều khiển tệ hại; gây ảnh hưởng xấu trong quá trình luyện tập.
+        2. Dành thời gian để học các kỹ năng cơ bản đã. Cố gắng dành nhiều thời gian hơn cho các kỹ năng như đọc NEXT hoặc có thể xóa Tetris một cách ổn định. Làm chủ các phần cơ bản trước khi nghĩ tới những kỹ năng nâng cao hơn như T-spin.
+    Ba kỹ năng cần có:
         1. Nhớ các vị trí xuất hiện của gạch.
         2. Nhớ các chuỗi thao tác để di chuyển gạch đến vị trí mong muốn.
         3. Suy nghĩ trước về vị trí đặt viên gạch sắp tới.
 
-Bạn có thể nhấn nút Mở link để mở bài "Suggestion for new players to Tetris Online", viết bởi Tatianyi — một người chơi xếp gạch ở Trung Quốc (dịch sang tiếng Anh bởi User670).
+Bạn có thể nhấn nút Mở link để mở bài "Suggestion for new players to Tetris Online", viết bởi Tatianyi - một người chơi xếp gạch ở Trung Quốc (dịch sang tiếng Anh bởi User670).
         ]],
         "https://github.com/user670/temp/blob/master/tips_to_those_new_to_top.md",
     },
@@ -183,7 +181,7 @@ Bạn có thể nhấn nút Mở link để mở bài "Suggestion for new player
         "help",
 [[
 Lời khuyên khi tập chơi:
-Sau đây là vài lời khuyên của chúng tôi để cải thiện kỹ năng chơi của bạn. Cảm thấy bị kẹt giữa chừng? Bạn có thể nghỉ ngơi và dành nhiều thời gian hơn để chơi những chế độ bạn thích. Chơi vui vẻ!
+Sau đây là vài lời khuyên của chúng tôi để cải thiện kỹ năng chơi của bạn. Bạn cũng đừng ngại nghỉ ngơi và dành nhiều thời gian hơn để chơi những chế độ bạn thích nếu bạn cảm thấy mệt mỏi. Chúc bạn thành công!
 
 Những lời khuyên này đã được sắp xếp thành nhóm với độ khó tăng dần. Tuy vậy, chúng tôi khuyên bạn hãy làm cả 3 cùng lúc thay vì từng cái một (A → B → C)
 
@@ -193,9 +191,9 @@ A. Stacking (Xếp gạch)
         A3. Lên kế hoạch trước cách xếp, hãy tận dụng tối đa NEXT và HOLD để giữ được thế đẹp.
 
 B. Efficiency & Speed (Hiệu quả & Tốc độ)
-        B1. Đừng có dựa bóng gạch quá nhiều! Thay vào đó: Trước mỗi lần đặt gạch, hãy suy nghĩ xem bạn sẽ đặt gạch ở đâu? Bấm những phím nào để gạch tới chỗ đó và đứng đúng tư thế?
+        B1. Đừng dựa vào bóng gạch quá nhiều! Nên tập trung vào việc suy nghĩ vị trí tốt nhất cho gạch đó.
         B2. Nên sử dụng 2 (hoặc 3, tùy game) phím xoay thay vì nhấn 1 phím xoay liên tục trong thời gian dài.
-        B3. Đừng lo lắng về tốc độ khi bạn mới tập chơi Finesse. Bạn có thể bắt đầu học bằng cách chơi chậm, rồi từ từ, bạn có thể tập chơi nhanh hơn khi đã quen tay — việc này không khó đâu!
+        B3. Đừng lo lắng về tốc độ khi bạn mới tập chơi Finesse. Bạn có thể bắt đầu học bằng cách chơi chậm, rồi từ từ bạn có thể tập chơi nhanh hơn khi đã quen tay - việc này không khó đâu!
 
 C. Practice (Luyện tập):
     Cố gắng hoàn thành các chế độ sau
@@ -213,17 +211,20 @@ Sau khi xong nhóm C, hãy luyện tập tiếp nhóm A, đây là kỹ năng R�
         "nhom04 tspin; học; hướng dẫn; mẹo; lời khuyên; đề xuất",
         "help",
         [[
-T-spin là một kỹ năng khá khó, không tài nào thành thạo nổi nếu chỉ có nhìn vào địa hình nơi làm T-spin.
-Trước khi học T-spin, hãy: làm chủ được kỹ năng đọc NEXT và hiểu rõ về xếp gạch. 
-Khuyến nghị: Nên làm chủ được các kỹ năng cơ bản.
+T-spin là một kỹ năng khá khó, không tài nào thành thạo nổi nếu chỉ có nhìn vào địa hình nơi làm T-spin. Bạn cần phải có kỹ năng đọc NEXT và lên kế hoạch tốt để có thể làm T-spin
 
-Lời khuyên của chúng tôi: chỉ nên bắt đầu học làm T-spin khi bạn có thể xóa 40 hàng với ≤ 60s / 40-120s (tùy khả năng), 40 hàng chỉ dùng Tetris, 40 hàng chỉ dùng Tetris + không Hold. Tất cả mà không làm bạn bị tụt tốc độ quá nhiều (phát triển khả năng đọc NEXT và suy nghĩ đủ kỹ trước khi thả rơi gạch.)
+Lời khuyên của chúng tôi, bạn nên bắt đầu học làm T-spin khi bạn có thể:
+    - Xoá 40 hàng trong vòng 60 giây (tùy vào khả năng cá nhân con số này sẽ khác)
+    - Xóa 40 hàng chỉ dùng Tetris
+    - Xóa 40 hàng chỉ dùng Tetris + không Hold mà không bị mất tốc độ quá nhiều
+
+Những chế độ này sẽ giúp bạn củng cố kỹ năng đọc NEXT và lên kế hoạch.
         ]],
     },
     {"Điều chỉnh DAS",
         "nhom05e2 das tuning",
         "help",
-        "Với những người chơi nâng cao mà muốn chơi nhanh hơn, có thể điều chỉnh DAS thành 4-6 f (67-100 ms) và ARR 0 f (0 ms, các viên gạch sẽ ngay lập tức dính vào tường khi bạn vừa vượt qua DAS); đây là hai giá trị khuyên dùng.\n\nNếu bạn thấy khó điều khiển, thử tăng DAS lên 1-2 f, nhưng hãy giữ ARR bé hơn 2 f (33 ms).\nTóm lại, DAS nên để thấp nhất có thể nhng vẫn phải đảm bảo được game có thể phân biệt được bạn đang nhấn hay giữ phím trong khi ARR để ở mức thấp nhất (nếu không để thành 0).",
+        "Với những người chơi đã có kinh nghiệm mà muốn chơi nhanh hơn, khuyên dùng DAS 4-6f (67-100 ms) và ARR 0f (các viên gạch sẽ ngay lập tức dính vào tường khi DAS kết thúc).\n\nNếu bạn thấy khó điều khiển, hãy thử tăng DAS lên 1-2 f, nhưng giữ ARR bé hơn 2 f (33 ms).\n\nTóm lại, DAS nên để thấp nhất có thể nhưng vẫn phải đảm bảo được game có thể phân biệt được bạn đang nhấn hay giữ phím trong khi ARR để ở mức thấp nhất có thể.",
     },
     {"Bố cục phím",
         "nhom04 feel",
@@ -231,32 +232,32 @@ Lời khuyên của chúng tôi: chỉ nên bắt đầu học làm T-spin khi b
         [[
 Dưới đây là vài lời khuyên hữu ích khi bạn đang chỉnh sửa bố cục phím
 
-1.  Một ngón tay chỉ nên thực hiện một chức năng khác nhau. Ví dụ như: 1 ngón cho sang trái, 1 ngón cho sang phải, 1 ngón cho rơi mạnh,…; và gán một ngón tay cho cả phím xoay trái và xoay phải (vì chúng thuờng không bao giờ đuợc nhấn cùng lúc)
+1. Một ngón tay chỉ nên thực hiện một chức năng duy nhất. Ví dụ như: một ngón cho sang trái, một ngón cho sang phải, một ngón cho rơi mạnh, …; và gán một ngón tay cho cả phím xoay trái và xoay phải (vì không ai xoay cả hai phía cùng một lúc cả)
 
-2.  Trừ khi bạn tự tin với ngón út của mình, thì không nên để ngón tay này làm bất kì việc hết! (Vì chúng rất kém linh hoạt). Lời khuyên: nên xài ngón trỏ và ngón giữa vì hai ngón này là nhanh nhẹn nhất, nhưng bạn cũng có thể thoải mái tìm hiểu xem các ngón tay của mình nhanh chậm thế nào, mạnh yếu ra sao.
+2. Trừ khi bạn tự tin với ngón út của mình, thì không nên để ngón tay này làm bất kì việc nào hết! (Vì chúng rất kém linh hoạt). Lời khuyên: nên xài ngón trỏ và ngón giữa vì hai ngón này là nhanh nhẹn nhất, nhưng bạn cũng có thể thoải mái tìm hiểu xem các ngón tay của mình nhanh chậm thế nào, mạnh yếu ra sao.
 
-3.  Không nhất thiết phải sao chép bố cục phím của người khác, vì không ai giống ai. Bố cục phím thờng không ảnh huởng quá nhiều đến kỹ năng của bạn nếu bạn đã tuân theo quy tắc 1 và 2.
+3. Không nhất thiết phải sao chép bố cục phím của người khác, vì không ai giống ai. Bố cục phím thường không ảnh huởng quá nhiều đến kỹ năng của bạn nếu bạn đã tuân theo quy tắc 1 và 2.
         ]],
     },
     {"Khả năng xử lý gạch",
         "nhom04 feel handling",
         "help",
         [[
-Những yếu tố ảnh hưởng tới việc xử lý gạch của bạn:
+Những yếu tố sau có thể ảnh hưởng tới việc xử lý gạch của bạn:
 
 1. Độ trễ đầu vào, có thể là do cấu hình, thông số hoặc tình trạng của thiết bị. Khởi động lại trò chơi; bảo dưỡng, sửa chữa thiết bị của bạn hoặc đổi sang thiết bị mới có thể khắc phục vấn đề này.
-2. Trò chơi không ổn định, có thể do cách thiết kế và cách lạp trình của game. Có thể giảm tình trạng này bằng cách tắt hiệu ứng hình ảnh hoặc để chất lượng đò họa ở mức thấp.
-3. Thiết kế trong game có chủ đích.
-4. Thông số điều khiển gạch cha hợp lí (ví dụ: DAS, ARR, SDARR,…). Thay đổi cài đặt có thể giúp bạn.
-5. Tư thế chơi ko hợp lý. Hãy thử tìm tư thế chơi thuận tiện.
-6. Thao tác không quen sau khi đổi bố cục phím hoặc thiết bị. Tập làm quen với chúng hoặc thay đổi cài đặt có thể hữu ích.
-7. Mỏi cơ, chuột rút,… làm cho việc phản ứng và phối hợp tay khó khăn hơn. Hãy nghỉ ngơi và trở lại sau một hoặc vài ngày.
+2. Độ ổn định của game, phụ thuộc vào cách thiết kế và cách lập trình của game. Có thể cải thiện tình trạng này bằng cách tắt hiệu ứng hình ảnh hoặc để chất lượng đồ họa ở mức thấp.
+3. Thiết kế có chủ đích trong game.
+4. Thông số điều khiển gạch chưa hợp lí (ví dụ: DAS, ARR, SDARR,…). Thay đổi các cài đặt này có thể giúp bạn.
+5. Tư thế chơi không hợp lý. Hãy thử tìm tư thế chơi thoải mái nhất có thể.
+6. Thao tác không quen sau khi đổi bố cục phím hoặc thiết bị. Tập làm quen với chúng hoặc thay đổi cài đặt phím.
+7. Mỏi cơ, chuột rút,… làm cho việc phản ứng và phối hợp tay khó khăn hơn. Hãy nghỉ ngơi và trở lại sau một vài ngày.
         ]],
     },
     {"Các nút xoay",
         "nhom04 doublerotation hai phím xoay",
         "help",
-        "Dùng cả nút xoay trái và phải để giảm số lần nhấn nút.\nLỗi di chuyển cũng tính tới việc bạn có sử dụng hai nút xoay hay không.\n\nCó thể dùng thêm nút xoay 180° nếu bạn muốn chơi cực kì nhanh.\nKhông khuyến khích vì không phải game nào cũng hỗ trợ xoay 180°.\nBạn có thể bỏ qua kỹ thuật này.",
+        "Dùng cả nút xoay trái và phải sẽ giảm số lần nhấn nút, vì xoay một hướng ba lần thì cũng tương tự xoay một lần hướng ngược lại.\nĐây cũng là một thứ cần phải lưu ý nếu bạn muốn thành thạo Finesse.\n\nNếu bạn dùng thêm nút xoay 180°, bạn có thể xoay tới bất kì hướng nào chỉ với 1 lần nhấn phím (nếu không xét spin).\nTuy nhiên, chúng tôi không khuyến khích dùng 180° vì không phải game nào cũng hỗ trợ xoay 180°, và sự khác biệt về tốc độ giữa việc dùng hai nút và ba nút là không quá đáng kể.\nBạn có thể bỏ qua kỹ thuật này trừ khi bạn muốn chơi nhanh hơn chớp.",
     },
     {"=[NHÓM 05]=",
         "nhom05",
@@ -265,41 +266,40 @@ Những yếu tố ảnh hưởng tới việc xử lý gạch của bạn:
 NHÓM 05: CÁC YẾU TỐ CẦN THIẾT CỦA CÁC GAME XẾP GẠCH HIỆN ĐẠI
 
 Khái niệm về trò chơi Tetris hay trò chơi xếp gạch "hiện đại" khá là mờ nhạt.
-Nói chung, một game xếp gạch hiện đại thường sẽ bám sát theo Tetris Design Guideline (Bộ nguyên tắc thiết kế cho Tetris). Cứ game nào thỏa mãn đa số các tiêu chí dưới đây có thể coi là game xếp gạch hiện đại.
+Nói chung, một game xếp gạch hiện đại thường sẽ bám sát theo Tetris Design Guideline (Bộ nguyên tắc thiết kế cho Tetris). Game nào thỏa mãn đa số các tiêu chí dưới đây có thể được coi là game xếp gạch hiện đại.
 
-Dưới đây là các yếu tố chính:
-    1. Phần có thể nhìn được của bảng có kích thước 10 × 20, cùng với 2 — 3 hàng ẩn ở trên. (Kích thước bảng thực tế ở trong mã nguồn game thường cố định ở 10 × 40)
-    2. Gạch mới xuất hiện ở giữa trên cùng của vùng có thể nhìn thấy (thường là ở hàng 21-22). Mỗi viên đều có màu sắc và hướng xuất hiện mặc định riêng. Với những gạch có chiều dài lẻ có thể lệch sang trái hoặc phải 1 ô.
-    3. Có một bộ xáo gạch như Túi 7 hay His được thiết kế để giảm / tránh tình trạng Flood hay Drought
-    4. Có hẳn một hệ thống xoay, và cho phép xoay theo ít nhất 2 hướng. Ưu tiên hệ thống xoay SRS hoặc các biến thể tương tự.
-    5. Có hệ thống trì hoãn khóa gạch thích hợp.
-    6. Có cơ chế top-out thích hợp
-    7. Có NEXT - hiện từ 3-6 gạch sắp rơi (vẫn chấp nhận trường hợp chỉ hiện 1 gạch), những gạch này xuất hiện ở tư thế khi chúng vừa mới xuất hiện trong bảng
-    8. Cho phép Hold
-    9. Nếu có spawn delay hoặc clear delay, game thường sẽ có hệ thống IRS và IHS. Techmino còn có cả hệ thống IMS nữa (tìm trong Zictionary để biết thêm)
-    10. Có hệ thống DAS cho các chuyển động ngang chính xác và nhanh chóng.
+    1. Phần có thể nhìn thấy được của bảng có kích thước 10 cột × 20 hàng, cùng với 2 - 3 hàng ẩn ở trên cùng. (Kích thước bảng thực tế ở trong mã nguồn game thường cố định ở 10 cột × 40 hàng).
+    2. Gạch mới xuất hiện ở giữa trên cùng của vùng có thể nhìn thấy (thường là ở hàng 21-22). Mỗi gạch đều có màu sắc và hướng xuất hiện mặc định riêng. Với những gạch có chiều dài lẻ có thể lệch sang trái hoặc phải 1 ô.
+    3. Có một bộ xáo gạch như 7-Bag hay His được thiết kế để giảm hoặc tránh tình trạng Flood hay Drought.
+    4. Có một hệ thống xoay, và cho phép xoay theo ít nhất 2 hướng. Ưu tiên hệ thống xoay SRS hoặc các biến thể tương tự.
+    5. Có hệ thống chờ khóa gạch thích hợp.
+    6. Có cơ chế top-out thích hợp.
+    7. Có cột NEXT hiện từ 3 - 6 gạch sắp rơi (vẫn chấp nhận trường hợp chỉ hiện 1 gạch) và những gạch trong cột này phải giống tư thế khi chúng vừa mới xuất hiện trong bảng.
+    8. Cho phép giữ gạch.
+    9. Nếu có hệ thống chờ tạo gạch hoặc hệ thống chờ xóa hàng, game thường sẽ có hệ thống IRS và IHS. Techmino còn có cả hệ thống IMS nữa (tìm trong Zictionary để biết thêm).
+    10. Có hệ thống DAS nhằm hỗ trợ các chuyển động ngang một cách chính xác và nhanh chóng.
         ]],
     },
     {"Next (Kế / Tiếp)",
-        "nhom05 preview",
+        "nhom05 preview next ke tiep",
         "term",
-        "Hiện chuỗi gạch sẽ lần lượt xuất hiện. Có một kỹ năng cần thiết đó là lên kế hoạch trước nơi đặt các gạch từ hàng đợi NEXT.",
+        "Hiện chuỗi gạch sẽ lần lượt xuất hiện. Có một kỹ năng cần thiết đó là lên kế hoạch trước cách đặt các gạch từ cột NEXT. Số lượng gạch bạn muốn lên kế hoạch là tùy thuộc vào bạn và có thể thay đổi tùy theo chế độ chơi và tình trạng bảng chơi hiện tại của bạn.",
     },
     {"Hold (Giữ)",
         "nhom05 hold",
         "term",
-        "Một chức năng cho phép cất gạch đang rơi khi chưa cần cái đó (nếu chưa có gạch nào trong HOLD) hoặc đổi gạch hiện tại với gạch trong HOLD\nBình thường, Hold chỉ có thể được sử dụng 1 lần cho mỗi viên gạch.\n\nTrên thực tế, việc dùng Hold hay không cũng có điểm lợi riêng của nó.\nNếu sử dụng Hold:\n\t— Có thể giảm khối lượng công việc đè lên người chơi\n\t— Đồng thời có thể giảm số phím / nút cần nhấn trong game → có thể tăng KPS lên.\nTrên thực tế, đã có nhiều kỷ lục 40L được xác lập mà không cần Hold.\n\nNếu dùng Hold:\n\t— Hold có thể có ích trong nhiều trường hợp khác nhau (ví dụ như khi đang chơi ở tốc độ rơi cao)\n\t— Cho phép người chơi có thể làm được nhiều setup phức tạp hơn mà không làm tăng quá nhiều khối lượng công việc\n\t— Giúp giảm số lần nhấn phím.\n\n"
-        -- .."Ở một diễn biến khác…\n\tAnother Soul: \"I'm pretty ok with both using Hold and not using it. Just not using it makes the game more difficult, and you more vulnerable towards piece dependencies.\"\n\t(Tôi khá là ok giữa việc dùng Hold hay không. Nó chỉ làm cho game khó hơn và bạn dễ bị phụ thuộc vào gạch hơn thôi.)",
+        "Một chức năng cho phép bạn giữ gạch đang rơi (nếu chưa có gạch nào trong HOLD) hoặc đổi gạch hiện tại với gạch trong HOLD.\nBình thường, Hold chỉ có thể được sử dụng 1 lần cho mỗi gạch.\n\nTrên thực tế, việc dùng Hold hay không cũng có ưu nhược của nó.\nNếu không dùng Hold:\n\t- Có thể giảm áp lực cho người chơi khi điều khiển gạch.\n\t- Đồng thời có thể giảm số phím cần nhấn trong game → có thể tăng KPS lên.\nTrên thực tế, đã có nhiều kỷ lục 40L được xác lập mà không cần Hold.\n\nNếu dùng Hold:\n\t- Hold có thể có ích trong nhiều trường hợp khác nhau (ví dụ như khi đang chơi ở tốc độ rơi cao).\n\t- Cho phép người chơi có thể làm được nhiều setup phức tạp hơn mà không đẩy thêm áp lực cho người chơi."
+        -- \n\n.."Ở một diễn biến khác…\n\tAnother Soul: \"I'm pretty ok with both using Hold and not using it. Just not using it makes the game more difficult, and you more vulnerable towards piece dependencies.\"\n\t(Tôi khá là ok giữa việc dùng Hold hay không. Nó chỉ làm cho game khó hơn và bạn dễ bị phụ thuộc vào gạch hơn thôi.)",
     },
-    {"In-place Hold",
-        "nhom05 inplace hold",
+    {"Hold tại chỗ",
+        "nhom05 inplace hold taicho",
         "term",
-        "*Chỉ có trên Techmino*\n\"Giữ ngay tại chỗ\".\n\nMột kiểu Hold đặc biệt cho phép gạch lấy ra từ Hold sẽ xuất hiện ngay tại vị trí mà gạch vừa cất đang rơi (trái ngược với Hold thông thường, khi mà gạch sẽ xuất hiện ở trên cùng của bảng).\nCó thể bật chức năng này trong Chế độ tự do\n\nFun fact: người Trung gọi cái này là \"Physical Hold\"",
+        "*Chỉ có trên Techmino*\n\"Giữ ngay tại chỗ\".\n\nMột kiểu Hold đặc biệt cho phép gạch được lấy ra từ HOLD sẽ xuất hiện ngay tại vị trí mà gạch hiện tại đang rơi (khác với Hold thông thường khi mà gạch sẽ xuất hiện ở trên cùng của bảng).\nBạn có thể bật chức năng này trong Chế độ tự do.\n\nFun fact: người Trung gọi cái này là \"Physical Hold\"",
     },
-    {"Swap",
-        "nhom05 hold",
+    {"Swap (Chuyển)",
+        "nhom05 hold chuyen",
         "term",
-        "Tương tự như \"Hold\", nhưng sẽ lấy gạch tiếp theo từ Next; gạch đang rơi hiện tại sẽ đứng cuối hàng. Bạn chỉ có thể đổi gạch một lần trong đa số trương hợp.",
+        "Một biến thể khác của \"Hold\". Swap sẽ đổi gạch đang rơi với gạch tiếp theo trong NEXT. Bạn có thể bật chức năng này trong Chế độ tự do.",
     },
     {"Topping out",
         "nhom05 topout toppingout game over",
@@ -307,70 +307,67 @@ Dưới đây là các yếu tố chính:
         [[
 Một tựa game xếp gạch hiện đại thường có 3 điều kiện để "game over":
 
-1. Block out: Gạch mới nằm chồng lên một gạch đã đặt;
-2. Lock out: Có gạch nằm trên vùng skyline (đường chân trời);
+1. Block out: Gạch mới nằm chồng lên một gạch đã đặt.
+2. Lock out: Có gạch nằm hoàn toàn ở phía trên vùng nhìn thấy.
 3. Top out: Độ cao của bảng vượt quá độ cao cho phép (thường là 40 hàng). Cái này đa số là do hàng rác đẩy bảng lên quá cao.
 
-Techmino không kiểm tra điều kiện Lock out và Top out theo mặc định.
+Techmino mặc định sẽ không kiểm tra điều kiện Lock out và Top out.
     ]],
     },
     {"Vùng đệm",
         "nhom05 invisible buffer zone",
         "term",
-        "Tên tiếng Anh là \"Buffer Zone\". Chỉ bao gồm các hàng từ hàng thứ 21-40 (nằm ở trên vùng nhìn thấy).\n\nỞ trong các trận đấu, có lúc sẽ có quá nhiều rác cùng một lúc đẩy gạch lên cao. Nếu may mắn bạn chưa bị block-out, những hàng gạch nào đi quá vùng nhìn thấy được sẽ đi vào vùng đệm.\nKhi bạn đã xử lý xong các hàng rác, toàn bộ hàng gạch đang ở vùng đệm sẽ được đưa trở lại về vùng nhìn thấy được.\n\nVùng đệm thường nằm ở độ cao từ 21-40 vì chúng có thể áp dụng cho hầu hết các trường hợp. Tuy nhiên vẫn có những trường hợp ngoại lệ, ví dụ như có một số game sẽ có vùng đệm cao không giới hạn.\n\nNhớ đọc thêm: \"Vanish Zone\"",
+        "Tên tiếng Anh là \"Buffer Zone\". Chỉ bao gồm các hàng từ hàng 21-40 (nằm ở phía trên vùng nhìn thấy).\n\nVùng này tồn tại vì sẽ có các trường hợp những hàng rác sẽ đẩy gạch trong bảng ra khỏi vùng nhìn thấy (dễ thấy nhất là Center 4-Wide).\nNhững ô gạch nào đi quá vùng nhìn thấy được sẽ đi vào vùng đệm và sẽ xuất hiện lại trong vùng nhìn thấy nếu bạn đã xóa đủ hàng.\n\nVùng đệm thường cao 20 ô, nhưng vài game có thể tăng con số đó tới vô cực.\n\nCác bạn có thể tìm hiểu thêm ở mục \"Vùng biến mất\".",
     },
     {"Vùng biến mất",
         "nhom05 gone vanish zone",
         "term",
         [[
 Tên tiếng Anh: "Vanish Zone".
-Chỉ bao gồm các hàng từ hàng thứ 40 trở đi (nằm ở trên vùng đệm của bảng).
+Là vùng bao gồm các hàng nằm ở trên "Vùng đệm", thường nằm từ hàng 40 trở lên.
 
-Lưu ý: Jstris không có vùng đệm, chỉ có vùng biến mất được đặt từ hàng thứ 21 trở về sau.
-
-Bình thường, nếu có gạch đi vào vùng này thì game sẽ kích ngay cơ chế top-out.
-Tuy nhiên, tùy từng game mà chúng sẽ có phản ứng khác nhau. Ví dụ:
-    — Vì vùng biến mất được đặt ở hàng 21 và trở về sau, nên những gạch nào mà đi qua hàng thứ 21 sẽ "một đi không trở lại" theo đúng nghĩa đen.
-    — Một số game được viết để hỗ trợ vùng đệm nhưng làm thiếu chỉnh chu thì có 2 trường hợp:
-        —— Game sập (Tetris Online)
-        —— Có biểu hiện lạ (nhấn nút "Mở link" để xem một ví dụ trong Puyo Puyo Tetris, khi tất cả hàng gạch khi đi vào vùng biến mất sẽ bị copy vô hạn lần khi chúng trở về vùng nhìn thấy được)
+Bình thường, nếu có ô gạch nào ở trong vùng này thì game sẽ kích hoạt ngay cơ chế top-out.
+Tuy nhiên, mỗi game sẽ có cách xử lý khác nhau. Ví dụ:
+    - Jstris: Vùng biến mất nằm ở hàng 22 trở lên, những ô gạch nào nằm trong vùng này sẽ biến mất hoàn toàn.
+    - Tetris Online: Game sập.
+    - Puyo Puyo Tetris: Các ô gạch ở vùng biến mất sẽ sao chép lại vô số lần khi xuống dưới vùng nhìn thấy (nhấn vào hình địa cầu để xem ví dụ của trường hợp này).
     ]],
         "https://youtu.be/z4WtWISkrdU",
     },
     {">A|Gạch",
         "nhom05a",
         "",
-        "Bạn có biết? Có 29 gạch có thể chơi được trong game này!\n1 Mino | 1 Domino | 2 Trimino | 7 Tetromino | 18 Pentomino\n\nMino: gạch 1 ô\nDomino: gạch 2 ô\nTrimino: gạch 3 ô\nTetromino: gạch 4 ô\nPentomino: gạch 5 ô\n\nHexomino có tồn tại đấy nhưng khi nào chúng xuất hiện trong game?",
+        "Bạn có biết? Game này hỗ trợ và cho phép bạn chơi với 29 loại gạch khác nhau\n1 Mino | 1 Domino | 2 Trimino | 7 Tetromino | 18 Pentomino\n\nMino: gạch 1 ô\nDomino: gạch 2 ô\nTrimino: gạch 3 ô\nTetromino: gạch 4 ô\nPentomino: gạch 5 ô\n\nHexomino có tồn tại đấy nhưng khi nào chúng xuất hiện trong game?",
     },
-    {"H.dạng của Tetro.",
+    {"Hình dạng",
         "nhom05a hình dạng của tetro. hình dạng của tetromino"..tetromino,
         "term",
-        "Trong đa số các game xếp gạch chuẩn, tất cả gạch đều là Tetromino — gạch được liên kết bởi 4 ô, bám dính vào mặt chứ không bám vào góc.\n\nCó 7 loại Tetromino, (nếu cho phép xoay nhưng không được lật ngang hay dọc) gồm: Z, S, J, L, T, O, và I. Hãy xem mục \"Gạch & tên tương ứng\" để có thêm thông tin.",
+        "Trong đa số các game xếp gạch, tất cả gạch đều là Tetromino\n\nCó 7 loại Tetromino, (nếu cho phép xoay nhưng không lật ngang hay dọc) gồm: Z, S, J, L, T, O, và I. Hãy xem mục \"Gạch & tên tương ứng\" để có thêm thông tin.", -- Removed " - gạch được liên kết bởi 4 ô, bám dính vào mặt chứ không bám vào góc."
     },
-    {"Màu của Tetromino",
+    {"Màu",
         "nhom05a màu"..tetromino,
         "term",
-        "Nhiều game xếp gạch hiện đại, từ chính thức tới fan làm, đã và đang sử dụng cùng một bảng màu duy nhất cho Tetromino.\n\nNhững màu này bao gồm:\nZ — Đỏ, S — Lục, J — Lam, L — Cam, T — Tím, O — Vàng, và I — Lục lam.\n\nTechmino cũng sử dụng bảng màu này để tô màu cho Tetromino.",
+        "Nhiều game xếp gạch hiện đại, từ chính thức tới fan-made, đã và đang sử dụng cùng một bảng màu duy nhất cho Tetromino.\n\nNhững màu này bao gồm:\n\tZ - Đỏ \n\tS - Xanh lá \n\tJ - Xanh dương \n\tL - Cam \n\tT - Tím \n\tO - Vàng \n\tI - Xanh lơ\n\nTechmino cũng sử dụng bảng màu này để tô màu cho Tetromino.",
     },
     {"Gạch & tên tg. ứng",
         "nhom05a mino gạch & tên tương ứng gạch và tên tương ứng"..tetromino,
         "term",
-        "Đây là danh sách gạch mà Techmino sử dụng\n(cùng với tên tương ứng của chúng):\n\nTetromino:\nZ: "..CHAR.mino.Z..",  S: "..CHAR.mino.S..",  J: "..CHAR.mino.J..",  L: "..CHAR.mino.L..",  T: "..CHAR.mino.T..",  O: "..CHAR.mino.O..",  I: "..CHAR.mino.I..";\n\nPentomino:\nZ5: "..CHAR.mino.Z5..",  S5: "..CHAR.mino.S5..",  P: "..CHAR.mino.P..",  Q: "..CHAR.mino.Q..",  F: "..CHAR.mino.F..",  E: "..CHAR.mino.E..",  T5: "..CHAR.mino.T5..",  U: "..CHAR.mino.U..",  V: "..CHAR.mino.V..",  W: "..CHAR.mino.W..",  X: "..CHAR.mino.X..",  J5: "..CHAR.mino.J5..",  L5: "..CHAR.mino.L5..",  R: "..CHAR.mino.R..",  Y: "..CHAR.mino.Y..",  N: "..CHAR.mino.N..",  H: "..CHAR.mino.H..",  I5: "..CHAR.mino.I5..";\n\nTrimino, Domino, and Mino:\nI3: "..CHAR.mino.I3..",  C: "..CHAR.mino.C..",  I2: "..CHAR.mino.I2..",  O1: "..CHAR.mino.O1..".",
+        "Đây là danh sách gạch mà Techmino sử dụng\n(cùng với tên tương ứng của chúng):\n\nTetromino:\nZ: "..CHAR.mino.Z..",  S: "..CHAR.mino.S..",  J: "..CHAR.mino.J..",  L: "..CHAR.mino.L..",  T: "..CHAR.mino.T..",  O: "..CHAR.mino.O..",  I: "..CHAR.mino.I..";\n\nPentomino:\nZ5: "..CHAR.mino.Z5..",  S5: "..CHAR.mino.S5..",  P: "..CHAR.mino.P..",  Q: "..CHAR.mino.Q..",  F: "..CHAR.mino.F..",  E: "..CHAR.mino.E..",  T5: "..CHAR.mino.T5..",  U: "..CHAR.mino.U..",  V: "..CHAR.mino.V..",  W: "..CHAR.mino.W..",  X: "..CHAR.mino.X..",  J5: "..CHAR.mino.J5..",  L5: "..CHAR.mino.L5..",  R: "..CHAR.mino.R..",  Y: "..CHAR.mino.Y..",  N: "..CHAR.mino.N..",  H: "..CHAR.mino.H..",  I5: "..CHAR.mino.I5..";\n\nTrimino, Domino và Mino:\nI3: "..CHAR.mino.I3..",  C: "..CHAR.mino.C..",  I2: "..CHAR.mino.I2..",  O1: "..CHAR.mino.O1..".",
     },
     {"Hướng gạch",
         "nhom05a 0r2l 02 20 rl lr"..tetromino,
         "term",
         [[
-Trong hệ thống xoay SRS và các biến thể của SRS, có một hệ thống tiêu chuẩn sử dụng số và chữ cái để mô tả hướng của gạch được chấp nhận rộng rãi (kể cả không theo tiêu chuẩn của SRS):
+Trong hệ thống xoay SRS và các biến thể của SRS, nhiều người sử dụng một hệ thống số và chữ cái để mô tả hướng của gạch:
     0: Hướng mặc định của hệ thống xoay
     R: Xoay phải, góc 90° theo chiều kim đồng hồ
     L: Xoay trái, góc 90° theo ngược chiều kim đồng hồ
     2: Xoay 2 lần, góc 180° theo bất kì chiều nào.
 
-Ví dụ:
-    0 → L nghĩa là xoay gạch ngược chiều kim đồng hồ, từ hướng ban đầu (0) sang hướng bên trái (L)
-    0 → R nghĩa là xoay gạch theo chiều kim đồng hồ, từ hướng ban đầu (0) sang hướng bên phải (R)
-    2 → R nghĩa là xoay gạch theo chiều kim đồng hồ, từ hướng 180° (2) sang hướng bên phải (R).
+Hệ thống mô tả cách xoay như sau:
+    - 0 → L nghĩa là xoay gạch ngược chiều kim đồng hồ, từ hướng ban đầu (0) sang hướng bên trái (L)
+    - 0 → R nghĩa là xoay gạch theo chiều kim đồng hồ, từ hướng ban đầu (0) sang hướng bên phải (R)
+    - 2 → R nghĩa là xoay gạch theo chiều kim đồng hồ, từ hướng 180° (2) sang hướng bên phải (R).
         ]],
     },
     {">B|Hệ thống xoay",
@@ -394,14 +391,14 @@ Wall-kick cho phép gạch có thể đến những lỗ có hình dạng nào �
     {"ASC",
         "nhom05b ascension",
         "term",
-        "Hệ thống xoay được dùng trong Ascension (tên viết tắt cũng là ASC) — một bản clone của Tetris. Tất cả các gạch đều sử dụng chung một wall-kick table (một dành cho xoay phải, một dành cho xoay trái), và vùng đá nằm trong khoảng cách ± 2 ô ở cả hai trục.",
+        "Hệ thống xoay được dùng trong Ascension (tên viết tắt cũng là ASC) - một bản clone của Tetris. Tất cả các gạch đều sử dụng chung hai bảng wall-kick đối xứng với nhau cho 2 hướng xoay và vùng đá phải nằm trong khoảng cách 2 ô ở tất cả 4 hướng.",
     },
     {"ASC+",
         "nhom05b ascension ascplus",
         "term",
-        "Một phiên bản chỉnh sửa của ASC trong Techmino, hỗ trợ wall-kick khi xoay 180°.",
+        "Một phiên bản được chỉnh sửa của ASC trong Techmino để hỗ trợ wall-kick khi xoay 180°.",
     },
-    {"BRS",
+    {"BPS",
         "nhom05b bulletproofsoftware",
         "term",
         "BPS rotation system | Hệ thống xoay BPS\nĐược dùng trong các game Tetris được viết bởi Bullet-Proof Software.",
@@ -416,27 +413,26 @@ Bias Rotation System | Hệ thống xoay Bias.
 Một hệ thống xoay dựa trên SRS và XRS
 
 Để kích hoạt offset đặc biệt trong BiRS, cần phải thực hiện cùng lúc các điều kiện sau:
-1. Giữ một nút di chuyển (Trái / Phải  / Thả nhẹ)
-2. Gạch hiện tại phải chạm các miếng gạch khác ở hướng đang được giữ ở bước 1
+1. Một nút di chuyển (Trái / Phải / Thả nhẹ) phải được giữ
+2. Gạch hiện tại phải chạm một ô gạch bất kỳ hoặc chạm tường ở hướng đang được giữ ở bước 1
 
 Nếu thực hiện thành công, offset ở hướng đang được giữ ở bước 1 sẽ được thêm 1 ô. Tuy nhiên, để kick được thì cần phải tuân thêm hai điều kiện:
 
-Có 2 yêu cầu của cơ chế này:
 1. Khoảng cách euclide (ơclit) từ tâm tới vị trí đá tới được chọn phải bé hơn √5
 2. Hướng của cú đá không phải là hướng đối của hướng đã được xác định bằng phím bấm.
 
-So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một wall-kick table; nhưng vẫn giữ được khả năng vượt địa hình của SRS.
+So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một bảng wall-kick; nhưng vẫn giữ được khả năng vượt địa hình của SRS.
         ]],
     },
     {"C2RS",
         "nhom05b c2rs cultris2",
         "term",
-        "Cultris II rotation system | Hệ thống xoay Cultris II\n\nMột hệ thống xoay ở trong Cultris II — một bản clone của Tetris.\nToàn bộ gạch và cả hướng xoay đều sử dụng chung một wall-kick table (trái, phải, dưới, dưới trái, dưới phải, trái 2, phải 2), với ưu tiên về phía bên trái so với bên phải.\n\nTrong Techmino có một bản chỉnh sửa của hệ thống này, đó là C2sym. C2sym sẽ ưu tiên hướng theo hình dạng của gạch",
+        "Cultris II rotation system | Hệ thống xoay Cultris II\n\nMột hệ thống xoay ở trong Cultris II - một bản clone của Tetris.\nToàn bộ gạch và cả hướng xoay đều sử dụng chung một bảng wall-kick (trái 1, phải 1, dưới 1, dưới trái 1, dưới phải 1, trái 2 và phải 2) và phía bên trái được ưu tiên hơn so với bên phải.\n\nTrong Techmino có một bản chỉnh sửa của hệ thống này, đó là C2sym.",
     },
     {"C2sym",
         "nhom05b cultris2",
         "term",
-        "Một bản chỉnh sửa của C2RS. Hệ thống sẽ ưu tiên hướng Trái / Phải tùy vào hình dạng của các viên gạch khác nhau.",
+        "Một bản chỉnh sửa của C2RS trong Techmino. Hệ thống sẽ ưu tiên hướng trái hoặc phải tùy vào hình dạng của các viên gạch khác nhau.",
     },
     {"DRS",
         "nhom05b dtetrotationsystem",
@@ -446,27 +442,27 @@ So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một wall-kick table; nhưng
     {"NRS",
         "nhom05b nintendorotationsystem",
         "term",
-        "Nintendo Rotation System | Hệ thống xoay Nintendo\n\nHệ thống được sử dụng trong hai game Tetris, một dành cho máy Nintendo Entertainment System (NES), một dành cho máy Game Boy.\nHệ thống xoay này cũng có hai phiên bản ngược chiều nhau: trên Game Boy thì gạch sẽ căn về bên trái; trên NES thì gạch sẽ căn về bên phải.",
+        "Nintendo Rotation System | Hệ thống xoay Nintendo\n\nHệ thống được sử dụng trong các game Tetris cho hai hệ máy Nintendo Entertainment System (NES) và Game Boy.\nHệ thống xoay này có hai phiên bản ngược chiều nhau. Trên Game Boy thì gạch sẽ căn về phía bên trái, còn NES thì gạch sẽ căn về phía bên phải.",
     },
     {"SRS",
         "nhom05b superrotationsystem",
         "term",
-        "Super Rotation System | Hệ thống xoay Siêu cấp\n\nHệ thống xoay được sử dụng rất nhiều trong các game xếp gạch và có rất nhiều hệ thống xoay do fan làm ra cũng dựa vào hệ thống này. Có 4 hướng cho Tetromino và có thể xoay phải và xoay trái (nhưng không thể xoay 180°). Nếu Tetromino đụng tường, đụng đáy, hay đè lên gạch khác sau khi xoay; hệ thống sẽ kiểm tra các vị trí xung quanh. Bạn có thể xem đầy đủ Bảng các vị trí đá tuờng của SRS trên Tetris.wiki",
+        "Super Rotation System | Hệ thống xoay Siêu Cấp\n\nHệ thống xoay này được sử dụng rất nhiều trong các game xếp gạch hiện đại và có rất nhiều hệ thống xoay do fan làm ra cũng dựa vào hệ thống này.\nCó tất cả 8 bảng wall-kick trong SRS, tương ứng với hai hướng xoay cho tất cả bốn tư thế của tất cả các gạch (không có trường hợp cho 180°). Nếu gạch đụng tường, đụng đáy, hay đè lên gạch khác sau khi xoay, hệ thống sẽ kiểm tra các vị trí xung quanh. Bạn có thể xem đầy đủ các bảng wall-kick của SRS trên Tetris Wiki.",
     },
     {"SRS+",
         "nhom05b srsplus superrotationsystemplus",
         "term",
-        "Một biến thể của SRS, hỗ trợ wall-kick table khi xoay 180°.",
+        "Một biến thể của SRS để thêm hỗ trợ wall-kick khi xoay 180°.",
     },
     {"TRS",
         "nhom05b techminorotationsystem",
         "term",
-        "Techmino Rotation System | Hệ thống xoay Techmino\n*Chỉ có trên Techmino*\n\nMột hệ thống xoay dựa trên SRS.\nHệ thống này khắc phục được hiện tượng gạch S / Z bị kẹt trong một số trường hợp; cũng như bổ sung thêm những vị trí đá hữu dụng.\n\nHơn nữa, TRS có một wall-kick table dành cho Pentomino dựa trên logic của SRS.\n\nHệ thống cũng hỗ trợ O-Spin (cho phép gạch có thể đá và có thể \"biến hình\").",
+        "Techmino Rotation System | Hệ thống xoay Techmino\n*Chỉ có trên Techmino*\n\nMột hệ thống xoay dựa trên SRS.\nHệ thống này khắc phục được hiện tượng gạch S / Z bị kẹt trong một số trường hợp.\n\nHơn nữa, TRS có thêm các bảng wall-kick dành cho Pentomino dựa trên logic của SRS với Tetromino.\n\nHệ thống cũng hỗ trợ O-Spin, cho phép gạch chữ O có thể đá hoặc \"biến hình\".",
     },
     {"XRS",
         "nhom05b xrs",
         "term",
-        "X rotation system | Hệ thống xoay X, một hệ thống xoay trong T-ex.\n\nỞ trong các hệ thống khác, wall-kick table là cố định, nên gạch chỉ có thể bị đá ra một hướng (và hướng đó có thể không phải là hướng mà người chơi muốn). XRS giải quyết vấn đề nan giải này bằng cách cho phép người chơi giữ phím di chuyển (Trái / Phải / Thả nhẹ) để hệ thống ưu tiên theo hướng đó. Điều đó làm cho việc điều khiển hướng đi của gạch sau khi wall-kick của người chơi dễ dàng hơn.",
+        "X rotation system | Hệ thống xoay X, một hệ thống xoay trong T-ex.\n\nỞ trong các hệ thống khác, bảng wall-kick là cố định, nên gạch chỉ có thể bị đá ra một hướng (và hướng đó có thể không phải là hướng mà người chơi muốn). XRS giải quyết vấn đề nan giải này bằng cách cho phép người chơi giữ phím di chuyển (Trái / Phải / Thả nhẹ) để hệ thống ưu tiên theo hướng đó. Điều đó làm cho việc điều khiển hướng đi của gạch sau khi wall-kick của người chơi dễ dàng hơn.",
     },
     {">C|Hệ thg đ.khiển",
         "nhom05c",
@@ -476,17 +472,17 @@ So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một wall-kick table; nhưng
     {"IRS",
         "nhom05c initialrotationsystem",
         "term",
-        "Initial Rotation System\nCho phép bạn giữ phím xoay trong khoảng thời gian spawn delay để gạch xoay sẵn lúc xuất hiện. Có thể giúp bạn thoát chết trong một vài tình huống."
+        "Initial Rotation System\nCho phép bạn giữ phím xoay trong khoảng thời gian chờ tạo gạch (spawn delay) để gạch được xoay sẵn lúc xuất hiện. Việc này có thể giúp bạn thoát chết trong một vài tình huống."
     },
     {"IHS",
         "nhom05c initialholdsystem",
         "term",
-        "Initial Hold System\nCho phép bạn giữ phím Hold trong khoảng thời gian spawn delay để thay gạch sắp tới bằng gạch trong HOLD (và cất / giữ gạch kia đi). Có thể giúp bạn thoát chết trong một vài tình huống.",
+        "Initial Hold System\nCho phép bạn giữ phím Hold trong khoảng thời gian chờ tạo gạch (spawn delay) để thay gạch sắp tới bằng gạch trong HOLD. Việc này có thể giúp bạn thoát chết trong một vài tình huống.",
     },
     {"IMS",
         "nhom05c initialmovesystem",
         "term",
-        "Initial Movement System\n*Chỉ có trên Techmino*\n\nCho phép bạn giữ một phím di chuyển trong khoảng thời gian spawn delay để gạch di chuyển ngay theo hướng đã chọn thay vì đứng ở giữa bảng. Có thể giúp bạn thoát chết trong một vài tình huống.\nLưu ý: DAS buộc phải được \"sạc\" đầy trước khi gạch xuất hiện.",
+        "Initial Movement System\n*Chỉ có trên Techmino*\n\nCho phép bạn giữ một phím di chuyển trái phải trong khoảng thời gian chờ tạo gạch (spawn delay) để gạch xuất hiện cách chỗ ban đầu 1 ô theo hướng được giữ. Việc này có thể giúp bạn thoát chết trong một vài tình huống.\nLưu ý: DAS buộc phải được \"sạc\" đầy trước khi gạch xuất hiện.",
     },
     {">D|Các kiểu xáo",
         "nhom05d",
@@ -505,22 +501,22 @@ So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một wall-kick table; nhưng
 Một kiểu xáo gạch được sử dụng nhiều trong series game Tetris: The Grand Master.
 
 Trong kiểu xáo này, cách chọn gạch diễn ra như nhau:
-    — Bước 1: Chọn ngẫu nhiên một trong bảy Tetromino.
-    — Bước 2: Kiểm tra xem liệu gạch đã bốc trúng có phải là một trong những gạch đã xuất hiện gần nhất không.
-        —— Đúng: Tới Bước 3
-        —— Sai: Nhảy tới Bước 4
-    — Bước 3: Cộng 1 vào số lần đã bốc lại, kiểm tra xem liệu số lần đã bốc lại có vượt qua giới hạn tối đa hay không?
-        —— Đúng: Tới Bước 4
-        —— Sai: nhảy về Bước 1
-    — Bước 4: Dùng gạch đã bốc trúng
+    - Bước 1: Chọn ngẫu nhiên một trong bảy Tetromino.
+    - Bước 2: Kiểm tra xem liệu gạch đã bốc trúng có phải là một trong những gạch đã xuất hiện gần nhất không.
+        -- Đúng: Tới Bước 3
+        -- Sai: Nhảy tới Bước 4
+    - Bước 3: Cộng 1 vào số lần đã bốc lại, kiểm tra xem liệu số lần đã bốc lại có vượt qua giới hạn tối đa hay không?
+        -- Đúng: Tới Bước 4
+        -- Sai: nhảy về Bước 1
+    - Bước 4: Dùng gạch đã bốc trúng
 
 Kiểu xáo này hay được mô tả bằng "His [A] Roll [B]"
 Trong đó:
-    — Nhớ A gạch đã xuất hiện gần nhất.
-    — Chỉ có thể bốc lại tối đa B lần.
+    - Nhớ A gạch đã xuất hiện gần nhất.
+    - Chỉ có thể bốc lại tối đa B lần.
 Ví dụ: His4 Roll6
-    — Nhớ 4 gạch xuất hiện gần nhất.
-    — Chỉ có thể bốc lại tối đa 6 lần.
+    - Nhớ 4 gạch xuất hiện gần nhất.
+    - Chỉ có thể bốc lại tối đa 6 lần.
 
 Trong Techmino, số lần bốc lại gạch bằng một nửa số gạch đã kiểm tra của kiểu/hệ thống xáo.
 
@@ -548,14 +544,14 @@ Kiểu xáo này giúp ổn định chuỗi gạch và đảm bảo rằng flood
 Cách hoạt động của kiểu xáo HisPool diễn ra tuần tự như sau:
 
 Bước 1: Lấy một viên gạch ngẫu nhiên trong cái Rổ.
-    — Nếu gạch đó là một trong những gạch đã bốc ra trước đó: bốc lại cho tới khi gạch đó không còn là một trong những viên gạch kia, hoặc là hết lượt bốc lại.
+    - Nếu gạch đó là một trong những gạch đã bốc ra trước đó: bốc lại cho tới khi gạch đó không còn là một trong những viên gạch kia, hoặc là hết lượt bốc lại.
 
 Bước 2: Gạch được bốc trúng sẽ được lấy ra khỏi Rổ.
-    — Với mỗi gạch còn lại, cộng 1 vào số lần chưa bốc trúng.
-    — Rổ lúc này còn 34 gạch.
+    - Với mỗi gạch còn lại, cộng 1 vào số lần chưa bốc trúng.
+    - Rổ lúc này còn 34 gạch.
 
 Bước 3: Thêm gạch có số lần chưa bốc trúng nhiều nhất vào lại rổ để đảm bảo số lượng là 35 gạch.
-    — Sau khi gạch đó đã thêm vào Rổ, số lần chưa bốc trúng của nó sẽ bị đặt lại về 0
+    - Sau khi gạch đó đã thêm vào Rổ, số lần chưa bốc trúng của nó sẽ bị đặt lại về 0
 
 Bước 4: Thêm gạch vào chuỗi NEXT và quay về Bước 1.
         ]],
@@ -594,18 +590,19 @@ Bước 4: Thêm gạch vào chuỗi NEXT và quay về Bước 1.
         "nhom05e1 trọng lực falling speed gravity",
         "term",
         [[
-Tốc độ gạch rơi xuống. Được đo với đơn vị "G".
-Đây là số hàng mà gạch rơi xuống trong một khung hình.
-Con số này thường đi kèm với giả thiết là game đang chạy ở 60FPS.
+Tốc độ gạch rơi xuống. Đơn vị là "G".
+Chỉ số hàng gạch rơi xuống trong một khung hình.
+Con số này luôn đi kèm với giả thiết là game đang chạy ở 60FPS.
 
-Ví dụ: một gạch có tốc độ rơi là ¹⁄₆₀ G khi chúng di chuyển xuống 1 ô / 60 khung hình hoặc 1 ô / 1 giây.
+Ví dụ: gạch di chuyển xuống 1 ô / 60 khung hình (1 ô / giây) thì tốc độ rơi là ¹⁄₆₀ G 
 
 Tốc độ tối đa của game xếp gạch hiện đại là 20G (bởi vì có 20 hàng trong vùng nhìn thấy được).
 
-Trong Techmino, tốc độ còn được mô tả dưới dạng gạch cần bao nhiêu khung hình để xuống 1 ô. 60 ở hệ thống đó tương đương với 1 ô / 1 giây hoặc 1G.
+Trong Techmino, tốc độ còn được biểu diễn ở dạng số khung hình gạch cần để đi xuống 1 ô.
+60 ở hệ thống đó tương đương với 1 ô / 1 giây hoặc 1G.
 
-Trong thực tiễn, "20G" còn được dùng để chỉ "Tốc độ tối đa"
-Hãy xem mục "20G" để biết thêm thông tin.
+Trong thực tiễn, "20G" không chỉ "20 ô / giây" mà chỉ "Tốc độ tối đa"
+Xem
         ]],
     },
     {"20G",
@@ -650,7 +647,7 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
     {"DAS&ARR (dễ hiểu)",
         "nhom05e2 das delayedautoshift",
         "term",
-        "Tưởng tượng bạn đang gõ chữ, và bạn nhấn giữ phím \"O\".\nVà bạn sẽ nhận được một chuỗi toàn là o.\n\nỞ trên thanh thời gian thì nó trông như thế này: o—————o-o-o-o-o-o-o-o-o…\n\"—————\" là DAS, còn \"-\" là ARR.",
+        "Tưởng tượng bạn đang gõ chữ, và bạn nhấn giữ phím \"O\".\nVà bạn sẽ nhận được một chuỗi toàn là o.\n\nỞ trên thanh thời gian thì nó trông như thế này: o-----o-o-o-o-o-o-o-o-o…\n\"-----\" là DAS, còn \"-\" là ARR.",
     },
     {"DAS & ARR",
         "nhom05e2 das và arr delayedautoshift autorepeatrate",
@@ -665,7 +662,7 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
     {"Auto-lock cut",
         "nhom05e2 autolockcut",
         "term",
-        "Một tính năng trong Techmino cho phép ngăn chặn việc misdrop khi gạch mới vừa xuất hiện. Nút Thả mạnh sẽ bị vô hiệu tạm thời trong một khoảng thời gian ngắn sau khi gạch trước đó bị khóa.\n\nCác game khác có thể có tính năng tương tự nhưng cách hoạt động có thể khác nhau.",
+        "Một tính năng trong Techmino cho phép ngăn chặn việc misdrop khi gạch mới vừa xuất hiện. Nút Thả mạnh sẽ bị tắt trong một khoảng thời gian ngắn sau khi gạch trước đó bị khóa.\n\nCác game khác có thể có tính năng tương tự nhưng cách hoạt động có thể khác nhau.",
     },
     {"SDF",
         "nhom05e2 softdropfactor",
@@ -718,13 +715,13 @@ Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng 
         [[
 Một kỹ thuật di chuyển gạch vào vị trí mong muốn với số lần nhấn phím tói thiểu. Tiết kiệm thời gian và giảm khả năng misdrop.
 
-Hãy lưu ý rằng, finesse trong Techmino không phải là "chuỗi phím bấm đơn giản nhất về lý thuyết để di chuyển một viên gạch đến một vị trí cụ thể". Việc kiểm tra finesse chỉ được thực hiện nếu gạch được gạch đặt mà không sử dụng thả nhẹ — combo finesse của bạn sẽ không bị đặt lại nếu bạn làm spin hoặc nhét gạch vào.
+Hãy lưu ý rằng, finesse trong Techmino không phải là "chuỗi phím bấm đơn giản nhất về lý thuyết để di chuyển một viên gạch đến một vị trí cụ thể". Việc kiểm tra finesse chỉ được thực hiện nếu gạch được gạch đặt mà không sử dụng thả nhẹ - combo finesse của bạn sẽ không bị đặt lại nếu bạn làm spin hoặc nhét gạch vào.
 
 Trong Techmino, tỉ lệ finesse (%) được xác định như sau:
-    — 100% (Hoàn hảo — Perfect) khi số lần nhấn phím bằng hoặc ít hơn mức chuẩn
-    — 50% (Tuyệt vời — Great) khi số lần nhấn phím cao hơn mức chuẩn 1 phím
-    — 25% (Xấu — Bad) khi số lần nhấn phím cao hơn mức chuẩn 2 phím
-    — 0% (Truợt — Miss) khi số lần nhấn phím cao hơn mức chuẩn 3 phím
+    - 100% (Hoàn hảo - Perfect) khi số lần nhấn phím bằng hoặc ít hơn mức chuẩn
+    - 50% (Tuyệt vời - Great) khi số lần nhấn phím cao hơn mức chuẩn 1 phím
+    - 25% (Xấu - Bad) khi số lần nhấn phím cao hơn mức chuẩn 2 phím
+    - 0% (Truợt - Miss) khi số lần nhấn phím cao hơn mức chuẩn 3 phím
 
 Một Bad hoặc Miss sẽ phá vỡ combo finesse.
         ]],
@@ -732,7 +729,7 @@ Một Bad hoặc Miss sẽ phá vỡ combo finesse.
     {"Hypertapping",
         "nhom05f2 nhấn liên tục",
         "term",
-        "Hypertapping (Nhấn liên tục)\n\nĐề cập tới một kỹ năng là khi bạn rung tay liên tục để nhấn liên tục làm tốc độ di chuyển nhanh hơn.\n\nKỹ năng này được dùng nhiều trong xếp gạch cổ điển (Classic Tetris). Nhưng bạn không cần dùng vì DAS ngắn hơn nhiều so với trước đây.",
+        "Hypertapping (Nhấn liên tục)\n\nĐề cập tới một kỹ năng là khi bạn rung tay liên tục để nhấn liên tục làm tốc độ di chuyển nhanh hơn.\n\nKỹ năng này được dùng nhiều trong xếp gạch cổ điển. Nhưng bạn không cần dùng vì DAS ngắn hơn nhiều so với ngày xưa.",
     },
     {"Rolling",
         "nhom05f2",
@@ -741,11 +738,11 @@ Một Bad hoặc Miss sẽ phá vỡ combo finesse.
 Một phương pháp khác để di chuyển nhanh ở chế độ trọng lực cao (khoảng 1G) (với cài đặt DAS / ARR chậm).
 
 Để thực hiện thao tác rolling:
-    — Cố định ngón tay của bạn trên phím bạn muốn nhấn ở một bên tay
-    — Sau đó dùng các ngón tay ở bên kia gõ mạnh liên tục ở mặt sau của tay cầm.
+    - Cố định ngón tay của bạn trên phím bạn muốn nhấn ở một bên tay
+    - Sau đó dùng các ngón tay ở bên kia gõ mạnh liên tục ở mặt sau của tay cầm.
 
 Phương pháp này nhanh hơn nhiều so với việc nhấn liên tục (xem mục "Hypertapping" để biết thêm thông tin) và yêu cầu ít công sức hơn.
-Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish — người đã đạt tốc độ nhấn lên tới 20 Hz.
+Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish - người đã đạt tốc độ nhấn lên tới 20 Hz.
         ]],
     },
     {">F3|Độ trễ input",
@@ -817,7 +814,7 @@ Trong hầu hết các game, tỉ lệ phản công rác thường là 1:1.
     {"'Debt'",
         "nhom05g debt owe",
         "term",
-        "Một thuật ngữ hay được sử dụng trong cộng đồng Tetris Trung Quốc.\n\n\"Debt\" đề cập đến tình huống mà bạn chỉ có thể làm một / nhiều T-spin khi setup được hoàn thành (và không thể làm trước khi setup được làm xong). Cho nên, khi đang làm một hoặc nhiều debt liên tiếp, người chơi bắt buộc phải để ý tới đối thủ để đảm bảo an toàn; còn không, bạn có thể bị bón hành sấp mặt.\n\nThuật ngữ này hay được sử dụng để diễn tả một số setup như TST tower.",
+        "Một thuật ngữ hay được sử dụng trong cộng đồng Tetris Trung Quốc.\n\n\"Debt\" đề cập đến tình huống mà bạn chỉ có thể tấn công KHI và CHỈ KHI setup được hoàn thành. Nên, khi đang làm một hoặc nhiều debt liên tiếp, người chơi bắt buộc phải để ý tới đối thủ để đảm bảo an toàn; còn không, bạn có thể bị bón hành sấp mặt.\n\nThuật ngữ này hay được sử dụng để diễn tả một số setup như TST tower.",
     },
     {"Passthrough",
         "nhom05g pingthrough",
@@ -962,7 +959,7 @@ Cũng trong Techmino nhưng ở tiếng Việt, từ "gạch []" được dùng 
         [[
 NHÓM 06: CÁC GAME XẾP GẠCH
 
-Nội dung sau đây là những giới thiệu ngắn gọn về một số game xếp gạch chính thức và do fan làm có mức độ phổ biến cao. MrZ — tác giả của Techmino đã để lại một vài lời nhận xét, được đánh dấu chủ yếu bằng hai dấu ngoặc vuông
+Nội dung sau đây là những giới thiệu ngắn gọn về một số game xếp gạch chính thức và do fan làm có mức độ phổ biến cao. MrZ - tác giả của Techmino đã để lại một vài lời nhận xét, được đánh dấu chủ yếu bằng hai dấu ngoặc vuông
 
 Squishy cũng có một số lời nhận xét và thông tin bổ sung, lời này được đánh dấu bắt đầu bằng "Sea" và ở trong một cặp ngoặc vuông
 
@@ -987,7 +984,7 @@ Chơi trên trình duyệt | Chơi đơn | Hỗ trợ màn hình cảm ứng
 
 Một game xếp gạch chơi trên trình duyệt với nhiều điều chỉnh và chế độ chuyên nghiệp.
 Liên kết của mục này sẽ đưa bạn tới bản của Farter (bản này là một bản đã mod, đã thêm một vài chế độ khác)
-Bạn cũng có thể tìm một phiên bản khác có tên là "Tetr.js Enhanced" — bản mod này do Dr Ocelot làm (đã bị gỡ xuống và thay thế bằng Tetra Legends, nhưng cũng bị dừng phát triển hoàn toàn từ T12 / 2020)
+Bạn cũng có thể tìm một phiên bản khác có tên là "Tetr.js Enhanced" - bản mod này do Dr Ocelot làm (đã bị gỡ xuống và thay thế bằng Tetra Legends, nhưng cũng bị dừng phát triển hoàn toàn từ T12 / 2020)
 
 [MrZ: Giao diện đơn giản với hầu như không có bất kỳ animation nào.
 Chỉ có một số tổ hợp phím ảo khả dụng cho thiết bị di động.]
@@ -1083,10 +1080,8 @@ Game Tetris chính thức từ tetris.com, mà chỉ có một chế độ (Mara
 [Mục này được viết bởi Squishy, không xuất hiện ở ngôn ngữ khác
 Có thể áp dụng cho "Tetris Gems" và "Tetris Mind Bender"]
 
-Hiện tại game đã Hỗ trợ màn hình cảm ứng
-(Trong Zictionary tiếng Anh không có ghi "Hỗ trợ màn hình cảm ứng".)
-
-Hiện có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart) và "bàn phím". Bạn có thể thử nghiệm với cả ba chế độ điều khiển để tìm xem chế độ nào tối ưu với mình nhất
+Hiện có ba cách điều khiển: hai cách dành cho màn hình cảm ứng gồm "vuốt" (swipe) và "thông minh" (smart), hoặc cắm bàn phím (nếu máy hỗ trợ).
+Bạn có thể thử nghiệm với cả ba chế độ điều khiển để tìm xem chế độ nào tối ưu với mình nhất
 
 Để điều khiển bằng bàn phím thì hãy kết nối bàn phím (miễn là điện thoại nhận được bàn phím thì game cũng sẽ nhận thôi)
 Để đổi giữa "vuốt" và "thông minh" thì hãy mở Options của game.
@@ -1099,7 +1094,7 @@ Hiện có ba cách điều khiển: "vuốt" (swipe), "thông minh" (smart) và
 Chơi trên trình duyệt | Chơi đơn | Hỗ trợ màn hình cảm ứng
 
 Một game xếp gạch khác từ tetris.com
-Có cơ chế trọng lực và mỗi ván chỉ kéo dài trong 1 phút. Có 3 loại gem (ngọc) khác nhau với khả năng riêng biệt.
+Có cơ chế trọng lực và mỗi ván chỉ kéo dài trong 1 phút. Có 3 loại gem (ngọc) khác nhau với chức năng khác nhau.
         ]],
     },
     {"Tetris Mind Bender",
@@ -1139,7 +1134,7 @@ Một game xếp gạch đa nền tảng có thể chơi ở chế độ dọc h
 
 Một game xếp gạch được phát triển bằng LÖVE, với mục tiêu là tạo ra một nền tảng mạnh mẽ, dễ dàng tùy chỉnh để tạo ra các chế độ mới. Ban đầu được phát triển bởi Joe Zeng, Milla đã tiếp quản quá trình phát triển từ 08 / T10 / 2020, kể từ V0.1.5.
 
-— Tetris Wiki
+- Tetris Wiki
         ]],
     },
     {"Nanamino",
@@ -1157,7 +1152,7 @@ Một trò chơi do fan làm đang được phát triển với hệ thống xoa
         [[
 Chỉ có trên máy thùng | Chơi đơn / Chơi hai người
 
-Tetris: The Grand Master, một series Tetris dành cho máy thùng, nổi tiếng với độ khó cực cao — được xem là series game khó nhất (tại thời điểm ra mắt). Những thứ như S13 hay GM cũng từ chính series này. TGM3 được coi là tựa game nổi tiếng nhất của series này.
+Tetris: The Grand Master, một series Tetris dành cho máy thùng, nổi tiếng với độ khó cực cao - được xem là series game khó nhất (tại thời điểm ra mắt). Những thứ như S13 hay GM cũng từ chính series này. TGM3 được coi là tựa game nổi tiếng nhất của series này.
         ]],
     },
     {"DTET",
@@ -1313,7 +1308,7 @@ Một tựa game xếp gạch được phát triển bởi EA. Có hai cách đi
 
 Ra mắt lần đầu năm 2011, bị khai tử từ T04 / 2020
 
-[Sea: game đang nhắc ở đây là bản năm 2011 (phát hành khoảng 2011 — 2012)]
+[Sea: game đang nhắc ở đây là bản năm 2011 (phát hành khoảng 2011 - 2012)]
         ]],
     },
     {"Tetris (N3TWORK)",
@@ -1375,7 +1370,7 @@ Windows | Chơi trực tuyến
 
 (火拼俄罗斯)
 
-Một game xếp gạch ở trên Tencent Game Center — một nền tảng chơi game trực tuyến dành riêng tại Trung Quốc. Có bảng rộng 12 ô, 1 Next, 0 Hold. DAS và ARR giống với DAS và ARR hay dùng trong các app gõ văn bản, 1 Next, không Hold. Chỉ có thể gửi rác bằng Tetris (gửi 3 hàng rác) và xóa 3 hàng (gửi 2 hàng rác). Hàng rác có cấu trúc xen kẽ và gần như không thể đào .
+Một game xếp gạch ở trên Tencent Game Center - một nền tảng chơi game trực tuyến dành riêng tại Trung Quốc. Có bảng rộng 12 ô, 1 Next, 0 Hold. DAS và ARR giống với DAS và ARR hay dùng trong các app gõ văn bản, 1 Next, không Hold. Chỉ có thể gửi rác bằng Tetris (gửi 3 hàng rác) và xóa 3 hàng (gửi 2 hàng rác). Hàng rác có cấu trúc xen kẽ và gần như không thể đào .
         ]],
     },
     {"=[NHÓM 07]=",
@@ -1398,7 +1393,7 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
     {"Chế độ MPH",
         "nhom07 mph",
         "term",
-        "Sự kết hợp của ba quy tắc:\n\n\"Memoryless — Không nhớ gì\" (chuỗi gạch tạo ra hoàn toàn ngẫu nhiên)\n\"Previewless — Không biết trước gạch nào sẽ tới\" (không hiện NEXT)\n\"Holdless— Không Hold được\".\n\nMột chế độ đòi hỏi tốc độ và phản ứng nhạy bén từ người chơi.",
+        "Sự kết hợp của ba quy tắc:\n\n\"Memoryless - Không nhớ gì\" (chuỗi gạch tạo ra hoàn toàn ngẫu nhiên)\n\"Previewless - Không biết trước gạch nào sẽ tới\" (không hiện NEXT)\n\"Holdless- Không Hold được\".\n\nMột chế độ đòi hỏi tốc độ và phản ứng nhạy bén từ người chơi.",
     },
     {"Secret Grade",
         "nhom07 larger than",
@@ -1536,7 +1531,7 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
     {"tetristemplate.info",
         "nhom09c",
         "help",
-        "(テトリスブログ — PerfectClear)\n\nMột trang web ở Nhật Bản chứa một số setup. Tuy số lượng không bằng các trang web khác nhưng bù lại các setup đều được giải thích rất chi tiết",
+        "(テトリスブログ - PerfectClear)\n\nMột trang web ở Nhật Bản chứa một số setup. Tuy số lượng không bằng các trang web khác nhưng bù lại các setup đều được giải thích rất chi tiết",
         "https://tetristemplate.info/",
     },
     {">D|Chia sẻ setup",
@@ -1671,10 +1666,10 @@ NHÓM 12A: OPENER
 Opener thường là các setup thường dùng ở đầu trận. Bạn vẫn có thể làm những setup này giữa trận, nhưng thường sẽ yêu cầu một tập hợp các vị trí gạch khác nhau.
 
 Opener phải đạt 2 trong 4 tiêu chí sau
-— Có thể thích ứng với các chuỗi gạch khác nhau,
-— Tấn công mạnh, ít lãng phí gạch T
-— Dùng Finesse trong đa số hành động, ít dùng thả nhẹ
-— Có chiến lược rõ ràng và ít nhánh / biến thể.
+- Có thể thích ứng với các chuỗi gạch khác nhau,
+- Tấn công mạnh, ít lãng phí gạch T
+- Dùng Finesse trong đa số hành động, ít dùng thả nhẹ
+- Có chiến lược rõ ràng và ít nhánh / biến thể.
 
 Đa số opener được thiết kế cho kiểu xáo Túi 7. Chúng có thể không hoạt động với các kiểu xáo khác.
         ]],
@@ -1754,7 +1749,7 @@ Opener phải đạt 2 trong 4 tiêu chí sau
     {"Albatross",
         "nhom12a opener",
         "setup",
-        "Một opener nhìn đẹp mắt, nhịp độ nhanh với TSD — TST — TSD — All Clear, khó mà lãng phí được gạch T.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Một opener nhìn đẹp mắt, nhịp độ nhanh với TSD - TST - TSD - All Clear, khó mà lãng phí được gạch T.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=Albatross_Special",
     },
     {"Pelican",
@@ -1931,7 +1926,7 @@ All Clear gửi thêm 6 hàng rác. Nhưng 6 hàng rác này sẽ gửi thẳng 
     {"Đặt lại bố cục phím",
         "nhom14 reset virtualkey",
         "command",
-        "Vào console, gõ \"rm conf / [File_bố_cục_phím]\" sau đó nhấn Enter / Return.\nThay [File_bố_cục_phím] với file cần xóa:\n\t— File bố cục bàn phím trên máy tính: key;\n\t— File bố cục nút trên màn hình: virtualkey;\n\t— File chứa 2 slot bố cục nút trên màn hình: vkSave1, vkSave2\n\nKhởi động lại Techmino để hai thay đổi đầu tiên có hiệu lực.\nVào một trang chỉnh sửa bố cục phím / nút sau đó trở ra để lấy lại file tương ứng.",
+        "Vào console, gõ \"rm conf / [File_bố_cục_phím]\" sau đó nhấn Enter / Return.\nThay [File_bố_cục_phím] với file cần xóa:\n\t- File bố cục bàn phím trên máy tính: key;\n\t- File bố cục nút trên màn hình: virtualkey;\n\t- File chứa 2 slot bố cục nút trên màn hình: vkSave1, vkSave2\n\nKhởi động lại Techmino để hai thay đổi đầu tiên có hiệu lực.\nVào một trang chỉnh sửa bố cục phím / nút sau đó trở ra để lấy lại file tương ứng.",
     },
     {"Xóa t.bộ bản phát lại",
         "nhom14 delete recording",
