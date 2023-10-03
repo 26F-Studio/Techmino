@@ -58,7 +58,7 @@ return {
             gc_setColor(COLOR.lX)
             setFont(20)
             GC.mStr(text.highest:repD(getConstructGrade(D.maxRankPts)),63,216)
-            GC.mStr(text.highest:repD(D.maxRankPts+1),63,336)
+            GC.mStr(text.highest:repD(D.maxRankPts-1),63,336)
         end
 
         if not D.showGuide then return end
@@ -108,7 +108,11 @@ return {
         generateGuide(10,D.mirror)
     end,
     hook_drop=function(P)
+        local oldPts=P.modeData.rankPts
         calculateRankPts(P)
+        if oldPts>P.modeData.rankPts+2 then
+            P:_showText("REGRET!!",0,-120,80,'beat',.8)
+        end
         generateGuide(#P.field+10,P.modeData.mirror)
     end
 }
