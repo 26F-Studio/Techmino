@@ -1,7 +1,7 @@
 return {
     {name='sprint_10l',           x=0,         y=0,        size=40,shape=1,icon="sprint1",     unlock={'sprint_20l','sprint_40l'}},
     {name='sprint_20l',           x=-200,      y=200,      size=50,shape=1,icon="sprint1"},
-    {name='sprint_40l',           x=0,         y=-300,     size=40,shape=1,icon="sprint2",     unlock={'dig_10l','sprint_100l','marathon_n','sprintPenta','sprintMPH','sprint123','construct_sg'}},
+    {name='sprint_40l',           x=0,         y=-300,     size=40,shape=1,icon="sprint2",     unlock={'dig_10l','sprint_100l','marathon_n','sprintPenta','sprintMPH','sprint123'}},
     {name='sprint_100l',          x=-400,      y=200,      size=50,shape=1,icon="sprint2",     unlock={'sprint_400l','drought_n'}},
     {name='sprint_400l',          x=-600,      y=200,      size=40,shape=1,icon="sprint3",     unlock={'sprint_1000l'}},
     {name='sprint_1000l',         x=-800,      y=200,      size=40,shape=1,icon="sprint3"},
@@ -9,8 +9,6 @@ return {
     {name='sprint123',            x=160,       y=-400,     size=40,shape=1,icon="sprint_tri"},
     {name='sprintMPH',            x=200,       y=-260,     size=40,shape=3,icon="sprint2"},
     {name='sprintPenta',          x=130,       y=-140,     size=40,shape=3,icon="sprint_pento"},
-
-    {name='construct_sg',         x=-200,      y=-400,     size=40,shape=1,icon="secret_grade"},
 
     {name='drought_n',            x=-600,      y=400,      size=40,shape=1,icon="drought",     unlock={'drought_l'}},
     {name='drought_l',            x=-800,      y=400,      size=40,shape=1,icon="drought"},
@@ -25,7 +23,7 @@ return {
     {name='dig_eff_100l',         x=-800,      y=0,        size=40,shape=1,icon="dig_sprint",  unlock={'dig_eff_400l'}},
     {name='dig_eff_400l',         x=-1000,     y=0,        size=40,shape=1,icon="dig_sprint"},
 
-    {name='marathon_n',           x=0,         y=-600,     size=60,shape=1,icon="marathon",    unlock={'marathon_h','solo_e','round_e','big_n','blind_e','classic_e','survivor_e','c4wtrain_n','pctrain_n','sprintAtk','zen'}},
+    {name='marathon_n',           x=0,         y=-600,     size=60,shape=1,icon="marathon",    unlock={'marathon_h','solo_e','round_e','big_n','blind_e','classic_e','survivor_e','c4wtrain_n','construct_sg','pctrain_n','sprintAtk','zen'}},
     {name='marathon_h',           x=0,         y=-800,     size=50,shape=1,icon="marathon",    unlock={'master_n','strategy_e'}},
 
     {name='solo_e',               x=-600,      y=-1000,    size=40,shape=1,icon="solo",        unlock={'solo_n'}},
@@ -93,16 +91,20 @@ return {
     {name='dig_h',                x=850,       y=-800,     size=40,shape=1,icon="dig",         unlock={'dig_u'}},
     {name='dig_u',                x=850,       y=-1000,    size=40,shape=1,icon="dig"},
 
-    {name='c4wtrain_n',           x=700,       y=-450,     size=40,shape=1,icon="pc",          unlock={'c4wtrain_l'}},
-    {name='c4wtrain_l',           x=900,       y=-450,     size=40,shape=1,icon="pc"},
+    {name='construct_sg',         x=700,       y=-450,     size=40,shape=1,icon="secret_grade",unlock={'construct_checker'}},
+    {name='construct_checker',    x=900,       y=-450,     size=40,shape=1,icon="secret_grade",unlock={'construct_invsg'}},
+    {name='construct_invsg',      x=1100,      y=-450,     size=40,shape=1,icon="secret_grade"},
 
-    {name='pctrain_n',            x=700,       y=-300,     size=40,shape=1,icon="pc",          unlock={'pctrain_l','pc_n'}},
-    {name='pctrain_l',            x=900,       y=-300,     size=40,shape=1,icon="pc"},
+    {name='c4wtrain_n',           x=700,       y=-320,     size=40,shape=1,icon="pc",          unlock={'c4wtrain_l'}},
+    {name='c4wtrain_l',           x=900,       y=-320,     size=40,shape=1,icon="pc"},
 
-    {name='pc_n',                 x=800,       y=-140,     size=40,shape=1,icon="pc",          unlock={'pc_h'}},
-    {name='pc_h',                 x=950,       y=-140,     size=40,shape=3,icon="pc",          unlock={'pc_l','pc_inf'}},
-    {name='pc_l',                 x=1100,      y=-140,     size=40,shape=3,icon="pc"},
-    {name='pc_inf',               x=1100,      y=-280,     size=40,shape=2,icon="pc"},
+    {name='pctrain_n',            x=700,       y=-200,     size=40,shape=1,icon="pc",          unlock={'pctrain_l','pc_n'}},
+    {name='pctrain_l',            x=900,       y=-200,     size=40,shape=1,icon="pc"},
+
+    {name='pc_n',                 x=800,       y=-80,     size=40,shape=1,icon="pc",          unlock={'pc_h'}},
+    {name='pc_h',                 x=950,       y=-80,     size=40,shape=3,icon="pc",          unlock={'pc_l','pc_inf'}},
+    {name='pc_l',                 x=1100,      y=-80,     size=40,shape=3,icon="pc"},
+    {name='pc_inf',               x=1100,      y=-220,     size=40,shape=2,icon="pc"},
 
     {name='sprintAtk',            x=500,       y=-280,     size=40,shape=1,icon="sprint2",     unlock={'sprintEff','tech_n','tech_finesse','tech_finesse_lock','tsd_e','backfire_n'}},
     {name='sprintEff',            x=360,       y=-150,     size=40,shape=1,icon="sprint2"},
@@ -114,20 +116,20 @@ return {
     {name='tech_l',               x=400,       y=320,      size=40,shape=1,icon="tech",        unlock={'tech_l_plus'}},
     {name='tech_l_plus',          x=200,       y=290,      size=35,shape=3,icon="tech"},
 
-    {name='tech_finesse',         x=850,       y=20,       size=40,shape=1,icon="tech",        unlock={'tech_finesse_f'}},
-    {name='tech_finesse_f',       x=1050,      y=20,       size=40,shape=1,icon="tech"},
+    {name='tech_finesse',         x=850,       y=80,       size=40,shape=1,icon="tech",        unlock={'tech_finesse_f'}},
+    {name='tech_finesse_f',       x=1050,      y=80,       size=40,shape=1,icon="tech"},
 
-    {name='tech_finesse_lock',    x=850,       y=160,      size=40,shape=1,icon="tech",        unlock={'tech_finesse_lock_f'}},
-    {name='tech_finesse_lock_f',  x=1050,      y=170,      size=40,shape=1,icon="tech"},
+    {name='tech_finesse_lock',    x=850,       y=210,      size=40,shape=1,icon="tech",        unlock={'tech_finesse_lock_f'}},
+    {name='tech_finesse_lock_f',  x=1050,      y=220,      size=40,shape=1,icon="tech"},
 
-    {name='tsd_e',                x=700,       y=250,      size=40,shape=1,icon="tsd",         unlock={'tsd_h'}},
-    {name='tsd_h',                x=860,       y=310,      size=40,shape=1,icon="tsd",         unlock={'tsd_u'}},
-    {name='tsd_u',                x=1050,      y=320,      size=40,shape=1,icon="tsd"},
+    {name='tsd_e',                x=700,       y=300,      size=40,shape=1,icon="tsd",         unlock={'tsd_h'}},
+    {name='tsd_h',                x=860,       y=360,      size=40,shape=1,icon="tsd",         unlock={'tsd_u'}},
+    {name='tsd_u',                x=1050,      y=370,      size=40,shape=1,icon="tsd"},
 
-    {name='backfire_n',           x=640,       y=420,      size=40,shape=1,icon="backfire",    unlock={'backfire_h'}},
-    {name='backfire_h',           x=790,       y=450,      size=40,shape=1,icon="backfire",    unlock={'backfire_l'}},
-    {name='backfire_l',           x=930,       y=450,      size=40,shape=3,icon="backfire",    unlock={'backfire_u'}},
-    {name='backfire_u',           x=1070,      y=450,      size=35,shape=2,icon="backfire"},
+    {name='backfire_n',           x=640,       y=470,      size=40,shape=1,icon="backfire",    unlock={'backfire_h'}},
+    {name='backfire_h',           x=790,       y=500,      size=40,shape=1,icon="backfire",    unlock={'backfire_l'}},
+    {name='backfire_l',           x=930,       y=500,      size=40,shape=3,icon="backfire",    unlock={'backfire_u'}},
+    {name='backfire_u',           x=1070,      y=500,      size=35,shape=2,icon="backfire"},
 
     {name='zen',                  x=-1000,     y=-600,     size=40,shape=1,icon="zen",         unlock={'ultra','infinite','infinite_dig','marathon_inf'}},
     {name='ultra',                x=-1200,     y=-600,     size=40,shape=1,icon="ultra"},
