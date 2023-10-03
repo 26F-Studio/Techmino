@@ -60,42 +60,39 @@ return {
             GC.mStr(text.highest:repD(D.maxRankPts+1),63,336)
         end
 
+        if not D.showGuide then return end
         ply_applyField(P)
         local mark=TEXTURE.puzzleMark
-        if D.showGuide then
-            local firstMistake=nil
-            for y=1,D.rankPts+1 do
-                for x=1,10 do
-                    local texture=targetField[y][x]
-                    -- Missing blocks
-                    if not P:solid(x,y) and texture>0 then
-
-                        -- Missing block under overhang
-                        if P:solid(x,y+1) then
-                            firstMistake=firstMistake or y
-                            gc_setColor(COLOR.R)
-                        else
-                            gc_setColor(COLOR.Z)
-                        end
-
-                        gc_draw(mark[texture],30*x-30,600-30*y)
-                    elseif texture<0 then
-                        -- X always gets displayed, color changes based on whether there is a block there
-                        if P:solid(x,y) then
-                            gc_setColor(COLOR.R)
-                            firstMistake=firstMistake or y
-                        elseif D.rankPts>y then
-                            gc_setColor(COLOR.G)
-                        else
-                            gc_setColor(COLOR.Z)
-                        end
-                        gc_draw(mark[texture],30*x-30,600-30*y)
+        local firstMistake=nil
+        for y=1,D.rankPts+1 do
+            for x=1,10 do
+                local texture=targetField[y][x]
+                -- Missing blocks
+                if not P:solid(x,y) and texture>0 then
+                    -- Missing block under overhang
+                    if P:solid(x,y+1) then
+                        firstMistake=firstMistake or y
+                        gc_setColor(COLOR.R)
+                    else
+                        gc_setColor(COLOR.Z)
                     end
+                    gc_draw(mark[texture],30*x-30,600-30*y)
+                elseif texture<0 then
+                    -- X always gets displayed, color changes based on whether there is a block there
+                    if P:solid(x,y) then
+                        gc_setColor(COLOR.R)
+                        firstMistake=firstMistake or y
+                    elseif D.rankPts>y then
+                        gc_setColor(COLOR.G)
+                    else
+                        gc_setColor(COLOR.Z)
+                    end
+                    gc_draw(mark[texture],30*x-30,600-30*y)
                 end
-                if y==firstMistake then
-                    gc_setColor(1,0,0,.2*(math.sin(2*TIME())+1))
-                    love.graphics.rectangle("fill",0,600-30*y,300,30)
-                end
+            end
+            if y==firstMistake then
+                gc_setColor(1,0,0,.2*(math.sin(2*TIME())+1))
+                love.graphics.rectangle("fill",0,600-30*y,300,30)
             end
         end
         PLY.draw.cancelField()
