@@ -92,8 +92,8 @@ return {
     {name='dig_u',                x=850,       y=-1000,    size=40,shape=1,icon="dig"},
 
     {name='construct_sg',         x=700,       y=-450,     size=40,shape=1,icon="secret_grade",unlock={'construct_checker'}},
-    {name='construct_checker',    x=900,       y=-450,     size=40,shape=1,icon="secret_grade",unlock={'construct_invsg'}},
-    {name='construct_invsg',      x=1100,      y=-450,     size=40,shape=1,icon="secret_grade"},
+    {name='construct_checker',    x=900,       y=-450,     size=40,shape=3,icon="secret_grade",unlock={'construct_invsg'}},
+    {name='construct_invsg',      x=1100,      y=-450,     size=40,shape=2,icon="secret_grade"},
 
     {name='c4wtrain_n',           x=700,       y=-320,     size=40,shape=1,icon="pc",          unlock={'c4wtrain_l'}},
     {name='c4wtrain_l',           x=900,       y=-320,     size=40,shape=1,icon="pc"},
@@ -113,14 +113,14 @@ return {
     {name='tech_n_plus',          x=200,       y=-10,      size=40,shape=3,icon="tech"},
     {name='tech_h',               x=400,       y=170,      size=40,shape=1,icon="tech",        unlock={'tech_h_plus','tech_l'}},
     {name='tech_h_plus',          x=200,       y=140,      size=35,shape=3,icon="tech"},
-    {name='tech_l',               x=400,       y=320,      size=40,shape=1,icon="tech",        unlock={'tech_l_plus'}},
-    {name='tech_l_plus',          x=200,       y=290,      size=35,shape=3,icon="tech"},
+    {name='tech_l',               x=400,       y=320,      size=40,shape=3,icon="tech",        unlock={'tech_l_plus'}},
+    {name='tech_l_plus',          x=200,       y=290,      size=35,shape=2,icon="tech"},
 
     {name='tech_finesse',         x=850,       y=80,       size=40,shape=1,icon="tech",        unlock={'tech_finesse_f'}},
-    {name='tech_finesse_f',       x=1050,      y=80,       size=40,shape=1,icon="tech"},
+    {name='tech_finesse_f',       x=1050,      y=80,       size=40,shape=3,icon="tech"},
 
     {name='tech_finesse_lock',    x=850,       y=210,      size=40,shape=1,icon="tech",        unlock={'tech_finesse_lock_f'}},
-    {name='tech_finesse_lock_f',  x=1050,      y=220,      size=40,shape=1,icon="tech"},
+    {name='tech_finesse_lock_f',  x=1050,      y=210,      size=40,shape=3,icon="tech"},
 
     {name='tsd_e',                x=700,       y=300,      size=40,shape=1,icon="tsd",         unlock={'tsd_h'}},
     {name='tsd_h',                x=860,       y=360,      size=40,shape=1,icon="tsd",         unlock={'tsd_u'}},
