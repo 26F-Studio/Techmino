@@ -16,7 +16,7 @@ local highScore,highFloor=0,0
 local move,base
 local state,message
 local speed
-local score,floor,camY
+local score,floorS,camY
 local color1,color2={},{}
 
 local function restart()
@@ -25,7 +25,7 @@ local function restart()
     message="Welcome"
     speed=10
     score=0
-    floor=0
+    floorS=0
     camY=0
     for i=1,3 do
         color1[i]=rnd()
@@ -44,7 +44,7 @@ function scene.keyDown(key,isRep)
     if isRep then return end
     if key=='space' or key=='return' then
         if state=='move' then
-            if floor>0 then
+            if floorS>0 then
                 if move.x<base.x then
                     move.x=move.x+10
                 elseif move.x>base.x then
@@ -92,7 +92,7 @@ function scene.update()
             else
                 move.y=660
                 SFX.play('clear_1')
-                if floor>0 and move.x==base.x then
+                if floorS>0 and move.x==base.x then
                     SFX.play('ren_mega')
                 end
                 state='shorten'
@@ -115,7 +115,7 @@ function scene.update()
             base.y=base.y+3
             camY=camY+3
         else
-            if move.x==base.x and move.x+move.l==base.x+base.l and floor~=0 then
+            if move.x==base.x and move.x+move.l==base.x+base.l and floorS~=0 then
                 score=score+2
                 message=perfect[rnd(1,3)]
             else
@@ -129,7 +129,7 @@ function scene.update()
             base.x=move.x
             base.y=690
             base.l=move.l
-            floor=floor+1
+            floorS=floorS+1
             if rnd()<.5 then
                 move.x=-move.l
                 speed=10
@@ -137,18 +137,18 @@ function scene.update()
                 move.x=1280
                 speed=-10
             end
-            move.y=rnd(max(260-floor*4,60),max(420-floor*5,100))
+            move.y=rnd(max(260-floorS*4,60),max(420-floorS*5,100))
             state='move'
         end
     elseif state=='die' then
         move.y=move.y+18
         if move.y>1000 then
             highScore=max(score,highScore)
-            highFloor=max(floor,floor)
+            highFloor=max(floorS,floorS)
             state='dead'
         end
     elseif state=='scroll' then
-        camY=camY-floor/4
+        camY=camY-floorS/4
         if camY<1000 then camY=camY-1 end
         if camY<500 then camY=camY-1 end
         if camY<0 then
@@ -216,8 +216,8 @@ function scene.draw()
         gc.rectangle('line',base.x-3,base.y-3,base.l+6,36)
 
         setFont(45)
-        gc.print(floor+1,move.x+move.l+15,move.y-18)
-        gc.print(floor,base.x+base.l+15,base.y-18)
+        gc.print(floorS+1,move.x+move.l+15,move.y-18)
+        gc.print(floorS,base.x+base.l+15,base.y-18)
 
         gc.setColor(COLOR.Z)
         mStr(message,640,0)
