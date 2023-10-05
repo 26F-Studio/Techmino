@@ -42,6 +42,7 @@ return {
     -- infHeightOn="Infinite Height ON",
     -- infHeightOff="Infinite Height OFF",
     -- infHeightHint="Toggle with Function 1 key",
+    -- highestGrade="(highest: $1)",
 
     speedLV="niveau de vitesse",
     piece="Pièce",line="Lignes",atk="Attaque",eff="Efficacité",
@@ -797,6 +798,10 @@ return {
         ['sprint_1000l']=  {"Sprint",          "1000L",       "Nettoyez 1000 lignes !"},
         ['sprintPenta']=   {"Sprint",          "Pentomino",   "40 lignes avec 18 pentominos."},
         ['sprintMPH']=     {"Sprint",          "MPH",         "Memoryless\nPreviewless\nHoldless"},
+        -- ['sprint123']=           {"Sprint",            "M123",           "40L with only monominoes, dominoes, and triminoes"},
+        -- ['construct_sg']=        {"Construct",         "SECRET GRADE",   "Build a zigzag shape by following the guide!"},
+        -- ['construct_checker']=   {"Construct",         "CHECKERBOARD",   "Build a checkerboard pattern!"},
+        -- ['construct_invsg']=     {"Construct",         "INV. SG",        "Build an inverted zigzag pattern!"},
         ['dig_10l']=       {"Dig",             "10L",         "Creusez 10 lignes"},
         ['dig_40l']=       {"Dig",             "40L",         "Creusez 40 lignes"},
         ['dig_100l']=      {"Dig",             "100L",        "Creusez 100 lignes"},

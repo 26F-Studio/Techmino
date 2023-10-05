@@ -42,6 +42,7 @@ return {
     -- infHeightOn="Infinite Height ON",
     -- infHeightOff="Infinite Height OFF",
     -- infHeightHint="Toggle with Function 1 key",
+    -- highestGrade="(highest: $1)",
 
     speedLV="Veloc. de juego",
     piece="Piezas",line="Líneas",atk="Ataque",eff="Eficiencia",
@@ -819,7 +820,9 @@ return {
         ['sprintPenta']=    {"Sprint",                  "Pentominos",    "¡Limpia 40 líneas con los 18 pentominos distintos!"},
         ['sprintMPH']=      {"Sprint",                  "MPH",           "Memoryless (sin memoria)\nPreviewless (sin pzas. siguientes)\nHoldless (sin reserva)."},
         ['sprint123']=      {"Sprint",                  "M123",          "Limpia 40 líneas con monominos, biminos y triminos"},
-        ['secret_grade']=   {"Secret Grade",            "",              "¡Arma dejando huecos en escalera, sigue la guía!"},
+        ['construct_sg']=   {"Construir",               "SECRET GRADE",  "¡Arma dejando huecos en escalera, sigue la guía!"},
+        -- ['construct_checker']=   {"Construct",         "CHECKERBOARD",   "Build a checkerboard pattern!"},
+        -- ['construct_invsg']=     {"Construct",         "INV. SG",        "Build an inverted zigzag pattern!"},
         ['dig_10l']=        {"Dig",                     "10L",            "¡Limpia 10 líneas de queso lo más rápido que puedas!"},
         ['dig_40l']=        {"Dig",                     "40L",            "¡Limpia 40 líneas de queso lo más rápido que puedas!"},
         ['dig_100l']=       {"Dig",                     "100L",           "¡Limpia 100 líneas de queso lo más rápido que puedas!"},

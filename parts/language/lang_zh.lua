@@ -43,6 +43,7 @@ return {
     infHeightOn="无限高度 开",
     infHeightOff="无限高度 关",
     infHeightHint="用功能键1切换",
+    -- highestGrade="(highest: $1)",
 
     speedLV="速度等级",
     piece="块数",line="行数",atk="攻击",eff="效率",
@@ -854,7 +855,9 @@ return {
         ['sprint_100l']=    {"竞速",        "100L",     "消除100行"},
         ['sprint_400l']=    {"竞速",        "400L",     "消除400行"},
         ['sprint_1000l']=   {"竞速",        "1000L",    "消除1000行"},
-        ['secret_grade']=   {"秘密段位",    "",         "按照提示完成经典的“大于号”拼图"},
+        ['construct_sg']=   {"拼花",        "秘密段位",  "按照提示完成经典的“大于号”拼图"},
+        ['construct_checker']={"拼花",      "棋盘",      "按照提示搭建棋盘的图案"},
+        ['construct_invsg']=  {"拼花",      "折线",      "按照提示搭建折线图案"},
         ['sprintPenta']=    {"竞速",        "五连块",     "伤脑筋十八块"},
         ['sprintMPH']=      {"竞速",        "MPH",      "纯随机\n无预览\n无暂存"},
         ['sprint123']=      {"竞速",        "M123",     "40L，但只有1~3连块"},

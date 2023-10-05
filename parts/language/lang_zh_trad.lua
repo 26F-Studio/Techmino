@@ -43,6 +43,7 @@ return {
     infHeightOn="無限高度 開",
     infHeightOff="無限高度 關",
     infHeightHint="用功能鍵1切換",
+    -- highestGrade="(highest: $1)",
 
     speedLV="速度等級",
     piece="塊數",line="行數",atk="攻擊",eff="效率",
@@ -825,7 +826,9 @@ return {
         ['sprint_100l']=    {"競速",        "100L",     "清除100行"},
         ['sprint_400l']=    {"競速",        "400L",     "清除400行"},
         ['sprint_1000l']=   {"競速",        "1000L",    "清除1000行"},
-        ['secret_grade']=   {"秘密段位",    "",         "按照提示完成經典的“大於號”拼圖"},
+        ['construct_sg']=   {"建設",        "秘密段位",  "按照提示完成經典的“大於號”拼圖"},
+        -- ['construct_checker']=   {"Construct",         "CHECKERBOARD",   "Build a checkerboard pattern!"},
+        -- ['construct_invsg']=     {"Construct",         "INV. SG",        "Build an inverted zigzag pattern!"},
         ['sprintPenta']=    {"競速",        "五連塊",     "傷腦筋十八塊"},
         ['sprintMPH']=      {"競速",        "MPH",      "純隨機\n無Next\n無Hold"},
         ['sprint123']=      {"競速",        "M123",     "清除40行，但只有一至三連塊"},

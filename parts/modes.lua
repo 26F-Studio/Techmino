@@ -10,6 +10,10 @@ return {
     {name='sprintMPH',          x=200,  y=-260, size=40,shape=3,icon="sprint2"},
     {name='sprintPenta',        x=130,  y=-140, size=40,shape=3,icon="sprint_pento"},
 
+    {name='construct_sg',       x=700,       y=-450,     size=40,shape=1,icon="secret_grade",unlock={'construct_checker'}},
+    {name='construct_checker',  x=900,       y=-450,     size=40,shape=3,icon="secret_grade",unlock={'construct_invsg'}},
+    {name='construct_invsg',    x=1100,      y=-450,     size=40,shape=2,icon="secret_grade"},
+
     {name='secret_grade',       x=-200, y=-400, size=40,shape=1,icon="secret_grade"},
 
     {name='drought_n',          x=-600, y=400,  size=40,shape=1,icon="drought",    unlock={'drought_l'}},
@@ -27,7 +31,7 @@ return {
     {name='dig_eff_100l',       x=-1000,y=0,    size=40,shape=1,icon="dig_eff",    unlock={'dig_eff_400l'}},
     {name='dig_eff_400l',       x=-1200,y=0,    size=40,shape=1,icon="dig_eff"},
 
-    {name='marathon_n',         x=0,    y=-600, size=60,shape=1,icon="marathon",   unlock={'marathon_h','solo_e','round_e','big_n','blind_e','classic_e','survivor_e','c4wtrain_n','pctrain_n','sprintAtk','zen'}},
+    {name='marathon_n',         x=0,    y=-600, size=60,shape=1,icon="marathon",   unlock={'marathon_h','solo_e','round_e','big_n','blind_e','classic_e','survivor_e','c4wtrain_n','pctrain_n','sprintAtk','zen','construct_sg'}},
     {name='marathon_h',         x=0,    y=-800, size=50,shape=1,icon="marathon",   unlock={'master_n','strategy_e'}},
 
     {name='solo_e',             x=-600, y=-1000,size=40,shape=1,icon="solo",       unlock={'solo_n'}},
