@@ -13,10 +13,10 @@ return {
         local G=P.modeData.maxRankPts
         return
         G>=18 and 5 or
-        G>=15 and 4 or
-        G>=12 and 3 or
-        G>=8 and 2 or
-        G>=4 and 1 or
-        G>=2 and 0
+        G>=16 and 4 or
+        G>=10 and 3 or
+        G>=4 and 2 or
+        G>=2 and 1 or
+        G>=1 and 0
     end,
 }
