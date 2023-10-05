@@ -1,5 +1,6 @@
 return {
     env={
+        fieldH=16,
         drop=180,lock=600,
         hang=40,
         infHold=true,
