@@ -54,7 +54,7 @@ return {
 
     win="勝利",
     lose="失敗",
-    --torikan="Ended",
+    torikan="未達標",
     finish="完成",
     gamewin="勝利",
     gameover="遊戲結束",
