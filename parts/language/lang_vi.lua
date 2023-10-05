@@ -59,7 +59,7 @@ return {
 
     win="Thắng!",
     lose="Thua",
-
+    torikan="Torikan!",
     finish="Hoàn thành",
     gamewin="Bạn đã thắng",
     gameover="Kết thúc",

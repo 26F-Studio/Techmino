@@ -53,7 +53,7 @@ return {
 
     win="¡Victoria!",
     lose="Derrota",
-
+    --torikan="Ended",
     finish="Finalizado",
     gamewin="Has ganado",
     gameover="Fin del Juego",

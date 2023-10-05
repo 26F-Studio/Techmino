@@ -40,7 +40,7 @@ return {
             elseif s==5 then
                 if P.stat.frame>183*60 then
                     D.pt=500
-                    P:win('finish')
+                    P:torikanEnd(183)
                     return
                 else
                     E.bone=true

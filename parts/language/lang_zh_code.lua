@@ -53,7 +53,7 @@ return {
 
     win="Win();",
     lose="Lose();",
-
+    torikan="Torikan();",
     finish="Result=Finish",
     gamewin="Result=Win",
     gameover="Result=GameOver",

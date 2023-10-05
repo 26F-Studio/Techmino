@@ -85,7 +85,7 @@ function scene.enter()
         val[2*i-1],val[2*i]=val[i]*standard[2*i-1],val[i]*standard[2*i]
     end
 
-    if P1.result=='win' and P1.stat.piece>4 then
+    if (P1.result=='win' or P1.result=='torikan') and P1.stat.piece>4 then
         local acc=P1.stat.finesseRate*.2/P1.stat.piece
         rank=CHAR.icon['rank'..(
             acc==1. and "Z" or
@@ -294,7 +294,7 @@ function scene.draw()
 
             -- Texts
             local C
-            _=TIME()%6.2832
+            _=TIME()%MATH.tau
             if _>3.142 then
                 GC.setColor(.97,.97,.97,-timer2*sin(_))
                 FONT.set(35)
