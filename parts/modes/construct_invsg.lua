@@ -1,6 +1,6 @@
 return {
     env={
-        fieldH=14,
+        fieldH=13,
         drop=180,lock=600,
         hang=40,
         infHold=true,
@@ -14,8 +14,9 @@ return {
         local G=P.modeData.maxRankPts
         return
         G>=10 and 5 or
-        G>=4 and 4 or
-        G>=2 and 3 or
+        G>=7 and 4 or
+        G>=4 and 3 or
+        G>=2 and 2 or
         G>=1 and 0
     end,
 }
