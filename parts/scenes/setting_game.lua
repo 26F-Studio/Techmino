@@ -18,9 +18,9 @@ function scene.draw()
     local b=math.floor(t*2)%16+1
     gc.setShader(SHADER.blockSatur)
     gc.setColor(1,1,1)
-    mDraw(SKIN.lib[SETTING.skinSet][b],0,0,t%MATH.tau,2)
+    mDraw(SKIN.lib[SETTING.skinSet][b],0,0,t%6.2832,2)
     gc.setColor(1,1,1,t*2%1)
-    mDraw(SKIN.lib[SETTING.skinSet][b%16+1],0,0,t%MATH.tau,2)
+    mDraw(SKIN.lib[SETTING.skinSet][b%16+1],0,0,t%6.2832,2)
     gc.setShader()
 
     -- Draw center

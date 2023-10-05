@@ -135,7 +135,7 @@ function scene.draw()
 
             if M.list then
                 GC.setColor(1,1,1,t*6)
-                GC.arc('line','open',0,0,rad+6,0,(M.sel/#M.list)*MATH.tau)
+                GC.arc('line','open',0,0,rad+6,0,(M.sel/#M.list)*6.2832)
             end
         GC.pop()
     end
