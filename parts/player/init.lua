@@ -199,8 +199,11 @@ local function _loadGameEnv(P)-- Load gameEnv
         end
     end
     if ENV.allowMod then
-        for _,M in next,GAME.mod do
-            M.func(P,M.list and M.list[M.sel])
+        for number,sel in next,GAME.mod do
+            if sel>0 then
+                local M=MODOPT[number]
+                M.func(P,M.list and M.list[sel])
+            end
         end
     end
 end

@@ -223,8 +223,8 @@ local function _drawModeShape(M,S,drawType)
 end
 function scene.draw()
     -- Mod indicator
-    if #GAME.mod>0 then
-        gc_setColor(.42,.26,.62,.62+.26*math.sin(TIME()*12.6))
+    if usingMod() then
+        setModBackgroundColor()
         gc_rectangle('fill',140-220/2,655-80/2,220,80,5,5)
     end
 

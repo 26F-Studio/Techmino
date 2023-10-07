@@ -171,8 +171,8 @@ function scene.draw()
     gc.print(CUSTOMENV.sequence,610,250)
 
     -- Mod indicator
-    if #GAME.mod>0 then
-        gc.setColor(.42,.26,.62,.62+.26*math.sin(TIME()*12.6))
+    if usingMod() then
+        setModBackgroundColor()
         gc.rectangle('fill',1110-230/2,200-90/2,230,90,5,5)
     end
 
