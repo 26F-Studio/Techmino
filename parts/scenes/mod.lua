@@ -56,14 +56,14 @@ end
 
 function scene.keyDown(key)
     if key=='tab' or key=='delete' then
-        local usedMod=false
+        local modUsed=false
         for i=1,#GAME.mod do
             if GAME.mod[i]>0 then
-                usedMod=true
+                modUsed=true
             end
             GAME.mod[i]=0
         end
-        if usedMod then
+        if modUsed then
             scene.widgetList.unranked.hide=scoreValid()
             SFX.play('hold')
         end
