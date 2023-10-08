@@ -42,7 +42,7 @@ do -- Initialize fields, sequence, missions, gameEnv for cutsom game
     if sequenceData then
         local success,bag=DATA.pasteSequence(sequenceData)
         if success then
-            CUSTOMGAME_LOCAL.BAG=bag
+            CUSTOMGAME_LOCAL.bag=bag
         end
     end
     local missionData=loadFile('conf/customMissions','-string -canSkip')
@@ -54,9 +54,9 @@ do -- Initialize fields, sequence, missions, gameEnv for cutsom game
     end
     local customData=loadFile('conf/customEnv','-canSkip')
     if customData and customData['version']==VERSION.code then
-        TABLE.complete(customData,CUSTOMENV)
+        TABLE.complete(customData,CUSTOMGAME_LOCAL.customenv)
     end
-    TABLE.complete(require"parts.customEnv0",CUSTOMENV)
+    TABLE.complete(require"parts.customEnv0",CUSTOMGAME_LOCAL.customenv)
 end
 
 local sList={
@@ -103,9 +103,9 @@ local function _play(mode)
                 return
             end
         end
-        if #CUSTOMGAME_LOCAL.BAG>0 then
-            for _=1,#CUSTOMGAME_LOCAL.BAG do
-                if CUSTOMGAME_LOCAL.BAG[_]>7 then
+        if #CUSTOMGAME_LOCAL.bag>0 then
+            for _=1,#CUSTOMGAME_LOCAL.bag do
+                if CUSTOMGAME_LOCAL.bag[_]>7 then
                     MES.new('error',text.ai_prebag)
                     return
                 end
@@ -140,14 +140,14 @@ function scene.keyDown(key,isRep)
         SCN.go('custom_mission','swipeD')
     elseif key=='delete' then
         if tryReset() then
-            TABLE.cut(CUSTOMGAME_LOCAL.field)TABLE.cut(CUSTOMGAME_LOCAL.BAG)TABLE.cut(CUSTOMGAME_LOCAL.mission)
+            TABLE.cut(CUSTOMGAME_LOCAL.field)TABLE.cut(CUSTOMGAME_LOCAL.bag)TABLE.cut(CUSTOMGAME_LOCAL.mission)
             CUSTOMGAME_LOCAL.field[1]=DATA.newBoard()
             TABLE.clear(CUSTOMGAME_LOCAL.customenv)
             TABLE.complete(require"parts.customEnv0",CUSTOMGAME_LOCAL.customenv)
             for _,W in next,scene.widgetList do W:reset() end
             saveFile(DATA.copyMission(CUSTOMGAME_LOCAL.mission),'conf/customMissions')
             saveFile(DATA.copyBoards(CUSTOMGAME_LOCAL.field),'conf/customBoards')
-            saveFile(DATA.copySequence(CUSTOMGAME_LOCAL.BAG),'conf/customSequence')
+            saveFile(DATA.copySequence(CUSTOMGAME_LOCAL.bag),'conf/customSequence')
             saveFile(CUSTOMGAME_LOCAL.customenv,'conf/customEnv')
             SFX.play('finesseError',.7)
             BG.set(CUSTOMGAME_LOCAL.customenv.bg)
@@ -157,7 +157,7 @@ function scene.keyDown(key,isRep)
         SCN.go('mod','swipeD')
     elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
         local str="Techmino Quest:"..DATA.copyQuestArgs(CUSTOMGAME_LOCAL.customenv).."!"
-        if #CUSTOMGAME_LOCAL.BAG>0 then str=str..DATA.copySequence(CUSTOMGAME_LOCAL.BAG) end
+        if #CUSTOMGAME_LOCAL.bag>0 then str=str..DATA.copySequence(CUSTOMGAME_LOCAL.bag) end
         str=str.."!"
         if #CUSTOMGAME_LOCAL.mission>0 then str=str..DATA.copyMission(CUSTOMGAME_LOCAL.mission) end
         sys.setClipboardText(str.."!"..DATA.copyBoards(CUSTOMGAME_LOCAL.field).."!")
@@ -173,7 +173,7 @@ function scene.keyDown(key,isRep)
 
             local success,bag=DATA.pasteSequence(args[2])
             if not success then break end-- goto THROW_fail
-            CUSTOMGAME_LOCAL.BAG=bag
+            CUSTOMGAME_LOCAL.bag=bag
 
             local success,mission=DATA.pasteMission(args[3])
             if not success then break end-- goto THROW_fail
@@ -238,9 +238,9 @@ function scene.draw()
     end
 
     -- Sequence
-    if #CUSTOMGAME_LOCAL.BAG>0 then
+    if #CUSTOMGAME_LOCAL.bag>0 then
         gc.setColor(1,1,floor(TIME()*6.26)%2)
-        gc.print("#"..#CUSTOMGAME_LOCAL.BAG,615,220)
+        gc.print("#"..#CUSTOMGAME_LOCAL.bag,615,220)
     end
     gc.setColor(COLOR.Z)
     gc.print(CUSTOMGAME_LOCAL.customenv.sequence,610,250)
@@ -267,7 +267,7 @@ scene.widgetList={
     WIDGET.newKey{name='sequence', x=730,y=180,w=240,h=80,color='W',font=25,code=pressKey's'},
 
     WIDGET.newText{name='noMsn',   x=50, y=220,align='L',color='H',hideF=function() return CUSTOMGAME_LOCAL.mission[1] end},
-    WIDGET.newText{name='defSeq',  x=610,y=220,align='L',color='H',hideF=function() return CUSTOMGAME_LOCAL.BAG[1] end},
+    WIDGET.newText{name='defSeq',  x=610,y=220,align='L',color='H',hideF=function() return CUSTOMGAME_LOCAL.bag[1] end},
 
     -- Selectors
     WIDGET.newSelector{name='opponent',    x=170,y=330,w=260,color='R',list=sList.opponent,   disp=CUSval('opponent'),    code=CUSsto('opponent')},
