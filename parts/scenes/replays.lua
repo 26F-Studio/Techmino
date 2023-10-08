@@ -41,7 +41,10 @@ local function _playRep(fileName)
     elseif MODES[rep.mode] then
         GAME.seed=rep.seed
         GAME.setting=rep.setting
-        mods,GAME.mod=GAME.mod,TABLE.new(0,#MODOPT)
+        if #mods==0 then
+            mods=GAME.mod
+        end
+        GAME.mod=TABLE.new(0,#MODOPT)
         for _,m in next,rep.mod do
             GAME.mod[m[1]+1]=m[2]
         end
@@ -73,7 +76,9 @@ function scene.enter()
     _updateButtonVisibility()
 end
 function scene.leave()
-    GAME.mod,mods=mods,{}
+    if #mods>0 then
+        GAME.mod,mods=mods,{}
+    end
 end
 
 function scene.keyDown(key)
