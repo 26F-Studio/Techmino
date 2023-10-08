@@ -2,7 +2,7 @@ local floor=math.floor
 local char,byte=string.char,string.byte
 local ins=table.insert
 
-local BAG,FIELD,MISSION,CUSTOMENV,GAME=BAG,FIELD,MISSION,CUSTOMENV,GAME
+local GAME=GAME
 
 local DATA={}
 -- Sep symbol: 33 (!)
@@ -13,13 +13,13 @@ local DATA={}
     Encode: A[B] sequence, A = block ID, B = repeat times, no B means do not repeat.
     Example: "abcdefg" is [SZJLTOI], "a^aDb)" is [Z*63,Z*37,S*10]
 ]]
-function DATA.copySequence()
+function DATA.copySequence(bag)
     local str=""
 
     local count=1
-    for i=1,#BAG+1 do
-        if BAG[i+1]~=BAG[i] or count==64 then
-            str=str..char(96+BAG[i])
+    for i=1,#bag+1 do
+        if bag[i+1]~=bag[i] or count==64 then
+            str=str..char(96+bag[i])
             if count>1 then
                 str=str..char(32+count)
                 count=1
@@ -32,7 +32,7 @@ function DATA.copySequence()
     return str
 end
 function DATA.pasteSequence(str)
-    TABLE.cut(BAG)
+    local bag={}
     local b,reg
     for i=1,#str do
         b=byte(str,i)
@@ -44,20 +44,20 @@ function DATA.pasteSequence(str)
             end
         else
             if b>=97 and b<=125 then
-                ins(BAG,reg)
+                ins(bag,reg)
                 reg=b-96
             elseif b>=34 and b<=96 then
                 for _=1,b-32 do
-                    ins(BAG,reg)
+                    ins(bag,reg)
                 end
                 reg=false
             end
         end
     end
     if reg then
-        ins(BAG,reg)
+        ins(bag,reg)
     end
-    return true
+    return true,bag
 end
 
 local fieldMeta={__index=function(self,h)
@@ -69,8 +69,7 @@ end}
 function DATA.newBoard(f)-- Generate a new board
     return setmetatable(f and TABLE.shift(f) or{},fieldMeta)
 end
-function DATA.copyBoard(page)-- Copy the [page] board
-    local F=FIELD[page or 1]
+function DATA.copyBoard(F)-- Copy the [page] board
     local str=""
 
     -- Encode field
@@ -84,21 +83,15 @@ function DATA.copyBoard(page)-- Copy the [page] board
     end
     return STRING.packBin(str)
 end
-function DATA.copyBoards()
+function DATA.copyBoards(field)
     local out={}
-    for i=1,#FIELD do
-        out[i]=DATA.copyBoard(i)
+    for i=1,#field do
+        out[i]=DATA.copyBoard(field[i])
     end
     return table.concat(out,"!")
 end
-function DATA.pasteBoard(str,page)-- Paste [str] data to [page] board
-    if not page then
-        page=1
-    end
-    if not FIELD[page] then
-        FIELD[page]=DATA.newBoard()
-    end
-    local F=FIELD[page]
+function DATA.pasteBoard(str)-- Paste [str] data to [page] board
+    local F=DATA.newBoard()
 
     -- Decode
     str=STRING.unpackBin(str)
@@ -133,7 +126,7 @@ function DATA.pasteBoard(str,page)-- Paste [str] data to [page] board
         p=p+1
     end
 
-    return true
+    return true, F
 end
 
 --[[
@@ -152,14 +145,14 @@ end
     O1=61,O2=62,O3=63,O4=64,
     I1=71,I2=72,I3=73,I4=74,
 ]]
-function DATA.copyMission()
+function DATA.copyMission(mission)
     local _
     local str=""
 
     local count=1
-    for i=1,#MISSION+1 do
-        if MISSION[i+1]~=MISSION[i] or count==13 then
-            _=33+MISSION[i]
+    for i=1,#mission+1 do
+        if mission[i+1]~=mission[i] or count==13 then
+            _=33+mission[i]
             str=str..char(_)
             if count>1 then
                 str=str..char(113+count)
@@ -174,7 +167,7 @@ function DATA.copyMission()
 end
 function DATA.pasteMission(str)
     local b
-    TABLE.cut(MISSION)
+    local mission={}
     local reg
     for i=1,#str do
         b=byte(str,i)
@@ -187,28 +180,28 @@ function DATA.pasteMission(str)
         else
             if b>=34 and b<=114 then
                 if ENUM_MISSION[reg] then
-                    ins(MISSION,reg)
+                    ins(mission,reg)
                     reg=b-33
                 else
-                    TABLE.cut(MISSION)
+                    TABLE.cut(mission)
                     return
                 end
             elseif b>=115 and b<=126 then
                 for _=1,b-113 do
-                    ins(MISSION,reg)
+                    ins(mission,reg)
                 end
                 reg=false
             end
         end
     end
     if reg then
-        ins(MISSION,reg)
+        ins(mission,reg)
     end
-    return true
+    return true,mission
 end
 
-function DATA.copyQuestArgs()
-    local ENV=CUSTOMENV
+function DATA.copyQuestArgs(custom_env)
+    local ENV=custom_env
     local str=""..
         ENV.holdCount..
         (ENV.ospin and "O" or "Z")..
@@ -218,12 +211,12 @@ function DATA.copyQuestArgs()
 end
 function DATA.pasteQuestArgs(str)
     if #str<4 then return end
-    local ENV=CUSTOMENV
+    local ENV={}
     ENV.holdCount=  str:byte(1)-48
     ENV.ospin=      str:byte(2)~=90
     ENV.missionKill=str:byte(3)~=90
     ENV.sequence=   str:sub(4)
-    return true
+    return true,ENV
 end
 
 --[[

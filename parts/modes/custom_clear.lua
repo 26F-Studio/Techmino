@@ -19,7 +19,7 @@ return {
         end
 
         for _,P in next,PLY_ALIVE do
-            setField(P,1)
+            setField(P,FIELD[1])
         end
     end,
     savePrivate=function()

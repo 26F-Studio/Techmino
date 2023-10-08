@@ -424,8 +424,7 @@ function notEmptyLine(L)
         end
     end
 end
-function setField(P,page)
-    local F=FIELD[page]
+function setField(P,F)
     local height=0
     for y=#F,1,-1 do
         if notEmptyLine(F[y]) then
@@ -1210,8 +1209,7 @@ do-- function pressKey(k)
         return cache[k]
     end
 end
-do-- CUS/SETXXX(k)
-    local CUSTOMENV=CUSTOMENV
+do-- SETXXX(k)
     local warnList={
         'das','arr','dascut','dropcut','sddas','sdarr',
         'ihs','irs','ims','RS',
@@ -1219,13 +1217,10 @@ do-- CUS/SETXXX(k)
         'VKSwitch','VKIcon','VKTrack','VKDodge',
         'simpMode',
     }
-    function CUSval(k) return function()   return CUSTOMENV[k] end end
     function ROOMval(k) return function()  return ROOMENV[k] end end
     function SETval(k) return function()   return SETTING[k] end end
-    function CUSrev(k) return function()   CUSTOMENV[k]=not CUSTOMENV[k] end end
     function ROOMrev(k) return function()  ROOMENV[k]=not ROOMENV[k] end end
     function SETrev(k) return function()   if TABLE.find(warnList,k) then trySettingWarn() end SETTING[k]=not SETTING[k] end end
-    function CUSsto(k) return function(i)  CUSTOMENV[k]=i end end
     function ROOMsto(k) return function(i) ROOMENV[k]=i end end
     function SETsto(k) return function(i)  if TABLE.find(warnList,k) then trySettingWarn() end SETTING[k]=i end end
 end
