@@ -2,22 +2,22 @@ local gc,kb,sys=love.graphics,love.keyboard,love.system
 local floor=math.floor
 
 CUSTOMGAME_LOCAL={
-    FIELD={},
-    BAG={},
-    MISSION={},
-    CUSTOMENV={},
-    CUSval=function(self,k) return function()   return self.CUSTOMENV[k] end end,
-    CUSrev=function(self,k) return function()   self.CUSTOMENV[k]=not self.CUSTOMENV[k] end end,
-    CUSsto=function(self,k) return function(i)  self.CUSTOMENV[k]=i end end,
+    field={},
+    bag={},
+    mission={},
+    customenv={},
+    CUSval=function(self,k) return function()   return self.customenv[k] end end,
+    CUSrev=function(self,k) return function()   self.customenv[k]=not self.customenv[k] end end,
+    CUSsto=function(self,k) return function(i)  self.customenv[k]=i end end,
 }
 local function CUSval(k) return CUSTOMGAME_LOCAL:CUSval(k) end
 local function CUSrev(k) return CUSTOMGAME_LOCAL:CUSrev(k) end
 local function CUSsto(k) return CUSTOMGAME_LOCAL:CUSsto(k) end
 local function apply_locals()
-    FIELD=CUSTOMGAME_LOCAL.FIELD
-    BAG=CUSTOMGAME_LOCAL.BAG
-    MISSION=CUSTOMGAME_LOCAL.MISSION
-    CUSTOMENV=CUSTOMGAME_LOCAL.CUSTOMENV
+    FIELD=CUSTOMGAME_LOCAL.field
+    BAG=CUSTOMGAME_LOCAL.bag
+    MISSION=CUSTOMGAME_LOCAL.mission
+    CUSTOMENV=CUSTOMGAME_LOCAL.customenv
 end
 do -- Initialize fields, sequence, missions, gameEnv for cutsom game
     local fieldData=loadFile('conf/customBoards','-string -canSkip')
@@ -32,11 +32,11 @@ do -- Initialize fields, sequence, missions, gameEnv for cutsom game
                 fieldReinit=true
                 break
             end
-            CUSTOMGAME_LOCAL.FIELD[i]=F
+            CUSTOMGAME_LOCAL.field[i]=F
         end
     end
     if fieldReinit then
-        CUSTOMGAME_LOCAL.FIELD={DATA.newBoard()}
+        CUSTOMGAME_LOCAL.field={DATA.newBoard()}
     end
     local sequenceData=loadFile('conf/customSequence','-string -canSkip')
     if sequenceData then
@@ -49,7 +49,7 @@ do -- Initialize fields, sequence, missions, gameEnv for cutsom game
     if missionData then
         local success,mission=DATA.pasteMission(missionData)
         if success then
-            CUSTOMGAME_LOCAL.MISSION=mission
+            CUSTOMGAME_LOCAL.mission=mission
         end
     end
     local customData=loadFile('conf/customEnv','-canSkip')
@@ -83,22 +83,22 @@ local scene={}
 
 function scene.enter()
     destroyPlayers()
-    BG.set(CUSTOMGAME_LOCAL.CUSTOMENV.bg)
-    BGM.play(CUSTOMGAME_LOCAL.CUSTOMENV.bgm)
+    BG.set(CUSTOMGAME_LOCAL.customenv.bg)
+    BGM.play(CUSTOMGAME_LOCAL.customenv.bgm)
 end
 function scene.leave()
-    saveFile(CUSTOMGAME_LOCAL.CUSTOMENV,'conf/customEnv')
+    saveFile(CUSTOMGAME_LOCAL.customenv,'conf/customEnv')
     BGM.play()
 end
 
 local function _play(mode)
-    if CUSTOMGAME_LOCAL.CUSTOMENV.opponent~="X" then
-        if CUSTOMGAME_LOCAL.CUSTOMENV.opponent:sub(1,2)=='CC' then
-            if CUSTOMGAME_LOCAL.CUSTOMENV.sequence=='fixed' then
+    if CUSTOMGAME_LOCAL.customenv.opponent~="X" then
+        if CUSTOMGAME_LOCAL.customenv.opponent:sub(1,2)=='CC' then
+            if CUSTOMGAME_LOCAL.customenv.sequence=='fixed' then
                 MES.new('error',text.cc_fixed)
                 return
             end
-            if CUSTOMGAME_LOCAL.CUSTOMENV.holdMode=='swap' then
+            if CUSTOMGAME_LOCAL.customenv.holdMode=='swap' then
                 MES.new('error',text.cc_swap)
                 return
             end
@@ -111,12 +111,12 @@ local function _play(mode)
                 end
             end
         end
-        if #CUSTOMGAME_LOCAL.MISSION>0 then
+        if #CUSTOMGAME_LOCAL.mission>0 then
             MES.new('error',text.ai_mission)
             return
         end
     end
-    saveFile(CUSTOMGAME_LOCAL.CUSTOMENV,'conf/customEnv')
+    saveFile(CUSTOMGAME_LOCAL.customenv,'conf/customEnv')
     apply_locals()
     loadGame('custom_'..mode,true)
 end
@@ -124,7 +124,7 @@ end
 function scene.keyDown(key,isRep)
     if isRep then return true end
     if key=='return' and kb.isDown('lctrl','lalt') or key=='play1' or key=='play2' then
-        if (key=='play2' or kb.isDown('lalt')) and #CUSTOMGAME_LOCAL.FIELD[1]>0 then
+        if (key=='play2' or kb.isDown('lalt')) and #CUSTOMGAME_LOCAL.field[1]>0 then
             _play('puzzle')
         elseif key=='play1' or kb.isDown('lctrl') then
             _play('clear')
@@ -140,27 +140,27 @@ function scene.keyDown(key,isRep)
         SCN.go('custom_mission','swipeD')
     elseif key=='delete' then
         if tryReset() then
-            TABLE.cut(CUSTOMGAME_LOCAL.FIELD)TABLE.cut(CUSTOMGAME_LOCAL.BAG)TABLE.cut(CUSTOMGAME_LOCAL.MISSION)
-            CUSTOMGAME_LOCAL.FIELD[1]=DATA.newBoard()
-            TABLE.clear(CUSTOMGAME_LOCAL.CUSTOMENV)
-            TABLE.complete(require"parts.customEnv0",CUSTOMGAME_LOCAL.CUSTOMENV)
+            TABLE.cut(CUSTOMGAME_LOCAL.field)TABLE.cut(CUSTOMGAME_LOCAL.BAG)TABLE.cut(CUSTOMGAME_LOCAL.mission)
+            CUSTOMGAME_LOCAL.field[1]=DATA.newBoard()
+            TABLE.clear(CUSTOMGAME_LOCAL.customenv)
+            TABLE.complete(require"parts.customEnv0",CUSTOMGAME_LOCAL.customenv)
             for _,W in next,scene.widgetList do W:reset() end
-            saveFile(DATA.copyMission(CUSTOMGAME_LOCAL.MISSION),'conf/customMissions')
-            saveFile(DATA.copyBoards(CUSTOMGAME_LOCAL.FIELD),'conf/customBoards')
+            saveFile(DATA.copyMission(CUSTOMGAME_LOCAL.mission),'conf/customMissions')
+            saveFile(DATA.copyBoards(CUSTOMGAME_LOCAL.field),'conf/customBoards')
             saveFile(DATA.copySequence(CUSTOMGAME_LOCAL.BAG),'conf/customSequence')
-            saveFile(CUSTOMGAME_LOCAL.CUSTOMENV,'conf/customEnv')
+            saveFile(CUSTOMGAME_LOCAL.customenv,'conf/customEnv')
             SFX.play('finesseError',.7)
-            BG.set(CUSTOMGAME_LOCAL.CUSTOMENV.bg)
-            BGM.play(CUSTOMGAME_LOCAL.CUSTOMENV.bgm)
+            BG.set(CUSTOMGAME_LOCAL.customenv.bg)
+            BGM.play(CUSTOMGAME_LOCAL.customenv.bgm)
         end
     elseif key=='f1' then
         SCN.go('mod','swipeD')
     elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
-        local str="Techmino Quest:"..DATA.copyQuestArgs(CUSTOMGAME_LOCAL.CUSTOMENV).."!"
+        local str="Techmino Quest:"..DATA.copyQuestArgs(CUSTOMGAME_LOCAL.customenv).."!"
         if #CUSTOMGAME_LOCAL.BAG>0 then str=str..DATA.copySequence(CUSTOMGAME_LOCAL.BAG) end
         str=str.."!"
-        if #CUSTOMGAME_LOCAL.MISSION>0 then str=str..DATA.copyMission(CUSTOMGAME_LOCAL.MISSION) end
-        sys.setClipboardText(str.."!"..DATA.copyBoards(CUSTOMGAME_LOCAL.FIELD).."!")
+        if #CUSTOMGAME_LOCAL.mission>0 then str=str..DATA.copyMission(CUSTOMGAME_LOCAL.mission) end
+        sys.setClipboardText(str.."!"..DATA.copyBoards(CUSTOMGAME_LOCAL.field).."!")
         MES.new('check',text.exportSuccess)
     elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
         local str=sys.getClipboardText()
@@ -169,7 +169,7 @@ function scene.keyDown(key,isRep)
             if #args<4 then break end-- goto THROW_fail
             local success,env=DATA.pasteQuestArgs(args[1])
             if not success then break end-- goto THROW_fail
-            TABLE.cover(env,CUSTOMGAME_LOCAL.CUSTOMENV)
+            TABLE.cover(env,CUSTOMGAME_LOCAL.customenv)
 
             local success,bag=DATA.pasteSequence(args[2])
             if not success then break end-- goto THROW_fail
@@ -177,15 +177,15 @@ function scene.keyDown(key,isRep)
 
             local success,mission=DATA.pasteMission(args[3])
             if not success then break end-- goto THROW_fail
-            CUSTOMGAME_LOCAL.MISSION=mission
+            CUSTOMGAME_LOCAL.mission=mission
 
-            TABLE.cut(CUSTOMGAME_LOCAL.FIELD)
-            CUSTOMGAME_LOCAL.FIELD[1]=DATA.newBoard()
+            TABLE.cut(CUSTOMGAME_LOCAL.field)
+            CUSTOMGAME_LOCAL.field[1]=DATA.newBoard()
             for i=4,#args do
                 if args[i]:find("%S") then
                     local success,F=DATA.pasteBoard(args[i])
                     if success then
-                        CUSTOMGAME_LOCAL.FIELD[i-3]=F
+                        CUSTOMGAME_LOCAL.field[i-3]=F
                     else
                         if i<#args then break end-- goto THROW_fail
                     end
@@ -206,20 +206,20 @@ function scene.draw()
     setFont(30)
 
     -- Sequence
-    if #CUSTOMGAME_LOCAL.MISSION>0 then
-        gc.setColor(1,CUSTOMGAME_LOCAL.CUSTOMENV.missionKill and 0 or 1,floor(TIME()*6.26)%2)
-        gc.print("#"..#CUSTOMGAME_LOCAL.MISSION,70,220)
+    if #CUSTOMGAME_LOCAL.mission>0 then
+        gc.setColor(1,CUSTOMGAME_LOCAL.customenv.missionKill and 0 or 1,floor(TIME()*6.26)%2)
+        gc.print("#"..#CUSTOMGAME_LOCAL.mission,70,220)
     end
 
     -- Field content
-    if #CUSTOMGAME_LOCAL.FIELD[1]>0 then
+    if #CUSTOMGAME_LOCAL.field[1]>0 then
         gc.push('transform')
         gc.translate(330,240)
         gc.scale(.5)
         gc.setColor(1,1,1)
         gc.setLineWidth(3)
         gc.rectangle('line',-2,-2,304,604)
-        local F=CUSTOMGAME_LOCAL.FIELD[1]
+        local F=CUSTOMGAME_LOCAL.field[1]
         local cross=TEXTURE.puzzleMark[-1]
         local texture=SKIN.lib[SETTING.skinSet]
         for y=1,#F do for x=1,10 do
@@ -231,9 +231,9 @@ function scene.draw()
             end
         end end
         gc.pop()
-        if #CUSTOMGAME_LOCAL.FIELD>1 then
+        if #CUSTOMGAME_LOCAL.field>1 then
             gc.setColor(1,1,floor(TIME()*6.26)%2)
-            gc.print("+"..#CUSTOMGAME_LOCAL.FIELD-1,490,220)
+            gc.print("+"..#CUSTOMGAME_LOCAL.field-1,490,220)
         end
     end
 
@@ -243,7 +243,7 @@ function scene.draw()
         gc.print("#"..#CUSTOMGAME_LOCAL.BAG,615,220)
     end
     gc.setColor(COLOR.Z)
-    gc.print(CUSTOMGAME_LOCAL.CUSTOMENV.sequence,610,250)
+    gc.print(CUSTOMGAME_LOCAL.customenv.sequence,610,250)
 
     -- Mod indicator
     if #GAME.mod>0 then
@@ -266,7 +266,7 @@ scene.widgetList={
     WIDGET.newKey{name='field',    x=450,y=180,w=240,h=80,color='A',font=25,code=pressKey'f'},
     WIDGET.newKey{name='sequence', x=730,y=180,w=240,h=80,color='W',font=25,code=pressKey's'},
 
-    WIDGET.newText{name='noMsn',   x=50, y=220,align='L',color='H',hideF=function() return CUSTOMGAME_LOCAL.MISSION[1] end},
+    WIDGET.newText{name='noMsn',   x=50, y=220,align='L',color='H',hideF=function() return CUSTOMGAME_LOCAL.mission[1] end},
     WIDGET.newText{name='defSeq',  x=610,y=220,align='L',color='H',hideF=function() return CUSTOMGAME_LOCAL.BAG[1] end},
 
     -- Selectors
@@ -292,7 +292,7 @@ scene.widgetList={
     WIDGET.newButton{name='copy',          x=1070,y=300,w=310,h=70,color='lR',font=25,code=pressKey'cC'},
     WIDGET.newButton{name='paste',         x=1070,y=380,w=310,h=70,color='lB',font=25,code=pressKey'cV'},
     WIDGET.newButton{name='play_clear',    x=1070,y=460,w=310,h=70,color='lY',font=35,code=pressKey'play1'},
-    WIDGET.newButton{name='play_puzzle',   x=1070,y=540,w=310,h=70,color='lM',font=35,code=pressKey'play2',hideF=function() return #CUSTOMGAME_LOCAL.FIELD[1]==0 end},
+    WIDGET.newButton{name='play_puzzle',   x=1070,y=540,w=310,h=70,color='lM',font=35,code=pressKey'play2',hideF=function() return #CUSTOMGAME_LOCAL.field[1]==0 end},
     WIDGET.newButton{name='back',          x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=pressKey'escape'},
 
     -- Rule set
@@ -308,15 +308,15 @@ scene.widgetList={
     WIDGET.newSwitch{name='bone',          x=1170,y=970, lim=250,disp=CUSval('bone'),     code=CUSrev('bone')},
 
     -- Next & Hold
-    WIDGET.newSelector{name='holdMode',    x=310, y=890, w=300,color='lY',list=sList.holdMode,disp=CUSval('holdMode'),code=CUSsto('holdMode'),hideF=function() return CUSTOMGAME_LOCAL.CUSTOMENV.holdCount==0 end},
+    WIDGET.newSelector{name='holdMode',    x=310, y=890, w=300,color='lY',list=sList.holdMode,disp=CUSval('holdMode'),code=CUSsto('holdMode'),hideF=function() return CUSTOMGAME_LOCAL.customenv.holdCount==0 end},
     WIDGET.newSlider{name='nextCount',     x=140, y=960, lim=130,w=180,axis={0,6,1},disp=CUSval('nextCount'),code=CUSsto('nextCount')},
     WIDGET.newSlider{name='holdCount',     x=140, y=1030,lim=130,w=180,axis={0,6,1},disp=CUSval('holdCount'),code=CUSsto('holdCount')},
-    WIDGET.newSwitch{name='infHold',       x=560, y=960, lim=200,                   disp=CUSval('infHold'),code=CUSrev('infHold'),hideF=function() return CUSTOMGAME_LOCAL.CUSTOMENV.holdCount==0 end},
-    WIDGET.newSwitch{name='phyHold',       x=560, y=1030,lim=200,                   disp=CUSval('phyHold'),code=CUSrev('phyHold'),hideF=function() return CUSTOMGAME_LOCAL.CUSTOMENV.holdCount==0 end},
+    WIDGET.newSwitch{name='infHold',       x=560, y=960, lim=200,                   disp=CUSval('infHold'),code=CUSrev('infHold'),hideF=function() return CUSTOMGAME_LOCAL.customenv.holdCount==0 end},
+    WIDGET.newSwitch{name='phyHold',       x=560, y=1030,lim=200,                   disp=CUSval('phyHold'),code=CUSrev('phyHold'),hideF=function() return CUSTOMGAME_LOCAL.customenv.holdCount==0 end},
 
     -- BG & BGM
-    WIDGET.newSelector{name='bg',          x=840, y=1100,w=250,color='Y',list=BG.getList(),disp=CUSval('bg'),code=function(i) CUSTOMGAME_LOCAL.CUSTOMENV.bg=i BG.set(i) end},
-    WIDGET.newSelector{name='bgm',         x=1120,y=1100,w=250,color='Y',list=BGM.getList(),disp=CUSval('bgm'),code=function(i) CUSTOMGAME_LOCAL.CUSTOMENV.bgm=i BGM.play(i) end},
+    WIDGET.newSelector{name='bg',          x=840, y=1100,w=250,color='Y',list=BG.getList(),disp=CUSval('bg'),code=function(i) CUSTOMGAME_LOCAL.customenv.bg=i BG.set(i) end},
+    WIDGET.newSelector{name='bgm',         x=1120,y=1100,w=250,color='Y',list=BGM.getList(),disp=CUSval('bgm'),code=function(i) CUSTOMGAME_LOCAL.customenv.bgm=i BGM.play(i) end},
 }
 
 return scene

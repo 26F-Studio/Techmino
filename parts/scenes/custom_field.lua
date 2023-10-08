@@ -4,7 +4,7 @@ local kb=love.keyboard
 local max,min,floor=math.max,math.min,math.floor
 local ins,rem=table.insert,table.remove
 
-local FIELD=CUSTOMGAME_LOCAL.FIELD
+local FIELD=CUSTOMGAME_LOCAL.field
 local scene={}
 
 local curPen
@@ -239,7 +239,7 @@ function scene.keyDown(key)
         end
         local success,F=DATA.pasteBoard(str)
         if success then
-            CUSTOMGAME_LOCAL.FIELD[page]=F
+            FIELD[page]=F
             MES.new('check',text.importSuccess)
         else
             MES.new('error',text.dataCorrupted)

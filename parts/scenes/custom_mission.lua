@@ -5,7 +5,7 @@ local floor,sin=math.floor,math.sin
 local ins,rem=table.insert,table.remove
 
 local scene={}
-local MISSION=CUSTOMGAME_LOCAL.MISSION
+local MISSION=CUSTOMGAME_LOCAL.mission
 
 local input-- Input buffer
 local cur-- Cursor position
@@ -82,7 +82,7 @@ function scene.keyDown(key)
         end
         local success,mission=DATA.pasteMission(str)
         if success then
-            CUSTOMGAME_LOCAL.MISSION=mission
+            CUSTOMGAME_LOCAL.mission=mission
             MES.new('check',text.importSuccess)
             cur=#MISSION
         else

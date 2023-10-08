@@ -6,7 +6,7 @@ local ins,rem=table.insert,table.remove
 local gc_setColor,gc_print=GC.setColor,GC.print
 
 local scene={}
-local BAG=CUSTOMGAME_LOCAL.BAG
+local BAG=CUSTOMGAME_LOCAL.bag
 
 local cur-- Cursor position
 
@@ -90,7 +90,7 @@ function scene.keyDown(key)
         end
         local success,bag=DATA.pasteSequence(str)
         if success then
-            CUSTOMGAME_LOCAL.BAG=bag
+            CUSTOMGAME_LOCAL.bag=bag
             MES.new('check',text.importSuccess)
             cur=#BAG
         else
