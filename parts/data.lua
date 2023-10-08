@@ -328,9 +328,9 @@ do-- function DATA.saveReplay()
     local noRecList={"custom","solo","round","techmino"}
     local function _getModList()
         local res={}
-        for _,v in next,GAME.mod do
-            if v.sel>0 then
-                ins(res,{v.no,v.sel})
+        for number,sel in next,GAME.mod do
+            if sel>0 then
+                ins(res,{MODOPT[number].no,sel})
             end
         end
         return res

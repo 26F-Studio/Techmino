@@ -21,6 +21,7 @@ local sList={
     eventSet=EVENTSETS,
     holdMode={'hold','swap'},
 }
+local modUsed
 
 local scene={}
 
@@ -28,6 +29,7 @@ function scene.enter()
     destroyPlayers()
     BG.set(CUSTOMENV.bg)
     BGM.play(CUSTOMENV.bgm)
+    modUsed=usingMod()
 end
 function scene.leave()
     saveFile(CUSTOMENV,'conf/customEnv')
@@ -171,8 +173,8 @@ function scene.draw()
     gc.print(CUSTOMENV.sequence,610,250)
 
     -- Mod indicator
-    if #GAME.mod>0 then
-        gc.setColor(.42,.26,.62,.62+.26*math.sin(TIME()*12.6))
+    if modUsed then
+        setModBackgroundColor()
         gc.rectangle('fill',1110-230/2,200-90/2,230,90,5,5)
     end
 

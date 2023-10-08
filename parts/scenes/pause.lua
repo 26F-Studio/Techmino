@@ -4,6 +4,7 @@ local GC=GC
 
 local scene={}
 
+local modUsed
 local page
 local timer1,timer2-- Animation timer
 local form-- Form of clear & spins
@@ -16,6 +17,7 @@ local trophy-- Current trophy
 local trophyColor-- Current trophy color
 
 function scene.enter()
+    modUsed=usingMod()
     page=0
     if type(SCN.prev)=='string' and SCN.prev:find("setting") then
         TEXT.show(text.needRestart,640,410,50,'fly',.6)
@@ -316,7 +318,7 @@ function scene.draw()
     GC.push('transform')
     GC.translate(131,600)
     GC.scale(.65)
-    if #GAME.mod>0 then
+    if modUsed then
         GC.setLineWidth(2)
         if scoreValid() then
             GC.setColor(.7,.7,.7,timer1)
@@ -330,8 +332,8 @@ function scene.draw()
             GC.rectangle('fill',-5,-5,500,150,8)
         end
         FONT.set(35)
-        for _,M in next,MODOPT do
-            if M.sel>0 then
+        for number,M in next,MODOPT do
+            if GAME.mod[number]>0 then
                 _=M.color
                 GC.setColor(_[1],_[2],_[3],timer1)
                 GC.mStr(M.id,35+M.no%8*60,math.floor(M.no/8)*45)
