@@ -22,4 +22,18 @@ return {
             setField(P,1)
         end
     end,
+    savePrivate=function()
+        return {
+            FIELD=FIELD,
+            BAG=BAG,
+            MISSION=MISSION,
+            CUSTOMENV=CUSTOMENV,
+        }
+    end,
+    loadPrivate=function(private)
+        FIELD=private.FIELD
+        BAG=private.BAG
+        MISSION=private.MISSION
+        CUSTOMENV=private.CUSTOMENV
+    end,
 }

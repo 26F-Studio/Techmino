@@ -50,6 +50,9 @@ local function _playRep(fileName)
         DATA.pumpRecording(rep.data,GAME.rep)
 
         loadGame(rep.mode,true)
+        if rep.private and GAME.curMode.loadPrivate then
+            GAME.curMode.loadPrivate(rep.private)
+        end
         resetGameData('r')
         PLAYERS[1].username=rep.player
         PLAYERS[1]:startStreaming(GAME.rep)

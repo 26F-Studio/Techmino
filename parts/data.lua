@@ -325,7 +325,6 @@ function DATA.pumpRecording(str,L)
     end
 end
 do-- function DATA.saveReplay()
-    local noRecList={"custom","solo","round","techmino"}
     local function _getModList()
         local res={}
         for _,v in next,GAME.mod do
@@ -337,28 +336,30 @@ do-- function DATA.saveReplay()
     end
     function DATA.saveReplay()
         -- Filtering modes that cannot be saved
-        for _,v in next,noRecList do
-            if GAME.curModeName:find(v) then
-                MES.new('error',"Cannot save recording of this mode now!")
-                return
-            end
+        if #PLAYERS~=1 then
+            MES.new('error',"Cannot save recording of more than 1 player now!")
+            return
         end
 
         -- Write file
         local fileName=os.date("replay/%Y_%m_%d_%H%M%S.rep")
         if not love.filesystem.getInfo(fileName) then
+            local metadata={
+                date=os.date("%Y/%m/%d %H:%M:%S"),
+                mode=GAME.curModeName,
+                version=VERSION.string,
+                player=USERS.getUsername(USER.uid),
+                seed=GAME.seed,
+                setting=GAME.setting,
+                mod=_getModList(),
+                tasUsed=GAME.tasUsed,
+            }
+            if GAME.curMode.savePrivate then
+                metadata.private=GAME.curMode.savePrivate()
+            end
             love.filesystem.write(fileName,
                 love.data.compress('string','zlib',
-                    JSON.encode{
-                        date=os.date("%Y/%m/%d %H:%M:%S"),
-                        mode=GAME.curModeName,
-                        version=VERSION.string,
-                        player=USERS.getUsername(USER.uid),
-                        seed=GAME.seed,
-                        setting=GAME.setting,
-                        mod=_getModList(),
-                        tasUsed=GAME.tasUsed,
-                    }.."\n"..
+                    JSON.encode(metadata).."\n"..
                     DATA.dumpRecording(GAME.rep)
                 )
             )
@@ -413,6 +414,9 @@ function DATA.parseReplayData(fileName,fileData,ifFull)
         tasUsed=metaData.tasUsed,
     }
     if ifFull then rep.data=fileData end
+    if metaData.private then
+        rep.private=metaData.private
+    end
     return rep
 end
 return DATA
