@@ -88,10 +88,9 @@ Bạn muốn đóng góp vào bản dịch? Bạn có thể vào trang dự án 
         11B. Digging (Đào xuống)
 
 12. Setup (Opener, Mid-game setup, Donation, Pattern)
-        12A. Freestyle
-        12B. Opener: DT Cannon, DTPC, BT Cannon, BTPC, TKI 3 Perfect Clear, QT Cannon, Mini-Triple, Trinity, Wolfmoon Cannon, Sewer, TKI, God Spin, Albatross, Pelican, Perrfect Clear Opener, Grace System, DPC, Gamushiro Stacking
-        12C. Mid-game: C-spin, STSD, Fractal, LST stacking, Imperial Cross, King Crimson, PC liên tiếp (1+2+3)
-        12D. Donation: Hamburger, STMB Cave, Kaidan, Shachiku Train, Cut Copy
+        12A. Opener: DT Cannon, DTPC, BT Cannon, BTPC, TKI 3 Perfect Clear, QT Cannon, Mini-Triple, Trinity, Wolfmoon Cannon, Sewer, TKI, God Spin, Albatross, Pelican, Perrfect Clear Opener, Grace System, DPC, Gamushiro Stacking
+        12B. Mid-game: C-spin, STSD, Fractal, LST stacking, Imperial Cross, King Crimson, PC liên tiếp (1+2+3)
+        12C. Donation: Hamburger, STMB Cave, Kaidan, Shachiku Train, Cut Copy
 
 13. Cách tính lượng sát thơng gây ra: Tetris Online / Notris Foes, Techmino
 
@@ -866,7 +865,7 @@ Trong hầu hết các game, tấn công và phòng thủ là tương đương n
     {"Freestyle",
         "nhom05i",
         "term",
-        "Thuật ngữ hay được sử dụng trong thử thách 20TSD. Freestyle là kiểu chơi không dùng setup nào để hoàn thành một số lượng TSD nhất định nào đó.\n\nFreestyle khó hơn nhiều so với việc sử dụng phương pháp nào đó như LST, và màn chạy có thể đại diện cho các kỹ năng T-spin của người chơi trong các trận đấu trong thế giới thực.",
+        "Thuật ngữ hay được nhắc nhiều trong thử thách 20TSD. Freestyle là kiểu chơi không dùng setup nào để hoàn thành một số lượng TSD nhất định nào đó.\n\nFreestyle khó hơn nhiều so với việc sử dụng setup nào đó như LST\nNhững màn chạy dùng Freestyle có thể phản ánh cho các kỹ năng T-spin của người chơi trong các trận đấu trong thế giới thực.",
     },
 
     {">J|K.th. xóa hàng",
@@ -1186,7 +1185,7 @@ Một game với phong cách chơi máy thùng, có khả năng mô phỏng nhi�
         [[
 Windows | Chơi đơn
 
-Một game bao gồm tất cả chế độ trong TGM để có thể sử dụng để luyện chơi TGM. Lưu ý rằng World Rule trong Texmaster hơi khác một chút so với TGM, ví dụ như Thả nhẹ-khóa tức thì* và bảng kick cũng có chút khác biệt
+Một game bao gồm tất cả chế độ trong TGM để có thể sử dụng để luyện chơi TGM. Lưu ý rằng World Rule trong Texmaster hơi khác một chút so với TGM, ví dụ như game sử dụng cơ chế "Thả nhẹ-khóa tức thì"* thay vì sử dụng cơ chế "Thả nhẹ" thông thường và bảng kick cũng có đôi chút khác biệt
 
 (*): Bản Zictionary tiếng Anh ghi là "instant-lock soft drop(s)".
 Có thể hiểu là bạn giữ nút Thả nhẹ, gạch vừa chạm đất là chốt vị trí đó luôn - giống với các game xếp gạch cổ điển ấy!
@@ -1283,7 +1282,7 @@ Windows | Chơi đơn
 
 Một game Tetris do fan làm. Game này là một bản chỉnh sửa của Nullpomino với các yếu tố được thêm vào từ Touhou Project.
 
-Chế độ Marathon có chứa "Spell Cards" của Touhou Project (thêm hiệu ứng đặc biệt để quấy phá màn chơi), chỉ có thể phá bằng cách đạt số điểm được yêu cầu trong thời gian có hạn.
+Chế độ Marathon có chứa "Spell Cards" của Touhou Project (thêm hiệu ứng đặc biệt để quấy phá màn chơi), chỉ có thể phá bằng cách đạt được số điểm  yêu cầu trong thời gian có hạn.
 
 [MrZ: Chỉ nên chơi nếu bạn đã có kỹ năng ở mức nào đó*, nếu không, bạn thậm chí không biết mình đã chết như thế nào.]
 
@@ -1296,7 +1295,7 @@ Chế độ Marathon có chứa "Spell Cards" của Touhou Project (thêm hiệu
         [[
 iOS / Android | Chơi đơn
 
-Một game xếp gạch được làm bởi Electronic Arts (EA). Có cơ chế trọng lực, và mỗi ván game chỉ kéo dài trong vòng 2 phút. Trước khi bắt đầu, ở mỗi ván game, chiếc bảng sẽ được làm đầy một số lượng gạch ngẫu nhiên. Game có chế độ "Frenzy" có thể kích hoạt bằng cách liên tục xóa hàng; cùng với rất nhiều loại power-up khác nhau, có cả Finisher giúp cho màn chơi kết thúc của bạn thêm đẹp mắt và buff mạnh số điểm của bạn lên. Game không có cơ chế top-out mà thay vào đó game sẽ tự động xóa các hàng trên cùng nếu có gạch chồng lên gạch đã đặt.
+Một game xếp gạch được làm bởi Electronic Arts (EA). Có cơ chế trọng lực, và mỗi ván game chỉ kéo dài trong vòng 2 phút. Game sẽ tạo một cái giếng cao khoảng 10 hàng ở đầu game (và ngay sau khi bạn làm được Perfect Clear). Game có chế độ "Frenzy" có thể kích hoạt bằng cách liên tục xóa hàng; cùng với rất nhiều loại power-up khác nhau, có cả Finisher giúp cho màn chơi kết thúc của bạn thêm đẹp mắt và buff mạnh số điểm của bạn lên. Game không có cơ chế top-out mà thay vào đó game sẽ tự động xóa các hàng trên cùng nếu có gạch chồng lên gạch đã đặt.
 
 Game đã nghỉ hưu từ T04 / 2020
         ]],
@@ -1402,7 +1401,7 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
     {"Secret Grade",
         "nhom07 larger than > <",
         "term",
-        "Một chế độ dạng easter egg trong series TGM.\n\nỞ lối chơi \"secret grade\", người chơi sẽ làm một đường dích dắc (zigzag) (trông giống như \">\" hay \"<\") bằng cách tạo ra 1 ô trống duy nhất cho từng hàng. Mục tiêu cuối cùng là hoàn thành đường dích dắc cao (hơn) 19 hàng.\n\nNhấn vào nút \"Mở link\" để xem các kỹ thuật dùng để đạt được Secret Grade.",
+        "Một easter egg trong series TGM.\n\nĐể có được \"secret grade\", người chơi sẽ làm một đường dích dắc (zigzag) (trông giống như \">\" hay \"<\") bằng cách tạo ra 1 ô trống duy nhất cho từng hàng. Mục tiêu cuối cùng là hoàn thành đường dích dắc cao (hơn) 19 hàng.\n\nNhấn vào nút \"Mở link\" để xem các kỹ thuật dùng để đạt được Secret Grade.",
         "https://harddrop.com/wiki?search=Secret_Grade_Techniques",
     },
     {"Deepdrop (Rơi sâu)",
