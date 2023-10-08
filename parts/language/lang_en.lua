@@ -43,6 +43,7 @@ return {
     infHeightOn="Infinite Height ON",
     infHeightOff="Infinite Height OFF",
     infHeightHint="Toggle with Function 1 key",
+    highest="(highest: $1)",
 
     speedLV="Speed Level",
     piece="Piece",line="Lines",atk="Attack",eff="Efficiency",
@@ -54,7 +55,7 @@ return {
 
     win="Win!",
     lose="Lose",
-
+    torikan="Ended",
     finish="Finished",
     gamewin="You Won",
     gameover="Game Over",
@@ -867,7 +868,9 @@ C. Gamepad
         ['sprintPenta']=         {"Sprint",            "PENTOMINO",      "40L with the 18 pentominoes"},
         ['sprintMPH']=           {"Sprint",            "MPH",            "Memoryless\nPreviewless\nHoldless"},
         ['sprint123']=           {"Sprint",            "M123",           "40L with only monominoes, dominoes, and triminoes"},
-        ['secret_grade']=        {"Secret Grade",      "",               "Building a zigzag shape by following the guide!"},
+        ['construct_sg']=        {"Construct",         "SECRET GRADE",   "Build a zigzag pattern by following the guide!"},
+        ['construct_checker']=   {"Construct",         "CHECKERBOARD",   "Build a checkerboard pattern!"},
+        ['construct_invsg']=     {"Construct",         "INV. SG",        "Build an inverted zigzag pattern!"},
         ['dig_10l']=             {"Dig",               "10L",            "Dig 10 garbage lines as fast as you can!"},
         ['dig_40l']=             {"Dig",               "40L",            "Dig 40 garbage lines as fast as you can!"},
         ['dig_100l']=            {"Dig",               "100L",           "Dig 100 garbage lines as fast as you can!"},

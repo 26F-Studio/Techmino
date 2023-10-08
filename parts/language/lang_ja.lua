@@ -44,6 +44,7 @@ return {
     infHeightOn="高度無限!",
     infHeightOff="高度制限あり",
     infHeightHint="“ファンクション 1”キー",
+    -- highestGrade="(highest: $1)",
 
     speedLV="レベル",
     piece="ミノ数",line="line数",atk="火力",eff="効率",
@@ -55,7 +56,7 @@ return {
 
     win="Win!",
     lose="Lose",
-
+    torikan="Ended",
     finish="Finished!",
     gamewin="You Win!",
     gameover="Game Over",
@@ -872,7 +873,9 @@ C. ゲームパッド
         ['sprintPenta']=    {"スプリント",            "PENTOMINO",     "ペントミノで40line"},
         ['sprintMPH']=      {"スプリント",            "MPH",           "ミノ順なし\nネクストなし\nホールドなし!"},
         ['sprint123']=      {"スプリント",            "M123",          "モノミノ、ドミノ、トリミノで40line"},
-        ['secret_grade']=   {"裏GM",                 "",              "ガイドに従ってジグザグに穴を作れ!"},
+        ['construct_sg']=   {"コンストラクト",        "裏GM",              "ガイドに従ってジグザグに穴を作れ!"},
+        -- ['construct_checker']=   {"Construct",         "CHECKERBOARD",   "Build a checkerboard pattern!"},
+        -- ['construct_invsg']=     {"Construct",         "INV. SG",        "Build an inverted zigzag pattern!"},
         ['dig_10l']=        {"掘り",                 "10L",           "10line下穴を掘れ!"},
         ['dig_40l']=        {"掘り",                 "40L",           "40line下穴を掘れ!"},
         ['dig_100l']=       {"掘り",                 "100L",          "100line下穴を掘れ!"},

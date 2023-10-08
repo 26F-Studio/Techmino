@@ -2225,6 +2225,18 @@ local function task_finish(self)
         end
     end
 end
+local function task_fade(self)
+    while true do
+        yield()
+        self.endCounter=self.endCounter+1
+        if self.endCounter<40 then
+            -- Make field invisible
+            for j=1,#self.field do for i=1,10 do
+                self.visTime[j][i]=math.max(3,self.visTime[j][i]-.5)
+            end end
+        elseif self.endCounter==60 then return end
+    end
+end
 local function task_lose(self)
     while true do
         yield()
@@ -2840,6 +2852,26 @@ function Player:revive()
     playClearSFX(3)
     SFX.play('emit')
 end
+function Player:torikanEnd(requiredTime)
+    if self.stat.time < requiredTime then
+        return false
+    end
+    self:_die()
+    self.result='torikan'
+    if self.type=='human' then
+        GAME.result='torikan'
+        SFX.play('win')
+        VOC.play('win')
+    end
+    self:_showText(text.torikan,0,0,90,'beat',.5,.2)
+    self.stat.torikanReq=requiredTime
+    if self.type=='human' then
+        gameOver()
+        TASK.new(task_autoPause)
+    end
+    self:newTask(task_fade)
+    return true
+end
 function Player:win(result)
     if self.result then
         return
@@ -2976,6 +3008,6 @@ function Player:lose(force)
         -- ::BREAK_notFinished::
     end
 end
---------------------------<\Event>--------------------------
+--------------------------</Event>--------------------------
 
 return Player

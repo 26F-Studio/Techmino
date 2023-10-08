@@ -48,6 +48,7 @@ return {
     infHeightOn="Bảng cao vô tận: BẬT",
     infHeightOff="Bảng cao vô tận: TẮT",
     infHeightHint="Nhấn phím Chức năng 1 để bật/tắt",
+    highestGrade="(highest: $1)",
 
     speedLV="Tốc độ rơi",
     piece="Gạch",line="Hàng",atk="Attack",eff="Efficiency",
@@ -59,7 +60,7 @@ return {
 
     win="Thắng!",
     lose="Thua",
-
+    torikan="Torikan!",
     finish="Hoàn thành",
     gamewin="Bạn đã thắng",
     gameover="Kết thúc",
@@ -894,7 +895,9 @@ C. Tay cầm chơi game (Gamepad):
         ['sprintPenta']=         {"Sprint",            "PENTOMINO",      "Xoá 40 hàng với 18 pentomino"},
         ['sprintMPH']=           {"Sprint",            "MPH",            "Memoryless\nPreviewless\nHoldless"},
         ['sprint123']=           {"Sprint",            "M123",           "Xoá 40 hàng chỉ với monomino, domino, và trimino"},
-        ['secret_grade']=        {"Secret Grade",      "",               "Xây một đường lỗ theo hình dích dắc!"},
+        ['construct_sg']=        {"Construct",         "SECRET GRADE",   "Xây một đường lỗ theo hình dích dắc!"},
+        -- ['construct_checker']=   {"Construct",         "CHECKERBOARD",   "Build a checkerboard pattern!"},
+        -- ['construct_invsg']=     {"Construct",         "INV. SG",        "Build an inverted zigzag pattern!"},
         ['dig_10l']=             {"Dig",               "10L",            "Đào 10 hàng rác càng nhanh càng tốt"},
         ['dig_40l']=             {"Dig",               "40L",            "Đào 40 hàng rác càng nhanh càng tốt!"},
         ['dig_100l']=            {"Dig",               "100L",           "Đào 100 hàng rác càng nhanh càng tốt!"},

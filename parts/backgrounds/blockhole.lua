@@ -19,9 +19,9 @@ function back.update()
     t=t-1
     if t==0 then
         local S={
-            ang=6.2832*rnd(),
+            ang=MATH.tau*rnd(),
             d=SCR.rad*1.05/2,
-            rotate=6.2832*rnd(),
+            rotate=MATH.tau*rnd(),
             va=.05-rnd()*.1,
             size=SCR.rad*(2+rnd()*3)/100,
             texture=SKIN.lib[SETTING.skinSet][rnd(16)],

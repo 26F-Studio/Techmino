@@ -41,10 +41,11 @@ return {
     infHeightOn="∞↑ "..CHAR.icon.checkMark,
     infHeightOff="∞↑ "..CHAR.icon.crossMark,
     infHeightHint=CHAR.icon.checkMark.."/"..CHAR.icon.crossMark..": F₁",
+    highestGrade="(↑: $1)",
 
     win=": )",
     lose=": (",
-
+    torikan=": /",
     finish="&",
     gamewin=">>",
     gameover="x",

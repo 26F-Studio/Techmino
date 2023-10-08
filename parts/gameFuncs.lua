@@ -198,7 +198,7 @@ local function getSmallNum(num)
 end
 do -- Secret Grade
     local r={"GM","GM+","TM","TM+"}
-    function getSecretGrade(index)
+    function getConstructGrade(index)
         if index<11 then -- rank 10 - 1
             return tostring(11-index)
         elseif index<20 then -- S1 - S9 ranks
@@ -210,11 +210,11 @@ do -- Secret Grade
         end
     end
 end
-function getSecretGradeText(index)
+function getConstructGradeText(index)
     if index<11 then
         return "Grade "..tostring(11-index)
     else
-        return getSecretGrade(index)
+        return getConstructGrade(index)
     end
 end
 

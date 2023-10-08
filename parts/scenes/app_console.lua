@@ -853,7 +853,7 @@ local commands={} do
                 saveSettings()
                 log("Allow TAS: "..bool)
                 if bool then
-                    log("Hot keys: f1=play/pause f2=slow down f3=speed up/next frame")
+                    log("Hot keys: f1=play/pause f2=slow down f3=speed up/next frame f4=adjust skip settings")
                 end
             else
                 log{C.A,"Usage: tas <on|off>"}
