@@ -226,6 +226,25 @@ function DATA.pasteQuestArgs(str)
     return true
 end
 
+local function _encode(t)
+    if t<128 then return char(t) end
+    local buffer2=char(t%128)
+    t=floor(t/128)
+    while t>=128 do
+        buffer2=char(128+t%128)..buffer2
+        t=floor(t/128)
+    end
+    return char(128+t)..buffer2
+end
+local function _decode(str,p)
+    local ret=0
+    repeat
+        local b=byte(str,p)
+        p=p+1
+        ret=ret*128+(b<128 and b or b-128)
+    until b<128
+    return ret,p
+end
 --[[
     Replay file:
     a zlib-compressed json table
@@ -253,16 +272,6 @@ function DATA.dumpRecording(list,ptr)
     local buffer=""
     if not ptr then ptr=1 end
     local prevFrm=list[ptr-2] or 0
-    local function encode(t)
-        if t<128 then return char(t) end
-        local buffer2=char(t%128)
-        t=floor(t/128)
-        while t>=128 do
-            buffer2=char(128+t%128)..buffer2
-            t=floor(t/128)
-        end
-        return char(128+t)..buffer2
-    end
     while list[ptr] do
         -- Flush buffer
         if #buffer>10 then
@@ -273,10 +282,10 @@ function DATA.dumpRecording(list,ptr)
         -- Encode time
         local t=list[ptr]-prevFrm
         prevFrm=list[ptr]
-        buffer=buffer..encode(t)
+        buffer=buffer.._encode(t)
 
         -- Encode event
-        buffer=buffer..encode(list[ptr+1])
+        buffer=buffer.._encode(list[ptr+1])
 
         -- Step
         ptr=ptr+2
@@ -288,21 +297,15 @@ function DATA.pumpRecording(str,L)
     local p=1
 
     local curFrm=L[#L-1] or 0
-    local function decode()
-        local ret=0
-        repeat
-            local b=byte(str,p)
-            p=p+1
-            ret=ret*128+(b<128 and b or b-128)
-        until b<128
-        return ret
-    end
     while p<=len do
+        local code,event
         -- Read delta time
-        curFrm=curFrm+decode()
+        code,p=_decode(str,p)
+        curFrm=curFrm+code
         ins(L,curFrm)
 
-        ins(L,decode())
+        event,p=_decode(str,p)
+        ins(L,event)
     end
 end
 do-- function DATA.saveReplay()
