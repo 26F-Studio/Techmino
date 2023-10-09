@@ -328,23 +328,20 @@ do
                 [13]={'+0+0','+0+1','-1+0'},
                 [31]={'+0+0','+0-1','+1+0'},
             },-- W
-            function(P,d)
-                if P.type=='human' then
-                    SFX.play('rotate',nil,P:getCenterX()*.15)
-                end
-                local kickData=XspinList[d]
-                for test=1,#kickData do
-                    local x,y=P.curX+kickData[test][1],P.curY+kickData[test][2]
-                    if not P:ifoverlap(P.cur.bk,x,y) then
-                        P.curX,P.curY=x,y
-                        P.spinLast=1
-                        P:freshBlock('move')
-                        P.stat.rotate=P.stat.rotate+1
-                        return
-                    end
-                end
-                P:freshBlock('fresh')
-            end,-- X
+            {
+                [01]=XspinList[1],
+                [12]=XspinList[1],
+                [23]=XspinList[1],
+                [30]=XspinList[1],
+                [02]=XspinList[2],
+                [13]=XspinList[2],
+                [20]=XspinList[2],
+                [31]=XspinList[2],
+                [03]=XspinList[3],
+                [10]=XspinList[3],
+                [21]=XspinList[3],
+                [32]=XspinList[3],
+            },-- X
             {
                 [01]={'+0+0','-1+0','-1+1','+0-3','-1+1','-1+2','+0+1'},
                 [10]={'+0+0','-1+0','+1-1','+0+3','+1-1','+1-2','+0+1'},
