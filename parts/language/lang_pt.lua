@@ -450,7 +450,7 @@ return {
             -- capacity="Capacity",
             -- create="Create",
 
-            ospin="O-Spin",
+            ospin="TRS O-spin",
             fineKill="100% Finesse",
             b2bKill="Sem Quebrar B2B",
             -- lockout="Fail when lock out",
@@ -458,7 +458,7 @@ return {
             -- deepDrop="Deep Drop",
             bone="Bone Blocks",
 
-            -- eventSet="Rule Set",
+            -- eventSet="Ruleset",
 
             -- holdMode="Hold Mode",
             nextCount="Prox.",
@@ -650,7 +650,7 @@ return {
             sequence="Editar Sequência (S)",
             mission="Editar Missão (M)",
 
-            -- eventSet="Rule Set",
+            -- eventSet="Ruleset",
 
             -- holdMode="Hold Mode",
             nextCount="Prox.",
@@ -668,7 +668,7 @@ return {
 
             -- bufferLimit="Buffer Limit",
             -- heightLimit="Height Limit",
-            ospin="O-Spin",
+            ospin="TRS O-spin",
             fineKill="100% Finesse",
             b2bKill="Sem Quebrar B2B",
             -- lockout="Fail when lock out",

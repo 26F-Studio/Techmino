@@ -505,7 +505,7 @@ C. ゲームパッド
             capacity="試合人数",
             create="作成",
 
-            ospin="O-spin",
+            ospin="Oスピン",
             fineKill="最適化のみ",
             b2bKill="B2B継続",
             lockout="盤面外設置禁止",

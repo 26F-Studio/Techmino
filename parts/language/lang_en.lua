@@ -500,7 +500,7 @@ C. Gamepad
             capacity="Capacity",
             create="Create",
 
-            ospin="O-spin",
+            ospin="TRS O-spin",
             fineKill="100% Finesse",
             b2bKill="No B2B Breaks",
             lockout="Fail on Lock Out",
@@ -508,7 +508,7 @@ C. Gamepad
             deepDrop="Deep Drop",
             bone="Bone Blocks",
 
-            eventSet="Rule Set",
+            eventSet="Ruleset",
 
             holdMode="Hold Mode",
             nextCount="Next",
@@ -700,7 +700,7 @@ C. Gamepad
             sequence="Edit Sequences (S)",
             mission="Edit Missions (M)",
 
-            eventSet="Rule Set",
+            eventSet="Ruleset",
 
             holdMode="Hold Mode",
             nextCount="Next",
@@ -718,7 +718,7 @@ C. Gamepad
 
             bufferLimit="Buffer Limit",
             heightLimit="Height Limit",
-            ospin="O-Spin",
+            ospin="TRS O-Spin",
             fineKill="100% Finesse",
             b2bKill="No B2B Breaks",
             lockout="Fail on Lock Out",

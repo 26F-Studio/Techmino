@@ -462,7 +462,7 @@ return {
             capacity="Kapasitas",
             create="Buat",
 
-            ospin="O-spin",
+            ospin="TRS O-spin",
             fineKill="100% Efisiensi Tombol",
             b2bKill="Akhirkan Permainan Jika Tidak B2B",
             lockout="Akhirkan Permainan Jika Lock Out",
@@ -680,7 +680,7 @@ return {
 
             bufferLimit="Batas Serangan",
             heightLimit="Batas Tinggi",
-            ospin="O-Spin",
+            ospin="TRS O-spin",
             fineKill="Maksimum Efisiensi Tombol",
             b2bKill="Akhirkan Permainan Jika Tidak B2B",
             lockout="Akhirkan Permainan Jika Lock Out",

@@ -461,7 +461,7 @@ return {
             capacity="Capacidad",
             create="Crear",
 
-            ospin="O-Spin",
+            ospin="TRS O-Spin",
             fineKill="100% Finesse",
             b2bKill="No Romper B2B ",
             lockout="Derrota al ocurrir Lock Out",
@@ -678,7 +678,7 @@ return {
 
             bufferLimit="Búfer Límite",
             heightLimit="Altura Límite",
-            ospin="O-Spin",
+            ospin="TRS O-Spin",
             fineKill="100% Finesse",
             b2bKill="No Romper B2B ",
             lockout="Derrota al ocurrir Lock Out",

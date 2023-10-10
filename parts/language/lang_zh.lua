@@ -491,7 +491,7 @@ return {
             capacity="房间容量",
             create="创建",
 
-            ospin="O-spin",
+            ospin="TRS O-spin",
             fineKill="强制极简",
             b2bKill="强制B2B",
             lockout="锁定在外时失败",
@@ -708,7 +708,7 @@ return {
 
             bufferLimit="缓冲上限",
             heightLimit="高度上限",
-            ospin="O-spin",
+            ospin="TRS O-spin",
             fineKill="强制极简",
             b2bKill="强制B2B",
             lockout="锁定在外时失败",

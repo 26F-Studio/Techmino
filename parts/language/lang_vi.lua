@@ -507,7 +507,7 @@ C. Tay cầm chơi game (Gamepad):
             capacity="Giới hạn số người",
             create="Tạo phòng",
 
-            ospin="O-spin",
+            ospin="TRS O-spin",
             fineKill="100% Finesse",
             b2bKill="Không phá B2B",
             lockout="Thua khi Lock Out",
@@ -515,7 +515,7 @@ C. Tay cầm chơi game (Gamepad):
             deepDrop="Thả rơi sâu",
             bone="Dùng skin []",
 
-            eventSet="Rule Set",
+            eventSet="Ruleset",
 
             holdMode="Chế độ Hold",
             nextCount="Next",
@@ -727,7 +727,7 @@ C. Tay cầm chơi game (Gamepad):
             sequence="C. đặt Trình xáo gạch (S)",
             mission="Cài đặt Nhiệm vụ (M)",
 
-            eventSet="Rule Set",
+            eventSet="Ruleset",
 
             holdMode="Chế độ Hold",
             nextCount="Next",
@@ -745,7 +745,7 @@ C. Tay cầm chơi game (Gamepad):
 
             bufferLimit="Giới hạn nhận rác",
             heightLimit="Giới hạn độ cao",
-            ospin="O-Spin",
+            ospin="TRS O-spin",
             fineKill="100% Finesse",
             b2bKill="Không phá B2B",
             lockout="Thua khi Lock Out",

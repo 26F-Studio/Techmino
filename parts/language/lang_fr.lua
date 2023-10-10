@@ -436,7 +436,7 @@ return {
             -- capacity="Capacity",
             create="Créer",
 
-            ospin="O-spin",
+            ospin="TRS O-spin",
             fineKill="100% Finesse",
             b2bKill="Sans perte de B2B",
             -- lockout="Fail when lock out",
@@ -444,7 +444,7 @@ return {
             -- deepDrop="Deep Drop",
             bone="Crochets",
 
-            -- eventSet="Rule Set",
+            -- eventSet="Ruleset",
 
             -- holdMode="Hold Mode",
             nextCount="Prévisualisations de pièces",
@@ -657,7 +657,7 @@ return {
 
             -- bufferLimit="Buffer Limit",
             -- heightLimit="Height Limit",
-            ospin="O-spin",
+            ospin="TRS O-spin",
             fineKill="100% Finesse",
             b2bKill="Sans perte de B2B",
             -- lockout="Fail when lock out",
