@@ -235,7 +235,7 @@ return {
         "ミノ数:",
         "line数/掘line:",
         "火力数/掘火力:",
-        "受けたline数:",
+        "受けたline数:",-- "Rise(Receive-Offset):",
         "line消去数:",
         "スピン:",
         "B2B/B3B/PC/HPC:",
