@@ -226,6 +226,25 @@ function DATA.pasteQuestArgs(str)
     return true
 end
 
+local function _encode(t)
+    if t<128 then return char(t) end
+    local buffer2=char(t%128)
+    t=floor(t/128)
+    while t>=128 do
+        buffer2=char(128+t%128)..buffer2
+        t=floor(t/128)
+    end
+    return char(128+t)..buffer2
+end
+local function _decode(str,p)
+    local ret=0
+    repeat
+        local b=byte(str,p)
+        p=p+1
+        ret=ret*128+(b<128 and b or b-128)
+    until b<128
+    return ret,p
+end
 --[[
     Replay file:
     a zlib-compressed json table
@@ -250,7 +269,7 @@ end
 ]]
 function DATA.dumpRecording(list,ptr)
     local out=""
-    local buffer,buffer2=""
+    local buffer=""
     if not ptr then ptr=1 end
     local prevFrm=list[ptr-2] or 0
     while list[ptr] do
@@ -263,31 +282,10 @@ function DATA.dumpRecording(list,ptr)
         -- Encode time
         local t=list[ptr]-prevFrm
         prevFrm=list[ptr]
-        if t>=128 then
-            buffer2=char(t%128)
-            t=floor(t/128)
-            while t>=128 do
-                buffer2=char(128+t%128)..buffer2
-                t=floor(t/128)
-            end
-            buffer=buffer..char(128+t)..buffer2
-        else
-            buffer=buffer..char(t)
-        end
+        buffer=buffer.._encode(t)
 
         -- Encode event
-        t=list[ptr+1]
-        if t>=128 then
-            buffer2=char(t%128)
-            t=floor(t/128)
-            while t>=128 do
-                buffer2=char(128+t%128)..buffer2
-                t=floor(t/128)
-            end
-            buffer=buffer..char(128+t)..buffer2
-        else
-            buffer=buffer..char(t)
-        end
+        buffer=buffer.._encode(list[ptr+1])
 
         -- Step
         ptr=ptr+2
@@ -299,29 +297,15 @@ function DATA.pumpRecording(str,L)
     local p=1
 
     local curFrm=L[#L-1] or 0
-    local code
     while p<=len do
+        local code,event
         -- Read delta time
-        code=0
-        local b=byte(str,p)
-        while b>=128 do
-            code=code*128+b-128
-            p=p+1
-            b=byte(str,p)
-        end
-        curFrm=curFrm+code*128+b
-        L[#L+1]=curFrm
-        p=p+1
+        code,p=_decode(str,p)
+        curFrm=curFrm+code
+        ins(L,curFrm)
 
-        local event=0
-        b=byte(str,p)
-        while b>=128 do
-            event=event*128+b-128
-            p=p+1
-            b=byte(str,p)
-        end
-        L[#L+1]=event*128+b
-        p=p+1
+        event,p=_decode(str,p)
+        ins(L,event)
     end
 end
 do-- function DATA.saveReplay()
