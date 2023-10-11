@@ -1,7 +1,7 @@
 -- local regretDelay=-1
 -- local int_grade=0
 -- local grade_points=0
-local _igb={0,1,2,3,4,5,5,6,6,7,7,7,8,8,8,9,9,9,10,11,12,12,12,13,13,14,14,15,15,16,16,17,17,18,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26}
+local _igb={0,1,2,3,3,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9,9,9,10,10,11,11,12,12,12,13,13,14,14,15,15,16,16,17,17,18,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26}
 local function getInternalGradeBoosts(internal_grade)
     return _igb[MATH.clamp(internal_grade+1,1,#_igb)]
 end
@@ -18,31 +18,32 @@ local fault_time=    {7200,5400,5400,4500,4080,4080,3600,3600,3600,3600}
 local function getGrav(l)
     return
         l<30  and 64   or
-        l<35  and 43   or
-        l<40  and 32   or
-        l<50  and 26   or
-        l<60  and 21   or
-        l<70  and 16   or
-        l<80  and 8    or
-        l<90  and 6    or
-        l<120 and 4    or
-        l<160 and 3    or
-        l<200 and 2    or
-        l<220 and 64   or
-        l<230 and 8    or
-        l<233 and 4    or
-        l<236 and 3    or
-        l<243 and 2    or
-        l<300 and 1    or
-        l<360 and 0.5  or
-        l<450 and 0.25 or
+        l<40  and 43   or
+        l<50  and 32   or
+        l<60  and 26   or
+        l<70  and 21   or
+        l<80  and 16   or
+        l<90  and 8    or
+        l<120 and 6    or
+        l<160 and 4    or
+        l<200 and 3    or
+        l<240 and 2    or
+        l<260 and 64   or
+        l<270 and 8    or
+        l<290 and 4    or
+        l<320 and 3    or
+        l<370 and 2    or
+        l<430 and 1    or
+        l<510 and 0.5  or
+        l<600 and 0.25 or
         0
 end
 local function getLock(l)
     return
         l<900  and 30 or
         l<1100 and 17 or
-        15
+        l<1400 and 15 or
+        12
 end
 local function getCurrentGrade(D)
     if not D.int_grade then D.int_grade=0 end
@@ -81,9 +82,9 @@ local function addGrade(D,row,cmb,chk,lvl) -- IGS = internal grade system
     end
 end
 local function getRollGoal(D,isGreenLine)
-    local invis=D.cools>8
-    -- get amount of grades needed for TM+
-    local rem=40-getCurrentGrade(D)-(
+    local invis=D.cools>13
+    -- get amount of grades needed for TGM+
+    local rem=46-getCurrentGrade(D)-(
         -- adjust for clear bonus
         isGreenLine and 0 or
         invis and 1.6 or .5
@@ -202,7 +203,7 @@ return {
 
         local c=#P.clearedRow
 
-        if D.cools>8 and D.isInRoll then -- invis roll grades
+        if D.cools>13 and D.isInRoll then -- invis roll grades
             D.rollGrades=D.rollGrades+(c==4 and 1 or 0.1*c)
             return
         elseif D.isInRoll then -- fading roll grades
@@ -243,7 +244,7 @@ return {
                 D.awesomeList[getCurSection(D)]=true
                 D.coolList[getCurSection(D)]=true
                 P:_showText("AWESOME!!",0,-120,80,'fly',.8)
-                D.nextSpeedUp=true
+                D.nextSpeedUpper=true
             elseif P.stat.frame-D.prevSectTime<cool_time[math.ceil(D.pt/100)] then
                 D.cools=D.cools+1
                 D.coolList[getCurSection(D)]=true
@@ -256,8 +257,9 @@ return {
         if D.pt+1==D.target then
             SFX.play('warn_1')
         elseif D.pt>=D.target then-- Level up!
-            D.speed_level=D.nextSpeedUp and D.speed_level+100 or D.speed_level
+            D.speed_level=D.nextSpeedUpper and D.speed_level+150 or D.nextSpeedUp and D.speed_level+100 or D.speed_level
             D.nextSpeedUp=false
+            D.nextSpeedUpper=false
             D.prevDrop70=false
             s=D.target/100
             local E=P.gameEnv
@@ -289,7 +291,7 @@ return {
             elseif s==6 then
                 BG.set('lightning')
             elseif s>9 then
-                if D.cools>8 then
+                if D.cools>13 then
                     if E.lockFX and E.lockFX>1 then E.lockFX=1 end
                     P:setInvisible(5)
                 else
@@ -323,8 +325,9 @@ return {
         D.isFault=false
         D.prevDrop70=false
         D.nextSpeedUp=false
+        D.nextSpeedUpper=false
         D.awesomeList,D.coolList,D.regretList,D.faultList=TABLE.new(false,9),TABLE.new(false,9),TABLE.new(false,10),TABLE.new(false,10)
-        local decayRate={125,80,80,50,45,45,45,40,40,40,40,40,30,30,30,20,20,20,20,20,15,15,15,15,15,15,15,15,15,15,10,10,10,9,9,9,8,8,8,7,7,7,6}
+        local decayRate={125,80,80,50,50,50,45,45,45,45,40,40,40,40,40,30,30,30,30,30,20,20,20,20,20,15,15,15,15,15,15,15,15,15,15,10,10,10,10,9,9,9,8,8,8,7,7,7,6}
         local decayTimer=0
 
         while true do
@@ -378,7 +381,7 @@ return {
                     D.grade_points=D.grade_points-1
                 end
             elseif D.isInRoll and P.stat.frame>=D.prevSectTime+3599 then
-                D.rollGrades=D.rollGrades+(D.cools>8 and 1.6 or 0.5)
+                D.rollGrades=D.rollGrades+(D.cools>13 and 1.6 or 0.5)
                 D.gradePts=getCurrentGrade(D)
                 P:win('finish')
             end

@@ -254,36 +254,37 @@ do -- Master GRADED
 end
 
 do -- Master GRADED MODERN
-    local modern_postm_grades={"M","MK","MV","MO","MM-","MM","MM+","GM-","GM","GM+","TM-","TM","TM+"}
+    local modern_postm_grades={"M","MK","MV","MO","MM-","MM","MM+","GM-","GM","GM+","TM-","TM","TM+","TGM-","TGM","TGM+"}
     function getMasterGradeModern(index)
-        if index<10 then
-            return tostring(10-index)
-        elseif index<19 then
-            return "S"..index-9
-        elseif index<28 then
-            return "m"..index-18
-        elseif index<41 then
-            return modern_postm_grades[index-27]
+        if index<11 then
+            return tostring(11-index)
+        elseif index<21 then
+            return "S"..index-11
+        elseif index<31 then
+            return "m"..index-21
+        elseif index<47 then
+            return modern_postm_grades[index-30]
         else
-            return modern_postm_grades[#modern_postm_grades]..getSmallNum(index-39)
+            return modern_postm_grades[#modern_postm_grades]..getSmallNum(index-45)
         end
     end
     local modern_postm_grades_text={
         "Master","MasterK","MasterV","MasterO","MasterM-","MasterM","MasterM+",
         "Grand Master-","Grand Master","Grand Master+",
-        "Tech Master-","Tech Master","Tech Master+"
+        "Tech Master-","Tech Master","Tech Master+",
+        "Tech Grand Master-","Tech Grand Master","Tech Grand Master+"
     }
     function getMasterGradeModernText(index)
-        if index<10 then
-            return "Grade "..tostring(10-index)
-        elseif index<19 then
-            return "S"..index-9
-        elseif index<28 then
-            return "m"..index-18
-        elseif index<41 then
-            return modern_postm_grades_text[index-27]
+        if index<11 then
+            return "Grade "..tostring(11-index)
+        elseif index<21 then
+            return "S"..index-11
+        elseif index<31 then
+            return "m"..index-21
+        elseif index<47 then
+            return modern_postm_grades_text[index-30]
         else
-            return modern_postm_grades_text[#modern_postm_grades]..index-39
+            return modern_postm_grades_text[#modern_postm_grades]..index-45
         end
     end
 end
