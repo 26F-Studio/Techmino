@@ -82,19 +82,24 @@ local function addGrade(D,row,cmb,chk,lvl) -- IGS = internal grade system
     end
 end
 local function getRollGoal(D,isGreenLine)
-    local invis=D.cools>13
+    local invis=D.cools>11
+    local superinvis=D.cools>16
     -- get amount of grades needed for TGM+
     local rem=46-getCurrentGrade(D)-(
         -- adjust for clear bonus
         isGreenLine and 0 or
-        invis and 1.6 or .5
+        superinvis and 1.6 or invis and not superinvis and .8 or .5
     )
     if rem<=0 then return 0 end
     local goal=0
-    if invis then
+    if superinvis then
         goal=math.floor(rem)*4
         rem=rem%1
         return goal+(rem>0.3 and 4 or rem*10)
+    elseif invis then
+        goal=math.floor(rem/.53)*4
+        rem=rem%.53
+        return goal+(rem>0.21 and 4 or rem*16)
     else
         goal=math.floor(rem/.26)*4
         rem=rem%.26
@@ -202,10 +207,14 @@ return {
         local D=P.modeData
 
         local c=#P.clearedRow
-
-        if D.cools>13 and D.isInRoll then -- invis roll grades
+        if D.cools>16 and D.isInRoll then -- super invis roll grades
             D.rollGrades=D.rollGrades+(c==4 and 1 or 0.1*c)
             return
+
+        elseif D.cools>11 and D.isInRoll then -- invis roll grades
+            D.rollGrades=D.rollGrades+(c==4 and 0.52 or 0.06*c)
+            return
+
         elseif D.isInRoll then -- fading roll grades
             D.rollGrades=D.rollGrades+(c==4 and 0.26 or 0.04*c)
             return
@@ -291,11 +300,17 @@ return {
             elseif s==6 then
                 BG.set('lightning')
             elseif s>9 then
-                if D.cools>13 then
+                if D.cools>16 then
+                    if E.lockFX and 3>E.lockFX then E.lockFX=3 end
+                    P:setInvisible(5)
+                    E.block=false
+                elseif D.cools>11 then
                     if E.lockFX and E.lockFX>1 then E.lockFX=1 end
                     P:setInvisible(5)
                 else
                     P:setInvisible(300)
+                    if E.lockFX and not E.lockFX==2 then E.lockFX=2 end
+                    if E.block==false then E.block=true end
                 end
                 D.pt=999
                 P.waiting=240
@@ -381,7 +396,7 @@ return {
                     D.grade_points=D.grade_points-1
                 end
             elseif D.isInRoll and P.stat.frame>=D.prevSectTime+3599 then
-                D.rollGrades=D.rollGrades+(D.cools>13 and 1.6 or 0.5)
+                D.rollGrades=D.rollGrades+(D.cools>16 and 1.6 or D.cools>11 and 0.8 or 0.5)
                 D.gradePts=getCurrentGrade(D)
                 P:win('finish')
             end

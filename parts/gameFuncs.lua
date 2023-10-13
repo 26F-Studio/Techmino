@@ -254,7 +254,7 @@ do -- Master GRADED
 end
 
 do -- Master GRADED MODERN
-    local modern_postm_grades={"M","MK","MV","MO","MM-","MM","MM+","GM-","GM","GM+","TM-","TM","TM+","TGM-","TGM","TGM+"}
+    local modern_postm_grades={"M","MK","MV","MO","MM-","MM","MM+","GM-","GM","GM+","TM-","TM","TM+","ΩM","ΣM","∞M","∞M+"}
     function getMasterGradeModern(index)
         if index<11 then
             return tostring(11-index)
@@ -262,17 +262,17 @@ do -- Master GRADED MODERN
             return "S"..index-11
         elseif index<31 then
             return "m"..index-21
-        elseif index<47 then
+        elseif index<48 then
             return modern_postm_grades[index-30]
         else
-            return modern_postm_grades[#modern_postm_grades]..getSmallNum(index-45)
+            return modern_postm_grades[#modern_postm_grades]..getSmallNum(index-46)
         end
     end
     local modern_postm_grades_text={
         "Master","MasterK","MasterV","MasterO","MasterM-","MasterM","MasterM+",
         "Grand Master-","Grand Master","Grand Master+",
         "Tech Master-","Tech Master","Tech Master+",
-        "Tech Grand Master-","Tech Grand Master","Tech Grand Master+"
+        "Ωmega Master","Σigma Master","I∞finity Master","I∞finity Master+"
     }
     function getMasterGradeModernText(index)
         if index<11 then
@@ -281,10 +281,10 @@ do -- Master GRADED MODERN
             return "S"..index-11
         elseif index<31 then
             return "m"..index-21
-        elseif index<47 then
+        elseif index<48 then
             return modern_postm_grades_text[index-30]
         else
-            return modern_postm_grades_text[#modern_postm_grades]..index-45
+            return modern_postm_grades_text[#modern_postm_grades]..index-46
         end
     end
 end
