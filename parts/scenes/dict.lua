@@ -108,8 +108,7 @@ local function _search()
     _clearResult()
     local first
     if _utf8lower then
-        local success,res=pcall(STRING.lowerUTF8,input)
-        input=success and res or input:lower()
+        input=STRING.lowerUTF8(input)
     else
         input=input:lower()
     end
@@ -168,7 +167,7 @@ function scene.enter()
     localeFile='parts.language.dict_'..(
         SETTING.locale:find'zh' and 'zh' or
         SETTING.locale:find'ja' and 'ja' or
-        -- SETTING.locale:find'vi' and 'vi' or
+        SETTING.locale:find'vi' and 'vi' or
         'en'
     )
     dict=require(localeFile)

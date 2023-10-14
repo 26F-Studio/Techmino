@@ -336,7 +336,7 @@ Tuy nhiên, mỗi game sẽ có cách xử lý khác nhau. Ví dụ:
     {">A|Gạch",
         "nhom05a",
         "",
-        "Bạn có biết? Game này hỗ trợ và cho phép bạn chơi với 29 loại gạch khác nhau\n1 Mino | 1 Domino | 2 Trimino | 7 Tetromino | 18 Pentomino\n\nMino: gạch 1 ô\nDomino: gạch 2 ô\nTrimino: gạch 3 ô\nTetromino: gạch 4 ô\nPentomino: gạch 5 ô\n\nHexomino có tồn tại đấy nhưng khi nào chúng xuất hiện trong game?",
+        "Bạn có biết?\nGame này hỗ trợ và cho phép bạn chơi với 29 loại gạch khác nhau\n\n1 Mino | 1 Domino | 2 Trimino | 7 Tetromino | 18 Pentomino\n\nMino: gạch 1 ô\nDomino: gạch 2 ô\nTrimino: gạch 3 ô\nTetromino: gạch 4 ô\nPentomino: gạch 5 ô\n\nTechmino có Hexomino không?\nBây giờ thì chưa nhưng tương lai thì có thể có.",
     },
     {"Hình dạng",
         "nhom05a hình dạng của tetro. hình dạng của tetromino"..tetromino,
@@ -525,15 +525,7 @@ Kiểu xáo His là phiên bản cải tiến so với kiểu xáo ngẫu nhiên
     {"K.xáo HisPool [1/2]",
         "nhom05d hispool historypoolgenerator kiểu xáo hispool",
         "term",
-        [[
-Một biến thể của kiểu xáo gạch His.
-
-Đi kèm với cơ chế "Pool" (Rổ) dựa trên những gạch đã xuất hiện gằn nhất,cho phép gạch chưa được xuất hiện quá lâu có cơ hội xuất hiện cao hơn.
-
-Kiểu xáo này giúp ổn định chuỗi gạch và đảm bảo rằng flood & drought không xảy ra quá lâu.
-
-Độ ổn định của kiểu xáo này tùy thuộc vào chuỗi gạch gần nhất và túi gạch.
-        ]],
+        "Một biến thể của kiểu xáo gạch His.\n\nĐi kèm với cơ chế \"Pool\" (Rổ) dựa trên những gạch đã xuất hiện gằn nhất,cho phép gạch chưa được xuất hiện quá lâu có cơ hội xuất hiện cao hơn.\n\nKiểu xáo này giúp ổn định chuỗi gạch và đảm bảo rằng flood & drought không xảy ra quá lâu.\n\nĐộ ổn định của kiểu xáo này tùy thuộc vào chuỗi gạch gần nhất và túi gạch.",
     },
     {"K.xáo HisPool [2/2]",
         "nhom05d hispool historypoolgenerator kiểu xáo hispool",
@@ -617,11 +609,7 @@ Xem mục tiếp theo để biết thêm.
     {"Spawn&ClearDelay",
         "nhom05e1 spawndelay cleardelay; thời gian chờ gạch sinh ra; thời gian chờ xóa hàng",
         "term",
-        [[
-Spawn Delay (Thời gian chờ gạch sinh ra): Khoảng thời gian từ lúc gạch bị khóa cho tới khi gạch mới được sinh ra.
-
-Line Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng xóa hàng thực hiện xong.
-        ]]
+        "Spawn Delay (Thời gian chờ gạch sinh ra): Khoảng thời gian từ lúc gạch bị khóa cho tới khi gạch mới được sinh ra.\n\nLine Clear Delay (Thời gian chờ xóa hàng): Thời gian để hiệu ứng xóa hàng thực hiện xong."
     },
     {"ARE",
         "nhom05e1 spawn appearance delay",
@@ -716,9 +704,7 @@ Một kỹ thuật di chuyển gạch vào vị trí mong muốn với chuỗi p
 
 Đây là một kỹ năng quan trọng nên bạn hãy học Finesse sớm nhất có thể. Bạn có thể thấy khá nhiều video hướng dẫn trên Youtube cũng như các trang hướng dẫn với hình minh họa trên Google. Hãy bắt đầu từ thứ cơ bản nhất, rồi luyện tập dần để tăng độ chính xác lên. Hãy nhớ ưu tiên chính xác hơn là tốc độ nhé.
 
-Có một số lưu ý cho bạn khi kiểm tra Finesse trong Techmino như sau:
-    - Bạn sẽ không bị mất Finesse khi bạn nhét gạch hay thực hiện Spin vì Techmino chỉ kiểm tra những vị trí không yêu cầu soft drop
-    - Nhưng Techmino sẽ tính lỗi di chuyển khi bạn Hold gạch sau khi di chuyển, hoặc là gạch bạn tính Hold lại trùng với gạch đang ở trong Hold
+Bạn sẽ không bị mất Finesse khi bạn nhét gạch hay thực hiện Spin vì Techmino chỉ kiểm tra những vị trí không yêu cầu soft drop
 
 Techmino cũng có finesse rate (%) (tỉ lệ *không* mắc lỗi di chuyển), được tính như sau:
     - 100% (Hoàn hảo - Perfect) khi số lần nhấn phím bằng hoặc ít hơn mức chuẩn
@@ -727,7 +713,9 @@ Techmino cũng có finesse rate (%) (tỉ lệ *không* mắc lỗi di chuyển)
     - 0% (Truợt - Miss) khi số lần nhấn phím cao hơn mức chuẩn 3 phím
 Một Bad hoặc Miss sẽ phá combo finesse.
 
-Lưu ý: Finesse thường sẽ không được tính trong một vài tình huống như tốc độ rơi cao, phải sử dụng thả nhẹ hay bảng rất cao. Tuy nhiên, bộ đếm finesse của Techmino vẫn chạy bất chấp ở điều kiện nào (kể cả tốc độ rơi cao như 20G). Do vậy finesse rate thường sẽ không mang ý nghĩa gì trong trường hợp này.
+Lưu ý: 
+    - Finesse thường sẽ không được tính trong một vài tình huống như tốc độ rơi cao, phải sử dụng thả nhẹ hay bảng rất cao. Tuy nhiên, bộ đếm finesse của Techmino vẫn chạy bất chấp ở điều kiện nào (kể cả tốc độ rơi cao như 20G). Do vậy finesse rate thường sẽ không mang ý nghĩa gì trong trường hợp này.
+    - Bạn sẽ không bị mất Finesse khi bạn nhét gạch hay thực hiện Spin vì Techmino chỉ kiểm tra những vị trí không yêu cầu soft drop
         ]],
     },
     {"Hypertapping",
@@ -1061,7 +1049,7 @@ Gọi tắt là WWC. Có chế độ 1 đấu 1 toàn cầu: chơi với ngườ
         [[
 Chơi trên trình duyệt / client chính thức | Chơi đơn / Chơi trực tuyến
 
-Gọi tắt là TF. Một trò chơi Tetris được viết bằng một ngôn ngữ của plugin đã nghỉ hưu từ năm 2021. Từng rất phổ biến trong quá khứ, nhưng tất cả trò chơi đã đóng cửa từ mấy năm trước. Hiện giờ vẫn còn một máy chủ riêng tên là \"Notris Foes\". Nhấn vào nút \"Mở link\" để mở ở trong trình duyệt
+Gọi tắt là TF. Một game xếp gạch dùng engine là một plugin đã nghỉ hưu từ năm 2021 (vì vấn đề bảo mật). Từng rất phổ biến trong quá khứ, nhưng tất cả máy chủ chính thức đã đóng cửa từ mấy năm trước. Hiện giờ vẫn còn một máy chủ riêng tên là \"Notris Foes\". Nhấn vào nút hình địa cầu để mở ở trong trình duyệt
         ]],
         "https://notrisfoes.com",
     },
@@ -1164,7 +1152,7 @@ Windows | Chơi đơn
 
 Một game xếp gạch dựa trên quy tắc Cổ điển của TGM + 20G với hệ thống xoay gạch mạnh mẽ. Cơ chế điều khiển tốt nhưng không có tùy chỉnh nào ngoài việc có thể gán lại phím.
 
-Game này bây giờ hơi khó tìm và bạn có thể phải cài tệp DLL cần thiết bằng tay. Tuy nhiên cũng may là có một bài hướng dẫn cách cài DTET, bạn có thể nhấn nút "Mở link" để mở bài viết.
+Game này bây giờ hơi khó tìm và bạn có thể phải cài tệp DLL cần thiết bằng tay. Tuy nhiên cũng may là có một bài hướng dẫn cách cài DTET, bạn có thể nhấn nút hình địa cầu để mở bài viết.
 
 CẢNH BÁO: Hãy cẩn thận khi tải bất cứ thứ gì về, kể cả file DLL hay EXE!
         ]],
@@ -1333,7 +1321,7 @@ Từ cuối T11 / đầu T12 / 2022 và sau này, tất cả các tài khoản m
         [[
 iOS | Chơi đơn
 
-Một game xếp gạch tới từ nhà N3TWORK nhưng chỉ dành cho Apple Arcade. Ngoài chế độ Marathon cổ điển, game giới thiệu một chế độ được gọi là "Beat": Người chơi sẽ phải thả gạch theo nhịp của BGM.
+Một game xếp gạch tới từ N3TWORK nhưng chỉ dành cho Apple Arcade. Ngoài chế độ Marathon cổ điển, game giới thiệu một chế độ được gọi là "Beat": người chơi sẽ phải thả gạch theo nhịp của BGM.
 
 [MrZ: Hiệu ứng của game rất là nặng và cơ chế điều khiển không được lý tưởng]
         ]],
@@ -1346,7 +1334,7 @@ iOS / Android | Chơi đơn
 
 (俄罗斯方块环游记)
 
-Một game xếp gạch chính thức đã nghỉ hưu từng được phát triển bởi Tencent dành cho Trung Quốc.
+Một game xếp gạch đã nghỉ hưu từng được phát triển bởi Tencent dành cho Trung Quốc.
 Có 3 chế độ chơi trực tuyến, 4 chế độ chơi đơn cùng với một chế độ dựa trên cấp độ
 Mỗi trận trong chế độ chơi trực tuyến dài 2 phút, nếu không ai bị top out thì ai gửi nhiều hàng nhất sẽ giành chiến thắng.
 
@@ -1362,7 +1350,7 @@ Android | Chơi trực tuyến
 
 (JJ块)
 
-Một game bình thưởng trên JJ Card Games (JJ棋牌). Chơi ở màn hình dọc, độ trễ đầu vào thấp, điều khiển mượt. DAS / ARR có thể điều chỉnh được và có thể đổi giữ Thả nhanh / Thả nhẹ, nhưng hạn chế về tùy biến bố cục phím ảo. Không Hold cũng như B2B, không bộ đệm rác hay cơ chế hủy rác. Mỗi tấn công gửi tối đa 4 hàng, còn cơ chế combo thì "ao chình". Phần còn lại thì tương tự như Tetris hiện đại.
+Một game xếp gạch ở trên JJ Card Games (JJ棋牌). Chơi ở màn hình dọc, độ trễ đầu vào thấp, điều khiển mượt. DAS / ARR có thể điều chỉnh được và có thể đổi giữ Thả nhanh / Thả nhẹ, nhưng hạn chế về tùy biến bố cục phím ảo. Không Hold cũng như B2B, không bộ đệm rác hay cơ chế hủy rác. Mỗi tấn công gửi tối đa 4 hàng, còn cơ chế combo thì "ao chình". Phần còn lại thì tương tự như Tetris hiện đại.
         ]],
     },
     {"Huopin Tetris",
@@ -1401,7 +1389,7 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
     {"Secret Grade",
         "nhom07 larger than > <",
         "term",
-        "Một easter egg trong series TGM.\n\nĐể có được \"secret grade\", người chơi sẽ làm một đường dích dắc (zigzag) (trông giống như \">\" hay \"<\") bằng cách tạo ra 1 ô trống duy nhất cho từng hàng. Mục tiêu cuối cùng là hoàn thành đường dích dắc cao (hơn) 19 hàng.\n\nNhấn vào nút \"Mở link\" để xem các kỹ thuật dùng để đạt được Secret Grade.",
+        "Một easter egg trong series TGM.\n\nĐể có được \"secret grade\", người chơi sẽ làm một đường dích dắc (zigzag) (trông giống như \">\" hay \"<\") bằng cách tạo ra 1 ô trống duy nhất cho từng hàng. Mục tiêu cuối cùng là hoàn thành đường dích dắc cao (hơn) 19 hàng.\n\nNhấn vào nút hình địa cầu để xem các kỹ thuật dùng để đạt được Secret Grade.",
         "https://harddrop.com/wiki?search=Secret_Grade_Techniques",
     },
     {"Deepdrop (Rơi sâu)",
@@ -1417,7 +1405,7 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
     {"Cold Clear",
         "nhom08 cc coldclear ai bot",
         "term",
-        "Một bot chơi Tetris. Được viết bởi MinusKelvin, ban đầu dành cho Puyo Puyo Tetris.\nBản Cold Clear ở trong Techmino có hỗ trợ All-spin và hệ thống TRS.",
+        "Một bot chơi Tetris. Được viết bởi MinusKelvin, ban đầu được viết cho Puyo Puyo Tetris.\nBản Cold Clear ở trong Techmino có hỗ trợ All-spin và hệ thống TRS (nhưng không hỗ trợ O-spin).",
     },
     {"ZZZbot",
         "nhom08 ai bot zzztoj",
@@ -1562,7 +1550,7 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
     {"Tetris OL Servers",
         "nhom10 tetrisonline servers tos",
         "org",
-        "Hãy lên Google tra \"Tetris Online Poland\" để tìm server ở Ba Lan.\nCòn nếu tìm server Tetris Online Study được đặt tại Trung Quốc (cung cấp bởi Teatube) thì nhấn vào nút \"Mở link\"",
+        "Hãy lên Google tra \"Tetris Online Poland\" để tìm server ở Ba Lan.\nCòn nếu tìm server Tetris Online Study được đặt tại Trung Quốc (cung cấp bởi Teatube) thì nhấn vào nút hình địa cầu",
         "https://teatube.cn/tos/",
     },
     {
@@ -1573,7 +1561,7 @@ Liên kết sẽ dẫn bạn tới bản tiếng Trung Giản thể, nguyên b�
         [[
 Một trong những cộng đồng xếp gạch tại Việt Nam. Đây là nơi chia sẻ kinh nghiệm và thông tin: bao gồm cả game, các giải đấu và các sự kiên liên quan đến xếp gạch.
 
-Nhấn nút "Mở link" để vào server Discord, còn nếu muốn vào nhóm Facebook thì hãy vào Facebook và tìm nhóm "Tetris Việt Nam".
+Nhấn nút hình địa cầu để vào server Discord, còn nếu muốn vào nhóm Facebook thì hãy vào Facebook và tìm nhóm "Tetris Việt Nam".
         ]],
         "https://discord.gg/jX7BX9g",
     },
@@ -1590,7 +1578,7 @@ Nhấn nút "Mở link" để vào server Discord, còn nếu muốn vào nhóm 
     {"Side well",
         "nhom11a ren combo sidewell",
         "term",
-        "Một phương pháp xếp gạch đặc biệt mà bạn sẽ để lại một cái lỗ có một chiều rộng nhất định ở một bên bảng.\n\nCó 4 loại setup này: Setup Side 1-wide là setup truyền thống để làm Tetris (ví dụ như, Side well Tetris). Các loại setup như Side 2-, 3-, hay 4-wide; là những setup được dùng để làm combo.\n\nĐối với những người chơi mới, đây là cách hiệu quả nhất để tấn công. NHƯNG, đối thủ có thể dễ dàng tấn công lại bạn, một là chết còn không thì stack của bạn sẽ bị cắt ngắn do bạn phải phản công lại. Thay vào đó, họ build setup này sau khi xây xong setup T-spin hoặc là nếu như đối thủ chưa thể tấn công ngay. Trong những trường hợp đó, side well có thể được sử dụng để tăng số cú tấn công tức thì.",
+        "Một phương pháp xếp gạch đặc biệt mà bạn sẽ để lại một cái lỗ có một chiều rộng nhất định ở một bên bảng.\n\nCó 4 loại setup này: Setup Side 1-wide là setup truyền thống để làm Tetris (ví dụ như, Side well Tetris). Các loại setup như Side 2-, 3-, hay 4-wide; là những setup được dùng để làm combo.\n\nĐối với những người chơi mới, đây là cách hiệu quả nhất để tấn công.\n\nNHƯNG, đối thủ có thể dễ dàng tấn công lại bạn, một là chết còn không thì stack của bạn sẽ bị cắt ngắn do bạn phải phản công lại.\nTrong thực tế, setup này chỉ dùng sau khi dùng setup T-spin nào đó hoặc là đối thủ chưa thể tấn công ngay; khi đó, side well có thể được sử dụng để tăng số cú tấn công tức thì.",
     },
     {"Center well",
         "nhom11a ren combo centerwell",
@@ -1681,109 +1669,109 @@ Opener phải đạt 2 trong 4 tiêu chí sau
     {"DT Cannon",
         "nhom12a opener dtcannon doubletriplecannon",
         "setup",
-        "Double-Triple Cannon (Súng thần công T-spin Đôi-Tam).\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Double-Triple Cannon (Súng thần công T-spin Đôi-Tam).\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=dt",
     },
     {"DTPC",
         "nhom12a opener dtcannon doubletriplecannon",
         "setup",
-        "Phần tiếp theo của DT Cannon kết thúc bằng All Clear.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Phần tiếp theo của DT Cannon kết thúc bằng All Clear.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=dt",
     },
     {"BT Cannon",
         "nhom12a opener btcannon betacannon",
         "setup",
-        "β Cannon, Beta Cannon.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "β Cannon, Beta Cannon.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=bt_cannon",
     },
     {"BTPC",
         "nhom12a opener btcannon betacannon",
         "setup",
-        "Phần tiếp theo của DT Cannon kết thúc bằng All Clear.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Phần tiếp theo của DT Cannon kết thúc bằng All Clear.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=bt_cannon",
     },
     {"TKI 3 Perfect Clear",
         "nhom12a opener ddpc tki3perfectclear",
         "setup",
-        "Một opener làm TSD dẫn đến Double-Double-All Clear.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Một opener làm TSD dẫn đến Double-Double-All Clear.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=TKI_3_Perfect_Clear",
     },
     {"QT Cannon",
         "nhom12a opener qtcannon",
         "setup",
-        "Một setup gần giống với DT Cannon và khả năng gửi DT Attack¹ cao.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop\n\n¹: DT Attack = T-spin Double + T-spin Triple",
+        "Một setup gần giống với DT Cannon và khả năng gửi DT Attack¹ cao.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop\n\n¹: DT Attack = T-spin Double + T-spin Triple",
         "https://harddrop.com/wiki?search=QT_cannon",
     },
     {"Mini-Triple",
         "nhom12a opener mt minitriple",
         "setup",
-        "Một setup làm Mini T-spin và T-spin Triple.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Một setup làm Mini T-spin và T-spin Triple.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=mt",
     },
     {"Trinity",
         "nhom12a opener",
         "setup",
-        "Một setup làm TSD + TSD + TSD hoặc TSMS + TST + TSD. Để có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Một setup làm TSD + TSD + TSD hoặc TSMS + TST + TSD. Để có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=trinity",
     },
     {"Wolfmoon Cannon",
         "nhom12a opener wolfmooncannon",
         "setup",
-        "Một opener.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Một opener.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=wolfmoon_cannon",
     },
     {"Sewer",
         "nhom12a opener",
         "setup",
-        "Một opener.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Một opener.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=sewer",
     },
     {"TKI",
         "nhom12a opener tki-3 tki3",
         "setup",
-        "TKI-3. Có thể chỉ TKI-3 bắt đầu bằng một TSD hoặc C-spin bắt đầu bằng một TST.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "TKI-3. Có thể chỉ TKI-3 bắt đầu bằng một TSD hoặc C-spin bắt đầu bằng một TST.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=tki_3_opening",
     },
     {"God Spin",
         "nhom12a opener godspin",
         "setup",
-        "Một setup nhìn đẹp mắt [nhưng khó sử dụng trên thực tế]. Được phát minh bởi Windkey.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Một setup nhìn đẹp mắt [nhưng khó sử dụng trên thực tế]. Được phát minh bởi Windkey.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=godspin",
     },
     {"Albatross",
         "nhom12a opener",
         "setup",
-        "Một opener nhìn đẹp mắt, nhịp độ nhanh với TSD - TST - TSD - All Clear, khó mà lãng phí được gạch T.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Một opener nhìn đẹp mắt, nhịp độ nhanh với TSD - TST - TSD - All Clear, khó mà lãng phí được gạch T.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=Albatross_Special",
     },
     {"Pelican",
         "nhom12a opener",
         "setup",
-        "Một opener kiểu Alabatross được sử dụng trong trường hợp trật tự gạch tới không ủng hộ opener Alabatross gốc.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Một opener kiểu Alabatross được sử dụng trong trường hợp trật tự gạch tới không ủng hộ opener Alabatross gốc.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=Pelican",
     },
     {"Perfect Clear Opener",
         "nhom12a opener 7piecepuzzle",
         "setup",
-        "Một opener làm All Clear có khả năng thành công cao (~84.6% nếu bạn đang giữ I trong ô Hold và ~61.2% nếu không giữ).\n\nTrong chế độ PC Training (Luyện tập PC), setup này được sử dụng để tạo ra setup chưa hoàn chỉnh, không tạo ra lỗ.\n\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Một opener làm All Clear có khả năng thành công cao (~84.6% nếu bạn đang giữ I trong ô Hold và ~61.2% nếu không giữ).\n\nTrong chế độ PC Training (Luyện tập PC), setup này được sử dụng để tạo ra setup chưa hoàn chỉnh, không tạo ra lỗ.\n\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=Perfect_Clear_Opener",
     },
     {"Grace System",
         "nhom12a opener gracesystem 1stpc",
         "setup",
-        "Một opener làm PC có khả năng thành công ~88.57%. Lỗ hình vuông 4 × 4 trong chế độ PC Training cũng dựa trên setup này.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên Four.lol",
+        "Một opener làm PC có khả năng thành công ~88.57%. Lỗ hình vuông 4 × 4 trong chế độ PC Training cũng dựa trên setup này.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên Four.lol",
         "https://four.lol/perfect-clears/grace-system",
     },
     {"DPC",
         "nhom12a opener",
         "setup",
-        "Một setup làm TSD + PC gần như 100% không có gạch nào trong bảng và gạch cuối cùng trong Túi 7 gạch trong hàng đợi NEXT.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên tetristemplate.info.",
+        "Một setup làm TSD + PC gần như 100% không có gạch nào trong bảng và gạch cuối cùng trong Túi 7 gạch trong hàng đợi NEXT.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên tetristemplate.info.",
         "https://tetristemplate.info/dpc/",
     },
     {"Gamushiro Stacking",
         "nhom12a opener",
         "setup",
-        "(ガムシロ積み) Một opener làm TD Attack (TD Attack = T-spin Triple + T-spin Double).\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "(ガムシロ積み) Một opener làm TD Attack (TD Attack = T-spin Triple + T-spin Double).\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=Gamushiro_Stacking",
     },
     {">B|Mid-game",
@@ -1794,19 +1782,19 @@ Opener phải đạt 2 trong 4 tiêu chí sau
     {"C-spin",
         "nhom12b midgame mid-game cspin",
         "pattern",
-        "Một setup gửi tấn công bằng T-spin Triple + T-spin Double, known as TKI in Japan.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Một setup gửi tấn công bằng T-spin Triple + T-spin Double, known as TKI in Japan.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=c-spin",
     },
     {"STSD",
         "nhom12b midgame mid-game",
         "pattern",
-        "Super T-spin Double, một setup cho phép làm T-spin Double.\nNhưng nếu có rác ngay dưới setup này thì không tài nào làm T-spin Double được\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Super T-spin Double, một setup cho phép làm T-spin Double.\nNhưng nếu có rác ngay dưới setup này thì không tài nào làm T-spin Double được\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=stsd",
     },
     {"Fractal",
         "nhom12b midgame mid-game fractal spider",
         "pattern",
-        "Một setup dùng để làm T-spin.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Một setup dùng để làm T-spin.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=Fractal",
     },
     {"LST stacking",
@@ -1818,19 +1806,19 @@ Opener phải đạt 2 trong 4 tiêu chí sau
     {"Imperial Cross",
         "nhom12b midgame mid-game imperialcross",
         "pattern",
-        "Che lỗ hình chữ thập bằng phần nhô ra để thực hiện hai lần T-spin Double\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Che lỗ hình chữ thập bằng phần nhô ra để thực hiện hai lần T-spin Double\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=imperial_cross",
     },
     {"King Crimson",
         "nhom12b midgame mid-game kingcrimson",
         "pattern",
-        "Xếp chồng để làm (các) TSD trên STSD.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Xếp chồng để làm (các) TSD trên STSD.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=King_Crimson",
     },
     {"PC liên tiếp [1/2]",
         "nhom12b midgame mid-game pcloop",
         "pattern",
-        "four.lol có hướng dẫn cách làm Perfect Clear liên tiếp. Sau khi hoàn thành PC thứ 7 khi bạn cũng vừa xài đúng 70 gạch (10 túi 7 gạch) nên bạn có thể quay về PC thứ nhất.\n\nNhấn nút \"Mở link\" để xem setup cho PC thứ nhất (để xem các setup sau, hãy thay 1st trong link bằng 2nd / 3rd / 4th / 5th / 6th / 7th)",
+        "four.lol có hướng dẫn cách làm Perfect Clear liên tiếp. Sau khi hoàn thành PC thứ 7 khi bạn cũng vừa xài đúng 70 gạch (10 túi 7 gạch) nên bạn có thể quay về PC thứ nhất.\n\nNhấn nút hình địa cầu để xem setup cho PC thứ nhất (để xem các setup sau, hãy thay 1st trong link bằng 2nd / 3rd / 4th / 5th / 6th / 7th)",
         "https://four.lol/perfect-clears/1st",
     },
     {"PC liên tiếp [2/2]",
@@ -1847,25 +1835,25 @@ Opener phải đạt 2 trong 4 tiêu chí sau
     {"STMB Cave",
         "nhom12c donation pattern stmb",
         "pattern",
-        "STMB cave, một setup dạng donation bằng cách sử dụng S / Z để bịt tường rộng 3 ô và làm T-spin Double.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "STMB cave, một setup dạng donation bằng cách sử dụng S / Z để bịt tường rộng 3 ô và làm T-spin Double.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=stmb_cave",
     },
     {"Hamburger",
         "nhom12c donation pattern",
         "pattern",
-        "Một setup dạng donation setup dùng để tạo cơ hội làm Tetris.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Một setup dạng donation setup dùng để tạo cơ hội có thể làm Tetris.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=hamburger",
     },
     {"Kaidan",
         "nhom12c donation pattern kaidan stairs",
         "pattern",
-        "Một setup dạng donation có thể làm TSD trên địa hình cầu thang.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Một setup dạng donation có thể làm TSD trên địa hình cầu thang.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=kaidan",
     },
     {"Shachiku Train",
         "nhom12c donation pattern shachikutrain shechu",
         "pattern",
-        "Một setup dạng donation cho phép làm thêm hai TSD từ setup TST.\nĐể có thêm thông tin, bạn có thể nhấn nút \"Mở link\" để mở bài ở trên wiki Hard Drop",
+        "Một setup dạng donation cho phép làm thêm hai TSD từ setup TST.\nĐể có thêm thông tin, bạn có thể nhấn nút hình địa cầu để mở bài ở trên wiki Hard Drop",
         "https://harddrop.com/wiki?search=Shachiku_Train",
     },
     {"Cut Copy",
@@ -1888,13 +1876,13 @@ Cách tính tấn công trong Tetris Online
 T-spin Đơn / Đôi / Tam gửi 2 / 4 / 6 hàng rác, cắt một nửa nếu là Mini.
 Combo gửi thêm 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 5 hàng rác.
 Back to Back gửi thêm 1 (hoặc 2 nếu T-spin Triple).
-All Clear gửi thêm 6 hàng rác. Nhưng 6 hàng rác này sẽ gửi thẳng vào bảng đối thủ, chứ không hủy rác tới.
+All Clear gửi thêm 6 hàng rác, nhưng gửi thẳng vào bảng đối thủ, chứ không hủy rác tới.
         ]],
     },
     {"Techmino attack",
         "nhom13 techminoattack",
         "term",
-        "Cách tính tấn công trong Techmino\n\nĐể biết công thức tính, hãy xem \"hướng dẫn sử dụng\" bằng cách nhấn nút "..CHAR.icon.help.." ở màn hình chính của game.\n\nNhấn nút \"Mở link\" sẽ dẫn bạn tới một bảng tấn công đã được tính sẵn và bạn chỉ cần cộng dồn lại các giá trị bạn muốn để biết kết quả.",
+        "Cách tính tấn công trong Techmino\n\nĐể biết công thức tính, hãy xem \"hướng dẫn sử dụng\" bằng cách nhấn nút "..CHAR.icon.help.." ở màn hình chính của game.\n\nNhấn nút hình địa cầu sẽ dẫn bạn tới một bảng tấn công đã được tính sẵn và bạn chỉ cần cộng dồn lại các giá trị bạn muốn để biết kết quả.",
         "https://media.discordapp.net/attachments/743861514057941204/1093386431096950815/Untitled.jpg"
     },
     {"=[NHÓM 14]=",
@@ -1905,7 +1893,7 @@ All Clear gửi thêm 6 hàng rác. Nhưng 6 hàng rác này sẽ gửi thẳng 
     {"Console",
         "nhom14 cmd commamd terminal console",
         "command",
-        "Techmino có một console cho phép kích hoạt tính năng gỡ lỗi và bật các tính năng nâng cao.\nĐể truy cập, hãy chạm vào logo Techmino / nhấn phím C 4 lần, tại màn hình chính.\n\nHành động bất cẩn trong console có thể dẫn đến HƯ HỎNG/ MẤT TOÀN BỘ dữ liệu đã lưu KHÔNG THỂ PHỤC HỒI.\n\nCÓ RỦI RO KHI TIẾN HÀNH\nKHÔNG AI CHỊU TRÁCH NHIỆM MỌI MẤT MÁT CÓ THỂ XẢY RA TRỪ CHÍNH BẠN!",
+        "Techmino có một console cho phép kích hoạt tính năng gỡ lỗi và bật các tính năng nâng cao.\nĐể truy cập, hãy chạm vào logo Techmino / nhấn phím C 4 lần, tại màn hình chính.\n\nCẢNH BÁO! CÓ RỦI RO KHI TIẾN HÀNH\nHành động bất cẩn trong console có thể dẫn đến HƯ HỎNG\nhoặc MẤT TOÀN BỘ dữ liệu đã lưu KHÔNG THỂ PHỤC HỒI.",
     },
     {"Đặt lại thiết lập",
         "nhom14 reset setting",
@@ -1917,10 +1905,10 @@ All Clear gửi thêm 6 hàng rác. Nhưng 6 hàng rác này sẽ gửi thẳng 
         "command",
         "Xóa toàn bộ thành tích\n\nVào console, gõ \"rm conf / data\" sau đó nhấn Enter / Return.\nKhởi động lại Techmino để thay đổi có hiệu lực.\nĐể hoàn tác / hủy bỏ thay đổi đã thực hiện, chơi một chế độ bất kỳ sau đó nhận màn hình Thắng / Thua",
     },
-    {"Đặt lại t.trg mở khóa",
+    {"Khóa t.bộ map",
         "nhom14 reset unlock",
         "command",
-        "Đặt lại tình trạng mở khóa của (hầu hết) các chế độ trong game\n\nVào console, gõ \"rm conf / unlock\" sau đó nhấn Enter / Return.\nKhởi động lại Techmino để thay đổi có hiệu lực.\nĐể hoàn tác / hủy bỏ thay đổi đã thực hiện, cập nhật lại tình trạng của một chế độ bất kỳ.",
+        "Tất cả các mode sẽ bị khóa lại như khi bạn vừa mới vào chơi lần đầu.\n\nVào console, gõ \"rm conf / unlock\" sau đó nhấn Enter / Return.\nKhởi động lại Techmino để thay đổi có hiệu lực.\nĐể hoàn tác / hủy bỏ thay đổi đã thực hiện, cập nhật lại tình trạng của một chế độ bất kỳ.",
     },
     {"Xóa t.bộ kỷ lục",
         "nhom14 reset record",
@@ -1932,7 +1920,7 @@ All Clear gửi thêm 6 hàng rác. Nhưng 6 hàng rác này sẽ gửi thẳng 
         "command",
         "Vào console, gõ \"rm conf / [File_bố_cục_phím]\" sau đó nhấn Enter / Return.\nThay [File_bố_cục_phím] với file cần xóa:\n\t- File bố cục bàn phím trên máy tính: key;\n\t- File bố cục nút trên màn hình: virtualkey;\n\t- File chứa 2 slot bố cục nút trên màn hình: vkSave1, vkSave2\n\nKhởi động lại Techmino để hai thay đổi đầu tiên có hiệu lực.\nVào một trang chỉnh sửa bố cục phím / nút sau đó trở ra để lấy lại file tương ứng.",
     },
-    {"Xóa t.bộ bản phát lại",
+    {"Xóa t.bộ replay",
         "nhom14 delete recording",
         "command",
         "Xóa toàn bộ bản phát lại\n\nVào console, gõ \"rm -s replay\" sau đó nhấn Enter / Return.\nHiệu lực tức thì, KHÔNG THỂ HOÀN TÁC",
