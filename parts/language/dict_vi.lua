@@ -288,7 +288,6 @@ Nói chung, một game xếp gạch hiện đại thường sẽ bám sát theo 
         "nhom05 hold",
         "term",
         "Một chức năng cho phép bạn giữ gạch đang rơi (nếu chưa có gạch nào trong HOLD) hoặc đổi gạch hiện tại với gạch trong HOLD.\nBình thường, Hold chỉ có thể được sử dụng 1 lần cho mỗi gạch.\n\nTrên thực tế, việc dùng Hold hay không cũng có ưu nhược của nó.\nNếu không dùng Hold:\n\t- Có thể giảm áp lực cho người chơi khi điều khiển gạch.\n\t- Đồng thời có thể giảm số phím cần nhấn trong game → có thể tăng KPS lên.\nTrên thực tế, đã có nhiều kỷ lục 40L được xác lập mà không cần Hold.\n\nNếu dùng Hold:\n\t- Hold có thể có ích trong nhiều trường hợp khác nhau (ví dụ như khi đang chơi ở tốc độ rơi cao).\n\t- Cho phép người chơi có thể làm được nhiều setup phức tạp hơn mà không đẩy thêm áp lực cho người chơi."
-        -- \n\n.."Ở một diễn biến khác…\n\tAnother Soul: \"I'm pretty ok with both using Hold and not using it. Just not using it makes the game more difficult, and you more vulnerable towards piece dependencies.\"\n\t(Tôi khá là ok giữa việc dùng Hold hay không. Nó chỉ làm cho game khó hơn và bạn dễ bị phụ thuộc vào gạch hơn thôi.)",
     },
     {"Hold tại chỗ",
         "nhom05 inplace hold taicho",
@@ -316,7 +315,7 @@ Techmino mặc định sẽ không kiểm tra điều kiện Lock out và Top ou
     {"Vùng đệm",
         "nhom05 invisible buffer zone",
         "term",
-        "Tên tiếng Anh là \"Buffer Zone\". Chỉ bao gồm các hàng từ hàng 21-40 (nằm ở phía trên vùng nhìn thấy).\n\nVùng này tồn tại vì sẽ có các trường hợp những hàng rác sẽ đẩy gạch trong bảng ra khỏi vùng nhìn thấy (dễ thấy nhất là Center 4-Wide).\nNhững ô gạch nào đi quá vùng nhìn thấy được sẽ đi vào vùng đệm và sẽ xuất hiện lại trong vùng nhìn thấy nếu bạn đã xóa đủ hàng.\n\nVùng đệm thường cao 20 ô, nhưng vài game có thể tăng con số đó tới vô cực.\n\nCác bạn có thể tìm hiểu thêm ở mục \"Vùng biến mất\".",
+        "Tên tiếng Anh là \"Buffer Zone\". Chỉ bao gồm các hàng từ hàng 21-40 (nằm ở phía trên vùng nhìn thấy).\n\nVùng này tồn tại vì sẽ có trường hợp hàng rác sẽ đẩy gạch trong bảng ra khỏi vùng nhìn thấy (dễ thấy nhất là Center 4-Wide).\nNhững ô gạch nào đi ra khỏi vùng nhìn thấy được sẽ đi vào vùng đệm và sẽ xuất hiện lại trong vùng nhìn thấy nếu bạn đã xóa đủ hàng.\n\nVùng đệm thường cao 20 ô, nhưng vài game có thể tăng con số đó tới vô cực.\n\nCác bạn có thể tìm hiểu thêm ở mục \"Vùng biến mất\".",
     },
     {"Vùng biến mất",
         "nhom05 gone vanish zone",
