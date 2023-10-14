@@ -234,7 +234,7 @@ return {
         "塊數:",
         "行清除/挖掘:",
         "攻擊/挖掘攻擊:",
-        "上漲/接收/抵消:",
+        "上漲(接收-抵消):",
         "清除:",
         "Spin:",
         "B2B/B3B/PC/HPC:",
@@ -462,7 +462,7 @@ return {
             capacity="房間容量",
             create="創建",
 
-            ospin="O-spin",
+            ospin="TRS O-spin",
             fineKill="100% finesse",
             b2bKill="強制B2B",
             lockout="鎖定在外時失敗",
@@ -679,7 +679,7 @@ return {
 
             bufferLimit="緩衝上限",
             heightLimit="高度上限",
-            ospin="O-spin",
+            ospin="TRS O-spin",
             fineKill="強制finesse",
             b2bKill="強制B2B",
             lockout="鎖定在外時失敗",
