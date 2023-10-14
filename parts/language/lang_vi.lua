@@ -255,7 +255,7 @@ return {
         "Thời gian chơi:",
         "Phím/Xoay/Giữ:",
         "Gạch/Hàng/Gửi:",
-        "Nhận/Phản/Chịu:",-- "Receive/Offset/Rise:",
+        "Nhận/Phản/Chịu:",
         "Đào/Gửi khi đào:",
         "H.quả/H.quả khi Đào:",
         "B2B/B3B:",
