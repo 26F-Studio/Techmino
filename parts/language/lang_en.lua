@@ -414,7 +414,7 @@ B. Keyboard
 
 C. Gamepad
         - Press $10 to display Help
-        - Press $5 or $6 to scroll through the text, speed up with $11
+        - Press $5 or $6 to scroll through the text
         - Press $7 to open the previous entry and $8 to open the next entry. Speed up with $11
         - Hold $11 and press $6 to decrease the font size or $5 to increase
 ]]

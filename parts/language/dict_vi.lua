@@ -221,7 +221,7 @@ Những chế độ này sẽ giúp bạn củng cố kỹ năng đọc NEXT và
         ]],
     },
     {"Điều chỉnh DAS",
-        "nhom05e2 das tuning",
+        "nhom04 das tuning",
         "help",
         "Với những người chơi đã có kinh nghiệm mà muốn chơi nhanh hơn, khuyên dùng DAS 4-6f (67-100 ms) và ARR 0f (các viên gạch sẽ ngay lập tức dính vào tường khi DAS kết thúc).\n\nNếu bạn thấy khó điều khiển, hãy thử tăng DAS lên 1-2 f, nhưng giữ ARR bé hơn 2 f (33 ms).\n\nTóm lại, DAS nên để thấp nhất có thể nhưng vẫn phải đảm bảo được game có thể phân biệt được bạn đang nhấn hay giữ phím trong khi ARR để ở mức thấp nhất có thể.",
     },

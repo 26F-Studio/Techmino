@@ -421,8 +421,8 @@ B. Bàn phím: Nhấn…
 
 C. Tay cầm chơi game (Gamepad):
         - Nhấn $10 để hiển thị trợ giúp
-        - Nhấn $5 hoặc $6 để cuộn văn bản, giữ $11 để cuộn nhanh hơn
-        - Nhấn $7 để mở mục trước và $8 để mở mục tiếp theo
+        - Nhấn $5 hoặc $6 để cuộn văn bản
+        - Nhấn $7 để mở mục trước và $8 để mở mục tiếp theo, giữ $11 để lướt nhanh hơn
         - Giữ $11 và nhấn $6 để giảm cỡ chữ hoặc $5 để tăng lên
 ]]
         -- 1-4: Up, Down, Left, Right
@@ -1057,7 +1057,7 @@ C. Tay cầm chơi game (Gamepad):
         "Hãy tham gia Discord của chúng tôi!",
         "l-=-1",
         "Nổi lửa lên em, NỔI LỬA LÊN EM!",
-        "Việc giảm tần số khung hình sẽ mang trải nghiệm tệ hơn cho bạn",
+        "Việc giảm tần số khung hình sẽ mang đến trải nghiệm tệ hơn cho bạn",
         "LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF",
         "Mix clear sắp ra mắt!",
         "Hầu hết các biểu tượng của các nút được vẽ tay vào trong bảng Unicode Private Use Area",
@@ -1120,7 +1120,6 @@ C. Tay cầm chơi game (Gamepad):
         {C.lP,"Con số bí mật: 626"},
         {C.lR,"Z ",C.lG,"S ",C.lS,"J ",C.lO,"L ",C.lP,"T ",C.lY,"O ",C.lC,"I"},
         {C.lY,"MÁT QUÁ!!"},
-        {C.N,"Lua",C.Z," No.1"},
         {C.P,"T-spin!"},
         {C.R,"DMCA là gì?"},
         {C.R,"\"Luật sở hữu trí tuệ\""},
@@ -1204,7 +1203,7 @@ C. Tay cầm chơi game (Gamepad):
         -- The button with a question mark in the bottom-right corner is the game manual (assuming you haven't enabled the concise mode).
         "Cái nút "..CHAR.icon.help.." ở góc phải dưới cùng trong menu (không bật chế độ Đơn giản) đấy hả? Nó là manual (hướng dẫn sử dụng) của game đấy!",
         -- If you're new to blocks, just play more games; there isn't much specific targeted practice beyond 40 lines in two minutes
-        "Bạn mới tập chơi xếp gạch à? Nếu vậy cứ chơi nhiều lên. Không có nhiều mục tiêu luyện tập cụ thể ngoài xóa 40 hàng trong 2 phút.",
+        "Bạn mới tập chơi xếp gạch à? Nếu vậy cứ chơi nhiều lên. Không có nhiều mục tiêu luyện tập cụ thể ngoài xóa 40 hàng trong 2 phút đâu!",
         --
         "Hãy ra ngoài và chạm cỏ đi!",
 --
@@ -1225,6 +1224,7 @@ C. Tay cầm chơi game (Gamepad):
         {C.W,"Z: ",C.Z,"Tôi tự hỏi là có bao nhiêu người chơi game thực sự quan tâm ai viết ra nó."},
 --
     -- IT JOKES
+        {C.N,"Lua",C.Z," No.1"},
         "git clone --recursive https://github.com/26F-Studio/Techmino.git",
         "git commit -m \".\"",
         "git pull = git fetch + git merge",
@@ -1235,7 +1235,6 @@ C. Tay cầm chơi game (Gamepad):
         "git submodule update",
         "git merge --rebase",
         "git merge --squash",
-        "Lua No.1",
         "sudo rm -rf /*",
         "shutdown /s /t 0",         -- Turn off computer completely (no Fast Boot)
         "shutdown /s /t 0 /hybrid", -- Turn off computer with Fast Boot

@@ -345,7 +345,7 @@ scene.widgetList={
     WIDGET.newKey{name='help',x=1234,y=220,w=60,font=40,fText=CHAR.icon.help,code=pressKey'f1'},
 
     WIDGET.newButton{name='back',x=1185,y=60,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
-    WIDGET.newText{name='buttontip',x=1274,y=110,w=762,h=60,font=40,align='R',fText=CHAR.controller.xboxY.."/[F1]: "..CHAR.icon.help},
+    WIDGET.newText{name='buttontip',x=1274,y=110,w=762,h=60,font=40,align='R',fText=CHAR.controller.xboxY.."/[F1]: "..CHAR.icon.help,hideF=function() return MOBILE end},
 }
 -- NOTE: The gap between Link-Copy, Zoom is 60*1.5-10=80 :) The gap between 2 buttons in one group is 60+10=70
 return scene
