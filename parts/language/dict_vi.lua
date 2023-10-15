@@ -347,12 +347,12 @@ Tuy nhiên, mỗi game sẽ có cách xử lý khác nhau. Ví dụ:
         "term",
         "Nhiều game xếp gạch hiện đại, từ chính thức tới fan-made, đã và đang sử dụng cùng một bảng màu duy nhất cho Tetromino.\n\nNhững màu này bao gồm:\n\tZ - Đỏ \n\tS - Xanh lá \n\tJ - Xanh dương \n\tL - Cam \n\tT - Tím \n\tO - Vàng \n\tI - Xanh lơ\n\nTechmino cũng sử dụng bảng màu này để tô màu cho Tetromino.",
     },
-    {"Gạch & tên tg. ứng",
+    {"Tên",
         "nhom05a mino gạch & tên tương ứng gạch và tên tương ứng"..tetromino,
         "term",
         "Đây là danh sách gạch mà Techmino sử dụng\n(cùng với tên tương ứng của chúng):\n\nTetromino:\nZ: "..CHAR.mino.Z..",  S: "..CHAR.mino.S..",  J: "..CHAR.mino.J..",  L: "..CHAR.mino.L..",  T: "..CHAR.mino.T..",  O: "..CHAR.mino.O..",  I: "..CHAR.mino.I..";\n\nPentomino:\nZ5: "..CHAR.mino.Z5..",  S5: "..CHAR.mino.S5..",  P: "..CHAR.mino.P..",  Q: "..CHAR.mino.Q..",  F: "..CHAR.mino.F..",  E: "..CHAR.mino.E..",  T5: "..CHAR.mino.T5..",  U: "..CHAR.mino.U..",  V: "..CHAR.mino.V..",  W: "..CHAR.mino.W..",  X: "..CHAR.mino.X..",  J5: "..CHAR.mino.J5..",  L5: "..CHAR.mino.L5..",  R: "..CHAR.mino.R..",  Y: "..CHAR.mino.Y..",  N: "..CHAR.mino.N..",  H: "..CHAR.mino.H..",  I5: "..CHAR.mino.I5..";\n\nTrimino, Domino và Mino:\nI3: "..CHAR.mino.I3..",  C: "..CHAR.mino.C..",  I2: "..CHAR.mino.I2..",  O1: "..CHAR.mino.O1..".",
     },
-    {"Hướng gạch",
+    {"Hướng",
         "nhom05a 0r2l 02 20 rl lr"..tetromino,
         "term",
         [[
@@ -487,12 +487,12 @@ So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một bảng wall-kick; nhưn
         "",
         ""
     },
-    {"Kiểu xáo Túi 7",
+    {"Túi 7",
         "nhom05d bag7 randomgenerator túi 7 gạch; kiểu xáo túi 7 gạch",
         "term",
         "Tên gọi chính thức là \"Random Generator\" (Trình xáo gạch ngẫu nhiên) hay \"7-Bag Generator\" (Kiểu xáo Túi 7 gạch).\nĐây là kiểu xáo hay được sử dụng bởi đa số các xếp gạch hiện đại.\n\nChuỗi gạch sẽ được chia thành các nhóm (túi). Mỗi túi gạch đều có dủ 7 Tetromino nhưng trình tự thì ngẫu nhiên.\nMột vài ví dụ về chuỗi gạch: ZSJLTOI, OTSLZIJ, LTISZOJ.\n\nKiểu xáo này cho phép ngăn chặn tình trạng sự xuất hiện không đồng đều của các viên gạch.",
     },
-    {"Kiểu xáo His",
+    {"His",
         "nhom05d historygenerator hisgenerator",
         "term",
         [[
@@ -521,12 +521,12 @@ Trong Techmino, số lần bốc lại gạch bằng một nửa số gạch đ�
 Kiểu xáo His là phiên bản cải tiến so với kiểu xáo ngẫu nhiên đơn giản và giảm tình trạng chuỗi S và Z liên tục.
         ]],
     },
-    {"K.xáo HisPool [1/2]",
+    {"HisPool [1/2]",
         "nhom05d hispool historypoolgenerator kiểu xáo hispool",
         "term",
         "Một biến thể của kiểu xáo gạch His.\n\nĐi kèm với cơ chế \"Pool\" (Rổ) dựa trên những gạch đã xuất hiện gằn nhất,cho phép gạch chưa được xuất hiện quá lâu có cơ hội xuất hiện cao hơn.\n\nKiểu xáo này giúp ổn định chuỗi gạch và đảm bảo rằng flood & drought không xảy ra quá lâu.\n\nĐộ ổn định của kiểu xáo này tùy thuộc vào chuỗi gạch gần nhất và túi gạch.",
     },
-    {"K.xáo HisPool [2/2]",
+    {"HisPool [2/2]",
         "nhom05d hispool historypoolgenerator kiểu xáo hispool",
         "term",
         [[
@@ -546,25 +546,25 @@ Bước 3: Thêm gạch có số lần chưa bốc trúng nhiều nhất vào l�
 Bước 4: Thêm gạch vào chuỗi NEXT và quay về Bước 1.
         ]],
     },
-    {"Kiểu xáo bagES",
+    {"bagES",
         "nhom05d bages easy start khởi đầu suôn sẻ; kiểu xáo ez-start; kiểu xáo ezstart",
         "term",
         "*Chỉ có trên Techmino*\nTên khác: EZ-Start generator (Khởi đầu suôn sẻ)\n\nMột biến thể của kiểu xáo Túi. Gạch đầu tiên của mỗi túi sẽ không bao giờ là gạch khó đặt: S / Z / O / S5 / Z5 / F / E / W / X / N / H.",
     },
-    {"Kiểu xáo Reverb",
+    {"Reverb",
         "nhom05d kiểu xáo reverb",
         "term",
         "*Chỉ có trên Techmino*\nMột biến thể của kiểu xáo Túi. \n\nKiểu xáo Reverb sẽ lặp ngẫu nhiên một vài gạch từ kiểu xáo Túi. Xác suất lặp lại gạch giảm nếu gạch đã xuất hiện và ngược lại\nSố lần lặp lại trên lý thuyết nằm từ 0 tới 6",
     },
-    {"Kiểu xáo C2",
+    {"C2",
         "nhom05d cultris2generator cultrisiigenerator c2generator",
         "term",
         "Đây là kiểu xáo được dùng trong Cultris II với cách hoạt động như sau:\n\nBước 1. Ban đầu toàn bộ Tetromino sẽ có trọng số (\"weight\") là 0.\n\nBước 2. Cứ sau mỗi lần xáo gạch, toàn bộ trọng số của các gạch sẽ bị chia hết cho 2, và được cộng một số thực ngẫu nhiên từ 0 tới 1.\n\nBước 3. Gạch có trọng số cao nhất, và sau đó trọng số của nó sẽ bị chia cho 3.5.\n\nBước 4: Về Bước 2 và tiếp tục lặp lại",
     },
-    {"Drought",
+    {"H. tg. Drought",
         "drought",
         "term",
-        "Một tình huống mà một viên gạch người chơi muốn nhưng lại không xuất hiện. Thường dùng để chỉ hiện tượng khát gạch I trong mấy game cổ điển vì chúng thường dùng bộ xáo gạch ngẫu nhiên đơn giản.\n\nTuy nhiên, trong các game hiện đại, hiện tượng drought không thể xảy ra vì khoảng cách tối đa giữa 2 gạch cùng loại là 13 gạch. ",
+        "Một hiện tượng mà một viên gạch người chơi muốn nhưng lại không xuất hiện. Thường dùng để chỉ hiện tượng khát gạch I trong mấy game cổ điển vì chúng thường dùng bộ xáo gạch ngẫu nhiên đơn giản.\n\nTuy nhiên, trong các game hiện đại, hiện tượng drought không thể xảy ra vì khoảng cách tối đa giữa 2 gạch cùng loại là 13 gạch. ",
     },
     {">E|Thông số",
         "nhom05e",
@@ -1454,7 +1454,7 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
         "nhom09b tetris trainer tres bien T.T.T.",
         "game",
         [[
-Tetris Trainer Très-Bien (viết bởi こな \"kona\"). Một website chứa các hướng dẫn thực hành các kỹ thuật nâng cao trong Tetris hiện đại (lưu ý: website này chỉ hỗ trợ bàn phím vật lý, không hỗ trợ bàn phím ảo).
+Tetris Trainer Très-Bien (viết bởi こな "kona"). Một website chứa các hướng dẫn thực hành các kỹ thuật nâng cao trong Tetris hiện đại (lưu ý: website này chỉ hỗ trợ bàn phím vật lý, không hỗ trợ bàn phím ảo).
 Đề xuất cho những người chơi có thể hoàn thành chế độ 40L chỉ làm Tetris + không dùng Hold
 Website này đề cập tới T-spin, finesse, SRS và một số setup để chơi Battle
 Liên kết sẽ dẫn bạn tới phiên bản tiếng Anh, được dịch bởi User670 (Bản gốc là bản tiếng Nhật).
@@ -1875,7 +1875,9 @@ Cách tính tấn công trong Tetris Online
 T-spin Đơn / Đôi / Tam gửi 2 / 4 / 6 hàng rác, cắt một nửa nếu là Mini.
 Combo gửi thêm 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 5 hàng rác.
 Back to Back gửi thêm 1 (hoặc 2 nếu T-spin Triple).
-All Clear gửi thêm 6 hàng rác, nhưng gửi thẳng vào bảng đối thủ, chứ không hủy rác tới.
+
+All Clear gửi thêm 6 hàng rác
+nhưng gửi thẳng vào bảng đối thủ thay vì không hủy rác tới.
         ]],
     },
     {"Techmino attack",
