@@ -196,7 +196,7 @@ return {
 
 
 
-    keySettingInstruction="點擊來設置鍵位\n按esc來取消選中\n按退格鍵來清除選中",
+    keySettingInstruction="點擊來設定鍵位\n按esc來取消選中\n按退格鍵來清除選中",
     customBGhelp="把圖片檔案拖到這個視窗裏使用自定義背景",
     customBGloadFailed="自定義背景的圖片檔案格式不支持",
 
@@ -262,7 +262,7 @@ return {
         "使用LÖVE引擎",
         "錯誤或者建議請附帶截圖發送到內測群或者作者電郵~",
         "僅透過內測QQ群/discord伺服器進行免費下載/更新",
-        "從其他渠道獲得遊戲皆有被修改/加入廣告/植入病毒的風險，程序只申請了振動&網路權限！",
+        "從其他渠道獲得遊戲皆有被修改/加入廣告/植入病毒的風險，程式只申請了振動&網路權限！",
         "若由於被修改的本遊戲產生的各種損失作者概不負責（我怎麼負責啊跟我有什麼關係）",
         FNNS and "/" or "請從正規途徑獲得最新版，遊戲現為免費，不過有打賞當然感謝啦~",
         FNNS and "/" or "更多資訊見小z詞典"
@@ -271,7 +271,7 @@ return {
         "原作者  MrZ",
         "電郵: 1046101471@qq.com",
         "",
-        "程序, 開發和設計",
+        "程式, 開發和設計",
         "MrZ",
         "",
         "音樂製作使用",
@@ -282,7 +282,7 @@ return {
         "",
         "[POWERED BY LÖVE]",
         "",
-        "程序",
+        "程式",
         "MrZ",
         "ParticleG",
         "Gompyn",
@@ -391,7 +391,7 @@ return {
             qplay="快速開始: ",
             online="網路遊戲",
             custom="自定義",
-            setting="設置",
+            setting="設定",
             stat="統計數據",
             dict="小Z辭典",
             replays="錄影回放",
@@ -410,7 +410,7 @@ return {
             unranked="成績無效",
         },
         pause={
-            setting="設置(S)",
+            setting="設定(S)",
             replay="回放(P)",
             save="保存(O)",
             resume="繼續(esc)",
@@ -484,14 +484,14 @@ return {
             cancel="取消準備",
         },
         setting_game={
-            title="遊戲設置",
+            title="遊戲設定",
             graphic="←畫面",
             sound="音頻→",
             style="風格",
 
-            ctrl="控制設置",
-            key="鍵位設置",
-            touch="觸控設置",
+            ctrl="控制設定",
+            key="鍵位設定",
+            touch="觸控設定",
             showVK="顯示虛擬擊鍵",
             reTime="開局等待時間",
             RS="旋轉系統",
@@ -502,7 +502,7 @@ return {
             simpMode="簡潔模式",
         },
         setting_video={
-            title="畫面設置",
+            title="畫面設定",
             sound="←音頻",
             game="遊戲→",
 
@@ -550,7 +550,7 @@ return {
             fieldSatur="場地飽和",
         },
         setting_sound={
-            title="音頻設置",
+            title="音頻設定",
             game="←遊戲",
             graphic="畫面→",
 
@@ -570,7 +570,7 @@ return {
             apply="應用",
         },
         setting_control={
-            title="控制設置",
+            title="控制設定",
             preview="預覽",
 
             das="DAS",arr="ARR",
@@ -607,7 +607,7 @@ return {
         },
         setting_skin={
             skinSet="方塊皮膚",
-            title="外觀設置",
+            title="外觀設定",
             skinR="重置顏色",
             faceR="重置方向",
         },
@@ -655,7 +655,7 @@ return {
             play_puzzle="開始-拼圖",
 
             reset="重設所有(del)",
-            advance="更多設置(A)",
+            advance="更多設定(A)",
             mod="Mods (F1)",
             field="場地編輯(F)",
             sequence="序列編輯(S)",
@@ -692,7 +692,7 @@ return {
             subTitle="場地",
 
             any="不定",
-            smart="智能",
+            smart="智慧",
 
             push="增加一行(K)",
             del="清除行(L)",
@@ -763,7 +763,7 @@ return {
             code="驗證碼",
             password="密碼",
             password2="確認密碼",
-            setPW="設置密碼",
+            setPW="設定密碼",
         },
         account={
             title="賬戶",
@@ -810,7 +810,7 @@ return {
             import="從剪貼板導入",
             unlock="地圖進度",
             data="統計數據",
-            setting="設置",
+            setting="設定",
             vk="虛擬按鍵佈局",
 
             couldSave="雲儲存(測試功能，謹慎使用)",
