@@ -12,12 +12,13 @@ local localeFile -- Language file name, used for force reload
 
 local lastTickInput
 local searchWait            -- Searching animation timer
-local defaultSearchWait=MOBILE and 2.6 or 0.8 -- Default time to wait from the last key before searching
+local defaultSearchWait     -- Default time to wait from the last key before searching
 
 local lastSearch            -- Last searched string
 local lastSelected          -- Last selected item
 
 local currentFontSize=25    -- Current font size, default: 25
+local needLowerUTF8
 
 local typeColor={
     help=COLOR.Y,
@@ -103,18 +104,17 @@ local function _clearResult()
 end
 -- Search through the dictionary
 local function _search()
-    local _utf8lower=SETTING.locale:find'vi'
     local input=inputBox:getText()
     local pos
     _clearResult()
     local first
-    if _utf8lower then
+    if needLowerUTF8 then
         input=STRING.lowerUTF8(input)
     else
         input=input:lower()
     end
     for i=1,#dict do
-        if _utf8lower then
+        if needLowerUTF8 then
             pos=find(STRING.lowerUTF8(dict[i].title),input,nil,true) or find(STRING.lowerUTF8(dict[i].keywords),input,nil,true)
         else
             pos=find(dict[i].title:lower(),input,nil,true) or find(dict[i].keywords:lower(),input,nil,true)
@@ -171,6 +171,9 @@ function scene.enter()
         SETTING.locale:find'vi' and 'vi' or
         'en'
     )
+    needLowerUTF8=SETTING.locale:find'vi'
+    defaultSearchWait=(MOBILE and needLowerUTF8) and 2.6 or 0.8
+    
     dict=require(localeFile)
     _scanDict(dict)
 
