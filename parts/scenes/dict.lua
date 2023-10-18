@@ -11,12 +11,13 @@ local result     -- Result Lable
 local localeFile -- Language file name, used for force reload
 
 local lastTickInput
-local searchWait         -- Searching animation timer
+local searchWait            -- Searching animation timer
+local defaultSearchWait=MOBILE and 2.6 or 0.8 -- Default time to wait from the last key before searching
 
-local lastSearch         -- Last searched string
-local lastSelected       -- Last selected item
+local lastSearch            -- Last searched string
+local lastSelected          -- Last selected item
 
-local currentFontSize=25 -- Current font size, default: 25
+local currentFontSize=25    -- Current font size, default: 25
 
 local typeColor={
     help=COLOR.Y,
@@ -288,7 +289,7 @@ function scene.update(dt)
             _clearResult()
             listBox:setList(_getList())
         else
-            searchWait=.8
+            searchWait=defaultSearchWait
         end
         lastTickInput=input
     end
