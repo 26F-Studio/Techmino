@@ -1070,6 +1070,7 @@ do-- function resetGameData(args)
         else
             PLY.newPlayer(1)
         end
+        GAME.initPlayerCount=#PLAYERS
         freshPlayerPosition((args:find'q') and 'quick' or 'normal')
         VK.restore()
 

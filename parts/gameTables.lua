@@ -520,6 +520,7 @@ do-- Game data tables
 
         seed=1046101471,         -- Game seed
         curMode=false,           -- Current gamemode object
+        initPlayerCount=0,       -- Player count when init game
         mod=TABLE.new(0,#MODOPT),-- List of loaded mods
         modeEnv=false,           -- Current gamemode environment
         setting={},              -- Game settings
