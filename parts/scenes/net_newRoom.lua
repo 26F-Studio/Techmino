@@ -102,7 +102,7 @@ scene.widgetList={
     WIDGET.newSwitch{name='deepDrop',       x=1170,y=910, lim=250,disp=ROOMval('deepDrop'), code=ROOMrev('deepDrop')},
     WIDGET.newSwitch{name='bone',           x=1170,y=970, lim=250,disp=ROOMval('bone'),     code=ROOMrev('bone')},
 
-    -- Rule set
+    -- Ruleset
     WIDGET.newSelector{name='eventSet',     x=1050,y=760,w=340,color='H',list=sList.eventSet,disp=ROOMval('eventSet'),code=ROOMval('eventSet')},
 
     -- Next & Hold

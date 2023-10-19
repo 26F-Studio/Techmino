@@ -24,6 +24,7 @@ local touchDist
 local grid
 local min_x,max_x=-1500,1350
 local min_y,max_y=-1900,660
+local modUsed
 
 local scene={}
 
@@ -42,6 +43,7 @@ function scene.enter()
             end
         end
     end
+    modUsed=usingMod()
 end
 
 local function _getK()
@@ -223,8 +225,8 @@ local function _drawModeShape(M,S,drawType)
 end
 function scene.draw()
     -- Mod indicator
-    if #GAME.mod>0 then
-        gc_setColor(.42,.26,.62,.62+.26*math.sin(TIME()*12.6))
+    if modUsed then
+        setModBackgroundColor()
         gc_rectangle('fill',140-220/2,655-80/2,220,80,5,5)
     end
 

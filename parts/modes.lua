@@ -112,17 +112,17 @@ return {
     {name='sprintEff',          x=360,  y=-150, size=40,shape=1,icon="sprint2"},
 
     {name='tech_n',             x=400,  y=20,   size=40,shape=1,icon="tech",       unlock={'tech_n_plus','tech_h'}},
-    {name='tech_n_plus',        x=200,  y=-10,  size=40,shape=3,icon="tech"},
+    {name='tech_n_plus',        x=200,  y=-10,  size=40,shape=3,icon="tech_plus"},
     {name='tech_h',             x=400,  y=170,  size=40,shape=1,icon="tech",       unlock={'tech_h_plus','tech_l'}},
-    {name='tech_h_plus',        x=200,  y=140,  size=35,shape=3,icon="tech"},
+    {name='tech_h_plus',        x=200,  y=140,  size=35,shape=3,icon="tech_plus"},
     {name='tech_l',             x=400,  y=320,  size=40,shape=1,icon="tech",       unlock={'tech_l_plus'}},
-    {name='tech_l_plus',        x=200,  y=290,  size=35,shape=3,icon="tech"},
+    {name='tech_l_plus',        x=200,  y=290,  size=35,shape=3,icon="tech_plus"},
 
     {name='tech_finesse',       x=850,  y=20,   size=40,shape=1,icon="tech",       unlock={'tech_finesse_f'}},
-    {name='tech_finesse_f',     x=1050, y=20,   size=40,shape=1,icon="tech"},
+    {name='tech_finesse_f',     x=1050, y=20,   size=40,shape=1,icon="tech_plus"},
 
     {name='tech_finesse_lock',  x=850,  y=160,  size=40,shape=1,icon="tech",       unlock={'tech_finesse_lock_f'}},
-    {name='tech_finesse_lock_f',x=1050, y=170,  size=40,shape=1,icon="tech"},
+    {name='tech_finesse_lock_f',x=1050, y=170,  size=40,shape=1,icon="tech_plus"},
 
     {name='tsd_e',              x=700,  y=250,  size=40,shape=1,icon="tsd",        unlock={'tsd_h'}},
     {name='tsd_h',              x=860,  y=310,  size=40,shape=1,icon="tsd",        unlock={'tsd_u'}},

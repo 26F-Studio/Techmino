@@ -503,8 +503,8 @@ function mergeStat(stat,delta)-- Merge delta stat. to global stat.
     end
 end
 function scoreValid()-- Check if any unranked mods are activated
-    for _,M in next,GAME.mod do
-        if M.unranked then
+    for number,sel in next,GAME.mod do
+        if sel>0 and MODOPT[number].unranked then
             return false
         end
     end
@@ -993,17 +993,23 @@ do-- function dumpBasicConfig()
     end
 end
 do-- function resetGameData(args)
-    local function task_showMods()
-        local time=0
-        while true do
-            coroutine.yield()
-            if time%20==0 then
-                local M=GAME.mod[time/20+1]
-                if not M then return end
+    local function task_showMods() -- TODO
+        coroutine.yield()
+        local counter=0
+        for number,sel in next,GAME.mod do
+            if sel>0 then
+                if counter==0 then
+                    coroutine.yield()
+                else
+                    for _=1,20 do
+                        coroutine.yield()
+                    end
+                end
+                local M=MODOPT[number]
                 SFX.play('collect',.2)
-                TEXT.show(M.id,640+(time/20%5-2)*80,26,45,'spin')
+                TEXT.show(M.id,640+(counter%5-2)*80,26,45,'spin')
+                counter=counter+1
             end
-            time=time+1
         end
     end
     local gameSetting={
@@ -1063,6 +1069,7 @@ do-- function resetGameData(args)
         else
             PLY.newPlayer(1)
         end
+        GAME.initPlayerCount=#PLAYERS
         freshPlayerPosition((args:find'q') and 'quick' or 'normal')
         VK.restore()
 
@@ -1125,6 +1132,14 @@ do-- function checkWarning(P,dt)
         end
     end
 end
+function usingMod()
+    for _,sel in next,GAME.mod do
+        if sel>0 then
+            return true
+        end
+    end
+    return false
+end
 
 
 
@@ -1174,6 +1189,9 @@ function drawWarning()
         gc_setShader()
         gc_pop()
     end
+end
+function setModBackgroundColor()
+    gc_setColor(.42,.26,.62,.62+.26*math.sin(TIME()*12.6))
 end
 
 

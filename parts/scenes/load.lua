@@ -151,6 +151,22 @@ local loadingThread=coroutine.wrap(function()
         {'fRect',26,89,78,9},
         {'fRect',86,60,14,8}
     }
+    do -- generate tech b2b modeicons
+        local base={128,128,
+            {'setLW',4},
+            {'dPoly',51,12, 75,12, 75,43, 109,117, 17,117, 51,43}, -- draw Erlenmeyer flask
+            {'fPoly',42,10, 52,10, 52,20},{'fPoly',74,10, 84,10, 74,20}, -- draw flask rim
+            -- draw flask measurement marks
+            {'line',42,105, 62,105},{'line',46,91, 62,91},
+            {'line',50,75,  62,75}, {'line',54,57, 62,57},
+        }
+        local plus={
+            {'line',105,16, 105,38},
+            {'line',94,27,  116,27},
+        }
+        modeIcons.tech=GC.DO(base)
+        modeIcons.tech_plus=GC.DO(TABLE.connect(base,plus))
+    end
 
     coroutine.yield('loadMode')
     for _,M in next,MODES do

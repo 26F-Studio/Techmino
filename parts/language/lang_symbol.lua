@@ -104,7 +104,7 @@ return {
         "□:",
         "-/↓:",
         "→/↓→:",
-        "←:",
+        "↑(←-↓):",
         "□↓:",
         "~↓:",
         "^^/^^^/#<>#/<>:",
@@ -217,7 +217,7 @@ return {
             deepDrop="\\↓↓/",
             bone="[]",
 
-            eventSet="Rule Set",
+            eventSet="Ruleset",
 
             holdMode="? [ ]",
             nextCount="→",
@@ -407,7 +407,7 @@ return {
             sequence="Edit Sequence (S)",
             mission="Edit Mission (M)",
 
-            eventSet="Rule Set",
+            eventSet="Ruleset",
 
             holdMode="? [ ]",
             nextCount="→",

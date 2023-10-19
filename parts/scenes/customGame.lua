@@ -67,17 +67,18 @@ local sList={
     pushSpeed={1,2,3,5,15},
     fieldH={1,2,3,4,6,8,10,15,20,30,50,100},
     heightLimit={2,3,4,6,8,10,15,20,30,40,70,100,150,200,1e99},
-    bufferLimit={4,6,10,15,20,40,100,1e99},
+    bufferLimit={0,2,4,6,10,15,20,40,100,1e99},
 
     drop={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
-    lock={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
-    wait={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
-    fall={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
-    hang={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
-    hurry={0,1,2,3,4,5,6,7,8,10,1e99},
+    lock={0,1,2,3,4,5,6,7,8,9,10,11,12,14,16,18,20,25,30,40,60,180,1e99},
+    wait={0,1,2,3,4,5,6,7,8,9,10,15,20,30,60},
+    fall={0,1,2,3,4,5,6,7,8,9,10,15,20,30,60},
+    hang={0,1,2,3,4,5,6,7,8,9,10,15,20,30,60},
+    hurry={0,1,2,3,4,5,6,7,8,9,10,1e99},
     eventSet=EVENTSETS,
     holdMode={'hold','swap'},
 }
+local modUsed
 
 local scene={}
 
@@ -85,6 +86,7 @@ function scene.enter()
     destroyPlayers()
     BG.set(CUSTOMGAME_LOCAL.customenv.bg)
     BGM.play(CUSTOMGAME_LOCAL.customenv.bgm)
+    modUsed=usingMod()
 end
 function scene.leave()
     saveFile(CUSTOMGAME_LOCAL.customenv,'conf/customEnv')
@@ -246,8 +248,8 @@ function scene.draw()
     gc.print(CUSTOMGAME_LOCAL.customenv.sequence,610,250)
 
     -- Mod indicator
-    if #GAME.mod>0 then
-        gc.setColor(.42,.26,.62,.62+.26*math.sin(TIME()*12.6))
+    if modUsed then
+        setModBackgroundColor()
         gc.rectangle('fill',1110-230/2,200-90/2,230,90,5,5)
     end
 
@@ -295,7 +297,7 @@ scene.widgetList={
     WIDGET.newButton{name='play_puzzle',   x=1070,y=540,w=310,h=70,color='lM',font=35,code=pressKey'play2',hideF=function() return #CUSTOMGAME_LOCAL.field[1]==0 end},
     WIDGET.newButton{name='back',          x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=pressKey'escape'},
 
-    -- Rule set
+    -- Ruleset
     WIDGET.newSelector{name='eventSet',    x=1050,y=760,w=340,color='H',list=sList.eventSet,disp=CUSval('eventSet'),code=CUSsto('eventSet')},
 
     -- Special rules

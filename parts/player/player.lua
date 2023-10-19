@@ -271,7 +271,7 @@ function Player:act_rotRight()
     if self.cur then
         self.ctrlCount=self.ctrlCount+1
         self:spin(1)
-        self:_triggerEvent('hook_rotRight')
+        self:_triggerEvent('hook_rotate',1)
         self.keyPressing[3]=false
     end
 end
@@ -280,7 +280,7 @@ function Player:act_rotLeft()
     if self.cur then
         self.ctrlCount=self.ctrlCount+1
         self:spin(3)
-        self:_triggerEvent('hook_rotLeft')
+        self:_triggerEvent('hook_rotate',3)
         self.keyPressing[4]=false
     end
 end
@@ -289,7 +289,7 @@ function Player:act_rot180()
     if self.cur then
         self.ctrlCount=self.ctrlCount+2
         self:spin(2)
-        self:_triggerEvent('hook_rot180')
+        self:_triggerEvent('hook_rotate',2)
         self.keyPressing[5]=false
     end
 end
