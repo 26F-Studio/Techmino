@@ -313,7 +313,7 @@ do-- function DATA.saveReplay()
     end
     function DATA.saveReplay()
         -- Filtering modes that cannot be saved
-        if #PLAYERS~=1 then
+        if GAME.initPlayerCount~=1 then
             MES.new('error',"Cannot save recording of more than 1 player now!")
             return
         end
