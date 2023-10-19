@@ -19,7 +19,21 @@ return {
         end
 
         for _,P in next,PLY_ALIVE do
-            setField(P,1)
+            setField(P,FIELD[1])
         end
+    end,
+    savePrivate=function()
+        return {
+            FIELD=FIELD,
+            BAG=BAG,
+            MISSION=MISSION,
+            CUSTOMENV=CUSTOMENV,
+        }
+    end,
+    loadPrivate=function(private)
+        FIELD=private.FIELD
+        BAG=private.BAG
+        MISSION=private.MISSION
+        CUSTOMENV=private.CUSTOMENV
     end,
 }
