@@ -359,8 +359,8 @@ scene.widgetList={
         fShade=GC.DO{70,70,{'setCL',1,1,1,.4},{'draw',GC.DO{70,70,{'setCL',1,1,1,1},{'fRRPol',37,35,32,3,6},{'fRRPol',25,35,32,3,6}}}},
         hideF=function() return PLAYERS[1].frameRun<=180 end,
         },
-    WIDGET.newKey{name='replay',   x=865,y=165,w=200,h=40,font=25,code=pressKey'p',hideF=function() return not (GAME.result or GAME.replaying) or #PLAYERS>1 end},
-    WIDGET.newKey{name='save',     x=1075,y=165,w=200,h=40,font=25,code=pressKey'o',hideF=function() return not (GAME.result or GAME.replaying) or #PLAYERS>1 or GAME.saved end},
+    WIDGET.newKey{name='replay',   x=865,y=165,w=200,h=40,font=25,code=pressKey'p',hideF=function() return not (GAME.result or GAME.replaying) or GAME.curMode.name:find('solo_') or GAME.curMode.name:find('techmino') end},
+    WIDGET.newKey{name='save',     x=1075,y=165,w=200,h=40,font=25,code=pressKey'o',hideF=function() return not (GAME.result or GAME.replaying) or GAME.curMode.name:find('solo_') or GAME.curMode.name:find('techmino') or GAME.saved end},
 }
 
 return scene
