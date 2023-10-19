@@ -45,7 +45,9 @@ local function _scanDict(D)
     for i=1,#D do
         local O=D[i]
         O.title,O.title_Org=_filter(O[1])
+        O.titleLowered=needLowerUTF8 and STRING.lowerUTF8(O.title) or O.title:lower()
         O.keywords=O[2]
+        O.keywordsLowered=needLowerUTF8 and STRING.lowerUTF8(O.keywords) or O.keywords:lower()
         O.type=O[3]
         O.content,O.content_Org=_filter(O[4])
         O.url=O[5]
@@ -114,11 +116,7 @@ local function _search()
         input=input:lower()
     end
     for i=1,#dict do
-        if needLowerUTF8 then
-            pos=find(STRING.lowerUTF8(dict[i].title),input,nil,true) or find(STRING.lowerUTF8(dict[i].keywords),input,nil,true)
-        else
-            pos=find(dict[i].title:lower(),input,nil,true) or find(dict[i].keywords:lower(),input,nil,true)
-        end
+        pos=find(dict[i].titleLowered,input,nil,true) or find(STRING.lowerUTF8(dict[i].keywordsLowered),input,nil,true)
         if pos==1 and not first then
             ins(result,1,dict[i])
             first=true
