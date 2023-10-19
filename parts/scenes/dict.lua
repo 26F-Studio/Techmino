@@ -11,12 +11,14 @@ local result     -- Result Lable
 local localeFile -- Language file name, used for force reload
 
 local lastTickInput
-local searchWait         -- Searching animation timer
+local searchWait            -- Searching animation timer
+local defaultSearchWait     -- Default time to wait from the last key before searching
 
-local lastSearch         -- Last searched string
-local lastSelected       -- Last selected item
+local lastSearch            -- Last searched string
+local lastSelected          -- Last selected item
 
-local currentFontSize=25 -- Current font size, default: 25
+local currentFontSize=25    -- Current font size, default: 25
+local needLowerUTF8
 
 local typeColor={
     help=COLOR.Y,
@@ -43,7 +45,9 @@ local function _scanDict(D)
     for i=1,#D do
         local O=D[i]
         O.title,O.title_Org=_filter(O[1])
+        O.titleLowered=needLowerUTF8 and STRING.lowerUTF8(O.title) or O.title:lower()
         O.keywords=O[2]
+        O.keywordsLowered=needLowerUTF8 and STRING.lowerUTF8(O.keywords) or O.keywords:lower()
         O.type=O[3]
         O.content,O.content_Org=_filter(O[4])
         O.url=O[5]
@@ -102,23 +106,17 @@ local function _clearResult()
 end
 -- Search through the dictionary
 local function _search()
-    local _utf8lower=SETTING.locale:find'vi'
     local input=inputBox:getText()
     local pos
     _clearResult()
     local first
-    if _utf8lower then
-        local success,res=pcall(STRING.lowerUTF8,input)
-        input=success and res or input:lower()
+    if needLowerUTF8 then
+        input=STRING.lowerUTF8(input)
     else
         input=input:lower()
     end
     for i=1,#dict do
-        if _utf8lower then
-            pos=find(STRING.lowerUTF8(dict[i].title),input,nil,true) or find(STRING.lowerUTF8(dict[i].keywords),input,nil,true)
-        else
-            pos=find(dict[i].title:lower(),input,nil,true) or find(dict[i].keywords:lower(),input,nil,true)
-        end
+        pos=find(dict[i].titleLowered,input,nil,true) or find(STRING.lowerUTF8(dict[i].keywordsLowered),input,nil,true)
         if pos==1 and not first then
             ins(result,1,dict[i])
             first=true
@@ -168,9 +166,12 @@ function scene.enter()
     localeFile='parts.language.dict_'..(
         SETTING.locale:find'zh' and 'zh' or
         SETTING.locale:find'ja' and 'ja' or
-        -- SETTING.locale:find'vi' and 'vi' or
+        SETTING.locale:find'vi' and 'vi' or
         'en'
     )
+    needLowerUTF8=SETTING.locale:find'vi'
+    defaultSearchWait=(MOBILE and needLowerUTF8) and 2.6 or 0.8
+    
     dict=require(localeFile)
     _scanDict(dict)
 
@@ -233,31 +234,31 @@ function scene.keyDown(key)
         searchWait=0
         _updateInfoBox()
 
-        -- ***ONLY USE FOR HOTLOADING ZICTIONARY WHILE IN GAME!***
-        -- ***Please commenting out this code if you don't use***
-        -- elseif key=='f5' then
-        --     local _
-        --     local success,_r=pcall(function()
-        --         package.loaded[localeFile]=nil
-        --         dict=require(localeFile)
-        --         _scanDict(dict)
-        --     end
-        --     )
-        --     if not success then
-        --         SFX.play('finesseError_long')
-        --         _,_r=FONT.get(30):getWrap(tostring(_r),1000)
-        --         MES.new("error","Hotload failed! May need restarting!\n\n"..table.concat(_r,"\n"))
-        --     else
-        --         local lastLscrollPos=listBox.scrollPos
-        --         local lastTscrollPos=textBox.scrollPos
-        --         listBox:setList(_getList())
-        --         if #inputBox:getText()>0 then _search() end
-        --         listBox.selected=lastSelected<#dict and lastSelected or #dict   -- In case the last item is removed!
-        --         listBox.scrollPos=lastLscrollPos
-        --         _updateInfoBox()
-        --         textBox.scrollPos=lastTscrollPos
-        --         SFX.play('pc')
-        --     end
+    -- ***ONLY USE FOR HOTLOADING ZICTIONARY WHILE IN GAME!***
+    -- ***Please commenting out this code if you don't use***
+    -- elseif key=='f5' then
+    --     local _
+    --     local success,_r=pcall(function()
+    --         package.loaded[localeFile]=nil
+    --         dict=require(localeFile)
+    --         _scanDict(dict)
+    --     end
+    --     )
+    --     if not success then
+    --         SFX.play('finesseError_long')
+    --         _,_r=FONT.get(30):getWrap(tostring(_r),1000)
+    --         MES.new("error","Hotload failed! May need restarting!\n\n"..table.concat(_r,"\n"))
+    --     else
+    --         local lastLscrollPos=listBox.scrollPos
+    --         local lastTscrollPos=textBox.scrollPos
+    --         listBox:setList(_getList())
+    --         if #inputBox:getText()>0 then _search() end
+    --         listBox.selected=lastSelected<#dict and lastSelected or #dict   -- In case the last item is removed!
+    --         listBox.scrollPos=lastLscrollPos
+    --         _updateInfoBox()
+    --         textBox.scrollPos=lastTscrollPos
+    --         SFX.play('pc')
+    --     end
     else
         if not inputBoxFocus then WIDGET.focus(inputBox) end
         return true
@@ -289,7 +290,7 @@ function scene.update(dt)
             _clearResult()
             listBox:setList(_getList())
         else
-            searchWait=.8
+            searchWait=defaultSearchWait
         end
         lastTickInput=input
     end
@@ -300,7 +301,7 @@ function scene.update(dt)
         end
     end
     if listBox.selected~=lastSelected and listBox.selected~=0 then
-        if listBox.selected==0 then scene.keyDown('f1') end
+        scene.widgetList.help.color=COLOR.Z
         lastSelected=listBox.selected
         scene.widgetList.copy.hide=false
         _updateInfoBox()
@@ -343,7 +344,7 @@ scene.widgetList={
     WIDGET.newKey{name='help',x=1234,y=220,w=60,font=40,fText=CHAR.icon.help,code=pressKey'f1'},
 
     WIDGET.newButton{name='back',x=1185,y=60,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
-    WIDGET.newText{name='buttontip',x=1274,y=110,w=762,h=60,font=40,align='R',fText=CHAR.controller.xboxY.."/[F1]: "..CHAR.icon.help},
+    WIDGET.newText{name='buttontip',x=1274,y=110,w=762,h=60,font=40,align='R',fText=CHAR.controller.xboxY.."/[F1]: "..CHAR.icon.help,hideF=function() return MOBILE end},
 }
 -- NOTE: The gap between Link-Copy, Zoom is 60*1.5-10=80 :) The gap between 2 buttons in one group is 60+10=70
 return scene
