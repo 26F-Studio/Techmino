@@ -234,31 +234,31 @@ function scene.keyDown(key)
         searchWait=0
         _updateInfoBox()
 
-        -- ***ONLY USE FOR HOTLOADING ZICTIONARY WHILE IN GAME!***
-        -- ***Please commenting out this code if you don't use***
-        -- elseif key=='f5' then
-        --     local _
-        --     local success,_r=pcall(function()
-        --         package.loaded[localeFile]=nil
-        --         dict=require(localeFile)
-        --         _scanDict(dict)
-        --     end
-        --     )
-        --     if not success then
-        --         SFX.play('finesseError_long')
-        --         _,_r=FONT.get(30):getWrap(tostring(_r),1000)
-        --         MES.new("error","Hotload failed! May need restarting!\n\n"..table.concat(_r,"\n"))
-        --     else
-        --         local lastLscrollPos=listBox.scrollPos
-        --         local lastTscrollPos=textBox.scrollPos
-        --         listBox:setList(_getList())
-        --         if #inputBox:getText()>0 then _search() end
-        --         listBox.selected=lastSelected<#dict and lastSelected or #dict   -- In case the last item is removed!
-        --         listBox.scrollPos=lastLscrollPos
-        --         _updateInfoBox()
-        --         textBox.scrollPos=lastTscrollPos
-        --         SFX.play('pc')
-        --     end
+    -- ***ONLY USE FOR HOTLOADING ZICTIONARY WHILE IN GAME!***
+    -- ***Please commenting out this code if you don't use***
+    -- elseif key=='f5' then
+    --     local _
+    --     local success,_r=pcall(function()
+    --         package.loaded[localeFile]=nil
+    --         dict=require(localeFile)
+    --         _scanDict(dict)
+    --     end
+    --     )
+    --     if not success then
+    --         SFX.play('finesseError_long')
+    --         _,_r=FONT.get(30):getWrap(tostring(_r),1000)
+    --         MES.new("error","Hotload failed! May need restarting!\n\n"..table.concat(_r,"\n"))
+    --     else
+    --         local lastLscrollPos=listBox.scrollPos
+    --         local lastTscrollPos=textBox.scrollPos
+    --         listBox:setList(_getList())
+    --         if #inputBox:getText()>0 then _search() end
+    --         listBox.selected=lastSelected<#dict and lastSelected or #dict   -- In case the last item is removed!
+    --         listBox.scrollPos=lastLscrollPos
+    --         _updateInfoBox()
+    --         textBox.scrollPos=lastTscrollPos
+    --         SFX.play('pc')
+    --     end
     else
         if not inputBoxFocus then WIDGET.focus(inputBox) end
         return true
@@ -301,10 +301,7 @@ function scene.update(dt)
         end
     end
     if listBox.selected~=lastSelected and listBox.selected~=0 then
-        if listBox.selected==0 then scene.keyDown('f1') end
-        -- Redraw the UI to apply the new color of Help button.
-        -- Because scene.draw will be called after scene.keyDown but before scene.update
-        scene.draw()
+        scene.widgetList.help.color=COLOR.Z
         lastSelected=listBox.selected
         scene.widgetList.copy.hide=false
         _updateInfoBox()
