@@ -69,6 +69,7 @@ return {
 
     cc_fixed="CC is incompatible with fixed sequences.",
     cc_swap="CC is incompatible when the hold mode is set to Swap.",
+    cc_solid="CC is incompatible with filled line in the field.",
     ai_prebag="AI is incompatible with custom sequences that contain non-tetrominoes.",
     ai_mission="AI is incompatible with custom missions.",
     switchSpawnSFX="Please turn on the block spawn SFX!",

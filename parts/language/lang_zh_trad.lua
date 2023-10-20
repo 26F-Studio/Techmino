@@ -69,6 +69,7 @@ return {
 
     cc_fixed="不能同時開啟CC和固定序列",
     cc_swap="不能同時開啟CC和swap的暫存模式",
+    cc_solid="開啟CC時不能存在預先填滿的行",
     ai_prebag="不能同時開啟AI和含有非四連方塊的自定義序列",
     ai_mission="不能同時開啟AI和自定義任務",
     switchSpawnSFX="請開啟方塊生成音效",
