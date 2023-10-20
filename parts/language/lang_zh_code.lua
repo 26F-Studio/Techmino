@@ -66,11 +66,12 @@ return {
 
     page="Page=",
 
-    cc_fixed=" if (AI==CC and Sequence==Fixed) then Error(); end",
-    cc_swap=" if (AI==CC and Hold.Mode==Swap) then Error(); end",
-    cc_solid=" if (AI==CC and filledLine in Field) then Error(); end",
-    ai_prebag=" if (AI==true and Ctm.Seq~=Tetromino) then Error(); end",
-    ai_mission=" if (AI==true and Ctm.Mission~=true) then Error(); end",
+    ai_puzzle="assert(AI==true and Ctm.Mission~=true)",
+    ai_mission="assert(AI==true and Ctm.Mission~=true)",
+    ai_badPiece="assert(AI==true and Ctm.Seq~=Tetromino)",
+    cc_fixed="assert(AI==CC and Sequence==Fixed)",
+    cc_swap="assert(AI==CC and Hold.Mode==Swap)",
+    cc_solid="assert(AI==CC and filledLine in Field)",
     switchSpawnSFX="SpawnSFX=false",
     needRestart="NeedRestart=true",
 
@@ -101,7 +102,7 @@ return {
 
     noScore="NoScore=true",
     modeLocked="Locked=true",
-    unlockHint=" if (PreviousMode<=B) then Unlock();",
+    unlockHint="if (PreviousMode<=B) then Unlock();",
     highScore="HighScore",
     newRecord="NewRecord=true",
 

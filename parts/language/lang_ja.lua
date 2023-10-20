@@ -68,11 +68,12 @@ return {
 
     page="ページ:",
 
+    -- ai_puzzle="AI is incompatible with puzzle game mode",
+    ai_mission="AIはカスタムミッションに非対応です!",
+    ai_badPiece="AIは通常のテトロミノ以外やミノ順指定に非対応です!",
     cc_fixed="CCはミノ順の指定に非対応です!",
     cc_swap="CCはホールドモード、Swapに非対応です!",
     -- cc_solid="CC is incompatible with filled line in the field.",
-    ai_prebag="AIは通常のテトロミノ以外やミノ順指定に非対応です!",
-    ai_mission="AIはカスタムミッションに非対応です!",
     switchSpawnSFX="ブロック出現時の効果音をONにしてください!",
     needRestart="すべての変更を適用する為にリスタートしてください!",
 

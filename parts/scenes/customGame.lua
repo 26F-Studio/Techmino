@@ -95,6 +95,20 @@ end
 
 local function _play(mode)
     if CUSTOMGAME_LOCAL.customenv.opponent~="X" then
+        if mode=='puzzle' then
+            MES.new('error',text.ai_puzzle)
+            return
+        end
+        if #CUSTOMGAME_LOCAL.mission>0 then
+            MES.new('error',text.ai_mission)
+            return
+        end
+        for i=1,#CUSTOMGAME_LOCAL.bag do
+            if CUSTOMGAME_LOCAL.bag[i]>7 then
+                MES.new('error',text.ai_badPiece)
+                return
+            end
+        end
         if CUSTOMGAME_LOCAL.customenv.opponent:sub(1,2)=='CC' then
             if CUSTOMGAME_LOCAL.customenv.sequence=='fixed' then
                 MES.new('error',text.cc_fixed)
@@ -104,43 +118,14 @@ local function _play(mode)
                 MES.new('error',text.cc_swap)
                 return
             end
-            local hasSolidLine=false
             for _,F in next,CUSTOMGAME_LOCAL.field do
-                local solidLineInThisField=false
                 for y=1,#F do
-                    local solidLine=true
-                    for x=1,10 do
-                        if F[y][x]==0 then
-                            solidLine=false
-                            break
-                        end
-                    end
-                    if solidLine then
-                        solidLineInThisField=true
-                        break
+                    if not TABLE.find(F[y],0) then
+                        MES.new('error',text.cc_solid)
+                        return
                     end
                 end
-                if solidLineInThisField then
-                    hasSolidLine=true
-                    break
-                end
             end
-            if hasSolidLine then
-                MES.new('error',text.cc_solid)
-                return
-            end
-        end
-        if #CUSTOMGAME_LOCAL.bag>0 then
-            for _=1,#CUSTOMGAME_LOCAL.bag do
-                if CUSTOMGAME_LOCAL.bag[_]>7 then
-                    MES.new('error',text.ai_prebag)
-                    return
-                end
-            end
-        end
-        if #CUSTOMGAME_LOCAL.mission>0 then
-            MES.new('error',text.ai_mission)
-            return
         end
     end
     saveFile(CUSTOMGAME_LOCAL.customenv,'conf/customEnv')

@@ -57,11 +57,12 @@ return {
 
     page=":",
 
+    ai_puzzle="X!!!",
+    ai_mission="X!!!",
+    ai_badPiece="X!!!",
     cc_fixed="CC X!!!",
     cc_swap="CC X!!!",
     cc_solid="CC X!!!",
-    ai_prebag="X!!!",
-    ai_mission="X!!!",
     needRestart="!!*#R#*!!",
 
     loadError_errorMode="'$1' ↑x!: no load mode '$2'",
