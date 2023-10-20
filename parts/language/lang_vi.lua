@@ -75,6 +75,7 @@ return {
     cc_fixed="CC không tương thích với trình xáo gạch cố định",
     cc_swap="CC không tương thích với chế độ Hold là Chuyển",
     -- cc_solid="CC is incompatible with filled line in the field.",
+    -- cc_field_too_high="CC is incompatible with fields higher than 40.",
     ai_prebag="AI không tương thích với trình xáo gạch chứa gạch không phải là tetromino.",
     ai_mission="AI không tương thích với nhiệm vụ tuỳ chọn.",
     switchSpawnSFX="Vui lòng bật Spawn SFX để chơi!",

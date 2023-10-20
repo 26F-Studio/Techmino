@@ -69,6 +69,7 @@ return {
     cc_fixed=" if (AI==CC and Sequence==Fixed) then Error(); end",
     cc_swap=" if (AI==CC and Hold.Mode==Swap) then Error(); end",
     cc_solid=" if (AI==CC and filledLine in Field) then Error(); end",
+    cc_field_too_high=" if (AI==CC and Field.Height>=40) then Error(); end",
     ai_prebag=" if (AI==true and Ctm.Seq~=Tetromino) then Error(); end",
     ai_mission=" if (AI==true and Ctm.Mission~=true) then Error(); end",
     switchSpawnSFX="SpawnSFX=false",

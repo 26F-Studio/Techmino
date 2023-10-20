@@ -60,6 +60,7 @@ return {
     cc_fixed="CC X!!!",
     cc_swap="CC X!!!",
     cc_solid="CC X!!!",
+    cc_field_too_high="CC X!!!",
     ai_prebag="X!!!",
     ai_mission="X!!!",
     needRestart="!!*#R#*!!",

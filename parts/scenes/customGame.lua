@@ -129,6 +129,11 @@ local function _play(mode)
                 MES.new('error',text.cc_solid)
                 return
             end
+            if CUSTOMGAME_LOCAL.customenv.fieldH>=35 then
+                MES.new('warn',text.cc_field_too_high)
+                -- warning instead of error because we think it's not a big deal
+                -- the bot just dies very quickly
+            end
         end
         if #CUSTOMGAME_LOCAL.bag>0 then
             for _=1,#CUSTOMGAME_LOCAL.bag do
