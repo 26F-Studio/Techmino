@@ -70,6 +70,7 @@ return {
 
     cc_fixed="CC tidak cocok dengan urutan tetap.",
     cc_swap="CC tidak cocok dengan mode simpan tukar.",
+    -- cc_solid="CC is incompatible with filled line in the field.",
     ai_prebag="AI tidak cocok dengan urutan terubah yang memiliki non-tetromino.",
     ai_mission="AI tidak cocok dengan misi terubah.",
     switchSpawnSFX="Nyalakan efek suara munculan blok!",

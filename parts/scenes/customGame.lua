@@ -104,6 +104,31 @@ local function _play(mode)
                 MES.new('error',text.cc_swap)
                 return
             end
+            local hasSolidLine=false
+            for _,F in next,CUSTOMGAME_LOCAL.field do
+                local solidLineInThisField=false
+                for y=1,#F do
+                    local solidLine=true
+                    for x=1,10 do
+                        if F[y][x]==0 then
+                            solidLine=false
+                            break
+                        end
+                    end
+                    if solidLine then
+                        solidLineInThisField=true
+                        break
+                    end
+                end
+                if solidLineInThisField then
+                    hasSolidLine=true
+                    break
+                end
+            end
+            if hasSolidLine then
+                MES.new('error',text.cc_solid)
+                return
+            end
         end
         if #CUSTOMGAME_LOCAL.bag>0 then
             for _=1,#CUSTOMGAME_LOCAL.bag do

@@ -68,6 +68,7 @@ return {
 
     cc_fixed="CC no es compatible con piezas prefijadas",
     cc_swap="CC no es compatible con Swap Hold",
+    -- cc_solid="CC is incompatible with filled line in the field.",
     ai_prebag="La IA no es compatible con piezas que no sean Tetrominos.",
     ai_mission="La IA no es compatible con misiones personalizadas.",
     switchSpawnSFX="Habilita los sonidos de aparición de las piezas ;)",
