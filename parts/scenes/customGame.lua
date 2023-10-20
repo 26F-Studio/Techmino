@@ -130,6 +130,8 @@ local function _play(mode)
                 return
             end
             if CUSTOMGAME_LOCAL.customenv.fieldH>=35 then
+                -- the error message says 40, but we detect 35
+                -- because with a few garbage lines, the field height can be pushed to 40
                 MES.new('warn',text.cc_field_too_high)
                 -- warning instead of error because we think it's not a big deal
                 -- the bot just dies very quickly
