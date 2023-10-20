@@ -298,7 +298,7 @@ return {
         "LawrenceLiu",
         "Gompyn",
         "flaribbit",
-        "schh",
+        "scdhh",
         "",
         "视觉设计、UI和UX",
         "MrZ",
