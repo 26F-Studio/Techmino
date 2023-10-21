@@ -46,7 +46,8 @@ Bạn muốn đóng góp vào bản dịch? Bạn có thể vào trang dự án 
                 - Tốc độ rơi, 20G
                 - ARE, Line ARE, Death ARE
                 - Lockdown Delay, Spawn & Clear delay
-            05E2. Thông số điều khiển: DAS & ARR, DAS cut, Auto-lock cut, SDF
+            05E2. Thông số điều khiển:
+                DAS & ARR, DAS cut, Auto-lock cut, SDF
         05F. Điều khiển
             05F1. Tốc độ: LPM, PPS, BPM, KPM, KPP
             05F2. Kỹ thuật: Hypertapping, Rolling, Finesse
@@ -340,7 +341,7 @@ Tuy nhiên, mỗi game sẽ có cách xử lý khác nhau. Ví dụ:
     {"Hình dạng",
         "nhom05a hình dạng của tetro. hình dạng của tetromino"..tetromino,
         "term",
-        "Trong đa số các game xếp gạch, tất cả gạch đều là Tetromino\n\nCó 7 loại Tetromino, (nếu cho phép xoay nhưng không lật ngang hay dọc) gồm: Z, S, J, L, T, O, và I. Hãy xem mục \"Gạch & tên tương ứng\" để có thêm thông tin.", -- Removed " - gạch được liên kết bởi 4 ô, bám dính vào mặt chứ không bám vào góc."
+        "Trong đa số các game xếp gạch, tất cả gạch đều là Tetromino\n\nCó 7 loại Tetromino, nếu cho phép xoay nhưng không lật ngang hay dọc, gồm: Z, S, J, L, T, O, và I.\nHãy xem mục \"Gạch & tên tương ứng\" để có thêm thông tin.", -- Removed " - gạch được liên kết bởi 4 ô, bám dính vào mặt chứ không bám vào góc."
     },
     {"Màu",
         "nhom05a màu"..tetromino,
@@ -530,7 +531,7 @@ Kiểu xáo His là phiên bản cải tiến so với kiểu xáo ngẫu nhiên
         "nhom05d hispool historypoolgenerator kiểu xáo hispool",
         "term",
         [[
-[Sea: Phần này không có trong Zictionary ngôn ngữ khác!
+[Sea: Phần này không có trong Zictionary ngôn ngữ khác!]
 Cách hoạt động của kiểu xáo HisPool diễn ra tuần tự như sau:
 
 Bước 1: Lấy một viên gạch ngẫu nhiên trong cái Rổ.
@@ -1202,7 +1203,7 @@ Một trò chơi nổi tiếng với chế độ Battle Royale 99 người và c
         [[
 PS / NS / Xbox / Windows | Chơi đơn / Chơi trực tuyến
 
-Đây là một tựa game ghép từ hai trò chơi giải đố: Tetris  và Puyo Puyo, và bạn có thể chơi đối đầu trong cả hai game này. Có nhiều chế độ chơi đơn và chơi trực tuyến.
+Đây là một tựa game ghép từ hai trò chơi giải đố: Tetris và Puyo Puyo, và bạn có thể chơi đối đầu trong cả hai game này. Có nhiều chế độ chơi đơn và chơi trực tuyến.
 
 [MrZ: Bản PC (Steam) có cơ chế điều khiển và trải nghiệm trực tuyến khá là tệ.]
         ]],

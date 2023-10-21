@@ -72,7 +72,7 @@ return {
 
     page="Trang ",
 
-    -- ai_puzzle="AI is incompatible with puzzle game mode",
+    ai_puzzle="AI không tương thích với chế độ Puzzle",
     ai_mission="AI không tương thích với nhiệm vụ tuỳ chọn.",
     ai_badPiece="AI không tương thích với trình xáo gạch chứa gạch không phải là tetromino.",
     cc_fixed="CC không tương thích với trình xáo gạch cố định",
@@ -623,7 +623,7 @@ C. Tay cầm chơi game (Gamepad):
         },
         setting_control={
             -- title="Cài đặt Điều khiển",
-            title="Đ.chỉnh thg. số",
+            title="Điều chỉnh thông số",
             preview="Xem trước",
 
             das="DAS",arr="ARR",
