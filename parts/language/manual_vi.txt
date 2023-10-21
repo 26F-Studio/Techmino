@@ -25,23 +25,23 @@ Cách phát hiện spin: bằng cách sử dụng hệ thống điểm.
 
 
 Hệ thống tấn công:
-        Kiểu xóa Đặc biệt (Special clear):
-                Kiểu xóa Đặc biệt chỉ trường hợp bạn thực hiện Spin, Techrash, Techrash+ — xóa 5 hàng hoặc hơn, PC, HPC.
-                Kiểu xóa Đặc biệt có thể sạc đầy thanh B2B.
+        Kiểu xóa nâng cao (Special clear):
+                Kiểu xóa nâng cao chỉ trường hợp bạn thực hiện Spin, Techrash, Techrash+ — xóa 5 hàng hoặc hơn, PC, HPC.
+                Kiểu xóa nâng cao có thể sạc đầy thanh B2B.
 
         Kiểu xóa Siêu cấp (Super clear):
-                Là Kiểu xóa Đặc biệt nhưng được thực hiện với B2B hoặc B3B
+                Là Kiểu xóa nâng cao nhưng được thực hiện với B2B hoặc B3B
 
-        Kiểu xóa Đặc biệt (spin): Gửi gấp đôi số hàng vừa xóa.
+        Kiểu xóa nâng cao (spin): Gửi gấp đôi số hàng vừa xóa.
                 — B2B gửi thêm 1/1/2/4/8 cho Spin Đơn/Spin Đôi/Spin Tam/Techrash/Techrash+
                 — B2B2B gửi thêm (số hàng xóa × 0.5) trên B2B và +1 hàng để đánh chặn
                 — Mini sẽ bị cắt chỉ còn ¼ so với giá trị ban đầu
 
-        Kiểu xóa Đặc biệt (Techrash/Techrash+ nhưng không spin):
+        Kiểu xóa nâng cao (Techrash/Techrash+ nhưng không spin):
                 — B2B gửi thêm 1 hàng
                 — B3B boost 50% tấn công và +1 hàng để đánh chặn
 
-        Kiểu xóa không Đặc biệt:
+        Kiểu xóa thường:
                 Single/Double/Triple (Đơn/Đôi/Tam) gửi 0/1/2 hàng
 
         Combo (REN):
@@ -64,7 +64,7 @@ Thanh Back to Back (B2B):
         Một người chơi đang ở trang thái B3B khi thanh có hơn 800 điểm.
 
         Nếu có hàng được xóa:
-                Kiểu xóa đặc biệt:
+                Kiểu xóa nâng cao:
                         — Spin Đơn/Đôi/Tam/Techrash/Techrash+ lần lượt cộng thêm 50/100/180/800/1000 (×50% nếu là Mini)
                         — Techrash +150 điểm, nếu xóa hơn 4 hàng cùng lúc, mỗi hàng từ hàng thứ 5 trở đi cộng thêm 50 điểm.
                         — PC từ thứ 4 trở đi có giá trị 800 điểm
@@ -122,3 +122,9 @@ Chế độ Tự do:
                 ô có màu thì gạch đặt vào ô phải khớp màu;
                 ô có màu của hàng rác thì có thể là bất kỳ gạch nào (không phân biệt kiểu gạch) nhưng không thể là không khí.
         Ở chế độ Clear: bạn chỉ cần xóa sạch toàn bộ gạch của bảng mẫu là được.
+
+Chế độ Construct:
+        Ở chế độ này, bạn sẽ phải xây theo đúng mẫu: Secret Grade, họa tiết xen kẽ, hoặc Secret Grade đảo ngược
+        Điều kiện để thắng game ở chế độ Construct cũng tương tự như chế độ Puzzle trong chế độ Tự do.
+
+        Nhấn F1 để tắt/bật mẫu, F2 để lật dọc mẫu.

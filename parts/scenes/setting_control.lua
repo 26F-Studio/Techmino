@@ -86,7 +86,7 @@ local function _sliderShow(S)
     return S.."F "..math.floor(S*16.67).."ms"
 end
 scene.widgetList={
-    WIDGET.newText{name='title',    x=100,    y=50,lim=500,font=70,align='L'},
+    WIDGET.newText{name='title',    x=100,    y=50,lim=626,font=70,align='L'},
     WIDGET.newText{name='preview',  x=520,    y=610,font=40,align='R'},
 
     WIDGET.newSlider{name='das',    x=250,    y=190,lim=230,w=600,axis={0,20,1},disp=SETval('das'),    show=_sliderShow,code=SETsto('das')},

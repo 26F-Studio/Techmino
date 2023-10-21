@@ -12,7 +12,6 @@ local localeFile -- Language file name, used for force reload
 
 local lastTickInput
 local searchWait            -- Searching animation timer
-local defaultSearchWait     -- Default time to wait from the last key before searching
 
 local lastSearch            -- Last searched string
 local lastSelected          -- Last selected item
@@ -108,13 +107,9 @@ end
 local function _search()
     local input=inputBox:getText()
     local pos
-    _clearResult()
     local first
-    if needLowerUTF8 then
-        input=STRING.lowerUTF8(input)
-    else
-        input=input:lower()
-    end
+    _clearResult()
+    input=needLowerUTF8 and STRING.lowerUTF8(input) or input:lower()
     for i=1,#dict do
         pos=find(dict[i].titleLowered,input,nil,true) or find(STRING.lowerUTF8(dict[i].keywordsLowered),input,nil,true)
         if pos==1 and not first then
@@ -170,7 +165,6 @@ function scene.enter()
         'en'
     )
     needLowerUTF8=SETTING.locale:find'vi'
-    defaultSearchWait=(MOBILE and needLowerUTF8) and 2.6 or 0.8
     
     dict=require(localeFile)
     _scanDict(dict)
@@ -290,7 +284,7 @@ function scene.update(dt)
             _clearResult()
             listBox:setList(_getList())
         else
-            searchWait=defaultSearchWait
+            searchWait=0.8
         end
         lastTickInput=input
     end

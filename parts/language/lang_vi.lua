@@ -72,12 +72,12 @@ return {
 
     page="Trang ",
 
-    -- ai_puzzle="AI is incompatible with puzzle game mode",
+    ai_puzzle="AI không tương thích với chế độ Puzzle",
     ai_mission="AI không tương thích với nhiệm vụ tuỳ chọn.",
     ai_badPiece="AI không tương thích với trình xáo gạch chứa gạch không phải là tetromino.",
     cc_fixed="CC không tương thích với trình xáo gạch cố định",
     cc_swap="CC không tương thích với chế độ Hold là Chuyển",
-    -- cc_solid="CC is incompatible with filled line in the field.",
+    cc_solid="CC không tương thích với bảng có hàng đã lấp đầy.",
     switchSpawnSFX="Vui lòng bật Spawn SFX để chơi!",
     needRestart="Khởi động lại để áp dụng mọi thay đổi.",
 
@@ -623,7 +623,7 @@ C. Tay cầm chơi game (Gamepad):
         },
         setting_control={
             -- title="Cài đặt Điều khiển",
-            title="Đ.chỉnh thg. số",
+            title="Điều chỉnh thông số",
             preview="Xem trước",
 
             das="DAS",arr="ARR",
@@ -981,9 +981,9 @@ C. Tay cầm chơi game (Gamepad):
         ['tech_l']=              {"Tech B2B",          "RẤT KHÓ",        "Cố gắng không phá B2B!"},
         ['tech_l_plus']=         {"Tech B2B",          "RẤT KHÓ+",       "Chỉ được clear Spin hoặc PC"},
         ['tech_finesse']=        {"Kỹ thuật di chuyển","",               "Không được phép có lỗi di chuyển!"},
-        ['tech_finesse_f']=      {"Kỹ thuật di chuyển","Khg ĐƠN/ĐÔI/TAM","Không được phép có lỗi di chuyển hoặc loại Xoá hàng thường!"},
+        ['tech_finesse_f']=      {"Kỹ thuật di chuyển","Khg ĐƠN/ĐÔI/TAM","Không được phép có lỗi di chuyển hoặc kiểu Xoá hàng thường!"},
         ['tech_finesse_lock']=   {"Kỹ thuật di chuyển","LOCK",           "Không được mắc lỗi di chuyển hoặc bạn không thể điều khiển gạch!"},
-        ['tech_finesse_lock_f']= {"Kỹ thuật di chuyển","LOCK+",          "Không được mắc lỗi di chuyển hoặc bạn không thể điều khiển gạch! Bạn cũng sẽ thua khi dùng kiểu xóa thường!"},
+        ['tech_finesse_lock_f']= {"Kỹ thuật di chuyển","LOCK+",          "Không được mắc lỗi di chuyển hoặc bạn không thể điều khiển gạch! Bạn cũng sẽ thua khi dùng kiểu Xóa hàng thường!"},
         ['tsd_e']=               {"TSD Challenge",     "DỄ",             "Chỉ được làm T-Spin Double!"},
         ['tsd_h']=               {"TSD Challenge",     "KHÓ",            "Chỉ được làm T-Spin Double!"},
         ['tsd_u']=               {"TSD Challenge",     "THÁCH ĐẤU",      "Chỉ được làm T-Spin Double!"},
