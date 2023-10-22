@@ -73,6 +73,7 @@ return {
     cc_fixed="不能同時開啟CC和固定序列",
     cc_swap="不能同時開啟CC和swap的暫存模式",
     cc_solid="開啟CC時不能存在預先填滿的行",
+    cc_field_too_high="開啓CC時最高出塊高度不能超過40",
     switchSpawnSFX="請開啟方塊生成音效",
     needRestart="重新啟動以應用所有更改",
 

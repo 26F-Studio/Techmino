@@ -73,6 +73,7 @@ return {
     cc_fixed="CC est incompatible avec les séquences fixes",
     cc_swap="CC est incompatible avec le mode de maintien du swap",
     -- cc_solid="CC is incompatible with filled line in the field.",
+    -- cc_field_too_high="CC is incompatible with fields higher than 40.",
     switchSpawnSFX="Activez les effets sonores d'apparition des pièces pour jouer.",
     needRestart="Redémarrez pour appliquer toutes les modifications.",
 

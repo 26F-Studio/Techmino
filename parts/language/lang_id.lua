@@ -74,6 +74,7 @@ return {
     cc_fixed="CC tidak cocok dengan urutan tetap.",
     cc_swap="CC tidak cocok dengan mode simpan tukar.",
     -- cc_solid="CC is incompatible with filled line in the field.",
+    -- cc_field_too_high="CC is incompatible with fields higher than 40.",
     switchSpawnSFX="Nyalakan efek suara munculan blok!",
     needRestart="Ulangi untuk menerapkan perubahan.",
 

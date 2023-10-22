@@ -72,6 +72,7 @@ return {
     cc_fixed="assert(AI==CC and Sequence==Fixed)",
     cc_swap="assert(AI==CC and Hold.Mode==Swap)",
     cc_solid="assert(AI==CC and filledLine in Field)",
+    cc_field_too_high="assert(AI==CC and Field.Height>=40)",
     switchSpawnSFX="SpawnSFX=false",
     needRestart="NeedRestart=true",
 

@@ -63,6 +63,7 @@ return {
     -- cc_fixed="CC is incompatible with fixed sequences",
     -- cc_swap="CC is incompatible with swap holdmode",
     -- cc_solid="CC is incompatible with filled line in the field.",
+    -- cc_field_too_high="CC is incompatible with fields higher than 40.",
     switchSpawnSFX="Switch on spawn SFX to play",
     needRestart="Funciona após reiniciar",
 

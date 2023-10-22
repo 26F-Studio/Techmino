@@ -63,6 +63,7 @@ return {
     cc_fixed="CC X!!!",
     cc_swap="CC X!!!",
     cc_solid="CC X!!!",
+    cc_field_too_high="CC X!!!",
     needRestart="!!*#R#*!!",
 
     loadError_errorMode="'$1' ↑x!: no load mode '$2'",

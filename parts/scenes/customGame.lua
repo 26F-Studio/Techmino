@@ -118,6 +118,13 @@ local function _play(mode)
                 MES.new('error',text.cc_swap)
                 return
             end
+            if CUSTOMGAME_LOCAL.customenv.fieldH>=35 then
+                -- the error message says 40, but we detect 35
+                -- because with a few garbage lines, the field height can be pushed to 40
+                MES.new('warn',text.cc_field_too_high)
+                -- warning instead of error because we think it's not a big deal
+                -- the bot just dies very quickly
+            end
             for _,F in next,CUSTOMGAME_LOCAL.field do
                 for y=1,#F do
                     if not TABLE.find(F[y],0) then

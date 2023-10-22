@@ -74,6 +74,7 @@ return {
     cc_fixed="CCはミノ順の指定に非対応です!",
     cc_swap="CCはホールドモード、Swapに非対応です!",
     -- cc_solid="CC is incompatible with filled line in the field.",
+    -- cc_field_too_high="CC is incompatible with fields higher than 40.",
     switchSpawnSFX="ブロック出現時の効果音をONにしてください!",
     needRestart="すべての変更を適用する為にリスタートしてください!",
 
