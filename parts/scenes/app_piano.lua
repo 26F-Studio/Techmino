@@ -1,5 +1,6 @@
 local gc=love.graphics
 local kbIsDown=love.keyboard.isDown
+local moIsDown=love.mouse.isDown
 local min,max=math.min,math.max
 
 local instList={'lead','bell','bass'}
@@ -61,6 +62,7 @@ end
 
 local function checkMultiTouch() -- Check for every touch
     if not showingKey then return end
+    if not kbIsDown('lctrl','rctrl','lshift','rshift') then _notHoldCS() end
     for _,t in pairs(touches) do
         local x,y=t[1],t[2]
         for _,key in pairs(pianoVK) do
@@ -107,8 +109,6 @@ function scene.touchUp(_,_,id)
     touches[id]=nil
     checkMultiTouch()
 end
-scene.mouseDown=scene.touchDown -- The ID arg is being used by button, nvm the code still not crash
-scene.mouseUp=scene.touchUp     -- Don't need to do anything more complicated here
 
 function scene.keyDown(key,isRep)
     if not isRep and keys[key] then
@@ -141,10 +141,16 @@ function scene.keyDown(key,isRep)
 end
 
 function scene.keyUp()
-    if not kbIsDown('lctrl','rctrl','lshift','rshift')
-    or (kbIsDown("lshift","rshift") and kbIsDown("lctrl","rctrl"))
+    if (
+        not kbIsDown('lctrl','rctrl','lshift','rshift') -- If we are not holding Ctrl or Shift keys
+        or (kbIsDown("lshift","rshift") and kbIsDown("lctrl","rctrl")) -- or holding two keys together
+    ) and not moIsDown(1) -- and the left mouse button is not being held
+    -- The implementationo is really wild but I hope it will good enough to keep the virtual keys from bugs
     then _notHoldCS() end
 end
+
+scene.mouseDown=scene.touchDown -- The ID arg is being used by button, nvm the code still not crash
+scene.mouseUp=scene.touchUp     -- Don't need to do anything more complicated here
 
 function scene.draw()
     setFont(30)
