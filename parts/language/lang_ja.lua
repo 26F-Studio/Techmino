@@ -68,10 +68,13 @@ return {
 
     page="ページ:",
 
+    -- ai_puzzle="AI is incompatible with puzzle game mode",
+    ai_mission="AIはカスタムミッションに非対応です!",
+    ai_badPiece="AIは通常のテトロミノ以外やミノ順指定に非対応です!",
     cc_fixed="CCはミノ順の指定に非対応です!",
     cc_swap="CCはホールドモード、Swapに非対応です!",
-    ai_prebag="AIは通常のテトロミノ以外やミノ順指定に非対応です!",
-    ai_mission="AIはカスタムミッションに非対応です!",
+    -- cc_solid="CC is incompatible with filled line in the field.",
+    -- cc_field_too_high="CC is incompatible with fields higher than 40.",
     switchSpawnSFX="ブロック出現時の効果音をONにしてください!",
     needRestart="すべての変更を適用する為にリスタートしてください!",
 
@@ -418,7 +421,7 @@ B. キーボード
 
 C. ゲームパッド
         - $10でヘルプを表示
-        - $5または、$6でテキストをスクロール($11を押しながらだとスクロールが速くなります)
+        - $5または、$6でテキストをスクロール
         - $7または、$8で項目をスクロール($11を押しながらだとスクロールが速くなります)
         - $11を押しながら$6または、$5でフォントサイズ変更
 ]]

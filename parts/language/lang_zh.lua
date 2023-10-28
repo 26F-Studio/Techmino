@@ -67,10 +67,13 @@ return {
 
     page="页面:",
 
+    ai_puzzle="不能同时开启AI和拼图模式",
+    ai_mission="不能同时开启AI和自定义任务",
+    ai_badPiece="不能同时开启AI和含有非四连块的自定义序列",
     cc_fixed="不能同时开启CC和固定序列",
     cc_swap="不能同时开启CC和swap的暂存模式",
-    ai_prebag="不能同时开启AI和含有非四连块的自定义序列",
-    ai_mission="不能同时开启AI和自定义任务",
+    cc_solid="开启CC时不能存在预先填满的行",
+    cc_field_too_high="开启CC时最高出块高度不能超过40",
     switchSpawnSFX="请开启方块生成音效",
     needRestart="重新开始以生效",
 
@@ -298,7 +301,7 @@ return {
         "LawrenceLiu",
         "Gompyn",
         "flaribbit",
-        "schh",
+        "scdhh",
         "",
         "视觉设计、UI和UX",
         "MrZ",
@@ -406,7 +409,7 @@ return {
 
 手柄：
         按 $10 to 显示帮助
-        按 $5 或 $6 滚动文本, 按 $11 加速
+        按 $5 或 $6 滚动文本
         按 $7 打开上一词条，按 $8 打开下一词条。按住 $11 加速
         按住 $11 并按 $6 缩小字号，或 $5 增大字号]]
         -- 1-4: Up, Down, Left, Right

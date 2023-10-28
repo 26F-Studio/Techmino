@@ -439,20 +439,22 @@ function scene.draw()
     local dy=SETTING.portrait and -390 or 0
     gc_setColor(1,1,1,.82)
     gc_draw(TEXTOBJ.modeName,modeTextPos,10+dy,0,modeTextWidK,1)
-    local M=GAME.curMode
-    if M then
-        if M.score and M.records[1] then
-            setFont(15)
-            gc_setColor(1,1,1,.6)
-            gc_print(M.scoreDisp(M.records[1]),modeTextPos,45+dy)
-        end
-        if M.getRank then
-            local R=M.getRank(PLAYERS[1])
-            if R and R>0 then
-                setFont(100)
-                local c=RANK_COLORS[R]
-                gc_setColor(c[1],c[2],c[3],.12)
-                mStr(RANK_CHARS[R],640,50+dy)
+    if not replaying then
+        local M=GAME.curMode
+        if M then
+            if M.score and M.records[1] then
+                setFont(15)
+                gc_setColor(1,1,1,.6)
+                gc_print(M.scoreDisp(M.records[1]),modeTextPos,45+dy)
+            end
+            if M.getRank then
+                local R=M.getRank(PLAYERS[1])
+                if R and R>0 then
+                    setFont(100)
+                    local c=RANK_COLORS[R]
+                    gc_setColor(c[1],c[2],c[3],.12)
+                    mStr(RANK_CHARS[R],640,50+dy)
+                end
             end
         end
     end

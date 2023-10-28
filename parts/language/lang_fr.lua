@@ -67,10 +67,13 @@ return {
 
     page="Page:",
 
+    -- ai_puzzle="AI is incompatible with puzzle game mode",
+    ai_mission="L'IA est incompatible avec les missions personnalisées.",
+    -- ai_badPiece="The AI is incompatible with custom sequences which have nontetromino.",'IA est incompatible avec les séquences personnalisées.",
     cc_fixed="CC est incompatible avec les séquences fixes",
     cc_swap="CC est incompatible avec le mode de maintien du swap",
-    -- ai_prebag="The AI is incompatible with custom sequences which have nontetromino.",'IA est incompatible avec les séquences personnalisées.",
-    ai_mission="L'IA est incompatible avec les missions personnalisées.",
+    -- cc_solid="CC is incompatible with filled line in the field.",
+    -- cc_field_too_high="CC is incompatible with fields higher than 40.",
     switchSpawnSFX="Activez les effets sonores d'apparition des pièces pour jouer.",
     needRestart="Redémarrez pour appliquer toutes les modifications.",
 

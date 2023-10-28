@@ -48,7 +48,7 @@ return {
     infHeightOn="Bảng cao vô tận: BẬT",
     infHeightOff="Bảng cao vô tận: TẮT",
     infHeightHint="Nhấn phím Chức năng 1 để bật/tắt",
-    highestGrade="(highest: $1)",
+    highestGrade="(cao nhất: $1)",
 
     speedLV="Tốc độ rơi",
     piece="Gạch",line="Hàng",atk="Attack",eff="Efficiency",
@@ -72,10 +72,14 @@ return {
 
     page="Trang ",
 
+    ai_puzzle="AI không tương thích với chế độ Puzzle",
+    ai_mission="AI không tương thích với nhiệm vụ tuỳ chọn.",
+    ai_badPiece="AI không tương thích với trình xáo gạch chứa gạch không phải là tetromino.",
     cc_fixed="CC không tương thích với trình xáo gạch cố định",
     cc_swap="CC không tương thích với chế độ Hold là Chuyển",
-    ai_prebag="AI không tương thích với trình xáo gạch chứa gạch không phải là tetromino.",
-    ai_mission="AI không tương thích với nhiệm vụ tuỳ chọn.",
+    cc_solid="CC không tương thích với bảng có hàng đã lấp đầy.",
+    -- cc_solid="CC is incompatible with filled line in the field.",
+    -- cc_field_too_high="CC is incompatible with fields higher than 40.",
     switchSpawnSFX="Vui lòng bật Spawn SFX để chơi!",
     needRestart="Khởi động lại để áp dụng mọi thay đổi.",
 
@@ -241,7 +245,7 @@ return {
         "Số gạch:",
         "Hàng/Đào:",
         "Gửi/Gửi khi đào:",
-        "Nhận:",-- "Rise(Receive-Offset):",
+        "Chịu (Nhận-Phản):",
         "Xóa:",
         "Spin:",
         "B2B/B3B/PC/HPC:",
@@ -250,12 +254,12 @@ return {
     radar={"DEF","OFF","ATK","SEND","SPD","DIG"},
     radarData={"D’PM","ADPM","APM","SPM","L'PM","DPM"},
     stat={
-        "Số lần bật trò chơi:",
+        "Số lần bật game:",
         "Số ván đã chơi:",
         "Thời gian chơi:",
         "Phím/Xoay/Giữ:",
         "Gạch/Hàng/Gửi:",
-        "Nhận/Phản/Đẩy:",-- "Receive/Offset/Rise:",
+        "Nhận/Phản/Chịu:",
         "Đào/Gửi khi đào:",
         "H.quả/H.quả khi Đào:",
         "B2B/B3B:",
@@ -421,8 +425,8 @@ B. Bàn phím: Nhấn…
 
 C. Tay cầm chơi game (Gamepad):
         - Nhấn $10 để hiển thị trợ giúp
-        - Nhấn $5 hoặc $6 để cuộn văn bản, giữ $11 để cuộn nhanh hơn
-        - Nhấn $7 để mở mục trước và $8 để mở mục tiếp theo
+        - Nhấn $5 hoặc $6 để cuộn văn bản
+        - Nhấn $7 để mở mục trước và $8 để mở mục tiếp theo, giữ $11 để lướt nhanh hơn
         - Giữ $11 và nhấn $6 để giảm cỡ chữ hoặc $5 để tăng lên
 ]]
         -- 1-4: Up, Down, Left, Right
@@ -621,7 +625,7 @@ C. Tay cầm chơi game (Gamepad):
         },
         setting_control={
             -- title="Cài đặt Điều khiển",
-            title="Đ.chỉnh thg. số",
+            title="Điều chỉnh thông số",
             preview="Xem trước",
 
             das="DAS",arr="ARR",
@@ -891,13 +895,13 @@ C. Tay cầm chơi game (Gamepad):
         ['sprint_40l']=          {"Sprint",            "40L",            "Xoá 40 hàng!"},
         ['sprint_100l']=         {"Sprint",            "100L",           "Xoá 100 hàng!"},
         ['sprint_400l']=         {"Sprint",            "400L",           "Xoá 400 hàng!"},
-        ['sprint_1000l']=        {"Sprint",            "1000L",         "Xoá 1000 hàng!"},
+        ['sprint_1000l']=        {"Sprint",            "1000L",          "Xoá 1000 hàng!"},
         ['sprintPenta']=         {"Sprint",            "PENTOMINO",      "Xoá 40 hàng với 18 pentomino"},
         ['sprintMPH']=           {"Sprint",            "MPH",            "Memoryless\nPreviewless\nHoldless"},
         ['sprint123']=           {"Sprint",            "M123",           "Xoá 40 hàng chỉ với monomino, domino, và trimino"},
         ['construct_sg']=        {"Construct",         "SECRET GRADE",   "Xây một đường lỗ theo hình dích dắc!"},
-        -- ['construct_checker']=   {"Construct",         "CHECKERBOARD",   "Build a checkerboard pattern!"},
-        -- ['construct_invsg']=     {"Construct",         "INV. SG",        "Build an inverted zigzag pattern!"},
+        ['construct_checker']=   {"Construct",         "CHECKERBOARD",   "Xây tường theo kiểu xen kẽ!"},
+        ['construct_invsg']=     {"Construct",         "SG ĐẢO NGƯỢC",   "Xây một đường thẳng theo hình dích dắc!"},
         ['dig_10l']=             {"Dig",               "10L",            "Đào 10 hàng rác càng nhanh càng tốt"},
         ['dig_40l']=             {"Dig",               "40L",            "Đào 40 hàng rác càng nhanh càng tốt!"},
         ['dig_100l']=            {"Dig",               "100L",           "Đào 100 hàng rác càng nhanh càng tốt!"},
@@ -908,7 +912,7 @@ C. Tay cầm chơi game (Gamepad):
         ['dig_eff_400l']=        {"Dig",               "EFFICIENCY 400L","Đào 400 hàng rác càng ít gạch càng tốt!"},
         ['dig_quad_10l']=        {"Dig",               "TECHRASH 10L",   "Đào 10 hàng rác nhưng chỉ dùng techrash!"},
         ['drought_n']=           {"Drought",           "100L",           "Không có thanh dài"},
-        ['drought_l']=           {"Drought+",          "100L",           "C L G T"},
+        ['drought_l']=           {"Drought+",          "100L",           "C L G T ? !"},
         ['marathon_n']=          {"Marathon",          "THƯỜNG",         "Xoá 200 hàng với tốc độ nhanh dần"},
         ['marathon_h']=          {"Marathon",          "KHÓ",            "Xoá 200 hàng với tốc độ cao"},
         ['solo_e']=              {"Battle",            "DỄ",             "Đánh bại AI!"},
@@ -916,18 +920,12 @@ C. Tay cầm chơi game (Gamepad):
         ['solo_h']=              {"Battle",            "KHÓ",            "Đánh bại AI!"},
         ['solo_l']=              {"Battle",            "RẤT KHÓ",        "Đánh bại AI!"},
         ['solo_u']=              {"Battle",            "THÁCH ĐẤU",      "Đánh bại AI!"},
-        -- ['techmino49_e']=        {"Tech VS 49",        "EASY",           "49-player battle.\nThe last one standing wins"},
-        -- ['techmino49_h']=        {"Tech VS 49",        "HARD",           "49-player battle.\nThe last one standing wins"},
-        -- ['techmino49_u']=        {"Tech VS 49",        "ULTIMATE",       "49-player battle.\nThe last one standing wins"},
-        -- ['techmino99_e']=        {"Tech VS 99",        "EASY",           "99-player battle.\nThe last one standing wins"},
-        -- ['techmino99_h']=        {"Tech VS 99",        "HARD",           "99-player battle.\nThe last one standing wins"},
-        -- ['techmino99_u']=        {"Tech VS 99",        "ULTIMATE",       "99-player battle.\nThe last one standing wins"},
-        ['techmino49_e']=        {"Tech VS 49",           "DỄ",             "Cuộc chiến 49 người.\nNgười trụ lại cuối cùng giành chiến thắng"},
-        ['techmino49_h']=        {"Tech VS 49",           "KHÓ",            "Cuộc chiến 49 người.\nNgười trụ lại cuối cùng giành chiến thắng"},
-        ['techmino49_u']=        {"Tech VS 49",           "THÁCH ĐẤU",      "Cuộc chiến 49 người.\nNgười trụ lại cuối cùng giành chiến thắng"},
-        ['techmino99_e']=        {"Tech VS 99",           "DỄ",             "Cuộc chiến 99 người.\nNgười trụ lại cuối cùng giành chiến thắng"},
-        ['techmino99_h']=        {"Tech VS 99",           "KHÓ",            "Cuộc chiến 99 người.\nNgười trụ lại cuối cùng giành chiến thắng"},
-        ['techmino99_u']=        {"Tech VS 99",           "THÁCH ĐẤU",      "Cuộc chiến 99 người.\nNgười trụ lại cuối cùng giành chiến thắng"},
+        ['techmino49_e']=        {"Tech VS 49",        "DỄ",             "Cuộc chiến 49 người.\nNgười trụ lại cuối cùng sẽ giành chiến thắng"},
+        ['techmino49_h']=        {"Tech VS 49",        "KHÓ",            "Cuộc chiến 49 người.\nNgười trụ lại cuối cùng sẽ giành chiến thắng"},
+        ['techmino49_u']=        {"Tech VS 49",        "THÁCH ĐẤU",      "Cuộc chiến 49 người.\nNgười trụ lại cuối cùng sẽ giành chiến thắng"},
+        ['techmino99_e']=        {"Tech VS 99",        "DỄ",             "Cuộc chiến 99 người.\nNgười trụ lại cuối cùng sẽ giành chiến thắng"},
+        ['techmino99_h']=        {"Tech VS 99",        "KHÓ",            "Cuộc chiến 99 người.\nNgười trụ lại cuối cùng sẽ giành chiến thắng"},
+        ['techmino99_u']=        {"Tech VS 99",        "THÁCH ĐẤU",      "Cuộc chiến 99 người.\nNgười trụ lại cuối cùng sẽ giành chiến thắng"},
         ['round_e']=             {"Turn-Based",        "DỄ",             "Chơi theo lượt và đánh bại AI!"},
         ['round_n']=             {"Turn-Based",        "THƯỜNG",         "Chơi theo lượt và đánh bại AI!"},
         ['round_h']=             {"Turn-Based",        "KHÓ",            "Chơi theo lượt và đánh bại AI!"},
@@ -984,15 +982,11 @@ C. Tay cầm chơi game (Gamepad):
         ['tech_h_plus']=         {"Tech B2B",          "KHÓ+",           "Chỉ được clear Spin hoặc PC"},
         ['tech_l']=              {"Tech B2B",          "RẤT KHÓ",        "Cố gắng không phá B2B!"},
         ['tech_l_plus']=         {"Tech B2B",          "RẤT KHÓ+",       "Chỉ được clear Spin hoặc PC"},
-        -- ['tech_finesse']=        {"Tech Finesse",      "",               "No finesse errors!"},
-        -- ['tech_finesse_f']=      {"Tech Finesse",      "PLUS",           "No normal clears and finesse errors!"},
-        ['tech_finesse']=        {"Tech",              "HOÀN HẢO",       "Không được phép có lỗi di chuyển!"},
-        ['tech_finesse_f']=      {"Tech",              "HOÀN HẢO+",      "Không được phép có lỗi di chuyển hoặc loại Xoá hàng thường!"},
-        -- ['tech_finesse_lock']=   {"Tech Finesse",      "LOCK",           "No finesse errors, combined with limited inputs!"},
-        -- ['tech_finesse_lock_f']= {"Tech Finesse",      "LOCK PLUS",  "No normal clears or finesse errors combined with limited inputs!"},
-        ['tech_finesse_lock']=   {"Tech",              "FINESSE LOCK",   "Không được mắc lỗi di chuyển hoặc bạn không thể điều khiển gạch!"},
-        ['tech_finesse_lock_f']= {"Tech",              "FINESSE+ LOCK",  "Không được mắc lỗi di chuyển hoặc bạn không thể điều khiển gạch! Và không thể dùng kiểu xóa thường!"},
-        ['tsd_e']=               {"TSD Challenge",     "DỄ",             "Chỉ được làm T-Spin Double!"},    -- Chỉ được clear…
+        ['tech_finesse']=        {"Kỹ thuật di chuyển","",               "Không được phép có lỗi di chuyển!"},
+        ['tech_finesse_f']=      {"Kỹ thuật di chuyển","Khg ĐƠN/ĐÔI/TAM","Không được phép có lỗi di chuyển hoặc kiểu Xoá hàng thường!"},
+        ['tech_finesse_lock']=   {"Kỹ thuật di chuyển","LOCK",           "Không được mắc lỗi di chuyển hoặc bạn không thể điều khiển gạch!"},
+        ['tech_finesse_lock_f']= {"Kỹ thuật di chuyển","LOCK+",          "Không được mắc lỗi di chuyển hoặc bạn không thể điều khiển gạch! Bạn cũng sẽ thua khi dùng kiểu Xóa hàng thường!"},
+        ['tsd_e']=               {"TSD Challenge",     "DỄ",             "Chỉ được làm T-Spin Double!"},
         ['tsd_h']=               {"TSD Challenge",     "KHÓ",            "Chỉ được làm T-Spin Double!"},
         ['tsd_u']=               {"TSD Challenge",     "THÁCH ĐẤU",      "Chỉ được làm T-Spin Double!"},
         ['backfire_n']=          {"Backfire",          "THƯỜNG",         "Sống sót những hàng rác do chính bạn gửi"},
@@ -1067,7 +1061,7 @@ C. Tay cầm chơi game (Gamepad):
         "Hãy tham gia Discord của chúng tôi!",
         "l-=-1",
         "Nổi lửa lên em, NỔI LỬA LÊN EM!",
-        "Việc giảm tần số khung hình sẽ mang trải nghiệm tệ hơn cho bạn",
+        "Việc giảm tần số khung hình sẽ mang đến trải nghiệm tệ hơn cho bạn",
         "LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF",
         "Mix clear sắp ra mắt!",
         "Hầu hết các biểu tượng của các nút được vẽ tay vào trong bảng Unicode Private Use Area",
@@ -1130,7 +1124,6 @@ C. Tay cầm chơi game (Gamepad):
         {C.lP,"Con số bí mật: 626"},
         {C.lR,"Z ",C.lG,"S ",C.lS,"J ",C.lO,"L ",C.lP,"T ",C.lY,"O ",C.lC,"I"},
         {C.lY,"MÁT QUÁ!!"},
-        {C.N,"Lua",C.Z," No.1"},
         {C.P,"T-spin!"},
         {C.R,"DMCA là gì?"},
         {C.R,"\"Luật sở hữu trí tuệ\""},
@@ -1214,7 +1207,7 @@ C. Tay cầm chơi game (Gamepad):
         -- The button with a question mark in the bottom-right corner is the game manual (assuming you haven't enabled the concise mode).
         "Cái nút "..CHAR.icon.help.." ở góc phải dưới cùng trong menu (không bật chế độ Đơn giản) đấy hả? Nó là manual (hướng dẫn sử dụng) của game đấy!",
         -- If you're new to blocks, just play more games; there isn't much specific targeted practice beyond 40 lines in two minutes
-        "Bạn mới tập chơi xếp gạch à? Nếu vậy cứ chơi nhiều lên. Không có nhiều mục tiêu luyện tập cụ thể ngoài xóa 40 hàng trong 2 phút.",
+        "Bạn mới tập chơi xếp gạch à? Nếu vậy cứ chơi nhiều lên. Không có nhiều mục tiêu luyện tập cụ thể ngoài xóa 40 hàng trong 2 phút đâu!",
         --
         "Hãy ra ngoài và chạm cỏ đi!",
 --
@@ -1235,6 +1228,7 @@ C. Tay cầm chơi game (Gamepad):
         {C.W,"Z: ",C.Z,"Tôi tự hỏi là có bao nhiêu người chơi game thực sự quan tâm ai viết ra nó."},
 --
     -- IT JOKES
+        {C.N,"Lua",C.Z," No.1"},
         "git clone --recursive https://github.com/26F-Studio/Techmino.git",
         "git commit -m \".\"",
         "git pull = git fetch + git merge",
@@ -1245,7 +1239,6 @@ C. Tay cầm chơi game (Gamepad):
         "git submodule update",
         "git merge --rebase",
         "git merge --squash",
-        "Lua No.1",
         "sudo rm -rf /*",
         "shutdown /s /t 0",         -- Turn off computer completely (no Fast Boot)
         "shutdown /s /t 0 /hybrid", -- Turn off computer with Fast Boot
@@ -1308,11 +1301,13 @@ C. Tay cầm chơi game (Gamepad):
         {C.lSea,"Sea: ",C.Z,"Tui không có đủ mặn để viết joke. Nên một số câu đùa đang chạy ở đây được viết bởi ",C.yellow,"Shard Nguyễn",C.Z,". \"Em cảm ơn anh!\""},
         {C.lSea,"Sea: ",C.Z,"Tui đang tự hỏi liệu còn bao nhiêu lỗi tui bỏ sót lúc dịch game không? Tính ra tui đã cập nhật đi cập nhật lại cũng 4-5 lần rồi."},
 
-        {"Cộng đồng Tetris ",C.R,"Việt ",C.lY,"Nam ",C.Z,": https://discord.gg/jX7BX9g"}, -- Tetris Vietnam
+        {"Cộng đồng Tetris ",C.R,"Việt ",C.lY,"Nam ",C.Z,": https://discord.gg/jX7BX9g"}, -- Tetris Vietnam (TVN)
         {C.W,"MrZ ",C.Z,"vẫn chưa biết chọn tên nào để đặt cho từ điển của Techmino. Hiện có 3 tên: \"Zictionary\", \"TetroDictionary\" và \"Little Z Dictionary\""},
         "Ủa tao nhớ game này tên là xếp hình mà? Ừ thì đúng nhưng để giữ độ đồng nhất và tránh bị cấn mồm thì nên gọi game này là game xếp gạch.",
         "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
-        {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.Z," không?"}, -- A joke
+        {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.Z," không?"}, -- A joke in TVN
+        -- Who will you choose? A girl that can break up to you and make you sad
+        -- Or choose Katyusha that can warm your heart and 40ha land of enemy.
         "Bạn sẽ chọn ai? Một em gái có thể chia tay và làm bạn buồn? Hay là chọn em Katyusha có thể làm ấm lòng bạn và 40ha đất kẻ thù?", -- Based on a comment in https://www.youtube.com/watch?v=nczdLwTyWmY
     },
     pumpkin="Tôi là một quả bí ngô",

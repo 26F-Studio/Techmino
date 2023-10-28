@@ -68,10 +68,13 @@ return {
 
     page="Halaman: ",
 
+    -- ai_puzzle="AI is incompatible with puzzle game mode",
+    ai_mission="AI tidak cocok dengan misi terubah.",
+    ai_badPiece="AI tidak cocok dengan urutan terubah yang memiliki non-tetromino.",
     cc_fixed="CC tidak cocok dengan urutan tetap.",
     cc_swap="CC tidak cocok dengan mode simpan tukar.",
-    ai_prebag="AI tidak cocok dengan urutan terubah yang memiliki non-tetromino.",
-    ai_mission="AI tidak cocok dengan misi terubah.",
+    -- cc_solid="CC is incompatible with filled line in the field.",
+    -- cc_field_too_high="CC is incompatible with fields higher than 40.",
     switchSpawnSFX="Nyalakan efek suara munculan blok!",
     needRestart="Ulangi untuk menerapkan perubahan.",
 

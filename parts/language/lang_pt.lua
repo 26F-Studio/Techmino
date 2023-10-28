@@ -57,10 +57,13 @@ return {
 
     page="Página:",
 
+    -- ai_puzzle="AI is incompatible with puzzle game mode",
+    ai_mission="A inteligência é incompatível com missões costumizadas.",
+    -- ai_badPiece="The AI is incompatible with custom sequences which have nontetromino.", inteligência é incompatível com sequências fixas.",
     -- cc_fixed="CC is incompatible with fixed sequences",
     -- cc_swap="CC is incompatible with swap holdmode",
-    -- ai_prebag="The AI is incompatible with custom sequences which have nontetromino.", inteligência é incompatível com sequências fixas.",
-    ai_mission="A inteligência é incompatível com missões costumizadas.",
+    -- cc_solid="CC is incompatible with filled line in the field.",
+    -- cc_field_too_high="CC is incompatible with fields higher than 40.",
     switchSpawnSFX="Switch on spawn SFX to play",
     needRestart="Funciona após reiniciar",
 

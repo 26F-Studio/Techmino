@@ -12,7 +12,7 @@ local names
 local counter
 
 function scene.enter()
-    time=160
+    time=0
     v=22.6
     BG.set()
     names={}

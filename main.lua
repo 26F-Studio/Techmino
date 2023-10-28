@@ -376,30 +376,6 @@ then
     MES.new('error',"An error occured during loading, and some data was lost.")
 end
 
--- Initialize fields, sequence, missions, gameEnv for cutsom game
-local fieldData=loadFile('conf/customBoards','-string -canSkip')
-if fieldData then
-    fieldData=STRING.split(fieldData,"!")
-    for i=1,#fieldData do
-        DATA.pasteBoard(fieldData[i],i)
-    end
-else
-    FIELD[1]=DATA.newBoard()
-end
-local sequenceData=loadFile('conf/customSequence','-string -canSkip')
-if sequenceData then
-    DATA.pasteSequence(sequenceData)
-end
-local missionData=loadFile('conf/customMissions','-string -canSkip')
-if missionData then
-    DATA.pasteMission(missionData)
-end
-local customData=loadFile('conf/customEnv','-canSkip')
-if customData and customData['version']==VERSION.code then
-    TABLE.complete(customData,CUSTOMENV)
-end
-TABLE.complete(require"parts.customEnv0",CUSTOMENV)
-
 -- Update data
 do
     if type(STAT.version)~='number' then

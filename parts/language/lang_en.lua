@@ -67,10 +67,13 @@ return {
 
     page="Page ",
 
+    ai_puzzle="AI is incompatible with puzzle game mode",
+    ai_mission="AI is incompatible with custom missions.",
+    ai_badPiece="AI is incompatible with custom sequences that contain non-tetrominoes.",
     cc_fixed="CC is incompatible with fixed sequences.",
     cc_swap="CC is incompatible when the hold mode is set to Swap.",
-    ai_prebag="AI is incompatible with custom sequences that contain non-tetrominoes.",
-    ai_mission="AI is incompatible with custom missions.",
+    cc_solid="CC is incompatible with filled line in the field.",
+    cc_field_too_high="CC is incompatible with fields higher than 40.",
     switchSpawnSFX="Please turn on the block spawn SFX!",
     needRestart="Restart to apply all changes.",
 
@@ -414,7 +417,7 @@ B. Keyboard
 
 C. Gamepad
         - Press $10 to display Help
-        - Press $5 or $6 to scroll through the text, speed up with $11
+        - Press $5 or $6 to scroll through the text
         - Press $7 to open the previous entry and $8 to open the next entry. Speed up with $11
         - Hold $11 and press $6 to decrease the font size or $5 to increase
 ]]

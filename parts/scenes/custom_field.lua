@@ -4,7 +4,7 @@ local kb=love.keyboard
 local max,min,floor=math.max,math.min,math.floor
 local ins,rem=table.insert,table.remove
 
-local FIELD=FIELD
+local FIELD=CUSTOMGAME_LOCAL.field
 local scene={}
 
 local curPen
@@ -125,7 +125,7 @@ function scene.enter()
     page=1
 end
 function scene.leave()
-    saveFile(DATA.copyBoards(),'conf/customBoards')
+    saveFile(DATA.copyBoards(FIELD),'conf/customBoards')
 end
 
 function scene.mouseMove(x,y)
@@ -226,7 +226,7 @@ function scene.keyDown(key)
         SFX.play('clear_4',.8)
         SFX.play('fall',.8)
     elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
-        sys.setClipboardText("Techmino Field:"..DATA.copyBoard(page))
+        sys.setClipboardText("Techmino Field:"..DATA.copyBoard(FIELD[page]))
         MES.new('check',text.exportSuccess)
     elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
         local str=sys.getClipboardText()
@@ -237,7 +237,9 @@ function scene.keyDown(key)
             end
             str=str:sub(p+1)
         end
-        if DATA.pasteBoard(str,page) then
+        local success,F=DATA.pasteBoard(str)
+        if success then
+            FIELD[page]=F
             MES.new('check',text.importSuccess)
         else
             MES.new('error',text.dataCorrupted)
