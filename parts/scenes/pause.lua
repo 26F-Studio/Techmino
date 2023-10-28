@@ -1,5 +1,5 @@
 local GAME,SCR=GAME,SCR
-local sin,log=math.sin,math.log10
+local sin,log,abs=math.sin,math.log10,math.abs
 local GC=GC
 
 local scene={}
@@ -9,6 +9,7 @@ local page
 local timer1,timer2-- Animation timer
 local form-- Form of clear & spins
 local radar-- Radar chart
+local radarOrgTouchPos-- For storing the first touch position in radar area
 local val-- Radar chart normalizer
 local standard-- Standard hexagon
 local chartColor-- Color of radar chart
@@ -168,6 +169,23 @@ function scene.keyDown(key,isRep)
         return true
     end
 end
+
+function scene.touchDown(x,y)
+    if 535<x and x<1195 and 200<y and y<580 then
+        radarOrgTouchPos={x,y}
+    end
+end
+function scene.touchUp(x1,y1)
+    if not (535<x1 and x1<1195 and 200<y1 and y1<580)
+    or not radarOrgTouchPos then return end
+    local x,y=radarOrgTouchPos[1],radarOrgTouchPos[2]
+
+    if abs(x1-x)<50 then return end -- The angle is too large/the movement is too short
+    scene.keyDown(x1-x>=50 and 'tab' or 'Stab')
+    radarOrgTouchPos=nil
+end
+scene.mouseUp=scene.touchUp
+scene.mouseDown=scene.touchDown
 
 function scene.update(dt)
     if not (GAME.result or GAME.replaying) then
