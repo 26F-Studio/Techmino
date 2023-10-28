@@ -143,7 +143,6 @@ end
 function scene.keyUp()
     if (
         not kbIsDown('lctrl','rctrl','lshift','rshift') -- If we are not holding Ctrl or Shift keys
-        or (kbIsDown("lshift","rshift") and kbIsDown("lctrl","rctrl")) -- or holding two keys together
     ) and not moIsDown(1) -- and the left mouse button is not being held
     -- The implementationo is really wild but I hope it will good enough to keep the virtual keys from bugs
     then _notHoldCS() end
