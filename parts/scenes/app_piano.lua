@@ -1,5 +1,6 @@
 local gc=love.graphics
-local kb=love.keyboard
+local kbIsDown=love.keyboard.isDown
+local moIsDown=love.mouse.isDown
 local min,max=math.min,math.max
 
 local instList={'lead','bell','bass'}
@@ -19,7 +20,7 @@ local pianoVK={}  -- All piano key can be appear on the screen, want to see? Che
 local touches={}
 
 local keyCount=0  -- Get key count (up to 626, can pass), used to check if we need to launch Lua's garbage collector or not
-local textObj={}  -- We will keep all text objects here, including virtual keys but also instrument's name and offset =)
+local textObj={}  -- We will keep all text objects of note here, only used for virutal keys
 local lastKeyTime -- Last time any key pressed
 
 local scene={}
@@ -39,7 +40,6 @@ end
 -- Show virtual key
 local function _showVirtualKey(switch)
     if switch~=nil then showingKey=switch else showingKey=not showingKey end
-    for _,K in pairs(pianoVK) do K.hide=not showingKey end
 end
 
 local function _notHoldCS(dct) -- dct=don't change (key's) text
@@ -48,27 +48,26 @@ local function _notHoldCS(dct) -- dct=don't change (key's) text
     pianoVK.ctrl.color,pianoVK.shift.color=COLOR.Z,COLOR.Z
 end
 local function _holdingCtrl()
-    tempoffset=-1
     _notHoldCS(true)
+    tempoffset=-1
     pianoVK.ctrl.color=COLOR.R
     _renameKeyText(offset-1)
 end
 local function _holdingShift()
-    tempoffset=1
     _notHoldCS(true)
+    tempoffset=1
     pianoVK.shift.color=COLOR.R
     _renameKeyText(offset+1)
 end
 
 local function checkMultiTouch() -- Check for every touch
-    _notHoldCS()
-    for i=1,#touches do
-        local x,y=love.touch.getPosition(touches[i])
-        for _,key in pairs(pianoVK) do
-            if not (key.name=="ctrl" or key.name=="shift") then
-                if key:isAbove(x,y) then
-                    key:code(); key:update(1)
-                end
+    if not showingKey then return end
+    if not kbIsDown('lctrl','rctrl','lshift','rshift') then _notHoldCS() end
+    for tid,t in pairs(touches) do
+        local x,y=t[1],t[2]
+        for kid,key in pairs(pianoVK) do
+            if not (kid=="ctrl" or kid=="shift") then
+                if key:isAbove(x,y) then key:code(); key:update(1); touches[tid]=nil end
             end
         end
         if pianoVK.ctrl:isAbove(x,y) then
@@ -93,41 +92,21 @@ function scene.enter()
     lastKeyTime=nil
 
     _notHoldCS()
-    _showVirtualKey(MOBILE and true or false)
+    _showVirtualKey(MOBILE)
 end
 
 function scene.leave()
     TABLE.clear(textObj)
-    TABLE.clear(pianoVK)
     collectgarbage()
     BGM.play(lastPlayBGM)
 end
 
-function scene.mouseDown(x,y,_)
-    -- Behavior for mouse is different than a bit
-    -- Detail: Ctrl/Shift state will be reset after a note is clicked!
-    local lastK
-    if showingKey then
-        for k,K in pairs(pianoVK) do
-            if K:isAbove(x,y) then
-                K.code(); K:update(1); lastK=k
-            end
-        end
-        -- Check if there is a key other than Ctrl/Shift is hold
-        -- if yes then automatically swap Ctrl/Shift state
-        if keys[lastK] then _notHoldCS() end
-        -- Change Shift/Ctrl key's color when shift note temproraily
-        if tempoffset~=0 then
-            if tempoffset<0 then _holdingCtrl() else _holdingShift() end
-        end
-    end
-end
-function scene.touchDown(_,_,id)
-    table.insert(touches,id)
+function scene.touchDown(x,y,id)
+    touches[id]={x,y}
     checkMultiTouch()
 end
 function scene.touchUp(_,_,id)
-    table.remove(touches,TABLE.find(touches,id))
+    touches[id]=nil
     checkMultiTouch()
 end
 
@@ -144,26 +123,33 @@ function scene.keyDown(key,isRep)
         else
             TEXT.show(SFX.getNoteName(note),math.random(75,1205),math.random(162,620),60,'score',.8)
         end
-    elseif kb.isDown('lctrl','rctrl') then
+    elseif kbIsDown('lctrl','rctrl') and not kbIsDown('lshift','rshift') then
         _holdingCtrl()
-    elseif kb.isDown('lshift','rshift') then
+    elseif kbIsDown('lshift','rshift') and not kbIsDown('lctrl','rctrl') then
         _holdingShift()
     elseif key=='tab' then
         inst=TABLE.next(instList,inst)
     elseif key=='lalt' then
         offset=math.max(offset-1,-12)
-        if showingKey then _renameKeyText(offset) end
+        _renameKeyText(offset)
     elseif key=='ralt' then
         offset=math.min(offset+1,12)
-        if showingKey then _renameKeyText(offset) end
+        _renameKeyText(offset)
     elseif key=='f5' then
-        _showVirtualKey(not showingKey)
+        _showVirtualKey()
     elseif key=='escape' then SCN.back() end
 end
 
 function scene.keyUp()
-    if not kb.isDown('lctrl','rctrl','lshift','rshift') then _notHoldCS() end
+    if (
+        not kbIsDown('lctrl','rctrl','lshift','rshift') -- If we are not holding Ctrl or Shift keys
+    ) and not moIsDown(1) -- and the left mouse button is not being held
+    -- The implementationo is really wild but I hope it will good enough to keep the virtual keys from bugs
+    then _notHoldCS() end
 end
+
+scene.mouseDown=scene.touchDown -- The ID arg is being used by button, nvm the code still not crash
+scene.mouseUp=scene.touchUp     -- Don't need to do anything more complicated here
 
 function scene.draw()
     setFont(30)
@@ -190,11 +176,6 @@ function scene.update(dt)
         collectgarbage()
         lastKeyTime=nil
         keyCount=0
-    end
-
-    if lastKeyTime and keyCount>626 and TIME()-lastKeyTime>10 then
-        collectgarbage()
-        lastKeyTime=nil
     end
 end
 scene.widgetList={
@@ -265,8 +246,8 @@ pianoVK={
     ['/']=WIDGET.newKey{x=935,y=605,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('/') end},
 
     -- Ctrl and Shift                       2
-    ['ctrl' ]=WIDGET.newKey{x=1115,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() if not tempoffset<0 then _holdingCtrl()  else _notHoldCS() end end},
-    ['shift']=WIDGET.newKey{x=1205,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() if not tempoffset>0 then _holdingShift() else _notHoldCS() end end},
+    ['ctrl' ]=WIDGET.newKey{x=1115,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() if not tempoffset==-1 then _holdingCtrl()  else _notHoldCS() end end},
+    ['shift']=WIDGET.newKey{x=1205,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() if not tempoffset== 1 then _holdingShift() else _notHoldCS() end end},
 }
 
 -- Set objects text
