@@ -106,7 +106,6 @@ function scene.touchDown(x,y,id)
     checkMultiTouch()
 end
 function scene.touchUp(_,_,id)
-    touches[id]=nil
     checkMultiTouch()
 end
 
