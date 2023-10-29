@@ -66,7 +66,7 @@ local function checkMultiTouch() -- Check for every touch
     for id,t in pairs(touches) do
         local x,y=t[1],t[2]
         for _,key in pairs(pianoVK) do
-            if not (key.name=="ctrl" or key.name=="shift") then
+            if not (id=="ctrl" or id=="shift") then
                 if key:isAbove(x,y) then key:code(); key:update(1); touches[id]=nil end
             end
         end
