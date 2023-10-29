@@ -63,11 +63,11 @@ end
 local function checkMultiTouch() -- Check for every touch
     if not showingKey then return end
     if not kbIsDown('lctrl','rctrl','lshift','rshift') then _notHoldCS() end
-    for _,t in pairs(touches) do
+    for id,t in pairs(touches) do
         local x,y=t[1],t[2]
         for _,key in pairs(pianoVK) do
             if not (key.name=="ctrl" or key.name=="shift") then
-                if key:isAbove(x,y) then key:code(); key:update(1) end
+                if key:isAbove(x,y) then key:code(); key:update(1); touches[id]=nil end
             end
         end
         if pianoVK.ctrl:isAbove(x,y) then
