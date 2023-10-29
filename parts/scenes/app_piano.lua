@@ -63,12 +63,11 @@ end
 local function checkMultiTouch() -- Check for every touch
     if not showingKey then return end
     if not kbIsDown('lctrl','rctrl','lshift','rshift') then _notHoldCS() end
-    for id,t in pairs(touches) do
+    for tid,t in pairs(touches) do
         local x,y=t[1],t[2]
-        for _,key in pairs(pianoVK) do
-            if not (id=="ctrl" or id=="shift") then
-                if key:isAbove(x,y) then --key:code();
-                    key:update(1); touches[id]=nil end
+        for kid,key in pairs(pianoVK) do
+            if not (kid=="ctrl" or kid=="shift") then
+                if key:isAbove(x,y) then key:code(); key:update(1); touches[tid]=nil end
             end
         end
         if pianoVK.ctrl:isAbove(x,y) then
@@ -93,7 +92,7 @@ function scene.enter()
     lastKeyTime=nil
 
     _notHoldCS()
-    _showVirtualKey(MOBILE and true or false)
+    _showVirtualKey(MOBILE)
 end
 
 function scene.leave()
@@ -104,12 +103,10 @@ end
 
 function scene.touchDown(x,y,id)
     touches[id]={x,y}
-    MES.new("check","touchDown "..id)
     checkMultiTouch()
 end
 function scene.touchUp(_,_,id)
     touches[id]=nil
-    MES.new("check","touchDown "..id)
     checkMultiTouch()
 end
 
