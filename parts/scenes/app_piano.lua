@@ -103,9 +103,12 @@ end
 
 function scene.touchDown(x,y,id)
     touches[id]={x,y}
+    MES.new("check","touchDown "..id)
     checkMultiTouch()
 end
 function scene.touchUp(_,_,id)
+    touches[id]=nil
+    MES.new("check","touchDown "..id)
     checkMultiTouch()
 end
 
