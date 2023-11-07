@@ -27,7 +27,7 @@ return {
     clear={"Simple","Double","Triple","Techrash","Pentacrash","Hexacrash","Heptacrash","Octacrash","Nonacrash","Decacrash","Undecacrash","Dodecacrash","Tridecacrash","Tetradecacrash","Pentadecacrash","Hexadecacrash","Heptadecacrash","Octadecacrash","Nonadecacrash","Ultracrash","Impossicrash"},
     -- cleared="$1 lines",
     mini="Mini",b2b="B2B ",b3b="B2B2B ",
-    PC="Perfect Clear",HPC="Clear",
+    PC="Perfect Clear",HPC="Half PC",
     replaying="[Replay]",
     -- tasUsing="[TAS]",
 

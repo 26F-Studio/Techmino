@@ -457,7 +457,7 @@ FNNS and     {"赞助3",
     {"HPC",
         "hc clear banqing banquanqing banquanxiao",
         "term",
-        "Half-PC\nPC（全消）的外延，“下方有剩余方块” 的全消（特别地，如果只消1行则必须不剩余玩家放置的方块），能打出一些攻击和防御（Techmino限定）。",
+        "Half PC\nPC（全消）的外延，“下方有剩余方块” 的全消（特别地，如果只消1行则必须不剩余玩家放置的方块），能打出一些攻击和防御（Techmino限定）。",
     },
     -- # 术语（旋转相关）
     {"Spin",
