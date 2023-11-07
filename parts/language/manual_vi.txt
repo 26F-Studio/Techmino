@@ -49,7 +49,7 @@ Hệ thống tấn công:
                 Hệ số này có giá trị là 25% (hoặc 10% nếu bạn vừa xóa duy nhất 1 hàng) của tổng combo bạn có (tối đa là 12).
                 Lưu ý: Combo chỉ được bắt đầu tính từ lần xóa thứ 2 liên tiếp, không phải lần xóa đầu.
 
-        Hemi Perfect Clear (xem trong Zictionary)
+        Half Perfect Clear (xem trong Zictionary)
                 +4 hàng để tấn công, +2 hàng để đánh chặn
 
         Perfect Clear (All Clear): Gửi 8 → 16 hàng rác
