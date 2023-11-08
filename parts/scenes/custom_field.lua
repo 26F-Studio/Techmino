@@ -279,15 +279,22 @@ function scene.draw()
     gc.setColor(COLOR.Z)
     gc.setLineWidth(2)
     gc.rectangle('line',-2,-2,304,604,5)
-    gc.setLineWidth(2)
     local cross=TEXTURE.puzzleMark[-1]
+    local invis=TEXTURE.puzzleMark[-2]
     local F=FIELD[page]
     local texture=SKIN.lib[SETTING.skinSet]
     for y=1,#F do for x=1,10 do
         local B=F[y][x]
         if B>0 then
-            gc.draw(texture[B],30*x-30,600-30*y)
+            if B~=18 then
+                -- Normal block
+                gc.draw(texture[B],30*x-30,600-30*y)
+            elseif not demo then
+                -- Invisible block
+                gc.draw(invis,30*x-30,600-30*y)
+            end
         elseif B==-1 and not demo then
+            -- Cross
             gc.draw(cross,30*x-30,600-30*y)
         end
     end end
