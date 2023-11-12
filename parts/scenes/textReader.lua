@@ -17,8 +17,8 @@ function scene.enter()
         assert(type(SCN.args[3]=='string'), "3rd argument (background) must be a string!")
     end
 
-    scene.widgetList.texts:setTexts(SCN.args[1] and SCN.args[1] or {"No text!"})
     BG.set(SCN.args[3])
+    scene.widgetList.texts:setTexts(SCN.args[1] and SCN.args[1] or {"No text!"})
 
 end
 

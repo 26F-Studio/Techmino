@@ -70,30 +70,11 @@ end}
 
 -- Necessary local functions
 -- Update the infobox
-local function _updateInfoBox(c)
+local function _updateContentBox()
     local _t,t
-    if c==nil then
-        if listBox.selected==0 then
-            if text.dict.helpText then
-                _t,t=true,text.dict.helpText:repD(
-                    CHAR.key.up,CHAR.key.down,CHAR.key.left,CHAR.key.right,
-                    CHAR.controller.dpadU,CHAR.controller.dpadD,CHAR.controller.dpadL,CHAR.controller.dpadR,
-                    CHAR.controller.xboxX,CHAR.controller.xboxY,CHAR.controller.xboxA,CHAR.controller.xboxB,
-                    CHAR.icon.help,CHAR.icon.copy,CHAR.icon.globe,CHAR.key.winMenu
-                )
-            else -- Fallback
-                listBox.selected=lastSelected
-                scene.widgetList.help.color=COLOR.Z
-                MES.new("error","Cannot found the Help text! Maybe just a mistake?")
-                return
-            end
-        else
-            _t,t=pcall(function() return _getList()[listBox.selected].content end)
-        end
-        if _t then c=t else c={""} end
-        _t,t=nil,nil
-    end
-    local _w,c=FONT.get(currentFontSize):getWrap(c,840)
+    _t,t=pcall(function() return _getList()[listBox.selected].content end)
+    if not _t then t={"???"} end
+    local _w,c=FONT.get(currentFontSize):getWrap(t,840)
     textBox:setTexts(c)
 end
 -- Clear the result
@@ -101,7 +82,7 @@ local function _clearResult()
     TABLE.cut(result)
     listBox.selected,lastSelected,searchWait,lastSearch=1,1,0,false
     scene.widgetList.copy.hide=false
-    _updateInfoBox()
+    _updateContentBox()
 end
 -- Search through the dictionary
 local function _search()
@@ -124,7 +105,7 @@ local function _search()
 
     if #result>0 then SFX.play('reach') end
     lastSearch=input
-    _updateInfoBox()
+    _updateContentBox()
 end
 
 -- Jump over n items
@@ -132,7 +113,7 @@ local function _jumpover(key,n)
     local dir=(key=='left' or key=='pageup') and 'up' or 'down'
     for _=1,n or 1 do scene.widgetList.listBox:arrowKey(dir) end
 
-    _updateInfoBox()
+    _updateContentBox()
     lastSelected=listBox.selected
     scene.widgetList.copy.hide=false
 end
@@ -152,7 +133,7 @@ local function _setZoom(z)
     textBox.font=currentFontSize
     textBox.lineH=currentFontSize*7/5 -- Recalculate the line's height
     textBox.capacity=math.ceil((textBox.h-10)/textBox.lineH)
-    _updateInfoBox()
+    _updateContentBox()
     MES.new("check",z~=0 and text.dict.sizeChanged:repD(currentFontSize) or text.dict.sizeReset,1.26)
 end
 
@@ -173,10 +154,9 @@ function scene.enter()
     result={}
 
     searchWait=0
-    lastSelected=0
+    lastSelected=1
     lastSearch=false
     listBox:setList(_getList())
-    scene.widgetList.help.color=COLOR.Z
 
     if not MOBILE then WIDGET.focus(inputBox) end
     BG.set('rainbow')
@@ -212,7 +192,7 @@ function scene.keyDown(key)
             _clearResult()
             inputBox:clear()
             SFX.play('hold')
-            _updateInfoBox()
+            _updateContentBox()
         end
     elseif key=='escape' then
         if inputBox:hasText() then
@@ -221,12 +201,16 @@ function scene.keyDown(key)
             SCN.back()
         end
     elseif key=='f1' then
-        -- inputBox:clear()
-        -- _clearResult()
-        listBox.selected=listBox.selected==0 and lastSelected or 0
-        scene.widgetList.help.color=listBox.selected==0 and COLOR.W or COLOR.Z
-        searchWait=0
-        _updateInfoBox()
+        goTextReader{
+            function() return (
+                text.dict.helpText:repD(
+                    CHAR.key.up,CHAR.key.down,CHAR.key.left,CHAR.key.right,
+                    CHAR.controller.dpadU,CHAR.controller.dpadD,CHAR.controller.dpadL,CHAR.controller.dpadR,
+                    CHAR.controller.xboxX,CHAR.controller.xboxY,CHAR.controller.xboxA,CHAR.controller.xboxB,
+                    CHAR.icon.help,CHAR.icon.copy,CHAR.icon.globe,CHAR.key.winMenu)
+                ):split('\n')
+            end,
+            currentFontSize,'rainbow'}()
 
     -- ***ONLY USE FOR HOTLOADING ZICTIONARY WHILE IN GAME!***
     -- ***Please commenting out this code if you don't use***
@@ -294,25 +278,21 @@ function scene.update(dt)
             _search()
         end
     end
-    if listBox.selected~=lastSelected and listBox.selected~=0 then
-        scene.widgetList.help.color=COLOR.Z
+    if listBox.selected~=lastSelected then
         lastSelected=listBox.selected
-        scene.widgetList.copy.hide=false
-        _updateInfoBox()
+        _updateContentBox()
     end
 end
 
 function scene.draw()
     -- Draw background
     gc.setColor(COLOR.dX)
-    gc.rectangle('fill',1194,335,80,370,5)
-    gc.rectangle('fill',1194,180,80,80,5) -- Help key
+    gc.rectangle('fill',1194,260,80,370,5)
     -- Draw outline
     gc.setLineWidth(2)
     gc.setColor(COLOR.Z)
-    gc.rectangle('line',1194,335,80,370,5)
-    gc.line(1194,555,1274,555)
-    gc.rectangle('line',1194,180,80,80,5) -- Help key
+    gc.rectangle('line',1194,260,80,370)
+    gc.line(1194,480,1274,480)
 
     if searchWait>0 then
         local r=TIME()*2
@@ -328,17 +308,15 @@ scene.widgetList={
     listBox,
     inputBox,
     textBox,
-    WIDGET.newKey{name='link',x=1234,y=595,w=60,font=45,fText=CHAR.icon.globe,code=pressKey'application',hideF=function() return not (listBox.selected>0 and _getList()[listBox.selected].url) end},
-    WIDGET.newKey{name='copy',x=1234,y=665,w=60,font=40,fText=CHAR.icon.copy,code=pressKey'cC',hideF=function() return not (listBox.selected>0) end},
+    WIDGET.newKey{name='link',x=1234,y=520,w=60,font=45,fText=CHAR.icon.globe,code=pressKey'application',hideF=function() return not (listBox.selected>0 and _getList()[listBox.selected].url) end},
+    WIDGET.newKey{name='copy',x=1234,y=590,w=60,font=40,fText=CHAR.icon.copy,code=pressKey'cC',hideF=function() return not (listBox.selected>0) end},
 
-    WIDGET.newKey{name='zoomin',x=1234,y=375,w=60,font=40,fText=CHAR.icon.zoomIn,code=function() _setZoom(5) end},
-    WIDGET.newKey{name='zoomout',x=1234,y=445,w=60,font=40,fText=CHAR.icon.zoomOut,code=function() _setZoom(-5) end},
-    WIDGET.newKey{name='resetzoom',x=1234,y=515,w=60,font=40,fText=CHAR.icon.zoomDefault,code=function() _setZoom(0) end},
-
-    WIDGET.newKey{name='help',x=1234,y=220,w=60,font=40,fText=CHAR.icon.help,code=pressKey'f1'},
+    WIDGET.newKey{name='zoomin',x=1234,y=300,w=60,font=40,fText=CHAR.icon.zoomIn,code=function() _setZoom(5) end},
+    WIDGET.newKey{name='zoomout',x=1234,y=370,w=60,font=40,fText=CHAR.icon.zoomOut,code=function() _setZoom(-5) end},
+    WIDGET.newKey{name='resetzoom',x=1234,y=440,w=60,font=40,fText=CHAR.icon.zoomDefault,code=function() _setZoom(0) end},
 
     WIDGET.newButton{name='back',x=1185,y=60,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
-    WIDGET.newText{name='buttontip',x=1274,y=110,w=762,h=60,font=40,align='R',fText=CHAR.controller.xboxY.."/[F1]: "..CHAR.icon.help,hideF=function() return MOBILE end},
+    WIDGET.newKey{name='help',x=1170,y=140,w=200,h=60,font=40,fText=CHAR.controller.xboxY.."/[F1]: "..CHAR.icon.help,code=pressKey'f1'},
 }
 -- NOTE: The gap between Link-Copy, Zoom is 60*1.5-10=80 :) The gap between 2 buttons in one group is 60+10=70
 return scene
