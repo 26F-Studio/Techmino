@@ -41,8 +41,8 @@ end
 
 scene.widgetList={
     WIDGET.newButton{name='staff',  x=1140,y=340,w=200,h=80,font=35,code=goScene'staff'},
-    WIDGET.newButton{name='his',    x=1140,y=440,w=200,h=80,font=35,code=goScene'history'},
-    WIDGET.newButton{name='legals', x=1140,y=540,w=200,h=80,font=35,code=goScene'legals'},
+    WIDGET.newButton{name='his',    x=1140,y=440,w=200,h=80,font=35,code=goTextReader{require"parts.updateLog":split("\n"),20,'cubes'}},
+    WIDGET.newButton{name='legals', x=1140,y=540,w=200,h=80,font=35,code=goTextReader{love.filesystem.read("legals.md"):split('\n') or "[legals.md not found]",15,'cubes'}},
     WIDGET.newButton{name='back',   x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 

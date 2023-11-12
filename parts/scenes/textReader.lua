@@ -1,4 +1,5 @@
 local scene={}
+local texts=WIDGET.newTextBox{name='texts',x=30,y=45,w=1000,h=640,font=20,fix=true}
 
 function scene.enter()
     --[[
@@ -7,17 +8,18 @@ function scene.enter()
         [2] - Font size (in number)
         [3] - Background (in string format)
     ]]
-    
 
-    scene.widgetList.texts:setTexts(SCN.args[1] and SCN.args[1] or {"No text!"})
     if SCN.args[2] then
-        assert(type(SCN.args[2]=='number'), "2nd argument (background) must be a number!")
-        scene.widgetList.texts.font=SCN.args[2]
+        assert(type(SCN.args[2]=='number'), "2nd argument (font size) must be a number!")
+        scene.widgetList.texts=WIDGET.newTextBox{name='texts',x=30,y=45,w=1000,h=640,font=SCN.args[2],fix=true}
     end
     if SCN.args[3] then
         assert(type(SCN.args[3]=='string'), "3rd argument (background) must be a string!")
-        BG.set(SCN.args[3])
     end
+
+    scene.widgetList.texts:setTexts(SCN.args[1] and SCN.args[1] or {"No text!"})
+    BG.set(SCN.args[3])
+
 end
 
 function scene.wheelMoved(_,y)
@@ -38,7 +40,7 @@ function scene.keyDown(key)
 end
 
 scene.widgetList={
-    WIDGET.newTextBox{name='texts',x=30,y=45,w=1000,h=640,font=20,fix=true},
+    texts,
     WIDGET.newButton{name='back',x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 
