@@ -82,7 +82,8 @@ function scene.keyDown(key)
         end
         local success,mission=DATA.pasteMission(str)
         if success then
-            CUSTOMGAME_LOCAL.mission=mission
+            TABLE.cut(MISSION)
+            TABLE.cover(mission,MISSION)
             MES.new('check',text.importSuccess)
             cur=#MISSION
         else
