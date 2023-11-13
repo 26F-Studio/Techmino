@@ -90,7 +90,8 @@ function scene.keyDown(key)
         end
         local success,bag=DATA.pasteSequence(str)
         if success then
-            CUSTOMGAME_LOCAL.bag=bag
+            TABLE.cut(BAG)
+            TABLE.cover(bag,BAG)
             MES.new('check',text.importSuccess)
             cur=#BAG
         else

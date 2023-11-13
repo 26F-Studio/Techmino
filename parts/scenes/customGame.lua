@@ -14,10 +14,14 @@ local function CUSval(k) return CUSTOMGAME_LOCAL:CUSval(k) end
 local function CUSrev(k) return CUSTOMGAME_LOCAL:CUSrev(k) end
 local function CUSsto(k) return CUSTOMGAME_LOCAL:CUSsto(k) end
 local function apply_locals()
-    FIELD=CUSTOMGAME_LOCAL.field
-    BAG=CUSTOMGAME_LOCAL.bag
-    MISSION=CUSTOMGAME_LOCAL.mission
-    CUSTOMENV=CUSTOMGAME_LOCAL.customenv
+    TABLE.clear(FIELD)
+    TABLE.cover(CUSTOMGAME_LOCAL.field,FIELD)
+    TABLE.clear(BAG)
+    TABLE.cover(CUSTOMGAME_LOCAL.bag,BAG)
+    TABLE.clear(MISSION)
+    TABLE.cover(CUSTOMGAME_LOCAL.mission,MISSION)
+    TABLE.clear(CUSTOMENV)
+    TABLE.cover(CUSTOMGAME_LOCAL.customenv,CUSTOMENV)
 end
 do -- Initialize fields, sequence, missions, gameEnv for cutsom game
     local fieldData=loadFile('conf/customBoards','-string -canSkip')
@@ -36,20 +40,23 @@ do -- Initialize fields, sequence, missions, gameEnv for cutsom game
         end
     end
     if fieldReinit then
-        CUSTOMGAME_LOCAL.field={DATA.newBoard()}
+        TABLE.cut(CUSTOMGAME_LOCAL.field)
+        CUSTOMGAME_LOCAL.field[1]=DATA.newBoard()
     end
     local sequenceData=loadFile('conf/customSequence','-string -canSkip')
     if sequenceData then
         local success,bag=DATA.pasteSequence(sequenceData)
         if success then
-            CUSTOMGAME_LOCAL.bag=bag
+            TABLE.cut(CUSTOMGAME_LOCAL.bag)
+            TABLE.cover(bag,CUSTOMGAME_LOCAL.bag)
         end
     end
     local missionData=loadFile('conf/customMissions','-string -canSkip')
     if missionData then
         local success,mission=DATA.pasteMission(missionData)
         if success then
-            CUSTOMGAME_LOCAL.mission=mission
+            TABLE.cut(CUSTOMGAME_LOCAL.mission)
+            TABLE.cover(mission,CUSTOMGAME_LOCAL.mission)
         end
     end
     local customData=loadFile('conf/customEnv','-canSkip')
@@ -192,11 +199,13 @@ function scene.keyDown(key,isRep)
 
             local success,bag=DATA.pasteSequence(args[2])
             if not success then break end-- goto THROW_fail
-            CUSTOMGAME_LOCAL.bag=bag
+            TABLE.cut(CUSTOMGAME_LOCAL.bag)
+            TABLE.cover(bag,CUSTOMGAME_LOCAL.bag)
 
             local success,mission=DATA.pasteMission(args[3])
             if not success then break end-- goto THROW_fail
-            CUSTOMGAME_LOCAL.mission=mission
+            TABLE.cut(CUSTOMGAME_LOCAL.mission)
+            TABLE.cover(mission,CUSTOMGAME_LOCAL.mission)
 
             TABLE.cut(CUSTOMGAME_LOCAL.field)
             CUSTOMGAME_LOCAL.field[1]=DATA.newBoard()
