@@ -1227,6 +1227,24 @@ do-- function pressKey(k)
         return cache[k]
     end
 end
+do-- function goTextReader{text,size,bg}
+    -- @MrZ626 I don't know where to put, please, deal with them for me lol
+    local cache={}
+    function goTextReader(D)
+        local f
+        local hash=D
+        local text,size,bg=D[1],D[2],D[3]
+        if type(D[1])=='function' then f=D[1] end
+
+        if not cache[hash] then
+            cache[hash]=function()
+                if f then text=f();f=nil end
+                SCN.go('textReader',nil,text,size,bg)
+            end
+        end
+        return cache[hash]
+    end
+end
 do-- SETXXX(k)
     local warnList={
         'das','arr','dascut','dropcut','sddas','sdarr',
