@@ -201,16 +201,17 @@ function scene.keyDown(key)
             SCN.back()
         end
     elseif key=='f1' then
-        goTextReader{
-            function() return (
-                text.dict.helpText:repD(
-                    CHAR.key.up,CHAR.key.down,CHAR.key.left,CHAR.key.right,
-                    CHAR.controller.dpadU,CHAR.controller.dpadD,CHAR.controller.dpadL,CHAR.controller.dpadR,
-                    CHAR.controller.xboxX,CHAR.controller.xboxY,CHAR.controller.xboxA,CHAR.controller.xboxB,
-                    CHAR.icon.help,CHAR.icon.copy,CHAR.icon.globe,CHAR.key.winMenu)
-                ):split('\n')
-            end,
-            currentFontSize,'rainbow'}()
+        SCN.go(
+            'textReader',nil,
+            (text.dict.helpText:repD(
+                CHAR.key.up,CHAR.key.down,CHAR.key.left,CHAR.key.right,
+                CHAR.controller.dpadU,CHAR.controller.dpadD,CHAR.controller.dpadL,CHAR.controller.dpadR,
+                CHAR.controller.xboxX,CHAR.controller.xboxY,CHAR.controller.xboxA,CHAR.controller.xboxB,
+                CHAR.icon.help,CHAR.icon.copy,CHAR.icon.globe,CHAR.key.winMenu)
+            ):split('\n'),
+            currentFontSize,
+            'rainbow'
+        )
 
     -- ***ONLY USE FOR HOTLOADING ZICTIONARY WHILE IN GAME!***
     -- ***Please commenting out this code if you don't use***
