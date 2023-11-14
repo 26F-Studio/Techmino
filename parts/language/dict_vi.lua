@@ -288,7 +288,7 @@ Nói chung, một game xếp gạch hiện đại thường sẽ bám sát theo 
     {"Hold (Giữ)",
         "nhom05 hold",
         "term",
-        "Một chức năng cho phép bạn giữ gạch đang rơi (nếu chưa có gạch nào trong HOLD) hoặc đổi gạch hiện tại với gạch trong HOLD.\nBình thường, Hold chỉ có thể được sử dụng 1 lần cho mỗi gạch.\n\nTrên thực tế, việc dùng Hold hay không cũng có ưu nhược của nó.\nNếu không dùng Hold:\n\t- Có thể giảm áp lực cho người chơi khi điều khiển gạch.\n\t- Đồng thời có thể giảm số phím cần nhấn trong game → có thể tăng KPS lên.\nTrên thực tế, đã có nhiều kỷ lục 40L được xác lập mà không cần Hold.\n\nNếu dùng Hold:\n\t- Hold có thể có ích trong nhiều trường hợp khác nhau (ví dụ như khi đang chơi ở tốc độ rơi cao).\n\t- Cho phép người chơi có thể làm được nhiều setup phức tạp hơn mà không đẩy thêm áp lực cho người chơi."
+        "Một chức năng cho phép bạn\n\t*Cất gạch vào HOLD và lấy gạch tiếp theo nếu chưa có gạch nào trong HOLD\n\t*Hoán đổi gạch đang rơi với gạch trong HOLD\n\nBình thường, Hold chỉ có thể được sử dụng 1 lần cho mỗi gạch.\n\nTrên thực tế, việc dùng Hold hay không cũng có ưu nhược của nó.\nNếu không dùng Hold:\n\t- Có thể giảm áp lực cho người chơi khi điều khiển gạch.\n\t- Đồng thời có thể giảm số phím cần nhấn trong game → có thể tăng KPS lên.\nTrên thực tế, đã có nhiều kỷ lục 40L được xác lập mà không cần Hold.\n\nNếu dùng Hold:\n\t- Hold có thể có ích trong nhiều trường hợp khác nhau (ví dụ như khi đang chơi ở tốc độ rơi cao).\n\t- Cho phép người chơi có thể làm được nhiều setup phức tạp hơn mà không đẩy thêm áp lực cho người chơi."
     },
     {"Hold tại chỗ",
         "nhom05 inplace hold taicho",
@@ -925,7 +925,7 @@ Trong hầu hết các game, tấn công và phòng thủ là tương đương n
     {"‘Researching’",
         "nhom05k scientificresearching",
         "term",
-        "(<科研>, ké yán)\n\nMột thuật ngữ đôi khi được dùng ở cộng đồng Tetris Trung Quốc, chỉ việc nghiên cứu / luyện tập kỹ thuật nào đó (ví dụ như một setup T-spin mới) trong môi trường chơi đơn và tốc độ rơi thấp…\nTrong Techmino, thuật ngữ này chỉ những mode đòi hỏi bạn gần như phải dùng spin suốt màn chạy.",
+        "(<科研>, ké yán)\n\nMột thuật ngữ đôi khi được dùng ở cộng đồng Tetris Trung Quốc, chỉ việc nghiên cứu / luyện tập kỹ thuật nào đó (ví dụ như một setup T-spin mới) trong môi trường chơi đơn và tốc độ rơi thấp…\nTrong Techmino, thuật ngữ này chỉ những mode đòi hỏi bạn gần như phải dùng spin trong suốt màn chạy.",
     },
     {"Bone block",
         "nhom05k bone tgm",
@@ -961,7 +961,7 @@ Hãy nhớ là không phải game nào được nói đến đều có lời nh�
         [[
 Chơi trên trình duyệt | Chơi trực tuyến | Hỗ trợ màn hình cảm ứng
 
-Gọi tắt là KoS. Một game xếp gạch chơi trên trình duyệt theo lượt. Về cơ bản: người chơi thay phiên nhau đặt các gạch trong bảng của họ theo chu kỳ 7 gạch. Hàng rác chỉ có thể vào bảng khi một gạch được đặt mà không xóa một hàng nào. Trò chơi mang tính chiến lược cao và có các tùy chọn khác nhau cho cơ chế tấn công.
+Gọi tắt là KoS. Một game xếp gạch chơi trên trình duyệt theo lượt. Về cơ bản: người chơi sẽ thay phiên nhau đặt các gạch trong bảng của họ theo chu kỳ 7 gạch. Hàng rác chỉ có thể vào bảng khi một gạch được đặt mà không xóa một hàng nào. Trò chơi mang tính chiến lược cao và có các tùy chọn khác nhau cho cơ chế tấn công.
         ]],
         "https://kingofstackers.com/games.php",
     },
