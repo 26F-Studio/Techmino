@@ -78,8 +78,7 @@ return {
     cc_fixed="CC không tương thích với trình xáo gạch cố định",
     cc_swap="CC không tương thích với chế độ Hold là Chuyển",
     cc_solid="CC không tương thích với bảng có hàng đã lấp đầy.",
-    -- cc_solid="CC is incompatible with filled line in the field.",
-    -- cc_field_too_high="CC is incompatible with fields higher than 40.",
+    cc_field_too_high="CC không tương thích với bảng cao hơn 40 hàng!",
     switchSpawnSFX="Vui lòng bật Spawn SFX để chơi!",
     needRestart="Khởi động lại để áp dụng mọi thay đổi.",
 
@@ -1147,14 +1146,13 @@ C. Tay cầm chơi game (Gamepad):
         -- Techmino's birthday
         "Ngày sinh nhật của Techmino? Hiện tại (đang giả định) là 26/T6.",
         -- How to O-spin: Rotate 626 times in one second (mistaken)
-        "Cách O-spin? Nhấn phím xoay 626 lần (ĐÙA ĐẤY ĐỪNG TIN!)",
+        "Cách O-spin? Nhấn phím xoay 626 lần trong 1 giây (ĐÙA ĐẤY ĐỪNG TIN!)",
         -- Hope you all like Z... Oh no, like Techmino
         {"Mình mong các bạn sẽ thích ",C.W,"Z",C.Z,"… Ối! Không phải, thích ",C.G,"Techmino",C.Z," cơ! Nhầm nhầm nhầm!"},
         -- 2021 was the year of Techmino's online debut.
         "2021 là năm ra mắt chế độ trực tuyến của Techmino.",
         -- The Chinese name of this game is 'Block Research Institute'.
-        "Tên chính thức của game là \"方块研究所\" (Block Research Institute).",
-        "Một tên khác của game này là \"Tiehu Minuo\"",
+        "Tên chính thức của game là \"方块研究所\"",
         -- This game is not called Teachmino
         "Tên game không phải là Teachmino!",
         --
@@ -1185,7 +1183,7 @@ C. Tay cầm chơi game (Gamepad):
         -- It seems like no one has reached a high level by playing with their feet yet.
         "Hình như tới giờ chưa ai chơi xếp gạch giỏi bằng chân…",
         -- Moderate gaming is good for the brain. Addiction to games is harmful. Plan your time
-        "Chơi game vừa phải có thể tốt cho bộ não. Nhưng nếu nghiện thì toeng! Nhớ quản lý thời gian nhé!",
+        "Chơi game vừa phải có thể tốt cho bộ não. Nhưng nếu nghiện thì toeng! Nhớ lập th!ời gian biểu nhé!",
         -- The ability to dig is extremely important in battles!!!
         "Khả năng đào xuống (downstacking) của bạn là RẤT QUAN TRỌNG trong chiến đấu!!!",
         -- Skilled players of the Classic Tetris game are also formidable; don't underestimate them
@@ -1204,7 +1202,7 @@ C. Tay cầm chơi game (Gamepad):
         "THường xuyên chơi game lâu có thể khiến bạn có thể bị đuối sức (cả thể chất và tinh thần, tệ nhất có thể bị stall). Hãy nhớ nghỉ giải lao sau khi chơi lâu nhé!",
         -- Be careful of tenosynovitis!
         {C.R,"CẢNH BÁO! ",C.Z,"Bệnh viêm bao gân cổ tay!"},
-        -- The button with a question mark in the bottom-right corner is the game manual (assuming you haven't enabled the concise mode).
+        -- The button with a question mark in the bottom-right corner is the game manual (assuming you haven't enabled the Simple mode).
         "Cái nút "..CHAR.icon.help.." ở góc phải dưới cùng trong menu (không bật chế độ Đơn giản) đấy hả? Nó là manual (hướng dẫn sử dụng) của game đấy!",
         -- If you're new to blocks, just play more games; there isn't much specific targeted practice beyond 40 lines in two minutes
         "Bạn mới tập chơi xếp gạch à? Nếu vậy cứ chơi nhiều lên. Không có nhiều mục tiêu luyện tập cụ thể ngoài xóa 40 hàng trong 2 phút đâu!",
@@ -1217,7 +1215,7 @@ C. Tay cầm chơi game (Gamepad):
 --
     -- Z SAID
         -- I can't write cool music (crying)
-        {C.W,"Z: ",C.Z,"Tôi không thể nào viết một bản nhạc nào trông ngầu cả (sadge)."},
+        {C.W,"Z: ",C.Z,"Tôi không tài nào viết nổi một bản nhạc nào trông ngầu cả (sadge)."},
         -- I haven't studied music composition. I just composed it myself. If you really think it's good, that's great!
         {C.W,"Z: ",C.Z,"Tôi chưa từng học sáng tác nhạc, và tôi chỉ tự sáng tác chúng. Nếu bạn thấy những bản nhạc này hay, thật tuyệt!"},
         -- What else can I write for tips?
@@ -1264,7 +1262,7 @@ C. Tay cầm chơi game (Gamepad):
         {C.lW, "V0.13.0"    ,": ",C.Z, "Thử nghiệm chế độ trực tuyến"},
         {C.lW, "V0.13.2"    ,": ",C.Z, "Đã thêm khả năng tùy biến chiều cao bảng"},
         {C.lW, "V0.13.3"    ,": ",C.Z, "Đã thêm console"},
-        {C.lW, "V0.14.5"    ,": ",C.Z, "Đã thêm BGM đầu tiên được làm bởi cộng đồng"},
+        {C.lW, "V0.14.5"    ,": ",C.Z, "Đã thêm BGM đầu tiên được remix bởi cộng đồng"},
         {C.lW, "V0.15.5"    ,": ",C.Z, "Đã thêm menu replay"},
         {C.lW, "V0.16.0"    ,": ",C.Z, "Đã thêm hệ thống xoay BiRS"},
         {C.lW, "V0.16.2"    ,": ",C.Z, "Đã thêm studio SFX với phong cách hit pad"},
@@ -1301,7 +1299,8 @@ C. Tay cầm chơi game (Gamepad):
         {C.lSea,"Sea: ",C.Z,"Tui không có đủ mặn để viết joke. Nên một số câu đùa đang chạy ở đây được viết bởi ",C.yellow,"Shard Nguyễn",C.Z,". \"Em cảm ơn anh!\""},
         {C.lSea,"Sea: ",C.Z,"Tui đang tự hỏi liệu còn bao nhiêu lỗi tui bỏ sót lúc dịch game không? Tính ra tui đã cập nhật đi cập nhật lại cũng 4-5 lần rồi."},
 
-        {"Cộng đồng Tetris ",C.R,"Việt ",C.lY,"Nam ",C.Z,": https://discord.gg/jX7BX9g"}, -- Tetris Vietnam (TVN)
+        {"Cộng đồng Tetris ",C.R,"Việt ",C.lY,"Nam ",C.Z,": https://discord.gg/hoiphuhovietnam"}, -- Tetris Vietnam (TVN)
+        {"\"Tetris Việt Nam\"? Không, đó là \"Hội phụ hồ Việt Nam\""},
         {C.W,"MrZ ",C.Z,"vẫn chưa biết chọn tên nào để đặt cho từ điển của Techmino. Hiện có 3 tên: \"Zictionary\", \"TetroDictionary\" và \"Little Z Dictionary\""},
         "Ủa tao nhớ game này tên là xếp hình mà? Ừ thì đúng nhưng để giữ độ đồng nhất và tránh bị cấn mồm thì nên gọi game này là game xếp gạch.",
         "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
