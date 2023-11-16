@@ -211,20 +211,20 @@ generateVKey=function()
             -- Then modify the base to get the key we expected
             function K:update(activateState,dt)
                 -- activateState: 0=off, 1=on then off, 2=on
-                local ATV=self.ATV
+                local activateTime=self.activateTime
                 local maxTime=6.2
         
                 if activateState~=nil then self.activateState=activateState
-                elseif (self.activateState==1 and ATV==maxTime) or not self.activateState then self.activateState=0 end
+                elseif (self.activateState==1 and activateTime==maxTime) or not self.activateState then self.activateState=0 end
                 -- LIKELY NOT POSSIBLE TO DO
-                -- Holding key: self.activateState=activateState and activateState or not ATV>maxTime and self.activateState or 0 end
+                -- Holding key: self.activateState=activateState and activateState or not activateTime>maxTime and self.activateState or 0 end
                 if dt then
-                    if self.activateState>0 then self.ATV=min(ATV+dt*60,maxTime)
-                    elseif ATV>0            then self.ATV=max(ATV-dt*30,0)
+                    if self.activateState>0 then self.activateTime=min(activateTime+dt*60,maxTime)
+                    elseif activateTime>0   then self.activateTime=max(activateTime-dt*30,0)
                     end
                 end
             end
-            K.getCenter,K.release,K.drag=NULL,NULL,NULL
+            K.getCenter,K.drag,K.release=nil
             pianoVK[keyChar]=K
             K=nil
         end
