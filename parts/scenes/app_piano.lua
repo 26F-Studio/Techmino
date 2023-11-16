@@ -211,16 +211,16 @@ generateVKey=function()
             -- Then modify the base to get the key we expected
             function K:update(activateState,dt)
                 -- activateState: 0=off, 1=on then off, 2=on
-                local activateTime=self.activateTime
+                local activationTime=self.activationTime
                 local maxTime=6.2
         
                 if activateState~=nil then self.activateState=activateState
-                elseif (self.activateState==1 and activateTime==maxTime) or not self.activateState then self.activateState=0 end
+                elseif (self.activateState==1 and activationTime==maxTime) or not self.activateState then self.activateState=0 end
                 -- LIKELY NOT POSSIBLE TO DO
-                -- Holding key: self.activateState=activateState and activateState or not activateTime>maxTime and self.activateState or 0 end
+                -- Holding key: self.activateState=activateState and activateState or not activationTime>maxTime and self.activateState or 0 end
                 if dt then
-                    if self.activateState>0 then self.activateTime=min(activateTime+dt*60,maxTime)
-                    elseif activateTime>0   then self.activateTime=max(activateTime-dt*30,0)
+                    if self.activateState>0 then self.activationTime=min(activationTime+dt*60,maxTime)
+                    elseif activationTime>0 then self.activationTime=max(activationTime-dt*30,0)
                     end
                 end
             end
