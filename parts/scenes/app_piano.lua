@@ -14,8 +14,6 @@ local inst
 local offset
 local tempoffset=0
 
-local lastPlayBGM
-
 local generateVKey
 local showingKey
 local pianoVK={}  -- All piano key can be appear on the screen, want to see? Check the end of the code
@@ -25,6 +23,7 @@ local keyCount=0  -- Get key count (up to 262, can be larger), used to check if 
 local textObj={}  -- We will keep all text objects of note here, only used for virutal keys
 local lastKeyTime -- Last time any key pressed
 
+local lastPlayBGM
 local scene={}
 
 -- Rename all virtual key's text
@@ -161,9 +160,7 @@ function scene.draw()
 
     -- Drawing virtual keys
     if showingKey then
-        for _,key in pairs(pianoVK) do
-            key:draw()
-        end
+        for _,key in pairs(pianoVK) do key:draw() end
         gc.setLineWidth(1)
         gc.setColor(COLOR.Z)
         gc.line(685.5,297,685.5,642)
@@ -171,9 +168,7 @@ function scene.draw()
 end
 
 function scene.update(dt)
-    for _,key in pairs(pianoVK) do
-        key:update(nil,dt)
-    end
+    for _,key in pairs(pianoVK) do key:update(nil,dt) end
 
     if lastKeyTime and keyCount>262 and TIME()-lastKeyTime>10 then
         collectgarbage()
@@ -198,7 +193,7 @@ generateVKey=function()
         {'a','s','d','f','g','h','j','k','l',';','\'','return'},
         {'z','x','c','v','b','n','m',',','.','/',},
     }
-    local keyColorInMedRow={'R','W','P','N','Z','Z','O','L','G','C','Z','Z'}
+    local keyColorInHomeRow={'R','W','P','N','Z','Z','O','L','G','C','Z','Z'}
 
     for row,keysInRow in pairs(allRow) do
         for keyIndex,keyChar in pairs(keysInRow) do
@@ -209,7 +204,7 @@ generateVKey=function()
                 w=75,h=75,
 
                 font=35,fText='',sound=false,
-                color=row==3 and keyColorInMedRow[keyIndex] or 'Z',
+                color=row==3 and keyColorInHomeRow[keyIndex] or 'Z',
                 code=function() scene.keyDown(keyChar) end
             }
 
