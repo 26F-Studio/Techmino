@@ -2175,6 +2175,7 @@ end
 function Player:loadAI(data)-- Load AI with params
     self.bot=BOT.new(self,data)
     self.bot.data=data
+    self.bot:updateField()
 end
 --------------------------</Method>--------------------------
 
