@@ -15,11 +15,13 @@ local offset
 local tempoffset=0
 
 local lastPlayBGM
+
+local generateVKey
 local showingKey
 local pianoVK={}  -- All piano key can be appear on the screen, want to see? Check the end of the code
 local touches={}
 
-local keyCount=0  -- Get key count (up to 626, can pass), used to check if we need to launch Lua's garbage collector or not
+local keyCount=0  -- Get key count (up to 262, can be larger), used to check if we need to launch Lua's garbage collector or not
 local textObj={}  -- We will keep all text objects of note here, only used for virutal keys
 local lastKeyTime -- Last time any key pressed
 
@@ -91,6 +93,7 @@ function scene.enter()
     keyCount=0
     lastKeyTime=nil
 
+    generateVKey()
     _notHoldCS()
     _showVirtualKey(MOBILE)
 end
@@ -144,7 +147,7 @@ function scene.keyUp()
     if (
         not kbIsDown('lctrl','rctrl','lshift','rshift') -- If we are not holding Ctrl or Shift keys
     ) and not moIsDown(1) -- and the left mouse button is not being held
-    -- The implementationo is really wild but I hope it will good enough to keep the virtual keys from bugs
+    -- The implementation is really wild but I hope it will good enough to keep the virtual keys from bugs
     then _notHoldCS() end
 end
 
@@ -172,7 +175,7 @@ function scene.update(dt)
         key:update(nil,dt)
     end
 
-    if lastKeyTime and keyCount>626 and TIME()-lastKeyTime>10 then
+    if lastKeyTime and keyCount>262 and TIME()-lastKeyTime>10 then
         collectgarbage()
         lastKeyTime=nil
         keyCount=0
@@ -186,101 +189,57 @@ scene.widgetList={
     WIDGET.newKey   {name='offset+'  ,x=475 ,y=60,w=60 ,h=60,fText=CHAR.key.right,code=pressKey"ralt",hideF=function() return not showingKey end},
 }
 
--- Set virtual keys (seperate from ZFramework)
+-- Generate virtual keys (seperate from ZFramework, to use only in this scene)
 -- Using hashtable to reduce usage time
-pianoVK={
-    -- Number row:  01234567890-=           13
-    ['1'        ]=WIDGET.newKey{x=  75,y=335,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('1'        ) end},
-    ['2'        ]=WIDGET.newKey{x= 165,y=335,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('2'        ) end},
-    ['3'        ]=WIDGET.newKey{x= 255,y=335,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('3'        ) end},
-    ['4'        ]=WIDGET.newKey{x= 345,y=335,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('4'        ) end},
-    ['5'        ]=WIDGET.newKey{x= 435,y=335,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('5'        ) end},
-    ['6'        ]=WIDGET.newKey{x= 525,y=335,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('6'        ) end},
-    ['7'        ]=WIDGET.newKey{x= 615,y=335,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('7'        ) end},
-    ['8'        ]=WIDGET.newKey{x= 755,y=335,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('8'        ) end},
-    ['9'        ]=WIDGET.newKey{x= 845,y=335,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('9'        ) end},
-    ['0'        ]=WIDGET.newKey{x= 935,y=335,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('0'        ) end},
-    ['-'        ]=WIDGET.newKey{x=1025,y=335,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('-'        ) end},
-    ['='        ]=WIDGET.newKey{x=1115,y=335,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('='        ) end},
-    ['backspace']=WIDGET.newKey{x=1205,y=335,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('backspace') end},
+generateVKey=function()
+    local allRow={
+        {'1','2','3','4','5','6','7','8','9','0' ,'-','=','backspace'},
+        {'q','w','e','r','t','y','u','i','o','p','[' ,']','\\'},
+        {'a','s','d','f','g','h','j','k','l',';','\'','return'},
+        {'z','x','c','v','b','n','m',',','.','/',},
+    }
+    local keyColorInMedRow={'R','W','P','N','Z','Z','O','L','G','C','Z','Z'}
 
-    -- Top row:     QWERTYUIOP[]\           13
-    ['q' ]=WIDGET.newKey{x=  75,y=425,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('q' ) end},
-    ['w' ]=WIDGET.newKey{x= 165,y=425,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('w' ) end},
-    ['e' ]=WIDGET.newKey{x= 255,y=425,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('e' ) end},
-    ['r' ]=WIDGET.newKey{x= 345,y=425,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('r' ) end},
-    ['t' ]=WIDGET.newKey{x= 435,y=425,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('t' ) end},
-    ['y' ]=WIDGET.newKey{x= 525,y=425,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('y' ) end},
-    ['u' ]=WIDGET.newKey{x= 615,y=425,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('u' ) end},
-    ['i' ]=WIDGET.newKey{x= 755,y=425,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('i' ) end},
-    ['o' ]=WIDGET.newKey{x= 845,y=425,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('o' ) end},
-    ['p' ]=WIDGET.newKey{x= 935,y=425,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('p' ) end},
-    ['[' ]=WIDGET.newKey{x=1025,y=425,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('[' ) end},
-    [']' ]=WIDGET.newKey{x=1115,y=425,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown(']' ) end},
-    ['\\']=WIDGET.newKey{x=1205,y=425,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('\\') end},
+    for row,keysInRow in pairs(allRow) do
+        for keyIndex,keyChar in pairs(keysInRow) do
+            -- Create the base first
+            local K=WIDGET.newKey{
+                x=75+90*(keyIndex-1)+50*(keyIndex>7 and 1 or 0),
+                y=335+90*(row-1),
+                w=75,h=75,
 
-    -- Home row     ASDFGHJKL;''<ENTER>     12
-    ['a'     ]=WIDGET.newKey{x=  75,y=515,w=75,h=75,sound=false,font=35,fText='',color='R',code=function() scene.keyDown('a'     ) end},
-    ['s'     ]=WIDGET.newKey{x= 165,y=515,w=75,h=75,sound=false,font=35,fText='',color='W',code=function() scene.keyDown('s'     ) end},
-    ['d'     ]=WIDGET.newKey{x= 255,y=515,w=75,h=75,sound=false,font=35,fText='',color='P',code=function() scene.keyDown('d'     ) end},
-    ['f'     ]=WIDGET.newKey{x= 345,y=515,w=75,h=75,sound=false,font=35,fText='',color='N',code=function() scene.keyDown('f'     ) end},
-    ['g'     ]=WIDGET.newKey{x= 435,y=515,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('g'     ) end},
-    ['h'     ]=WIDGET.newKey{x= 525,y=515,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('h'     ) end},
-    ['j'     ]=WIDGET.newKey{x= 615,y=515,w=75,h=75,sound=false,font=35,fText='',color='O',code=function() scene.keyDown('j'     ) end},
-    ['k'     ]=WIDGET.newKey{x= 755,y=515,w=75,h=75,sound=false,font=35,fText='',color='L',code=function() scene.keyDown('k'     ) end},
-    ['l'     ]=WIDGET.newKey{x= 845,y=515,w=75,h=75,sound=false,font=35,fText='',color='G',code=function() scene.keyDown('l'     ) end},
-    [';'     ]=WIDGET.newKey{x= 935,y=515,w=75,h=75,sound=false,font=35,fText='',color='C',code=function() scene.keyDown(';'     ) end},
-    ['\''    ]=WIDGET.newKey{x=1025,y=515,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('\''    ) end},
-    ['return']=WIDGET.newKey{x=1115,y=515,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('return') end},
+                font=35,fText='',sound=false,
+                color=row==3 and keyColorInMedRow[keyIndex] or 'Z',
+                code=function() scene.keyDown(keyChar) end
+            }
 
-    -- Bottom row   ZXCVBNM,./              10
-    ['z']=WIDGET.newKey{x= 75,y=605,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('z') end},
-    ['x']=WIDGET.newKey{x=165,y=605,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('x') end},
-    ['c']=WIDGET.newKey{x=255,y=605,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('c') end},
-    ['v']=WIDGET.newKey{x=345,y=605,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('v') end},
-    ['b']=WIDGET.newKey{x=435,y=605,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('b') end},
-    ['n']=WIDGET.newKey{x=525,y=605,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('n') end},
-    ['m']=WIDGET.newKey{x=615,y=605,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('m') end},
-    [',']=WIDGET.newKey{x=755,y=605,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown(',') end},
-    ['.']=WIDGET.newKey{x=845,y=605,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('.') end},
-    ['/']=WIDGET.newKey{x=935,y=605,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() scene.keyDown('/') end},
-
-    -- Ctrl and Shift                       2
-    ['ctrl' ]=WIDGET.newKey{x=1115,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() if not tempoffset==-1 then _holdingCtrl()  else _notHoldCS() end end},
-    ['shift']=WIDGET.newKey{x=1205,y=605,w=75 ,h=75,sound=false,font=35,fText='',color='Z',code=function() if not tempoffset== 1 then _holdingShift() else _notHoldCS() end end},
-}
-
--- Set objects text
-pianoVK.ctrl :setObject(CHAR.key.ctrl )
-pianoVK.shift:setObject(CHAR.key.shift)
--- Overwrite some functions
-for _,K in pairs(pianoVK) do
-    -- Overwrite the update function
-    function K:update(activateState,dt)
-        -- activateState
-            -- 0 - Off
-            -- 1 - On then off
-            -- 2 - On
-        local ATV=self.ATV
-        local maxTime=6.2
-
-        if activateState~=nil then self.activateState=activateState
-        elseif (self.activateState==1 and ATV==maxTime) or not self.activateState then self.activateState=0 end
-
-        -- LIKELY NOT POSSIBLE TO DO
-        -- Holding key: self.activateState=activateState and activateState or not ATV>maxTime and self.activateState or 0 end
-
-        if dt then
-            if self.activateState>0 then
-                self.ATV=min(ATV+dt*60,maxTime)
-            elseif ATV>0 then
-                self.ATV=max(ATV-dt*30,0)
+            -- Then modify the base to get the key we expected
+            function K:update(activateState,dt)
+                -- activateState: 0=off, 1=on then off, 2=on
+                local ATV=self.ATV
+                local maxTime=6.2
+        
+                if activateState~=nil then self.activateState=activateState
+                elseif (self.activateState==1 and ATV==maxTime) or not self.activateState then self.activateState=0 end
+                -- LIKELY NOT POSSIBLE TO DO
+                -- Holding key: self.activateState=activateState and activateState or not ATV>maxTime and self.activateState or 0 end
+                if dt then
+                    if self.activateState>0 then self.ATV=min(ATV+dt*60,maxTime)
+                    elseif ATV>0            then self.ATV=max(ATV-dt*30,0)
+                    end
+                end
             end
+            K.getCenter,K.release,K.drag=NULL,NULL,NULL
+            pianoVK[keyChar]=K
+            K=nil
         end
     end
-    -- Remove unnecessary function (reduce memory usage)
-    function K:getCenter() end
-    function K:drag()      end
-    function K:release()   end
+
+    -- Special case
+    pianoVK.ctrl =WIDGET.newKey{x=1115,y=605,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() if not tempoffset==-1 then _holdingCtrl()  else _notHoldCS() end end}
+    pianoVK.ctrl :setObject(CHAR.key.ctrl )
+    pianoVK.shift=WIDGET.newKey{x=1205,y=605,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() if not tempoffset== 1 then _holdingShift() else _notHoldCS() end end}
+    pianoVK.shift:setObject(CHAR.key.shift)
 end
+
 return scene
