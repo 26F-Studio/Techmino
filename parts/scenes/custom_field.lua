@@ -237,9 +237,12 @@ function scene.keyDown(key)
             end
             str=str:sub(p+1)
         end
-        local success,F=DATA.pasteBoard(str)
+        local success,F, flagBoardLineLimit=DATA.pasteBoard(str)
         if success then
             FIELD[page]=F
+            if flagBoardLineLimit then
+                MES.new('warn', text.customDataSingleBoardLineLimit)
+            end
             MES.new('check',text.importSuccess)
         else
             MES.new('error',text.dataCorrupted)
