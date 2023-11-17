@@ -40,8 +40,8 @@ jobs:
           os.execute('echo "version-code=' .. tostring(version.code) .. '" >> $GITHUB_OUTPUT')
 
           local f = io.open("updateLog.txt", 'r')
-          local note = f and f:read("*a") or ""
-          if f then f:close() end
+          local note = f:read("*a")
+          f:close()
           local p1 = note:find("\n%d") + 1
           local p2 = note:find("\n", p1) - 1
           os.execute('echo "update-title=' .. note:sub(p1, p2) .. '" >> $GITHUB_OUTPUT')
