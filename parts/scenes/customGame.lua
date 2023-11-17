@@ -191,6 +191,7 @@ function scene.keyDown(key,isRep)
     elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
         local str=sys.getClipboardText()
         local args=str:sub((str:find(":") or 0)+1):split("!")
+        local flagHasBoardWithLineLimit=false
         repeat
             if #args<4 then break end-- goto THROW_fail
             local success,env=DATA.pasteQuestArgs(args[1])
@@ -210,14 +211,21 @@ function scene.keyDown(key,isRep)
             TABLE.cut(CUSTOMGAME_LOCAL.field)
             CUSTOMGAME_LOCAL.field[1]=DATA.newBoard()
             for i=4,#args do
+                
                 if args[i]:find("%S") then
-                    local success,F=DATA.pasteBoard(args[i])
+                    local success, F, flagBoardLineLimit=DATA.pasteBoard(args[i])
                     if success then
+                        if flagBoardLineLimit then
+                            flagHasBoardWithLineLimit=true
+                        end
                         CUSTOMGAME_LOCAL.field[i-3]=F
                     else
                         if i<#args then break end-- goto THROW_fail
                     end
                 end
+            end
+            if flagHasBoardWithLineLimit then
+                MES.new('warn', text.customDataBoardLineLimit)
             end
             MES.new('check',text.importSuccess)
             return

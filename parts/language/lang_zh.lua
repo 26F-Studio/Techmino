@@ -95,6 +95,13 @@ return {
     dataCorrupted="数据损坏",
     pasteWrongPlace="提醒:可能粘贴错地方了",
     noFile="找不到文件",
+    
+    -- data validation for custom game data import
+    customDataInvalidHold1="自定义模式数据中的 Hold 数量错误。重置为 6。",
+    customDataInvalidHold2="自定义模式数据中的 Hold 数量错误。重置为 1。",
+    customDataInvalidSequence="自定义模式数据中的序列模式不存在。重置为 bag。",
+    customDataBoardLineLimit="数据中一个或多个自定义场地的高度超过限制（126 行）。超出限制的部分已被移除。",
+    customDataSingleBoardLineLimit="数据中自定义场地的高度超过限制（126 行）。超出限制的部分已被移除。",
 
     nowPlaying="正在播放:",
 
