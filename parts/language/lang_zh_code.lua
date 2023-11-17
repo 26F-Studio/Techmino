@@ -94,6 +94,8 @@ return {
     dataCorrupted="Error.DataCorrupted();",
     pasteWrongPlace="Error.PasteWrongPlace();",
     noFile="Error.NoFile();",
+    invalidSequence="Error.InvalidSequenceMode();",
+    tooHighField="Error.TooHighField();",
 
     nowPlaying="NowPlaying=",
 

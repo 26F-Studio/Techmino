@@ -95,6 +95,8 @@ return {
     dataCorrupted="Données corrompues",
     -- pasteWrongPlace="Paste at wrong place?",
     noFile="Fichier non trouvé",
+    -- invalidSequence="Invalid sequence mode",
+    -- tooHighField="Field data exceeded 126 lines abandoned",
 
     nowPlaying="En train de jouer :",
 

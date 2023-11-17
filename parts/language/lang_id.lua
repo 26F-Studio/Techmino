@@ -96,6 +96,8 @@ return {
     dataCorrupted="Data rusak",
     pasteWrongPlace="Apakah Anda menempelkannya di tempat yang salah?",
     noFile="File tidak ada",
+    -- invalidSequence="Invalid sequence mode",
+    -- tooHighField="Field data exceeded 126 lines abandoned",
 
     nowPlaying="Musik:",
 

@@ -313,6 +313,6 @@ return function(s)-- Return a piece-generating function for player P
             "No sequence mode called "..s or
             "Wrong sequence generator"
         )
-        return seqGenerators.bag
+        return seqGenerators.bag,true
     end
 end

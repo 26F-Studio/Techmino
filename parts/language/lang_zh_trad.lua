@@ -95,6 +95,8 @@ return {
     dataCorrupted="數據損壞",
     pasteWrongPlace="提醒：可能黏貼錯地方了",
     noFile="文件未找到",
+    invalidSequence="無效序列模式",
+    tooHighField="超過126行的場地數據已被丟棄",
 
     nowPlaying="正在播放:",
 

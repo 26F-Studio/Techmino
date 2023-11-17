@@ -85,6 +85,8 @@ return {
     dataCorrupted="Data corrompida",
     -- pasteWrongPlace="Paste at wrong place?",
     -- noFile="File not found",
+    -- invalidSequence="Invalid sequence mode",
+    -- tooHighField="Field data exceeded 126 lines abandoned",
 
     VKTchW="Peso de toque",
     VKOrgW="Peso da origem",

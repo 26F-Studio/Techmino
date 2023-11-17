@@ -237,11 +237,11 @@ function scene.keyDown(key)
             end
             str=str:sub(p+1)
         end
-        local success,F, flagBoardLineLimit=DATA.pasteBoard(str)
+        local success,F,hitHeightLimit=DATA.pasteBoard(str)
         if success then
             FIELD[page]=F
-            if flagBoardLineLimit then
-                MES.new('warn', text.customDataSingleBoardLineLimit)
+            if hitHeightLimit then
+                MES.new('warn',text.tooHighField)
             end
             MES.new('check',text.importSuccess)
         else

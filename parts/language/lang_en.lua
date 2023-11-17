@@ -95,13 +95,8 @@ return {
     dataCorrupted="Data corrupted",
     pasteWrongPlace="Did you paste in the wrong place?",
     noFile="File missing",
-    
-    -- data validation for custom game data import
-    customDataInvalidHold1="Invalid Hold queue length in custom mode data. Resetting to 6.",
-    customDataInvalidHold2="Invalid Hold queue length in custom mode data. Resetting to 1.",
-    customDataInvalidSequence="Invalid sequence mode in custom mode data. Resetting to bag.",
-    customDataBoardLineLimit="One or more fields in the data exceeded height limit (126 lines).\nParts exceeding the limit have been removed.",
-    customDataSingleBoardLineLimit="Field data exceeded height limit (126 lines).\nParts exceeding the limit have been removed.",
+    invalidSequence="Invalid sequence mode",
+    tooHighField="Field data exceeded 126 lines abandoned",
 
     nowPlaying="Now playing:",
 

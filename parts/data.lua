@@ -127,7 +127,7 @@ function DATA.pasteBoard(str)-- Paste [str] data to [page] board
         p=p+1
     end
 
-    return true, F, #str>lineLimit*10
+    return true,F,#str>lineLimit*10
 end
 
 --[[
@@ -213,25 +213,12 @@ end
 function DATA.pasteQuestArgs(str)
     if #str<4 then return end
     local ENV={}
-    ENV.holdCount=  str:byte(1)-48
-    if ENV.holdCount<0 or ENV.holdCount>6 then
-        -- hold count invalid
-        if ENV.holdCount>=7 and ENV.holdCount<=9 then
-            -- hold count clearly intended to be a number, set to 6
-            ENV.holdCount=6
-            MES.new('warn',text.customDataInvalidHold1)
-        else
-            -- hold count is a random character, reset to 1
-            ENV.holdCount=1
-            MES.new('warn',text.customDataInvalidHold2)
-        end
-    end
+    ENV.holdCount=  MATH.clamp(str:byte(1)-48,0,26)
     ENV.ospin=      str:byte(2)~=90
     ENV.missionKill=str:byte(3)~=90
     ENV.sequence=   str:sub(4)
-    -- hard coding list of generators because there is no other way to obtain it
-    if not TABLE.find({'bag','bagES','his','hisPool','c2','bagP1inf','rnd','mess','reverb','loop','fixed'}, ENV.sequence) then
-        MES.new('warn',text.customDataInvalidSequence)
+    if select(2,require"parts.player.seqGenerators"(ENV.sequence)) then
+        MES.new('warn',text.invalidSequence)
         ENV.sequence='bag'
     end
     return true,ENV

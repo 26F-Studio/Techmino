@@ -94,6 +94,8 @@ return {
     dataCorrupted="Los datos están corruptos.",
     pasteWrongPlace="¿Pegaste en la carpeta correcta?",
     noFile="Archivo no encontrado",
+    -- invalidSequence="Invalid sequence mode",
+    -- tooHighField="Field data exceeded 126 lines abandoned",
 
     nowPlaying="Reproduciendo:",
 
