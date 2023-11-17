@@ -32,7 +32,7 @@ local function _renameKeyText(_offset)
         if keys[keyName] then
             local keynameoffset=keyName.._offset -- Achivement? Hashtable implemented
             if not textObj[keynameoffset] then
-                textObj[keynameoffset]=gc.newText(FONT.get(K.font,K.fType),SFX.getNoteName(keys[keyName]+_offset))
+                textObj[keynameoffset]=gc.newText(FONT.get(K.font),SFX.getNoteName(keys[keyName]+_offset))
             end
             K:setObject(textObj[keynameoffset])
         end
@@ -66,8 +66,8 @@ local function checkMultiTouch() -- Check for every touch
     if not kbIsDown('lctrl','rctrl','lshift','rshift') then _notHoldCS() end
     for tid,t in pairs(touches) do
         local x,y=t[1],t[2]
-        for kid,key in pairs(pianoVK) do
-            if not (kid=="ctrl" or kid=="shift") then
+        for kID,key in pairs(pianoVK) do
+            if not (kID=="ctrl" or kID=="shift") then
                 if key:isAbove(x,y) then key:code(); key:update(1); touches[tid]=nil end
             end
         end
@@ -99,6 +99,7 @@ end
 
 function scene.leave()
     TABLE.clear(textObj)
+    TABLE.clear(pianoVK)
     collectgarbage()
     BGM.play(lastPlayBGM)
 end
@@ -211,7 +212,7 @@ generateVKey=function()
             -- Then modify the base to get the key we expected
             function K:update(activateState,dt)
                 -- activateState: 0=off, 1=on then off, 2=on
-                local activationTime=self.activationTime or 0
+                local activationTime=self.ATV or 0
                 local maxTime=6.2
         
                 if activateState~=nil then self.activateState=activateState
@@ -219,8 +220,8 @@ generateVKey=function()
                 -- LIKELY NOT POSSIBLE TO DO
                 -- Holding key: self.activateState=activateState and activateState or not activationTime>maxTime and self.activateState or 0 end
                 if dt then
-                    if self.activateState>0 then self.activationTime=min(activationTime+dt*60,maxTime)
-                    elseif activationTime>0 then self.activationTime=max(activationTime-dt*30,0)
+                    if self.activateState>0 then self.ATV=min(activationTime+dt*60,maxTime)
+                    elseif activationTime>0 then self.ATV=max(activationTime-dt*30,0)
                     end
                 end
             end
