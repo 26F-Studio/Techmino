@@ -96,8 +96,8 @@ return {
     dataCorrupted="データが破損してます",
     pasteWrongPlace="貼り付ける位置を間違っていませんか?",
     noFile="ファイルが見つかりません",
-    -- invalidSequence="Invalid sequence mode",
-    -- tooHighField="Field data exceeded 126 lines abandoned",
+    invalidSequence="無効な出現法則です",
+    tooHighField="フィールドの高さは126段までです",
 
     nowPlaying="再生中:",
 
