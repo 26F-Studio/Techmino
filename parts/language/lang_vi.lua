@@ -101,7 +101,7 @@ return {
     pasteWrongPlace="Bạn có dán đúng nơi không đấy?",
     noFile="Thiếu tệp",
     -- invalidSequence="Invalid sequence mode",
-    -- tooHighField="Field data exceeded 126 lines abandoned",
+    -- tooHighField="Field data exceeded 126 lines discarded",
 
     nowPlaying="Đang phát:",
 
