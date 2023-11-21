@@ -97,7 +97,7 @@ return {
     pasteWrongPlace="Apakah Anda menempelkannya di tempat yang salah?",
     noFile="File tidak ada",
     -- invalidSequence="Invalid sequence mode",
-    -- tooHighField="Field data exceeded 126 lines abandoned",
+    -- tooHighField="Field data exceeded 126 lines discarded",
 
     nowPlaying="Musik:",
 

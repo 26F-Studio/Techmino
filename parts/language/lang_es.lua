@@ -95,7 +95,7 @@ return {
     pasteWrongPlace="¿Pegaste en la carpeta correcta?",
     noFile="Archivo no encontrado",
     -- invalidSequence="Invalid sequence mode",
-    -- tooHighField="Field data exceeded 126 lines abandoned",
+    -- tooHighField="Field data exceeded 126 lines discarded",
 
     nowPlaying="Reproduciendo:",
 
