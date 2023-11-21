@@ -1,5 +1,7 @@
 local gc=love.graphics
-local kb=love.keyboard
+local kbIsDown=love.keyboard.isDown
+local moIsDown=love.mouse.isDown
+local min,max=math.min,math.max
 
 local instList={'lead','bell','bass'}
 local keys={
@@ -10,44 +12,229 @@ local keys={
 }
 local inst
 local offset
+local tempoffset=0
 
+local generateVKey
+local showingKey
+local pianoVK={}  -- All piano key can be appear on the screen, want to see? Check the end of the code
+local touches={}
+
+local keyCount=0  -- Get key count (up to 262, can be larger), used to check if we need to launch Lua's garbage collector or not
+local textObj={}  -- We will keep all text objects of note here, only used for virutal keys
+local lastKeyTime -- Last time any key pressed
+
+local lastPlayBGM
 local scene={}
 
-function scene.enter()
-    inst='lead'
-    offset=0
+-- Rename all virtual key's text
+local function _renameKeyText(_offset)
+    for keyName,K in pairs(pianoVK) do
+        if keys[keyName] then
+            local keynameoffset=keyName.._offset -- Achivement? Hashtable implemented
+            if not textObj[keynameoffset] then
+                textObj[keynameoffset]=gc.newText(FONT.get(K.font,K.fType),SFX.getNoteName(keys[keyName]+_offset))
+            end
+            K:setObject(textObj[keynameoffset])
+        end
+    end
+end
+-- Show virtual key
+local function _showVirtualKey(switch)
+    if switch~=nil then showingKey=switch else showingKey=not showingKey end
 end
 
-function scene.touchDown(x,y,k)
-    -- TODO
+local function _notHoldCS(dct) -- dct=don't change (key's) text
+    tempoffset=0
+    if not dct then _renameKeyText(offset) end
+    pianoVK.ctrl.color,pianoVK.shift.color=COLOR.Z,COLOR.Z
 end
-scene.mouseDown=scene.touchDown
+local function _holdingCtrl()
+    _notHoldCS(true)
+    tempoffset=-1
+    pianoVK.ctrl.color=COLOR.R
+    _renameKeyText(offset-1)
+end
+local function _holdingShift()
+    _notHoldCS(true)
+    tempoffset=1
+    pianoVK.shift.color=COLOR.R
+    _renameKeyText(offset+1)
+end
+
+local function checkMultiTouch() -- Check for every touch
+    if not showingKey then return end
+    if not kbIsDown('lctrl','rctrl','lshift','rshift') then _notHoldCS() end
+    for tid,t in pairs(touches) do
+        local x,y=t[1],t[2]
+        for kid,key in pairs(pianoVK) do
+            if not (kid=="ctrl" or kid=="shift") then
+                if key:isAbove(x,y) then key:code(); key:update(1); touches[tid]=nil end
+            end
+        end
+        if pianoVK.ctrl:isAbove(x,y) then
+            _holdingCtrl()
+        elseif pianoVK.shift:isAbove(x,y) then
+            _holdingShift()
+        end
+    end
+end
+
+
+-- Set scene's variables
+function scene.enter()
+    TABLE.cut(touches)
+    inst='lead'
+    offset=0
+
+    lastPlayBGM=BGM.getPlaying()[1]
+    BGM.stop()
+
+    keyCount=0
+    lastKeyTime=nil
+
+    generateVKey()
+    _notHoldCS()
+    _showVirtualKey(MOBILE)
+end
+
+function scene.leave()
+    TABLE.clear(textObj)
+    collectgarbage()
+    BGM.play(lastPlayBGM)
+end
+
+function scene.touchDown(x,y,id)
+    touches[id]={x,y}
+    checkMultiTouch()
+end
+function scene.touchUp(_,_,id)
+    touches[id]=nil
+    checkMultiTouch()
+end
 
 function scene.keyDown(key,isRep)
     if not isRep and keys[key] then
-        local note=keys[key]+offset
-        if kb.isDown('lshift','rshift') then note=note+1 end
-        if kb.isDown('lctrl','rctrl') then note=note-1 end
+        local note=keys[key]+offset+tempoffset
         SFX.playSample(inst,note)
-        TEXT.show(SFX.getNoteName(note),math.random(150,1130),math.random(140,500),60,'score',.8)
+        keyCount=keyCount+1
+        lastKeyTime=TIME()
+
+        if showingKey then
+            pianoVK[key]:update(1)
+            TEXT.show(SFX.getNoteName(note),math.random(75,1205),math.random(162,260),60,'score',.8)
+        else
+            TEXT.show(SFX.getNoteName(note),math.random(75,1205),math.random(162,620),60,'score',.8)
+        end
+    elseif kbIsDown('lctrl','rctrl') and not kbIsDown('lshift','rshift') then
+        _holdingCtrl()
+    elseif kbIsDown('lshift','rshift') and not kbIsDown('lctrl','rctrl') then
+        _holdingShift()
     elseif key=='tab' then
         inst=TABLE.next(instList,inst)
     elseif key=='lalt' then
         offset=math.max(offset-1,-12)
+        _renameKeyText(offset)
     elseif key=='ralt' then
         offset=math.min(offset+1,12)
-    elseif key=='escape' then
-        SCN.back()
-    end
+        _renameKeyText(offset)
+    elseif key=='f5' then
+        _showVirtualKey()
+    elseif key=='escape' then SCN.back() end
 end
+
+function scene.keyUp()
+    if (
+        not kbIsDown('lctrl','rctrl','lshift','rshift') -- If we are not holding Ctrl or Shift keys
+    ) and not moIsDown(1) -- and the left mouse button is not being held
+    -- The implementation is really wild but I hope it will good enough to keep the virtual keys from bugs
+    then _notHoldCS() end
+end
+
+scene.mouseDown=scene.touchDown -- The ID arg is being used by button, nvm the code still not crash
+scene.mouseUp=scene.touchUp     -- Don't need to do anything more complicated here
 
 function scene.draw()
     setFont(30)
-    gc.print(inst,40,60)
-    gc.print(offset,40,100)
+    GC.setColor(1,1,1)
+    gc.print(inst.." | "..offset,30,40)
+
+    -- Drawing virtual keys
+    if showingKey then
+        for _,key in pairs(pianoVK) do key:draw() end
+        gc.setLineWidth(1)
+        gc.setColor(COLOR.Z)
+        gc.line(685.5,297,685.5,642)
+    end
 end
 
+function scene.update(dt)
+    for _,key in pairs(pianoVK) do key:update(nil,dt) end
+
+    if lastKeyTime and keyCount>262 and TIME()-lastKeyTime>10 then
+        collectgarbage()
+        lastKeyTime=nil
+        keyCount=0
+    end
+end
 scene.widgetList={
-    WIDGET.newButton{name='back', x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newButton{name='back'     ,x=1150,y=60,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=pressKey'escape'},
+    WIDGET.newSwitch{name='showKey'  ,x=970 ,y=60,fText='Virtual key (F5)',disp=function() return showingKey end,code=pressKey'f5'},
+    WIDGET.newKey   {name='changeIns',x=265 ,y=60,w=200,h=60,fText='Instrument'  ,code=pressKey"tab" ,hideF=function() return not showingKey end},
+    WIDGET.newKey   {name='offset-'  ,x=405 ,y=60,w=60 ,h=60,fText=CHAR.key.left ,code=pressKey"lalt",hideF=function() return not showingKey end},
+    WIDGET.newKey   {name='offset+'  ,x=475 ,y=60,w=60 ,h=60,fText=CHAR.key.right,code=pressKey"ralt",hideF=function() return not showingKey end},
 }
+
+-- Generate virtual keys (seperate from ZFramework, to use only in this scene)
+-- Using hashtable to reduce usage time
+generateVKey=function()
+    local allRow={
+        {'1','2','3','4','5','6','7','8','9','0' ,'-','=','backspace'},
+        {'q','w','e','r','t','y','u','i','o','p','[' ,']','\\'},
+        {'a','s','d','f','g','h','j','k','l',';','\'','return'},
+        {'z','x','c','v','b','n','m',',','.','/',},
+    }
+    local keyColorInHomeRow={'R','W','P','N','Z','Z','O','L','G','C','Z','Z'}
+
+    for row,keysInRow in pairs(allRow) do
+        for keyIndex,keyChar in pairs(keysInRow) do
+            -- Create the base first
+            local K=WIDGET.newKey{
+                x=75+90*(keyIndex-1)+50*(keyIndex>7 and 1 or 0),
+                y=335+90*(row-1),
+                w=75,h=75,
+
+                font=35,fText='',sound=false,
+                color=row==3 and keyColorInHomeRow[keyIndex] or 'Z',
+                code=function() scene.keyDown(keyChar) end
+            }
+
+            -- Then modify the base to get the key we expected
+            function K:update(activateState,dt)
+                -- activateState: 0=off, 1=on then off, 2=on
+                local activationTime=self.activationTime or 0
+                local maxTime=6.2
+        
+                if activateState~=nil then self.activateState=activateState
+                elseif (self.activateState==1 and activationTime==maxTime) or not self.activateState then self.activateState=0 end
+                -- LIKELY NOT POSSIBLE TO DO
+                -- Holding key: self.activateState=activateState and activateState or not activationTime>maxTime and self.activateState or 0 end
+                if dt then
+                    if self.activateState>0 then self.activationTime=min(activationTime+dt*60,maxTime)
+                    elseif activationTime>0 then self.activationTime=max(activationTime-dt*30,0)
+                    end
+                end
+            end
+            K.getCenter,K.drag,K.release=nil
+            pianoVK[keyChar]=K
+            K=nil
+        end
+    end
+
+    -- Special case
+    pianoVK.ctrl =WIDGET.newKey{x=1115,y=605,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() if not tempoffset==-1 then _holdingCtrl()  else _notHoldCS() end end}
+    pianoVK.ctrl :setObject(CHAR.key.ctrl )
+    pianoVK.shift=WIDGET.newKey{x=1205,y=605,w=75,h=75,sound=false,font=35,fText='',color='Z',code=function() if not tempoffset== 1 then _holdingShift() else _notHoldCS() end end}
+    pianoVK.shift:setObject(CHAR.key.shift)
+end
+
 return scene

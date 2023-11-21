@@ -2,31 +2,17 @@ local scene={}
 
 local selected-- Mod selected
 
-local function _modComp(a,b)
-    return a.no<b.no
-end
-local function _remMod(M)
-    local i=TABLE.find(GAME.mod,M)
-    if i then
-        table.remove(GAME.mod,i)
-    end
-end
 local function _toggleMod(M,back)
-    if M.sel==0 then
-        table.insert(GAME.mod,M)
-        table.sort(GAME.mod,_modComp)
-    end
+    local number=M.no+1
+    assert(MODOPT[number]==M)
     if M.list then
         if back then
-            M.sel=(M.sel-1)%(#M.list+1)
+            GAME.mod[number]=(GAME.mod[number]-1)%(#M.list+1)
         else
-            M.sel=(M.sel+1)%(#M.list+1)
+            GAME.mod[number]=(GAME.mod[number]+1)%(#M.list+1)
         end
     else
-        M.sel=1-M.sel
-    end
-    if M.sel==0 then
-        _remMod(M)
+        GAME.mod[number]=1-GAME.mod[number]
     end
     if M.unranked then
         SFX.play('touch',.6)
@@ -70,10 +56,14 @@ end
 
 function scene.keyDown(key)
     if key=='tab' or key=='delete' then
-        if GAME.mod[1] then
-            while GAME.mod[1] do
-                table.remove(GAME.mod).sel=0
+        local modUsed=false
+        for i=1,#GAME.mod do
+            if GAME.mod[i]>0 then
+                modUsed=true
             end
+            GAME.mod[i]=0
+        end
+        if modUsed then
             scene.widgetList.unranked.hide=scoreValid()
             SFX.play('hold')
         end
@@ -91,8 +81,9 @@ function scene.keyDown(key)
 end
 
 function scene.update()
-    for _,M in next,MODOPT do
-        if M.sel==0 then
+    for number,sel in next,GAME.mod do
+        local M=MODOPT[number]
+        if sel==0 then
             if M.time>0 then
                 M.time=M.time-1
             end
@@ -106,7 +97,8 @@ end
 function scene.draw()
     setFont(40)
     GC.setLineWidth(5)
-    for _,M in next,MODOPT do
+    for number,M in next,MODOPT do
+        local sel=GAME.mod[number]
         GC.push('transform')
         GC.translate(M.x,M.y)
         local t=M.time*.01-- t range:0~0.1
@@ -126,16 +118,16 @@ function scene.draw()
             GC.circle('line',0,0,rad,side)
             GC.setColor(COLOR.Z)
             GC.mStr(M.id,0,-27)
-            if M.sel>0 and M.list then
+            if sel>0 and M.list then
                 setFont(25)
                 GC.setColor(1,1,1,10*t)
-                GC.mStr(M.list[M.sel],20,8)
+                GC.mStr(M.list[sel],20,8)
                 setFont(40)
             end
 
             if M.list then
                 GC.setColor(1,1,1,t*6)
-                GC.arc('line','open',0,0,rad+6,0,(M.sel/#M.list)*6.2832)
+                GC.arc('line','open',0,0,rad+6,0,(sel/#M.list)*6.2832)
             end
         GC.pop()
     end

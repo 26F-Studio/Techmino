@@ -49,6 +49,16 @@ do
             {'line',5,25,25,5},
         }}
     }
+    TEXTURE.puzzleMark[-2]=GC.DO{30,30,
+        {'setCL',1,1,1,.26},
+        {'draw',GC.DO{30,30,
+            {'setFT',25,'mono'},
+            {'print',"?",7,-2},
+            {'print',"?",8,-2},
+            {'print',"?",7,-3},
+            {'print',"?",8,-3},
+        }}
+    }
 end
 
 TEXTURE.pixelNum={}-- A simple pixel font

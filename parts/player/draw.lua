@@ -7,7 +7,7 @@ local gc_print,gc_printf=gc.print,gc.printf
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
 
-local int,ceil,rnd=math.floor,math.ceil,math.random
+local floor,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,sin,modf=math.max,math.min,math.sin,math.modf
 local setFont=FONT.set
 local SKIN,TEXTURE,IMG=SKIN,TEXTURE,IMG
@@ -70,6 +70,11 @@ local seqGenBanner=setmetatable({
         {'fRect',70-2,5-2,4,4},
         {'fRect',80-1,5-1,2,2},
     },
+    bagP1inf=GC.DO{100,10,
+        {'fRect',10,4,40,2},
+        {'fRect',55,4,20,2},
+        {'fRect',80,4,10,2},
+    },
     rnd=GC.DO{100,10,
         {'fRect',30-3,1,6,6},
         {'fRect',70-3,1,6,6},
@@ -119,8 +124,8 @@ local function _applyField(P)
 
     -- Apply shaking
     if P.shakeTimer>0 then
-        local dx=int(P.shakeTimer/2)
-        local dy=int(P.shakeTimer/3)
+        local dx=floor(P.shakeTimer/2)
+        local dy=floor(P.shakeTimer/3)
         gc_translate(dx^1.6*(dx%2*2-1)*(P.gameEnv.shakeFX+1)/30,dy^1.4*(dy%2*2-1)*(P.gameEnv.shakeFX+1)/30)
     end
 
@@ -167,7 +172,7 @@ end
 local function _drawField(P,showInvis)
     local ENV=P.gameEnv
     local V,F=P.visTime,P.field
-    local start=int((P.fieldBeneath+P.fieldUp)/30+1)
+    local start=floor((P.fieldBeneath+P.fieldUp)/30+1)
     local texture=P.skinLib
     if P.falling==0 then-- Blocks only
         if ENV.upEdge then
@@ -351,11 +356,9 @@ local function _drawBlock(CB,curX,curY,texture)
     end end
     gc_setShader()
 end
-local function _drawNextPreview(B,fieldH,fieldBeneath)
+local function _drawNextPreview(B,x,y)
     gc_setColor(1,1,1,.8)
-    local y=int(fieldH+1-modf(B.RS.centerPos[B.id][B.dir][1]))+ceil(fieldBeneath/30)
     B=B.bk
-    local x=int(6-#B[1]*.5)
     local cross=TEXTURE.puzzleMark[-1]
     for i=1,#B do for j=1,#B[1] do
         if B[i][j] then
@@ -363,11 +366,10 @@ local function _drawNextPreview(B,fieldH,fieldBeneath)
         end
     end end
 end
-local function _drawHoldPreview(B,fieldH,fieldBeneath)
+local function _drawHoldPreview(B,x,y)
     gc_setColor(1,1,1,.3)
-    local y=int(fieldH+1-modf(B.RS.centerPos[B.id][B.dir][1]))+ceil(fieldBeneath/30)+.14
+    y=y+.14
     B=B.bk
-    local x=int(6-#B[1]*.5)
     local cross=TEXTURE.puzzleMark[-1]
     for i=1,#B do for j=1,#B[1] do
         if B[i][j] then
@@ -426,7 +428,7 @@ local function _drawBuffer(atkBuffer,bufferWarn,atkBufferSum1,atkBufferSum)
                     gc_translate(d^.5*(rnd()-.5)*15,d^.5*(rnd()-.5)*15)
                 end
             end
-            gc_printf(int(sum),-300,-20,292,'right')
+            gc_printf(floor(sum),-300,-20,292,'right')
             gc_pop()
         end
     end
@@ -564,8 +566,10 @@ local function _drawNext(P,repMode)
         end
         if ENV.bagLine then
             gc_setColor(.8,.8,.8,.8)
-            for i=-P.pieceCount%ENV.bagLine,N-1,ENV.bagLine do-- i=phase
-                gc_rectangle('fill',1,72*i+3,98,2)
+            for i=1,ENV.nextCount+1 do
+                if queue[i] and queue[i].bagLine and queue[i].bagLine>0 then
+                    gc_rectangle('fill',1,72*(i-1)+3,98,2)
+                end
             end
         end
     gc_translate(-488,-20)
@@ -609,7 +613,7 @@ local _drawDial do
         else
             gc.circle('line',x+40,y+40,37)
         end
-        setFont(30)GC.mStr(int(speed),x+40,y+19)
+        setFont(30)GC.mStr(floor(speed),x+40,y+19)
     end
 end
 local function _drawFinesseCombo_norm(P)
@@ -658,33 +662,53 @@ local function _drawLife(life)
     end
 end
 local function _drawMission(curMission,L,missionkill)
+    if curMission~=prevMissionNum or not TABLE.compare(L,prevL) then
+        prevMissionNum=curMission
+        prevL=TABLE.copy(L)
+        RLEMissions=TABLE.RLE(TABLE.sub(L,curMission))
+    end
+
     -- Draw current mission
-    setFont(35)
     if missionkill then
         gc_setColor(1,.7+.2*sin(TIME()*6.26),.4)
     else
         gc_setColor(.97,.97,.97)
     end
-    gc_print(ENUM_MISSION[L[curMission]],85,110)
-
-    -- Draw next mission
-    setFont(20)
-    for i=1,3 do
-        local m=L[curMission+i]
-        if m then
-            m=ENUM_MISSION[m]
-            gc_print(m,87-28*i,117)
-        else
-            break
+    gc_push()
+        if RLEMissions[1][2]>1 then
+            setFont(20)
+            gc_print("×"..RLEMissions[1][2],98,130)
+            gc_translate(-30,0)
         end
-    end
+
+        setFont(35)
+        gc_print(ENUM_MISSION[RLEMissions[1][1]],85,110)
+
+        -- Draw next mission
+        for i=2,4 do
+            local m=RLEMissions[i]
+            if m then
+                local amt=m[2]
+                m=ENUM_MISSION[m[1]]
+                if RLEMissions[i][2]>1 then
+                    setFont(14)
+                    gc_print("×"..amt,118-28*i,127)
+                    gc_translate(-18,0)
+                end
+                setFont(20)
+                gc_print(m,115-28*i,117)
+            else
+                break
+            end
+        end
+    gc_pop()
 end
 local function _drawStartCounter(time)
     time=179-time
     gc_push('transform')
         gc_translate(300,300)
         local r,g,b
-        local num=int(time/60)+1
+        local num=floor(time/60)+1
         local d=time%60
         if num==3 then
             r,g,b=.7,.8,.98
@@ -714,10 +738,12 @@ local draw={}
 draw.drawGhost=drawGhost
 draw.applyField=_applyField
 draw.cancelField=_cancelField
-function draw.drawTargetLine(P,h)
+function draw.drawTargetLine(P,h,overrideColor)
     if h<=20+(P.fieldBeneath+P.fieldUp+10)/30 and h>0 then
         gc_setLineWidth(3)
-        gc_setColor(1,h>10 and 0 or .2+.8*rnd(),.5)
+        if not overrideColor then
+            gc_setColor(1,h>10 and 0 or .2+.8*rnd(),.5)
+        end
         _applyField(P)
         h=600-30*h
         if P.falling~=-1 then
@@ -857,8 +883,8 @@ function draw.norm(P,repMode)
 
             -- Draw next preview
             if ENV.nextPos then
-                if P.nextQueue[1] then _drawNextPreview(P.nextQueue[1],ENV.fieldH,P.fieldBeneath) end
-                if P.holdQueue[1] then _drawHoldPreview(P.holdQueue[1],ENV.fieldH,P.fieldBeneath) end
+                if P.nextQueue[1] then _drawNextPreview(P.nextQueue[1],P:getSpawnX(P.nextQueue[1]),P:getSpawnY(P.nextQueue[1])) end
+                if P.holdQueue[1] then _drawHoldPreview(P.holdQueue[1],P:getSpawnX(P.holdQueue[1]),P:getSpawnY(P.holdQueue[1])) end
             end
 
             -- Draw AI's drop destination
@@ -957,6 +983,21 @@ function draw.norm(P,repMode)
             ENV.mesDisp[i](P,repMode)
         end
 
+        -- Torikan miss amount
+        if P.result=='torikan' then
+            local diff=P.stat.time-P.stat.torikanReq
+            if     diff>=60 then gc_setColor(COLOR.R)
+            elseif diff>=30 then gc_setColor(COLOR.F)
+            elseif diff>=15 then gc_setColor(COLOR.O)
+            elseif diff>=10 then gc_setColor(COLOR.Y)
+            elseif diff>=5  then gc_setColor(COLOR.flicker(COLOR.G,COLOR.L,.1))
+            else                 gc_setColor(COLOR.flicker(COLOR.G,COLOR.J,.05)) end
+            setFont(40)
+            -- self:_showText(STRING.time(self.stat.time).." / "..STRING.time(requiredTime),0,160,50,'beat',.5,.2)
+            GC.mStr(STRING.time(P.stat.time).." / "..STRING.time(P.stat.torikanReq),300,401)
+            GC.mStr("(+"..STRING.time_short(diff)..")",300,451)
+        end
+
         if P.frameRun<180 then
             _drawStartCounter(P.frameRun)
         end
@@ -1053,7 +1094,7 @@ function draw.demo(P)
 
             -- Draw hold
             local N=1
-            while P.holdQueue[N] do
+            while ENV.holdMode=='hold' and N<=ENV.holdCount and P.holdQueue[N] do
                 local id=P.holdQueue[N].id
                 local _=BLOCK_COLORS[skinSet[id]]
                 gc_setColor(_[1],_[2],_[3],.3)

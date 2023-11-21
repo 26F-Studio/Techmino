@@ -117,7 +117,7 @@ function scene.keyDown(key,isRep)
         end
     elseif key=='m' then
         if _testButton(13) then
-            SCN.go('manual')
+            SCN.go('textReader',nil,FILE.load('parts/language/manual_'..(SETTING.locale:find'zh' and 'zh' or SETTING.locale:find'ja' and 'ja' or SETTING.locale:find'vi' and 'vi' or 'en')..'.txt','-string'):split('\n'),15,'cubes')
         end
     elseif key=='c' then
         enterConsole()

@@ -8,7 +8,7 @@ local gc_print,gc_printf=GC.print,GC.printf
 local ms,kb,tc=love.mouse,love.keyboard,love.touch
 
 local max,min=math.max,math.min
-local int,abs=math.floor,math.abs
+local floor,abs=math.floor,math.abs
 
 local mapCam={
     sel=false,-- Selected mode ID
@@ -22,6 +22,9 @@ local mapCam={
 local visibleModes
 local touchDist
 local grid
+local min_x,max_x=-1500,1350
+local min_y,max_y=-1900,660
+local modUsed
 
 local scene={}
 
@@ -40,6 +43,7 @@ function scene.enter()
             end
         end
     end
+    modUsed=usingMod()
 end
 
 local function _getK()
@@ -66,8 +70,8 @@ end
 local function _moveMap(dx,dy)
     local k=_getK()
     local x,y=_getPos()
-    if x>1300 and dx<0 or x<-1500 and dx>0 then dx=0 end
-    if y>420 and dy<0 or y<-1900 and dy>0 then dy=0 end
+    if x>max_x and dx<0 or x<min_x and dx>0 then dx=0 end
+    if y>max_y and dy<0 or y<min_y and dy>0 then dy=0 end
     mapCam.xOy:translate(dx/k,dy/k)
 end
 function scene.wheelMoved(_,dy)
@@ -220,6 +224,12 @@ local function _drawModeShape(M,S,drawType)
     end
 end
 function scene.draw()
+    -- Mod indicator
+    if modUsed then
+        setModBackgroundColor()
+        gc_rectangle('fill',140-220/2,655-80/2,220,80,5,5)
+    end
+
     local _
     gc_push('transform')
     gc_translate(640,360)
@@ -302,9 +312,12 @@ function scene.draw()
         gc_setColor(COLOR.lX)
         gc_rectangle('fill',920,0,360,720,5)-- Info board
         gc_setColor(COLOR.Z)
-        setFont(40)GC.mStr(text.modes[sel][1],1100,5)
-        setFont(30)GC.mStr(text.modes[sel][2],1100,50)
-        setFont(25)gc_printf(text.modes[sel][3],920,110,360,'center')
+        local modeText=text.modes[sel]
+        if modeText then
+            setFont(40)GC.mStr(modeText[1],1100,5)
+            setFont(30)GC.mStr(modeText[2],1100,50)
+            setFont(25)gc_printf(modeText[3],920,110,360,'center')
+        end
         if M.slowMark then
             gc_draw(IMG.ctrlSpeedLimit,1230,50,nil,.4)
         end
@@ -319,7 +332,7 @@ function scene.draw()
             elseif L[1] then
                 for i=1,#L do
                     local t=M.scoreDisp(L[i])
-                    local f=int((30-#t*.5)/5)*5
+                    local f=floor((30-#t*.5)/5)*5
                     setFont(f)
                     gc_print(t,955,275+25*i+17-f*.7)
                     _=L[i].date

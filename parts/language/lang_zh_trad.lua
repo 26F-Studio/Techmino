@@ -28,7 +28,7 @@ return {
     clear={"Single","Double","Triple","Techrash","Pentacrash","Hexacrash","Heptacrash","Octacrash","Nonacrash","Decacrash","Undecacrash","Dodecacrash","Tridecacrash","Tetradecacrash","Pentadecacrash","Hexadecacrash","Heptadecacrash","Octadecacrash","Nonadecacrash","Ultracrash","Impossicrash"},
     cleared="$1 lines",
     mini="Mini",b2b="B2B ",b3b="B2B2B ",
-    PC="Perfect Clear",HPC="Half Clear",
+    PC="Perfect Clear",HPC="Half PC",
     replaying="[重播]",
     tasUsing="[TAS]",
 
@@ -40,6 +40,10 @@ return {
     maxspeed="最大速度",
     speedup="加速",
     missionFailed="任務外清除",
+    infHeightOn="無限高度 開",
+    infHeightOff="無限高度 關",
+    infHeightHint="用功能鍵1切換",
+    -- highestGrade="(highest: $1)",
 
     speedLV="速度等級",
     piece="塊數",line="行數",atk="攻擊",eff="效率",
@@ -51,7 +55,7 @@ return {
 
     win="勝利",
     lose="失敗",
-
+    torikan="未達標",
     finish="完成",
     gamewin="勝利",
     gameover="遊戲結束",
@@ -63,10 +67,13 @@ return {
 
     page="頁面:",
 
+    ai_puzzle="不能同時開啟AI和拼圖模式",
+    ai_mission="不能同時開啟AI和自定義任務",
+    ai_badPiece="不能同時開啟AI和含有非四連方塊的自定義序列",
     cc_fixed="不能同時開啟CC和固定序列",
     cc_swap="不能同時開啟CC和swap的暫存模式",
-    ai_prebag="不能同時開啟AI和含有非四連方塊的自定義序列",
-    ai_mission="不能同時開啟AI和自定義任務",
+    cc_solid="開啟CC時不能存在預先填滿的行",
+    cc_field_too_high="開啓CC時最高出塊高度不能超過40",
     switchSpawnSFX="請開啟方塊生成音效",
     needRestart="重新啟動以應用所有更改",
 
@@ -88,6 +95,8 @@ return {
     dataCorrupted="數據損壞",
     pasteWrongPlace="提醒：可能黏貼錯地方了",
     noFile="文件未找到",
+    invalidSequence="無效序列模式",
+    tooHighField="超過126行的場地數據已被丟棄",
 
     nowPlaying="正在播放:",
 
@@ -192,7 +201,7 @@ return {
 
 
 
-    keySettingInstruction="點擊來設置鍵位\n按esc來取消選中\n按退格鍵來清除選中",
+    keySettingInstruction="點擊來設定鍵位\n按esc來取消選中\n按退格鍵來清除選中",
     customBGhelp="把圖片檔案拖到這個視窗裏使用自定義背景",
     customBGloadFailed="自定義背景的圖片檔案格式不支持",
 
@@ -230,7 +239,7 @@ return {
         "塊數:",
         "行清除/挖掘:",
         "攻擊/挖掘攻擊:",
-        "上漲/接收/抵消:",
+        "上漲(接收-抵消):",
         "清除:",
         "Spin:",
         "B2B/B3B/PC/HPC:",
@@ -258,7 +267,7 @@ return {
         "使用LÖVE引擎",
         "錯誤或者建議請附帶截圖發送到內測群或者作者電郵~",
         "僅透過內測QQ群/discord伺服器進行免費下載/更新",
-        "從其他渠道獲得遊戲皆有被修改/加入廣告/植入病毒的風險，程序只申請了振動&網路權限！",
+        "從其他渠道獲得遊戲皆有被修改/加入廣告/植入病毒的風險，程式只申請了振動&網路權限！",
         "若由於被修改的本遊戲產生的各種損失作者概不負責（我怎麼負責啊跟我有什麼關係）",
         FNNS and "/" or "請從正規途徑獲得最新版，遊戲現為免費，不過有打賞當然感謝啦~",
         FNNS and "/" or "更多資訊見小z詞典"
@@ -267,7 +276,7 @@ return {
         "原作者  MrZ",
         "電郵: 1046101471@qq.com",
         "",
-        "程序, 開發和設計",
+        "程式, 開發和設計",
         "MrZ",
         "",
         "音樂製作使用",
@@ -278,7 +287,7 @@ return {
         "",
         "[POWERED BY LÖVE]",
         "",
-        "程序",
+        "程式",
         "MrZ",
         "ParticleG",
         "Gompyn",
@@ -324,6 +333,7 @@ return {
         "Miya",
         "Xiaoya",
         "Mono",
+        "Flore",
         "MrZ",
         "Trebor",
         "",
@@ -363,6 +373,7 @@ return {
         "huaji2369",
         "Lexitik",
         "Tourahi Anime",
+        "PopUpWaffles",
         "[All other test staff]",
         "…And You!",
     },
@@ -385,7 +396,7 @@ return {
             qplay="快速開始: ",
             online="網路遊戲",
             custom="自定義",
-            setting="設置",
+            setting="設定",
             stat="統計數據",
             dict="小Z辭典",
             replays="錄影回放",
@@ -404,7 +415,7 @@ return {
             unranked="成績無效",
         },
         pause={
-            setting="設置(S)",
+            setting="設定(S)",
             replay="回放(P)",
             save="保存(O)",
             resume="繼續(esc)",
@@ -456,7 +467,7 @@ return {
             capacity="房間容量",
             create="創建",
 
-            ospin="O-spin",
+            ospin="TRS O-spin",
             fineKill="100% finesse",
             b2bKill="強制B2B",
             lockout="鎖定在外時失敗",
@@ -478,14 +489,14 @@ return {
             cancel="取消準備",
         },
         setting_game={
-            title="遊戲設置",
+            title="遊戲設定",
             graphic="←畫面",
             sound="音頻→",
             style="風格",
 
-            ctrl="控制設置",
-            key="鍵位設置",
-            touch="觸控設置",
+            ctrl="控制設定",
+            key="鍵位設定",
+            touch="觸控設定",
             showVK="顯示虛擬擊鍵",
             reTime="開局等待時間",
             RS="旋轉系統",
@@ -496,7 +507,7 @@ return {
             simpMode="簡潔模式",
         },
         setting_video={
-            title="畫面設置",
+            title="畫面設定",
             sound="←音頻",
             game="遊戲→",
 
@@ -544,7 +555,7 @@ return {
             fieldSatur="場地飽和",
         },
         setting_sound={
-            title="音頻設置",
+            title="音頻設定",
             game="←遊戲",
             graphic="畫面→",
 
@@ -564,7 +575,7 @@ return {
             apply="應用",
         },
         setting_control={
-            title="控制設置",
+            title="控制設定",
             preview="預覽",
 
             das="DAS",arr="ARR",
@@ -601,7 +612,7 @@ return {
         },
         setting_skin={
             skinSet="方塊皮膚",
-            title="外觀設置",
+            title="外觀設定",
             skinR="重置顏色",
             faceR="重置方向",
         },
@@ -649,7 +660,7 @@ return {
             play_puzzle="開始-拼圖",
 
             reset="重設所有(del)",
-            advance="更多設置(A)",
+            advance="更多設定(A)",
             mod="Mods (F1)",
             field="場地編輯(F)",
             sequence="序列編輯(S)",
@@ -673,7 +684,7 @@ return {
 
             bufferLimit="緩衝上限",
             heightLimit="高度上限",
-            ospin="O-spin",
+            ospin="TRS O-spin",
             fineKill="強制finesse",
             b2bKill="強制B2B",
             lockout="鎖定在外時失敗",
@@ -686,7 +697,7 @@ return {
             subTitle="場地",
 
             any="不定",
-            smart="智能",
+            smart="智慧",
 
             push="增加一行(K)",
             del="清除行(L)",
@@ -757,7 +768,7 @@ return {
             code="驗證碼",
             password="密碼",
             password2="確認密碼",
-            setPW="設置密碼",
+            setPW="設定密碼",
         },
         account={
             title="賬戶",
@@ -804,7 +815,7 @@ return {
             import="從剪貼板導入",
             unlock="地圖進度",
             data="統計數據",
-            setting="設置",
+            setting="設定",
             vk="虛擬按鍵佈局",
 
             couldSave="雲儲存(測試功能，謹慎使用)",
@@ -820,7 +831,9 @@ return {
         ['sprint_100l']=    {"競速",        "100L",     "清除100行"},
         ['sprint_400l']=    {"競速",        "400L",     "清除400行"},
         ['sprint_1000l']=   {"競速",        "1000L",    "清除1000行"},
-        ['secret_grade']=   {"秘密段位",    "",         "按照提示完成經典的“大於號”拼圖"},
+        ['construct_sg']=   {"建設",        "秘密段位",  "按照提示完成經典的“大於號”拼圖"},
+        -- ['construct_checker']=   {"Construct",         "CHECKERBOARD",   "Build a checkerboard pattern!"},
+        -- ['construct_invsg']=     {"Construct",         "INV. SG",        "Build an inverted zigzag pattern!"},
         ['sprintPenta']=    {"競速",        "五連塊",     "傷腦筋十八塊"},
         ['sprintMPH']=      {"競速",        "MPH",      "純隨機\n無Next\n無Hold"},
         ['sprint123']=      {"競速",        "M123",     "清除40行，但只有一至三連塊"},
@@ -853,8 +866,8 @@ return {
         ['round_h']=        {"回合制",       "困難",      "下棋模式"},
         ['round_l']=        {"回合制",       "瘋狂",      "下棋模式"},
         ['round_u']=        {"回合制",       "極限",      "下棋模式"},
-        ['big_n']=          {"大方塊",       "普通",     "類比10*5場地的玩法(標準尺寸的一半)"},
-        ['big_h']=          {"大方塊",       "困難",     "類比10*5場地的玩法(標準尺寸的一半)"},
+        ['big_n']=          {"大方塊",       "普通",     "類比5x10場地(標準尺寸的一半)"},
+        ['big_h']=          {"大方塊",       "困難",     "類比5x10場地(標準尺寸的一半)"},
         ['master_n']=       {"大師",        "普通",      "20G初心者練習"},
         ['master_h']=       {"大師",        "困難",      "上級者20G挑戰"},
         ['master_m']=       {"大師",        "大師",      "大師20G"},
@@ -906,8 +919,10 @@ return {
         ['tech_h_plus']=    {"科研",        "困難+",     "僅允許spin與PC"},
         ['tech_l']=         {"科研",        "瘋狂",      "禁止斷B2B"},
         ['tech_l_plus']=    {"科研",        "瘋狂+",     "僅允許spin與PC"},
-        ['tech_finesse']=   {"科研",        "finesse",      "強制finesse"},
-        ['tech_finesse_f']= {"科研",        "finesse+",     "禁止普通清除，強制finesse"},
+        ['tech_finesse']=   {"科研",        "finesse",    "強制finesse"},
+        ['tech_finesse_f']= {"科研",        "finesse+",   "禁止普通清除，強制finesse"},
+        ['tech_finesse_lock']=  {"科研",    "finesse限制", "限制操作次數"},
+        ['tech_finesse_lock_f']={"科研",    "finesse限制+","限制操作次數，禁止斷B2B"},
         ['tsd_e']=          {"TSD挑戰",     "簡單",      "你能連續做幾個TSD？"},
         ['tsd_h']=          {"TSD挑戰",     "困難",      "你能連續做幾個TSD？"},
         ['tsd_u']=          {"TSD挑戰",     "極限",      "你能連續做幾個TSD？"},

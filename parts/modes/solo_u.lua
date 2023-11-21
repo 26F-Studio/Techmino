@@ -16,9 +16,9 @@ return {
         if P.result=='win' then
             local L=P.life
             return
-            L>=2 and 5 or
-            L>=1 and 4 or
-            3
+                L>=2 and 5 or
+                L>=1 and 4 or
+                3
         end
     end,
 }

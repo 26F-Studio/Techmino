@@ -1,0 +1,2 @@
+If the modeicon you're looking for isn't here, try looking in /parts/scenes/load.lua.
+We vectorized some of them for better scalability.

@@ -1,10 +1,11 @@
 local gc,sys=love.graphics,love.system
 local kb=love.keyboard
 
-local int,sin=math.floor,math.sin
+local floor,sin=math.floor,math.sin
 local ins,rem=table.insert,table.remove
 
 local scene={}
+local MISSION=CUSTOMGAME_LOCAL.mission
 
 local input-- Input buffer
 local cur-- Cursor position
@@ -14,7 +15,7 @@ function scene.enter()
     cur=#MISSION
 end
 function scene.leave()
-    saveFile(DATA.copyMission(),'conf/customMissions')
+    saveFile(DATA.copyMission(MISSION),'conf/customMissions')
 end
 
 local ENUM_MISSION=ENUM_MISSION
@@ -67,7 +68,7 @@ function scene.keyDown(key)
         end
     elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
         if #MISSION>0 then
-            sys.setClipboardText("Techmino Target:"..DATA.copyMission())
+            sys.setClipboardText("Techmino Target:"..DATA.copyMission(MISSION))
             MES.new('check',text.exportSuccess)
         end
     elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
@@ -79,7 +80,10 @@ function scene.keyDown(key)
             end
             str=str:sub(p+1)
         end
-        if DATA.pasteMission(str) then
+        local success,mission=DATA.pasteMission(str)
+        if success then
+            TABLE.cut(MISSION)
+            TABLE.cover(mission,MISSION)
             MES.new('check',text.importSuccess)
             cur=#MISSION
         else
@@ -151,7 +155,7 @@ function scene.draw()
             end
             if i<=j then
                 setFont(35)
-                local N=int(L[i]*.1)
+                local N=floor(L[i]*.1)
                 if N>0 then
                     gc.setColor(libColor[set[N]])
                 elseif L[i]>4 then
@@ -222,7 +226,7 @@ scene.widgetList={
     WIDGET.newKey{name='reset',     x=1000,y=640,w=90,      color='lY',font=50,code=pressKey'delete',   fText=CHAR.icon.trash},
     WIDGET.newButton{name='copy',   x=1140,y=440,w=170,h=80,color='lR',font=50,code=pressKey'cC',       fText=CHAR.icon.export,hideF=function() return #MISSION==0 end},
     WIDGET.newButton{name='paste',  x=1140,y=540,w=170,h=80,color='lB',font=50,code=pressKey'cV',       fText=CHAR.icon.import},
-    WIDGET.newSwitch{name='mission',x=1150,y=340,lim=280,disp=CUSval('missionKill'),code=CUSrev('missionKill')},
+    WIDGET.newSwitch{name='mission',x=1150,y=340,lim=280,disp=CUSTOMGAME_LOCAL:CUSval('missionKill'),code=CUSTOMGAME_LOCAL:CUSrev('missionKill')},
 
     WIDGET.newButton{name='back',   x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }

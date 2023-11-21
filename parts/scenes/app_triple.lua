@@ -1,7 +1,7 @@
 local gc=love.graphics
 local setColor,rectangle=gc.setColor,gc.rectangle
 
-local int,rnd=math.floor,math.random
+local floor,rnd=math.floor,math.random
 local ins,rem=table.insert,table.remove
 
 local setFont,mStr=FONT.set,GC.mStr
@@ -152,11 +152,10 @@ function player:click(y,x)
             self.board[y][x]=rem(self.nexts,1)
             SFX.play('touch')
 
-            local merged
-            repeat-- ::REPEAT_merge::
-                local repeating
-                local cur=self.board[y][x]
+            local cur,merged
+            repeat
                 local b1=TABLE.shift(self.board)
+                cur=b1[y][x]
                 self.mergedTiles={}
                 local count=self:merge(b1,cur,y,x)
                 if count>2 then
@@ -178,9 +177,8 @@ function player:click(y,x)
                     for i=1,#self.mergedTiles do
                         newMergeFX(self.mergedTiles[i][1],self.mergedTiles[i][2],cur+1)
                     end
-                    repeating=true-- goto REPEAT_merge
                 end
-            until not repeating
+            until count<=2
 
             ins(self.nexts,self:newTile())
 
@@ -272,7 +270,7 @@ function scene.enter()
 end
 
 function scene.mouseClick(x,y)
-    x,y=int((x-player.x)/100)+1,int((y-player.y)/100)+1
+    x,y=floor((x-player.x)/100)+1,floor((y-player.y)/100)+1
     if x>=1 and x<=6 and y>=1 and y<=6 then
         player:click(y,x)
     end

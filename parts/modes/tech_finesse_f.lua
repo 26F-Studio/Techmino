@@ -10,6 +10,13 @@ local function tech_check_hard(P)
         P:win('finish')
     end
 end
+local function display(P)
+    setFont(45)
+    GC.mStr(("%d"):format(P.stat.atk),63,190)
+    GC.mStr(("%.2f"):format(P.stat.atk/P.stat.row),63,310)
+    mText(TEXTOBJ.atk,63,243)
+    mText(TEXTOBJ.eff,63,363)
+end
 
 return {
     env={
@@ -17,6 +24,7 @@ return {
         drop=1e99,lock=60,
         freshLimit=15,
         fineKill=true,
+        mesDisp=display,
         hook_drop=tech_check_hard,
         bg='flink',bgm='infinite',
     },
@@ -29,14 +37,14 @@ return {
         if A>=100 then
             local T=P.stat.time
             return
-            T<50 and 5 or
-            T<70 and 4 or
-            T<100 and 3 or
-            2
+                T<50 and 5 or
+                T<70 and 4 or
+                T<100 and 3 or
+                2
         else
             return
-            A>=60 and 1 or
-            A>=30 and 0
+                A>=60 and 1 or
+                A>=30 and 0
         end
     end,
 }

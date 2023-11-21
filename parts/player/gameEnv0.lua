@@ -33,7 +33,7 @@ return {
     bone=false,
     lockout=false,
     fieldH=20,heightLimit=1e99,
-    nextCount=6,nextStartPos=1,
+    trueNextCount=10,nextCount=6,nextStartPos=1,
     holdMode='hold',holdCount=1,
     infHold=false,phyHold=false,
     ospin=true,deepDrop=false,

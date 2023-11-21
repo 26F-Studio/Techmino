@@ -109,7 +109,7 @@ function scene.draw()
     -- Fetching timer
     if fetchTimer>0 then
         gc_setColor(1,1,1,.12)
-        GC.arc('fill','pie',250,630,40,-1.5708,-1.5708-.6283*fetchTimer)
+        GC.arc('fill','pie',250,630,40,-math.pi/2,-math.pi/2-.6283*fetchTimer)
     end
 
     -- Room list

@@ -39,7 +39,9 @@ jobs:
           os.execute('echo "version-string=' .. version.string:gsub("%a", "") .. '" >> $GITHUB_OUTPUT')
           os.execute('echo "version-code=' .. tostring(version.code) .. '" >> $GITHUB_OUTPUT')
 
-          local note = require 'parts.updateLog'
+          local f = io.open("updateLog.txt", 'r')
+          local note = f:read("*a")
+          f:close()
           local p1 = note:find("\n%d") + 1
           local p2 = note:find("\n", p1) - 1
           os.execute('echo "update-title=' .. note:sub(p1, p2) .. '" >> $GITHUB_OUTPUT')
@@ -90,7 +92,7 @@ jobs:
       - name: Build core love package
         uses: love-actions/love-actions-core@v1
         with:
-          build-list: ./media/ ./parts/ ./Zframework/ ./conf.lua ./main.lua ./version.lua
+          build-list: ./media/ ./parts/ ./Zframework/ ./conf.lua ./main.lua ./version.lua ./legals.md ./license.txt
           package-path: ${{ env.CORE_LOVE_PACKAGE_PATH }}
       - name: Upload core love package
         uses: actions/upload-artifact@v3

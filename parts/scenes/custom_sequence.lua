@@ -6,6 +6,7 @@ local ins,rem=table.insert,table.remove
 local gc_setColor,gc_print=GC.setColor,GC.print
 
 local scene={}
+local BAG=CUSTOMGAME_LOCAL.bag
 
 local cur-- Cursor position
 
@@ -13,7 +14,7 @@ function scene.enter()
     cur=#BAG
 end
 function scene.leave()
-    saveFile(DATA.copySequence(),'conf/customSequence')
+    saveFile(DATA.copySequence(BAG),'conf/customSequence')
 end
 
 local minoKey={
@@ -75,7 +76,7 @@ function scene.keyDown(key)
         scene.widgetList.sequence:scroll(kb.isDown('lshift','rshift') and -1 or 1)
     elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
         if #BAG>0 then
-            sys.setClipboardText("Techmino SEQ:"..DATA.copySequence())
+            sys.setClipboardText("Techmino SEQ:"..DATA.copySequence(BAG))
             MES.new('check',text.exportSuccess)
         end
     elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
@@ -87,7 +88,10 @@ function scene.keyDown(key)
             end
             str=str:sub(p+1)
         end
-        if DATA.pasteSequence(str) then
+        local success,bag=DATA.pasteSequence(str)
+        if success then
+            TABLE.cut(BAG)
+            TABLE.cover(bag,BAG)
             MES.new('check',text.importSuccess)
             cur=#BAG
         else
@@ -174,8 +178,8 @@ scene.widgetList={
     WIDGET.newText{name='subTitle',x=530,y=50,lim=170,font=35,align='L',color='H'},
 
     WIDGET.newSelector{name='sequence',x=1080,y=60,w=200,color='Y',
-        list={'bag','bagES','his','hisPool','c2','rnd','mess','reverb','loop','fixed'},
-        disp=CUSval('sequence'),code=CUSsto('sequence')
+        list={'bag','bagES','his','hisPool','c2','bagP1inf','rnd','mess','reverb','loop','fixed'},
+        disp=CUSTOMGAME_LOCAL:CUSval('sequence'),code=CUSTOMGAME_LOCAL:CUSsto('sequence')
     },
 
     WIDGET.newKey{name='Z',     x=120,y=460,w=80,font=90,fText=CHAR.mino.Z,code=pressKey(1)},

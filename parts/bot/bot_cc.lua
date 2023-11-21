@@ -28,7 +28,7 @@ function bot_cc:checkDest(b2b,atk,exblock,yomi)
             return
         end
     end
-    local should_spawn = self.P:getNextSpawn() - 1
+    local should_spawn = self.P:getSpawnY(self.P.nextQueue[1]) - 1
     if dest.spawn ~= should_spawn then
         assert(dest.spawn > should_spawn)
         -- print('wrong spawn: should be '..dest.spawn..' but '..should_spawn)
@@ -43,8 +43,8 @@ function bot_cc:revive()
     self.P:loadAI(self.data)
 end
 function bot_cc:pushNewNext(id)
-    self.ccBot:addNext(rem(self.bufferedNexts,1))
     ins(self.bufferedNexts,id)
+    self.ccBot:addNext(rem(self.bufferedNexts,1))
 end
 function bot_cc:thread()
     local P,keys=self.P,self.keys
@@ -104,7 +104,7 @@ function bot_cc:updateField()
         F[i],i=F0[y][x]>0,i+1
     end end
     while i<=400 do F[i],i=false,i+1 end
-    local y = P:getNextSpawn()-1
+    local y = P:getSpawnY(P.nextQueue[1])-1
     if not pcall(self.ccBot.reset,self.ccBot,F,P.b2b,P.combo,P.stat.pc,P.stat.row,y) then
         print("CC is dead ("..P.id..")","error")
         for y=#F0,1,-1 do

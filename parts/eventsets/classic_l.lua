@@ -7,21 +7,21 @@ end
 local function GetGravity(lvl)
     lvl=lvl%256
     return
-    lvl==0 and 48 or
-    lvl==1 and 43 or
-    lvl==2 and 38 or
-    lvl==3 and 33 or
-    lvl==4 and 28 or
-    lvl==5 and 23 or
-    lvl==6 and 18 or
-    lvl==7 and 13 or
-    lvl==8 and 8 or
-    lvl==9 and 6 or
-    lvl<13 and 5 or
-    lvl<16 and 4 or
-    lvl<19 and 3 or
-    lvl<29 and 2 or
-    1
+        lvl==0 and 48 or
+        lvl==1 and 43 or
+        lvl==2 and 38 or
+        lvl==3 and 33 or
+        lvl==4 and 28 or
+        lvl==5 and 23 or
+        lvl==6 and 18 or
+        lvl==7 and 13 or
+        lvl==8 and 8 or
+        lvl==9 and 6 or
+        lvl<13 and 5 or
+        lvl<16 and 4 or
+        lvl<19 and 3 or
+        lvl<29 and 2 or
+        1
 end
 return {
     das=16,arr=6,

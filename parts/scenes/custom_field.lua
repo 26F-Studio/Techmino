@@ -1,10 +1,10 @@
 local gc,sys=love.graphics,love.system
 local kb=love.keyboard
 
-local max,min,int=math.max,math.min,math.floor
+local max,min,floor=math.max,math.min,math.floor
 local ins,rem=table.insert,table.remove
 
-local FIELD=FIELD
+local FIELD=CUSTOMGAME_LOCAL.field
 local scene={}
 
 local curPen
@@ -125,11 +125,11 @@ function scene.enter()
     page=1
 end
 function scene.leave()
-    saveFile(DATA.copyBoards(),'conf/customBoards')
+    saveFile(DATA.copyBoards(FIELD),'conf/customBoards')
 end
 
 function scene.mouseMove(x,y)
-    local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
+    local sx,sy=floor((x-200)/30)+1,20-floor((y-60)/30)
     if sx>=1 and sx<=10 and sy>=1 and sy<=20 then
         penX,penY=sx,sy
         if curPen then
@@ -195,7 +195,7 @@ function scene.keyDown(key)
         local F=FIELD[page]
         local cleared=false
         for i=#F,1,-1 do
-            local full
+            local full=true
             for j=1,10 do
                 if F[i][j]<=0 then full=false break end-- goto CONTINUE_notFull
             end
@@ -226,7 +226,7 @@ function scene.keyDown(key)
         SFX.play('clear_4',.8)
         SFX.play('fall',.8)
     elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
-        sys.setClipboardText("Techmino Field:"..DATA.copyBoard(page))
+        sys.setClipboardText("Techmino Field:"..DATA.copyBoard(FIELD[page]))
         MES.new('check',text.exportSuccess)
     elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
         local str=sys.getClipboardText()
@@ -237,7 +237,12 @@ function scene.keyDown(key)
             end
             str=str:sub(p+1)
         end
-        if DATA.pasteBoard(str,page) then
+        local success,F,hitHeightLimit=DATA.pasteBoard(str)
+        if success then
+            FIELD[page]=F
+            if hitHeightLimit then
+                MES.new('warn',text.tooHighField)
+            end
             MES.new('check',text.importSuccess)
         else
             MES.new('error',text.dataCorrupted)
@@ -277,15 +282,22 @@ function scene.draw()
     gc.setColor(COLOR.Z)
     gc.setLineWidth(2)
     gc.rectangle('line',-2,-2,304,604,5)
-    gc.setLineWidth(2)
     local cross=TEXTURE.puzzleMark[-1]
+    local invis=TEXTURE.puzzleMark[-2]
     local F=FIELD[page]
     local texture=SKIN.lib[SETTING.skinSet]
     for y=1,#F do for x=1,10 do
         local B=F[y][x]
         if B>0 then
-            gc.draw(texture[B],30*x-30,600-30*y)
+            if B~=18 then
+                -- Normal block
+                gc.draw(texture[B],30*x-30,600-30*y)
+            elseif not demo then
+                -- Invisible block
+                gc.draw(invis,30*x-30,600-30*y)
+            end
         elseif B==-1 and not demo then
+            -- Cross
             gc.draw(cross,30*x-30,600-30*y)
         end
     end end
@@ -434,7 +446,7 @@ function scene.draw()
     gc.setColor(1,1,1)
     for i=1,7 do
         local skin=SETTING.skin[i]-1
-        GC.mStr(text.block[i],580+(skin%8)*80,90+80*int(skin/8))
+        GC.mStr(text.block[i],580+(skin%8)*80,90+80*floor(skin/8))
     end
 end
 

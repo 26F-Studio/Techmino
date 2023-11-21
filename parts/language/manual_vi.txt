@@ -1,0 +1,130 @@
+Lối chơi:
+        Hệ thống sẽ cấp cho người chơi 7 loại tetromino (gạch 4 ô) bao gồm: Z, S, J, L, I, O, T;
+            và người chơi cần điều khiển chúng (di chuyển sang trái và phải; xoay 90 / 180 / 270 độ).
+        Cứ mỗi hàng được lấp đầy trong bảng bởi các viên gạch, chúng sẽ bị xóa ra khỏi bảng.
+        Nếu có đối thủ, đối thủ sẽ bị tấn công mạnh hoặc nhẹ tùy theo số hàng bạn gửi.
+        Chơi hết hoặc đạt mục tiêu của cấp độ để thắng.
+
+
+Hệ thống xoay gạch:
+        Mặc định sẽ sử dụng TRS (Techmino Rotation System — Hệ thống xoay gạch Techmino).
+        Game cho phép người chơi chọn các hệ thống xoay gạch phổ biến khác (thường không cần thiết)
+
+
+Cách phát hiện spin: bằng cách sử dụng hệ thống điểm.
+        +2 điểm nếu thỏa mãn quy tắc "3 góc"
+        +2 điểm nếu thỏa mãn quy tắc "bất động"
+        +1 điểm nếu chưa kiểm tra vị trí kick thứ hai trong bảng kick
+
+        * Chỉ cần thỏa mãn quy tắc "3 góc" hoặc quy tắc "bất động" thì cú xoay đó được tính luôn là Spin *
+
+        — Spin sẽ là Mini nếu xảy ra 1 trong 3 điều kiện sau:
+                Tổng điểm sau khi kiểm tra các quy tắc chỉ được 2 điểm,
+                Gạch dùng để làm là S, Z, J, L hay T,
+                Gạch đó không được xóa hoàn toàn.
+
+
+Hệ thống tấn công:
+        Kiểu xóa nâng cao (Special clear):
+                Kiểu xóa nâng cao chỉ trường hợp bạn thực hiện Spin, Techrash, Techrash+ — xóa 5 hàng hoặc hơn, PC, HPC.
+                Kiểu xóa nâng cao có thể sạc đầy thanh B2B.
+
+        Kiểu xóa Siêu cấp (Super clear):
+                Là Kiểu xóa nâng cao nhưng được thực hiện với B2B hoặc B3B
+
+        Kiểu xóa nâng cao (spin): Gửi gấp đôi số hàng vừa xóa.
+                — B2B gửi thêm 1/1/2/4/8 cho Spin Đơn/Spin Đôi/Spin Tam/Techrash/Techrash+
+                — B2B2B gửi thêm (số hàng xóa × 0.5) trên B2B và +1 hàng để đánh chặn
+                — Mini sẽ bị cắt chỉ còn ¼ so với giá trị ban đầu
+
+        Kiểu xóa nâng cao (Techrash/Techrash+ nhưng không spin):
+                — B2B gửi thêm 1 hàng
+                — B3B boost 50% tấn công và +1 hàng để đánh chặn
+
+        Kiểu xóa thường:
+                Single/Double/Triple (Đơn/Đôi/Tam) gửi 0/1/2 hàng
+
+        Combo (REN):
+                Lượng sát thương từ combo được tính bằng cách nhân tổng sát thương trước đó (được tính ở trên) nhân với "hệ số combo"
+                Hệ số này có giá trị là 25% (hoặc 10% nếu bạn vừa xóa duy nhất 1 hàng) của tổng combo bạn có (tối đa là 12).
+                Lưu ý: Combo chỉ được bắt đầu tính từ lần xóa thứ 2 liên tiếp, không phải lần xóa đầu.
+
+        Half Perfect Clear (xem trong Zictionary)
+                +4 hàng để tấn công, +2 hàng để đánh chặn
+
+        Perfect Clear (All Clear): Gửi 8 → 16 hàng rác
+                PC thứ nhất chỉ gửi 8 hàng rác, các PC sau đó sẽ thêm 2 hàng rác để tấn công (tổng hàng rác có thể gửi tối đa là 16 hàng)
+
+        Sau khi tính toán xong, lượng sát thương sẽ bị làm tròn XUỐNG trước khi gửi.
+
+
+Thanh Back to Back (B2B):
+        Thanh B2B có giá trị từ 0 tới 1000 điểm.
+        Một người chơi đang ở trạng thái B2B khi thanh có 50 đến 800 điểm.
+        Một người chơi đang ở trang thái B3B khi thanh có hơn 800 điểm.
+
+        Nếu có hàng được xóa:
+                Kiểu xóa nâng cao:
+                        — Spin Đơn/Đôi/Tam/Techrash/Techrash+ lần lượt cộng thêm 50/100/180/800/1000 (×50% nếu là Mini)
+                        — Techrash +150 điểm, nếu xóa hơn 4 hàng cùng lúc, mỗi hàng từ hàng thứ 5 trở đi cộng thêm 50 điểm.
+                        — PC từ thứ 4 trở đi có giá trị 800 điểm
+                        — HPC cộng thên 100 điểm
+                Kiểu xóa thường: -250 điểm
+
+        Nếu có spin nhưng không có hàng nào được xóa:
+                — Thanh B2B chỉ có ít hơn 800 điểm: mỗi spin có giá trị 20 điểm
+                — Thanh B2B có nhiều hơn 800 điểm: mỗi spin sẽ trừ đi 40 điểm cho tới khi thanh B2B còn 800 điểm.
+
+
+Hệ thống tính điểm:
+        Hệ thống này không được mô tả ở đây do độ phức tạp của nó, cộng thêm với việc nó có thể thay đổi bất cứ lúc nào.
+        Thành thật mà nói, cứ chơi càng hay thì điểm càng cao.
+        Việc tính điểm cũng độc lập tùy vào từng chế độ.
+
+
+Khoảng thời gian chờ trước khi tấn công:
+        Một đòn sát thương sẽ không có hiệu lực ngay lập tức để người chơi có chút thời gian phản ứng trước khi tràn vào bảng.
+        Thời gian chờ của các đòn tấn công như sau, sắp xếp từ nhanh nhất tới lâu nhất: 
+                — Double và Triple (Đôi và Tam) là nhanh nhất
+                — Theo sau là Techrash, Techrash+, spin; Mini, B2B và B3B có thêm thêm chút thời gian chờ nữa.
+                — Sát thương từ combo có thời gian chờ lâu nhất..
+
+
+Phản công:
+        Khi một người chơi cố tấn công, hàng dùng để đánh chặn sẽ dùng trước, trước khi dùng tới hàng để tấn công (với tỉ lệ là 1:1)
+        Sát thương được gửi sớm nhất sẽ bị loại bỏ trước.
+        Bất kỳ hàng nào để đánh chặn không dùng tới sẽ bỏ hết, số hàng để tấn công còn lại sẽ gửi tới đối thủ.
+
+
+Chế độ Battle Royale:
+        Trong chế độ này, người chơi sẽ phải đối đầu với hàng chục bot trong cùng một lúc
+        Sau khi một lượng bot bị loại, tốc độ rơi tăng dần, thời gian chờ trước khi tấn công giảm, và hàng rác sẽ trồi lên nhanh hơn
+        Loại một con bot để nhận một huy hiệu và toàn bộ huy hiệu của chúng để tăng sức mạnh tấn công của bạn.
+
+        Người chơi có thể chọn 1 trong 4 chế độ tấn công sau đây:
+                1. Ngẫu nhiên: Cứ mỗi lần tấn công, có 10% khả năng nhắm vào một bot ngẫu nhiên.
+                2. Huy hiệu: Sau khi bạn tấn công/mục tiêu bị chết, tư động nhắm vào bot có nhiều huy hiệu nhất.
+                3. K.O.s: Nhắm vào bot “đang thở máy, đang hấp hối”. Tự động nhắm lại sau mỗi giây.
+                4. Phản công: tấn công tất cả bot đang nhắm vào bạn. Bạn sẽ gửi tấn công đến tất cả bọn chúng.
+                        Nếu bạn không nhắm vào mục tiêu nào, thì bạn sẽ tấn công một bot ngẫu nhiên (không nhắm)
+        
+        Người cuối cùng trụ lại thành công sẽ là người chiến thắng sau khi đã loại được toàn bộ đối thủ.
+
+
+Chế độ Tự do:
+        Bạn có thể tự do tùy chỉnh nhiều thông số (nhưng không bao gồm các hiệu ứng đặc biệt từ các chế độ khác).
+        Bạn có thể vẽ một cái bảng để tập xóa (Clear mode) hoặc tập xây theo mẫu (Puzzle mode)
+        
+        Ở chế độ Puzzle, bạn có thể nhấn F1 để chọn có hiện bảng mẫu hay không.
+        Để thắng được game ở chế độ Puzzle thì toàn bộ…
+                ô có X thì không được có gạch;
+                ô trống thì có thể ở bất kỳ tình trạng nào;
+                ô có màu thì gạch đặt vào ô phải khớp màu;
+                ô có màu của hàng rác thì có thể là bất kỳ gạch nào (không phân biệt kiểu gạch) nhưng không thể là không khí.
+        Ở chế độ Clear: bạn chỉ cần xóa sạch toàn bộ gạch của bảng mẫu là được.
+
+Chế độ Construct:
+        Ở chế độ này, bạn sẽ phải xây theo đúng mẫu: Secret Grade, họa tiết xen kẽ, hoặc Secret Grade đảo ngược
+        Điều kiện để thắng game ở chế độ Construct cũng tương tự như chế độ Puzzle trong chế độ Tự do.
+
+        Nhấn F1 để tắt/bật mẫu, F2 để lật dọc mẫu.

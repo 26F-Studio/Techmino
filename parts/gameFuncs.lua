@@ -198,7 +198,7 @@ local function getSmallNum(num)
 end
 do -- Secret Grade
     local r={"GM","GM+","TM","TM+"}
-    function getSecretGrade(index)
+    function getConstructGrade(index)
         if index<11 then -- rank 10 - 1
             return tostring(11-index)
         elseif index<20 then -- S1 - S9 ranks
@@ -210,11 +210,11 @@ do -- Secret Grade
         end
     end
 end
-function getSecretGradeText(index)
+function getConstructGradeText(index)
     if index<11 then
         return "Grade "..tostring(11-index)
     else
-        return getSecretGrade(index)
+        return getConstructGrade(index)
     end
 end
 
@@ -252,7 +252,6 @@ do -- Master GRADED
         end
     end
 end
-
 do -- Master GRADED MODERN
     local modern_postm_grades={"M","MK","MV","MO","MM-","MM","MM+","GM-","GM","GM+","TM-","TM","TM+","ΩM","ΣM","∞M","∞M+"}
     function getMasterGradeModern(index)
@@ -460,8 +459,7 @@ function notEmptyLine(L)
         end
     end
 end
-function setField(P,page)
-    local F=FIELD[page]
+function setField(P,F)
     local height=0
     for y=#F,1,-1 do
         if notEmptyLine(F[y]) then
@@ -540,8 +538,8 @@ function mergeStat(stat,delta)-- Merge delta stat. to global stat.
     end
 end
 function scoreValid()-- Check if any unranked mods are activated
-    for _,M in next,GAME.mod do
-        if M.unranked then
+    for number,sel in next,GAME.mod do
+        if sel>0 and MODOPT[number].unranked then
             return false
         end
     end
@@ -1030,15 +1028,22 @@ do-- function dumpBasicConfig()
     end
 end
 do-- function resetGameData(args)
-    local function task_showMods()
-        local time=0
-        while true do
-            coroutine.yield()
-            if time%20==0 then
-                local M=GAME.mod[time/20+1]
-                if not M then return end
+    local function task_showMods() -- TODO
+        coroutine.yield()
+        local counter=0
+        for number,sel in next,GAME.mod do
+            if sel>0 then
+                if counter==0 then
+                    coroutine.yield()
+                else
+                    for _=1,20 do
+                        coroutine.yield()
+                    end
+                end
+                local M=MODOPT[number]
                 SFX.play('collect',.2)
-                TEXT.show(M.id,640+(time/20%5-2)*80,26,45,'spin')
+                TEXT.show(M.id,640+(counter%5-2)*80,26,45,'spin')
+                counter=counter+1
             end
             time=time+1
         end
@@ -1100,6 +1105,7 @@ do-- function resetGameData(args)
         else
             PLY.newPlayer(1)
         end
+        GAME.initPlayerCount=#PLAYERS
         freshPlayerPosition((args:find'q') and 'quick' or 'normal')
         VK.restore()
 
@@ -1162,6 +1168,14 @@ do-- function checkWarning(P,dt)
         end
     end
 end
+function usingMod()
+    for _,sel in next,GAME.mod do
+        if sel>0 then
+            return true
+        end
+    end
+    return false
+end
 
 
 
@@ -1212,6 +1226,9 @@ function drawWarning()
         gc_pop()
     end
 end
+function setModBackgroundColor()
+    gc_setColor(.42,.26,.62,.62+.26*math.sin(TIME()*12.6))
+end
 
 
 
@@ -1246,8 +1263,7 @@ do-- function pressKey(k)
         return cache[k]
     end
 end
-do-- CUS/SETXXX(k)
-    local CUSTOMENV=CUSTOMENV
+do-- SETXXX(k) & ROOMXXX(k)
     local warnList={
         'das','arr','dascut','dropcut','sddas','sdarr',
         'ihs','irs','ims','RS',
@@ -1255,13 +1271,10 @@ do-- CUS/SETXXX(k)
         'VKSwitch','VKIcon','VKTrack','VKDodge',
         'simpMode',
     }
-    function CUSval(k) return function()   return CUSTOMENV[k] end end
     function ROOMval(k) return function()  return ROOMENV[k] end end
     function SETval(k) return function()   return SETTING[k] end end
-    function CUSrev(k) return function()   CUSTOMENV[k]=not CUSTOMENV[k] end end
     function ROOMrev(k) return function()  ROOMENV[k]=not ROOMENV[k] end end
     function SETrev(k) return function()   if TABLE.find(warnList,k) then trySettingWarn() end SETTING[k]=not SETTING[k] end end
-    function CUSsto(k) return function(i)  CUSTOMENV[k]=i end end
     function ROOMsto(k) return function(i) ROOMENV[k]=i end end
     function SETsto(k) return function(i)  if TABLE.find(warnList,k) then trySettingWarn() end SETTING[k]=i end end
 end

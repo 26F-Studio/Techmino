@@ -2,6 +2,8 @@ local kb,tc=love.keyboard,love.touch
 local rnd=math.random
 local ins,rem=table.insert,table.remove
 
+local maxTime=187.5
+
 local scene={}
 
 local time,v
@@ -18,11 +20,11 @@ function scene.enter()
 end
 
 function scene.mouseDown(x,y)
-    local T=40*math.min(time,185)
+    local T=40*math.min(time,maxTime)
     if x>330 and x<950 then
         if math.abs(y-900+T)<70 then
             loadGame('sprintLock',true)
-        elseif math.abs(y-7770+T)<70 then
+        elseif math.abs(y-7870+T)<70 then
             loadGame('sprintFix',true)
         end
     end
@@ -78,18 +80,18 @@ function scene.draw()
     end
 
     GC.replaceTransform(SCR.xOy)
-    local T=40*math.min(time,185)
-    GC.setColor(.97,.97,.97,185-math.min(time,185))
+    GC.translate(640,-40*math.min(time,maxTime)) -- 0~7600
+    GC.setColor(.97,.97,.97,math.max(maxTime-time,0))
     local L=text.staff
     setFont(40)
     for i=1,#L do
-        GC.mStr(L[i],640,950+65*i-T)
+        GC.mStr(L[i],0,950+65*i)
     end
     GC.setColor(1,1,1)
-    mDraw(TEXTURE.title_color,640,900-T,nil,.6)
-    mDraw(TEXTURE.title,640,7770-T,nil,.6)
-    if time>190 then
-        GC.print("CLICK ME →",50,550,-.5)
+    mDraw(TEXTURE.title_color,0,900,nil,.6)
+    mDraw(TEXTURE.title,0,7870,nil,.6)
+    if time>maxTime+6.26 then
+        GC.print("CLICK ME →",-526,8026,-.5)
     end
 end
 

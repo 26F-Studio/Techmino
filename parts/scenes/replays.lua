@@ -32,6 +32,7 @@ local listBox=WIDGET.newListBox{name='list',x=50,y=50,w=1200,h=520,lineH=40,draw
 end}
 
 local scene={}
+local mods={}
 
 local function _playRep(fileName)
     local rep=DATA.parseReplay(fileName,true)
@@ -40,16 +41,20 @@ local function _playRep(fileName)
     elseif MODES[rep.mode] then
         GAME.seed=rep.seed
         GAME.setting=rep.setting
-        TABLE.cut(GAME.mod)
-        for i=1,#MODOPT do MODOPT[i].sel=0 end
+        if #mods==0 then
+            mods=GAME.mod
+        end
+        GAME.mod=TABLE.new(0,#MODOPT)
         for _,m in next,rep.mod do
-            MODOPT[m[1]+1].sel=m[2]
-            table.insert(GAME.mod,MODOPT[m[1]+1])
+            GAME.mod[m[1]+1]=m[2]
         end
         GAME.rep={}
         DATA.pumpRecording(rep.data,GAME.rep)
 
         loadGame(rep.mode,true)
+        if rep.private and GAME.curMode.loadPrivate then
+            GAME.curMode.loadPrivate(rep.private)
+        end
         resetGameData('r')
         PLAYERS[1].username=rep.player
         PLAYERS[1]:startStreaming(GAME.rep)
@@ -72,6 +77,11 @@ function scene.enter()
     BG.set()
     listBox:setList(REPLAY)
     _updateButtonVisibility()
+end
+function scene.leave()
+    if #mods>0 then
+        GAME.mod,mods=mods,{}
+    end
 end
 
 function scene.keyDown(key)
