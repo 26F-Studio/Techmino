@@ -271,7 +271,7 @@ do -- Master GRADED MODERN
         "Master","MasterK","MasterV","MasterO","MasterM-","MasterM","MasterM+",
         "Grand Master-","Grand Master","Grand Master+",
         "Tech Master-","Tech Master","Tech Master+",
-        "Ωmega Master","Σigma Master","I∞finity Master","I∞finity Master+"
+        "Omega Master","Sigma Master","Infinity Master","Infinity Master+"
     }
     function getMasterGradeModernText(index)
         if index<11 then
