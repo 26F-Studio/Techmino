@@ -100,8 +100,8 @@ return {
     dataCorrupted="Dữ liệu bị hỏng",
     pasteWrongPlace="Bạn có dán đúng nơi không đấy?",
     noFile="Thiếu tệp",
-    -- invalidSequence="Invalid sequence mode",
-    -- tooHighField="Field data exceeded 126 lines abandoned",
+    invalidSequence="Tên trình xáo gạch không hợp lệ!",
+    tooHighField="BẢNG QUÁ CAO! Phần bảng cao hơn hàng 126 sẽ bị bỏ qua",
 
     nowPlaying="Đang phát:",
 
