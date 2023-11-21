@@ -97,7 +97,7 @@ return {
     pasteWrongPlace="貼り付ける位置を間違っていませんか?",
     noFile="ファイルが見つかりません",
     -- invalidSequence="Invalid sequence mode",
-    -- tooHighField="Field data exceeded 126 lines abandoned",
+    -- tooHighField="Field data exceeded 126 lines discarded",
 
     nowPlaying="再生中:",
 

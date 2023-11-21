@@ -85,7 +85,7 @@ return {
     pasteWrongPlace="_?X.",
     -- noFile="File not found",
     -- invalidSequence="Invalid sequence mode",
-    -- tooHighField="Field data exceeded 126 lines abandoned",
+    -- tooHighField="Field data exceeded 126 lines discarded",
 
     nowPlaying="~:",
 
