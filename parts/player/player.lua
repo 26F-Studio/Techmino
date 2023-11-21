@@ -948,35 +948,34 @@ function Player:changeAtk(R)
     end
 end
 function Player:freshBlockGhost()
+    if not self.cur then return end
     local ENV=self.gameEnv
-    if self.cur then
-        local CB=self.cur.bk
-        self.ghoY=min(#self.field+1,self.curY)
-        if self._20G or ENV.sdarr==0 and self.keyPressing[7] and self.downing>=ENV.sddas then
-            local _=self.ghoY
+    local CB=self.cur.bk
+    self.ghoY=min(#self.field+1,self.curY)
+    if self._20G or ENV.sdarr==0 and self.keyPressing[7] and self.downing>=ENV.sddas then
+        local _=self.ghoY
 
-            -- Move ghost to bottom
-            while not self:ifoverlap(CB,self.curX,self.ghoY-1) do
-                self.ghoY=self.ghoY-1
-            end
+        -- Move ghost to bottom
+        while not self:ifoverlap(CB,self.curX,self.ghoY-1) do
+            self.ghoY=self.ghoY-1
+        end
 
-            -- Cancel spinLast
-            if _~=self.ghoY then
-                self.spinLast=false
-            end
+        -- Cancel spinLast
+        if _~=self.ghoY then
+            self.spinLast=false
+        end
 
-            -- Create FX if dropped
-            if self.curY>self.ghoY then
-                self:createDropFX()
-                if ENV.shakeFX then
-                    self.swingOffset.vy=.5
-                end
-                self.curY=self.ghoY
+        -- Create FX if dropped
+        if self.curY>self.ghoY then
+            self:createDropFX()
+            if ENV.shakeFX then
+                self.swingOffset.vy=.5
             end
-        else
-            while not self:ifoverlap(CB,self.curX,self.ghoY-1) do
-                self.ghoY=self.ghoY-1
-            end
+            self.curY=self.ghoY
+        end
+    else
+        while not self:ifoverlap(CB,self.curX,self.ghoY-1) do
+            self.ghoY=self.ghoY-1
         end
     end
 end
