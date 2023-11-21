@@ -980,33 +980,23 @@ function Player:freshBlockGhost()
         end
     end
 end
-function Player:freshBlockDelay(keepFreshTime)
+function Player:freshBlockDelay(keepFreshTimeInEasyFresh)
     local ENV=self.gameEnv
     local d0,l0=ENV.drop,ENV.lock
     local C=self.cur
     local sc=C.RS.centerPos[C.id][C.dir]
-    if ENV.easyFresh then
-        if self.lockDelay<l0 and self.freshTime>0 then
-            if not keepFreshTime then
-                self.freshTime=self.freshTime-1
-            end
-            self.lockDelay=l0
-            self.dropDelay=d0
-        end
-        if self.curY+sc[1]<self.minY then
-            self.minY=self.curY+sc[1]
-            self.dropDelay=d0
-            self.lockDelay=l0
-        end
-    else
-        if self.curY+sc[1]<self.minY then
-            self.minY=self.curY+sc[1]
-            if self.lockDelay<l0 and self.freshTime>0 then
-                self.freshTime=self.freshTime-1
-                self.dropDelay=d0
-                self.lockDelay=l0
-            end
-        end
+    local goDown=self.curY+sc[1]<self.minY
+    if goDown then
+        self.minY=self.curY+sc[1]
+    end
+    local shouldRefresh=self.lockDelay<l0 and self.freshTime>0
+    local easyFresh=ENV.easyFresh
+    if easyFresh and (shouldRefresh or goDown) or goDown and shouldRefresh then
+        self.dropDelay=d0
+        self.lockDelay=l0
+    end
+    if shouldRefresh and (easyFresh and not keepFreshTimeInEasyFresh or not easyFresh and goDown) then
+        self.freshTime=self.freshTime-1
     end
 end
 function Player:freshMoveBlock(ifTele)
