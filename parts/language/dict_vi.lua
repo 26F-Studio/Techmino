@@ -288,7 +288,7 @@ Nói chung, một game xếp gạch hiện đại thường sẽ bám sát theo 
     {"Hold (Giữ)",
         "nhom05 hold",
         "term",
-        "Một chức năng cho phép bạn\n\t*Cất gạch vào HOLD và lấy gạch tiếp theo nếu chưa có gạch nào trong HOLD\n\t*Hoán đổi gạch đang rơi với gạch trong HOLD\n\nBình thường, Hold chỉ có thể được sử dụng 1 lần cho mỗi gạch.\n\nTrên thực tế, việc dùng Hold hay không cũng có ưu nhược của nó.\nNếu không dùng Hold:\n\t- Có thể giảm áp lực cho người chơi khi điều khiển gạch.\n\t- Đồng thời có thể giảm số phím cần nhấn trong game → có thể tăng KPS lên.\nTrên thực tế, đã có nhiều kỷ lục 40L được xác lập mà không cần Hold.\n\nNếu dùng Hold:\n\t- Hold có thể có ích trong nhiều trường hợp khác nhau (ví dụ như khi đang chơi ở tốc độ rơi cao).\n\t- Cho phép người chơi có thể làm được nhiều setup phức tạp hơn mà không đẩy thêm áp lực cho người chơi."
+        "Một chức năng cho phép bạn\n\t- Cất gạch vào HOLD và lấy gạch tiếp theo nếu chưa có gạch nào trong HOLD\n\t- Hoán đổi gạch đang rơi với gạch trong HOLD\n\nBình thường, Hold chỉ có thể được sử dụng 1 lần cho mỗi gạch.\n\nTrên thực tế, việc dùng Hold hay không cũng có ưu nhược của nó.\nNếu không dùng Hold:\n\t- Có thể giảm áp lực cho người chơi khi điều khiển gạch.\n\t- Đồng thời có thể giảm số phím cần nhấn trong game → có thể tăng KPS lên.\nTrên thực tế, đã có nhiều kỷ lục 40L được xác lập mà không cần Hold.\n\nNếu dùng Hold:\n\t- Hold có thể có ích trong nhiều trường hợp khác nhau (ví dụ như khi đang chơi ở tốc độ rơi cao).\n\t- Cho phép người chơi có thể làm được nhiều setup phức tạp hơn mà không đẩy thêm áp lực cho người chơi."
     },
     {"Hold tại chỗ",
         "nhom05 inplace hold taicho",
