@@ -534,7 +534,7 @@ local playerActions={
         if self.waiting>self.gameEnv.hurry then
             self.waiting=self.gameEnv.hurry
             if self.waiting==0 and self.falling==0 then
-                self:popNext()
+                self:spawn()
             end
         end
         self.keyPressing[keyID]=true
@@ -1262,6 +1262,29 @@ local phyHoldKickX={
     [true]={0,-1,1},-- X==?.0 tests
     [false]={-.5,.5},-- X==?.5 tests
 }
+function Player:_try_physical_hold_with(H)
+    local C=self.cur
+    if not C or not H then return end
+    local x,y=self.curX,self.curY
+    x=x+(#C.bk[1]-#H.bk[1])*.5
+    y=y+(#C.bk-#H.bk)*.5
+
+    local iki=phyHoldKickX[x==floor(x)]
+    for Y=floor(y),ceil(y+.5) do
+        for i=1,#iki do
+            local X=x+iki[i]
+            if not self:ifoverlap(H.bk,X,Y) then
+                return X,Y
+            end
+        end
+    end
+end
+function Player:_get_new_block(C)
+    local hb=self:getBlock(C.id)
+    hb.color=C.color
+    hb.name=C.name
+    return hb
+end
 function Player:hold_norm(ifpre)
     local ENV=self.gameEnv
     if #self.holdQueue<ENV.holdCount and self.nextQueue[1] then-- Skip
@@ -1269,41 +1292,22 @@ function Player:hold_norm(ifpre)
         ins(self.holdQueue,self:getBlock(C.id,C.name,C.color))
 
         local t=self.holdTime
-        self:popNext(true)
+        self:_popNext(true)
         self.holdTime=t
     else-- Hold
         local C,H=self.cur,self.holdQueue[1]
         self.ctrlCount=0
 
         if ENV.phyHold and C and H and not ifpre then-- Physical hold
-            local x,y=self.curX,self.curY
-            x=x+(#C.bk[1]-#H.bk[1])*.5
-            y=y+(#C.bk-#H.bk)*.5
-
-            local iki=phyHoldKickX[x==floor(x)]
-            local success
-            for Y=floor(y),ceil(y+.5) do
-                for i=1,#iki do
-                    local X=x+iki[i]
-                    if not self:ifoverlap(H.bk,X,Y) then
-                        x,y=X,Y
-                        success=true
-                        break
-                    end
-                end
-                if success then break end
-            end
-            if not success then -- All test failed, interrupt with sound
+            local x,y=self:_try_physical_hold_with(H)
+            if not x then -- All test failed, interrupt with sound
                 SFX.play('drop_cancel')
                 return
             end
 
             self.spinLast=false
 
-            local hb=self:getBlock(C.id)
-            hb.name=C.name
-            hb.color=C.color
-            ins(self.holdQueue,hb)
+            ins(self.holdQueue,self:_get_new_block(C))
             self.cur=rem(self.holdQueue,1)
 
             self.curX,self.curY=x,y
@@ -1311,10 +1315,7 @@ function Player:hold_norm(ifpre)
             self.spinLast=false
 
             if C then
-                local hb=self:getBlock(C.id)
-                hb.color=C.color
-                hb.name=C.name
-                ins(self.holdQueue,hb)
+                ins(self.holdQueue,self:_get_new_block(C))
                 if self:willDieWith(self.holdQueue[1]) then
                     self.cur=nil
                     self.waiting=ENV.hang
@@ -1345,40 +1346,20 @@ end
 function Player:hold_swap(ifpre)
     local ENV=self.gameEnv
     local hid=ENV.holdCount-self.holdTime+1
-    print(ENV.holdCount,self.holdTime)
-    print(hid)
     if self.nextQueue[hid] then
         local C,H=self.cur,self.nextQueue[hid]
         self.ctrlCount=0
 
         if ENV.phyHold and C and not ifpre then-- Physical hold
-            local x,y=self.curX,self.curY
-            x=x+(#C.bk[1]-#H.bk[1])*.5
-            y=y+(#C.bk-#H.bk)*.5
-
-            local iki=phyHoldKickX[x==floor(x)]
-            local success
-                for Y=floor(y),ceil(y+.5) do
-                    for i=1,#iki do
-                        local X=x+iki[i]
-                        if not self:ifoverlap(H.bk,X,Y) then
-                            x,y=X,Y
-                            success=true
-                            break
-                        end
-                    end
-                    if success then break end
-                end
-            if not success then -- All test failed, interrupt with sound
+            local x,y=self:_try_physical_hold_with(H)
+            if not x then -- All test failed, interrupt with sound
                 SFX.play('finesseError')
                 return
             end
 
             self.spinLast=false
 
-            local hb=self:getBlock(C.id)
-            hb.name=C.name
-            hb.color=C.color
+            local hb=self:_get_new_block(C)
             self.cur,self.nextQueue[hid]=self.nextQueue[hid],hb
             self.cur.bagLine=nil
 
@@ -1387,9 +1368,7 @@ function Player:hold_swap(ifpre)
             self.spinLast=false
 
             if C then
-                local hb=self:getBlock(C.id)
-                hb.color=C.color
-                hb.name=C.name
+                local hb=self:_get_new_block(C)
                 ins(self.holdQueue,self.nextQueue[hid])
                 self.nextQueue[hid]=hb
                 if self:willDieWith(self.holdQueue[1]) then
@@ -1451,51 +1430,62 @@ function Player:getNext(id,bagLineCounter)-- Push a block to nextQueue
         self.bot:pushNewNext(id)
     end
 end
-function Player:popNext(ifhold)-- Pop nextQueue to hand
+function Player:spawn()-- Spawn a piece
     local ENV=self.gameEnv
-    if not ifhold then
-        self.holdTime=min(self.holdTime+1,ENV.holdCount)
-    end
-    self.spinLast=false
-    self.ctrlCount=0
-
     if #self.holdQueue>ENV.holdCount or ENV.holdMode=='swap' and #self.holdQueue>0 then
         self:hold(true,true)
-    elseif self.nextQueue[1] then
-        self.cur=rem(self.nextQueue,1)
-        self.cur.bagLine=nil
-        self:newNext()
-        self.pieceCount=self.pieceCount+1
+        return
+    end
 
-        local pressing=self.keyPressing
+    self.holdTime=min(self.holdTime+1,ENV.holdCount)
 
-        -- IHS
-        if not ifhold and pressing[8] and ENV.ihs and self.holdTime>0 then
-            self:hold(true)
-            pressing[8]=false
-        else
-            self:resetBlock()
-        end
-
-        self.dropDelay=ENV.drop
-        self.lockDelay=ENV.lock
-        self.freshTime=ENV.freshLimit
-
-        if self.cur then
-            self:_checkSuffocate()
-            self:freshBlock('newBlock')
-        end
-
-        -- IHdS
-        if pressing[6] and not ifhold then
-            self:act_hardDrop()
-            pressing[6]=false
-        end
+    if self.nextQueue[1] then
+        self:_popNext()
     elseif self.holdQueue[1] then-- Force using hold
+        self.spinLast=false
+        self.ctrlCount=0
         self:hold(true,true)
+        self:_triggerEvent('hook_spawn')
     else-- Next queue is empty, force lose
+        self.spinLast=false
+        self.ctrlCount=0
         self:lose(true)
         return
+    end
+end
+function Player:_popNext(ifhold)-- Pop nextQueue to hand
+    if not self.nextQueue[1] then return end
+    local ENV=self.gameEnv
+    self.spinLast=false
+    self.ctrlCount=0
+    self.cur=rem(self.nextQueue,1)
+    self.cur.bagLine=nil
+    self:newNext()
+    self.pieceCount=self.pieceCount+1
+
+    local pressing=self.keyPressing
+
+    -- IHS
+    if not ifhold and pressing[8] and ENV.ihs and self.holdTime>0 then
+        self:hold(true)
+        pressing[8]=false
+    else
+        self:resetBlock()
+    end
+
+    self.dropDelay=ENV.drop
+    self.lockDelay=ENV.lock
+    self.freshTime=ENV.freshLimit
+
+    if self.cur then
+        self:_checkSuffocate()
+        self:freshBlock('newBlock')
+    end
+
+    -- IHdS
+    if pressing[6] and not ifhold then
+        self:act_hardDrop()
+        pressing[6]=false
     end
     self:_triggerEvent('hook_spawn')
 end
@@ -2145,7 +2135,7 @@ do
         self.cur=nil
 
         if self.waiting==0 and self.falling==0 then
-            self:popNext()
+            self:spawn()
         end
     end
 
@@ -2437,7 +2427,7 @@ local function update_alive(P,dt)
             if P.id==1 then playReadySFX(0) end
             P.control=true
             P.timing=true
-            P:popNext()
+            P:spawn()
             if P.bot then
                 P.bot:updateField()
             end
@@ -2585,7 +2575,7 @@ local function update_alive(P,dt)
                     P.waiting=P.waiting-1
                 end
                 if P.waiting<=0 then
-                    P:popNext()
+                    P:spawn()
                 end
                 break-- goto THROW_stop
             end

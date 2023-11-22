@@ -430,7 +430,7 @@ function PLY.newDemoPlayer(id)
         delay=6,
         node=100000,
     }
-    P:popNext()
+    P:spawn()
 end
 function PLY.newRemotePlayer(id,mini,p)
     local P=_newEmptyPlayer(id,mini)
