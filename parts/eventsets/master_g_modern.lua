@@ -36,6 +36,7 @@ local function getGrav(l)
         l<430 and 1    or
         l<510 and 0.5  or
         l<600 and 0.25 or
+        l<700 and 0.1  or
         0
 end
 local function getLock(l)
