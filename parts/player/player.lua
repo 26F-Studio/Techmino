@@ -1279,17 +1279,11 @@ function Player:_try_physical_hold_with(H)
         end
     end
 end
-function Player:_get_new_block(C)
-    local hb=self:getBlock(C.id)
-    hb.color=C.color
-    hb.name=C.name
-    return hb
-end
 function Player:hold_norm(ifpre)
     local ENV=self.gameEnv
     if #self.holdQueue<ENV.holdCount and self.nextQueue[1] then-- Skip
         local C=self.cur
-        ins(self.holdQueue,self:getBlock(C.id,C.name,C.color))
+        ins(self.holdQueue,self:_getBlock(C.id,C.name,C.color))
 
         local t=self.holdTime
         self:_popNext(true)
@@ -1307,7 +1301,7 @@ function Player:hold_norm(ifpre)
 
             self.spinLast=false
 
-            ins(self.holdQueue,self:_get_new_block(C))
+            ins(self.holdQueue,self:_getBlock(C.id,C.name,C.color))
             self.cur=rem(self.holdQueue,1)
 
             self.curX,self.curY=x,y
@@ -1315,7 +1309,7 @@ function Player:hold_norm(ifpre)
             self.spinLast=false
 
             if C then
-                ins(self.holdQueue,self:_get_new_block(C))
+                ins(self.holdQueue,self:_getBlock(C.id,C.name,C.color))
                 if self:willDieWith(self.holdQueue[1]) then
                     self.cur=nil
                     self.waiting=ENV.hang
@@ -1359,7 +1353,7 @@ function Player:hold_swap(ifpre)
 
             self.spinLast=false
 
-            local hb=self:_get_new_block(C)
+            local hb=self:_getBlock(C.id,C.name,C.color)
             self.cur,self.nextQueue[hid]=self.nextQueue[hid],hb
             self.cur.bagLine=nil
 
@@ -1368,7 +1362,7 @@ function Player:hold_swap(ifpre)
             self.spinLast=false
 
             if C then
-                local hb=self:_get_new_block(C)
+                local hb=self:_getBlock(C.id,C.name,C.color)
                 ins(self.holdQueue,self.nextQueue[hid])
                 self.nextQueue[hid]=hb
                 if self:willDieWith(self.holdQueue[1]) then
@@ -1411,7 +1405,7 @@ function Player:hold(ifpre,force)
     end
 end
 
-function Player:getBlock(id,name,color,bagLineCounter)-- Get a block object
+function Player:_getBlock(id,name,color,bagLineCounter)-- Get a block object
     local ENV=self.gameEnv
     local dir=ENV.face[id]
     return {
@@ -1425,7 +1419,7 @@ function Player:getBlock(id,name,color,bagLineCounter)-- Get a block object
     }
 end
 function Player:getNext(id,bagLineCounter)-- Push a block to nextQueue
-    ins(self.nextQueue,self:getBlock(id,nil,nil,bagLineCounter))
+    ins(self.nextQueue,self:_getBlock(id,nil,nil,bagLineCounter))
     if self.bot then
         self.bot:pushNewNext(id)
     end
