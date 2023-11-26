@@ -1467,7 +1467,7 @@ function Player:_popNext(ifhold)-- Pop nextQueue to hand
 
     if self.cur then
         self:_checkSuffocate()
-        self:freshBlock('newBlock')
+        self:freshNewBlock()
     end
 
     -- IHdS
