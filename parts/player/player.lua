@@ -214,7 +214,7 @@ function Player:_deepDrop()
         self.ghoY=y
         self:createDropFX()
         self.curY=y
-        self:freshBlock('move')
+        self:freshMoveBlock()
         SFX.play('swipe')
     end
 end
@@ -230,7 +230,7 @@ function Player:act_moveLeft(auto)
             self:_triggerEvent('hook_left_'..(auto and 'auto' or 'manual'))
             self:createMoveFX('left')
             self.curX=self.curX+self.movDir
-            self:freshBlock('move')
+            self:freshMoveBlock()
             if not auto then
                 self.moving=0
             end
@@ -254,7 +254,7 @@ function Player:act_moveRight(auto)
             self:_triggerEvent('hook_right_'..(auto and 'auto' or 'manual'))
             self:createMoveFX('right')
             self.curX=self.curX+self.movDir
-            self:freshBlock('move')
+            self:freshMoveBlock()
             if not auto then
                 self.moving=0
             end
@@ -367,7 +367,7 @@ function Player:act_insLeft(auto)
     while not self:ifoverlap(self.cur.bk,self.curX-1,self.curY) do
         self:createMoveFX('left')
         self.curX=self.curX-1
-        self:freshBlock('move',true)
+        self:freshMoveBlock(true)
     end
     if self.curX~=x0 then
         self.spinLast=false
@@ -391,7 +391,7 @@ function Player:act_insRight(auto)
     while not self:ifoverlap(self.cur.bk,self.curX+1,self.curY) do
         self:createMoveFX('right')
         self.curX=self.curX+1
-        self:freshBlock('move',true)
+        self:freshMoveBlock(true)
     end
     if self.curX~=x0 then
         self.spinLast=false
@@ -417,7 +417,7 @@ function Player:act_insDown()
         self.curY=self.ghoY
         self.lockDelay=ENV.lock
         self.spinLast=false
-        self:freshBlock('fresh')
+        self:freshBlockDelay()
         self:checkTouchSound()
     end
 end
@@ -427,7 +427,7 @@ function Player:act_down1()
         if self.curY>self.ghoY then
             self:createMoveFX('down')
             self.curY=self.curY-1
-            self:freshBlock('fresh')
+            self:freshBlockDelay()
             self.spinLast=false
         elseif self.gameEnv.deepDrop then
             self:_deepDrop()
@@ -442,7 +442,7 @@ function Player:act_down4()
             self.ghoY=max(self.curY-4,self.ghoY)
             self:createDropFX()
             self.curY,self.ghoY=self.ghoY,ghoY0
-            self:freshBlock('fresh')
+            self:freshBlockDelay()
             self.spinLast=false
         elseif self.gameEnv.deepDrop then
             self:_deepDrop()
@@ -457,7 +457,7 @@ function Player:act_down10()
             self.ghoY=max(self.curY-0,self.ghoY)
             self:createDropFX()
             self.curY,self.ghoY=self.ghoY,ghoY0
-            self:freshBlock('fresh')
+            self:freshBlockDelay()
             self.spinLast=false
         elseif self.gameEnv.deepDrop then
             self:_deepDrop()
@@ -747,7 +747,7 @@ function Player:garbageRise(color,amount,line)-- Release n-lines garbage to fiel
     for i=1,#self.clearingRow do
         self.clearingRow[i]=self.clearingRow[i]+amount
     end
-    self:freshBlock('push')
+    self:freshBlockGhost()
     for i=1,#self.lockFX do
         _=self.lockFX[i]
         _[2]=_[2]-30*amount-- Shift 30px per line cleared
@@ -789,7 +789,7 @@ function Player:pushLineList(L,mir)-- Push some lines to field
         self.curY=self.curY+l
         self.ghoY=self.ghoY+l
     end
-    self:freshBlock('push')
+    self:freshBlockGhost()
 end
 function Player:pushNextList(L,mir)-- Push some nexts to nextQueue
     for i=1,#L do
@@ -947,74 +947,68 @@ function Player:changeAtk(R)
         self.atking=false
     end
 end
-function Player:freshBlock(mode,ifTele)-- string mode: push/move/fresh/newBlock
+function Player:freshBlockGhost()
+    if not self.cur then return end
     local ENV=self.gameEnv
-    -- Fresh ghost
-    if (mode=='move' or mode=='newBlock' or mode=='push') and self.cur then
-        local CB=self.cur.bk
-        self.ghoY=min(#self.field+1,self.curY)
-        if self._20G or ENV.sdarr==0 and self.keyPressing[7] and self.downing>=ENV.sddas then
-            local _=self.ghoY
+    local CB=self.cur.bk
+    self.ghoY=min(#self.field+1,self.curY)
+    if self._20G or ENV.sdarr==0 and self.keyPressing[7] and self.downing>=ENV.sddas then
+        local _=self.ghoY
 
-            -- Move ghost to bottom
-            while not self:ifoverlap(CB,self.curX,self.ghoY-1) do
-                self.ghoY=self.ghoY-1
-            end
+        -- Move ghost to bottom
+        while not self:ifoverlap(CB,self.curX,self.ghoY-1) do
+            self.ghoY=self.ghoY-1
+        end
 
-            -- Cancel spinLast
-            if _~=self.ghoY then
-                self.spinLast=false
-            end
+        -- Cancel spinLast
+        if _~=self.ghoY then
+            self.spinLast=false
+        end
 
-            -- Create FX if dropped
-            if self.curY>self.ghoY then
-                self:createDropFX()
-                if ENV.shakeFX then
-                    self.swingOffset.vy=.5
-                end
-                self.curY=self.ghoY
+        -- Create FX if dropped
+        if self.curY>self.ghoY then
+            self:createDropFX()
+            if ENV.shakeFX then
+                self.swingOffset.vy=.5
             end
-        else
-            while not self:ifoverlap(CB,self.curX,self.ghoY-1) do
-                self.ghoY=self.ghoY-1
-            end
+            self.curY=self.ghoY
+        end
+    else
+        while not self:ifoverlap(CB,self.curX,self.ghoY-1) do
+            self.ghoY=self.ghoY-1
         end
     end
-
-    -- Fresh delays
-    if mode=='move' or mode=='newBlock' or mode=='fresh' then
-        local d0,l0=ENV.drop,ENV.lock
-        local C=self.cur
-        local sc=C.RS.centerPos[C.id][C.dir]
-        if ENV.easyFresh then
-            if self.lockDelay<l0 and self.freshTime>0 then
-                if mode~='newBlock' then
-                    self.freshTime=self.freshTime-1
-                end
-                self.lockDelay=l0
-                self.dropDelay=d0
-            end
-            if self.curY+sc[1]<self.minY then
-                self.minY=self.curY+sc[1]
-                self.dropDelay=d0
-                self.lockDelay=l0
-            end
-        else
-            if self.curY+sc[1]<self.minY then
-                self.minY=self.curY+sc[1]
-                if self.lockDelay<l0 and self.freshTime>0 then
-                    self.freshTime=self.freshTime-1
-                    self.dropDelay=d0
-                    self.lockDelay=l0
-                end
-            end
-        end
+end
+function Player:freshBlockDelay(keepFreshTimeInEasyFresh)
+    local ENV=self.gameEnv
+    local d0,l0=ENV.drop,ENV.lock
+    local C=self.cur
+    local sc=C.RS.centerPos[C.id][C.dir]
+    local goDown=self.curY+sc[1]<self.minY
+    if goDown then
+        self.minY=self.curY+sc[1]
     end
-
+    local shouldRefresh=self.lockDelay<l0 and self.freshTime>0
+    local easyFresh=ENV.easyFresh
+    if easyFresh and (shouldRefresh or goDown) or goDown and shouldRefresh then
+        self.dropDelay=d0
+        self.lockDelay=l0
+    end
+    if shouldRefresh and (easyFresh and not keepFreshTimeInEasyFresh or not easyFresh and goDown) then
+        self.freshTime=self.freshTime-1
+    end
+end
+function Player:freshMoveBlock(ifTele)
+    self:freshBlockGhost()
+    self:freshBlockDelay()
     -- Play sound if touch ground
-    if mode=='move' and not ifTele then
+    if not ifTele then
         self:checkTouchSound()
     end
+end
+function Player:freshNewBlock()
+    self:freshBlockGhost()
+    self:freshBlockDelay(true)
 end
 function Player:lock()
     local CB=self.cur.bk
@@ -1207,7 +1201,7 @@ function Player:spin(d,ifpre)
         local idir=(C.dir+d)%4
         kickData=kickData[C.dir*10+idir]
         if not kickData then
-            self:freshBlock('move')
+            self:freshMoveBlock()
             SFX.play(ifpre and 'prerotate' or 'rotate',nil,self:getCenterX()*.15)
             return
         end
@@ -1228,7 +1222,7 @@ function Player:spin(d,ifpre)
                 -- Fresh ghost and freshTime
                 local t=self.freshTime
                 if not ifpre then
-                    self:freshBlock('move')
+                    self:freshMoveBlock()
                 end
                 if kickData[test][2]>0 and self.freshTime==t and self.curY~=self.imgY then
                     self.freshTime=self.freshTime-1
@@ -1254,7 +1248,7 @@ function Player:spin(d,ifpre)
     elseif kickData then
         kickData(self,d)
     else
-        self:freshBlock('move')
+        self:freshMoveBlock()
         SFX.play(ifpre and 'prerotate' or 'rotate',nil,self:getCenterX()*.15)
     end
 end
@@ -1320,7 +1314,7 @@ function Player:hold_norm(ifpre)
 
             self:resetBlock()
         end
-        self:freshBlock('move')
+        self:freshMoveBlock()
         self.dropDelay=ENV.drop
         self.lockDelay=ENV.lock
         self:_checkSuffocate()
@@ -1376,7 +1370,7 @@ function Player:hold_swap(ifpre)
 
             self:resetBlock()
         end
-        self:freshBlock('move')
+        self:freshMoveBlock()
         self.dropDelay=ENV.drop
         self.lockDelay=ENV.lock
         self:_checkSuffocate()
@@ -2622,7 +2616,7 @@ local function update_alive(P,dt)
                     end
 
                     P.spinLast=false
-                    P:freshBlock('fresh')
+                    P:freshBlockDelay()
                     P:checkTouchSound()
                 else
                     P.lockDelay=P.lockDelay-1
@@ -2826,7 +2820,7 @@ function Player:revive()
     self.life=self.life-1
     self.fieldBeneath=0
     self.b2b=0
-    self:freshBlock('push')
+    self:freshBlockGhost()
 
     for i=1,h do
         self:createClearingFX(i)

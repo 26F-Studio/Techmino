@@ -170,7 +170,7 @@ do
             },-- T
             function(P,d)
                 if P.gameEnv.easyFresh then
-                    P:freshBlock('fresh')
+                    P:freshBlockDelay()
                 end
                 if P.gameEnv.ospin then
                     local x,y=P.curX,P.curY
@@ -203,7 +203,7 @@ do
                                     C.dir=dir
                                     P.spinLast=2
                                     P.stat.rotate=P.stat.rotate+1
-                                    P:freshBlock('move')
+                                    P:freshMoveBlock()
                                     C.spinSeq=nil
                                     return
                                 end
@@ -681,7 +681,7 @@ do
 
                             local t=P.freshTime
                             if not ifpre then
-                                P:freshBlock('move')
+                                P:freshMoveBlock()
                             end
                             if fdy>0 and P.freshTime==t and P.curY~=P.imgY then
                                 P.freshTime=P.freshTime-1
