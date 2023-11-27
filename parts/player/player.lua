@@ -1275,13 +1275,21 @@ function Player:_try_physical_hold_with(H)
 end
 function Player:hold_norm(ifpre)
     local ENV=self.gameEnv
-    if #self.holdQueue<ENV.holdCount and self.nextQueue[1] then-- Skip
+    if self.holdIXSFromNext or #self.holdQueue<ENV.holdCount and self.nextQueue[1] then-- Skip
         local C=self.cur
-        ins(self.holdQueue,self:_getBlock(C.id,C.name,C.color))
+        if C then
+            ins(self.holdQueue,self:_getBlock(C.id,C.name,C.color))
 
-        local t=self.holdTime
+            if self:willDieWith(self.nextQueue[1]) then
+                self.cur=nil
+                self.waiting=ENV.hang
+                self.holdIXSFromNext={ifpre}
+                return
+            end
+        else
+            self.holdIXSFromNext=nil
+        end
         self:_popNext(true)
-        self.holdTime=t
     else-- Hold
         local C,H=self.cur,self.holdQueue[1]
         self.ctrlCount=0
@@ -1420,6 +1428,10 @@ function Player:getNext(id,bagLineCounter)-- Push a block to nextQueue
 end
 function Player:spawn()-- Spawn a piece
     local ENV=self.gameEnv
+    if self.holdIXSFromNext then
+        self:hold(self.holdIXSFromNext[1],true)
+        return
+    end
     if #self.holdQueue>ENV.holdCount or ENV.holdMode=='swap' and #self.holdQueue>0 then
         self:hold(true,true)
         return

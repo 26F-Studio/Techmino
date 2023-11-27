@@ -151,6 +151,7 @@ local function _newEmptyPlayer(id,mini)
     P.nextQueue={}
     P.holdQueue={}
     P.holdTime=0
+    P.holdIXSFromNext=nil
     P.lastPiece={
         id=0,name=0,-- block id/name
 
