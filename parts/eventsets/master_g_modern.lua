@@ -29,11 +29,14 @@ local function getGrav(l)
         l<200 and 3    or
         l<240 and 2    or
         l<260 and 64   or
-        l<270 and 8    or
+        l<268 and 32   or
+        l<275 and 16   or
+        l<280 and 8    or
         l<290 and 4    or
         l<320 and 3    or
         l<370 and 2    or
         l<430 and 1    or
+        l<470 and 0.75 or
         l<510 and 0.5  or
         l<600 and 0.25 or
         l<700 and 0.1  or

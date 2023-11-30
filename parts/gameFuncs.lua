@@ -1045,7 +1045,7 @@ do-- function resetGameData(args)
                 TEXT.show(M.id,640+(counter%5-2)*80,26,45,'spin')
                 counter=counter+1
             end
-            time=time+1
+            time=time and time+1 or 0
         end
     end
     local gameSetting={

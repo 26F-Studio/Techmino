@@ -56,12 +56,12 @@ return {
 
     {name='master_n',           x=0,    y=-1000,size=40,shape=1,icon="master",     unlock={'master_h','strategy_h'}},
     {name='master_h',           x=0,    y=-1200,size=40,shape=3,icon="master",     unlock={'master_final','master_ex','master_ph','master_m','master_g','master_g_modern','strategy_u'}},
-    {name='master_m',           x=170,  y=-1450,size=40,shape=2,icon="master"},
-    {name='master_final',       x=-100, y=-1550,size=40,shape=2,icon="master"},
-    {name='master_ph',          x=-170, y=-1450,size=40,shape=2,icon="master"},
-    {name='master_g',           x=0,    y=-1600,size=40,shape=3,icon="master"},
-    {name='master_g_modern',    x=100,  y=-1550,size=40,shape=3,icon="master"},
-    {name='master_ex',          x=150,  y=-1280,size=30,shape=2,icon="master_ex"},
+    {name='master_m',           x=150,  y=-1610,size=40,shape=2,icon="master"},
+    {name='master_final',       x=-150, y=-1610,size=40,shape=2,icon="master"},
+    {name='master_ph',          x=-190, y=-1500,size=40,shape=2,icon="master"},
+    {name='master_g',           x=60,   y=-1680,size=40,shape=3,icon="master"},
+    {name='master_ex',          x=190,  y=-1500,size=40,shape=2,icon="master_ex"},
+    {name='master_g_modern',    x=-60,  y=-1680,size=40,shape=3,icon="master"},
 
     {name='strategy_e',         x=-150, y=-1020,size=40,shape=3,icon="master",     unlock={'strategy_e_plus'}},
     {name='strategy_h',         x=-150, y=-1150,size=35,shape=3,icon="master",     unlock={'strategy_h_plus'}},
