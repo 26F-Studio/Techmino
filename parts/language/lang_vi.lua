@@ -985,8 +985,6 @@ C. Tay cầm chơi game (Gamepad):
         ['tech_l_plus']=         {"Tech B2B",          "RẤT KHÓ+",       "Chỉ được clear Spin hoặc PC"},
         ['tech_finesse']=        {"Kỹ thuật di chuyển","",               "Không được phép có lỗi di chuyển!"},
         ['tech_finesse_f']=      {"Kỹ thuật di chuyển","Khg ĐƠN/ĐÔI/TAM","Không được phép có lỗi di chuyển hoặc kiểu Xoá hàng thường!"},
-        ['tech_finesse_lock']=   {"Kỹ thuật di chuyển","LOCK",           "Không được mắc lỗi di chuyển hoặc bạn không thể điều khiển gạch!"},
-        ['tech_finesse_lock_f']= {"Kỹ thuật di chuyển","LOCK+",          "Không được mắc lỗi di chuyển hoặc bạn không thể điều khiển gạch! Bạn cũng sẽ thua khi dùng kiểu Xóa hàng thường!"},
         ['tsd_e']=               {"TSD Challenge",     "DỄ",             "Chỉ được làm T-Spin Double!"},
         ['tsd_h']=               {"TSD Challenge",     "KHÓ",            "Chỉ được làm T-Spin Double!"},
         ['tsd_u']=               {"TSD Challenge",     "THÁCH ĐẤU",      "Chỉ được làm T-Spin Double!"},

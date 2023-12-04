@@ -920,8 +920,6 @@ return {
         ['tech_l_plus']=         {"Tech B2B",          "GILA+",               "Hanya Spins & PCs dibolehkan"},
         ['tech_finesse']=        {"Tech",              "EF. TOMBOL",          "Efisiensi tombol harus maksimal!"},
         ['tech_finesse_f']=      {"Tech",              "EF. TOMBOL+",         "Efisiensi tombol maksimal dan anda tidak boleh membuat baris normal!"},
-        ['tech_finesse_lock']=   {"Tech",              "EF. TBL. TERBATAS",   "Jumlah pemencetan tombol terbatas, dan efisiensinya harus maksimal!"},
-        ['tech_finesse_lock_f']= {"Tech",              "EF. TBL.+ TERBATAS",  "Jumlah pemencetan tombol terbatas, efisiensi tombol harus maksimal, dan anda tidak boleh membuat baris normal!"},
         ['tsd_e']=               {"Tantangan TSD",     "MUDAH",               "Hanya T-Spin Double dibolehkan!"},
         ['tsd_h']=               {"Tantangan TSD",     "SULIT",               "Hanya T-Spin Double dibolehkan!"},
         ['tsd_u']=               {"Tantangan TSD",     "TERAKHIR",            "Hanya T-Spin Double dibolehkan!"},

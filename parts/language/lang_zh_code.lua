@@ -867,8 +867,6 @@ return {
         ['tech_l_plus']=        {"Tech(LunaticP);",         "",      "仅允许spin与PC"},
         ['tech_finesse']=       {"Tech(Finesse);",          "",      "强制最简操作"},
         ['tech_finesse_f']=     {"Tech(FinesseF);",         "",      "禁止普通消除，强制最简操作"},
-        ['tech_finesse_lock']=  {"Tech(FineeseLock);",      "",    "限制操作次数"},
-        ['tech_finesse_lock_f']={"Tech(FineeseLockF);",     "",   "限制操作次数，禁止断B2B"},
         ['tsd_e']=              {"TSD(Easy);",              "",      "你能连续做几个TSD？"},
         ['tsd_h']=              {"TSD(Hard);",              "",      "你能连续做几个TSD？"},
         ['tsd_u']=              {"TSD(Ultimate);",          "",      "你能连续做几个TSD？"},

@@ -923,8 +923,6 @@ return {
         ['tech_finesse']=   {"Tech",                    "Finesse",       "¡No cometas errores de Finesse!"},
     --  ['tech_finesse_f']=      {"Tech Finesse",      "PLUS",           "No normal clears and finesse errors!"},
         ['tech_finesse_f']= {"Tech",                    "Finesse+",      "Sin errores de finesse,\n¡pero tampoco clears normales!"},
-    --  ['tech_finesse_lock']=   {"Tech Finesse",              "LOCK",   "No finesse errors, combined with limited inputs!"},
-    --  ['tech_finesse_lock_f']= {"Tech Finesse",              "LOCK PLUS",  "No normal clears or finesse errors combined with limited inputs!"},
         ['tsd_e']=          {"Desafío de TSD",          "Fácil",         "¡Sólo se permiten T-Spin Dobles!"},
         ['tsd_h']=          {"Desafío de TSD",          "Difícil",       "¡Sólo se permiten T-Spin Dobles!"},
         ['tsd_u']=          {"Desafío de TSD",          "Supremo",       "¡Sólo se permiten T-Spin Dobles!"},

@@ -958,8 +958,6 @@ C. Gamepad
         ['tech_l_plus']=         {"Tech B2B",          "LUNATIC+",       "Spins & PCs only"},
         ['tech_finesse']=        {"Tech Finesse",      "",               "No finesse errors!"},
         ['tech_finesse_f']=      {"Tech Finesse",      "PLUS",           "No normal clears and finesse errors!"},
-        ['tech_finesse_lock']=   {"Tech Finesse",      "LOCK",           "No finesse errors, combined with limited inputs!"},
-        ['tech_finesse_lock_f']= {"Tech Finesse",      "LOCK PLUS",      "No normal clears or finesse errors combined with limited inputs!"},
         ['tsd_e']=               {"TSD Challenge",     "EASY",           "T-Spin Doubles only!"},
         ['tsd_h']=               {"TSD Challenge",     "HARD",           "T-Spin Doubles only!"},
         ['tsd_u']=               {"TSD Challenge",     "ULTIMATE",       "T-Spin Doubles only!"},

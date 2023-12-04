@@ -3,6 +3,7 @@ local function lockKey(P,keys)
         P.keyAvailable[v]=false
         VK.keys[v].ava=false
         VK.release(v)
+        P:releaseKey(v)
     end
 end
 local function unlockKey(P,keys)
@@ -69,11 +70,11 @@ return {
     arr=0,
     fineKill=true,
     mesDisp=function(P)
-        setFont(45)
-        GC.mStr(("%d"):format(P.stat.atk),63,190)
-        GC.mStr(("%.2f"):format(P.stat.atk/P.stat.row),63,310)
-        mText(TEXTOBJ.atk,63,243)
-        mText(TEXTOBJ.eff,63,363)
+        setFont(55)
+        local r=40-P.stat.row
+        if r<0 then r=0 end
+        GC.mStr(r,63,265)
+        PLY.draw.drawTargetLine(P,r)
     end,
     task=function(P)
         resetLock(P)
@@ -86,15 +87,7 @@ return {
     end,
     hook_drop=function(P)
         resetLock(P)
-
-        local C=P.lastPiece
-        if C.row>0 then
-            if not C.special then
-                P:lose()
-                return
-            end
-        end
-        if P.stat.atk>=100 then
+        if P.stat.row>=40 then
             P:win('finish')
         end
     end,
@@ -118,5 +111,5 @@ return {
     end,
     hook_left_manual=onMove, hook_right_manual=onMove,
     hook_left_auto=onAutoMove, hook_right_auto=onAutoMove,
-    hook_rotate=onRotate,
+    hook_rotate=onRotate
 }

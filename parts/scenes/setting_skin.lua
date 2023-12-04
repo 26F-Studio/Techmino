@@ -66,7 +66,10 @@ local function _nextDir(i)
     SETTING.face[i]=(SETTING.face[i]+1)%4
     minoRot0[i]=minoRot0[i]+math.pi/2
     if not selEggMode and not GAME.playing then
-        if minoRot0[5]>62 then
+        if minoRot0[2]>62 then
+            selEggMode='sprint_finesse_lock'
+            playEgg.color=COLOR.dY
+        elseif minoRot0[5]>62 then
             selEggMode='marathon_bfmax'
             playEgg.color=COLOR.dR
         elseif minoRot0[6]>62 then

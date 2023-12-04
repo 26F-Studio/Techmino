@@ -964,8 +964,6 @@ C. ゲームパッド
         ['tech_l_plus']=         {"テクニック B2B",          "LUNATIC+",       "回転入れとパフェだけ!"},
         ['tech_finesse']=        {"テクニック 最適化",      "",               "最適化!"},
         ['tech_finesse_f']=      {"テクニック 最適化",      "PLUS",           "通常Line消去抜きで最適化!"},
-        ['tech_finesse_lock']=   {"テクニック 最適化",      "LOCK",           "限られた入力数で最適化!"},
-        ['tech_finesse_lock_f']= {"テクニック 最適化",      "LOCK PLUS",  "限られた入力数で最適化!\nついでに通常Line消去も禁止!"},
         ['tsd_e']=               {"TSDチャレンジ",         "EASY",       "TSDだけ!"},
         ['tsd_h']=               {"TSDチャレンジ",         "HARD",       "TSDだけ!"},
         ['tsd_u']=               {"TSDチャレンジ",         "ULTIMATE",   "TSDだけ!"},
