@@ -1281,6 +1281,7 @@ function Player:hold_norm(ifpre)
             ins(self.holdQueue,self:_getBlock(C.id,C.name,C.color))
 
             if self:willDieWith(self.nextQueue[1]) then
+                self.ghoY=self:getSpawnY(self.nextQueue[1])
                 self.cur=nil
                 self.waiting=ENV.hang
                 self.holdIXSFromNext={ifpre}
@@ -1313,6 +1314,7 @@ function Player:hold_norm(ifpre)
             if C then
                 ins(self.holdQueue,self:_getBlock(C.id,C.name,C.color))
                 if self:willDieWith(self.holdQueue[1]) then
+                    self.ghoY=self:getSpawnY(self.holdQueue[1])
                     self.cur=nil
                     self.waiting=ENV.hang
                     return
@@ -1368,6 +1370,7 @@ function Player:hold_swap(ifpre)
                 ins(self.holdQueue,self.nextQueue[hid])
                 self.nextQueue[hid]=hb
                 if self:willDieWith(self.holdQueue[1]) then
+                    self.ghoY=self:getSpawnY(self.holdQueue[1])
                     self.cur=nil
                     self.waiting=ENV.hang
                     return
@@ -2072,6 +2075,7 @@ do
         -- Prevent sudden death if hang>0
         if ENV.hang>ENV.wait then
             if self:willDieWith(self.nextQueue[1]) then
+                self.ghoY=self:getSpawnY(self.nextQueue[1])
                 self.waiting=self.waiting+ENV.hang
             end
         end
