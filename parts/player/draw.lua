@@ -503,7 +503,14 @@ local function _drawNext(P,repMode)
         gc_setColor(1,1,1,.626)
         gc_draw(seqGenBanner[ENV.sequence],0,-11)
         gc_setColor(.97,.97,.97)
-        if ENV.holdMode=='swap' then gc_rectangle('fill',1,72*ENV.holdCount+4,50,4) end
+        if ENV.holdMode=='swap' then
+            gc_rectangle('fill',100,72*ENV.holdCount+2,-50,4)
+        elseif ENV.holdMode=='skip' then
+            gc_setColor(.97,.97,.97,.26)
+            gc_rectangle('fill',100,72*P.holdTime+2,-50,4)
+            gc_setColor(.97,.97,.97)
+            gc_rectangle('fill',100,72*ENV.holdCount+2,-50,4)
+        end
         gc_rectangle('line',0,0,100,h+8,5)
         gc_push('transform')
             gc_translate(50,40)

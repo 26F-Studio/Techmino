@@ -83,7 +83,7 @@ local sList={
     hang={0,1,2,3,4,5,6,7,8,9,10,15,20,30,60},
     hurry={0,1,2,3,4,5,6,7,8,9,10,1e99},
     eventSet=EVENTSETS,
-    holdMode={'hold','swap'},
+    holdMode={'hold','swap','skip'},
 }
 local modUsed
 

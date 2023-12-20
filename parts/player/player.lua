@@ -1399,12 +1399,41 @@ function Player:hold_swap(ifpre)
 
     self.stat.hold=self.stat.hold+1
 end
+function Player:hold_skip(ifpre)
+    local ENV=self.gameEnv
+    local C=self.cur
+    if C then
+        if self:willDieWith(self.nextQueue[1]) then
+            self.ghoY=self:getSpawnY(self.nextQueue[1])
+            self.cur=nil
+            self.waiting=ENV.hang
+            self.holdIXSFromNext={ifpre}
+            return
+        end
+    else
+        self.holdIXSFromNext=nil
+    end
+    self:_popNext(true)
+
+    self.freshTime=floor(min(self.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((self.holdTime+1)/ENV.holdCount),ENV.freshLimit))
+    if not ENV.infHold then
+        self.holdTime=self.holdTime-1
+    end
+
+    if self.sound then
+        SFX.play(ifpre and 'prehold' or 'hold')
+    end
+
+    self.stat.hold=self.stat.hold+1
+end
 function Player:hold(ifpre,force)
     if self.holdTime>0 and (self.cur or ifpre or force) then
         if self.gameEnv.holdMode=='hold' then
             self:hold_norm(ifpre)
         elseif self.gameEnv.holdMode=='swap' then
             self:hold_swap(ifpre)
+        elseif self.gameEnv.holdMode=='skip' then
+            self:hold_skip(ifpre)
         end
         return true
     end
