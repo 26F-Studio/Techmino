@@ -556,6 +556,6 @@ jobs:
             "fields":[
             {"name":"Version","value":"${{ needs.get-info.outputs.version-string }}","inline": true},
             {"name":"Package Name","value":"${{ needs.get-info.outputs.base-name }}","inline": true},
-            {"name":"Status","value":"**Automatic Test:** ${{ needs.auto-test.result }}\n**Core:** ${{ needs.build-core.result }}\n**Android:** ${{ needs.build-android.result }}\n**iOS:** ${{ needs.build-ios.result }}\n**Linux:** ${{ needs.build-linux.result }}\n**macOS App Store:** ${{ needs.build-macos-appstore.result }}\n**macOS portable:** ${{ needs.build-macos-portable.result }}\n**Windows:** ${{ needs.build-windows.result }}"}
+            {"name":"Status","value":"**Automatic Test:** ${{ needs.auto-test.result }}\n**Core:** ${{ needs.build-core.result }}\n**Android:** ${{ needs.build-android.result }}\n**Linux:** ${{ needs.build-linux.result }}\n**macOS portable:** ${{ needs.build-macos-portable.result }}\n**Windows:** ${{ needs.build-windows.result }}"}
             ]
             }'
