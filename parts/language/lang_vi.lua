@@ -1175,7 +1175,7 @@ C. Tay cầm chơi game (Gamepad):
         -- Don't play with your phone if your homework isn't finished.
         "Đừng chơi điện thoại khi bài tập về nhà còn chưa hoàn thành.",
         -- Enabling vibration on some mobile systems may cause severe lag."
-        "Bật rung trên điện thoại có thể khiến cho vài cái điện thoại… phải thở oxy!",
+        "Bật rung trên một số điện thoại có thể làm cho chúng… phải thở oxy!",
         -- Eat the button? Really? I suggest you play it back to see if you pressed it and how long it took you to press it"
         "Phím không ăn? Hãy thử kiểm tra lại phím đi!",
         -- Probably someone will read the tip
