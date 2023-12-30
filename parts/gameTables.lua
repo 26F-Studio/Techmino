@@ -660,6 +660,7 @@ do-- Userdata tables
         bg='on',
         bgAlpha=.26,
         defaultBG='space',
+        lockBG=false,
         noTheme=false,
         powerInfo=false,
         clickFX=true,

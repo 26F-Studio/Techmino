@@ -590,6 +590,7 @@ C. Gamepad
             bg_custom="Custom B.G.",
             defaultBG='Default B.G.',
             resetDbg='Reset default B.G.',
+            lockBG='Lock B.G.',
             noTheme='Disable theme',
 
             blockSatur="Block Saturation",

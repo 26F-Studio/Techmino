@@ -123,6 +123,7 @@ scene.widgetList={
             BG.setDefault(v)
             BG.set()
             applySettings()
+            if SETTING.lockBG then BG.lock() end
         end,
         hideF=function() return SETTING.bg~='on' end
     },
@@ -132,13 +133,25 @@ scene.widgetList={
             BG.setDefault('space');   BG.set()
             scene.widgetList.defaultBG:reset()
             applySettings()
+            if SETTING.lockBG then BG.lock() end
         end,
-        hideF=function() return SETTING.bg~='on' or SETTING.defaultBG=='space' end},
-    WIDGET.newSwitch{name='noTheme',x=1170,y=1540,
+        hideF=function() return SETTING.bg~='on' or SETTING.defaultBG=='space' end
+    },
+    WIDGET.newSwitch{name='lockBG',x=1170,y=1485,
+        disp=SETval('lockBG'),
+        code=function()
+            SETTING.lockBG=not SETTING.lockBG
+            if SETTING.lockBG then BG.lock() else BG.unlock() end
+        end,
+        hideF=function() return SETTING.bg~='on' end
+    },
+
+    WIDGET.newSwitch{name='noTheme',x=1170,y=1545,
         disp=SETval('noTheme'),
         code=function()
             SETTING.noTheme=not SETTING.noTheme
-            if SETTING.noTheme and THEME.calculate then
+            local ct=THEME.calculate()
+            if SETTING.noTheme and type(ct)=='string' and string.sub(ct,1,6)~='season' then
                 if TASK.lock('warnMessage',6.26) then
                     MES.new('warn',text.settingWarn2,6.26)
                 end

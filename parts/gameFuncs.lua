@@ -159,7 +159,9 @@ do-- function applySettings()
         -- Apply BG
         if SETTING.bg=='on' then
             BG.unlock()
+            BG.setDefault(SETTING.defaultBG)
             BG.set()
+            if SETTING.lockBG then BG.lock() end
         elseif SETTING.bg=='off' then
             BG.unlock()
             BG.set('fixColor',SETTING.bgAlpha,SETTING.bgAlpha,SETTING.bgAlpha)
