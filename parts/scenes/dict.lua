@@ -18,6 +18,7 @@ local lastSelected          -- Last selected item
 
 local currentFontSize=25    -- Current font size, default: 25
 local needLowerUTF8
+local isLangVi              -- There are special handlings that only for Vietnamese --SweetSea--
 
 local typeColor={
     help=COLOR.Y,
@@ -45,8 +46,10 @@ local function _scanDict(D)
         local O=D[i]
         O.title,O.title_Org=_filter(O[1])
         O.titleLowered=needLowerUTF8 and STRING.lowerUTF8(O.title) or O.title:lower()
+        O.titleNoDiaratics=isLangVi and STRING.viRemoveDiacritics(O.titleLowered)
         O.keywords=O[2]
         O.keywordsLowered=needLowerUTF8 and STRING.lowerUTF8(O.keywords) or O.keywords:lower()
+        O.keywordsNoDiaratics=isLangVi and STRING.viRemoveDiacritics(O.keywordsLowered)
         O.type=O[3]
         O.content,O.content_Org=_filter(O[4])
         O.url=O[5]
@@ -92,7 +95,7 @@ local function _search()
     _clearResult()
     input=needLowerUTF8 and STRING.lowerUTF8(input) or input:lower()
     for i=1,#dict do
-        pos=find(dict[i].titleLowered,input,nil,true) or find(STRING.lowerUTF8(dict[i].keywordsLowered),input,nil,true)
+        pos=find(dict[i].titleLowered,input,nil,true) or find(dict[i].keywordsLowered,input,nil,true) or isLangVi and (find(dict[i].titleNoDiaratics,input,nil,true) or find(dict[i].keywordsNoDiaratics,input,nil,true))
         if pos==1 and not first then
             ins(result,1,dict[i])
             first=true
@@ -145,6 +148,7 @@ function scene.enter()
         'en'
     )
     needLowerUTF8=SETTING.locale:find'vi'
+    isLangVi=SETTING.locale:find'vi'    -- DO NOT CHANGE THIS! --SweetSea--
     
     dict=require(localeFile)
     _scanDict(dict)

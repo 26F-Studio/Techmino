@@ -274,21 +274,21 @@ Nói chung, một game xếp gạch hiện đại thường sẽ bám sát theo 
     4. Có một hệ thống xoay, và cho phép xoay theo ít nhất 2 hướng. Ưu tiên hệ thống xoay SRS hoặc các biến thể tương tự.
     5. Có hệ thống chờ khóa gạch thích hợp.
     6. Có cơ chế top-out thích hợp.
-    7. Có cột NEXT hiện từ 3 - 6 gạch sắp rơi (vẫn chấp nhận trường hợp chỉ hiện 1 gạch) và những gạch trong cột này phải giống tư thế khi chúng vừa mới xuất hiện trong bảng.
+    7. Có hàng NEXT hiện từ 3 - 6 gạch sắp rơi (vẫn chấp nhận trường hợp chỉ hiện 1 gạch) và những gạch trong cột này phải giống tư thế khi chúng vừa mới xuất hiện trong bảng.
     8. Cho phép giữ gạch.
     9. Nếu có hệ thống chờ tạo gạch hoặc hệ thống chờ xóa hàng, game thường sẽ có hệ thống IRS và IHS. Techmino còn có cả hệ thống IMS nữa (tìm trong Zictionary để biết thêm).
     10. Có hệ thống DAS nhằm hỗ trợ các chuyển động ngang một cách chính xác và nhanh chóng.
         ]],
     },
     {"Next (Kế / Tiếp)",
-        "nhom05 preview next ke tiep",
+        "nhom05 preview ke tiep",
         "term",
-        "Hiện chuỗi gạch sẽ lần lượt xuất hiện. Có một kỹ năng cần thiết đó là lên kế hoạch trước cách đặt các gạch từ cột NEXT. Số lượng gạch bạn muốn lên kế hoạch là tùy thuộc vào bạn và có thể thay đổi tùy theo chế độ chơi và tình trạng bảng chơi hiện tại của bạn.",
+        "Là một hàng dùng để hiện chuỗi gạch sẽ lần lượt xuất hiện. Có một kỹ năng cần thiết đó là lên kế hoạch trước cách đặt các gạch từ hàng NEXT. Số lượng gạch bạn muốn lên kế hoạch là tùy thuộc vào bạn và có thể thay đổi tùy theo chế độ chơi và tình trạng bảng chơi hiện tại của bạn.",
     },
-    {"Hold (Giữ)",
-        "nhom05 hold",
+    {"Hold (Giữ/Trữ/Cất)",
+        "nhom05 giu tru cat",
         "term",
-        "Một chức năng cho phép bạn\n\t- Cất gạch vào HOLD và lấy gạch tiếp theo nếu chưa có gạch nào trong HOLD\n\t- Hoán đổi gạch đang rơi với gạch trong HOLD\n\nBình thường, Hold chỉ có thể được sử dụng 1 lần cho mỗi gạch.\n\nTrên thực tế, việc dùng Hold hay không cũng có ưu nhược của nó.\nNếu không dùng Hold:\n\t- Có thể giảm áp lực cho người chơi khi điều khiển gạch.\n\t- Đồng thời có thể giảm số phím cần nhấn trong game → có thể tăng KPS lên.\nTrên thực tế, đã có nhiều kỷ lục 40L được xác lập mà không cần Hold.\n\nNếu dùng Hold:\n\t- Hold có thể có ích trong nhiều trường hợp khác nhau (ví dụ như khi đang chơi ở tốc độ rơi cao).\n\t- Cho phép người chơi có thể làm được nhiều setup phức tạp hơn mà không đẩy thêm áp lực cho người chơi."
+        "Một chức năng cho phép bạn sử dụng gạch ở trong ô HOLD\n(hoặc gạch đầu tiên ở hàng NEXT nếu bạn chưa cất gạch trước đó)\nvà cất gạch đang rơi vào ô HOLD \n\nBình thường, Hold chỉ có thể được sử dụng 1 lần cho mỗi gạch.\n\nTrên thực tế, việc dùng Hold hay không cũng có ưu nhược của nó.\nNếu không dùng Hold:\n\t- Có thể giảm áp lực cho người chơi khi điều khiển gạch.\n\t- Đồng thời có thể giảm số phím cần nhấn trong game → có thể tăng KPS lên.\nTrên thực tế, đã có nhiều kỷ lục 40L được xác lập mà không cần Hold.\n\nNếu dùng Hold:\n\t- Hold có thể có ích trong nhiều trường hợp khác nhau (ví dụ như khi đang chơi ở tốc độ rơi cao).\n\t- Cho phép người chơi có thể làm được nhiều setup phức tạp hơn mà không đẩy thêm áp lực cho người chơi."
     },
     {"Hold tại chỗ",
         "nhom05 inplace hold taicho",
@@ -316,20 +316,19 @@ Techmino mặc định sẽ không kiểm tra điều kiện Lock out và Top ou
     {"Vùng đệm",
         "nhom05 invisible buffer zone",
         "term",
-        "Tên tiếng Anh là \"Buffer Zone\". Chỉ bao gồm các hàng từ hàng 21-40 (nằm ở phía trên vùng nhìn thấy).\n\nVùng này tồn tại vì sẽ có trường hợp hàng rác sẽ đẩy gạch trong bảng ra khỏi vùng nhìn thấy (dễ thấy nhất là Center 4-Wide).\nNhững ô gạch nào đi ra khỏi vùng nhìn thấy được sẽ đi vào vùng đệm và sẽ xuất hiện lại trong vùng nhìn thấy nếu bạn đã xóa đủ hàng.\n\nVùng đệm thường cao 20 ô, nhưng vài game có thể tăng con số đó tới vô cực.\n\nCác bạn có thể tìm hiểu thêm ở mục \"Vùng biến mất\".",
+        "Tên tiếng Anh là \"Buffer Zone\". Chỉ bao gồm các hàng từ hàng 21-40 (nằm ở phía trên vùng nhìn thấy).\n\nTồn tại vùng này là vì sẽ có trường hợp hàng rác sẽ đẩy gạch trong bảng ra khỏi vùng nhìn thấy (dễ thấy nhất là Center 4-Wide).\nNhững ô gạch nào đi ra khỏi vùng nhìn thấy được sẽ đi vào vùng đệm và sẽ xuất hiện lại trong vùng nhìn thấy nếu bạn đã xóa đủ hàng.\n\nVùng đệm thường cao 20 ô (thường là do bảng đã bị cố định kích thước ở trong các dòng code), nhưng có game có vùng này cao vô hạn (ví dụ như trong chính Techmino luôn, khi bảng có thể mở rộng kích thước của nó).\n\nCác bạn có thể tìm hiểu thêm ở mục \"Vùng biến mất\".",
     },
     {"Vùng biến mất",
         "nhom05 gone vanish zone",
         "term",
         [[
-Tên tiếng Anh: "Vanish Zone".
-Là vùng bao gồm các hàng nằm ở trên "Vùng đệm", thường nằm từ hàng 40 trở lên.
+Tên tiếng Anh: "Vanish Zone". Là vùng bao gồm các hàng nằm ở trên "Vùng đệm", thường bắt đầu từ hàng 40 trở lên.
 
 Bình thường, nếu có ô gạch nào ở trong vùng này thì game sẽ kích hoạt ngay cơ chế top-out.
 Tuy nhiên, mỗi game sẽ có cách xử lý khác nhau. Ví dụ:
     - Jstris: Vùng biến mất nằm ở hàng 22 trở lên, những ô gạch nào nằm trong vùng này sẽ biến mất hoàn toàn.
     - Tetris Online: Game sập.
-    - Puyo Puyo Tetris: Các ô gạch ở vùng biến mất sẽ sao chép lại vô số lần khi xuống dưới vùng nhìn thấy (nhấn vào hình địa cầu để xem ví dụ của trường hợp này).
+    - Puyo Puyo Tetris: Các ô gạch ở vùng biến mất sẽ sao chép lại vô số lần khi chúng quay về lại vùng nhìn thấy (nhấn vào hình địa cầu để xem ví dụ của trường hợp này).
     ]],
         "https://youtu.be/z4WtWISkrdU",
     },
@@ -1007,7 +1006,7 @@ Chế độ Stack của Techmino cũng bắt nguồn từ game này.
         [[
 Chơi trên trình duyệt | Chơi đơn / Chơi trực tuyến | Hỗ trợ cảm ứng
 
-Gọi tắt là JS. Nó có một số chế độ chơi đơn với thông số có thể điều chỉnh được. Có thể điều chỉnh phím ảo trên màn hình, nhưng trò chơi này không có hiệu ứng động nào cả.
+Gọi tắt là JS. Game này có một số chế độ chơi đơn với thông số có thể điều chỉnh được. Có thể điều chỉnh phím ảo trên màn hình, nhưng trò chơi này không có hiệu ứng động nào cả.
         ]],
         "https://jstris.jezevec10.com",
     },
@@ -1017,7 +1016,7 @@ Gọi tắt là JS. Nó có một số chế độ chơi đơn với thông số
         [[
 Chơi trên trình duyệt / client chính thức | Chơi đơn / Chơi trực tuyến
 
-Gọi tắt là tetrio hoặc IO. Trò chơi này có một hệ thống xếp rank cũng như có chế độ tự do với nhiều thông số có thể tùy chỉnh. Trò chơi này cũng có một client dành cho máy tính, giúp cải thiện tốc độ, giảm độ trễ và gỡ bỏ quảng cáo
+Gọi tắt là tetrio hoặc IO. Trò chơi này có một hệ thống xếp rank cũng như có chế độ tự do với nhiều thông số có thể tùy chỉnh. Trò chơi này cũng có một client dành cho máy tính, giúp cải thiện tốc độ, giảm độ trễ và bỏ quảng cáo
 
 [MrZ: Có vẻ như Safari không thể mở game này.]
         ]],
@@ -1072,7 +1071,7 @@ Có thể áp dụng cho "Tetris Gems" và "Tetris Mind Bender"]
 Hiện có ba cách điều khiển: hai cách dành cho màn hình cảm ứng gồm "vuốt" (swipe) và "thông minh" (smart), hoặc cắm bàn phím (nếu máy hỗ trợ).
 Bạn có thể thử nghiệm với cả ba chế độ điều khiển để tìm xem chế độ nào tối ưu với mình nhất
 
-Để điều khiển bằng bàn phím thì hãy kết nối bàn phím (miễn là điện thoại nhận được bàn phím thì game cũng sẽ nhận thôi)
+Để điều khiển bằng bàn phím thì hãy kết nối bàn phím (miễn là điện thoại nhận được bàn phím thì game cũng sẽ nhận)
 Để đổi giữa "vuốt" và "thông minh" thì hãy mở Options của game.
         ]]
     },

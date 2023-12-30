@@ -217,9 +217,9 @@ return {
 
     modInstruction="Hãy chọn modifier bạn muốn.\nMod cho phép bạn có thể tùy biến game, nhưng cũng có thể làm game sập.\nKể cả thế, hãy thoải mái và chơi theo cách của bạn!\nBạn có thể dùng bàn phím để chọn mod (giữ Shift để chọn lùi)\nĐiểm sẽ không được lưu lại khi dùng mod.",
     modInfo={
-        next="NEXT\nGhi đè số gạch hiển thị ở cột NEXT",
+        next="NEXT\nGhi đè số gạch hiển thị ở hàng NEXT",
         hold="HOLD\nGhi đè số lượng gạch được giữ ở cột HOLD",
-        hideNext="Hidden NEXT\nẨn số lượng gạch ở cột NEXT (Tính từ ô đầu tiên)",
+        hideNext="Hidden NEXT\nẨn số lượng gạch ở hàng NEXT (Tính từ ô đầu tiên)",
         infHold="InfiniHold\nCho phép bạn HOLD vô số lần",
         hideBlock="Hide Current Piece\nGạch đang rơi trong bảng sẽ bị tàng hình",
         hideGhost="No Ghost\nBóng gạch sẽ bị tắt",
@@ -1040,7 +1040,7 @@ C. Tay cầm chơi game (Gamepad):
         "B2B2B2B tồn tại hả?",
         "Đừng để những thứ nhỏ nhặt làm bạn nản chí!",
         "Đây không phải là lỗi, đây là tính năng!",
-        "Hệ thống xoay gạch của Techmino rất đẹp trai!",
+        "Hệ thống xoay gạch của Techmino rất là đẹp trai!",
         "Em rất tốt nhưng anh rất tiếc…",   -- EXCELLENT! But… let's go better next time
         "Đừng quên xem qua phần cài đặt!",
         "Nếu bạn thấy có vấn đề gì, hãy lên trang GitHub báo lại cho chúng tôi!",
@@ -1133,7 +1133,7 @@ C. Tay cầm chơi game (Gamepad):
         {C.Z,"Gì? ",C.lC,"Xspin?"},
 
 
-
+    -- Bắt đầu từ đoạn này là mình phải lấy từ bản tiếng Trung nhờ cả Bard lẫn GPT3.5 dịch hộ :|
     -- TECHMINO FUN FACT
         -- How do you pronounce Techmino?
         "Phát âm từ Techmino như thế nào mới đúng?",
@@ -1175,9 +1175,9 @@ C. Tay cầm chơi game (Gamepad):
         -- Don't play with your phone if your homework isn't finished.
         "Đừng chơi điện thoại khi bài tập về nhà còn chưa hoàn thành.",
         -- Enabling vibration on some mobile systems may cause severe lag."
-        "Bật rung trên điện thoại có thể khiến máy phải thở oxy.",
+        "Bật rung trên điện thoại có thể khiến cho vài cái điện thoại… phải thở oxy!",
         -- Eat the button? Really? I suggest you play it back to see if you pressed it and how long it took you to press it"
-        "Phím không ăn? Đùa à? Xem lại replay để chắc rằng ông đã nhấn và xem thử mất bao nhiêu thời gian để ông nhấn phím đó.",
+        "Phím không ăn? Hãy thử kiểm tra lại phím đi!",
         -- Probably someone will read the tip
         "Chắc chắn có người đang đọc cái dòng chữ nhỏ đang chạy ở dưới này.",
         -- It seems like no one has reached a high level by playing with their feet yet.
@@ -1187,19 +1187,19 @@ C. Tay cầm chơi game (Gamepad):
         -- The ability to dig is extremely important in battles!!!
         "Khả năng đào xuống (downstacking) của bạn là RẤT QUAN TRỌNG trong chiến đấu!!!",
         -- Skilled players of the Classic Tetris game are also formidable; don't underestimate them
-        "Xếp gạch cổ điển cũng không đơn giản gì như xếp gạch hiện đại đâu. Đừng có mà xem thường những người chơi hệ cổ điển!",
+        "Đừng có mà xem thường những người chơi xếp gạch cổ điển! Chơi cái đó cũng khó không khác gì chơi xếp gạch hiện đại đâu.",
         -- Classic Tetris and Modern Tetris are two different games; being skilled in one doesn't mean you'll be skilled in the other. You have to start from scratch.
         "Xếp gạch cổ điển và xếp gạch hiện đại là hai thể loại game khác nhau đấy! Giỏi một trong hai chưa chắc bạn giỏi cả bên còn lại đâu. Bạn phải học lại từ đầu đấy",
         -- To protect the players' well-being, the game has a temporary and simplified anti-addiction system! (But you probably won't trigger it, haha)
         "Để tránh việc người chơi nào đó chơi quá lâu, game đã có hệ thống chống nghiện đơn giản tạm thời (Nhưng bạn có lẽ sẽ không bao giờ kích hoạt chúng đâu, haha)",
         -- Basic stacking and digging skills are crucial; those who neglect these two aspects often regret it (trust me)
-        {"Kỹ năng xếp lên vào đào xuống là 2 kỹ năng RẤT quan trọng; những ai (đã/từng) coi thường/bỏ bê hai khía cạnh này thường hay bị bón hành súp mặt lờ (tin ",C.W,"MrZ",C.Z," đi!)"},
+        {"Kỹ năng xếp lên vào đào xuống là 2 kỹ năng RẤT quan trọng; những ai (đã/từng) coi thường hay bỏ bê hai khía cạnh này thường hay bị bón hành súp mặt lờ (tin ",C.W,"MrZ",C.Z," đi!)"},
         -- Even if you're topped out, don't give up; every line of garbage can potentially become your weapon.
-        "Ngay cả khi bạn sắp bị top out, đừng bỏ cuộc; vì từng hàng rác có tiềm năng trở thành vũ khí của bạn!",
+        "Đừng bỏ cuộc khi đống hàng rác đang làm bạn sắp bị top out, bởi bạn có thể biến chúng trở thành đòn phản công.",
         -- The video shown above is not a recording; it's the robot playing in real-time.
-        "Cái ở trên là replay hả? Không, là AI đang chơi trong thời gian thực đấy!",
+        "Cái ở trên là bản ghi sẵn hả? Không, là AI đang chơi trong thời gian thực đấy!",
         -- Extended gaming sessions will gradually deteriorate your performance! Remember to take breaks when playing for a long time~
-        "THường xuyên chơi game lâu có thể khiến bạn có thể bị đuối sức (cả thể chất và tinh thần, tệ nhất có thể bị stall). Hãy nhớ nghỉ giải lao sau khi chơi lâu nhé!",
+        "Thường xuyên chơi game lâu có thể khiến bạn có thể bị đuối sức (cả thể chất và tinh thần, tệ nhất có thể bị stall). Hãy nhớ nghỉ giải lao sau khi chơi lâu nhé!",
         -- Be careful of tenosynovitis!
         {C.R,"CẢNH BÁO! ",C.Z,"Bệnh viêm bao gân cổ tay!"},
         -- The button with a question mark in the bottom-right corner is the game manual (assuming you haven't enabled the Simple mode).
