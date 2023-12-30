@@ -137,8 +137,7 @@ scene.widgetList={
         disp=SETval('noTheme'),
         code=function()
             SETTING.noTheme=not SETTING.noTheme
-
-            if SETTING.noTheme then
+            if SETTING.noTheme and THEME.calculate then
                 if TASK.lock('warnMessage',6.26) then
                     MES.new('warn',text.settingWarn2,6.26)
                 end
