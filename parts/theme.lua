@@ -72,9 +72,8 @@ function THEME.set(theme)
     elseif theme=='season4' then
         BG.setDefault('space')
         BGM.setDefault('space')
-    end
-
-    if not SETTING.noTheme then
+    elseif not SETTING.noTheme then
+        -- Affected, if theme is disabled, below themes will not be chosen
         if theme=='xmas' then
             BG.setDefault('snow')
             BGM.setDefault('xmas')
