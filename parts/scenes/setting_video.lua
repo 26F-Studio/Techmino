@@ -88,11 +88,11 @@ scene.widgetList={
     WIDGET.newSwitch{name='clean',        x=950,y=1120,lim=360,disp=SETval('cleanCanvas'),  code=function() SETTING.cleanCanvas=not SETTING.cleanCanvas; applySettings() end},
     WIDGET.newSwitch{name='fullscreen',   x=950,y=1190,lim=360,disp=SETval('fullscreen'),   code=function() SETTING.fullscreen=not SETTING.fullscreen; applySettings() end,hideF=function() return MOBILE end},
     WIDGET.newSwitch{name='portrait',     x=950,y=1190,lim=360,disp=SETval('portrait'),     code=function() SETTING.portrait=not SETTING.portrait; saveSettings(); MES.new('warn',text.settingWarn2,6.26) end,hideF=function() return not MOBILE end},
-    WIDGET.newSlider{name='msaa',         x=950,y=1250,lim=360,w=200,axis={0,4,1},show=_msaaShow,disp=function() return SETTING.msaa==0 and 0 or math.log(SETTING.msaa,2) end,code=function(v) SETTING.msaa=v==0 and 0 or 2^v; saveSettings(); if TASK.lock('warnMessage',6.26) then MES.new('warn',text.settingWarn2,6.26) end end},
+    WIDGET.newSlider{name='msaa',         x=950,y=1270,lim=360,w=200,axis={0,4,1},show=_msaaShow,disp=function() return SETTING.msaa==0 and 0 or math.log(SETTING.msaa,2) end,code=function(v) SETTING.msaa=v==0 and 0 or 2^v; saveSettings(); if TASK.lock('warnMessage',6.26) then MES.new('warn',text.settingWarn2,6.26) end end},
 
-    WIDGET.newKey{name='bg_on',           x=680,y=1340,w=200,h=80,code=function() SETTING.bg='on'; applySettings() end},
-    WIDGET.newKey{name='bg_off',          x=900,y=1340,w=200,h=80,code=function() SETTING.bg='off'; applySettings() end},
-    WIDGET.newKey{name='bg_custom',       x=1120,y=1340,w=200,h=80,
+    WIDGET.newKey{name='bg_off',          x=680,y=1340,w=200,h=60,code=function() SETTING.bg='off'; applySettings() end},
+    WIDGET.newKey{name='bg_on',           x=900,y=1340,w=200,h=60,code=function() SETTING.bg='on' ; applySettings() end},
+    WIDGET.newKey{name='bg_custom',       x=1120,y=1340,w=200,h=60,
         code=function()
             if love.filesystem.getInfo('conf/customBG') then
                 SETTING.bg='custom'
@@ -102,7 +102,7 @@ scene.widgetList={
             end
         end
     },
-    WIDGET.newSlider{name='bgAlpha',      x=1020,y=1445,w=200,
+    WIDGET.newSlider{name='bgAlpha',      x=1020,y=1415,w=200,
         axis={0,.8},disp=SETval('bgAlpha'),
         code=function(v)
             SETTING.bgAlpha=v
@@ -114,7 +114,8 @@ scene.widgetList={
         end,
         hideF=function() return SETTING.bg=='on' end
     },
-    WIDGET.newSelector{name='defaultBG',  x=1120,y=1442,w=200,h=80,
+    WIDGET.newSelector{name='defaultBG',  x=1120,y=1415,w=200,color='G',
+        limit=370,
         list=BG.getList(),
         disp=SETval('defaultBG'),
         code=function(v)
@@ -125,7 +126,7 @@ scene.widgetList={
         end,
         hideF=function() return SETTING.bg~='on' end
     },
-    WIDGET.newKey{name='resetDbg',x=900,y=1440,w=200,h=80,
+    WIDGET.newKey{name='resetDbg',x=900,y=1415,w=200,h=60,font=25,
         code=function()
             SETTING.defaultBG='space'
             BG.setDefault('space');   BG.set()
@@ -141,7 +142,10 @@ scene.widgetList={
                 if TASK.lock('warnMessage',6.26) then
                     MES.new('warn',text.settingWarn2,6.26)
                 end
-            else THEME.set(THEME.calculate()) end
+            else
+                THEME.set(THEME.calculate())
+                ChangeButtonColorIfThemeUsed()
+            end
         end
     },
 

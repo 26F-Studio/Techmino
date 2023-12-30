@@ -59,21 +59,16 @@ function THEME.calculate(Y,M,D)
 end
 
 function THEME.set(theme)
-    -- Not affected by SETTING.noTheme
-        if theme=='season1' then
-        BG.setDefault('space')
-        BGM.setDefault('null')
-    elseif theme=='season2' then
-        BG.setDefault('space')
-        BGM.setDefault('nil')
-    elseif theme=='season3' then
-        BG.setDefault('space')
-        BGM.setDefault('vacuum')
-    elseif theme=='season4' then
-        BG.setDefault('space')
-        BGM.setDefault('space')
+    local seasonT={'null','nil','vaccum','space'}
+    -- Note: by default, the background will be 'space' unless user changed
+    -- Because 4 seasonal themes are basically the normal theme, not special like others
+    if type(theme)=='string' and string.sub(theme,1,6)=='season' then 
+        local n=tonumber(string.sub(theme,7))
+        if 0<n and n<5 then
+            BG. setDefault(SETTING.defaultBG)
+            BGM.setDefault(seasonT[n])
+        end
     elseif not SETTING.noTheme then
-        -- Affected, if theme is disabled, below themes will not be chosen
         if theme=='xmas' then
             BG.setDefault('snow')
             BGM.setDefault('xmas')
@@ -104,7 +99,7 @@ function THEME.set(theme)
         else
             return
         end
-    else return end
+    else THEME.set(THEME.calculate('0',os.date('%m'),'0')) return end
 
     THEME.cur=theme
     BG.set()
