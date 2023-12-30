@@ -659,6 +659,8 @@ do-- Userdata tables
         msaa=0,
         bg='on',
         bgAlpha=.26,
+        defaultBG='space',
+        noTheme=false,
         powerInfo=false,
         clickFX=true,
         warn=true,

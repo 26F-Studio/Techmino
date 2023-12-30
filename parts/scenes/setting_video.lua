@@ -30,7 +30,7 @@ function scene.draw()
     gc.push('transform')
     gc.setColor(1,1,1)
     local T=skinLib[1]
-    gc.translate(0,1410-WIDGET.scrollPos)
+    gc.translate(-200,1410-WIDGET.scrollPos)    -- -200
     gc.setShader(SHADER.blockSatur)
     gc.draw(T,435,0)gc.draw(T,465,0)gc.draw(T,465,30)gc.draw(T,495,30)
     gc.setShader(SHADER.fieldSatur)
@@ -101,8 +101,8 @@ scene.widgetList={
                 MES.new('info',text.customBGhelp)
             end
         end
-        },
-    WIDGET.newSlider{name='bgAlpha',      x=1020,y=1430,w=200,
+    },
+    WIDGET.newSlider{name='bgAlpha',      x=1020,y=1445,w=200,
         axis={0,.8},disp=SETval('bgAlpha'),
         code=function(v)
             SETTING.bgAlpha=v
@@ -113,18 +113,49 @@ scene.widgetList={
             end
         end,
         hideF=function() return SETTING.bg=='on' end
-        },
+    },
+    WIDGET.newSelector{name='defaultBG',  x=1120,y=1442,w=200,h=80,
+        list=BG.getList(),
+        disp=SETval('defaultBG'),
+        code=function(v)
+            SETTING.defaultBG=v
+            BG.setDefault(v)
+            BG.set()
+            applySettings()
+        end,
+        hideF=function() return SETTING.bg~='on' end
+    },
+    WIDGET.newKey{name='resetDbg',x=900,y=1440,w=200,h=80,
+        code=function()
+            SETTING.defaultBG='space'
+            BG.setDefault('space');   BG.set()
+            scene.widgetList.defaultBG:reset()
+            applySettings()
+        end,
+        hideF=function() return SETTING.bg~='on' or SETTING.defaultBG=='space' end},
+    WIDGET.newSwitch{name='noTheme',x=1170,y=1540,
+        disp=SETval('noTheme'),
+        code=function()
+            SETTING.noTheme=not SETTING.noTheme
 
-    WIDGET.newSelector{name='blockSatur', x=800,y=1440,w=300,color='lN',
+            if SETTING.noTheme then
+                if TASK.lock('warnMessage',6.26) then
+                    MES.new('warn',text.settingWarn2,6.26)
+                end
+            else THEME.set(THEME.calculate()) end
+        end
+    },
+
+    WIDGET.newSelector{name='blockSatur', x=600,y=1440,w=300,color='lN',
         list={'normal','soft','gray','light','color'},
         disp=SETval('blockSatur'),
         code=function(v) SETTING.blockSatur=v; applySettings() end
-        },
-    WIDGET.newSelector{name='fieldSatur', x=800,y=1540,w=300,color='lN',
+    },
+    WIDGET.newSelector{name='fieldSatur', x=600,y=1540,w=300,color='lN',
         list={'normal','soft','gray','light','color'},
         disp=SETval('fieldSatur'),
         code=function(v) SETTING.fieldSatur=v; applySettings() end
-        },
+    },
 
     WIDGET.newButton{name='back',         x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
