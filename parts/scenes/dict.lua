@@ -232,13 +232,13 @@ function scene.keyDown(key)
     --         MES.new("error","Hotload failed! May need restarting!\n\n"..table.concat(_r,"\n"))
     --     else
     --         local lastLscrollPos=listBox.scrollPos
-    --         local lastTscrollPos=textBox.scrollPos
+    --         local lastTscrollPos=contentBox.scrollPos
     --         listBox:setList(_getList())
     --         if #inputBox:getText()>0 then _search() end
     --         listBox.selected=lastSelected<#dict and lastSelected or #dict   -- In case the last item is removed!
     --         listBox.scrollPos=lastLscrollPos
-    --         _updateInfoBox()
-    --         textBox.scrollPos=lastTscrollPos
+    --         _updateContentBox()
+    --         contentBox.scrollPos=lastTscrollPos
     --         SFX.play('pc')
     --     end
     else
