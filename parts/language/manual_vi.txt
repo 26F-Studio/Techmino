@@ -1,4 +1,4 @@
-Lối chơi:
+Cách chơi:
         Hệ thống sẽ cấp cho người chơi 7 loại tetromino (gạch 4 ô) bao gồm: Z, S, J, L, I, O, T;
             và người chơi cần điều khiển chúng (di chuyển sang trái và phải; xoay 90 / 180 / 270 độ).
         Cứ mỗi hàng được lấp đầy trong bảng bởi các viên gạch, chúng sẽ bị xóa ra khỏi bảng.
