@@ -127,6 +127,7 @@ scene.widgetList={
     WIDGET.newKey{name='resetDbg',x=900,y=1365,w=200,h=60,font=25,
         code=function()
             SETTING.defaultBG='space'
+            scene.widgetList.defaultBG:reset()
             applySettings()
         end,
         hideF=function() return SETTING.bg~='on' or SETTING.defaultBG=='space' end
