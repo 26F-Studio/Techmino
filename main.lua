@@ -191,7 +191,7 @@ Z.setOnFnKeys({
 Z.setOnGlobalKey('f11',function()
     if not MOBILE then
         SETTING.fullscreen=not SETTING.fullscreen
-        applySettings()
+        applySettings('fullscreen')
         saveSettings()
     end
 end)
