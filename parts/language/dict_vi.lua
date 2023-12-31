@@ -286,7 +286,7 @@ Nói chung, một game xếp gạch hiện đại thường sẽ bám sát theo 
         "Là một hàng dùng để hiện chuỗi gạch sẽ lần lượt xuất hiện. Có một kỹ năng cần thiết đó là lên kế hoạch trước cách đặt các gạch từ hàng NEXT. Số lượng gạch bạn muốn lên kế hoạch là tùy thuộc vào bạn và có thể thay đổi tùy theo chế độ chơi và tình trạng bảng chơi hiện tại của bạn.",
     },
     {"Hold (Giữ/Trữ/Cất)",
-        "nhom05 giu tru cat",
+        "nhom05",
         "term",
         "Một chức năng cho phép bạn sử dụng gạch ở trong ô HOLD\n(hoặc gạch đầu tiên ở hàng NEXT nếu bạn chưa cất gạch trước đó)\nvà cất gạch đang rơi vào ô HOLD \n\nBình thường, Hold chỉ có thể được sử dụng 1 lần cho mỗi gạch.\n\nTrên thực tế, việc dùng Hold hay không cũng có ưu nhược của nó.\nNếu không dùng Hold:\n\t- Có thể giảm áp lực cho người chơi khi điều khiển gạch.\n\t- Đồng thời có thể giảm số phím cần nhấn trong game → có thể tăng KPS lên.\nTrên thực tế, đã có nhiều kỷ lục 40L được xác lập mà không cần Hold.\n\nNếu dùng Hold:\n\t- Hold có thể có ích trong nhiều trường hợp khác nhau (ví dụ như khi đang chơi ở tốc độ rơi cao).\n\t- Cho phép người chơi có thể làm được nhiều setup phức tạp hơn mà không đẩy thêm áp lực cho người chơi."
     },
