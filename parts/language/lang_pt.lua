@@ -538,6 +538,10 @@ return {
             -- bg_on="Normal B.G.",
             -- bg_off="No B.G.",
             -- bg_custom="Use Custom B.G.",
+            -- defaultBG="Default B.G.",
+            -- resetDbg="Reset to default",
+            -- lockBG="Lock B.G.",
+            -- noTheme="Disable theme",
 
             -- blockSatur="Block Saturation",
             -- fieldSatur="Field Saturation",

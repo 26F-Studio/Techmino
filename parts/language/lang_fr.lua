@@ -525,6 +525,10 @@ return {
             bg_on="Arrière-plan normal",
             bg_off="Pas d'arrière-plan.",
             bg_custom="Utiliser un arrière-plan personnalisé",
+            -- defaultBG="Default B.G.",
+            -- resetDbg="Reset to default",
+            -- lockBG="Lock B.G.",
+            -- noTheme="Disable theme",
 
             -- blockSatur="Block Saturation",
             -- fieldSatur="Field Saturation",

@@ -550,6 +550,10 @@ return {
             bg_on="B.G. Normal",
             bg_off="Tidak Ada B.G.",
             bg_custom="Ubah B.G.",
+            -- defaultBG="Default B.G.",
+            -- resetDbg="Reset to default",
+            -- lockBG="Lock B.G.",
+            -- noTheme="Disable theme",
 
             blockSatur="Kejenuhan Blok Aktif",
             fieldSatur="Kejenuhan Blok Terkunci",

@@ -550,6 +550,10 @@ return {
             bg_on="普通背景",
             bg_off="無背景",
             bg_custom="應用自定義背景",
+            defaultBG="默認背景",
+            resetDbg="改回默認",
+            lockBG="鎖定背景",
+            noTheme="關閉節日主題",
 
             blockSatur="方塊飽和",
             fieldSatur="場地飽和",

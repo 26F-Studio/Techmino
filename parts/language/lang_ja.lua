@@ -594,6 +594,10 @@ C. ゲームパッド
             bg_on="通常背景",
             bg_off="背景なし ",
             bg_custom="カスタム背景",
+            -- defaultBG="Default B.G.",
+            -- resetDbg="Reset to default",
+            -- lockBG="Lock B.G.",
+            -- noTheme="Disable theme",
 
             blockSatur="ブロックデザイン",
             fieldSatur="設置ブロックデザイン",
