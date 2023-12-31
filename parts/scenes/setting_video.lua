@@ -90,8 +90,8 @@ scene.widgetList={
     WIDGET.newSwitch{name='portrait',     x=950,y=1150,lim=360,disp=SETval('portrait'),     code=function() SETTING.portrait=not SETTING.portrait; saveSettings(); MES.new('warn',text.settingWarn2,6.26) end,hideF=function() return not MOBILE end},
     WIDGET.newSlider{name='msaa',         x=950,y=1220,lim=360,w=200,axis={0,4,1},show=_msaaShow,disp=function() return SETTING.msaa==0 and 0 or math.log(SETTING.msaa,2) end,code=function(v) SETTING.msaa=v==0 and 0 or 2^v; saveSettings(); if TASK.lock('warnMessage',6.26) then MES.new('warn',text.settingWarn2,6.26) end end},
 
-    WIDGET.newKey{name='bg_off',          x=680,y=1290,w=200,h=60,code=function() SETTING.bg='off'; applySettings() end},
-    WIDGET.newKey{name='bg_on',           x=900,y=1290,w=200,h=60,code=function() SETTING.bg='on' ; applySettings() end},
+    WIDGET.newKey{name='bg_on',           x=680,y=1290,w=200,h=60,code=function() SETTING.bg='on' ; applySettings() end},
+    WIDGET.newKey{name='bg_off',          x=900,y=1290,w=200,h=60,code=function() SETTING.bg='off'; applySettings() end},
     WIDGET.newKey{name='bg_custom',       x=1120,y=1290,w=200,h=60,
         code=function()
             if love.filesystem.getInfo('conf/customBG') then
@@ -102,7 +102,7 @@ scene.widgetList={
             end
         end
     },
-    WIDGET.newSlider{name='bgAlpha',      x=1020,y=1365,w=200,
+    WIDGET.newSlider{name='bgAlpha', x=800,y=1365,w=420,
         axis={0,.8},disp=SETval('bgAlpha'),
         code=function(v)
             SETTING.bgAlpha=v
@@ -114,9 +114,8 @@ scene.widgetList={
         end,
         hideF=function() return SETTING.bg=='on' end
     },
-    WIDGET.newSelector{name='defaultBG',  x=1120,y=1365,w=200,color='G',
-        limit=370,
-        list=BG.getList(),
+    WIDGET.newSelector{name='defaultBG', x=680,y=1365,w=200,color='G',
+        list={'space','bg1','bg2','rainbow','rainbow2','aura','rgb','glow','matrix','cubes','tunnel','galaxy','quarks','blockfall','blockrain','blockhole','blockspace'},
         disp=SETval('defaultBG'),
         code=function(v)
             SETTING.defaultBG=v
@@ -124,7 +123,7 @@ scene.widgetList={
         end,
         hideF=function() return SETTING.bg~='on' end
     },
-    WIDGET.newKey{name='resetDbg',x=900,y=1365,w=200,h=60,font=25,
+    WIDGET.newKey{name='resetDbg',x=870,y=1365,w=140,h=60,font=15,
         code=function()
             SETTING.defaultBG='space'
             scene.widgetList.defaultBG:reset()
@@ -132,7 +131,7 @@ scene.widgetList={
         end,
         hideF=function() return SETTING.bg~='on' or SETTING.defaultBG=='space' end
     },
-    WIDGET.newSwitch{name='lockBG',x=1170,y=1485,
+    WIDGET.newSwitch{name='lockBG',x=1170,y=1365,lim=200,
         disp=SETval('lockBG'),
         code=function()
             SETTING.lockBG=not SETTING.lockBG
@@ -141,18 +140,18 @@ scene.widgetList={
         hideF=function() return SETTING.bg~='on' end
     },
 
-    WIDGET.newSwitch{name='noTheme',x=1170,y=1545,
+    WIDGET.newSwitch{name='noTheme',x=1170,y=1435,
         disp=SETval('noTheme'),
         code=function()
             SETTING.noTheme=not SETTING.noTheme
             local ct=THEME.calculate()
-            if SETTING.noTheme and type(ct)=='string' and string.sub(ct,1,6)~='season' then
+            if SETTING.noTheme and type(ct)=='string' and ct:sub(1,6)~='season' then
                 if TASK.lock('warnMessage',6.26) then
                     MES.new('warn',text.settingWarn2,6.26)
                 end
             else
                 THEME.set(THEME.calculate())
-                ChangeButtonColorIfThemeUsed()
+                WIDGET.setWidgetList(scene.widgetList)
             end
         end
     },

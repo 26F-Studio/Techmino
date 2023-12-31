@@ -175,7 +175,7 @@ return {
             GC.rectangle('line',0,240,126,80,4)
             GC.setColor(.98,.98,.98,.4)
             GC.rectangle('fill',0+2,240+2,126-4,80-4,2) -- draw time box
-            
+
             setFont(45) -- Draw time text
             local t=(P.stat.frame-D.prevSectTime)/60
             local T=("%.1f"):format(60-t)

@@ -589,7 +589,7 @@ C. Gamepad
             bg_off="No B.G.",
             bg_custom="Custom B.G.",
             defaultBG="Default B.G.",
-            resetDbg="Reset default B.G.",
+            resetDbg="Reset to default",
             lockBG="Lock B.G.",
             noTheme="Disable theme",
 

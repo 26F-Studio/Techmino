@@ -84,7 +84,7 @@ Hệ thống tính điểm:
 
 Khoảng thời gian chờ trước khi tấn công:
         Một đòn sát thương sẽ không có hiệu lực ngay lập tức để người chơi có chút thời gian phản ứng trước khi tràn vào bảng.
-        Thời gian chờ của các đòn tấn công như sau, sắp xếp từ nhanh nhất tới lâu nhất: 
+        Thời gian chờ của các đòn tấn công như sau, sắp xếp từ nhanh nhất tới lâu nhất:
                 — Double và Triple (Đôi và Tam) là nhanh nhất
                 — Theo sau là Techrash, Techrash+, spin; Mini, B2B và B3B có thêm thêm chút thời gian chờ nữa.
                 — Sát thương từ combo có thời gian chờ lâu nhất..
@@ -107,14 +107,14 @@ Chế độ Battle Royale:
                 3. K.O.s: Nhắm vào bot “đang thở máy, đang hấp hối”. Tự động nhắm lại sau mỗi giây.
                 4. Phản công: tấn công tất cả bot đang nhắm vào bạn. Bạn sẽ gửi tấn công đến tất cả bọn chúng.
                         Nếu bạn không nhắm vào mục tiêu nào, thì bạn sẽ tấn công một bot ngẫu nhiên (không nhắm)
-        
+
         Người cuối cùng trụ lại thành công sẽ là người chiến thắng sau khi đã loại được toàn bộ đối thủ.
 
 
 Chế độ Tự do:
         Bạn có thể tự do tùy chỉnh nhiều thông số (nhưng không bao gồm các hiệu ứng đặc biệt từ các chế độ khác).
         Bạn có thể vẽ một cái bảng để tập xóa (Clear mode) hoặc tập xây theo mẫu (Puzzle mode)
-        
+
         Ở chế độ Puzzle, bạn có thể nhấn F1 để chọn có hiện bảng mẫu hay không.
         Để thắng được game ở chế độ Puzzle thì toàn bộ…
                 ô có X thì không được có gạch;

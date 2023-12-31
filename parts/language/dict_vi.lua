@@ -584,7 +584,7 @@ Tốc độ gạch rơi xuống. Đơn vị là "G".
 Chỉ số hàng gạch rơi xuống trong một khung hình.
 Con số này luôn đi kèm với giả thiết là game đang chạy ở 60FPS.
 
-Ví dụ: gạch di chuyển xuống 1 ô / 60 khung hình (1 ô / giây) thì tốc độ rơi là ¹⁄₆₀ G 
+Ví dụ: gạch di chuyển xuống 1 ô / 60 khung hình (1 ô / giây) thì tốc độ rơi là ¹⁄₆₀ G
 
 Tốc độ tối đa của game xếp gạch hiện đại là 20G (bởi vì có 20 hàng trong vùng nhìn thấy được).
 
@@ -712,7 +712,7 @@ Techmino cũng có finesse rate (%) (tỉ lệ *không* mắc lỗi di chuyển)
     - 0% (Truợt - Miss) khi số lần nhấn phím cao hơn mức chuẩn 3 phím
 Một Bad hoặc Miss sẽ phá combo finesse.
 
-Lưu ý: 
+Lưu ý:
     - Finesse thường sẽ không được tính trong một vài tình huống như tốc độ rơi cao, phải sử dụng thả nhẹ hay bảng rất cao. Tuy nhiên, bộ đếm finesse của Techmino vẫn chạy bất chấp ở điều kiện nào (kể cả tốc độ rơi cao như 20G). Do vậy finesse rate thường sẽ không mang ý nghĩa gì trong trường hợp này.
     - Bạn sẽ không bị mất Finesse khi bạn nhét gạch hay thực hiện Spin vì Techmino chỉ kiểm tra những vị trí không yêu cầu soft drop
         ]],

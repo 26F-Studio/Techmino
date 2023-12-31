@@ -37,7 +37,7 @@ do-- function STRING.shiftChar(c)
 end
 
 -- [LOW PERFORMANCE!]
-local upperData,lowerData,VIdiaData
+local upperData,lowerData,diaData
 function STRING.upperUTF8(str)
     for _,pair in next,upperData do
         str=str:gsub(pair[1],pair[2])
@@ -50,12 +50,8 @@ function STRING.lowerUTF8(str)
     end
     return str
 end
---[[
-    [FOR VIETNAMESE ONLY]
-    Remove all diacritics in strings written in Vietnamese
-]]
-function STRING.viRemoveDiacritics(str)
-    for _,pair in next,VIdiaData do
+function STRING.remDiacritics(str)
+    for _,pair in next,diaData do
         str=str:gsub(pair[1],pair[2])
     end
     return str
@@ -402,43 +398,31 @@ function STRING.unpackTable(t)
 end
 
 do
-    local function readF(fname)
+    local function parseFile(fname)
+        local d
         if love and love.filesystem and type(love.filesystem.read)=='function' then
-            f=love.filesystem.read(fname)
+            d=love.filesystem.read(fname)
         else
             local f=io.open(fname,'r')
-            local d=f:read('a')
-            f:close()
+            if f then
+                d=f:read('a')
+                f:close()
+            end
         end
-        return f
-    end
-    upperData=readF('Zframework/upcaser.txt')
-    lowerData=readF('Zframework/lowcaser.txt')
-    VIdiaData=readF('Zframework/vi_diaractics.txt')
 
-    local function splitData(data)
-        for i=1,#data do
-            local pair=STRING.split(data[i],'=')
-            data[i]=pair
+        if not d then
+            print("ERROR: Failed to read the data from "..fname)
+            return {}
         end
-        return data
+        d=STRING.split(gsub(d,'\n',','),',')
+        for i=1,#d do
+            d[i]=STRING.split(d[i],'=')
+        end
+        return d
     end
-    if upperData then upperData=splitData(STRING.split(gsub(upperData,'\n',','),','))
-    else
-        upperData={}
-        LOG('ERROR: Failed to read the data from Zframework/upcaser.txt')
-    end
-    if lowerData then lowerData=splitData(STRING.split(gsub(lowerData,'\n',','),','))
-    else
-        lowerData={}
-        LOG('ERROR: Failed to read the data from Zframework/lowcaser.txt')
-    end
-
-    if VIdiaData then VIdiaData=splitData(STRING.split(gsub(VIdiaData,'\n',','),','))
-    else
-        VIdiaData={}
-        LOG('ERROR: Failed to read the data from Zframework/vi_diaractics.txt')
-    end
+    upperData=parseFile('Zframework/upcaser.txt')
+    lowerData=parseFile('Zframework/lowcaser.txt')
+    diaData=parseFile('Zframework/diacritics.txt')
 end
 
 return STRING

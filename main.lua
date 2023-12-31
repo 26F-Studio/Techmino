@@ -49,19 +49,15 @@ SCR.setSize(1280,720) -- Initialize Screen size
 BGM.setMaxSources(5)
 VOC.setDiversion(.62)
 
-ChangeButtonColorIfThemeUsed=function()
-    if SCN.cur~='net_game' and SCN.cur~='custom_field' then
-        local colorList=THEME.getThemeColor()
-        if colorList then
-            for _,W in next,SCN.scenes[SCN.cur].widgetList do
-                if W.color then
-                    W.color=colorList[math.random(#colorList)]
-                end
-            end
+WIDGET.setOnChange(function()
+    if SCN.cur=='net_game' or SCN.cur=='custom_field' then return end
+    local colorList=THEME.getThemeColor()
+    if colorList then
+        for _,W in next,SCN.scenes[SCN.cur].widgetList do
+            W.color=W.color and colorList[math.random(#colorList)]
         end
     end
-end
-WIDGET.setOnChange(ChangeButtonColorIfThemeUsed)
+end)
 
 -- Create shortcuts
 setFont=FONT.set

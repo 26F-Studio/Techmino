@@ -174,7 +174,7 @@ local levels={
             local b=STRING.toBin(a)
             local l=floor(math.log(a,2)+1)
             for i=1,l do
-                drawChar(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
+                drawChar(tonumber(b:sub(i,i)),320,420-100*(l-i),.5)
                 ins(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
                 ins(drawLines,{370,440-100*(l-i),410,480-100*(l-i)})
                 drawChar(2,430,420-100*(l-i),.5)
@@ -193,7 +193,7 @@ local levels={
         local b=STRING.toOct(a)
         local l=floor(math.log(a,8)+1)
         for i=1,l do
-            drawChar(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
+            drawChar(tonumber(b:sub(i,i)),320,420-100*(l-i),.5)
             ins(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
             ins(drawLines,{370,440-100*(l-i),410,480-100*(l-i)})
             drawChar(8,430,420-100*(l-i),.5)
@@ -212,7 +212,7 @@ local levels={
             local b=STRING.toHex(a)
             local l=floor(math.log(a,16)+1)
             for i=1,l do
-                local c=string.sub(b,i,i)
+                local c=b:sub(i,i)
                 if ("0123456789"):find(c,nil,true) then
                     c=tonumber(c)
                 else

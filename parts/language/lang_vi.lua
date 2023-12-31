@@ -600,8 +600,7 @@ C. Tay cầm chơi game (Gamepad):
             bg_off="Không ảnh nền",
             bg_custom="Ảnh nền tự chọn",
             defaultBG="Nền mặc định",
-            -- resetDbg='Đặt lại →',
-            resetDbg="Đặt lại ảnh nền mặc định",
+            resetDbg='Đặt lại',
             lockBG="Khóa ảnh nền",
             noTheme="Tắt theme",
 

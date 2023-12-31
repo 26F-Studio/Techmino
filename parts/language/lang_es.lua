@@ -884,7 +884,7 @@ return {
         -- ['blind_h']=             {"Invisible",         "INSTANT",        "For the experienced"},
         -- ['blind_l']=             {"Invisible",         "NO GHOST",       "For professionals"},
         -- ['blind_u']=             {"Invisible",         "NO FIELD",       "Are you ready?"},
-        -- ['blind_wtf']=           {"Invisible",         "VOID",           "You're not ready."},        
+        -- ['blind_wtf']=           {"Invisible",         "VOID",           "You're not ready."},
         ['blind_e']=        {"A Ciegas",                "Parcial",       "Para novatos."},
         ['blind_n']=        {"A Ciegas",                "Total",         "Para jugadores intermedios."},
         ['blind_h']=        {"A Ciegas",                "Inmediato",     "Para jugadores experimentados."},

@@ -214,7 +214,7 @@ generateVKey=function()
                 -- activateState: 0=off, 1=on then off, 2=on
                 local activationTime=self.ATV or 0
                 local maxTime=6.2
-        
+
                 if activateState~=nil then self.activateState=activateState
                 elseif (self.activateState==1 and activationTime==maxTime) or not self.activateState then self.activateState=0 end
                 -- LIKELY NOT POSSIBLE TO DO
