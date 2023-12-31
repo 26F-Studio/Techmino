@@ -501,10 +501,14 @@ local commands={} do
     commands.theme={
         code=function(name)
             if name~="" then
-                if THEME.set(name) then
-                    log("Theme set to: "..name)
+                if SETTING.noTheme then
+                    log{"Theme is ",C.R,"disabled",C.Z,"! Please re-enable it before trying this command again"}
                 else
-                    log("No theme called "..name)
+                    if THEME.set(name) then
+                        log("Theme set to: "..name)
+                    else
+                        log("No theme called "..name)
+                    end
                 end
             else
                 log{C.A,"Usage: theme <xmas|halloween|sprfes|zday1/2/3|season1/2/3/4|fool|birth>"}

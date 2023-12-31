@@ -59,48 +59,48 @@ function THEME.calculate(Y,M,D)
 end
 
 function THEME.set(theme)
-    if theme=='xmas' then
-        BG.setDefault('snow')
-        BGM.setDefault('xmas')
-        MES.new('info',"==Merry Christmas==")
-    elseif theme=='birth' then
-        BG.setDefault('firework')
-        BGM.setDefault('magicblock')
-    elseif theme=='sprfes' then
-        BG.setDefault('firework')
-        BGM.setDefault('spring festival')
-        MES.new('info',"★☆新年快乐☆★")
-    elseif theme=='halloween' then
-        BG.setDefault('glow')
-        BGM.setDefault('antispace')
-        MES.new('info',">>Happy halloween<<")
-    elseif theme=='zday1' then
-        BG.setDefault('lanterns')
-        BGM.setDefault('overzero')
-    elseif theme=='zday2' then
-        BG.setDefault('lanterns')
-        BGM.setDefault('jazz nihilism')
-    elseif theme=='zday3' then
-        BG.setDefault('lanterns')
-        BGM.setDefault('empty')
-    elseif theme=='season1' then
-        BG.setDefault('space')
-        BGM.setDefault('null')
-    elseif theme=='season2' then
-        BG.setDefault('space')
-        BGM.setDefault('nil')
-    elseif theme=='season3' then
-        BG.setDefault('space')
-        BGM.setDefault('vacuum')
-    elseif theme=='season4' then
-        BG.setDefault('space')
-        BGM.setDefault('space')
-    elseif theme=='fool' then
-        BG.setDefault('blockrain')
-        BGM.setDefault('how feeling')
-    else
-        return
-    end
+    local seasonT={'null','nil','vaccum','space'}
+    -- Note: by default, the background will be 'space' unless user changed
+    -- Because 4 seasonal themes are basically the normal theme, not special like others
+    if type(theme)=='string' and string.sub(theme,1,6)=='season' then 
+        local n=tonumber(string.sub(theme,7))
+        if 0<n and n<5 then
+            BG. setDefault(SETTING.defaultBG)
+            BGM.setDefault(seasonT[n])
+        end
+    elseif not SETTING.noTheme then
+        if theme=='xmas' then
+            BG.setDefault('snow')
+            BGM.setDefault('xmas')
+            MES.new('info',"==Merry Christmas==")
+        elseif theme=='birth' then
+            BG.setDefault('firework')
+            BGM.setDefault('magicblock')
+        elseif theme=='sprfes' then
+            BG.setDefault('firework')
+            BGM.setDefault('spring festival')
+            MES.new('info',"★☆新年快乐☆★")
+        elseif theme=='halloween' then
+            BG.setDefault('glow')
+            BGM.setDefault('antispace')
+            MES.new('info',">>Happy halloween<<")
+        elseif theme=='zday1' then
+            BG.setDefault('lanterns')
+            BGM.setDefault('overzero')
+        elseif theme=='zday2' then
+            BG.setDefault('lanterns')
+            BGM.setDefault('jazz nihilism')
+        elseif theme=='zday3' then
+            BG.setDefault('lanterns')
+            BGM.setDefault('empty')
+        elseif theme=='fool' then
+            BG.setDefault('blockrain')
+            BGM.setDefault('how feeling')
+        else
+            return
+        end
+    else THEME.set(THEME.calculate('0',os.date('%m'),'0')) return end
+
     THEME.cur=theme
     BG.set()
     BGM.play()

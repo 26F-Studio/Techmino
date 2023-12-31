@@ -30,7 +30,7 @@ function scene.draw()
     gc.push('transform')
     gc.setColor(1,1,1)
     local T=skinLib[1]
-    gc.translate(0,1410-WIDGET.scrollPos)
+    gc.translate(-200,1410-WIDGET.scrollPos)    -- -200
     gc.setShader(SHADER.blockSatur)
     gc.draw(T,435,0)gc.draw(T,465,0)gc.draw(T,465,30)gc.draw(T,495,30)
     gc.setShader(SHADER.fieldSatur)
@@ -84,15 +84,15 @@ scene.widgetList={
     WIDGET.newSwitch{name='warn',         x=450,y=1340,lim=360,disp=SETval('warn'),         code=SETrev('warn')},
 
     WIDGET.newSwitch{name='clickFX',      x=950,y=980,lim=360,disp=SETval('clickFX'),       code=function() SETTING.clickFX=not SETTING.clickFX; applySettings() end},
-    WIDGET.newSwitch{name='power',        x=950,y=1050,lim=360,disp=SETval('powerInfo'),    code=function() SETTING.powerInfo=not SETTING.powerInfo; applySettings() end},
-    WIDGET.newSwitch{name='clean',        x=950,y=1120,lim=360,disp=SETval('cleanCanvas'),  code=function() SETTING.cleanCanvas=not SETTING.cleanCanvas; applySettings() end},
-    WIDGET.newSwitch{name='fullscreen',   x=950,y=1190,lim=360,disp=SETval('fullscreen'),   code=function() SETTING.fullscreen=not SETTING.fullscreen; applySettings() end,hideF=function() return MOBILE end},
-    WIDGET.newSwitch{name='portrait',     x=950,y=1190,lim=360,disp=SETval('portrait'),     code=function() SETTING.portrait=not SETTING.portrait; saveSettings(); MES.new('warn',text.settingWarn2,6.26) end,hideF=function() return not MOBILE end},
-    WIDGET.newSlider{name='msaa',         x=950,y=1250,lim=360,w=200,axis={0,4,1},show=_msaaShow,disp=function() return SETTING.msaa==0 and 0 or math.log(SETTING.msaa,2) end,code=function(v) SETTING.msaa=v==0 and 0 or 2^v; saveSettings(); if TASK.lock('warnMessage',6.26) then MES.new('warn',text.settingWarn2,6.26) end end},
+    WIDGET.newSwitch{name='power',        x=950,y=1030,lim=360,disp=SETval('powerInfo'),    code=function() SETTING.powerInfo=not SETTING.powerInfo; applySettings() end},
+    WIDGET.newSwitch{name='clean',        x=950,y=1100,lim=360,disp=SETval('cleanCanvas'),  code=function() SETTING.cleanCanvas=not SETTING.cleanCanvas; applySettings() end},
+    WIDGET.newSwitch{name='fullscreen',   x=950,y=1150,lim=360,disp=SETval('fullscreen'),   code=function() SETTING.fullscreen=not SETTING.fullscreen; applySettings() end,hideF=function() return MOBILE end},
+    WIDGET.newSwitch{name='portrait',     x=950,y=1150,lim=360,disp=SETval('portrait'),     code=function() SETTING.portrait=not SETTING.portrait; saveSettings(); MES.new('warn',text.settingWarn2,6.26) end,hideF=function() return not MOBILE end},
+    WIDGET.newSlider{name='msaa',         x=950,y=1220,lim=360,w=200,axis={0,4,1},show=_msaaShow,disp=function() return SETTING.msaa==0 and 0 or math.log(SETTING.msaa,2) end,code=function(v) SETTING.msaa=v==0 and 0 or 2^v; saveSettings(); if TASK.lock('warnMessage',6.26) then MES.new('warn',text.settingWarn2,6.26) end end},
 
-    WIDGET.newKey{name='bg_on',           x=680,y=1340,w=200,h=80,code=function() SETTING.bg='on'; applySettings() end},
-    WIDGET.newKey{name='bg_off',          x=900,y=1340,w=200,h=80,code=function() SETTING.bg='off'; applySettings() end},
-    WIDGET.newKey{name='bg_custom',       x=1120,y=1340,w=200,h=80,
+    WIDGET.newKey{name='bg_off',          x=680,y=1290,w=200,h=60,code=function() SETTING.bg='off'; applySettings() end},
+    WIDGET.newKey{name='bg_on',           x=900,y=1290,w=200,h=60,code=function() SETTING.bg='on' ; applySettings() end},
+    WIDGET.newKey{name='bg_custom',       x=1120,y=1290,w=200,h=60,
         code=function()
             if love.filesystem.getInfo('conf/customBG') then
                 SETTING.bg='custom'
@@ -101,8 +101,8 @@ scene.widgetList={
                 MES.new('info',text.customBGhelp)
             end
         end
-        },
-    WIDGET.newSlider{name='bgAlpha',      x=1020,y=1430,w=200,
+    },
+    WIDGET.newSlider{name='bgAlpha',      x=1020,y=1365,w=200,
         axis={0,.8},disp=SETval('bgAlpha'),
         code=function(v)
             SETTING.bgAlpha=v
@@ -113,18 +113,60 @@ scene.widgetList={
             end
         end,
         hideF=function() return SETTING.bg=='on' end
-        },
+    },
+    WIDGET.newSelector{name='defaultBG',  x=1120,y=1365,w=200,color='G',
+        limit=370,
+        list=BG.getList(),
+        disp=SETval('defaultBG'),
+        code=function(v)
+            SETTING.defaultBG=v
+            applySettings()
+        end,
+        hideF=function() return SETTING.bg~='on' end
+    },
+    WIDGET.newKey{name='resetDbg',x=900,y=1365,w=200,h=60,font=25,
+        code=function()
+            SETTING.defaultBG='space'
+            scene.widgetList.defaultBG:reset()
+            applySettings()
+        end,
+        hideF=function() return SETTING.bg~='on' or SETTING.defaultBG=='space' end
+    },
+    WIDGET.newSwitch{name='lockBG',x=1170,y=1485,
+        disp=SETval('lockBG'),
+        code=function()
+            SETTING.lockBG=not SETTING.lockBG
+            applySettings()
+        end,
+        hideF=function() return SETTING.bg~='on' end
+    },
 
-    WIDGET.newSelector{name='blockSatur', x=800,y=1440,w=300,color='lN',
+    WIDGET.newSwitch{name='noTheme',x=1170,y=1545,
+        disp=SETval('noTheme'),
+        code=function()
+            SETTING.noTheme=not SETTING.noTheme
+            local ct=THEME.calculate()
+            if SETTING.noTheme and type(ct)=='string' and string.sub(ct,1,6)~='season' then
+                if TASK.lock('warnMessage',6.26) then
+                    MES.new('warn',text.settingWarn2,6.26)
+                end
+            else
+                THEME.set(THEME.calculate())
+                ChangeButtonColorIfThemeUsed()
+            end
+        end
+    },
+
+    WIDGET.newSelector{name='blockSatur', x=600,y=1440,w=300,color='lN',
         list={'normal','soft','gray','light','color'},
         disp=SETval('blockSatur'),
         code=function(v) SETTING.blockSatur=v; applySettings() end
-        },
-    WIDGET.newSelector{name='fieldSatur', x=800,y=1540,w=300,color='lN',
+    },
+    WIDGET.newSelector{name='fieldSatur', x=600,y=1540,w=300,color='lN',
         list={'normal','soft','gray','light','color'},
         disp=SETval('fieldSatur'),
         code=function(v) SETTING.fieldSatur=v; applySettings() end
-        },
+    },
 
     WIDGET.newButton{name='back',         x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }

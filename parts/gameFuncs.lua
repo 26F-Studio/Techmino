@@ -115,7 +115,7 @@ do-- function applySettings()
         light={.2,.8},
         color={-.2,1.2},
     }
-    function applySettings()
+    function applySettings(arg)
         -- Apply language
         text=LANG.get(SETTING.locale)
         WIDGET.setLang(text.WidgetText)
@@ -157,30 +157,34 @@ do-- function applySettings()
         SHADER.fieldSatur:send('k',m[2])
 
         -- Apply BG
-        if SETTING.bg=='on' then
-            BG.unlock()
-            BG.set()
-        elseif SETTING.bg=='off' then
-            BG.unlock()
-            BG.set('fixColor',SETTING.bgAlpha,SETTING.bgAlpha,SETTING.bgAlpha)
-            BG.lock()
-        elseif SETTING.bg=='custom' then
-            if love.filesystem.getInfo('conf/customBG') then
-                local res,image=pcall(GC.newImage,love.filesystem.newFile('conf/customBG'))
-                if res then
-                    BG.unlock()
-                    GC.setDefaultFilter('linear','linear')
-                    BG.set('custom',SETTING.bgAlpha,image)
-                    GC.setDefaultFilter('nearest','nearest')
-                    BG.lock()
-                else
-                    MES.new('error',text.customBGloadFailed)
-                end
-            else-- Switch off when custom BG not found
-                SETTING.bg='off'
+        if not (arg and arg=='fullscreen') then
+            if SETTING.bg=='on' then
+                BG.unlock()
+                BG.setDefault(SETTING.defaultBG)
+                BG.set()
+                if SETTING.lockBG then BG.lock() end
+            elseif SETTING.bg=='off' then
                 BG.unlock()
                 BG.set('fixColor',SETTING.bgAlpha,SETTING.bgAlpha,SETTING.bgAlpha)
                 BG.lock()
+            elseif SETTING.bg=='custom' then
+                if love.filesystem.getInfo('conf/customBG') then
+                    local res,image=pcall(GC.newImage,love.filesystem.newFile('conf/customBG'))
+                    if res then
+                        BG.unlock()
+                        GC.setDefaultFilter('linear','linear')
+                        BG.set('custom',SETTING.bgAlpha,image)
+                        GC.setDefaultFilter('nearest','nearest')
+                        BG.lock()
+                    else
+                        MES.new('error',text.customBGloadFailed)
+                    end
+                else-- Switch off when custom BG not found
+                    SETTING.bg='off'
+                    BG.unlock()
+                    BG.set('fixColor',SETTING.bgAlpha,SETTING.bgAlpha,SETTING.bgAlpha)
+                    BG.lock()
+                end
             end
         end
     end

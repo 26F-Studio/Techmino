@@ -49,7 +49,7 @@ SCR.setSize(1280,720) -- Initialize Screen size
 BGM.setMaxSources(5)
 VOC.setDiversion(.62)
 
-WIDGET.setOnChange(function()
+ChangeButtonColorIfThemeUsed=function()
     if SCN.cur~='net_game' and SCN.cur~='custom_field' then
         local colorList=THEME.getThemeColor()
         if colorList then
@@ -60,7 +60,8 @@ WIDGET.setOnChange(function()
             end
         end
     end
-end)
+end
+WIDGET.setOnChange(ChangeButtonColorIfThemeUsed)
 
 -- Create shortcuts
 setFont=FONT.set
@@ -191,7 +192,7 @@ Z.setOnFnKeys({
 Z.setOnGlobalKey('f11',function()
     if not MOBILE then
         SETTING.fullscreen=not SETTING.fullscreen
-        applySettings()
+        applySettings('fullscreen')
         saveSettings()
     end
 end)
