@@ -200,10 +200,23 @@ local function _loadGameEnv(P)-- Load gameEnv
         end
     end
     if ENV.allowMod then
-        for i=1,#GAME.mod do
-            if GAME.mod[i]>0 then
-                local M=MODOPT[i]
-                M.func(P,M.list and M.list[GAME.mod[i]])
+        if SETTING.forceMod or ENV.forceMod then
+            -- Psudeo code
+            MOD_CODE_LIST={}
+            for i=1,#GAME.mod do
+                if GAME.mod[i]>0 then
+                    local M=MODOPT[i]
+                    table.insert(MOD_CODE_LIST,function() M.func(P,M.list and M.list[GAME.mod[i]]) end)
+                end
+            end
+            MOD_BATCH_TASK=function() for _,c in pairs(MOD_CODE_LIST) do c() end end
+            TASK.new(MOD_BATCH_TASK)
+        else
+            for i=1,#GAME.mod do
+                if GAME.mod[i]>0 then
+                    local M=MODOPT[i]
+                    M.func(P,M.list and M.list[GAME.mod[i]])
+                end
             end
         end
     end
