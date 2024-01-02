@@ -364,7 +364,9 @@ do-- Mod data
         {no=1,id="HL",name="hold",
             key="w",x=200,y=230,color='lO',
             list={0,1,2,3,4,5,6},
-            func=function(P,O) P.gameEnv.holdCount=O end,
+            func=function(P,O,F)
+                if P.gameEnv.holdCount==O then return end
+                if F then P:setHold(O) else P.gameEnv.holdCount=O end end,
             unranked=true,
         },
         {no=2,id="FL",name="hideNext",
@@ -410,7 +412,11 @@ do-- Mod data
         {no=9,id="DT",name="dropDelay",
             key="a",x=140,y=350,color='lR',
             list={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
-            func=function(P,O) P.gameEnv.drop=O end,
+            func=function(P,O,F)
+                if P.gameEnv.drop==O then return end
+                P.gameEnv.drop=O
+                if F then P:set20G(O==0) end
+            end,
             unranked=true,
         },
         {no=10,id="LT",name="lockDelay",
@@ -522,6 +528,7 @@ do-- Game data tables
         curMode=false,           -- Current gamemode object
         initPlayerCount=0,       -- Player count when init game
         mod=TABLE.new(0,#MODOPT),-- List of loaded mods
+        modPatch=false,          -- Mods can lock value to prevent changes? False by default to compactible with old replays (from 0.17 to 0.17.15)
         modeEnv=false,           -- Current gamemode environment
         setting={},              -- Game settings
         rep={},                  -- Recording list, key,time,key,time...

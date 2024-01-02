@@ -237,7 +237,7 @@ return {
         noRotation="No Rotation\nKhông thể xoay gạch",
         noMove="No Movement\nKhông thể di chuyển trái phải",
         customSeq="Randomizer\nGhi đè trình xáo gạch",
-        pushSpeed="Garbage Speed\nGhi đề tốc độ xuất hiện của hàng rác",
+        pushSpeed="Garbage Speed\nGhi đè tốc độ xuất hiện rác",
         boneBlock="[ ]\nChơi với skin [ ]",
     },
     pauseStat={
@@ -457,6 +457,7 @@ C. Tay cầm chơi game (Gamepad):
         mod={
             title="Mods",
             reset="Đặt lại (tab)",
+            modPatch="Bật bản vá mod",
             unranked="Không tính điểm",
         },
         pause={

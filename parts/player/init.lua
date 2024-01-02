@@ -200,22 +200,33 @@ local function _loadGameEnv(P)-- Load gameEnv
         end
     end
     if ENV.allowMod then
-        if SETTING.forceMod or ENV.forceMod then
-            -- Psudeo code
-            MOD_CODE_LIST={}
+        if GAME.modPatch then
+            GAME.modCodeList={}
             for i=1,#GAME.mod do
                 if GAME.mod[i]>0 then
                     local M=MODOPT[i]
-                    table.insert(MOD_CODE_LIST,function() M.func(P,M.list and M.list[GAME.mod[i]]) end)
+                    if not GAME.modCodeList[P.id] then GAME.modCodeList[P.id]={} end
+                    table.insert(GAME.modCodeList[P.id], function() M.func(P,M.list and M.list[GAME.mod[i]],true) end)
                 end
             end
-            MOD_BATCH_TASK=function() for _,c in pairs(MOD_CODE_LIST) do c() end end
-            TASK.new(MOD_BATCH_TASK)
+
+            if not GAME.ApplyModsTask then
+                GAME.ApplyModsTask=function()
+                    while true do
+                        for _,p in pairs(GAME.modCodeList) do
+                            for _,c in pairs(p) do pcall(c) end
+                        end
+                        coroutine.yield()
+                    end
+                end
+                TASK.new(GAME.ApplyModsTask)
+            end
+
         else
             for i=1,#GAME.mod do
                 if GAME.mod[i]>0 then
                     local M=MODOPT[i]
-                    M.func(P,M.list and M.list[GAME.mod[i]])
+                    M.func(P,M.list and M.list[GAME.mod[i]],false)
                 end
             end
         end

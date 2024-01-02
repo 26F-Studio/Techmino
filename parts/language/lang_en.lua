@@ -449,6 +449,7 @@ C. Gamepad
         },
         mod={
             title="Mods",
+            modPatch="Enable mod patch",
             reset="Reset (tab)",
             unranked="Unranked",
         },

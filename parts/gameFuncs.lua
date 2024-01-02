@@ -593,7 +593,8 @@ function loadGame(mode,ifQuickPlay,ifNet)-- Load a mode and go to game scene
         end
     end
 end
-function gameOver()-- Save record
+function gameOver()
+    -- Save record
     if GAME.replaying then
         local R=GAME.curMode.getRank
         if R then
@@ -664,6 +665,14 @@ function gameOver()-- Save record
                 end
             end
         end
+    end
+
+    -- Kill mod patching function
+    if GAME.ApplyModsTask then
+        TASK.removeTask_code(GAME.ApplyModsTask)
+        TABLE.cut(GAME.modCodeList)
+        GAME.modCodeList=nil
+        GAME.ApplyModsTask=nil
     end
 end
 function trySave()
