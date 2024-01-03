@@ -201,11 +201,11 @@ local function _loadGameEnv(P)-- Load gameEnv
     end
     if ENV.allowMod then
         if GAME.modPatch then
-            GAME.modCodeList={}
+            if not GAME.modCodeList then GAME.modCodeList={} end
+            if not GAME.modCodeList[P.id] then GAME.modCodeList[P.id]={} end
             for i=1,#GAME.mod do
                 if GAME.mod[i]>0 then
                     local M=MODOPT[i]
-                    if not GAME.modCodeList[P.id] then GAME.modCodeList[P.id]={} end
                     table.insert(GAME.modCodeList[P.id], function() M.func(P,M.list and M.list[GAME.mod[i]],true) end)
                 end
             end
