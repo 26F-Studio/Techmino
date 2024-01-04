@@ -224,10 +224,10 @@ local function _loadGameEnv(P)-- Load gameEnv
         for i=1,#GAME.mod do
             if GAME.mod[i]>0 then
                 local M=MODOPT[i]
-                if not GAME.modPatch or M.executeOnce then
-                    M.func(P,M.list and M.listpGAME.mod[i],false)
-                else
-                    table.insert(GAME.modCodeList[P.id], function() M.func(P,M.list and M.list[GAME.mod[i]],true) end)
+                if not GAME.modPatch or M.executeFirst or M.onlyOnce then
+                    M.func(P,M.list and M.list[GAME.mod[i]])
+                elseif GAME.modPatch and not M.onlyOnce then
+                    table.insert(GAME.modCodeList[P.id],function() M.func(P,M.list and M.list[GAME.mod[i]],true) end)
                 end
             end
         end
@@ -396,14 +396,9 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
             P:newNext()
         end
     end
-    function P:resetNext()
-        seqGen=coroutine.create(getSeqGen(ENV.sequence))
-        seqCalled=false
-        initSZOcount=0
-        bagLineCounter=0
-        for _=1,ENV.trueNextCount do self:newNext() end
+    for _=1,ENV.trueNextCount do
+        P:newNext() end
     end
-    P:resetNext()
 
     if P.miniMode then
         ENV.lockFX=false

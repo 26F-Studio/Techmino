@@ -388,17 +388,19 @@ do-- Mod data
         {no=6,id="HD",name="hidden",
             key="i",x=920,y=230,color='lP',
             list={'easy','slow','medium','fast','none'},
-            func=function(P,O) P.gameEnv.visible=O end,
+            func=function(P,O) P.gameEnv.visible=O end, -- TODO
         },
         {no=7,id="HB",name="hideBoard",
             key="o",x=1040,y=230,color='lP',
             list={'down','up','all'},
             func=function(P,O) P.gameEnv.hideBoard=O  end,
+            onlyOnce=true,
         },
         {no=8,id="FB",name="flipBoard",
             key="p",x=1160,y=230,color='lJ',
             list={'U-D','L-R','180'},
             func=function(P,O) P.gameEnv.flipBoard=O  end,
+            onlyOnce=true,
         },
 
         {no=9,id="DT",name="dropDelay",
@@ -429,14 +431,17 @@ do-- Mod data
             key="j",x=860,y=350,color='lY',
             list={0,1,2,3,5,10,15,26,42,87,500},
             func=function(P,O) P.gameEnv.life=O end,
+            onlyOnce=true,
         },
         {no=14,id="FB",name="forceB2B",
             key="k",x=980,y=350,color='lY',
             func=function(P) P.gameEnv.b2bKill=true end,
+            onlyOnce=true,
         },
         {no=15,id="PF",name="forceFinesse",
             key="l",x=1100,y=350,color='lY',
             func=function(P) P.gameEnv.fineKill=true end,
+            onlyOnce=true,
         },
 
         {no=16,id="TL",name="tele",
@@ -453,6 +458,7 @@ do-- Mod data
                 _disableKey(P,4)
                 _disableKey(P,5)
             end,
+            onlyOnce=true,
         },
         {no=18,id="GL",name="noMove",
             key="c",x=440,y=470,color='lH',
@@ -462,16 +468,13 @@ do-- Mod data
                 _disableKey(P,17)_disableKey(P,18)
                 _disableKey(P,19)_disableKey(P,20)
             end,
+            onlyOnce=true,
         },
         {no=19,id="CS",name="customSeq",
             key="b",x=680,y=470,color='lB',
             list={'bag','bagES','his','hisPool','c2','bagP1inf','rnd','mess','reverb'},
-            func=function(P,O)
-                if P.gameEnv.sequence==O then return end
-                P.gameEnv.sequence=O
-                if F then P:resetNext() end
-            end,
-            executeOnce=false,
+            func=function(P,O) P.gameEnv.sequence=O end,
+            onlyOnce=true,
         },
         {no=20,id="PS",name="pushSpeed",
             key="n",x=800,y=470,color='lB',
@@ -485,11 +488,10 @@ do-- Mod data
                 if P.gameEnv.bone==O then return end
                 P.gameEnv.bone=O
                 if F and O=='on' then
-                    for _,bk in pairs(P.nextQueue) do
-                        bk.color=17 --Bone block
-                    end
+                    for _,bk in pairs(P.nextQueue) do bk.color=17 end
                 end
             end,
+            executeFirst=true
         },
     }
     for i=1,#MODOPT do
