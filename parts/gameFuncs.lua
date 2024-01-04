@@ -505,7 +505,7 @@ function mergeStat(stat,delta)-- Merge delta stat. to global stat.
         end
     end
 end
-function coreValid()-- Check if any unranked mods are activated
+function scoreValid()-- Check if any unranked mods are activated
     for _,sel in next,GAME.mod do
         if sel>0 then return false end
     end
