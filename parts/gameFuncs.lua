@@ -505,7 +505,7 @@ function mergeStat(stat,delta)-- Merge delta stat. to global stat.
         end
     end
 end
-function scoreValid()-- Check if any unranked mods are activated
+function coreValid()-- Check if any unranked mods are activated
     for _,sel in next,GAME.mod do
         if sel>0 then return false end
     end
@@ -591,8 +591,7 @@ function loadGame(mode,ifQuickPlay,ifNet)-- Load a mode and go to game scene
         end
     end
 end
-function gameOver()
-    -- Save record
+function gameOver()-- Save record
     if GAME.replaying then
         local R=GAME.curMode.getRank
         if R then

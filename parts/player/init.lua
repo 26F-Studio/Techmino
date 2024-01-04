@@ -396,9 +396,7 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
             P:newNext()
         end
     end
-    for _=1,ENV.trueNextCount do
-        P:newNext() end
-    end
+    for _=1,ENV.trueNextCount do P:newNext() end
 
     if P.miniMode then
         ENV.lockFX=false
