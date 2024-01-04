@@ -203,13 +203,6 @@ local function _loadGameEnv(P)-- Load gameEnv
         if GAME.modPatch then
             if not GAME.modCodeList then GAME.modCodeList={} end
             if not GAME.modCodeList[P.id] then GAME.modCodeList[P.id]={} end
-            for i=1,#GAME.mod do
-                if GAME.mod[i]>0 then
-                    local M=MODOPT[i]
-                    table.insert(GAME.modCodeList[P.id], function() M.func(P,M.list and M.list[GAME.mod[i]],true) end)
-                end
-            end
-
             if not GAME.ApplyModsTask then
                 GAME.ApplyModsTask=function()
                     while GAME.playing do
@@ -226,12 +219,15 @@ local function _loadGameEnv(P)-- Load gameEnv
                 end
                 TASK.new(GAME.ApplyModsTask)
             end
-
-        else
-            for i=1,#GAME.mod do
-                if GAME.mod[i]>0 then
-                    local M=MODOPT[i]
-                    M.func(P,M.list and M.list[GAME.mod[i]],false)
+        end
+            
+        for i=1,#GAME.mod do
+            if GAME.mod[i]>0 then
+                local M=MODOPT[i]
+                if not GAME.modPatch or M.executeOnce then
+                    M.func(P,M.list and M.listpGAME.mod[i],false)
+                else
+                    table.insert(GAME.modCodeList[P.id], function() M.func(P,M.list and M.list[GAME.mod[i]],true) end)
                 end
             end
         end
@@ -400,9 +396,14 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
             P:newNext()
         end
     end
-    for _=1,ENV.trueNextCount do
-        P:newNext()
+    function P:resetNext()
+        seqGen=coroutine.create(getSeqGen(ENV.sequence))
+        seqCalled=false
+        initSZOcount=0
+        bagLineCounter=0
+        for _=1,ENV.trueNextCount do self:newNext() end
     end
+    P:resetNext()
 
     if P.miniMode then
         ENV.lockFX=false

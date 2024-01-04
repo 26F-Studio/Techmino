@@ -14,13 +14,12 @@ local function _toggleMod(M,back)
     else
         GAME.mod[number]=1-GAME.mod[number]
     end
-    if M.unranked then
-        SFX.play('touch',.6)
-        SFX.play('lock')
-    else
-        SFX.play('touch')
-        SFX.play('lock',.6)
-    end
+    -- Unranked
+    SFX.play('touch',.6)
+    SFX.play('lock')
+    -- Still ranked
+    -- SFX.play('touch')
+    -- SFX.play('lock',.6)
     scene.widgetList.unranked.hide=scoreValid()
 end
 
@@ -104,12 +103,7 @@ function scene.draw()
         local t=M.time*.01-- t range:0~0.1
         GC.scale(1+3*t)
         GC.rotate(t)
-            local rad,side
-            if M.unranked then
-                rad,side=45,5
-            else
-                rad=40
-            end
+            local rad,side=45,5 -- rad=40 --> circle (but that will be a story in the future)
             local color=M.color
             GC.setColor(color[1],color[2],color[3],5*t)
             GC.circle('fill',0,0,rad,side)

@@ -354,59 +354,51 @@ do-- Mod data
     local function _disableKey(P,key)
         table.insert(P.gameEnv.keyCancel,key)
     end
-    MODOPT={-- Mod options
+    MODOPT={-- Mod options | P for Player, O for Option, F for Force/Mod patch
         {no=0,id="NX",name="next",
             key="q",x=80,y=230,color='lO',
             list={0,1,2,3,4,5,6},
             func=function(P,O) P.gameEnv.nextCount=O end,
-            unranked=true,
         },
         {no=1,id="HL",name="hold",
             key="w",x=200,y=230,color='lO',
             list={0,1,2,3,4,5,6},
             func=function(P,O,F)
                 if P.gameEnv.holdCount==O then return end
-                if F then P:setHold(O) else P.gameEnv.holdCount=O end end,
-            unranked=true,
+                if F then P:setHold(O) else P.gameEnv.holdCount=O end
+            end,
         },
         {no=2,id="FL",name="hideNext",
             key="e",x=320,y=230,color='lA',
             list={1,2,3,4,5},
             func=function(P,O) P.gameEnv.nextStartPos=O+1 end,
-            unranked=true,
         },
         {no=3,id="IH",name="infHold",
             key="r",x=440,y=230,color='lA',
             func=function(P) P.gameEnv.infHold=true end,
-            unranked=true,
         },
         {no=4,id="HB",name="hideBlock",
             key="y",x=680,y=230,color='lV',
             func=function(P) P.gameEnv.block=false end,
-            unranked=true,
         },
         {no=5,id="HG",name="hideGhost",
             key="u",x=800,y=230,color='lV',
             func=function(P) P.gameEnv.ghost=false end,
-            unranked=true,
         },
         {no=6,id="HD",name="hidden",
             key="i",x=920,y=230,color='lP',
             list={'easy','slow','medium','fast','none'},
             func=function(P,O) P.gameEnv.visible=O end,
-            unranked=true,
         },
         {no=7,id="HB",name="hideBoard",
             key="o",x=1040,y=230,color='lP',
             list={'down','up','all'},
             func=function(P,O) P.gameEnv.hideBoard=O  end,
-            unranked=true,
         },
         {no=8,id="FB",name="flipBoard",
             key="p",x=1160,y=230,color='lJ',
             list={'U-D','L-R','180'},
             func=function(P,O) P.gameEnv.flipBoard=O  end,
-            unranked=true,
         },
 
         {no=9,id="DT",name="dropDelay",
@@ -417,41 +409,34 @@ do-- Mod data
                 P.gameEnv.drop=O
                 if F then P:set20G(O==0) end
             end,
-            unranked=true,
         },
         {no=10,id="LT",name="lockDelay",
             key="s",x=260,y=350,color='lR',
             list={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
             func=function(P,O) P.gameEnv.lock=O end,
-            unranked=true,
         },
         {no=11,id="ST",name="waitDelay",
             key="d",x=380,y=350,color='lR',
             list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
             func=function(P,O) P.gameEnv.wait=O end,
-            unranked=true,
         },
         {no=12,id="CT",name="fallDelay",
             key="f",x=500,y=350,color='lR',
             list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
             func=function(P,O) P.gameEnv.fall=O end,
-            unranked=true,
         },
         {no=13,id="LF",name="life",
             key="j",x=860,y=350,color='lY',
             list={0,1,2,3,5,10,15,26,42,87,500},
             func=function(P,O) P.gameEnv.life=O end,
-            unranked=true,
         },
         {no=14,id="FB",name="forceB2B",
             key="k",x=980,y=350,color='lY',
             func=function(P) P.gameEnv.b2bKill=true end,
-            unranked=true,
         },
         {no=15,id="PF",name="forceFinesse",
             key="l",x=1100,y=350,color='lY',
             func=function(P) P.gameEnv.fineKill=true end,
-            unranked=true,
         },
 
         {no=16,id="TL",name="tele",
@@ -460,7 +445,6 @@ do-- Mod data
                 P.gameEnv.das,P.gameEnv.arr=0,0
                 P.gameEnv.sddas,P.gameEnv.sdarr=0,0
             end,
-            unranked=true,
         },
         {no=17,id="FX",name="noRotation",
             key="x",x=320,y=470,color='lH',
@@ -469,7 +453,6 @@ do-- Mod data
                 _disableKey(P,4)
                 _disableKey(P,5)
             end,
-            unranked=true,
         },
         {no=18,id="GL",name="noMove",
             key="c",x=440,y=470,color='lH',
@@ -479,25 +462,34 @@ do-- Mod data
                 _disableKey(P,17)_disableKey(P,18)
                 _disableKey(P,19)_disableKey(P,20)
             end,
-            unranked=true,
         },
         {no=19,id="CS",name="customSeq",
             key="b",x=680,y=470,color='lB',
             list={'bag','bagES','his','hisPool','c2','bagP1inf','rnd','mess','reverb'},
-            func=function(P,O) P.gameEnv.sequence=O end,
-            unranked=true,
+            func=function(P,O)
+                if P.gameEnv.sequence==O then return end
+                P.gameEnv.sequence=O
+                if F then P:resetNext() end
+            end,
+            executeOnce=false,
         },
         {no=20,id="PS",name="pushSpeed",
             key="n",x=800,y=470,color='lB',
             list={.5,1,2,3,5,15,1e99},
             func=function(P,O) P.gameEnv.pushSpeed=O end,
-            unranked=true,
         },
         {no=21,id="BN",name="boneBlock",
             key="m",x=920,y=470,color='lB',
             list={'on','off'},
-            func=function(P,O) P.gameEnv.bone=O=='on' end,
-            unranked=true,
+            func=function(P,O,F)
+                if P.gameEnv.bone==O then return end
+                P.gameEnv.bone=O
+                if F and O=='on' then
+                    for _,bk in pairs(P.nextQueue) do
+                        bk.color=17 --Bone block
+                    end
+                end
+            end,
         },
     }
     for i=1,#MODOPT do

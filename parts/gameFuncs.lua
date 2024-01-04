@@ -506,10 +506,8 @@ function mergeStat(stat,delta)-- Merge delta stat. to global stat.
     end
 end
 function scoreValid()-- Check if any unranked mods are activated
-    for number,sel in next,GAME.mod do
-        if sel>0 and MODOPT[number].unranked then
-            return false
-        end
+    for _,sel in next,GAME.mod do
+        if sel>0 then return false end
     end
     if GAME.playing and GAME.tasUsed then
         return false
