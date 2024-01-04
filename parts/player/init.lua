@@ -212,12 +212,17 @@ local function _loadGameEnv(P)-- Load gameEnv
 
             if not GAME.ApplyModsTask then
                 GAME.ApplyModsTask=function()
-                    while true do
+                    while GAME.playing do
                         for _,p in pairs(GAME.modCodeList) do
                             for _,c in pairs(p) do pcall(c) end
                         end
                         coroutine.yield()
                     end
+                    -- Kill mod patching function when game stopped
+                    TASK.removeTask_code(GAME.ApplyModsTask)
+                    TABLE.cut(GAME.modCodeList) 
+                    GAME.modCodeList=nil
+                    GAME.ApplyModsTask=nil
                 end
                 TASK.new(GAME.ApplyModsTask)
             end

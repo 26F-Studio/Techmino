@@ -666,14 +666,6 @@ function gameOver()
             end
         end
     end
-
-    -- Kill mod patching function
-    if GAME.ApplyModsTask then
-        TASK.removeTask_code(GAME.ApplyModsTask)
-        TABLE.cut(GAME.modCodeList)
-        GAME.modCodeList=nil
-        GAME.ApplyModsTask=nil
-    end
 end
 function trySave()
     if not GAME.statSaved and PLAYERS[1] and PLAYERS[1].type=='human' and (PLAYERS[1].frameRun>300 or GAME.result) then
