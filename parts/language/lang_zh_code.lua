@@ -498,6 +498,10 @@ return {
             bg_on="Set.BG(Normal);",
             bg_off="Set.BG(Off);",
             bg_custom="Set.BG(Ctm);",
+            -- defaultBG="Default B.G.",
+            -- resetDbg="Reset to default",
+            -- lockBG="Lock B.G.",
+            -- noTheme="Disable theme",
 
             blockSatur="Set.BlockSatur",
             fieldSatur="Set.FieldSatur",

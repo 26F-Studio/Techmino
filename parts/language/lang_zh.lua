@@ -579,6 +579,10 @@ return {
             bg_on="普通背景",
             bg_off="关闭背景",
             bg_custom="应用自定义背景",
+            defaultBG="默认背景",
+            resetDbg="改回默认",
+            lockBG="锁定背景",
+            noTheme="关闭节日主题",
 
             blockSatur="方块饱和度",
             fieldSatur="场地饱和度",

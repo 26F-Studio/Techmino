@@ -549,6 +549,10 @@ return {
             bg_on="Fondo Normal",
             bg_off="Sin Fondo",
             bg_custom="Fondo Personalizado",
+            -- defaultBG="Default B.G.",
+            -- resetDbg="Reset to default",
+            -- lockBG="Lock B.G.",
+            -- noTheme="Disable theme",
 
             blockSatur="Saturac. de los Bloques",
             fieldSatur="Saturac. del Tablero",

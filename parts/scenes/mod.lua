@@ -14,12 +14,7 @@ local function _toggleMod(M,back)
     else
         GAME.mod[number]=1-GAME.mod[number]
     end
-    -- Unranked
-    SFX.play('touch',.6)
-    SFX.play('lock')
-    -- Still ranked
-    -- SFX.play('touch')
-    -- SFX.play('lock',.6)
+    SFX.play(GAME.mod[number]>0 and 'mod_on' or 'mod_off')
     scene.widgetList.unranked.hide=scoreValid()
 end
 

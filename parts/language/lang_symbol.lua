@@ -297,6 +297,10 @@ return {
             bg_on="__?__",
             bg_off="__.__",
             bg_custom="__!__",
+            defaultBG="__$0__",
+            resetDbg="R$0",
+            lockBG="__↓__",
+            noTheme="\\^_^/ "..CHAR.icon.crossMark,
 
             blockSatur="==#0x",
             fieldSatur="[]#0x",
