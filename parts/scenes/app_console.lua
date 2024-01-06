@@ -377,6 +377,15 @@ local commands={} do
             "Usage: openurl [url]",
         },
     }
+    commands.viewlog={
+        code=goScene('viewLog'),
+        description="View crashes' log",
+        details={
+            "Open crashes' log to view right at the spot",
+            "",
+            "Usage: viewLog"
+        }
+    }
     commands.scrinfo={
         code=function()
             for _,v in next,SCR.info() do
