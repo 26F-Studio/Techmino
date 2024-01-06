@@ -15,6 +15,29 @@ function TABLE.new(val,count)
     return L
 end
 
+-- Get a new empty table with __lock() and __unlock() to protect changes
+function TABLE.newWithLockMetamethod()
+    local t
+    do
+        local lockedKey={}
+        local realTable={}
+        t=setmetatable( -- This is the fake table, act like a wrapper of realTable
+            {
+                __lock  =function(k) if k then lockedKey[k]=true end end,
+                __unlock=function(k)
+                    if k then lockedKey[k]=false else TABLE.cut(lockedKey) end
+                end,
+            },{
+                __index   =realTable,
+                __newindex=function(_,k,v) if not lockedKey[k] then realTable[k]=v end end,
+                __len     =function(_,_,_) return #realTable end,
+                __tostring=function(_,_,_) return tostring(realTable) end,
+            }
+        )
+    end
+    return t
+end
+
 -- Get a copy of [1~#] elements
 function TABLE.shift(org,depth)
     if not depth then depth=1e99 end
