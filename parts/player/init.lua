@@ -177,17 +177,45 @@ local function _newEmptyPlayer(id,mini)
 end
 local function _executeMod(P)
     local applyStatus=GAME.modApplyAt
+    if applyStatus=='always' then
+        if not GAME.modCodeList       then GAME.modCodeList={} end
+        if not GAME.modCodeList[P.id] then GAME.modCodeList[P.id]={} end
+
+        if not GAME.applyModTask      then
+            function GAME.ApplyModsTask()
+                while GAME.playing do
+                    for _,p in pairs(GAME.modCodeList) do
+                        for _,c in pairs(p) do pcall(c) end
+                    end
+                    coroutine.yield()
+                end
+                -- Kill mod patching function when game stopped
+                TASK.removeTask_code(GAME.ApplyModsTask)
+                TABLE.cut(GAME.modCodeList)
+                GAME.modCodeList=nil
+                GAME.ApplyModsTask=nil
+            end
+            TASK.new(GAME.ApplyModsTask)
+        end
+    end
+
     for i=1,#GAME.mod do
         if GAME.mod[i]>0 then
             local M=MODOPT[i]
-            if applyStatus~='always' or M.noAlwaysNeeded then
+            if applyStatus=='always' then
+                if M.funcA1 then
+                    M.funcA1(P,M.list and M.list[GAME.mod[i]])
+                elseif M.funcA then
+                    table.insert(GAME.modCodeList[P.id],function() M.func(P,M.list and M.list[GAME.mod[i]]) end)
+                end
+            else -- Already checked pre or post before calling _executeMod()
                 M.func(P,M.list and M.list[GAME.mod[i]])
             end
         end
     end
 end
 local function _loadGameEnv(P)-- Load gameEnv
-    P.gameEnv={}-- Current game setting environment
+    P.gameEnv=TABLE.newWithLockMetamethod()-- Current game setting environment
     local ENV=P.gameEnv
     local GAME,SETTING=GAME,SETTING
     -- Load game settings
@@ -210,21 +238,10 @@ local function _loadGameEnv(P)-- Load gameEnv
             ENV[k]=TABLE.copy(v)
         end
     end
-    
-    -- if not GAME.modCodeList then GAME.modCodeList={} end
-    -- if not GAME.modCodeList[P.id] then GAME.modCodeList[P.id]={} end
-    -- if ENV.allowMod then
-    --     for i=1,#GAME.mod do
-    --         if GAME.mod[i]>0 then
-    --             local M=MODOPT[i]
-    --             if not GAME.modPatch or M.executeFirst or M.onlyOnce then
-    --                 M.func(P,M.list and M.list[GAME.mod[i]])
-    --             elseif GAME.modPatch and not M.onlyOnce then
-    --                 table.insert(GAME.modCodeList[P.id],function() M.func(P,M.list and M.list[GAME.mod[i]],true) end)
-    --             end
-    --         end
-    --     end
-    -- end
+
+    if ENV.allowMod and GAME.modApplyAt=='preInit' then
+        _executeMod(P)
+    end
 end
 local function _loadRemoteEnv(P,confStr)-- Load gameEnv
     confStr=JSON.decode(confStr)
@@ -308,25 +325,7 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
             MES.new('warn',"Wrong event set type: "..type(ENV.eventSet))
         end
     end
-    
-    -- if GAME.modPatch then
-    --     if not GAME.ApplyModsTask then
-    --         GAME.ApplyModsTask=function()
-    --             while GAME.playing do
-    --                 for _,p in pairs(GAME.modCodeList) do
-    --                     for _,c in pairs(p) do pcall(c) end
-    --                 end
-    --                 coroutine.yield()
-    --             end
-    --             -- Kill mod patching function when game stopped
-    --             TASK.removeTask_code(GAME.ApplyModsTask)
-    --             TABLE.cut(GAME.modCodeList) 
-    --             GAME.modCodeList=nil
-    --             GAME.ApplyModsTask=nil
-    --         end
-    --         TASK.new(GAME.ApplyModsTask)
-    --     end
-    -- end
+
     if ENV.allowMod and GAME.modApplyAt=='postInit' then
         _executeMod(P)
     end
@@ -379,14 +378,10 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
         ENV.nextPos=false
     end
 
-    local seqGen,seqCalled,initSZOcount,bagLineCounter
-    function P:resetSeqGen()
-        seqGen=coroutine.create(getSeqGen(ENV.sequence))
-        seqCalled=false
-        initSZOcount=0
-        bagLineCounter=0
-    end
-    P:resetSeqGen()
+    local seqGen=coroutine.create(getSeqGen(ENV.sequence))
+    local seqCalled=false
+    local initSZOcount=0
+    local bagLineCounter=0
     function P:newNext()
         local status,piece
         if seqCalled then
