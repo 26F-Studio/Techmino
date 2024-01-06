@@ -354,102 +354,141 @@ do-- Mod data
     local function _disableKey(P,key)
         table.insert(P.gameEnv.keyCancel,key)
     end
-    MODOPT={-- Mod options | P for Player, O for Option, F for Force/Mod patch
+    local _invisibleTime={
+        ['show']  =-1,
+        ['easy']  =300,
+        ['slow']  =100,
+        ['medium']=60,
+        ['fast']  =20,
+        ['none']  =0,
+    }
+    local function _lockVfunc(k)
+        return function(P,O)
+            if not P then return end
+            P.gameEnv[k]=O
+            P.gameEnv.__lock(k)
+        end
+    end
+    MODOPT={-- Mod options
+        -- funcA always triggered, funcA1 only triggered once, but both functions can lock values
         {no=0,id="NX",name="next",
             key="q",x=80,y=230,color='lO',
             list={0,1,2,3,4,5,6},
-            func=function(P,O) P.gameEnv.nextCount=O end,
+            func  =function(P,O) P.gameEnv.nextCount=O end,
+            funcA1=_lockVfunc('nextCount')(P,O),
         },
         {no=1,id="HL",name="hold",
             key="w",x=200,y=230,color='lO',
             list={0,1,2,3,4,5,6},
-            func=function(P,O,F)
-                if P.gameEnv.holdCount==O then return end
-                if F then P:setHold(O) else P.gameEnv.holdCount=O end
-            end,
+            func  =function(P,O) P.gameEnv.holdCount=O end,
+            funcA1=_lockVfunc('holdCount')(P,O),
         },
         {no=2,id="FL",name="hideNext",
             key="e",x=320,y=230,color='lA',
             list={1,2,3,4,5},
-            func=function(P,O) P.gameEnv.nextStartPos=O+1 end,
+            func  =function(P,O) P.gameEnv.nextStartPos=O+1 end,
+            funcA1=_lockVfunc('nextStartPos')(P,O),
         },
         {no=3,id="IH",name="infHold",
             key="r",x=440,y=230,color='lA',
-            func=function(P) P.gameEnv.infHold=true end,
+            func  =function(P) P.gameEnv.infHold=true end,
+            funcA1=_lockVfunc('infHold')(P,O),
         },
         {no=4,id="HB",name="hideBlock",
             key="y",x=680,y=230,color='lV',
-            func=function(P) P.gameEnv.block=false end,
+            func  =function(P) P.gameEnv.block=false end,
+            funcA1=_lockVfunc('block')(P,O),
         },
         {no=5,id="HG",name="hideGhost",
             key="u",x=800,y=230,color='lV',
-            func=function(P) P.gameEnv.ghost=false end,
+            func  =function(P) P.gameEnv.ghost=false end,
+            funcA1=_lockVfunc('ghost')(P,O),
         },
         {no=6,id="HD",name="hidden",
             key="i",x=920,y=230,color='lP',
             list={'easy','slow','medium','fast','none'},
-            func=function(P,O) P.gameEnv.visible=O end,
+            func  =function(P,O) P.gameEnv.visible=O end,
+            funcA =function(P,O)
+                if P.showTime~=_invisibleTime[O] then
+                    P:setInvisible(_invisibleTime[O])
+                end
+            end,
         },
         {no=7,id="HB",name="hideBoard",
             key="o",x=1040,y=230,color='lP',
             list={'down','up','all'},
-            func=function(P,O) P.gameEnv.hideBoard=O  end,
-            onlyOnce=true,
+            func  =function(P,O) P.gameEnv.hideBoard=O  end,
+            funcA1=_lockVfunc('hideBoard')(P,O),
         },
         {no=8,id="FB",name="flipBoard",
             key="p",x=1160,y=230,color='lJ',
             list={'U-D','L-R','180'},
-            func=function(P,O) P.gameEnv.flipBoard=O  end,
+            func  =function(P,O) P.gameEnv.flipBoard=O  end,
+            funcA1=_lockVfunc('flipBoard')(P,O),
         },
 
         {no=9,id="DT",name="dropDelay",
             key="a",x=140,y=350,color='lR',
             list={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
-            func=function(P,O,F)
-                if P.gameEnv.drop==O then return end
-                P.gameEnv.drop=O
-                if F then P:set20G(O==0) end
+            func  =function(P,O) P.gameEnv.drop=O end,
+            funcA =function(P,O)
+                if P.gameEnv.drop~=O then
+                    P.gameEnv.drop=O
+                    P:set20G(O==0)
+                end
             end,
         },
         {no=10,id="LT",name="lockDelay",
             key="s",x=260,y=350,color='lR',
             list={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
-            func=function(P,O) P.gameEnv.lock=O end,
+            func  =function(P,O) P.gameEnv.lock=O end,
+            funcA1=_lockVfunc('lockDelay')(P,O),
         },
         {no=11,id="ST",name="waitDelay",
             key="d",x=380,y=350,color='lR',
             list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
-            func=function(P,O) P.gameEnv.wait=O end,
+            func  =function(P,O) P.gameEnv.wait=O end,
+            funcA1=_lockVfunc('waitDelay')(P,O),
         },
         {no=12,id="CT",name="fallDelay",
             key="f",x=500,y=350,color='lR',
             list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
-            func=function(P,O) P.gameEnv.fall=O end,
+            func  =function(P,O) P.gameEnv.fall=O end,
+            funcA1=_lockVfunc('fallDelay')(P,O),
         },
         {no=13,id="LF",name="life",
             key="j",x=860,y=350,color='lY',
             list={0,1,2,3,5,10,15,26,42,87,500},
-            func=function(P,O) P.gameEnv.life=O end,
+            func  =function(P,O) P.gameEnv.life=O end,
+            funcA1=_lockVfunc('life')(P,O),
         },
         {no=14,id="FB",name="forceB2B",
             key="k",x=980,y=350,color='lY',
-            func=function(P) P.gameEnv.b2bKill=true end,
+            func  =function(P) P.gameEnv.b2bKill=true end,
+            funcA1=_lockVfunc('b2bKill')(P,O),
         },
         {no=15,id="PF",name="forceFinesse",
             key="l",x=1100,y=350,color='lY',
-            func=function(P) P.gameEnv.fineKill=true end,
+            func  =function(P) P.gameEnv.fineKill=true end,
+            funcA1=_lockVfunc('fineKill')(P,O),
         },
 
         {no=16,id="TL",name="tele",
             key="z",x=200,y=470,color='lH',
-            func=function(P)
+            func  =function(P)
                 P.gameEnv.das,P.gameEnv.arr=0,0
                 P.gameEnv.sddas,P.gameEnv.sdarr=0,0
             end,
+            funcA1=function(P)
+                for _,k in pairs{'das','arr','sddas','sdarr'} do
+                    P.gameEnv[k]=O
+                    P.gameEnv.__lock(k)
+                end
+            end
         },
         {no=17,id="FX",name="noRotation",
             key="x",x=320,y=470,color='lH',
-            func=function(P)
+            func  =function(P)
                 _disableKey(P,3)
                 _disableKey(P,4)
                 _disableKey(P,5)
@@ -457,8 +496,8 @@ do-- Mod data
         },
         {no=18,id="GL",name="noMove",
             key="c",x=440,y=470,color='lH',
-            func=function(P)
-                _disableKey(P,1)_disableKey(P,2)
+            func  =function(P)
+                _disableKey(P,1) _disableKey(P,2)
                 _disableKey(P,11)_disableKey(P,12)
                 _disableKey(P,17)_disableKey(P,18)
                 _disableKey(P,19)_disableKey(P,20)
@@ -467,20 +506,22 @@ do-- Mod data
         {no=19,id="CS",name="customSeq",
             key="b",x=680,y=470,color='lB',
             list={'bag','bagES','his','hisPool','c2','bagP1inf','rnd','mess','reverb'},
-            func=function(P,O) P.gameEnv.sequence=O end,
+            func  =function(P,O) P.gameEnv.sequence=O end,
+            funcA1=_lockVfunc('sequence')(P,O),
         },
         {no=20,id="PS",name="pushSpeed",
             key="n",x=800,y=470,color='lB',
             list={.5,1,2,3,5,15,1e99},
-            func=function(P,O) P.gameEnv.pushSpeed=O end,
+            func  =function(P,O) P.gameEnv.pushSpeed=O end,
+            funcA1=_lockVfunc('pushSpeed')(P,O),
         },
         {no=21,id="BN",name="boneBlock",
             key="m",x=920,y=470,color='lB',
             list={'on','off'},
-            func=function(P,O,F)
-                if P.gameEnv.bone==O then return end
+            func  =function(P,O) P.gameEnv.bone=O end,
+            funcA =function(P,O)
                 P.gameEnv.bone=O
-                if F and O=='on' then
+                if O=='on' then
                     for _,bk in pairs(P.nextQueue) do bk.color=17 end
                 end
             end,
