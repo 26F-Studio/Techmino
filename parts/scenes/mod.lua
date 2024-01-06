@@ -98,7 +98,12 @@ function scene.draw()
         local t=M.time*.01-- t range:0~0.1
         GC.scale(1+3*t)
         GC.rotate(t)
-            local rad,side=45,5 -- rad=40 --> circle (but that will be a story in the future)
+            local rad,side=45,5
+            if GAME.modApplyAt=='always' then
+                if     M.funcA  then side=nil
+                elseif M.funcA1 then side=8
+                else                 side=5 end
+            end
             local color=M.color
             GC.setColor(color[1],color[2],color[3],5*t)
             GC.circle('fill',0,0,rad,side)
@@ -125,6 +130,9 @@ function scene.draw()
     if selected then
         setFont(30)
         GC.printf(text.modInfo[selected.name],70,540,950)
+    elseif WIDGET.isFocus(scene.widgetList.modApplyAt) then
+        setFont(20)
+        GC.printf(text.modApplyAtInstruction,70,540,950)
     else
         setFont(25)
         GC.printf(text.modInstruction,70,540,950)
@@ -132,11 +140,11 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newText{name='title',     x=80,y=50,font=70,align='L'},
-    WIDGET.newText{name='unranked',  x=1200,y=60,color='Y',font=50,align='R'},
-    WIDGET.newSwitch{name='modPatch',x=1175,y=550,font=20,disp=function() return GAME.modPatch end,code=function() GAME.modPatch=not GAME.modPatch end},
-    WIDGET.newButton{name='reset',   x=1095,y=640,w=80,h=80,font=60,fText=CHAR.icon.trash,code=pressKey'tab'},
-    WIDGET.newButton{name='back',    x=1185,y=640,w=80,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
+    WIDGET.newText{name='title',         x=  80,y=50,font=70,align='L'},
+    WIDGET.newText{name='unranked',      x= 970,y=70,color='Y',font=50,align='R'},
+    WIDGET.newSelector{name='modApplyAt',x=1100,y=100,w=230,color='Y',font=20,list={'preInit','postInit','always'},disp=function() return GAME.modApplyAt end,code=function(v) GAME.modApplyAt=v end},
+    WIDGET.newButton{name='reset',       x=1140,y=540,w=170,h=80,font=25,code=pressKey'tab'},
+    WIDGET.newButton{name='back',        x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 
 return scene

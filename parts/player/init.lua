@@ -207,6 +207,8 @@ local function _executeMod(P)
                     M.funcA1(P,M.list and M.list[GAME.mod[i]])
                 elseif M.funcA then
                     table.insert(GAME.modCodeList[P.id],function() M.func(P,M.list and M.list[GAME.mod[i]]) end)
+                else
+                    M.func(P,M.list and M.list[GAME.mod[i]])
                 end
             else -- Already checked pre or post before calling _executeMod()
                 M.func(P,M.list and M.list[GAME.mod[i]])
@@ -326,7 +328,7 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
         end
     end
 
-    if ENV.allowMod and GAME.modApplyAt=='postInit' then
+    if ENV.allowMod and GAME.modApplyAt~='preInit' then
         _executeMod(P)
     end
 
