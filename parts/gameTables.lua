@@ -388,7 +388,7 @@ do-- Mod data
         {no=6,id="HD",name="hidden",
             key="i",x=920,y=230,color='lP',
             list={'easy','slow','medium','fast','none'},
-            func=function(P,O) P.gameEnv.visible=O end, -- TODO
+            func=function(P,O) P.gameEnv.visible=O end,
         },
         {no=7,id="HB",name="hideBoard",
             key="o",x=1040,y=230,color='lP',
@@ -400,7 +400,6 @@ do-- Mod data
             key="p",x=1160,y=230,color='lJ',
             list={'U-D','L-R','180'},
             func=function(P,O) P.gameEnv.flipBoard=O  end,
-            onlyOnce=true,
         },
 
         {no=9,id="DT",name="dropDelay",
@@ -431,17 +430,14 @@ do-- Mod data
             key="j",x=860,y=350,color='lY',
             list={0,1,2,3,5,10,15,26,42,87,500},
             func=function(P,O) P.gameEnv.life=O end,
-            onlyOnce=true,
         },
         {no=14,id="FB",name="forceB2B",
             key="k",x=980,y=350,color='lY',
             func=function(P) P.gameEnv.b2bKill=true end,
-            onlyOnce=true,
         },
         {no=15,id="PF",name="forceFinesse",
             key="l",x=1100,y=350,color='lY',
             func=function(P) P.gameEnv.fineKill=true end,
-            onlyOnce=true,
         },
 
         {no=16,id="TL",name="tele",
@@ -458,7 +454,6 @@ do-- Mod data
                 _disableKey(P,4)
                 _disableKey(P,5)
             end,
-            onlyOnce=true,
         },
         {no=18,id="GL",name="noMove",
             key="c",x=440,y=470,color='lH',
@@ -468,13 +463,11 @@ do-- Mod data
                 _disableKey(P,17)_disableKey(P,18)
                 _disableKey(P,19)_disableKey(P,20)
             end,
-            onlyOnce=true,
         },
         {no=19,id="CS",name="customSeq",
             key="b",x=680,y=470,color='lB',
             list={'bag','bagES','his','hisPool','c2','bagP1inf','rnd','mess','reverb'},
             func=function(P,O) P.gameEnv.sequence=O end,
-            onlyOnce=true,
         },
         {no=20,id="PS",name="pushSpeed",
             key="n",x=800,y=470,color='lB',
@@ -491,7 +484,6 @@ do-- Mod data
                     for _,bk in pairs(P.nextQueue) do bk.color=17 end
                 end
             end,
-            executeFirst=true
         },
     }
     for i=1,#MODOPT do
@@ -522,7 +514,7 @@ do-- Game data tables
         curMode=false,           -- Current gamemode object
         initPlayerCount=0,       -- Player count when init game
         mod=TABLE.new(0,#MODOPT),-- List of loaded mods
-        modPatch=false,          -- Mods can lock value to prevent changes? False by default to compactible with old replays (from 0.17 to 0.17.15)
+        modApplyAt='preInit',    -- Apply mod when? (preInit, postInit, always)
         modeEnv=false,           -- Current gamemode environment
         setting={},              -- Game settings
         rep={},                  -- Recording list, key,time,key,time...
