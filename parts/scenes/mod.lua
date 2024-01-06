@@ -142,7 +142,7 @@ end
 scene.widgetList={
     WIDGET.newText{name='title',         x=  80,y=50,font=70,align='L'},
     WIDGET.newText{name='unranked',      x= 970,y=70,color='Y',font=50,align='R'},
-    WIDGET.newSelector{name='modApplyAt',x=1100,y=100,w=230,color='Y',font=20,list={'preInit','postInit','always'},disp=function() return GAME.modApplyAt end,code=function(v) GAME.modApplyAt=v end},
+    WIDGET.newSelector{name='applyAt',x=1100,y=100,w=230,color='Y',font=20,list={'preInit','postInit','always'},disp=function() return GAME.modApplyAt end,code=function(v) GAME.modApplyAt=v end},
     WIDGET.newButton{name='reset',       x=1140,y=540,w=170,h=80,font=25,code=pressKey'tab'},
     WIDGET.newButton{name='back',        x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
