@@ -19,9 +19,18 @@ function scene.enter()
         _w.prev.hide=true
         _w.home.hide=true
         _w.endd.hide=true
+        _w.copy.hide=true
         textBox.font=25
         textBox:reset()
     else
+        local _w=scene.widgetList
+        _w.del .hide=false
+        _w.delA.hide=false
+        _w.next.hide=false
+        _w.prev.hide=false
+        _w.home.hide=false
+        _w.endd.hide=false
+        _w.copy.hide=false
         textBox.font=15
         textBox:reset()
     end
@@ -115,6 +124,7 @@ scene.widgetList={
     WIDGET.newButton{name='next',x=1140,y=190,w=170,h=80,sound='click',font=60,fText=CHAR.key.right  ,code=pressKey('right')},
     WIDGET.newButton{name='home',x=1140,y=290,w=170,h=80,sound='click',font=60,fText=CHAR.key.macHome,code=pressKey('home')},
     WIDGET.newButton{name='endd',x=1140,y=390,w=170,h=80,sound='click',font=60,fText=CHAR.key.macEnd ,code=pressKey('end')},
+    WIDGET.newButton{name='copy',x=1140,y=490,w=170,h=80,sound='click',font=60,fText=CHAR.icon.copy  ,code=function() love.system.setClipboardText(table.concat(textBox.texts,'\n')) end},
 
     WIDGET.newKey   {name='del' ,x= 260,y=640,w=450,h=80,sound=false,  font=30,fText='Delete all log exclude last 10',color='Z',code=deleteAllExcludeLast10},
     WIDGET.newKey   {name='delA',x= 620,y=640,w=250,h=80,sound=false,  font=30,fText='DELETE ALL!',color='Z',code=deleteAll},
