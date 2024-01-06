@@ -481,7 +481,7 @@ do-- Mod data
             end,
             funcA1=function(P)
                 for _,k in pairs{'das','arr','sddas','sdarr'} do
-                    P.gameEnv[k]=O
+                    P.gameEnv[k]=0
                     P.gameEnv.__lock(k)
                 end
             end
@@ -555,7 +555,7 @@ do-- Game data tables
         curMode=false,           -- Current gamemode object
         initPlayerCount=0,       -- Player count when init game
         mod=TABLE.new(0,#MODOPT),-- List of loaded mods
-        modApplyAt='preInit',    -- Apply mod when? (preInit, postInit, always)
+        modApplyAt='postInit',   -- Apply mod when? (preInit, postInit, always)
         modeEnv=false,           -- Current gamemode environment
         setting={},              -- Game settings
         rep={},                  -- Recording list, key,time,key,time...

@@ -997,6 +997,13 @@ do-- function resetGameData(args)
     local function task_showMods() -- TODO
         coroutine.yield()
         local counter=0
+
+        do
+            SFX.play('collect',.2)
+            TEXT.show(GAME.modApplyAt,640,26,45,'spin')
+            for _=1,90 do coroutine.yield() end
+        end
+
         for number,sel in next,GAME.mod do
             if sel>0 then
                 if counter==0 then

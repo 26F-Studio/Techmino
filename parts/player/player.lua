@@ -2786,7 +2786,7 @@ function Player:_die()
             end
         end
     end
-    if GAME.ApplyModsTask then
+    if GAME.applyModsTask then
         TABLE.cut(GAME.modCodeList[self.id])
     end
 end

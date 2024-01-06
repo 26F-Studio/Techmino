@@ -209,7 +209,7 @@ return {
     tryAnotherBuild="UTF-8 decoding error. If you are using Microsoft Windows, please try to download the build with the different architecture. If you are using the x86 version of Techmino, try downloading the x64 version and vice versa.",
 
     modInstruction="Choose your modifiers here!\nMods allow you to change the rules in various ways, but they can also crash the game. Feel free to play the game your way!\nNote that scores are not saved when using mods. You can also toggle mods using your keyboard keys (hold Shift to reverse).",
-    modApplyAtInstruction="Choose when you want the mod to be applied.\npreInit: Apply the mod before loading the game mode. This is the default option from version 0.17.15 and earlier. Some mods may experience errors when using this option.\npostInit: Apply the mod after loading the game mode. This can fix some errors in preInit. However, the mod may be disabled in some cases, such as after completing a stage in the game.\nalways: Apply the mod throughout the entire game. This option will help you keep the mod's effects in any situation.",
+    modApplyAtInstruction="Choose when you want the modifier to be applied.\nprelnit: Before loading the modes. The default option in V0.17.15 and earlier, but may cause problems with certain mods.\npostInit: After loading the game. This can fix some bugs in preInit, but some mods can still be disabled by modes in some situations.\nalways: Throughout the entire game. Keeps the effects of the mods in all situations. ",
     modInfo={
         next="NEXT\nOverrides the number of Next pieces displayed.",
         hold="HOLD\nOverrides the number of Hold pieces displayed.",
