@@ -787,7 +787,7 @@ function draw.norm(P,repMode)
         gc_scale(P.size)
 
         -- Draw username
-        if GAME.modUsed and P.frameRun>480 or true then
+        if GAME.modUsed and P.frameRun>GAME.modUsed*2.6 or not GAME.modUsed then
             setFont(30)
             gc_setColor(GROUP_COLORS[P.group])
             GC.mStr(P.username or USERS.getUsername(P.uid),300,-60)

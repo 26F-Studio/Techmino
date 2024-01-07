@@ -24,7 +24,12 @@ function scene.enter()
     BG.set('tunnel')
 end
 function scene.back()
-    GAME.modUsed=usingMod()
+    local totalModUsed=0
+    for i=1,#GAME.mod do
+        if GAME.mod[i]>0 then totalModUsed=totalModUsed+1
+        end
+    end
+    GAME.modUsed=totalModUsed>0 and totalModUsed or false
 end
 
 function scene.mouseMove(x,y)
