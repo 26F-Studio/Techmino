@@ -210,7 +210,7 @@ function scene.keyDown(key)
                 CHAR.controller.xboxX,CHAR.controller.xboxY,CHAR.controller.xboxA,CHAR.controller.xboxB,
                 CHAR.icon.help,CHAR.icon.copy,CHAR.icon.globe,CHAR.key.winMenu)
             ):split('\n'),
-            currentFontSize,
+            20,
             'rainbow'
         )
 

@@ -402,7 +402,7 @@ do-- Mod data
         {no=5,id="HG",name="hideGhost",
             key="u",x=800,y=230,color='lV',
             func  =function(P) P.gameEnv.ghost=false end,
-            funcA1=_lockVfunc('ghost'),
+            funcA1=function(P) P.gameEnv.ghost=false; P.gameEnv.__lock('ghost') end,
         },
         {no=6,id="HD",name="hidden",
             key="i",x=920,y=230,color='lP',

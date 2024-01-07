@@ -23,6 +23,9 @@ function scene.enter()
     scene.widgetList.unranked.hide=scoreValid()
     BG.set('tunnel')
 end
+function scene.back()
+    GAME.modUsed=usingMod()
+end
 
 function scene.mouseMove(x,y)
     selected=false

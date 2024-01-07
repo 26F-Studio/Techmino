@@ -181,7 +181,7 @@ local function _executeMod(P)
         if not GAME.modCodeList       then GAME.modCodeList={} end
         if not GAME.modCodeList[P.id] then GAME.modCodeList[P.id]={} end
 
-        if not GAME.applyModTask      then
+        if not GAME.applyModsTask      then
             function GAME.applyModsTask()
                 while GAME.playing do
                     for _,p in pairs(GAME.modCodeList) do
@@ -190,8 +190,8 @@ local function _executeMod(P)
                     coroutine.yield()
                 end
                 -- Kill mod patching function when game stopped
-                TABLE.clear(GAME.modCodeList)
                 TASK.removeTask_code(GAME.applyModsTask)
+                TABLE.clear(GAME.modCodeList)
                 GAME.modCodeList=nil
                 GAME.applyModsTask=nil
             end
