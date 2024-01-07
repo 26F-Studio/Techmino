@@ -53,13 +53,11 @@ function scene.enter()
             if x then
                 local s=self.select
                 if x<self.x+self.w*.5 then
-                    if s>1 then
-                        s=s-1
+                    if s>1 then s=s-1
                         SYSFX.newShade(3,self.x,self.y-WIDGET.scrollPos,self.w*.5,60)
                     end
                 else
-                    if s<#self.list then
-                        s=s+1
+                    if s<#self.list then s=s+1
                         SYSFX.newShade(3,self.x+self.w*.5,self.y-WIDGET.scrollPos,self.w*.5,60)
                     end
                 end
@@ -67,9 +65,7 @@ function scene.enter()
                     self.code(s)
                     self.select=s
                     self.selText=self.list[s]
-                    if self.sound then
-                        SFX.play('selector')
-                    end
+                    if self.sound then SFX.play('selector') end
                 end
             end
         end
@@ -78,13 +74,8 @@ function scene.enter()
         logList.select=false
         logList.disp=function() return currentLogText[1] end
         logList.code=function(s)
-            if s>currentLogID then
-                scene.keyDown('right')
-                MES.new('','right')
-            else
-                scene.keyDown('left')
-                MES.new('','left')
-            end
+            if s>currentLogID then scene.keyDown('right')
+            else scene.keyDown('left') end
             updateText()
         end
         logList:reset()
@@ -190,7 +181,7 @@ scene.widgetList={
     textBox,
     WIDGET.newButton  {name='home',x=1140,y= 90,w=170,h=80,sound='click',font=60,fText=CHAR.key.macHome,code=pressKey('home')},
     WIDGET.newButton  {name='endd',x=1140,y=190,w=170,h=80,sound='click',font=60,fText=CHAR.key.macEnd ,code=pressKey('end')},
-    WIDGET.newButton  {name='copy',x=1140,y=290,w=170,h=80,sound='click',font=60,fText=CHAR.icon.copy  ,code=function()love.system.setClipboardText(table.concat(textBox.texts,'\n'))end},
+    WIDGET.newButton  {name='copy',x=1140,y=290,w=170,h=80,sound='click',font=60,fText=CHAR.icon.copy  ,code=function()love.system.setClipboardText(table.concat(textBox.texts,'\n'))end,color='lC'},
 
     logList,
 
