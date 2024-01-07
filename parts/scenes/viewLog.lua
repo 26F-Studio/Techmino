@@ -3,6 +3,7 @@ local logTimeList={}
 local currentLogText={}
 
 local gc=love.graphics
+local min,max=math.min,math.max
 local scene={}
 
 local textBox=WIDGET.newTextBox {x= 30,y= 45,w=1000,h=540,font=25,fix=true}
@@ -14,6 +15,20 @@ local function updateText()
         local _,wt=getFont(25):getWrap(fullLog[currentLogID],975)
         textBox:setTexts(wt)
     end
+    logList.select=currentLogID
+    logList.selText=currentLogText[1]
+end
+
+local function noLogFound()
+    local _w=scene.widgetList
+    _w.home.hide=true;_w.list.hide=true
+    _w.endd.hide=true;_w.del .hide=true
+    _w.copy.hide=true;_w.delA.hide=true
+
+    logList.list={''}
+    logList.select=false
+    logList.disp=function() return '' end
+    logList.code=function() end
     logList:reset()
 end
 
@@ -25,34 +40,53 @@ function scene.enter()
     updateText()
 
     if fullLog[1]=='/conf/error.log not found' then
-        local _w=scene.widgetList
-        _w.home.hide=true;_w.list.hide=true
-        _w.endd.hide=true;_w.del .hide=true
-        _w.copy.hide=true;_w.delA.hide=true
-
-        textBox.font=25
-        textBox:reset()
-
-        logList.list={''}
-        logList.select=false
-        logList.disp=function() return '' end
-        logList.code=function() end
-        logList:reset()
+        noLogFound()
     else
         local _w=scene.widgetList
         _w.home.hide=false;_w.list.hide=false
         _w.endd.hide=false;_w.del .hide=false
         _w.copy.hide=false;_w.delA.hide=false
 
-        textBox.font=15
-        textBox:reset()
-
         for i,d in pairs(fullLog) do logTimeList[i]=d:split('\n')[1] end
+
+        function logList:press(x)
+            if x then
+                local s=self.select
+                if x<self.x+self.w*.5 then
+                    if s>1 then
+                        s=s-1
+                        SYSFX.newShade(3,self.x,self.y-WIDGET.scrollPos,self.w*.5,60)
+                    end
+                else
+                    if s<#self.list then
+                        s=s+1
+                        SYSFX.newShade(3,self.x+self.w*.5,self.y-WIDGET.scrollPos,self.w*.5,60)
+                    end
+                end
+                if self.select~=s then
+                    self.code(s)
+                    self.select=s
+                    self.selText=self.list[s]
+                    if self.sound then
+                        SFX.play('selector')
+                    end
+                end
+            end
+        end
 
         logList.list=logTimeList
         logList.select=false
         logList.disp=function() return currentLogText[1] end
-        logList.code=function() currentLogID=logList.select updateText() end
+        logList.code=function(s)
+            if s>currentLogID then
+                scene.keyDown('right')
+                MES.new('','right')
+            else
+                scene.keyDown('left')
+                MES.new('','left')
+            end
+            updateText()
+        end
         logList:reset()
     end
 end
@@ -61,14 +95,14 @@ do
     local sureTime=-1e99
     function deleteOld()
         local function task_redButton()
-            scene.widgetList.del.color=COLOR.R
+            scene.widgetList.del.color=COLOR.Y
             for _=1,120 do coroutine.yield() end
-            scene.widgetList.del.color=COLOR.Z
+            scene.widgetList.del.color=COLOR.dY
         end
 
         if TIME()-sureTime<1 then
             sureTime=-1e99
-            scene.widgetList.del.color=COLOR.Z
+            scene.widgetList.del.color=COLOR.dY
             do
                 local temp=TABLE.sub(TABLE.copy(fullLog),1,25)
                 fullLog=TABLE.copy(temp)
@@ -76,9 +110,10 @@ do
                 TASK.removeTask_code(task_redButton)
 
                 logTimeList=TABLE.sub(logTimeList,1,25)
+                currentLogID=min(logList.select,25)
                 logList.list=logTimeList
-                logList.select=25
-                scene.keyDown('end')
+                logList.select=currentLogID
+                updateText()
 
                 FILE.save(temp,'/conf/error.log','-string')
             end
@@ -96,20 +131,16 @@ do
         local function task_redButton()
             scene.widgetList.delA.color=COLOR.R
             for _=1,120 do coroutine.yield() end
-            scene.widgetList.delA.color=COLOR.Z
+            scene.widgetList.delA.color=COLOR.dR
         end
 
         if TIME()-sureTime<1 then
             sureTime=-1e99
-            scene.widgetList.delA.color=COLOR.Z
+            scene.widgetList.delA.color=COLOR.dR
             love.filesystem.remove('/conf/error.log')
             TASK.removeTask_code(task_redButton)
 
-            logList.list={''}
-            logList.select=false
-            logList.disp=function() return '' end
-            logList.code=function() end
-            logList:reset()
+            noLogFound()
             SCN.swapTo('viewLog','none')
         else
             sureTime=TIME()
@@ -163,8 +194,8 @@ scene.widgetList={
 
     logList,
 
-    WIDGET.newKey     {name='del' ,x= 710,y=640,w=200,h=80,sound=false,  font=30,fText='Clear old'  ,color='Z',code=deleteOld},
-    WIDGET.newKey     {name='delA',x= 930,y=640,w=200,h=80,sound=false,  font=30,fText='DELETE ALL!',color='Z',code=deleteAll},
+    WIDGET.newKey     {name='del' ,x= 710,y=640,w=200,h=80,sound=false,  font=30,fText='Clear old'  ,color='dY',code=deleteOld},
+    WIDGET.newKey     {name='delA',x= 930,y=640,w=200,h=80,sound=false,  font=30,fText='DELETE ALL!',color='dR',code=deleteAll},
 
     WIDGET.newButton  {name='back',x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
