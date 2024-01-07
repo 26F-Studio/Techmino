@@ -355,7 +355,6 @@ do-- Mod data
         table.insert(P.gameEnv.keyCancel,key)
     end
     local _invisibleTime={
-        ['show']  =-1,
         ['easy']  =300,
         ['slow']  =100,
         ['medium']=60,

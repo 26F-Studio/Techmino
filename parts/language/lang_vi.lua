@@ -459,7 +459,7 @@ C. Tay cầm chơi game (Gamepad):
             title="Mods",
             reset="Đặt lại (tab)",
             applyAt="Áp dụng mod khi",
-            unranked  ="Không tính điểm",
+            unranked="Không tính điểm",
         },
         pause={
             setting="Cài đặt (S)",
