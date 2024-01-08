@@ -49,31 +49,10 @@ function scene.enter()
 
         for i,d in pairs(fullLog) do logTimeList[i]=d:split('\n')[1] end
 
-        function logList:press(x)
-            if x then
-                local s=self.select
-                if x<self.x+self.w*.5 then
-                    if s>1 then s=s-1
-                        SYSFX.newShade(3,self.x,self.y-WIDGET.scrollPos,self.w*.5,60)
-                    end
-                else
-                    if s<#self.list then s=s+1
-                        SYSFX.newShade(3,self.x+self.w*.5,self.y-WIDGET.scrollPos,self.w*.5,60)
-                    end
-                end
-                if self.select~=s then
-                    self.code(s)
-                    self.select=s
-                    self.selText=self.list[s]
-                    if self.sound then SFX.play('selector') end
-                end
-            end
-        end
-
         logList.list=logTimeList
         logList.select=false
         logList.disp=function() return currentLogText[1] end
-        logList.code=function(s)
+        logList.code=function(_,s)
             if s>currentLogID then scene.keyDown('right')
             else scene.keyDown('left') end
             updateText()

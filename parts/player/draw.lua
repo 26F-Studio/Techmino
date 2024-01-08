@@ -787,11 +787,9 @@ function draw.norm(P,repMode)
         gc_scale(P.size)
 
         -- Draw username
-        if GAME.modUsed and P.frameRun>GAME.modUsed*26 or not GAME.modUsed then
-            setFont(30)
-            gc_setColor(GROUP_COLORS[P.group])
-            GC.mStr(P.username or USERS.getUsername(P.uid),300,-60)
-        end
+        setFont(30)
+        gc_setColor(GROUP_COLORS[P.group])
+        GC.mStr(P.username or USERS.getUsername(P.uid),300,-60)
 
         -- Draw HUD
         if ENV.nextCount>0 then _drawNext(P,repMode) end

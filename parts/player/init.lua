@@ -203,15 +203,15 @@ local function _executeMod(P)
         if GAME.mod[i]>0 then
             local M=MODOPT[i]
             if applyStatus=='always' then
-                if M.funcA1 then
-                    M.funcA1(P,M.list and M.list[GAME.mod[i]])
-                elseif M.funcA then
-                    table.insert(GAME.modCodeList[P.id],function() M.func(P,M.list and M.list[GAME.mod[i]]) end)
+                if M.funcOnce then
+                    M.funcOnce(P,M.list and M.list[GAME.mod[i]])
+                elseif M.funcRepe then
+                    table.insert(GAME.modCodeList[P.id],function() M.funcInit(P,M.list and M.list[GAME.mod[i]]) end)
                 else
-                    M.func(P,M.list and M.list[GAME.mod[i]])
+                    M.funcInit(P,M.list and M.list[GAME.mod[i]])
                 end
             else -- Already checked pre or post before calling _executeMod()
-                M.func(P,M.list and M.list[GAME.mod[i]])
+                M.funcInit(P,M.list and M.list[GAME.mod[i]])
             end
         end
     end
