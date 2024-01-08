@@ -998,7 +998,7 @@ do-- function resetGameData(args)
         coroutine.yield()
         local counter=0
 
-        if GAME.modUsed then
+        if usingMod() then
             SFX.play('collect',.2)
             TEXT.show(GAME.modApplyAt,640,26,45,'spin')
             for _=1,90 do coroutine.yield() end

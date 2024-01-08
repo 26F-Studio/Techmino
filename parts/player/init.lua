@@ -205,7 +205,7 @@ local function _executeMod(P)
             if applyStatus=='always' then
                 if M.funcOnce then
                     M.funcOnce(P,M.list and M.list[GAME.mod[i]])
-                elseif M.funcRepe then
+                elseif M.funcRepeat then
                     table.insert(GAME.modCodeList[P.id],function() M.funcInit(P,M.list and M.list[GAME.mod[i]]) end)
                 else
                     M.funcInit(P,M.list and M.list[GAME.mod[i]])

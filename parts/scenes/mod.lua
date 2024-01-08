@@ -108,9 +108,9 @@ function scene.draw()
         GC.rotate(t)
             local rad,side=45,5
             if GAME.modApplyAt=='always' then
-                if     M.funcRepe then side=nil
-                elseif M.funcOnce then side=8
-                else                   side=5 end
+                if     M.funcRepeat then side=nil
+                elseif M.funcOnce   then side=8
+                else                     side=5 end
             end
             local color=M.color
             GC.setColor(color[1],color[2],color[3],5*t)
