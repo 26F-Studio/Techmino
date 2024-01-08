@@ -498,6 +498,7 @@ function PLY.newAIPlayer(id,AIdata,mini,p)
         group=0,
     } if p then TABLE.coverR(p,pData) end
     P.username="BOT"..pData.uid
+    P.showUsername=true
     P.sid=NET.uid_sid[pData.uid] or pData.uid
     P.group=pData.group
     if not (P.group%1==0 and P.group>=1 and P.group<=6) then P.group=0 end
@@ -522,7 +523,7 @@ function PLY.newPlayer(id,mini,p)
     else
         -- Default pid=1, and empty username
         pData.uid=1
-        P.username=""
+        P.username="SWEETSEA"
     end
     P.uid=pData.uid
     P.sid=NET.uid_sid[pData.uid] or pData.uid
@@ -531,6 +532,8 @@ function PLY.newPlayer(id,mini,p)
 
     _loadGameEnv(P)
     _applyGameEnv(P)
+    
+    P.showUsername=not (P.gameEnv.allowMod and usingMod())
 end
 --------------------------</Public>--------------------------
 return PLY

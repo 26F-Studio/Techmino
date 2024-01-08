@@ -157,7 +157,8 @@ return {
     tryAnotherBuild="Error.DecodeUTF8(); //如果你现在用的是Windows系统，请重新下载 Techmino-32/64位 (和现在运行的不一样的那个)。",
 
     modInstruction="Mod.Instruction();\n/*选择你要使用的Mod\n不同Mod会用不同的方式改变初始游戏规则(可能导致不能正常游玩)\n提醒:开启一些Mod会让成绩无效，你也可以用键盘开关Mod，按住shift反向*/",
-    -- modApplyAtInstruction="Mod.ApplyDuring='postInit' --[[\npreInit: Before loading the modes. The default option in V0.17.15 and earlier, but may cause problems with certain mods.\npostInit: After loading the game. This can fix some bugs in preInit, but some mods can still be disabled by modes in some situations.\nalways: Throughout the entire game. Keeps the effects of the mods in all situations.]]",
+    -- [[[NEED TRANSLATING!]]]
+    modApplyAtInstruction="Mod.ApplyDuring=PLAYERS[1].username=='shoucandanghehe' ? 'preInit' : 'postInit' --[[\npreInit: Before loading the modes. The default option in V0.17.15 and earlier, but may cause problems with certain mods.\npostInit: After loading the game. This can fix some bugs in preInit, but some mods can still be disabled by modes in some situations.\nalways: Throughout the entire game. Keeps the effects of the mods in all situations.]]",
     modInfo={
         next="Mod.Next();\n//强制使用Next的个数",
         hold="Mod.Hold\n//强制使用Hold的个数",
