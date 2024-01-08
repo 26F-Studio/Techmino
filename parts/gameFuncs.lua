@@ -994,7 +994,7 @@ do-- function dumpBasicConfig()
     end
 end
 do-- function resetGameData(args)
-    local function task_showMods(P) -- TODO
+    local function task_showMods() -- TODO
         coroutine.yield()
         local counter=0
 
