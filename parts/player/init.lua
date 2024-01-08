@@ -523,7 +523,7 @@ function PLY.newPlayer(id,mini,p)
     else
         -- Default pid=1, and empty username
         pData.uid=1
-        P.username="SWEETSEA"
+        P.username=""
     end
     P.uid=pData.uid
     P.sid=NET.uid_sid[pData.uid] or pData.uid
