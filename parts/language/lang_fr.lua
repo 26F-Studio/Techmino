@@ -210,6 +210,7 @@ return {
     -- tryAnotherBuild="[Invalid UTF-8] If you are on Windows, try downloading Techmino-win32 or Techmino-win64 (different from what you are using now).",
 
     modInstruction="",
+    -- modApplyAtInstruction="Choose when you want the modifier to be applied.\npreInit: Before loading the modes. The default option in V0.17.15 and earlier, but may cause problems with certain mods.\npostInit: After loading the game. This can fix some bugs in preInit, but some mods can still be disabled by modes in some situations.\nalways: Throughout the entire game. Keeps the effects of the mods in all situations. ",
     modInfo={},-- See lang_en.lua
     pauseStat={
         "Temps :",
@@ -386,6 +387,7 @@ return {
         mod={
             title="Mods",
             reset="Réinitialiser (tab)",
+            -- applyAt="Apply during",
             unranked="Unranked",
         },
         pause={

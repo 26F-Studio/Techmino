@@ -488,7 +488,7 @@ local commands={} do
         code=function(name)
             if name~="" then
                 if SETTING.lockBG then
-                    log{"Background ",C.R,"locked",C.Z,"! Please unlock background first."}
+                    log{"Background is currently ",C.R,"locked",C.Z,"! You can unlock them in Video settings."}
                 elseif name~=BG.cur then
                     if BG.set(name) then
                         log(("Background set to '%s'"):format(name))
@@ -513,7 +513,7 @@ local commands={} do
         code=function(name)
             if name~="" then
                 if SETTING.noTheme then
-                    log{"Theme is ",C.R,"disabled",C.Z,"! Please re-enable theme first."}
+                    log{"Themes are currently ",C.R,"disabled",C.Z,"! You can re-enable in Video settings."}
                 else
                     if THEME.set(name) then
                         log("Theme set to: "..name)
