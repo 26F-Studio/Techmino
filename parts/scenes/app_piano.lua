@@ -99,7 +99,6 @@ end
 
 function scene.leave()
     TABLE.clear(textObj)
-    TABLE.clear(pianoVK)
     collectgarbage()
     BGM.play(lastPlayBGM)
 end

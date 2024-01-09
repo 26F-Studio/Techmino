@@ -515,13 +515,11 @@ do-- Mod data
         {no=21,id="BN",name="boneBlock",
             key="m",x=920,y=470,color='lB',
             list={'on','off'},
-            funcInit  =function(P,O) P.gameEnv.bone=O end,
-            funcRepeat=function(P,O)
-                P.gameEnv.bone=O
-                if O=='on' then
-                    for _,bk in pairs(P.nextQueue) do bk.color=17 end
-                end
-            end,
+            funcInit  =function(P,O) P.gameEnv.bone=O=='on' end,
+            funcOnce  =function(P,O)
+                P.gameEnv.bone=O=='on'
+                P.gameEnv.__lock('bone')
+            end
         },
     }
     for i=1,#MODOPT do
