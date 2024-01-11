@@ -378,7 +378,7 @@ local commands={} do
         },
     }
     commands.viewlog={
-        code=goScene('viewLog'),
+        code=goScene('app_viewLog'),
         description="View crash logs",
         details={
             "Open the crash logs menu",
