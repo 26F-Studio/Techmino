@@ -25,19 +25,19 @@ Cách phát hiện spin: bằng cách sử dụng hệ thống điểm.
 
 
 Hệ thống tấn công:
-        Kiểu xóa đặc biệt (Special clear):
-                Kiểu xóa đặc biệt chỉ trường hợp bạn thực hiện Spin, Techrash, Techrash+ — xóa 5 hàng hoặc hơn, PC, HPC.
-                Kiểu xóa đặc biệt có thể sạc đầy thanh B2B.
+        Kiểu xóa Đặc biệt (Special clear):
+                Kiểu xóa Đặc biệt chỉ trường hợp bạn thực hiện Spin, Techrash, Techrash+ — xóa 5 hàng hoặc hơn, PC, HPC.
+                Kiểu xóa Đặc biệt có thể sạc đầy thanh B2B.
 
         Kiểu xóa Siêu cấp (Super clear):
-                Là Kiểu xóa đặc biệt nhưng được thực hiện với B2B hoặc B3B
+                Là Kiểu xóa Đặc biệt nhưng được thực hiện với B2B hoặc B3B
 
-        Kiểu xóa đặc biệt (spin): Gửi gấp đôi số hàng vừa xóa.
+        Kiểu xóa Đặc biệt (spin): Gửi gấp đôi số hàng vừa xóa.
                 — B2B gửi thêm 1/1/2/4/8 cho Spin Đơn/Spin Đôi/Spin Tam/Techrash/Techrash+
                 — B2B2B gửi thêm (số hàng xóa × 0.5) trên B2B và +1 hàng để đánh chặn
                 — Mini sẽ bị cắt chỉ còn ¼ so với giá trị ban đầu
 
-        Kiểu xóa đặc biệt (Techrash/Techrash+ nhưng không spin):
+        Kiểu xóa Đặc biệt (Techrash/Techrash+ nhưng không spin):
                 — B2B gửi thêm 1 hàng
                 — B3B boost 50% tấn công và +1 hàng để đánh chặn
 
@@ -55,7 +55,7 @@ Hệ thống tấn công:
         Perfect Clear (All Clear): Gửi 8 → 16 hàng rác
                 PC thứ nhất chỉ gửi 8 hàng rác, các PC sau đó sẽ thêm 2 hàng rác để tấn công (tổng hàng rác có thể gửi tối đa là 16 hàng)
 
-        Sau khi tính toán xong, lượng sát thương sẽ bị làm tròn XUỐNG trước khi gửi.
+        Sau khi tính tổng xong, lượng sát thương sẽ bị làm tròn XUỐNG trước khi gửi.
 
 
 Thanh Back to Back (B2B):
@@ -64,7 +64,7 @@ Thanh Back to Back (B2B):
         Một người chơi đang ở trang thái B3B khi thanh có hơn 800 điểm.
 
         Nếu có hàng được xóa:
-                Kiểu xóa đặc biệt:
+                Kiểu xóa Đặc biệt:
                         — Spin Đơn/Đôi/Tam/Techrash/Techrash+ lần lượt cộng thêm 50/100/180/800/1000 (×50% nếu là Mini)
                         — Techrash +150 điểm, nếu xóa hơn 4 hàng cùng lúc, mỗi hàng từ hàng thứ 5 trở đi cộng thêm 50 điểm.
                         — PC từ thứ 4 trở đi có giá trị 800 điểm
