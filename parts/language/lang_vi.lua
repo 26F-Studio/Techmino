@@ -153,11 +153,8 @@ return {
             noticeNotFound="Không có thông báo",
         },
         PlayerManager={
-            -- invalidEmail="Email không hợp lệ",
-            -- playerNotFound="Không tìm thấy người chơi",
-            -- invalidEmailPass="Email hoặc người chơi không hợp lệ",
-            -- emailExists="Email đã tồn tại",
-            -- emailSendError="Lỗi gửi email",
+            playerNotFound="Không tìm thấy người chơi",
+            invalidEmailPass="Email hoặc người chơi không hợp lệ",
             invalidCode="Mã không hợp lệ",
             invalidAccessToken="Mã xác thực không hợp lệ",
         },
@@ -181,13 +178,7 @@ return {
     versionNotMatch="Phiên bản không khớp",
     notFinished="Sắp ra mắt!",
 
-    -- Deprecated
-    -- noUsername="Vui lòng nhập email của bạn",
-    -- wrongEmail="Địa chỉ email không hợp lệ",
-    -- wrongCode="Mã xác minh không hợp lệ",
-    -- noPassword="Vui lòng nhập mật khẩu của bạn",
-    -- diffPassword="Mật khẩu không đúng",
-    -- checkEmail="Yêu cầu đăng ký đã được gửi.",
+    wrongCode="Mã xác minh không hợp lệ",
 
     wsFailed="Kết nối WebSocket đã thất bại: $1",
     wsClose="WebSocket đã đóng: $1",
@@ -213,7 +204,7 @@ return {
     customBGloadFailed="Định dạng ảnh không được hỗ trợ",
 
     errorMsg="Techmino bị lỗi và cần phải được khởi động lại\nBạn có thể gửi error log để giúp dev sửa game nhanh hơn.",
-    tryAnotherBuild="CO LOI KHI GIAI MA UTF-8! Neu dang choi Techmino tren Windows: hay doi tu x86 sang x64 va nguoc lai.",
+    tryAnotherBuild="LOI UTF-8! Neu dang choi Techmino tren Windows: hay doi tu x86 sang x64 va nguoc lai.",
 
     modInstruction="Hãy chọn modifier bạn muốn.\nMod cho phép bạn có thể tùy biến game, nhưng cũng có thể làm game sập.\nKể cả thế, hãy thoải mái và chơi theo cách của bạn!\nBạn có thể dùng bàn phím để chọn mod (giữ Shift để chọn lùi)\nĐiểm sẽ không được lưu lại khi dùng mod.",
     modApplyAtInstruction="Chọn thời điểm bạn muốn mod được áp dụng.\npreInit: Trước khi nạp game. Đây là tùy chọn mặc định từ phiên bản 0.17.15 trở về trước. Một số mod có thể gặp vấn đề nếu dùng tùy chọn này.\npostInit: Sau khi nạp chế độ chơi, có thể sửa được một số lỗi ở preInit. Tuy nhiên, mod có thể bị mất tác dụng ở một số trường hợp nhất định.\nalways: Luôn áp dụng trong cả game. Tùy chọn này sẽ giúp bạn giữ lại tác dụng của mod dù ở bất kì trường hợp nào.",
@@ -541,9 +532,6 @@ C. Tay cầm chơi game (Gamepad):
             sound="Âm thanh→",
             style="Trang trí",
 
-            -- ctrl="Cài đặt điều khiển",
-            -- key="Cài đặt bố cục phím",
-            -- touch="Cài đặt cảm ứng",
             ctrl="Điều chỉnh thg. số",  -- ctrl="Điều chỉnh độ nhạy"
             key="Sửa bố cục bàn phím",
             touch="Sửa bố cục cảm ứng",
@@ -631,7 +619,6 @@ C. Tay cầm chơi game (Gamepad):
             apply="Chọn",
         },
         setting_control={
-            -- title="Cài đặt Điều khiển",
             title="Điều chỉnh thông số",
             preview="Xem trước",
 
@@ -834,14 +821,6 @@ C. Tay cầm chơi game (Gamepad):
             paste="Dán mã",
             submit="Gửi",
         },
-        -- reset_password={
-        --     title="Đặt lại Mật khẩu",
-        --     send="Gửi mã",
-        --     code="Mã xác nhận",
-        --     password="Mật khẩu",
-        --     password2="Nhập lại Mật khẩu",
-        --     setPW="Đặt mật khẩu",
-        -- },
         account={
             title="Tài khoản",
         },
@@ -1109,7 +1088,6 @@ C. Tay cầm chơi game (Gamepad):
         "Bạn có thể mở thư mục chứa dữ liệu từ trang Thống kê",
         "Bạn có thể thực hiện Spin với tất cả cả miếng gạch trong game này",
         "Bạn có thể đặt hướng xuất hiện cho từng miếng gạch",
-        "ZS JL T O I",
         {C.C,"Also try 15puzzle!"},
         {C.C,"Also try Ballance!"},
         {C.C,"Also try Minecraft!"},
@@ -1145,16 +1123,12 @@ C. Tay cầm chơi game (Gamepad):
         "Phát âm từ Techmino như thế nào mới đúng?",
         -- English UK: /'tɛkminəʊ/; English US: /tɛkminoʊ/
         "Techmino phát âm trong tiếng Anh là /'tɛkminəʊ/; còn tiếng Mỹ là /tɛkminoʊ/.",
-        --
-        "Ủa Techmino phải đọc là \"Tét-mai-nô\" hay là \"Tét-mi-nô\" vậy?",
         -- Where to download Techmino?
         "Tải Techmino ở đâu vậy? Trên GitHub đấy!",
         -- Techmino's birthday
         "Ngày sinh nhật của Techmino? Hiện tại (đang giả định) là 26/T6.",
         -- How to O-spin: Rotate 626 times in one second (mistaken)
         "Cách O-spin? Nhấn phím xoay 626 lần trong 1 giây (ĐÙA ĐẤY ĐỪNG TIN!)",
-        -- Hope you all like Z... Oh no, like Techmino
-        {"Mình mong các bạn sẽ thích ",C.W,"Z",C.Z,"… Ối! Không phải, thích ",C.G,"Techmino",C.Z," cơ! Nhầm nhầm nhầm!"},
         -- 2021 was the year of Techmino's online debut.
         "2021 là năm ra mắt chế độ trực tuyến của Techmino.",
         -- The Chinese name of this game is 'Block Research Institute'.
@@ -1176,7 +1150,7 @@ C. Tay cầm chơi game (Gamepad):
         -- "Meow!"
         "Meow!",
         -- Getting popup messages in the middle of a game? Go to settings and disable them.
-        "Thông báo tự dưng hiện lên giữa game? Vào cài đặt tắt nó đi!",
+        "Thông báo tự dưng hiện lên giữa game? Vào cài đặt và tắt nó đi!",
         "Hãy bật Do Not Distrub (Không làm phiền) nếu bạn có quá nhiều thông báo.",
         -- Don't play with your phone if your homework isn't finished.
         "Đừng chơi điện thoại khi bài tập về nhà còn chưa hoàn thành.",
@@ -1189,7 +1163,7 @@ C. Tay cầm chơi game (Gamepad):
         -- It seems like no one has reached a high level by playing with their feet yet.
         "Hình như tới giờ chưa ai chơi xếp gạch giỏi bằng chân…",
         -- Moderate gaming is good for the brain. Addiction to games is harmful. Plan your time
-        "Chơi game vừa phải có thể tốt cho bộ não. Nhưng nếu nghiện thì toeng! Nhớ lập th!ời gian biểu nhé!",
+        "Chơi game vừa phải có thể tốt cho bộ não. Nhưng nếu nghiện thì toeng! Nhớ lập thời gian biểu nhé!",
         -- The ability to dig is extremely important in battles!!!
         "Khả năng đào xuống (downstacking) của bạn là RẤT QUAN TRỌNG trong chiến đấu!!!",
         -- Skilled players of the Classic Tetris game are also formidable; don't underestimate them
@@ -1199,7 +1173,7 @@ C. Tay cầm chơi game (Gamepad):
         -- To protect the players' well-being, the game has a temporary and simplified anti-addiction system! (But you probably won't trigger it, haha)
         "Để tránh việc người chơi nào đó chơi quá lâu, game đã có hệ thống chống nghiện đơn giản tạm thời (Nhưng bạn có lẽ sẽ không bao giờ kích hoạt chúng đâu, haha)",
         -- Basic stacking and digging skills are crucial; those who neglect these two aspects often regret it (trust me)
-        {"Kỹ năng xếp lên vào đào xuống là 2 kỹ năng RẤT quan trọng; những ai (đã/từng) coi thường hay bỏ bê hai khía cạnh này thường hay bị bón hành súp mặt lờ (tin ",C.W,"MrZ",C.Z," đi!)"},
+        {"Kỹ năng xếp lên vào đào xuống là 2 kỹ năng RẤT quan trọng; những ai coi thường hay bỏ bê hai khía cạnh này thường hay bị bón hành súp mặt lờ (tin ",C.W,"MrZ",C.Z," đi!)"},
         -- Even if you're topped out, don't give up; every line of garbage can potentially become your weapon.
         "Đừng bỏ cuộc khi đống hàng rác đang làm bạn sắp bị top out, bởi bạn có thể biến chúng trở thành đòn phản công.",
         -- The video shown above is not a recording; it's the robot playing in real-time.
@@ -1241,7 +1215,6 @@ C. Tay cầm chơi game (Gamepad):
         "git stash",
         "git stash apply",
         "git submodule update",
-        "git merge --rebase",
         "git merge --squash",
         "sudo rm -rf /*",
         "shutdown /s /t 0",         -- Turn off computer completely (no Fast Boot)
@@ -1300,7 +1273,6 @@ C. Tay cầm chơi game (Gamepad):
 --
         -- SEA'S JOKE
         {C.W,"MrZ",C.Z," còn có một biệt danh dễ thương hơn, đó là ",C.W,"Z-Chan"},
-        "Có hơn 400 mẹo bạn có thể nhìn thấy ở đây, là cái dòng chữ này, nếu bạn đang chơi Techmino tiếng Trung",
 
         {C.lSea,"Sea: ",C.Z,"Tui không có đủ mặn để viết joke. Nên một số câu đùa đang chạy ở đây được viết bởi ",C.yellow,"Shard Nguyễn",C.Z,". \"Em cảm ơn anh!\""},
         {C.lSea,"Sea: ",C.Z,"Tui đang tự hỏi liệu còn bao nhiêu lỗi tui bỏ sót lúc dịch game không? Tính ra tui đã cập nhật đi cập nhật lại cũng 4-5 lần rồi."},
@@ -1308,7 +1280,6 @@ C. Tay cầm chơi game (Gamepad):
         {"Cộng đồng Tetris ",C.R,"Việt ",C.lY,"Nam ",C.Z,": https://discord.gg/hoiphuhovietnam"}, -- Tetris Vietnam (TVN)
         {"\"Tetris Việt Nam\"? Không, đó là \"Hội phụ hồ Việt Nam\""},
         {C.W,"MrZ ",C.Z,"vẫn chưa biết chọn tên nào để đặt cho từ điển của Techmino. Hiện có 3 tên: \"Zictionary\", \"TetroDictionary\" và \"Little Z Dictionary\""},
-        "Ủa tao nhớ game này tên là xếp hình mà? Ừ thì đúng nhưng để giữ độ đồng nhất và tránh bị cấn mồm thì nên gọi game này là game xếp gạch.",
         "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
         {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.Z," không?"}, -- A joke in TVN
         -- Who will you choose? A girl that can break up to you and make you sad
