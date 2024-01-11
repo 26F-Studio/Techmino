@@ -98,6 +98,7 @@ function scene.enter()
 end
 
 function scene.leave()
+    showingKey=false
     TABLE.clear(textObj)
     TABLE.clear(pianoVK)
     collectgarbage()
@@ -217,8 +218,7 @@ generateVKey=function()
 
                 if activateState~=nil then self.activateState=activateState
                 elseif (self.activateState==1 and activationTime==maxTime) or not self.activateState then self.activateState=0 end
-                -- LIKELY NOT POSSIBLE TO DO
-                -- Holding key: self.activateState=activateState and activateState or not activationTime>maxTime and self.activateState or 0 end
+                -- TODO: when the note can be extended longer, this will need remaking
                 if dt then
                     if self.activateState>0 then self.ATV=min(activationTime+dt*60,maxTime)
                     elseif activationTime>0 then self.ATV=max(activationTime-dt*30,0)
