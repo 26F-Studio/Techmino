@@ -76,7 +76,7 @@ local function _updateContentBox()
     local _t,t
     _t,t=pcall(function() return _getList()[listBox.selected].content end)
     if not _t then t={"???"} end
-    local _w,c=FONT.get(currentFontSize):getWrap(t,840)
+    local _w,c=getFont(currentFontSize):getWrap(t,840)
     contentBox:setTexts(c)
 end
 -- Clear the result
@@ -202,17 +202,20 @@ function scene.keyDown(key)
             SCN.back()
         end
     elseif key=='f1' then
-        SCN.go(
-            'textReader',nil,
-            (text.dict.helpText:repD(
+        do
+            local _,c=getFont(currentFontSize):getWrap(text.dict.helpText:repD(
                 CHAR.key.up,CHAR.key.down,CHAR.key.left,CHAR.key.right,
                 CHAR.controller.dpadU,CHAR.controller.dpadD,CHAR.controller.dpadL,CHAR.controller.dpadR,
                 CHAR.controller.xboxX,CHAR.controller.xboxY,CHAR.controller.xboxA,CHAR.controller.xboxB,
                 CHAR.icon.help,CHAR.icon.copy,CHAR.icon.globe,CHAR.key.winMenu)
-            ):split('\n'),
-            currentFontSize,
-            'rainbow'
-        )
+            ,975)
+            SCN.go(
+                'textReader',nil,
+                c,
+                currentFontSize,
+                'rainbow'
+            )
+        end
 
     -- ***ONLY USE FOR HOTLOADING ZICTIONARY WHILE IN GAME!***
     -- ***Please commenting out this code if you don't use***
@@ -226,7 +229,7 @@ function scene.keyDown(key)
     --     )
     --     if not success then
     --         SFX.play('finesseError_long')
-    --         _,_r=FONT.get(30):getWrap(tostring(_r),1000)
+    --         _,_r=getFont(30):getWrap(tostring(_r),1000)
     --         MES.new("error","Hotload failed! May need restarting!\n\n"..table.concat(_r,"\n"))
     --     else
     --         local lastLscrollPos=listBox.scrollPos
