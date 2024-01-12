@@ -33,27 +33,31 @@ local function noLogFound()
 end
 
 function scene.enter()
-    fullLog=(FILE.load('/conf/error.log','-string -canskip') or '/conf/error.log not found'):split('\n\n')
-    TABLE.reverse(fullLog)
+    fullLog=FILE.load('/conf/error.log','-string -canskip') or '/conf/error.log not found'
 
-    currentLogID=1
-    updateText()
-
-    if fullLog[1]=='/conf/error.log not found' then
-        noLogFound()
+    if fullLog=='/conf/error.log not found' then noLogFound()
     else
+        -- Fix data first
+        fullLog=table.concat(fullLog:split('\n\nTraceback'),'\nTraceback'):split('\n\n')
+
+        -- Get timestamps and add into logTimeList for the selector
+        TABLE.reverse(fullLog)
+        for i,d in pairs(fullLog) do logTimeList[i]=d:split('\n')[1] end
+
+        currentLogID=1
+        updateText()
+
         local _w=scene.widgetList
         _w.home.hide=false;_w.list.hide=false
         _w.endd.hide=false;_w.del .hide=false
         _w.copy.hide=false;_w.delA.hide=false
 
-        for i,d in pairs(fullLog) do logTimeList[i]=d:split('\n')[1] end
-
         logList.list=logTimeList
         logList.select=false
         logList.disp=function() return currentLogText[1] end
         logList.code=function(_,s)
-            if s>currentLogID then scene.keyDown('right')
+            if s>currentLogID
+            then scene.keyDown('right')
             else scene.keyDown('left') end
             updateText()
         end
@@ -77,14 +81,14 @@ do
                 local temp=TABLE.sub(TABLE.copy(fullLog),1,25)
                 fullLog=TABLE.copy(temp)
                 temp=table.concat(temp,'\n\n')..'\n\n'
-                TASK.removeTask_code(task_redButton)
 
                 logTimeList=TABLE.sub(logTimeList,1,25)
                 currentLogID=min(logList.select,25)
-                logList.list=logTimeList
                 logList.select=currentLogID
+                logList.list=logTimeList
                 updateText()
 
+                TASK.removeTask_code(task_redButton)
                 FILE.save(temp,'/conf/error.log','-string')
             end
         else
@@ -108,9 +112,9 @@ do
             sureTime=-1e99
             scene.widgetList.delA.color=COLOR.dR
             love.filesystem.remove('/conf/error.log')
-            TASK.removeTask_code(task_redButton)
 
             noLogFound()
+            TASK.removeTask_code(task_redButton)
             SCN.swapTo('viewLog','none')
         else
             sureTime=TIME()
