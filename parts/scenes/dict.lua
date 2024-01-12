@@ -76,7 +76,7 @@ local function _updateContentBox()
     local _t,t
     _t,t=pcall(function() return _getList()[listBox.selected].content end)
     if not _t then t={"???"} end
-    local _w,c=FONT.get(currentFontSize):getWrap(t,840)
+    local _w,c=getFont(currentFontSize):getWrap(t,840)
     contentBox:setTexts(c)
 end
 -- Clear the result
@@ -202,17 +202,18 @@ function scene.keyDown(key)
             SCN.back()
         end
     elseif key=='f1' then
-        SCN.go(
-            'textReader',nil,
-            (text.dict.helpText:repD(
-                CHAR.key.up,CHAR.key.down,CHAR.key.left,CHAR.key.right,
-                CHAR.controller.dpadU,CHAR.controller.dpadD,CHAR.controller.dpadL,CHAR.controller.dpadR,
-                CHAR.controller.xboxX,CHAR.controller.xboxY,CHAR.controller.xboxA,CHAR.controller.xboxB,
-                CHAR.icon.help,CHAR.icon.copy,CHAR.icon.globe,CHAR.key.winMenu)
-            ):split('\n'),
-            currentFontSize,
-            'rainbow'
-        )
+        do
+            SCN.go(
+                'textReader',nil,
+                text.dict.helpText:repD(
+                    CHAR.key.up,CHAR.key.down,CHAR.key.left,CHAR.key.right,
+                    CHAR.controller.dpadU,CHAR.controller.dpadD,CHAR.controller.dpadL,CHAR.controller.dpadR,
+                    CHAR.controller.xboxX,CHAR.controller.xboxY,CHAR.controller.xboxA,CHAR.controller.xboxB,
+                    CHAR.icon.help,CHAR.icon.copy,CHAR.icon.globe,CHAR.key.winMenu),
+                20,
+                'rainbow'
+            )
+        end
 
     -- ***ONLY USE FOR HOTLOADING ZICTIONARY WHILE IN GAME!***
     -- ***Please commenting out this code if you don't use***
@@ -226,7 +227,7 @@ function scene.keyDown(key)
     --     )
     --     if not success then
     --         SFX.play('finesseError_long')
-    --         _,_r=FONT.get(30):getWrap(tostring(_r),1000)
+    --         _,_r=getFont(30):getWrap(tostring(_r),1000)
     --         MES.new("error","Hotload failed! May need restarting!\n\n"..table.concat(_r,"\n"))
     --     else
     --         local lastLscrollPos=listBox.scrollPos
@@ -320,5 +321,5 @@ scene.widgetList={
     WIDGET.newButton{name='back',x=1185,y=60,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
     WIDGET.newKey{name='help',x=1170,y=140,w=200,h=60,font=40,fText=CHAR.controller.xboxY.."/[F1]: "..CHAR.icon.help,code=pressKey'f1'},
 }
--- NOTE: The gap between Link-Copy, Zoom is 60*1.5-10=80 :) The gap between 2 buttons in one group is 60+10=70
+-- NOTE: The gap between Link-Copy, Zoom is 60*1.5-10=80; the gap between 2 buttons in one group is 60+10=70
 return scene
