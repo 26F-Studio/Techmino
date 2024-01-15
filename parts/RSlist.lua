@@ -170,7 +170,7 @@ do
             },-- T
             function(P,d)
                 if P.gameEnv.easyFresh then
-                    P:freshBlock('fresh')
+                    P:freshBlockDelay()
                 end
                 if P.gameEnv.ospin then
                     local x,y=P.curX,P.curY
@@ -203,7 +203,7 @@ do
                                     C.dir=dir
                                     P.spinLast=2
                                     P.stat.rotate=P.stat.rotate+1
-                                    P:freshBlock('move')
+                                    P:freshMoveBlock()
                                     C.spinSeq=nil
                                     return
                                 end
@@ -328,23 +328,20 @@ do
                 [13]={'+0+0','+0+1','-1+0'},
                 [31]={'+0+0','+0-1','+1+0'},
             },-- W
-            function(P,d)
-                if P.type=='human' then
-                    SFX.play('rotate',nil,P:getCenterX()*.15)
-                end
-                local kickData=XspinList[d]
-                for test=1,#kickData do
-                    local x,y=P.curX+kickData[test][1],P.curY+kickData[test][2]
-                    if not P:ifoverlap(P.cur.bk,x,y) then
-                        P.curX,P.curY=x,y
-                        P.spinLast=1
-                        P:freshBlock('move')
-                        P.stat.rotate=P.stat.rotate+1
-                        return
-                    end
-                end
-                P:freshBlock('fresh')
-            end,-- X
+            {
+                [01]=XspinList[1],
+                [12]=XspinList[1],
+                [23]=XspinList[1],
+                [30]=XspinList[1],
+                [02]=XspinList[2],
+                [13]=XspinList[2],
+                [20]=XspinList[2],
+                [31]=XspinList[2],
+                [03]=XspinList[3],
+                [10]=XspinList[3],
+                [21]=XspinList[3],
+                [32]=XspinList[3],
+            },-- X
             {
                 [01]={'+0+0','-1+0','-1+1','+0-3','-1+1','-1+2','+0+1'},
                 [10]={'+0+0','-1+0','+1-1','+0+3','+1-1','+1-2','+0+1'},
@@ -592,7 +589,7 @@ do
     local F=_strToVec{'+0+0','+0-1','+0+1','+0+2'}
     local list={
         {[02]=L,[20]=R,[13]=R,[31]=L},-- Z
-        {[02]=R,[20]=L,[13]=L,[31]=R},-- S
+        {[02]=R,[20]=L,[13]=R,[31]=L},-- S
         {[02]=L,[20]=R,[13]=L,[31]=R},-- J
         {[02]=R,[20]=L,[13]=L,[31]=R},-- L
         {[02]=F,[20]=F,[13]=L,[31]=R},-- T
@@ -602,20 +599,20 @@ do
         {[02]=L,[20]=L,[13]=R,[31]=R},-- Z5
         {[02]=R,[20]=R,[13]=L,[31]=L},-- S5
         {[02]=L,[20]=R,[13]=L,[31]=R},-- P
-        {[02]=R,[20]=L,[13]=R,[31]=L},-- Q
-        {[02]=R,[20]=L,[13]=L,[31]=R},-- F
+        {[02]=R,[20]=L,[13]=L,[31]=R},-- Q
+        {[02]=R,[20]=L,[13]=R,[31]=L},-- F
         {[02]=L,[20]=R,[13]=R,[31]=L},-- E
         {[02]=F,[20]=F,[13]=L,[31]=R},-- T5
         {[02]=F,[20]=F,[13]=L,[31]=R},-- U
         {[02]=R,[20]=L,[13]=L,[31]=R},-- V
-        {[02]=R,[20]=L,[13]=L,[31]=R},-- W
+        {},-- W
         {[02]=F,[20]=F,[13]=F,[31]=F},-- X
-        {[02]=L,[20]=R,[13]=R,[31]=L},-- J5
+        {[02]=L,[20]=R,[13]=L,[31]=R},-- J5
         {[02]=R,[20]=L,[13]=L,[31]=R},-- L5
-        {[02]=L,[20]=R,[13]=R,[31]=L},-- R
+        {[02]=L,[20]=R,[13]=L,[31]=R},-- R
         {[02]=R,[20]=L,[13]=L,[31]=R},-- Y
         {[02]=L,[20]=R,[13]=R,[31]=L},-- N
-        {[02]=R,[20]=L,[13]=L,[31]=R},-- H
+        {[02]=R,[20]=L,[13]=R,[31]=L},-- H
         {[02]=F,[20]=F,[13]=F,[31]=F},-- I5
 
         {[02]=F,[20]=F,[13]=F,[31]=F},-- I3
@@ -631,6 +628,14 @@ do
         list[i][01]=a; list[i][10]=b; list[i][03]=b; list[i][30]=a
         list[i][12]=a; list[i][21]=b; list[i][32]=b; list[i][23]=a
     end
+    list[17]={ -- Fix W
+        [01]=L,[32]=R,
+        [03]=L,[30]=R,
+        [10]=R,[23]=L,
+        [12]=L,[21]=R,
+        [02]=R,[20]=L,
+        [31]=L,[13]=R,
+    }
     BiRS={
         centerTex=GC.DO{10,10,
             {'setCL',1,1,1,.6},
@@ -676,7 +681,7 @@ do
 
                             local t=P.freshTime
                             if not ifpre then
-                                P:freshBlock('move')
+                                P:freshMoveBlock()
                             end
                             if fdy>0 and P.freshTime==t and P.curY~=P.imgY then
                                 P.freshTime=P.freshTime-1
@@ -685,7 +690,7 @@ do
                             local sfx
                             if ifpre then
                                 sfx='prerotate'
-                            elseif P:ifoverlap(icb,x,y+1) and P:ifoverlap(icb,x-1,y) and P:ifoverlap(icb,x+1,y) then
+                            elseif y==P.ghoY and P:ifoverlap(icb,x,y+1) and P:ifoverlap(icb,x-1,y) and P:ifoverlap(icb,x+1,y) then
                                 sfx='rotatekick'
                                 P:_rotateField(d)
                             else
@@ -1055,7 +1060,8 @@ local RSlist={
     None_plus=None_plus,
 }
 
-for _,rs in next,RSlist do
+for name,rs in next,RSlist do
+    rs.name=name
     if not rs.centerDisp then rs.centerDisp=TABLE.new(true,29) end
     if not rs.centerPos then rs.centerPos=defaultCenterPos end
     if not rs.centerTex then rs.centerTex=defaultCenterTex end

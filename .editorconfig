@@ -1,0 +1,31 @@
+# EmmyLuaCodeStyle
+[*.lua]
+max_line_length = 26000
+indent_style = space
+insert_final_newline = true
+space_around_table_field_list = false
+space_before_attribute = false
+space_before_function_call_open_parenthesis = false
+space_before_closure_open_parenthesis = false
+space_before_function_call_single_arg = false
+space_before_open_square_bracket = false
+space_inside_function_call_parentheses = false
+space_inside_function_param_list_parentheses = false
+space_inside_square_brackets = false
+space_around_table_append_operator = false
+space_before_inline_comment = false
+space_around_math_operator = false
+space_around_logical_operator = false
+space_around_assign_operator = false
+space_after_comma = false
+space_after_comma_in_for_statement = false
+space_around_concat_operator = false
+align_call_args = false
+align_function_params = false
+align_continuous_assign_statement = true
+align_continuous_rect_table_field = true
+align_if_branch = false
+align_array_table = true
+ignore_spaces_inside_function_call = true
+line_space_after_function_statement = keep
+trailing_table_separator = smart

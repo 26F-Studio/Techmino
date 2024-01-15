@@ -1,5 +1,4 @@
 local C=COLOR
-local all_month={"T01","T02","T03","T04","T05","T06","T07","T08","T09","T10","T11","T12"}
 
 -- There are some strings, due to game's history, temproary be commented just in case
 -- If it is not used anymore, it will be removed, in one day…
@@ -20,7 +19,7 @@ return {
     sureReset="Nhấn thêm một lần nữa để đặt lại",
     sureDelete="Nhấn thêm một lần nữa để xoá",
     newDay="Một ngày mới, một khởi đầu mới!",
-    playedLong="Bạn chơi cũng lâu rồi. Hãy dành chút thời gian nghỉ ngơi đi",
+    playedLong="Bạn chơi hơi lâu rồi đó. Hãy dành chút thời gian nghỉ ngơi đi.",
     playedTooMuch="Có lẽ bạn chơi quá nhiều rồi! Đặt máy xuống và nghỉ ngơi đi bạn!",
     settingWarn="CẨN THẬN - Bạn vừa sửa một cài đặt quan trọng của game!",
     settingWarn2="Cài đặt này sẽ có hiệu lực sau khi khởi động lại",
@@ -34,7 +33,7 @@ return {
     clear={"Single","Double","Triple","Techrash","Pentacrash","Hexacrash","Heptacrash","Octacrash","Nonacrash","Decacrash","Undecacrash","Dodecacrash","Tridecacrash","Tetradecacrash","Pentadecacrash","Hexadecacrash","Heptadecacrash","Octadecacrash","Nonadecacrash","Ultracrash","Impossicrash"},
     cleared="$1 hàng",
     mini="Mini",b2b="B2B ",b3b="B2B2B ",
-    PC="Perfect Clear",HPC="Hemi-Perfect Clear",
+    PC="Perfect Clear",HPC="Half PC",
     replaying="[Đang phát lại]",
     tasUsing="[TAS]",
 
@@ -46,6 +45,10 @@ return {
     maxspeed="TỐC ĐỘ TỐI ĐA!",
     speedup="Tăng tốc nào!",
     missionFailed="Nhiệm vụ thất bại",
+    infHeightOn="Bảng cao vô tận: BẬT",
+    infHeightOff="Bảng cao vô tận: TẮT",
+    infHeightHint="Nhấn phím Chức năng 1 để bật/tắt",
+    highestGrade="(cao nhất: $1)",
 
     speedLV="Tốc độ rơi",
     piece="Gạch",line="Hàng",atk="Attack",eff="Efficiency",
@@ -57,7 +60,7 @@ return {
 
     win="Thắng!",
     lose="Thua",
-
+    torikan="Torikan!",
     finish="Hoàn thành",
     gamewin="Bạn đã thắng",
     gameover="Kết thúc",
@@ -69,10 +72,13 @@ return {
 
     page="Trang ",
 
+    ai_puzzle="AI không tương thích với chế độ Puzzle",
+    ai_mission="AI không tương thích với nhiệm vụ tuỳ chọn.",
+    ai_badPiece="AI không tương thích với trình xáo gạch chứa gạch không phải là tetromino.",
     cc_fixed="CC không tương thích với trình xáo gạch cố định",
     cc_swap="CC không tương thích với chế độ Hold là Chuyển",
-    ai_prebag="AI không tương thích với trình xáo gạch chứa gạch không phải là tetromino.",
-    ai_mission="AI không tương thích với nhiệm vụ tuỳ chọn.",
+    cc_solid="CC không tương thích với bảng có hàng đã lấp đầy.",
+    cc_field_too_high="CC không tương thích với bảng cao hơn 40 hàng!",
     switchSpawnSFX="Vui lòng bật Spawn SFX để chơi!",
     needRestart="Khởi động lại để áp dụng mọi thay đổi.",
 
@@ -94,6 +100,8 @@ return {
     dataCorrupted="Dữ liệu bị hỏng",
     pasteWrongPlace="Bạn có dán đúng nơi không đấy?",
     noFile="Thiếu tệp",
+    invalidSequence="Tên trình xáo gạch không hợp lệ!",
+    tooHighField="BẢNG QUÁ CAO! Phần bảng cao hơn hàng 126 sẽ bị bỏ qua",
 
     nowPlaying="Đang phát:",
 
@@ -209,9 +217,9 @@ return {
 
     modInstruction="Hãy chọn modifier bạn muốn.\nMod cho phép bạn có thể tùy biến game, nhưng cũng có thể làm game sập.\nKể cả thế, hãy thoải mái và chơi theo cách của bạn!\nBạn có thể dùng bàn phím để chọn mod (giữ Shift để chọn lùi)\nĐiểm sẽ không được lưu lại khi dùng mod.",
     modInfo={
-        next="NEXT\nGhi đè số gạch hiển thị ở cột NEXT",
+        next="NEXT\nGhi đè số gạch hiển thị ở hàng NEXT",
         hold="HOLD\nGhi đè số lượng gạch được giữ ở cột HOLD",
-        hideNext="Hidden NEXT\nẨn số lượng gạch ở cột NEXT (Tính từ ô đầu tiên)",
+        hideNext="Hidden NEXT\nẨn số lượng gạch ở hàng NEXT (Tính từ ô đầu tiên)",
         infHold="InfiniHold\nCho phép bạn HOLD vô số lần",
         hideBlock="Hide Current Piece\nGạch đang rơi trong bảng sẽ bị tàng hình",
         hideGhost="No Ghost\nBóng gạch sẽ bị tắt",
@@ -238,7 +246,7 @@ return {
         "Số gạch:",
         "Hàng/Đào:",
         "Gửi/Gửi khi đào:",
-        "Nhận:",
+        "Chịu (Nhận-Phản):",
         "Xóa:",
         "Spin:",
         "B2B/B3B/PC/HPC:",
@@ -247,12 +255,12 @@ return {
     radar={"DEF","OFF","ATK","SEND","SPD","DIG"},
     radarData={"D’PM","ADPM","APM","SPM","L'PM","DPM"},
     stat={
-        "Số lần bật trò chơi:",
+        "Số lần bật game:",
         "Số ván đã chơi:",
         "Thời gian chơi:",
         "Phím/Xoay/Giữ:",
         "Gạch/Hàng/Gửi:",
-        "Nhận/Phản/Đẩy:",
+        "Nhận/Phản/Chịu:",
         "Đào/Gửi khi đào:",
         "H.quả/H.quả khi Đào:",
         "B2B/B3B:",
@@ -335,6 +343,7 @@ return {
         "Miya",
         "Xiaoya",
         "Mono",
+        "Flore",
         "MrZ",
         "Trebor",
         "",
@@ -417,8 +426,8 @@ B. Bàn phím: Nhấn…
 
 C. Tay cầm chơi game (Gamepad):
         - Nhấn $10 để hiển thị trợ giúp
-        - Nhấn $5 hoặc $6 để cuộn văn bản, giữ $11 để cuộn nhanh hơn
-        - Nhấn $7 để mở mục trước và $8 để mở mục tiếp theo
+        - Nhấn $5 hoặc $6 để cuộn văn bản
+        - Nhấn $7 để mở mục trước và $8 để mở mục tiếp theo, giữ $11 để lướt nhanh hơn
         - Giữ $11 và nhấn $6 để giảm cỡ chữ hoặc $5 để tăng lên
 ]]
         -- 1-4: Up, Down, Left, Right
@@ -503,7 +512,7 @@ C. Tay cầm chơi game (Gamepad):
             capacity="Giới hạn số người",
             create="Tạo phòng",
 
-            ospin="O-spin",
+            ospin="TRS O-spin",
             fineKill="100% Finesse",
             b2bKill="Không phá B2B",
             lockout="Thua khi Lock Out",
@@ -511,7 +520,7 @@ C. Tay cầm chơi game (Gamepad):
             deepDrop="Thả rơi sâu",
             bone="Dùng skin []",
 
-            eventSet="Rule Set",
+            eventSet="Ruleset",
 
             holdMode="Chế độ Hold",
             nextCount="Next",
@@ -562,13 +571,13 @@ C. Tay cầm chơi game (Gamepad):
             grid="Lưới",
             lineNum="# hàng",
 
-            lockFX="H.ứng Khóa gạch",
-            dropFX="H.ứng Thả nhẹ",
-            moveFX="H.ứng Di chuyển",
-            clearFX="H.ứng Xóa hàng",
-            splashFX="H.ứng Gạch \"rụng\"",
+            lockFX="Hiệu ứng Khóa gạch",
+            dropFX="Hiệu ứng Thả nhẹ",
+            moveFX="Hiệu ứng Di chuyển",
+            clearFX="Hiệu ứng Xóa hàng 1",
+            splashFX="Hiệu ứng Xóa hàng 2",
             shakeFX="Độ nảy bảng",
-            atkFX="H.ứng Tấn công",
+            atkFX="Hiệu ứng Tấn công",
 
             frame="Tần suất cập nhật khung hình (%)",
 
@@ -580,7 +589,7 @@ C. Tay cầm chơi game (Gamepad):
             highCam="Trượt bảng",
             warn="Cảnh báo nguy hiểm",
 
-            clickFX="Click FX",
+            clickFX="Hiệu ứng nhấp chuột",
             power="Hiện thanh pin",
             clean="Vẽ nhanh",
             fullscreen="Toàn màn hình",
@@ -590,6 +599,10 @@ C. Tay cầm chơi game (Gamepad):
             bg_on="Ảnh nền thường",
             bg_off="Không ảnh nền",
             bg_custom="Ảnh nền tự chọn",
+            defaultBG="Nền mặc định",
+            resetDbg='Đặt lại',
+            lockBG="Khóa ảnh nền",
+            noTheme="Tắt theme",
 
             blockSatur="Độ đậm gạch",
             fieldSatur="Độ đậm bảng",
@@ -617,7 +630,7 @@ C. Tay cầm chơi game (Gamepad):
         },
         setting_control={
             -- title="Cài đặt Điều khiển",
-            title="Đ.chỉnh thg. số",
+            title="Điều chỉnh thông số",
             preview="Xem trước",
 
             das="DAS",arr="ARR",
@@ -723,7 +736,7 @@ C. Tay cầm chơi game (Gamepad):
             sequence="C. đặt Trình xáo gạch (S)",
             mission="Cài đặt Nhiệm vụ (M)",
 
-            eventSet="Rule Set",
+            eventSet="Ruleset",
 
             holdMode="Chế độ Hold",
             nextCount="Next",
@@ -741,7 +754,7 @@ C. Tay cầm chơi game (Gamepad):
 
             bufferLimit="Giới hạn nhận rác",
             heightLimit="Giới hạn độ cao",
-            ospin="O-Spin",
+            ospin="TRS O-spin",
             fineKill="100% Finesse",
             b2bKill="Không phá B2B",
             lockout="Thua khi Lock Out",
@@ -887,11 +900,13 @@ C. Tay cầm chơi game (Gamepad):
         ['sprint_40l']=          {"Sprint",            "40L",            "Xoá 40 hàng!"},
         ['sprint_100l']=         {"Sprint",            "100L",           "Xoá 100 hàng!"},
         ['sprint_400l']=         {"Sprint",            "400L",           "Xoá 400 hàng!"},
-        ['sprint_1000l']=        {"Sprint",            "1000L",         "Xoá 1000 hàng!"},
+        ['sprint_1000l']=        {"Sprint",            "1000L",          "Xoá 1000 hàng!"},
         ['sprintPenta']=         {"Sprint",            "PENTOMINO",      "Xoá 40 hàng với 18 pentomino"},
         ['sprintMPH']=           {"Sprint",            "MPH",            "Memoryless\nPreviewless\nHoldless"},
         ['sprint123']=           {"Sprint",            "M123",           "Xoá 40 hàng chỉ với monomino, domino, và trimino"},
-        ['secret_grade']=        {"Secret Grade",      "",               "Xây một đường lỗ theo hình dích dắc!"},
+        ['construct_sg']=        {"Construct",         "SECRET GRADE",   "Xây một đường lỗ theo hình dích dắc!"},
+        ['construct_checker']=   {"Construct",         "CHECKERBOARD",   "Xây tường theo kiểu xen kẽ!"},
+        ['construct_invsg']=     {"Construct",         "SG ĐẢO NGƯỢC",   "Xây một đường thẳng theo hình dích dắc!"},
         ['dig_10l']=             {"Dig",               "10L",            "Đào 10 hàng rác càng nhanh càng tốt"},
         ['dig_40l']=             {"Dig",               "40L",            "Đào 40 hàng rác càng nhanh càng tốt!"},
         ['dig_100l']=            {"Dig",               "100L",           "Đào 100 hàng rác càng nhanh càng tốt!"},
@@ -902,7 +917,7 @@ C. Tay cầm chơi game (Gamepad):
         ['dig_eff_400l']=        {"Dig",               "EFFICIENCY 400L","Đào 400 hàng rác càng ít gạch càng tốt!"},
         ['dig_quad_10l']=        {"Dig",               "TECHRASH 10L",   "Đào 10 hàng rác nhưng chỉ dùng techrash!"},
         ['drought_n']=           {"Drought",           "100L",           "Không có thanh dài"},
-        ['drought_l']=           {"Drought+",          "100L",           "C L G T"},
+        ['drought_l']=           {"Drought+",          "100L",           "C L G T ? !"},
         ['marathon_n']=          {"Marathon",          "THƯỜNG",         "Xoá 200 hàng với tốc độ nhanh dần"},
         ['marathon_h']=          {"Marathon",          "KHÓ",            "Xoá 200 hàng với tốc độ cao"},
         ['solo_e']=              {"Battle",            "DỄ",             "Đánh bại AI!"},
@@ -910,12 +925,12 @@ C. Tay cầm chơi game (Gamepad):
         ['solo_h']=              {"Battle",            "KHÓ",            "Đánh bại AI!"},
         ['solo_l']=              {"Battle",            "RẤT KHÓ",        "Đánh bại AI!"},
         ['solo_u']=              {"Battle",            "THÁCH ĐẤU",      "Đánh bại AI!"},
-        ['techmino49_e']=        {"Tech 49",           "DỄ",             "Cuộc chiến 49 người.\nNgười trụ lại cuối cùng giành chiến thắng"},
-        ['techmino49_h']=        {"Tech 49",           "KHÓ",            "Cuộc chiến 49 người.\nNgười trụ lại cuối cùng giành chiến thắng"},
-        ['techmino49_u']=        {"Tech 49",           "THÁCH ĐẤU",      "Cuộc chiến 49 người.\nNgười trụ lại cuối cùng giành chiến thắng"},
-        ['techmino99_e']=        {"Tech 99",           "DỄ",             "Cuộc chiến 99 người.\nNgười trụ lại cuối cùng giành chiến thắng"},
-        ['techmino99_h']=        {"Tech 99",           "KHÓ",            "Cuộc chiến 99 người.\nNgười trụ lại cuối cùng giành chiến thắng"},
-        ['techmino99_u']=        {"Tech 99",           "THÁCH ĐẤU",      "Cuộc chiến 99 người.\nNgười trụ lại cuối cùng giành chiến thắng"},
+        ['techmino49_e']=        {"Tech VS 49",        "DỄ",             "Cuộc chiến 49 người.\nNgười trụ lại cuối cùng sẽ giành chiến thắng"},
+        ['techmino49_h']=        {"Tech VS 49",        "KHÓ",            "Cuộc chiến 49 người.\nNgười trụ lại cuối cùng sẽ giành chiến thắng"},
+        ['techmino49_u']=        {"Tech VS 49",        "THÁCH ĐẤU",      "Cuộc chiến 49 người.\nNgười trụ lại cuối cùng sẽ giành chiến thắng"},
+        ['techmino99_e']=        {"Tech VS 99",        "DỄ",             "Cuộc chiến 99 người.\nNgười trụ lại cuối cùng sẽ giành chiến thắng"},
+        ['techmino99_h']=        {"Tech VS 99",        "KHÓ",            "Cuộc chiến 99 người.\nNgười trụ lại cuối cùng sẽ giành chiến thắng"},
+        ['techmino99_u']=        {"Tech VS 99",        "THÁCH ĐẤU",      "Cuộc chiến 99 người.\nNgười trụ lại cuối cùng sẽ giành chiến thắng"},
         ['round_e']=             {"Turn-Based",        "DỄ",             "Chơi theo lượt và đánh bại AI!"},
         ['round_n']=             {"Turn-Based",        "THƯỜNG",         "Chơi theo lượt và đánh bại AI!"},
         ['round_h']=             {"Turn-Based",        "KHÓ",            "Chơi theo lượt và đánh bại AI!"},
@@ -966,17 +981,15 @@ C. Tay cầm chơi game (Gamepad):
         ['pc_h']=                {"PC Challenge",      "KHÓ",            "Lấy càng nhiều PC càng tốt trong 100 hàng!"},
         ['pc_l']=                {"PC Challenge",      "RẤT KHÓ",        "Lấy càng nhiều PC càng tốt trong 100 hàng!"},
         ['pc_inf']=              {"Inf. PC Challenge", "",               "Lấy càng nhiều PC càng tốt"},
-        ['tech_n']=              {"Tech",              "THƯỜNG",         "Cố gắng không phá B2B!"},
-        ['tech_n_plus']=         {"Tech",              "THƯỜNG+",        "Chỉ được clear Spin hoặc PC"},
-        ['tech_h']=              {"Tech",              "KHÓ",            "Cố gắng không phá B2B!"},
-        ['tech_h_plus']=         {"Tech",              "KHÓ+",           "Chỉ được clear Spin hoặc PC"},
-        ['tech_l']=              {"Tech",              "RẤT KHÓ",        "Cố gắng không phá B2B!"},
-        ['tech_l_plus']=         {"Tech",              "RẤT KHÓ+",       "Chỉ được clear Spin hoặc PC"},
-        ['tech_finesse']=        {"Tech",              "HOÀN HẢO",       "Không được phép có lỗi di chuyển!"},
-        ['tech_finesse_f']=      {"Tech",              "HOÀN HẢO+",      "Không được phép có lỗi di chuyển hoặc loại Xoá hàng thường!"},
-        ['tech_finesse_lock']=   {"Tech",              "FINESSE LOCK",   "Không được mắc lỗi di chuyển hoặc bạn không thể điều khiển gạch!"},
-        ['tech_finesse_lock_f']= {"Tech",              "FINESSE+ LOCK",  "Không được mắc lỗi di chuyển hoặc bạn không thể điều khiển gạch! Và không thể dùng kiểu xóa thường!"},
-        ['tsd_e']=               {"TSD Challenge",     "DỄ",             "Chỉ được làm T-Spin Double!"},    -- Chỉ được clear…
+        ['tech_n']=              {"Tech B2B",          "THƯỜNG",         "Cố gắng không phá B2B!"},
+        ['tech_n_plus']=         {"Tech B2B",          "THƯỜNG+",        "Chỉ được clear Spin hoặc PC"},
+        ['tech_h']=              {"Tech B2B",          "KHÓ",            "Cố gắng không phá B2B!"},
+        ['tech_h_plus']=         {"Tech B2B",          "KHÓ+",           "Chỉ được clear Spin hoặc PC"},
+        ['tech_l']=              {"Tech B2B",          "RẤT KHÓ",        "Cố gắng không phá B2B!"},
+        ['tech_l_plus']=         {"Tech B2B",          "RẤT KHÓ+",       "Chỉ được clear Spin hoặc PC"},
+        ['tech_finesse']=        {"Kỹ thuật di chuyển","",               "Không được phép có lỗi di chuyển!"},
+        ['tech_finesse_f']=      {"Kỹ thuật di chuyển","Khg ĐƠN/ĐÔI/TAM","Không được phép có lỗi di chuyển hoặc kiểu Xoá hàng thường!"},
+        ['tsd_e']=               {"TSD Challenge",     "DỄ",             "Chỉ được làm T-Spin Double!"},
         ['tsd_h']=               {"TSD Challenge",     "KHÓ",            "Chỉ được làm T-Spin Double!"},
         ['tsd_u']=               {"TSD Challenge",     "THÁCH ĐẤU",      "Chỉ được làm T-Spin Double!"},
         ['backfire_n']=          {"Backfire",          "THƯỜNG",         "Sống sót những hàng rác do chính bạn gửi"},
@@ -1031,7 +1044,7 @@ C. Tay cầm chơi game (Gamepad):
         "B2B2B2B tồn tại hả?",
         "Đừng để những thứ nhỏ nhặt làm bạn nản chí!",
         "Đây không phải là lỗi, đây là tính năng!",
-        "Hệ thống xoay gạch của Techmino rất đẹp trai!",
+        "Hệ thống xoay gạch của Techmino rất là đẹp trai!",
         "Em rất tốt nhưng anh rất tiếc…",   -- EXCELLENT! But… let's go better next time
         "Đừng quên xem qua phần cài đặt!",
         "Nếu bạn thấy có vấn đề gì, hãy lên trang GitHub báo lại cho chúng tôi!",
@@ -1051,7 +1064,7 @@ C. Tay cầm chơi game (Gamepad):
         "Hãy tham gia Discord của chúng tôi!",
         "l-=-1",
         "Nổi lửa lên em, NỔI LỬA LÊN EM!",
-        "Việc giảm tần số khung hình sẽ mang trải nghiệm tệ hơn cho bạn",
+        "Việc giảm tần số khung hình sẽ mang đến trải nghiệm tệ hơn cho bạn",
         "LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF",
         "Mix clear sắp ra mắt!",
         "Hầu hết các biểu tượng của các nút được vẽ tay vào trong bảng Unicode Private Use Area",
@@ -1114,7 +1127,6 @@ C. Tay cầm chơi game (Gamepad):
         {C.lP,"Con số bí mật: 626"},
         {C.lR,"Z ",C.lG,"S ",C.lS,"J ",C.lO,"L ",C.lP,"T ",C.lY,"O ",C.lC,"I"},
         {C.lY,"MÁT QUÁ!!"},
-        {C.N,"Lua",C.Z," No.1"},
         {C.P,"T-spin!"},
         {C.R,"DMCA là gì?"},
         {C.R,"\"Luật sở hữu trí tuệ\""},
@@ -1125,7 +1137,7 @@ C. Tay cầm chơi game (Gamepad):
         {C.Z,"Gì? ",C.lC,"Xspin?"},
 
 
-
+    -- Bắt đầu từ đoạn này là mình phải lấy từ bản tiếng Trung nhờ cả Bard lẫn GPT3.5 dịch hộ :|
     -- TECHMINO FUN FACT
         -- How do you pronounce Techmino?
         "Phát âm từ Techmino như thế nào mới đúng?",
@@ -1138,14 +1150,13 @@ C. Tay cầm chơi game (Gamepad):
         -- Techmino's birthday
         "Ngày sinh nhật của Techmino? Hiện tại (đang giả định) là 26/T6.",
         -- How to O-spin: Rotate 626 times in one second (mistaken)
-        "Cách O-spin? Nhấn phím xoay 626 lần (ĐÙA ĐẤY ĐỪNG TIN!)",
+        "Cách O-spin? Nhấn phím xoay 626 lần trong 1 giây (ĐÙA ĐẤY ĐỪNG TIN!)",
         -- Hope you all like Z... Oh no, like Techmino
         {"Mình mong các bạn sẽ thích ",C.W,"Z",C.Z,"… Ối! Không phải, thích ",C.G,"Techmino",C.Z," cơ! Nhầm nhầm nhầm!"},
         -- 2021 was the year of Techmino's online debut.
         "2021 là năm ra mắt chế độ trực tuyến của Techmino.",
         -- The Chinese name of this game is 'Block Research Institute'.
-        "Tên chính thức của game là \"方块研究所\" (Block Research Institute).",
-        "Một tên khác của game này là \"Tiehu Minuo\"",
+        "Tên chính thức của game là \"方块研究所\"",
         -- This game is not called Teachmino
         "Tên game không phải là Teachmino!",
         --
@@ -1168,37 +1179,37 @@ C. Tay cầm chơi game (Gamepad):
         -- Don't play with your phone if your homework isn't finished.
         "Đừng chơi điện thoại khi bài tập về nhà còn chưa hoàn thành.",
         -- Enabling vibration on some mobile systems may cause severe lag."
-        "Bật rung trên điện thoại có thể khiến máy phải thở oxy.",
+        "Bật rung trên một số điện thoại có thể làm cho chúng… phải thở oxy!",
         -- Eat the button? Really? I suggest you play it back to see if you pressed it and how long it took you to press it"
-        "Phím không ăn? Đùa à? Xem lại replay để chắc rằng ông đã nhấn và xem thử mất bao nhiêu thời gian để ông nhấn phím đó.",
+        "Phím không ăn? Hãy thử kiểm tra lại phím đi!",
         -- Probably someone will read the tip
         "Chắc chắn có người đang đọc cái dòng chữ nhỏ đang chạy ở dưới này.",
         -- It seems like no one has reached a high level by playing with their feet yet.
         "Hình như tới giờ chưa ai chơi xếp gạch giỏi bằng chân…",
         -- Moderate gaming is good for the brain. Addiction to games is harmful. Plan your time
-        "Chơi game vừa phải có thể tốt cho bộ não. Nhưng nếu nghiện thì toeng! Nhớ quản lý thời gian nhé!",
+        "Chơi game vừa phải có thể tốt cho bộ não. Nhưng nếu nghiện thì toeng! Nhớ lập th!ời gian biểu nhé!",
         -- The ability to dig is extremely important in battles!!!
         "Khả năng đào xuống (downstacking) của bạn là RẤT QUAN TRỌNG trong chiến đấu!!!",
         -- Skilled players of the Classic Tetris game are also formidable; don't underestimate them
-        "Xếp gạch cổ điển cũng không đơn giản gì như xếp gạch hiện đại đâu. Đừng có mà xem thường những người chơi hệ cổ điển!",
+        "Đừng có mà xem thường những người chơi xếp gạch cổ điển! Chơi cái đó cũng khó không khác gì chơi xếp gạch hiện đại đâu.",
         -- Classic Tetris and Modern Tetris are two different games; being skilled in one doesn't mean you'll be skilled in the other. You have to start from scratch.
         "Xếp gạch cổ điển và xếp gạch hiện đại là hai thể loại game khác nhau đấy! Giỏi một trong hai chưa chắc bạn giỏi cả bên còn lại đâu. Bạn phải học lại từ đầu đấy",
         -- To protect the players' well-being, the game has a temporary and simplified anti-addiction system! (But you probably won't trigger it, haha)
         "Để tránh việc người chơi nào đó chơi quá lâu, game đã có hệ thống chống nghiện đơn giản tạm thời (Nhưng bạn có lẽ sẽ không bao giờ kích hoạt chúng đâu, haha)",
         -- Basic stacking and digging skills are crucial; those who neglect these two aspects often regret it (trust me)
-        {"Kỹ năng xếp lên vào đào xuống là 2 kỹ năng RẤT quan trọng; những ai (đã/từng) coi thường/bỏ bê hai khía cạnh này thường hay bị bón hành súp mặt lờ (tin ",C.W,"MrZ",C.Z," đi!)"},
+        {"Kỹ năng xếp lên vào đào xuống là 2 kỹ năng RẤT quan trọng; những ai (đã/từng) coi thường hay bỏ bê hai khía cạnh này thường hay bị bón hành súp mặt lờ (tin ",C.W,"MrZ",C.Z," đi!)"},
         -- Even if you're topped out, don't give up; every line of garbage can potentially become your weapon.
-        "Ngay cả khi bạn sắp bị top out, đừng bỏ cuộc; vì từng hàng rác có tiềm năng trở thành vũ khí của bạn!",
+        "Đừng bỏ cuộc khi đống hàng rác đang làm bạn sắp bị top out, bởi bạn có thể biến chúng trở thành đòn phản công.",
         -- The video shown above is not a recording; it's the robot playing in real-time.
-        "Cái ở trên là replay hả? Không, là AI đang chơi trong thời gian thực đấy!",
+        "Cái ở trên là bản ghi sẵn hả? Không, là AI đang chơi trong thời gian thực đấy!",
         -- Extended gaming sessions will gradually deteriorate your performance! Remember to take breaks when playing for a long time~
-        "THường xuyên chơi game lâu có thể khiến bạn có thể bị đuối sức (cả thể chất và tinh thần, tệ nhất có thể bị stall). Hãy nhớ nghỉ giải lao sau khi chơi lâu nhé!",
+        "Thường xuyên chơi game lâu có thể khiến bạn có thể bị đuối sức (cả thể chất và tinh thần, tệ nhất có thể bị stall). Hãy nhớ nghỉ giải lao sau khi chơi lâu nhé!",
         -- Be careful of tenosynovitis!
         {C.R,"CẢNH BÁO! ",C.Z,"Bệnh viêm bao gân cổ tay!"},
-        -- The button with a question mark in the bottom-right corner is the game manual (assuming you haven't enabled the concise mode).
+        -- The button with a question mark in the bottom-right corner is the game manual (assuming you haven't enabled the Simple mode).
         "Cái nút "..CHAR.icon.help.." ở góc phải dưới cùng trong menu (không bật chế độ Đơn giản) đấy hả? Nó là manual (hướng dẫn sử dụng) của game đấy!",
         -- If you're new to blocks, just play more games; there isn't much specific targeted practice beyond 40 lines in two minutes
-        "Bạn mới tập chơi xếp gạch à? Nếu vậy cứ chơi nhiều lên. Không có nhiều mục tiêu luyện tập cụ thể ngoài xóa 40 hàng trong 2 phút.",
+        "Bạn mới tập chơi xếp gạch à? Nếu vậy cứ chơi nhiều lên. Không có nhiều mục tiêu luyện tập cụ thể ngoài xóa 40 hàng trong 2 phút đâu!",
         --
         "Hãy ra ngoài và chạm cỏ đi!",
 --
@@ -1208,7 +1219,7 @@ C. Tay cầm chơi game (Gamepad):
 --
     -- Z SAID
         -- I can't write cool music (crying)
-        {C.W,"Z: ",C.Z,"Tôi không thể nào viết một bản nhạc nào trông ngầu cả (sadge)."},
+        {C.W,"Z: ",C.Z,"Tôi không tài nào viết nổi một bản nhạc nào trông ngầu cả (sadge)."},
         -- I haven't studied music composition. I just composed it myself. If you really think it's good, that's great!
         {C.W,"Z: ",C.Z,"Tôi chưa từng học sáng tác nhạc, và tôi chỉ tự sáng tác chúng. Nếu bạn thấy những bản nhạc này hay, thật tuyệt!"},
         -- What else can I write for tips?
@@ -1219,6 +1230,7 @@ C. Tay cầm chơi game (Gamepad):
         {C.W,"Z: ",C.Z,"Tôi tự hỏi là có bao nhiêu người chơi game thực sự quan tâm ai viết ra nó."},
 --
     -- IT JOKES
+        {C.N,"Lua",C.Z," No.1"},
         "git clone --recursive https://github.com/26F-Studio/Techmino.git",
         "git commit -m \".\"",
         "git pull = git fetch + git merge",
@@ -1229,10 +1241,9 @@ C. Tay cầm chơi game (Gamepad):
         "git submodule update",
         "git merge --rebase",
         "git merge --squash",
-        "Lua No.1",
         "sudo rm -rf /*",
         "shutdown /s /t 0",         -- Turn off computer completely (no Fast Boot)
-        "shutdown /s /t 0 /hybrid", -- Turn off computer with Fast Boot still activated
+        "shutdown /s /t 0 /hybrid", -- Turn off computer with Fast Boot
         -- Techmino has reached the limit.
         "Không thể mở Techmino vì bạn đã quá nghiện game này rồi :>",
         -- Techmino.exe has stopped working.
@@ -1243,26 +1254,25 @@ C. Tay cầm chơi game (Gamepad):
 --
     -- CHANGELOG
         {C.lW, "V0.0.091726",": ",C.Z, "Đã thêm hệ thống xoay TRS"},
-        {C.lW, "V0.7.9 "    ,": ",C.Z, "Đã thêm ",C.yellow,"O-spin"},
+        {C.lW, "V0.7.9"     ,": ",C.Z, "Đã thêm ",C.yellow,"O-spin"},
         {C.lW, "V0.7.19"    ,": ",C.Z, "Đã thêm hệ thống voice"},
         {C.lW, "V0.7.22"    ,": ",C.Z, "Đã thêm hiệu ứng rơi mượt"},
-        {C.lW, "V0.8.5 "    ,": ",C.Z, "Đã thêm map và sắp xếp lại các chế độ"},
+        {C.lW, "V0.8.5"     ,": ",C.Z, "Đã thêm map và sắp xếp lại các chế độ"},
         {C.lW, "V0.8.19"    ,": ",C.Z, "Đã thêm Pentomino"},
-        {C.lW, "V0.9.0 "    ,": ",C.Z, "Đã thêm chế độ tự do và khả năng tùy biến chuỗi gạch"},
+        {C.lW, "V0.9.0"     ,": ",C.Z, "Đã thêm chế độ tự do và khả năng tùy biến chuỗi gạch"},
         {C.lW, "V0.10.0"    ,": ",C.Z, "Đã thêm hệ thống replay"},
         {C.lW, "V0.11.1"    ,": ",C.Z, "Đã thêm Little Z Dictionary (Zictionary)"},
         {C.lW, "V0.12.2"    ,": ",C.Z, "Đã thêm hệ thống mod"},
         {C.lW, "V0.13.0"    ,": ",C.Z, "Thử nghiệm chế độ trực tuyến"},
         {C.lW, "V0.13.2"    ,": ",C.Z, "Đã thêm khả năng tùy biến chiều cao bảng"},
         {C.lW, "V0.13.3"    ,": ",C.Z, "Đã thêm console"},
-        {C.lW, "V0.14.5"    ,": ",C.Z, "Đã thêm BGM đầu tiên được làm bởi cộng đồng"},
+        {C.lW, "V0.14.5"    ,": ",C.Z, "Đã thêm BGM đầu tiên được remix bởi cộng đồng"},
         {C.lW, "V0.15.5"    ,": ",C.Z, "Đã thêm menu replay"},
         {C.lW, "V0.16.0"    ,": ",C.Z, "Đã thêm hệ thống xoay BiRS"},
         {C.lW, "V0.16.2"    ,": ",C.Z, "Đã thêm studio SFX với phong cách hit pad"},
         {C.lW, "V0.17.0"    ,": ",C.Z, "Đã thêm hõ trợ điều khiển bằng joystick"},
         {C.lW, "V0.17.3"    ,": ",C.Z, "Dừng phát triển Techmino, tập trung phát triển game mới"},
         {C.lW, "V0.17.12"   ,": ",C.Z, "Đã thêm ngôn ngữ tiếng Việt"},
-        {C.lW, "V0.17.15"   ,": ",C.Z, "Hoàn thiện bản dịch tiếng Việt?"},
 --
         -- MATH FORMULAS
         "(a+b)²=a²+2ab+b²",
@@ -1286,19 +1296,22 @@ C. Tay cầm chơi game (Gamepad):
         "sin²α-sin²β=S(α+β)S(α-β)",
         "sin2α=2SαCα",
 --
-    -- FROM SEA
+        -- SEA'S JOKE
         {C.W,"MrZ",C.Z," còn có một biệt danh dễ thương hơn, đó là ",C.W,"Z-Chan"},
         "Có hơn 400 mẹo bạn có thể nhìn thấy ở đây, là cái dòng chữ này, nếu bạn đang chơi Techmino tiếng Trung",
 
         {C.lSea,"Sea: ",C.Z,"Tui không có đủ mặn để viết joke. Nên một số câu đùa đang chạy ở đây được viết bởi ",C.yellow,"Shard Nguyễn",C.Z,". \"Em cảm ơn anh!\""},
         {C.lSea,"Sea: ",C.Z,"Tui đang tự hỏi liệu còn bao nhiêu lỗi tui bỏ sót lúc dịch game không? Tính ra tui đã cập nhật đi cập nhật lại cũng 4-5 lần rồi."},
 
-        {"Cộng đồng Tetris ",C.R,"Việt ",C.lY,"Nam ",C.Z,": https://discord.gg/jX7BX9g"}, -- Tetris Vietnam
+        {"Cộng đồng Tetris ",C.R,"Việt ",C.lY,"Nam ",C.Z,": https://discord.gg/hoiphuhovietnam"}, -- Tetris Vietnam (TVN)
+        {"\"Tetris Việt Nam\"? Không, đó là \"Hội phụ hồ Việt Nam\""},
         {C.W,"MrZ ",C.Z,"vẫn chưa biết chọn tên nào để đặt cho từ điển của Techmino. Hiện có 3 tên: \"Zictionary\", \"TetroDictionary\" và \"Little Z Dictionary\""},
         "Ủa tao nhớ game này tên là xếp hình mà? Ừ thì đúng nhưng để giữ độ đồng nhất và tránh bị cấn mồm thì nên gọi game này là game xếp gạch.",
         "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
-        {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.Z," không?"}, -- A joke
-        {"Hôm nay là ngày ",os.date("%d"),"/",all_month[tonumber(os.date("%m"))],"/",os.date("%Y")}, -- inspired from Nokia 1280, activating talking clock by holding * key at main menu
+        {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.Z," không?"}, -- A joke in TVN
+        -- Who will you choose? A girl that can break up to you and make you sad
+        -- Or choose Katyusha that can warm your heart and 40ha land of enemy.
+        "Bạn sẽ chọn ai? Một em gái có thể chia tay và làm bạn buồn? Hay là chọn em Katyusha có thể làm ấm lòng bạn và 40ha đất kẻ thù?", -- Based on a comment in https://www.youtube.com/watch?v=nczdLwTyWmY
     },
     pumpkin="Tôi là một quả bí ngô",
 }

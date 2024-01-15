@@ -9,14 +9,14 @@ return {
         local L=P.stat.row
         if L<40 then
             return
-            L>25 and 2 or
-            L>10 and 1 or
-            L>5 and 0
+                L>25 and 2 or
+                L>10 and 1 or
+                L>5 and 0
         end
         local T=P.stat.time
         return
-        T<=260 and 5 or
-        T<=420 and 4 or
-        3
+            T<=260 and 5 or
+            T<=420 and 4 or
+            3
     end,
 }

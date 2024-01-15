@@ -38,10 +38,14 @@ return {
     maxspeed="!!!",
     speedup="~!~",
     missionFailed="-X_X-",
+    infHeightOn="∞↑ "..CHAR.icon.checkMark,
+    infHeightOff="∞↑ "..CHAR.icon.crossMark,
+    infHeightHint=CHAR.icon.checkMark.."/"..CHAR.icon.crossMark..": F₁",
+    highestGrade="(↑: $1)",
 
     win=": )",
     lose=": (",
-
+    torikan=": /",
     finish="&",
     gamewin=">>",
     gameover="x",
@@ -53,15 +57,18 @@ return {
 
     page=":",
 
+    ai_puzzle="X!!!",
+    ai_mission="X!!!",
+    ai_badPiece="X!!!",
     cc_fixed="CC X!!!",
     cc_swap="CC X!!!",
-    ai_prebag="X!!!",
-    ai_mission="X!!!",
+    cc_solid="CC X!!!",
+    cc_field_too_high="CC X!!!",
     needRestart="!!*#R#*!!",
 
     loadError_errorMode="'$1' ↑x!: no load mode '$2'",
     loadError_read="'$1' ↑x!: read failed",
-    loadError_noFile="'$1' ↑oading failed no file:",
+    loadError_noFile="'$1' loading failed no file:",
     loadError_other="'$1' ↑x!: $2",
     loadError_unknown="'$1' ↑x!: unknown reason",
 
@@ -77,6 +84,8 @@ return {
     dataCorrupted="XXXXX",
     pasteWrongPlace="_?X.",
     -- noFile="File not found",
+    -- invalidSequence="Invalid sequence mode",
+    -- tooHighField="Field data exceeded 126 lines discarded",
 
     nowPlaying="~:",
 
@@ -100,7 +109,7 @@ return {
         "□:",
         "-/↓:",
         "→/↓→:",
-        "←:",
+        "↑(←-↓):",
         "□↓:",
         "~↓:",
         "^^/^^^/#<>#/<>:",
@@ -213,7 +222,7 @@ return {
             deepDrop="\\↓↓/",
             bone="[]",
 
-            eventSet="Rule Set",
+            eventSet="Ruleset",
 
             holdMode="? [ ]",
             nextCount="→",
@@ -288,6 +297,10 @@ return {
             bg_on="__?__",
             bg_off="__.__",
             bg_custom="__!__",
+            defaultBG="__$0__",
+            resetDbg="R$0",
+            lockBG="__↓__",
+            noTheme="\\^_^/ "..CHAR.icon.crossMark,
 
             blockSatur="==#0x",
             fieldSatur="[]#0x",
@@ -403,7 +416,7 @@ return {
             sequence="Edit Sequence (S)",
             mission="Edit Mission (M)",
 
-            eventSet="Rule Set",
+            eventSet="Ruleset",
 
             holdMode="? [ ]",
             nextCount="→",

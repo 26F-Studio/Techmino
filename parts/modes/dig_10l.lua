@@ -11,11 +11,11 @@ return {
         if P.stat.dig<10 then return end
         local T=P.stat.time
         return
-        T<=7 and 5 or
-        T<=12 and 4 or
-        T<=20 and 3 or
-        T<=40 and 2 or
-        T<=60 and 1 or
-        0
+            T<=7 and 5 or
+            T<=12 and 4 or
+            T<=20 and 3 or
+            T<=40 and 2 or
+            T<=60 and 1 or
+            0
     end,
 }

@@ -293,6 +293,7 @@ MODE_UPDATE_MAP={
     round_3="round_l",
     round_4="round_n",
     round_5="round_u",
+    secret_grade="construct_sg",
     solo_1="solo_e",
     solo_2="solo_h",
     solo_3="solo_l",
@@ -326,8 +327,8 @@ MODE_UPDATE_MAP={
     tsd_hard="tsd_h",
     tsd_ultimate="tsd_u",
     GM="master_ex",
-    master_beginner="master_l",
-    master_advance="master_u",
+    master_beginner="master_n",
+    master_advance="master_h",
     master_phantasm="master_ph",
     master_extra="master_ex",
 }
@@ -495,7 +496,7 @@ do-- Mod data
     }
     for i=1,#MODOPT do
         local M=MODOPT[i]
-        M.sel,M.time=0,0
+        M.time=0
         M.color=COLOR[M.color]
     end
 end
@@ -506,37 +507,38 @@ do-- Game data tables
     BAG={}-- Sequence for custom game
     MISSION={}-- Clearing mission for custom game
     GAME={-- Global game data
-        playing=false,      -- If in-game
-        init=false,         -- If need initializing game when enter scene-play
-        net=false,          -- If play net game
+        playing=false,           -- If in-game
+        init=false,              -- If need initializing game when enter scene-play
+        net=false,               -- If play net game
 
-        result=false,       -- Game result (string)
-        rank=0,             -- Rank reached
-        pauseTime=0,        -- Time paused
-        pauseCount=0,       -- Pausing count
-        warnLVL0=0,         -- Warning level
-        warnLVL=0,          -- Warning level (show)
+        result=false,            -- Game result (string)
+        rank=0,                  -- Rank reached
+        pauseTime=0,             -- Time paused
+        pauseCount=0,            -- Pausing count
+        warnLVL0=0,              -- Warning level
+        warnLVL=0,               -- Warning level (show)
 
-        seed=1046101471,    -- Game seed
-        curMode=false,      -- Current gamemode object
-        mod={},             -- List of loaded mods
-        modeEnv=false,      -- Current gamemode environment
-        setting={},         -- Game settings
-        rep={},             -- Recording list, key,time,key,time...
-        statSaved=true,     -- If recording saved
-        recording=false,    -- If recording
-        replaying=false,    -- If replaying
-        saved=false,        -- If recording saved
-        tasUsed=false,      -- If tasMode used
+        seed=1046101471,         -- Game seed
+        curMode=false,           -- Current gamemode object
+        initPlayerCount=0,       -- Player count when init game
+        mod=TABLE.new(0,#MODOPT),-- List of loaded mods
+        modeEnv=false,           -- Current gamemode environment
+        setting={},              -- Game settings
+        rep={},                  -- Recording list, key,time,key,time...
+        statSaved=true,          -- If recording saved
+        recording=false,         -- If recording
+        replaying=false,         -- If replaying
+        saved=false,             -- If recording saved
+        tasUsed=false,           -- If tasMode used
 
-        prevBG=false,       -- Previous background, for restore BG when quit setting page
+        prevBG=false,            -- Previous background, for restore BG when quit setting page
 
         -- Data for royale mode
-        stage=false,        -- Game stage
-        mostBadge=false,    -- Most badge owner
-        secBadge=false,     -- Second badge owner
-        mostDangerous=false,-- Most dangerous player
-        secDangerous=false, -- Second dangerous player
+        stage=false,             -- Game stage
+        mostBadge=false,         -- Most badge owner
+        secBadge=false,          -- Second badge owner
+        mostDangerous=false,     -- Most dangerous player
+        secDangerous=false,      -- Second dangerous player
     }
     ROYALEDATA={
         powerUp=false,
@@ -657,6 +659,9 @@ do-- Userdata tables
         msaa=0,
         bg='on',
         bgAlpha=.26,
+        defaultBG='space',
+        lockBG=false,
+        noTheme=false,
         powerInfo=false,
         clickFX=true,
         warn=true,

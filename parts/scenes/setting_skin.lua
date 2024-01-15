@@ -17,7 +17,7 @@ function scene.enter()
     BG.set()
     selRS=RSlist[SETTING.RS]
     for i=1,7 do
-        minoRot0[i]=SETTING.face[i]*1.57
+        minoRot0[i]=SETTING.face[i]*math.pi/2
         minoRot[i]=minoRot0[i]
     end
 end
@@ -64,9 +64,12 @@ end
 local function _nextDir(i)
     trySettingWarn()
     SETTING.face[i]=(SETTING.face[i]+1)%4
-    minoRot0[i]=minoRot0[i]+1.5707963
+    minoRot0[i]=minoRot0[i]+math.pi/2
     if not selEggMode and not GAME.playing then
-        if minoRot0[5]>62 then
+        if minoRot0[2]>62 then
+            selEggMode='sprint_finesse_lock'
+            playEgg.color=COLOR.dY
+        elseif minoRot0[5]>62 then
             selEggMode='marathon_bfmax'
             playEgg.color=COLOR.dR
         elseif minoRot0[6]>62 then
@@ -119,7 +122,7 @@ scene.widgetList={
                 SETTING.face[i]=0
             end
             for i=1,7 do
-                minoRot0[i]=(floor(minoRot0[i]/6.2831853)+(minoRot0[i]%6.2831853>4 and 1 or 0))*6.2831853
+                minoRot0[i]=(floor(minoRot0[i]/MATH.tau)+(minoRot0[i]%MATH.tau>4 and 1 or 0))*MATH.tau
             end
             SFX.play('hold')
         end},

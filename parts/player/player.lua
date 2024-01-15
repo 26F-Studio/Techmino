@@ -214,7 +214,7 @@ function Player:_deepDrop()
         self.ghoY=y
         self:createDropFX()
         self.curY=y
-        self:freshBlock('move')
+        self:freshMoveBlock()
         SFX.play('swipe')
     end
 end
@@ -230,7 +230,7 @@ function Player:act_moveLeft(auto)
             self:_triggerEvent('hook_left_'..(auto and 'auto' or 'manual'))
             self:createMoveFX('left')
             self.curX=self.curX+self.movDir
-            self:freshBlock('move')
+            self:freshMoveBlock()
             if not auto then
                 self.moving=0
             end
@@ -254,7 +254,7 @@ function Player:act_moveRight(auto)
             self:_triggerEvent('hook_right_'..(auto and 'auto' or 'manual'))
             self:createMoveFX('right')
             self.curX=self.curX+self.movDir
-            self:freshBlock('move')
+            self:freshMoveBlock()
             if not auto then
                 self.moving=0
             end
@@ -271,7 +271,7 @@ function Player:act_rotRight()
     if self.cur then
         self.ctrlCount=self.ctrlCount+1
         self:spin(1)
-        self:_triggerEvent('hook_rotRight')
+        self:_triggerEvent('hook_rotate',1)
         self.keyPressing[3]=false
     end
 end
@@ -280,7 +280,7 @@ function Player:act_rotLeft()
     if self.cur then
         self.ctrlCount=self.ctrlCount+1
         self:spin(3)
-        self:_triggerEvent('hook_rotLeft')
+        self:_triggerEvent('hook_rotate',3)
         self.keyPressing[4]=false
     end
 end
@@ -289,7 +289,7 @@ function Player:act_rot180()
     if self.cur then
         self.ctrlCount=self.ctrlCount+2
         self:spin(2)
-        self:_triggerEvent('hook_rot180')
+        self:_triggerEvent('hook_rotate',2)
         self.keyPressing[5]=false
     end
 end
@@ -345,6 +345,7 @@ function Player:act_hold()
     if self.cur then
         if self:hold() then
             self.keyPressing[8]=false
+            self:_triggerEvent('hook_hold')
         end
     end
 end
@@ -366,7 +367,7 @@ function Player:act_insLeft(auto)
     while not self:ifoverlap(self.cur.bk,self.curX-1,self.curY) do
         self:createMoveFX('left')
         self.curX=self.curX-1
-        self:freshBlock('move',true)
+        self:freshMoveBlock(true)
     end
     if self.curX~=x0 then
         self.spinLast=false
@@ -376,9 +377,7 @@ function Player:act_insLeft(auto)
         self.swingOffset.vx=-1.5
     end
     if auto then
-        if self.ctrlCount==0 then
-            self.ctrlCount=1
-        end
+        self:_triggerEvent('hook_left_auto')
     else
         self.ctrlCount=self.ctrlCount+1
     end
@@ -392,7 +391,7 @@ function Player:act_insRight(auto)
     while not self:ifoverlap(self.cur.bk,self.curX+1,self.curY) do
         self:createMoveFX('right')
         self.curX=self.curX+1
-        self:freshBlock('move',true)
+        self:freshMoveBlock(true)
     end
     if self.curX~=x0 then
         self.spinLast=false
@@ -402,9 +401,7 @@ function Player:act_insRight(auto)
         self.swingOffset.vx=1.5
     end
     if auto then
-        if self.ctrlCount==0 then
-            self.ctrlCount=1
-        end
+        self:_triggerEvent('hook_right_auto')
     else
         self.ctrlCount=self.ctrlCount+1
     end
@@ -420,7 +417,7 @@ function Player:act_insDown()
         self.curY=self.ghoY
         self.lockDelay=ENV.lock
         self.spinLast=false
-        self:freshBlock('fresh')
+        self:freshBlockDelay()
         self:checkTouchSound()
     end
 end
@@ -430,7 +427,7 @@ function Player:act_down1()
         if self.curY>self.ghoY then
             self:createMoveFX('down')
             self.curY=self.curY-1
-            self:freshBlock('fresh')
+            self:freshBlockDelay()
             self.spinLast=false
         elseif self.gameEnv.deepDrop then
             self:_deepDrop()
@@ -445,7 +442,7 @@ function Player:act_down4()
             self.ghoY=max(self.curY-4,self.ghoY)
             self:createDropFX()
             self.curY,self.ghoY=self.ghoY,ghoY0
-            self:freshBlock('fresh')
+            self:freshBlockDelay()
             self.spinLast=false
         elseif self.gameEnv.deepDrop then
             self:_deepDrop()
@@ -460,7 +457,7 @@ function Player:act_down10()
             self.ghoY=max(self.curY-0,self.ghoY)
             self:createDropFX()
             self.curY,self.ghoY=self.ghoY,ghoY0
-            self:freshBlock('fresh')
+            self:freshBlockDelay()
             self.spinLast=false
         elseif self.gameEnv.deepDrop then
             self:_deepDrop()
@@ -537,7 +534,7 @@ local playerActions={
         if self.waiting>self.gameEnv.hurry then
             self.waiting=self.gameEnv.hurry
             if self.waiting==0 and self.falling==0 then
-                self:popNext()
+                self:spawn()
             end
         end
         self.keyPressing[keyID]=true
@@ -750,7 +747,7 @@ function Player:garbageRise(color,amount,line)-- Release n-lines garbage to fiel
     for i=1,#self.clearingRow do
         self.clearingRow[i]=self.clearingRow[i]+amount
     end
-    self:freshBlock('push')
+    self:freshBlockGhost()
     for i=1,#self.lockFX do
         _=self.lockFX[i]
         _[2]=_[2]-30*amount-- Shift 30px per line cleared
@@ -792,7 +789,7 @@ function Player:pushLineList(L,mir)-- Push some lines to field
         self.curY=self.curY+l
         self.ghoY=self.ghoY+l
     end
-    self:freshBlock('push')
+    self:freshBlockGhost()
 end
 function Player:pushNextList(L,mir)-- Push some nexts to nextQueue
     for i=1,#L do
@@ -950,74 +947,68 @@ function Player:changeAtk(R)
         self.atking=false
     end
 end
-function Player:freshBlock(mode,ifTele)-- string mode: push/move/fresh/newBlock
+function Player:freshBlockGhost()
+    if not self.cur then return end
     local ENV=self.gameEnv
-    -- Fresh ghost
-    if (mode=='move' or mode=='newBlock' or mode=='push') and self.cur then
-        local CB=self.cur.bk
-        self.ghoY=min(#self.field+1,self.curY)
-        if self._20G or ENV.sdarr==0 and self.keyPressing[7] and self.downing>=ENV.sddas then
-            local _=self.ghoY
+    local CB=self.cur.bk
+    self.ghoY=min(#self.field+1,self.curY)
+    if self._20G or ENV.sdarr==0 and self.keyPressing[7] and self.downing>=ENV.sddas then
+        local _=self.ghoY
 
-            -- Move ghost to bottom
-            while not self:ifoverlap(CB,self.curX,self.ghoY-1) do
-                self.ghoY=self.ghoY-1
-            end
+        -- Move ghost to bottom
+        while not self:ifoverlap(CB,self.curX,self.ghoY-1) do
+            self.ghoY=self.ghoY-1
+        end
 
-            -- Cancel spinLast
-            if _~=self.ghoY then
-                self.spinLast=false
-            end
+        -- Cancel spinLast
+        if _~=self.ghoY then
+            self.spinLast=false
+        end
 
-            -- Create FX if dropped
-            if self.curY>self.ghoY then
-                self:createDropFX()
-                if ENV.shakeFX then
-                    self.swingOffset.vy=.5
-                end
-                self.curY=self.ghoY
+        -- Create FX if dropped
+        if self.curY>self.ghoY then
+            self:createDropFX()
+            if ENV.shakeFX then
+                self.swingOffset.vy=.5
             end
-        else
-            while not self:ifoverlap(CB,self.curX,self.ghoY-1) do
-                self.ghoY=self.ghoY-1
-            end
+            self.curY=self.ghoY
+        end
+    else
+        while not self:ifoverlap(CB,self.curX,self.ghoY-1) do
+            self.ghoY=self.ghoY-1
         end
     end
-
-    -- Fresh delays
-    if mode=='move' or mode=='newBlock' or mode=='fresh' then
-        local d0,l0=ENV.drop,ENV.lock
-        local C=self.cur
-        local sc=C.RS.centerPos[C.id][C.dir]
-        if ENV.easyFresh then
-            if self.lockDelay<l0 and self.freshTime>0 then
-                if mode~='newBlock' then
-                    self.freshTime=self.freshTime-1
-                end
-                self.lockDelay=l0
-                self.dropDelay=d0
-            end
-            if self.curY+sc[1]<self.minY then
-                self.minY=self.curY+sc[1]
-                self.dropDelay=d0
-                self.lockDelay=l0
-            end
-        else
-            if self.curY+sc[1]<self.minY then
-                self.minY=self.curY+sc[1]
-                if self.lockDelay<l0 and self.freshTime>0 then
-                    self.freshTime=self.freshTime-1
-                    self.dropDelay=d0
-                    self.lockDelay=l0
-                end
-            end
-        end
+end
+function Player:freshBlockDelay(keepFreshTimeInEasyFresh)
+    local ENV=self.gameEnv
+    local d0,l0=ENV.drop,ENV.lock
+    local C=self.cur
+    local sc=C.RS.centerPos[C.id][C.dir]
+    local goDown=self.curY+sc[1]<self.minY
+    if goDown then
+        self.minY=self.curY+sc[1]
     end
-
+    local shouldRefresh=self.lockDelay<l0 and self.freshTime>0
+    local easyFresh=ENV.easyFresh
+    if easyFresh and (shouldRefresh or goDown) or goDown and shouldRefresh then
+        self.dropDelay=d0
+        self.lockDelay=l0
+    end
+    if shouldRefresh and (easyFresh and not keepFreshTimeInEasyFresh or not easyFresh and goDown) then
+        self.freshTime=self.freshTime-1
+    end
+end
+function Player:freshMoveBlock(ifTele)
+    self:freshBlockGhost()
+    self:freshBlockDelay()
     -- Play sound if touch ground
-    if mode=='move' and not ifTele then
+    if not ifTele then
         self:checkTouchSound()
     end
+end
+function Player:freshNewBlock()
+    self:freshBlockGhost()
+    self:freshBlockDelay(true)
 end
 function Player:lock()
     local CB=self.cur.bk
@@ -1155,8 +1146,8 @@ function Player:resetBlock()-- Reset Block's position and execute I*S
     local C=self.cur
     local sc=C.RS.centerPos[C.id][C.dir]
 
-    self.curX=floor(6-#C.bk[1]*.5)
-    local y=floor(self.gameEnv.fieldH+1-modf(sc[1]))+ceil(self.fieldBeneath/30)
+    self.curX=self:getSpawnX(C)
+    local y=self:getSpawnY(C)
     self.curY=y
     self.minY=y+sc[1]
 
@@ -1195,9 +1186,10 @@ function Player:resetBlock()-- Reset Block's position and execute I*S
         SFX.fplay(spawnSFX_name[C.id],SETTING.sfx_spawn)
     end
 end
-
-function Player:getNextSpawn()
-    local cur = self.nextQueue[1]
+function Player:getSpawnX(cur)
+    return floor(6-#cur.bk[1]*.5)
+end
+function Player:getSpawnY(cur)
     return floor(self.gameEnv.fieldH+1-modf(cur.RS.centerPos[cur.id][cur.dir][1]))+ceil(self.fieldBeneath/30)
 end
 
@@ -1209,7 +1201,7 @@ function Player:spin(d,ifpre)
         local idir=(C.dir+d)%4
         kickData=kickData[C.dir*10+idir]
         if not kickData then
-            self:freshBlock('move')
+            self:freshMoveBlock()
             SFX.play(ifpre and 'prerotate' or 'rotate',nil,self:getCenterX()*.15)
             return
         end
@@ -1230,7 +1222,7 @@ function Player:spin(d,ifpre)
                 -- Fresh ghost and freshTime
                 local t=self.freshTime
                 if not ifpre then
-                    self:freshBlock('move')
+                    self:freshMoveBlock()
                 end
                 if kickData[test][2]>0 and self.freshTime==t and self.curY~=self.imgY then
                     self.freshTime=self.freshTime-1
@@ -1240,7 +1232,7 @@ function Player:spin(d,ifpre)
                 local sfx
                 if ifpre then
                     sfx='prerotate'
-                elseif self:ifoverlap(icb,ix,iy+1) and self:ifoverlap(icb,ix-1,iy) and self:ifoverlap(icb,ix+1,iy) then
+                elseif iy==self.ghoY and self:ifoverlap(icb,ix,iy+1) and self:ifoverlap(icb,ix-1,iy) and self:ifoverlap(icb,ix+1,iy) then
                     sfx='rotatekick'
                     self:_rotateField(d)
                 else
@@ -1256,7 +1248,7 @@ function Player:spin(d,ifpre)
     elseif kickData then
         kickData(self,d)
     else
-        self:freshBlock('move')
+        self:freshMoveBlock()
         SFX.play(ifpre and 'prerotate' or 'rotate',nil,self:getCenterX()*.15)
     end
 end
@@ -1264,48 +1256,55 @@ local phyHoldKickX={
     [true]={0,-1,1},-- X==?.0 tests
     [false]={-.5,.5},-- X==?.5 tests
 }
+function Player:_try_physical_hold_with(H)
+    local C=self.cur
+    if not C or not H then return end
+    local x,y=self.curX,self.curY
+    x=x+(#C.bk[1]-#H.bk[1])*.5
+    y=y+(#C.bk-#H.bk)*.5
+
+    local iki=phyHoldKickX[x==floor(x)]
+    for Y=floor(y),ceil(y+.5) do
+        for i=1,#iki do
+            local X=x+iki[i]
+            if not self:ifoverlap(H.bk,X,Y) then
+                return X,Y
+            end
+        end
+    end
+end
 function Player:hold_norm(ifpre)
     local ENV=self.gameEnv
-    if #self.holdQueue<ENV.holdCount and self.nextQueue[1] then-- Skip
+    if self.holdIXSFromNext or #self.holdQueue<ENV.holdCount and self.nextQueue[1] then-- Skip
         local C=self.cur
-        ins(self.holdQueue,self:getBlock(C.id,C.name,C.color))
+        if C then
+            ins(self.holdQueue,self:_getBlock(C.id,C.name,C.color))
 
-        local t=self.holdTime
-        self:popNext(true)
-        self.holdTime=t
+            if self:willDieWith(self.nextQueue[1]) then
+                self.ghoY=self:getSpawnY(self.nextQueue[1])
+                self.cur=nil
+                self.waiting=ENV.hang
+                self.holdIXSFromNext={ifpre}
+                return
+            end
+        else
+            self.holdIXSFromNext=nil
+        end
+        self:_popNext(true)
     else-- Hold
         local C,H=self.cur,self.holdQueue[1]
         self.ctrlCount=0
 
         if ENV.phyHold and C and H and not ifpre then-- Physical hold
-            local x,y=self.curX,self.curY
-            x=x+(#C.bk[1]-#H.bk[1])*.5
-            y=y+(#C.bk-#H.bk)*.5
-
-            local iki=phyHoldKickX[x==floor(x)]
-            local success
-            for Y=floor(y),ceil(y+.5) do
-                for i=1,#iki do
-                    local X=x+iki[i]
-                    if not self:ifoverlap(H.bk,X,Y) then
-                        x,y=X,Y
-                        success=true
-                        break
-                    end
-                end
-                if success then break end
-            end
-            if not success then -- All test failed, interrupt with sound
+            local x,y=self:_try_physical_hold_with(H)
+            if not x then -- All test failed, interrupt with sound
                 SFX.play('drop_cancel')
                 return
             end
 
             self.spinLast=false
 
-            local hb=self:getBlock(C.id)
-            hb.name=C.name
-            hb.color=C.color
-            ins(self.holdQueue,hb)
+            ins(self.holdQueue,self:_getBlock(C.id,C.name,C.color))
             self.cur=rem(self.holdQueue,1)
 
             self.curX,self.curY=x,y
@@ -1313,16 +1312,19 @@ function Player:hold_norm(ifpre)
             self.spinLast=false
 
             if C then
-                local hb=self:getBlock(C.id)
-                hb.color=C.color
-                hb.name=C.name
-                ins(self.holdQueue,hb)
+                ins(self.holdQueue,self:_getBlock(C.id,C.name,C.color))
+                if self:willDieWith(self.holdQueue[1]) then
+                    self.ghoY=self:getSpawnY(self.holdQueue[1])
+                    self.cur=nil
+                    self.waiting=ENV.hang
+                    return
+                end
             end
             self.cur=rem(self.holdQueue,1)
 
             self:resetBlock()
         end
-        self:freshBlock('move')
+        self:freshMoveBlock()
         self.dropDelay=ENV.drop
         self.lockDelay=ENV.lock
         self:_checkSuffocate()
@@ -1347,51 +1349,71 @@ function Player:hold_swap(ifpre)
         self.ctrlCount=0
 
         if ENV.phyHold and C and not ifpre then-- Physical hold
-            local x,y=self.curX,self.curY
-            x=x+(#C.bk[1]-#H.bk[1])*.5
-            y=y+(#C.bk-#H.bk)*.5
-
-            local iki=phyHoldKickX[x==floor(x)]
-            local success
-                for Y=floor(y),ceil(y+.5) do
-                    for i=1,#iki do
-                        local X=x+iki[i]
-                        if not self:ifoverlap(H.bk,X,Y) then
-                            x,y=X,Y
-                            success=true
-                            break
-                        end
-                    end
-                    if success then break end
-                end
-            if not success then -- All test failed, interrupt with sound
+            local x,y=self:_try_physical_hold_with(H)
+            if not x then -- All test failed, interrupt with sound
                 SFX.play('finesseError')
                 return
             end
 
             self.spinLast=false
 
-            local hb=self:getBlock(C.id)
-            hb.name=C.name
-            hb.color=C.color
+            local hb=self:_getBlock(C.id,C.name,C.color)
             self.cur,self.nextQueue[hid]=self.nextQueue[hid],hb
+            self.cur.bagLine=nil
 
             self.curX,self.curY=x,y
         else-- Normal hold
             self.spinLast=false
 
-            local hb=self:getBlock(C.id)
-            hb.color=C.color
-            hb.name=C.name
-            self.cur,self.nextQueue[hid]=self.nextQueue[hid],hb
+            if C then
+                local hb=self:_getBlock(C.id,C.name,C.color)
+                ins(self.holdQueue,self.nextQueue[hid])
+                self.nextQueue[hid]=hb
+                if self:willDieWith(self.holdQueue[1]) then
+                    self.ghoY=self:getSpawnY(self.holdQueue[1])
+                    self.cur=nil
+                    self.waiting=ENV.hang
+                    return
+                end
+            end
+            self.cur=rem(self.holdQueue,1)
+            self.cur.bagLine=nil
 
             self:resetBlock()
         end
-        self:freshBlock('move')
+        self:freshMoveBlock()
         self.dropDelay=ENV.drop
         self.lockDelay=ENV.lock
         self:_checkSuffocate()
     end
+
+    self.freshTime=floor(min(self.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((self.holdTime+1)/ENV.holdCount),ENV.freshLimit))
+    self.holdTime=self.holdTime-1
+    if ENV.infHold and self.holdTime==0 then
+        self.holdTime=ENV.holdCount
+    end
+
+    if self.sound then
+        SFX.play(ifpre and 'prehold' or 'hold')
+    end
+
+    self.stat.hold=self.stat.hold+1
+end
+function Player:hold_skip(ifpre)
+    local ENV=self.gameEnv
+    local C=self.cur
+    if C then
+        if self:willDieWith(self.nextQueue[1]) then
+            self.ghoY=self:getSpawnY(self.nextQueue[1])
+            self.cur=nil
+            self.waiting=ENV.hang
+            self.holdIXSFromNext={ifpre}
+            return
+        end
+    else
+        self.holdIXSFromNext=nil
+    end
+    self:_popNext(true)
 
     self.freshTime=floor(min(self.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((self.holdTime+1)/ENV.holdCount),ENV.freshLimit))
     if not ENV.infHold then
@@ -1410,12 +1432,14 @@ function Player:hold(ifpre,force)
             self:hold_norm(ifpre)
         elseif self.gameEnv.holdMode=='swap' then
             self:hold_swap(ifpre)
+        elseif self.gameEnv.holdMode=='skip' then
+            self:hold_skip(ifpre)
         end
         return true
     end
 end
 
-function Player:getBlock(id,name,color)-- Get a block object
+function Player:_getBlock(id,name,color,bagLineCounter)-- Get a block object
     local ENV=self.gameEnv
     local dir=ENV.face[id]
     return {
@@ -1425,56 +1449,80 @@ function Player:getBlock(id,name,color)-- Get a block object
         RS=self.RS,
         name=name or id,
         color=ENV.bone and 17 or color or ENV.skin[id],
+        bagLine=bagLineCounter,
     }
 end
-function Player:getNext(id)-- Push a block to nextQueue
-    ins(self.nextQueue,self:getBlock(id))
+function Player:getNext(id,bagLineCounter)-- Push a block to nextQueue
+    ins(self.nextQueue,self:_getBlock(id,nil,nil,bagLineCounter))
     if self.bot then
         self.bot:pushNewNext(id)
     end
 end
-function Player:popNext(ifhold)-- Pop nextQueue to hand
+function Player:spawn()-- Spawn a piece
     local ENV=self.gameEnv
-    if not ifhold then
-        self.holdTime=min(self.holdTime+1,ENV.holdCount)
+    if self.holdIXSFromNext then
+        self:hold(self.holdIXSFromNext[1],true)
+        return
     end
-    self.spinLast=false
-    self.ctrlCount=0
+    if #self.holdQueue>ENV.holdCount or ENV.holdMode=='swap' and #self.holdQueue>0 then
+        self:hold(true,true)
+        return
+    end
+
+    self.holdTime=min(self.holdTime+1,ENV.holdCount)
 
     if self.nextQueue[1] then
-        self.cur=rem(self.nextQueue,1)
-        self:newNext()
-        self.pieceCount=self.pieceCount+1
-
-        local pressing=self.keyPressing
-
-        -- IHS
-        if not ifhold and pressing[8] and ENV.ihs and self.holdTime>0 then
-            self:hold(true)
-            pressing[8]=false
-        else
-            self:resetBlock()
-        end
-
-        self.dropDelay=ENV.drop
-        self.lockDelay=ENV.lock
-        self.freshTime=ENV.freshLimit
-
-        if self.cur then
-            self:_checkSuffocate()
-            self:freshBlock('newBlock')
-        end
-
-        -- IHdS
-        if pressing[6] and not ifhold then
-            self:act_hardDrop()
-            pressing[6]=false
-        end
+        self:_popNext()
     elseif self.holdQueue[1] then-- Force using hold
+        self.spinLast=false
+        self.ctrlCount=0
         self:hold(true,true)
+        self:_triggerEvent('hook_spawn')
     else-- Next queue is empty, force lose
+        self.spinLast=false
+        self.ctrlCount=0
         self:lose(true)
+        return
     end
+end
+function Player:_popNext(ifhold)-- Pop nextQueue to hand
+    if not self.nextQueue[1] then return end
+    local ENV=self.gameEnv
+    self.spinLast=false
+    self.ctrlCount=0
+    self.cur=rem(self.nextQueue,1)
+    self.cur.bagLine=nil
+    self:newNext()
+    self.pieceCount=self.pieceCount+1
+
+    local pressing=self.keyPressing
+
+    -- IHS
+    if not ifhold and pressing[8] and ENV.ihs and self.holdTime>0 then
+        self:hold(true)
+        pressing[8]=false
+    else
+        self:resetBlock()
+    end
+
+    self.dropDelay=ENV.drop
+    self.lockDelay=ENV.lock
+    self.freshTime=ENV.freshLimit
+
+    if self.cur then
+        self:_checkSuffocate()
+        self:freshNewBlock()
+    end
+
+    -- IHdS
+    if pressing[6] and not ifhold then
+        self:act_hardDrop()
+        pressing[6]=false
+    end
+    self:_triggerEvent('hook_spawn')
+end
+function Player:willDieWith(B)
+    return B and self:ifoverlap(B.bk,self:getSpawnX(B),self:getSpawnY(B))
 end
 
 function Player:cancel(N)-- Cancel Garbage
@@ -2054,9 +2102,9 @@ do
         self.waiting=ENV.wait
 
         -- Prevent sudden death if hang>0
-        if ENV.hang>ENV.wait and self.nextQueue[1] then
-            local B=self.nextQueue[1]
-            if self:ifoverlap(B.bk,floor(6-#B.bk[1]*.5),floor(ENV.fieldH+1-modf(B.RS.centerPos[B.id][B.dir][1]))+ceil(self.fieldBeneath/30)) then
+        if ENV.hang>ENV.wait then
+            if self:willDieWith(self.nextQueue[1]) then
+                self.ghoY=self:getSpawnY(self.nextQueue[1])
                 self.waiting=self.waiting+ENV.hang
             end
         end
@@ -2120,7 +2168,7 @@ do
         self.cur=nil
 
         if self.waiting==0 and self.falling==0 then
-            self:popNext()
+            self:spawn()
         end
     end
 
@@ -2150,6 +2198,7 @@ end
 function Player:loadAI(data)-- Load AI with params
     self.bot=BOT.new(self,data)
     self.bot.data=data
+    self.bot:updateField()
 end
 --------------------------</Method>--------------------------
 
@@ -2198,6 +2247,18 @@ local function task_finish(self)
         elseif self.endCounter==60 then
             return
         end
+    end
+end
+local function task_fade(self)
+    while true do
+        yield()
+        self.endCounter=self.endCounter+1
+        if self.endCounter<40 then
+            -- Make field invisible
+            for j=1,#self.field do for i=1,10 do
+                self.visTime[j][i]=math.max(3,self.visTime[j][i]-.5)
+            end end
+        elseif self.endCounter==60 then return end
     end
 end
 local function task_lose(self)
@@ -2399,7 +2460,7 @@ local function update_alive(P,dt)
             if P.id==1 then playReadySFX(0) end
             P.control=true
             P.timing=true
-            P:popNext()
+            P:spawn()
             if P.bot then
                 P.bot:updateField()
             end
@@ -2547,7 +2608,7 @@ local function update_alive(P,dt)
                     P.waiting=P.waiting-1
                 end
                 if P.waiting<=0 then
-                    P:popNext()
+                    P:spawn()
                 end
                 break-- goto THROW_stop
             end
@@ -2600,7 +2661,7 @@ local function update_alive(P,dt)
                     end
 
                     P.spinLast=false
-                    P:freshBlock('fresh')
+                    P:freshBlockDelay()
                     P:checkTouchSound()
                 else
                     P.lockDelay=P.lockDelay-1
@@ -2804,7 +2865,7 @@ function Player:revive()
     self.life=self.life-1
     self.fieldBeneath=0
     self.b2b=0
-    self:freshBlock('push')
+    self:freshBlockGhost()
 
     for i=1,h do
         self:createClearingFX(i)
@@ -2814,6 +2875,26 @@ function Player:revive()
     SYSFX.newRipple(2,self.x+(475+25*(self.life<3 and self.life or 0)+12)*self.size,self.y+(595+12)*self.size,20)
     playClearSFX(3)
     SFX.play('emit')
+end
+function Player:torikanEnd(requiredTime)
+    if self.stat.time < requiredTime then
+        return false
+    end
+    self:_die()
+    self.result='torikan'
+    if self.type=='human' then
+        GAME.result='torikan'
+        SFX.play('win')
+        VOC.play('win')
+    end
+    self:_showText(text.torikan,0,0,90,'beat',.5,.2)
+    self.stat.torikanReq=requiredTime
+    if self.type=='human' then
+        gameOver()
+        TASK.new(task_autoPause)
+    end
+    self:newTask(task_fade)
+    return true
 end
 function Player:win(result)
     if self.result then
@@ -2951,6 +3032,6 @@ function Player:lose(force)
         -- ::BREAK_notFinished::
     end
 end
---------------------------<\Event>--------------------------
+--------------------------</Event>--------------------------
 
 return Player

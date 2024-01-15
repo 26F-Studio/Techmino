@@ -149,4 +149,6 @@ return {
     {font=25,name="T1206"},
     {font=25,name="V我50吃肉讨饭人"},
     {font=25,name="电蜥蜴"},
+    {font=25,name="浮芙fufu"},
+    {font=25,name="NOname_awa"},
 }

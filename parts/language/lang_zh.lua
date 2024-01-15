@@ -28,7 +28,7 @@ return {
     clear={"Single","Double","Triple","Techrash","Pentacrash","Hexacrash","Heptacrash","Octacrash","Nonacrash","Decacrash","Undecacrash","Dodecacrash","Tridecacrash","Tetradecacrash","Pentadecacrash","Hexadecacrash","Heptadecacrash","Octadecacrash","Nonadecacrash","Ultracrash","Impossicrash"},
     cleared="$1 lines",
     mini="Mini",b2b="B2B ",b3b="B2B2B ",
-    PC="Perfect Clear",HPC="Half Clear",
+    PC="Perfect Clear",HPC="Half PC",
     replaying="[回放]",
     tasUsing="[TAS]",
 
@@ -40,6 +40,10 @@ return {
     maxspeed="最高速度",
     speedup="速度加快",
     missionFailed="非任务消除",
+    infHeightOn="无限高度 开",
+    infHeightOff="无限高度 关",
+    infHeightHint="用功能键1切换",
+    -- highestGrade="(highest: $1)",
 
     speedLV="速度等级",
     piece="块数",line="行数",atk="攻击",eff="效率",
@@ -51,7 +55,7 @@ return {
 
     win="胜利",
     lose="失败",
-
+    torikan="未达标",
     finish="完成",
     gamewin="胜利",
     gameover="游戏结束",
@@ -63,10 +67,13 @@ return {
 
     page="页面:",
 
+    ai_puzzle="不能同时开启AI和拼图模式",
+    ai_mission="不能同时开启AI和自定义任务",
+    ai_badPiece="不能同时开启AI和含有非四连块的自定义序列",
     cc_fixed="不能同时开启CC和固定序列",
     cc_swap="不能同时开启CC和swap的暂存模式",
-    ai_prebag="不能同时开启AI和含有非四连块的自定义序列",
-    ai_mission="不能同时开启AI和自定义任务",
+    cc_solid="开启CC时不能存在预先填满的行",
+    cc_field_too_high="开启CC时最高出块高度不能超过40",
     switchSpawnSFX="请开启方块生成音效",
     needRestart="重新开始以生效",
 
@@ -88,6 +95,8 @@ return {
     dataCorrupted="数据损坏",
     pasteWrongPlace="提醒:可能粘贴错地方了",
     noFile="找不到文件",
+    invalidSequence="无效序列模式",
+    tooHighField="超过126行的场地数据已被丢弃",
 
     nowPlaying="正在播放:",
 
@@ -230,7 +239,7 @@ return {
         "落块:",
         "消行/挖掘:",
         "攻击/挖掘攻击:",
-        "上涨/接收/抵消:",
+        "上涨(接收-抵消):",
         "消除:",
         "Spin:",
         "B2B/B3B/PC/HPC:",
@@ -294,7 +303,7 @@ return {
         "LawrenceLiu",
         "Gompyn",
         "flaribbit",
-        "schh",
+        "scdhh",
         "",
         "视觉设计、UI和UX",
         "MrZ",
@@ -324,6 +333,7 @@ return {
         "Miya",
         "Xiaoya",
         "Mono",
+        "Flore",
         "MrZ",
         "Trebor",
         "",
@@ -380,11 +390,10 @@ return {
         sha2 [Egor Skriptunoff]
     ]],
     support="支持作者",
-    dict={          -- Message from Sea: credit to User670 for helping me out this part.
+    dict={ -- Message from Sea: credit to User670 for helping me out this part.
         sizeChanged="已更改字号为$1",
         sizeReset="字号已重置",
-        helpText=
-[[
+        helpText=[[
 小Z词典操作说明
 
 鼠标/触摸屏：
@@ -402,10 +411,9 @@ return {
 
 手柄：
         按 $10 to 显示帮助
-        按 $5 或 $6 滚动文本, 按 $11 加速
+        按 $5 或 $6 滚动文本
         按 $7 打开上一词条，按 $8 打开下一词条。按住 $11 加速
-        按住 $11 并按 $6 缩小字号，或 $5 增大字号
-]]
+        按住 $11 并按 $6 缩小字号，或 $5 增大字号]]
         -- 1-4: Up, Down, Left, Right
         -- 5-8: Up, Down, Left, Right but D-Pad
         -- 9-12: X, Y, A, B
@@ -488,7 +496,7 @@ return {
             capacity="房间容量",
             create="创建",
 
-            ospin="O-spin",
+            ospin="TRS O-spin",
             fineKill="强制极简",
             b2bKill="强制B2B",
             lockout="锁定在外时失败",
@@ -571,6 +579,10 @@ return {
             bg_on="普通背景",
             bg_off="关闭背景",
             bg_custom="应用自定义背景",
+            defaultBG="默认背景",
+            resetDbg="改回默认",
+            lockBG="锁定背景",
+            noTheme="关闭节日主题",
 
             blockSatur="方块饱和度",
             fieldSatur="场地饱和度",
@@ -705,7 +717,7 @@ return {
 
             bufferLimit="缓冲上限",
             heightLimit="高度上限",
-            ospin="O-spin",
+            ospin="TRS O-spin",
             fineKill="强制极简",
             b2bKill="强制B2B",
             lockout="锁定在外时失败",
@@ -852,7 +864,9 @@ return {
         ['sprint_100l']=    {"竞速",        "100L",     "消除100行"},
         ['sprint_400l']=    {"竞速",        "400L",     "消除400行"},
         ['sprint_1000l']=   {"竞速",        "1000L",    "消除1000行"},
-        ['secret_grade']=   {"秘密段位",    "",         "按照提示完成经典的“大于号”拼图"},
+        ['construct_sg']=   {"拼花",        "秘密段位",  "按照提示完成经典的“大于号”拼图"},
+        ['construct_checker']={"拼花",      "棋盘",      "按照提示搭建棋盘的图案"},
+        ['construct_invsg']=  {"拼花",      "折线",      "按照提示搭建折线图案"},
         ['sprintPenta']=    {"竞速",        "五连块",     "伤脑筋十八块"},
         ['sprintMPH']=      {"竞速",        "MPH",      "纯随机\n无预览\n无暂存"},
         ['sprint123']=      {"竞速",        "M123",     "40L，但只有1~3连块"},
@@ -885,8 +899,8 @@ return {
         ['round_h']=        {"回合制",       "困难",      "下棋模式"},
         ['round_l']=        {"回合制",       "疯狂",      "下棋模式"},
         ['round_u']=        {"回合制",       "极限",      "下棋模式"},
-        ['big_n']=          {"大方块",       "普通",     "模拟5×10场地的玩法(标准尺寸的一半)"},
-        ['big_h']=          {"大方块",       "困难",     "模拟5×10场地的玩法(标准尺寸的一半)"},
+        ['big_n']=          {"大方块",       "普通",     "模拟5×10场地(标准尺寸的一半)"},
+        ['big_h']=          {"大方块",       "困难",     "模拟5×10场地(标准尺寸的一半)"},
         ['master_n']=       {"大师",        "普通",      "20G初心者练习"},
         ['master_h']=       {"大师",        "困难",      "上级者20G挑战"},
         ['master_m']=       {"大师",        "大师",      "大师20G"},
@@ -938,8 +952,6 @@ return {
         ['tech_l_plus']=    {"科研",        "疯狂+",     "仅允许spin与PC"},
         ['tech_finesse']=   {"科研",        "极简",      "强制最简操作"},
         ['tech_finesse_f']= {"科研",        "极简+",     "禁止普通消除，强制最简操作"},
-        ['tech_finesse_lock']=  {"科研",    "极简限制",   "限制操作次数"},
-        ['tech_finesse_lock_f']={"科研",    "极简限制+",  "限制操作次数，禁止断B2B"},
         ['tsd_e']=          {"TSD挑战",     "简单",      "你能连续做几个TSD？"},
         ['tsd_h']=          {"TSD挑战",     "困难",      "你能连续做几个TSD？"},
         ['tsd_u']=          {"TSD挑战",     "极限",      "你能连续做几个TSD？"},

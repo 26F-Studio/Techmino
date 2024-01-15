@@ -1,13 +1,15 @@
 local GAME,SCR=GAME,SCR
-local sin,log=math.sin,math.log10
+local sin,log,abs=math.sin,math.log10,math.abs
 local GC=GC
 
 local scene={}
 
+local modUsed
 local page
 local timer1,timer2-- Animation timer
 local form-- Form of clear & spins
 local radar-- Radar chart
+local radarOrgTouchPos-- For storing the first touch position in radar area
 local val-- Radar chart normalizer
 local standard-- Standard hexagon
 local chartColor-- Color of radar chart
@@ -16,6 +18,7 @@ local trophy-- Current trophy
 local trophyColor-- Current trophy color
 
 function scene.enter()
+    modUsed=usingMod()
     page=0
     if type(SCN.prev)=='string' and SCN.prev:find("setting") then
         TEXT.show(text.needRestart,640,410,50,'fly',.6)
@@ -85,7 +88,7 @@ function scene.enter()
         val[2*i-1],val[2*i]=val[i]*standard[2*i-1],val[i]*standard[2*i]
     end
 
-    if P1.result=='win' and P1.stat.piece>4 then
+    if (P1.result=='win' or P1.result=='torikan') and P1.stat.piece>4 then
         local acc=P1.stat.finesseRate*.2/P1.stat.piece
         rank=CHAR.icon['rank'..(
             acc==1. and "Z" or
@@ -136,13 +139,13 @@ function scene.keyDown(key,isRep)
             SCN.swapTo('game','none')
         end
     elseif key=='p' then
-        if (GAME.result or GAME.replaying) and #PLAYERS==1 then
+        if (GAME.result or GAME.replaying) and GAME.initPlayerCount==1 then
             resetGameData('r')
             PLAYERS[1]:startStreaming(GAME.rep)
             SCN.swapTo('game','none')
         end
     elseif key=='o' then
-        if (GAME.result or GAME.replaying) and #PLAYERS==1 and not GAME.saved then
+        if (GAME.result or GAME.replaying) and GAME.initPlayerCount==1 and not GAME.saved then
             if DATA.saveReplay() then
                 GAME.saved=true
                 SFX.play('connected')
@@ -166,6 +169,23 @@ function scene.keyDown(key,isRep)
         return true
     end
 end
+
+function scene.touchDown(x,y)
+    if 535<x and x<1195 and 200<y and y<580 then
+        radarOrgTouchPos={x,y}
+    end
+end
+function scene.touchUp(x1,y1)
+    if not (535<x1 and x1<1195 and 200<y1 and y1<580)
+    or not radarOrgTouchPos then return end
+    local x,y=radarOrgTouchPos[1],radarOrgTouchPos[2]
+
+    if abs(x1-x)<50 then return end -- The angle is too large/the movement is too short
+    scene.keyDown(x1-x>=50 and 'tab' or 'Stab')
+    radarOrgTouchPos=nil
+end
+scene.mouseUp=scene.touchUp
+scene.mouseDown=scene.touchDown
 
 function scene.update(dt)
     if not (GAME.result or GAME.replaying) then
@@ -294,7 +314,7 @@ function scene.draw()
 
             -- Texts
             local C
-            _=TIME()%6.2832
+            _=TIME()%MATH.tau
             if _>3.142 then
                 GC.setColor(.97,.97,.97,-timer2*sin(_))
                 FONT.set(35)
@@ -316,7 +336,7 @@ function scene.draw()
     GC.push('transform')
     GC.translate(131,600)
     GC.scale(.65)
-    if #GAME.mod>0 then
+    if modUsed then
         GC.setLineWidth(2)
         if scoreValid() then
             GC.setColor(.7,.7,.7,timer1)
@@ -330,8 +350,8 @@ function scene.draw()
             GC.rectangle('fill',-5,-5,500,150,8)
         end
         FONT.set(35)
-        for _,M in next,MODOPT do
-            if M.sel>0 then
+        for number,M in next,MODOPT do
+            if GAME.mod[number]>0 then
                 _=M.color
                 GC.setColor(_[1],_[2],_[3],timer1)
                 GC.mStr(M.id,35+M.no%8*60,math.floor(M.no/8)*45)
@@ -357,8 +377,8 @@ scene.widgetList={
         fShade=GC.DO{70,70,{'setCL',1,1,1,.4},{'draw',GC.DO{70,70,{'setCL',1,1,1,1},{'fRRPol',37,35,32,3,6},{'fRRPol',25,35,32,3,6}}}},
         hideF=function() return PLAYERS[1].frameRun<=180 end,
         },
-    WIDGET.newKey{name='replay',   x=865,y=165,w=200,h=40,font=25,code=pressKey'p',hideF=function() return not (GAME.result or GAME.replaying) or #PLAYERS>1 end},
-    WIDGET.newKey{name='save',     x=1075,y=165,w=200,h=40,font=25,code=pressKey'o',hideF=function() return not (GAME.result or GAME.replaying) or #PLAYERS>1 or GAME.saved end},
+    WIDGET.newKey{name='replay',   x=865,y=165,w=200,h=40,font=25,code=pressKey'p',hideF=function() return not (GAME.result or GAME.replaying) or GAME.initPlayerCount>1 end},
+    WIDGET.newKey{name='save',     x=1075,y=165,w=200,h=40,font=25,code=pressKey'o',hideF=function() return not (GAME.result or GAME.replaying) or GAME.initPlayerCount>1 or GAME.saved end},
 }
 
 return scene

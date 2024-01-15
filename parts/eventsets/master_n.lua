@@ -38,9 +38,9 @@ return {
             elseif s==4 then
                 BG.set('rainbow2')
             elseif s==5 then
-                if P.stat.frame>260*60 then
+                if P.stat.time>260 then
                     D.pt=500
-                    P:win('finish')
+                    P:torikanEnd(260)
                     return
                 else
                     P.gameEnv.freshLimit=10

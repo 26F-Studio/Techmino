@@ -2,13 +2,7 @@ return {
     env={
         drop=1e99,lock=1e99,
         infHold=true,
-        mesDisp=function(P)
-            setFont(45)
-            GC.mStr(("%d"):format(P.stat.atk),63,190)
-            GC.mStr(("%.2f"):format(P.stat.atk/P.stat.row),63,310)
-            mText(TEXTOBJ.atk,63,243)
-            mText(TEXTOBJ.eff,63,363)
-        end,
         bg='blockfall',bgm='infinite',
+        eventSet='infinite'
     },
 }

@@ -151,6 +151,7 @@ local function _newEmptyPlayer(id,mini)
     P.nextQueue={}
     P.holdQueue={}
     P.holdTime=0
+    P.holdIXSFromNext=nil
     P.lastPiece={
         id=0,name=0,-- block id/name
 
@@ -199,8 +200,11 @@ local function _loadGameEnv(P)-- Load gameEnv
         end
     end
     if ENV.allowMod then
-        for _,M in next,GAME.mod do
-            M.func(P,M.list and M.list[M.sel])
+        for i=1,#GAME.mod do
+            if GAME.mod[i]>0 then
+                local M=MODOPT[i]
+                M.func(P,M.list and M.list[GAME.mod[i]])
+            end
         end
     end
 end
@@ -250,10 +254,10 @@ local hooks = {
     'hook_right',
     'hook_right_manual',
     'hook_right_auto',
-    'hook_rotLeft',
-    'hook_rotRight',
-    'hook_rot180',
+    'hook_rotate',
     'hook_drop',
+    'hook_spawn',
+    'hook_hold',
     'hook_die',
     'task'
 }
@@ -331,8 +335,6 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
     ENV.arr=max(ENV.arr,ENV.minarr)
     ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
 
-    ENV.bagLine=ENV.bagLine and (ENV.sequence=='bag' or ENV.sequence=='loop') and #ENV.seqData
-
     if ENV.nextCount==0 then
         ENV.nextPos=false
     end
@@ -340,6 +342,7 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
     local seqGen=coroutine.create(getSeqGen(ENV.sequence))
     local seqCalled=false
     local initSZOcount=0
+    local bagLineCounter=0
     function P:newNext()
         local status,piece
         if seqCalled then
@@ -348,7 +351,9 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
             status,piece=coroutine.resume(seqGen,P.seqRND,P.gameEnv.seqData)
             seqCalled=true
         end
-        if status and piece then
+        if not status then
+            assert(piece=='cannot resume dead coroutine')
+        elseif piece then
             if ENV.noInitSZO and initSZOcount<5 then
                 initSZOcount=initSZOcount+1
                 if piece==1 or piece==2 or piece==6 then
@@ -357,9 +362,13 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
                     initSZOcount=5
                 end
             end
-            P:getNext(piece)
-        elseif not status then
-            assert(piece=='cannot resume dead coroutine')
+            P:getNext(piece,bagLineCounter)
+            bagLineCounter=0
+        else
+            if ENV.bagLine then
+                bagLineCounter=bagLineCounter+1
+            end
+            P:newNext()
         end
     end
     for _=1,ENV.trueNextCount do
@@ -422,7 +431,7 @@ function PLY.newDemoPlayer(id)
         delay=6,
         node=100000,
     }
-    P:popNext()
+    P:spawn()
 end
 function PLY.newRemotePlayer(id,mini,p)
     local P=_newEmptyPlayer(id,mini)

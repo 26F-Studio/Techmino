@@ -39,7 +39,9 @@ jobs:
           os.execute('echo "version-string=' .. version.string:gsub("%a", "") .. '" >> $GITHUB_OUTPUT')
           os.execute('echo "version-code=' .. tostring(version.code) .. '" >> $GITHUB_OUTPUT')
 
-          local note = require 'parts.updateLog'
+          local f = io.open("updateLog.txt", 'r')
+          local note = f:read("*a")
+          f:close()
           local p1 = note:find("\n%d") + 1
           local p2 = note:find("\n", p1) - 1
           os.execute('echo "update-title=' .. note:sub(p1, p2) .. '" >> $GITHUB_OUTPUT')
@@ -90,7 +92,7 @@ jobs:
       - name: Build core love package
         uses: love-actions/love-actions-core@v1
         with:
-          build-list: ./media/ ./parts/ ./Zframework/ ./conf.lua ./main.lua ./version.lua
+          build-list: ./media/ ./parts/ ./Zframework/ ./conf.lua ./main.lua ./version.lua ./legals.md ./license.txt
           package-path: ${{ env.CORE_LOVE_PACKAGE_PATH }}
       - name: Upload core love package
         uses: actions/upload-artifact@v3
@@ -213,87 +215,6 @@ jobs:
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
 
-  build-ios:
-    runs-on: macos-latest
-    needs: [get-info, build-core, auto-test]
-    if: github.event_name != 'pull_request'
-    env:
-      OUTPUT_FOLDER: ./build
-      RELEASE_FOLDER: ./release
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive
-      - name: Process app name
-        id: process-app-name
-        shell: python3 {0}
-        run: |
-          import os
-          import re
-          with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
-            f.write('bundle-id=org.26f-studio.techmino\n')
-            f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
-      - name: Download core love package
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
-      - name: Download ColdClear
-        uses: ./.github/actions/get-cc
-        with:
-          platform: iOS
-          dir: ./ColdClear
-      - name: Build iOS packages
-        id: build-packages
-        uses: love-actions/love-actions-ios@v1
-        with:
-          app-name: ${{ needs.get-info.outputs.app-name }}
-          bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
-          copyright: "Copyright © 2019-2023 26F-Studio. Some Rights Reserved."
-          icon-path: ./.github/build/iOS/${{ env.BUILD_TYPE }}/icon
-          love-patch: ./.github/build/iOS/love.patch
-          love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          libs-path: ./ColdClear/arm64/
-          product-name: ${{ steps.process-app-name.outputs.product-name }}
-          version-string: ${{ needs.get-info.outputs.version-string }}
-          output-folder: ${{ env.OUTPUT_FOLDER }}
-          apple-development-base64: ${{ secrets.APPLE_CERT_APPLE_DEVELOPMENT_BASE64 }}
-          apple-development-password: ${{ secrets.APPLE_CERT_APPLE_DEVELOPMENT_PWD }}
-          api-key: ${{ secrets.APPLE_API_KEY }}
-          api-key-id: ${{ secrets.APPLE_API_KEY_ID }}
-          api-issuer-id: ${{ secrets.APPLE_API_ISSUER_ID }}
-          team-id: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
-          apple-id: ${{ secrets.APPLE_APPLE_ID }}
-          external-test: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-          store-release: ${{ startsWith(github.ref, 'refs/tags/v') }}
-      - name: Upload logs artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ needs.get-info.outputs.base-name }}_iOS_logs
-          path: |
-            ${{ env.OUTPUT_FOLDER }}/DistributionSummary.plist
-            ${{ env.OUTPUT_FOLDER }}/ExportOptions.plist
-            ${{ env.OUTPUT_FOLDER }}/Packaging.log
-      - name: Upload ipa artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ needs.get-info.outputs.base-name }}_iOS_ipa
-          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.ipa
-      - name: Prepare for release
-        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
-        shell: bash
-        run: |
-          mkdir -p ${{ env.RELEASE_FOLDER }}
-          cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.ipa ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_iOS.ipa
-      - name: Upload release
-        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
-        uses: ncipollo/release-action@v1
-        with:
-          allowUpdates: true
-          artifacts: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_iOS.ipa
-          body: ${{ needs.get-info.outputs.update-note }}
-          name: ${{ needs.get-info.outputs.update-title }}
-          prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-
   build-linux:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
@@ -373,90 +294,6 @@ jobs:
           artifacts: |
             ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.AppImage
             ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_Linux.deb
-          body: ${{ needs.get-info.outputs.update-note }}
-          name: ${{ needs.get-info.outputs.update-title }}
-          prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-
-  build-macos-appstore:
-    runs-on: macos-latest
-    needs: [get-info, build-core, auto-test]
-    if: github.event_name != 'pull_request'
-    env:
-      OUTPUT_FOLDER: ./build
-      RELEASE_FOLDER: ./release
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive
-      - name: Process app name
-        id: process-app-name
-        shell: python3 {0}
-        run: |
-          import os
-          import re
-          with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
-            f.write('bundle-id=org.26f-studio.techmino\n')
-            f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
-      - name: Download core love package
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
-      - name: Download ColdClear
-        uses: ./.github/actions/get-cc
-        with:
-          platform: macOS
-          dir: ./ColdClear
-      - name: Process ColdClear
-        shell: bash
-        run: |
-          rm ./ColdClear/universal/libcold_clear.a
-      - name: Build macOS packages
-        id: build-packages
-        uses: love-actions/love-actions-macos-appstore@v1
-        with:
-          app-name: ${{ needs.get-info.outputs.app-name }}
-          bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
-          copyright: "Copyright © 2019-2023 26F-Studio. Some Rights Reserved."
-          icon-path: ./.github/build/macOS/${{ env.BUILD_TYPE }}/icon.icns
-          love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          libs-path: ./ColdClear/universal/
-          product-name: ${{ steps.process-app-name.outputs.product-name }}
-          version-string: ${{ needs.get-info.outputs.version-string }}
-          output-folder: ${{ env.OUTPUT_FOLDER }}
-          apple-development-base64: ${{ secrets.APPLE_CERT_APPLE_DEVELOPMENT_BASE64 }}
-          apple-development-password: ${{ secrets.APPLE_CERT_APPLE_DEVELOPMENT_PWD }}
-          api-key: ${{ secrets.APPLE_API_KEY }}
-          api-key-id: ${{ secrets.APPLE_API_KEY_ID }}
-          api-issuer-id: ${{ secrets.APPLE_API_ISSUER_ID }}
-          team-id: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
-          apple-id: ${{ secrets.APPLE_APPLE_ID }}
-          external-test: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-          store-release: ${{ startsWith(github.ref, 'refs/tags/v') }}
-      - name: Upload logs artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ needs.get-info.outputs.base-name }}_macOS_appstore_logs
-          path: |
-            ${{ env.OUTPUT_FOLDER }}/DistributionSummary.plist
-            ${{ env.OUTPUT_FOLDER }}/ExportOptions.plist
-            ${{ env.OUTPUT_FOLDER }}/Packaging.log
-      - name: Upload pkg artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ needs.get-info.outputs.base-name }}_macOS_appstore_pkg
-          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.pkg
-      - name: Prepare for release
-        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
-        shell: bash
-        run: |
-          mkdir -p ${{ env.RELEASE_FOLDER }}
-          cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.pkg ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_appstore.pkg
-      - name: Upload release
-        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
-        uses: ncipollo/release-action@v1
-        with:
-          allowUpdates: true
-          artifacts: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_appstore.pkg
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
@@ -684,9 +521,7 @@ jobs:
         auto-test,
         build-core,
         build-android,
-        build-ios,
         build-linux,
-        build-macos-appstore,
         build-macos-portable,
         build-web,
         build-windows,
@@ -719,6 +554,6 @@ jobs:
             "fields":[
             {"name":"Version","value":"${{ needs.get-info.outputs.version-string }}","inline": true},
             {"name":"Package Name","value":"${{ needs.get-info.outputs.base-name }}","inline": true},
-            {"name":"Status","value":"**Automatic Test:** ${{ needs.auto-test.result }}\n**Core:** ${{ needs.build-core.result }}\n**Android:** ${{ needs.build-android.result }}\n**iOS:** ${{ needs.build-ios.result }}\n**Linux:** ${{ needs.build-linux.result }}\n**macOS App Store:** ${{ needs.build-macos-appstore.result }}\n**macOS portable:** ${{ needs.build-macos-portable.result }}\n**Windows:** ${{ needs.build-windows.result }}"}
+            {"name":"Status","value":"**Automatic Test:** ${{ needs.auto-test.result }}\n**Core:** ${{ needs.build-core.result }}\n**Android:** ${{ needs.build-android.result }}\n**Linux:** ${{ needs.build-linux.result }}\n**macOS portable:** ${{ needs.build-macos-portable.result }}\n**Windows:** ${{ needs.build-windows.result }}"}
             ]
             }'

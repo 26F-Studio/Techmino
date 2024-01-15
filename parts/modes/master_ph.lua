@@ -10,11 +10,11 @@ return {
     getRank=function(P)
         local p=P.modeData.pt
         return
-        P.result=='win' and 5 or
-        p>=226 and 4 or
-        p>=162 and 3 or
-        p>=62 and 2 or
-        p>=42 and 1 or
-        p>=26 and 0
+            P.result=='win' and 5 or
+            p>=226 and 4 or
+            p>=162 and 3 or
+            p>=62 and 2 or
+            p>=42 and 1 or
+            p>=26 and 0
     end,
 }

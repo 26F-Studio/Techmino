@@ -174,7 +174,7 @@ local levels={
             local b=STRING.toBin(a)
             local l=floor(math.log(a,2)+1)
             for i=1,l do
-                drawChar(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
+                drawChar(tonumber(b:sub(i,i)),320,420-100*(l-i),.5)
                 ins(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
                 ins(drawLines,{370,440-100*(l-i),410,480-100*(l-i)})
                 drawChar(2,430,420-100*(l-i),.5)
@@ -193,7 +193,7 @@ local levels={
         local b=STRING.toOct(a)
         local l=floor(math.log(a,8)+1)
         for i=1,l do
-            drawChar(tonumber(string.sub(b,i,i)),320,420-100*(l-i),.5)
+            drawChar(tonumber(b:sub(i,i)),320,420-100*(l-i),.5)
             ins(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
             ins(drawLines,{370,440-100*(l-i),410,480-100*(l-i)})
             drawChar(8,430,420-100*(l-i),.5)
@@ -212,7 +212,7 @@ local levels={
             local b=STRING.toHex(a)
             local l=floor(math.log(a,16)+1)
             for i=1,l do
-                local c=string.sub(b,i,i)
+                local c=b:sub(i,i)
                 if ("0123456789"):find(c,nil,true) then
                     c=tonumber(c)
                 else
@@ -520,7 +520,6 @@ function scene.draw()
 end
 
 scene.widgetList={
-    -- TODO: Icons for "Toggle Drawing Mode" button and auto-draw button (waiting for C29H25N3O5 to make the icons in the font)
     WIDGET.newButton{name='reset',x=155,y=100,w=180,h=100,color='lG',font=50,fText=CHAR.icon.retry_spin,code=pressKey'r',hideF=isDrawing},
     WIDGET.newKey{name='X',      x=540, y=620,w=90,font=60,fText=CHAR.key.clear,code=pressKey'backspace',hideF=isDrawing},
     WIDGET.newKey{name='0',      x=640, y=620,w=90,font=60,fText="0",code=pressKey'0',hideF=isDrawing},

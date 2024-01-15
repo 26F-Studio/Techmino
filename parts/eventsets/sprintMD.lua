@@ -15,13 +15,13 @@ return {
                 if P.cur and not P:ifoverlap(P.cur.bk,P.curX-1,P.curY) then
                     P:createMoveFX('left')
                     P.curX=P.curX-1
-                    P:freshBlock('move')
+                    P:freshMoveBlock()
                 end
             elseif r==2 then
                 if P.cur and not P:ifoverlap(P.cur.bk,P.curX-1,P.curY) then
                     P:createMoveFX('left')
                     P.curX=P.curX-1
-                    P:freshBlock('move')
+                    P:freshMoveBlock()
                 end
             elseif r==3 then
                 P:act_rotRight()

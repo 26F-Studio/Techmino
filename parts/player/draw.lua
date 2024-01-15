@@ -356,11 +356,9 @@ local function _drawBlock(CB,curX,curY,texture)
     end end
     gc_setShader()
 end
-local function _drawNextPreview(B,fieldH,fieldBeneath)
+local function _drawNextPreview(B,x,y)
     gc_setColor(1,1,1,.8)
-    local y=floor(fieldH+1-modf(B.RS.centerPos[B.id][B.dir][1]))+ceil(fieldBeneath/30)
     B=B.bk
-    local x=floor(6-#B[1]*.5)
     local cross=TEXTURE.puzzleMark[-1]
     for i=1,#B do for j=1,#B[1] do
         if B[i][j] then
@@ -368,11 +366,10 @@ local function _drawNextPreview(B,fieldH,fieldBeneath)
         end
     end end
 end
-local function _drawHoldPreview(B,fieldH,fieldBeneath)
+local function _drawHoldPreview(B,x,y)
     gc_setColor(1,1,1,.3)
-    local y=floor(fieldH+1-modf(B.RS.centerPos[B.id][B.dir][1]))+ceil(fieldBeneath/30)+.14
+    y=y+.14
     B=B.bk
-    local x=floor(6-#B[1]*.5)
     local cross=TEXTURE.puzzleMark[-1]
     for i=1,#B do for j=1,#B[1] do
         if B[i][j] then
@@ -506,7 +503,14 @@ local function _drawNext(P,repMode)
         gc_setColor(1,1,1,.626)
         gc_draw(seqGenBanner[ENV.sequence],0,-11)
         gc_setColor(.97,.97,.97)
-        if ENV.holdMode=='swap' then gc_rectangle('fill',1,72*ENV.holdCount+4,50,4) end
+        if ENV.holdMode=='swap' then
+            gc_rectangle('fill',100,72*ENV.holdCount+2,-50,4)
+        elseif ENV.holdMode=='skip' then
+            gc_setColor(.97,.97,.97,.26)
+            gc_rectangle('fill',100,72*P.holdTime+2,-50,4)
+            gc_setColor(.97,.97,.97)
+            gc_rectangle('fill',100,72*ENV.holdCount+2,-50,4)
+        end
         gc_rectangle('line',0,0,100,h+8,5)
         gc_push('transform')
             gc_translate(50,40)
@@ -569,8 +573,10 @@ local function _drawNext(P,repMode)
         end
         if ENV.bagLine then
             gc_setColor(.8,.8,.8,.8)
-            for i=-P.pieceCount%ENV.bagLine,N-1,ENV.bagLine do-- i=phase
-                gc_rectangle('fill',1,72*i+3,98,2)
+            for i=1,ENV.nextCount+1 do
+                if queue[i] and queue[i].bagLine and queue[i].bagLine>0 then
+                    gc_rectangle('fill',1,72*(i-1)+3,98,2)
+                end
             end
         end
     gc_translate(-488,-20)
@@ -739,10 +745,12 @@ local draw={}
 draw.drawGhost=drawGhost
 draw.applyField=_applyField
 draw.cancelField=_cancelField
-function draw.drawTargetLine(P,h)
+function draw.drawTargetLine(P,h,overrideColor)
     if h<=20+(P.fieldBeneath+P.fieldUp+10)/30 and h>0 then
         gc_setLineWidth(3)
-        gc_setColor(1,h>10 and 0 or .2+.8*rnd(),.5)
+        if not overrideColor then
+            gc_setColor(1,h>10 and 0 or .2+.8*rnd(),.5)
+        end
         _applyField(P)
         h=600-30*h
         if P.falling~=-1 then
@@ -882,8 +890,8 @@ function draw.norm(P,repMode)
 
             -- Draw next preview
             if ENV.nextPos then
-                if P.nextQueue[1] then _drawNextPreview(P.nextQueue[1],ENV.fieldH,P.fieldBeneath) end
-                if P.holdQueue[1] then _drawHoldPreview(P.holdQueue[1],ENV.fieldH,P.fieldBeneath) end
+                if P.nextQueue[1] then _drawNextPreview(P.nextQueue[1],P:getSpawnX(P.nextQueue[1]),P:getSpawnY(P.nextQueue[1])) end
+                if P.holdQueue[1] then _drawHoldPreview(P.holdQueue[1],P:getSpawnX(P.holdQueue[1]),P:getSpawnY(P.holdQueue[1])) end
             end
 
             -- Draw AI's drop destination
@@ -982,6 +990,21 @@ function draw.norm(P,repMode)
             ENV.mesDisp[i](P,repMode)
         end
 
+        -- Torikan miss amount
+        if P.result=='torikan' then
+            local diff=P.stat.time-P.stat.torikanReq
+            if     diff>=60 then gc_setColor(COLOR.R)
+            elseif diff>=30 then gc_setColor(COLOR.F)
+            elseif diff>=15 then gc_setColor(COLOR.O)
+            elseif diff>=10 then gc_setColor(COLOR.Y)
+            elseif diff>=5  then gc_setColor(COLOR.flicker(COLOR.G,COLOR.L,.1))
+            else                 gc_setColor(COLOR.flicker(COLOR.G,COLOR.J,.05)) end
+            setFont(40)
+            -- self:_showText(STRING.time(self.stat.time).." / "..STRING.time(requiredTime),0,160,50,'beat',.5,.2)
+            GC.mStr(STRING.time(P.stat.time).." / "..STRING.time(P.stat.torikanReq),300,401)
+            GC.mStr("(+"..STRING.time_short(diff)..")",300,451)
+        end
+
         if P.frameRun<180 then
             _drawStartCounter(P.frameRun)
         end
@@ -1078,7 +1101,7 @@ function draw.demo(P)
 
             -- Draw hold
             local N=1
-            while P.holdQueue[N] do
+            while ENV.holdMode=='hold' and N<=ENV.holdCount and P.holdQueue[N] do
                 local id=P.holdQueue[N].id
                 local _=BLOCK_COLORS[skinSet[id]]
                 gc_setColor(_[1],_[2],_[3],.3)

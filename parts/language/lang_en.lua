@@ -28,7 +28,7 @@ return {
     clear={"Single","Double","Triple","Techrash","Pentacrash","Hexacrash","Heptacrash","Octacrash","Nonacrash","Decacrash","Undecacrash","Dodecacrash","Tridecacrash","Tetradecacrash","Pentadecacrash","Hexadecacrash","Heptadecacrash","Octadecacrash","Nonadecacrash","Ultracrash","Impossicrash"},
     cleared="$1 lines",
     mini="Mini",b2b="B2B ",b3b="B2B2B ",
-    PC="Perfect Clear",HPC="Hemi-Perfect Clear",
+    PC="Perfect Clear",HPC="Half PC",
     replaying="[Replay]",
     tasUsing="[TAS]",
 
@@ -40,6 +40,10 @@ return {
     maxspeed="MAX SPEED!",
     speedup="Speed Up!",
     missionFailed="Wrong Clear",
+    infHeightOn="Infinite Height ON",
+    infHeightOff="Infinite Height OFF",
+    infHeightHint="Toggle with Function 1 key",
+    highest="(highest: $1)",
 
     speedLV="Speed Level",
     piece="Piece",line="Lines",atk="Attack",eff="Efficiency",
@@ -51,7 +55,7 @@ return {
 
     win="Win!",
     lose="Lose",
-
+    torikan="Ended",
     finish="Finished",
     gamewin="You Won",
     gameover="Game Over",
@@ -63,10 +67,13 @@ return {
 
     page="Page ",
 
+    ai_puzzle="AI is incompatible with puzzle game mode",
+    ai_mission="AI is incompatible with custom missions.",
+    ai_badPiece="AI is incompatible with custom sequences that contain non-tetrominoes.",
     cc_fixed="CC is incompatible with fixed sequences.",
     cc_swap="CC is incompatible when the hold mode is set to Swap.",
-    ai_prebag="AI is incompatible with custom sequences that contain non-tetrominoes.",
-    ai_mission="AI is incompatible with custom missions.",
+    cc_solid="CC is incompatible with filled line in the field.",
+    cc_field_too_high="CC is incompatible with fields higher than 40.",
     switchSpawnSFX="Please turn on the block spawn SFX!",
     needRestart="Restart to apply all changes.",
 
@@ -88,6 +95,8 @@ return {
     dataCorrupted="Data corrupted",
     pasteWrongPlace="Did you paste in the wrong place?",
     noFile="File missing",
+    invalidSequence="Invalid sequence mode",
+    tooHighField="Field data exceeded 126 lines discarded",
 
     nowPlaying="Now playing:",
 
@@ -230,7 +239,7 @@ return {
         "Pieces:",
         "Row/Dig:",
         "Attack/DigAtk:",
-        "Received:",
+        "Rise(Receive-Offset):",
         "Clears:",
         "Spins:",
         "B2B/B3B/PC/HPC:",
@@ -244,7 +253,7 @@ return {
         "Play Time:",
         "Key/Rot./Hold:",
         "Block/Row/Atk.:",
-        "Recv./Res./Asc.:",
+        "Receive/Offset/Rise:",
         "Dig/Dig Atk.:",
         "Eff./Dig Eff.:",
         "B2B/B3B:",
@@ -326,6 +335,7 @@ return {
         "Miya",
         "Xiaoya",
         "Mono",
+        "Flore",
         "MrZ",
         "Trebor",
         "",
@@ -409,7 +419,7 @@ B. Keyboard
 
 C. Gamepad
         - Press $10 to display Help
-        - Press $5 or $6 to scroll through the text, speed up with $11
+        - Press $5 or $6 to scroll through the text
         - Press $7 to open the previous entry and $8 to open the next entry. Speed up with $11
         - Hold $11 and press $6 to decrease the font size or $5 to increase
 ]]
@@ -495,7 +505,7 @@ C. Gamepad
             capacity="Capacity",
             create="Create",
 
-            ospin="O-spin",
+            ospin="TRS O-spin",
             fineKill="100% Finesse",
             b2bKill="No B2B Breaks",
             lockout="Fail on Lock Out",
@@ -503,7 +513,7 @@ C. Gamepad
             deepDrop="Deep Drop",
             bone="Bone Blocks",
 
-            eventSet="Rule Set",
+            eventSet="Ruleset",
 
             holdMode="Hold Mode",
             nextCount="Next",
@@ -577,7 +587,11 @@ C. Gamepad
 
             bg_on="Normal B.G.",
             bg_off="No B.G.",
-            bg_custom="Use Custom B.G.",
+            bg_custom="Custom B.G.",
+            defaultBG="Default B.G.",
+            resetDbg="Reset to default",
+            lockBG="Lock B.G.",
+            noTheme="Disable theme",
 
             blockSatur="Block Saturation",
             fieldSatur="Field Saturation",
@@ -695,7 +709,7 @@ C. Gamepad
             sequence="Edit Sequences (S)",
             mission="Edit Missions (M)",
 
-            eventSet="Rule Set",
+            eventSet="Ruleset",
 
             holdMode="Hold Mode",
             nextCount="Next",
@@ -713,7 +727,7 @@ C. Gamepad
 
             bufferLimit="Buffer Limit",
             heightLimit="Height Limit",
-            ospin="O-Spin",
+            ospin="TRS O-Spin",
             fineKill="100% Finesse",
             b2bKill="No B2B Breaks",
             lockout="Fail on Lock Out",
@@ -863,7 +877,9 @@ C. Gamepad
         ['sprintPenta']=         {"Sprint",            "PENTOMINO",      "40L with the 18 pentominoes"},
         ['sprintMPH']=           {"Sprint",            "MPH",            "Memoryless\nPreviewless\nHoldless"},
         ['sprint123']=           {"Sprint",            "M123",           "40L with only monominoes, dominoes, and triminoes"},
-        ['secret_grade']=        {"Secret Grade",      "",               "Building a zigzag shape by following the guide!"},
+        ['construct_sg']=        {"Construct",         "SECRET GRADE",   "Build a zigzag pattern by following the guide!"},
+        ['construct_checker']=   {"Construct",         "CHECKERBOARD",   "Build a checkerboard pattern!"},
+        ['construct_invsg']=     {"Construct",         "INV. SG",        "Build an inverted zigzag pattern!"},
         ['dig_10l']=             {"Dig",               "10L",            "Dig 10 garbage lines as fast as you can!"},
         ['dig_40l']=             {"Dig",               "40L",            "Dig 40 garbage lines as fast as you can!"},
         ['dig_100l']=            {"Dig",               "100L",           "Dig 100 garbage lines as fast as you can!"},
@@ -882,12 +898,12 @@ C. Gamepad
         ['solo_h']=              {"Battle",            "HARD",           "Defeat the AI!"},
         ['solo_l']=              {"Battle",            "LUNATIC",        "Defeat the AI!"},
         ['solo_u']=              {"Battle",            "ULTIMATE",       "Defeat the AI!"},
-        ['techmino49_e']=        {"Tech 49",           "EASY",           "49-player battle.\nThe last one standing wins"},
-        ['techmino49_h']=        {"Tech 49",           "HARD",           "49-player battle.\nThe last one standing wins"},
-        ['techmino49_u']=        {"Tech 49",           "ULTIMATE",       "49-player battle.\nThe last one standing wins"},
-        ['techmino99_e']=        {"Tech 99",           "EASY",           "99-player battle.\nThe last one standing wins"},
-        ['techmino99_h']=        {"Tech 99",           "HARD",           "99-player battle.\nThe last one standing wins"},
-        ['techmino99_u']=        {"Tech 99",           "ULTIMATE",       "99-player battle.\nThe last one standing wins"},
+        ['techmino49_e']=        {"Tech VS 49",        "EASY",           "49-player battle.\nThe last one standing wins"},
+        ['techmino49_h']=        {"Tech VS 49",        "HARD",           "49-player battle.\nThe last one standing wins"},
+        ['techmino49_u']=        {"Tech VS 49",        "ULTIMATE",       "49-player battle.\nThe last one standing wins"},
+        ['techmino99_e']=        {"Tech VS 99",        "EASY",           "99-player battle.\nThe last one standing wins"},
+        ['techmino99_h']=        {"Tech VS 99",        "HARD",           "99-player battle.\nThe last one standing wins"},
+        ['techmino99_u']=        {"Tech VS 99",        "ULTIMATE",       "99-player battle.\nThe last one standing wins"},
         ['round_e']=             {"Turn-Based",        "EASY",           "Take turns to play against the AI!"},
         ['round_n']=             {"Turn-Based",        "NORMAL",         "Take turns to play against the AI!"},
         ['round_h']=             {"Turn-Based",        "HARD",           "Take turns to play against the AI!"},
@@ -909,12 +925,12 @@ C. Gamepad
         ['strategy_e_plus']=     {"Strategy",          "EASY+",          "Holdless strategy!"},
         ['strategy_h_plus']=     {"Strategy",          "HARD+",          "Holdless strategy!"},
         ['strategy_u_plus']=     {"Strategy",          "ULTIMATE+",      "Holdless strategy!"},
-        ['blind_e']=             {"Invisible",         "HALF",           "For beginners"},
-        ['blind_n']=             {"Invisible",         "ALL",            "For intermediates"},
-        ['blind_h']=             {"Invisible",         "SUDDEN",         "For the experienced"},
-        ['blind_l']=             {"Invisible",         "SUDDEN+",        "For professionals"},
-        ['blind_u']=             {"Invisible",         "?",              "Are you ready?"},
-        ['blind_wtf']=           {"Invisible",         "WTF",            "You're not ready."},
+        ['blind_e']=             {"Invisible",         "SLOW",           "For beginners"},
+        ['blind_n']=             {"Invisible",         "FAST",           "For intermediates"},
+        ['blind_h']=             {"Invisible",         "INSTANT",        "For the experienced"},
+        ['blind_l']=             {"Invisible",         "NO GHOST",       "For professionals"},
+        ['blind_u']=             {"Invisible",         "NO FIELD",       "Are you ready?"},
+        ['blind_wtf']=           {"Invisible",         "VOID",           "You're not ready."},
         ['classic_e']=           {"Classic",           "EASY",           "A low-speed recreation game from the 80s"},
         ['classic_h']=           {"Classic",           "HARD",           "A medium-speed recreation game from the 80s"},
         ['classic_l']=           {"Classic",           "LUNATIC",        "A high-speed recreation game from the 80s"},
@@ -926,8 +942,8 @@ C. Gamepad
         ['survivor_u']=          {"Survival",          "ULTIMATE",       "How long can you survive?"},
         ['attacker_h']=          {"Attacker",          "HARD",           "Practice your attacking skills!"},
         ['attacker_u']=          {"Attacker",          "ULTIMATE",       "Practice your attacking skills!"},
-        ['defender_n']=          {"Defender",          "NORMAL",         "Practice your defensing skills!"},
-        ['defender_l']=          {"Defender",          "LUNATIC",        "Practice your defensing skills!"},
+        ['defender_n']=          {"Defender",          "NORMAL",         "Practice your defending skills!"},
+        ['defender_l']=          {"Defender",          "LUNATIC",        "Practice your defending skills!"},
         ['dig_h']=               {"Driller",           "HARD",           "Digging practice!"},
         ['dig_u']=               {"Driller",           "ULTIMATE",       "Digging practice!"},
         ['c4wtrain_n']=          {"C4W Training",      "NORMAL",         "Infinite combos"},
@@ -938,16 +954,14 @@ C. Gamepad
         ['pc_h']=                {"PC Challenge",      "HARD",           "Get PCs within 100 lines!"},
         ['pc_l']=                {"PC Challenge",      "LUNATIC",        "Get PCs within 100 lines!"},
         ['pc_inf']=              {"Inf. PC Challenge", "",               "Get PCs as much as you can"},
-        ['tech_n']=              {"Tech",              "NORMAL",         "Try to keep the\nBack-to-Back chain!"},
-        ['tech_n_plus']=         {"Tech",              "NORMAL+",        "Spins & PCs only"},
-        ['tech_h']=              {"Tech",              "HARD",           "Try to keep the\nBack-to-Back chain!"},
-        ['tech_h_plus']=         {"Tech",              "HARD+",          "Spins & PCs only"},
-        ['tech_l']=              {"Tech",              "LUNATIC",        "Try to keep the\nBack-to-Back chain!"},
-        ['tech_l_plus']=         {"Tech",              "LUNATIC+",       "Spins & PCs only"},
-        ['tech_finesse']=        {"Tech",              "FINESSE",        "No finesse errors!"},
-        ['tech_finesse_f']=      {"Tech",              "FINESSE+",       "No normal clears and finesse errors!"},
-        ['tech_finesse_lock']=   {"Tech",              "FINESSE LOCK",   "No finesse errors, combined with limited inputs!"},
-        ['tech_finesse_lock_f']= {"Tech",              "FINESSE+ LOCK",  "No normal clears or finesse errors combined with limited inputs!"},
+        ['tech_n']=              {"Tech B2B",          "NORMAL",         "Try to keep the\nBack-to-Back chain!"},
+        ['tech_n_plus']=         {"Tech B2B",          "NORMAL+",        "Spins & PCs only"},
+        ['tech_h']=              {"Tech B2B",          "HARD",           "Try to keep the\nBack-to-Back chain!"},
+        ['tech_h_plus']=         {"Tech B2B",          "HARD+",          "Spins & PCs only"},
+        ['tech_l']=              {"Tech B2B",          "LUNATIC",        "Try to keep the\nBack-to-Back chain!"},
+        ['tech_l_plus']=         {"Tech B2B",          "LUNATIC+",       "Spins & PCs only"},
+        ['tech_finesse']=        {"Tech Finesse",      "",               "No finesse errors!"},
+        ['tech_finesse_f']=      {"Tech Finesse",      "PLUS",           "No normal clears and finesse errors!"},
         ['tsd_e']=               {"TSD Challenge",     "EASY",           "T-Spin Doubles only!"},
         ['tsd_h']=               {"TSD Challenge",     "HARD",           "T-Spin Doubles only!"},
         ['tsd_u']=               {"TSD Challenge",     "ULTIMATE",       "T-Spin Doubles only!"},

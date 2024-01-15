@@ -19,11 +19,11 @@ return {
         if P.result=='win' then
             local T=P.stat.piece
             return
-            T<=7*10 and 5 or
-            T<=7*13 and 4 or
-            T<=7*18 and 3 or
-            T<=7*26 and 2 or
-            1
+                T<=7*10 and 5 or
+                T<=7*13 and 4 or
+                T<=7*18 and 3 or
+                T<=7*26 and 2 or
+                1
         end
     end,
 }

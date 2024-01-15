@@ -21,7 +21,7 @@ function back.update()
             x=SCR.w*rnd(),
             y=SCR.h*-.05,
             k=SCR.rad/200,
-            ang=rnd()*6.2832,
+            ang=rnd()*MATH.tau,
             vy=.5+rnd()*.4,
             vx=rnd()*.4-.2,
             va=rnd()*.04-.02,
