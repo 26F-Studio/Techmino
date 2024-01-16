@@ -803,7 +803,7 @@ function selector:press(x)
             end
         end
         if self.select~=s then
-            self.code(self.list[s])
+            self.code(self.list[s],s)
             self.select=s
             self.selText=self.list[s]
             if self.sound then
