@@ -1059,7 +1059,7 @@ C. Tay cầm chơi game (Gamepad):
         "Split clear sắp ra mắt!",
         "Techmino là sự kết hợp giữa \"technique\" và \"tetromino\"",
         "Hình như mình nghiện Techmino rồi!",
-        "Techmino trên Nspire-CX ư? Có nhưng đó là một game khác.",
+        "Techmino trên Nspire-CX ư? Ừ, nhưng đó là một game khác được viết bởi MrZ!",
         "TetroDictionary đã ra mắt (có bản tiếng Việt rồi, nhưng mà hơi bruh, thôi vẫn đủ xài!)",
         "Những cái tên xuất hiện ở phần nền trong trang Đội Ngũ là danh sách các nhà tài trợ của chúng tôi",
         "Toàn bộ nhạc game này đã có mặt trên Soundcloud rồi đấy!",
