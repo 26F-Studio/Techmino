@@ -706,10 +706,10 @@ Một kỹ thuật di chuyển gạch vào vị trí mong muốn với chuỗi p
 Bạn sẽ không bị mất Finesse khi bạn nhét gạch hay thực hiện Spin vì Techmino chỉ kiểm tra những vị trí không yêu cầu soft drop
 
 Techmino cũng có finesse rate (%) (tỉ lệ *không* mắc lỗi di chuyển), được tính như sau:
-    - 100% (Hoàn hảo - Perfect) khi số lần nhấn phím bằng hoặc ít hơn mức chuẩn
-    - 50% (Tuyệt vời - Great) khi số lần nhấn phím cao hơn mức chuẩn 1 phím
-    - 25% (Xấu - Bad) khi số lần nhấn phím cao hơn mức chuẩn 2 phím
-    - 0% (Truợt - Miss) khi số lần nhấn phím cao hơn mức chuẩn 3 phím
+    - 100% (Perfect) khi số lần nhấn phím bằng hoặc ít hơn mức chuẩn
+    - 50% (Great) khi số lần nhấn phím cao hơn mức chuẩn 1 phím
+    - 25% (Bad) khi số lần nhấn phím cao hơn mức chuẩn 2 phím
+    - 0% (Miss) khi số lần nhấn phím cao hơn mức chuẩn 3 phím
 Một Bad hoặc Miss sẽ phá combo finesse.
 
 Lưu ý:
@@ -774,7 +774,7 @@ Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish - n
     {"APL",
         "nhom05g attackperline efficiency; số hàng tấn công; số hàng đã xóa; độ hiệu quả",
         "term",
-        "Attack per line (cleared) | Số hàng tấn công / Số hàng đã xóa\n\nCòn được biết với tên \"efficiency\" (độ hiệu quả). Phản ánh độ hiệu quả khi tấn công sau mỗi lần xóa hàng.\nVí dụ Tetris và T-spin có độ hiệu quả cao hơn so với xóa 2 / 3 hàng.",
+        "Attack per line (cleared)\n\tSố hàng tấn công / Số hàng đã xóa\n\nCòn được biết với tên \"efficiency\" (độ hiệu quả). Phản ánh độ hiệu quả khi tấn công sau mỗi lần xóa hàng.\nVí dụ Tetris và T-spin có độ hiệu quả cao hơn so với xóa 2 / 3 hàng.",
     },
     {"Tấn công&Phg thủ",
         "nhom05g attacking defending phòng thủ; tấn công & phòng thủ; tấn công và phòng thủ",
@@ -847,7 +847,7 @@ Trong hầu hết các game, tấn công và phòng thủ là tương đương n
     {"Fin, Neo, Iso",
         "nhom05i fin neo iso",
         "pattern",
-        "Tên của 3 kiểu T-spin sử dụng wall-kick table đặc biệt của gạch T. Các game khác nhau có cách phản công khác nhau với loại này: có game tính là Mini-spin, nhưng cũng có game không tính luôn =))).\n\nTrên thực tế chúng không được sử dụng nhiều vì game thường sẽ nerf loại T-spin này; hơn nữa setup của ba loại này khá là phức tạp."
+        "Tên của 3 kiểu T-spin sử dụng wall-kick table đặc biệt của gạch T. Chúng không được sử dụng nhiều trong game bởi vì độ phức tạp và chúng thường hay bị nerf bởi đa số game."
     },
     {"Freestyle",
         "nhom05i",
@@ -894,7 +894,7 @@ Trong hầu hết các game, tấn công và phòng thủ là tương đương n
     {"Back to Back",
         "nhom05j b2b btb backtoback",
         "term",
-        "Hay còn gọi là B2B. Xóa 2 hoặc nhiều lần xóa theo kiểu nâng cao (như Tetris hay Spin) liên tiếp (nhưng không được xóa theo kiểu 'bình thường' giữa chừng).\nKhông như combo, Back To Back sẽ không bị mất khi đặt gạch.\n\nỞ Techmino, B2B được tính bằng thanh năng lượng, chứ không tính theo số lần xóa theo kiểu nâng cao.\nCũng trong Techmino, nhiều B2B liên tiếp được tính là Back-to-back-to-back (B3B) (xem mục B2B2B để biết thêm).\n\nTechmino cũng tính cả PC và HPC liên tiếp là B2B và B3B",
+        "Hay còn gọi là B2B. Xóa 2 hoặc nhiều lần xóa theo kiểu nâng cao (như Tetris hay Spin) liên tiếp (nhưng không được kiểu xóa bình thường giữa chừng).\nKhông như combo, Back To Back sẽ không bị mất khi đặt gạch.\n\nỞ Techmino, B2B được tính bằng thanh năng lượng, chứ không tính theo số lần xóa kiểu đặc biệt.\nCũng trong Techmino, nhiều B2B liên tiếp được tính là Back-to-back-to-back (B3B) (xem mục B2B2B để biết thêm).\n\nTechmino cũng tính cả PC và HPC liên tiếp là B2B và B3B",
     },
     {"B2B2B",
         "nhom05j b3b backtobacktoback",
@@ -932,13 +932,13 @@ Trong hầu hết các game, tấn công và phòng thủ là tương đương n
         [[
 Đây là skin được dùng trong những phiên bản đời đầu của Tetris
 
-Trước đây, tất cả máy tính đều sử dụng Giao diện Dòng lệnh (Command-Line Interfaces, gần giống như cmd trên Windows, Terminal trên Mac, hay Console trên Linux), cho nên mỗi ô gạch đều được hiển thị dưới dạng 2 ngoặc vuông (như thế này: [ ]).
+Trước đây, tất cả máy tính đều sử dụng Giao diện Dòng lệnh (Command-Line Interfaces), cho nên mỗi ô gạch đều được hiển thị dưới dạng 2 ngoặc vuông (như thế này: ]]..CHAR.icon.bone..[[).
 Trông nó nhìn rất giống cục xương, nên đôi khi được gọi là skin bone block (gạch xương).
 
 Trong Techmino, bone block được mô tả là "một skin gạch duy nhất, lạ mắt mà tất cả các gạch đều sử dụng".
 Skin khác nhau sẽ có skin bone block khác nhau.
 
-Cũng trong Techmino nhưng ở tiếng Việt, từ "gạch []" được dùng để chỉ bone block.
+Cũng trong Techmino nhưng ở tiếng Việt, từ "gạch ]]..CHAR.icon.bone..[[" được dùng để chỉ bone block.
         ]],
     },
     {"=[NHÓM 06]=",
