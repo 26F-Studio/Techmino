@@ -1271,8 +1271,8 @@ C. Tay cầm chơi game (Gamepad):
         {C.lSea,"Sea: ",C.Z,"Tui không có đủ mặn để viết joke. Nên một số câu đùa đang chạy ở đây được viết bởi ",C.yellow,"Shard Nguyễn",C.Z,". \"Em cảm ơn anh!\""},
         {C.lSea,"Sea: ",C.Z,"Tui đang tự hỏi liệu còn bao nhiêu lỗi tui bỏ sót lúc dịch game không? Tính ra tui đã cập nhật đi cập nhật lại cũng 4-5 lần rồi."},
 
-        {"Cộng đồng Tetris ",C.R,"Việt ",C.lY,"Nam ",C.Z,": https://discord.gg/hoiphuhovietnam"}, -- Tetris Vietnam (TVN)
-        {"\"Tetris Việt Nam\"? Không, đó là \"Hội phụ hồ Việt Nam\""},
+        {"Cộng đồng Tetris ",C.R,"Việt ",C.lY,"Nam ",C.Z,": https://discord.gg/jX7BX9g"}, -- Tetris Vietnam (TVN)
+        {"\"Tetris Việt Nam\"? Không, đó là \"Hội phụ hồ Việt Nam\" (https://discord.gg/hoiphuhovietnam)"},
         "\"Zictionary\" có 2 tên gọi khác, đó là: \"TetroDictionary\" và \"Little Z Dictionary\"",
         "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
         {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.Z," không?"}, -- A joke in TVN
