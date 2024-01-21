@@ -690,7 +690,7 @@ do
                             local sfx
                             if ifpre then
                                 sfx='prerotate'
-                            elseif P:ifoverlap(icb,x,y+1) and P:ifoverlap(icb,x-1,y) and P:ifoverlap(icb,x+1,y) then
+                            elseif y==P.ghoY and P:ifoverlap(icb,x,y+1) and P:ifoverlap(icb,x-1,y) and P:ifoverlap(icb,x+1,y) then
                                 sfx='rotatekick'
                                 P:_rotateField(d)
                             else

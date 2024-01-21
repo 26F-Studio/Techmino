@@ -1232,7 +1232,7 @@ function Player:spin(d,ifpre)
                 local sfx
                 if ifpre then
                     sfx='prerotate'
-                elseif self:ifoverlap(icb,ix,iy+1) and self:ifoverlap(icb,ix-1,iy) and self:ifoverlap(icb,ix+1,iy) then
+                elseif iy==self.ghoY and self:ifoverlap(icb,ix,iy+1) and self:ifoverlap(icb,ix-1,iy) and self:ifoverlap(icb,ix+1,iy) then
                     sfx='rotatekick'
                     self:_rotateField(d)
                 else
