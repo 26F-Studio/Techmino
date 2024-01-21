@@ -334,6 +334,7 @@ do-- function DATA.saveReplay()
                 seed=GAME.seed,
                 setting=GAME.setting,
                 mod=_getModList(),
+                modApplyAt=GAME.modApplyAt,
                 tasUsed=GAME.tasUsed,
             }
             if GAME.curMode.savePrivate then
@@ -393,6 +394,7 @@ function DATA.parseReplayData(fileName,fileData,ifFull)
         seed=metaData.seed,
         setting=metaData.setting,
         mod=metaData.mod,
+        modApplyAt=metaData.modApplyAt,
         tasUsed=metaData.tasUsed,
     }
     if ifFull then rep.data=fileData end
