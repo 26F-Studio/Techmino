@@ -314,9 +314,8 @@ scene.widgetList={
     WIDGET.newKey{name='link',x=1234,y=520,w=60,font=45,fText=CHAR.icon.globe,code=pressKey'application',hideF=function() return not (listBox.selected>0 and _getList()[listBox.selected].url) end},
     WIDGET.newKey{name='copy',x=1234,y=590,w=60,font=40,fText=CHAR.icon.copy,code=pressKey'cC',hideF=function() return not (listBox.selected>0) end},
 
-    -- TODO: fontUp and fontDown after #1085 merged
-    WIDGET.newKey{name='zoomin',x=1234,y=300,w=60,font=40,fText=CHAR.icon.zoomIn,code=function() _setZoom(5) end},
-    WIDGET.newKey{name='zoomout',x=1234,y=370,w=60,font=40,fText=CHAR.icon.zoomOut,code=function() _setZoom(-5) end},
+    WIDGET.newKey{name='fontup',x=1234,y=300,w=60,font=40,fText=CHAR.icon.fontUp,code=function() _setZoom(5) end},
+    WIDGET.newKey{name='fontdown',x=1234,y=370,w=60,font=40,fText=CHAR.icon.fontDown,code=function() _setZoom(-5) end},
     WIDGET.newKey{name='resetzoom',x=1234,y=440,w=60,font=40,fText=CHAR.icon.zoomDefault,code=function() _setZoom(0) end},
 
     WIDGET.newButton{name='back',x=1185,y=60,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
