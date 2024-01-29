@@ -847,7 +847,7 @@ Trong hầu hết các game, tấn công và phòng thủ là tương đương n
     {"Fin, Neo, Iso",
         "nhom05i fin neo iso",
         "pattern",
-        "Tên của 3 kiểu T-spin sử dụng wall-kick table đặc biệt của gạch T. Chúng không được sử dụng nhiều trong game bởi vì độ phức tạp và chúng thường hay bị nerf bởi đa số game."
+        "Tên của 3 kiểu T-spin sử dụng wall-kick table đặc biệt của gạch T. Chúng không được sử dụng nhiều trong game bởi vì độ phức tạp và thường hay bị nerf bởi đa số game."
     },
     {"Freestyle",
         "nhom05i",
