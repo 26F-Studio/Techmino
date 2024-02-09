@@ -135,7 +135,7 @@ scene.widgetList={
         disp=SETval('lockBG'),
         code=function()
             SETTING.lockBG=not SETTING.lockBG
-            applySettings()
+            applySettings('lockBG')
         end,
         hideF=function() return SETTING.bg~='on' end
     },
@@ -150,7 +150,7 @@ scene.widgetList={
                     MES.new('warn',text.settingWarn2,6.26)
                 end
             else
-                THEME.set(THEME.calculate())
+                THEME.set(THEME.calculate(),GAME.playing)
                 WIDGET.setWidgetList(scene.widgetList)
             end
         end

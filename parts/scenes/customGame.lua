@@ -350,7 +350,7 @@ scene.widgetList={
     WIDGET.newSwitch{name='phyHold',       x=560, y=1030,lim=200,                   disp=CUSval('phyHold'),code=CUSrev('phyHold'),hideF=function() return CUSTOMGAME_LOCAL.customenv.holdCount==0 end},
 
     -- BG & BGM
-    WIDGET.newSelector{name='bg',          x=840, y=1100,w=250,color='Y',list=BG.getList(),disp=CUSval('bg'),code=function(i) CUSTOMGAME_LOCAL.customenv.bg=i BG.set(i) end},
+    WIDGET.newSelector{name='bg',          x=840, y=1100,w=250,color='Y',list=BG.getList(),disp=CUSval('bg'),code=function(i) CUSTOMGAME_LOCAL.customenv.bg=i BG.set(i) end,hideF=SETval('lockBG')},
     WIDGET.newSelector{name='bgm',         x=1120,y=1100,w=250,color='Y',list=BGM.getList(),disp=CUSval('bgm'),code=function(i) CUSTOMGAME_LOCAL.customenv.bgm=i BGM.play(i) end},
 }
 
