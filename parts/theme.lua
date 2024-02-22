@@ -58,7 +58,7 @@ function THEME.calculate(Y,M,D)
         )
 end
 
-function THEME.set(theme,doNotReplaceBGM)
+function THEME.set(theme,keepBGM)
     if type(theme)=='string' and theme:sub(1,6)=='season' then
         BG.setDefault(SETTING.defaultBG)
         BGM.setDefault(({season1='null',season2='nil',season3='vaccum',season4='space'})[theme])
@@ -99,7 +99,7 @@ function THEME.set(theme,doNotReplaceBGM)
 
     THEME.cur=theme
     BG.set()
-    if not doNotReplaceBGM then BGM.play() end
+    if not keepBGM then BGM.play() end
     return true
 end
 
