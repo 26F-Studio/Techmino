@@ -165,6 +165,8 @@ function scene.keyDown(key,isRep)
             SFX.play('clear_3')
             SYSFX.newShade(1.2,555,200,620,380,.6,.6,.6)
         end
+    elseif KEY_MAP.keyboard[key]==0 then -- custom restart key
+        scene.keyDown('r')
     else
         return true
     end
@@ -186,6 +188,14 @@ function scene.touchUp(x1,y1)
 end
 scene.mouseUp=scene.touchUp
 scene.mouseDown=scene.touchDown
+
+function scene.gamepadDown(key)
+    if key=='back' then
+        scene.keyDown('escape')
+    elseif KEY_MAP.joystick[key]==0 then
+        scene.keyDown('r')
+    end
+end
 
 function scene.update(dt)
     if not (GAME.result or GAME.replaying) then
