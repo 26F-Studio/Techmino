@@ -221,8 +221,8 @@ scene.widgetList={
     WIDGET.newButton{name='replays',x=2480,y=570,w=800,h=100, color='lC',font=40,align='L',edge=30,code=pressKey','},
 
     WIDGET.newButton{name='music',  x=90,y=80,w=100,          color='lY',code=pressKey'2',font=70,fText=CHAR.icon.music},
-    -- WIDGET.newButton{name='notice', x=210,y=80,w=100,         color='lA',code=pressKey'3',font=70,fText=CHAR.key.winMenu},
-    WIDGET.newButton{name='lang',   x=210,y=80,w=100,         color='lN',code=pressKey'4',font=70,fText=CHAR.icon.language},
+    WIDGET.newButton{name='notice', x=210,y=80,w=100,         color='D',code=pressKey'3',font=70,fText=CHAR.key.winMenu},
+    WIDGET.newButton{name='lang',   x=330,y=80,w=100,         color='lN',code=pressKey'4',font=70,fText=CHAR.icon.language},
     WIDGET.newButton{name='about',  x=-110,y=670,w=600,h=70,  color='lB',align='R',edge=20,code=pressKey'x',font=50,fText=CHAR.icon.info},
     WIDGET.newButton{name='manual', x=1390,y=670,w=600,h=70,  color='lR',align='L',edge=20,code=pressKey'm',font=50,fText=CHAR.icon.help},
 }
