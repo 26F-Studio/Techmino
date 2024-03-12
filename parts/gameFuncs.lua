@@ -259,6 +259,41 @@ do -- Master GRADED
         end
     end
 end
+do -- Master GRADED MODERN
+    local modern_postm_grades={"M","MK","MV","MO","MM-","MM","MM+","GM-","GM","GM+","TM-","TM","TM+","ΩM","ΣM","∞M","∞M+"}
+    function getMasterGradeModern(index)
+        if index<11 then
+            return tostring(11-index)
+        elseif index<21 then
+            return "S"..index-11
+        elseif index<31 then
+            return "m"..index-21
+        elseif index<48 then
+            return modern_postm_grades[index-30]
+        else
+            return modern_postm_grades[#modern_postm_grades]..getSmallNum(index-46)
+        end
+    end
+    local modern_postm_grades_text={
+        "Master","MasterK","MasterV","MasterO","MasterM-","MasterM","MasterM+",
+        "Grand Master-","Grand Master","Grand Master+",
+        "Tech Master-","Tech Master","Tech Master+",
+        "Omega Master","Sigma Master","Infinity Master","Infinity Master+"
+    }
+    function getMasterGradeModernText(index)
+        if index<11 then
+            return "Grade "..tostring(11-index)
+        elseif index<21 then
+            return "S"..index-11
+        elseif index<31 then
+            return "m"..index-21
+        elseif index<48 then
+            return modern_postm_grades_text[index-30]
+        else
+            return modern_postm_grades_text[#modern_postm_grades]..index-46
+        end
+    end
+end
 ------------------------------[Royale mode]------------------------------
 function randomTarget(P)-- Return a random opponent for P
     local l=TABLE.shift(PLY_ALIVE,0)
@@ -1017,6 +1052,7 @@ do-- function resetGameData(args)
                 TEXT.show(M.id,640+(counter%5-2)*80,26,45,'spin')
                 counter=counter+1
             end
+            time=time and time+1 or 0
         end
     end
     local gameSetting={
