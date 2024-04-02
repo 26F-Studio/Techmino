@@ -23,7 +23,7 @@ TIME=love.timer.getTime
 
 -- Global Vars & Settings
 SFXPACKS={'chiptune'}
-VOCPACKS={'miya','mono','xiaoya','flore','miku','zundamon'}
+VOCPACKS={'miya','mono','xiaoya','flore','miku','zundamon','neuro'}
 FIRSTLAUNCH=false
 DAILYLAUNCH=false
 
@@ -271,6 +271,7 @@ IMG.init{
     floreCH='media/image/characters/flore.png',
     mikuCH='media/image/characters/miku.png',
     zundamonCH='media/image/characters/zundamon.png',
+    neuroCH='media/image/characters/neuro.png',
     z={
         character='media/image/characters/z_character.png',
         screen1='media/image/characters/z_screen1.png',

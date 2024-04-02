@@ -81,6 +81,9 @@ function scene.draw()
     elseif vocPack=="zundamon" then
         gc.translate(770,300+12*sin(TIME()*.5))
         gc.draw(IMG.zundamonCH,nil,nil,nil,.8)
+    elseif vocPack=="neuro" then
+        gc.translate(770,300+12*sin(TIME()*.5))
+        gc.draw(IMG.neuroCH,nil,nil,nil,.8)
     end
     gc.pop()
 end
