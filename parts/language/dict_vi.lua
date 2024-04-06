@@ -1145,7 +1145,7 @@ Một trò chơi do fan làm đang được phát triển với hệ thống xoa
         "nhom06 tetrisgrandmaster tetristhegrandmaster",
         "game",
         [[
-Máy thùng, và các HĐH khác* | Chơi đơn / Chơi hai người
+Máy thùng, và các hệ máy khác* | Chơi đơn / Chơi hai người
 
 Tetris: The Grand Master, một series Tetris dành cho máy thùng, nổi tiếng với độ khó cực cao - được xem là series game khó nhất (tại thời điểm ra mắt). Những thứ như S13 hay GM cũng từ chính series này. TGM3 được coi là tựa game nổi tiếng nhất của series này.
 
