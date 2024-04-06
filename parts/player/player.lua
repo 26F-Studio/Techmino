@@ -1551,14 +1551,14 @@ end
 -- Player.drop(self)-- Place piece
 -- Player:clearFilledLines(start,height)
 do
-    local clearSCR=setmetatable({-- B2Bmul:1.3/1.8
+    local clearSCR=setmetatable({-- B2B*=1.3; B3B*=1.8
         80,200,400,1000,-- 1~4
         1500,2000,2300,2600,3000,3400,-- 5~10
         3800,4200,4600,5000,5500,6000,-- 11~16
         6500,7000,7500,8000,-- 17~20
         10000,11500,13000,14500,16000-- 21~25
-    },{__index=function(self,k) self[k]=20000 return 20000 end})
-    local spinSCR={
+    },{__index=function() return 20000 end})
+    local spinSCR={-- B2B*=1.2; B3B*=2.0; Mini*=.6
         {200,750,1300,2000},-- Z
         {200,750,1300,2000},-- S
         {220,700,1300,2000},-- L
@@ -1567,7 +1567,7 @@ do
         {260,900,1600,4500,7000},-- O
         {300,1200,1700,4000,6000},-- I
         {220,800,2000,3000,8000,26000},-- Else
-    }-- B2B*=1.2; B3B*=2.0; Mini*=.6
+    }
     local b2bPoint={50,100,180,800,1000,9999}
 
     local b2bATK={3,5,8,12,18,26}
