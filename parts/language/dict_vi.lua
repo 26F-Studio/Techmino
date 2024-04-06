@@ -422,6 +422,8 @@ Nếu thực hiện thành công, offset ở hướng đang được giữ ở b
 1. Khoảng cách Euclide từ tâm tới vị trí đá tới được chọn phải bé hơn √5
 2. Hướng của cú đá không phải là hướng đối diện với hướng đã được xác định bằng phím bấm.
 
+Nếu không dùng kick đó được, offset trái phải sẽ bị hủy và thử lại, nếu không được nữa thì hủy luôn offset dưới.
+
 So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một bảng wall-kick; nhưng vẫn giữ được khả năng vượt địa hình của SRS.
         ]],
     },
