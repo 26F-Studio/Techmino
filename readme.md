@@ -5,9 +5,11 @@
 [![AUR techmino-client](https://img.shields.io/aur/version/techmino-client?label=techmino-client&logo=archlinux)](https://aur.archlinux.org/packages/techmino-client)
 [![AUR techmino-git](https://img.shields.io/aur/version/techmino-git?label=techmino-git&logo=archlinux)](https://aur.archlinux.org/packages/techmino-git)
 
-《Techmino: 方块研究所》—— Github & Gitee 官方仓库.
+***[GitHub](https://github.com/26F-Studio/Techmino)  [Gitee](https://gitee.com/f26-studio/Techmino)***
 
-The Official Repository of Techmino on GitHub & Gitee.
+《Techmino: 方块研究所》 官方仓库
+
+The Official Repository of Techmino
 
 集合各种现代方块规则，更多玩法，全新体验。
 
