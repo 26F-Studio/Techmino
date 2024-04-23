@@ -159,6 +159,8 @@ function scene.enter()
     lastSearch=false
     listBox:setList(_getList())
 
+    _updateContentBox()
+
     if not MOBILE then WIDGET.focus(inputBox) end
     BG.set('rainbow')
 end
@@ -230,10 +232,13 @@ function scene.keyDown(key)
     --     else
     --         local lastLscrollPos=listBox.scrollPos
     --         local lastTscrollPos=contentBox.scrollPos
+
     --         listBox:setList(_getList())
     --         if #inputBox:getText()>0 then _search() end
+
     --         listBox.selected=lastSelected<#dict and lastSelected or #dict   -- In case the last item is removed!
     --         listBox.scrollPos=lastLscrollPos
+
     --         _updateContentBox()
     --         contentBox.scrollPos=lastTscrollPos
     --         SFX.play('pc')

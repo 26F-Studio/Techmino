@@ -9,8 +9,18 @@ function scene.enter()
         [3] - Background (in string format)
     ]]
 
+    if SCN.args[1] then
+        if type(SCN.args[1])=='string' then
+            local _
+            _,showingText=FONT.get(20):getWrap(SCN.args[1],960)
+        else
+            assert(type(SCN.args[1])=='table','textViewer: SCN.args[1] must be string or table of text')
+            showingText=SCN.args[1]
+        end
+    else showingText={'No text!'} end
+
     textBox.font=SCN.args[2] or 20
-    textBox:setTexts(SCN.args[1] and SCN.args[1] or {"No text loaded"})
+    textBox:setTexts(showingText)
     textBox:reset()
 
     BG.set(SCN.args[3])
