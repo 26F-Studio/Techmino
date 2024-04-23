@@ -23,7 +23,7 @@ TIME=love.timer.getTime
 
 -- Global Vars & Settings
 SFXPACKS={'chiptune'}
-VOCPACKS={'miya','mono','xiaoya','flore','miku','zundamon','neuro'}
+VOCPACKS={'miya','mono','xiaoya','flore','neuro','miku','zundamon'}
 FIRSTLAUNCH=false
 DAILYLAUNCH=false
 
