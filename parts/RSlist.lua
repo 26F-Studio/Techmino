@@ -444,7 +444,7 @@ do
     _centroSymSet(TRS.kickTable[25])_centroSymSet(TRS.kickTable[26])-- I5I3
 end
 
-local SRS
+local SRS -- Pentos are treated as 3*3 piece
 do
     SRS={
         centerTex=GC.DO{10,10,
@@ -489,7 +489,7 @@ do
     for i=8,29 do SRS.kickTable[i]=SRS.kickTable[1] end
 end
 
-local SRS_plus
+local SRS_plus -- Basic 180 kicks and symmetry I piece kick table
 do
     SRS_plus={
         centerTex=GC.DO{10,10,
@@ -542,7 +542,7 @@ do
     for i=8,29 do SRS_plus.kickTable[i]=SRS_plus.kickTable[1] end
 end
 
-local SRS_X
+local SRS_X -- Basic 180 kicks and TRS for non-SZJLT
 do
     SRS_X={
         centerTex=GC.DO{10,10,
