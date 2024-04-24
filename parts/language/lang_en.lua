@@ -55,7 +55,7 @@ return {
 
     win="Win!",
     lose="Lose",
-    torikan="Ended",
+    torikan="The End",
     finish="Finished",
     gamewin="You Won",
     gameover="Game Over",
@@ -67,14 +67,14 @@ return {
 
     page="Page ",
 
-    ai_puzzle="AI is incompatible with puzzle game mode",
+    ai_puzzle="AI is incompatible with the Puzzle gamemode.",
     ai_mission="AI is incompatible with custom missions.",
     ai_badPiece="AI is incompatible with custom sequences that contain non-tetrominoes.",
     cc_fixed="CC is incompatible with fixed sequences.",
     cc_swap="CC is incompatible when the hold mode is set to Swap.",
     cc_solid="CC is incompatible with filled lines in the field.",
     cc_field_too_high="CC is incompatible with fields higher than 40.",
-    switchSpawnSFX="Please turn on the block spawn SFX!",
+    switchSpawnSFX="Please turn on the piece spawn SFX!",
     needRestart="Restart to apply all changes.",
 
     loadError_errorMode="Failed to load '$1': no load mode called '$2'",
@@ -96,7 +96,7 @@ return {
     pasteWrongPlace="Did you paste in the wrong place?",
     noFile="File missing",
     invalidSequence="Invalid sequence mode",
-    tooHighField="Field data exceeded 126 lines - higher lines discarded",
+    tooHighField="Field data exceeds 126 lines - higher lines discarded",
 
     nowPlaying="Now playing:",
 
@@ -549,16 +549,16 @@ C. Gamepad
             sound="←Audio",
             game="Game→",
 
-            block="Draw Blocks",
+            block="Draw Active Piece",
             smooth="Smooth Falling",
-            upEdge="3D Block",
+            upEdge="3D Blocks",
             bagLine="Bag Separators",
 
             ghostType="Ghost Type",
             ghost="Ghosts",
             center="Rotation Centers",
             grid="Grid",
-            lineNum="Line No.",
+            lineNum="Line Numbers",
 
             lockFX="Lock FX",
             dropFX="Drop FX",
@@ -1023,7 +1023,7 @@ C. Gamepad
         "git commit",
         "git push -f",
         "Got a suggestion? Post it on our Discord server!",
-        "Have you noticed what a \"rotation\" does do to a block?",
+        "Have you noticed what a \"rotation\" does do to a piece?",
         "Headphones recommended for a better experience.",
         "Hello world!",
         "I3 and L3 are the only two possible triminoes.",
