@@ -720,17 +720,17 @@ end
 
 local ARS_Z
 do
-    local lrOnly={'+0+0','+1+0','-1+0'}
-    local upOnly={'+0+0','+0+1','+0+2'}
-    local lrSet={
-        [01]=lrOnly,[10]=lrOnly,[03]=lrOnly,[30]=lrOnly,
-        [12]=lrOnly,[21]=lrOnly,[32]=lrOnly,[23]=lrOnly,
-        [02]=lrOnly,[20]=lrOnly,[13]=lrOnly,[31]=lrOnly,
+    local list3={'+0+0','+1+0','-1+0','+0+1'}
+    local list4={'+0+0','+1+0','-1+0','+0+1','+0+2','+2+0','-2+0'}
+    local set3={
+        [01]=list3,[10]=list3,[03]=list3,[30]=list3,
+        [12]=list3,[21]=list3,[32]=list3,[23]=list3,
+        [02]=list3,[20]=list3,[13]=list3,[31]=list3,
     }
-    local upSet={
-        [01]=upOnly,[10]=upOnly,[03]=upOnly,[30]=upOnly,
-        [12]=upOnly,[21]=upOnly,[32]=upOnly,[23]=upOnly,
-        [02]=upOnly,[20]=upOnly,[13]=upOnly,[31]=upOnly,
+    local set4={
+        [01]=list4,[10]=list4,[03]=list4,[30]=list4,
+        [12]=list4,[21]=list4,[32]=list4,[23]=list4,
+        [02]=list4,[20]=list4,[13]=list4,[31]=list4,
     }
     local centerPos=TABLE.copy(defaultCenterPos)
     centerPos[1]={[0]={1,1},{1,0},{1,1},{1,0}}-- Z
@@ -761,10 +761,9 @@ do
             {'line',2,8,5,2,8,8},
         },
         centerPos=centerPos,
-        kickTable=TABLE.new(lrSet,29),
+        kickTable=TABLE.new(set3,29),
     }
-    ARS_Z.kickTable[7]=upSet
-    ARS_Z.kickTable[25]=upSet
+    ARS_Z.kickTable[7],ARS_Z.kickTable[25]=set4,set4-- I,I5
 end
 
 local DRS_weak
