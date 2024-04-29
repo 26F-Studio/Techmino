@@ -952,7 +952,7 @@ C. ゲームパッド
         ['defender_l']=          {"相殺王",                "LUNATIC",       "防御力を磨け!"},
         ['dig_h']=               {"掘王",                  "HARD",          "掘りを磨け"},
         ['dig_u']=               {"掘王",                  "ULTIMATE",      "掘りを磨け"},
-        ['c4wtrain_n']=          {"C4Wトレーニング",       "NORMAL",     "無限中開け"},
+        ['c4wtrain_n']=          {"C4Wトレーニング",       "NORMAL",     "100line消せ!"},
         ['c4wtrain_l']=          {"C4Wトレーニング",       "LUNATIC",    "無限中開け"},
         ['pctrain_n']=           {"パフェトレーニング",     "NORMAL",     "パフェの練習!"},
         ['pctrain_l']=           {"パフェトレーニング",     "LUNATIC",    "もっと難しいパフェの練習!"},

@@ -946,7 +946,7 @@ C. Gamepad
         ['defender_l']=          {"Defender",          "LUNATIC",        "Practice your defending skills!"},
         ['dig_h']=               {"Driller",           "HARD",           "Digging practice!"},
         ['dig_u']=               {"Driller",           "ULTIMATE",       "Digging practice!"},
-        ['c4wtrain_n']=          {"C4W Training",      "NORMAL",         "Perform as many combos as you can within 100 lines!"},
+        ['c4wtrain_n']=          {"C4W Training",      "NORMAL",         "Clear 100 lines!"},
         ['c4wtrain_l']=          {"C4W Training",      "LUNATIC",        "Perform as many combos as you can within 100 lines!"},
         ['pctrain_n']=           {"PC Training",       "NORMAL",         "Practice filling 3×4 boxes, PCO shapes and 4×4 boxes!"},
         ['pctrain_l']=           {"PC Training",       "LUNATIC",        "Practice filling 5×4 and 6×4 boxes!"},

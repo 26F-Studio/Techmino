@@ -855,7 +855,7 @@ return {
         ['defender_l']=         {"Defender(Lunatic);",      "",      "防守练习"},
         ['dig_h']=              {"Dig(Hard);",              "",      "挖掘练习"},
         ['dig_u']=              {"Dig(Ultimate);",          "",      "挖掘练习"},
-        ['c4wtrain_n']=         {"C4WTrain(Normal);",       "",      "无 限 连 击"},
+        ['c4wtrain_n']=         {"C4WTrain(Normal);",       "",      "消除100行"},
         ['c4wtrain_l']=         {"C4WTrain(Lunatic);",      "",      "无 限 连 击"},
         ['pctrain_n']=          {"PCTrain(Normal);",        "",      "简易PC题库，熟悉全清定式的组合"},
         ['pctrain_l']=          {"PCTrain(Lunatic);",       "",      "困难PC题库，强算力者进"},

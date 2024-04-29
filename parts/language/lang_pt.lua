@@ -896,7 +896,7 @@ return {
         ['defender_l']=         {"Defensor",         "LUNÁTICO",     "Prática de defensiva!"},
         ['dig_h']=              {"Cavador",          "DIFÍCIL",      "Prática de cavar!"},
         ['dig_u']=              {"Cavador",          "ULTIMATE",     "Prática de cavar!"},
-        ['c4wtrain_n']=         {"Treinamento C4W",  "NORMAL",       "Combos infinitos."},
+        ['c4wtrain_n']=         {"Treinamento C4W",  "NORMAL",       "Limpe 100 linhas!"},
         ['c4wtrain_l']=         {"Treinamento C4W",  "LUNÁTICO",     "Combos infinitos."},
         ['pctrain_n']=          {"Treinamento PC",   "NORMAL",       "Modo simples de limpeza perfeita."},
         ['pctrain_l']=          {"Treinamento PC",   "LUNÁTICO",     "Modo duro de limpeza perfeita."},

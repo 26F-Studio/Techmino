@@ -949,7 +949,7 @@ C. Tay cầm chơi game (Gamepad):
         ['defender_l']=          {"Defender",          "RẤT KHÓ",        "Luyện tập kỹ năng phòng thủ!"},
         ['dig_h']=               {"Driller",           "KHÓ",            "Luyện tập kỹ năng đào xuống!"},
         ['dig_u']=               {"Driller",           "THÁCH ĐẤU",      "Luyện tập kỹ năng đào xuống!"},
-        ['c4wtrain_n']=          {"C4W Training",      "THƯỜNG",         "Combo vô tận"},
+        ['c4wtrain_n']=          {"C4W Training",      "THƯỜNG",         "Xoá 100 hàng!"},
         ['c4wtrain_l']=          {"C4W Training",      "RẤT KHÓ",        "Combo vô tận"},
         ['pctrain_n']=           {"PC Training",       "THƯỜNG",         "Luyện tập Perfect Clear"},
         ['pctrain_l']=           {"PC Training",       "RẤT KHÓ",        "Luyện tập Perfect Clear nhưng khó hơn"},
