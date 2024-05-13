@@ -125,7 +125,8 @@ function STRING.time_short(t)
     if t<1 then return math.floor(t*1000)..timeLetters[6] end -- 123 ms
     if t<MINUTE then return math.floor(t)..timeLetters[5]..' '..math.floor((t%1)*1000)..timeLetters[6] end -- 12s 345ms
 
-    local timeUnits=TABLE.reverse({convertSecondsToUnits(t)})
+    local timeUnits={convertSecondsToUnits(t)}
+    TABLE.reverse(timeUnits)
 
     -- floor seconds
     timeUnits[#timeUnits]=floorint(timeUnits[#timeUnits])
