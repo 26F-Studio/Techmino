@@ -43,7 +43,7 @@ return {
     infHeightOn="Infinite Height ON",
     infHeightOff="Infinite Height OFF",
     infHeightHint="Toggle with Function 1 key",
-    highest="(highest: $1)",
+    highestGrade="(highest: $1)",
 
     speedLV="Speed Level",
     piece="Pieces",line="Lines",atk="Attack",eff="Efficiency",
