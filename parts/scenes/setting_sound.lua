@@ -75,12 +75,15 @@ function scene.draw()
     elseif vocPack=="flore" then
         gc.translate(770+56*sin(clickTime*26)/(clickTime+.56)^2/20,300+12*sin(TIME()*.5))
         gc.draw(IMG.floreCH,nil,nil,nil)
+    elseif vocPack=="neuro" then
+        gc.translate(880,820+12*sin(TIME()*.5))
+        gc.draw(IMG.neuroCH,nil,nil,.021*sin((TIME()+clickTime)*12.6)/(2.6*clickTime+.26),.8,nil,IMG.neuroCH:getWidth()*.5,IMG.neuroCH:getHeight())
     elseif vocPack=="miku" then
         gc.translate(700,320+12*sin(TIME()*.5))
         gc.draw(IMG.mikuCH,nil,nil,nil,.8)
     elseif vocPack=="zundamon" then
-        gc.translate(770,300+12*sin(TIME()*.5))
-        gc.draw(IMG.zundamonCH,nil,nil,nil,.8)
+        gc.translate(810,370)
+        gc.draw(IMG.zundamonCH,nil,nil,nil,.65)
     end
     gc.pop()
 end

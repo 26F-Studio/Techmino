@@ -161,8 +161,12 @@ do-- function applySettings()
         if SETTING.bg=='on' then
             BG.unlock()
             BG.setDefault(SETTING.defaultBG)
+            if SETTING.lockBG then
+                BG.lock()
+            elseif reason=='lockBG' then        -- Don't load theme too soon!
+                THEME.set(THEME.calculate(),GAME.playing)
+            end
             BG.set()
-            if SETTING.lockBG then BG.lock() end
         elseif SETTING.bg=='off' then
             BG.unlock()
             BG.set('fixColor',SETTING.bgAlpha,SETTING.bgAlpha,SETTING.bgAlpha)

@@ -1,16 +1,10 @@
--- local regretDelay=-1
--- local int_grade=0
--- local grade_points=0
 local _igb={0,1,2,3,4,5,5,6,6,7,7,7,8,8,8,9,9,9,10,11,12,12,12,13,13,14,14,15,15,16,16,17,17,18,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26}
 local function getInternalGradeBoosts(internal_grade)
     return _igb[MATH.clamp(internal_grade+1,1,#_igb)]
 end
--- local spd_lvl=0
--- local cools=0
--- local regrets=0
--- local prevSectTime=0
--- local isInRoll=false
--- local rollGrades=0
+
+local decayRate={125,80,80,50,45,45,45,40,40,40,40,40,30,30,30,20,20,20,20,20,15,15,15,15,15,15,15,15,15,15,10,10,10,9,9,9,8,8,8,7,7,7,6}
+
 local cool_time={3120,3120,2940,2700,2700,2520,2520,2280,2280,0}
 local regret_time= {5400,4500,4500,4080,3600,3600,3000,3000,3000,3000}
 local function getGrav(l)
@@ -91,6 +85,7 @@ local function addGrade(D,row,cmb,lvl) -- IGS = internal grade system
     if D.grade_points>=100 then
         D.grade_points=0
         D.internal_grade=D.internal_grade+1
+        D.decayTimer=0
     end
 end
 local function getRollGoal(D,isGreenLine)
@@ -294,6 +289,7 @@ return {
         D.target=100
         D.int_grade=0
         D.grade_points=0
+        D.decayTimer=0
         D.rollGrades=0
         D.spd_lvl=0
         D.cools=0
@@ -304,8 +300,6 @@ return {
         D.prevDrop70=false
         D.nextSpeedUp=false
         D.coolList,D.regretList=TABLE.new(false,9),TABLE.new(false,10)
-        local decayRate={125,80,80,50,45,45,45,40,40,40,40,40,30,30,30,20,20,20,20,20,15,15,15,15,15,15,15,15,15,15,10,10,10,9,9,9,8,8,8,7,7,7,6}
-        local decayTimer=0
 
         while true do
             coroutine.yield()
@@ -344,10 +338,10 @@ return {
                     D.prevSectTime=P.stat.frame
                 end
             end
-            if P.waiting<=0 and D.grade_points>0 and not D.isInRoll then
-                decayTimer=decayTimer+1
-                if decayTimer>=decayRate[math.min(D.internal_grade+1,#decayRate)] then
-                    decayTimer=0
+            if P.waiting<=0 and D.grade_points>0 and P.combo<1 and not D.isInRoll then
+                D.decayTimer=D.decayTimer+1
+                if D.decayTimer>=decayRate[math.min(D.internal_grade+1,#decayRate)] then
+                    D.decayTimer=0
                     D.grade_points=D.grade_points-1
                 end
             elseif D.isInRoll and P.stat.frame>=D.prevSectTime+3599 then

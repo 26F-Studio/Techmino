@@ -76,7 +76,7 @@ local function _updateContentBox()
     local _t,t
     _t,t=pcall(function() return _getList()[listBox.selected].content end)
     if not _t then t={"???"} end
-    local _w,c=FONT.get(currentFontSize):getWrap(t,840)
+    local _w,c=getFont(currentFontSize):getWrap(t,840)
     contentBox:setTexts(c)
 end
 -- Clear the result
@@ -159,6 +159,8 @@ function scene.enter()
     lastSearch=false
     listBox:setList(_getList())
 
+    _updateContentBox()
+
     if not MOBILE then WIDGET.focus(inputBox) end
     BG.set('rainbow')
 end
@@ -204,13 +206,12 @@ function scene.keyDown(key)
     elseif key=='f1' then
         SCN.go(
             'textReader',nil,
-            (text.dict.helpText:repD(
+            text.dict.helpText:repD(
                 CHAR.key.up,CHAR.key.down,CHAR.key.left,CHAR.key.right,
                 CHAR.controller.dpadU,CHAR.controller.dpadD,CHAR.controller.dpadL,CHAR.controller.dpadR,
                 CHAR.controller.xboxX,CHAR.controller.xboxY,CHAR.controller.xboxA,CHAR.controller.xboxB,
-                CHAR.icon.help,CHAR.icon.copy,CHAR.icon.globe,CHAR.key.winMenu)
-            ):split('\n'),
-            currentFontSize,
+                CHAR.icon.help,CHAR.icon.copy,CHAR.icon.globe,CHAR.key.winMenu),
+            20,
             'rainbow'
         )
 
@@ -226,15 +227,18 @@ function scene.keyDown(key)
     --     )
     --     if not success then
     --         SFX.play('finesseError_long')
-    --         _,_r=FONT.get(30):getWrap(tostring(_r),1000)
+    --         _,_r=getFont(30):getWrap(tostring(_r),1000)
     --         MES.new("error","Hotload failed! May need restarting!\n\n"..table.concat(_r,"\n"))
     --     else
     --         local lastLscrollPos=listBox.scrollPos
     --         local lastTscrollPos=contentBox.scrollPos
+
     --         listBox:setList(_getList())
     --         if #inputBox:getText()>0 then _search() end
+
     --         listBox.selected=lastSelected<#dict and lastSelected or #dict   -- In case the last item is removed!
     --         listBox.scrollPos=lastLscrollPos
+
     --         _updateContentBox()
     --         contentBox.scrollPos=lastTscrollPos
     --         SFX.play('pc')
@@ -313,12 +317,12 @@ scene.widgetList={
     WIDGET.newKey{name='link',x=1234,y=520,w=60,font=45,fText=CHAR.icon.globe,code=pressKey'application',hideF=function() return not (listBox.selected>0 and _getList()[listBox.selected].url) end},
     WIDGET.newKey{name='copy',x=1234,y=590,w=60,font=40,fText=CHAR.icon.copy,code=pressKey'cC',hideF=function() return not (listBox.selected>0) end},
 
-    WIDGET.newKey{name='zoomin',x=1234,y=300,w=60,font=40,fText=CHAR.icon.zoomIn,code=function() _setZoom(5) end},
-    WIDGET.newKey{name='zoomout',x=1234,y=370,w=60,font=40,fText=CHAR.icon.zoomOut,code=function() _setZoom(-5) end},
+    WIDGET.newKey{name='fontup',x=1234,y=300,w=60,font=40,fText=CHAR.icon.fontUp,code=function() _setZoom(5) end},
+    WIDGET.newKey{name='fontdown',x=1234,y=370,w=60,font=40,fText=CHAR.icon.fontDown,code=function() _setZoom(-5) end},
     WIDGET.newKey{name='resetzoom',x=1234,y=440,w=60,font=40,fText=CHAR.icon.zoomDefault,code=function() _setZoom(0) end},
 
     WIDGET.newButton{name='back',x=1185,y=60,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
     WIDGET.newKey{name='help',x=1170,y=140,w=200,h=60,font=40,fText=CHAR.controller.xboxY.."/[F1]: "..CHAR.icon.help,code=pressKey'f1'},
 }
--- NOTE: The gap between Link-Copy, Zoom is 60*1.5-10=80 :) The gap between 2 buttons in one group is 60+10=70
+
 return scene

@@ -910,7 +910,7 @@ return {
         ['defender_l']=          {"Pembela",           "GILA",                "Praktekkan keahlian membela Anda!"},
         ['dig_h']=               {"Pembor",            "SULIT",               "Praktekkan keahlian menggali Anda!"},
         ['dig_u']=               {"Pembor",            "TERAKHIR",            "Praktekkan keahlian menggali Anda!"},
-        ['c4wtrain_n']=          {"Latihan C4W",       "NORMAL",              "Kombo tidak terbatas."},
+        ['c4wtrain_n']=          {"Latihan C4W",       "NORMAL",              "Buat 100 baris!"},
         ['c4wtrain_l']=          {"Latihan C4W",       "GILA",                "Kombo tidak terbatas."},
         ['pctrain_n']=           {"Latihan PC",        "NORMAL",              "Latihan PC"},
         ['pctrain_l']=           {"Latihan PC",        "GILA",                "Latihan PC yang lebih sulit"},

@@ -885,7 +885,7 @@ return {
         ['defender_l']=    {"Défendant",       "LUNATIQUE",   "Soyez défensifs !"},
         ['dig_h']=         {"Perceuse",        "DIFFICILE",   "Essayez de creuser !"},
         ['dig_u']=         {"Perceuse",        "ULTIME",      "Essayez de creuser !"},
-        ['c4wtrain_n']=    {"Mode essai C4W",  "NORMAL",      "Combos infinis."},
+        ['c4wtrain_n']=    {"Mode essai C4W",  "NORMAL",      "Nettoyez 100 lignes !"},
         ['c4wtrain_l']=    {"Mode essai C4W",  "LUNATIQUE",   "Combos infinis."},
         ['pctrain_n']=     {"Mode essai PC",   "NORMAL",      "Mode Perfect Clear simple"},
         ['pctrain_l']=     {"Mode essai PC",   "LUNATIQUE",   "Mode Perfect Clear dur"},

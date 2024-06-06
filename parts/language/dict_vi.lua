@@ -1,4 +1,7 @@
 local tetromino = " tetromino tetramino tetrimino"
+local function replaceCheckCrossMark(str)
+    return STRING.repD(str,CHAR.icon.checkMark,CHAR.icon.crossMark)
+end
 
 return {
     {
@@ -374,7 +377,7 @@ Hệ thống mô tả cách xoay như sau:
         [[
 Một hệ thống để xác định cách gạch xoay.
 
-Ở các trò xếp gạch hiện đại, mỗi gạch có thể xoay dựa trên một tâm xoay cố định (vài game có thể không có tâm xoay cố định).
+Ở các trò xếp gạch hiện đại, mỗi gạch có thể xoay dựa trên một tâm xoay cố định (vài game có thể không có cái này).
 Nếu gạch sau khi xoay đè lên gạch khác / ra ngoài bảng, hệ thống sẽ thử "wall-kicking" (đẩy gạch sang các vị trí xung quanh).
 Tuy nhiên, nếu khoảng cách quá lớn thì hệ thống xoay không thể đá gạch được
 
@@ -410,14 +413,16 @@ Bias Rotation System | Hệ thống xoay Bias.
 
 Một hệ thống xoay dựa trên SRS và XRS
 
-Để kích hoạt offset đặc biệt trong BiRS, cần phải thực hiện cùng lúc các điều kiện sau:
+Để kích hoạt offset bổ sung trong BiRS, cần phải thỏa hai điều kiện sau cùng lúc:
 1. Một nút di chuyển (Trái / Phải / Thả nhẹ) phải được giữ
 2. Gạch hiện tại phải chạm một ô gạch bất kỳ hoặc chạm tường ở hướng đang được giữ ở bước 1
 
 Nếu thực hiện thành công, offset ở hướng đang được giữ ở bước 1 sẽ được thêm 1 ô. Tuy nhiên, để kick được thì cần phải tuân thêm hai điều kiện:
 
-1. Khoảng cách euclide (ơclit) từ tâm tới vị trí đá tới được chọn phải bé hơn √5
-2. Hướng của cú đá không phải là hướng đối của hướng đã được xác định bằng phím bấm.
+1. Khoảng cách Euclide từ tâm tới vị trí đá tới được chọn phải bé hơn √5
+2. Hướng của cú đá không phải là hướng đối diện với hướng đã được xác định bằng phím bấm.
+
+Nếu không dùng kick đó được, offset trái phải sẽ bị hủy và thử lại, nếu không được nữa thì hủy luôn offset dưới.
 
 So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một bảng wall-kick; nhưng vẫn giữ được khả năng vượt địa hình của SRS.
         ]],
@@ -455,7 +460,7 @@ So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một bảng wall-kick; nhưn
     {"TRS",
         "nhom05b techminorotationsystem",
         "term",
-        "Techmino Rotation System | Hệ thống xoay Techmino\n*Chỉ có trên Techmino*\n\nMột hệ thống xoay dựa trên SRS.\nHệ thống này khắc phục được hiện tượng gạch S / Z bị kẹt trong một số trường hợp.\n\nHơn nữa, TRS có thêm các bảng wall-kick dành cho Pentomino dựa trên logic của SRS với Tetromino.\n\nHệ thống cũng hỗ trợ O-Spin, cho phép gạch chữ O có thể đá hoặc \"biến hình\".",
+        "Techmino Rotation System | Hệ thống xoay Techmino\n*Chỉ có trên Techmino*\n\nMột hệ thống xoay dựa trên SRS.\nHệ thống này khắc phục được hiện tượng gạch S / Z bị kẹt trong một số trường hợp.\n\nHơn nữa, TRS có thêm các bảng wall-kick dành cho Pentomino dựa trên logic của SRS với Tetromino.\n\nHệ thống cũng hỗ trợ O-Spin, cho phép gạch O có thể đá hoặc \"biến hình\".",
     },
     {"XRS",
         "nhom05b xrs",
@@ -495,17 +500,17 @@ So với XRS, BiRS dễ nhớ hơn vì chỉ dùng một bảng wall-kick; nhưn
     {"His",
         "nhom05d historygenerator hisgenerator",
         "term",
-        [[
+        replaceCheckCrossMark[[
 Một kiểu xáo gạch được sử dụng nhiều trong series game Tetris: The Grand Master.
 
 Trong kiểu xáo này, cách chọn gạch diễn ra như nhau:
     - Bước 1: Chọn ngẫu nhiên một trong bảy Tetromino.
     - Bước 2: Kiểm tra xem liệu gạch đã bốc trúng có phải là một trong những gạch đã xuất hiện gần nhất không.
-        -- Đúng: Tới Bước 3
-        -- Sai: Nhảy tới Bước 4
+        $1: Tới Bước 3
+        $2: Nhảy tới Bước 4
     - Bước 3: Cộng 1 vào số lần đã bốc lại, kiểm tra xem liệu số lần đã bốc lại có vượt qua giới hạn tối đa hay không?
-        -- Đúng: Tới Bước 4
-        -- Sai: nhảy về Bước 1
+        $1: Tới Bước 4
+        $2: Nhảy về Bước 1
     - Bước 4: Dùng gạch đã bốc trúng
 
 Kiểu xáo này hay được mô tả bằng "His [A] Roll [B]"
@@ -529,21 +534,25 @@ Kiểu xáo His là phiên bản cải tiến so với kiểu xáo ngẫu nhiên
     {"HisPool [2/2]",
         "nhom05d hispool historypoolgenerator kiểu xáo hispool",
         "term",
-        [[
+        replaceCheckCrossMark[[
 [Sea: Phần này không có trong Zictionary ngôn ngữ khác!]
 Cách hoạt động của kiểu xáo HisPool diễn ra tuần tự như sau:
 
 Bước 1: Lấy một viên gạch ngẫu nhiên trong cái Rổ.
-    - Nếu gạch đó là một trong những gạch đã bốc ra trước đó: bốc lại cho tới khi gạch đó không còn là một trong những viên gạch kia, hoặc là hết lượt bốc lại.
+    - Kiểm tra xem gạch vừa bốc có nằm trong số gạch đã chọn hay không?
+        $2: Chọn gạch vừa bốc và tới bước 2
+        $1: Lặp lại bước 1 cho tới khi thỏa một trong hai điều kiện sau:
+            -- Gạch vừa bốc không nằm trong số gạch đã chọn gần nhất.
+            -- Hết lượt bốc lại
+        Sau khi hết lặp, chọn gạch được bốc trúng gần nhất.
 
 Bước 2: Gạch được bốc trúng sẽ được lấy ra khỏi Rổ.
     - Với mỗi gạch còn lại, cộng 1 vào số lần chưa bốc trúng.
     - Rổ lúc này còn 34 gạch.
 
-Bước 3: Thêm gạch có số lần chưa bốc trúng nhiều nhất vào lại rổ để đảm bảo số lượng là 35 gạch.
-    - Sau khi gạch đó đã thêm vào Rổ, số lần chưa bốc trúng của nó sẽ bị đặt lại về 0
+Bước 3: Thêm gạch có số lần chưa bốc trúng nhiều nhất vào lại rổ (để đảm bảo số lượng là 35 gạch), và đặt lại số lần chưa bốc trúng của nó về 0
 
-Bước 4: Thêm gạch vào chuỗi NEXT và quay về Bước 1.
+Bước 4: Thêm gạch đã chọn vào chuỗi NEXT cũng như chuỗi gạch đã chọn gần nhất, rồi quay về Bước 1.
         ]],
     },
     {"bagES",
@@ -564,7 +573,7 @@ Bước 4: Thêm gạch vào chuỗi NEXT và quay về Bước 1.
     {"H. tg. Drought",
         "drought",
         "term",
-        "Một hiện tượng mà một viên gạch người chơi muốn nhưng lại không xuất hiện. Thường dùng để chỉ hiện tượng khát gạch I trong mấy game cổ điển vì chúng thường dùng bộ xáo gạch ngẫu nhiên đơn giản.\n\nTuy nhiên, trong các game hiện đại, hiện tượng drought không thể xảy ra vì khoảng cách tối đa giữa 2 gạch cùng loại là 13 gạch. ",
+        "Hiện tượng gạch người chơi đang rất cần nhưng lại không xuất hiện trong thời gian quá dài. Thường dùng để chỉ hiện tượng khát gạch I trong mấy game cổ điển vì chúng thường dùng bộ xáo gạch ngẫu nhiên đơn giản.\n\nHiện nay, ở các game hiện đại, hiện tượng drought không thể xảy ra vì khoảng cách tối đa giữa 2 gạch cùng loại là 13 gạch.",
     },
     {">E|Thông số",
         "nhom05e",
@@ -706,10 +715,10 @@ Một kỹ thuật di chuyển gạch vào vị trí mong muốn với chuỗi p
 Bạn sẽ không bị mất Finesse khi bạn nhét gạch hay thực hiện Spin vì Techmino chỉ kiểm tra những vị trí không yêu cầu soft drop
 
 Techmino cũng có finesse rate (%) (tỉ lệ *không* mắc lỗi di chuyển), được tính như sau:
-    - 100% (Hoàn hảo - Perfect) khi số lần nhấn phím bằng hoặc ít hơn mức chuẩn
-    - 50% (Tuyệt vời - Great) khi số lần nhấn phím cao hơn mức chuẩn 1 phím
-    - 25% (Xấu - Bad) khi số lần nhấn phím cao hơn mức chuẩn 2 phím
-    - 0% (Truợt - Miss) khi số lần nhấn phím cao hơn mức chuẩn 3 phím
+    - 100% (Perfect) khi số lần nhấn phím bằng hoặc ít hơn mức chuẩn
+    - 50% (Great) khi số lần nhấn phím cao hơn mức chuẩn 1 phím
+    - 25% (Bad) khi số lần nhấn phím cao hơn mức chuẩn 2 phím
+    - 0% (Miss) khi số lần nhấn phím cao hơn mức chuẩn 3 phím
 Một Bad hoặc Miss sẽ phá combo finesse.
 
 Lưu ý:
@@ -774,7 +783,7 @@ Phương pháp này lần đầu tiên được tìm thấy bởi Cheez-fish - n
     {"APL",
         "nhom05g attackperline efficiency; số hàng tấn công; số hàng đã xóa; độ hiệu quả",
         "term",
-        "Attack per line (cleared) | Số hàng tấn công / Số hàng đã xóa\n\nCòn được biết với tên \"efficiency\" (độ hiệu quả). Phản ánh độ hiệu quả khi tấn công sau mỗi lần xóa hàng.\nVí dụ Tetris và T-spin có độ hiệu quả cao hơn so với xóa 2 / 3 hàng.",
+        "Attack per line (cleared)\n\tSố hàng tấn công / Số hàng đã xóa\n\nCòn được biết với tên \"efficiency\" (độ hiệu quả). Phản ánh độ hiệu quả khi tấn công sau mỗi lần xóa hàng.\nVí dụ Tetris và T-spin có độ hiệu quả cao hơn so với xóa 2 / 3 hàng.",
     },
     {"Tấn công&Phg thủ",
         "nhom05g attacking defending phòng thủ; tấn công & phòng thủ; tấn công và phòng thủ",
@@ -847,7 +856,7 @@ Trong hầu hết các game, tấn công và phòng thủ là tương đương n
     {"Fin, Neo, Iso",
         "nhom05i fin neo iso",
         "pattern",
-        "Tên của 3 kiểu T-spin sử dụng wall-kick table đặc biệt của gạch T. Các game khác nhau có cách phản công khác nhau với loại này: có game tính là Mini-spin, nhưng cũng có game không tính luôn =))).\n\nTrên thực tế chúng không được sử dụng nhiều vì game thường sẽ nerf loại T-spin này; hơn nữa setup của ba loại này khá là phức tạp."
+        "Tên của 3 kiểu T-spin sử dụng wall-kick table đặc biệt của gạch T. Chúng không được sử dụng nhiều trong game bởi vì độ phức tạp và thường hay bị nerf bởi đa số game."
     },
     {"Freestyle",
         "nhom05i",
@@ -894,7 +903,7 @@ Trong hầu hết các game, tấn công và phòng thủ là tương đương n
     {"Back to Back",
         "nhom05j b2b btb backtoback",
         "term",
-        "Hay còn gọi là B2B. Xóa 2 hoặc nhiều lần xóa theo kiểu nâng cao (như Tetris hay Spin) liên tiếp (nhưng không được xóa theo kiểu 'bình thường' giữa chừng).\nKhông như combo, Back To Back sẽ không bị mất khi đặt gạch.\n\nỞ Techmino, B2B được tính bằng thanh năng lượng, chứ không tính theo số lần xóa theo kiểu nâng cao.\nCũng trong Techmino, nhiều B2B liên tiếp được tính là Back-to-back-to-back (B3B) (xem mục B2B2B để biết thêm).\n\nTechmino cũng tính cả PC và HPC liên tiếp là B2B và B3B",
+        "Hay còn gọi là B2B. Xóa 2 hoặc nhiều lần xóa theo kiểu nâng cao (như Tetris hay Spin) liên tiếp (nhưng không được kiểu xóa bình thường giữa chừng).\nKhông như combo, Back To Back sẽ không bị mất khi đặt gạch.\n\nỞ Techmino, B2B được tính bằng thanh năng lượng, chứ không tính theo số lần xóa kiểu đặc biệt.\nCũng trong Techmino, nhiều B2B liên tiếp được tính là Back-to-back-to-back (B3B) (xem mục B2B2B để biết thêm).\n\nTechmino cũng tính cả PC và HPC liên tiếp là B2B và B3B",
     },
     {"B2B2B",
         "nhom05j b3b backtobacktoback",
@@ -932,13 +941,13 @@ Trong hầu hết các game, tấn công và phòng thủ là tương đương n
         [[
 Đây là skin được dùng trong những phiên bản đời đầu của Tetris
 
-Trước đây, tất cả máy tính đều sử dụng Giao diện Dòng lệnh (Command-Line Interfaces, gần giống như cmd trên Windows, Terminal trên Mac, hay Console trên Linux), cho nên mỗi ô gạch đều được hiển thị dưới dạng 2 ngoặc vuông (như thế này: [ ]).
+Trước đây, tất cả máy tính đều sử dụng Giao diện Dòng lệnh (Command-Line Interfaces), cho nên mỗi ô gạch đều được hiển thị dưới dạng 2 ngoặc vuông (như thế này: ]]..CHAR.icon.bone..[[).
 Trông nó nhìn rất giống cục xương, nên đôi khi được gọi là skin bone block (gạch xương).
 
 Trong Techmino, bone block được mô tả là "một skin gạch duy nhất, lạ mắt mà tất cả các gạch đều sử dụng".
 Skin khác nhau sẽ có skin bone block khác nhau.
 
-Cũng trong Techmino nhưng ở tiếng Việt, từ "gạch []" được dùng để chỉ bone block.
+Cũng trong Techmino nhưng ở tiếng Việt, từ "gạch ]]..CHAR.icon.bone..[[" được dùng để chỉ bone block.
         ]],
     },
     {"=[NHÓM 06]=",
@@ -1048,7 +1057,7 @@ Gọi tắt là WWC. Có chế độ 1 đấu 1 toàn cầu: chơi với ngườ
         [[
 Chơi trên trình duyệt / client chính thức | Chơi đơn / Chơi trực tuyến
 
-Gọi tắt là TF. Một game xếp gạch dùng engine là một plugin đã nghỉ hưu từ năm 2021 (vì vấn đề bảo mật). Từng rất phổ biến trong quá khứ, nhưng tất cả máy chủ chính thức đã đóng cửa từ mấy năm trước. Hiện giờ vẫn còn một máy chủ riêng tên là \"Notris Foes\". Nhấn vào nút hình địa cầu để mở ở trong trình duyệt
+Gọi tắt là TF. Một game xếp gạch dùng engine là một plugin đã nghỉ hưu từ năm 2021 (vì vấn đề bảo mật). Từng rất phổ biến trong quá khứ, nhưng tất cả máy chủ chính thức đã đóng cửa từ mấy năm trước. Hiện giờ vẫn còn một máy chủ riêng tên là "Notris Foes". Nhấn vào nút hình địa cầu để mở ở trong trình duyệt
         ]],
         "https://notrisfoes.com",
     },
@@ -1138,9 +1147,11 @@ Một trò chơi do fan làm đang được phát triển với hệ thống xoa
         "nhom06 tetrisgrandmaster tetristhegrandmaster",
         "game",
         [[
-Chỉ có trên máy thùng | Chơi đơn / Chơi hai người
+Máy thùng, và các hệ máy khác* | Chơi đơn / Chơi hai người
 
 Tetris: The Grand Master, một series Tetris dành cho máy thùng, nổi tiếng với độ khó cực cao - được xem là series game khó nhất (tại thời điểm ra mắt). Những thứ như S13 hay GM cũng từ chính series này. TGM3 được coi là tựa game nổi tiếng nhất của series này.
+
+(*): Hiện TGM1 và TGM2 đã được port sang PS và Switch dưới gói Arcade Archives.
         ]],
     },
     {"DTET",
@@ -1172,10 +1183,9 @@ Một game với phong cách chơi máy thùng, có khả năng mô phỏng nhi�
         [[
 Windows | Chơi đơn
 
-Một game bao gồm tất cả chế độ trong TGM để có thể sử dụng để luyện chơi TGM. Lưu ý rằng World Rule trong Texmaster hơi khác một chút so với TGM, ví dụ như game sử dụng cơ chế "Thả nhẹ-khóa tức thì"* thay vì sử dụng cơ chế "Thả nhẹ" thông thường và bảng kick cũng có đôi chút khác biệt
+Một game có tất cả chế độ trong TGM để có thể sử dụng để luyện chơi TGM. Cần lưu ý rằng World Rule trong Texmaster sẽ hơi khác một chút so với TGM, ví dụ như game sử dụng cơ chế "Thả nhẹ-khóa tức thì"* thay vì sử dụng cơ chế "Thả nhẹ" thông thường và bảng kick cũng có đôi chút khác biệt
 
-(*): Bản Zictionary tiếng Anh ghi là "instant-lock soft drop(s)".
-Có thể hiểu là bạn giữ nút Thả nhẹ, gạch vừa chạm đất là chốt vị trí đó luôn - giống với các game xếp gạch cổ điển ấy!
+(*): Bản Zictionary tiếng Anh ghi là "instant-lock soft drop(s)". Có thể hiểu là bạn giữ nút Thả nhẹ, gạch vừa chạm đất là chốt vị trí đó luôn - giống với các game xếp gạch cổ điển.
         ]],
     },
     {"Tetris Effect",
@@ -1202,7 +1212,7 @@ Một trò chơi nổi tiếng với chế độ Battle Royale 99 người và c
         [[
 PS / NS / Xbox / Windows | Chơi đơn / Chơi trực tuyến
 
-Đây là một tựa game ghép từ hai trò chơi giải đố: Tetris và Puyo Puyo, và bạn có thể chơi đối đầu trong cả hai game này. Có nhiều chế độ chơi đơn và chơi trực tuyến.
+Đây là một game được ghép từ hai trò chơi giải đố: Tetris và Puyo Puyo, và bạn có thể chơi đối đầu trong cả hai game này. Có nhiều chế độ chơi đơn và chơi trực tuyến.
 
 [MrZ: Bản PC (Steam) có cơ chế điều khiển và trải nghiệm trực tuyến khá là tệ.]
         ]],

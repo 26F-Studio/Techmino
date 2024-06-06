@@ -1,3 +1,5 @@
+-- WARNING: This framework has been remade and renamed to Zenitha. Do not use this deprecated framework for your project
+
 NONE={}function NULL() end PAPER=love.graphics.newCanvas(1,1)
 EDITING=""
 LOADED=false
