@@ -48,6 +48,7 @@ local function _playRep(fileName)
         for _,m in next,rep.mod do
             GAME.mod[m[1]+1]=m[2]
         end
+        GAME.modApplyAt=rep.modApplyAt or 'preInit' -- For V0.17.15 and older
         GAME.rep={}
         DATA.pumpRecording(rep.data,GAME.rep)
 

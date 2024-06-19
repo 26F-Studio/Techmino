@@ -197,6 +197,7 @@ return {
     -- tryAnotherBuild="[Invalid UTF-8] If you are on Windows, try downloading Techmino-win32 or Techmino-win64 (different from what you are using now).",
 
     modInstruction="Selecione mods (modificadores) para usar!\nMods irão modificar o jogo em formas diferentes\n(e possivelmente quebrar o jogo de formas estranhas).\nAlguns mods irão fazer seu jogo unranked.",
+    -- modApplyAtInstruction="Choose when you want the modifier to be applied.\npreInit: Before loading the modes. The default option in V0.17.15 and earlier, but may cause problems with certain mods.\npostInit: After loading the game. This can fix some bugs in preInit, but some mods can still be disabled by modes in some situations.\nalways: Throughout the entire game. Keeps the effects of the mods in all situations. ",
     modInfo={
         next="Próximo\nSobrepõe a largura da fila de próximos",
         hold="Segure\nSobrepõe a largura da fila de segurar",
@@ -400,6 +401,7 @@ return {
         mod={
             title="Mods",
             reset="Reset (tab)",
+            -- applyAt="Apply during",
             unranked="Unranked",
         },
         pause={
