@@ -177,7 +177,7 @@ jobs:
           dir: ./libAndroid
       - name: Build Android packages
         id: build-packages
-        uses: love-actions/love-actions-android@main
+        uses: love-actions/love-actions-android@use-grable-cache
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
