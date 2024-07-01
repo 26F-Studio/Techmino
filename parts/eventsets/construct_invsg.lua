@@ -57,8 +57,8 @@ return {
         if D.maxRankPts>D.rankPts then
             gc_setColor(COLOR.lX)
             setFont(20)
-            GC.mStr(text.highest:repD(getConstructGrade(D.maxRankPts)),63,216)
-            GC.mStr(text.highest:repD(D.maxRankPts-1),63,336)
+            GC.mStr(text.highestGrade:repD(getConstructGrade(D.maxRankPts)),63,216)
+            GC.mStr(text.highestGrade:repD(D.maxRankPts-1),63,336)
         end
 
         if not D.showGuide then return end

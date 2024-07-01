@@ -43,7 +43,7 @@ return {
     infHeightOn="無限高度 開",
     infHeightOff="無限高度 關",
     infHeightHint="用功能鍵1切換",
-    -- highestGrade="(highest: $1)",
+    highestGrade="最高段位: $1",
 
     speedLV="速度等級",
     piece="塊數",line="行數",atk="攻擊",eff="效率",

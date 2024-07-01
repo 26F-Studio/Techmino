@@ -43,7 +43,7 @@ return {
     infHeightOn="无限高度 开",
     infHeightOff="无限高度 关",
     infHeightHint="用功能键1切换",
-    -- highestGrade="(highest: $1)",
+    highestGrade="最高段位: $1",
 
     speedLV="速度等级",
     piece="块数",line="行数",atk="攻击",eff="效率",
@@ -983,7 +983,7 @@ return {
         "1next 6hold！",
         "3.1415926535897932384(\\d{3})",
         "3next 1hold？",
-        "40行世界纪录:14.188s by Lurny",
+        "40行世界纪录: 13.650s by WestL",
         "6236326236327175",
         "626in1",
         "6next 1hold！",

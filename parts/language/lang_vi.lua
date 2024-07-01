@@ -1002,7 +1002,7 @@ C. Tay cầm chơi game (Gamepad):
         "6 next 1 hold!",
         "6 next 6 hold?!",
         "20G thực chất là một chế độ mới đấy!",
-        "Kỷ lục Sprint 40 hàng: 14.188s (Lurny)",
+        "Kỷ lục Sprint 40 hàng: 13.650s (WestL)",
         "Rất gần nhưng lại rất xa",
         "ALL SPIN!",
         "Am G F G",

@@ -7,9 +7,9 @@
 
 ***[GitHub](https://github.com/26F-Studio/Techmino)  [Gitee](https://gitee.com/f26-studio/Techmino)***
 
-《Techmino: 方块研究所》 官方仓库
+《Techmino: 方块研究所》 官方仓库 (26F-Studio/Techmino)
 
-The Official Repository of Techmino
+The Official Repository of Techmino (26F-Studio/Techmino)
 
 集合各种现代方块规则，更多玩法，全新体验。
 

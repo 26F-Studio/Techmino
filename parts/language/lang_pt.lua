@@ -947,7 +947,7 @@ return {
         "1next 1hold!",
         "1next 6hold!",
         "Na verdade 20G é uma regra de jogo nova.",
-        "40-lines Sprint WR: 14.188s by Lurny",
+        "40-line Sprint WR: 13.650s by WestL",
         "6next 1hold!",
         "6next 6hold?!",
         "ALL SPIN!",
