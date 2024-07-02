@@ -24,6 +24,8 @@ A collection of various modern block game rules, more ways to play, and some new
 
 -----
 
-[官网(建设中) Official website (WIP)](http://101.43.110.22:10026)
+[官网(重构中) Official Website (RWIP)](https://www.studio26f.org/home)
 
-[维基(建设中) Github wiki](https://github.com/26F-Studio/Techmino/wiki)
+[社区引导站(建设中)(非官方) Techmino Hub (WIP)(unofficial)](https://techmino-hub.vercel.app/)
+
+[Github维基(暂停建设) Github Wiki (WNIP)](https://github.com/26F-Studio/Techmino/wiki)
