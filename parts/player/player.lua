@@ -1907,6 +1907,9 @@ do
         piece.spin,piece.mini=dospin,false
         piece.pc,piece.hpc=false,false
         piece.special=false
+        -- TODO: Replace this with a game variable
+            local bigMode = true
+            if bigMode then cc = math.floor(cc/2) end
         if cc>0 then-- If lines cleared,about 200 lines of codes below
             cmb=cmb+1
             if dospin then
@@ -2012,7 +2015,7 @@ do
             end
 
             -- PC/HPC
-            if clear and cc>=#C.bk then
+            if clear and cc>=(bigMode and #C.bk/2 or #C.bk) then
                 if CY==1 then
                     piece.pc=true
                     piece.special=true

@@ -834,6 +834,9 @@ do
         kickTable=TABLE.new(set3,29),
     }
     ARS_Z.kickTable[7],ARS_Z.kickTable[25]=set4,set4-- I,I5
+    for i = 30, 58 do
+        ARS_Z.kickTable[i]=_big(ARS_Z.kickTable[i-29])
+    end
 end
 
 local DRS_weak
@@ -900,6 +903,9 @@ do
             Z,Z,-- I2,O1
         }
     }
+    for i = 30, 58 do
+        DRS_weak.kickTable[i]=_big(DRS_weak.kickTable[i-29])
+    end
 end
 
 local ASC
@@ -943,6 +949,9 @@ do
             [02]=F,[20]=F,[13]=F,[31]=F,
         },29)
     }
+    for i = 30, 58 do
+        ASC.kickTable[i]=_big(ASC.kickTable[i-29])
+    end
 end
 
 local ASC_plus
@@ -972,6 +981,9 @@ do
             [02]=F,[20]=F,[13]=F,[31]=F,
         },29)
     }
+    for i = 30, 58 do
+        ASC_plus.kickTable[i]=_big(ASC_plus.kickTable[i-29])
+    end
 end
 
 local C2
@@ -988,6 +1000,9 @@ do
             [02]=L,[20]=L,[13]=L,[31]=L,
         },29)
     }
+    for i = 30, 58 do
+        C2.kickTable[i]=_big(C2.kickTable[i-29])
+    end
 end
 
 local C2_sym
@@ -1029,6 +1044,9 @@ do
             Z,Z,-- I2,O1
         }
     }
+    for i = 30, 58 do
+        C2_sym.kickTable[i]=_big(C2_sym.kickTable[i-29])
+    end
 end
 
 local N64
@@ -1045,6 +1063,9 @@ do
             [23]=R,[32]=L,[30]=R,[03]=L,
         },29)
     }
+    for i = 30, 58 do
+        N64.kickTable[i]=_big(N64.kickTable[i-29])
+    end
 end
 
 local N64_plus
@@ -1063,6 +1084,9 @@ do
             [02]=F,[20]=F,[13]=F,[31]=F,
         },29)
     }
+    for i = 30, 58 do
+        N64_plus.kickTable[i]=_big(N64_plus.kickTable[i-29])
+    end
 end
 
 local Classic do
@@ -1083,7 +1107,7 @@ local Classic do
             {'line',7,8,2,8,2,2,7,2},
         },
         centerPos=centerPos,
-        kickTable=TABLE.new(noKickSet,29)
+        kickTable=TABLE.new(noKickSet,58)
     }
 end
 
@@ -1104,7 +1128,7 @@ local Classic_plus do
             {'fRect',3,3,4,4},
         },
         centerPos=centerPos,
-        kickTable=TABLE.new(noKickSet_180,29)
+        kickTable=TABLE.new(noKickSet_180,58)
     }
 end
 
@@ -1113,7 +1137,7 @@ local None={
             {'setLW',2},
             {'line',2,2,6,6},
         },
-    kickTable=TABLE.new(noKickSet,29)
+    kickTable=TABLE.new(noKickSet,58)
 }
 
 local None_plus={
@@ -1122,7 +1146,7 @@ local None_plus={
             {'line',1,1,7,7},
             {'fRect',2,2,4,4},
         },
-    kickTable=TABLE.new(noKickSet_180,29)
+    kickTable=TABLE.new(noKickSet_180,58)
 }
 
 local RSlist={
