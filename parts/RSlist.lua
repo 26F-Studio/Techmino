@@ -40,6 +40,21 @@ local defaultCenterPos={-- For SRS-like RSs
     {[0]={0,0},{0,0},{0,0},{0,0}},-- O1
 }
 
+local function _bigRotationCenter(centerList)
+    local bigCenterList = {}
+    for i, list in next, centerList do
+        -- Deduce the distance from bottom-left of the piece. Bottom-left is at (-0.5,-0.5)
+        local distX = list[1]+0.5
+        local distY = list[2]+0.5
+        bigCenterList[i]={distX * 2 - 0.5, distY * 2 - 0.5}
+    end
+    return bigCenterList
+end
+
+for i = 30,58 do
+    defaultCenterPos[i]=_bigRotationCenter(defaultCenterPos[i-29])
+end
+
 local noKickSet,noKickSet_180 do
     local Zero={{0,0}}
     noKickSet={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero}
@@ -71,6 +86,18 @@ local function _flipList(O)
     return L
 end
 
+-- Use this to create a giant piece kick set out of the existing kick table
+local function _bigList(O)
+    if not O or type(O[1])~='string' then
+        return
+    end
+    local L={}
+    for i,s in next,O do
+        L[i]=s:sub(1,1)..tostring(tonumber(s:sub(2,2))*2)..s:sub(3,3)..tostring(tonumber(s:sub(4,4))*2)
+    end
+    return L
+end
+
 local function _reflect(a)
     return {
         [03]=_flipList(a[01]),
@@ -85,6 +112,24 @@ local function _reflect(a)
         [20]=_flipList(a[20]),
         [31]=_flipList(a[13]),
         [13]=_flipList(a[31]),
+    }
+end
+
+
+local function _big(a)
+    return {
+        [03]=_bigList(a[03]),
+        [01]=_bigList(a[01]),
+        [30]=_bigList(a[30]),
+        [32]=_bigList(a[32]),
+        [23]=_bigList(a[23]),
+        [21]=_bigList(a[21]),
+        [10]=_bigList(a[10]),
+        [12]=_bigList(a[12]),
+        [02]=_bigList(a[02]),
+        [20]=_bigList(a[20]),
+        [31]=_bigList(a[31]),
+        [13]=_bigList(a[13]),
     }
 end
 
@@ -122,7 +167,7 @@ do
             {'setCL',1,1,1},
             {'fRect',4,4,2,2},
         },
-        centerDisp=TABLE.new(true,29),
+        centerDisp=TABLE.new(true,58),
         kickTable={
             {
                 [01]={'+0+0','-1+0','-1+1','+0-2','-1+2','+0+1'},
@@ -442,6 +487,16 @@ do
     TRS.kickTable[24]=_reflect(TRS.kickTable[23])-- NH
     _centroSymSet(TRS.kickTable[8])_centroSymSet(TRS.kickTable[9])-- S5Z5
     _centroSymSet(TRS.kickTable[25])_centroSymSet(TRS.kickTable[26])-- I5I3
+
+    for i = 30, 34 do
+        TRS.kickTable[i]=_big(TRS.kickTable[i-29])
+    end
+    for i = 36, 46 do
+        TRS.kickTable[i]=_big(TRS.kickTable[i-29])
+    end
+    for i = 48, 57 do
+        TRS.kickTable[i]=_big(TRS.kickTable[i-29])
+    end
 end
 
 local SRS -- Pentos are treated as 3*3 piece
@@ -487,6 +542,10 @@ do
     }
     for i=2,5 do SRS.kickTable[i]=SRS.kickTable[1] end
     for i=8,29 do SRS.kickTable[i]=SRS.kickTable[1] end
+    for i = 30, 59 do
+        SRS.kickTable[i]=_big(SRS.kickTable[i-29])
+    end
+    
 end
 
 local SRS_plus -- Basic 180 kicks and symmetry I piece kick table
@@ -540,6 +599,9 @@ do
     }
     for i=2,5 do SRS_plus.kickTable[i]=SRS_plus.kickTable[1] end
     for i=8,29 do SRS_plus.kickTable[i]=SRS_plus.kickTable[1] end
+    for i = 30, 59 do
+        SRS_plus.kickTable[i]=_big(SRS_plus.kickTable[i-29])
+    end
 end
 
 local SRS_X -- Basic 180 kicks and TRS for non-SZJLT
@@ -580,9 +642,13 @@ do
     for i=7,29 do SRS_X.kickTable[i]=TRS.kickTable[i] end
     SRS_X.kickTable[10]=SRS_X.kickTable[1]-- P
     SRS_X.kickTable[11]=SRS_X.kickTable[1]-- Q
+    for i = 30, 57 do -- TRS does not have kicks for O1
+        SRS_X.kickTable[i]=_big(SRS_X.kickTable[i-29])
+    end
 end
 
 local BiRS
+-- TODO: Big piece behavior for BiRS
 do
     local R=_strToVec{'+0+0','-1+0','-1-1','+0-1','-1+1','+1-1','+1+0','+0+1','+1+1','+0+2','-1+2','+1+2','-2+0','+2+0'}
     local L=_strToVec{'+0+0','+1+0','+1-1','+0-1','+1+1','-1-1','-1+0','+0+1','-1+1','+0+2','+1+2','-1+2','+2+0','-2+0'}
@@ -752,6 +818,10 @@ do
     centerPos[26]={[0]={0,1},{0,0},{0,1},{0,0}}-- I3
     centerPos[28]={[0]={0,1},{0,0},{0,1},{0,0}}-- I2
 
+    for i = 30,58 do
+        centerPos[i]=_bigRotationCenter(centerPos[i-29])
+    end
+
     ARS_Z={
         centerTex=GC.DO{10,10,
             {'setLW',2},
@@ -787,6 +857,10 @@ do
     centerPos[24]={[0]={1.5,1.5},{1.5,0.5},{1.5,1.5},{1.5,0.5}}-- H
     centerPos[26]={[0]={0,1},{0,0},{0,1},{0,0}}-- I3
     centerPos[28]={[0]={0,1},{0,0},{0,1},{0,0}}-- I2
+
+    for i = 30,58 do
+        centerPos[i]=_bigRotationCenter(centerPos[i-29])
+    end
 
     local L={'+0+0','-1+0','+1+0','+0-1','-1-1','+1-1'}
     local R={'+0+0','+1+0','-1+0','+0-1','+1-1','-1-1'}
@@ -846,6 +920,10 @@ do
     centerPos[24]={[0]={0,2},{1,0},{1,1},{2,1}}-- H
     centerPos[27]={[0]={0,1},{0,0},{1,0},{1,1}}-- C
     centerPos[28]={[0]={0,1},{0,0},{0,0},{1,0}}-- I2
+
+    for i = 30,58 do
+        centerPos[i]=_bigRotationCenter(centerPos[i-29])
+    end
 
     ASC={
         centerTex=GC.DO{10,10,
@@ -992,6 +1070,10 @@ local Classic do
     centerPos[1]={[0]={1,1},{1,0},{1,1},{1,0}}
     centerPos[2]={[0]={1,1},{1,0},{1,1},{1,0}}
     centerPos[7]={[0]={0,2},{1,0},{0,2},{1,0}}
+    for i = 30,31 do
+        centerPos[i]=_bigRotationCenter(centerPos[i-29])
+    end
+    centerPos[36]=_bigRotationCenter(centerPos[7])
     Classic={
         centerTex=GC.DO{10,10,
             {'setLW',2},
@@ -1010,6 +1092,10 @@ local Classic_plus do
     centerPos[1]={[0]={1,1},{1,0},{1,1},{1,0}}
     centerPos[2]={[0]={1,1},{1,0},{1,1},{1,0}}
     centerPos[7]={[0]={0,2},{1,0},{0,2},{1,0}}
+    for i = 30,31 do
+        centerPos[i]=_bigRotationCenter(centerPos[i-29])
+    end
+    centerPos[36]=_bigRotationCenter(centerPos[7])
     Classic_plus={
         centerTex=GC.DO{10,10,
             {'setLW',2},
@@ -1061,7 +1147,7 @@ local RSlist={
 
 for name,rs in next,RSlist do
     rs.name=name
-    if not rs.centerDisp then rs.centerDisp=TABLE.new(true,29) end
+    if not rs.centerDisp then rs.centerDisp=TABLE.new(true,58) end
     if not rs.centerPos then rs.centerPos=defaultCenterPos end
     if not rs.centerTex then rs.centerTex=defaultCenterTex end
 

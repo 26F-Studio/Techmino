@@ -1441,14 +1441,14 @@ end
 
 function Player:_getBlock(id,name,color,bagLineCounter)-- Get a block object
     local ENV=self.gameEnv
-    local dir=ENV.face[id]
+    local dir=ENV.face[id%29]
     return {
         id=id,
         dir=dir,
         bk=BLOCKS[id][dir],
         RS=self.RS,
         name=name or id,
-        color=ENV.bone and 17 or color or ENV.skin[id],
+        color=ENV.bone and 17 or color or ENV.skin[id%29],
         bagLine=bagLineCounter,
     }
 end
@@ -1666,6 +1666,94 @@ do
             {1,2,2,1,0,1,2,3,2,1},
             1,1,1
         },-- O1
+        -- TODO: Finesse for big pieces, so far it's a copy of a small piece finesse
+        {
+            {1,2,1,0,1,2,2,1},
+            {2,2,2,1,1,2,3,2,2},
+            1,2
+        },-- Big Z
+        1,-- Big S
+        {
+            {1,2,1,0,1,2,2,1},
+            {2,2,3,2,1,2,3,3,2},
+            {3,4,3,2,3,4,4,3},
+            {2,3,2,1,2,3,3,2,2},
+        },-- Big J
+        3,-- Big L
+        3,-- Big T
+        {
+            {1,2,2,1,0,1,2,2,1},
+            1,1,1
+        },-- Big O
+        {
+            {1,2,1,0,1,2,1},
+            {2,2,2,2,1,1,2,2,2,2},
+            1,2
+        },-- Big I
+        {
+            {1,2,1,0,1,2,2,1},
+            {2,3,2,1,2,3,3,2},
+            1,2
+        },-- Big Z5
+        8,-- Big S5
+        3,-- Big P
+        3,-- Big Q
+        {
+            {1,2,1,0,1,2,2,1},
+            {2,3,2,1,2,3,3,2},
+            {3,4,3,2,3,4,4,3},
+            2
+        },-- Big F
+        12,-- Big E
+        12,-- Big T5
+        3,-- Big U
+        {
+            {1,2,1,0,1,2,2,1},
+            {2,3,3,2,1,2,3,2},
+            {3,4,4,3,2,3,4,3},
+            {2,3,2,1,2,3,3,2},
+        },-- Big V
+        12,-- Big W
+        {
+            {1,2,1,0,1,2,2,1},
+            1,1,1
+        },-- Big X
+        {
+            {1,2,1,0,1,2,1},
+            {2,2,3,2,1,2,3,2,2},
+            {3,4,3,2,3,4,3},
+            2,
+        },-- Big J5
+        19,-- Big L5
+        19,-- Big R
+        19,-- Big Y
+        19,-- Big N
+        19,-- Big H
+        {
+            {1,1,0,1,2,1},
+            {2,3,2,2,1,2,3,2,3,2},
+            1,2
+        },-- Big I5
+        {
+            {1,2,1,0,1,2,2,1},
+            {2,2,3,2,1,2,3,3,2,2},
+            1,2
+        },-- Big I3
+        {
+            {1,2,2,1,0,1,2,2,1},
+            {2,3,3,2,1,2,3,3,2},
+            {3,4,4,3,2,3,4,4,3},
+            2
+        },-- Big C
+        {
+            {1,2,2,1,0,1,2,2,1},
+            {2,2,3,2,1,1,2,3,2,2},
+            1,2
+        },-- Big I2
+        {
+            {1,2,2,1,0,1,2,3,2,1},
+            1,1,1
+        },-- Big O1
     }
     for k,v in next,finesseList do
         if type(v)=='table' then
@@ -2144,11 +2232,11 @@ do
         end
         local n=C.name
         if dospin then
-            _=Stat.spin[n]  _[cc+1]=_[cc+1]+1-- Spin[1~25][0~4]
-            _=Stat.spins    _[cc+1]=_[cc+1]+1-- Spin[0~4]
+            _=Stat.spin[n]  _[cc+1]=_[cc+1]+1 or 1-- Spin[1~25][0~4]
+            _=Stat.spins    _[cc+1]=_[cc+1]+1 or 1-- Spin[0~4]
         elseif cc>0 then
-            _=Stat.clear[n] _[cc]=_[cc]+1-- Clear[1~25][1~5]
-            _=Stat.clears   _[cc]=_[cc]+1-- Clear[1~5]
+            _=Stat.clear[n] _[cc]=_[cc]+1 or 1-- Clear[1~25][1~5]
+            _=Stat.clears   _[cc]=_[cc]+1 or 1-- Clear[1~5]
         end
 
         if finish then
