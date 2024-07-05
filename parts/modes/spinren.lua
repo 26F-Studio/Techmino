@@ -62,7 +62,7 @@ return {
             if P.lastPiece.row==0 then
                 P:win('finish')
             end
-            local up=MATH.clamp(20-P.stat.row,0,P.lastPiece.row)
+            local up=MATH.clamp(20-P.stat.row+P.lastPiece.row,0,P.lastPiece.row)
             P:pushLineList(get_lines(up,P.randomizer_spinren))
         end
     },
