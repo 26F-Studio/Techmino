@@ -1,20 +1,34 @@
 ---@param RND RandomGenerator
 local randomizer=function(RND)
-    local this=1
-    return function()
-        -- weights to get 2:2:2:1 steady distribution
-        local weights={5,5,5,2}
-        local ret=this
-        weights[this]=0
-        local sum=weights[1]+weights[2]+weights[3]+weights[4]
-        local r=RND:random(1,sum)
-        for i=1,4 do
-            r=r-weights[i]
-            if r<=0 then
-                this=i
-                break
-            end
+    local ins=table.insert
+    local last={1}
+    local weights={2,2,1}
+    local r=RND:random(1,5)
+    for i=1,#weights do
+        r=r-weights[i]
+        if r<=0 then
+            ins(last,i+1)
+            break
         end
+    end
+    return function()
+        local ret=last[1]
+        local this
+        if ret==1 and last[2]==4 or ret==4 and last[2]==1 then
+            this=RND:random(1,2)+1
+        elseif ret==1 then
+            this=5-last[2]
+        elseif ret==4 then
+            this=1
+        elseif last[2]==1 then
+            local r=RND:random(1,5)
+            this=r==1 and 4 or 5-ret
+        elseif last[2]==4 then
+            this=RND:random(1,2)==1 and 1 or 5-ret
+        else
+            this=RND:random(1,5)<3 and 4 or 1
+        end
+        last={last[2],this}
         return ret
     end
 end
