@@ -22,7 +22,10 @@ local randomizer=function(RND)
             this=1
         elseif last[2]==1 then
             local r=RND:random(1,5)
-            this=r==1 and 4 or 5-ret
+            this=
+                r==1 and 4 or
+                r<4 and ret or
+                5-ret
         elseif last[2]==4 then
             this=RND:random(1,2)==1 and 1 or 5-ret
         else
