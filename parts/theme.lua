@@ -42,6 +42,10 @@ function THEME.calculate(Y,M,D)
         M=='04' and D=='01' and
         'fool' or
 
+        -- April fool's day
+        M=='07' and (D=='14' or  D=='15') and
+        'edm' or
+
         -- Z day
         D=='26' and (
             (M=='03' or M=='04' or M=='05' or M=='06') and 'zday1' or
@@ -90,6 +94,10 @@ function THEME.set(theme,keepBGM)
         elseif theme=='fool' then
             BG.setDefault('blockrain')
             BGM.setDefault('how feeling')
+        elseif theme=='edm' then
+            BG.setDefault('lightning2')
+            BGM.setDefault('malate')
+            MES.new('music',"                    红  色  电  音\n                 极  地  大  冲  击\n        只要你敢触电——\n           7月14日、15日 天地人间完全放电\n不用麻醉，一样情不自禁HI起来，飞起来")
         else
             return
         end
