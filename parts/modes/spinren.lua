@@ -75,6 +75,12 @@ return {
     getRank=function(P)
         if P.stat.row<10 then return end
         local E=P.stat.atk/P.stat.row
-        return math.min(math.floor(E/2),5)
+        return
+            E>=10 and 5 or
+            E>=9 and 4 or
+            E>=8 and 3 or
+            E>=6 and 2 or
+            E>=3 and 1 or
+            0
     end
 }
