@@ -1,38 +1,28 @@
 ---@param RND RandomGenerator
-local randomizer=function(RND)
-    local ins=table.insert
-    local last={1}
-    local weights={2,2,1}
-    local r=RND:random(1,5)
-    for i=1,#weights do
-        r=r-weights[i]
-        if r<=0 then
-            ins(last,i+1)
-            break
+local function randomizer(RND)
+    local last=RND:random(2)==1 and 1 or 4
+    local function get_next()
+        local list={1,2,3,1,3,2}
+        local ret=list[last]
+        last=last+1
+        if last>6 then last=1 end
+        return ret
+    end
+    local bag={}
+    local function fill_bag()
+        local weights=0
+        while weights<24 do
+            local x=get_next()
+            table.insert(bag,x)
+            weights=weights+(x==1 and 2 or 3)
         end
+        local pos=RND:random(#bag)+1
+        table.insert(bag,pos,4)
+        if skip==1 then skip=0 end
     end
     return function()
-        local ret=last[1]
-        local this
-        if ret==1 and last[2]==4 or ret==4 and last[2]==1 then
-            this=RND:random(1,2)+1
-        elseif ret==1 then
-            this=5-last[2]
-        elseif ret==4 then
-            this=1
-        elseif last[2]==1 then
-            local r=RND:random(1,5)
-            this=
-                r==1 and 4 or
-                r<4 and ret or
-                5-ret
-        elseif last[2]==4 then
-            this=RND:random(1,2)==1 and 1 or 5-ret
-        else
-            this=RND:random(1,5)<3 and 4 or 1
-        end
-        last={last[2],this}
-        return ret
+        if #bag==0 then fill_bag() end
+        return table.remove(bag,1)
     end
 end
 local lines={
