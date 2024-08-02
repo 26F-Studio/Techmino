@@ -976,8 +976,7 @@ C. Gamepad
         ['infinite']=            {"Infinite",          "",               "Just a sandbox"},
         ['infinite_dig']=        {"Dig",               "INFINITE",       "Dig-diggin'-dug"},
         ['marathon_inf']=        {"Marathon",          "INFINITE",       "Infinite marathon."},
-        ['spinren']=             {"Spin Ren",          "EFFICIENCY",     "Spike in a blink"},
-        -- ['spinren']=             {"Spin Ren",          "EFFICIENCY",     "Spike in a blink"},
+        ['spinren']=             {"Spin Combo",        "EFFICIENCY",     "Spike in a blink"},
 
         ['custom_clear']=        {"Custom",            "NORMAL"},
         ['custom_puzzle']=       {"Custom",            "PUZZLE"},

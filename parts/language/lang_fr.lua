@@ -915,7 +915,7 @@ return {
         ['infinite']=      {"Infini",        "",             "Mode tranquile."},
         ['infinite_dig']=  {"Infini : Dig",  "",             "Creuser, creuser, creuser."},
         ['marathon_inf']=  {"Marathon",      "INFINI",       "Marathon infini."},
-        -- ['spinren']=             {"Spin Ren",          "EFFICIENCY",     "Spike in a blink"},
+        -- ['spinren']=       {"Spin Combo",    "EFFICIENCY",   "Spike in a blink"},
 
         ['custom_clear']=  {"Perso.",        "NORMAL"},
         ['custom_puzzle']= {"Perso.",        "PUZZLE"},

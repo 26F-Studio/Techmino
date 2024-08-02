@@ -938,7 +938,7 @@ return {
         ['infinite']=            {"Tak Terbatas",      "",                    "Bak pasir"},
         ['infinite_dig']=        {"Tak Terbatas: Gali","",                    "Gali, gali, gali"},
         ['marathon_inf']=        {"Maraton",           "TAK TERBATAS",        "Maraton tanpa akhir."},
-        -- ['spinren']=             {"Spin Ren",          "EFFICIENCY",     "Spike in a blink"},
+        -- ['spinren']=             {"Spin Combo",        "EFFICIENCY",          "Spike in a blink"},
 
         ['custom_clear']=        {"Tersesuai",         "NORMAL"},
         ['custom_puzzle']=       {"Tersesuai",         "TEKA-TEKI"},
