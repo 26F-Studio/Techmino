@@ -68,7 +68,11 @@ return {
         eventSet='sprintEff_40',
         hook_drop=function(P)
             if P.lastPiece.row==0 then
-                P:win('finish')
+                if P.stat.row<10 then
+                    P:lose()
+                else
+                    P:win('finish')
+                end
             end
             local up=MATH.clamp(22-P.stat.row+P.lastPiece.row,0,P.lastPiece.row)
             P:pushLineList(get_lines(up,P))
