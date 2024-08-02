@@ -105,13 +105,13 @@ return {
 
     {name='spinren',            x=710,  y=-300, size=40,shape=2,icon="tsd"},
 
-    {name='pctrain_n',          x=750,  y=-450, size=40,shape=1,icon="pc",         unlock={'pctrain_l','pc_n'}},
-    {name='pctrain_l',          x=950,  y=-450, size=40,shape=1,icon="pc"},
+    {name='pctrain_n',          x=760,  y=-450, size=40,shape=1,icon="pc",         unlock={'pctrain_l','pc_n'}},
+    {name='pctrain_l',          x=960,  y=-450, size=40,shape=1,icon="pc"},
 
-    {name='pc_n',               x=850,  y=-300, size=40,shape=1,icon="pc",         unlock={'pc_h'}},
-    {name='pc_h',               x=1000, y=-300, size=40,shape=3,icon="pc",         unlock={'pc_l','pc_inf'}},
-    {name='pc_l',               x=1150, y=-300, size=40,shape=3,icon="pc"},
-    {name='pc_inf',             x=1150, y=-450, size=40,shape=2,icon="pc"},
+    {name='pc_n',               x=870,  y=-300, size=40,shape=1,icon="pc",         unlock={'pc_h'}},
+    {name='pc_h',               x=1020, y=-300, size=40,shape=3,icon="pc",         unlock={'pc_l','pc_inf'}},
+    {name='pc_l',               x=1170, y=-300, size=40,shape=3,icon="pc"},
+    {name='pc_inf',             x=1170, y=-450, size=40,shape=2,icon="pc"},
 
     {name='tech_n',             x=400,  y=20,   size=40,shape=1,icon="tech",       unlock={'tech_n_plus','tech_h'}},
     {name='tech_n_plus',        x=200,  y=-10,  size=40,shape=3,icon="tech_plus"},
