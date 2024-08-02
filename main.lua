@@ -326,6 +326,7 @@ SKIN.load{
     {name="kanji_chno",            path='media/image/skin/kanji_chno.png'},
     {name="textbone_mrz",          path='media/image/skin/textbone_mrz.png'},
     {name="coloredbone_mrz",       path='media/image/skin/coloredbone_mrz.png'},
+    {name="example_chno",          path='media/image/skin/example_chno.png'},
     {name="wtf",                   path='media/image/skin/wtf_mrz.png'},
 }
 
