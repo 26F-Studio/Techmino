@@ -55,13 +55,13 @@ return {
             P.modeData.colorSet[i]=P.holeRND:random(25)
         end
         P.randomizer_spinren=randomizer(P.holeRND)
-        P:pushLineList(get_lines(20,P))
+        P:pushLineList(get_lines(18,P))
         P.fieldBeneath=0
     end,
     env={
         lock=1e99,
         drop=1e99,
-        minsdarr=4,
+        minsdarr=3,
         infHold=true,
         highCam=false,
         bgm='lounge',
@@ -70,7 +70,7 @@ return {
             if P.lastPiece.row==0 then
                 P:win('finish')
             end
-            local up=MATH.clamp(20-P.stat.row+P.lastPiece.row,0,P.lastPiece.row)
+            local up=MATH.clamp(22-P.stat.row+P.lastPiece.row,0,P.lastPiece.row)
             P:pushLineList(get_lines(up,P))
         end
     },
