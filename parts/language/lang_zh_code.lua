@@ -881,10 +881,11 @@ return {
         ['sprintAtk']=          {"Sprint(100ATK);",         "",      "打出100攻击"},
         ['sprintEff']=          {"Sprint(EFF);",            "",      "40行内打出更高的攻击"},
         ['zen']=                {"Zen(200L);",              "",      "不限时200行"},
-        ['ultra']=              {"Ultra(EXTRA);",           "",      "在两分钟内尽可能拿到最多的分数"},
+        ['ultra']=              {"Ultra(Extra);",           "",      "在两分钟内尽可能拿到最多的分数"},
         ['infinite']=           {"Infinite();",             "",      "沙盒"},
         ['infinite_dig']=       {"InfDig();",               "",      "挖呀挖呀挖"},
         ['marathon_inf']=       {"Marathon(Inf);",          "",      "无尽马拉松"},
+        ['spinren']=            {"Spinren(EFF)",            "",      "掌管效率的神"},
 
         ['custom_clear']=       {"Custom(Clear);",          ""},
         ['custom_puzzle']=      {"Custom(Puzzle);",         ""},

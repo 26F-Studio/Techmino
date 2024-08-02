@@ -982,6 +982,7 @@ C. ゲームパッド
         ['infinite']=            {"無限",                 "",          "サンドボックス"},
         ['infinite_dig']=        {"無限: 掘り",           "",          "掘れ掘れ掘れ掘れ掘れ掘・・・"},
         ['marathon_inf']=        {"マラソン",             "INFINITE",  "ずっと走れるね"},
+        -- ['spinren']=             {"Spin Ren",          "EFFICIENCY",     "Spike in a blink"},
 
         ['custom_clear']=        {"カスタム",              "NORMAL"},
         ['custom_puzzle']=       {"カスタム",              "PUZZLE"},

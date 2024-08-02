@@ -97,19 +97,21 @@ return {
     {name='dig_h',              x=850,  y=-800, size=40,shape=1,icon="dig",        unlock={'dig_u'}},
     {name='dig_u',              x=850,  y=-1000,size=40,shape=1,icon="dig"},
 
-    {name='c4wtrain_n',         x=700,  y=-450, size=40,shape=1,icon="pc",         unlock={'c4wtrain_l'}},
-    {name='c4wtrain_l',         x=900,  y=-450, size=40,shape=1,icon="pc"},
+    {name='c4wtrain_n',         x=700,  y=-140, size=40,shape=1,icon="pc",         unlock={'c4wtrain_l'}},
+    {name='c4wtrain_l',         x=900,  y=-140, size=40,shape=1,icon="pc"},
 
-    {name='pctrain_n',          x=700,  y=-300, size=40,shape=1,icon="pc",         unlock={'pctrain_l','pc_n'}},
-    {name='pctrain_l',          x=900,  y=-300, size=40,shape=1,icon="pc"},
-
-    {name='pc_n',               x=800,  y=-140, size=40,shape=1,icon="pc",         unlock={'pc_h'}},
-    {name='pc_h',               x=950,  y=-140, size=40,shape=3,icon="pc",         unlock={'pc_l','pc_inf'}},
-    {name='pc_l',               x=1100, y=-140, size=40,shape=3,icon="pc"},
-    {name='pc_inf',             x=1100, y=-280, size=40,shape=2,icon="pc"},
-
-    {name='sprintAtk',          x=500,  y=-280, size=40,shape=1,icon="sprint2",    unlock={'sprintEff','tech_n','tech_finesse','tsd_e','backfire_n'}},
+    {name='sprintAtk',          x=500,  y=-300, size=40,shape=1,icon="sprint2",    unlock={'sprintEff','tech_n','tech_finesse','tsd_e','backfire_n','spinren'}},
     {name='sprintEff',          x=360,  y=-150, size=40,shape=1,icon="sprint2"},
+
+    {name='spinren',            x=710,  y=-300, size=40,shape=2,icon="tsd"},
+
+    {name='pctrain_n',          x=750,  y=-450, size=40,shape=1,icon="pc",         unlock={'pctrain_l','pc_n'}},
+    {name='pctrain_l',          x=950,  y=-450, size=40,shape=1,icon="pc"},
+
+    {name='pc_n',               x=850,  y=-300, size=40,shape=1,icon="pc",         unlock={'pc_h'}},
+    {name='pc_h',               x=1000, y=-300, size=40,shape=3,icon="pc",         unlock={'pc_l','pc_inf'}},
+    {name='pc_l',               x=1150, y=-300, size=40,shape=3,icon="pc"},
+    {name='pc_inf',             x=1150, y=-450, size=40,shape=2,icon="pc"},
 
     {name='tech_n',             x=400,  y=20,   size=40,shape=1,icon="tech",       unlock={'tech_n_plus','tech_h'}},
     {name='tech_n_plus',        x=200,  y=-10,  size=40,shape=3,icon="tech_plus"},

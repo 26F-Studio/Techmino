@@ -941,6 +941,7 @@ return {
         ['infinite']=       {"Infinito",                 "",             "Modo Sandbox."},
         ['infinite_dig']=   {"Infinito: Queso",          "",             "Limpia, limpia, más limpia que tú."},
         ['marathon_inf']=   {"Maratón",                  "Infinito",     "Maratón infinita."},
+        -- ['spinren']=             {"Spin Ren",          "EFFICIENCY",     "Spike in a blink"},
 
         ['custom_clear']=   {"Personalizado",           "Normal"},
         ['custom_puzzle']=  {"Personalizado",           "Puzzle"},

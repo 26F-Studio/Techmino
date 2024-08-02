@@ -938,6 +938,7 @@ return {
         ['infinite']=       {"無盡",         "",        "沙盒"},
         ['infinite_dig']=   {"無盡:挖掘",     "",        "挖呀挖呀挖"},
         ['marathon_inf']=   {"馬拉松",       "無盡",      "無盡馬拉松"},
+        ['spinren']=        {"Spin連擊",     "效率",      "掌管效率的神"},
 
         ['custom_clear']=   {"自定義",       "普通"},
         ['custom_puzzle']=  {"自定義",       "拼圖"},

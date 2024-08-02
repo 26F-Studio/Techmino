@@ -928,6 +928,7 @@ return {
         ['infinite']=           {"Infinito",          "",            "Modo Sandbox."},
         ['infinite_dig']=       {"Infinito:Cave",     "",            "Cava, Cava, Cava."},
         ['marathon_inf']=       {"Maratona",          "Infinito",    "Infinito maratona."},
+        -- ['spinren']=             {"Spin Ren",          "EFFICIENCY",     "Spike in a blink"},
 
         ['custom_clear']=       {"Custom",           "NORMAL"},
         ['custom_puzzle']=      {"Custom",           "PUZZLE"},

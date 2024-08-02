@@ -979,6 +979,7 @@ C. Tay cầm chơi game (Gamepad):
         ['infinite']=            {"Infinite",          "",               "Chỉ là một chế độ tự do"},
         ['infinite_dig']=        {"Infinite: Dig",     "",               "Đào, đào nữa, đào mãi"},
         ['marathon_inf']=        {"Marathon",          "VÔ TẬN",         "Marathon không có điểm dừng."},
+        -- ['spinren']=             {"Spin Ren",          "EFFICIENCY",     "Spike in a blink"},
 
         ['custom_clear']=        {"Custom",            "NORMAL"},
         ['custom_puzzle']=       {"Custom",            "PUZZLE"},
