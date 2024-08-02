@@ -969,7 +969,7 @@ C. Gamepad
         ['backfire_h']=          {"Backfire",          "HARD",           "Send 100 lines as fast as you can while attacking yourself!"},
         ['backfire_l']=          {"Backfire",          "LUNATIC",        "Send 100 lines as fast as you can while attacking yourself!"},
         ['backfire_u']=          {"Backfire",          "ULTIMATE",       "Send 100 lines as fast as you can while attacking yourself!"},
-        ['sprintAtk']=           {"Sprint",            "100 Attack",     "Send 100 lines as fast as you can!"},
+        ['sprintAtk']=           {"Sprint",            "100 ATTACK",     "Send 100 lines as fast as you can!"},
         ['sprintEff']=           {"Efficiency",        "40L",            "Send more attack in 40 lines!"},
         ['zen']=                 {'Zen',               "200L",           "A 200-line score attack with no time limit"},
         ['ultra']=               {'Ultra',             "EXTRA",          "A 2-minute score attack"},

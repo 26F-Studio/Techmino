@@ -914,7 +914,7 @@ return {
         ['ultra']=         {'Ultra',         "EXTRA",        "2 minutes pour avoir le meilleur score."},
         ['infinite']=      {"Infini",        "",             "Mode tranquile."},
         ['infinite_dig']=  {"Infini : Dig",  "",             "Creuser, creuser, creuser."},
-        ['marathon_inf']=  {"Marathon",      "Infini",       "Marathon infini."},
+        ['marathon_inf']=  {"Marathon",      "INFINI",       "Marathon infini."},
         -- ['spinren']=             {"Spin Ren",          "EFFICIENCY",     "Spike in a blink"},
 
         ['custom_clear']=  {"Perso.",        "NORMAL"},
