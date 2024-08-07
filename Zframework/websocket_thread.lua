@@ -40,21 +40,25 @@ do-- Connect
     repeat
         res,err=SOCK:receive('*l')
         assert(res,err)
-        if not ctLen and res:find('length') then
-            ctLen=tonumber(res:match('%d+'))
+        if not ctLen and res:find('content-length') then
+            ctLen=tonumber(res:match('%d+')) or 0
         end
     until res==''
 
     -- Result
+    if code=='101' then
+        CHN_push(readCHN,'success')
+    end
+
+    -- Content(?)
     if ctLen then
-        if code=='101' then
-            CHN_push(readCHN,'success')
-        else
-            res,err=SOCK:receive(ctLen)
+        res,err=SOCK:receive(ctLen)
+        if code~='101' then
             res=JSON.decode(assert(res,err))
             error((code or "XXX")..":"..(res and res.reason or "Server Error"))
         end
     end
+
     SOCK:settimeout(0)
 end
 

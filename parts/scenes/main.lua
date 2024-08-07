@@ -212,7 +212,7 @@ end
 scene.widgetList={
     WIDGET.newButton{name='offline',x=-1200,y=210,w=800,h=100,color='lR',font=45,align='R',edge=30,code=pressKey'1'},
     WIDGET.newButton{name='qplay',  x=-1200,y=330,w=800,h=100,color='lM',font=40,align='R',edge=30,code=pressKey'q'},
-    WIDGET.newButton{name='online', x=-1200,y=450,w=800,h=100,color='D',font=45,align='R',edge=30,code=pressKey'a'},
+    WIDGET.newButton{name='online', x=-1200,y=450,w=800,h=100,color='lV',font=45,align='R',edge=30,code=pressKey'a'},
     WIDGET.newButton{name='custom', x=-1200,y=570,w=800,h=100,color='lS',font=45,align='R',edge=30,code=pressKey'z'},
 
     WIDGET.newButton{name='setting',x=2480,y=210,w=800,h=100, color='lO',font=40,align='L',edge=30,code=pressKey'-'},
