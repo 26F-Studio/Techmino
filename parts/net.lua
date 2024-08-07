@@ -188,12 +188,24 @@ function NET.getAvatar(uid)
     end)
 end
 
+local noticeLang={
+    en='en_us',
+    fr='en_us', -- fr_fr
+    es='en_us', -- es_es
+    id='en_us', -- id_id
+    pt='en_us', -- pt_pt
+    symbol='en_us', -- ga_os
+    ja='en_us', -- ja_jp
+    vi='en_us', -- vi_vn
+    zh='zh_cn',
+    zh_trad='zh_tw',
+    zh_code='zh_cn',
+}
 function NET.launchNotice()
-    local lang=SETTING.locale:find('zh') and 'zh_cn' or 'en_us'
     TASK.new(function()
         local res=getMsg({
             pool='getNotice',
-            path='/techmino/api/v1/notice?language='..lang..'&lastCount=1',
+            path='/techmino/api/v1/notice?language='..noticeLang[SETTING.locale]..'&lastCount=1',
         },6.26)
 
         if res and res.code==200 then
@@ -207,17 +219,16 @@ function NET.launchNotice()
     end)
 end
 function NET.getNotice(count)
-    local lang=SETTING.locale:find('zh') and 'zh_cn' or 'en_us'
     WAIT{timeout=6.26}
     TASK.new(function()
         local res=getMsg({
             pool='getNotice',
-            path='/techmino/api/v1/notice?language='..lang..'&lastCount='..(count or 5),
+            path='/techmino/api/v1/notice?language='..noticeLang[SETTING.locale]..'&lastCount='..(count or 5),
         },6.26)
 
         if res and res.code==200 then
-            local dataStr=TABLE.dump(res.data)
-            SCN.go('notice',nil,dataStr)
+            WAIT.interrupt()
+            SCN.go('notice',nil,res.data.contents)
         end
     end)
 end
