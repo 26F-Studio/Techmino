@@ -272,7 +272,7 @@ function Player:act_rotRight()
         self.ctrlCount=self.ctrlCount+1
         self:spin(1)
         self:_triggerEvent('hook_rotate',1)
-        self.keyPressing[3]=false
+        -- self.keyPressing[3]=false New IRS allows you to keep holding rotate
     end
 end
 function Player:act_rotLeft()
@@ -281,7 +281,7 @@ function Player:act_rotLeft()
         self.ctrlCount=self.ctrlCount+1
         self:spin(3)
         self:_triggerEvent('hook_rotate',3)
-        self.keyPressing[4]=false
+        -- self.keyPressing[4]=false New IRS allows you to keep holding rotate
     end
 end
 function Player:act_rot180()
@@ -290,7 +290,7 @@ function Player:act_rot180()
         self.ctrlCount=self.ctrlCount+2
         self:spin(2)
         self:_triggerEvent('hook_rotate',2)
-        self.keyPressing[5]=false
+        -- self.keyPressing[5]=false New IRS allows you to keep holding rotate
     end
 end
 function Player:act_hardDrop()
@@ -344,7 +344,7 @@ function Player:act_hold()
     if not self.control then return end
     if self.cur then
         if self:hold() then
-            self.keyPressing[8]=false
+            -- self.keyPressing[8]=false New IRS allows you to keep holding hold
             self:_triggerEvent('hook_hold')
         end
     end
@@ -1173,7 +1173,7 @@ function Player:resetBlock()-- Reset Block's position and execute I*S
         elseif pressing[4] then
             self:spin(3,true)
         end
-        pressing[3],pressing[4],pressing[5]=false,false,false
+        -- pressing[3],pressing[4],pressing[5]=false,false,false New IRS allows you to keep holding rotate
     end
 
     -- DAS cut
@@ -1500,7 +1500,7 @@ function Player:_popNext(ifhold)-- Pop nextQueue to hand
     -- IHS
     if not ifhold and pressing[8] and ENV.ihs and self.holdTime>0 then
         self:hold(true)
-        pressing[8]=false
+        -- pressing[8]=false New IRS allows you to keep holding hold
     else
         self:resetBlock()
     end
