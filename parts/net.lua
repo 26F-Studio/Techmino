@@ -187,16 +187,36 @@ function NET.getAvatar(uid)
         end
     end)
 end
-function NET.getNotice(lang,count)
+
+function NET.launchNotice()
+    local lang=SETTING.locale:find('zh') and 'zh_cn' or 'en_us'
+    TASK.new(function()
+        local res=getMsg({
+            pool='getNotice',
+            path='/techmino/api/v1/notice?language='..lang..'&lastCount=1',
+        },6.26)
+
+        if res and res.code==200 then
+            local opt=res.data.contents[1]
+            if opt then
+                MES.new('info',opt.content,12.6)
+            else
+                MES.new('info',text.Techrater.NoticeManager.noticeNotFound)
+            end
+        end
+    end)
+end
+function NET.getNotice(count)
+    local lang=SETTING.locale:find('zh') and 'zh_cn' or 'en_us'
     WAIT{timeout=6.26}
     TASK.new(function()
         local res=getMsg({
             pool='getNotice',
-            path='/techmino/api/v1/notice?language='..(lang or 'zh_cn')..'&lastCount='..(count or 5),
+            path='/techmino/api/v1/notice?language='..lang..'&lastCount='..(count or 5),
         },6.26)
 
-        if res and res.code==200 and type(res.data)=='string' then
-            local dataStr=""
+        if res and res.code==200 then
+            local dataStr=TABLE.dump(res.data)
             SCN.go('notice',nil,dataStr)
         end
     end)

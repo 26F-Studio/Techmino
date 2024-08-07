@@ -193,6 +193,7 @@ function scene.enter()
     maxProgress=10
     t1,t2=0,0-- Timer
     animeType={} for i=1,#SVG_TITLE_FILL do animeType[i]=math.random(#titleTransform) end-- Random animation type
+    NET.launchNotice()
 end
 function scene.leave()
     SCN.go('quit','none')
