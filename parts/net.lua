@@ -228,7 +228,7 @@ function NET.getNotice(count)
 
         if res and res.code==200 then
             WAIT.interrupt()
-            SCN.go('notice',nil,res.data.contents)
+            SCN.go('notice',nil,noticeLang[SETTING.locale],res.data.contents)
         end
     end)
 end

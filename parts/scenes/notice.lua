@@ -2,11 +2,11 @@ local scene={}
 
 function scene.enter()
     BG.set('cubes')
-    local data=SCN.args[1]
+    local data=SCN.args[2]
     if data then
-        local texts={}
+        local texts={"<"..SCN.args[1]..">"}
         for i=1,#data do
-            table.insert(texts,data[i].timestamp or "20??/??/??")
+            table.insert(texts,("[$1] $2"):repD(data[i].id or "?",data[i].timestamp or "20??/??/??"))
             table.insert(texts,data[i].content)
             table.insert(texts,"")
             table.insert(texts,"——————————————————————————")
