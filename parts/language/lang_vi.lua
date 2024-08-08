@@ -457,14 +457,13 @@ C. Tay cầm chơi game (Gamepad):
             tas="TAS (T)",
         },
         net_menu={
-            league="Tech League",
-            ffa="FFA",
+            -- galaxim="Galaxim", -- Galaxy-Simulation
             rooms="Danh sách phòng",
             resetPW="Đặt lại mật khẩu",
             logout="Đăng xuất",
         },
-        net_league={
-            match="Tìm trận",
+        net_galaxim={
+            -- match="Enter Sim.", -- Simulation
         },
         net_rooms={
             password="Mật khẩu",

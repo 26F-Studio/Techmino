@@ -424,14 +424,13 @@ return {
             tas="TAS (T)",
         },
         net_menu={
-            league="Tech League",
-            ffa="FFA",
+            galaxim="Galaxim",
             rooms="房間列表",
             resetPW="重設密碼",
             logout="登出",
         },
-        net_league={
-            match="匹配對手",
+        net_galaxim={
+            match="进入模拟",
         },
         net_rooms={
             password="密碼",

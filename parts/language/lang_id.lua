@@ -424,14 +424,13 @@ return {
             tas="TAS (T)",
         },
         net_menu={
-            league="Tech League",
-            ffa="FFA",
+            -- galaxim="Galaxim", -- Galaxy-Simulation
             rooms="Ruang-ruang",
             -- resetPW="Reset password",
             logout="Log out",
         },
-        net_league={
-            match="Cari Tandingan",
+        net_galaxim={
+            -- match="Enter Sim.", -- Simulation
         },
         net_rooms={
             password="Password",
