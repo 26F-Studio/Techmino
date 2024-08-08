@@ -463,7 +463,7 @@ C. Tay cầm chơi game (Gamepad):
             logout="Đăng xuất",
         },
         net_galaxim={
-            match="Bước vào thế giới giả lập",
+            match="Bước vào mô phỏng",
         },
         net_rooms={
             password="Mật khẩu",
