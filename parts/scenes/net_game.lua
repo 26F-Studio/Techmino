@@ -27,7 +27,6 @@ local function _setCancel()
     end
 end
 local function _setReady()
-    NET.player_setPlayMode('Gamer')
     NET.player_setReady(true)
 end
 local function _setSpectate()
