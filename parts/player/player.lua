@@ -270,6 +270,14 @@ function Player:act_rotRight()
     if not self.control then return end
     if self.cur then
         self.ctrlCount=self.ctrlCount+1
+        if self.bufferedIRS then
+            -- Ensure IRS is spent before the rotation is processed so it doesn't throw things off.
+            -- This is so that if you for instance, are holding left IRS and then rotate right, it doesn't process
+            -- the left and right rotates in the reverse order.
+            self.keyPressing[3] = false
+            self:resolveIRS()
+            self.keyPressing[3] = true
+        end
         self:spin(1)
         self:_triggerEvent('hook_rotate',1)
         -- self.keyPressing[3]=false New IRS allows you to keep holding rotate
@@ -279,6 +287,14 @@ function Player:act_rotLeft()
     if not self.control then return end
     if self.cur then
         self.ctrlCount=self.ctrlCount+1
+        if self.bufferedIRS then
+            -- Ensure IRS is spent before the rotation is processed so it doesn't throw things off.
+            -- This is so that if you for instance, are holding left IRS and then rotate right, it doesn't process
+            -- the left and right rotates in the reverse order.
+            self.keyPressing[4] = false
+            self:resolveIRS()
+            self.keyPressing[4] = true
+        end
         self:spin(3)
         self:_triggerEvent('hook_rotate',3)
         -- self.keyPressing[4]=false New IRS allows you to keep holding rotate
@@ -288,6 +304,14 @@ function Player:act_rot180()
     if not self.control then return end
     if self.cur then
         self.ctrlCount=self.ctrlCount+2
+        if self.bufferedIRS then
+            -- Ensure IRS is spent before the rotation is processed so it doesn't throw things off.
+            -- This is so that if you for instance, are holding left IRS and then rotate right, it doesn't process
+            -- the left and right rotates in the reverse order.
+            self.keyPressing[5] = false
+            self:resolveIRS()
+            self.keyPressing[5] = true
+        end
         self:spin(2)
         self:_triggerEvent('hook_rotate',2)
         -- self.keyPressing[5]=false New IRS allows you to keep holding rotate
@@ -300,6 +324,10 @@ function Player:act_hardDrop()
         if self.lastPiece.autoLock and self.frameRun-self.lastPiece.frame<ENV.dropcut then
             SFX.play('drop_cancel',.3)
         else
+            if self.bufferedIRS then
+                -- If the player drops quicker than their DAS cut delay, make sure IRS still resolves.
+                self:resolveIRS()
+            end
             if self.curY>self.ghoY then
                 self:createDropFX()
                 self.curY=self.ghoY
@@ -1162,16 +1190,12 @@ function Player:resetBlock()-- Reset Block's position and execute I*S
 
     -- IRS
     if self.gameEnv.irs then
-        if pressing[5] then
-            self:spin(2,true)
-        elseif pressing[3] then
-            if pressing[4] then
-                self:spin(2,true)
-            else
-                self:spin(1,true)
-            end
-        elseif pressing[4] then
-            self:spin(3,true)
+        -- If DAS cut delay is enabled and we aren't currently dying, buffer the input instead.
+        if self.gameEnv.dascut>0 and not self:ifoverlap(C.bk, self.curX, self.curY) then
+            self.bufferedIRS = true
+            self.bufferedDelay = self.gameEnv.dascut
+        else
+            self:resolveIRS()
         end
         -- pressing[3],pressing[4],pressing[5]=false,false,false New IRS allows you to keep holding rotate
     end
@@ -1499,7 +1523,14 @@ function Player:_popNext(ifhold)-- Pop nextQueue to hand
 
     -- IHS
     if not ifhold and pressing[8] and ENV.ihs and self.holdTime>0 then
-        self:hold(true)
+        if self.gameEnv.dascut>0 and not self:willDieWith(self.cur) then
+            self.bufferedIRS = true
+            self.bufferedIHS = true
+            self.bufferedDelay = self.gameEnv.dascut
+            self:resetBlock()
+        else
+            self:resolveIRS()
+        end
         -- pressing[8]=false New IRS allows you to keep holding hold
     else
         self:resetBlock()
@@ -2447,6 +2478,27 @@ local function _updateFX(P,dt)
         end
     end
 end
+
+function Player:resolveIRS()
+    if self.bufferedIHS then
+        self:hold(true)
+        self.bufferedIHS = false
+    end
+    self.bufferedIRS = false
+    local pressing = self.keyPressing
+    if pressing[5] then
+        self:act_rot180()
+    elseif pressing[3] then
+        if pressing[4] then
+            self:act_rot180()
+        else
+            self:act_rotRight()
+        end
+    elseif pressing[4] then
+        self:act_rotLeft()
+    end
+end
+
 local function update_alive(P,dt)
     local ENV=P.gameEnv
 
@@ -2501,6 +2553,18 @@ local function update_alive(P,dt)
                 if L[i]>0 then
                     L[i]=L[i]-1
                 end
+            end
+        end
+    end
+    
+    -- Buffer IRS after DAS cut delay has elapsed.
+    -- The purpose of this is to allow the player to release their rotate key during the DAS cut delay, which will
+    -- allow them to avoid accidentally using IRS.
+    if P.bufferedDelay then
+        P.bufferedDelay = P.bufferedDelay - 1
+        if P.bufferedDelay == 0 then
+            if P.bufferedIRS then
+                P:resolveIRS()
             end
         end
     end
