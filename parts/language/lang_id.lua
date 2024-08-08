@@ -424,13 +424,13 @@ return {
             tas="TAS (T)",
         },
         net_menu={
-            -- galaxim="Galaxim", -- Galaxy-Simulation
+            -- galaxim="Galaxim", -- Galaxy+Simulation
             rooms="Ruang-ruang",
             -- resetPW="Reset password",
             logout="Log out",
         },
         net_galaxim={
-            -- match="Enter Sim.", -- Simulation
+            -- match="Enter Sim.", -- (Actively) Enter (the) (digital) Simulation of (a galaxy)
         },
         net_rooms={
             password="Password",

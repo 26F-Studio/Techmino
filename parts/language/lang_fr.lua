@@ -398,13 +398,13 @@ return {
             -- tas="TAS (T)",
         },
         net_menu={
-            -- galaxim="Galaxim", -- Galaxy-Simulation
+            -- galaxim="Galaxim", -- Galaxy+Simulation
             rooms="Salons",
             resetPW="Réinitialiser le mot de passe",
             logout="Se déconnecter",
         },
         net_galaxim={
-            -- match="Enter Sim.", -- Simulation
+            -- match="Enter Sim.", -- (Actively) Enter (the) (digital) Simulation of (a galaxy)
         },
         net_rooms={
             password="Mot de passe",

@@ -412,7 +412,7 @@ return {
             -- tas="TAS (T)",
         },
         net_menu={
-            -- galaxim="Galaxim", -- Galaxy-Simulation
+            -- galaxim="Galaxim", -- Galaxy+Simulation
             rooms="Salas",
             -- resetPW="Reset password",
             -- logout="Log out",

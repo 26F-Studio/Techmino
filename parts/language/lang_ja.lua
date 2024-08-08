@@ -468,13 +468,13 @@ C. ゲームパッド
             tas="TAS (T)",
         },
         net_menu={
-            -- galaxim="Galaxim", -- Galaxy-Simulation
+            -- galaxim="Galaxim", -- Galaxy+Simulation
             rooms="ルーム",
             resetPW="パスワード再設定",
             logout="ログアウト",
         },
         net_galaxim={
-            -- match="Enter Sim.", -- Simulation
+            -- match="Enter Sim.", -- (Actively) Enter (the) (digital) Simulation of (a galaxy)
         },
         net_rooms={
             password="パスワード",

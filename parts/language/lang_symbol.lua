@@ -171,7 +171,7 @@ return {
             tas="#&; (T)",
         },
         net_menu={
-            -- galaxim="Galaxim", -- Galaxy-Simulation
+            -- galaxim="Galaxim", -- Galaxy+Simulation
             rooms="< >",
             resetPW="R ***",
             logout="@_@x",
