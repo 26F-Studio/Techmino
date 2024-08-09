@@ -412,13 +412,12 @@ return {
             -- tas="TAS (T)",
         },
         net_menu={
-            -- league="Tech League",
-            ffa="FFA",
+            -- galaxim="Galaxim", -- Galaxy+Simulation
             rooms="Salas",
             -- resetPW="Reset password",
             -- logout="Log out",
         },
-        net_league={
+        net_galaxim={
             -- match="Find Match",
         },
         net_rooms={

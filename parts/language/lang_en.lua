@@ -462,14 +462,13 @@ C. Gamepad
             tas="TAS (T)",
         },
         net_menu={
-            league="Tech League",
-            ffa="FFA",
+            galaxim="Galaxim",
             rooms="Rooms",
             resetPW="Reset password",
             logout="Log out",
         },
-        net_league={
-            match="Find Match",
+        net_galaxim={
+            match="Enter Sim.",
         },
         net_rooms={
             password="Password",

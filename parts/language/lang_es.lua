@@ -423,14 +423,13 @@ return {
             tas="TAS (T)",
         },
         net_menu={
-            league="Liga Tech",
-            ffa="FFA",
+            -- galaxim="Galaxim", -- Galaxy+Simulation
             rooms="Salas",
             resetPW="Restabl. Contraseña",
             logout="Desconec.",
         },
-        net_league={
-            match="Buscar Match",
+        net_galaxim={
+            -- match="Enter Sim.", -- (Actively) Enter (the) (digital) Simulation of (a galaxy)
         },
         net_rooms={
             password="Contraseña",

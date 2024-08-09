@@ -457,14 +457,13 @@ C. Tay cầm chơi game (Gamepad):
             tas="TAS (T)",
         },
         net_menu={
-            league="Tech League",
-            ffa="FFA",
+            galaxim="Galaxim",
             rooms="Danh sách phòng",
             resetPW="Đặt lại mật khẩu",
             logout="Đăng xuất",
         },
-        net_league={
-            match="Tìm trận",
+        net_galaxim={
+            match="Bước vào mô phỏng",
         },
         net_rooms={
             password="Mật khẩu",
@@ -964,7 +963,7 @@ C. Tay cầm chơi game (Gamepad):
         ['tech_l']=              {"Tech B2B",          "RẤT KHÓ",        "Cố gắng không phá B2B!"},
         ['tech_l_plus']=         {"Tech B2B",          "RẤT KHÓ+",       "Chỉ được clear Spin hoặc PC"},
         ['tech_finesse']=        {"Tech FINESSE",      "",               "Không được phép có lỗi di chuyển!"},
-        ['tech_finesse_f']=      {"Tech FINESSE",      "KHÔNG ĐƠN/ĐÔI",  "Không được phép có lỗi di chuyển hoặc kiểu Xoá hàng thường!"},
+        ['tech_finesse_f']=      {"Tech FINESSE",      "PLUS",           "Không được phép có lỗi di chuyển hoặc kiểu Xoá hàng thường!"},
         ['tsd_e']=               {"TSD Challenge",     "DỄ",             "Chỉ được làm T-Spin Double!"},
         ['tsd_h']=               {"TSD Challenge",     "KHÓ",            "Chỉ được làm T-Spin Double!"},
         ['tsd_u']=               {"TSD Challenge",     "THÁCH ĐẤU",      "Chỉ được làm T-Spin Double!"},
