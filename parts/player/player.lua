@@ -1195,7 +1195,17 @@ function Player:resetBlock()-- Reset Block's position and execute I*S
             self.bufferedIRS = true
             self.bufferedDelay = self.gameEnv.dascut
         else
-            self:resolveIRS()
+            if pressing[5] then
+                self:act_rot180()
+            elseif pressing[3] then
+                if pressing[4] then
+                    self:act_rot180()
+                else
+                    self:act_rotRight()
+                end
+            elseif pressing[4] then
+                self:act_rotLeft()
+            end
         end
         -- pressing[3],pressing[4],pressing[5]=false,false,false New IRS allows you to keep holding rotate
     end
@@ -1529,7 +1539,7 @@ function Player:_popNext(ifhold)-- Pop nextQueue to hand
             self.bufferedDelay = self.gameEnv.dascut
             self:resetBlock()
         else
-            self:resolveIRS()
+            self:hold(true)
         end
         -- pressing[8]=false New IRS allows you to keep holding hold
     else
@@ -2484,6 +2494,7 @@ function Player:resolveIRS()
         self:hold(true)
         self.bufferedIHS = false
     end
+
     self.bufferedIRS = false
     local pressing = self.keyPressing
     if pressing[5] then
