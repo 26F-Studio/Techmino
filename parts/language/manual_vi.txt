@@ -1,6 +1,6 @@
 Cách chơi:
         Hệ thống sẽ cấp cho người chơi 7 loại tetromino (gạch 4 ô) bao gồm: Z, S, J, L, I, O, T;
-            và người chơi cần điều khiển chúng (di chuyển sang trái và phải; xoay 90 / 180 / 270 độ).
+                và người chơi cần điều khiển chúng (di chuyển sang trái và phải; xoay 90 / 180 / 270 độ).
         Cứ mỗi hàng được lấp đầy trong bảng bởi các viên gạch, chúng sẽ bị xóa ra khỏi bảng.
         Nếu có đối thủ, đối thủ sẽ bị tấn công mạnh hoặc nhẹ tùy theo số hàng bạn gửi.
         Chơi hết hoặc đạt mục tiêu của cấp độ để thắng.
@@ -25,19 +25,19 @@ Cách phát hiện spin: bằng cách sử dụng hệ thống điểm.
 
 
 Hệ thống tấn công:
-        Kiểu xóa nâng cao (Special clear):
-                Kiểu xóa nâng cao chỉ trường hợp bạn thực hiện Spin, Techrash, Techrash+ — xóa 5 hàng hoặc hơn, PC, HPC.
-                Kiểu xóa nâng cao có thể sạc đầy thanh B2B.
+        Kiểu xóa Đặc biệt (Special clear):
+                Kiểu xóa Đặc biệt chỉ trường hợp bạn thực hiện Spin, Techrash, Techrash+ — xóa 5 hàng hoặc hơn, PC, HPC.
+                Kiểu xóa Đặc biệt có thể sạc đầy thanh B2B.
 
         Kiểu xóa Siêu cấp (Super clear):
-                Là Kiểu xóa nâng cao nhưng được thực hiện với B2B hoặc B3B
+                Là Kiểu xóa Đặc biệt nhưng được thực hiện với B2B hoặc B3B
 
-        Kiểu xóa nâng cao (spin): Gửi gấp đôi số hàng vừa xóa.
+        Kiểu xóa Đặc biệt (spin): Gửi gấp đôi số hàng vừa xóa.
                 — B2B gửi thêm 1/1/2/4/8 cho Spin Đơn/Spin Đôi/Spin Tam/Techrash/Techrash+
                 — B2B2B gửi thêm (số hàng xóa × 0.5) trên B2B và +1 hàng để đánh chặn
                 — Mini sẽ bị cắt chỉ còn ¼ so với giá trị ban đầu
 
-        Kiểu xóa nâng cao (Techrash/Techrash+ nhưng không spin):
+        Kiểu xóa Đặc biệt (Techrash/Techrash+ nhưng không spin):
                 — B2B gửi thêm 1 hàng
                 — B3B boost 50% tấn công và +1 hàng để đánh chặn
 
@@ -55,7 +55,7 @@ Hệ thống tấn công:
         Perfect Clear (All Clear): Gửi 8 → 16 hàng rác
                 PC thứ nhất chỉ gửi 8 hàng rác, các PC sau đó sẽ thêm 2 hàng rác để tấn công (tổng hàng rác có thể gửi tối đa là 16 hàng)
 
-        Sau khi tính toán xong, lượng sát thương sẽ bị làm tròn XUỐNG trước khi gửi.
+        Sau khi tính tổng xong, lượng sát thương sẽ bị làm tròn XUỐNG trước khi gửi.
 
 
 Thanh Back to Back (B2B):
@@ -64,7 +64,7 @@ Thanh Back to Back (B2B):
         Một người chơi đang ở trang thái B3B khi thanh có hơn 800 điểm.
 
         Nếu có hàng được xóa:
-                Kiểu xóa nâng cao:
+                Kiểu xóa Đặc biệt:
                         — Spin Đơn/Đôi/Tam/Techrash/Techrash+ lần lượt cộng thêm 50/100/180/800/1000 (×50% nếu là Mini)
                         — Techrash +150 điểm, nếu xóa hơn 4 hàng cùng lúc, mỗi hàng từ hàng thứ 5 trở đi cộng thêm 50 điểm.
                         — PC từ thứ 4 trở đi có giá trị 800 điểm
@@ -82,12 +82,13 @@ Hệ thống tính điểm:
         Việc tính điểm cũng độc lập tùy vào từng chế độ.
 
 
-Khoảng thời gian chờ trước khi tấn công:
-        Một đòn sát thương sẽ không có hiệu lực ngay lập tức để người chơi có chút thời gian phản ứng trước khi tràn vào bảng.
-        Thời gian chờ của các đòn tấn công như sau, sắp xếp từ nhanh nhất tới lâu nhất:
+Khoảng thời gian chờ trước khi gây sát thương:
+        Một đòn sát thương sẽ không có hiệu lực ngay lập tức
+                để người chơi có chút thời gian phản ứng trước khi chúng có hiệu lực (rác tràn vào bảng).
+        Thời gian chờ của các đòn tấn công như sau, xếp từ ngắn nhất tới dài nhất:
                 — Double và Triple (Đôi và Tam) là nhanh nhất
                 — Theo sau là Techrash, Techrash+, spin; Mini, B2B và B3B có thêm thêm chút thời gian chờ nữa.
-                — Sát thương từ combo có thời gian chờ lâu nhất..
+                — Sát thương từ combo có thời gian chờ lâu nhất.
 
 
 Phản công:
