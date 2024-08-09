@@ -3,14 +3,14 @@ local gc=love.graphics
 local scene={}
 
 function scene.enter()
-    BG.set('league')
+    BG.set('galaxy')
     BGM.play('exploration')
 end
 
 function scene.draw()
     gc.setColor(COLOR.Z)
     setFont(100)
-    GC.mStr("Tech League",640,120)
+    GC.mStr("Galaxim",640,120)
     drawSelfProfile()
     drawOnlinePlayerCount()
 end

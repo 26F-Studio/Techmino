@@ -468,14 +468,13 @@ C. ゲームパッド
             tas="TAS (T)",
         },
         net_menu={
-            league="テクリーグ",
-            ffa="FFA",
+            -- galaxim="Galaxim", -- Galaxy+Simulation
             rooms="ルーム",
             resetPW="パスワード再設定",
             logout="ログアウト",
         },
-        net_league={
-            match="対戦相手を探す",
+        net_galaxim={
+            -- match="Enter Sim.", -- (Actively) Enter (the) (digital) Simulation of (a galaxy)
         },
         net_rooms={
             password="パスワード",

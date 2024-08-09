@@ -85,8 +85,8 @@ scene.widgetList={
     WIDGET.newSelector{name='lock',         x=730,y=410,w=260,color='O',list=sList.lock,disp=ROOMval('lock'),code=ROOMsto('lock')},
     WIDGET.newSelector{name='wait',         x=730,y=520,w=260,color='G',list=sList.wait,disp=ROOMval('wait'),code=ROOMsto('wait')},
     WIDGET.newSelector{name='fall',         x=730,y=600,w=260,color='G',list=sList.fall,disp=ROOMval('fall'),code=ROOMsto('fall')},
-    WIDGET.newSelector{name='hurry',        x=730,y=680,w=260,color='G',list=sList.hurry,disp=ROOMval('hurry'),code=ROOMval('hurry')},
-    WIDGET.newSelector{name='hang',         x=730,y=760,w=260,color='G',list=sList.hang,disp=ROOMval('hang'),code=ROOMval('hang')},
+    WIDGET.newSelector{name='hurry',        x=730,y=680,w=260,color='G',list=sList.hurry,disp=ROOMval('hurry'),code=ROOMsto('hurry')},
+    WIDGET.newSelector{name='hang',         x=730,y=760,w=260,color='G',list=sList.hang,disp=ROOMval('hang'),code=ROOMsto('hang')},
 
     -- Capacity & Create & Back
     WIDGET.newSelector{name='capacity',     x=1070,y=330,w=310,color='lY',list={2,3,4,5,7,10,17,31,49,99},disp=ROOMval('capacity'),code=ROOMsto('capacity')},
@@ -103,10 +103,10 @@ scene.widgetList={
     WIDGET.newSwitch{name='bone',           x=1170,y=970, lim=250,disp=ROOMval('bone'),     code=ROOMrev('bone')},
 
     -- Ruleset
-    WIDGET.newSelector{name='eventSet',     x=1050,y=760,w=340,color='H',list=sList.eventSet,disp=ROOMval('eventSet'),code=ROOMval('eventSet')},
+    WIDGET.newSelector{name='eventSet',     x=1050,y=760,w=340,color='H',list=sList.eventSet,disp=ROOMval('eventSet'),code=ROOMsto('eventSet')},
 
     -- Next & Hold
-    WIDGET.newSelector{name='holdMode',     x=310, y=890, w=300,color='lY',list=sList.holdMode,disp=ROOMval('holdMode'),code=ROOMval('holdMode'),hideF=function() return ROOMENV.holdCount==0 end},
+    WIDGET.newSelector{name='holdMode',     x=310, y=890, w=300,color='lY',list=sList.holdMode,disp=ROOMval('holdMode'),code=ROOMsto('holdMode'),hideF=function() return ROOMENV.holdCount==0 end},
     WIDGET.newSlider{name='nextCount',      x=140, y=960, lim=130,w=200,axis={0,6,1},disp=ROOMval('nextCount'),code=ROOMsto('nextCount')},
     WIDGET.newSlider{name='holdCount',      x=140, y=1030,lim=130,w=200,axis={0,6,1},disp=ROOMval('holdCount'),code=ROOMsto('holdCount')},
     WIDGET.newSwitch{name='infHold',        x=560, y=960, lim=200,                   disp=ROOMval('infHold'),code=ROOMrev('infHold'),hideF=function() return ROOMENV.holdCount==0 end},

@@ -372,14 +372,13 @@ return {
             tas="TAS(); (T)",
         },
         net_menu={
-            league="M.TechLeague();",
-            ffa="M.FFA",
+            galaxim="M.Galaxim();",
             rooms="M.Rooms();",
             resetPW="M.ResetPW",
             logout="M.Logout();",
         },
-        net_league={
-            match="TL.Match();",
+        net_galaxim={
+            match="GX.Enter();",
         },
         net_rooms={
             password="Password=",
