@@ -716,22 +716,23 @@ function Player:extraEvent(eventName,...)
         return
     end
 
-    -- Write to stream
-    if self.type=='human' then
-        ins(GAME.rep,self.frameRun)
-        ins(GAME.rep,64+eventID)
-        ins(GAME.rep,self.sid)
-        local data={...}
-        for i=1,#data do
-            ins(GAME.rep,data[i])
-        end
-    end
-
+    local human = nil
     -- Trigger for all non-remote players
     for _,p in next,PLAYERS do
-        if p.type~='remote' then
+        if p.type ~= 'remote' then
+            if p.type == 'human' then
+                human = p
+            end
             self.gameEnv.extraEventHandler[eventName](p,self,...)
         end
+    end
+    
+    ins(GAME.rep,human.frameRun)
+    ins(GAME.rep,64+eventID)
+    ins(GAME.rep,self.sid)
+    local data={...}
+    for i=1,#data do
+        ins(GAME.rep,data[i])
     end
 end
 
@@ -2731,7 +2732,6 @@ local function update_streaming(P)
             P.streamProgress=P.streamProgress+eventParamCount+1
 
             local SRC
-            local SELF
             for _,p in next,PLAYERS do
                 if P==sourceSid and p.sid==sourceSid then
                     SRC=p
@@ -2739,22 +2739,7 @@ local function update_streaming(P)
                 end
             end
             if SRC then
-                for _,p in next,PLAYERS do
-                    if p.type=='human' then
-                        SELF=p
-                        break
-                    end
-                end
-                SELF.gameEnv.extraEventHandler[eventName](SRC,SELF,unpack(paramList))
-                -- Write to stream
-                if SELF.type=='human' then
-                    ins(GAME.rep,SELF.frameRun)
-                    ins(GAME.rep,event)
-                    ins(GAME.rep,SELF.sid)
-                    for i=1,#paramList do
-                        ins(GAME.rep,paramList[i])
-                    end
-                end
+                P.gameEnv.extraEventHandler[eventName](P,SRC,unpack(paramList))
             end
         end
         P.streamProgress=P.streamProgress+2
