@@ -2746,6 +2746,15 @@ local function update_streaming(P)
                     end
                 end
                 SELF.gameEnv.extraEventHandler[eventName](SRC,SELF,unpack(paramList))
+                -- Write to stream
+                if SELF.type=='human' then
+                    ins(GAME.rep,SELF.frameRun)
+                    ins(GAME.rep,event)
+                    ins(GAME.rep,SELF.sid)
+                    for i=1,#paramList do
+                        ins(GAME.rep,paramList[i])
+                    end
+                end
             end
         end
         P.streamProgress=P.streamProgress+2
