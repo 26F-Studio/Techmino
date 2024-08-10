@@ -66,6 +66,15 @@ return {
     hook_drop={},
     hook_die={},
     task={},
+    extraEvent={
+        {'attack',4},
+    },
+    extraEventHandler={
+        attack=function(P,P2,...)
+            P:beAttacked(P2,...)
+        end,
+    },
+
     eventSet="X",
 
     bg='none',bgm='race',

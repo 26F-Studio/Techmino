@@ -247,6 +247,7 @@ local function _mergeFuncTable(f,L)
     return L
 end
 local hooks = {
+    'task',
     'mesDisp',
     'hook_left',
     'hook_left_manual',
@@ -259,7 +260,6 @@ local hooks = {
     'hook_spawn',
     'hook_hold',
     'hook_die',
-    'task'
 }
 local function _applyGameEnv(P)-- Finish gameEnv processing
     local ENV=P.gameEnv

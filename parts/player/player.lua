@@ -702,8 +702,8 @@ function Player:_triggerEvent(eventName)
     end
 end
 function Player:extraEvent(eventName,...)
-    if not (GAME.curMode.extraEvent and GAME.curMode.extraEventHandler) then return end
-    local list=GAME.curMode.extraEvent
+    if not (self.gameEnv.extraEvent and self.gameEnv.extraEventHandler) then return end
+    local list=self.gameEnv.extraEvent
     local eventID
     for i=1,#list do
         if list[i][1]==eventName then
@@ -719,17 +719,19 @@ function Player:extraEvent(eventName,...)
     -- Write to stream
     if self.type=='human' then
         ins(GAME.rep,self.frameRun)
-        ins(GAME.rep,eventID)
+        ins(GAME.rep,64+eventID)
+        ins(GAME.rep,self.sid)
         local data={...}
         for i=1,#data do
             ins(GAME.rep,data[i])
         end
     end
 
-    -- Trigger for everyone
-    for i=1,#PLAYERS do
-        local R=PLAYERS[i]
-        GAME.curMode.extraEventHandler[eventName](R,self,...)
+    -- Trigger for all non-remote players
+    for _,p in next,PLAYERS do
+        if p.type~='remote' then
+            self.gameEnv.extraEventHandler[eventName](p,self,...)
+        end
     end
 end
 
@@ -2718,15 +2720,31 @@ local function update_streaming(P)
             P:pressKey(event)
         elseif event<=64 then-- Release key
             P:releaseKey(event-32)
-        elseif event<=128 then-- Custom Event
+        elseif event<=128 then-- Extra Event
             local eventName=P.gameEnv.extraEvent[event-64][1]
             local eventParamCount=P.gameEnv.extraEvent[event-64][2]
+            local sourceSid=P.stream[P.streamProgress+2]
             local paramList={}
             for i=1,eventParamCount do
-                ins(paramList,P.stream[P.streamProgress+1+i])
+                ins(paramList,P.stream[P.streamProgress+2+i])
             end
-            P.streamProgress=P.streamProgress+eventParamCount
-            P:extraEvent(eventName,unpack(paramList))
+            P.streamProgress=P.streamProgress+eventParamCount+1
+
+            local SRC
+            local SELF
+            for _,p in next,PLAYERS do
+                if p.sid==sourceSid then
+                    SRC=p
+                    break
+                end
+            end
+            for _,p in next,PLAYERS do
+                if p.type=='human' then
+                    SELF=p
+                    break
+                end
+            end
+            SELF.gameEnv.extraEventHandler[eventName](SRC,SELF,unpack(paramList))
         end
         P.streamProgress=P.streamProgress+2
         eventTime=P.stream[P.streamProgress]
