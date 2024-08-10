@@ -2713,7 +2713,7 @@ local function update_alive(P,dt)
 end
 local function update_streaming(P)
     local eventTime=P.stream[P.streamProgress]
-    while eventTime and P.frameRun==eventTime do
+    while eventTime and P.frameRun==eventTime or eventTime==0 do
         local event=P.stream[P.streamProgress+1]
         if event==0 then-- Just wait
         elseif event<=32 then-- Press key
@@ -2733,18 +2733,20 @@ local function update_streaming(P)
             local SRC
             local SELF
             for _,p in next,PLAYERS do
-                if p.sid==sourceSid then
+                if P==sourceSid and p.sid==sourceSid then
                     SRC=p
                     break
                 end
             end
-            for _,p in next,PLAYERS do
-                if p.type=='human' then
-                    SELF=p
-                    break
+            if SRC then
+                for _,p in next,PLAYERS do
+                    if p.type=='human' then
+                        SELF=p
+                        break
+                    end
                 end
+                SELF.gameEnv.extraEventHandler[eventName](SRC,SELF,unpack(paramList))
             end
-            SELF.gameEnv.extraEventHandler[eventName](SRC,SELF,unpack(paramList))
         end
         P.streamProgress=P.streamProgress+2
         eventTime=P.stream[P.streamProgress]
