@@ -716,18 +716,18 @@ function Player:extraEvent(eventName,...)
         return
     end
 
-    local human = nil
+    local SELF
     -- Trigger for all non-remote players
     for _,p in next,PLAYERS do
-        if p.type ~= 'remote' then
-            if p.type == 'human' then
-                human = p
+        if p.type~='remote' then
+            if p.type=='human' then
+                SELF=p
             end
             self.gameEnv.extraEventHandler[eventName](p,self,...)
         end
     end
-    
-    ins(GAME.rep,human.frameRun)
+
+    ins(GAME.rep,SELF.frameRun)
     ins(GAME.rep,64+eventID)
     ins(GAME.rep,self.sid)
     local data={...}
@@ -2733,7 +2733,7 @@ local function update_streaming(P)
 
             local SRC
             for _,p in next,PLAYERS do
-                if P==sourceSid and p.sid==sourceSid then
+                if p.sid==sourceSid then
                     SRC=p
                     break
                 end
@@ -2802,7 +2802,7 @@ function Player:update(dt)
         end
         while self.trigFrame>=1 do
             if self.streamProgress then
-                local frameDelta-- Time between now and end of stream
+                local dataDelta=0 -- How much data wating to be process
                 if self.type=='remote' then
                     if self.loseTimer then
                         self.loseTimer=self.loseTimer-1
@@ -2811,25 +2811,24 @@ function Player:update(dt)
                             self:lose(true)
                         end
                     end
-                    frameDelta=(self.stream[#self.stream-1] or 0)-self.frameRun
-                    if frameDelta==0 then frameDelta=nil end
-                else
-                    frameDelta=0
+                    dataDelta=#self.stream-self.streamProgress
                 end
-                if frameDelta then
+                if dataDelta>0 then
                     for _=1,
-                        self.loseTimer and min(frameDelta,
+                        -- Speed up to finish
+                        self.loseTimer and min(dataDelta,
                             self.loseTimer>16 and 2 or
                             self.loseTimer>6.2 and 12 or
                             self.loseTimer>2.6 and 260 or
                             2600
                         ) or
-                        frameDelta<26 and 1 or
-                        frameDelta<50 and 2 or
-                        frameDelta<80 and 3 or
-                        frameDelta<120 and 5 or
-                        frameDelta<160 and 7 or
-                        frameDelta<200 and 10 or
+                        -- Chasing faster when slower
+                        dataDelta<26 and 1 or
+                        dataDelta<42 and 2 or
+                        dataDelta<62 and 3 or
+                        dataDelta<70.23 and 5 or
+                        dataDelta<94.2 and 7 or
+                        dataDelta<126 and 10 or
                         20
                     do
                         update_streaming(self)
