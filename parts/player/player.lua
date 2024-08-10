@@ -701,6 +701,37 @@ function Player:_triggerEvent(eventName)
         return true
     end
 end
+function Player:extraEvent(eventName,...)
+    if not (GAME.curMode.extraEvent and GAME.curMode.extraEventHandler) then return end
+    local list=GAME.curMode.extraEvent
+    local eventID
+    for i=1,#list do
+        if list[i][1]==eventName then
+            eventID=i
+            break
+        end
+    end
+    if not eventID then
+        MES.new('warn',"Extra event '"..eventName.."' doesn't exist in this mode")
+        return
+    end
+
+    -- Write to stream
+    if self.type=='human' then
+        ins(GAME.rep,self.frameRun)
+        ins(GAME.rep,eventID)
+        local data={...}
+        for i=1,#data do
+            ins(GAME.rep,data[i])
+        end
+    end
+
+    -- Trigger for everyone
+    for i=1,#PLAYERS do
+        local R=PLAYERS[i]
+        GAME.curMode.extraEventHandler[eventName](R,self,...)
+    end
+end
 
 function Player:getHolePos()-- Get a good garbage-line hole position
     if self.garbageBeneath==0 then
@@ -833,34 +864,13 @@ function Player:ifoverlap(bk,x,y)
         end
     end
 end
-function Player:attack(R,send,time,line,fromStream)
-    if GAME.net then
-        if self.type=='human' then-- Local player attack others
-            ins(GAME.rep,self.frameRun)
-            ins(GAME.rep,
-                R.sid+
-                send*0x100+
-                time*0x10000+
-                line*0x100000000+
-                0x2000000000000
-            )
-            self:createBeam(R,send)
-        end
-        if fromStream and R.type=='human' then-- Local player receiving lines
-            ins(GAME.rep,R.frameRun)
-            ins(GAME.rep,
-                self.sid+
-                send*0x100+
-                time*0x10000+
-                line*0x100000000+
-                0x1000000000000
-            )
-            R:receive(self,send,time,line)
-        end
-    else
-        R:receive(self,send,time,line)
-        self:createBeam(R,send)
-    end
+function Player:attack(R,send,time,line)
+    self:extraEvent('attack',R.sid,send,time,line)
+end
+function Player:beAttacked(P2,sid,send,time,line)
+    if self==P2 or self.sid~=sid then return end
+    self:receive(P2,send,time,line)
+    P2:createBeam(self,send)
 end
 function Player:receive(A,send,time,line)
     self.lastRecv=A
@@ -2708,38 +2718,15 @@ local function update_streaming(P)
             P:pressKey(event)
         elseif event<=64 then-- Release key
             P:releaseKey(event-32)
-        elseif event>0x2000000000000 then-- Sending lines
-            local sid=event%0x100
-            local amount=floor(event/0x100)%0x100
-            local time=floor(event/0x10000)%0x10000
-            local line=floor(event/0x100000000)%0x10000
-            for _,p in next,PLY_ALIVE do
-                if p.sid==sid then
-                    P.netAtk=P.netAtk+amount
-                    if P.netAtk~=P.stat.send then-- He cheated or just desynchronized to death
-                        MES.new('warn',"#"..P.uid.." desynchronized")
-                        NET.player_finish({reason='desync'})
-                        P:lose(true)
-                        return
-                    end
-                    P:attack(p,amount,time,line,true)
-                    P:createBeam(p,amount)
-                    break
-                end
+        elseif event<=128 then-- Custom Event
+            local eventName=P.gameEnv.extraEvent[event-64][1]
+            local eventParamCount=P.gameEnv.extraEvent[event-64][2]
+            local paramList={}
+            for i=1,eventParamCount do
+                ins(paramList,P.stream[P.streamProgress+1+i])
             end
-        elseif event>0x1000000000000 then-- Receiving lines
-            local sid=event%0x100
-            for _,p in next,PLY_ALIVE do
-                if p.sid==sid then
-                    P:receive(
-                        p,
-                        floor(event/0x100)%0x100,-- amount
-                        floor(event/0x10000)%0x10000,-- time
-                        floor(event/0x100000000)%0x10000-- line
-                    )
-                    break
-                end
-            end
+            P.streamProgress=P.streamProgress+eventParamCount
+            P:extraEvent(eventName,unpack(paramList))
         end
         P.streamProgress=P.streamProgress+2
         eventTime=P.stream[P.streamProgress]
