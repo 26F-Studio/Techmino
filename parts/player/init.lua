@@ -236,17 +236,7 @@ local function _loadRemoteEnv(P,confStr)-- Load gameEnv
         end
     end
 end
-local function _mergeFuncTable(f,L)
-    if type(f)=='function' then
-        ins(L,f)
-    elseif type(f)=='table' then
-        for i=1,#f do
-            ins(L,f[i])
-        end
-    end
-    return L
-end
-local hooks = {
+local tableNeedMerge={
     'task',
     'mesDisp',
     'hook_left',
@@ -260,35 +250,62 @@ local hooks = {
     'hook_spawn',
     'hook_hold',
     'hook_die',
+    'extraEvent',
 }
+local function _mergeFuncTable(f,L)
+    if type(f)=='function' then
+        ins(L,f)
+    elseif type(f)=='table' then
+        for i=1,#f do
+            ins(L,f[i])
+        end
+    end
+    return L
+end
 local function _applyGameEnv(P)-- Finish gameEnv processing
     local ENV=P.gameEnv
 
-    -- Apply events
-    for i=1,#hooks do
-        ENV[hooks[i]]=_mergeFuncTable(ENV[hooks[i]],{})
+    -- Create event tables
+    for i=1,#tableNeedMerge do
+        ENV[tableNeedMerge[i]]=_mergeFuncTable(ENV[tableNeedMerge[i]],{})
     end
 
     -- Apply eventSet
-    if ENV.eventSet and ENV.eventSet~="X" then
-        if type(ENV.eventSet)=='string' then
-            local eventSet=require('parts.eventsets.'..ENV.eventSet)
-            if eventSet then
-                for k,v in next,eventSet do
-                    if TABLE.find(hooks,k) then
-                        _mergeFuncTable(v,ENV[k])
-                    elseif type(v)=='table' then
-                        ENV[k]=TABLE.copy(v)
+    while true do
+        if not (ENV.eventSet and ENV.eventSet~="X") then
+            break
+        end
+        if type(ENV.eventSet)~='string' then
+            MES.new('warn',"Wrong event set type: "..type(ENV.eventSet))
+            break
+        end
+        local eventSet=require('parts.eventsets.'..ENV.eventSet)
+        if not eventSet then
+            MES.new('warn',"No event set called: "..ENV.eventSet)
+            break
+        end
+        for k,v in next,eventSet do
+            if k=='extraEventHandler' then
+                for ev,handler in next,v do
+                    if ENV.extraEventHandler[ev] then
+                        local prevHandler=ENV.extraEventHandler[ev]
+                        ENV.extraEventHandler[ev]=function(...)
+                            prevHandler(...)
+                            handler(...)
+                        end
                     else
-                        ENV[k]=v
+                        ENV.extraEventHandler[ev]=handler
                     end
                 end
+            elseif TABLE.find(tableNeedMerge,k) then
+                _mergeFuncTable(v,ENV[k])
+            elseif type(v)=='table' then
+                ENV[k]=TABLE.copy(v)
             else
-                MES.new('warn',"No event set called: "..ENV.eventSet)
+                ENV[k]=v
             end
-        else
-            MES.new('warn',"Wrong event set type: "..type(ENV.eventSet))
         end
+        break
     end
 
     P._20G=ENV.drop==0
