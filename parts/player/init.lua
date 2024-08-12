@@ -252,6 +252,7 @@ local tableNeedMerge={
     'hook_die',
     'extraEvent',
 }
+for _,k in next,tableNeedMerge do gameEnv0[k]={} end
 local function _mergeFuncTable(f,L)
     if type(f)=='function' then
         ins(L,f)
