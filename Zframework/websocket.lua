@@ -8,8 +8,6 @@ local path=''
 
 local type=type
 local timer=love.timer.getTime
-local TRD=love.thread.newThread("\n")
-local TRD_isRunning=TRD.isRunning
 
 local WS={}
 local wsList=setmetatable({},{
@@ -151,7 +149,7 @@ function WS.update(dt)
     local time=timer()
     for name,ws in next,wsList do
         if ws.real and ws.status~='dead' then
-            if TRD_isRunning(ws.thread) then
+            if ws.thread:isRunning() then
                 if ws.triggerCHN:getCount()==0 then
                     ws.triggerCHN:push(0)
                 end
