@@ -995,7 +995,7 @@ C. Gamepad
         "1 next 1 hold!",
         "1 next 6 hold!",
         "20G is actually a brand new game rule!",
-        "40-line Sprint WR: 13.650s by WestL",
+        "40-line Sprint WR: 13.430s by WestL",
         "6 next 1 hold!",
         "6 next 6 hold?!",
         "A choke a day keeps record away",
