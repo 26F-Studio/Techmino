@@ -1,6 +1,8 @@
 local gc_setColor,gc_draw=love.graphics.setColor,love.graphics.draw
 local ply_applyField=PLY.draw.applyField
 
+require'parts.scenes.customGame'.initialize()
+
 return {
     env={
         fkey1=function(P) P.modeData.showMark=1-P.modeData.showMark end,

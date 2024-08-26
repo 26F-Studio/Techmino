@@ -23,7 +23,10 @@ local function apply_locals()
     TABLE.clear(CUSTOMENV)
     TABLE.cover(CUSTOMGAME_LOCAL.customenv,CUSTOMENV)
 end
-do -- Initialize fields, sequence, missions, gameEnv for cutsom game
+
+local scene={}
+
+function scene.initialize() -- Initialize fields, sequence, missions, gameEnv for cutsom game
     local fieldData=loadFile('conf/customBoards','-string -canSkip')
     local fieldReinit=false
     if not fieldData then
@@ -64,6 +67,7 @@ do -- Initialize fields, sequence, missions, gameEnv for cutsom game
         TABLE.complete(customData,CUSTOMGAME_LOCAL.customenv)
     end
     TABLE.complete(require"parts.customEnv0",CUSTOMGAME_LOCAL.customenv)
+    apply_locals()
 end
 
 local sList={
@@ -86,8 +90,6 @@ local sList={
     holdMode={'hold','swap','skip'},
 }
 local modUsed
-
-local scene={}
 
 function scene.enter()
     destroyPlayers()
@@ -143,7 +145,6 @@ local function _play(mode)
         end
     end
     saveFile(CUSTOMGAME_LOCAL.customenv,'conf/customEnv')
-    apply_locals()
     loadGame('custom_'..mode,true)
 end
 
