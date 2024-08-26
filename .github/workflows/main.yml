@@ -130,7 +130,7 @@ jobs:
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
 
   auto-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: build-core
     steps:
       - uses: actions/checkout@v3
@@ -150,11 +150,11 @@ jobs:
         run: |
            curl -OL --retry 5 https://github.com/love2d/love/releases/download/11.4/love-11.4-x86_64.AppImage
            chmod +x love-11.4-x86_64.AppImage
-      - name: Prepare PulseAudio
+      - name: Prepare PulseAudio and AppImage
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install pulseaudio pulseaudio-utils pavucontrol alsa-oss alsa-utils -y
+          sudo apt-get install pulseaudio pulseaudio-utils pavucontrol alsa-oss alsa-utils libfuse2 -y
       - name: Run automated test
         uses: GabrielBB/xvfb-action@v1
         with:
