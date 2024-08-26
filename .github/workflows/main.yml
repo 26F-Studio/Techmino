@@ -156,7 +156,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install pulseaudio pulseaudio-utils pavucontrol alsa-oss alsa-utils libfuse2 -y
       - name: Run automated test
-        uses: GabrielBB/xvfb-action@v1
+        uses: coactions/setup-xvfb@v1
         with:
           run: |
             ./love-11.4-x86_64.AppImage ${{ env.CORE_LOVE_PACKAGE_PATH }} --test
