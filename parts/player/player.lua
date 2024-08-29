@@ -1236,7 +1236,10 @@ function Player:resetBlock()-- Reset Block's position and execute I*S
     if not ENV.logicalIRS then
         -- If logical IRS is disabled, all IRS inputs will be buffered to prevent survival.
         self.bufferedIRS = true
-        self.bufferedDelay = ENV.irscut
+        self.bufferedDelay = 0
+        if ENV.wait == 0 then
+            self.bufferedDelay = ENV.irscut
+        end
     elseif ENV.wait==0 and ENV.irscut>0 and not self:ifoverlap(C.bk, self.curX, self.curY) then
         -- If IRS cut delay is enabled and we aren't currently dying, buffer the input instead.
         self.bufferedIRS = true
@@ -1587,7 +1590,10 @@ function Player:_popNext(ifhold)-- Pop nextQueue to hand
             -- If logical IHS is disabled, all IHS inputs will be buffered to prevent survival.
             self.bufferedIRS = true
             self.bufferedIHS = true
-            self.bufferedDelay = ENV.irscut
+            self.bufferedDelay = 0
+            if ENV.wait == 0 then
+                self.bufferedDelay = ENV.irscut
+            end
         elseif ENV.wait==0 and ENV.irscut>0 and not self:willDieWith(self.cur) then
             -- If IRS cut delay is enabled and we're not currently dying, buffer the input instead.
             self.bufferedIRS = true
