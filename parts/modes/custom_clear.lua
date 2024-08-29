@@ -1,3 +1,5 @@
+require'parts.scenes.customGame'.initialize()
+
 return {
     env={},
     load=function()

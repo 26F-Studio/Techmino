@@ -62,10 +62,16 @@ return {
     mindas=0,minarr=0,minsdarr=0,
     noInitSZO=false,
 
-    mesDisp={},
-    hook_drop={},
-    hook_die={},
-    task={},
+    -- Some Events are registered in player/init.lua, see "tableNeedMerge"
+    extraEvent={
+        {'attack',4},
+    },
+    extraEventHandler={
+        attack=function(P,P2,...)
+            P:beAttacked(P2,...)
+        end,
+    },
+
     eventSet="X",
 
     bg='none',bgm='race',

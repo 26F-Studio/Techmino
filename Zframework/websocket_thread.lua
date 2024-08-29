@@ -15,6 +15,7 @@ do-- Connect
 
     SOCK:settimeout(timeout)
     local res,err=SOCK:connect(host,port)
+    -- print('C0',res,err)
     assert(res,err)
 
     -- WebSocket handshake
@@ -31,6 +32,7 @@ do-- Connect
 
     -- First line of HTTP
     res,err=SOCK:receive('*l')
+    -- print('C',res,err)
     assert(res,err)
     local code,ctLen
     code=res:find(' ')
@@ -39,6 +41,7 @@ do-- Connect
     -- Get body length from headers and remove headers
     repeat
         res,err=SOCK:receive('*l')
+        -- print('H',res,err)
         assert(res,err)
         if not ctLen and res:find('content-length') then
             ctLen=tonumber(res:match('%d+')) or 0
@@ -53,6 +56,7 @@ do-- Connect
     -- Content(?)
     if ctLen then
         res,err=SOCK:receive(ctLen)
+        -- print('R',res,err)
         if code~='101' then
             res=JSON.decode(assert(res,err))
             error((code or "XXX")..":"..(res and res.reason or "Server Error"))
@@ -140,10 +144,10 @@ local readThread=coroutine.wrap(function()
             assert(res,err)
             length=shl(byte(res,1),8)+byte(res,2)
         elseif length==127 then
-            local lenData
-            lenData,err=_receive(SOCK,8)
+            -- 'res' is 'lenData' here
+            res,err=_receive(SOCK,8)
             assert(res,err)
-            local _,_,_,_,_5,_6,_7,_8=byte(lenData,1,8)
+            local _,_,_,_,_5,_6,_7,_8=byte(res,1,8)
             length=shl(_5,24)+shl(_6,16)+shl(_7,8)+_8
         end
         res,err=_receive(SOCK,length)
@@ -162,12 +166,14 @@ local readThread=coroutine.wrap(function()
             lBuffer=lBuffer..res
             if fin then
                 CHN_push(readCHN,lBuffer)
+                -- print('M',lBuffer)
                 lBuffer=""
             end
         else
             CHN_push(readCHN,op)
             if fin then
                 CHN_push(readCHN,res)
+                -- print('S',res)
                 lBuffer=""
             else
                 lBuffer=res

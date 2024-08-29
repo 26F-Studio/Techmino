@@ -34,6 +34,7 @@ return {
     {font=65,name="sakurw"},
     {font=65,name="[**霖]"},
     {font=65,name="KK"},
+    {font=65,name="武仰绍"},
 
     {font=25,name="八零哥"},
     {font=25,name="蕴空之灵"},

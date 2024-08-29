@@ -141,6 +141,24 @@ jobs:
         with:
           font-path: ./parts/fonts/proportional.otf
           language-folder: ./parts/language
+      - name: Download core love package
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Download love
+        shell: bash
+        run: |
+           curl -OL --retry 5 https://github.com/love2d/love/releases/download/11.4/love-11.4-x86_64.tar.gz | tar xz
+      - name: Prepare PulseAudio
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install pulseaudio pulseaudio-utils pavucontrol alsa-oss alsa-utils -y
+      - name: Run automated test
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: |
+            ./dest/love ${{ env.CORE_LOVE_PACKAGE_PATH }} --test
 
   build-android:
     runs-on: ubuntu-latest

@@ -729,6 +729,40 @@ function Player:_triggerEvent(eventName)
         return true
     end
 end
+function Player:extraEvent(eventName,...)
+    if not (self.gameEnv.extraEvent and self.gameEnv.extraEventHandler) then return end
+    local list=self.gameEnv.extraEvent
+    local eventID
+    for i=1,#list do
+        if list[i][1]==eventName then
+            eventID=i
+            break
+        end
+    end
+    if not eventID then
+        MES.new('warn',"Extra event '"..eventName.."' doesn't exist in this mode")
+        return
+    end
+
+    local SELF
+    -- Trigger for all non-remote players
+    for _,p in next,PLAYERS do
+        if p.type~='remote' then
+            if p.type=='human' then
+                SELF=p
+            end
+            self.gameEnv.extraEventHandler[eventName](p,self,...)
+        end
+    end
+
+    ins(GAME.rep,SELF.frameRun)
+    ins(GAME.rep,64+eventID)
+    ins(GAME.rep,self.sid)
+    local data={...}
+    for i=1,#data do
+        ins(GAME.rep,data[i])
+    end
+end
 
 function Player:getHolePos()-- Get a good garbage-line hole position
     if self.garbageBeneath==0 then
@@ -861,34 +895,13 @@ function Player:ifoverlap(bk,x,y)
         end
     end
 end
-function Player:attack(R,send,time,line,fromStream)
-    if GAME.net then
-        if self.type=='human' then-- Local player attack others
-            ins(GAME.rep,self.frameRun)
-            ins(GAME.rep,
-                R.sid+
-                send*0x100+
-                time*0x10000+
-                line*0x100000000+
-                0x2000000000000
-            )
-            self:createBeam(R,send)
-        end
-        if fromStream and R.type=='human' then-- Local player receiving lines
-            ins(GAME.rep,R.frameRun)
-            ins(GAME.rep,
-                self.sid+
-                send*0x100+
-                time*0x10000+
-                line*0x100000000+
-                0x1000000000000
-            )
-            R:receive(self,send,time,line)
-        end
-    else
-        R:receive(self,send,time,line)
-        self:createBeam(R,send)
-    end
+function Player:attack(R,send,time,line)
+    self:extraEvent('attack',R.sid,send,time,line)
+end
+function Player:beAttacked(P2,sid,send,time,line)
+    if self==P2 or self.sid~=sid then return end
+    self:receive(P2,send,time,line)
+    P2:createBeam(self,send)
 end
 function Player:receive(A,send,time,line)
     self.lastRecv=A
@@ -2776,44 +2789,32 @@ local function update_alive(P,dt)
 end
 local function update_streaming(P)
     local eventTime=P.stream[P.streamProgress]
-    while eventTime and P.frameRun==eventTime do
+    while eventTime and P.frameRun==eventTime or eventTime==0 do
         local event=P.stream[P.streamProgress+1]
         if event==0 then-- Just wait
         elseif event<=32 then-- Press key
             P:pressKey(event)
         elseif event<=64 then-- Release key
             P:releaseKey(event-32)
-        elseif event>0x2000000000000 then-- Sending lines
-            local sid=event%0x100
-            local amount=floor(event/0x100)%0x100
-            local time=floor(event/0x10000)%0x10000
-            local line=floor(event/0x100000000)%0x10000
-            for _,p in next,PLY_ALIVE do
-                if p.sid==sid then
-                    P.netAtk=P.netAtk+amount
-                    if P.netAtk~=P.stat.send then-- He cheated or just desynchronized to death
-                        MES.new('warn',"#"..P.uid.." desynchronized")
-                        NET.player_finish({reason='desync'})
-                        P:lose(true)
-                        return
-                    end
-                    P:attack(p,amount,time,line,true)
-                    P:createBeam(p,amount)
+        elseif event<=128 then-- Extra Event
+            local eventName=P.gameEnv.extraEvent[event-64][1]
+            local eventParamCount=P.gameEnv.extraEvent[event-64][2]
+            local sourceSid=P.stream[P.streamProgress+2]
+            local paramList={}
+            for i=1,eventParamCount do
+                ins(paramList,P.stream[P.streamProgress+2+i])
+            end
+            P.streamProgress=P.streamProgress+eventParamCount+1
+
+            local SRC
+            for _,p in next,PLAYERS do
+                if p.sid==sourceSid then
+                    SRC=p
                     break
                 end
             end
-        elseif event>0x1000000000000 then-- Receiving lines
-            local sid=event%0x100
-            for _,p in next,PLY_ALIVE do
-                if p.sid==sid then
-                    P:receive(
-                        p,
-                        floor(event/0x100)%0x100,-- amount
-                        floor(event/0x10000)%0x10000,-- time
-                        floor(event/0x100000000)%0x10000-- line
-                    )
-                    break
-                end
+            if SRC then
+                P.gameEnv.extraEventHandler[eventName](P,SRC,unpack(paramList))
             end
         end
         P.streamProgress=P.streamProgress+2
@@ -2876,7 +2877,7 @@ function Player:update(dt)
         end
         while self.trigFrame>=1 do
             if self.streamProgress then
-                local frameDelta-- Time between now and end of stream
+                local dataDelta=0 -- How much data wating to be process
                 if self.type=='remote' then
                     if self.loseTimer then
                         self.loseTimer=self.loseTimer-1
@@ -2885,25 +2886,24 @@ function Player:update(dt)
                             self:lose(true)
                         end
                     end
-                    frameDelta=(self.stream[#self.stream-1] or 0)-self.frameRun
-                    if frameDelta==0 then frameDelta=nil end
-                else
-                    frameDelta=0
+                    dataDelta=#self.stream-self.streamProgress
                 end
-                if frameDelta then
+                if dataDelta>0 then
                     for _=1,
-                        self.loseTimer and min(frameDelta,
+                        -- Speed up to finish
+                        self.loseTimer and min(dataDelta,
                             self.loseTimer>16 and 2 or
                             self.loseTimer>6.2 and 12 or
                             self.loseTimer>2.6 and 260 or
                             2600
                         ) or
-                        frameDelta<26 and 1 or
-                        frameDelta<50 and 2 or
-                        frameDelta<80 and 3 or
-                        frameDelta<120 and 5 or
-                        frameDelta<160 and 7 or
-                        frameDelta<200 and 10 or
+                        -- Chasing faster when slower
+                        dataDelta<26 and 1 or
+                        dataDelta<42 and 2 or
+                        dataDelta<62 and 3 or
+                        dataDelta<70.23 and 5 or
+                        dataDelta<94.2 and 7 or
+                        dataDelta<126 and 10 or
                         20
                     do
                         update_streaming(self)

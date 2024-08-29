@@ -1051,6 +1051,8 @@ do-- function resetGameData(args)
         GAME.rank=0
         GAME.warnLVL0=0
         GAME.warnLVL=0
+        GAME.pauseCount=0
+        GAME.pauseTime=0
         if args:find'r' then
             GAME.frameStart=0
             GAME.recording=false
@@ -1058,8 +1060,6 @@ do-- function resetGameData(args)
         else
             GAME.frameStart=args:find'n' and 0 or 180-SETTING.reTime*60
             GAME.seed=seed or math.random(1046101471)
-            GAME.pauseTime=0
-            GAME.pauseCount=0
             GAME.saved=false
             GAME.setting=_copyGameSetting()
             GAME.tasUsed=false
