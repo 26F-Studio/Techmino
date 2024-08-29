@@ -335,7 +335,7 @@ function Player:act_hardDrop()
             SFX.play('drop_cancel',.3)
         else
             if self.bufferedIRS then
-                -- If the player drops quicker than their DAS cut delay, make sure IRS still resolves.
+                -- If the player drops quicker than their IRS cut delay, make sure IRS still resolves.
                 self:resolveIRS()
             end
             if self.curY>self.ghoY then
@@ -1240,7 +1240,7 @@ function Player:resetBlock()-- Reset Block's position and execute I*S
     elseif ENV.wait==0 and ENV.irscut>0 and not self:ifoverlap(C.bk, self.curX, self.curY) then
         -- If IRS cut delay is enabled and we aren't currently dying, buffer the input instead.
         self.bufferedIRS = true
-        self.bufferedDelay = self.gameEnv.irscut
+        self.bufferedDelay = ENV.irscut
     else
         -- If we're currently dying or in an entry-delay mode (20g), perform the rotation right away.
         if pressing[5] then
@@ -1256,13 +1256,13 @@ function Player:resetBlock()-- Reset Block's position and execute I*S
         end
     end
     -- Disable held inputs if IRS is off
-    if not self.gameEnv.irs then
+    if not ENV.irs then
         pressing[3],pressing[4],pressing[5]=false,false,false
     end
 
     -- DAS cut
-    if self.gameEnv.dascut>0 then
-        self.moving=self.moving-(self.moving>0 and 1 or -1)*self.gameEnv.dascut
+    if ENV.dascut>0 then
+        self.moving=self.moving-(self.moving>0 and 1 or -1)*ENV.dascut
     end
 
     -- Spawn SFX
@@ -2628,12 +2628,12 @@ local function update_alive(P,dt)
         end
     end
     
-    -- Buffer IRS after DAS cut delay has elapsed.
-    -- The purpose of this is to allow the player to release their rotate key during the DAS cut delay, which will
-    -- allow them to avoid accidentally using IRS.
+    -- Buffer IRS after IRS cut delay has elapsed.
+    -- The purpose of this is to allow the player to release their rotate key during the IRS cut delay,
+    -- which will allow them to avoid accidentally using IRS.
     if P.bufferedDelay then
         P.bufferedDelay = P.bufferedDelay - 1
-        if P.bufferedDelay == 0 then
+        if P.bufferedDelay <= 0 then
             if P.bufferedIRS then
                 P:resolveIRS()
             end
