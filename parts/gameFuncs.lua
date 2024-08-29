@@ -975,7 +975,7 @@ end
 do-- function dumpBasicConfig()
     local gameSetting={
         -- Tuning
-        'das','arr','dascut','dropcut','sddas','sdarr',
+        'das','arr','dascut','irscut','dropcut','sddas','sdarr',
         'ihs','irs','ims','RS',
 
         -- System
@@ -1021,7 +1021,7 @@ do-- function resetGameData(args)
     end
     local gameSetting={
         -- Tuning
-        'das','arr','dascut','dropcut','sddas','sdarr',
+        'das','arr','dascut','irscut','dropcut','sddas','sdarr',
         'ihs','irs','ims','RS',
 
         -- System
@@ -1236,7 +1236,7 @@ do-- function pressKey(k)
 end
 do-- SETXXX(k) & ROOMXXX(k)
     local warnList={
-        'das','arr','dascut','dropcut','sddas','sdarr',
+        'das','arr','dascut','irscut','dropcut','sddas','sdarr',
         'ihs','irs','ims','RS',
         'frameMul','highCam',
         'VKSwitch','VKIcon','VKTrack','VKDodge',

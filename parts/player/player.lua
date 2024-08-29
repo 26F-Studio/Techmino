@@ -280,7 +280,11 @@ function Player:act_rotRight()
         end
         self:spin(1)
         self:_triggerEvent('hook_rotate',1)
-        -- self.keyPressing[3]=false New IRS allows you to keep holding rotate
+        
+        -- Disable held inputs if IRS is off
+        if not self.gameEnv.irs then
+            self.keyPressing[3]=false
+        end
     end
 end
 function Player:act_rotLeft()
@@ -297,7 +301,10 @@ function Player:act_rotLeft()
         end
         self:spin(3)
         self:_triggerEvent('hook_rotate',3)
-        -- self.keyPressing[4]=false New IRS allows you to keep holding rotate
+        -- Disable held inputs if IRS is off
+        if not self.gameEnv.irs then
+            self.keyPressing[4]=false
+        end
     end
 end
 function Player:act_rot180()
@@ -314,7 +321,10 @@ function Player:act_rot180()
         end
         self:spin(2)
         self:_triggerEvent('hook_rotate',2)
-        -- self.keyPressing[5]=false New IRS allows you to keep holding rotate
+        -- Disable held inputs if IRS is off
+        if not self.gameEnv.irs then
+            self.keyPressing[5]=false
+        end
     end
 end
 function Player:act_hardDrop()
@@ -372,7 +382,10 @@ function Player:act_hold()
     if not self.control then return end
     if self.cur then
         if self:hold() then
-            -- self.keyPressing[8]=false New IRS allows you to keep holding hold
+            -- Disable held inputs if IHS is off
+            if not self.gameEnv.ihs then
+                self.keyPressing[8]=false
+            end
             self:_triggerEvent('hook_hold')
         end
     end
@@ -1192,35 +1205,59 @@ function Player:resetBlock()-- Reset Block's position and execute I*S
     self.curY=y
     self.minY=y+sc[1]
 
+    local ENV = self.gameEnv
+
+    -- In the game settings, there are user-set control flags for irs,irs,ims
+    -- These control in what way the user can buffer their rotate/hold/move inputs.
+    -- (If enabled, they may hold these inputs from the previous piece instead of just Entry Delay)
+
+    -- And mode-set flags for logicalIRS,logicalIHS,logicalIMS
+    -- These control whether IRS/IHS/IMS are effective in modifying what you can do.
+    -- (For instance, changing your piece's spawn position in 20g, or saving you from a death).
+    -- If logical IRS is disabled, the player may still IRS, but it will just buffer their input,
+    -- not actually allowing them to survive in a way they could not without.
+
     local pressing=self.keyPressing
-    -- IMS
-    if self.gameEnv.ims and (pressing[1] and self.movDir==-1 or pressing[2] and self.movDir==1) and self.moving>=self.gameEnv.das then
-        local x=self.curX+self.movDir
-        if not self:ifoverlap(C.bk,x,y) then
-            self.curX=x
+    -- IMS is enabled only when logicalIMS is enabled, because otherwise, it's just faster DAS.
+    if ENV.logicalIMS and (pressing[1] and self.movDir==-1 or pressing[2] and self.movDir==1) and self.moving>=self.gameEnv.das then
+        -- To avoid a top-out
+        if self:ifoverlap(C.bk, self.curX, self.curY) then
+            -- Always perform the shift, since you're topped out anyway
+            self.curX = self.curX + self.movDir
+        elseif ENV.wait > 0 and ENV.ims then
+            -- Otherwise, only check IMS if it's enabled and you're in a mode with entry delay (20g)
+            local x=self.curX+self.movDir
+            if not self:ifoverlap(C.bk,x,y) then
+                self.curX=x
+            end
         end
     end
 
-    -- IRS
-    if self.gameEnv.irs then
-        -- If DAS cut delay is enabled and we aren't currently dying, buffer the input instead.
-        if self.gameEnv.dascut>0 and not self:ifoverlap(C.bk, self.curX, self.curY) then
-            self.bufferedIRS = true
-            self.bufferedDelay = self.gameEnv.dascut
-        else
-            if pressing[5] then
+    if not ENV.logicalIRS then
+        -- If logical IRS is disabled, all IRS inputs will be buffered to prevent survival.
+        self.bufferedIRS = true
+        self.bufferedDelay = ENV.irscut
+    elseif ENV.wait==0 and ENV.irscut>0 and not self:ifoverlap(C.bk, self.curX, self.curY) then
+        -- If IRS cut delay is enabled and we aren't currently dying, buffer the input instead.
+        self.bufferedIRS = true
+        self.bufferedDelay = self.gameEnv.irscut
+    else
+        -- If we're currently dying or in an entry-delay mode (20g), perform the rotation right away.
+        if pressing[5] then
+            self:act_rot180()
+        elseif pressing[3] then
+            if pressing[4] then
                 self:act_rot180()
-            elseif pressing[3] then
-                if pressing[4] then
-                    self:act_rot180()
-                else
-                    self:act_rotRight()
-                end
-            elseif pressing[4] then
-                self:act_rotLeft()
+            else
+                self:act_rotRight()
             end
+        elseif pressing[4] then
+            self:act_rotLeft()
         end
-        -- pressing[3],pressing[4],pressing[5]=false,false,false New IRS allows you to keep holding rotate
+    end
+    -- Disable held inputs if IRS is off
+    if not self.gameEnv.irs then
+        pressing[3],pressing[4],pressing[5]=false,false,false
     end
 
     -- DAS cut
@@ -1545,16 +1582,26 @@ function Player:_popNext(ifhold)-- Pop nextQueue to hand
     local pressing=self.keyPressing
 
     -- IHS
-    if not ifhold and pressing[8] and ENV.ihs and self.holdTime>0 then
-        if self.gameEnv.dascut>0 and not self:willDieWith(self.cur) then
+    if not ifhold and pressing[8] and self.holdTime>0 then
+        if not ENV.logicalIHS then
+            -- If logical IHS is disabled, all IHS inputs will be buffered to prevent survival.
             self.bufferedIRS = true
             self.bufferedIHS = true
-            self.bufferedDelay = self.gameEnv.dascut
+            self.bufferedDelay = ENV.irscut
+        elseif ENV.wait==0 and ENV.irscut>0 and not self:willDieWith(self.cur) then
+            -- If IRS cut delay is enabled and we're not currently dying, buffer the input instead.
+            self.bufferedIRS = true
+            self.bufferedIHS = true
+            self.bufferedDelay = ENV.irscut
             self:resetBlock()
         else
+            -- If we're currently dying or in an entry-delay mode (20g), perform the hold immediately.
             self:hold(true)
         end
-        -- pressing[8]=false New IRS allows you to keep holding hold
+        -- Disable held inputs if IHS is off
+        if not ENV.ihs then
+            pressing[8]=false
+        end
     else
         self:resetBlock()
     end

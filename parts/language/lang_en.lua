@@ -622,6 +622,7 @@ C. Gamepad
 
             das="DAS",arr="ARR",
             dascut="DAS Cut",
+            irscut="IRS Cut",
             dropcut="Auto-lock Cut",
             sddas="Soft Drop DAS",sdarr="Soft Drop ARR",
             ihs="Initial Hold",
