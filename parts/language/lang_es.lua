@@ -582,6 +582,7 @@ return {
 
             das="DAS",arr="ARR",
             dascut="Intrrp. de DAS",
+            irscut="Intrrp. de IRS",
             dropcut="Intrrp. de Autocaída",
             sddas="DAS de C. Ráp.",sdarr="ARR de C. Rápida",
             ihs="Resv. Inicial",

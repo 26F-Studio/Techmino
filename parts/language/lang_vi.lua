@@ -618,6 +618,7 @@ C. Tay cầm chơi game (Gamepad):
 
             das="DAS",arr="ARR",
             dascut="DAS cut",
+            irscut="IRS cut",
             dropcut="Auto-lock cut",
             sddas="DAS thả nhẹ",sdarr="ARR thả nhẹ",
             ihs="Giữ tức thì",

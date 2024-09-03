@@ -628,6 +628,7 @@ C. ゲームパッド
 
             das="DAS",arr="ARR",
             dascut="DASカット",
+            irscut="IRSカット",
             dropcut="自動設置カット",
             sddas="ソフトドロップDAS",sdarr="ソフトドロップARR",
             ihs="先行ホールド",
