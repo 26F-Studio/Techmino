@@ -605,7 +605,7 @@ do-- Userdata tables
     SETTING={-- Settings
         -- Tuning
         das=10,arr=2,
-        dascut=0,dropcut=0,
+        dascut=0,irscut=6,dropcut=0,
         sddas=0,sdarr=2,
         ihs=true,irs=true,ims=true,
         holdMode='hold',

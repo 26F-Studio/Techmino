@@ -149,7 +149,7 @@ return {
     keyCancel={10,11,12,14,15,16,17,18,19,20},
     das=16,arr=1,
     minsdarr=1,
-    ihs=true,irs=true,ims=false,
+    logicalIRS=true,logicalIHS=true,logicalIMS=false,
     mesDisp=function(P)
         local D=P.modeData
         GC.setColor(1,1,1,1)

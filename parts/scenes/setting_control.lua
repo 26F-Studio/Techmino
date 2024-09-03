@@ -89,21 +89,24 @@ scene.widgetList={
     WIDGET.newText{name='title',    x=100,    y=50,lim=626,font=70,align='L'},
     WIDGET.newText{name='preview',  x=520,    y=610,font=40,align='R'},
 
-    WIDGET.newSlider{name='das',    x=250,    y=190,lim=230,w=600,axis={0,20,1},disp=SETval('das'),    show=_sliderShow,code=SETsto('das')},
-    WIDGET.newSlider{name='arr',    x=250,    y=260,lim=230,w=525,axis={0,15,1},disp=SETval('arr'),    show=_sliderShow,code=SETsto('arr')},
-    WIDGET.newSlider{name='sddas',  x=250,    y=330,lim=230,w=350,axis={0,10,1},disp=SETval('sddas'),  show=_sliderShow,code=SETsto('sddas')},
-    WIDGET.newSlider{name='sdarr',  x=250,    y=400,lim=230,w=140,axis={0,4,1}, disp=SETval('sdarr'),  show=_sliderShow,code=SETsto('sdarr')},
-    WIDGET.newSlider{name='dascut', x=250,    y=470,lim=230,w=600,axis={0,20,1},disp=SETval('dascut'), show=_sliderShow,code=SETsto('dascut')},
+    WIDGET.newSlider{name='das',    x=250,    y=180,lim=230,w=600,axis={0,20,1},disp=SETval('das'),    show=_sliderShow,code=SETsto('das')},
+    WIDGET.newSlider{name='arr',    x=250,    y=240,lim=230,w=525,axis={0,15,1},disp=SETval('arr'),    show=_sliderShow,code=SETsto('arr')},
+    WIDGET.newSlider{name='sddas',  x=250,    y=300,lim=230,w=350,axis={0,10,1},disp=SETval('sddas'),  show=_sliderShow,code=SETsto('sddas')},
+    WIDGET.newSlider{name='sdarr',  x=250,    y=360,lim=230,w=140,axis={0,4,1}, disp=SETval('sdarr'),  show=_sliderShow,code=SETsto('sdarr')},
+    WIDGET.newSlider{name='dascut', x=250,    y=420,lim=230,w=600,axis={0,20,1},disp=SETval('dascut'), show=_sliderShow,code=SETsto('dascut')},
+    WIDGET.newSlider{name='irscut', x=250,    y=480,lim=230,w=600,axis={0,20,1},disp=SETval('irscut'), show=_sliderShow,code=SETsto('irscut')},
     WIDGET.newSlider{name='dropcut',x=250,    y=540,lim=230,w=300,axis={0,10,1},disp=SETval('dropcut'),show=_sliderShow,code=SETsto('dropcut')},
-    WIDGET.newSwitch{name='ihs',    x=1100,   y=260,lim=300,                    disp=SETval('ihs'),    code=SETrev('ihs')},
-    WIDGET.newSwitch{name='irs',    x=1100,   y=330,lim=300,                    disp=SETval('irs'),    code=SETrev('irs')},
-    WIDGET.newSwitch{name='ims',    x=1100,   y=400,lim=300,                    disp=SETval('ims'),    code=SETrev('ims')},
+
+    WIDGET.newSwitch{name='ihs',    x=1100,   y=240,lim=300,                    disp=SETval('ihs'),    code=SETrev('ihs')},
+    WIDGET.newSwitch{name='irs',    x=1100,   y=300,lim=300,                    disp=SETval('irs'),    code=SETrev('irs')},
+    WIDGET.newSwitch{name='ims',    x=1100,   y=360,lim=300,                    disp=SETval('ims'),    code=SETrev('ims')},
+
     WIDGET.newButton{name='reset',  x=160,    y=640,w=200,h=100,color='lR',font=40,
         code=function()
             local _=SETTING
             _.das,_.arr,_.dascut=10,2,0
             _.sddas,_.sdarr=0,2
-            _.ihs,_.irs,_.ims=false,false,false
+            _.ihs,_.irs,_.ims,_.irscut=false,false,false,6
         end},
     WIDGET.newButton{name='back',   x=1140,   y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
