@@ -352,7 +352,7 @@ jobs:
           rm ./ColdClear/universal/libcold_clear.a
       - name: Build macOS packages
         id: build-packages
-        uses: ImpleLee/love-actions-macos-portable@v1
+        uses: ImpleLee/love-actions-macos-portable@main
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
