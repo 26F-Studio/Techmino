@@ -310,15 +310,14 @@ function scene.update(dt)
 end
 
 function scene.draw()
-    -- TODO: add ready counter when chat opened
     if playing then
-        -- Players
-        for p=1,#PLAYERS do
-            PLAYERS[p]:draw()
-        end
-
         -- Warning
         drawWarning()
+
+        -- Players 
+        for p=1,#PLAYERS do 
+            PLAYERS[p]:draw() 
+        end
 
         -- Virtual keys
         VK.draw()
