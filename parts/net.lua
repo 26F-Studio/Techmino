@@ -29,8 +29,8 @@ local NET={
 
     onlineCount="_",
 
-    textBox=WIDGET.newTextBox{name='texts',x=340,y=80,w=600,h=560},
-    inputBox=WIDGET.newInputBox{name='input',x=340,y=660,w=600,h=50,limit=256},
+    textBox=WIDGET.newTextBox{name='texts',x=20,y=110,w=980,h=500},
+    inputBox=WIDGET.newInputBox{name='input',x=20,y=630,w=980,h=50,limit=256},
 }
 
 function NET.freshRoomAllReady()
@@ -424,10 +424,19 @@ function NET.wsCallBack.room_chat(body)
     if SCN.cur~='net_game' then return end
     TASK.unlock('receiveMessage')
     TASK.lock('receiveMessage',1)
-    NET.textBox:push{
-        COLOR.Z,_getFullName(body.data.playerId).." ",
-        COLOR.N,body.data.message,
-    }
+
+    local name=_getFullName(body.data.playerId).." "
+    -- P/s: we need to wrap both name and message, not just only message
+    local _,msgWrapped=FONT.get(NET.inputBox.font):getWrap(name..body.data.message,1170)
+    -- We don't want to see the name repeat twice :skull:
+    msgWrapped[1]=string.gsub(msgWrapped[1],name,"",1)
+    -- Push the name in white and first line of message in blue first
+    NET.textBox:push{COLOR.Z,name,COLOR.N,msgWrapped[1]}
+    for i, line in ipairs(msgWrapped) do
+        if i ~= 1 then
+            NET.textBox:push{COLOR.N,msgWrapped[i]}
+        end
+    end
 end
 function NET.wsCallBack.room_create(body)
     MES.new('check',text.createRoomSuccessed)
