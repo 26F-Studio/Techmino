@@ -358,6 +358,7 @@ jobs:
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
           copyright: "Copyright © 2019-2023 26F-Studio. Some Rights Reserved."
           icon-path: ./.github/build/macOS/${{ env.BUILD_TYPE }}/icon.icns
+          love-ref: "11.5"
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           libs-path: ./ColdClear/universal/
           product-name: ${{ steps.process-app-name.outputs.product-name }}
