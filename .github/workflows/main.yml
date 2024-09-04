@@ -350,6 +350,12 @@ jobs:
         shell: bash
         run: |
           rm ./ColdClear/universal/libcold_clear.a
+      - name: Use Xcode 15.3
+        # Xcode 15.4 segfaults
+        # see https://forums.developer.apple.com/forums/thread/757398
+        uses: mobiledevops/xcode-select-version-action@v1
+        with:
+          xcode-select-version: 15.3
       - name: Build macOS packages
         id: build-packages
         uses: love-actions/love-actions-macos-portable@v1
