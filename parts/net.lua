@@ -427,7 +427,7 @@ function NET.wsCallBack.room_chat(body)
 
     local name=_getFullName(body.data.playerId).." "
     -- P/s: we need to wrap both name and message, not just only message
-    local _,msgWrapped=FONT.get(NET.inputBox.font):getWrap(name..body.data.message,1170)
+    local _,msgWrapped=FONT.get(NET.inputBox.font):getWrap(name..body.data.message,950)
     -- We don't want to see the name repeat twice :skull:
     msgWrapped[1]=string.gsub(msgWrapped[1],name,"",1)
     -- Push the name in white and first line of message in blue first
