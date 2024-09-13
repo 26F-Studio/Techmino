@@ -29,3 +29,7 @@ A collection of various modern block game rules, more ways to play, and some new
 [社区引导站(建设中)(非官方) Techmino Hub (WIP)(unofficial)](https://techmino-hub.vercel.app/)
 
 [Github维基(暂停建设) Github Wiki (WNIP)](https://github.com/26F-Studio/Techmino/wiki)
+
+## 500 Stars Poster
+
+![Techmino](.github/500stars/exported.png)
