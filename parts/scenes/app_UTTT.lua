@@ -100,6 +100,7 @@ function scene.enter()
     restart()
     BGM.play('truth')
     BG.set('rainbow')
+    DiscordRPC.update("Playing Ultimate Tic-Tac-Toe")
 end
 
 function scene.mouseMove(x,y)

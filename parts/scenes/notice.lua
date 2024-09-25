@@ -15,6 +15,7 @@ function scene.enter()
     else
         scene.widgetList.texts:setTexts({"No data"})
     end
+    DiscordRPC.update("Checking Latest News")
 end
 
 function scene.wheelMoved(_,y)

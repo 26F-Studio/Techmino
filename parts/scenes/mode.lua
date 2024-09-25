@@ -44,6 +44,7 @@ function scene.enter()
         end
     end
     modUsed=usingMod()
+    DiscordRPC.update("Picking mode")
 end
 
 local function _getK()

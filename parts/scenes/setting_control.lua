@@ -9,6 +9,7 @@ function scene.enter()
     das,arr=SETTING.das,SETTING.arr
     pos,dir,wait=0,1,30
     BG.set('bg1')
+    DiscordRPC.update("Tweaking control settings")
 end
 
 local  trigFrame=0

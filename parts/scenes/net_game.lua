@@ -72,6 +72,7 @@ function scene.enter()
         BG.set(GAME.prevBG)
         GAME.prevBG=false
     end
+    DiscordRPC.update("Playing Multiplayer")
 end
 function scene.leave()
     TASK.unlock('netPlaying')

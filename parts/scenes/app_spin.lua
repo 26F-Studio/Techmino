@@ -15,6 +15,10 @@ end)
 
 local scene={}
 
+function scene.enter()
+    DiscordRPC.update("Playing a non-sense thing")
+end
+
 function scene.keyDown(key,isRep)
     if isRep then return end
     if key=='space' or key=='return' then

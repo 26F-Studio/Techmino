@@ -37,6 +37,7 @@ function scene.enter()
     for i=1,11 do
         item[i]=text.stat[i].."\t"..item[i]
     end
+    DiscordRPC.update("Admiring Oneself")
 end
 
 function scene.mouseDown(x,y)

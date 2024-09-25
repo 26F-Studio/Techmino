@@ -495,8 +495,8 @@ jobs:
           icon-path: ./.github/build/windows/${{ env.BUILD_TYPE }}/icon.ico
           rc-path: ./.github/build/windows/${{ env.BUILD_TYPE }}/template.rc
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          extra-assets-x86: ./ColdClear/x86/CCloader.dll ./ColdClear/x86/cold_clear.dll
-          extra-assets-x64: ./ColdClear/x64/CCloader.dll ./ColdClear/x64/cold_clear.dll
+          extra-assets-x86: ./ColdClear/x86/CCloader.dll ./ColdClear/x86/cold_clear.dll ./.github/build/extraLibs/Windows_x64/discord-rpc.dll
+          extra-assets-x64: ./ColdClear/x64/CCloader.dll ./ColdClear/x64/cold_clear.dll ./.github/build/extraLibs/Windows_x86/discord-rpc.dll
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           app-id: ${{ secrets.WINDOWS_APP_ID }}
           project-website: https://www.studio26f.org/

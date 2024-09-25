@@ -36,6 +36,7 @@ function scene.enter()
     input=''
     showNum='memoriZe'
     BGM.play('reason')
+    DiscordRPC.update("Playing memoriZe")
 end
 
 function scene.keyDown(key,isRep)

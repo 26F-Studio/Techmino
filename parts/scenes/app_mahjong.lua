@@ -109,6 +109,7 @@ function scene.enter()
     BG.set('fixColor',.26,.62,.26)
     _newGame()
     selected=false
+    DiscordRPC.update("Playing Mahjong")
 end
 
 function scene.mouseMove(x,y)

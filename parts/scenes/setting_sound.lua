@@ -15,6 +15,7 @@ function scene.enter()
     scene.widgetList.sfxPack:reset()
     scene.widgetList.vocPack:reset()
     BG.set()
+    DiscordRPC.update("Tweaking Settings")
 end
 function scene.leave()
     saveSettings()

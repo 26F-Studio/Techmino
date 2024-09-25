@@ -14,6 +14,7 @@ function scene.enter()
     keyTime={} for i=1,40 do keyTime[i]=-1e99 end
     BG.set('fixColor',.26,.26,.26)
     BGM.play('push')
+    DiscordRPC.update("Spamming keyboard")
 end
 
 function scene.keyDown(key,isRep)

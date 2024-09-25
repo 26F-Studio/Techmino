@@ -95,6 +95,7 @@ function scene.enter()
     generateVKey()
     _notHoldCS()
     _showVirtualKey(MOBILE)
+    DiscordRPC.update("Playing music")
 end
 
 function scene.leave()

@@ -1,5 +1,9 @@
 local scene={}
 
+function scene.enter()
+    DiscordRPC.update("Sponsoring a Great Cause")
+end
+
 function scene.draw()
     -- QR Code frame
     GC.setLineWidth(2)

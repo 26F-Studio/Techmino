@@ -249,6 +249,7 @@ function scene.enter()
     invis=false
     newGame()
     BGM.play('truth')
+    DiscordRPC.update("Playing Link")
 end
 
 function scene.keyDown(key,isRep)

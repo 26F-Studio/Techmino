@@ -21,6 +21,9 @@ local curLang=1
 
 local scene={}
 
+function scene.enter()
+    DiscordRPC.update("Setting language")
+end
 function scene.leave()
     saveSettings()
 end

@@ -59,6 +59,7 @@ function scene.enter()
     gc.setLineJoin('bevel')
     BGM.play('push')
     BG.set('none')
+    DiscordRPC.update("Playing Cubefield")
 end
 
 function scene.touchDown(x)

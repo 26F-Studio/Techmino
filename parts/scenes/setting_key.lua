@@ -102,6 +102,7 @@ function scene.enter()
     selected=false
     _freshKeyList()
     BG.set('none')
+    DiscordRPC.update("Binding keys")
 end
 function scene.leave()
     saveFile(KEY_MAP,'conf/key')
