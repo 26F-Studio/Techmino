@@ -30,6 +30,14 @@ A collection of various modern block game rules, more ways to play, and some new
 
 [Github维基(暂停建设) Github Wiki (WNIP)](https://github.com/26F-Studio/Techmino/wiki)
 
+## Paypal Donation (Paypal赞助)
+
+开了一个支付方式试一下，记得自己留一下付款记录，未来可能会返一些东西（不保证）
+
+Made a payment method to try it out, remember to keep a payment record, there may be some benifits in the future (not guaranteed)
+
+[![](.github/donate/donate.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CNJ9G8242SP8E)
+
 ## 500 Stars Poster
 
 ![Techmino](.github/500stars/exported.png)
