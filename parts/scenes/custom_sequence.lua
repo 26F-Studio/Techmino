@@ -105,11 +105,11 @@ function scene.keyDown(key)
         cur=cur+1
         ins(BAG,cur,key)
     elseif #key==1 then
-        key=(kb.isDown('lshift','lalt','rshift','ralt') and minoKey2 or minoKey)[key]
+        key=(kb.isDown('lalt','ralt') and minoKey2 or minoKey)[key]
         if key then
             local p=cur+1
             while BAG[p]==key do p=p+1 end
-            ins(BAG,p,key)
+            ins(BAG,p,kb.isDown('lshift','rshift') and key+29 or key)
             cur=p
             SFX.play('lock')
         end
@@ -151,7 +151,7 @@ function scene.draw()
             end
             if i<=j then
                 setFont(60)
-                gc_setColor(BLOCK_COLORS[skinSetting[BAG[i]]])
+                gc_setColor(BLOCK_COLORS[skinSetting[((BAG[i]-1)%29)+1]])
                 gc_print(BLOCK_CHARS[BAG[i]],x,y-40)
                 x=x+blockCharWidth[BAG[i]]
             end
