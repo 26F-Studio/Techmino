@@ -36,7 +36,7 @@ jobs:
           local version = require "version"
           os.execute('echo "app-name=Techmino" >> $GITHUB_OUTPUT')
           os.execute('echo "version-name=' .. version.name .. '" >> $GITHUB_OUTPUT')
-          os.execute('echo "version-string=' .. version.string:gsub("%a", "") .. '" >> $GITHUB_OUTPUT')
+          os.execute('echo "version-string=' .. version.string:gsub(" ", "_") .. '" >> $GITHUB_OUTPUT')
           os.execute('echo "version-code=' .. tostring(version.code) .. '" >> $GITHUB_OUTPUT')
 
           local f = io.open("updateLog.txt", 'r')
