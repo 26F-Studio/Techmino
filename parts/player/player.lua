@@ -2915,6 +2915,9 @@ function Player:_die()
             end
         end
     end
+    if GAME.applyModsTask then
+        TABLE.cut(GAME.modCodeList[self.id])
+    end
 end
 function Player:update(dt)
     self.trigFrame=self.trigFrame+dt*60
