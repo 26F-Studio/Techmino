@@ -942,8 +942,8 @@ function Player:beAttacked(source,target_sid,send,time,line,seenCount)
     for i=seenCount+1,#self.inTransitAttacks[source.sid] do
         local atk = self.inTransitAttacks[source.sid][i]
         local cancel = MATH.min(atk.send, send)
-        atk.send = atk.send - reduction
-        send = send - reduction
+        atk.send = atk.send - cancel
+        send = send - cancel
     end
 
     self:receive(source,send,time,line)
