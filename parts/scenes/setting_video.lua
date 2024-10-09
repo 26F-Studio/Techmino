@@ -2,6 +2,9 @@ local gc=love.graphics
 
 local scene={}
 
+function scene.enter()
+    DiscordRPC.update("Tweaking Settings")
+end
 function scene.leave()
     saveSettings()
 end

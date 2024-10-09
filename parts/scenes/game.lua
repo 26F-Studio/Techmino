@@ -222,6 +222,8 @@ function scene.enter()
     _updateStepButton()
     _updateRepButtons()
     _updateMenuButtons()
+
+    DiscordRPC.update("Playing "..GAME.curMode.name)
 end
 
 scene.mouseDown=NULL

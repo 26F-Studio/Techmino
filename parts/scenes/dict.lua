@@ -163,6 +163,7 @@ function scene.enter()
 
     if not MOBILE then WIDGET.focus(inputBox) end
     BG.set('rainbow')
+    DiscordRPC.update("Learning Zictionary")
 end
 
 function scene.wheelMoved(_,y)

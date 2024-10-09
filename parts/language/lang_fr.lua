@@ -559,6 +559,7 @@ return {
 
             das="DAS",arr="ARR",
             dascut="DAS cut",
+            irscut="IRS cut",
             -- dropcut="Auto-lock cut",
             sddas="DAS de chute rapide",sdarr="ARR de chute rapide",
             ihs="Réserve Initiale",

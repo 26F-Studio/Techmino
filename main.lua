@@ -597,6 +597,10 @@ WS.switchHost('www.studio26f.org','8081','/techmino/ws/v1')
 HTTP.setHost("www.studio26f.org:8081")
 HTTP.setThreadCount(1)
 
+-- Discord RPC
+DiscordRPC=require'parts.discordRPC'
+DiscordRPC.update()
+
 table.insert(_LOADTIMELIST_,("Load Resources: %.3fs"):format(TIME()-_LOADTIME_))
 
 for i=1,#_LOADTIMELIST_ do LOG(_LOADTIMELIST_[i]) end

@@ -1954,7 +1954,7 @@ do
             end
         end
 
-        local yomi = ""
+        local yomi=''
 
         piece.spin,piece.mini=dospin,false
         piece.pc,piece.hpc=false,false
@@ -1965,7 +1965,7 @@ do
                 cscore=(spinSCR[C.name] or spinSCR[8])[cc]
                 if self.b2b>800 then
                     self:showText(text.b3b..text.block[C.name]..text.spin..text.clear[cc],0,-30,35,'stretch')
-                    yomi = yomi..text.b3b..text.block[C.name]..text.spin..text.clear[cc]
+                    yomi=yomi..text.b3b..text.block[C.name]..text.spin..text.clear[cc]
                     atk=b2bATK[cc]+cc*.5
                     exblock=exblock+1
                     cscore=cscore*2
@@ -1975,7 +1975,7 @@ do
                     end
                 elseif self.b2b>=50 then
                     self:showText(text.b2b..text.block[C.name]..text.spin..text.clear[cc],0,-30,35,'spin')
-                    yomi = yomi..text.b2b..text.block[C.name]..text.spin..text.clear[cc]
+                    yomi=yomi..text.b2b..text.block[C.name]..text.spin..text.clear[cc]
                     atk=b2bATK[cc]
                     cscore=cscore*1.2
                     Stat.b2b=Stat.b2b+1
@@ -1984,13 +1984,13 @@ do
                     end
                 else
                     self:showText(text.block[C.name]..text.spin..text.clear[cc],0,-30,45,'spin')
-                    yomi = yomi..text.block[C.name]..text.spin..text.clear[cc]
+                    yomi=yomi..text.block[C.name]..text.spin..text.clear[cc]
                     atk=2*cc
                 end
                 sendTime=20+atk*20
                 if mini then
                     self:showText(text.mini,0,-80,35,'appear')
-                    yomi = text.mini..' '..yomi
+                    yomi=text.mini..' '..yomi
                     atk=atk*.25
                     sendTime=sendTime+60
                     cscore=cscore*.5
@@ -2011,7 +2011,7 @@ do
                 cscore=clearSCR[cc]
                 if self.b2b>800 then
                     self:showText(text.b3b..text.clear[cc],0,-30,50,'fly')
-                    yomi = text.b3b..text.clear[cc]..yomi
+                    yomi=text.b3b..text.clear[cc]..yomi
                     atk=4*cc-10
                     sendTime=100
                     exblock=exblock+1
@@ -2022,7 +2022,7 @@ do
                     end
                 elseif self.b2b>=50 then
                     self:showText(text.b2b..text.clear[cc],0,-30,50,'drive')
-                    yomi = text.b2b..text.clear[cc]..yomi
+                    yomi=text.b2b..text.clear[cc]..yomi
                     sendTime=80
                     atk=3*cc-7
                     cscore=cscore*1.3
@@ -2032,7 +2032,7 @@ do
                     end
                 else
                     self:showText(text.clear[cc],0,-30,70,'stretch')
-                    yomi = text.clear[cc]..yomi
+                    yomi=text.clear[cc]..yomi
                     sendTime=60
                     atk=2*cc-4
                 end
@@ -2040,7 +2040,7 @@ do
                 piece.special=true
             else
                 self:showText(text.clear[cc],0,-30,35,'appear',(8-cc)*.3)
-                yomi = text.clear[cc]..yomi
+                yomi=text.clear[cc]..yomi
                 atk=cc-.5
                 sendTime=20+floor(atk*20)
                 cscore=cscore+clearSCR[cc]
@@ -2059,7 +2059,7 @@ do
                     atk=atk+1
                 end
                 self:showText(text.cmb[min(cmb,21)],0,25,15+min(cmb,15)*5,cmb<10 and 'appear' or 'flicker')
-                yomi = yomi..' '..text.cmb[min(cmb,21)]
+                yomi=yomi..' '..text.cmb[min(cmb,21)]
                 cscore=cscore+min(50*cmb,500)*(2*cc-1)
             end
 
@@ -3038,7 +3038,7 @@ function Player:revive()
     SFX.play('emit')
 end
 function Player:torikanEnd(requiredTime)
-    if self.stat.time < requiredTime then
+    if self.stat.time<requiredTime then
         return false
     end
     self:_die()

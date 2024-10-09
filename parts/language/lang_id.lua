@@ -584,6 +584,7 @@ return {
 
             das="DAS",arr="ARR",
             dascut="Gangguan DAS",
+            irscut="Gangguan IRS",
             dropcut="Gangguan Auto-kunci",
             sddas="DAS Jatuh",sdarr="ARR Jatuh",
             ihs="Simpan Saat Tunda",

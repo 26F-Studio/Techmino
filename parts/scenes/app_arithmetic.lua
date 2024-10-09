@@ -360,6 +360,7 @@ function scene.enter()
     drawing=false
     numScale=1
     BGM.play('truth')
+    DiscordRPC.update("Playing Arithmetic")
 end
 
 function scene.keyDown(key,isRep)

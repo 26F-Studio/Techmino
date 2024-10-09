@@ -40,6 +40,7 @@ function scene.enter()
     end
     BG.set('none')
     BGM.play('dream')
+    DiscordRPC.update("Playing polyforge")
 end
 
 function scene.keyDown(key,isRep)

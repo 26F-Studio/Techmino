@@ -572,6 +572,7 @@ return {
 
             das="DAS",arr="ARR",
             dascut="DAS cut",
+            irscut="IRS cut",
             -- dropcut="Auto-lock cut",
             sddas="Soft Drop DAS",sdarr="Soft Drop ARR",
             ihs="Segurar Inicial",

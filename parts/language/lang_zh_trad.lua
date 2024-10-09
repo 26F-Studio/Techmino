@@ -583,6 +583,7 @@ return {
 
             das="DAS",arr="ARR",
             dascut="DAS打斷",
+            irscut="IRS打斷",
             dropcut="誤硬降打斷",
             sddas="軟降DAS",sdarr="軟降ARR",
             ihs="提前Hold",

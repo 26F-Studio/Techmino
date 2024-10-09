@@ -77,6 +77,7 @@ function scene.enter()
     BG.set()
     listBox:setList(REPLAY)
     _updateButtonVisibility()
+    DiscordRPC.update("Finding replay")
 end
 function scene.leave()
     if #mods>0 then

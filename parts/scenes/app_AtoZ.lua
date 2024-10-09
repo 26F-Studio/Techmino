@@ -40,6 +40,7 @@ function scene.enter()
     startTime=0
     time=0
     state=0
+    DiscordRPC.update("Spamming keyboard")
 end
 
 function scene.keyDown(key,isRep)
