@@ -161,10 +161,10 @@ jobs:
           import re
           with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
             if "${{ env.BUILD_TYPE }}" == "dev":
-              f.write('bundle-id=org.f26_studio.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '.snapshot\n')
+              f.write('bundle-id=org.electra.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '.snapshot\n')
               f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '-', '${{ needs.get-info.outputs.app-name }}') + '_Snapshot\n')
             else:
-              f.write('bundle-id=org.f26_studio.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
+              f.write('bundle-id=org.electra.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
               f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '-', '${{ needs.get-info.outputs.app-name }}') + '\n')
       - name: Download core love package
         uses: actions/download-artifact@v3
@@ -234,7 +234,7 @@ jobs:
 
           product_name = re.sub(r'[^A-Za-z0-9]+', '-', '${{ needs.get-info.outputs.app-name }}').strip('-').lower()
           with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
-            f.write('bundle-id=org.26f-studio.' + product_name + '\n')
+            f.write('bundle-id=org.electra.' + product_name + '\n')
             f.write('product-name=' + product_name + '\n')
       - name: Download core love package
         uses: actions/download-artifact@v3
@@ -316,7 +316,7 @@ jobs:
           import os
           import re
           with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
-            f.write('bundle-id=org.26f-studio.techmino\n')
+            f.write('bundle-id=org.electra.techmino\n')
             f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
       - name: Download core love package
         uses: actions/download-artifact@v3
@@ -337,7 +337,7 @@ jobs:
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
-          copyright: "Copyright © 2019-2023 26F-Studio. Some Rights Reserved."
+          copyright: "Copyright © 2019-2023 electra. Some Rights Reserved."
           icon-path: ./.github/build/macOS/${{ env.BUILD_TYPE }}/icon.icns
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           libs-path: ./ColdClear/universal/
