@@ -33,13 +33,13 @@ function scene.draw()
     gc.push('transform')
     gc.setColor(1,1,1)
     local T=skinLib[1]
-    gc.translate(-200,1410-WIDGET.scrollPos)    -- -200
+    gc.translate(0,1510-WIDGET.scrollPos)    -- center - 200
     gc.setShader(SHADER.blockSatur)
-    gc.draw(T,435,0)gc.draw(T,465,0)gc.draw(T,465,30)gc.draw(T,495,30)
+    gc.draw(T,235,0)gc.draw(T,265,0)gc.draw(T,265,30)gc.draw(T,295,30)
     gc.setShader(SHADER.fieldSatur)
     for i=1,8 do
-        gc.draw(skinLib[i],330+30*i,100)
-        gc.draw(skinLib[i+8],330+30*i,130)
+        gc.draw(skinLib[i],130+30*i,100)
+        gc.draw(skinLib[i+8],130+30*i,130)
     end
     gc.setShader()
     gc.pop()
@@ -50,7 +50,7 @@ local function _msaaShow(S)
     return S==0 and 0 or 2^S
 end
 
-scene.widgetScrollHeight=900
+scene.widgetScrollHeight=1100
 scene.widgetList={
     WIDGET.newText{name='title',          x=640,y=15,lim=630,font=80},
 
@@ -126,7 +126,7 @@ scene.widgetList={
         end,
         hideF=function() return SETTING.bg~='on' end
     },
-    WIDGET.newKey{name='resetDbg',x=870,y=1365,w=140,h=60,font=15,
+    WIDGET.newKey{name='resetDbg',x=680,y=1440,w=200,h=60,font=20,
         code=function()
             SETTING.defaultBG='space'
             scene.widgetList.defaultBG:reset()
@@ -134,7 +134,14 @@ scene.widgetList={
         end,
         hideF=function() return SETTING.bg~='on' or SETTING.defaultBG=='space' end
     },
-    WIDGET.newSwitch{name='lockBG',x=1170,y=1365,lim=200,
+    WIDGET.newKey{name='bg_custom_base64',fText="Load from background\n(only PNG/JPG in Base64)",x=1010,y=1400,w=420,h=135,align='M',
+        code=function()
+            -- TODO
+            applySettings()
+        end,
+        -- hideF=function() return SETTING.bg~='on' or SETTING.defaultBG=='space' end
+    },
+    WIDGET.newSwitch{name='lockBG',x=1170,y=1545,lim=200,
         disp=SETval('lockBG'),
         code=function()
             SETTING.lockBG=not SETTING.lockBG
@@ -143,7 +150,7 @@ scene.widgetList={
         hideF=function() return SETTING.bg~='on' end
     },
 
-    WIDGET.newSwitch{name='noTheme',x=1170,y=1435,
+    WIDGET.newSwitch{name='noTheme',x=1170,y=1645,
         disp=SETval('noTheme'),
         code=function()
             SETTING.noTheme=not SETTING.noTheme
@@ -159,12 +166,12 @@ scene.widgetList={
         end
     },
 
-    WIDGET.newSelector{name='blockSatur', x=600,y=1440,w=300,color='lN',
+    WIDGET.newSelector{name='blockSatur', x=600,y=1540,w=300,color='lN',
         list={'normal','soft','gray','light','color'},
         disp=SETval('blockSatur'),
         code=function(v) SETTING.blockSatur=v; applySettings() end
     },
-    WIDGET.newSelector{name='fieldSatur', x=600,y=1540,w=300,color='lN',
+    WIDGET.newSelector{name='fieldSatur', x=600,y=1640,w=300,color='lN',
         list={'normal','soft','gray','light','color'},
         disp=SETval('fieldSatur'),
         code=function(v) SETTING.fieldSatur=v; applySettings() end
