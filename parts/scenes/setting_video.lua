@@ -134,7 +134,7 @@ scene.widgetList={
         end,
         hideF=function() return SETTING.bg~='on' or SETTING.defaultBG=='space' end
     },
-    WIDGET.newKey{name='bg_custom_base64',x=1010,y=1500,w=420,h=135,align='M',
+    WIDGET.newKey{name='bg_custom_base64',x=1010,y=1502.5,w=420,h=135,align='M',
         code=function()
             local okay,data=pcall(love.data.decode,"data","base64",love.system.getClipboardText())
             if okay and pcall(gc.newImage,data) then
