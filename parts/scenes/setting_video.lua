@@ -33,13 +33,13 @@ function scene.draw()
     gc.push('transform')
     gc.setColor(1,1,1)
     local T=skinLib[1]
-    gc.translate(0,1610-WIDGET.scrollPos)    -- center - 200
+    gc.translate(0,1610-WIDGET.scrollPos)
     gc.setShader(SHADER.blockSatur)
-    gc.draw(T,235,0)gc.draw(T,265,0)gc.draw(T,265,30)gc.draw(T,295,30)
+    gc.draw(T,435,0)gc.draw(T,465,0)gc.draw(T,465,30)gc.draw(T,495,30)
     gc.setShader(SHADER.fieldSatur)
     for i=1,8 do
-        gc.draw(skinLib[i],130+30*i,100)
-        gc.draw(skinLib[i+8],130+30*i,130)
+        gc.draw(skinLib[i],330+30*i,100)
+        gc.draw(skinLib[i+8],330+30*i,130)
     end
     gc.setShader()
     gc.pop()
@@ -50,7 +50,7 @@ local function _msaaShow(S)
     return S==0 and 0 or 2^S
 end
 
-scene.widgetScrollHeight=1100
+scene.widgetScrollHeight=1200
 scene.widgetList={
     WIDGET.newText{name='title',          x=640,y=15,lim=630,font=80},
 
@@ -147,7 +147,7 @@ scene.widgetList={
         end,
         -- hideF=function() return SETTING.bg=='off' end
     },
-    WIDGET.newSwitch{name='lockBG',x=1170,y=1645,lim=200,
+    WIDGET.newSwitch{name='lockBG',x=450,y=1465,lim=200,
         disp=SETval('lockBG'),
         code=function()
             SETTING.lockBG=not SETTING.lockBG
@@ -156,7 +156,7 @@ scene.widgetList={
         hideF=function() return SETTING.bg~='on' end
     },
 
-    WIDGET.newSwitch{name='noTheme',x=1170,y=1745,
+    WIDGET.newSwitch{name='noTheme',x=450,y=1540,
         disp=SETval('noTheme'),
         code=function()
             SETTING.noTheme=not SETTING.noTheme
@@ -172,12 +172,12 @@ scene.widgetList={
         end
     },
 
-    WIDGET.newSelector{name='blockSatur', x=600,y=1640,w=300,color='lN',
+    WIDGET.newSelector{name='blockSatur', x=800,y=1640,w=300,color='lN',
         list={'normal','soft','gray','light','color'},
         disp=SETval('blockSatur'),
         code=function(v) SETTING.blockSatur=v; applySettings() end
     },
-    WIDGET.newSelector{name='fieldSatur', x=600,y=1740,w=300,color='lN',
+    WIDGET.newSelector{name='fieldSatur', x=800,y=1740,w=300,color='lN',
         list={'normal','soft','gray','light','color'},
         disp=SETval('fieldSatur'),
         code=function(v) SETTING.fieldSatur=v; applySettings() end
