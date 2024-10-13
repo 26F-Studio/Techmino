@@ -1385,8 +1385,10 @@ function WIDGET.setLang(widgetText)
                 end
                 if type(W.setObject)=='function' then
                     W:setObject(t)
-                else
+                elseif type(t)=='string' and W.font then
                     W.obj=gc.newText(FONT.get(W.font or 30),t)
+                else
+                    W.obj=t
                 end
             end
         end
