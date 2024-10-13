@@ -149,7 +149,7 @@ end
 function button:setObject(obj)
     if type(obj)=='string' or type(obj)=='number' then
         self.obj=gc.newText(FONT.get(self.font,self.fType))
-        self.obj:addf(obj,self.w,(self.align=='L' and 'left') or (self.align=='R' and 'right') or 'center')
+        self.obj:addf(obj,self.w-self.edge*2,(self.align=='L' and 'left') or (self.align=='R' and 'right') or 'center')
     elseif obj then
         self.obj=obj
     end
@@ -196,14 +196,13 @@ function button:draw()
     local y0=y+h*.5
     gc_setColor(1,1,1,.2+ATV*.05)
     if self.align=='L' or obj:type()=='Text' then
-        local edgeL=self.align=='L' and self.edge or 0
-        local edgeR=obj:type()=='Text' and self.align=='R' and self.edge or 0
-        gc_draw(obj,x+edgeL-edgeR-1,y0-1-oy)
-        gc_draw(obj,x+edgeL-edgeR-1,y0+1-oy)
-        gc_draw(obj,x+edgeL-edgeR+1,y0-1-oy)
-        gc_draw(obj,x+edgeL-edgeR+1,y0+1-oy)
+        local edge=self.edge
+        gc_draw(obj,x+edge-1,y0-1-oy)
+        gc_draw(obj,x+edge-1,y0+1-oy)
+        gc_draw(obj,x+edge+1,y0-1-oy)
+        gc_draw(obj,x+edge+1,y0+1-oy)
         gc_setColor(r*.55,g*.55,b*.55)
-        gc_draw(obj,x+edgeL-edgeR,y0-oy)
+        gc_draw(obj,x+edge,y0-oy)
     elseif self.align=='R' then
         local x0=x+w-self.edge-ox*2
         gc_draw(obj,x0-1,y0-1-oy)
@@ -298,7 +297,7 @@ end
 function key:setObject(obj)
     if type(obj)=='string' or type(obj)=='number' then
         self.obj=gc.newText(FONT.get(self.font,self.fType))
-        self.obj:addf(obj,self.w,(self.align=='L' and 'left') or (self.align=='R' and 'right') or 'center')
+        self.obj:addf(obj,self.w-self.edge*2,(self.align=='L' and 'left') or (self.align=='R' and 'right') or 'center')
     elseif obj then
         self.obj=obj
     end
@@ -359,9 +358,7 @@ function key:draw()
 
     gc_setColor(r,g,b)
     if align=='L' or obj:type()=='Text' then
-        local edgeL=self.align=='L' and self.edge or 0
-        local edgeR=(obj:type()=='Text' and self.align=='R') and self.edge or 0
-        gc_draw(obj,x+edgeL-edgeR,y+h*.5-oy)
+        gc_draw(obj,x+self.edge,y+h*.5-oy)
     elseif align=='R' then
         gc_draw(obj,x+w-self.edge-ox*2,y-oy+h*.5)
     else--if align=='M' then
