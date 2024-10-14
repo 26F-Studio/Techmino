@@ -154,4 +154,7 @@ return {
     {font=25,name="浮芙fufu"},
     {font=25,name="NOname_awa"},
     {font=65,name="liaotianhao"},
+    {font=65,name="Aquamarine"},
+    {font=65,name="jacky"},
+    {font=65,name="方块丶小刘"},
 }
