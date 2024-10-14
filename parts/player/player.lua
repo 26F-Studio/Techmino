@@ -2456,7 +2456,15 @@ local function _updateMisc(P,dt)
     -- Push up garbages
     local y=P.fieldBeneath
     if y>0 then
-        P.fieldBeneath=max(y-P.gameEnv.pushSpeed,0)
+        local newFieldBeneath = max(y-P.gameEnv.pushSpeed,0)
+        
+        P.fieldBeneath = newFieldBeneath
+        -- If pushing up garbage will block IHS, then resolve IHS early
+        if P.bufferedIHS and P:willDieWith(P.holdQueue[1]) then
+            P.fieldBeneath = y
+            P:resolveIRS(P.fieldBeneath)
+            P.fieldBeneath = newFieldBeneath
+        end
     end
 
     -- Move camera
@@ -2556,13 +2564,13 @@ local function _updateFX(P,dt)
 end
 
 function Player:resolveIRS()
-    if self.bufferedIHS then
+    local pressing=self.keyPressing
+    if self.bufferedIHS and pressing[8] then
         self:hold(true)
-        self.bufferedIHS = false
     end
+    self.bufferedIHS=false
 
     self.bufferedIRS = false
-    local pressing = self.keyPressing
     if pressing[5] then
         self:act_rot180()
     elseif pressing[3] then
