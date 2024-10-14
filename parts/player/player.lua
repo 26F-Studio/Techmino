@@ -2930,7 +2930,7 @@ function Player:update(dt)
         end
         while self.trigFrame>=1 do
             if self.streamProgress then
-                local dataDelta=0 -- How much data wating to be process
+                local dataDelta -- How much data wating to be process
                 if self.type=='remote' then
                     if self.loseTimer then
                         self.loseTimer=self.loseTimer-1
@@ -2940,6 +2940,8 @@ function Player:update(dt)
                         end
                     end
                     dataDelta=#self.stream-self.streamProgress
+                else
+                    dataDelta=1
                 end
                 if dataDelta>0 then
                     for _=1,
