@@ -197,7 +197,7 @@ return {
 
 
     keySettingInstruction="Nhấn một phím để gán phím đó\nescape (esc): Hủy\nbackspace: Xoá",
-    customBGhelp=not MOBILE and "Kéo một tấm ảnh vào đây để áp dụng ảnh nền tuỳ chỉnh" or "Chưa hỗ trợ ảnh nền cho điện thoại",
+    customBGhelp="Kéo một tấm ảnh vào đây để áp dụng ảnh nền tuỳ chỉnh",
     customBGloadFailed="Định dạng ảnh không được hỗ trợ",
 
     errorMsg="Techmino bị lỗi và cần phải được khởi động lại\nBạn có thể gửi error log để giúp dev sửa game nhanh hơn.",
@@ -583,6 +583,7 @@ C. Tay cầm chơi game (Gamepad):
             bg_on="Ảnh nền thường",
             bg_off="Không ảnh nền",
             bg_custom="Ảnh nền tự chọn",
+            bg_custom_base64="Dán ảnh và cài thành ảnh nền\n(PNG/JPG ở format Base64)",
             defaultBG="Nền mặc định",
             resetDbg='Đặt lại',
             lockBG="Khóa ảnh nền",
