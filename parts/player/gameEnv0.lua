@@ -65,11 +65,11 @@ return {
 
     -- Some Events are registered in player/init.lua, see "tableNeedMerge"
     extraEvent={
-        {'attack',4},
+        {'attack',5},
     },
     extraEventHandler={
-        attack=function(P,P2,...)
-            P:beAttacked(P2,...)
+        attack=function(P,source,...)
+            P:beAttacked(source,...)
         end,
     },
 
