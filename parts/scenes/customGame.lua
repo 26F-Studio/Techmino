@@ -145,6 +145,7 @@ local function _play(mode)
         end
     end
     saveFile(CUSTOMGAME_LOCAL.customenv,'conf/customEnv')
+    apply_locals()
     loadGame('custom_'..mode,true)
 end
 
