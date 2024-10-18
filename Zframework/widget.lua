@@ -148,7 +148,8 @@ function button:reset()
 end
 function button:setObject(obj)
     if type(obj)=='string' or type(obj)=='number' then
-        self.obj=gc.newText(FONT.get(self.font,self.fType),obj)
+        self.obj=gc.newText(FONT.get(self.font,self.fType))
+        self.obj:addf(obj,self.w-self.edge*2,(self.align=='L' and 'left') or (self.align=='R' and 'right') or 'center')
     elseif obj then
         self.obj=obj
     end
@@ -194,16 +195,7 @@ function button:draw()
     local ox,oy=obj:getWidth()*.5,obj:getHeight()*.5
     local y0=y+h*.5
     gc_setColor(1,1,1,.2+ATV*.05)
-    if self.align=='M' then
-        local x0=x+w*.5
-        local kx=obj:type()=='Text' and min(w/ox/2,1) or 1
-        gc_draw(obj,x0-1,y0-1,nil,kx,1,ox,oy)
-        gc_draw(obj,x0-1,y0+1,nil,kx,1,ox,oy)
-        gc_draw(obj,x0+1,y0-1,nil,kx,1,ox,oy)
-        gc_draw(obj,x0+1,y0+1,nil,kx,1,ox,oy)
-        gc_setColor(r*.55,g*.55,b*.55)
-        gc_draw(obj,x0,y0,nil,kx,1,ox,oy)
-    elseif self.align=='L' then
+    if self.align=='L' or obj:type()=='Text' then
         local edge=self.edge
         gc_draw(obj,x+edge-1,y0-1-oy)
         gc_draw(obj,x+edge-1,y0+1-oy)
@@ -219,6 +211,14 @@ function button:draw()
         gc_draw(obj,x0+1,y0+1-oy)
         gc_setColor(r*.55,g*.55,b*.55)
         gc_draw(obj,x0,y0-oy)
+    else--if self.align=='M' then
+        local x0=x+w*.5
+        gc_draw(obj,x0-1,y0-1,nil,1,1,ox,oy)
+        gc_draw(obj,x0-1,y0+1,nil,1,1,ox,oy)
+        gc_draw(obj,x0+1,y0-1,nil,1,1,ox,oy)
+        gc_draw(obj,x0+1,y0+1,nil,1,1,ox,oy)
+        gc_setColor(r*.55,g*.55,b*.55)
+        gc_draw(obj,x0,y0,nil,1,1,ox,oy)
     end
 end
 function button:getInfo()
@@ -296,7 +296,8 @@ function key:reset()
 end
 function key:setObject(obj)
     if type(obj)=='string' or type(obj)=='number' then
-        self.obj=gc.newText(FONT.get(self.font,self.fType),obj)
+        self.obj=gc.newText(FONT.get(self.font,self.fType))
+        self.obj:addf(obj,self.w-self.edge*2,(self.align=='L' and 'left') or (self.align=='R' and 'right') or 'center')
     elseif obj then
         self.obj=obj
     end
@@ -354,14 +355,14 @@ function key:draw()
     -- Drawable
     local obj=self.obj
     local ox,oy=obj:getWidth()*.5,obj:getHeight()*.5
+
     gc_setColor(r,g,b)
-    if align=='M' then
-        local kx=obj:type()=='Text' and min(w/ox/2,1) or 1
-        gc_draw(obj,x+w*.5,y+h*.5,nil,kx,1,ox,oy)
-    elseif align=='L' then
-        gc_draw(obj,x+self.edge,y-oy+h*.5)
+    if align=='L' or obj:type()=='Text' then
+        gc_draw(obj,x+self.edge,y+h*.5-oy)
     elseif align=='R' then
         gc_draw(obj,x+w-self.edge-ox*2,y-oy+h*.5)
+    else--if align=='M' then
+        gc_draw(obj,x+w*.5,y+h*.5,nil,1,1,ox,oy)
     end
 end
 function key:getInfo()
@@ -1382,10 +1383,13 @@ function WIDGET.setLang(widgetText)
                     t=W.name or "##"
                     W.color=COLOR.dV
                 end
-                if type(t)=='string' and W.font then
-                    t=gc.newText(FONT.get(W.font),t)
+                if type(W.setObject)=='function' then
+                    W:setObject(t)
+                elseif type(t)=='string' and W.font then
+                    W.obj=gc.newText(FONT.get(W.font or 30),t)
+                else
+                    W.obj=t
                 end
-                W.obj=t
             end
         end
     end
