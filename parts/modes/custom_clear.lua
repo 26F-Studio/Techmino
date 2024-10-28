@@ -14,7 +14,7 @@ return {
         PLY.newPlayer(1)
         local AItype=GAME.modeEnv.opponent:sub(1,2)
         local AIlevel=tonumber(GAME.modeEnv.opponent:sub(-1))
-        local useHold=GAME.modeEnv.holdCount>0
+        local useHold=GAME.modeEnv.holdCount>0 and GAME.modeEnv.holdMode=='hold'
         if AItype=='9S' then
             PLY.newAIPlayer(2,BOT.template{type='9S',speedLV=2*AIlevel,hold=useHold})
         elseif AItype=='CC' then
