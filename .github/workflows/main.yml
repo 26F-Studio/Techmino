@@ -433,7 +433,7 @@ jobs:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Move core love package
         run: |
-          mv ${{ env.CORE_LOVE_PACKAGE_PATH }} ./.github/build/web/game.data
+          mv ${{ env.CORE_LOVE_PACKAGE_PATH }} ./.github/build/web/game.love
       - name: Deploy to GitHub Pages
         uses: crazy-max/ghaction-github-pages@v3
         env:
