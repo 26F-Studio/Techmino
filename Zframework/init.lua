@@ -199,8 +199,8 @@ if JS then
         ))
     end
 
+    local _clipboardBuffer=''
     love.system.getClipboardText = function ()
-        local res=''
         JS.newPromiseRequest(
             JS.stringFunc(
                 [[
@@ -213,12 +213,12 @@ if JS then
                         });
                 ]]
             ),
-            function(data) res=data end,
+            function(data) _clipboardBuffer=data end,
             function(id, error) print(id, error) end,
             3,
             'getClipboardText'
         )
-        return res
+        return _clipboardBuffer
     end
 end
 
