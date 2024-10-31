@@ -296,7 +296,7 @@ IMG.init{
 SKIN.load{
     {name="Arcade (Asriel)",           path='media/image/skin/asriel/arcade.png'},
     {name="Cardboard (Asriel, slimenergy)",           path='media/image/skin/asriel/cardboard.png'},
-    {name="crystal_scf",           path='media/image/skin/scf/crystal.png'},
+    {name="Crystal (Scf)",           path='media/image/skin/scf/crystal.png'},
     {name="Matte (MrZ)",             path='media/image/skin/mrz/matte.png'},
     {name="Shiny (CHNO)",            path='media/image/skin/chno/shiny.png'},
     {name="Contrast (MrZ)",          path='media/image/skin/mrz/contrast.png'},
