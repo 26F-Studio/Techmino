@@ -445,6 +445,7 @@ jobs:
           pushd ${{ env.OUTPUT_FOLDER }}
           wget https://raw.githubusercontent.com/MrcSnm/Love.js-Api-Player/refs/heads/master/consolewrapper.js
           wget https://raw.githubusercontent.com/MrcSnm/Love.js-Api-Player/refs/heads/master/globalizeFS.js
+          wget https://raw.githubusercontent.com/MrcSnm/Love.js-Api-Player/refs/heads/master/webdb.js
           node globalizeFS.js
           rm globalizeFS.js
           popd
