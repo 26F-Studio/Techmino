@@ -735,15 +735,15 @@ function love.run()
     end
 
     return function()
-        if JS and JS.retrieveData(1) then
-            return
-        end
-
         local _
 
         local time=timer()
         local dt=time-lastFrame
         lastFrame=time
+
+        if JS and JS.retrieveData(dt) then
+            return
+        end
 
         -- EVENT
         PUMP()
