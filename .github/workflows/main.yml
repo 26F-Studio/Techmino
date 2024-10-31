@@ -423,6 +423,9 @@ jobs:
   build-web:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
+    env:
+      MEMORY_LIMIT: 128000000
+      OUTPUT_FOLDER: ./build
     steps:
       - uses: actions/checkout@v3
         with:
@@ -431,22 +434,33 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
-      - name: Move core love package
+      - name: Build web packages
         run: |
-          mv ${{ env.CORE_LOVE_PACKAGE_PATH }} ./.github/build/web/game.data
+          npx love.js ${{ env.CORE_LOVE_PACKAGE_PATH }} ${{ env.OUTPUT_FOLDER }} -t "${{ needs.get-info.outputs.app-name }}" -m ${{ env.MEMORY_LIMIT }}
+      - name: Move assets
+        run: |
+          mv ./.github/build/web/${{ env.BUILD_TYPE }}/* ${{ env.OUTPUT_FOLDER }}
+      - name: Initialize Love.js Api Player
+        run: |
+          pushd ${{ env.OUTPUT_FOLDER }}
+          wget https://raw.githubusercontent.com/MrcSnm/Love.js-Api-Player/refs/heads/master/consolewrapper.js
+          wget https://raw.githubusercontent.com/MrcSnm/Love.js-Api-Player/refs/heads/master/globalizeFS.js
+          node globalizeFS.js
+          rm globalizeFS.js
+          popd
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_Web
+          path: ${{ env.OUTPUT_FOLDER }}
       - name: Deploy to GitHub Pages
         uses: crazy-max/ghaction-github-pages@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          build_dir: ./.github/build/web/
+          build_dir: ${{ env.OUTPUT_FOLDER }}
           keep_history: false
           target_branch: gh-pages
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ needs.get-info.outputs.base-name }}_Web_PWA
-          path: ./.github/build/web/
 
   build-windows:
     runs-on: windows-latest

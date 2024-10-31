@@ -93,6 +93,7 @@ SFX=        require'Zframework.sfx'
 IMG=        require'Zframework.image'
 BGM=        require'Zframework.bgm'
 VOC=        require'Zframework.voice'
+JS=         require'Zframework.js'
 
 local ms,kb=love.mouse,love.keyboard
 local KBisDown=kb.isDown
@@ -174,6 +175,14 @@ local function updatePowerInfo()
     gc_pop()
     gc.setCanvas()
 end
+
+JS.callJS(JS.stringFunc(
+    [[
+        console.log("Love.js Api Player initialized: Techmino %s");
+    ]],
+    VERSION.string
+))
+
 -------------------------------------------------------------
 local lastX,lastY=0,0-- Last click pos
 local function _updateMousePos(x,y,dx,dy)
