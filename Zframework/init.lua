@@ -187,11 +187,10 @@ if JS then
     love.system.setClipboardText = function (str)
         JS.callJS(JS.stringFunc(
             [[
-                try {
-                    await window.navigator.clipboard.writeText(%s);
-                } catch (e) {
-                    console.warn(e);
-                }
+                window.navigator.clipboard
+                    .writeText('')
+                    .then(() => console.log('Copied to clipboard'))
+                    .catch((e) => console.warn(e));
             ]],
             str
         ))
@@ -201,12 +200,13 @@ if JS then
         local res=""
         JS.newPromiseRequest(JS.stringFunc(
             [[
-                try {
-                    _$_(await window.navigator.clipboard.readText());
-                } catch (e) {
-                    console.warn(e);
-                    _$_("");
-                }
+                window.navigator.clipboard
+                    .readText()
+                    .then(async (text) => _$_(text))
+                    .catch((e) => {
+                        console.warn(e);
+                        _$_('');
+                    });
             ]]
         ), function(data) res=data end)
         return res
