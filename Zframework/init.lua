@@ -213,10 +213,11 @@ if JS then
             ]]
         ), function(data) print("In callback: " .. data); res=data end)
         repeat
-            love.timer.sleep(0.01)
-            JS.retrieveData(0.01)
+            love.timer.sleep(1)
+            JS.retrieveData(1)
+            print("In lua: " .. res)
+            print(JS)
         until res
-        print("In lua: " .. res)
         return res
     end
 end
