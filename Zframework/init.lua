@@ -201,21 +201,21 @@ if JS then
 
     love.system.getClipboardText = function ()
         local res
-        JS.newPromiseRequest(JS.stringFunc(
-            [[
-                window.navigator.clipboard
-                    .readText()
-                    .then((text) => {console.log('In Javascript: ' + text); _$_(text);})
-                    .catch((e) => {
-                        console.warn(e);
-                        _$_('');
-                    });
-            ]]
-        ), function(data) print("In callback: " .. data); res=data end)
-        repeat
-            love.timer.sleep(1)
-            JS.retrieveData(1)
-        until res
+        JS.newPromiseRequest(
+            JS.stringFunc(
+                [[
+                    window.navigator.clipboard
+                        .readText()
+                        .then((text) => _$_(text))
+                        .catch((e) => {
+                            console.warn(e);
+                            _$_('');
+                        });
+                ]]
+            ),
+            function(data) res=data end,
+            function(id, error) print(id, error) res="" end
+        )
         return res
     end
 end
@@ -766,6 +766,7 @@ function love.run()
 
         -- UPDATE
         STEP()
+        if JS then JS.retrieveData(dt) end
         if mouseShow then mouse_update(dt) end
         if next(jsState) then gp_update(jsState[1],dt) end
         VOC.update()
