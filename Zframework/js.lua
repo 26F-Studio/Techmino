@@ -23,16 +23,11 @@ end
 --If you pass arguments to the func beyond the string, it will perform automatically string.format
 --Return statement is possible inside this structure
 --This will return a string containing a function to be called by JS.callJS
-local _unpack
-if(_VERSION == "Lua 5.1" or _VERSION == "LuaJIT") then
-    _unpack = unpack
-else
-    _unpack = table.unpack
-end
+
 function JS.stringFunc(str, ...)
     str = "(function(){"..str.."})()"
     if(#arg > 0) then
-        str = str:format(_unpack(arg))
+        str = str:format(unpack(arg))
     end
     str = str:gsub("[\n\t]", "")
     return str
