@@ -202,13 +202,14 @@ if JS then
             [[
                 window.navigator.clipboard
                     .readText()
-                    .then((text) => {console.log(text); _$_(text);})
+                    .then((text) => {console.log('In Javascript: ' + text); _$_(text);})
                     .catch((e) => {
                         console.warn(e);
                         _$_('');
                     });
             ]]
-        ), function(data) res=data end)
+        ), function(data) print("In callback: " .. data); res=data end)
+        print("In lua: " .. res)
         return res
     end
 end
