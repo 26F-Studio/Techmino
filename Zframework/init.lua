@@ -93,7 +93,10 @@ SFX=        require'Zframework.sfx'
 IMG=        require'Zframework.image'
 BGM=        require'Zframework.bgm'
 VOC=        require'Zframework.voice'
-JS=         SYSTEM == 'Web' and require'Zframework.js' or NULL
+
+if SYSTEM=='Web' then
+    JS=require'Zframework.js'
+end
 
 local ms,kb=love.mouse,love.keyboard
 local KBisDown=kb.isDown
@@ -197,7 +200,7 @@ if JS then
     end
 
     love.system.getClipboardText = function ()
-        local res=""
+        local res
         JS.newPromiseRequest(JS.stringFunc(
             [[
                 window.navigator.clipboard
@@ -209,6 +212,7 @@ if JS then
                     });
             ]]
         ), function(data) print("In callback: " .. data); res=data end)
+        repeat love.timer.sleep(0.01) until res
         print("In lua: " .. res)
         return res
     end
@@ -741,10 +745,6 @@ function love.run()
         local time=timer()
         local dt=time-lastFrame
         lastFrame=time
-
-        if JS and JS.retrieveData(dt) then
-            return
-        end
 
         -- EVENT
         PUMP()
