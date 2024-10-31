@@ -214,7 +214,9 @@ if JS then
                 ]]
             ),
             function(data) res=data end,
-            function(id, error) print(id, error) end
+            function(id, error) print(id, error) end,
+            3,
+            'getClipboardText'
         )
         return res
     end
