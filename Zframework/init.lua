@@ -188,7 +188,7 @@ if JS then
         JS.callJS(JS.stringFunc(
             [[
                 window.navigator.clipboard
-                    .writeText(%s)
+                    .writeText('%s')
                     .then(() => console.log('Copied to clipboard'))
                     .catch((e) => console.warn(e));
             ]],
@@ -202,7 +202,7 @@ if JS then
             [[
                 window.navigator.clipboard
                     .readText()
-                    .then(async (text) => _$_(text))
+                    .then((text) => {console.log(text); _$_(text);})
                     .catch((e) => {
                         console.warn(e);
                         _$_('');
