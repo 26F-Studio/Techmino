@@ -183,6 +183,34 @@ if JS then
         ]],
         VERSION.string
     ))
+
+    love.system.setClipboardText = function (str)
+        JS.callJS(JS.stringFunc(
+            [[
+                try {
+                    await window.navigator.clipboard.writeText(%s);
+                } catch (e) {
+                    console.warn(e);
+                }
+            ]],
+            str
+        ))
+    end
+
+    love.system.getClipboardText = function ()
+        local res=""
+        JS.newPromiseRequest(JS.stringFunc(
+            [[
+                try {
+                    _$_(await window.navigator.clipboard.readText());
+                } catch (e) {
+                    console.warn(e);
+                    _$_("");
+                }
+            ]]
+        ), function(data) res=data end)
+        return res
+    end
 end
 
 -------------------------------------------------------------
