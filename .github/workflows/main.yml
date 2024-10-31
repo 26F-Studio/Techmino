@@ -436,7 +436,7 @@ jobs:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Build web packages
         run: |
-          npx love.js ${{ env.CORE_LOVE_PACKAGE_PATH }} ${{ env.OUTPUT_FOLDER }} -t "${{ needs.get-info.outputs.app-name }}" -m ${{ env.MEMORY_LIMIT }}
+          npx love.js ${{ env.CORE_LOVE_PACKAGE_PATH }} ${{ env.OUTPUT_FOLDER }} -t "${{ needs.get-info.outputs.app-name }}" -m ${{ env.MEMORY_LIMIT }} -c
       - name: Move assets
         run: |
           mv ./.github/build/web/${{ env.BUILD_TYPE }}/* ${{ env.OUTPUT_FOLDER }}
