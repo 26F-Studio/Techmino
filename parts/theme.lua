@@ -62,11 +62,11 @@ function THEME.calculate(Y,M,D)
         )
 end
 
-function THEME.set(theme,keepBGM)
+function THEME.set(theme,keepBGM,force)
     if type(theme)=='string' and theme:sub(1,6)=='season' then
         BG.setDefault(SETTING.defaultBG)
         BGM.setDefault(({season1='null',season2='nil',season3='vacuum',season4='space'})[theme])
-    elseif not SETTING.noTheme then
+    elseif not SETTING.noTheme or force then
         if theme=='xmas' then
             BG.setDefault('snow')
             BGM.setDefault('xmas')
@@ -102,7 +102,7 @@ function THEME.set(theme,keepBGM)
             return
         end
     else
-        return THEME.set(THEME.calculate('0',os.date('%m'),'0'))
+        return THEME.set(THEME.calculate('0',os.date('%m'),'0'),keepBGM,true)
     end
 
     THEME.cur=theme
