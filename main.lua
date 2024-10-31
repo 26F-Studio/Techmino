@@ -427,7 +427,8 @@ do
     for _,v in next,SETTING.skin do if v<1 or v>17 then v=17 end end
     if not RSlist[SETTING.RS] then SETTING.RS='TRS' end
     if SETTING.ghostType=='greyCell' then SETTING.ghostType='grayCell' end
-    if type(SETTING.skinSet)=='number' then SETTING.skinSet='crystal_scf' end
+    if type(SETTING.skinSet)=='number' then SETTING.skinSet='Crystal (Scf)' end
+    if string.find(SETTING.skinSet,"_") then SETTING.skinSet='Crystal (Scf)' end
     if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul) then SETTING.frameMul=100 end
     if SETTING.cv then SETTING.vocPack,SETTING.cv=SETTING.cv end
     if type(SETTING.bg)~='string' then SETTING.bg='on' end
