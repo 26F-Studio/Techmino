@@ -93,7 +93,7 @@ SFX=        require'Zframework.sfx'
 IMG=        require'Zframework.image'
 BGM=        require'Zframework.bgm'
 VOC=        require'Zframework.voice'
-JS=         require'Zframework.js'
+JS=         SYSTEM == 'Web' and require'Zframework.js' or NULL
 
 local ms,kb=love.mouse,love.keyboard
 local KBisDown=kb.isDown
@@ -176,12 +176,14 @@ local function updatePowerInfo()
     gc.setCanvas()
 end
 
-JS.callJS(JS.stringFunc(
-    [[
-        console.log("Love.js Api Player initialized: Techmino %s");
-    ]],
-    VERSION.string
-))
+if JS then
+    JS.callJS(JS.stringFunc(
+        [[
+            console.log("Love.js Api Player initialized: Techmino %s");
+        ]],
+        VERSION.string
+    ))
+end
 
 -------------------------------------------------------------
 local lastX,lastY=0,0-- Last click pos
