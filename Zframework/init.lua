@@ -188,7 +188,7 @@ if JS then
         JS.callJS(JS.stringFunc(
             [[
                 window.navigator.clipboard
-                    .writeText('')
+                    .writeText(%s)
                     .then(() => console.log('Copied to clipboard'))
                     .catch((e) => console.warn(e));
             ]],
@@ -735,6 +735,10 @@ function love.run()
     end
 
     return function()
+        if JS and JS.retrieveData(1) then
+            return
+        end
+
         local _
 
         local time=timer()
