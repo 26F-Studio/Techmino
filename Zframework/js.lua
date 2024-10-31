@@ -1,6 +1,6 @@
-__requestQueue = {}
-_requestCount = 0
-_Request = 
+local __requestQueue = {}
+local _requestCount = 0
+local _Request = 
 {
     command = "",
     currentTime = 0,
@@ -11,7 +11,7 @@ local os = love.system.getOS()
 local __defaultErrorFunction = nil
 local isDebugActive = false
 
-JS = {}
+local JS = {}
 
 function JS.callJS(funcToCall)
     if(os == "Web") then
@@ -156,3 +156,5 @@ JS.callJS(JS.stringFunc(
         __getWebDB("%s");
     ]]
 , "__LuaJSDB"))
+
+return JS
