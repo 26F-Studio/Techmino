@@ -200,7 +200,7 @@ if JS then
     end
 
     love.system.getClipboardText = function ()
-        local res
+        local res=''
         JS.newPromiseRequest(
             JS.stringFunc(
                 [[
@@ -214,7 +214,7 @@ if JS then
                 ]]
             ),
             function(data) res=data end,
-            function(id, error) print(id, error) res="" end
+            function(id, error) print(id, error) end
         )
         return res
     end
