@@ -215,8 +215,6 @@ if JS then
         repeat
             love.timer.sleep(1)
             JS.retrieveData(1)
-            print("In lua: " .. res)
-            print(JS)
         until res
         return res
     end
