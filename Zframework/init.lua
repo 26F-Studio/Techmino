@@ -941,4 +941,8 @@ function Z.setOnBeforeQuit(func)
     onBeforeQuit=assert(type(func)=='function' and func,"Z.setOnBeforeQuit(func): func must be function")
 end
 
+for k,v in next,_G do
+    print(k,v)
+end
+
 return Z
