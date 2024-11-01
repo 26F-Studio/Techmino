@@ -16,22 +16,22 @@ local function _sanitize(content)
     return content
 end
 
-if SYSTEM~='Web' then
-    local get = love.system.getClipboardText
-    local set = love.system.setClipboardText
-    return {
-        get=function() return get() or '' end,
-        set=function(content) set(_sanitize(content)) end,
-        _update=NULL,
-    }
-end
+-- if SYSTEM~='Web' then
+--     local get = love.system.getClipboardText
+--     local set = love.system.setClipboardText
+--     return {
+--         get=function() return get() or '' end,
+--         set=function(content) set(_sanitize(content)) end,
+--         _update=NULL,
+--     }
+-- end
 
 local clipboard_thread=love.thread.newThread('Zframework/clipboard_thread.lua')
 local getCHN=love.thread.newChannel()
 local setCHN=love.thread.newChannel()
 local triggerCHN=love.thread.newChannel()
 
-TASK.new(function() TEST.yieldN(26); print("1"); clipboard_thread:start(getCHN,setCHN,triggerCHN) end)
+print(clipboard_thread:start(getCHN,setCHN,triggerCHN))
 
 local clipboard={}
 
