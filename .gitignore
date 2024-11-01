@@ -1,5 +1,4 @@
 .vscode
-libAndroid
 *.ini
 .DS_Store
 Thumbs.db

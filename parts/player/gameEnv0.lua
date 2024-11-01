@@ -41,7 +41,7 @@ return {
     RS='TRS',
     sequence='bag',
     seqData={1,2,3,4,5,6,7},
-    skinSet='crystal_scf',
+    skinSet='Crystal (Scf)',
     face=false,skin=false,
     mission=false,
 

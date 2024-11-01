@@ -18,7 +18,7 @@ function THEME.calculate(Y,M,D)
         'xmas' or
 
         -- Halloween
-        (M=='10' and D>='28' or M=='11' and D<='04') and
+        (M=='10' and D>='28' or M=='11' and D>='01' and D<='04') and
         'halloween' or
 
         -- Birthday
