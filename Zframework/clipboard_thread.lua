@@ -3,6 +3,7 @@ local getCHN,setCHN,triggerCHN=...
 local CHN_demand,CHN_getCount=triggerCHN.demand,triggerCHN.getCount
 local CHN_push,CHN_pop=triggerCHN.push,triggerCHN.pop
 
+love.system = require'love.system'
 JS=require'Zframework.js'
 
 local yield=coroutine.yield
