@@ -31,7 +31,7 @@ local getCHN=love.thread.newChannel()
 local setCHN=love.thread.newChannel()
 local triggerCHN=love.thread.newChannel()
 
-clipboard_thread:start(getCHN,setCHN,triggerCHN)
+TASK.new(function() TEST.yieldN(26); print("1"); clipboard_thread:start(getCHN,setCHN,triggerCHN) end)
 
 local clipboard={}
 
@@ -45,6 +45,12 @@ end
 
 function clipboard._update()
     triggerCHN:push(0)
+    local error = clipboard_thread:getError()
+    if error then
+        MES.new('error',error)
+        MES.traceback()
+        clipboard._update=NULL
+    end
 end
 
 return clipboard

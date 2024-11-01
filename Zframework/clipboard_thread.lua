@@ -3,7 +3,9 @@ local getCHN,setCHN,triggerCHN=...
 local CHN_demand,CHN_getCount=triggerCHN.demand,triggerCHN.getCount
 local CHN_push,CHN_pop=triggerCHN.push,triggerCHN.pop
 
+print("2");
 JS=require'Zframework.js'
+print("3");
 
 local yield=coroutine.yield
 local setThread=coroutine.wrap(function()
