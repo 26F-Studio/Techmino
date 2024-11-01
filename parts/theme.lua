@@ -12,7 +12,7 @@ function THEME.calculate(Y,M,D)
         Y,M,D=os.date('%Y'),os.date('%m'),os.date('%d')
     end
     -- Festival calculate within one statement
-    return
+    if not SETTING.noTheme then return
         -- Christmas
         M=='12' and math.abs(D-25)<4 and
         'xmas' or
@@ -51,63 +51,60 @@ function THEME.calculate(Y,M,D)
             (M=='03' or M=='04' or M=='05' or M=='06') and 'zday1' or
             (M=='07' or M=='08' or M=='09' or M=='10') and 'zday2' or
             (M=='11' or M=='12' or M=='01' or M=='02') and 'zday3'
-        ) or
-
-        -- Normal
-        (
-            (M=='02' or M=='03' or M=='04') and 'season1' or
-            (M=='05' or M=='06' or M=='07') and 'season2' or
-            (M=='08' or M=='09' or M=='10') and 'season3' or
-            (M=='11' or M=='12' or M=='01') and 'season4'
         )
-end
-
-function THEME.set(theme,keepBGM)
-    if type(theme)=='string' and theme:sub(1,6)=='season' then
-        BG.setDefault(SETTING.defaultBG)
-        BGM.setDefault(({season1='null',season2='nil',season3='vacuum',season4='space'})[theme])
-    elseif not SETTING.noTheme then
-        if theme=='xmas' then
-            BG.setDefault('snow')
-            BGM.setDefault('xmas')
-            MES.new('info',"==Merry Christmas==")
-        elseif theme=='birth' then
-            BG.setDefault('firework')
-            BGM.setDefault('magicblock')
-        elseif theme=='sprfes' then
-            BG.setDefault('firework')
-            BGM.setDefault('spring festival')
-            MES.new('info',"★☆新年快乐☆★")
-        elseif theme=='halloween' then
-            BG.setDefault('glow')
-            BGM.setDefault('antispace')
-            MES.new('info',">>Happy halloween<<")
-        elseif theme=='zday1' then
-            BG.setDefault('lanterns')
-            BGM.setDefault('overzero')
-        elseif theme=='zday2' then
-            BG.setDefault('lanterns')
-            BGM.setDefault('jazz nihilism')
-        elseif theme=='zday3' then
-            BG.setDefault('lanterns')
-            BGM.setDefault('empty')
-        elseif theme=='fool' then
-            BG.setDefault('blockrain')
-            BGM.setDefault('how feeling')
-        elseif theme=='edm' then
-            BG.setDefault('lightning2')
-            BGM.setDefault('malate')
-            MES.new('music',"                    红  色  电  音\n                 极  地  大  冲  击\n        只要你敢触电——\n           7月14日、15日 天地人间完全放电\n不用麻醉，一样情不自禁HI起来，飞起来")
-        else
-            return
-        end
-    else
-        return THEME.set(THEME.calculate('0',os.date('%m'),'0'))
     end
 
+    -- If there is theme and theme is enabled, then we will never reach here
+    return -- Normal
+    (
+        (M=='02' or M=='03' or M=='04') and 'season1' or
+        (M=='05' or M=='06' or M=='07') and 'season2' or
+        (M=='08' or M=='09' or M=='10') and 'season3' or
+        (M=='11' or M=='12' or M=='01') and 'season4'
+    )
+end
+
+local themeBG={
+    zday1='lanterns',zday2='lanterns',zday3='lanterns',
+
+    xmas     ='snow',
+    birth    ='magicblock',
+    sprfes   ='firework',
+    halloween='glow',
+    fool     ='blockrain',
+    edm      ='lightning2'
+}
+local themeBGM={
+    season1='null',season2='nil',season3='vacuum',season4='space',
+    zday1='overzero',zday2='jazz nihilism',zday3='empty',
+
+    xmas     ='xmas',
+    birth    ='magicblock',
+    sprfes   ='spring festival',
+    halloween='antispace',
+    fool     ='how feeling',
+    edm      ='malate'
+}
+local themeMessages={
+    xmas     ="==Merry Christmas==",
+    sprfes   ="★☆新年快乐☆★",
+    halloween=">>Happy halloween<<",
+    edm      ="                    红  色  电  音\n                 极  地  大  冲  击\n        只要你敢触电——\n           7月14日、15日 天地人间完全放电\n不用麻醉，一样情不自禁HI起来，飞起来"
+}
+function THEME.set(theme,keepBGM)
+    if not (themeBG[theme] or themeBGM[theme]) then return end
     THEME.cur=theme
+
+    BG.setDefault(themeBG[theme] or SETTING.defaultBG)
+    BGM.setDefault(themeBGM[theme])
+
     BG.set()
     if not keepBGM then BGM.play() end
+
+    if themeMessages[theme] then
+        MES.new(theme=='edm' and 'music' or 'info',themeMessages[theme])
+    end
+
     return true
 end
 
