@@ -7,16 +7,13 @@ local _Request =
     timeOut = 2,
     id = '0'
 }
-local os = love.system.getOS()
 local __defaultErrorFunction = nil
 local isDebugActive = false
 
 local JS = {}
 
 function JS.callJS(funcToCall)
-    if os == "Web" then
-        print("callJavascriptFunction " .. funcToCall)
-    end
+    print("callJavascriptFunction " .. funcToCall)
 end
 
 --You can pass a set of commands here and, it is a syntactic sugar for executing many commands inside callJS, as it only calls a function
@@ -108,9 +105,6 @@ end
 
 --May only be used for functions that don't return a promise
 function JS.newRequest(funcToCall, onDataLoaded, onError, timeout, optionalId)
-    if(os ~= "Web") then
-        return
-    end
     table.insert(__requestQueue, _Request:new(false, funcToCall, onDataLoaded, onError, timeout or 5, optionalId or _requestCount))
 end
 
@@ -119,9 +113,6 @@ end
 --Or it can be handled by Lua, it auto sets your data if you write the following command:
     -- _$_(yourStringOrFunctionHere)
 function JS.newPromiseRequest(funcToCall, onDataLoaded, onError, timeout, optionalId)
-    if(os ~= "Web") then
-        return
-    end
     optionalId = optionalId or _requestCount
     funcToCall = funcToCall:gsub("_$_%(", "FS.writeFile('"..love.filesystem.getSaveDirectory().."/__temp"..optionalId.."', ")
     table.insert(__requestQueue, _Request:new(true, funcToCall, onDataLoaded, onError, timeout or 5, optionalId))
