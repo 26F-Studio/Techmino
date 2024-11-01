@@ -294,6 +294,8 @@ IMG.init{
     },
 }
 SKIN.load{
+    {name="Invisible (Asriel)",           path='media/image/skin/asriel/invisible.png'},
+    {name="1984 (Asriel)",           path='media/image/skin/asriel/1984.png'},
     {name="Arcade (Asriel)",           path='media/image/skin/asriel/arcade.png'},
     {name="Cardboard (Asriel, slimenergy)",           path='media/image/skin/asriel/cardboard.png'},
     {name="Crystal (Scf)",           path='media/image/skin/scf/crystal.png'},
