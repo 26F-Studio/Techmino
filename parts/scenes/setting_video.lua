@@ -136,7 +136,7 @@ scene.widgetList={
     },
     WIDGET.newKey{name='bg_custom_base64',x=1010,y=1502.5,w=420,h=135,align='M',
         code=function()
-            local okay,data=pcall(love.data.decode,"data","base64",love.system.getClipboardText())
+            local okay,data=pcall(love.data.decode,"data","base64",CLIPBOARD.get())
             if okay and pcall(gc.newImage,data) then
                 love.filesystem.write('conf/customBG',data)
                 SETTING.bg='custom'

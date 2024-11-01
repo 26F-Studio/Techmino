@@ -72,6 +72,7 @@ do
 end
 
 -- Love-based modules (basic)
+CLIPBOARD=  require'Zframework.clipboard'
 HTTP=       require'Zframework.http'
 WS=         require'Zframework.websocket'
 FILE=       require'Zframework.file'
@@ -177,49 +178,6 @@ local function updatePowerInfo()
     gc_print(os.date("%H:%M"),3,-5)
     gc_pop()
     gc.setCanvas()
-end
-
-if JS then
-    JS.callJS(JS.stringFunc(
-        [[
-            console.log("Love.js Api Player initialized: Techmino %s");
-        ]],
-        VERSION.string
-    ))
-
-    love.system.setClipboardText = function (str)
-        JS.callJS(JS.stringFunc(
-            [[
-                window.navigator.clipboard
-                    .writeText('%s')
-                    .then(() => console.log('Copied to clipboard'))
-                    .catch((e) => console.warn(e));
-            ]],
-            str
-        ))
-    end
-
-    local _clipboardBuffer=''
-    love.system.getClipboardText = function ()
-        JS.newPromiseRequest(
-            JS.stringFunc(
-                [[
-                    window.navigator.clipboard
-                        .readText()
-                        .then((text) => _$_(text))
-                        .catch((e) => {
-                            console.warn(e);
-                            _$_('');
-                        });
-                ]]
-            ),
-            function(data) _clipboardBuffer=data end,
-            function(id, error) print(id, error) end,
-            3,
-            'getClipboardText'
-        )
-        return _clipboardBuffer
-    end
 end
 
 -------------------------------------------------------------
@@ -768,7 +726,10 @@ function love.run()
 
         -- UPDATE
         STEP()
-        if JS then JS.retrieveData(dt) end
+        if JS then 
+            JS.retrieveData(dt)
+            CLIPBOARD._update()
+        end
         if mouseShow then mouse_update(dt) end
         if next(jsState) then gp_update(jsState[1],dt) end
         VOC.update()
