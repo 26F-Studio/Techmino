@@ -3,8 +3,23 @@
 NONE={}function NULL() end PAPER=love.graphics.newCanvas(1,1)
 EDITING=""
 LOADED=false
+
+--[[ 
+    Available SYSTEM values:
+    Android
+    iOS
+    Linux
+    macOS
+    Web
+    Windows
+]]--
 SYSTEM=love.system.getOS()
-if SYSTEM=='OS X' then SYSTEM='macOS' end
+if SYSTEM=='OS X' then
+    SYSTEM='macOS'
+elseif SYSTEM=='Web' then
+    WEB_COMPAT_MODE=not love.thread.newThread('\n'):start()
+    print('Web compatible mode: ', WEB_COMPAT_MODE)
+end
 
 -- Bit module
 local success
@@ -939,10 +954,6 @@ end
 
 function Z.setOnBeforeQuit(func)
     onBeforeQuit=assert(type(func)=='function' and func,"Z.setOnBeforeQuit(func): func must be function")
-end
-
-for k,v in next,_G do
-    print(k,v)
 end
 
 return Z
