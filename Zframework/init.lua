@@ -741,9 +741,9 @@ function love.run()
 
         -- UPDATE
         STEP()
-        if JS then 
+        if JS then
             JS.retrieveData(dt)
-            CLIPBOARD._update()
+            CLIPBOARD._update(dt)
         end
         if mouseShow then mouse_update(dt) end
         if next(jsState) then gp_update(jsState[1],dt) end

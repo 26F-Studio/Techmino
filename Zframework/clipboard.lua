@@ -17,11 +17,12 @@ local function _sanitize(content)
 end
 
 if SYSTEM~='Web' then
-    local get = love.system.getClipboardText
-    local set = love.system.setClipboardText
+    local get=love.system.getClipboardText
+    local set=love.system.setClipboardText
     return {
         get=function() return get() or '' end,
         set=function(content) set(_sanitize(content)) end,
+        setFreshInterval=NULL,
         _update=NULL,
     }
 end
@@ -29,7 +30,7 @@ end
 if WEB_COMPAT_MODE then
     local _clipboardBuffer=''
     return {
-        get=function ()
+        get=function()
             JS.newPromiseRequest(
                 JS.stringFunc(
                     [[
@@ -43,13 +44,13 @@ if WEB_COMPAT_MODE then
                     ]]
                 ),
                 function(data) _clipboardBuffer=data end,
-                function(id, error) print(id, error) end,
+                function(id,error) print(id, error) end,
                 3,
                 'getClipboardText'
             )
             return _clipboardBuffer
         end,
-        set=function (str)
+        set=function(str)
             JS.callJS(JS.stringFunc(
                 [[
                     window.navigator.clipboard
@@ -60,26 +61,30 @@ if WEB_COMPAT_MODE then
                 _sanitize(str)
             ))
         end,
+        setFreshInterval=NULL,
         _update=NULL,
     }
 end
 
-local clipboard_thread=love.thread.newThread('Zframework/clipboard_thread.lua')
-local getCHN=love.thread.newChannel()
-local setCHN=love.thread.newChannel()
-local triggerCHN=love.thread.newChannel()
+local getCHN=love.thread.getChannel('CLIP_get')
+local setCHN=love.thread.getChannel('CLIP_set')
+local trigCHN=love.thread.getChannel('CLIP_trig')
 
-clipboard_thread:start(getCHN,setCHN,triggerCHN)
+love.thread.newThread('Zframework/clipboard_thread.lua'):start()
 
-return{
+local freshInterval=1
+local timer=0
+return {
     get=function() return getCHN:peek() or '' end,
     set=function(content) setCHN:push(_sanitize(content)) end,
-    _update=function()
-        triggerCHN:push(0)
-        local error = clipboard_thread:getError()
-        if error then
-            MES.new('error',error)
-            MES.traceback()
+    setFreshInterval=function(val)
+        freshInterval=val
+    end,
+    _update=function(dt)
+        timer=timer+dt
+        if timer>freshInterval then
+            timer=0
+            trigCHN:push(0)
         end
     end,
 }
