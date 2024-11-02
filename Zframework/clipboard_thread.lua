@@ -43,7 +43,7 @@ while true do
             )
             retrieving=true
         end
+        JS.retrieveData(.0626)
     end
-    JS.retrieveData(.0626)
     love.timer.sleep(.0626)
 end
