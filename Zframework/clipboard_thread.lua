@@ -35,6 +35,7 @@ while true do
                     while getCHN:getCount()>0 do print('getCHN count:', getCHN:getCount()); getCHN:pop() end
                     print('Clipboard:', data)
                     getCHN:push(data)
+                    print('Pushed clipboard data')
                     retrieving=false
                 end,
                 function(id,error) print(id, error) end,
