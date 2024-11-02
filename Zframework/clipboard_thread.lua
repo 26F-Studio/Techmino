@@ -27,10 +27,10 @@ while true do
                 window.navigator.clipboard
                     .readText()
                     .then((text) => _$_(text))
-                    .catch();
+                    .catch((e)=>{});
             ]],
             function(data)
-                while getCHN:getCount()>0 do getCHN:pop() end
+                while getCHN:getCount()>0 do print('getCHN count:', getCHN:getCount()); getCHN:pop() end
                 print('Clipboard:', data)
                 getCHN:push(data)
             end,
@@ -39,5 +39,6 @@ while true do
             'getClipboardText'
         )
     end
+    JS.retrieveData(.0626)
     love.timer.sleep(.0626)
 end
