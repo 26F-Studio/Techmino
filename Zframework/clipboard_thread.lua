@@ -5,6 +5,7 @@ local trigCHN=love.thread.getChannel('CLIP_trig')
 JS=require'Zframework.js'
 love.timer=require'love.timer'
 
+local retrieving=false
 while true do
     if trigCHN:getCount()>0 then
         trigCHN:pop()
@@ -22,22 +23,26 @@ while true do
             ))
         end
         -- Get Clipboard
-        JS.newPromiseRequest(
-            JS.stringFunc[[
-                window.navigator.clipboard
-                    .readText()
-                    .then((text) => _$_(text))
-                    .catch((e)=>{});
-            ]],
-            function(data)
-                while getCHN:getCount()>0 do print('getCHN count:', getCHN:getCount()); getCHN:pop() end
-                print('Clipboard:', data)
-                getCHN:push(data)
-            end,
-            function(id,error) print(id, error) end,
-            2,
-            'getClipboardText'
-        )
+        if not retrieving then
+            JS.newPromiseRequest(
+                JS.stringFunc[[
+                    window.navigator.clipboard
+                        .readText()
+                        .then((text) => _$_(text))
+                        .catch((e)=>{});
+                ]],
+                function(data)
+                    while getCHN:getCount()>0 do print('getCHN count:', getCHN:getCount()); getCHN:pop() end
+                    print('Clipboard:', data)
+                    getCHN:push(data)
+                    retrieving=false
+                end,
+                function(id,error) print(id, error) end,
+                2,
+                'getClipboardText'
+            )
+            retrieving=true
+        end
     end
     JS.retrieveData(.0626)
     love.timer.sleep(.0626)
