@@ -3,14 +3,14 @@ local setCHN=love.thread.getChannel('CLIP_set')
 local trigCHN=love.thread.getChannel('CLIP_trig')
 
 JS=require'Zframework.js'
-love.timer=require'love.timer'
+local sleep=require'love.timer'.sleep
 
 local retrieving=false
 while true do
     if trigCHN:getCount()>0 then
-        trigCHN:pop()
+        local dt = trigCHN:pop()
         if setCHN:getCount()>0 then
-            repeat setCHN:pop() until setCHN:getCount()==1
+            while setCHN:getCount()>1 do setCHN:pop() end
             -- Set Clipboard
             JS.callJS(JS.stringFunc(
                 [[
@@ -32,19 +32,17 @@ while true do
                         .catch((e)=>{});
                 ]],
                 function(data)
-                    while getCHN:getCount()>0 do print('getCHN count:', getCHN:getCount()); getCHN:pop() end
-                    print('Clipboard:', data)
+                    while getCHN:getCount()>0 do getCHN:pop() end
                     getCHN:push(data)
-                    print('Pushed clipboard data')
                     retrieving=false
                 end,
-                function(id,error) print(id, error) end,
-                2,
+                function() retrieving=false end,
+                1,
                 'getClipboardText'
             )
             retrieving=true
         end
-        JS.retrieveData(.0626)
+        JS.retrieveData(dt)
     end
-    love.timer.sleep(.0626)
+    sleep(.001)
 end

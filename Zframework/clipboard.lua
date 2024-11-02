@@ -70,7 +70,12 @@ local getCHN=love.thread.getChannel('CLIP_get')
 local setCHN=love.thread.getChannel('CLIP_set')
 local trigCHN=love.thread.getChannel('CLIP_trig')
 
-love.thread.newThread('Zframework/clipboard_thread.lua'):start()
+local clipboard_thread=love.thread.newThread('Zframework/clipboard_thread.lua')
+local isStarted,errorMessage=clipboard_thread:start()
+
+if not isStarted then
+    MES.new("error",errorMessage,26)
+end
 
 local freshInterval=1
 local timer=0
@@ -83,8 +88,12 @@ return {
     _update=function(dt)
         timer=timer+dt
         if timer>freshInterval then
+            if isStarted and not clipboard_thread:isRunning() then
+                MES.new("warn",clipboard_thread:getError(),26)
+                isStarted=false
+            end
+            trigCHN:push(timer)
             timer=0
-            trigCHN:push(0)
         end
     end,
 }
