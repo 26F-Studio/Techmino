@@ -1,7 +1,5 @@
 if SYSTEM=='Web' then
-    return {
-        update=NULL
-    }
+    return {update=NULL}
 end
 
 local appId='1288557386700951554'

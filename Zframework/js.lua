@@ -1,7 +1,6 @@
 local __requestQueue={}
 local _requestCount=0
-local _Request=
-{
+local _Request={
     command="",
     currentTime=0,
     timeOut=2,
@@ -25,12 +24,11 @@ function JS.stringFunc(str,...)
     if (#arg>0) then
         str=str:format(unpack(arg))
     end
-    str=str:gsub("[\n\t]", "")
+    str=str:gsub("[\n\t]","")
     return str
 end
 
---The call will store in the webDB the return value from the function passed
---it timeouts
+--The call will store in the webDB the return value from the function passed it timeouts
 local function retrieveJS(funcToCall,filename)
     --Used for retrieveData function
     JS.callJS(("FS.writeFile('%s/%s',%s);"):format(love.filesystem.getSaveDirectory(),filename,funcToCall))
@@ -39,11 +37,11 @@ end
 --Call JS.newRequest instead
 function _Request:new(isPromise,command,onDataLoaded,onError,timeout,id)
     local obj={}
-    setmetatable(obj, self)
+    setmetatable(obj,self)
     obj.command=command
     obj.onError=onError or __defaultErrorFunction
     if not isPromise then
-        retrieveJS(command, self.filename)
+        retrieveJS(command,self.filename)
     else
         JS.callJS(command)
     end
@@ -76,7 +74,7 @@ function _Request:new(isPromise,command,onDataLoaded,onError,timeout,id)
                 end
                 self.onDataLoaded(retData)
             else
-                self.onError(self.id, retData)
+                self.onError(self.id,retData)
             end
             self:purgeData()
             return false
@@ -94,21 +92,21 @@ function JS.retrieveData(dt)
     for i=1,#__requestQueue do
         local isUpdating=__requestQueue[i]:update(dt)
         if not isUpdating then
-            table.insert(deadRequests, i)
+            table.insert(deadRequests,i)
         end
     end
     for i=1,#deadRequests do
         if (isDebugActive) then
             print("Request died: "..deadRequests[i])
         end
-        table.remove(__requestQueue, deadRequests[i])
+        table.remove(__requestQueue,deadRequests[i])
     end
     return isRetrieving
 end
 
 --May only be used for functions that don't return a promise
 function JS.newRequest(funcToCall,onDataLoaded,onError,timeout,optionalId)
-    table.insert(__requestQueue, _Request:new(false, funcToCall, onDataLoaded, onError, timeout or 5, optionalId or _requestCount))
+    table.insert(__requestQueue,_Request:new(false,funcToCall,onDataLoaded,onError,timeout or 5,optionalId or _requestCount))
 end
 
 --This function can be handled manually (in JS code)
@@ -117,8 +115,8 @@ end
 -- _$_(yourStringOrFunctionHere)
 function JS.newPromiseRequest(funcToCall,onDataLoaded,onError,timeout,optionalId)
     optionalId=optionalId or _requestCount
-    funcToCall=funcToCall:gsub("_$_%(", "FS.writeFile('"..love.filesystem.getSaveDirectory().."/__temp"..optionalId.."', ")
-    table.insert(__requestQueue, _Request:new(true, funcToCall, onDataLoaded, onError, timeout or 5, optionalId))
+    funcToCall=funcToCall:gsub("_$_%(","FS.writeFile('"..love.filesystem.getSaveDirectory().."/__temp"..optionalId.."', ")
+    table.insert(__requestQueue,_Request:new(true,funcToCall,onDataLoaded,onError,timeout or 5,optionalId))
 end
 
 
@@ -139,10 +137,6 @@ JS.setDefaultErrorFunction(function(id,error)
 end)
 
 
-JS.callJS(JS.stringFunc(
-    [[
-        __getWebDB("%s");
-    ]]
-    , "__LuaJSDB"))
+JS.callJS(JS.stringFunc("__getWebDB("%s");","__LuaJSDB"))
 
 return JS

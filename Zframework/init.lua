@@ -4,15 +4,7 @@ NONE={}function NULL() end PAPER=love.graphics.newCanvas(1,1)
 EDITING=""
 LOADED=false
 
---[[ 
-    Available SYSTEM values:
-    Android
-    iOS
-    Linux
-    macOS
-    Web
-    Windows
-]]--
+---@type 'Windows'|'Android'|'Linux'|'iOS'|'macOS'|'Web'
 SYSTEM=love.system.getOS()
 WEB_COMPAT_MODE=false
 if SYSTEM=='OS X' then

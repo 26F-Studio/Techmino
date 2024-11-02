@@ -8,7 +8,7 @@ local sleep=require'love.timer'.sleep
 local retrieving=false
 while true do
     if trigCHN:getCount()>0 then
-        local dt = trigCHN:pop()
+        local dt=trigCHN:pop()
         if setCHN:getCount()>0 then
             while setCHN:getCount()>1 do setCHN:pop() end
             -- Set Clipboard
