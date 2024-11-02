@@ -26,10 +26,12 @@ while true do
             JS.stringFunc[[
                 window.navigator.clipboard
                     .readText()
-                    .then((text) => _$_(text));
+                    .then((text) => _$_(text))
+                    .catch();
             ]],
             function(data)
                 while getCHN:getCount()>0 do getCHN:pop() end
+                print('Clipboard:', data)
                 getCHN:push(data)
             end,
             function(id,error) print(id, error) end,
