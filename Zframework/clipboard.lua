@@ -44,10 +44,14 @@ if WEB_COMPAT_MODE then
                     ]]
                 ),
                 function(data) _clipboardBuffer=data end,
-                function(id,error) print(id, error) end,
+                function() _clipboardBuffer='' end,
                 3,
                 'getClipboardText'
             )
+            if TASK.lock('clipboard_compat_interval',2.6) then
+                _clipboardBuffer=''
+                MES.new('warn',"Web-Compat mode, paste again to confirm",2.6)
+            end
             return _clipboardBuffer
         end,
         set=function(str)
@@ -78,7 +82,7 @@ if not isStarted then
 end
 
 local freshInterval=1
-local timer=-5
+local timer=-.626
 return {
     get=function() return getCHN:peek() or '' end,
     set=function(content) setCHN:push(_sanitize(content)) end,

@@ -14,6 +14,7 @@ LOADED=false
     Windows
 ]]--
 SYSTEM=love.system.getOS()
+WEB_COMPAT_MODE=false
 if SYSTEM=='OS X' then
     SYSTEM='macOS'
 elseif SYSTEM=='Web' then
