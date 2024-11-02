@@ -78,7 +78,7 @@ if not isStarted then
 end
 
 local freshInterval=1
-local timer=0
+local timer=-5
 return {
     get=function() return getCHN:peek() or '' end,
     set=function(content) setCHN:push(_sanitize(content)) end,
