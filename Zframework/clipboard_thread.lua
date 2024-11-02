@@ -26,11 +26,7 @@ while true do
             JS.stringFunc[[
                 window.navigator.clipboard
                     .readText()
-                    .then((text) => _$_(text))
-                    .catch((e) => {
-                        console.warn(e);
-                        _$_('');
-                    });
+                    .then((text) => _$_(text));
             ]],
             function(data)
                 while getCHN:getCount()>0 do getCHN:pop() end
