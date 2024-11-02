@@ -7,12 +7,12 @@ function scene.enter()
 end
 
 local function _dumpCB(T)
-    love.system.setClipboardText(STRING.packText(TABLE.dump(T)))
+    CLIPBOARD.set(STRING.packText(TABLE.dump(T)))
     MES.new('check',text.exportSuccess)
 end
 local function _parseCB()
     local _
-    local s=love.system.getClipboardText()
+    local s=CLIPBOARD.get()
 
     -- Decode
     s=STRING.unpackText(s)

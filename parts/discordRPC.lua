@@ -1,3 +1,9 @@
+if SYSTEM=='Web' then
+    return {
+        update=NULL
+    }
+end
+
 local appId='1288557386700951554'
 
 local ffi=require"ffi"
@@ -133,7 +139,7 @@ if RPC_C then
 
     local function checkIntArg(arg,maxBits,argName,func,maybeNil)
         maxBits=math.min(maxBits or 32,52) -- lua number (double) can only store integers < 2^53
-        local maxVal=2^(maxBits-1) -- assuming signed integers, which, for now, are the only ones in use
+        local maxVal=2^(maxBits-1)         -- assuming signed integers, which, for now, are the only ones in use
         assert(type(arg)=="number" and math.floor(arg)==arg
             and arg<maxVal and arg>=-maxVal
             or (maybeNil and arg==nil),

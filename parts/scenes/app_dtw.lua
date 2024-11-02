@@ -181,7 +181,7 @@ function reset()
     time=0
     score=0
 
-    local t=love.system.getClipboardText()
+    local t=CLIPBOARD.get()
     if type(t)=='string' then
         t=t:lower():match("^s=(.+)")
         t=t and tonumber(t) and tonumber(t)*2

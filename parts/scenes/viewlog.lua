@@ -164,7 +164,7 @@ scene.widgetList={
     textBox,
     WIDGET.newButton  {name='home',x=1140,y= 90,w=170,h=80,sound='click',font=60,fText=CHAR.key.macHome,code=pressKey('home')},
     WIDGET.newButton  {name='endd',x=1140,y=190,w=170,h=80,sound='click',font=60,fText=CHAR.key.macEnd ,code=pressKey('end')},
-    WIDGET.newButton  {name='copy',x=1140,y=290,w=170,h=80,sound='click',font=60,fText=CHAR.icon.copy  ,code=function()love.system.setClipboardText(table.concat(textBox.texts,'\n'))end,color='lC'},
+    WIDGET.newButton  {name='copy',x=1140,y=290,w=170,h=80,sound='click',font=60,fText=CHAR.icon.copy  ,code=function()CLIPBOARD.set(table.concat(textBox.texts,'\n'))end,color='lC'},
 
     logList,
 

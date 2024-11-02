@@ -140,7 +140,7 @@ function profile.switch()
     switch=not switch
     if not switch then
         profile.stop()
-        love.system.setClipboardText(profile.report())
+        CLIPBOARD.set(profile.report())
         profile.reset()
         return false
     else

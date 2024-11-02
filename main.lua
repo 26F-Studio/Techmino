@@ -49,6 +49,10 @@ SCR.setSize(1280,720) -- Initialize Screen size
 BGM.setMaxSources(5)
 VOC.setDiversion(.62)
 
+if SYSTEM == 'Web' and not WEB_COMPAT_MODE then
+    CLIPBOARD.setFreshInterval(.5)
+end
+
 WIDGET.setOnChange(function()
     if SCN.cur=='net_game' or SCN.cur=='custom_field' then return end
     local colorList=THEME.getThemeColor()
