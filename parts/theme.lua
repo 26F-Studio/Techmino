@@ -64,47 +64,46 @@ function THEME.calculate(Y,M,D)
     )
 end
 
-local themeBG={
-    zday1='lanterns',zday2='lanterns',zday3='lanterns',
-
-    xmas     ='snow',
-    birth    ='magicblock',
-    sprfes   ='firework',
-    halloween='glow',
-    fool     ='blockrain',
-    edm      ='lightning2'
-}
-local themeBGM={
-    season1='null',season2='nil',season3='vacuum',season4='space',
-    zday1='overzero',zday2='jazz nihilism',zday3='empty',
-
-    xmas     ='xmas',
-    birth    ='magicblock',
-    sprfes   ='spring festival',
-    halloween='antispace',
-    fool     ='how feeling',
-    edm      ='malate'
-}
-local themeMessages={
-    xmas     ="==Merry Christmas==",
-    sprfes   ="★☆新年快乐☆★",
-    halloween=">>Happy halloween<<",
-    edm      ="                    红  色  电  音\n                 极  地  大  冲  击\n        只要你敢触电——\n           7月14日、15日 天地人间完全放电\n不用麻醉，一样情不自禁HI起来，飞起来"
-}
+---@param theme string
+---@param keepBGM boolean|false|nil
 function THEME.set(theme,keepBGM)
-    if not (themeBG[theme] or themeBGM[theme]) then return end
-    THEME.cur=theme
-
-    BG.setDefault(themeBG[theme] or SETTING.defaultBG)
-    BGM.setDefault(themeBGM[theme])
-
-    BG.set()
-    if not keepBGM then BGM.play() end
-
-    if themeMessages[theme] then
-        MES.new(theme=='edm' and 'music' or 'info',themeMessages[theme])
+    if type(theme)~='string' then
+        return
+    elseif theme:sub(1,6)=='season' then
+        BG.setDefault(SETTING.defaultBG)
+        BGM.setDefault(({season1='null',season2='nil',season3='vacuum',season4='space'})[theme])
+    elseif theme=='xmas' then
+        BG.setDefault('snow')
+        BGM.setDefault('xmas')
+        MES.new('info',"==Merry Christmas==")
+    elseif theme=='birth' then
+        BG.setDefault('firework')
+        BGM.setDefault('magicblock')
+    elseif theme=='sprfes' then
+        BG.setDefault('firework')
+        BGM.setDefault('spring festival')
+        MES.new('info',"★☆新年快乐☆★")
+    elseif theme=='halloween' then
+        BG.setDefault('glow')
+        BGM.setDefault('antispace')
+        MES.new('info',">>Happy halloween<<")
+    elseif theme:sub(1,4)=='zday' then
+        BG.setDefault('lanterns')
+        BGM.setDefault(({zday1='overzero',zday2='jazz nihilism',zday3='empty'})[theme])
+    elseif theme=='fool' then
+        BG.setDefault('blockrain')
+        BGM.setDefault('how feeling')
+    elseif theme=='edm' then
+        BG.setDefault('lightning2')
+        BGM.setDefault('malate')
+        MES.new('music',"                    红  色  电  音\n                 极  地  大  冲  击\n        只要你敢触电——\n           7月14日、15日 天地人间完全放电\n不用麻醉，一样情不自禁HI起来，飞起来")
+    else
+        return
     end
 
+    THEME.cur=theme
+    BG.set()
+    if not keepBGM then BGM.play() end
     return true
 end
 
