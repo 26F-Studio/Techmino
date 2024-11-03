@@ -136,30 +136,30 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-      # - name: Love actions for testing
-      #   uses: love-actions/love-actions-test@v1
-      #   with:
-      #     font-path: ./parts/fonts/proportional.otf
-      #     language-folder: ./parts/language
-      # - name: Download core love package
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
-      # - name: Download love
-      #   shell: bash
-      #   run: |
-      #      curl -OL --retry 5 https://github.com/love2d/love/releases/download/11.4/love-11.4-x86_64.AppImage
-      #      chmod +x love-11.4-x86_64.AppImage
-      # - name: Prepare PulseAudio and AppImage
-      #   shell: bash
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install pulseaudio pulseaudio-utils pavucontrol alsa-oss alsa-utils libfuse2 -y
-      # - name: Run automated test
-      #   uses: coactions/setup-xvfb@v1
-      #   with:
-      #     run: |
-      #       ./love-11.4-x86_64.AppImage ${{ env.CORE_LOVE_PACKAGE_PATH }} --test
+      - name: Love actions for testing
+        uses: love-actions/love-actions-test@v1
+        with:
+          font-path: ./parts/fonts/proportional.otf
+          language-folder: ./parts/language
+      - name: Download core love package
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Download love
+        shell: bash
+        run: |
+           curl -OL --retry 5 https://github.com/love2d/love/releases/download/11.4/love-11.4-x86_64.AppImage
+           chmod +x love-11.4-x86_64.AppImage
+      - name: Prepare PulseAudio and AppImage
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install pulseaudio pulseaudio-utils pavucontrol alsa-oss alsa-utils libfuse2 -y
+      - name: Run automated test
+        uses: coactions/setup-xvfb@v1
+        with:
+          run: |
+            ./love-11.4-x86_64.AppImage ${{ env.CORE_LOVE_PACKAGE_PATH }} --test
 
   build-android:
     runs-on: ubuntu-latest
