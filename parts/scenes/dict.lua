@@ -124,7 +124,7 @@ end
 local function _copy()
     local t=_getList()[listBox.selected]
     t=t.title_Org..":\n"..t.content_Org..(t.url and "\n[ "..t.url.." ]\n" or "\n")..text.dictNote
-    love.system.setClipboardText(t)
+    CLIPBOARD.set(t)
     scene.widgetList.copy.hide=true
     MES.new('info',text.copyDone)
 end

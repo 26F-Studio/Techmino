@@ -1,5 +1,5 @@
-local sendCHN=love.thread.getChannel('inputChannel')
-local recvCHN=love.thread.getChannel('outputChannel')
+local sendCHN=love.thread.getChannel('HTTP_inputChannel')
+local recvCHN=love.thread.getChannel('HTTP_outputChannel')
 
 local threads={}
 local threadCount=0
@@ -9,11 +9,15 @@ local threadCode=[[
     local http=require'socket.http'
     local ltn12=require'ltn12'
 
-    local sendCHN=love.thread.getChannel('inputChannel')
-    local recvCHN=love.thread.getChannel('outputChannel')
+    local sendCHN=love.thread.getChannel('HTTP_inputChannel')
+    local recvCHN=love.thread.getChannel('HTTP_outputChannel')
+    local sleep=require'love.timer'.sleep
 
     while true do
-        local arg=sendCHN:demand()
+        -- local arg=sendCHN:demand()
+        -- Warning: workaround for love.js
+        while sendCHN:getCount()==0 do sleep(.0626) end
+        local arg=sendCHN:pop()
 
         if arg._destroy then
             recvCHN:push{

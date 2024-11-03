@@ -189,7 +189,7 @@ do-- functions to shorted big numbers
     function STRING.bigInt(t)
         if t<1000 then
             return tostring(t)
-        elseif t~=1e999 then
+        elseif t~=1/0 then
             local e=floorint(lg(t)/3)
             return(t/10^(e*3))..units[e+1]
         else

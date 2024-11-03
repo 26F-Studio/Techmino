@@ -177,12 +177,12 @@ local function _drawField(P,showInvis)
     if P.falling==0 then-- Blocks only
         if ENV.upEdge then
             gc_setShader(shader_lighter)
-            gc_translate(0,-4)
+            gc_translate(0,-6)
             -- <drawRow>
                 for j=start,min(start+21,#F) do _drawRow(texture,j,V[j],F[j]) end
             -- </drawRow>
             gc_setShader(shader_fieldSatur)
-            gc_translate(0,4)
+            gc_translate(0,6)
         else
             gc_setShader(shader_fieldSatur)
         end
@@ -197,7 +197,7 @@ local function _drawField(P,showInvis)
         if ENV.upEdge then
             gc_push('transform')
             gc_setShader(shader_lighter)
-            gc_translate(0,-4)
+            gc_translate(0,-6)
             -- <drawRow>
                 for j=start,min(start+21,#F) do
                     while j==P.clearingRow[h] do

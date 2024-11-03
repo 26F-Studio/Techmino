@@ -49,6 +49,10 @@ SCR.setSize(1280,720) -- Initialize Screen size
 BGM.setMaxSources(5)
 VOC.setDiversion(.62)
 
+if SYSTEM == 'Web' and not WEB_COMPAT_MODE then
+    CLIPBOARD.setFreshInterval(.5)
+end
+
 WIDGET.setOnChange(function()
     if SCN.cur=='net_game' or SCN.cur=='custom_field' then return end
     local colorList=THEME.getThemeColor()
@@ -294,39 +298,41 @@ IMG.init{
     },
 }
 SKIN.load{
-    {name="crystal_scf",           path='media/image/skin/crystal_scf.png'},
-    {name="matte_mrz",             path='media/image/skin/matte_mrz.png'},
-    {name="shiny_chno",            path='media/image/skin/shiny_chno.png'},
-    {name="contrast_mrz",          path='media/image/skin/contrast_mrz.png'},
-    {name="polkadots_scf",         path='media/image/skin/polkadots_scf.png'},
-    {name="toy_scf",               path='media/image/skin/toy_scf.png'},
-    {name="smooth_mrz",            path='media/image/skin/smooth_mrz.png'},
-    {name="simple_scf",            path='media/image/skin/simple_scf.png'},
-    {name="glass_scf",             path='media/image/skin/glass_scf.png'},
-    {name="penta_scf",             path='media/image/skin/penta_scf.png'},
-    {name="bubble_scf",            path='media/image/skin/bubble_scf.png'},
-    {name="minoes_scf",            path='media/image/skin/minoes_scf.png'},
-    {name="pure_mrz",              path='media/image/skin/pure_mrz.png'},
-    {name="bright_scf",            path='media/image/skin/bright_scf.png'},
-    {name="glow_mrz",              path='media/image/skin/glow_mrz.png'},
-    {name="plastic_mrz",           path='media/image/skin/plastic_mrz.png'},
-    {name="paper_mrz",             path='media/image/skin/paper_mrz.png'},
-    {name="yinyang_scf",           path='media/image/skin/yinyang_scf.png'},
-    {name="cartooncup_earety",     path='media/image/skin/cartooncup_earety.png'},
-    {name="jelly_miya",            path='media/image/skin/jelly_miya.png'},
-    {name="guidetris_xmiao_lusisi",path='media/image/skin/guidetris_xmiao_lusisi.png'},
-    {name="brick_notypey",         path='media/image/skin/brick_notypey.png'},
-    {name="gem_notypey",           path='media/image/skin/gem_notypey.png'},
-    {name="classic",               path='media/image/skin/classic_unknown.png'},
-    {name="ball_shaw",             path='media/image/skin/ball_shaw.png'},
-    {name="retro_notypey",         path='media/image/skin/retro_notypey.png'},
-    {name="pixel_chno",            path='media/image/skin/pixel_chno.png'},
-    {name="pastel_chno",           path='media/image/skin/pastel_chno.png'},
-    {name="letters_chno",          path='media/image/skin/letters_chno.png'},
-    {name="kanji_chno",            path='media/image/skin/kanji_chno.png'},
-    {name="textbone_mrz",          path='media/image/skin/textbone_mrz.png'},
-    {name="coloredbone_mrz",       path='media/image/skin/coloredbone_mrz.png'},
-    {name="wtf",                   path='media/image/skin/wtf_mrz.png'},
+    {name="Crystal (Scf)",                  path='media/image/skin/scf/crystal.png'},
+    {name="Smooth (MrZ)",                   path='media/image/skin/mrz/smooth.png'},
+    {name="Matte (MrZ)",                    path='media/image/skin/mrz/matte.png'},
+    {name="Glass (Scf)",                    path='media/image/skin/scf/glass.png'},
+    {name="Jelly (Miya)",                   path='media/image/skin/miya/jelly.png'},
+    {name="Simple (Scf)",                   path='media/image/skin/scf/simple.png'},
+    {name="Contrast (MrZ)",                 path='media/image/skin/mrz/contrast.png'},
+    {name="Plastic (MrZ)",                  path='media/image/skin/mrz/plastic.png'},
+    {name="Glow (MrZ)",                     path='media/image/skin/mrz/glow.png'},
+    {name="Bright (Scf)",                   path='media/image/skin/scf/bright.png'},
+    {name="Penta (Scf)",                    path='media/image/skin/scf/penta.png'},
+    {name="Bubble (Scf)",                   path='media/image/skin/scf/bubble.png'},
+    {name="Pure (MrZ)",                     path='media/image/skin/mrz/pure.png'},
+    {name="Letters (CHNO)",                 path='media/image/skin/chno/letters.png'},
+    {name="Kanji (CHNO)",                   path='media/image/skin/chno/kanji.png'},
+    {name="Pastel (CHNO)",                  path='media/image/skin/chno/pastel.png'},
+    {name="Classic",                        path='media/image/skin/unknown/classic.png'},
+    {name="Arcade (Asriel)",                path='media/image/skin/asriel/arcade.png'},
+    {name="Shiny (CHNO)",                   path='media/image/skin/chno/shiny.png'},
+    {name="Brick (Notypey)",                path='media/image/skin/notypey/brick.png'},
+    {name="Cartooncup (Earety)",            path='media/image/skin/earety/cartooncup.png'},
+    {name="Paper (MrZ)",                    path='media/image/skin/mrz/paper.png'},
+    {name="Toy (Scf)",                      path='media/image/skin/scf/toy.png'},
+    {name="Polkadots (Scf)",                path='media/image/skin/scf/polkadots.png'},
+    {name="Yinyang (Scf)",                  path='media/image/skin/scf/yinyang.png'},
+    {name="Minoes (Scf)",                   path='media/image/skin/scf/minoes.png'},
+    {name="Cardboard (Asriel, slimenergy)", path='media/image/skin/asriel/cardboard.png'},
+    {name="Ball (Shaw)",                    path='media/image/skin/shaw/ball.png'},
+    {name="Gem (Notypey)",                  path='media/image/skin/notypey/gem.png'},
+    {name="Pixel (CHNO)",                   path='media/image/skin/chno/pixel.png'},
+    {name="Retro (Notypey)",                path='media/image/skin/notypey/retro.png'},
+    {name="Guidetris (xmiao, lusisi)",      path='media/image/skin/guidetris_xmiao_lusisi.png'},
+    {name="Textbone (MrZ)",                 path='media/image/skin/mrz/textbone.png'},
+    {name="Coloredbone (MrZ)",              path='media/image/skin/mrz/coloredbone.png'},
+    {name="WTF (MrZ)",                      path='media/image/skin/mrz/wtf.png'},
 }
 
 -- Initialize sound libs
@@ -425,7 +431,8 @@ do
     for _,v in next,SETTING.skin do if v<1 or v>17 then v=17 end end
     if not RSlist[SETTING.RS] then SETTING.RS='TRS' end
     if SETTING.ghostType=='greyCell' then SETTING.ghostType='grayCell' end
-    if type(SETTING.skinSet)=='number' then SETTING.skinSet='crystal_scf' end
+    if type(SETTING.skinSet)=='number' then SETTING.skinSet='Crystal (Scf)' end
+    if string.find(SETTING.skinSet,"_") then SETTING.skinSet='Crystal (Scf)' end
     if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul) then SETTING.frameMul=100 end
     if SETTING.cv then SETTING.vocPack,SETTING.cv=SETTING.cv end
     if type(SETTING.bg)~='string' then SETTING.bg='on' end

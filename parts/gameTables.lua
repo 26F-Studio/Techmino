@@ -623,7 +623,7 @@ do-- Userdata tables
         maxFPS=60,
         frameMul=100,
         locale='zh',
-        skinSet='crystal_scf',
+        skinSet='Crystal (Scf)',
         skin={
             1,7,11,3,14,4,9,
             1,7,2,6,10,2,13,5,9,15,4,11,3,12,2,16,8,4,

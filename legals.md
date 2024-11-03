@@ -12,6 +12,8 @@ Lua is free software distributed under the terms of the MIT license. Copyright �
 
 json.lua is copyrighted by rxi. © 2022 rxi.
 
+discord-rpc.dll is copyrighted by Discord, Inc. © 2017 Discord, Inc.
+
 IBM Plex is copyrighted by the International Business Machines Corporation. IBM and IBM Plex are trademarks of IBM Corp, registered in many jurisdictions worldwide. IBM Plex is licensed under the SIL Open Font License, Version 1.1.
 
 
