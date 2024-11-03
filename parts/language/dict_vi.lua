@@ -632,7 +632,7 @@ Xem mục tiếp theo để biết thêm.
     {"Death ARE",
         "nhom05e1 die delay",
         "term",
-        "Một cơ chế đặc biệt cho phép tránh game over trong một số trường hợp.\n\nDeath ARE sẽ được kích hoạt khi có một viên gạch chặn ngay tại vị trí xuất hiện của gạch mới (dẫn tới hiện tượng block out)\nKhi kích hoạt, spawn ARE sẽ được cộng với Death ARE để cho phép người chơi dùng IRS, IHS hoặc IMS.\n\nÝ tưởng về cơ chế này được đề xuất lần đầu bởi @NOT_A_ROBOT.",
+        "Một cơ chế đặc biệt cho phép tránh game over trong một số trường hợp.\n\nDeath ARE sẽ được kích hoạt khi có một viên gạch chặn ngay tại vị trí xuất hiện của gạch mới (dẫn tới hiện tượng block out)\nKhi kích hoạt, spawn ARE sẽ được cộng với Death ARE để cho phép người chơi có cơ hội dùng IRS, IHS và IMS.\n\nÝ tưởng về cơ chế này được đề xuất lần đầu bởi @NOT_A_ROBOT.",
     },
     {">E2|Thg số đ.khiển",
         "nhom05e2",
