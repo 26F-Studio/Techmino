@@ -7,7 +7,7 @@ end
 return {
     das=16,arr=6,
     sddas=1,sdarr=1,
-    irs=false,ims=false,
+    logicalIRS=false,logicalIMS=false,
     drop=1,lock=1,
     wait=10,fall=25,
     freshLimit=0,

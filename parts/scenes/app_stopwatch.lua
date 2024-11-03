@@ -27,6 +27,7 @@ function scene.enter()
     state=0
     time1=STRING.time(0)
     time2=STRING.time(0)
+    DiscordRPC.update("Timing something")
 end
 
 function scene.mouseDown()

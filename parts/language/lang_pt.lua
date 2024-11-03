@@ -572,6 +572,7 @@ return {
 
             das="DAS",arr="ARR",
             dascut="DAS cut",
+            irscut="IRS cut",
             -- dropcut="Auto-lock cut",
             sddas="Soft Drop DAS",sdarr="Soft Drop ARR",
             ihs="Segurar Inicial",
@@ -947,7 +948,7 @@ return {
         "1next 1hold!",
         "1next 6hold!",
         "Na verdade 20G é uma regra de jogo nova.",
-        "40-line Sprint WR: 13.650s by WestL",
+        "40-line Sprint WR: 13.430s by WestL",
         "6next 1hold!",
         "6next 6hold?!",
         "ALL SPIN!",

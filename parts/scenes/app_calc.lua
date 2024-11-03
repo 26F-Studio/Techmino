@@ -28,6 +28,7 @@ function scene.enter()
     BG.set('none')
     BGM.stop()
     reg,val,sym=false,"0",false
+    DiscordRPC.update("Calculating something")
 end
 function scene.leave()
     BGM.play()

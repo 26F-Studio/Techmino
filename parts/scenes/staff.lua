@@ -17,6 +17,7 @@ function scene.enter()
     BG.set()
     names={}
     counter=26
+    DiscordRPC.update("Knowing Staffs")
 end
 
 function scene.mouseDown(x,y)

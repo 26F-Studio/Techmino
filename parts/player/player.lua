@@ -270,27 +270,61 @@ function Player:act_rotRight()
     if not self.control then return end
     if self.cur then
         self.ctrlCount=self.ctrlCount+1
+        if self.bufferedIRS then
+            -- Ensure IRS is spent before the rotation is processed so it doesn't throw things off.
+            -- This is so that if you for instance, are holding left IRS and then rotate right, it doesn't process
+            -- the left and right rotates in the reverse order.
+            self.keyPressing[3] = false
+            self:resolveIRS()
+            self.keyPressing[3] = true
+        end
         self:spin(1)
         self:_triggerEvent('hook_rotate',1)
-        -- self.keyPressing[3]=false New IRS allows you to keep holding rotate
+        
+        -- Disable held inputs if IRS is off
+        if not self.gameEnv.irs then
+            self.keyPressing[3]=false
+        end
     end
 end
 function Player:act_rotLeft()
     if not self.control then return end
     if self.cur then
         self.ctrlCount=self.ctrlCount+1
+        if self.bufferedIRS then
+            -- Ensure IRS is spent before the rotation is processed so it doesn't throw things off.
+            -- This is so that if you for instance, are holding left IRS and then rotate right, it doesn't process
+            -- the left and right rotates in the reverse order.
+            self.keyPressing[4] = false
+            self:resolveIRS()
+            self.keyPressing[4] = true
+        end
         self:spin(3)
         self:_triggerEvent('hook_rotate',3)
-        -- self.keyPressing[4]=false New IRS allows you to keep holding rotate
+        -- Disable held inputs if IRS is off
+        if not self.gameEnv.irs then
+            self.keyPressing[4]=false
+        end
     end
 end
 function Player:act_rot180()
     if not self.control then return end
     if self.cur then
         self.ctrlCount=self.ctrlCount+2
+        if self.bufferedIRS then
+            -- Ensure IRS is spent before the rotation is processed so it doesn't throw things off.
+            -- This is so that if you for instance, are holding left IRS and then rotate right, it doesn't process
+            -- the left and right rotates in the reverse order.
+            self.keyPressing[5] = false
+            self:resolveIRS()
+            self.keyPressing[5] = true
+        end
         self:spin(2)
         self:_triggerEvent('hook_rotate',2)
-        -- self.keyPressing[5]=false New IRS allows you to keep holding rotate
+        -- Disable held inputs if IRS is off
+        if not self.gameEnv.irs then
+            self.keyPressing[5]=false
+        end
     end
 end
 function Player:act_hardDrop()
@@ -300,6 +334,10 @@ function Player:act_hardDrop()
         if self.lastPiece.autoLock and self.frameRun-self.lastPiece.frame<ENV.dropcut then
             SFX.play('drop_cancel',.3)
         else
+            if self.bufferedIRS then
+                -- If the player drops quicker than their IRS cut delay, make sure IRS still resolves.
+                self:resolveIRS()
+            end
             if self.curY>self.ghoY then
                 self:createDropFX()
                 self.curY=self.ghoY
@@ -344,7 +382,10 @@ function Player:act_hold()
     if not self.control then return end
     if self.cur then
         if self:hold() then
-            -- self.keyPressing[8]=false New IRS allows you to keep holding hold
+            -- Disable held inputs if IHS is off
+            if not self.gameEnv.ihs then
+                self.keyPressing[8]=false
+            end
             self:_triggerEvent('hook_hold')
         end
     end
@@ -701,6 +742,40 @@ function Player:_triggerEvent(eventName)
         return true
     end
 end
+function Player:extraEvent(eventName,...)
+    if not (self.gameEnv.extraEvent and self.gameEnv.extraEventHandler) then return end
+    local list=self.gameEnv.extraEvent
+    local eventID
+    for i=1,#list do
+        if list[i][1]==eventName then
+            eventID=i
+            break
+        end
+    end
+    if not eventID then
+        MES.new('warn',"Extra event '"..eventName.."' doesn't exist in this mode")
+        return
+    end
+
+    local SELF
+    -- Trigger for all non-remote players
+    for _,p in next,PLAYERS do
+        if p.type~='remote' then
+            if p.type=='human' then
+                SELF=p
+            end
+            self.gameEnv.extraEventHandler[eventName](p,self,...)
+        end
+    end
+
+    ins(GAME.rep,SELF.frameRun)
+    ins(GAME.rep,64+eventID)
+    ins(GAME.rep,self.sid)
+    local data={...}
+    for i=1,#data do
+        ins(GAME.rep,data[i])
+    end
+end
 
 function Player:getHolePos()-- Get a good garbage-line hole position
     if self.garbageBeneath==0 then
@@ -833,34 +908,46 @@ function Player:ifoverlap(bk,x,y)
         end
     end
 end
-function Player:attack(R,send,time,line,fromStream)
-    if GAME.net then
-        if self.type=='human' then-- Local player attack others
-            ins(GAME.rep,self.frameRun)
-            ins(GAME.rep,
-                R.sid+
-                send*0x100+
-                time*0x10000+
-                line*0x100000000+
-                0x2000000000000
-            )
-            self:createBeam(R,send)
-        end
-        if fromStream and R.type=='human' then-- Local player receiving lines
-            ins(GAME.rep,R.frameRun)
-            ins(GAME.rep,
-                self.sid+
-                send*0x100+
-                time*0x10000+
-                line*0x100000000+
-                0x1000000000000
-            )
-            R:receive(self,send,time,line)
-        end
-    else
-        R:receive(self,send,time,line)
-        self:createBeam(R,send)
+function Player:attack(R,send,time,line)
+    local sid = R.sid
+    -- Add the attack to the list of in-transit attacks.
+    -- These attacks will be able to cancel with incoming attacks that cross them.
+    if not self.inTransitAttacks then
+        self.inTransitAttacks = {}
     end
+    if not self.inTransitAttacks[sid] then
+        self.inTransitAttacks[sid] = {seenAttacks = 0}
+    end
+    table.insert(self.inTransitAttacks[sid], {send=send, time=time, line=line})    
+    -- Send the attack
+    -- We also send the number of seen attacks from this player.
+    -- This allows that player to know which attacks are still in transit, and which have already arrived.
+    -- This is because... if a player already saw an attack before sending this one, the attacks did not cross.
+    -- But if they didn't see the attack, then the attacks must have crossed (and should cancel each other)
+    self:extraEvent('attack',sid,send,time,line,self.inTransitAttacks[sid].seenAttacks)
+end
+function Player:beAttacked(source,target_sid,send,time,line,seenCount)
+    -- Only recieve the attack if you are the target.
+    if self==source or self.sid~=target_sid then return end
+
+    if not self.inTransitAttacks then
+        self.inTransitAttacks = {}
+    end
+    if not self.inTransitAttacks[source.sid] then
+        self.inTransitAttacks[source.sid] = {seenAttacks = 0}
+    end
+    -- Increment the number of seen attacks from that player.
+    self.inTransitAttacks[source.sid].seenAttacks = self.inTransitAttacks[source.sid].seenAttacks + 1
+    -- Block against any in-transit attacks before recieving (this prevents passhtrough)
+    for i=seenCount+1,#self.inTransitAttacks[source.sid] do
+        local atk = self.inTransitAttacks[source.sid][i]
+        local cancel = MATH.min(atk.send, send)
+        atk.send = atk.send - cancel
+        send = send - cancel
+    end
+
+    self:receive(source,send,time,line)
+    source:createBeam(self,send)
 end
 function Player:receive(A,send,time,line)
     self.lastRecv=A
@@ -1151,34 +1238,67 @@ function Player:resetBlock()-- Reset Block's position and execute I*S
     self.curY=y
     self.minY=y+sc[1]
 
+    local ENV = self.gameEnv
+
+    -- In the game settings, there are user-set control flags for irs,irs,ims
+    -- These control in what way the user can buffer their rotate/hold/move inputs.
+    -- (If enabled, they may hold these inputs from the previous piece instead of just Entry Delay)
+
+    -- And mode-set flags for logicalIRS,logicalIHS,logicalIMS
+    -- These control whether IRS/IHS/IMS are effective in modifying what you can do.
+    -- (For instance, changing your piece's spawn position in 20g, or saving you from a death).
+    -- If logical IRS is disabled, the player may still IRS, but it will just buffer their input,
+    -- not actually allowing them to survive in a way they could not without.
+
     local pressing=self.keyPressing
-    -- IMS
-    if self.gameEnv.ims and (pressing[1] and self.movDir==-1 or pressing[2] and self.movDir==1) and self.moving>=self.gameEnv.das then
-        local x=self.curX+self.movDir
-        if not self:ifoverlap(C.bk,x,y) then
-            self.curX=x
+    -- IMS is enabled only when logicalIMS is enabled, because otherwise, it's just faster DAS.
+    if ENV.logicalIMS and (pressing[1] and self.movDir==-1 or pressing[2] and self.movDir==1) and self.moving>=self.gameEnv.das then
+        -- To avoid a top-out
+        if self:ifoverlap(C.bk, self.curX, self.curY) then
+            -- Always perform the shift, since you're topped out anyway
+            self.curX = self.curX + self.movDir
+        elseif ENV.wait > 0 and ENV.ims then
+            -- Otherwise, only check IMS if it's enabled and you're in a mode with entry delay (20g)
+            local x=self.curX+self.movDir
+            if not self:ifoverlap(C.bk,x,y) then
+                self.curX=x
+            end
         end
     end
 
-    -- IRS
-    if self.gameEnv.irs then
+    if not ENV.logicalIRS then
+        -- If logical IRS is disabled, all IRS inputs will be buffered to prevent survival.
+        self.bufferedIRS = true
+        self.bufferedDelay = 0
+        if ENV.wait == 0 then
+            self.bufferedDelay = ENV.irscut
+        end
+    elseif ENV.wait==0 and ENV.irscut>0 and not self:ifoverlap(C.bk, self.curX, self.curY) then
+        -- If IRS cut delay is enabled and we aren't currently dying, buffer the input instead.
+        self.bufferedIRS = true
+        self.bufferedDelay = ENV.irscut
+    else
+        -- If we're currently dying or in an entry-delay mode (20g), perform the rotation right away.
         if pressing[5] then
-            self:spin(2,true)
+            self:act_rot180()
         elseif pressing[3] then
             if pressing[4] then
-                self:spin(2,true)
+                self:act_rot180()
             else
-                self:spin(1,true)
+                self:act_rotRight()
             end
         elseif pressing[4] then
-            self:spin(3,true)
+            self:act_rotLeft()
         end
-        -- pressing[3],pressing[4],pressing[5]=false,false,false New IRS allows you to keep holding rotate
+    end
+    -- Disable held inputs if IRS is off
+    if not ENV.irs then
+        pressing[3],pressing[4],pressing[5]=false,false,false
     end
 
     -- DAS cut
-    if self.gameEnv.dascut>0 then
-        self.moving=self.moving-(self.moving>0 and 1 or -1)*self.gameEnv.dascut
+    if ENV.dascut>0 then
+        self.moving=self.moving-(self.moving>0 and 1 or -1)*ENV.dascut
     end
 
     -- Spawn SFX
@@ -1498,9 +1618,29 @@ function Player:_popNext(ifhold)-- Pop nextQueue to hand
     local pressing=self.keyPressing
 
     -- IHS
-    if not ifhold and pressing[8] and ENV.ihs and self.holdTime>0 then
-        self:hold(true)
-        -- pressing[8]=false New IRS allows you to keep holding hold
+    if not ifhold and pressing[8] and self.holdTime>0 then
+        if not ENV.logicalIHS then
+            -- If logical IHS is disabled, all IHS inputs will be buffered to prevent survival.
+            self.bufferedIRS = true
+            self.bufferedIHS = true
+            self.bufferedDelay = 0
+            if ENV.wait == 0 then
+                self.bufferedDelay = ENV.irscut
+            end
+        elseif ENV.wait==0 and ENV.irscut>0 and not self:willDieWith(self.cur) then
+            -- If IRS cut delay is enabled and we're not currently dying, buffer the input instead.
+            self.bufferedIRS = true
+            self.bufferedIHS = true
+            self.bufferedDelay = ENV.irscut
+            self:resetBlock()
+        else
+            -- If we're currently dying or in an entry-delay mode (20g), perform the hold immediately.
+            self:hold(true)
+        end
+        -- Disable held inputs if IHS is off
+        if not ENV.ihs then
+            pressing[8]=false
+        end
     else
         self:resetBlock()
     end
@@ -1814,7 +1954,7 @@ do
             end
         end
 
-        local yomi = ""
+        local yomi=''
 
         piece.spin,piece.mini=dospin,false
         piece.pc,piece.hpc=false,false
@@ -1825,7 +1965,7 @@ do
                 cscore=(spinSCR[C.name] or spinSCR[8])[cc]
                 if self.b2b>800 then
                     self:showText(text.b3b..text.block[C.name]..text.spin..text.clear[cc],0,-30,35,'stretch')
-                    yomi = yomi..text.b3b..text.block[C.name]..text.spin..text.clear[cc]
+                    yomi=yomi..text.b3b..text.block[C.name]..text.spin..text.clear[cc]
                     atk=b2bATK[cc]+cc*.5
                     exblock=exblock+1
                     cscore=cscore*2
@@ -1835,7 +1975,7 @@ do
                     end
                 elseif self.b2b>=50 then
                     self:showText(text.b2b..text.block[C.name]..text.spin..text.clear[cc],0,-30,35,'spin')
-                    yomi = yomi..text.b2b..text.block[C.name]..text.spin..text.clear[cc]
+                    yomi=yomi..text.b2b..text.block[C.name]..text.spin..text.clear[cc]
                     atk=b2bATK[cc]
                     cscore=cscore*1.2
                     Stat.b2b=Stat.b2b+1
@@ -1844,13 +1984,13 @@ do
                     end
                 else
                     self:showText(text.block[C.name]..text.spin..text.clear[cc],0,-30,45,'spin')
-                    yomi = yomi..text.block[C.name]..text.spin..text.clear[cc]
+                    yomi=yomi..text.block[C.name]..text.spin..text.clear[cc]
                     atk=2*cc
                 end
                 sendTime=20+atk*20
                 if mini then
                     self:showText(text.mini,0,-80,35,'appear')
-                    yomi = text.mini..' '..yomi
+                    yomi=text.mini..' '..yomi
                     atk=atk*.25
                     sendTime=sendTime+60
                     cscore=cscore*.5
@@ -1871,7 +2011,7 @@ do
                 cscore=clearSCR[cc]
                 if self.b2b>800 then
                     self:showText(text.b3b..text.clear[cc],0,-30,50,'fly')
-                    yomi = text.b3b..text.clear[cc]..yomi
+                    yomi=text.b3b..text.clear[cc]..yomi
                     atk=4*cc-10
                     sendTime=100
                     exblock=exblock+1
@@ -1882,7 +2022,7 @@ do
                     end
                 elseif self.b2b>=50 then
                     self:showText(text.b2b..text.clear[cc],0,-30,50,'drive')
-                    yomi = text.b2b..text.clear[cc]..yomi
+                    yomi=text.b2b..text.clear[cc]..yomi
                     sendTime=80
                     atk=3*cc-7
                     cscore=cscore*1.3
@@ -1892,7 +2032,7 @@ do
                     end
                 else
                     self:showText(text.clear[cc],0,-30,70,'stretch')
-                    yomi = text.clear[cc]..yomi
+                    yomi=text.clear[cc]..yomi
                     sendTime=60
                     atk=2*cc-4
                 end
@@ -1900,7 +2040,7 @@ do
                 piece.special=true
             else
                 self:showText(text.clear[cc],0,-30,35,'appear',(8-cc)*.3)
-                yomi = text.clear[cc]..yomi
+                yomi=text.clear[cc]..yomi
                 atk=cc-.5
                 sendTime=20+floor(atk*20)
                 cscore=cscore+clearSCR[cc]
@@ -1919,7 +2059,7 @@ do
                     atk=atk+1
                 end
                 self:showText(text.cmb[min(cmb,21)],0,25,15+min(cmb,15)*5,cmb<10 and 'appear' or 'flicker')
-                yomi = yomi..' '..text.cmb[min(cmb,21)]
+                yomi=yomi..' '..text.cmb[min(cmb,21)]
                 cscore=cscore+min(50*cmb,500)*(2*cc-1)
             end
 
@@ -2447,6 +2587,28 @@ local function _updateFX(P,dt)
         end
     end
 end
+
+function Player:resolveIRS()
+    if self.bufferedIHS then
+        self:hold(true)
+        self.bufferedIHS = false
+    end
+
+    self.bufferedIRS = false
+    local pressing = self.keyPressing
+    if pressing[5] then
+        self:act_rot180()
+    elseif pressing[3] then
+        if pressing[4] then
+            self:act_rot180()
+        else
+            self:act_rotRight()
+        end
+    elseif pressing[4] then
+        self:act_rotLeft()
+    end
+end
+
 local function update_alive(P,dt)
     local ENV=P.gameEnv
 
@@ -2501,6 +2663,18 @@ local function update_alive(P,dt)
                 if L[i]>0 then
                     L[i]=L[i]-1
                 end
+            end
+        end
+    end
+    
+    -- Buffer IRS after IRS cut delay has elapsed.
+    -- The purpose of this is to allow the player to release their rotate key during the IRS cut delay,
+    -- which will allow them to avoid accidentally using IRS.
+    if P.bufferedDelay then
+        P.bufferedDelay = P.bufferedDelay - 1
+        if P.bufferedDelay <= 0 then
+            if P.bufferedIRS then
+                P:resolveIRS()
             end
         end
     end
@@ -2701,44 +2875,32 @@ local function update_alive(P,dt)
 end
 local function update_streaming(P)
     local eventTime=P.stream[P.streamProgress]
-    while eventTime and P.frameRun==eventTime do
+    while eventTime and P.frameRun==eventTime or eventTime==0 do
         local event=P.stream[P.streamProgress+1]
         if event==0 then-- Just wait
         elseif event<=32 then-- Press key
             P:pressKey(event)
         elseif event<=64 then-- Release key
             P:releaseKey(event-32)
-        elseif event>0x2000000000000 then-- Sending lines
-            local sid=event%0x100
-            local amount=floor(event/0x100)%0x100
-            local time=floor(event/0x10000)%0x10000
-            local line=floor(event/0x100000000)%0x10000
-            for _,p in next,PLY_ALIVE do
-                if p.sid==sid then
-                    P.netAtk=P.netAtk+amount
-                    if P.netAtk~=P.stat.send then-- He cheated or just desynchronized to death
-                        MES.new('warn',"#"..P.uid.." desynchronized")
-                        NET.player_finish({reason='desync'})
-                        P:lose(true)
-                        return
-                    end
-                    P:attack(p,amount,time,line,true)
-                    P:createBeam(p,amount)
+        elseif event<=128 then-- Extra Event
+            local eventName=P.gameEnv.extraEvent[event-64][1]
+            local eventParamCount=P.gameEnv.extraEvent[event-64][2]
+            local sourceSid=P.stream[P.streamProgress+2]
+            local paramList={}
+            for i=1,eventParamCount do
+                ins(paramList,P.stream[P.streamProgress+2+i])
+            end
+            P.streamProgress=P.streamProgress+eventParamCount+1
+
+            local SRC
+            for _,p in next,PLAYERS do
+                if p.sid==sourceSid then
+                    SRC=p
                     break
                 end
             end
-        elseif event>0x1000000000000 then-- Receiving lines
-            local sid=event%0x100
-            for _,p in next,PLY_ALIVE do
-                if p.sid==sid then
-                    P:receive(
-                        p,
-                        floor(event/0x100)%0x100,-- amount
-                        floor(event/0x10000)%0x10000,-- time
-                        floor(event/0x100000000)%0x10000-- line
-                    )
-                    break
-                end
+            if SRC then
+                P.gameEnv.extraEventHandler[eventName](P,SRC,unpack(paramList))
             end
         end
         P.streamProgress=P.streamProgress+2
@@ -2801,7 +2963,7 @@ function Player:update(dt)
         end
         while self.trigFrame>=1 do
             if self.streamProgress then
-                local frameDelta-- Time between now and end of stream
+                local dataDelta=0 -- How much data wating to be process
                 if self.type=='remote' then
                     if self.loseTimer then
                         self.loseTimer=self.loseTimer-1
@@ -2810,25 +2972,24 @@ function Player:update(dt)
                             self:lose(true)
                         end
                     end
-                    frameDelta=(self.stream[#self.stream-1] or 0)-self.frameRun
-                    if frameDelta==0 then frameDelta=nil end
-                else
-                    frameDelta=0
+                    dataDelta=#self.stream-self.streamProgress
                 end
-                if frameDelta then
+                if dataDelta>0 then
                     for _=1,
-                        self.loseTimer and min(frameDelta,
+                        -- Speed up to finish
+                        self.loseTimer and min(dataDelta,
                             self.loseTimer>16 and 2 or
                             self.loseTimer>6.2 and 12 or
                             self.loseTimer>2.6 and 260 or
                             2600
                         ) or
-                        frameDelta<26 and 1 or
-                        frameDelta<50 and 2 or
-                        frameDelta<80 and 3 or
-                        frameDelta<120 and 5 or
-                        frameDelta<160 and 7 or
-                        frameDelta<200 and 10 or
+                        -- Chasing faster when slower
+                        dataDelta<26 and 1 or
+                        dataDelta<42 and 2 or
+                        dataDelta<62 and 3 or
+                        dataDelta<70.23 and 5 or
+                        dataDelta<94.2 and 7 or
+                        dataDelta<126 and 10 or
                         20
                     do
                         update_streaming(self)
@@ -2877,7 +3038,7 @@ function Player:revive()
     SFX.play('emit')
 end
 function Player:torikanEnd(requiredTime)
-    if self.stat.time < requiredTime then
+    if self.stat.time<requiredTime then
         return false
     end
     self:_die()

@@ -120,20 +120,17 @@ local seqGenerators={
             -- Pick a mino from pool
             local tryTime=0
             local r
-            repeat-- ::REPEAT_pickAgain::
-                local pickAgain
+            repeat
                 r=_poolPick()-- Random mino-index in pool
+                local duplicated
                 for i=1,len do
                     if r==history[i] then
-                        tryTime=tryTime+1
-                        if tryTime<hisLen then
-                            pickAgain=true
-                            break-- goto REPEAT_pickAgain
-                        end
+                        duplicated=true
+                        break
                     end
                 end
-                if not pickAgain then break end
-            until true
+                tryTime=tryTime+1
+            until not duplicated or tryTime>hisLen
 
             -- Give mino to player & update history
             if history[1]~=0 then

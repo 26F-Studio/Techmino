@@ -2,6 +2,7 @@ local scene={}
 
 function scene.enter()
     BG.set()
+    DiscordRPC.update("Ready to Click \"Rooms\"")
 end
 function scene.leave()
     NET.ws_close()

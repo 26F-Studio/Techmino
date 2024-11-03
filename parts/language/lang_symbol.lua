@@ -329,6 +329,7 @@ return {
 
             das="x---x x x",arr="x   x-x-x",
             dascut="x x ↓___x x",
+            irscut="'' !''x",
             dropcut="↓_ !↓↓x",
             sddas="↓---↓ ↓ ↓",sdarr="↓   ↓-↓-↓",
             ihs="![ ]",

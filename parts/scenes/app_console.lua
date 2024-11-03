@@ -1034,6 +1034,7 @@ userG.the_key=first_key
 function scene.enter()
     WIDGET.focus(inputBox)
     BG.set('none')
+    DiscordRPC.update("Hacking the system")
 end
 
 function scene.wheelMoved(_,y)

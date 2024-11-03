@@ -26,6 +26,7 @@ if #bgmList==0 then bgmList={"[NO BGM]"} end
 function scene.enter()
     playing=BGM.getPlaying()[1]
     selected=TABLE.find(bgmList,playing) or 1
+    DiscordRPC.update("Elevating the soul through music")
 end
 
 function scene.wheelMoved(_,y)

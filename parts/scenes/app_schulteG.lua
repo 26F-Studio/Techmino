@@ -25,6 +25,7 @@ function scene.enter()
     mistake=0
     state=0
     progress=0
+    DiscordRPC.update("Playing Schulte Grid")
 end
 
 local function newBoard()

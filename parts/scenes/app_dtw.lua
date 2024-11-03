@@ -201,6 +201,7 @@ function scene.enter()
     reset()
     BG.set('fixColor',.26,.26,.26)
     BGM.play(bgm)
+    DiscordRPC.update("Avoiding touching white tiles")
 end
 
 local function touch(n)

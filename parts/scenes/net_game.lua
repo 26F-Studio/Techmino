@@ -46,6 +46,7 @@ local function _quit()
 end
 local function _switchChat()
     if inputBox.hide then
+
         textBox.hide=false
         inputBox.hide=false
         WIDGET.focus(inputBox)
@@ -71,6 +72,7 @@ function scene.enter()
         BG.set(GAME.prevBG)
         GAME.prevBG=false
     end
+    DiscordRPC.update("Playing Multiplayer")
 end
 function scene.leave()
     TASK.unlock('netPlaying')
@@ -310,16 +312,22 @@ end
 
 function scene.draw()
     if playing then
-        -- Players
-        for p=1,#PLAYERS do
-            PLAYERS[p]:draw()
+        -- Warning
+        drawWarning()
+
+        -- Players 
+        for p=1,#PLAYERS do 
+            PLAYERS[p]:draw() 
         end
 
         -- Virtual keys
         VK.draw()
 
-        -- Warning
-        drawWarning()
+        -- Add dark overlay if chat is open
+        if not textBox.hide then
+            gc_setColor(0, 0, 0, 0.62-0.26)
+            love.graphics.rectangle('fill',0,0,1280,720)
+        end
 
         if NET.spectate then
             setFont(30)
@@ -327,24 +335,46 @@ function scene.draw()
             gc_print(text.spectating,940,0)
         end
     else
-        -- Users
-        NETPLY.draw()
+        if textBox.hide then
+            -- Users
+            NETPLY.draw()
+
+            -- Room's capacity + private?
+            gc_setColor(1,1,1)
+            setFont(40)
+            gc_print(#NETPLY.list.."/"..NET.roomState.capacity,70,655)
+            if NET.roomState.private then
+                gc_draw(IMG.lock,30,668)
+            end
+        else
+            -- Room's capacity + private?
+            setFont(40)
+            gc_setColor(1,1,1)
+            gc_printf(#NETPLY.list.."/"..NET.roomState.capacity,1120,540,100,'right')
+            if NET.roomState.private then
+                gc_draw(IMG.lock,1070,553)
+            end
+            setFont(30)
+            -- Ready/Spectate indicator
+            if NETPLY.map[USER.uid].playMode=='Spectator' then
+                gc_printf(text.WidgetText.net_game.spectate,1020,600,240,'center')
+            elseif NETPLY.map[USER.uid].readyMode=='Ready' then
+                gc_printf(text.WidgetText.net_game.ready,1020,600,240,'center')
+            else
+                gc_printf('-----',1020,600,240,'center')
+            end
+        end
+
+        -- Room's name
+        gc_setColor(1,1,1)
+        setFont(25)
+        gc_printf(NET.roomState.info.name,0,685,1270,'right')
 
         -- Ready & Set mark
         setFont(50)
         if NET.roomAllReady then
             gc_setColor(.6,.95,1,.9)
             mStr(text.ready,640,15)
-        end
-
-        -- Room info.
-        gc_setColor(1,1,1)
-        setFont(25)
-        gc_printf(NET.roomState.info.name,0,685,1270,'right')
-        setFont(40)
-        gc_print(#NETPLY.list.."/"..NET.roomState.capacity,70,655)
-        if NET.roomState.private then
-            gc_draw(IMG.lock,30,668)
         end
 
         -- Profile
@@ -359,11 +389,12 @@ function scene.draw()
     if a then
         setFont(40)
         gc_setColor(.3,.7,1,a^2)
-        gc_print("M",430,10)
+        gc_print(CHAR.icon.pencil,430,10)
     end
 end
-local function _hideF_ready() return playing or (NETPLY.map[USER.uid].playMode=='Spectator' or NETPLY.map[USER.uid].readyMode=='Ready') end
-local function _hideF_standby() return playing or not (NETPLY.map[USER.uid].playMode=='Spectator' or NETPLY.map[USER.uid].readyMode=='Ready') end
+local function _hideF_ready() return not (textBox.hide) or playing or (NETPLY.map[USER.uid].playMode=='Spectator' or NETPLY.map[USER.uid].readyMode=='Ready') end
+local function _hideF_standby() return not (textBox.hide) or playing or not (NETPLY.map[USER.uid].playMode=='Spectator' or NETPLY.map[USER.uid].readyMode=='Ready') end
+local function _hideF_hideChat() return textBox.hide end
 scene.widgetList={
     textBox,
     inputBox,
@@ -379,6 +410,31 @@ scene.widgetList={
     WIDGET.newButton{x=190,y=65,w=30,color='lY',fText="",code=function() NET.player_joinGroup(4) end,hideF=_hideF_ready},
     WIDGET.newButton{x=230,y=65,w=30,color='lM',fText="",code=function() NET.player_joinGroup(5) end,hideF=_hideF_ready},
     WIDGET.newButton{x=270,y=65,w=30,color='lC',fText="",code=function() NET.player_joinGroup(6) end,hideF=_hideF_ready},
+
+    WIDGET.newKey{x=1045,y=135,w=50,font=40,fText=CHAR.zChan.normal     ,code=function() inputBox:addText(CHAR.zChan.normal     ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1110,y=135,w=50,font=40,fText=CHAR.zChan.full       ,code=function() inputBox:addText(CHAR.zChan.full       ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1175,y=135,w=50,font=40,fText=CHAR.zChan.happy      ,code=function() inputBox:addText(CHAR.zChan.happy      ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1240,y=135,w=50,font=40,fText=CHAR.zChan.confused   ,code=function() inputBox:addText(CHAR.zChan.confused   ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1045,y=200,w=50,font=40,fText=CHAR.zChan.grinning   ,code=function() inputBox:addText(CHAR.zChan.grinning   ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1110,y=200,w=50,font=40,fText=CHAR.zChan.frowning   ,code=function() inputBox:addText(CHAR.zChan.frowning   ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1175,y=200,w=50,font=40,fText=CHAR.zChan.tears      ,code=function() inputBox:addText(CHAR.zChan.tears      ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1240,y=200,w=50,font=40,fText=CHAR.zChan.anxious    ,code=function() inputBox:addText(CHAR.zChan.anxious    ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1045,y=265,w=50,font=40,fText=CHAR.zChan.rage       ,code=function() inputBox:addText(CHAR.zChan.rage       ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1110,y=265,w=50,font=40,fText=CHAR.zChan.fear       ,code=function() inputBox:addText(CHAR.zChan.fear       ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1175,y=265,w=50,font=40,fText=CHAR.zChan.question   ,code=function() inputBox:addText(CHAR.zChan.question   ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1240,y=265,w=50,font=40,fText=CHAR.zChan.angry      ,code=function() inputBox:addText(CHAR.zChan.angry      ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1045,y=330,w=50,font=40,fText=CHAR.zChan.shocked    ,code=function() inputBox:addText(CHAR.zChan.shocked    ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1110,y=330,w=50,font=40,fText=CHAR.zChan.ellipses   ,code=function() inputBox:addText(CHAR.zChan.ellipses   ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1175,y=330,w=50,font=40,fText=CHAR.zChan.sweatDrop  ,code=function() inputBox:addText(CHAR.zChan.sweatDrop  ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1240,y=330,w=50,font=40,fText=CHAR.zChan.cry        ,code=function() inputBox:addText(CHAR.zChan.cry        ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1045,y=395,w=50,font=40,fText=CHAR.zChan.cracked    ,code=function() inputBox:addText(CHAR.zChan.cracked    ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1110,y=395,w=50,font=40,fText=CHAR.zChan.qualified  ,code=function() inputBox:addText(CHAR.zChan.qualified  ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1175,y=395,w=50,font=40,fText=CHAR.zChan.unqualified,code=function() inputBox:addText(CHAR.zChan.unqualified) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1240,y=395,w=50,font=40,fText=CHAR.zChan.understand ,code=function() inputBox:addText(CHAR.zChan.understand ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1045,y=460,w=50,font=40,fText=CHAR.zChan.thinking   ,code=function() inputBox:addText(CHAR.zChan.thinking   ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1110,y=460,w=50,font=40,fText=CHAR.zChan.spark      ,code=function() inputBox:addText(CHAR.zChan.spark      ) end,hideF=_hideF_hideChat},
+--  WIDGET.newKey{x=1175,y=460,w=50,font=40,fText=CHAR.zChan.           ,code=function() inputBox:addText(                      ) end,hideF=_hideF_hideChat},
+    WIDGET.newKey{x=1240,y=460,w=50,font=40,fText=CHAR.zChan.none       ,code=function() inputBox:addText(CHAR.zChan.none       ) end,hideF=_hideF_hideChat},
 
     WIDGET.newKey{name='chat',    x=390,y=45,w=60,fText="···",                code=_switchChat},
     WIDGET.newKey{name='quit',    x=890,y=45,w=60,font=30,fText=CHAR.icon.cross_thick,code=_quit},

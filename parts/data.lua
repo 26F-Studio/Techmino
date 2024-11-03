@@ -256,54 +256,34 @@ end
     large value will be encoded as 1xxxxxxx(high)-1xxxxxxx-...-0xxxxxxx(low)
 
     Example (decoded):
-        6,1, 20,-1, 0,2, 26,-2, 872,4, ...
+        26,1, 42,-1, ...
     This means:
-        Press key1 at 6f
-        Release key1 at 26f (6+20)
-        Press key2 at the same time (26+0)
-        Release key 2 after 26 frame (26+26)
-        Press key 4 after 872 frame (52+872)
+        Press key1 at 26f
+        Release key1 at 42f
         ...
 ]]
 function DATA.dumpRecording(list,ptr)
     local out=""
     local buffer=""
     if not ptr then ptr=1 end
-    local prevFrm=list[ptr-2] or 0
     while list[ptr] do
-        -- Flush buffer
-        if #buffer>10 then
+        if #buffer>26 then
             out=out..buffer
             buffer=""
         end
-
-        -- Encode time
-        local t=list[ptr]-prevFrm
-        prevFrm=list[ptr]
-        buffer=buffer.._encode(t)
-
-        -- Encode event
-        buffer=buffer.._encode(list[ptr+1])
-
-        -- Step
-        ptr=ptr+2
+        buffer=buffer.._encode(list[ptr])
+        ptr=ptr+1
     end
     return out..buffer,ptr
 end
 function DATA.pumpRecording(str,L)
     local len=#str
     local p=1
+    local data
 
-    local curFrm=L[#L-1] or 0
     while p<=len do
-        local code,event
-        -- Read delta time
-        code,p=_decode(str,p)
-        curFrm=curFrm+code
-        ins(L,curFrm)
-
-        event,p=_decode(str,p)
-        ins(L,event)
+        data,p=_decode(str,p)
+        ins(L,data)
     end
 end
 do-- function DATA.saveReplay()

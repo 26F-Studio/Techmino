@@ -531,6 +531,7 @@ return {
 
             das="Set.DAS=",arr="Set.SRR=",
             dascut="Set.DASCut=",
+            irscut="Set.IRSCut=",
             dropcut="Set.DropCut=",
             sddas="Set.SDDAS=",sdarr="Set.SDARR=",
             ihs="Set.IHS",

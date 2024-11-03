@@ -44,6 +44,8 @@ function scene.enter()
     GAME.setting={}
     PLY.newDemoPlayer(1)
     PLAYERS[1]:setPosition(520,140,.8)
+
+    DiscordRPC.update("In Main Menu")
 end
 
 function scene.resize()

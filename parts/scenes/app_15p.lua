@@ -29,6 +29,7 @@ function scene.enter()
     slide=true
     pathVis=true
     revKB=false
+    DiscordRPC.update("Playing 15-Puzzle")
 end
 
 local function moveU(x,y)

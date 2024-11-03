@@ -18,6 +18,7 @@ end
 function scene.enter()
     reset()
     BG.set('none')
+    DiscordRPC.update("Playing Reflect")
 end
 
 function scene.keyDown(key,isRep)

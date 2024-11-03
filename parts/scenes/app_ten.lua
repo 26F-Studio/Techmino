@@ -64,6 +64,7 @@ function scene.enter()
     invis=false
     nexts=true
     reset()
+    DiscordRPC.update("Playing Get the Ten")
 end
 
 local function merge()

@@ -618,6 +618,7 @@ C. Tay cầm chơi game (Gamepad):
 
             das="DAS",arr="ARR",
             dascut="DAS cut",
+            irscut="IRS cut",
             dropcut="Auto-lock cut",
             sddas="DAS thả nhẹ",sdarr="ARR thả nhẹ",
             ihs="Giữ tức thì",
@@ -1002,7 +1003,7 @@ C. Tay cầm chơi game (Gamepad):
         "6 next 1 hold!",
         "6 next 6 hold?!",
         "20G thực chất là một chế độ mới đấy!",
-        "Kỷ lục Sprint 40 hàng: 13.650s (WestL)",
+        "Kỷ lục Sprint 40 hàng: 13.430s (WestL)",
         "Rất gần nhưng lại rất xa",
         "ALL SPIN!",
         "Am G F G",

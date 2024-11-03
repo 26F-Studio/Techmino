@@ -234,6 +234,7 @@ function scene.enter()
     tapControl=false
     startTime=0
     reset()
+    DiscordRPC.update("Playing 2048")
 end
 
 function scene.mouseDown(x,y,k)
