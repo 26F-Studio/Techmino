@@ -612,7 +612,7 @@ Xem mục tiếp theo để biết thêm.
     {"Lockdown Delay",
         "nhom05e1 lockdelay lockdowndelay lockdowntimer ld; thời gian chờ khóa gạch",
         "term",
-        "Thời gian chờ khóa gạch, viết tắt là LD.\nGame sẽ chờ một khoảng thời gian, trước khi game khóa gạch (tức là gạch không thể điều khiển được nữa), bắt đầu tính từ khi gạch vừa chạm đất.\n\nTrong các game xếp gạch cổ điển, khoảng thời gian chờ này CHÍNH LÀ khoảng thời gian gạch cần có để di chuyển xuống 1 ô, và không có cơ chế nào để trì hoãn việc khóa gạch.\n\nTrong các game xếp gạch hiện đại, thời gian chờ được tính riêng và thoải mái hơn. Đi kèm với thời gian chờ dài hơn là cơ chế hoãn thời điểm khóa gạch, trong đó bạn có thể di chuyển hoặc xoay gạch bắt game chờ thêm một lúc nữa trước khi khóa gạch; nói theo cách khác, là đặt lại thời gian chờ (tối đa 15 lần trong hầu hết các game).",
+        "Thời gian chờ khóa gạch, viết tắt là LD.\nGame sẽ chờ một khoảng thời gian, trước khi game khóa gạch (tức là gạch không thể điều khiển được nữa), bắt đầu tính từ khi gạch vừa chạm đất.\n\nTrong các game xếp gạch cổ điển, khoảng thời gian chờ này CHÍNH LÀ khoảng thời gian gạch cần có để di chuyển xuống 1 ô, và không có cách nào để hoãn thời điểm khóa gạch.\n\nTrong các game xếp gạch hiện đại, thời gian chờ được tính riêng và thoải mái hơn. Đi kèm với thời gian chờ dài hơn là cơ chế hoãn thời điểm khóa gạch, trong đó bạn có thể di chuyển hoặc xoay gạch để đặt lại bộ đếm thời gian về 0, để bạn có thể hoãn thời điểm khóa gạch thêm một lúc nữa (tối đa 15 lần trong hầu hết các game).",
     },
     {"Spawn&ClearDelay",
         "nhom05e1 spawndelay cleardelay; thời gian chờ gạch sinh ra; thời gian chờ xóa hàng",
