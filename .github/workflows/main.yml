@@ -580,7 +580,7 @@ jobs:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Send Discord message
         if: github.event_name != 'pull_request'
-        uses: Sniddl/discord-commits@v1.7
+        uses: Sniddl/discord-commits@1.7
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           message: "Github Actions for **${{ github.repository }}**."
