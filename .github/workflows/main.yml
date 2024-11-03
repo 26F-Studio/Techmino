@@ -575,12 +575,12 @@ jobs:
       ACTION_TYPE: ${{ fromJSON('[["Development", "Pre-release"], ["Release", "Release"]]')[startsWith(github.ref, 'refs/tags/v')][startsWith(github.ref, 'refs/tags/pre')] }}
     steps:
       - name: Cleanup
-        uses: geekyeggo/delete-artifact@v2
+        uses: geekyeggo/delete-artifact@v5
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Send Discord message
         if: github.event_name != 'pull_request'
-        uses: Sniddl/discord-commits@v1.6
+        uses: Sniddl/discord-commits@v1.7
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           message: "Github Actions for **${{ github.repository }}**."
