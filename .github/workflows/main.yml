@@ -164,8 +164,7 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
-    # if: github.event_name != 'pull_request'
-    if: ${{ !always()}}
+    if: github.event_name != 'pull_request'
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
@@ -197,7 +196,7 @@ jobs:
           dir: ./libAndroid
       - name: Build Android packages
         id: build-packages
-        uses: love-actions/love-actions-android@main
+        uses: love-actions/love-actions-android@use-grable-cache
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
@@ -426,6 +425,7 @@ jobs:
   build-web:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
+    if: ${{ !always()}}
     env:
       MEMORY_LIMIT: 128000000
       OUTPUT_FOLDER: ./build
@@ -468,8 +468,8 @@ jobs:
 
   build-windows:
     runs-on: windows-latest
-    if: ${{ !always()}}
     needs: [get-info, build-core, auto-test]
+    if: ${{ !always()}}
     env:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
