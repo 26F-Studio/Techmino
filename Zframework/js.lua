@@ -137,6 +137,6 @@ JS.setDefaultErrorFunction(function(id,error)
 end)
 
 
-JS.callJS(JS.stringFunc("__getWebDB("%s");","__LuaJSDB"))
+JS.callJS(JS.stringFunc("__getWebDB('%s');","__LuaJSDB"))
 
 return JS
