@@ -440,6 +440,7 @@ do
     if SETTING.reTime>3 or SETTING.reTime<.5 then SETTING.reTime=2 end
     if SETTING.locale=='zh_full' then SETTING.locale='zh' end
     if SETTING.vocPack=='rin' then SETTING.vocPack='miku' end
+    if SETTING.msaa>4 then SETTING.msaa=4 end
     if RANKS.infinite then RANKS.infinite=0 end
     if RANKS.infinite_dig then RANKS.infinite_dig=0 end
     if not RANKS.sprint_10l then RANKS.sprint_10l=0 end

@@ -23,6 +23,7 @@ function love.conf(t)
         local fileData=fs.read('conf/settings')
         if fileData then
             msaa=tonumber(fileData:match('"msaa":(%d+)')) or 0;
+            msaa=msaa==0 and 0 or 2*msaa
             portrait=MOBILE and fileData:find('"portrait":true') and true
         end
     end
