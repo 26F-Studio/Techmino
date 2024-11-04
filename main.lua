@@ -404,8 +404,12 @@ do
         RANKS.rhythm_h=nil; fs.remove('record/rhythm_h.rec')
         RANKS.rhythm_u=nil; fs.remove('record/rhythm_u.rec')
     end
-    if RANKS.bigbang then fs.remove('record/bigbang.rec') end
-    if RANKS.clearRush then fs.remove('record/clearRush.rec') end
+    if RANKS.bigbang then RANKS.bigbang=nil; fs.remove('record/bigbang.rec') end
+    if RANKS.clearRush then RANKS.clearRush=nil; fs.remove('record/clearRush.rec') end
+    if RANKS.strategy_e then RANKS.strategy_e=nil; fs.remove('record/strategy_e.rec') end
+    if RANKS.strategy_h_plus then RANKS.strategy_h_plus=nil; fs.remove('record/strategy_h_plus.rec') end
+    if RANKS.strategy_u_plus then RANKS.strategy_u_plus=nil; fs.remove('record/strategy_u_plus.rec') end
+
     if STAT.version<1715 then fs.remove('record/dig_quad_10l.rec') end
 
     if STAT.version~=VERSION.code then
