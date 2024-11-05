@@ -623,5 +623,4 @@ jobs:
               }
             ]
           })
-          response = requests.request("POST", "${{ secrets.DISCORD_WEBHOOK }}", headers=headers, data=payload)
-          print(response.json()["type"] == 0 and "Message sent successfully" or "Failed to send message")
+          requests.request("POST", "${{ secrets.DISCORD_WEBHOOK }}", headers=headers, data=payload)
