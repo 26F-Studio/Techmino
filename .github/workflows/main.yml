@@ -581,25 +581,47 @@ jobs:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Send Discord message
         if: github.event_name != 'pull_request'
-        uses: Sniddl/discord-commits@main
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          message: "Github Actions for **${{ github.repository }}**."
-          embed: '{
-            "author":{
-            "name":"${{ needs.get-info.outputs.app-name }} [${{ env.ACTION_TYPE }}]",
-            "url":"https://github.com/${{ github.repository }}"
-            },
-            "title":"${{ needs.get-info.outputs.app-name }} (${{ needs.get-info.outputs.version-name }}) Build Result",
-            "description": "CI triggered at ${{ needs.get-info.outputs.commit-hash }}",
-            "url":"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
-            "thumbnail":{
-            "url":"https://raw.githubusercontent.com/${{ github.repository }}/main/.github/build/linux/${{ env.BUILD_TYPE }}/icon.png"
-            },
-            "color":36863,
-            "fields":[
-            {"name":"Version","value":"${{ needs.get-info.outputs.version-string }}","inline": true},
-            {"name":"Package Name","value":"${{ needs.get-info.outputs.base-name }}","inline": true},
-            {"name":"Status","value":"**Automatic Test:** ${{ needs.auto-test.result }}\n**Core:** ${{ needs.build-core.result }}\n**Android:** ${{ needs.build-android.result }}\n**Linux:** ${{ needs.build-linux.result }}\n**macOS portable:** ${{ needs.build-macos-portable.result }}\n**Windows:** ${{ needs.build-windows.result }}"}
+        shell: python
+        run: |
+          import requests
+          import json
+
+          headers = {
+            'Content-Type': 'application/json',
+          }
+          payload = json.dumps({
+            "content": "Github Actions for **${{ github.repository }}**.",
+            "embeds": [
+              {
+                "author": {
+                  "name": "${{ needs.get-info.outputs.app-name }} [${{ env.ACTION_TYPE }}]",
+                  "url": "https://github.com/${{ github.repository }}"
+                },
+                "title": "${{ needs.get-info.outputs.app-name }} (${{ needs.get-info.outputs.version-name }}) Build Result",
+                "description": "CI triggered at ${{ needs.get-info.outputs.commit-hash }}",
+                "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                "thumbnail": {
+                  "url": "https://raw.githubusercontent.com/${{ github.repository }}/main/.github/build/linux/${{ env.BUILD_TYPE }}/icon.png"
+                },
+                "color": 36863,
+                "fields": [
+                  {
+                    "name": "Version",
+                    "value": "${{ needs.get-info.outputs.version-string }}",
+                    "inline": True
+                  },
+                  {
+                    "name": "Package Name",
+                    "value": "${{ needs.get-info.outputs.base-name }}",
+                    "inline": True
+                  },
+                  {
+                    "name": "Status",
+                    "value": "**Automatic Test:** ${{ needs.auto-test.result }}\n**Core:** ${{ needs.build-core.result }}\n**Android:** ${{ needs.build-android.result }}\n**Linux:** ${{ needs.build-linux.result }}\n**macOS portable:** ${{ needs.build-macos-portable.result }}\n**Windows:** ${{ needs.build-windows.result }}"
+                  }
+                ]
+              }
             ]
-            }'
+          })
+          response = requests.request("POST", "${{ secrets.DISCORD_WEBHOOK }}", headers=headers, data=payload)
+          print(response.json()["type"] == 0 and "Message sent successfully" or "Failed to send message")
