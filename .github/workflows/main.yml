@@ -324,7 +324,7 @@ jobs:
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
 
   build-macos-portable:
-    runs-on: macos-15-large
+    runs-on: macos-15
     needs: [get-info, build-core, auto-test]
     if: github.event_name != 'pull_request'
     env:
