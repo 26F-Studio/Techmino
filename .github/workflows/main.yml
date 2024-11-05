@@ -132,6 +132,8 @@ jobs:
   auto-test:
     runs-on: ubuntu-22.04
     needs: build-core
+    env:
+      APPIMAGE_PATH: ./love.AppImage
     steps:
       - uses: actions/checkout@v4
         with:
@@ -148,18 +150,17 @@ jobs:
       - name: Download love
         shell: bash
         run: |
-           curl -OL --retry 5 https://github.com/love2d/love/releases/download/11.4/love-11.4-x86_64.AppImage
-           chmod +x love-11.4-x86_64.AppImage
-      - name: Prepare PulseAudio and AppImage
+           curl -OL --retry 5 https://github.com/love2d/love/releases/download/11.4/love-11.4-x86_64.AppImage -o ${{ env.APPIMAGE_PATH }}
+           chmod +x ${{ env.APPIMAGE_PATH }}
+      - name: Install dependencies
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install pulseaudio pulseaudio-utils pavucontrol alsa-oss alsa-utils libfuse2 -y
+          sudo apt-get install alsa-oss alsa-utils libfuse2 pavucontrol pulseaudio pulseaudio-utils x11-xserver-utils xvfb -y
       - name: Run automated test
-        uses: coactions/setup-xvfb@v1
-        with:
-          run: |
-            ./love-11.4-x86_64.AppImage ${{ env.CORE_LOVE_PACKAGE_PATH }} --test
+        shell: bash
+        run: |
+            xvfb-run --auto-servernum ${{ env.APPIMAGE_PATH }} ${{ env.CORE_LOVE_PACKAGE_PATH }} --test
 
   build-android:
     runs-on: ubuntu-latest
@@ -196,7 +197,7 @@ jobs:
           dir: ./libAndroid
       - name: Build Android packages
         id: build-packages
-        uses: love-actions/love-actions-android@use-grable-cache
+        uses: love-actions/love-actions-android@v1
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
