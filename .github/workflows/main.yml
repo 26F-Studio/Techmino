@@ -150,7 +150,7 @@ jobs:
       - name: Download love
         shell: bash
         run: |
-           curl -OL --retry 5 https://github.com/love2d/love/releases/download/11.4/love-11.4-x86_64.AppImage -o ${{ env.APPIMAGE_PATH }}
+           curl --retry 5 https://github.com/love2d/love/releases/download/11.4/love-11.4-x86_64.AppImage -o ${{ env.APPIMAGE_PATH }}
            chmod +x ${{ env.APPIMAGE_PATH }}
       - name: Install dependencies
         shell: bash
@@ -581,7 +581,7 @@ jobs:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Send Discord message
         if: github.event_name != 'pull_request'
-        uses: Sniddl/discord-commits@1.7
+        uses: Sniddl/discord-commits@main
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           message: "Github Actions for **${{ github.repository }}**."
