@@ -8,9 +8,11 @@ on:
     branches: [main]
 
 env:
+  BUILD_ASSETS_FOLDER: ./.github/build
   BUILD_TYPE: ${{ fromJSON('["dev", "release"]')[startsWith(github.ref, 'refs/tags/v')] }}
-  CORE_LOVE_PACKAGE_PATH: ./core.love
+  COLD_CLEAR_DOWNLOAD_URL: https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/11.4
   CORE_LOVE_ARTIFACT_NAME: core_love_package
+  CORE_LOVE_PACKAGE_PATH: ./core.love
 
 jobs:
   get-info:
@@ -101,7 +103,7 @@ jobs:
           path: ${{ env.CORE_LOVE_PACKAGE_PATH }}
       - name: Add icon to love package
         run: |
-          cp ./.github/build/linux/${{ env.BUILD_TYPE }}/icon.png media/image/icon.png
+          cp ${{ env.BUILD_ASSETS_FOLDER }}/linux/${{ env.BUILD_TYPE }}/icon.png media/image/icon.png
           zip -u ${{ env.CORE_LOVE_PACKAGE_PATH }} media/image/icon.png
           rm media/image/icon.png
       - name: Rename love package
@@ -167,6 +169,7 @@ jobs:
     needs: [get-info, build-core, auto-test]
     if: github.event_name != 'pull_request'
     env:
+      COLD_CLEAR_FOLDER: ./libAndroid
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
     steps:
@@ -179,6 +182,7 @@ jobs:
         run: |
           import os
           import re
+
           with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
             if "${{ env.BUILD_TYPE }}" == "dev":
               f.write('bundle-id=org.f26_studio.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '.snapshot\n')
@@ -191,10 +195,10 @@ jobs:
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Download ColdClear
-        uses: ./.github/actions/get-cc
+        uses: ./.github/actions/get-unzip
         with:
-          platform: Android
-          dir: ./libAndroid
+          url: ${{ env.COLD_CLEAR_DOWNLOAD_URL }}/Android.zip
+          dir: ${{ env.COLD_CLEAR_FOLDER }}
       - name: Build Android packages
         id: build-packages
         uses: love-actions/love-actions-android@main
@@ -207,8 +211,8 @@ jobs:
           keystore-key-password: ${{ secrets.ANDROID_KEYSTORE_KEYPASSWORD }}
           keystore-store-password: ${{ secrets.ANDROID_KEYSTORE_STOREPASSWORD }}
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          resource-path: ./.github/build/android/${{ env.BUILD_TYPE }}/res
-          extra-assets: ./libAndroid/
+          resource-path: ${{ env.BUILD_ASSETS_FOLDER }}/android/${{ env.BUILD_TYPE }}/res
+          extra-assets: ${{ env.COLD_CLEAR_FOLDER }}
           custom-scheme: studio26f://oauth
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
@@ -238,8 +242,8 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
-    if: ${{ !always()}}
     env:
+      COLD_CLEAR_FOLDER: ./ColdClear
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
     steps:
@@ -263,18 +267,18 @@ jobs:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Add icon to love package
         run: |
-          cp ./.github/build/linux/${{ env.BUILD_TYPE }}/icon.png media/image/icon.png
+          cp ${{ env.BUILD_ASSETS_FOLDER }}/linux/${{ env.BUILD_TYPE }}/icon.png media/image/icon.png
           zip -u ${{ env.CORE_LOVE_PACKAGE_PATH }} media/image/icon.png
           rm media/image/icon.png
       - name: Download ColdClear
-        uses: ./.github/actions/get-cc
+        uses: ./.github/actions/get-unzip
         with:
-          platform: Linux
-          dir: ./ColdClear
+          url: ${{ env.COLD_CLEAR_DOWNLOAD_URL }}/Linux.zip
+          dir: ${{ env.COLD_CLEAR_FOLDER }}
       - name: Process ColdClear
         shell: bash
         run: |
-          cd ./ColdClear
+          cd ${{ env.COLD_CLEAR_FOLDER }}
           mkdir -p ./lib/lua/5.1
           mv ./x64/CCloader.so ./lib/lua/5.1
       - name: Build Linux packages
@@ -285,9 +289,9 @@ jobs:
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
           description: Techmino is fun!
           version-string: ${{ needs.get-info.outputs.version-string }}
-          icon-path: ./.github/build/linux/${{ env.BUILD_TYPE }}/icon.png
+          icon-path: ${{ env.BUILD_ASSETS_FOLDER }}/linux/${{ env.BUILD_TYPE }}/icon.png
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          lib-path: ./ColdClear/lib
+          lib-path: ${{ env.COLD_CLEAR_FOLDER }}/lib
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
       - name: Upload AppImage artifact
@@ -322,9 +326,9 @@ jobs:
   build-macos-portable:
     runs-on: macos-latest
     needs: [get-info, build-core, auto-test]
-    # if: github.event_name != 'pull_request'
-    if: ${{ !always()}}
+    if: github.event_name != 'pull_request'
     env:
+      COLD_CLEAR_FOLDER: ./ColdClear
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
     steps:
@@ -345,20 +349,20 @@ jobs:
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Download ColdClear
-        uses: ./.github/actions/get-cc
+        uses: ./.github/actions/get-unzip
         with:
-          platform: macOS
-          dir: ./ColdClear
+          url: ${{ env.COLD_CLEAR_DOWNLOAD_URL }}/macOS.zip
+          dir: ${{ env.COLD_CLEAR_FOLDER }}
       - name: Process ColdClear
         shell: bash
         run: |
-          rm ./ColdClear/universal/libcold_clear.a
-      - name: Use Xcode 15.3
-        # Xcode 15.4 segfaults
-        # see https://forums.developer.apple.com/forums/thread/757398
-        uses: mobiledevops/xcode-select-version-action@v1
-        with:
-          xcode-select-version: 15.3
+          rm ${{ env.COLD_CLEAR_FOLDER }}/universal/libcold_clear.a
+      # - name: Use Xcode 15.3
+      #   # Xcode 15.4 segfaults
+      #   # see https://forums.developer.apple.com/forums/thread/757398
+      #   uses: mobiledevops/xcode-select-version-action@v1
+      #   with:
+      #     xcode-select-version: 15.3
       - name: Build macOS packages
         id: build-packages
         uses: love-actions/love-actions-macos-portable@v1
@@ -366,10 +370,10 @@ jobs:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
           copyright: "Copyright © 2019-2023 26F-Studio. Some Rights Reserved."
-          icon-path: ./.github/build/macOS/${{ env.BUILD_TYPE }}/icon.icns
-          love-ref: "11.5"
+          icon-path: ${{ env.BUILD_ASSETS_FOLDER }}/macOS/${{ env.BUILD_TYPE }}/icon.icns
+          love-ref: "11.4"
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          libs-path: ./ColdClear/universal/
+          libs-path: ${{ env.COLD_CLEAR_FOLDER }}/universal/
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
@@ -380,12 +384,12 @@ jobs:
           developer-id-application-password: ${{ secrets.APPLE_CERT_DEVELOPER_ID_APPLICATION_PWD }}
           developer-id-installer-base64: ${{ secrets.APPLE_CERT_DEVELOPER_ID_INSTALLER }}
           developer-id-installer-password: ${{ secrets.APPLE_CERT_DEVELOPER_ID_INSTALLER_PWD }}
-          dmg-background-path: ./.github/build/macOS/${{ env.BUILD_TYPE }}/dmg.png
+          dmg-background-path: ${{ env.BUILD_ASSETS_FOLDER }}/macOS/${{ env.BUILD_TYPE }}/dmg.png
           dmg-icon-position: "239 203"
           dmg-icon-size: "100"
           dmg-link-position: "565 203"
           dmg-text-size: "12"
-          dmg-volume-icon-path: ./.github/build/macOS/${{ env.BUILD_TYPE }}/dmg.icns
+          dmg-volume-icon-path: ${{ env.BUILD_ASSETS_FOLDER }}/macOS/${{ env.BUILD_TYPE }}/dmg.icns
           dmg-volume-name: ${{ steps.process-app-name.outputs.product-name }}
           dmg-window-position: "200 120"
           dmg-window-size: "800 500"
@@ -423,7 +427,7 @@ jobs:
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
 
-  build-web:
+  build-web-compat:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
     if: ${{ !always()}}
@@ -443,7 +447,7 @@ jobs:
           npx love.js ${{ env.CORE_LOVE_PACKAGE_PATH }} ${{ env.OUTPUT_FOLDER }} -t "${{ needs.get-info.outputs.app-name }}" -m ${{ env.MEMORY_LIMIT }} -c
       - name: Move assets
         run: |
-          mv ./.github/build/web/${{ env.BUILD_TYPE }}/* ${{ env.OUTPUT_FOLDER }}
+          mv ${{ env.BUILD_ASSETS_FOLDER }}/web/${{ env.BUILD_TYPE }}/* ${{ env.OUTPUT_FOLDER }}
       - name: Initialize Love.js Api Player
         run: |
           pushd ${{ env.OUTPUT_FOLDER }}
@@ -472,6 +476,7 @@ jobs:
     needs: [get-info, build-core, auto-test]
     if: ${{ !always()}}
     env:
+      COLD_CLEAR_FOLDER: ./ColdClear
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
     steps:
@@ -491,16 +496,16 @@ jobs:
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Download ColdClear
-        uses: ./.github/actions/get-cc
+        uses: ./.github/actions/get-unzip
         with:
-          platform: Windows
-          dir: ./ColdClear
+          url: ${{ env.COLD_CLEAR_DOWNLOAD_URL }}/Windows.zip
+          dir: ${{ env.COLD_CLEAR_FOLDER }}
       - name: Update Windows template
         shell: python3 {0}
         run: |
           version_string = "${{ needs.get-info.outputs.version-string }}"
           file_version = (f"{version_string.replace('.', ',')},0")
-          with open("./.github/build/windows/${{ env.BUILD_TYPE }}/template.rc", "r+", encoding="utf8") as file:
+          with open("${{ env.BUILD_ASSETS_FOLDER }}/windows/${{ env.BUILD_TYPE }}/template.rc", "r+", encoding="utf8") as file:
             data = file.read()
             data = data\
               .replace("@Version", version_string)\
@@ -512,11 +517,11 @@ jobs:
         id: build-packages
         uses: love-actions/love-actions-windows@v1
         with:
-          icon-path: ./.github/build/windows/${{ env.BUILD_TYPE }}/icon.ico
-          rc-path: ./.github/build/windows/${{ env.BUILD_TYPE }}/template.rc
+          icon-path: ${{ env.BUILD_ASSETS_FOLDER }}/windows/${{ env.BUILD_TYPE }}/icon.ico
+          rc-path: ${{ env.BUILD_ASSETS_FOLDER }}/windows/${{ env.BUILD_TYPE }}/template.rc
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          extra-assets-x86: ./ColdClear/x86/CCloader.dll ./ColdClear/x86/cold_clear.dll ./.github/build/extraLibs/Windows_x64/discord-rpc.dll
-          extra-assets-x64: ./ColdClear/x64/CCloader.dll ./ColdClear/x64/cold_clear.dll ./.github/build/extraLibs/Windows_x86/discord-rpc.dll
+          extra-assets-x86: ${{ env.COLD_CLEAR_FOLDER }}/x86/CCloader.dll ${{ env.COLD_CLEAR_FOLDER }}/x86/cold_clear.dll ${{ env.BUILD_ASSETS_FOLDER }}/extraLibs/Windows_x64/discord-rpc.dll
+          extra-assets-x64: ${{ env.COLD_CLEAR_FOLDER }}/x64/CCloader.dll ${{ env.COLD_CLEAR_FOLDER }}/x64/cold_clear.dll ${{ env.BUILD_ASSETS_FOLDER }}/extraLibs/Windows_x86/discord-rpc.dll
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           app-id: ${{ secrets.WINDOWS_APP_ID }}
           project-website: https://www.studio26f.org/
@@ -569,7 +574,7 @@ jobs:
         build-android,
         build-linux,
         build-macos-portable,
-        build-web,
+        build-web-compat,
         build-windows,
       ]
     env:
