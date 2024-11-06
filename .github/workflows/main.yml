@@ -10,7 +10,7 @@ on:
 env:
   BUILD_ASSETS_FOLDER: ./.github/build
   BUILD_TYPE: ${{ fromJSON('["dev", "release"]')[startsWith(github.ref, 'refs/tags/v')] }}
-  COLD_CLEAR_DOWNLOAD_URL: https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/11.4
+  COLD_CLEAR_DOWNLOAD_URL: https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/11.5
   CORE_LOVE_ARTIFACT_NAME: core_love_package
   CORE_LOVE_PACKAGE_PATH: ./core.love
 
@@ -201,7 +201,7 @@ jobs:
           dir: ${{ env.COLD_CLEAR_FOLDER }}
       - name: Build Android packages
         id: build-packages
-        uses: love-actions/love-actions-android@main
+        uses: love-actions/love-actions-android@v2
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
@@ -283,7 +283,7 @@ jobs:
           mv ./x64/CCloader.so ./lib/lua/5.1
       - name: Build Linux packages
         id: build-packages
-        uses: love-actions/love-actions-linux@v1
+        uses: love-actions/love-actions-linux@v2
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
