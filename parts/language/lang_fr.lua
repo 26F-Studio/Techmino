@@ -242,6 +242,7 @@ return {
         "Ceci est un simple jeu de blocs.",
         "On y joue comme sur C2/IO/JS/WWC/KOS et autres.",
         "",
+        "Propulsé par LÖVE",
         "Vous pouvez envoyer des rapports de bogues ou des suggestions via le groupe de test ou l'email du créateur ~",
         "Assurez-vous d'obtenir le jeu uniquement des canaux officiels,",
         "Ne téléchargez pas ce jeu depuis une autre source au risque d'avoir des virus,",
