@@ -141,7 +141,7 @@ jobs:
         with:
           submodules: recursive
       - name: Love actions for testing
-        uses: love-actions/love-actions-test@feat-use-luajit
+        uses: love-actions/love-actions-test@v1
         with:
           font-path: ./parts/fonts/proportional.otf
           language-folder: ./parts/language
