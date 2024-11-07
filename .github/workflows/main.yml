@@ -409,7 +409,7 @@ jobs:
             file.write(data)
       - name: Build Windows packages
         id: build-packages
-        uses: love-actions/love-actions-windows@v1
+        uses: love-actions/love-actions-windows@v2
         with:
           icon-path: ${{ env.BUILD_ASSETS_FOLDER }}/windows/${{ env.BUILD_TYPE }}/icon.ico
           rc-path: ${{ env.BUILD_ASSETS_FOLDER }}/windows/${{ env.BUILD_TYPE }}/template.rc
