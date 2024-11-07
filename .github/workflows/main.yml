@@ -283,7 +283,7 @@ jobs:
           mv ./x64/CCloader.so ./lib/lua/5.1
       - name: Build Linux packages
         id: build-packages
-        uses: love-actions/love-actions-linux@v2
+        uses: love-actions/love-actions-linux@v1
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
