@@ -29,7 +29,7 @@ return {
         "Techminoの公式ホームページです!\n最新の安定版Techminoをダウンロードしたり、プロフィールを編集したりできます\n地球儀ボタンから是非アクセスしてください",
         "http://studio26f.org",
     },
-    -- {"Tetris Wiki CN",
+    -- {"Chinese Tetris Wiki",
     --     "china tetris wiki",
     --     "help",
     --     "A Chinese Tetris wiki by Tetris enthusiasts from Chinese Tetris Research Community groups and affiliates. Most pages have been referenced and translated from Hard Drop Wiki and Tetris Wiki for now. Link in Simplified Chinese.",

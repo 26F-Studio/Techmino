@@ -77,7 +77,7 @@ Bạn muốn đóng góp vào bản dịch? Bạn có thể vào trang dự án 
 08. Bot: Cold Clear, ZZZbot
 
 09. Wiki; các trang web bày setup & cung cấp câu đố, chia sẻ setup
-        09A. Wiki: Tetris Wiki CN, Wiki Hard Drop, tetris.wiki, Tetris Wiki Fandom
+        09A. Wiki: Chinese Tetris Wiki, Wiki Hard Drop, tetris.wiki, Tetris Wiki Fandom
         09B. Bày setup: Four.lol, Tetris Hall, Tetris Template Collections, tetristemplate.info, 4-Wide Trainer
         09C. Chia sẻ câu đố: TTT, TTPC, NAZO, TPO
         09D. Chia sẻ setup: Fumen, Fumen bản Điện thoại
@@ -1436,7 +1436,7 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
         "",
         ""
     },
-    -- {"Tetris Wiki CN",
+    -- {"Chinese Tetris Wiki",
     --     "china tetris wiki",
     --     "help",
     --     "A Chinese Tetris wiki by Tetris enthusiasts from Chinese Tetris Research Community groups and affiliates. Most pages have been referenced and translated from Hard Drop Wiki and Tetris Wiki for now. Link in Simplified Chinese.",
