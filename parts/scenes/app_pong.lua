@@ -35,6 +35,7 @@ function scene.enter()
         vy=0,
         y0=false,
     }
+    DiscordRPC.update("Playing Pong")
 end
 
 local function start()

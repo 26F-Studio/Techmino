@@ -43,7 +43,7 @@ return {
     infHeightOn="無限高度 開",
     infHeightOff="無限高度 關",
     infHeightHint="用功能鍵1切換",
-    -- highestGrade="(highest: $1)",
+    highestGrade="最高段位: $1",
 
     speedLV="速度等級",
     piece="塊數",line="行數",atk="攻擊",eff="效率",
@@ -426,14 +426,13 @@ return {
             tas="TAS (T)",
         },
         net_menu={
-            league="Tech League",
-            ffa="FFA",
+            galaxim="Galaxim",
             rooms="房間列表",
             resetPW="重設密碼",
             logout="登出",
         },
-        net_league={
-            match="匹配對手",
+        net_galaxim={
+            match="进入模拟",
         },
         net_rooms={
             password="密碼",
@@ -586,6 +585,7 @@ return {
 
             das="DAS",arr="ARR",
             dascut="DAS打斷",
+            irscut="IRS打斷",
             dropcut="誤硬降打斷",
             sddas="軟降DAS",sdarr="軟降ARR",
             ihs="提前Hold",
@@ -882,12 +882,9 @@ return {
         ['master_g']=       {"大師",        "段位考試",    "20G段位考試"},
         ['master_ex']=      {"宗師",        "EX",       "成為方塊大師"},
         ['master_instinct']={"大師",        "本能",      "隱藏當前塊"},
-        ['strategy_e']=     {"策略堆疊",     "簡單",       "20G堆疊中速決策練習"},
+        ['strategy_e_plus']={"策略堆疊",     "簡單+",      "20G堆疊中速決策練習\n無Hold"},
         ['strategy_h']=     {"策略堆疊",     "困難",       "20G堆疊快速決策練習"},
         ['strategy_u']=     {"策略堆疊",     "極限",       "20G堆疊極速決策練習"},
-        ['strategy_e_plus']={"策略堆疊",     "簡單+",      "20G堆疊中速決策練習\n無Hold"},
-        ['strategy_h_plus']={"策略堆疊",     "困難+",      "20G堆疊快速決策練習\n無Hold"},
-        ['strategy_u_plus']={"策略堆疊",     "極限+",      "20G堆疊極速決策練習\n無Hold"},
         ['blind_e']=        {"隱形",        "半隱",      "不強大腦"},
         ['blind_n']=        {"隱形",        "全隱",      "挺強大腦"},
         ['blind_h']=        {"隱形",        "瞬隱",      "很強大腦"},
@@ -940,6 +937,7 @@ return {
         ['infinite']=       {"無盡",         "",        "沙盒"},
         ['infinite_dig']=   {"無盡:挖掘",     "",        "挖呀挖呀挖"},
         ['marathon_inf']=   {"馬拉松",       "無盡",      "無盡馬拉松"},
+        ['spinren']=        {"Spin連擊",     "效率",      "掌管效率的神"},
 
         ['custom_clear']=   {"自定義",       "普通"},
         ['custom_puzzle']=  {"自定義",       "拼圖"},

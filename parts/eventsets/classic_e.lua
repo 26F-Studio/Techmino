@@ -26,7 +26,7 @@ end
 return {
     das=16,arr=6,
     sddas=6,sdarr=6,
-    irs=false,ims=false,
+    logicalIRS=false,logicalIMS=false,
     drop=6,lock=6,
     wait=10,fall=25,
     freshLimit=0,

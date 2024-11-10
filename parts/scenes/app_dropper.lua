@@ -38,6 +38,7 @@ function scene.enter()
     state='menu'
     BGM.play('hang out')
     BG.set('space')
+    DiscordRPC.update("Playing Dropper")
 end
 
 function scene.keyDown(key,isRep)

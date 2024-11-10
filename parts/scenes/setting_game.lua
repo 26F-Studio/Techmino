@@ -4,6 +4,7 @@ local scene={}
 
 function scene.enter()
     BG.set()
+    DiscordRPC.update("Tweaking Settings")
 end
 function scene.leave()
     saveSettings()

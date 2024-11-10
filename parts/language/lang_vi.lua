@@ -197,7 +197,7 @@ return {
 
 
     keySettingInstruction="Nhấn một phím để gán phím đó\nescape (esc): Hủy\nbackspace: Xoá",
-    customBGhelp=not MOBILE and "Kéo một tấm ảnh vào đây để áp dụng ảnh nền tuỳ chỉnh" or "Chưa hỗ trợ ảnh nền cho điện thoại",
+    customBGhelp="Kéo một tấm ảnh vào đây để áp dụng ảnh nền tuỳ chỉnh",
     customBGloadFailed="Định dạng ảnh không được hỗ trợ",
 
     errorMsg="Techmino bị lỗi và cần phải được khởi động lại\nBạn có thể gửi error log để giúp dev sửa game nhanh hơn.",
@@ -459,14 +459,13 @@ C. Tay cầm chơi game (Gamepad):
             tas="TAS (T)",
         },
         net_menu={
-            league="Tech League",
-            ffa="FFA",
+            galaxim="Galaxim",
             rooms="Danh sách phòng",
             resetPW="Đặt lại mật khẩu",
             logout="Đăng xuất",
         },
-        net_league={
-            match="Tìm trận",
+        net_galaxim={
+            match="Bước vào mô phỏng",
         },
         net_rooms={
             password="Mật khẩu",
@@ -586,6 +585,7 @@ C. Tay cầm chơi game (Gamepad):
             bg_on="Ảnh nền thường",
             bg_off="Không ảnh nền",
             bg_custom="Ảnh nền tự chọn",
+            bg_custom_base64="Dán ảnh và cài thành ảnh nền\n(PNG/JPG ở format Base64)",
             defaultBG="Nền mặc định",
             resetDbg='Đặt lại',
             lockBG="Khóa ảnh nền",
@@ -621,6 +621,7 @@ C. Tay cầm chơi game (Gamepad):
 
             das="DAS",arr="ARR",
             dascut="DAS cut",
+            irscut="IRS cut",
             dropcut="Auto-lock cut",
             sddas="DAS thả nhẹ",sdarr="ARR thả nhẹ",
             ihs="Giữ tức thì",
@@ -924,12 +925,9 @@ C. Tay cầm chơi game (Gamepad):
         ['master_g']=            {"Master",            "GRADED",         "Lấy điểm cao nhất có thể!"},
         ['master_ex']=           {"GrandMaster",       "EXTRA",          "Cũng là lấy điểm cao nhất có thể nhưng mà gắt hơn!"},
         ['master_instinct']=     {"Master",            "INSTINCT",       "Lấy điểm cao nhất có thể nhưng với gạch tàng hình!"},
-        ['strategy_e']=          {"Strategy",          "DỄ",             "Quyết định nhanh hoặc là thua"},
+        ['strategy_e_plus']=     {"Strategy",          "DỄ+",            "Quyết định nhanh và không được Hold!"},
         ['strategy_h']=          {"Strategy",          "KHÓ",            "Quyết định nhanh hoặc là thua"},
         ['strategy_u']=          {"Strategy",          "THÁCH ĐẤU",      "Quyết định nhanh hoặc là thua"},
-        ['strategy_e_plus']=     {"Strategy",          "DỄ+",            "Quyết định nhanh và không được Hold!"},
-        ['strategy_h_plus']=     {"Strategy",          "KHÓ+",           "Quyết định nhanh và không được Hold!"},
-        ['strategy_u_plus']=     {"Strategy",          "THÁCH ĐẤU+",     "Quyết định nhanh và không được Hold!"},
         ['blind_e']=             {"Invisible",         "DỄ",             "Dành cho người mới"},
         ['blind_n']=             {"Invisible",         "THƯỜNG",         "Dành cho người đã quen"},
         ['blind_h']=             {"Invisible",         "KHÓ",            "Dành cho người đã có kinh nghiệm"},
@@ -965,8 +963,8 @@ C. Tay cầm chơi game (Gamepad):
         ['tech_h_plus']=         {"Tech B2B",          "KHÓ+",           "Chỉ được clear Spin hoặc PC"},
         ['tech_l']=              {"Tech B2B",          "RẤT KHÓ",        "Cố gắng không phá B2B!"},
         ['tech_l_plus']=         {"Tech B2B",          "RẤT KHÓ+",       "Chỉ được clear Spin hoặc PC"},
-        ['tech_finesse']=        {"Kỹ thuật di chuyển","",               "Không được phép có lỗi di chuyển!"},
-        ['tech_finesse_f']=      {"Kỹ thuật di chuyển","Khg ĐƠN/ĐÔI/TAM","Không được phép có lỗi di chuyển hoặc kiểu Xoá hàng thường!"},
+        ['tech_finesse']=        {"Tech FINESSE",      "",               "Không được phép có lỗi di chuyển!"},
+        ['tech_finesse_f']=      {"Tech FINESSE",      "PLUS",           "Không được phép có lỗi di chuyển hoặc kiểu Xoá hàng thường!"},
         ['tsd_e']=               {"TSD Challenge",     "DỄ",             "Chỉ được làm T-Spin Double!"},
         ['tsd_h']=               {"TSD Challenge",     "KHÓ",            "Chỉ được làm T-Spin Double!"},
         ['tsd_u']=               {"TSD Challenge",     "THÁCH ĐẤU",      "Chỉ được làm T-Spin Double!"},
@@ -974,13 +972,14 @@ C. Tay cầm chơi game (Gamepad):
         ['backfire_h']=          {"Backfire",          "KHÓ",            "Sống sót những hàng rác do chính bạn gửi"},
         ['backfire_l']=          {"Backfire",          "RẤT KHÓ",        "Sống sót những hàng rác do chính bạn gửi"},
         ['backfire_u']=          {"Backfire",          "THÁCH ĐẤU",      "Sống sót những hàng rác do chính bạn gửi"},
-        ['sprintAtk']=           {"Sprint",            "100 Attack",     "Gửi 100 hàng!"},
-        ['sprintEff']=           {"Sprint",            "Efficiency",     "Gửi càng nhiều hàng càng tốt trong 40 hàng"},
+        ['sprintAtk']=           {"Sprint",            "100 ATTACK",     "Gửi 100 hàng!"},
+        ['sprintEff']=           {"Sprint",            "EFFICIENCY",     "Gửi càng nhiều hàng càng tốt trong 40 hàng"},
         ['zen']=                 {'Zen',               "200",            "Xoá 200 hàng nhưng không có thời gian giới hạn"},
         ['ultra']=               {'Ultra',             "EXTRA",          "Lấy càng nhiều điểm càng tốt trong 2 phút"},
         ['infinite']=            {"Infinite",          "",               "Chỉ là một chế độ tự do"},
         ['infinite_dig']=        {"Infinite: Dig",     "",               "Đào, đào nữa, đào mãi"},
         ['marathon_inf']=        {"Marathon",          "VÔ TẬN",         "Marathon không có điểm dừng."},
+        ['spinren']=             {"Spin Ren",          "EFFICIENCY",     "Một nháy mắt, gửi chục hàng"},
 
         ['custom_clear']=        {"Custom",            "NORMAL"},
         ['custom_puzzle']=       {"Custom",            "PUZZLE"},
@@ -1004,7 +1003,7 @@ C. Tay cầm chơi game (Gamepad):
         "6 next 1 hold!",
         "6 next 6 hold?!",
         "20G thực chất là một chế độ mới đấy!",
-        "Kỷ lục Sprint 40 hàng: 14.188s (Lurny)",
+        "Kỷ lục Sprint 40 hàng: 13.430s (WestL)",
         "Rất gần nhưng lại rất xa",
         "ALL SPIN!",
         "Am G F G",
@@ -1125,7 +1124,7 @@ C. Tay cầm chơi game (Gamepad):
         -- Techmino's birthday
         "Ngày sinh nhật của Techmino? Hiện tại (đang giả định) là 26/T6.",
         -- How to O-spin: Rotate 626 times in one second (mistaken)
-        "Cách O-spin? Nhấn phím xoay 626 lần trong 1 giây (ĐÙA ĐẤY ĐỪNG TIN!)",
+        "Cách làm O-spin? Nhấn phím xoay 626 lần trong 1 giây (ĐÙA ĐẤY ĐỪNG TIN!)",
         -- 2021 was the year of Techmino's online debut.
         "2021 là năm ra mắt chế độ trực tuyến của Techmino.",
         -- The Chinese name of this game is 'Block Research Institute'.
@@ -1133,15 +1132,15 @@ C. Tay cầm chơi game (Gamepad):
         -- This game is not called Teachmino
         "Tên game không phải là Teachmino!",
         --
-        "Muốn game có thứ gì đó đặc biệt lúc mở game? Hãy chỉnh đồng hồ trên điện thoại vào một ngày đặc biệt nào đó đi!",
+        "Hãy thử chỉnh đồng hồ trên điện thoại để xem xem, có thứ gì đó đặc biệt hay không?",
         -- O-spin is a lie!
-        {C.Y,"O-spin",C.Z," is a ",C.R,"lie",C.Z,"!"},
+        {C.Y,"O-spin",C.Z," là ",C.R,"lời nói dối",C.Z,"của em!"},
         -- techminohaowan
         "Hảo Techmino",
 --
     -- TIPS WHEN PLAYING
         -- Don't act weak! Don't act weak! Don't act weak!
-        "Đừng tỏ ra yếu đuối! Đừng tỏ ra yếu đuối! ĐỪNG TỎ RA YẾU ĐUỐI!",
+        "Đừng tỏ ra yếu đuối! Và KHÔNG BAO GIỜ tỏ ra yếu đuối!",
         -- Warning: No pretending to be weak.
         {C.R,"CẢNH BÁO! ",C.Z,"Đừng giả vờ yếu đuối"},
         -- "Meow!"
@@ -1152,7 +1151,7 @@ C. Tay cầm chơi game (Gamepad):
         -- Don't play with your phone if your homework isn't finished.
         "Đừng chơi điện thoại khi bài tập về nhà còn chưa hoàn thành.",
         -- Enabling vibration on some mobile systems may cause severe lag."
-        "Bật rung trên một số điện thoại có thể làm cho chúng… phải thở oxy!",
+        "Bật rung có thể làm một số điện thoại phải thở oxy!",
         -- Eat the button? Really? I suggest you play it back to see if you pressed it and how long it took you to press it"
         "Phím không ăn? Hãy thử kiểm tra lại phím đi!",
         -- Probably someone will read the tip
@@ -1160,31 +1159,43 @@ C. Tay cầm chơi game (Gamepad):
         -- It seems like no one has reached a high level by playing with their feet yet.
         "Hình như tới giờ chưa ai chơi xếp gạch giỏi bằng chân…",
         -- Moderate gaming is good for the brain. Addiction to games is harmful. Plan your time
-        "Chơi game vừa phải có thể tốt cho bộ não. Nhưng nếu nghiện thì toang! Nhớ lập thời gian biểu nhé!",
+        "Chơi game vừa phải có thể tốt cho bộ não. Nhưng nếu nghiện thì toang! Nhớ sắp xếp quỹ thời gian cho hợp lý nhé!",
         -- The ability to dig is extremely important in battles!!!
         "Khả năng đào xuống (downstacking) của bạn là RẤT QUAN TRỌNG trong chiến đấu!!!",
         -- Skilled players of the Classic Tetris game are also formidable; don't underestimate them
         "Đừng có mà xem thường những người chơi xếp gạch cổ điển! Chơi cái đó cũng khó không khác gì chơi xếp gạch hiện đại đâu.",
         -- Classic Tetris and Modern Tetris are two different games; being skilled in one doesn't mean you'll be skilled in the other. You have to start from scratch.
-        "Xếp gạch cổ điển và xếp gạch hiện đại là hai thể loại game khác nhau đấy! Giỏi một trong hai chưa chắc bạn giỏi cả bên còn lại đâu. Bạn phải học lại từ đầu đấy",
+        "Xếp gạch cổ điển và xếp gạch hiện đại là hai thể loại game khác nhau đấy! Giỏi một trong hai chưa chắc bạn giỏi cả bên còn lại đâu. Bạn đều phải học lại từ đầu đấy",
         -- To protect the players' well-being, the game has a temporary and simplified anti-addiction system! (But you probably won't trigger it, haha)
         "Để tránh việc người chơi nào đó chơi quá lâu, game đã có hệ thống chống nghiện đơn giản tạm thời (Nhưng bạn có lẽ sẽ không bao giờ kích hoạt chúng đâu, haha)",
         -- Basic stacking and digging skills are crucial; those who neglect these two aspects often regret it (trust me)
-        {"Kỹ năng xếp lên vào đào xuống là 2 kỹ năng RẤT quan trọng; những ai coi thường hay bỏ bê hai khía cạnh này thường hay bị bón hành súp mặt lờ (tin ",C.W,"MrZ",C.Z," đi!)"},
+        {"Kỹ năng xếp lên vào đào xuống là 2 kỹ năng RẤT quan trọng; những người hay bị bón hành hầu hết là những người đếch tôn trọng 2 kỹ năng này (tin lời ",C.W,"MrZ",C.Z," đi!)"},
         -- Even if you're topped out, don't give up; every line of garbage can potentially become your weapon.
         "Đừng bỏ cuộc khi đống hàng rác đang làm bạn sắp bị top out, bởi bạn có thể biến chúng trở thành đòn phản công.",
         -- The video shown above is not a recording; it's the robot playing in real-time.
-        "Cái ở trên là bản ghi sẵn hả? Không, là AI đang chơi trong thời gian thực đấy!",
+        "Cái ở trên là video hả? Không, là AI đang chơi trong thời gian thực đấy!",
         -- Extended gaming sessions will gradually deteriorate your performance! Remember to take breaks when playing for a long time~
-        "Thường xuyên chơi game lâu có thể khiến bạn có thể bị đuối sức (cả thể chất và tinh thần, tệ nhất có thể bị stall). Hãy nhớ nghỉ giải lao sau khi chơi lâu nhé!",
+        "Thường xuyên chơi game lâu có thể khiến bạn có thể bị đuối sức (cả thể chất và tinh thần, tệ nhất có thể bị stall). Hãy nhớ nghỉ giải lao sau khi chơi lâu nhé! Meow~",
         -- Be careful of tenosynovitis!
         {C.R,"CẢNH BÁO! ",C.Z,"Bệnh viêm bao gân cổ tay!"},
         -- The button with a question mark in the bottom-right corner is the game manual (assuming you haven't enabled the Simple mode).
-        "Cái nút "..CHAR.icon.help.." ở góc phải dưới cùng trong menu (không bật chế độ Đơn giản) đấy hả? Nó là manual (hướng dẫn sử dụng) của game đấy!",
+        "Cái nút "..CHAR.icon.help.." ở màn hình chính (giả sử bạn chưa mở Chế độ đơn giản) là hướng dẫn sử dụng của Techmino đấy!",
         -- If you're new to blocks, just play more games; there isn't much specific targeted practice beyond 40 lines in two minutes
         "Bạn mới tập chơi xếp gạch à? Nếu vậy cứ chơi nhiều lên. Không có nhiều mục tiêu luyện tập cụ thể ngoài xóa 40 hàng trong 2 phút đâu!",
         --
         "Hãy ra ngoài và chạm cỏ đi!",
+    -- [SELF-MADE]
+        {"Có thuật ngữ nào bạn không hiểu à? Hãy tra ",C.R,"Z",C.Z,"ictionary!"},   -- Have a term you don't understand? Check Zictionary
+        -- Maybe saying this you may not believe, but there are many tips here never appear in English!
+        {"Nói cái này có thể bạn không tin, ",C.lSea,"nhưng có nhiều mẹo trong số này bạn sẽ không bao giờ thấy ở trong Techmino tiếng Anh đâu!"},
+
+--
+    -- OTHER
+        "\"Zictionary\" có 2 tên gọi khác, đó là: \"TetroDictionary\" và \"Little Z Dictionary\"",
+        "\"Zictionary\" có thể có vài chỗ nghe bất tự nhiên. Cứ thoải mái gửi bản chỉnh sửa lên GitHub đi!",
+        "Làm ơn đừng đánh đồng Korobeiniki với bản nhạc A. Hai nhạc này có sự khác biệt rất rõ trong giai điệu nhé!",
+        "Làm cách nào để mời người khác cùng chơi xếp gạch với mình? Xếp gạch giờ không còn đơn giản như trước đây nữa...",
+
 --
     -- MrZ
         {C.W,"uid:225238922"},
@@ -1192,7 +1203,7 @@ C. Tay cầm chơi game (Gamepad):
 --
     -- Z SAID
         -- I can't write cool music (crying)
-        {C.W,"Z: ",C.Z,"Tôi không tài nào viết nổi một bản nhạc nào trông ngầu cả (sadge)."},
+        {C.W,"Z: ",C.Z,"Tôi không tài nào viết nổi một bản nhạc nào ra hồn cả (sadge)."},
         -- I haven't studied music composition. I just composed it myself. If you really think it's good, that's great!
         {C.W,"Z: ",C.Z,"Tôi chưa từng học sáng tác nhạc, và tôi chỉ tự sáng tác chúng. Nếu bạn thấy những bản nhạc này hay, thật tuyệt!"},
         -- What else can I write for tips?
@@ -1222,7 +1233,7 @@ C. Tay cầm chơi game (Gamepad):
         "Techmino.exe hiện không phản hồi",
         "Techmino đã đột ngột dừng lại",
         -- If you have a real interest in programming, I recommend Lua. Easy installation, simple syntax, and fast execution speed. Stay away from boring school programming (haha)
-        {"Nếu bạn thực sự có hứng thú trong lập trình, tôi đề xuất sử dụng Lua. Dễ cài đặt, cú pháp đơn giản, tốc độ thực thi nhanh. Hãy tránh xa những tiết học lập trình chán ngắt ở trên trường luôn đi! (haha) - ",C.W,"MrZ",C.Z," said."},
+        {C.W,"MrZ:",C.Z,"Nếu bạn thực sự có hứng thú trong lập trình, tôi đề xuất sử dụng Lua. Dễ cài, cú pháp đơn giản, tốc độ thực thi nhanh. Hãy tránh xa những tiết học lập trình chán ngắt ở trên trường luôn đi! (haha)"},
 --
     -- CHANGELOG
         {C.lW, "V0.0.091726",": ",C.Z, "Thêm hệ thống xoay TRS"},
@@ -1269,18 +1280,20 @@ C. Tay cầm chơi game (Gamepad):
 --
         -- SEA'S JOKE
         {C.W,"MrZ",C.Z," còn có một biệt danh dễ thương hơn, đó là ",C.W,"Z-Chan"},
+        {C.W,"Z-Chan",C.Z," cute quá. Tui không cưỡng lại được... HELP!"},
 
         {C.lSea,"Sea: ",C.Z,"Tui không có đủ mặn để viết joke. Nên một số câu đùa đang chạy ở đây được viết bởi ",C.yellow,"Shard Nguyễn",C.Z,". \"Em cảm ơn anh!\""},
         {C.lSea,"Sea: ",C.Z,"Tui đang tự hỏi liệu còn bao nhiêu lỗi tui bỏ sót lúc dịch game không? Tính ra tui đã cập nhật đi cập nhật lại cũng 4-5 lần rồi."},
 
         {"Cộng đồng Tetris ",C.R,"Việt ",C.lY,"Nam ",C.Z,": https://discord.gg/jX7BX9g"}, -- Tetris Vietnam (TVN)
         {"\"Tetris Việt Nam\"? Không, đó là \"Hội phụ hồ Việt Nam\" (https://discord.gg/hoiphuhovietnam)"},
-        "\"Zictionary\" có 2 tên gọi khác, đó là: \"TetroDictionary\" và \"Little Z Dictionary\"",
         "Mình xin phép ủng hộ cho player này. Ủng hộ càng nhiều tỉ lệ thắng càng cao!",
         {"Aiiiii mua cần phô mai ủng hộ ",C.yellow,"Chủ tiệm phô mai",C.Z," không?"}, -- A joke in TVN
         -- Who will you choose? A girl that can break up to you and make you sad
         -- Or choose Katyusha that can warm your heart and 40ha land of enemy.
-        "Bạn sẽ chọn ai? Một em gái có thể chia tay và làm bạn buồn? Hay là chọn em Katyusha có thể làm ấm lòng bạn và 40ha đất kẻ thù?", -- Based on a comment in https://www.youtube.com/watch?v=nczdLwTyWmY
+        "Bạn sẽ chọn ai? Một em gái nào đó có thể chia tay và làm bạn buồn? Hay là chọn em gái Katyusha có thể làm ấm lòng bạn và 40ha đất kẻ thù?", -- Based on a comment in https://www.youtube.com/watch?v=nczdLwTyWmY
+        -- What if the ".io" domain disappear? What will happen with TETR.IO?
+        "Nếu tên miền cấp quốc gia '.io' biến mất, chuyện gì sẽ xảy ra với TETR.IO?",
     },
     pumpkin="Tôi là một quả bí ngô",
 }

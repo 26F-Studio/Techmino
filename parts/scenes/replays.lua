@@ -78,6 +78,7 @@ function scene.enter()
     BG.set()
     listBox:setList(REPLAY)
     _updateButtonVisibility()
+    DiscordRPC.update("Finding replay")
 end
 function scene.leave()
     if #mods>0 then
@@ -97,7 +98,7 @@ function scene.keyDown(key)
             if rep.available and rep.fileName then
                 local repStr=loadFile(rep.fileName,'-string')
                 if repStr then
-                    love.system.setClipboardText(love.data.encode('string','base64',repStr))
+                    CLIPBOARD.set(love.data.encode('string','base64',repStr))
                     MES.new('info',text.exportSuccess)
                 else
                     MES.new('error',text.replayBroken)
@@ -107,7 +108,7 @@ function scene.keyDown(key)
             end
         end
     elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
-        local repStr=love.system.getClipboardText()
+        local repStr=CLIPBOARD.get()
         local res,fileData=pcall(love.data.decode,'string','base64',repStr)
         if res then
             local fileName=os.date("replay/%Y_%m_%d_%H%M%S_import.rep")

@@ -168,6 +168,10 @@ local function press(x,y)
     end
 end
 
+function scene.enter()
+    DiscordRPC.update("Playing Launchpad")
+end
+
 function scene.touchDown(x,y)
     x,y=floor((x-pad.x)/80),floor((y-pad.y)/80)
     if x>=0 and x<=8 and y>=0 and y<=7 then

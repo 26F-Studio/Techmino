@@ -24,6 +24,20 @@ A collection of various modern block game rules, more ways to play, and some new
 
 -----
 
-[官网(建设中) Official website (WIP)](http://101.43.110.22:10026)
+[官网(重构中) Official Website (RWIP)](https://www.studio26f.org/home)
 
-[维基(建设中) Github wiki](https://github.com/26F-Studio/Techmino/wiki)
+[社区引导站(建设中)(非官方) Techmino Hub (WIP)(unofficial)](https://techmino-hub.vercel.app/)
+
+[Github维基(暂停建设) Github Wiki (WNIP)](https://github.com/26F-Studio/Techmino/wiki)
+
+## Paypal Donation (Paypal赞助)
+
+开了一个支付方式试一下，记得自己留一下付款记录，未来可能会返一些东西（不保证）
+
+Made a payment method to try it out, remember to keep a payment record, there may be some benifits in the future (not guaranteed)
+
+[![](.github/donate/donate.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CNJ9G8242SP8E)
+
+## 500 Stars Poster
+
+![Techmino](.github/500stars/exported.png)

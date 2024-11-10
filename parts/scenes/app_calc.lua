@@ -28,6 +28,7 @@ function scene.enter()
     BG.set('none')
     BGM.stop()
     reg,val,sym=false,"0",false
+    DiscordRPC.update("Calculating something")
 end
 function scene.leave()
     BGM.play()
@@ -85,13 +86,13 @@ function scene.keyDown(key)
         sym="+"
     elseif key=='*' then
         _autoReturn()
-        sym="*"
+        sym="×"
     elseif key=='-' then
         _autoReturn()
-        sym="-"
+        sym="−"
     elseif key=='/' then
         _autoReturn()
-        sym="/"
+        sym="÷"
     elseif key:byte()>=48 and key:byte()<=57 then
         if sym=="=" then
             val=key
@@ -115,9 +116,9 @@ function scene.keyDown(key)
             reg=reg:gsub("e$","")
             val=
                 sym=="+" and tostring((tonumber(reg) or 0)+tonumber(val)) or
-                sym=="-" and tostring((tonumber(reg) or 0)-tonumber(val)) or
-                sym=="*" and tostring((tonumber(reg) or 0)*tonumber(val)) or
-                sym=="/" and tostring((tonumber(reg) or 0)/tonumber(val)) or
+                sym=="−" and tostring((tonumber(reg) or 0)-tonumber(val)) or
+                sym=="×" and tostring((tonumber(reg) or 0)*tonumber(val)) or
+                sym=="÷" and tostring((tonumber(reg) or 0)/tonumber(val)) or
                 "-1"
         end
         sym="="
@@ -158,11 +159,11 @@ scene.widgetList={
     WIDGET.newKey{name='_9',x=345,y=500,w=90,sound=false,fText="9",font=50,code=pressKey'9'},
     WIDGET.newKey{name='_0',x=145,y=600,w=90,sound=false,fText="0",font=50,code=pressKey'0'},
     WIDGET.newKey{name='.',x=245,y=600,w=90,sound=false,fText=".",color='lM',font=50,code=pressKey'.'},
-    WIDGET.newKey{name='e',x=345,y=600,w=90,sound=false,fText="e",color='lM',font=50,code=pressKey'e'},
+    WIDGET.newKey{name='e',x=345,y=600,w=90,sound=false,fText="EE",color='lM',font=50,code=pressKey'e'},
     WIDGET.newKey{name='+',x=445,y=300,w=90,sound=false,fText="+",color='lB',font=50,code=pressKey'+'},
-    WIDGET.newKey{name='-',x=445,y=400,w=90,sound=false,fText="-",color='lB',font=50,code=pressKey'-'},
-    WIDGET.newKey{name='*',x=445,y=500,w=90,sound=false,fText="*",color='lB',font=50,code=pressKey'*'},
-    WIDGET.newKey{name='/',x=445,y=600,w=90,sound=false,fText="/",color='lB',font=50,code=pressKey'/'},
+    WIDGET.newKey{name='-',x=445,y=400,w=90,sound=false,fText="−",color='lB',font=50,code=pressKey'-'},
+    WIDGET.newKey{name='*',x=445,y=500,w=90,sound=false,fText="×",color='lB',font=50,code=pressKey'*'},
+    WIDGET.newKey{name='/',x=445,y=600,w=90,sound=false,fText="÷",color='lB',font=50,code=pressKey'/'},
     WIDGET.newKey{name='<',x=545,y=300,w=90,sound=false,fText=CHAR.key.backspace,color='lR',font=50,code=pressKey'backspace'},
     WIDGET.newKey{name='=',x=545,y=400,w=90,sound=false,fText="=",color='lY',font=50,code=pressKey'return'},
     WIDGET.newKey{name='back',x=1135,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},

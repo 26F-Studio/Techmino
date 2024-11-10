@@ -426,14 +426,13 @@ return {
             tas="TAS (T)",
         },
         net_menu={
-            league="Tech League",
-            ffa="FFA",
+            -- galaxim="Galaxim", -- Galaxy+Simulation
             rooms="Ruang-ruang",
             -- resetPW="Reset password",
             logout="Log out",
         },
-        net_league={
-            match="Cari Tandingan",
+        net_galaxim={
+            -- match="Enter Sim.", -- (Actively) Enter (the) (digital) Simulation of (a galaxy)
         },
         net_rooms={
             password="Password",
@@ -587,6 +586,7 @@ return {
 
             das="DAS",arr="ARR",
             dascut="Gangguan DAS",
+            irscut="Gangguan IRS",
             dropcut="Gangguan Auto-kunci",
             sddas="DAS Jatuh",sdarr="ARR Jatuh",
             ihs="Simpan Saat Tunda",
@@ -883,12 +883,9 @@ return {
         ['master_g']=            {"Ahli",              "BERTINGKAT",          "Dapatkan tingkat tertinggi!"},
         ['master_ex']=           {"Sangat Ahli",       "EKSTRA",              "Blok tidak kelihatan"},
         ['master_instinct']=     {"Ahli",              "INSTINK",             "Bagaimana jika blok terkontrol tersembunyi?"},
-        ['strategy_e']=          {"Strategi",          "MUDAH",               "Keputusan 20G cepat"},
+        ['strategy_e_plus']=     {"Strategi",          "MUDAH+",              "Mode strategi, tetapi tanpa menyimpan"},
         ['strategy_h']=          {"Strategi",          "SULIT",               "Keputusan 20G cepat"},
         ['strategy_u']=          {"Strategi",          "TERAKHIR",            "Keputusan 20G cepat"},
-        ['strategy_e_plus']=     {"Strategi",          "MUDAH+",              "Mode strategi, tetapi tanpa menyimpan"},
-        ['strategy_h_plus']=     {"Strategi",          "SULIT+",              "Mode strategi, tetapi tanpa menyimpan"},
-        ['strategy_u_plus']=     {"Strategi",          "TERAKHIR+",           "Mode strategi, tetapi tanpa menyimpan"},
         ['blind_e']=             {"Tak Terlihat",      "PELAN",               "Untuk pemula"},
         ['blind_n']=             {"Tak Terlihat",      "CEPAT",               "Untuk amatir"},
         ['blind_h']=             {"Tak Terlihat",      "INSTAN",              "Untuk orang berpengalaman"},
@@ -940,6 +937,7 @@ return {
         ['infinite']=            {"Tak Terbatas",      "",                    "Bak pasir"},
         ['infinite_dig']=        {"Tak Terbatas: Gali","",                    "Gali, gali, gali"},
         ['marathon_inf']=        {"Maraton",           "TAK TERBATAS",        "Maraton tanpa akhir."},
+        -- ['spinren']=             {"Spin Combo",        "EFFICIENCY",          "Spike in a blink"},
 
         ['custom_clear']=        {"Tersesuai",         "NORMAL"},
         ['custom_puzzle']=       {"Tersesuai",         "TEKA-TEKI"},
@@ -954,7 +952,7 @@ return {
         "↑↑↓↓←→←→BA",
         "$include<studio.h>",
         "20G sebenarnya peraturan permainan baru!",
-        "Rekor dunia 40L: 14.188s dari Lurny",
+        "Rekor dunia 40L: 13.430s dari WestL",
         "Sistem pencapaian segera akan datang!",
         "ALL SPIN!",
         "Am G F G",

@@ -172,13 +172,12 @@ return {
             tas="#&; (T)",
         },
         net_menu={
-            league="TL",
-            ffa="FFA",
+            -- galaxim="Galaxim", -- Galaxy+Simulation
             rooms="< >",
             resetPW="R ***",
             logout="@_@x",
         },
-        net_league={
+        net_galaxim={
             match="!",
         },
         net_rooms={
@@ -331,6 +330,7 @@ return {
 
             das="x---x x x",arr="x   x-x-x",
             dascut="x x ↓___x x",
+            irscut="'' !''x",
             dropcut="↓_ !↓↓x",
             sddas="↓---↓ ↓ ↓",sdarr="↓   ↓-↓-↓",
             ihs="![ ]",

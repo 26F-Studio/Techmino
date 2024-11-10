@@ -161,12 +161,12 @@ do-- function applySettings()
         if SETTING.bg=='on' then
             BG.unlock()
             BG.setDefault(SETTING.defaultBG)
+            BG.set()
             if SETTING.lockBG then
                 BG.lock()
-            elseif reason=='lockBG' then        -- Don't load theme too soon!
+            elseif reason=='lockBG' then -- We only reload theme again when at settings scene.
                 THEME.set(THEME.calculate(),GAME.playing)
             end
-            BG.set()
         elseif SETTING.bg=='off' then
             BG.unlock()
             BG.set('fixColor',SETTING.bgAlpha,SETTING.bgAlpha,SETTING.bgAlpha)
@@ -973,7 +973,7 @@ end
 do-- function dumpBasicConfig()
     local gameSetting={
         -- Tuning
-        'das','arr','dascut','dropcut','sddas','sdarr',
+        'das','arr','dascut','irscut','dropcut','sddas','sdarr',
         'ihs','irs','ims','RS',
 
         -- System
@@ -1024,7 +1024,7 @@ do-- function resetGameData(args)
     end
     local gameSetting={
         -- Tuning
-        'das','arr','dascut','dropcut','sddas','sdarr',
+        'das','arr','dascut','irscut','dropcut','sddas','sdarr',
         'ihs','irs','ims','RS',
 
         -- System
@@ -1054,6 +1054,8 @@ do-- function resetGameData(args)
         GAME.rank=0
         GAME.warnLVL0=0
         GAME.warnLVL=0
+        GAME.pauseCount=0
+        GAME.pauseTime=0
         if args:find'r' then
             GAME.frameStart=0
             GAME.recording=false
@@ -1061,8 +1063,6 @@ do-- function resetGameData(args)
         else
             GAME.frameStart=args:find'n' and 0 or 180-SETTING.reTime*60
             GAME.seed=seed or math.random(1046101471)
-            GAME.pauseTime=0
-            GAME.pauseCount=0
             GAME.saved=false
             GAME.setting=_copyGameSetting()
             GAME.tasUsed=false
@@ -1239,7 +1239,7 @@ do-- function pressKey(k)
 end
 do-- SETXXX(k) & ROOMXXX(k)
     local warnList={
-        'das','arr','dascut','dropcut','sddas','sdarr',
+        'das','arr','dascut','irscut','dropcut','sddas','sdarr',
         'ihs','irs','ims','RS',
         'frameMul','highCam',
         'VKSwitch','VKIcon','VKTrack','VKDodge',

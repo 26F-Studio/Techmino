@@ -74,6 +74,7 @@ local scene={}
 function scene.enter()
     BG.set()
     _fetchRoom()
+    DiscordRPC.update("Checking room list")
 end
 
 function scene.keyDown(key)

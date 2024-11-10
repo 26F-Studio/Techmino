@@ -131,9 +131,8 @@ function STRING.time_short(t)
     -- floor seconds
     timeUnits[#timeUnits]=floorint(timeUnits[#timeUnits])
 
-    local outputStr=''
     for i=1,#timeUnits do
-        if timeUnits>0 then
+        if timeUnits[i]>0 then
             return timeUnits[i]..timeLetters[i]..' '..timeUnits[i+1]..timeLetters[i+1]
         end
     end
@@ -190,7 +189,7 @@ do-- functions to shorted big numbers
     function STRING.bigInt(t)
         if t<1000 then
             return tostring(t)
-        elseif t~=1e999 then
+        elseif t~=1/0 then
             local e=floorint(lg(t)/3)
             return(t/10^(e*3))..units[e+1]
         else

@@ -23,7 +23,10 @@ local function apply_locals()
     TABLE.clear(CUSTOMENV)
     TABLE.cover(CUSTOMGAME_LOCAL.customenv,CUSTOMENV)
 end
-do -- Initialize fields, sequence, missions, gameEnv for cutsom game
+
+local scene={}
+
+function scene.initialize() -- Initialize fields, sequence, missions, gameEnv for cutsom game
     local fieldData=loadFile('conf/customBoards','-string -canSkip')
     local fieldReinit=false
     if not fieldData then
@@ -64,6 +67,7 @@ do -- Initialize fields, sequence, missions, gameEnv for cutsom game
         TABLE.complete(customData,CUSTOMGAME_LOCAL.customenv)
     end
     TABLE.complete(require"parts.customEnv0",CUSTOMGAME_LOCAL.customenv)
+    apply_locals()
 end
 
 local sList={
@@ -86,8 +90,6 @@ local sList={
     holdMode={'hold','swap','skip'},
 }
 local modUsed
-
-local scene={}
 
 function scene.enter()
     destroyPlayers()
@@ -186,10 +188,10 @@ function scene.keyDown(key,isRep)
         if #CUSTOMGAME_LOCAL.bag>0 then str=str..DATA.copySequence(CUSTOMGAME_LOCAL.bag) end
         str=str.."!"
         if #CUSTOMGAME_LOCAL.mission>0 then str=str..DATA.copyMission(CUSTOMGAME_LOCAL.mission) end
-        sys.setClipboardText(str.."!"..DATA.copyBoards(CUSTOMGAME_LOCAL.field).."!")
+        CLIPBOARD.set(str.."!"..DATA.copyBoards(CUSTOMGAME_LOCAL.field).."!")
         MES.new('check',text.exportSuccess)
     elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
-        local str=sys.getClipboardText()
+        local str=CLIPBOARD.get()
         local args=str:sub((str:find(":") or 0)+1):split("!")
         local hasTooHighField=false
         repeat

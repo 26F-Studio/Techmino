@@ -243,6 +243,7 @@ return {
         "Ceci est un simple jeu de blocs.",
         "On y joue comme sur C2/IO/JS/WWC/KOS et autres.",
         "",
+        "Propulsé par LÖVE",
         "Vous pouvez envoyer des rapports de bogues ou des suggestions via le groupe de test ou l'email du créateur ~",
         "Assurez-vous d'obtenir le jeu uniquement des canaux officiels,",
         "Ne téléchargez pas ce jeu depuis une autre source au risque d'avoir des virus,",
@@ -400,14 +401,13 @@ return {
             -- tas="TAS (T)",
         },
         net_menu={
-            -- league="Tech League",
-            ffa="FFA",
+            -- galaxim="Galaxim", -- Galaxy+Simulation
             rooms="Salons",
             resetPW="Réinitialiser le mot de passe",
             logout="Se déconnecter",
         },
-        net_league={
-            match="Find Match",
+        net_galaxim={
+            -- match="Enter Sim.", -- (Actively) Enter (the) (digital) Simulation of (a galaxy)
         },
         net_rooms={
             password="Mot de passe",
@@ -562,6 +562,7 @@ return {
 
             das="DAS",arr="ARR",
             dascut="DAS cut",
+            irscut="IRS cut",
             -- dropcut="Auto-lock cut",
             sddas="DAS de chute rapide",sdarr="ARR de chute rapide",
             ihs="Réserve Initiale",
@@ -852,12 +853,9 @@ return {
         ['master_final']=  {"Master",          "FINAL",       "20G : Un point final impossible à atteindre !"},
         -- ['master_ph']=  {"Master",          "FANTASMA",       "20G: ???"},
         ['master_ex']=     {"GrandMaster",     "EXTRA",       "Tentez de devenir un Grandmaster."},
-        ['strategy_e']=     {"Stratégie",      "FACILE",      "Décision rapide 20G"},
+        ['strategy_e_plus']={"Stratégie",      "FACILE+",     "Stratégie sans retenue"},
         ['strategy_h']=     {"Stratégie",      "DIFFICILE",   "Décision rapide 20G"},
         ['strategy_u']=     {"Stratégie",      "ULTIME",      "Décision rapide 20G"},
-        ['strategy_e_plus']={"Stratégie",      "FACILE+",     "Stratégie sans retenue"},
-        ['strategy_h_plus']={"Stratégie",      "DIFFICILE+",  "Stratégie sans retenue"},
-        ['strategy_u_plus']={"Stratégie",      "ULTIME+",     "Stratégie sans retenue"},
         -- ['blind_e']=             {"Invisible",         "SLOW",           "For beginners"},
         -- ['blind_n']=             {"Invisible",         "FAST",           "For intermediates"},
         -- ['blind_h']=             {"Invisible",         "INSTANT",        "For the experienced"},
@@ -916,7 +914,8 @@ return {
         ['ultra']=         {'Ultra',         "EXTRA",        "2 minutes pour avoir le meilleur score."},
         ['infinite']=      {"Infini",        "",             "Mode tranquile."},
         ['infinite_dig']=  {"Infini : Dig",  "",             "Creuser, creuser, creuser."},
-        ['marathon_inf']=  {"Marathon",      "Infini",       "Marathon infini."},
+        ['marathon_inf']=  {"Marathon",      "INFINI",       "Marathon infini."},
+        -- ['spinren']=       {"Spin Combo",    "EFFICIENCY",   "Spike in a blink"},
 
         ['custom_clear']=  {"Perso.",        "NORMAL"},
         ['custom_puzzle']= {"Perso.",        "PUZZLE"},

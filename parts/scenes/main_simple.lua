@@ -5,6 +5,7 @@ local tip=GC.newText(getFont(30),"")
 function scene.enter()
     tip:set(text.getTip())
     BG.set()
+    DiscordRPC.update("In Simple Menu")
 end
 
 function scene.draw()

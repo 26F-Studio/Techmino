@@ -29,11 +29,13 @@ return {
     {font=65,name="怀沙"},
     {font=65,name="星街书婉"},
     {font=65,name="老板来两份薯条"},
+    {font=65,name="yumucy"},
     {font=65,name="[**昆]"},
     {font=65,name="[**浩]"},
     {font=65,name="sakurw"},
     {font=65,name="[**霖]"},
     {font=65,name="KK"},
+    {font=65,name="武仰绍"},
 
     {font=25,name="八零哥"},
     {font=25,name="蕴空之灵"},
@@ -151,4 +153,9 @@ return {
     {font=25,name="电蜥蜴"},
     {font=25,name="浮芙fufu"},
     {font=25,name="NOname_awa"},
+    {font=65,name="liaotianhao"},
+    {font=65,name="Aquamarine"},
+    {font=65,name="jacky"},
+    {font=65,name="方块丶小刘"},
+    {font=65,name="DX3906"},
 }

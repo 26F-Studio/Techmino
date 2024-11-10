@@ -181,7 +181,7 @@ function reset()
     time=0
     score=0
 
-    local t=love.system.getClipboardText()
+    local t=CLIPBOARD.get()
     if type(t)=='string' then
         t=t:lower():match("^s=(.+)")
         t=t and tonumber(t) and tonumber(t)*2
@@ -201,6 +201,7 @@ function scene.enter()
     reset()
     BG.set('fixColor',.26,.26,.26)
     BGM.play(bgm)
+    DiscordRPC.update("Avoiding touching white tiles")
 end
 
 local function touch(n)

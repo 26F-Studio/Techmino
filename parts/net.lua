@@ -29,8 +29,8 @@ local NET={
 
     onlineCount="_",
 
-    textBox=WIDGET.newTextBox{name='texts',x=340,y=80,w=600,h=560},
-    inputBox=WIDGET.newInputBox{name='input',x=340,y=660,w=600,h=50,limit=256},
+    textBox=WIDGET.newTextBox{name='texts',x=20,y=110,w=980,h=500},
+    inputBox=WIDGET.newInputBox{name='input',x=20,y=630,w=980,h=50,limit=256},
 }
 
 function NET.freshRoomAllReady()
@@ -187,17 +187,48 @@ function NET.getAvatar(uid)
         end
     end)
 end
-function NET.getNotice(lang,count)
+
+local noticeLang={
+    en='en_us',
+    fr='en_us', -- fr_fr
+    es='en_us', -- es_es
+    id='en_us', -- id_id
+    pt='en_us', -- pt_pt
+    symbol='en_us', -- gl_os
+    ja='en_us', -- ja_jp
+    vi='en_us', -- vi_vn
+    zh='zh_cn',
+    zh_trad='zh_tw',
+    zh_code='zh_cn',
+}
+function NET.launchNotice()
+    TASK.new(function()
+        local res=getMsg({
+            pool='getNotice',
+            path='/techmino/api/v1/notice?language='..noticeLang[SETTING.locale]..'&lastCount=1',
+        },6.26)
+
+        if res and res.code==200 then
+            local opt=res.data.contents[1]
+            if opt then
+                MES.new('info',opt.content,12.6)
+            else
+                MES.new('info',text.Techrater.NoticeManager.noticeNotFound)
+            end
+        end
+    end)
+end
+function NET.getNotice(count)
     WAIT{timeout=6.26}
     TASK.new(function()
         local res=getMsg({
             pool='getNotice',
-            path='/techmino/api/v1/notice?language='..(lang or 'zh_cn')..'&lastCount='..(count or 5),
+            path='/techmino/api/v1/notice?language='..noticeLang[SETTING.locale]..'&lastCount='..(count or 5),
         },6.26)
 
-        if res and res.code==200 and type(res.data)=='string' then
-            local dataStr=""
-            SCN.go('notice',nil,dataStr)
+        if res and res.code==200 then
+            WAIT.interrupt()
+            SCN.go('notice',nil,noticeLang[SETTING.locale],res.data.contents)
         end
     end)
 end
@@ -393,10 +424,19 @@ function NET.wsCallBack.room_chat(body)
     if SCN.cur~='net_game' then return end
     TASK.unlock('receiveMessage')
     TASK.lock('receiveMessage',1)
-    NET.textBox:push{
-        COLOR.Z,_getFullName(body.data.playerId).." ",
-        COLOR.N,body.data.message,
-    }
+
+    local name=_getFullName(body.data.playerId).." "
+    -- P/s: we need to wrap both name and message, not just only message
+    local _,msgWrapped=FONT.get(NET.inputBox.font):getWrap(name..body.data.message,950)
+    -- We don't want to see the name repeat twice :skull:
+    msgWrapped[1]=string.gsub(msgWrapped[1],name,"",1)
+    -- Push the name in white and first line of message in blue first
+    NET.textBox:push{COLOR.Z,name,COLOR.N,msgWrapped[1]}
+    for i, line in ipairs(msgWrapped) do
+        if i ~= 1 then
+            NET.textBox:push{COLOR.N,msgWrapped[i]}
+        end
+    end
 end
 function NET.wsCallBack.room_create(body)
     MES.new('check',text.createRoomSuccessed)

@@ -267,6 +267,7 @@ local scene={}
 function scene.enter()
     player:reset()
     BGM.play('truth')
+    DiscordRPC.update("Playing Triple Town")
 end
 
 function scene.mouseClick(x,y)

@@ -226,10 +226,10 @@ function scene.keyDown(key)
         SFX.play('clear_4',.8)
         SFX.play('fall',.8)
     elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
-        sys.setClipboardText("Techmino Field:"..DATA.copyBoard(FIELD[page]))
+        CLIPBOARD.set("Techmino Field:"..DATA.copyBoard(FIELD[page]))
         MES.new('check',text.exportSuccess)
     elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
-        local str=sys.getClipboardText()
+        local str=CLIPBOARD.get()
         local p=str:find(":")-- ptr*
         if p then
             if not str:sub(1,p-1):find("Field") then

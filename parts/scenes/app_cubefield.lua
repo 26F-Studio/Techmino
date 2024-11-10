@@ -59,6 +59,7 @@ function scene.enter()
     gc.setLineJoin('bevel')
     BGM.play('push')
     BG.set('none')
+    DiscordRPC.update("Playing Cubefield")
 end
 
 function scene.touchDown(x)
@@ -203,7 +204,7 @@ function scene.update(dt)
         end
         ct=ct-1
         if ct==0 then
-            local t=love.system.getClipboardText()
+            local t=CLIPBOARD.get()
             if type(t)=='string' then
                 t=t:lower():match("^s=(%d+)$")
                 t=t and tonumber(t) and tonumber(t)>0 and tonumber(t)<=8000 and floor(tonumber(t))

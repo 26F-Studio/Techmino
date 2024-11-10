@@ -425,14 +425,13 @@ return {
             tas="TAS (T)",
         },
         net_menu={
-            league="Liga Tech",
-            ffa="FFA",
+            -- galaxim="Galaxim", -- Galaxy+Simulation
             rooms="Salas",
             resetPW="Restabl. Contraseña",
             logout="Desconec.",
         },
-        net_league={
-            match="Buscar Match",
+        net_galaxim={
+            -- match="Enter Sim.", -- (Actively) Enter (the) (digital) Simulation of (a galaxy)
         },
         net_rooms={
             password="Contraseña",
@@ -585,6 +584,7 @@ return {
 
             das="DAS",arr="ARR",
             dascut="Intrrp. de DAS",
+            irscut="Intrrp. de IRS",
             dropcut="Intrrp. de Autocaída",
             sddas="DAS de C. Ráp.",sdarr="ARR de C. Rápida",
             ihs="Resv. Inicial",
@@ -879,12 +879,9 @@ return {
         ['master_g']=       {"Master",                  "Con rangos",   "¡Consigue el rango más alto que puedas!"},
         ['master_ex']=      {"GrandMaster",             "Extra",         "Una eternidad que dura un instante."},
         ['master_instinct']={"Master",                  "Instintivo",    "¿Y si la pieza activa es invisible?"},
-        ['strategy_e']=     {"Strategy",                "Fácil",         "Decisiones rápidas en 20G."},
+        ['strategy_e_plus']={"Strategy",                "Fácil+",        "Lo mismo pero sin reserva!"},
         ['strategy_h']=     {"Strategy",                "Difícil",       "Decisiones rápidas en 20G."},
         ['strategy_u']=     {"Strategy",                "Supremo",       "Decisiones rápidas en 20G."},
-        ['strategy_e_plus']={"Strategy",                "Fácil+",        "Lo mismo pero sin reserva!"},
-        ['strategy_h_plus']={"Strategy",                "Difícil+",      "Lo mismo pero sin reserva!"},
-        ['strategy_u_plus']={"Strategy",                "Supremo+",      "Lo mismo pero sin reserva!"},
         -- ['blind_e']=             {"Invisible",         "SLOW",           "For beginners"},
         -- ['blind_n']=             {"Invisible",         "FAST",           "For intermediates"},
         -- ['blind_h']=             {"Invisible",         "INSTANT",        "For the experienced"},
@@ -943,6 +940,7 @@ return {
         ['infinite']=       {"Infinito",                 "",             "Modo Sandbox."},
         ['infinite_dig']=   {"Infinito: Queso",          "",             "Limpia, limpia, más limpia que tú."},
         ['marathon_inf']=   {"Maratón",                  "Infinito",     "Maratón infinita."},
+        -- ['spinren']=        {"Spin Combo",               "EFFICIENCY",   "Spike in a blink"},
 
         ['custom_clear']=   {"Personalizado",           "Normal"},
         ['custom_puzzle']=  {"Personalizado",           "Puzzle"},

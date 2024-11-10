@@ -414,13 +414,12 @@ return {
             -- tas="TAS (T)",
         },
         net_menu={
-            -- league="Tech League",
-            ffa="FFA",
+            -- galaxim="Galaxim", -- Galaxy+Simulation
             rooms="Salas",
             -- resetPW="Reset password",
             -- logout="Log out",
         },
-        net_league={
+        net_galaxim={
             -- match="Find Match",
         },
         net_rooms={
@@ -575,6 +574,7 @@ return {
 
             das="DAS",arr="ARR",
             dascut="DAS cut",
+            irscut="IRS cut",
             -- dropcut="Auto-lock cut",
             sddas="Soft Drop DAS",sdarr="Soft Drop ARR",
             ihs="Segurar Inicial",
@@ -865,12 +865,9 @@ return {
         ['master_final']=       {"Mestre",           "FINAL",        "20G: Final inalcançável!"},
         ['master_ph']=          {"Mestre",           "FANTASMA",     "20G: ???"},
         ['master_ex']=          {"GrandMaster",      "EXTRA",        "Para ser um Grand Master, aceite \nesse desafio."},
-        -- ['strategy_e']=         {"Strategy",         "EASY",         "Fast 20G decision"},
+        -- ['strategy_e_plus']={"Strategy",             "EASY+",       "Holdless strategy"},
         -- ['strategy_h']=         {"Strategy",         "HARD",         "Fast 20G decision"},
         -- ['strategy_u']=         {"Strategy",         "ULTIMATE",     "Fast 20G decision"},
-        -- ['strategy_e_plus']={"Strategy",             "EASY+",       "Holdless strategy"},
-        -- ['strategy_h_plus']={"Strategy",             "HARD+",       "Holdless strategy"},
-        -- ['strategy_u_plus']={"Strategy",             "ULTIMATE+",   "Holdless strategy"},
         -- ['blind_e']=             {"Invisible",         "SLOW",           "For beginners"},
         -- ['blind_n']=             {"Invisible",         "FAST",           "For intermediates"},
         -- ['blind_h']=             {"Invisible",         "INSTANT",        "For the experienced"},
@@ -929,7 +926,8 @@ return {
         ['ultra']=              {'Ultra',            "EXTRA",        "Pegue a maior pontuação em 2 minutos."},
         ['infinite']=           {"Infinito",          "",            "Modo Sandbox."},
         ['infinite_dig']=       {"Infinito:Cave",     "",            "Cava, Cava, Cava."},
-        ['marathon_inf']=       {"Maratona",          "Infinito",    "Infinito maratona."},
+        ['marathon_inf']=       {"Maratona",          "INFINITO",    "Infinito maratona."},
+        -- ['spinren']=            {"Spin Combo",        "EFFICIENCY",  "Spike in a blink"},
 
         ['custom_clear']=       {"Custom",           "NORMAL"},
         ['custom_puzzle']=      {"Custom",           "PUZZLE"},
@@ -949,7 +947,7 @@ return {
         "1next 1hold!",
         "1next 6hold!",
         "Na verdade 20G é uma regra de jogo nova.",
-        "40-lines Sprint WR: 14.188s by Lurny",
+        "40-line Sprint WR: 13.430s by WestL",
         "6next 1hold!",
         "6next 6hold?!",
         "ALL SPIN!",

@@ -13,6 +13,7 @@ function scene.enter()
     if SETTING then
         SFX.fplay('error',SETTING.voc*.8 or 0)
     end
+    DiscordRPC.update("Struke by an error")
 end
 
 function scene.draw()

@@ -15,7 +15,7 @@ local function _setPW()
     end
 end
 local function _paste()
-    local t=love.system.getClipboardText()
+    local t=CLIPBOARD.get()
     if t then
         t=STRING.trim(t)
         if #t==8 and t:match("[0-9]+") then

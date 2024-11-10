@@ -375,14 +375,13 @@ return {
             tas="TAS(); (T)",
         },
         net_menu={
-            league="M.TechLeague();",
-            ffa="M.FFA",
+            galaxim="M.Galaxim();",
             rooms="M.Rooms();",
             resetPW="M.ResetPW",
             logout="M.Logout();",
         },
-        net_league={
-            match="TL.Match();",
+        net_galaxim={
+            match="GX.Enter();",
         },
         net_rooms={
             password="Password=",
@@ -535,6 +534,7 @@ return {
 
             das="Set.DAS=",arr="Set.SRR=",
             dascut="Set.DASCut=",
+            irscut="Set.IRSCut=",
             dropcut="Set.DropCut=",
             sddas="Set.SDDAS=",sdarr="Set.SDARR=",
             ihs="Set.IHS",
@@ -831,12 +831,9 @@ return {
         ['master_g']=           {"Master(Graded);",         "",      "20G段位考试"},
         ['master_ex']=          {"Master(EX);",             "",      "成为方块大师"},
         ['master_instinct']=    {"Master(Instinct);",       "",      "当前块在出现后一小会后会隐形"},
-        ['strategy_e']=         {"Strategy(Easy);",         "",      "20G堆叠中速决策练习"},
+        ['strategy_e_plus']=    {"Strategy(EasyP);",        "",      "20G堆叠中速决策练习\n无Hold"},
         ['strategy_h']=         {"Strategy(Hard);",         "",      "20G堆叠快速决策练习"},
         ['strategy_u']=         {"Strategy(Ultimate);",     "",      "20G堆叠极速决策练习"},
-        ['strategy_e_plus']=    {"Strategy(EasyP);",        "",      "20G堆叠中速决策练习\n无Hold"},
-        ['strategy_h_plus']=    {"Strategy(HardP);",        "",      "20G堆叠快速决策练习\n无Hold"},
-        ['strategy_u_plus']=    {"Strategy(UltimateP);",    "",      "20G堆叠极速决策练习\n无Hold"},
         ['blind_e']=            {"Blind(Slow);",            "",      "不强大脑"},
         ['blind_n']=            {"Blind(Fast);",            "",      "挺强大脑"},
         ['blind_h']=            {"Blind(Instant);",         "",      "很强大脑"},
@@ -884,10 +881,11 @@ return {
         ['sprintAtk']=          {"Sprint(100ATK);",         "",      "打出100攻击"},
         ['sprintEff']=          {"Sprint(EFF);",            "",      "40行内打出更高的攻击"},
         ['zen']=                {"Zen(200L);",              "",      "不限时200行"},
-        ['ultra']=              {"Ultra(EXTRA);",           "",      "在两分钟内尽可能拿到最多的分数"},
+        ['ultra']=              {"Ultra(Extra);",           "",      "在两分钟内尽可能拿到最多的分数"},
         ['infinite']=           {"Infinite();",             "",      "沙盒"},
         ['infinite_dig']=       {"InfDig();",               "",      "挖呀挖呀挖"},
         ['marathon_inf']=       {"Marathon(Inf);",          "",      "无尽马拉松"},
+        ['spinren']=            {"Spinren(EFF)",            "",      "掌管效率的神"},
 
         ['custom_clear']=       {"Custom(Clear);",          ""},
         ['custom_puzzle']=      {"Custom(Puzzle);",         ""},

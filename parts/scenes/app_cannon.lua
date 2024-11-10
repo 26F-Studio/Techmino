@@ -15,6 +15,7 @@ function scene.enter()
     ex,ey=626,260
     BG.set('matrix')
     BGM.play('hang out')
+    DiscordRPC.update("Shooting cannon balls")
 end
 
 function scene.keyDown(key,isRep)

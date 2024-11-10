@@ -949,16 +949,16 @@ end
 
 local combKey={
     x=function()
-        love.system.setClipboardText(inputBox:getText())
+        CLIPBOARD.set(inputBox:getText())
         inputBox:clear()
         SFX.play('reach')
     end,
     c=function()
-        love.system.setClipboardText(inputBox:getText())
+        CLIPBOARD.set(inputBox:getText())
         SFX.play('reach')
     end,
     v=function()
-        inputBox:addText(love.system.getClipboardText())
+        inputBox:addText(CLIPBOARD.get())
         SFX.play('reach')
     end,
 }
@@ -1034,6 +1034,7 @@ userG.the_key=first_key
 function scene.enter()
     WIDGET.focus(inputBox)
     BG.set('none')
+    DiscordRPC.update("Hacking the system")
 end
 
 function scene.wheelMoved(_,y)

@@ -14,7 +14,7 @@ local function _submit()
     end
 end
 local function _paste()
-    local t=love.system.getClipboardText()
+    local t=CLIPBOARD.get()
     if t then
         t=STRING.trim(t)
         if #t==128 and t:match("[0-9A-Z]+") then

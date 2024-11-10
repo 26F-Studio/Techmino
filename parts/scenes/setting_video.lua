@@ -2,6 +2,9 @@ local gc=love.graphics
 
 local scene={}
 
+function scene.enter()
+    DiscordRPC.update("Tweaking Settings")
+end
 function scene.leave()
     saveSettings()
 end
@@ -30,7 +33,7 @@ function scene.draw()
     gc.push('transform')
     gc.setColor(1,1,1)
     local T=skinLib[1]
-    gc.translate(-200,1410-WIDGET.scrollPos)    -- -200
+    gc.translate(0,1610-WIDGET.scrollPos)
     gc.setShader(SHADER.blockSatur)
     gc.draw(T,435,0)gc.draw(T,465,0)gc.draw(T,465,30)gc.draw(T,495,30)
     gc.setShader(SHADER.fieldSatur)
@@ -47,7 +50,7 @@ local function _msaaShow(S)
     return S==0 and 0 or 2^S
 end
 
-scene.widgetScrollHeight=900
+scene.widgetScrollHeight=1200
 scene.widgetList={
     WIDGET.newText{name='title',          x=640,y=15,lim=630,font=80},
 
@@ -88,11 +91,18 @@ scene.widgetList={
     WIDGET.newSwitch{name='clean',        x=950,y=1100,lim=360,disp=SETval('cleanCanvas'),  code=function() SETTING.cleanCanvas=not SETTING.cleanCanvas; applySettings() end},
     WIDGET.newSwitch{name='fullscreen',   x=950,y=1150,lim=360,disp=SETval('fullscreen'),   code=function() SETTING.fullscreen=not SETTING.fullscreen; applySettings() end,hideF=function() return MOBILE end},
     WIDGET.newSwitch{name='portrait',     x=950,y=1150,lim=360,disp=SETval('portrait'),     code=function() SETTING.portrait=not SETTING.portrait; saveSettings(); MES.new('warn',text.settingWarn2,6.26) end,hideF=function() return not MOBILE end},
-    WIDGET.newSlider{name='msaa',         x=950,y=1220,lim=360,w=200,axis={0,4,1},show=_msaaShow,disp=function() return SETTING.msaa==0 and 0 or math.log(SETTING.msaa,2) end,code=function(v) SETTING.msaa=v==0 and 0 or 2^v; saveSettings(); if TASK.lock('warnMessage',6.26) then MES.new('warn',text.settingWarn2,6.26) end end},
+    WIDGET.newSlider{name='msaa',         x=950,y=1220,lim=360,w=200,axis={0,4,1},disp=SETval('msaa'),show=_msaaShow,
+        code=function(v)
+            SETTING.msaa=v
+            if TASK.lock('warnMessage',6.26) then
+                MES.new('warn',text.settingWarn2,6.26)
+            end
+        end
+    },
 
-    WIDGET.newKey{name='bg_on',           x=680,y=1290,w=200,h=60,code=function() SETTING.bg='on' ; applySettings() end},
-    WIDGET.newKey{name='bg_off',          x=900,y=1290,w=200,h=60,code=function() SETTING.bg='off'; applySettings() end},
-    WIDGET.newKey{name='bg_custom',       x=1120,y=1290,w=200,h=60,
+    WIDGET.newKey{name='bg_on',           x=680,y=1290,w=200,h=60,font=25,code=function() SETTING.bg='on' ; applySettings() end},
+    WIDGET.newKey{name='bg_off',          x=900,y=1290,w=200,h=60,font=25,code=function() SETTING.bg='off'; applySettings() end},
+    WIDGET.newKey{name='bg_custom',       x=1120,y=1290,w=200,h=60,font=25,
         code=function()
             if love.filesystem.getInfo('conf/customBG') then
                 SETTING.bg='custom'
@@ -114,7 +124,7 @@ scene.widgetList={
         end,
         hideF=function() return SETTING.bg=='on' end
     },
-    WIDGET.newSelector{name='defaultBG', x=680,y=1365,w=200,color='G',
+    WIDGET.newSelector{name='defaultBG', x=680,y=1465,w=200,color='G',
         list={'space','bg1','bg2','rainbow','rainbow2','aura','rgb','glow','matrix','cubes','tunnel','galaxy','quarks','blockfall','blockrain','blockhole','blockspace'},
         disp=SETval('defaultBG'),
         code=function(v)
@@ -123,7 +133,7 @@ scene.widgetList={
         end,
         hideF=function() return SETTING.bg~='on' end
     },
-    WIDGET.newKey{name='resetDbg',x=870,y=1365,w=140,h=60,font=15,
+    WIDGET.newKey{name='resetDbg',x=680,y=1540,w=200,h=60,font=20,
         code=function()
             SETTING.defaultBG='space'
             scene.widgetList.defaultBG:reset()
@@ -131,7 +141,20 @@ scene.widgetList={
         end,
         hideF=function() return SETTING.bg~='on' or SETTING.defaultBG=='space' end
     },
-    WIDGET.newSwitch{name='lockBG',x=1170,y=1365,lim=200,
+    WIDGET.newKey{name='bg_custom_base64',x=1010,y=1502.5,w=420,h=135,align='M',
+        code=function()
+            local okay,data=pcall(love.data.decode,"data","base64",CLIPBOARD.get())
+            if okay and pcall(gc.newImage,data) then
+                love.filesystem.write('conf/customBG',data)
+                SETTING.bg='custom'
+                applySettings()
+            else
+                MES.new('error',text.customBGloadFailed)
+            end
+        end,
+        -- hideF=function() return SETTING.bg=='off' end
+    },
+    WIDGET.newSwitch{name='lockBG',x=450,y=1465,lim=200,
         disp=SETval('lockBG'),
         code=function()
             SETTING.lockBG=not SETTING.lockBG
@@ -140,7 +163,7 @@ scene.widgetList={
         hideF=function() return SETTING.bg~='on' end
     },
 
-    WIDGET.newSwitch{name='noTheme',x=1170,y=1435,
+    WIDGET.newSwitch{name='noTheme',x=450,y=1540,
         disp=SETval('noTheme'),
         code=function()
             SETTING.noTheme=not SETTING.noTheme
@@ -156,12 +179,12 @@ scene.widgetList={
         end
     },
 
-    WIDGET.newSelector{name='blockSatur', x=600,y=1440,w=300,color='lN',
+    WIDGET.newSelector{name='blockSatur', x=800,y=1640,w=300,color='lN',
         list={'normal','soft','gray','light','color'},
         disp=SETval('blockSatur'),
         code=function(v) SETTING.blockSatur=v; applySettings() end
     },
-    WIDGET.newSelector{name='fieldSatur', x=600,y=1540,w=300,color='lN',
+    WIDGET.newSelector{name='fieldSatur', x=800,y=1740,w=300,color='lN',
         list={'normal','soft','gray','light','color'},
         disp=SETval('fieldSatur'),
         code=function(v) SETTING.fieldSatur=v; applySettings() end

@@ -44,6 +44,8 @@ function scene.enter()
     GAME.setting={}
     PLY.newDemoPlayer(1)
     PLAYERS[1]:setPosition(520,140,.8)
+
+    DiscordRPC.update("In Main Menu")
 end
 
 function scene.resize()
@@ -104,8 +106,7 @@ function scene.keyDown(key,isRep)
         end
     elseif key=='3' then
         if _testButton(10) then
-            MES.new('warn',text.notFinished)
-            -- NET.getNotice()
+            NET.getNotice()
         end
     elseif key=='4' then
         if _testButton(11) then
@@ -212,7 +213,7 @@ end
 scene.widgetList={
     WIDGET.newButton{name='offline',x=-1200,y=210,w=800,h=100,color='lR',font=45,align='R',edge=30,code=pressKey'1'},
     WIDGET.newButton{name='qplay',  x=-1200,y=330,w=800,h=100,color='lM',font=40,align='R',edge=30,code=pressKey'q'},
-    WIDGET.newButton{name='online', x=-1200,y=450,w=800,h=100,color='D',font=45,align='R',edge=30,code=pressKey'a'},
+    WIDGET.newButton{name='online', x=-1200,y=450,w=800,h=100,color='lV',font=45,align='R',edge=30,code=pressKey'a'},
     WIDGET.newButton{name='custom', x=-1200,y=570,w=800,h=100,color='lS',font=45,align='R',edge=30,code=pressKey'z'},
 
     WIDGET.newButton{name='setting',x=2480,y=210,w=800,h=100, color='lO',font=40,align='L',edge=30,code=pressKey'-'},
@@ -221,7 +222,7 @@ scene.widgetList={
     WIDGET.newButton{name='replays',x=2480,y=570,w=800,h=100, color='lC',font=40,align='L',edge=30,code=pressKey','},
 
     WIDGET.newButton{name='music',  x=90,y=80,w=100,          color='lY',code=pressKey'2',font=70,fText=CHAR.icon.music},
-    WIDGET.newButton{name='notice', x=210,y=80,w=100,         color='D',code=pressKey'3',font=70,fText=CHAR.key.winMenu},
+    WIDGET.newButton{name='notice', x=210,y=80,w=100,         color='lG',code=pressKey'3',font=70,fText=CHAR.key.winMenu},
     WIDGET.newButton{name='lang',   x=330,y=80,w=100,         color='lN',code=pressKey'4',font=70,fText=CHAR.icon.language},
     WIDGET.newButton{name='about',  x=-110,y=670,w=600,h=70,  color='lB',align='R',edge=20,code=pressKey'x',font=50,fText=CHAR.icon.info},
     WIDGET.newButton{name='manual', x=1390,y=670,w=600,h=70,  color='lR',align='L',edge=20,code=pressKey'm',font=50,fText=CHAR.icon.help},
