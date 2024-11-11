@@ -923,6 +923,7 @@ C. ゲームパッド
         ['master_final']=        {"マスター",             "FINAL",         "20G その先へ"},
         ['master_ph']=           {"マスター",             "PHANTASM",      "???"},
         ['master_g']=            {"マスター",             "GRADED",        "最高段位を取れ!"},
+        ['master_g_modern']=     {"マスター",             "MODERN GRADED",        "最高段位を取れ!"},
         ['master_ex']=           {"グランドマスター",      "EXTRA",         "一瞬にも満たない永遠"},
         ['master_instinct']=     {"マスター",             "INSTINCT",      "もしミノが見えなくなったら?"},
         ['strategy_e_plus']=     {"ストラテジー",          "EASY+",         "20Gでの素早い判断"},

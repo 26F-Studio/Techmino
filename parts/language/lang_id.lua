@@ -879,6 +879,7 @@ return {
         ['master_final']=        {"Ahli",              "TERAKHIR",            "Lebih dari 20G"},
         ['master_ph']=           {"Ahli",              "KHAYALAN",            "???"},
         ['master_g']=            {"Ahli",              "BERTINGKAT",          "Dapatkan tingkat tertinggi!"},
+        ['master_g_modern']=     {"Ahli",              "BERTINGKAT MODERN",    "Dapatkan tingkat tertinggi!"},
         ['master_ex']=           {"Sangat Ahli",       "EKSTRA",              "Blok tidak kelihatan"},
         ['master_instinct']=     {"Ahli",              "INSTINK",             "Bagaimana jika blok terkontrol tersembunyi?"},
         ['strategy_e_plus']=     {"Strategi",          "MUDAH+",              "Mode strategi, tetapi tanpa menyimpan"},

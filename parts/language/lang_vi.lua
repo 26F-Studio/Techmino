@@ -921,6 +921,7 @@ C. Tay cầm chơi game (Gamepad):
         ['master_final']=        {"Master",            "FINAL",          "Dành cho các pháp sư 20G"},
         ['master_ph']=           {"Master",            "PHANTASM",       "Hả???"},
         ['master_g']=            {"Master",            "GRADED",         "Lấy điểm cao nhất có thể!"},
+        ['master_g_modern']=     {"Master",            "GRADED MỚI",         "Lấy điểm cao nhất có thể!"},
         ['master_ex']=           {"GrandMaster",       "EXTRA",          "Cũng là lấy điểm cao nhất có thể nhưng mà gắt hơn!"},
         ['master_instinct']=     {"Master",            "INSTINCT",       "Lấy điểm cao nhất có thể nhưng với gạch tàng hình!"},
         ['strategy_e_plus']=     {"Strategy",          "DỄ+",            "Quyết định nhanh và không được Hold!"},

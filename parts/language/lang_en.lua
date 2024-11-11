@@ -918,6 +918,7 @@ C. Gamepad
         ['master_final']=        {"Master",            "FINAL",          "20G and beyond"},
         ['master_ph']=           {"Master",            "PHANTASM",       "???"},
         ['master_g']=            {"Master",            "GRADED",         "Get the highest grade you can!"},
+        ['master_g_modern']=     {"Master",    "MODERN GRADED",    "Get the highest grade you can!"},
         ['master_ex']=           {"GrandMaster",       "EXTRA",          "An eternity shorter than an instant"},
         ['master_instinct']=     {"Master",            "INSTINCT",       "What if the active piece becomes invisible?"},
         ['strategy_e_plus']=     {"Strategy",          "EASY+",          "Holdless strategy!"},
