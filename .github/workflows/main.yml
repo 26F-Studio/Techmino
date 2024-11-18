@@ -177,7 +177,6 @@ jobs:
         run: |
           import os
           import re
-
           with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
             if "${{ env.BUILD_TYPE }}" == "dev":
               f.write('bundle-id=org.f26_studio.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '.snapshot\n')
@@ -251,7 +250,6 @@ jobs:
         run: |
           import os
           import re
-
           product_name = re.sub(r'[^A-Za-z0-9]+', '-', '${{ needs.get-info.outputs.app-name }}').strip('-').lower()
           with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
             f.write('bundle-id=org.26f-studio.' + product_name + '\n')
@@ -478,7 +476,6 @@ jobs:
         run: |
           import requests
           import json
-
           headers = {
             'Content-Type': 'application/json',
           }
