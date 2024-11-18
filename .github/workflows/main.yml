@@ -101,11 +101,6 @@ jobs:
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
           path: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-      - name: Add icon to love package
-        run: |
-          cp ${{ env.BUILD_ASSETS_FOLDER }}/linux/${{ env.BUILD_TYPE }}/icon.png media/image/icon.png
-          zip -u ${{ env.CORE_LOVE_PACKAGE_PATH }} media/image/icon.png
-          rm media/image/icon.png
       - name: Rename love package
         run: |
           mkdir -p ${{ env.OUTPUT_FOLDER }}

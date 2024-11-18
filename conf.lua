@@ -66,7 +66,7 @@ function love.conf(t)
         W.minwidth,W.minheight=640,360
     end
     W.title="Techmino "..require"version".string -- Window title
-    if fs.getInfo('media/image/icon.png') then
+    if system=='Linux' and fs.getInfo('media/image/icon.png') then
         W.icon='media/image/icon.png'
     end
 end
