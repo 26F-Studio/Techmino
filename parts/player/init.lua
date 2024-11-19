@@ -250,9 +250,9 @@ local tableNeedMerge={
     'hook_spawn',
     'hook_hold',
     'hook_die',
-    'extraEvent',
+    'hook_atk_calculation',
+    'task',
 }
-for _,k in next,tableNeedMerge do gameEnv0[k]={} end
 local function _mergeFuncTable(f,L)
     if type(f)=='function' then
         ins(L,f)
@@ -266,16 +266,14 @@ end
 local function _applyGameEnv(P)-- Finish gameEnv processing
     local ENV=P.gameEnv
 
-    -- Create event tables
+    -- Apply events
     for i=1,#tableNeedMerge do
         ENV[tableNeedMerge[i]]=_mergeFuncTable(ENV[tableNeedMerge[i]],{})
     end
 
     -- Apply eventSet
-    while true do
-        if not (ENV.eventSet and ENV.eventSet~="X") then
-            break
-        end
+    repeat
+        if not (ENV.eventSet and ENV.eventSet~="X") then break end
         if type(ENV.eventSet)~='string' then
             MES.new('warn',"Wrong event set type: "..type(ENV.eventSet))
             break
@@ -286,7 +284,11 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
             break
         end
         for k,v in next,eventSet do
-            if k=='extraEventHandler' then
+            if k=='extraEvent' then
+                for _,ev in ipairs(v) do
+                    table.insert(ENV.extraEvent, ev)
+                end
+            elseif k=='extraEventHandler' then
                 for ev,handler in next,v do
                     if ENV.extraEventHandler[ev] then
                         local prevHandler=ENV.extraEventHandler[ev]
@@ -306,8 +308,7 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
                 ENV[k]=v
             end
         end
-        break
-    end
+    until true
 
     P._20G=ENV.drop==0
     P.dropDelay=ENV.drop
