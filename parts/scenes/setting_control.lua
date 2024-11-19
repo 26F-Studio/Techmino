@@ -9,7 +9,6 @@ function scene.enter()
     das,arr=SETTING.das,SETTING.arr
     pos,dir,wait=0,1,30
     BG.set('bg1')
-    DiscordRPC.update("Tweaking control settings")
 end
 
 local  trigFrame=0
@@ -97,11 +96,11 @@ scene.widgetList={
     WIDGET.newSlider{name='dascut', x=250,    y=420,lim=230,w=600,axis={0,20,1},disp=SETval('dascut'), show=_sliderShow,code=SETsto('dascut')},
     WIDGET.newSlider{name='irscut', x=250,    y=480,lim=230,w=600,axis={0,20,1},disp=SETval('irscut'), show=_sliderShow,code=SETsto('irscut')},
     WIDGET.newSlider{name='dropcut',x=250,    y=540,lim=230,w=300,axis={0,10,1},disp=SETval('dropcut'),show=_sliderShow,code=SETsto('dropcut')},
-
+    
     WIDGET.newSwitch{name='ihs',    x=1100,   y=240,lim=300,                    disp=SETval('ihs'),    code=SETrev('ihs')},
     WIDGET.newSwitch{name='irs',    x=1100,   y=300,lim=300,                    disp=SETval('irs'),    code=SETrev('irs')},
     WIDGET.newSwitch{name='ims',    x=1100,   y=360,lim=300,                    disp=SETval('ims'),    code=SETrev('ims')},
-
+    
     WIDGET.newButton{name='reset',  x=160,    y=640,w=200,h=100,color='lR',font=40,
         code=function()
             local _=SETTING
