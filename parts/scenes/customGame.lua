@@ -145,6 +145,7 @@ local function _play(mode)
         end
     end
     saveFile(CUSTOMGAME_LOCAL.customenv,'conf/customEnv')
+    apply_locals()
     loadGame('custom_'..mode,true)
 end
 
@@ -187,10 +188,10 @@ function scene.keyDown(key,isRep)
         if #CUSTOMGAME_LOCAL.bag>0 then str=str..DATA.copySequence(CUSTOMGAME_LOCAL.bag) end
         str=str.."!"
         if #CUSTOMGAME_LOCAL.mission>0 then str=str..DATA.copyMission(CUSTOMGAME_LOCAL.mission) end
-        sys.setClipboardText(str.."!"..DATA.copyBoards(CUSTOMGAME_LOCAL.field).."!")
+        CLIPBOARD.set(str.."!"..DATA.copyBoards(CUSTOMGAME_LOCAL.field).."!")
         MES.new('check',text.exportSuccess)
     elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
-        local str=sys.getClipboardText()
+        local str=CLIPBOARD.get()
         local args=str:sub((str:find(":") or 0)+1):split("!")
         local hasTooHighField=false
         repeat

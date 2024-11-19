@@ -1056,7 +1056,7 @@ function Player:freshBlockGhost()
         if self.curY>self.ghoY then
             self:createDropFX()
             if ENV.shakeFX then
-                self.swingOffset.vy=.5
+                self.swingOffset.vy=MATH.clamp((self.curY-self.ghoY-2.6)/10,0,0.626)
             end
             self.curY=self.ghoY
         end
@@ -2963,7 +2963,7 @@ function Player:update(dt)
         end
         while self.trigFrame>=1 do
             if self.streamProgress then
-                local dataDelta=0 -- How much data wating to be process
+                local dataDelta -- How much data wating to be process
                 if self.type=='remote' then
                     if self.loseTimer then
                         self.loseTimer=self.loseTimer-1
@@ -2973,6 +2973,8 @@ function Player:update(dt)
                         end
                     end
                     dataDelta=#self.stream-self.streamProgress
+                else
+                    dataDelta=1
                 end
                 if dataDelta>0 then
                     for _=1,

@@ -1,3 +1,4 @@
+---@type love.Channel,love.Channel,love.Channel
 local triggerCHN,sendCHN,readCHN=...
 
 local CHN_demand,CHN_getCount=triggerCHN.demand,triggerCHN.getCount
@@ -5,13 +6,16 @@ local CHN_push,CHN_pop=triggerCHN.push,triggerCHN.pop
 
 local SOCK=require'socket'.tcp()
 local JSON=require'Zframework.json'
+local sleep=require'love.timer'.sleep
 
 do-- Connect
-    local host=CHN_demand(sendCHN)
-    local port=CHN_demand(sendCHN)
-    local path=CHN_demand(sendCHN)
-    local head=CHN_demand(sendCHN)
-    local timeout=CHN_demand(sendCHN)
+    -- Warning: workaround for love.js, used to use CHN_demand instead
+    while CHN_getCount(sendCHN)<5 do sleep(.0626) end
+    local host=CHN_pop(sendCHN)
+    local port=CHN_pop(sendCHN)
+    local path=CHN_pop(sendCHN)
+    local head=CHN_pop(sendCHN)
+    local timeout=CHN_pop(sendCHN)
 
     SOCK:settimeout(timeout)
     local res,err=SOCK:connect(host,port)
@@ -186,7 +190,8 @@ end)
 local success,err
 
 while true do-- Running
-    CHN_demand(triggerCHN)
+    while CHN_getCount(triggerCHN)==0 do sleep(.0626) end
+    CHN_pop(triggerCHN)
     success,err=pcall(sendThread)
     if not success or err then break end
     success,err=pcall(readThread)

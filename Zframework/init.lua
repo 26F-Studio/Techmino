@@ -3,8 +3,16 @@
 NONE={}function NULL() end PAPER=love.graphics.newCanvas(1,1)
 EDITING=""
 LOADED=false
+
+---@type 'Windows'|'Android'|'Linux'|'iOS'|'macOS'|'Web'
 SYSTEM=love.system.getOS()
-if SYSTEM=='OS X' then SYSTEM='macOS' end
+WEB_COMPAT_MODE=false
+if SYSTEM=='OS X' then
+    SYSTEM='macOS'
+elseif SYSTEM=='Web' then
+    WEB_COMPAT_MODE=not love.thread.newThread('\n'):start()
+    print('Web compatible mode: ', WEB_COMPAT_MODE)
+end
 
 -- Bit module
 local success
@@ -72,6 +80,7 @@ do
 end
 
 -- Love-based modules (basic)
+CLIPBOARD=  require'Zframework.clipboard'
 HTTP=       require'Zframework.http'
 WS=         require'Zframework.websocket'
 FILE=       require'Zframework.file'
@@ -93,6 +102,10 @@ SFX=        require'Zframework.sfx'
 IMG=        require'Zframework.image'
 BGM=        require'Zframework.bgm'
 VOC=        require'Zframework.voice'
+
+if SYSTEM=='Web' then
+    JS=require'Zframework.js'
+end
 
 local ms,kb=love.mouse,love.keyboard
 local KBisDown=kb.isDown
@@ -174,6 +187,7 @@ local function updatePowerInfo()
     gc_pop()
     gc.setCanvas()
 end
+
 -------------------------------------------------------------
 local lastX,lastY=0,0-- Last click pos
 local function _updateMousePos(x,y,dx,dy)
@@ -423,38 +437,38 @@ local dPadToKey={
     start='return',
     back='escape',
 }
-function love.joystickadded(JS)
+function love.joystickadded(joystick)
     table.insert(jsState,{
-        _id=JS:getID(),
-        _jsObj=JS,
+        _id=joystick:getID(),
+        _jsObj=joystick,
         leftx=0,lefty=0,
         rightx=0,righty=0,
         triggerleft=0,triggerright=0
     })
     MES.new('info',"Joystick added")
 end
-function love.joystickremoved(JS)
+function love.joystickremoved(joystick)
     for i=1,#jsState do
-        if jsState[i]._jsObj==JS then
+        if jsState[i]._jsObj==joystick then
             for j=1,#gamePadKeys do
-                if JS:isGamepadDown(gamePadKeys[j]) then
-                    love.gamepadreleased(JS,gamePadKeys[j])
+                if joystick:isGamepadDown(gamePadKeys[j]) then
+                    love.gamepadreleased(joystick,gamePadKeys[j])
                 end
             end
-            love.gamepadaxis(JS,'leftx',0)
-            love.gamepadaxis(JS,'lefty',0)
-            love.gamepadaxis(JS,'rightx',0)
-            love.gamepadaxis(JS,'righty',0)
-            love.gamepadaxis(JS,'triggerleft',-1)
-            love.gamepadaxis(JS,'triggerright',-1)
+            love.gamepadaxis(joystick,'leftx',0)
+            love.gamepadaxis(joystick,'lefty',0)
+            love.gamepadaxis(joystick,'rightx',0)
+            love.gamepadaxis(joystick,'righty',0)
+            love.gamepadaxis(joystick,'triggerleft',-1)
+            love.gamepadaxis(joystick,'triggerright',-1)
             MES.new('info',"Joystick removed")
             table.remove(jsState,i)
             break
         end
     end
 end
-function love.gamepadaxis(JS,axis,val)
-    if jsState[1] and JS==jsState[1]._jsObj then
+function love.gamepadaxis(joystick,axis,val)
+    if jsState[1] and joystick==jsState[1]._jsObj then
         local js=jsState[1]
         if axis=='leftx' or axis=='lefty' or axis=='rightx' or axis=='righty' then
             local newVal=-- range: [0,1]
@@ -463,14 +477,14 @@ function love.gamepadaxis(JS,axis,val)
                 0
             if newVal~=js[axis] then
                 if js[axis]==-1 then
-                    love.gamepadreleased(JS,jsAxisEventName[axis][1])
+                    love.gamepadreleased(joystick,jsAxisEventName[axis][1])
                 elseif js[axis]~=0 then
-                    love.gamepadreleased(JS,jsAxisEventName[axis][2])
+                    love.gamepadreleased(joystick,jsAxisEventName[axis][2])
                 end
                 if newVal==-1 then
-                    love.gamepadpressed(JS,jsAxisEventName[axis][1])
+                    love.gamepadpressed(joystick,jsAxisEventName[axis][1])
                 elseif newVal==1 then
-                    love.gamepadpressed(JS,jsAxisEventName[axis][2])
+                    love.gamepadpressed(joystick,jsAxisEventName[axis][2])
                 end
                 js[axis]=newVal
             end
@@ -478,9 +492,9 @@ function love.gamepadaxis(JS,axis,val)
             local newVal=val>.3 and 1 or 0-- range: [0,1]
             if newVal~=js[axis] then
                 if newVal==1 then
-                    love.gamepadpressed(JS,jsAxisEventName[axis])
+                    love.gamepadpressed(joystick,jsAxisEventName[axis])
                 else
-                    love.gamepadreleased(JS,jsAxisEventName[axis])
+                    love.gamepadreleased(joystick,jsAxisEventName[axis])
                 end
                 js[axis]=newVal
             end
@@ -720,6 +734,10 @@ function love.run()
 
         -- UPDATE
         STEP()
+        if SYSTEM == 'Web' then
+            JS.retrieveData(dt)
+            CLIPBOARD._update(dt)
+        end
         if mouseShow then mouse_update(dt) end
         if next(jsState) then gp_update(jsState[1],dt) end
         VOC.update()

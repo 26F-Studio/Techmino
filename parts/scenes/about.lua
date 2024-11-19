@@ -6,6 +6,9 @@ local scene={}
 
 function scene.enter()
     BG.set()
+    for i=1,#text.aboutTexts do
+        text.aboutTexts[i]=text.aboutTexts[i]:gsub("LÖVE%(?.*%)?",STRING.repD("LÖVE($1.$2)",love.getVersion()))
+    end
 end
 
 function scene.mouseDown(x,y)

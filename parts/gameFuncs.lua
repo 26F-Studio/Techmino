@@ -164,7 +164,7 @@ do-- function applySettings()
             BG.set()
             if SETTING.lockBG then
                 BG.lock()
-            elseif reason=='lockBG' then        -- Don't load theme too soon!
+            elseif reason=='lockBG' then -- We only reload theme again when at settings scene.
                 THEME.set(THEME.calculate(),GAME.playing)
             end
         elseif SETTING.bg=='off' then
