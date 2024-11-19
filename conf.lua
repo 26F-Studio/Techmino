@@ -23,12 +23,13 @@ function love.conf(t)
         local fileData=fs.read('conf/settings')
         if fileData then
             msaa=tonumber(fileData:match('"msaa":(%d+)')) or 0;
+            msaa=msaa==0 and 0 or 2*msaa
             portrait=MOBILE and fileData:find('"portrait":true') and true
         end
     end
 
     t.identity=identity -- Saving folder
-    t.version="11.4"
+    t.version="11.5"
     t.gammacorrect=false
     t.appendidentity=true         -- Search files in source then in save directory
     t.accelerometerjoystick=false -- Accelerometer=joystick on ios/android
@@ -65,7 +66,7 @@ function love.conf(t)
         W.minwidth,W.minheight=640,360
     end
     W.title="Techmino "..require"version".string -- Window title
-    if fs.getInfo('media/image/icon.png') then
+    if system=='Linux' and fs.getInfo('media/image/icon.png') then
         W.icon='media/image/icon.png'
     end
 end

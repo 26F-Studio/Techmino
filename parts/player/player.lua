@@ -1056,7 +1056,7 @@ function Player:freshBlockGhost()
         if self.curY>self.ghoY then
             self:createDropFX()
             if ENV.shakeFX then
-                self.swingOffset.vy=.5
+                self.swingOffset.vy=MATH.clamp((self.curY-self.ghoY-2.6)/10,0,0.626)
             end
             self.curY=self.ghoY
         end
