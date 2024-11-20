@@ -8,9 +8,11 @@ on:
     branches: [main]
 
 env:
+  BUILD_ASSETS_FOLDER: ./.github/build
   BUILD_TYPE: ${{ fromJSON('["dev", "release"]')[startsWith(github.ref, 'refs/tags/v')] }}
-  CORE_LOVE_PACKAGE_PATH: ./core.love
+  COLD_CLEAR_DOWNLOAD_URL: https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/11.5
   CORE_LOVE_ARTIFACT_NAME: core_love_package
+  CORE_LOVE_PACKAGE_PATH: ./core.love
 
 jobs:
   get-info:
@@ -25,7 +27,7 @@ jobs:
       commit-hash: ${{ steps.git-info.outputs.commit-hash }}
       base-name: ${{ steps.assemble-base-name.outputs.base-name }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install lua
         run: |
           sudo apt-get install lua5.3 -y
@@ -73,7 +75,7 @@ jobs:
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Process app name
@@ -95,13 +97,13 @@ jobs:
           build-list: ./media/ ./parts/ ./Zframework/ ./conf.lua ./main.lua ./version.lua ./legals.md ./license.txt
           package-path: ${{ env.CORE_LOVE_PACKAGE_PATH }}
       - name: Upload core love package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
           path: ${{ env.CORE_LOVE_PACKAGE_PATH }}
       - name: Add icon to love package
         run: |
-          cp ./.github/build/linux/${{ env.BUILD_TYPE }}/icon.png media/image/icon.png
+          cp ${{ env.BUILD_ASSETS_FOLDER }}/linux/${{ env.BUILD_TYPE }}/icon.png media/image/icon.png
           zip -u ${{ env.CORE_LOVE_PACKAGE_PATH }} media/image/icon.png
           rm media/image/icon.png
       - name: Rename love package
@@ -109,7 +111,7 @@ jobs:
           mkdir -p ${{ env.OUTPUT_FOLDER }}
           mv ${{ env.CORE_LOVE_PACKAGE_PATH }} ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.love
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ needs.get-info.outputs.base-name }}_Core_love
           path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.love
@@ -132,8 +134,10 @@ jobs:
   auto-test:
     runs-on: ubuntu-22.04
     needs: build-core
+    env:
+      APPIMAGE_PATH: ./love.AppImage
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Love actions for testing
@@ -142,34 +146,34 @@ jobs:
           font-path: ./parts/fonts/proportional.otf
           language-folder: ./parts/language
       - name: Download core love package
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Download love
         shell: bash
         run: |
-           curl -OL --retry 5 https://github.com/love2d/love/releases/download/11.4/love-11.4-x86_64.AppImage
-           chmod +x love-11.4-x86_64.AppImage
-      - name: Prepare PulseAudio and AppImage
+           curl --retry 5 https://github.com/love2d/love/releases/download/11.5/love-11.5-x86_64.AppImage -o ${{ env.APPIMAGE_PATH }}
+           chmod +x ${{ env.APPIMAGE_PATH }}
+      - name: Install dependencies
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install pulseaudio pulseaudio-utils pavucontrol alsa-oss alsa-utils libfuse2 -y
+          sudo apt-get install alsa-oss alsa-utils libfuse2 pavucontrol pulseaudio pulseaudio-utils x11-xserver-utils xvfb -y
       - name: Run automated test
-        uses: coactions/setup-xvfb@v1
-        with:
-          run: |
-            ./love-11.4-x86_64.AppImage ${{ env.CORE_LOVE_PACKAGE_PATH }} --test
+        shell: bash
+        run: |
+            xvfb-run --auto-servernum ${{ env.APPIMAGE_PATH }} ${{ env.CORE_LOVE_PACKAGE_PATH }} --test
 
   build-android:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
     if: github.event_name != 'pull_request'
     env:
+      COLD_CLEAR_FOLDER: ./libAndroid
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Process app name
@@ -178,6 +182,7 @@ jobs:
         run: |
           import os
           import re
+
           with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
             if "${{ env.BUILD_TYPE }}" == "dev":
               f.write('bundle-id=org.f26_studio.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '.snapshot\n')
@@ -186,17 +191,17 @@ jobs:
               f.write('bundle-id=org.f26_studio.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
               f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '-', '${{ needs.get-info.outputs.app-name }}') + '\n')
       - name: Download core love package
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Download ColdClear
-        uses: ./.github/actions/get-cc
+        uses: ./.github/actions/get-unzip
         with:
-          platform: Android
-          dir: ./libAndroid
+          url: ${{ env.COLD_CLEAR_DOWNLOAD_URL }}/Android.zip
+          dir: ${{ env.COLD_CLEAR_FOLDER }}
       - name: Build Android packages
         id: build-packages
-        uses: love-actions/love-actions-android@main
+        uses: love-actions/love-actions-android@v2
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
@@ -206,15 +211,15 @@ jobs:
           keystore-key-password: ${{ secrets.ANDROID_KEYSTORE_KEYPASSWORD }}
           keystore-store-password: ${{ secrets.ANDROID_KEYSTORE_STOREPASSWORD }}
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          resource-path: ./.github/build/android/${{ env.BUILD_TYPE }}/res
-          extra-assets: ./libAndroid/
+          resource-path: ${{ env.BUILD_ASSETS_FOLDER }}/android/${{ env.BUILD_TYPE }}/res
+          extra-assets: ${{ env.COLD_CLEAR_FOLDER }}
           custom-scheme: studio26f://oauth
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
           version-code: ${{ needs.get-info.outputs.version-code }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ needs.get-info.outputs.base-name }}_Android_release
           path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}-release.apk
@@ -238,10 +243,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
     env:
+      COLD_CLEAR_FOLDER: ./ColdClear
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Process app name
@@ -256,45 +262,45 @@ jobs:
             f.write('bundle-id=org.26f-studio.' + product_name + '\n')
             f.write('product-name=' + product_name + '\n')
       - name: Download core love package
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Add icon to love package
         run: |
-          cp ./.github/build/linux/${{ env.BUILD_TYPE }}/icon.png media/image/icon.png
+          cp ${{ env.BUILD_ASSETS_FOLDER }}/linux/${{ env.BUILD_TYPE }}/icon.png media/image/icon.png
           zip -u ${{ env.CORE_LOVE_PACKAGE_PATH }} media/image/icon.png
           rm media/image/icon.png
       - name: Download ColdClear
-        uses: ./.github/actions/get-cc
+        uses: ./.github/actions/get-unzip
         with:
-          platform: Linux
-          dir: ./ColdClear
+          url: ${{ env.COLD_CLEAR_DOWNLOAD_URL }}/Linux.zip
+          dir: ${{ env.COLD_CLEAR_FOLDER }}
       - name: Process ColdClear
         shell: bash
         run: |
-          cd ./ColdClear
+          cd ${{ env.COLD_CLEAR_FOLDER }}
           mkdir -p ./lib/lua/5.1
           mv ./x64/CCloader.so ./lib/lua/5.1
       - name: Build Linux packages
         id: build-packages
-        uses: love-actions/love-actions-linux@v1
+        uses: love-actions/love-actions-linux@v2
         with:
           app-name: ${{ needs.get-info.outputs.app-name }}
           bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
           description: Techmino is fun!
           version-string: ${{ needs.get-info.outputs.version-string }}
-          icon-path: ./.github/build/linux/${{ env.BUILD_TYPE }}/icon.png
+          icon-path: ${{ env.BUILD_ASSETS_FOLDER }}/linux/${{ env.BUILD_TYPE }}/icon.png
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          lib-path: ./ColdClear/lib
+          lib-path: ${{ env.COLD_CLEAR_FOLDER }}/lib
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
       - name: Upload AppImage artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ needs.get-info.outputs.base-name }}_Linux_AppImage
           path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.AppImage
       - name: Upload Debian artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ needs.get-info.outputs.base-name }}_Linux_Debian
           path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.deb
@@ -317,145 +323,58 @@ jobs:
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
 
-  build-macos-portable:
-    runs-on: macos-latest
-    needs: [get-info, build-core, auto-test]
-    if: github.event_name != 'pull_request'
-    env:
-      OUTPUT_FOLDER: ./build
-      RELEASE_FOLDER: ./release
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive
-      - name: Process app name
-        id: process-app-name
-        shell: python3 {0}
-        run: |
-          import os
-          import re
-          with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
-            f.write('bundle-id=org.26f-studio.techmino\n')
-            f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
-      - name: Download core love package
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
-      - name: Download ColdClear
-        uses: ./.github/actions/get-cc
-        with:
-          platform: macOS
-          dir: ./ColdClear
-      - name: Process ColdClear
-        shell: bash
-        run: |
-          rm ./ColdClear/universal/libcold_clear.a
-      - name: Use Xcode 15.3
-        # Xcode 15.4 segfaults
-        # see https://forums.developer.apple.com/forums/thread/757398
-        uses: mobiledevops/xcode-select-version-action@v1
-        with:
-          xcode-select-version: 15.3
-      - name: Build macOS packages
-        id: build-packages
-        uses: love-actions/love-actions-macos-portable@v1
-        with:
-          app-name: ${{ needs.get-info.outputs.app-name }}
-          bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
-          copyright: "Copyright © 2019-2023 26F-Studio. Some Rights Reserved."
-          icon-path: ./.github/build/macOS/${{ env.BUILD_TYPE }}/icon.icns
-          love-ref: "11.5"
-          love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          libs-path: ./ColdClear/universal/
-          product-name: ${{ steps.process-app-name.outputs.product-name }}
-          version-string: ${{ needs.get-info.outputs.version-string }}
-          output-folder: ${{ env.OUTPUT_FOLDER }}
-          account-username: ${{ secrets.APPLE_ACCOUNT_USERNAME }}
-          account-password: ${{ secrets.APPLE_ACCOUNT_PASSWORD }}
-          team-id: "${{ secrets.APPLE_DEVELOPER_TEAM_ID }}"
-          developer-id-application-base64: ${{ secrets.APPLE_CERT_DEVELOPER_ID_APPLICATION }}
-          developer-id-application-password: ${{ secrets.APPLE_CERT_DEVELOPER_ID_APPLICATION_PWD }}
-          developer-id-installer-base64: ${{ secrets.APPLE_CERT_DEVELOPER_ID_INSTALLER }}
-          developer-id-installer-password: ${{ secrets.APPLE_CERT_DEVELOPER_ID_INSTALLER_PWD }}
-          dmg-background-path: ./.github/build/macOS/${{ env.BUILD_TYPE }}/dmg.png
-          dmg-icon-position: "239 203"
-          dmg-icon-size: "100"
-          dmg-link-position: "565 203"
-          dmg-text-size: "12"
-          dmg-volume-icon-path: ./.github/build/macOS/${{ env.BUILD_TYPE }}/dmg.icns
-          dmg-volume-name: ${{ steps.process-app-name.outputs.product-name }}
-          dmg-window-position: "200 120"
-          dmg-window-size: "800 500"
-      - name: Upload pkg artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ needs.get-info.outputs.base-name }}_macOS_portable_pkg
-          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.pkg
-      - name: Upload dmg artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ needs.get-info.outputs.base-name }}_macOS_portable_dmg
-          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.dmg
-      - name: Upload bare artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ needs.get-info.outputs.base-name }}_macOS_portable_bare
-          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.zip
-      - name: Prepare for release
-        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
-        shell: bash
-        run: |
-          mkdir -p ${{ env.RELEASE_FOLDER }}
-          cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.pkg ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_portable.pkg
-          cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.dmg ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_portable.dmg
-      - name: Upload release
-        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
-        uses: ncipollo/release-action@v1
-        with:
-          allowUpdates: true
-          artifacts: |
-            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_portable.pkg
-            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS_portable.dmg
-          body: ${{ needs.get-info.outputs.update-note }}
-          name: ${{ needs.get-info.outputs.update-title }}
-          prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
-
-  build-web:
+  build-web-compat:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
+    env:
+      MEMORY_LIMIT: 128000000
+      OUTPUT_FOLDER: ./build
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Download core love package
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
-      - name: Move core love package
+      - name: Build web packages
         run: |
-          mv ${{ env.CORE_LOVE_PACKAGE_PATH }} ./.github/build/web/game.data
+          npx love.js ${{ env.CORE_LOVE_PACKAGE_PATH }} ${{ env.OUTPUT_FOLDER }} -t "${{ needs.get-info.outputs.app-name }}" -m ${{ env.MEMORY_LIMIT }} -c
+      - name: Move assets
+        run: |
+          mv ${{ env.BUILD_ASSETS_FOLDER }}/web/${{ env.BUILD_TYPE }}/* ${{ env.OUTPUT_FOLDER }}
+      - name: Initialize Love.js Api Player
+        run: |
+          pushd ${{ env.OUTPUT_FOLDER }}
+          wget https://raw.githubusercontent.com/MrcSnm/Love.js-Api-Player/refs/heads/master/consolewrapper.js
+          wget https://raw.githubusercontent.com/MrcSnm/Love.js-Api-Player/refs/heads/master/globalizeFS.js
+          wget https://raw.githubusercontent.com/MrcSnm/Love.js-Api-Player/refs/heads/master/webdb.js
+          node globalizeFS.js
+          rm globalizeFS.js
+          popd
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_Web
+          path: ${{ env.OUTPUT_FOLDER }}
       - name: Deploy to GitHub Pages
-        uses: crazy-max/ghaction-github-pages@v3
+        uses: crazy-max/ghaction-github-pages@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          build_dir: ./.github/build/web/
+          build_dir: ${{ env.OUTPUT_FOLDER }}
           keep_history: false
-          target_branch: web-dev
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ needs.get-info.outputs.base-name }}_Web_PWA
-          path: ./.github/build/web/
+          target_branch: gh-pages
 
   build-windows:
     runs-on: windows-latest
     needs: [get-info, build-core, auto-test]
     env:
+      COLD_CLEAR_FOLDER: ./ColdClear
       OUTPUT_FOLDER: ./build
       RELEASE_FOLDER: ./release
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Process app name
@@ -467,20 +386,20 @@ jobs:
           with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
             f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
       - name: Download core love package
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Download ColdClear
-        uses: ./.github/actions/get-cc
+        uses: ./.github/actions/get-unzip
         with:
-          platform: Windows
-          dir: ./ColdClear
+          url: ${{ env.COLD_CLEAR_DOWNLOAD_URL }}/Windows.zip
+          dir: ${{ env.COLD_CLEAR_FOLDER }}
       - name: Update Windows template
         shell: python3 {0}
         run: |
           version_string = "${{ needs.get-info.outputs.version-string }}"
           file_version = (f"{version_string.replace('.', ',')},0")
-          with open("./.github/build/windows/${{ env.BUILD_TYPE }}/template.rc", "r+", encoding="utf8") as file:
+          with open("${{ env.BUILD_ASSETS_FOLDER }}/windows/${{ env.BUILD_TYPE }}/template.rc", "r+", encoding="utf8") as file:
             data = file.read()
             data = data\
               .replace("@Version", version_string)\
@@ -490,30 +409,30 @@ jobs:
             file.write(data)
       - name: Build Windows packages
         id: build-packages
-        uses: love-actions/love-actions-windows@v1
+        uses: love-actions/love-actions-windows@v2
         with:
-          icon-path: ./.github/build/windows/${{ env.BUILD_TYPE }}/icon.ico
-          rc-path: ./.github/build/windows/${{ env.BUILD_TYPE }}/template.rc
+          icon-path: ${{ env.BUILD_ASSETS_FOLDER }}/windows/${{ env.BUILD_TYPE }}/icon.ico
+          rc-path: ${{ env.BUILD_ASSETS_FOLDER }}/windows/${{ env.BUILD_TYPE }}/template.rc
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          extra-assets-x86: ./ColdClear/x86/CCloader.dll ./ColdClear/x86/cold_clear.dll ./.github/build/extraLibs/Windows_x64/discord-rpc.dll
-          extra-assets-x64: ./ColdClear/x64/CCloader.dll ./ColdClear/x64/cold_clear.dll ./.github/build/extraLibs/Windows_x86/discord-rpc.dll
+          extra-assets-x86: ${{ env.COLD_CLEAR_FOLDER }}/x86/CCloader.dll ${{ env.COLD_CLEAR_FOLDER }}/x86/cold_clear.dll ${{ env.BUILD_ASSETS_FOLDER }}/extraLibs/Windows_x64/discord-rpc.dll
+          extra-assets-x64: ${{ env.COLD_CLEAR_FOLDER }}/x64/CCloader.dll ${{ env.COLD_CLEAR_FOLDER }}/x64/cold_clear.dll ${{ env.BUILD_ASSETS_FOLDER }}/extraLibs/Windows_x86/discord-rpc.dll
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           app-id: ${{ secrets.WINDOWS_APP_ID }}
           project-website: https://www.studio26f.org/
           installer-languages: ChineseSimplified.isl ChineseTraditional.isl English.isl Spanish.isl French.isl Indonesian.isl Japanese.isl Portuguese.isl
           output-folder: ${{ env.OUTPUT_FOLDER }}
       - name: Upload 32-bit artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ needs.get-info.outputs.base-name }}_Windows_x86
           path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_x86.zip
       - name: Upload 64-bit artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ needs.get-info.outputs.base-name }}_Windows_x64
           path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_x64.zip
       - name: Upload installer artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ needs.get-info.outputs.base-name }}_Windows_installer
           path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_installer.exe
@@ -548,38 +467,58 @@ jobs:
         build-core,
         build-android,
         build-linux,
-        build-macos-portable,
-        build-web,
+        build-web-compat,
         build-windows,
       ]
     env:
       ACTION_TYPE: ${{ fromJSON('[["Development", "Pre-release"], ["Release", "Release"]]')[startsWith(github.ref, 'refs/tags/v')][startsWith(github.ref, 'refs/tags/pre')] }}
     steps:
       - name: Cleanup
-        uses: geekyeggo/delete-artifact@v2
+        uses: geekyeggo/delete-artifact@v5
         with:
           name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
       - name: Send Discord message
-        if: github.event_name != 'pull_request'
-        uses: Sniddl/discord-commits@v1.6
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          message: "Github Actions for **${{ github.repository }}**."
-          embed: '{
-            "author":{
-            "name":"${{ needs.get-info.outputs.app-name }} [${{ env.ACTION_TYPE }}]",
-            "url":"https://github.com/${{ github.repository }}"
-            },
-            "title":"${{ needs.get-info.outputs.app-name }} (${{ needs.get-info.outputs.version-name }}) Build Result",
-            "description": "CI triggered at ${{ needs.get-info.outputs.commit-hash }}",
-            "url":"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
-            "thumbnail":{
-            "url":"https://raw.githubusercontent.com/${{ github.repository }}/main/.github/build/linux/${{ env.BUILD_TYPE }}/icon.png"
-            },
-            "color":36863,
-            "fields":[
-            {"name":"Version","value":"${{ needs.get-info.outputs.version-string }}","inline": true},
-            {"name":"Package Name","value":"${{ needs.get-info.outputs.base-name }}","inline": true},
-            {"name":"Status","value":"**Automatic Test:** ${{ needs.auto-test.result }}\n**Core:** ${{ needs.build-core.result }}\n**Android:** ${{ needs.build-android.result }}\n**Linux:** ${{ needs.build-linux.result }}\n**macOS portable:** ${{ needs.build-macos-portable.result }}\n**Windows:** ${{ needs.build-windows.result }}"}
+        if: github.ref == 'refs/heads/main'
+        shell: python
+        run: |
+          import requests
+          import json
+
+          headers = {
+            'Content-Type': 'application/json',
+          }
+          payload = json.dumps({
+            "content": "Github Actions for **${{ github.repository }}**.",
+            "embeds": [
+              {
+                "author": {
+                  "name": "${{ needs.get-info.outputs.app-name }} [${{ env.ACTION_TYPE }}]",
+                  "url": "https://github.com/${{ github.repository }}"
+                },
+                "title": "${{ needs.get-info.outputs.app-name }} (${{ needs.get-info.outputs.version-name }}) Build Result",
+                "description": "CI triggered at ${{ needs.get-info.outputs.commit-hash }}",
+                "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                "thumbnail": {
+                  "url": "https://raw.githubusercontent.com/${{ github.repository }}/main/.github/build/linux/${{ env.BUILD_TYPE }}/icon.png"
+                },
+                "color": 36863,
+                "fields": [
+                  {
+                    "name": "Version",
+                    "value": "${{ needs.get-info.outputs.version-string }}",
+                    "inline": True
+                  },
+                  {
+                    "name": "Package Name",
+                    "value": "${{ needs.get-info.outputs.base-name }}",
+                    "inline": True
+                  },
+                  {
+                    "name": "Status",
+                    "value": "**Automatic Test:** ${{ needs.auto-test.result }}\n**Core:** ${{ needs.build-core.result }}\n**Android:** ${{ needs.build-android.result }}\n**Linux:** ${{ needs.build-linux.result }}\n**Web compatible:** ${{ needs.build-web-compat.result }}\n**Windows:** ${{ needs.build-windows.result }}"
+                  }
+                ]
+              }
             ]
-            }'
+          })
+          requests.request("POST", "${{ secrets.DISCORD_WEBHOOK }}", headers=headers, data=payload)

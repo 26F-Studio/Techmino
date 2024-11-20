@@ -1,4 +1,3 @@
-local sys=love.system
 local kb=love.keyboard
 
 local sin=math.sin
@@ -76,11 +75,11 @@ function scene.keyDown(key)
         scene.widgetList.sequence:scroll(kb.isDown('lshift','rshift') and -1 or 1)
     elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
         if #BAG>0 then
-            sys.setClipboardText("Techmino SEQ:"..DATA.copySequence(BAG))
+            CLIPBOARD.set("Techmino SEQ:"..DATA.copySequence(BAG))
             MES.new('check',text.exportSuccess)
         end
     elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
-        local str=sys.getClipboardText()
+        local str=CLIPBOARD.get()
         local p=str:find(":")-- ptr*
         if p then
             if not str:sub(1,p-1):find("SEQ") then

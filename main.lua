@@ -49,6 +49,10 @@ SCR.setSize(1280,720) -- Initialize Screen size
 BGM.setMaxSources(5)
 VOC.setDiversion(.62)
 
+if SYSTEM == 'Web' and not WEB_COMPAT_MODE then
+    CLIPBOARD.setFreshInterval(.5)
+end
+
 WIDGET.setOnChange(function()
     if SCN.cur=='net_game' or SCN.cur=='custom_field' then return end
     local colorList=THEME.getThemeColor()
@@ -294,41 +298,41 @@ IMG.init{
     },
 }
 SKIN.load{
-    {name="Arcade (Asriel)",           path='media/image/skin/asriel/arcade.png'},
-    {name="Cardboard (Asriel, slimenergy)",           path='media/image/skin/asriel/cardboard.png'},
-    {name="Crystal (Scf)",           path='media/image/skin/scf/crystal.png'},
-    {name="Matte (MrZ)",             path='media/image/skin/mrz/matte.png'},
-    {name="Shiny (CHNO)",            path='media/image/skin/chno/shiny.png'},
-    {name="Contrast (MrZ)",          path='media/image/skin/mrz/contrast.png'},
-    {name="Polkadots (Scf)",         path='media/image/skin/scf/polkadots.png'},
-    {name="Toy (Scf)",               path='media/image/skin/scf/toy.png'},
-    {name="Smooth (MrZ)",            path='media/image/skin/mrz/smooth.png'},
-    {name="Simple (Scf)",            path='media/image/skin/scf/simple.png'},
-    {name="Glass (Scf)",             path='media/image/skin/scf/glass.png'},
-    {name="Penta (Scf)",             path='media/image/skin/scf/penta.png'},
-    {name="Bubble (Scf)",            path='media/image/skin/scf/bubble.png'},
-    {name="Minoes (Scf)",            path='media/image/skin/scf/minoes.png'},
-    {name="pure (MrZ)",              path='media/image/skin/mrz/pure.png'},
-    {name="bright (Scf)",            path='media/image/skin/scf/bright.png'},
-    {name="Glow (MrZ)",              path='media/image/skin/mrz/glow.png'},
-    {name="Plastic (MrZ)",           path='media/image/skin/mrz/plastic.png'},
-    {name="paper (MrZ)",             path='media/image/skin/mrz/paper.png'},
-    {name="Yinyang (Scf)",           path='media/image/skin/scf/yinyang.png'},
-    {name="Cartooncup (Earety)",     path='media/image/skin/earety/cartooncup.png'},
-    {name="Jelly (Miya)",            path='media/image/skin/miya/jelly.png'},
-    {name="guidetris (xmiao, lusisi)",path='media/image/skin/guidetris_xmiao_lusisi.png'},
-    {name="brick (Notypey)",         path='media/image/skin/notypey/brick.png'},
-    {name="Gem (Notypey)",           path='media/image/skin/notypey/gem.png'},
-    {name="Classic",               path='media/image/skin/unknown/classic.png'},
-    {name="Ball (Shaw)",             path='media/image/skin/shaw/ball.png'},
-    {name="Retro (Notypey)",         path='media/image/skin/notypey/retro.png'},
-    {name="Pixel (CHNO)",            path='media/image/skin/chno/pixel.png'},
-    {name="Pastel (CHNO)",           path='media/image/skin/chno/pastel.png'},
-    {name="Letters (CHNO)",          path='media/image/skin/chno/letters.png'},
-    {name="Kanji (CHNO)",            path='media/image/skin/chno/kanji.png'},
-    {name="Textbone (MrZ)",          path='media/image/skin/mrz/textbone.png'},
-    {name="Coloredbone (MrZ)",       path='media/image/skin/mrz/coloredbone.png'},
-    {name="WTF (MrZ)",                   path='media/image/skin/mrz/wtf.png'},
+    {name="Crystal (Scf)",                  path='media/image/skin/scf/crystal.png'},
+    {name="Smooth (MrZ)",                   path='media/image/skin/mrz/smooth.png'},
+    {name="Matte (MrZ)",                    path='media/image/skin/mrz/matte.png'},
+    {name="Glass (Scf)",                    path='media/image/skin/scf/glass.png'},
+    {name="Jelly (Miya)",                   path='media/image/skin/miya/jelly.png'},
+    {name="Simple (Scf)",                   path='media/image/skin/scf/simple.png'},
+    {name="Contrast (MrZ)",                 path='media/image/skin/mrz/contrast.png'},
+    {name="Plastic (MrZ)",                  path='media/image/skin/mrz/plastic.png'},
+    {name="Glow (MrZ)",                     path='media/image/skin/mrz/glow.png'},
+    {name="Bright (Scf)",                   path='media/image/skin/scf/bright.png'},
+    {name="Penta (Scf)",                    path='media/image/skin/scf/penta.png'},
+    {name="Bubble (Scf)",                   path='media/image/skin/scf/bubble.png'},
+    {name="Pure (MrZ)",                     path='media/image/skin/mrz/pure.png'},
+    {name="Letters (CHNO)",                 path='media/image/skin/chno/letters.png'},
+    {name="Kanji (CHNO)",                   path='media/image/skin/chno/kanji.png'},
+    {name="Pastel (CHNO)",                  path='media/image/skin/chno/pastel.png'},
+    {name="Classic",                        path='media/image/skin/unknown/classic.png'},
+    {name="Arcade (Asriel)",                path='media/image/skin/asriel/arcade.png'},
+    {name="Shiny (CHNO)",                   path='media/image/skin/chno/shiny.png'},
+    {name="Brick (Notypey)",                path='media/image/skin/notypey/brick.png'},
+    {name="Cartooncup (Earety)",            path='media/image/skin/earety/cartooncup.png'},
+    {name="Paper (MrZ)",                    path='media/image/skin/mrz/paper.png'},
+    {name="Toy (Scf)",                      path='media/image/skin/scf/toy.png'},
+    {name="Polkadots (Scf)",                path='media/image/skin/scf/polkadots.png'},
+    {name="Yinyang (Scf)",                  path='media/image/skin/scf/yinyang.png'},
+    {name="Minoes (Scf)",                   path='media/image/skin/scf/minoes.png'},
+    {name="Cardboard (Asriel, slimenergy)", path='media/image/skin/asriel/cardboard.png'},
+    {name="Ball (Shaw)",                    path='media/image/skin/shaw/ball.png'},
+    {name="Gem (Notypey)",                  path='media/image/skin/notypey/gem.png'},
+    {name="Pixel (CHNO)",                   path='media/image/skin/chno/pixel.png'},
+    {name="Retro (Notypey)",                path='media/image/skin/notypey/retro.png'},
+    {name="Guidetris (xmiao, lusisi)",      path='media/image/skin/guidetris_xmiao_lusisi.png'},
+    {name="Textbone (MrZ)",                 path='media/image/skin/mrz/textbone.png'},
+    {name="Coloredbone (MrZ)",              path='media/image/skin/mrz/coloredbone.png'},
+    {name="WTF (MrZ)",                      path='media/image/skin/mrz/wtf.png'},
 }
 
 -- Initialize sound libs
@@ -400,8 +404,12 @@ do
         RANKS.rhythm_h=nil; fs.remove('record/rhythm_h.rec')
         RANKS.rhythm_u=nil; fs.remove('record/rhythm_u.rec')
     end
-    if RANKS.bigbang then fs.remove('record/bigbang.rec') end
-    if RANKS.clearRush then fs.remove('record/clearRush.rec') end
+    if RANKS.bigbang then RANKS.bigbang=nil; fs.remove('record/bigbang.rec') end
+    if RANKS.clearRush then RANKS.clearRush=nil; fs.remove('record/clearRush.rec') end
+    if RANKS.strategy_e then RANKS.strategy_e=nil; fs.remove('record/strategy_e.rec') end
+    if RANKS.strategy_h_plus then RANKS.strategy_h_plus=nil; fs.remove('record/strategy_h_plus.rec') end
+    if RANKS.strategy_u_plus then RANKS.strategy_u_plus=nil; fs.remove('record/strategy_u_plus.rec') end
+
     if STAT.version<1715 then fs.remove('record/dig_quad_10l.rec') end
 
     if STAT.version~=VERSION.code then
@@ -436,6 +444,7 @@ do
     if SETTING.reTime>3 or SETTING.reTime<.5 then SETTING.reTime=2 end
     if SETTING.locale=='zh_full' then SETTING.locale='zh' end
     if SETTING.vocPack=='rin' then SETTING.vocPack='miku' end
+    if SETTING.msaa>4 then SETTING.msaa=4 end
     if RANKS.infinite then RANKS.infinite=0 end
     if RANKS.infinite_dig then RANKS.infinite_dig=0 end
     if not RANKS.sprint_10l then RANKS.sprint_10l=0 end

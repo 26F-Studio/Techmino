@@ -91,7 +91,14 @@ scene.widgetList={
     WIDGET.newSwitch{name='clean',        x=950,y=1100,lim=360,disp=SETval('cleanCanvas'),  code=function() SETTING.cleanCanvas=not SETTING.cleanCanvas; applySettings() end},
     WIDGET.newSwitch{name='fullscreen',   x=950,y=1150,lim=360,disp=SETval('fullscreen'),   code=function() SETTING.fullscreen=not SETTING.fullscreen; applySettings() end,hideF=function() return MOBILE end},
     WIDGET.newSwitch{name='portrait',     x=950,y=1150,lim=360,disp=SETval('portrait'),     code=function() SETTING.portrait=not SETTING.portrait; saveSettings(); MES.new('warn',text.settingWarn2,6.26) end,hideF=function() return not MOBILE end},
-    WIDGET.newSlider{name='msaa',         x=950,y=1220,lim=360,w=200,axis={0,4,1},show=_msaaShow,disp=function() return SETTING.msaa==0 and 0 or math.log(SETTING.msaa,2) end,code=function(v) SETTING.msaa=v==0 and 0 or 2^v; saveSettings(); if TASK.lock('warnMessage',6.26) then MES.new('warn',text.settingWarn2,6.26) end end},
+    WIDGET.newSlider{name='msaa',         x=950,y=1220,lim=360,w=200,axis={0,4,1},disp=SETval('msaa'),show=_msaaShow,
+        code=function(v)
+            SETTING.msaa=v
+            if TASK.lock('warnMessage',6.26) then
+                MES.new('warn',text.settingWarn2,6.26)
+            end
+        end
+    },
 
     WIDGET.newKey{name='bg_on',           x=680,y=1290,w=200,h=60,font=25,code=function() SETTING.bg='on' ; applySettings() end},
     WIDGET.newKey{name='bg_off',          x=900,y=1290,w=200,h=60,font=25,code=function() SETTING.bg='off'; applySettings() end},
@@ -136,7 +143,7 @@ scene.widgetList={
     },
     WIDGET.newKey{name='bg_custom_base64',x=1010,y=1502.5,w=420,h=135,align='M',
         code=function()
-            local okay,data=pcall(love.data.decode,"data","base64",love.system.getClipboardText())
+            local okay,data=pcall(love.data.decode,"data","base64",CLIPBOARD.get())
             if okay and pcall(gc.newImage,data) then
                 love.filesystem.write('conf/customBG',data)
                 SETTING.bg='custom'

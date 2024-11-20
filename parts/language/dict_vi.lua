@@ -77,7 +77,7 @@ Bạn muốn đóng góp vào bản dịch? Bạn có thể vào trang dự án 
 08. Bot: Cold Clear, ZZZbot
 
 09. Wiki; các trang web bày setup & cung cấp câu đố, chia sẻ setup
-        09A. Wiki: Huiji Wiki, Wiki Hard Drop, tetris.wiki, Tetris Wiki Fandom
+        09A. Wiki: Chinese Tetris Wiki, Wiki Hard Drop, tetris.wiki, Tetris Wiki Fandom
         09B. Bày setup: Four.lol, Tetris Hall, Tetris Template Collections, tetristemplate.info, 4-Wide Trainer
         09C. Chia sẻ câu đố: TTT, TTPC, NAZO, TPO
         09D. Chia sẻ setup: Fumen, Fumen bản Điện thoại
@@ -612,7 +612,7 @@ Xem mục tiếp theo để biết thêm.
     {"Lockdown Delay",
         "nhom05e1 lockdelay lockdowndelay lockdowntimer ld; thời gian chờ khóa gạch",
         "term",
-        "Thời gian chờ khóa gạch, viết tắt là LD.\nGame sẽ chờ một khoảng thời gian, trước khi game khóa gạch (tức là gạch không thể điều khiển được nữa), bắt đầu tính từ khi gạch vừa chạm đất.\n\nTrong các game xếp gạch cổ điển, khoảng thời gian chờ này CHÍNH LÀ khoảng thời gian gạch cần có để di chuyển xuống 1 ô, và không có cơ chế nào để trì hoãn việc khóa gạch.\n\nTrong các game xếp gạch hiện đại, thời gian chờ được tính riêng và thoải mái hơn. Đi kèm với thời gian chờ dài hơn là cơ chế hoãn thời điểm khóa gạch, trong đó bạn có thể di chuyển hoặc xoay gạch bắt game chờ thêm một lúc nữa trước khi khóa gạch; nói theo cách khác, là đặt lại thời gian chờ (tối đa 15 lần trong hầu hết các game).",
+        "Thời gian chờ khóa gạch, viết tắt là LD.\nGame sẽ chờ một khoảng thời gian, trước khi game khóa gạch (tức là gạch không thể điều khiển được nữa), bắt đầu tính từ khi gạch vừa chạm đất.\n\nTrong các game xếp gạch cổ điển, khoảng thời gian chờ này CHÍNH LÀ khoảng thời gian gạch cần có để di chuyển xuống 1 ô, và không có cách nào để hoãn thời điểm khóa gạch.\n\nTrong các game xếp gạch hiện đại, thời gian chờ được tính riêng và thoải mái hơn. Đi kèm với thời gian chờ dài hơn là cơ chế hoãn thời điểm khóa gạch, trong đó bạn có thể di chuyển hoặc xoay gạch để đặt lại bộ đếm thời gian về 0, để bạn có thể hoãn thời điểm khóa gạch thêm một lúc nữa (tối đa 15 lần trong hầu hết các game).",
     },
     {"Spawn&ClearDelay",
         "nhom05e1 spawndelay cleardelay; thời gian chờ gạch sinh ra; thời gian chờ xóa hàng",
@@ -632,7 +632,7 @@ Xem mục tiếp theo để biết thêm.
     {"Death ARE",
         "nhom05e1 die delay",
         "term",
-        "Một cơ chế đặc biệt cho phép tránh game over trong một số trường hợp.\n\nDeath ARE sẽ được kích hoạt khi có một viên gạch chặn ngay tại vị trí xuất hiện của gạch mới (dẫn tới hiện tượng block out)\nKhi kích hoạt, spawn ARE sẽ được cộng với Death ARE để cho phép người chơi dùng IRS, IHS hoặc IMS.\n\nÝ tưởng về cơ chế này được đề xuất lần đầu bởi @NOT_A_ROBOT.",
+        "Một cơ chế đặc biệt cho phép tránh game over trong một số trường hợp.\n\nDeath ARE sẽ được kích hoạt khi có một viên gạch chặn ngay tại vị trí xuất hiện của gạch mới (dẫn tới hiện tượng block out)\nKhi kích hoạt, spawn ARE sẽ được cộng với Death ARE để cho phép người chơi có cơ hội dùng IRS, IHS và IMS.\n\nÝ tưởng về cơ chế này được đề xuất lần đầu bởi @NOT_A_ROBOT.",
     },
     {">E2|Thg số đ.khiển",
         "nhom05e2",
@@ -1436,12 +1436,12 @@ NHÓM 07: MỘT VÀI CƠ CHẾ VÀ CHẾ ĐỘ CỦA MỘT SỐ GAME
         "",
         ""
     },
-    {"Huiji Wiki",
-        "nhom09a huiji wiki",
-        "help",
-        "(灰机wiki)\n\nMột wiki về Tetris của những người đam mê Tetris từ các nhóm và chi nhánh của Cộng đồng Nghiên cứu Tetris Trung Quốc. Hiện tại hầu hết các trang đều được tham khảo và dịch từ Wiki Hard Drop và Tetris Wiki. Liên kết sẽ dẫn bạn tới bản tiếng Trung giản thể.",
-        "https://tetris.huijiwiki.com",
-    },
+    -- {"Chinese Tetris Wiki",
+    --     "china tetris wiki",
+    --     "help",
+    --     "A Chinese Tetris wiki by Tetris enthusiasts from Chinese Tetris Research Community groups and affiliates. Most pages have been referenced and translated from Hard Drop Wiki and Tetris Wiki for now. Link in Simplified Chinese.",
+    --     "http://tetriswiki.cn",
+    -- },
     {"Wiki Hard Drop",
         "nhom09a harddrop hd wiki",
         "help",

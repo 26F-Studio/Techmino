@@ -30,7 +30,7 @@ return {
     {name='dig_eff_400l',       x=-1200,y=0,    size=40,shape=1,icon="dig_eff"},
 
     {name='marathon_n',         x=0,    y=-600, size=60,shape=1,icon="marathon",   unlock={'marathon_h','solo_e','round_e','big_n','blind_e','classic_e','survivor_e','c4wtrain_n','pctrain_n','sprintAtk','zen','construct_sg'}},
-    {name='marathon_h',         x=0,    y=-800, size=50,shape=1,icon="marathon",   unlock={'master_n','strategy_e'}},
+    {name='marathon_h',         x=0,    y=-800, size=50,shape=1,icon="marathon",   unlock={'master_n','strategy_e_plus'}},
 
     {name='solo_e',             x=-600, y=-1000,size=40,shape=1,icon="solo",       unlock={'solo_n'}},
     {name='solo_n',             x=-800, y=-1000,size=40,shape=1,icon="solo",       unlock={'solo_h'}},
@@ -62,12 +62,9 @@ return {
     {name='master_g',           x=0,    y=-1600,size=40,shape=3,icon="master"},
     {name='master_ex',          x=170,  y=-1450,size=40,shape=2,icon="master_ex"},
 
-    {name='strategy_e',         x=-150, y=-1020,size=40,shape=3,icon="master",     unlock={'strategy_e_plus'}},
-    {name='strategy_h',         x=-150, y=-1150,size=35,shape=3,icon="master",     unlock={'strategy_h_plus'}},
-    {name='strategy_u',         x=-150, y=-1280,size=30,shape=2,icon="master",     unlock={'strategy_u_plus'}},
-    {name='strategy_e_plus',    x=-300, y=-1120,size=40,shape=3,icon="master"},
-    {name='strategy_h_plus',    x=-300, y=-1250,size=35,shape=3,icon="master"},
-    {name='strategy_u_plus',    x=-300, y=-1380,size=30,shape=2,icon="master"},
+    {name='strategy_e_plus',    x=-150, y=-1020,size=40,shape=3,icon="master"},
+    {name='strategy_h',         x=-150, y=-1150,size=35,shape=3,icon="master"},
+    {name='strategy_u',         x=-150, y=-1280,size=30,shape=2,icon="master"},
 
     {name='blind_e',            x=150,  y=-700, size=40,shape=1,icon="hidden",     unlock={'blind_n','master_instinct'}},
     {name='blind_n',            x=150,  y=-800, size=40,shape=1,icon="hidden2",    unlock={'blind_h'}},
