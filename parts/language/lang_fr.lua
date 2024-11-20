@@ -525,6 +525,7 @@ return {
             bg_on="Arrière-plan normal",
             bg_off="Pas d'arrière-plan.",
             bg_custom="Utiliser un arrière-plan personnalisé",
+            -- bg_custom_base64="Paste image as BG\n(PNG/JPG in Base64)",
             -- defaultBG="Default B.G.",
             -- resetDbg="Reset to default",
             -- lockBG="Lock B.G.",

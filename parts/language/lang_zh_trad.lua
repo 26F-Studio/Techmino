@@ -549,6 +549,7 @@ return {
             bg_on="普通背景",
             bg_off="無背景",
             bg_custom="應用自定義背景",
+            -- bg_custom_base64="Paste image as BG\n(PNG/JPG in Base64)",
             defaultBG="默認背景",
             resetDbg="改回默認",
             lockBG="鎖定背景",
