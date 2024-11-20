@@ -296,6 +296,7 @@ return {
             bg_on="__?__",
             bg_off="__.__",
             bg_custom="__!__",
+            bg_custom_base64=CHAR.icon.copy.."__!__\n(PNG/JPG ↓ Base64)",
             defaultBG="__$0__",
             resetDbg="R$0",
             lockBG="__↓__",

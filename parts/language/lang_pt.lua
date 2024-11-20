@@ -537,6 +537,7 @@ return {
             -- bg_on="Normal B.G.",
             -- bg_off="No B.G.",
             -- bg_custom="Use Custom B.G.",
+            -- bg_custom_base64="Paste image as BG\n(PNG/JPG in Base64)",
             -- defaultBG="Default B.G.",
             -- resetDbg="Reset to default",
             -- lockBG="Lock B.G.",
