@@ -39,13 +39,13 @@ local function getMistimeColor(t)
 end
 local function onMove(P,dir)
     local D=P.modeData
-    
+
     if not D.firstMoveTimestamp then
         D.firstMoveTimestamp=P.stat.time
     end
-    
+
     D.lastMoveTimestamp=P.stat.time
-    
+
     D.displacement=math.abs(P.curX+dir-D.spawnX)
 end
 local function createMoveHandler(dir)
@@ -154,8 +154,6 @@ return {
             },
             40,100
         )
-
-        print(P.curX) -- DEBUG
     end,
     task=function(P)
         local D=P.modeData
