@@ -485,6 +485,7 @@ C. Tay cầm chơi game (Gamepad):
             visible="Chế độ hiện gạch",
             freshLimit="Lock Reset tối đa",
 
+            -- sequence="Sequence",
             fieldH="Độ cao bảng",
             bufferLimit="Giới hạn nhận rác",
             heightLimit="Giới hạn độ cao",

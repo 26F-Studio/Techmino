@@ -496,6 +496,7 @@ C. ゲームパッド
             visible="ミノの視認性",
             freshLimit="設置時間のリセット回数",
 
+            sequence="ミノ順",
             fieldH="盤面の高さ",
             bufferLimit="ダメージの保持上限",
             heightLimit="致死ラインの高さ",

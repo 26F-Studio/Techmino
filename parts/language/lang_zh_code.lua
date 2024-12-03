@@ -400,6 +400,7 @@ return {
             visible="Visiblity",
             freshLimit="FreshLimit",
 
+            sequence="Sequence",
             fieldH="FieldHeight",
             bufferLimit="BufferLimit",
             heightLimit="HeightLimit",

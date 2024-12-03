@@ -481,6 +481,7 @@ return {
             visible="能见度",
             freshLimit="锁延刷新限制",
 
+            sequence="序列模式",
             fieldH="场地高度",
             bufferLimit="缓冲上限",
             heightLimit="高度上限",

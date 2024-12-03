@@ -565,6 +565,7 @@ do-- Game data tables
         bone=false,
 
         -- Rule
+        sequence='bag',
         life=0,
         pushSpeed=5,
         garbageSpeed=2,

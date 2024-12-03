@@ -15,6 +15,7 @@ local sList={
     fieldH={1,2,3,4,6,8,10,15,20,30,50,100},
     heightLimit={2,3,4,6,8,10,15,20,30,40,70,100,150,200,1e99},
     bufferLimit={4,6,10,15,20,40,100,1e99},
+    sequence={'bag','bagES','his','hisPool','c2','bagP1inf','rnd','mess','reverb'},
 
     drop={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
     lock={0,1,2,3,4,5,6,7,8,9,10,11,12,14,16,18,20,25,30,40,60,180,1e99},
@@ -78,6 +79,7 @@ scene.widgetList={
     WIDGET.newSelector{name='visible',      x=170,y=710,w=260,color='lB',list=sList.visible,       disp=ROOMval('visible'),      code=ROOMsto('visible')},
     WIDGET.newSelector{name='freshLimit',   x=170,y=790,w=260,color='lB',list=sList.freshLimit,    disp=ROOMval('freshLimit'),   code=ROOMsto('freshLimit')},
 
+    WIDGET.newSelector{name='sequence',     x=450,y=410,w=260,color='F',list=sList.sequence,       disp=ROOMval('sequence'),     code=ROOMsto('sequence')},
     WIDGET.newSelector{name='fieldH',       x=450,y=600,w=260,color='N',list=sList.fieldH,         disp=ROOMval('fieldH'),       code=ROOMsto('fieldH')},
     WIDGET.newSelector{name='heightLimit',  x=450,y=710,w=260,color='S',list=sList.heightLimit,    disp=ROOMval('heightLimit'),  code=ROOMsto('heightLimit')},
     WIDGET.newSelector{name='bufferLimit',  x=450,y=790,w=260,color='B',list=sList.bufferLimit,    disp=ROOMval('bufferLimit'),  code=ROOMsto('bufferLimit')},

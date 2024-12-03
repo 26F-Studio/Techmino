@@ -427,6 +427,7 @@ return {
             visible="Visibilité",
             freshLimit="Limite de réinit. du délai de verrouillage",
 
+            -- sequence="Sequence",
             -- fieldH="Field height",
             -- bufferLimit="Buffer Limit",
             -- heightLimit="Height Limit",

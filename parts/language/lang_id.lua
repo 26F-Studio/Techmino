@@ -452,6 +452,7 @@ return {
             visible="Visibilitas",
             freshLimit="Batas Reset Tunda Kunci",
 
+            sequence="Urutan",
             fieldH="Ketinggian",
             bufferLimit="Batas Serangan",
             heightLimit="Batas Tinggi",

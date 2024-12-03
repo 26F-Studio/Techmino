@@ -199,6 +199,7 @@ return {
             visible="?=",
             freshLimit="@",
 
+            sequence="$",
             fieldH="↑[]↓",
             bufferLimit="^↑",
             heightLimit="#↑",

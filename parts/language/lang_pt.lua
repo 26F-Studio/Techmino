@@ -440,6 +440,7 @@ return {
             visible="Visibilidade",
             freshLimit="Limite Reset de Trava",
 
+            -- sequence="Sequence",
             -- fieldH="Field height",
             -- bufferLimit="Buffer Limit",
             -- heightLimit="Height Limit",

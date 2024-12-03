@@ -490,6 +490,7 @@ C. Gamepad
             visible="Visibility",
             freshLimit="Lock Reset Limit",
 
+            sequence="Sequence",
             fieldH="Field Height",
             bufferLimit="Buffer Limit",
             heightLimit="Height Limit",

@@ -451,6 +451,7 @@ return {
             visible="Visibilidad",
             freshLimit="Límite de Reinicio LD",
 
+            sequence="Secuencia",
             fieldH="Altura del tablero",
             bufferLimit="Buffer Límite",
             heightLimit="Altura Límite",
