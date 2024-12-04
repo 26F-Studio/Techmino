@@ -159,6 +159,7 @@ return {
         mod={
             title="?!?!?!",
             reset="R (tab)",
+            applyAt="--:-- >[?!?!?!]",
             unranked="X!!!",
         },
         pause={
