@@ -452,6 +452,7 @@ return {
             visible="Visibilitas",
             freshLimit="Batas Reset Tunda Kunci",
 
+            sequence="Urutan",
             fieldH="Ketinggian",
             bufferLimit="Batas Serangan",
             heightLimit="Batas Tinggi",
@@ -549,6 +550,7 @@ return {
             bg_on="B.G. Normal",
             bg_off="Tidak Ada B.G.",
             bg_custom="Ubah B.G.",
+            -- bg_custom_base64="Paste image as BG\n(PNG/JPG in Base64)",
             -- defaultBG="Default B.G.",
             -- resetDbg="Reset to default",
             -- lockBG="Lock B.G.",

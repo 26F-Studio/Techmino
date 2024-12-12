@@ -481,6 +481,7 @@ return {
             visible="能见度",
             freshLimit="锁延刷新限制",
 
+            sequence="序列模式",
             fieldH="场地高度",
             bufferLimit="缓冲上限",
             heightLimit="高度上限",
@@ -578,6 +579,7 @@ return {
             bg_on="普通背景",
             bg_off="关闭背景",
             bg_custom="应用自定义背景",
+            bg_custom_base64="从剪切板导入图片\n(Base64编码的PNG/JPG)",
             defaultBG="默认背景",
             resetDbg="改回默认",
             lockBG="锁定背景",

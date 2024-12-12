@@ -451,6 +451,7 @@ return {
             visible="Visibilidad",
             freshLimit="Límite de Reinicio LD",
 
+            sequence="Secuencia",
             fieldH="Altura del tablero",
             bufferLimit="Buffer Límite",
             heightLimit="Altura Límite",
@@ -548,6 +549,7 @@ return {
             bg_on="Fondo Normal",
             bg_off="Sin Fondo",
             bg_custom="Fondo Personalizado",
+            -- bg_custom_base64="Paste image as BG\n(PNG/JPG in Base64)",
             -- defaultBG="Default B.G.",
             -- resetDbg="Reset to default",
             -- lockBG="Lock B.G.",

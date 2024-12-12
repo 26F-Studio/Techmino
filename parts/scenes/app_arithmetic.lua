@@ -25,7 +25,7 @@ local charData={
     ["C"]={20,35,15,40,5,40,0,35,0,5,5,0,15,0,20,5},
     ["D"]={0,40,0,0,10,0,20,10,20,30,10,40,0,40},
     ["E"]={20,0,0,0,0,20,15,20,20,20,0,20,0,40,20,40},
-    ["F"]={20,0,0,0,0,20,15,20,20,20,0,20,0,40}
+    ["F"]={20,0,0,0,0,20,15,20,20,20,0,20,0,40},
 }
 local drawing
 local drawLines,drawVel,indexes
@@ -40,12 +40,14 @@ local function drawChar(char,x,y,scale,alignLeft)
     for i=l,1,-1 do
         local n=char:sub(i,i)
         drawLines[index],drawVel[index]={},{}
-        for j=1,#charData[n],2 do
-            drawLines[index][j]=charData[n][j]*3*scale+x
-            drawVel[index][j]=0
-            j=j+1
-            drawLines[index][j]=charData[n][j]*3*scale+y
-            drawVel[index][j]=0
+        if charData[n] then
+            for j=1,#charData[n],2 do
+                drawLines[index][j]=charData[n][j]*3*scale+x
+                drawVel[index][j]=0
+                j=j+1
+                drawLines[index][j]=charData[n][j]*3*scale+y
+                drawVel[index][j]=0
+            end
         end
         index=index+1
         x=x+(alignLeft and -85 or -85)*scale
@@ -174,7 +176,7 @@ local levels={
             local b=STRING.toBin(a)
             local l=floor(math.log(a,2)+1)
             for i=1,l do
-                drawChar(tonumber(b:sub(i,i)),320,420-100*(l-i),.5)
+                drawChar(b:sub(i,i),320,420-100*(l-i),.5)
                 ins(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
                 ins(drawLines,{370,440-100*(l-i),410,480-100*(l-i)})
                 drawChar(2,430,420-100*(l-i),.5)
@@ -193,7 +195,7 @@ local levels={
         local b=STRING.toOct(a)
         local l=floor(math.log(a,8)+1)
         for i=1,l do
-            drawChar(tonumber(b:sub(i,i)),320,420-100*(l-i),.5)
+            drawChar(b:sub(i,i),320,420-100*(l-i),.5)
             ins(drawLines,{370,480-100*(l-i),410,440-100*(l-i)})
             ins(drawLines,{370,440-100*(l-i),410,480-100*(l-i)})
             drawChar(8,430,420-100*(l-i),.5)
@@ -235,8 +237,8 @@ local levels={
         local s=rnd(9,31)
         local a=rnd(5,floor(s/2))
         return {COLOR.N,b2(a),COLOR.Z,"+",COLOR.N,b2(s-a)},s,function()
-            drawChar(tonumber(STRING.toBin(a)),220,200,.6)
-            drawChar(tonumber(STRING.toBin(s-a)),220,335,.6)
+            drawChar(STRING.toBin(a),220,200,.6)
+            drawChar(STRING.toBin(s-a),220,335,.6)
             ins(drawLines,{0,470,300,470})
             ins(drawLines,{320,470,400,470})
             ins(drawLines,{360,430,360,510})
@@ -258,8 +260,8 @@ local levels={
         local s=rnd(18,63)
         local a=rnd(9,floor(s/2))
         return {COLOR.lR,b8(a),COLOR.Z,"+",COLOR.lR,b8(s-a)},s,function()
-            drawChar(tonumber(STRING.toOct(a)),220,200,.6)
-            drawChar(tonumber(STRING.toOct(s-a)),220,335,.6)
+            drawChar(STRING.toOct(a),220,200,.6)
+            drawChar(STRING.toOct(s-a),220,335,.6)
             ins(drawLines,{0,470,300,470})
             ins(drawLines,{320,470,400,470})
             ins(drawLines,{360,430,360,510})
@@ -281,8 +283,8 @@ local levels={
         local s=rnd(34,255)
         local a=rnd(17,floor(s/2))
         return {COLOR.J,b16(a),COLOR.Z,"+",COLOR.J,b16(s-a)},s,function()
-            drawChar(tonumber(STRING.toHex(a)),220,200,.6)
-            drawChar(tonumber(STRING.toHex(s-a)),220,335,.6)
+            drawChar(STRING.toHex(a),220,200,.6)
+            drawChar(STRING.toHex(s-a),220,335,.6)
             ins(drawLines,{0,470,300,470})
             ins(drawLines,{320,470,400,470})
             ins(drawLines,{360,430,360,510})
@@ -368,7 +370,7 @@ function scene.keyDown(key,isRep)
     if key:sub(1,2)=="kp" then key=key:sub(3) end
     if #key==1 and ("0123456789"):find(key,nil,true) then
         if love.keyboard.isDown('lctrl','rctrl') and drawing then
-            drawChar(tonumber(key),love.mouse.getX(),love.mouse.getY(),numScale)
+            drawChar(key,love.mouse.getX(),love.mouse.getY(),numScale)
         elseif #input<8 then
             input=input..key
             inputTime=1

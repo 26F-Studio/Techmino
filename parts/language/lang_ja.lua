@@ -496,6 +496,7 @@ C. ゲームパッド
             visible="ミノの視認性",
             freshLimit="設置時間のリセット回数",
 
+            sequence="ミノ順",
             fieldH="盤面の高さ",
             bufferLimit="ダメージの保持上限",
             heightLimit="致死ラインの高さ",
@@ -593,6 +594,7 @@ C. ゲームパッド
             bg_on="通常背景",
             bg_off="背景なし ",
             bg_custom="カスタム背景",
+            -- bg_custom_base64="Paste image as BG\n(PNG/JPG in Base64)",
             defaultBG="デフォルト背景",
             resetDbg="背景リセット",
             lockBG="背景固定",

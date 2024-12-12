@@ -909,16 +909,16 @@ function Player:ifoverlap(bk,x,y)
     end
 end
 function Player:attack(R,send,time,line)
-    local sid = R.sid
+    local sid=R.sid
     -- Add the attack to the list of in-transit attacks.
     -- These attacks will be able to cancel with incoming attacks that cross them.
     if not self.inTransitAttacks then
-        self.inTransitAttacks = {}
+        self.inTransitAttacks={}
     end
     if not self.inTransitAttacks[sid] then
-        self.inTransitAttacks[sid] = {seenAttacks = 0}
+        self.inTransitAttacks[sid]={seenAttacks=0}
     end
-    table.insert(self.inTransitAttacks[sid], {send=send, time=time, line=line})    
+    table.insert(self.inTransitAttacks[sid], {send=send, time=time, line=line})
     -- Send the attack
     -- We also send the number of seen attacks from this player.
     -- This allows that player to know which attacks are still in transit, and which have already arrived.
@@ -931,19 +931,19 @@ function Player:beAttacked(source,target_sid,send,time,line,seenCount)
     if self==source or self.sid~=target_sid then return end
 
     if not self.inTransitAttacks then
-        self.inTransitAttacks = {}
+        self.inTransitAttacks={}
     end
     if not self.inTransitAttacks[source.sid] then
-        self.inTransitAttacks[source.sid] = {seenAttacks = 0}
+        self.inTransitAttacks[source.sid]={seenAttacks=0}
     end
     -- Increment the number of seen attacks from that player.
-    self.inTransitAttacks[source.sid].seenAttacks = self.inTransitAttacks[source.sid].seenAttacks + 1
+    self.inTransitAttacks[source.sid].seenAttacks=self.inTransitAttacks[source.sid].seenAttacks + 1
     -- Block against any in-transit attacks before recieving (this prevents passhtrough)
     for i=seenCount+1,#self.inTransitAttacks[source.sid] do
-        local atk = self.inTransitAttacks[source.sid][i]
-        local cancel = MATH.min(atk.send, send)
-        atk.send = atk.send - cancel
-        send = send - cancel
+        local atk=self.inTransitAttacks[source.sid][i]
+        local cancel=MATH.min(atk.send, send)
+        atk.send=atk.send-cancel
+        send=send-cancel
     end
 
     self:receive(source,send,time,line)

@@ -319,6 +319,7 @@ jobs:
   build-web-compat:
     runs-on: ubuntu-latest
     needs: [get-info, build-core, auto-test]
+    if: github.event_name != 'pull_request'
     env:
       MEMORY_LIMIT: 128000000
       OUTPUT_FOLDER: ./build
