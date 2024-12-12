@@ -266,7 +266,7 @@ function Player:act_moveRight(auto)
         self.moving=0
     end
 end
-function Player:act_rotRight()
+function Player:act_rotRight(ifpre)
     if not self.control then return end
     if self.cur then
         self.ctrlCount=self.ctrlCount+1
@@ -278,7 +278,7 @@ function Player:act_rotRight()
             self:resolveIRS()
             self.keyPressing[3]=true
         end
-        self:spin(1)
+        self:spin(1,ifpre)
         self:_triggerEvent('hook_rotate',1)
 
         -- Disable held inputs if IRS is off
@@ -287,7 +287,7 @@ function Player:act_rotRight()
         end
     end
 end
-function Player:act_rotLeft()
+function Player:act_rotLeft(ifpre)
     if not self.control then return end
     if self.cur then
         self.ctrlCount=self.ctrlCount+1
@@ -299,7 +299,7 @@ function Player:act_rotLeft()
             self:resolveIRS()
             self.keyPressing[4]=true
         end
-        self:spin(3)
+        self:spin(3,ifpre)
         self:_triggerEvent('hook_rotate',3)
         -- Disable held inputs if IRS is off
         if not self.gameEnv.irs then
@@ -307,7 +307,7 @@ function Player:act_rotLeft()
         end
     end
 end
-function Player:act_rot180()
+function Player:act_rot180(ifpre)
     if not self.control then return end
     if self.cur then
         self.ctrlCount=self.ctrlCount+2
@@ -319,7 +319,7 @@ function Player:act_rot180()
             self:resolveIRS()
             self.keyPressing[5]=true
         end
-        self:spin(2)
+        self:spin(2,ifpre)
         self:_triggerEvent('hook_rotate',2)
         -- Disable held inputs if IRS is off
         if not self.gameEnv.irs then
@@ -1279,16 +1279,12 @@ function Player:resetBlock()-- Reset Block's position and execute I*S
         self.bufferedDelay=ENV.irscut
     else
         -- If we're currently dying or in an entry-delay mode (20g), perform the rotation right away.
-        if pressing[5] then
-            self:act_rot180()
+        if pressing[5] or pressing[3] and pressing[4] then
+            self:act_rot180(true)
         elseif pressing[3] then
-            if pressing[4] then
-                self:act_rot180()
-            else
-                self:act_rotRight()
-            end
+            self:act_rotRight(true)
         elseif pressing[4] then
-            self:act_rotLeft()
+            self:act_rotLeft(true)
         end
     end
     -- Disable held inputs if IRS is off
@@ -1341,9 +1337,7 @@ function Player:spin(d,ifpre)
 
                 -- Fresh ghost and freshTime
                 local t=self.freshTime
-                if not ifpre then
-                    self:freshMoveBlock()
-                end
+                self:freshMoveBlock()
                 if kickData[test][2]>0 and self.freshTime==t and self.curY~=self.imgY then
                     self.freshTime=self.freshTime-1
                 end
@@ -2489,7 +2483,15 @@ local function _updateMisc(P,dt)
     -- Push up garbages
     local y=P.fieldBeneath
     if y>0 then
-        P.fieldBeneath=max(y-P.gameEnv.pushSpeed,0)
+        local newFieldBeneath=max(y-P.gameEnv.pushSpeed,0)
+
+        P.fieldBeneath=newFieldBeneath
+        -- If pushing up garbage will block IHS, then resolve IHS early
+        if P.bufferedIHS and P:willDieWith(P.holdQueue[1]) then
+            P.fieldBeneath=y
+            P:resolveIRS(P.fieldBeneath)
+            P.fieldBeneath=newFieldBeneath
+        end
     end
 
     -- Move camera
@@ -2589,23 +2591,23 @@ local function _updateFX(P,dt)
 end
 
 function Player:resolveIRS()
-    if self.bufferedIHS then
+    local pressing=self.keyPressing
+    if self.bufferedIHS and pressing[8] then
         self:hold(true)
-        self.bufferedIHS=false
     end
+    self.bufferedIHS=false
 
     self.bufferedIRS=false
-    local pressing=self.keyPressing
     if pressing[5] then
-        self:act_rot180()
+        self:act_rot180(true)
     elseif pressing[3] then
         if pressing[4] then
-            self:act_rot180()
+            self:act_rot180(true)
         else
-            self:act_rotRight()
+            self:act_rotRight(true)
         end
     elseif pressing[4] then
-        self:act_rotLeft()
+        self:act_rotLeft(true)
     end
 end
 
@@ -2663,6 +2665,18 @@ local function update_alive(P,dt)
                 if L[i]>0 then
                     L[i]=L[i]-1
                 end
+            end
+        end
+    end
+
+    -- Buffer IRS after IRS cut delay has elapsed.
+    -- The purpose of this is to allow the player to release their rotate key during the IRS cut delay,
+    -- which will allow them to avoid accidentally using IRS.
+    if P.bufferedDelay then
+        P.bufferedDelay=P.bufferedDelay-1
+        if P.bufferedDelay<=0 then
+            if P.bufferedIRS then
+                P:resolveIRS()
             end
         end
     end
