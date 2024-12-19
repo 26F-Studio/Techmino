@@ -1141,6 +1141,7 @@ return {
         "要盯着bug不放",
         "这打块，多是一件美事",
         "做，做碌鸠啊做，打块先啦！",
+        "你能做到。",
         {C.Z,"1，2，",C.C,"⑨",C.Z,"！！！！！"},
         {C.C,"<PURE ",C.P,"MEMORY>"},
         {C.H,"暂定段位:9"},
@@ -1164,6 +1165,8 @@ return {
         {C.R,"DD",C.Z,"炮=",C.P,"TS",C.R,"D",C.Z,"+",C.P,"TS",C.R,"D",C.Z,"炮"},
         {C.R,"DT",C.Z,"炮=",C.P,"TS",C.R,"D",C.Z,"+",C.P,"TS",C.R,"T",C.Z,"炮"},
         {C.R,"LrL ",C.G,"RlR ",C.B,"LLr ",C.O,"RRl ",C.P,"RRR LLL ",C.C,"FFF ",C.Y,"RfR RRf rFF"},
+        {C.O,"穿",C.lB,"梭",C.Z,"之力量"},
+        {C.lP,"Extraordinary!"},
 
         -- 时间碎片
         "时间碎片[000] 2021/11/21加入这个版块",
