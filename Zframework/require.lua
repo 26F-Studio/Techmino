@@ -9,8 +9,14 @@ return function(libName)
         return
     end
     if SYSTEM=='macOS' then
-        require=package.loadlib(libName..'.dylib','luaopen_'..libName)
-        success,res=pcall(require)
+        local a,b,c=package.loadlib(libName..'.dylib','luaopen_'..libName)
+        require=a
+
+        if require then
+            success,res=pcall(require)
+        else
+            success,res=false,'package.loadlib returned nil, along with:\n[2]:\n'..b..'[3]:\n'..c
+        end
     else
         if SYSTEM=='Android' and not loaded[libName] then
             local platform=(function()
