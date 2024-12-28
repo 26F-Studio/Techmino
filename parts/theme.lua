@@ -11,47 +11,50 @@ function THEME.calculate(Y,M,D)
     if not Y then
         Y,M,D=os.date('%Y'),os.date('%m'),os.date('%d')
     end
-    -- Festival calculate within one statement
-    if not SETTING.noTheme then return
-        -- Christmas
-        M=='12' and math.abs(D-25)<4 and
-        'xmas' or
-
-        -- Halloween
-        (M=='10' and D>='28' or M=='11' and D>='01' and D<='04') and
-        'halloween' or
-
-        -- Birthday
-        M=='06' and D=='06' and
-        'birth' or
-
-        -- Spring festival
-        M<'03' and math.abs((({
-            -- Festival days. Jan 26=26, Feb 1=32, etc.
-            24,43,32,22,40,29,49,38,26,45,
-            34,23,41,31,50,39,28,47,36,25,
-            43,32,22,41,29,48,37,26,44,34,
-            23,42,31,50,39,28,46,35,24,43,
-            32,22,41,30,48,37,26,45,33,23,
-            42,32,50,39,28,46,35,24,43,33,
-            21,40,
-        })[Y-2000] or -26)-((M-1)*31+D))<6 and
-        'sprfes' or
-
-        -- April fool's day
-        M=='04' and D=='01' and
-        'fool' or
-
-        -- April fool's day
-        M=='07' and (D=='14' or  D=='15') and
-        'edm' or
-
-        -- Z day
-        D=='26' and (
-            (M=='03' or M=='04' or M=='05' or M=='06') and 'zday1' or
-            (M=='07' or M=='08' or M=='09' or M=='10') and 'zday2' or
-            (M=='11' or M=='12' or M=='01' or M=='02') and 'zday3'
+    if not SETTING.noTheme then
+        -- Festival calculate within one statement
+        local result=(
+            -- Christmas
+            M=='12' and math.abs(D-25)<4 and
+            'xmas' or
+    
+            -- Halloween
+            (M=='10' and D>='28' or M=='11' and D>='01' and D<='04') and
+            'halloween' or
+    
+            -- Birthday
+            M=='06' and D=='06' and
+            'birth' or
+    
+            -- Spring festival
+            M<'03' and math.abs((({
+                -- Festival days. Jan 26=26, Feb 1=32, etc.
+                24,43,32,22,40,29,49,38,26,45,
+                34,23,41,31,50,39,28,47,36,25,
+                43,32,22,41,29,48,37,26,44,34,
+                23,42,31,50,39,28,46,35,24,43,
+                32,22,41,30,48,37,26,45,33,23,
+                42,32,50,39,28,46,35,24,43,33,
+                21,40,
+            })[Y-2000] or -26)-((M-1)*31+D))<6 and
+            'sprfes' or
+    
+            -- April fool's day
+            M=='04' and D=='01' and
+            'fool' or
+    
+            -- April fool's day
+            M=='07' and (D=='14' or  D=='15') and
+            'edm' or
+    
+            -- Z day
+            D=='26' and (
+                (M=='03' or M=='04' or M=='05' or M=='06') and 'zday1' or
+                (M=='07' or M=='08' or M=='09' or M=='10') and 'zday2' or
+                (M=='11' or M=='12' or M=='01' or M=='02') and 'zday3'
+            )
         )
+        if result then return result end
     end
 
     -- If there is theme and theme is enabled, then we will never reach here
