@@ -14,15 +14,14 @@ return {
         if L==100 then
             local T=P.stat.time
             return
-                T<=40 and 5 or
-                T<=60 and 4 or
+                T<=42 and 5 or
+                T<=62 and 4 or
                 3
         else
             return
-                L>=70 and 3 or
-                L>=40 and 2 or
-                L>=20 and 1 or
-                L>=5 and 0
+                L>=60 and 2 or
+                L>=26 and 1 or
+                L>=10 and 0
         end
     end,
 }
