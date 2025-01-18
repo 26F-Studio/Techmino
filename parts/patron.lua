@@ -127,10 +127,10 @@ return {
     {font=25,name="[w*o]"},
     {font=25,name="蚂蚁"},
     {font=25,name="小丘"},
+    {font=25,name="Hathtiz"},
     {font=25,name="Techtris"},
     {font=25,name="费尔特林"},
     {font=25,name="零醇丘卡"},
-    {font=25,name="Hathtiz"},
     {font=25,name="江江江江17"},
     {font=25,name="TetraCepra"},
     {font=25,name="爱抢姐姐布丁的芙兰酱(CHNO)"},
@@ -158,4 +158,5 @@ return {
     {font=65,name="jacky"},
     {font=65,name="方块丶小刘"},
     {font=65,name="DX3906"},
+    {font=65,name="Perxenic Acid"},
 }
