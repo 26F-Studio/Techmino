@@ -516,6 +516,7 @@ LANG.init('zh',
         end
     end)()
 )
+if LANG.get(SETTING.locale)==LANG.get('zh') and SETTING.locale~='zh' then SETTING.locale='zh' end
 
 -- Load background files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems('parts/backgrounds') do
