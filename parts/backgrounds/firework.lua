@@ -26,9 +26,10 @@ function back.update(dt)
             t=0,
             v=.5+rnd(),
             color=COLOR.random_dark(),
-            big=rnd()<.1,
+            big=rnd()<.12,
         })
-        t=rnd(26,62)
+        t=rnd(42,126)
+        SFX.play('rotate',.5,0,-16)
     end
     for i=#firework,1,-1 do
         local F=firework[i]
