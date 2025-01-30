@@ -8,7 +8,7 @@ local min,max=math.min,math.max
 local scene={}
 
 local textBox=WIDGET.newTextBox {x= 30,y= 45,w=1000,h=540,font=25,fix=true}
-local logList=WIDGET.newSelector{x=305,y=640,w= 550,name='list',color='O',fText='Crash log',list={''},disp=function() return currentLogText[1] or '' end,code=function() end}
+local logList=WIDGET.newSelector{x=305,y=640,w= 550,name='list',color='O',fText='Crash log',list={''},disp=function() return '' end,code=function() end}
 
 local function updateText(noLogFound)
     if noLogFound then
@@ -21,7 +21,7 @@ local function updateText(noLogFound)
         end
         logList.select=currentLogID
         logList.selText=currentLogText[1]
-        colorBarWidth=(currentLogID-1)/(#fullLog-1)*170+1055 -- 170 is the width of full color bar, 1055 is the X of the beginning of the bar
+        colorBarWidth=currentLogID/#fullLog*170+1055 -- 170 is the width of full color bar, 1055 is the X of the beginning of the bar
     end
 end
 
@@ -32,9 +32,10 @@ local function noLogFound()
     _w.endd.hide=true;_w.del .hide=true
     _w.copy.hide=true;_w.delA.hide=true
 
-    logList.list={''}
-    logList.select=false
     updateText(true)
+    logList.list={''}
+    logList.disp=function() return '' end
+    logList:reset()
 end
 
 local function logFound()
@@ -44,17 +45,17 @@ local function logFound()
     _w.copy.hide=false;_w.delA.hide=false
 
     logList.list=logTimestampList
-    logList.select=false
-
-    logList:reset()
-end
-
-function scene.enter()
+    logList.select=1
+    logList.disp=function() return currentLogText[1] end
     logList.code=function(_,s)
         scene.keyDown(s>currentLogID and 'right' or 'left')
         updateText()
     end
 
+    logList:reset()
+end
+
+function scene.enter()
     fullLog=FILE.load('/conf/error.log','-string -canskip') or '/conf/error.log not found'
 
     if fullLog=='/conf/error.log not found' then noLogFound()
