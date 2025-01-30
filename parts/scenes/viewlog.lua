@@ -4,7 +4,7 @@ local currentLogText={}
 local colorBarWidth=0
 
 local gc=love.graphics
-local min,max=math.min,math.max
+local min=math.min
 local scene={}
 
 local textBox=WIDGET.newTextBox {x= 30,y= 45,w=1000,h=540,font=25,fix=true}
@@ -21,7 +21,7 @@ local function updateText(noLogFound)
         end
         logList.select=currentLogID
         logList.selText=currentLogText[1]
-        colorBarWidth=currentLogID/#fullLog*170+1055 -- 170 is the width of full color bar, 1055 is the X of the beginning of the bar
+        colorBarWidth=min((currentLogID-1)/(#fullLog-1),1)*170+1055 -- 170 is the width of full color bar, 1055 is the X of the beginning of the bar
     end
 end
 
@@ -39,6 +39,7 @@ local function noLogFound()
 end
 
 local function logFound()
+    currentLogID=1
     local _w=scene.widgetList
     _w.home.hide=false;_w.list.hide=false
     _w.endd.hide=false;_w.del .hide=false
@@ -51,7 +52,7 @@ local function logFound()
         scene.keyDown(s>currentLogID and 'right' or 'left')
         updateText()
     end
-
+    updateText()
     logList:reset()
 end
 
@@ -64,11 +65,8 @@ function scene.enter()
         fullLog=table.concat(fullLog:split('\n\nTraceback'),'\nTraceback'):split('\n\n')
 
         -- Get timestamps and add into logTimeList for the selector
-        TABLE.reverse(fullLog)
+        TABLE.reverse(fullLog); TABLE.clear(logTimestampList)
         for i,d in pairs(fullLog) do logTimestampList[i]=d:split('\n')[1] end
-
-        currentLogID=1
-        updateText()
         logFound()
     end
 end
