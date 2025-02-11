@@ -75,6 +75,7 @@ return {
     cc_swap="CCはホールドモード、Swapに非対応です!",
     cc_solid="CCはLineが揃っている盤面に非対応です!",
     cc_field_too_high="CCは高さ40以上の盤面に非対応です!",
+    -- cc_eventset_incompatible="CC is incompatible with the ruleset '$1'.",
     switchSpawnSFX="ブロック出現時の効果音をONにしてください!",
     needRestart="すべての変更を適用する為にリスタートしてください!",
 

@@ -51,4 +51,5 @@ return {
     end,
     hook_drop=_check,
     task=_check,-- Just run one time at first to start first level
+    CCIncompatible=true,
 }

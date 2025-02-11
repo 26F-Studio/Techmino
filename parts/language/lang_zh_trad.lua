@@ -74,6 +74,7 @@ return {
     cc_swap="不能同時開啟CC和swap的暫存模式",
     cc_solid="開啟CC時不能存在預先填滿的行",
     cc_field_too_high="開啓CC時最高出塊高度不能超過40",
+    cc_eventset_incompatible="CC不兼容規則集合'$1'",
     switchSpawnSFX="請開啟方塊生成音效",
     needRestart="重新啟動以應用所有更改",
 

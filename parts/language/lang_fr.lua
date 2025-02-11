@@ -74,6 +74,7 @@ return {
     cc_swap="CC est incompatible avec le mode de maintien du swap",
     -- cc_solid="CC is incompatible with filled line in the field.",
     -- cc_field_too_high="CC is incompatible with fields higher than 40.",
+    -- cc_eventset_incompatible="CC is incompatible with the ruleset '$1'.",
     switchSpawnSFX="Activez les effets sonores d'apparition des pièces pour jouer.",
     needRestart="Redémarrez pour appliquer toutes les modifications.",
 
