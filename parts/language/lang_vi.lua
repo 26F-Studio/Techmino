@@ -76,6 +76,7 @@ return {
     cc_swap="CC không tương thích với chế độ Hold là Chuyển",
     cc_solid="CC không tương thích với bảng có hàng đã lấp đầy.",
     cc_field_too_high="CC không tương thích với bảng cao hơn 40 hàng!",
+    -- cc_eventset_incompatible="CC is incompatible with the ruleset '$1'.",
     switchSpawnSFX="Vui lòng bật Spawn SFX để chơi!",
     needRestart="Khởi động lại để áp dụng mọi thay đổi.",
 

@@ -142,6 +142,16 @@ local function _play(mode)
                     end
                 end
             end
+            local eventsetname=CUSTOMGAME_LOCAL.customenv.eventSet
+            if eventsetname and eventsetname~='X'then
+                local eventSet=require('parts.eventsets.'..eventsetname)
+                if eventSet then
+                    if eventSet.CCIncompatible then
+                        MES.new('error',STRING.repD(text.cc_eventset_incompatible,eventsetname))
+                        return
+                    end
+                end
+            end
         end
     end
     saveFile(CUSTOMGAME_LOCAL.customenv,'conf/customEnv')

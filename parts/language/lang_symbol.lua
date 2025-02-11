@@ -64,6 +64,7 @@ return {
     cc_swap="CC X!!!",
     cc_solid="CC X!!!",
     cc_field_too_high="CC X!!!",
+    cc_eventset_incompatible="CC + $1 X!!!",
     needRestart="!!*#R#*!!",
 
     loadError_errorMode="'$1' ↑x!: no load mode '$2'",
