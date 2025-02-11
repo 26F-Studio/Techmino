@@ -82,7 +82,7 @@ scene.mouseDown=NULL
 function scene.mouseMove(x,y) NETPLY.mouseMove(x,y) end
 function scene.touchDown(x,y)
     if not playing then NETPLY.mouseMove(x,y) return end
-    if NET.spectate or noTouch or (not textBox.hide) then return end
+    if NET.spectate or noTouch or not textBox.hide then return end
 
     local t=VK.on(x,y)
     if t then
@@ -91,7 +91,7 @@ function scene.touchDown(x,y)
     end
 end
 function scene.touchUp(x,y)
-    if not playing or NET.spectate or noTouch or (not textBox.hide) then return end
+    if not playing or NET.spectate or noTouch or not textBox.hide then return end
     local n=VK.on(x,y)
     if n then
         PLAYERS[1]:releaseKey(n)
