@@ -162,4 +162,5 @@ return {
     {font=65,name="方块丶小刘"},
     {font=65,name="DX3906"},
     {font=65,name="Perxenic Acid"},
+    {font=65,name="フェーリ"},
 }
