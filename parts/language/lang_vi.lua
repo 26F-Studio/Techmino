@@ -205,6 +205,7 @@ return {
     tryAnotherBuild="LOI UTF-8! Neu dang choi Techmino tren Windows: hay doi tu x86 sang x64 va nguoc lai.",
 
     modInstruction="Hãy chọn modifier bạn muốn.\nMod cho phép bạn có thể tùy biến game, nhưng cũng có thể làm game sập.\nKể cả thế, hãy thoải mái và chơi theo cách của bạn!\nBạn có thể dùng bàn phím để chọn mod (giữ Shift để chọn lùi)\nĐiểm sẽ không được lưu lại khi dùng mod.",
+    modApplyAtInstruction="Chọn thời điểm bạn muốn mod được áp dụng.\npreInit: Trước khi nạp game. Đây là tùy chọn mặc định từ phiên bản 0.17.15 trở về trước. Một số mod có thể gặp vấn đề nếu dùng tùy chọn này.\npostInit: Sau khi nạp chế độ chơi, có thể sửa được một số lỗi ở preInit. Tuy nhiên, mod có thể bị mất tác dụng ở một số trường hợp nhất định.\nalways: Luôn áp dụng trong cả game. Tùy chọn này sẽ giúp bạn giữ lại tác dụng của mod dù ở bất kì trường hợp nào.",
     modInfo={
         next="NEXT\nGhi đè số gạch hiển thị ở hàng NEXT",
         hold="HOLD\nGhi đè số lượng gạch được giữ ở cột HOLD",
@@ -446,6 +447,7 @@ C. Tay cầm chơi game (Gamepad):
         mod={
             title="Mods",
             reset="Đặt lại (tab)",
+            applyAt="Áp dụng mod khi",
             unranked="Không tính điểm",
         },
         pause={
