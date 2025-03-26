@@ -1,6 +1,41 @@
 local ins,rem=table.insert,table.remove
 local yield=coroutine.yield
 
+local function mywrap(f,...)
+    local args={...}
+    local co=coroutine.create(function()f(unpack(args))end)
+    local resume=coroutine.resume
+    return function()
+        while true do
+            local status,res=resume(co)
+            if not status then return nil end
+            if res then
+                return res
+            end
+        end
+    end
+end
+local function buffered(seqGen,bufferSize,bagSize)
+    return function(rndGen,seq0)
+        local buffer={}
+        for piece in mywrap(seqGen,rndGen,seq0)do
+            ins(buffer,piece)
+            if#buffer>=bufferSize then
+                yield(nil)
+                for _=1,bagSize do
+                    yield(rem(buffer,rndGen:random(#buffer)))
+                end
+            end
+        end
+        if#buffer>0 then
+            yield(nil)
+            for _=1,#buffer do
+                yield(rem(buffer,rndGen:random(#buffer)))
+            end
+        end
+    end
+end
+
 local seqGenerators={
     none=function() end,
     bag=function(rndGen,seq0)
