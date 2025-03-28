@@ -522,14 +522,14 @@ local commands={} do
                     end
                 end
             else
-                log{C.A,"Usage: theme <xmas|halloween|sprfes|zday1/2/3|season1/2/3/4|fool|birth>"}
+                log{C.A,"Usage: theme <xmas|halloween|sprfes|zday1/2/3|season1/2/3/4|fool|birth|edm>"}
             end
         end,
         description="Load theme",
         details={
             "Load a theme.",
             "",
-            "Usage: theme <xmas|sprfes|zday1/2/3|season1/2/3/4|fool|birth>",
+            "Usage: theme <xmas|sprfes|zday1/2/3|season1/2/3/4|fool|birth|edm>",
         },
     }
     commands.test={
