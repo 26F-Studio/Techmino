@@ -2,7 +2,7 @@
 
 [![Techmino CI](https://github.com/26F-Studio/Techmino/actions/workflows/main.yml/badge.svg)](https://github.com/26F-Studio/Techmino/actions/workflows/main.yml)
 ![platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS%20%7C%20Linux%20%7C%20macOS%20%7C%20Windows-brightgreen.svg)
-[![AUR techmino-client](https://img.shields.io/aur/version/techmino-client?label=techmino-client&logo=archlinux)](https://aur.archlinux.org/packages/techmino-client)
+[![AUR techmino-client](https://img.shields.io/aur/version/techmino?label=techmino&logo=archlinux)](https://aur.archlinux.org/packages/techmino)
 [![AUR techmino-git](https://img.shields.io/aur/version/techmino-git?label=techmino-git&logo=archlinux)](https://aur.archlinux.org/packages/techmino-git)
 
 ***[GitHub](https://github.com/26F-Studio/Techmino)  [Gitee](https://gitee.com/f26-studio/Techmino)***
