@@ -209,6 +209,7 @@ return {
     tryAnotherBuild="[UTF-8 Inválido] Si estás usando Windows, intenta descargar Techmino-win32 o Techmino-win64 (el que no estés usando ahora).",
 
     modInstruction="¡Elige tus mods!\nLos mods permiten modificar el juego,\npero también es posible que lo crasheen.\nLos scores no se guardan durante el uso de mods.",
+    -- modApplyAtInstruction="Choose when you want the modifier to be applied.\npreInit: Before loading the modes. The default option in V0.17.15 and earlier, but may cause problems with certain mods.\npostInit: After loading the game. This can fix some bugs in preInit, but some mods can still be disabled by modes in some situations.\nalways: Throughout the entire game. Keeps the effects of the mods in all situations. ",
     modInfo={
         next="NEXT\nSobreescribe el nro. de piezas siguientes a mostrar.",
         hold="HOLD\nSobreescribe el nro. de piezas en reserva disponibles.",
@@ -412,6 +413,7 @@ return {
         mod={
             title="Mods",
             reset="Reinic. (tab)",
+            -- applyAt="Apply during",
             unranked="Sin rango",
         },
         pause={
