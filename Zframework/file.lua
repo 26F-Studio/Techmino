@@ -46,7 +46,7 @@ function FILE.load(name,args)
             error('unknown mode')
         end
     elseif not STRING.sArg(args,'-canskip') then
-        error('no file')
+        --error('no file')
     end
 end
 function FILE.save(data,name,args)
