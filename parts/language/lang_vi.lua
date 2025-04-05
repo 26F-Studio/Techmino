@@ -1102,6 +1102,7 @@ C. Tay cầm chơi game (Gamepad):
         {C.H,"MÓM RỒI ANH EM ƠI!!!!!"},
         {C.lP,"Con số bí mật: 626"},
         {C.lR,"Z ",C.lG,"S ",C.lS,"J ",C.lO,"L ",C.lP,"T ",C.lY,"O ",C.lC,"I"},
+        {C.lR,"A",C.lG,"L",C.lS,"L",C.lO,"S",C.lP,"P",C.lY,"I",C.lC,"N",C.Z,"!"},
         {C.lY,"MÁT QUÁ!!"},
         {C.P,"T-spin!"},
         {C.R,"DMCA là gì?"},

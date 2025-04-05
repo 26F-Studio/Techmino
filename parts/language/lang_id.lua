@@ -1053,6 +1053,7 @@ return {
         {C.H,"REGRET!!"},
         {C.lP,"Nomor rahasia: 626"},
         {C.lR,"Z ",C.lG,"S ",C.lS,"J ",C.lO,"L ",C.lP,"T ",C.lY,"O ",C.lC,"I"},
+        {C.lR,"A",C.lG,"L",C.lS,"L",C.lO,"S",C.lP,"P",C.lY,"I",C.lC,"N",C.Z,"!"},
         {C.lY,"COOL!!"},
         {C.N,"Lua",C.Z," No.1"},
         {C.P,"T-spin!"},
