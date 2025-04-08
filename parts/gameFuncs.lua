@@ -951,7 +951,7 @@ do-- function freshPlayerPosition(sudden)
         end
 
         local posList=posLists(alive,#L)
-        local method=mode=='normal' and 'setPosition' or 'movePosition'
+        local method=mode=='quick' and 'setPosition' or 'movePosition'
 
         if alive then
             for i=1,#L do
