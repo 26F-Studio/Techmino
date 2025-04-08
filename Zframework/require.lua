@@ -47,7 +47,7 @@ return function(libName)
         if errorCount[libName]==1 then
             MES.new('error',"Cannot load "..libName..": "..tostring(res):gsub('[\128-\255]+','??'))
         else
-            MES.new('error',("Cannot load %s (x%d)"):format(libName,errorCount[libName]))
+            MES.new('error',("Cannot load %s (x%d)"):format(libName,errorCount[libName]),1)
         end
     end
 end
