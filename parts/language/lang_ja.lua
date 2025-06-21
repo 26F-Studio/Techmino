@@ -211,6 +211,7 @@ return {
     tryAnotherBuild="[Invalid UTF-8]使用しているOSがMicrosoft WindowsであればTechmino-win32かTechmino-win64をダウンロードしてください! (現在使用しているソフトは違うバージョンです)",
 
     modInstruction="Modを選択してください!\nModはゲームルールを変えられますが正常にプレイできなくなる可能性があります\nModを使用した場合、スコアは保存されません",
+    -- modApplyAtInstruction="Choose when you want the modifier to be applied.\npreInit: Before loading the modes. The default option in V0.17.15 and earlier, but may cause problems with certain mods.\npostInit: After loading the game. This can fix some bugs in preInit, but some mods can still be disabled by modes in some situations.\nalways: Throughout the entire game. Keeps the effects of the mods in all situations. ",
     modInfo={
         next="NEXT\nNEXTの個数を変更します",
         hold="HOLD\nHOLDの個数を変更します",
@@ -457,6 +458,7 @@ C. ゲームパッド
         mod={
             title="Mods",
             reset="リセット (tab)",
+            -- applyAt="Apply during",
             unranked="記録不可",
         },
         pause={
