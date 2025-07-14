@@ -348,7 +348,7 @@ return {
         "NOT_A_ROBOT",
         "XMiao",
         "sakurw, Airun, 幽灵3383",
-        "Shard Nguyễn, Squishy and TVN community",
+        "Shard Nguyễn, Squishy, TVN community",
         "NebulaBlaze",
         "Eddisch",
         "",
