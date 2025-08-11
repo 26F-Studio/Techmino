@@ -90,8 +90,8 @@ return {
 
     copyDone="¡Copiado con éxito!",
     saveDone="Datos guardados",
-    exportSuccess="Exportado con éxito",
-    importSuccess="Importado con éxito",
+    exportSuccess="Exportado con éxito al portapapeles",
+    importSuccess="Importado con éxito al portapapeles",
     dataCorrupted="Los datos están corruptos.",
     pasteWrongPlace="¿Pegaste en la carpeta correcta?",
     noFile="Archivo no encontrado",

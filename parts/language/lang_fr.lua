@@ -91,8 +91,8 @@ return {
 
     -- copyDone="Copied!",
     saveDone="Données sauvegardées",
-    exportSuccess="Exporté avec succès",
-    importSuccess="Importé avec succès",
+    exportSuccess="Copié dans le presse-papiers",
+    importSuccess="Collé depuis le presse-papiers",
     dataCorrupted="Données corrompues",
     -- pasteWrongPlace="Paste at wrong place?",
     noFile="Fichier non trouvé",

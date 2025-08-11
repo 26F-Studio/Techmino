@@ -93,8 +93,8 @@ return {
 
     copyDone="Đã sao chép!",
     saveDone="Đã lưu dữ liệu",
-    exportSuccess="Đã xuất thành công",
-    importSuccess="Đã nhập thành công",
+    exportSuccess="Đã xuất thành công ra clipboard",
+    importSuccess="Đã nhập thành công từ clipboard",
     dataCorrupted="Dữ liệu bị hỏng",
     pasteWrongPlace="Bạn có dán đúng nơi không đấy?",
     noFile="Thiếu tệp",

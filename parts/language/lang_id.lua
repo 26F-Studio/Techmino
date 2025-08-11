@@ -92,8 +92,8 @@ return {
 
     copyDone="Tersalin!",
     saveDone="Data disimpan",
-    exportSuccess="Ekspor berhasil",
-    importSuccess="Impor berhasil",
+    exportSuccess="Berhasil diekspor ke papan klip",
+    importSuccess="Berhasil diimpor dari papan klip",
     dataCorrupted="Data rusak",
     pasteWrongPlace="Apakah Anda menempelkannya di tempat yang salah?",
     noFile="File tidak ada",

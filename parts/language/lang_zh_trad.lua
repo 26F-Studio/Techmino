@@ -91,8 +91,8 @@ return {
 
     copyDone="拷貝成功！",
     saveDone="保存成功！",
-    exportSuccess="導出成功",
-    importSuccess="導入成功",
+    exportSuccess="成功導出到剪貼板",
+    importSuccess="成功從剪貼板導入",
     dataCorrupted="數據損壞",
     pasteWrongPlace="提醒：可能黏貼錯地方了",
     noFile="文件未找到",

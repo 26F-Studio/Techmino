@@ -91,8 +91,8 @@ return {
 
     copyDone="Copied!",
     saveDone="Data saved",
-    exportSuccess="Exported successfully",
-    importSuccess="Imported successfully",
+    exportSuccess="Successfully exported to clipboard",
+    importSuccess="Successfully imported from clipboard",
     dataCorrupted="Data corrupted",
     pasteWrongPlace="Did you paste in the wrong place?",
     noFile="File missing",
