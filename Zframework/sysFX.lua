@@ -53,25 +53,16 @@ function FXdraw.badge(S)
     gc_draw(IMG.badgeIcon,S.x,S.y)
 end
 function FXdraw.attack(S)
-    gc_setColor(S.r*2,S.g*2,S.b*2,S.a*min(4-S.t*4,1))
-
-    gc_setLineWidth(S.wid)
-    local t1,t2=max(5*S.t-4,0),min(S.t*4,1)
-    gc_line(
-        S.x1*(1-t1)+S.x2*t1,
-        S.y1*(1-t1)+S.y2*t1,
-        S.x1*(1-t2)+S.x2*t2,
-        S.y1*(1-t2)+S.y2*t2
-    )
-
-    gc_setLineWidth(S.wid*.6)
-    t1,t2=max(4*S.t-3,0),min(S.t*5,1)
-    gc_line(
-        S.x1*(1-t1)+S.x2*t1,
-        S.y1*(1-t1)+S.y2*t1,
-        S.x1*(1-t2)+S.x2*t2,
-        S.y1*(1-t2)+S.y2*t2
-    )
+    local t=S.t*1.5
+    if t<1 then
+        local x,y=S.x1*(1-t)+S.x2*t,S.y1*(1-t)+S.y2*t
+        gc_setColor(S.r*2,S.g*2,S.b*2,S.a*4)
+        gc_circle('fill',x,y,S.wid,4)
+    else
+        gc_setColor(S.r*2,S.g*2,S.b*2,3-(2*t))
+        gc_circle('fill',S.x2,S.y2,S.wid*((4*t)-4),4)
+        gc_circle('fill',S.x2,S.y2,S.wid*((6*t)-5),4)
+    end
 end
 function FXdraw.tap(S)
     local t=S.t
