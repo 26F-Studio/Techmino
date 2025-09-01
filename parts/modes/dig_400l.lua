@@ -12,10 +12,10 @@ return {
         local T=P.stat.time
         return
             T<=540 and 5 or
-            T<=720 and 4 or
-            T<=960 and 3 or
-            T<=1500 and 2 or
-            T<=1800 and 1 or
+            T<=780 and 4 or
+            T<=1080 and 3 or
+            T<=1460 and 2 or
+            T<=1920 and 1 or
             0
     end,
 }
