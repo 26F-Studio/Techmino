@@ -1949,7 +1949,6 @@ do
         end
 
         local yomi=''
-
         piece.spin,piece.mini=dospin,false
         piece.pc,piece.hpc=false,false
         piece.special=false
@@ -1957,6 +1956,7 @@ do
             cmb=cmb+1
             if dospin then
                 cscore=(spinSCR[C.name] or spinSCR[8])[cc]
+                            
                 if self.b2b>800 then
                     self:showText(text.b3b..text.block[C.name]..text.spin..text.clear[cc],0,-30,35,'stretch')
                     yomi=yomi..text.b3b..text.block[C.name]..text.spin..text.clear[cc]
@@ -2553,41 +2553,25 @@ local function _updateMisc(P,dt)
     end
 end
 local function _updateFX(P,dt)
-    -- Update lock FX
-    for i=#P.lockFX,1,-1 do
-        local S=P.lockFX[i]
-        S[3]=S[3]+S[4]*dt
-        if S[3]>1 then
-            rem(P.lockFX,i)
+    local sfxTable = {
+        {"lockFX",3,4},
+        {"dropFX",5,6},
+        {"moveFX",4,5},
+        {"clearFX",2,3},
+    }
+
+    for _,sfxData in sfxTable do
+        local sfxArea = P[sfxData[1]]
+        for i=#sfxArea,1,-1 do
+            local S=sfxArea[i]
+            S[sfxData[2]]=S[sfxData[2]]+S[sfxData[3]]*dt
+            if S[sfxData[2]]>1 then
+                rem(P[sfxData[1]],i)
+            end
         end
     end
 
-    -- Update drop FX
-    for i=#P.dropFX,1,-1 do
-        local S=P.dropFX[i]
-        S[5]=S[5]+S[6]*dt
-        if S[5]>1 then
-            rem(P.dropFX,i)
-        end
-    end
-
-    -- Update move FX
-    for i=#P.moveFX,1,-1 do
-        local S=P.moveFX[i]
-        S[4]=S[4]+S[5]*dt
-        if S[4]>1 then
-            rem(P.moveFX,i)
-        end
-    end
-
-    -- Update clear FX
-    for i=#P.clearFX,1,-1 do
-        local S=P.clearFX[i]
-        S[2]=S[2]+S[3]*dt
-        if S[2]>1 then
-            rem(P.clearFX,i)
-        end
-    end
+    sfxTable = nil
 end
 
 function Player:resolveIRS()
@@ -2818,7 +2802,7 @@ local function update_alive(P,dt)
                             P.dropDelay=D
                             break-- goto THROW_stop
                         end
-                    elseif D==1 then-- We don't know why dropDelay is 1, so checking ENV.drop>1 is neccessary
+                    elseif D==1 then -- We don't know why dropDelay is 1, so checking ENV.drop>1 is neccessary
                         if ENV.drop>1 and P.downing>=ENV.sddas and (P.downing-ENV.sddas)%ENV.sdarr==0 then
                             dist=2
                         else
@@ -2826,7 +2810,7 @@ local function update_alive(P,dt)
                         end
                         -- Reset drop delay
                         P.dropDelay=ENV.drop
-                    else-- High gravity case (>1G)
+                    else -- High gravity case (>1G)
                         -- Add extra 1 if time to auto softdrop
                         if P.downing>ENV.sddas and (P.downing-ENV.sddas)%ENV.sdarr==0 then
                             dist=1/D+1
