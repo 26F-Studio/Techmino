@@ -29,15 +29,15 @@ return {
                         P.stat.recv=P.stat.recv+3
                         D.wave=D.wave+1
                         D.rpm=math.floor(108e3/t)*.1
-                        if D.wave==60 then
+                        if D.wave==40 then
                             P:_showText(text.great,0,-140,100,'appear',.6)
                             P.gameEnv.pushSpeed=2
                             P.dropDelay,P.gameEnv.drop=20,20
-                        elseif D.wave==120 then
+                        elseif D.wave==80 then
                             P:_showText(text.awesome,0,-140,100,'appear',.6)
                             P.gameEnv.pushSpeed=3
                             P.dropDelay,P.gameEnv.drop=10,10
-                        elseif D.wave==180 then
+                        elseif D.wave==140 then
                             P.dropDelay,P.gameEnv.drop=5,5
                             P:_showText(text.maxspeed,0,-140,100,'appear',.6)
                         end
