@@ -1042,7 +1042,6 @@ C. Tay cầm chơi game (Gamepad):
         "l-=-1",
         "Nổi lửa lên em, NỔI LỬA LÊN EM!",
         "Việc giảm tần số khung hình sẽ mang đến trải nghiệm tệ hơn cho bạn",
-        "LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF",
         "Mix clear sắp ra mắt!",
         "Hầu hết các biểu tượng của các nút được vẽ tay vào trong bảng Unicode Private Use Area",
         "Hầu hết nhạc trong game được tạo bằng Beepbox",
@@ -1109,7 +1108,7 @@ C. Tay cầm chơi game (Gamepad):
         {C.R,"\"Luật sở hữu trí tuệ\""},
         {C.R,"DD",C.Z," Cannon=",C.P,"TS",C.R,"D",C.Z,"+",C.P,"TS",C.R,"D",C.Z," Cannon"},
         {C.R,"DT",C.Z," Cannon=",C.P,"TS",C.R,"D",C.Z,"+",C.P,"TS",C.R,"T",C.Z," Cannon"},
-        {C.R,"LrL ",C.G,"RlR ",C.B,"LLr ",C.O,"RRl ",C.P,"RRR ",C.P,"LLL ",C.C,"FFF ",C.Y,"RfR ",C.Y,"RRf ",C.Y,"rFF"},
+        {C.R,"LrL ",C.G,"RlR ",C.B,"llR ",C.O,"rrL ",C.P,"RRR ",C.P,"LLL ",C.C,"FFF ",C.Y,"RfR ",C.Y,"RRf ",C.Y,"rFF"},
         {C.Y,"O-Spin Triple!"},
         {C.Z,"Gì? ",C.lC,"Xspin?"},
 
