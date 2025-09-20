@@ -37,7 +37,7 @@ return {
                             P:_showText(text.awesome,0,-140,100,'appear',.6)
                             P.gameEnv.pushSpeed=3
                             P.dropDelay,P.gameEnv.drop=10,10
-                        elseif D.wave==180 then
+                        elseif D.wave==140 then
                             P.dropDelay,P.gameEnv.drop=5,5
                             P:_showText(text.maxspeed,0,-140,100,'appear',.6)
                         end
