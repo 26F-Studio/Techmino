@@ -510,10 +510,8 @@ function mergeStat(stat,delta)-- Merge delta stat. to global stat.
     end
 end
 function scoreValid()-- Check if any unranked mods are activated
-    for number,sel in next,GAME.mod do
-        if sel>0 and MODOPT[number].unranked then
-            return false
-        end
+    for _,sel in next,GAME.mod do
+        if sel>0 then return false end
     end
     if GAME.playing and GAME.tasUsed then
         return false
@@ -1000,23 +998,28 @@ do-- function dumpBasicConfig()
     end
 end
 do-- function resetGameData(args)
-    local function task_showMods() -- TODO
+    local function task_showMods()
         coroutine.yield()
         local counter=0
-        for number,sel in next,GAME.mod do
-            if sel>0 then
-                if counter==0 then
-                    coroutine.yield()
-                else
+
+        if usingMod() then
+            SFX.play('collect',.2)
+            TEXT.show(GAME.modApplyAt,640,26,45,'spin')
+            for _=1,90 do coroutine.yield() end
+
+            for number,sel in next,GAME.mod do
+                if sel>0 then
                     for _=1,20 do
                         coroutine.yield()
                     end
+                    local M=MODOPT[number]
+                    SFX.play('collect',.2)
+                    TEXT.show(M.id,640+(counter%5-2)*80,26,45,'spin')
+                    counter=counter+1
                 end
-                local M=MODOPT[number]
-                SFX.play('collect',.2)
-                TEXT.show(M.id,640+(counter%5-2)*80,26,45,'spin')
-                counter=counter+1
             end
+            for _=1,(counter%5)*20+90 do coroutine.yield() end
+            if GAME.playing then PLAYERS[1].showUsername=true end
         end
     end
     local gameSetting={

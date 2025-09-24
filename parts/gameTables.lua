@@ -354,144 +354,172 @@ do-- Mod data
     local function _disableKey(P,key)
         table.insert(P.gameEnv.keyCancel,key)
     end
+    local _invisibleTime={
+        ['easy']  =300,
+        ['slow']  =100,
+        ['medium']=60,
+        ['fast']  =20,
+        ['none']  =0,
+    }
+    local function _lockVfunc(k) do
+        local K=k
+        return function(P,O)
+            P.gameEnv[K]=O or true
+            P.gameEnv.__lock(K)
+        end
+    end end
     MODOPT={-- Mod options
         {no=0,id="NX",name="next",
             key="q",x=80,y=230,color='lO',
             list={0,1,2,3,4,5,6},
-            func=function(P,O) P.gameEnv.nextCount=O end,
-            unranked=true,
+            funcInit  =function(P,O) P.gameEnv.nextCount=O end,
+            funcOnce  =_lockVfunc('nextCount'),
         },
         {no=1,id="HL",name="hold",
             key="w",x=200,y=230,color='lO',
             list={0,1,2,3,4,5,6},
-            func=function(P,O) P.gameEnv.holdCount=O end,
-            unranked=true,
+            funcInit  =function(P,O) P.gameEnv.holdCount=O end,
+            funcOnce  =_lockVfunc('holdCount'),
         },
         {no=2,id="FL",name="hideNext",
             key="e",x=320,y=230,color='lA',
             list={1,2,3,4,5},
-            func=function(P,O) P.gameEnv.nextStartPos=O+1 end,
-            unranked=true,
+            funcInit  =function(P,O) P.gameEnv.nextStartPos=O+1 end,
+            funcOnce  =_lockVfunc('nextStartPos'),
         },
         {no=3,id="IH",name="infHold",
             key="r",x=440,y=230,color='lA',
-            func=function(P) P.gameEnv.infHold=true end,
-            unranked=true,
+            funcInit  =function(P) P.gameEnv.infHold=true end,
+            funcOnce  =_lockVfunc('infHold'),
         },
         {no=4,id="HB",name="hideBlock",
             key="y",x=680,y=230,color='lV',
-            func=function(P) P.gameEnv.block=false end,
-            unranked=true,
+            funcInit  =function(P) P.gameEnv.block=false end,
+            funcOnce  =_lockVfunc('block'),
         },
         {no=5,id="HG",name="hideGhost",
             key="u",x=800,y=230,color='lV',
-            func=function(P) P.gameEnv.ghost=false end,
-            unranked=true,
+            funcInit  =function(P) P.gameEnv.ghost=false end,
+            funcOnce  =function(P) P.gameEnv.ghost=false; P.gameEnv.__lock('ghost') end,
         },
         {no=6,id="HD",name="hidden",
             key="i",x=920,y=230,color='lP',
             list={'easy','slow','medium','fast','none'},
-            func=function(P,O) P.gameEnv.visible=O end,
-            unranked=true,
+            funcInit  =function(P,O) P.gameEnv.visible=O end,
+            funcRepeat=function(P,O)
+                if P.showTime~=_invisibleTime[O] then
+                    P:setInvisible(_invisibleTime[O])
+                end
+            end,
         },
         {no=7,id="HB",name="hideBoard",
             key="o",x=1040,y=230,color='lP',
             list={'down','up','all'},
-            func=function(P,O) P.gameEnv.hideBoard=O  end,
-            unranked=true,
+            funcInit  =function(P,O) P.gameEnv.hideBoard=O  end,
         },
         {no=8,id="FB",name="flipBoard",
             key="p",x=1160,y=230,color='lJ',
             list={'U-D','L-R','180'},
-            func=function(P,O) P.gameEnv.flipBoard=O  end,
-            unranked=true,
+            funcInit  =function(P,O) P.gameEnv.flipBoard=O  end,
+            funcOnce  =_lockVfunc('flipBoard'),
         },
 
         {no=9,id="DT",name="dropDelay",
             key="a",x=140,y=350,color='lR',
             list={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
-            func=function(P,O) P.gameEnv.drop=O end,
-            unranked=true,
+            funcInit  =function(P,O) P.gameEnv.drop=O end,
+            funcRepeat=function(P,O)
+                if P.dropDelay~=O then
+                    P.gameEnv.drop=O
+                    P:set20G(O==0)
+                end
+            end,
         },
         {no=10,id="LT",name="lockDelay",
             key="s",x=260,y=350,color='lR',
             list={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
-            func=function(P,O) P.gameEnv.lock=O end,
-            unranked=true,
+            funcInit  =function(P,O) P.gameEnv.lock=O end,
+            funcRepeat=function(P,O) P.dropDelay=O end,
         },
         {no=11,id="ST",name="waitDelay",
             key="d",x=380,y=350,color='lR',
             list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
-            func=function(P,O) P.gameEnv.wait=O end,
-            unranked=true,
+            funcInit  =function(P,O) P.gameEnv.wait=O end,
+            funcOnce  =_lockVfunc('waitDelay'),
         },
         {no=12,id="CT",name="fallDelay",
             key="f",x=500,y=350,color='lR',
             list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
-            func=function(P,O) P.gameEnv.fall=O end,
-            unranked=true,
+            funcInit  =function(P,O) P.gameEnv.fall=O end,
+            funcOnce  =_lockVfunc('fallDelay'),
         },
         {no=13,id="LF",name="life",
             key="j",x=860,y=350,color='lY',
             list={0,1,2,3,5,10,15,26,42,87,500},
-            func=function(P,O) P.gameEnv.life=O end,
-            unranked=true,
+            funcInit  =function(P,O) P.gameEnv.life=O end,
+            funcOnce  =_lockVfunc('life'),
         },
         {no=14,id="FB",name="forceB2B",
             key="k",x=980,y=350,color='lY',
-            func=function(P) P.gameEnv.b2bKill=true end,
-            unranked=true,
+            funcInit  =function(P) P.gameEnv.b2bKill=true end,
+            funcOnce  =_lockVfunc('b2bKill'),
         },
         {no=15,id="PF",name="forceFinesse",
             key="l",x=1100,y=350,color='lY',
-            func=function(P) P.gameEnv.fineKill=true end,
-            unranked=true,
+            funcInit  =function(P) P.gameEnv.fineKill=true end,
+            funcOnce  =_lockVfunc('fineKill'),
         },
 
         {no=16,id="TL",name="tele",
             key="z",x=200,y=470,color='lH',
-            func=function(P)
+            funcInit  =function(P)
                 P.gameEnv.das,P.gameEnv.arr=0,0
                 P.gameEnv.sddas,P.gameEnv.sdarr=0,0
             end,
-            unranked=true,
+            funcOnce  =function(P)
+                for _,k in pairs{'das','arr','sddas','sdarr'} do
+                    P.gameEnv[k]=0
+                    P.gameEnv.__lock(k)
+                end
+            end
         },
         {no=17,id="FX",name="noRotation",
             key="x",x=320,y=470,color='lH',
-            func=function(P)
+            funcInit  =function(P)
                 _disableKey(P,3)
                 _disableKey(P,4)
                 _disableKey(P,5)
             end,
-            unranked=true,
         },
         {no=18,id="GL",name="noMove",
             key="c",x=440,y=470,color='lH',
-            func=function(P)
-                _disableKey(P,1)_disableKey(P,2)
+            funcInit  =function(P)
+                _disableKey(P,1) _disableKey(P,2)
                 _disableKey(P,11)_disableKey(P,12)
                 _disableKey(P,17)_disableKey(P,18)
                 _disableKey(P,19)_disableKey(P,20)
             end,
-            unranked=true,
         },
         {no=19,id="CS",name="customSeq",
             key="b",x=680,y=470,color='lB',
             list={'bag','bagES','his','hisPool','c2','bagP1inf','rnd','mess','reverb'},
-            func=function(P,O) P.gameEnv.sequence=O end,
-            unranked=true,
+            funcInit  =function(P,O) P.gameEnv.sequence=O end,
+            funcOnce  =_lockVfunc('sequence'),
         },
         {no=20,id="PS",name="pushSpeed",
             key="n",x=800,y=470,color='lB',
             list={.5,1,2,3,5,15,1e99},
-            func=function(P,O) P.gameEnv.pushSpeed=O end,
-            unranked=true,
+            funcInit  =function(P,O) P.gameEnv.pushSpeed=O end,
+            funcOnce  =_lockVfunc('pushSpeed'),
         },
         {no=21,id="BN",name="boneBlock",
             key="m",x=920,y=470,color='lB',
             list={'on','off'},
-            func=function(P,O) P.gameEnv.bone=O=='on' end,
-            unranked=true,
+            funcInit  =function(P,O) P.gameEnv.bone=O=='on' end,
+            funcOnce  =function(P,O)
+                P.gameEnv.bone=O=='on'
+                P.gameEnv.__lock('bone')
+            end
         },
     }
     for i=1,#MODOPT do
@@ -521,7 +549,9 @@ do-- Game data tables
         seed=1046101471,         -- Game seed
         curMode=false,           -- Current gamemode object
         initPlayerCount=0,       -- Player count when init game
+        modUsed=false,
         mod=TABLE.new(0,#MODOPT),-- List of loaded mods
+        modApplyAt='postInit',   -- Apply mod when? (preInit, postInit, always)
         modeEnv=false,           -- Current gamemode environment
         setting={},              -- Game settings
         rep={},                  -- Recording list, key,time,key,time...

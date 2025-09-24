@@ -210,6 +210,7 @@ return {
     errorMsg="Techmino mengalami eror dan harus memuat ulang.\nAnda bisa mengirim log eror ke developer.",
 
     modInstruction="Pilih mod Anda!\nMod memungkinkan Anda untuk mengubah permainan,\ntetapi juga bisa menghancur permainan.\nNilai-nilai tidak akan disimpan saat menggunakan mod.",
+    -- modApplyAtInstruction="Choose when you want the modifier to be applied.\npreInit: Before loading the modes. The default option in V0.17.15 and earlier, but may cause problems with certain mods.\npostInit: After loading the game. This can fix some bugs in preInit, but some mods can still be disabled by modes in some situations.\nalways: Throughout the entire game. Keeps the effects of the mods in all situations. ",
     modInfo={
         next="BLOK LANJUT\nMengubah jumlah pratinjau blok lanjut yang ditampilkan.",
         hold="SIMPAN\nMengubah jumlah blok yang bisa disimpan.",
@@ -413,6 +414,7 @@ return {
         mod={
             title="Mod",
             reset="Reset (tab)",
+            -- applyAt="Apply during",
             unranked="Tidak Berperingkat",
         },
         pause={

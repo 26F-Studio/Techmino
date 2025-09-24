@@ -210,6 +210,7 @@ return {
     tryAnotherBuild="[無效的UTF-8] 如果你使用的是Windows作業系統，請嘗試下載Techmino-win32或Techmino-win64（與你現在使用的不同的版本）。",
 
     modInstruction="選擇你想使用的Mod！\n不同的Mod會以不同的方式改變遊戲規則(可能導致遊戲異常)\n快來開發新玩法或挑戰自我吧！\n提醒：開啟Mod會使成績無效，你可以使用鍵盤開關Mod，按下shift反向",
+    -- modApplyAtInstruction="Choose when you want the modifier to be applied.\npreInit: Before loading the modes. The default option in V0.17.15 and earlier, but may cause problems with certain mods.\npostInit: After loading the game. This can fix some bugs in preInit, but some mods can still be disabled by modes in some situations.\nalways: Throughout the entire game. Keeps the effects of the mods in all situations. ",
     modInfo={
         next="Next數量:\n強制使用Next的個數",
         hold="Hold數量:\n強制使用Hold的個數",
@@ -413,6 +414,7 @@ return {
         mod={
             title="Mods",
             reset="重設(tab)",
+            -- applyAt="Apply during",
             unranked="成績無效",
         },
         pause={

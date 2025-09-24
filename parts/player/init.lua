@@ -175,8 +175,49 @@ local function _newEmptyPlayer(id,mini)
     }
     return P
 end
+local function _executeMod(P)
+    local applyStatus=GAME.modApplyAt
+    if applyStatus=='always' then
+        if not GAME.modCodeList       then GAME.modCodeList={} end
+        if not GAME.modCodeList[P.id] then GAME.modCodeList[P.id]={} end
+
+        if not GAME.applyModsTask      then
+            function GAME.applyModsTask()
+                while GAME.playing do
+                    for _,p in pairs(GAME.modCodeList) do
+                        for _,c in pairs(p) do pcall(c) end
+                    end
+                    coroutine.yield()
+                end
+                -- Kill mod patching function when game stopped
+                TASK.removeTask_code(GAME.applyModsTask)
+                TABLE.clear(GAME.modCodeList)
+                GAME.modCodeList=nil
+                GAME.applyModsTask=nil
+            end
+            TASK.new(GAME.applyModsTask)
+        end
+    end
+
+    for i=1,#GAME.mod do
+        if GAME.mod[i]>0 then
+            local M=MODOPT[i]
+            if applyStatus=='always' then
+                if M.funcOnce then
+                    M.funcOnce(P,M.list and M.list[GAME.mod[i]])
+                elseif M.funcRepeat then
+                    table.insert(GAME.modCodeList[P.id],function() M.funcInit(P,M.list and M.list[GAME.mod[i]]) end)
+                else
+                    M.funcInit(P,M.list and M.list[GAME.mod[i]])
+                end
+            else -- Already checked pre or post before calling _executeMod()
+                M.funcInit(P,M.list and M.list[GAME.mod[i]])
+            end
+        end
+    end
+end
 local function _loadGameEnv(P)-- Load gameEnv
-    P.gameEnv={}-- Current game setting environment
+    P.gameEnv=TABLE.newWithLockMetamethod()-- Current game setting environment
     local ENV=P.gameEnv
     local GAME,SETTING=GAME,SETTING
     -- Load game settings
@@ -199,13 +240,9 @@ local function _loadGameEnv(P)-- Load gameEnv
             ENV[k]=TABLE.copy(v)
         end
     end
-    if ENV.allowMod then
-        for i=1,#GAME.mod do
-            if GAME.mod[i]>0 then
-                local M=MODOPT[i]
-                M.func(P,M.list and M.list[GAME.mod[i]])
-            end
-        end
+
+    if ENV.allowMod and GAME.modApplyAt=='preInit' then
+        _executeMod(P)
     end
 end
 local function _loadRemoteEnv(P,confStr)-- Load gameEnv
@@ -310,6 +347,10 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
         end
     until true
 
+    if ENV.allowMod and GAME.modApplyAt~='preInit' then
+        _executeMod(P)
+    end
+
     P._20G=ENV.drop==0
     P.dropDelay=ENV.drop
     P.lockDelay=ENV.lock
@@ -390,9 +431,7 @@ local function _applyGameEnv(P)-- Finish gameEnv processing
             P:newNext()
         end
     end
-    for _=1,ENV.trueNextCount do
-        P:newNext()
-    end
+    for _=1,ENV.trueNextCount do P:newNext() end
 
     if P.miniMode then
         ENV.lockFX=false
@@ -478,6 +517,7 @@ function PLY.newAIPlayer(id,AIdata,mini,p)
         group=0,
     } if p then TABLE.coverR(p,pData) end
     P.username="BOT"..pData.uid
+    P.showUsername=true
     P.sid=NET.uid_sid[pData.uid] or pData.uid
     P.group=pData.group
     if not (P.group%1==0 and P.group>=1 and P.group<=6) then P.group=0 end
@@ -511,6 +551,8 @@ function PLY.newPlayer(id,mini,p)
 
     _loadGameEnv(P)
     _applyGameEnv(P)
+    
+    P.showUsername=not (P.gameEnv.allowMod and usingMod())
 end
 --------------------------</Public>--------------------------
 return PLY
