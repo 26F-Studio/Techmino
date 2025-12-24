@@ -328,6 +328,7 @@ return {
         "sakurw, Airun, 幽灵3383",
         "Shard Nguyễn, Squishy, TVN community",
         "NebulaBlaze",
+        "Eddisch",
         "",
         "Performance",
         "Electric283",
