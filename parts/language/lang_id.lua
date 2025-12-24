@@ -308,7 +308,7 @@ return {
         "",
         "Desain Visual, UI & UX",
         "MrZ",
-        "Gnyar",
+        "佐兹",
         "C₂₉H₂₅N₃O₅",
         "ScF",
         "(旋律星萤)",
