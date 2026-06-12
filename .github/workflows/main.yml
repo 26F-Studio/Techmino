@@ -216,7 +216,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ needs.get-info.outputs.base-name }}_Android_release
-          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}-release.apk
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}-*.apk
       - name: Prepare for release
         if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
         shell: bash
