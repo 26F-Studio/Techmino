@@ -287,9 +287,24 @@ function love.wheelmoved(x,y)
     end
 end
 
+local function isTouchActive(id)
+    if not (love.touch and love.touch.getTouches) then return false end
+    local success, touches = pcall(love.touch.getTouches)
+    if not success then return false end
+    for i = 1, #touches do
+        if touches[i] == id then
+            return true
+        end
+    end
+    return false
+end
+
 function love.touchpressed(id,x,y)
     mouseShow=false
     if WAIT.state or SCN.swapping then return end
+    if SCN.mainTouchID and not isTouchActive(SCN.mainTouchID) then
+        SCN.mainTouchID=false
+    end
     if not SCN.mainTouchID then
         SCN.mainTouchID=id
         WIDGET.unFocus(true)
@@ -309,13 +324,16 @@ function love.touchmoved(id,x,y,dx,dy)
     WIDGET.drag(x,y,dx/SCR.k,dy/SCR.k)
 end
 function love.touchreleased(id,x,y)
-    if WAIT.state or SCN.swapping then return end
-    x,y=ITP(xOy,x,y)
     if id==SCN.mainTouchID then
+        SCN.mainTouchID=false
+        if WAIT.state or SCN.swapping then return end
+        x,y=ITP(xOy,x,y)
         WIDGET.release(x,y,1)
         WIDGET.cursorMove(x,y)
         WIDGET.unFocus()
-        SCN.mainTouchID=false
+    else
+        if WAIT.state or SCN.swapping then return end
+        x,y=ITP(xOy,x,y)
     end
     if SCN.touchUp then SCN.touchUp(x,y,id) end
     if (x-lastX)^2+(y-lastY)^2<62 then
@@ -568,7 +586,15 @@ function love.resize(w,h)
 end
 
 local onFocus=NULL
-function love.focus(f) onFocus(f) end
+function love.focus(f)
+    if not f then
+        if SCN.mainTouchID then
+            WIDGET.unFocus(true)
+            SCN.mainTouchID=false
+        end
+    end
+    onFocus(f)
+end
 
 local yield=coroutine.yield
 local function secondLoopThread()
