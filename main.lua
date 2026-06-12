@@ -230,6 +230,11 @@ do -- Z.setOnFocus
                 TASK.removeTask_code(task_autoSoundOff)
                 TASK.new(task_autoSoundOn)
             end
+            if MOBILE then
+                love.window.setFullscreen(false)
+                love.window.setFullscreen(SETTING.fullscreen)
+                love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+            end
         else
             if SCN.cur=='game' and SETTING.autoPause then
                 pauseGame()
