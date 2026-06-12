@@ -287,24 +287,9 @@ function love.wheelmoved(x,y)
     end
 end
 
-local function isTouchActive(id)
-    if not (love.touch and love.touch.getTouches) then return false end
-    local success, touches = pcall(love.touch.getTouches)
-    if not success then return false end
-    for i = 1, #touches do
-        if touches[i] == id then
-            return true
-        end
-    end
-    return false
-end
-
 function love.touchpressed(id,x,y)
     mouseShow=false
     if WAIT.state or SCN.swapping then return end
-    if SCN.mainTouchID and not isTouchActive(SCN.mainTouchID) then
-        SCN.mainTouchID=false
-    end
     if not SCN.mainTouchID then
         SCN.mainTouchID=id
         WIDGET.unFocus(true)
