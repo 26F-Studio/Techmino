@@ -253,6 +253,7 @@ local tableNeedMerge={
     'hook_atk_calculation',
     'task',
 }
+for _,k in next,tableNeedMerge do gameEnv0[k]={} end
 local function _mergeFuncTable(f,L)
     if type(f)=='function' then
         ins(L,f)
