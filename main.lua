@@ -316,6 +316,7 @@ SKIN.load{
     {name="Pastel (CHNO)",                  path='media/image/skin/chno/pastel.png'},
     {name="Classic",                        path='media/image/skin/unknown/classic.png'},
     {name="Arcade (Asriel)",                path='media/image/skin/asriel/arcade.png'},
+    {name="Invisible (Asriel)",                path='media/image/skin/asriel/invisible.png'},
     {name="Shiny (CHNO)",                   path='media/image/skin/chno/shiny.png'},
     {name="Brick (Notypey)",                path='media/image/skin/notypey/brick.png'},
     {name="Cartooncup (Earety)",            path='media/image/skin/earety/cartooncup.png'},
