@@ -190,6 +190,11 @@ return {
     requestFailed="请求失败",
 
     onlinePlayerCount="在线人数: $1",
+    onlinePlayers="在线玩家",
+    casualLobby="休闲大厅",
+    rankedMode="排位模式",
+    globalRank="全球排名",
+    elo="积分",
     createRoomSuccessed="创建房间成功！",
     playerKicked="$1 把 $2 移出了房间",
     becomeHost="$1 成为了房主",

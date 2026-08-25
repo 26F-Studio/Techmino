@@ -58,7 +58,7 @@ local passwordBox=WIDGET.newInputBox{name='password',x=350,y=505,w=500,h=50,secr
         Spectator=1,
     },
     info={
-        name="MrZ's room",
+        name="AkamaiShino's room",
         description="123123123",
         type="normal",
         version='ver A-7',

@@ -190,6 +190,11 @@ return {
     requestFailed="Request failed",
 
     onlinePlayerCount="Online: $1",
+    onlinePlayers="Online Players",
+    casualLobby="Casual Lobby",
+    rankedMode="Ranked Mode",
+    globalRank="Global Rank",
+    elo="Elo",
     createRoomSuccessed="Room created",
     playerKicked="$1 removed $2 from the room",
     becomeHost="$1 became the host",
@@ -804,7 +809,7 @@ C. Gamepad
             label="label",
         },
         login={
-            title="Sign In",
+            title="Multiplayer",
             ticket="Auth Ticket",
             authorize="Go Authorizing",
             paste="Paste Ticket",

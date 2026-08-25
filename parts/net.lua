@@ -28,6 +28,7 @@ local NET={
     roomAllReady=false,
 
     onlineCount="_",
+    onlinePlayers={},-- List of online players (id, username, elo)
 
     textBox=WIDGET.newTextBox{name='texts',x=20,y=110,w=980,h=500},
     inputBox=WIDGET.newInputBox{name='input',x=20,y=630,w=980,h=50,limit=256},
@@ -258,7 +259,11 @@ local actMap={
     room_fetch=            1309,
     room_setPW=            1310,
     room_remove=           1311,
-} for k,v in next,actMap do actMap[v]=k end
+    online_getPlayers=      1312,
+    online_playerJoin=      1313,
+    online_playerLeave=     1314,
+    player_updateElo=       1315,
+    } for k,v in next,actMap do actMap[v]=k end
 
 local function wsSend(act,data)
     -- print(("Send: $1 -->"):repD(act))
@@ -411,6 +416,12 @@ function NET.player_stream(stream)
 end
 function NET.player_setPlayMode(mode)
     wsSend(actMap.player_setPlayMode,mode)
+end
+function NET.online_getPlayers()
+    wsSend(actMap.online_getPlayers)
+end
+function NET.player_updateElo()
+    wsSend(actMap.player_updateElo)
 end
 
 
@@ -579,6 +590,36 @@ function NET.wsCallBack.player_setReadyMode(body)
     NETPLY.map[body.data.playerId].readyMode=body.data.isReady and 'Ready' or 'Standby'
     NET.freshRoomAllReady()
 end
+function NET.wsCallBack.online_getPlayers(body)
+    if type(body.data)=='table' then
+        NET.onlinePlayers=body.data
+    end
+end
+function NET.wsCallBack.online_playerJoin(body)
+    if type(body.data)=='table' then
+        table.insert(NET.onlinePlayers,body.data)
+    end
+end
+function NET.wsCallBack.online_playerLeave(body)
+    if type(body.data)=='table' and NET.onlinePlayers then
+        for i=#NET.onlinePlayers,1,-1 do
+            if NET.onlinePlayers[i].id==body.data.id then
+                table.remove(NET.onlinePlayers,i)
+                break
+            end
+        end
+    end
+end
+function NET.wsCallBack.player_updateElo(body)
+    if type(body.data)=='table' then
+        if type(body.data.elo)=='number' then
+            STAT.elo=body.data.elo
+        end
+        if type(body.data.globalRank)=='number' then
+            STAT.globalRank=body.data.globalRank
+        end
+    end
+end
 function NET.wsCallBack.match_finish()
     if SCN.cur~='net_game' then return end
     for _,P in next,PLAYERS do
@@ -665,6 +706,7 @@ function NET.ws_update()
 
         updateOnlineCD=updateOnlineCD%626+1
         if updateOnlineCD==1 then NET.global_getOnlineCount() end
+        if updateOnlineCD%125==0 then NET.online_getPlayers() end
 
         local msg,op=WS.read('game')
         if msg then

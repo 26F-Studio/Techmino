@@ -729,6 +729,8 @@ do-- Userdata tables
     RANKS={sprint_10l=0}-- Ranks of modes
     STAT={
         version=VERSION.code,
+        elo=1200,-- Competitive elo rating
+        globalRank=0,-- Global rank (0 = unranked)
         run=0,game=0,time=0,frame=0,
         key=0,rotate=0,hold=0,
         extraPiece=0,finesseRate=0,
