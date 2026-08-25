@@ -1,43 +1,13 @@
-# Techmino
+# Teblocks
 
-[![Techmino CI](https://github.com/26F-Studio/Techmino/actions/workflows/main.yml/badge.svg)](https://github.com/26F-Studio/Techmino/actions/workflows/main.yml)
-![platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS%20%7C%20Linux%20%7C%20macOS%20%7C%20Windows-brightgreen.svg)
-[![AUR techmino-client](https://img.shields.io/aur/version/techmino?label=techmino&logo=archlinux)](https://aur.archlinux.org/packages/techmino)
-[![AUR techmino-git](https://img.shields.io/aur/version/techmino-git?label=techmino-git&logo=archlinux)](https://aur.archlinux.org/packages/techmino-git)
+The Official Repository of Teblocks
 
-***[GitHub](https://github.com/26F-Studio/Techmino)  [Gitee](https://gitee.com/f26-studio/Techmino)***
-
-《Techmino: 方块研究所》 官方仓库 (26F-Studio/Techmino)
-
-The Official Repository of Techmino (26F-Studio/Techmino)
-
-集合各种现代方块规则，更多玩法，全新体验。
+***[Original repo of Techmino](https://github.com/26F-Studio/Techmino) | A game forking from Techmino and updated from the latest upstream update from Techmino (atleast it is abandoned or so i thought)***
 
 A collection of various modern block game rules, more ways to play, and some new things added for a new experience.
 
-## Download the latest version (最新版下载)
+And with brand new game servers will be spinning up near the future when the server softwares are ready at the usable state (with ranking and new modes), you could get started to play Teblocks at [Teblocks's Official Website](https://teblocks.my.id/register), and login through the game (not ready yet)
 
-| Android | Linux | Windows x86 | Windows x64 | macOS .dmg | macOS .pkg | App Store & TestFlight (iOS) |
-| --- | --- | --- | --- | --- | --- | --- |
-| [普通下载<br>(Direct download)](https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_Android.apk) | [普通下载<br>(Direct download)](https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_Linux.AppImage) | [普通下载<br>(Direct download)](https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_Windows_x86.zip) | [普通下载<br>(Direct download)](https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_Windows_x64.zip) | [普通下载<br>(Direct download)](https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_macOS_portable.dmg) | [普通下载<br>(Direct download)](https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_macOS_portable.pkg) | [App Store](https://apps.apple.com/app/1590869403)        |
-| [加速下载<br>(Mirror download)](https://ghproxy.com/https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_Android.apk) | [加速下载<br>(Mirror download)](https://ghproxy.com/https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_Linux.AppImage) | [加速下载<br>(Mirror download)](https://ghproxy.com/https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_Windows_x86.zip) | [加速下载<br>(Mirror download)](https://ghproxy.com/https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_Windows_x64.zip) | [加速下载<br>(Mirror download)](https://ghproxy.com/https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_macOS_portable.dmg) | [加速下载<br>(Mirror download)](https://ghproxy.com/https://github.com/26F-Studio/Techmino/releases/latest/download/Techmino_macOS_portable.pkg) | [TestFlight](https://testflight.apple.com/join/SZOFUqFv) |
+And i'm considering either letting the server software being open source or not but it'll be a later thing when it's ready
 
------
-
-[官网(重构中) Official Website (RWIP)](https://www.studio26f.org/home)
-
-[社区引导站(建设中)(非官方) Techmino Hub (WIP)(unofficial)](https://techmino-hub.vercel.app/)
-
-[Github维基(暂停建设) Github Wiki (WNIP)](https://github.com/26F-Studio/Techmino/wiki)
-
-## Paypal Donation (Paypal赞助)
-
-开了一个支付方式试一下，记得自己留一下付款记录，未来可能会返一些东西（不保证）
-
-Made a payment method to try it out, remember to keep a payment record, there may be some benifits in the future (not guaranteed)
-
-[![](.github/donate/donate.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CNJ9G8242SP8E)
-
-## 500 Stars Poster
-
-![Techmino](.github/500stars/exported.png)
+This game is made under an original game of Techmino (credited above) and all the license were intact for this repo while removing assets that aren't supposed to be in the game to avoid any copyright infringement from the original fork
