@@ -27,7 +27,7 @@ return {
         "homepage web mainpage ホームページ　ウェブ　メインページ テクミノ テックミノ techmino",
         "help",
         "Techminoの公式ホームページです!\n最新の安定版Techminoをダウンロードしたり、プロフィールを編集したりできます\n地球儀ボタンから是非アクセスしてください",
-        "http://studio26f.org",
+        "http://localhost:8080",
     },
     -- {"Chinese Tetris Wiki",
     --     "china tetris wiki",

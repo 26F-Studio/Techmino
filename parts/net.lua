@@ -136,7 +136,7 @@ function NET.login(auto)
             local res=getMsg({
                 pool='login',
                 url=AUTHHOST,
-                path='/studio26f/api/v1/auth/check',
+                path='/techmino/api/v1/auth/check',
                 headers={["x-access-token"]=USER.aToken},
             },6.26)
 
@@ -156,7 +156,7 @@ function NET.login(auto)
             end
         end
         if auto then
-            SCN.go('login')
+            SCN.go('lobby')
         end
 
         WAIT.interrupt()
@@ -247,7 +247,7 @@ function NET.getUserInfo(uid)
         local res=getMsg({
             pool='getInfo',
             url=AUTHHOST,
-            path='/studio26f/api/v1/player/info?playerId='..uid,
+            path='/techmino/api/v1/player/info?playerId='..uid,
         },6.26)
 
         if res and res.code==200 and type(res.data)=='table' then
@@ -260,7 +260,7 @@ function NET.getAvatar(uid)
         local res=getMsg({
             pool='getInfo',
             url=AUTHHOST,
-            path='/studio26f/api/v1/player/avatar?playerId='..uid,
+            path='/techmino/api/v1/player/avatar?playerId='..uid,
         },6.26)
 
         if res and res.code==200 and type(res.data)=='string' then

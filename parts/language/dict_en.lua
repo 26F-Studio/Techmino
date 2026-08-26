@@ -28,7 +28,7 @@ return {
         "homepage mainpage websites",
         "help",
         "The official website of Techmino!\nYou can download the latest stable build of Techmino and change your profile there.\nClick on the globe icon to open the website in your browser.",
-        "http://studio26f.org",
+        "http://localhost:8080",
     },
     {"Chinese Tetris Wiki",
         "china tetris wiki chinese tetris wiki",

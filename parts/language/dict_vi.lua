@@ -113,7 +113,7 @@ Bạn muốn đóng góp vào bản dịch? Bạn có thể vào trang dự án 
         "nhom02 websites; trang chủ",
         "org",
         "Trang web chính thức của Techmino!\nBạn có thể lấy bản mới nhất của Techmino cũng như tạo tài khoản, thay avatar ngay tại đó\nNhấn vào nút hình địa cầu ở bên phải để mở website trên trình duyệt của bạn.",
-        "http://studio26f.org",
+        "http://localhost:8080",
     },
     {"Dự án trên GitHub",
         "nhom02; mã nguồn mở; github; repository; kho lưu trữ",

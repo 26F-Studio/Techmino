@@ -1,17 +1,21 @@
+local gc=love.graphics
+local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
+local gc_rectangle=gc.rectangle
+local gc_print,gc_printf=gc.print,gc.printf
+local gc_push,gc_pop=gc.push,gc.pop
+local gc_replaceTransform=gc.replaceTransform
+local gc_setScissor=gc.setScissor
+
+local WINDOW=require'Zframework.window'
+
 local CHAT={}
+local win
 
 CHAT.messages={}
 CHAT.inputText=""
 CHAT.isOpen=false
-CHAT.scrollY=0
 CHAT.maxMessages=100
-
-local gc=love.graphics
-local gc_setColor=gc.setColor
-local gc_rectangle=gc.rectangle
-local gc_print,gc_printf=gc.print,gc.printf
-local gc_push,gc_pop=gc.push,gc.pop
-local gc_setScissor=gc.setScissor
+CHAT.alpha=0
 
 local function _addMessage(username,message)
     table.insert(CHAT.messages,{
@@ -25,11 +29,30 @@ local function _addMessage(username,message)
 end
 
 function CHAT.open()
+    if not win then
+        win=WINDOW.new('globalChat')
+        win:setPosition(0,0)
+        win:setSize(560,720)
+        win:setTitle("Global Chat")
+        win:addInputBox(10,620,440,40,"Type a message...",false)
+        win:addButton("Send",460,620,90,40,function()
+            local text=win:getInputText(1)
+            if #text>0 then
+                local username=USER.uid and USERS.getUsername(USER.uid) or "Guest"
+                _addMessage(username,text)
+                if NET.global_chat then
+                    NET.global_chat(text)
+                end
+                win:setInputText(1,"")
+            end
+        end)
+    end
+    win:show()
     CHAT.isOpen=true
-    CHAT.scrollY=0
 end
 
 function CHAT.close()
+    if win then win:hide() end
     CHAT.isOpen=false
 end
 
@@ -43,18 +66,6 @@ end
 
 function CHAT.clear()
     CHAT.messages={}
-    CHAT.scrollY=0
-end
-
-function CHAT.sendMessage()
-    if #CHAT.inputText>0 then
-        local username=USER.uid and USERS.getUsername(USER.uid) or "Guest"
-        _addMessage(username,CHAT.inputText)
-        if NET.global_chat then
-            NET.global_chat(CHAT.inputText)
-        end
-        CHAT.inputText=""
-    end
 end
 
 function CHAT.receiveMessage(username,message)
@@ -64,116 +75,101 @@ function CHAT.receiveMessage(username,message)
     end
 end
 
-function CHAT.keyDown(key)
-    if not CHAT.isOpen then return false end
-    
-    if key=='escape' then
-        CHAT.close()
-        return true
-    elseif key=='return' or key=='kpenter' then
-        CHAT.sendMessage()
-        return true
-    elseif key=='backspace' then
-        CHAT.inputText=CHAT.inputText:sub(1,-2)
-        return true
-    end
-    return false
-end
-
-function CHAT.textInput(t)
-    if not CHAT.isOpen then return false end
-    if #CHAT.inputText<256 then
-        CHAT.inputText=CHAT.inputText..t
-    end
-    return true
-end
-
-function CHAT.mouseClick(x,y)
-    if not CHAT.isOpen then return false end
-    
-    local boxX,boxY=700,100
-    local boxW,boxH=560,520
-    
-    local screenX,screenY=SCR.xOy:transformPoint(x,y)
-    
-    if screenX<boxX or screenX>boxX+boxW or screenY<boxY or screenY>boxY+boxH then
-        return false
-    end
-    
-    return true
-end
-
-function CHAT.wheelMoved(y)
-    if not CHAT.isOpen then return end
-    CHAT.scrollY=math.max(0,CHAT.scrollY-y*20)
-end
-
 function CHAT.update(dt)
+    if win then win:update(dt) end
+    CHAT.alpha=win and win.alpha or 0
 end
 
 function CHAT.draw()
-    if not CHAT.isOpen then return end
+    if not win or CHAT.alpha<=0 then return end
     
-    local boxX,boxY=700,100
-    local boxW,boxH=560,520
+    local boxX,boxY=0,0
+    local boxW,boxH=560,720
     
-    gc_push('transform')
-    gc_replaceTransform(SCR.xOy)
+    gc_setColor(.1,.1,.1,.95*CHAT.alpha)
+    gc_rectangle('fill',boxX,boxY,boxW,boxH,0,8,8,0)
+    gc_setColor(.4,.4,.4,CHAT.alpha)
+    gc_setLineWidth(2)
+    gc_rectangle('line',boxX,boxY,boxW,boxH,0,8,8,0)
     
-    gc_setColor(.1,.1,.1,.95)
-    gc_rectangle('fill',boxX,boxY,boxW,boxH,8)
-    gc_setColor(.5,.5,.5,1)
-    gc.setLineWidth(2)
-    gc_rectangle('line',boxX,boxY,boxW,boxH,8)
+    gc_setColor(.2,.2,.2,CHAT.alpha)
+    gc_rectangle('fill',boxX,boxY,boxW,35,0,8,0,0)
     
-    setFont(28)
-    gc_setColor(COLOR.lY)
-    gc_print("Global Chat",boxX+10,boxY+8)
+    setFont(22)
+    gc_setColor(1,1,1,CHAT.alpha)
+    gc_print("Global Chat",boxX+10,boxY+7)
     
     local msgY=boxY+45
-    local msgH=boxH-100
-    local msgW=boxW-20
+    local msgH=boxH-120
     
     gc_setScissor(boxX,boxY+40,boxW,msgH)
     
-    setFont(18)
-    local y=msgY+msgH-25
+    setFont(16)
+    local y=msgY+msgH-22
     for i=#CHAT.messages,1,-1 do
         local msg=CHAT.messages[i]
         local timeStr=os.date("%H:%M",msg.time)
-        local fullMsg="["..timeStr.."] "..msg.username..": "..msg.message
         
-        gc_setColor(.5,.5,.5,1)
+        gc_setColor(.5,.5,.5,CHAT.alpha)
         gc_print("["..timeStr.."]",boxX+10,y)
-        gc_setColor(.9,.9,1,1)
-        gc_print(msg.username..":",boxX+65,y)
-        gc_setColor(1,1,1,1)
-        gc_printf(msg.message,boxX+65+#msg.username*10+10,y,msgW-100,'left')
+        gc_setColor(.9,.9,1,CHAT.alpha)
+        gc_print(msg.username..":",boxX+60,y)
+        gc_setColor(1,1,1,CHAT.alpha)
+        gc_print(msg.message,boxX+60+#msg.username*9+10,y)
         
-        y=y-22
+        y=y-20
         if y<boxY+40 then break end
     end
     
     gc_setScissor()
     
-    local inputY=boxY+boxH-50
-    gc_setColor(.15,.15,.15,1)
-    gc_rectangle('fill',boxX+10,inputY,boxW-100,40,4)
-    gc_setColor(.6,.6,.6,1)
-    gc.setLineWidth(1)
-    gc_rectangle('line',boxX+10,inputY,boxW-100,40,4)
+    local input=win.inputBoxes[1]
+    if input then
+        local ix,iy,iw,ih=boxX+input.x,boxY+input.y,input.w,input.h
+        gc_setColor(.15,.15,.15,CHAT.alpha)
+        gc_rectangle('fill',ix,iy,iw,ih,4)
+        gc_setColor(input.focused and .8 or .5,input.focused and .8 or .5,input.focused and .8 or .5,CHAT.alpha)
+        gc_setLineWidth(1)
+        gc_rectangle('line',ix,iy,iw,ih,4)
+        
+        setFont(18)
+        local displayText=input.text
+        if #displayText==0 and not input.focused then
+            gc_setColor(.5,.5,.5,CHAT.alpha)
+            gc_print(input.placeholder,ix+5,iy+(ih-18)/2)
+        else
+            gc_setColor(1,1,1,CHAT.alpha)
+            gc_print(displayText,ix+5,iy+(ih-18)/2)
+        end
+    end
     
-    setFont(20)
-    gc_setColor(1,1,1,1)
-    gc_print(CHAT.inputText..(love.timer.getTime()%1<.5 and "|" or ""),boxX+15,inputY+10)
-    
-    gc_setColor(.4,.8,.4,1)
-    gc_rectangle('fill',boxX+boxW-80,inputY,70,40,4)
-    gc_setColor(1,1,1,1)
-    setFont(18)
-    gc_printf("Send",boxX+boxW-80,inputY+10,70,'center')
-    
-    gc_pop()
+    local btn=win.buttons[1]
+    if btn then
+        local bx,by,bw,bh=boxX+btn.x,boxY+btn.y,btn.w,btn.h
+        gc_setColor(.2,.5,.2,CHAT.alpha)
+        gc_rectangle('fill',bx,by,bw,bh,4)
+        gc_setColor(.4,.8,.4,CHAT.alpha)
+        gc_setLineWidth(1)
+        gc_rectangle('line',bx,by,bw,bh,4)
+        setFont(18)
+        gc_setColor(1,1,1,CHAT.alpha)
+        gc_printf(btn.label,bx,by+(bh-18)/2,bw,'center')
+    end
+end
+
+function CHAT.mouseClick(x,y)
+    if not win or CHAT.alpha<0.5 then return false end
+    return win:mouseClick(x,y)
+end
+
+function CHAT.keyDown(key)
+    if not win then return false end
+    return win:keyDown(key)
+end
+
+function CHAT.textInput(t)
+    if not win then return false end
+    return win:textInput(t)
 end
 
 return CHAT
