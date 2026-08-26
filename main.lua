@@ -606,8 +606,8 @@ table.sort(REPLAY,function(a,b) return a.fileName>b.fileName end)
 
 AUTHURL="http://localhost:8080"
 AUTHHOST="localhost:8080"
-WS.switchHost('localhost','8081','/techmino/ws/v1')
-HTTP.setHost("localhost:8081")
+WS.switchHost('localhost','8080','/api/ws')
+HTTP.setHost("localhost:8080")
 HTTP.setThreadCount(1)
 
 -- Discord RPC

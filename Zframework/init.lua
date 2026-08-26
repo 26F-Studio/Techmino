@@ -300,7 +300,6 @@ function love.touchpressed(id,x,y)
     x,y=ITP(xOy,x,y)
     lastX,lastY=x,y
     if SCN.touchDown then SCN.touchDown(x,y,id) end
-    if kb.hasTextInput() then kb.setTextInput(false) end
     WIDGET.cursorMove(x,y)
     WIDGET.press(x,y,1)
 end
@@ -417,6 +416,10 @@ function love.textedited(texts)
     EDITING=texts
 end
 function love.textinput(texts)
+    if SCN.textInput then
+        SCN.textInput(texts)
+        return
+    end
     WIDGET.textinput(texts)
 end
 

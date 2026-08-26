@@ -161,6 +161,7 @@ function LOBBY.mouseClick(x,y)
         local inputY=670
         if screenX>=LOBBY.chat.x+10 and screenX<=LOBBY.chat.x+LOBBY.chat.w-90 and screenY>=inputY and screenY<=inputY+35 then
             CHAT.focused=true
+            love.keyboard.setTextInput(true)
             return true
         end
         if screenX>=LOBBY.chat.x+LOBBY.chat.w-80 and screenX<=LOBBY.chat.x+LOBBY.chat.w-10 and screenY>=inputY and screenY<=inputY+35 then
@@ -169,6 +170,9 @@ function LOBBY.mouseClick(x,y)
         end
     end
     
+    if CHAT.focused then
+        love.keyboard.setTextInput(false)
+    end
     CHAT.focused=false
     return false
 end

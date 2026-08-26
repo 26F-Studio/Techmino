@@ -36,6 +36,7 @@ local SCN={
     fileDropped=false,
     directoryDropped=false,
     resize=false,
+    textInput=false,
 }-- Scene datas, returned
 
 function SCN.add(name,scene)
@@ -79,6 +80,7 @@ function SCN.init(s)
     SCN.touchClick=S.touchClick
     SCN.keyDown=S.keyDown
     SCN.keyUp=S.keyUp
+    SCN.textInput=S.textInput
     SCN.gamepadDown=S.gamepadDown
     SCN.gamepadUp=S.gamepadUp
     SCN.fileDropped=S.fileDropped

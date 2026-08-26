@@ -104,7 +104,13 @@ local function getMsg(request,timeout)
                 local body=JSON.decode(msg.body)
                 if body then
                     if tostring(body.code):sub(1,1)~='2' then
-                        parseError(body.message~=nil and body.message or msg)
+                        local errMsg = body.message
+                        if not errMsg and msg and msg.body then
+                            errMsg = tostring(msg.body)
+                        elseif not errMsg then
+                            errMsg = "HTTP "..tostring(msg and msg.code or "?")
+                        end
+                        parseError(errMsg)
                     end
                     return body
                 end
@@ -136,21 +142,24 @@ function NET.login(auto)
             local res=getMsg({
                 pool='login',
                 url=AUTHHOST,
-                path='/techmino/api/v1/auth/check',
+                path='/api/auth/check',
                 headers={["x-access-token"]=USER.aToken},
             },6.26)
 
-            if res and math.floor(res.code/100)==2 then
+            if res and res.code and math.floor(res.code/100)==2 then
                 USER.uid=res.data.playerId
                 if res.data.accessToken then
                     USER.aToken=res.data.accessToken
+                end
+                if res.data.username then
+                    USERS.updateUsername(USER.uid,res.data.username)
                 end
                 saveUser()
                 NET.ws_connect()
                 if not auto then-- Quit login menu
                     SCN.pop()
                 end
-                SCN.go('net_menu')
+                SCN.go('lobby')
                 WAIT.interrupt()
                 return
             end
@@ -180,12 +189,18 @@ function NET.loginWithPassword(username,password)
             body={username=username,password=password},
         },6.26)
 
-        if res and math.floor(res.code/100)==2 and res.data and res.data.token then
+        if res and res.code and math.floor(res.code/100)==2 and res.data and res.data.token then
             USER.oToken=res.data.token
             USER.aToken=res.data.token
+            if res.data.playerId then
+                USER.uid=res.data.playerId
+                if res.data.username then
+                    USERS.updateUsername(USER.uid,res.data.username)
+                end
+            end
             saveUser()
             NET.ws_connect()
-            SCN.go('net_menu')
+            SCN.go('lobby')
             WAIT.interrupt()
             return
         elseif res then
@@ -247,7 +262,7 @@ function NET.getUserInfo(uid)
         local res=getMsg({
             pool='getInfo',
             url=AUTHHOST,
-            path='/techmino/api/v1/player/info?playerId='..uid,
+            path='/api/player/info?playerId='..uid,
         },6.26)
 
         if res and res.code==200 and type(res.data)=='table' then
@@ -260,7 +275,7 @@ function NET.getAvatar(uid)
         local res=getMsg({
             pool='getInfo',
             url=AUTHHOST,
-            path='/techmino/api/v1/player/avatar?playerId='..uid,
+            path='/api/player/avatar?playerId='..uid,
         },6.26)
 
         if res and res.code==200 and type(res.data)=='string' then
@@ -286,7 +301,7 @@ function NET.launchNotice()
     TASK.new(function()
         local res=getMsg({
             pool='getNotice',
-            path='/techmino/api/v1/notice?language='..noticeLang[SETTING.locale]..'&lastCount=1',
+            path='/api/notice?language='..noticeLang[SETTING.locale]..'&lastCount=1',
         },6.26)
 
         if res and res.code==200 then
@@ -304,7 +319,7 @@ function NET.getNotice(count)
     TASK.new(function()
         local res=getMsg({
             pool='getNotice',
-            path='/techmino/api/v1/notice?language='..noticeLang[SETTING.locale]..'&lastCount='..(count or 5),
+            path='/api/notice?language='..noticeLang[SETTING.locale]..'&lastCount='..(count or 5),
         },6.26)
 
         if res and res.code==200 then
@@ -751,14 +766,17 @@ function NET.ws_update()
     do-- Get UID
         local res=getMsg({
             pool='getUID',
-            path='/techmino/api/v1/auth/check',
+            path='/api/auth/check',
             headers={["x-access-token"]=USER.oToken},
         },6.26)
 
-        if res and math.floor(res.code/100)==2 then
+        if res and res.code and math.floor(res.code/100)==2 then
             USER.uid=res.data.playerId
             if res.data.accessToken then
                 USER.oToken=res.data.accessToken
+            end
+            if res.data.username then
+                USERS.updateUsername(USER.uid,res.data.username)
             end
             saveUser()
         else

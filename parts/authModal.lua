@@ -237,6 +237,7 @@ function AUTH.mouseClick(x,y)
         local fx,fy,fw,fh=_getFieldRect(fieldName)
         if fx and _pointInRect(screenX,screenY,fx,fy,fw,fh) then
             focusedField=fieldName
+            love.keyboard.setTextInput(true)
             return true
         end
     end
