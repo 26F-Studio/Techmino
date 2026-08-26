@@ -2,6 +2,7 @@ local scene={}
 
 local CARD=require'parts.userCard'
 local AUTH=require'parts.authModal'
+local LOBBY=require'parts.lobbyPanel'
 
 local gc=love.graphics
 local gc_translate=gc.translate
@@ -42,36 +43,42 @@ end
 
 function scene.keyDown(key,rep)
     if AUTH.isOpen() and AUTH.keyDown(key,rep) then return true end
-    if key=='escape' then
-        if matchmaking then
-            _cancelMatchmaking()
+    if LOBBY.keyDown(key) then return true end
+    if key=='escape' and not rep then
+        if LOBBY.isAnyOpen() then
+            if LOBBY.chat and LOBBY.chat.visible then LOBBY.chat:toggle() end
+            if LOBBY.playerList and LOBBY.playerList.visible then LOBBY.playerList:toggle() end
         else
-            SCN.back()
+            if matchmaking then
+                _cancelMatchmaking()
+            else
+                SCN.back()
+            end
         end
     end
 end
 
 function scene.textInput(t)
     if AUTH.isOpen() and AUTH.textInput(t) then return true end
+    if LOBBY.textInput(t) then return true end
 end
 
 function scene.mouseClick(x,y)
-    if AUTH.mouseClick(x,y) then return true end
     if CARD.mouseClick(x,y) then return true end
+    if AUTH.mouseClick(x,y) then return true end
+    if LOBBY.mouseClick(x,y) then return true end
 end
 
 function scene.update(dt)
     CARD.update(dt)
     AUTH.update(dt)
+    LOBBY.update(dt)
     if matchmaking then
         searchTimer=searchTimer+dt
     end
 end
 
 function scene.draw()
-    CARD.draw()
-    drawOnlinePlayerCount()
-
     -- Title
     setFont(50)
     gc_setColor(COLOR.Z)
@@ -109,12 +116,17 @@ function scene.draw()
         local rankStr = rank > 0 and ("#"..rank) or "Unranked"
         gc_printf(text.globalRank.." "..rankStr,20,210,200,'left')
     gc_translate(-400,-150)
+end
 
+function scene.overDraw()
+    LOBBY.draw()
+    LOBBY.drawToggleButtons()
+    CARD.draw()
     AUTH.draw()
 end
 
 scene.widgetList={
-    WIDGET.newKey{name='match',      x=440,y=480,w=400,h=100,font=40,color='lG',
+    WIDGET.newKey{name='match',      x=640,y=520,w=360,h=90,font=38,color='lG',
         code=function()
             if matchmaking then
                 _cancelMatchmaking()

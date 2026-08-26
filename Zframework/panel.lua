@@ -125,19 +125,18 @@ function PANEL.new(id,side)
     end
     
     function panel:checkToggleButtonClick(mx,my)
-        local screenX,screenY=SCR.xOy:transformPoint(mx,my)
         local btnW,btnH=30,100
         local btnY=310
         
         if self.side=='left' then
             local btnX=self.visible and self.w or 0
-            if screenX>=btnX and screenX<=btnX+btnW and screenY>=btnY and screenY<=btnY+btnH then
+            if mx>=btnX and mx<=btnX+btnW and my>=btnY and my<=btnY+btnH then
                 self:toggle()
                 return true
             end
         else
             local btnX=self.visible and 1280-self.w-btnW or 1250
-            if screenX>=btnX and screenX<=btnX+btnW and screenY>=btnY and screenY<=btnY+btnH then
+            if mx>=btnX and mx<=btnX+btnW and my>=btnY and my<=btnY+btnH then
                 self:toggle()
                 return true
             end
@@ -147,8 +146,7 @@ function PANEL.new(id,side)
     
     function panel:isInside(mx,my)
         if self.alpha<0.5 then return false end
-        local screenX,screenY=SCR.xOy:transformPoint(mx,my)
-        return screenX>=self.x and screenX<=self.x+self.w and screenY>=0 and screenY<=self.h
+        return mx>=self.x and mx<=self.x+self.w and my>=0 and my<=self.h
     end
     
     PANEL.list[id]=panel

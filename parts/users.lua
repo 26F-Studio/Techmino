@@ -69,15 +69,19 @@ function USERS.updateUserData(data)
         db[uid].hash=data.avatar_hash
         NET.getAvatar(uid)
     end
-    fs.write("cache/user"..uid..".dat",JSON.encode{
-        username=data.username,
-        motto=data.motto,
-        hash=db[uid].hash,
-    })
+    if not TEMP_MODE then
+        fs.write("cache/user"..uid..".dat",JSON.encode{
+            username=data.username,
+            motto=data.motto,
+            hash=db[uid].hash,
+        })
+    end
 end
 function USERS.updateAvatar(uid,imgData)
     local hash=db[uid].hash
-    fs.write("cache/"..hash,love.data.decode('string','base64',imgData:sub(imgData:find(",")+1)))
+    if not TEMP_MODE then
+        fs.write("cache/"..hash,love.data.decode('string','base64',imgData:sub(imgData:find(",")+1)))
+    end
     db_img[uid]=_loadAvatar("cache/"..hash)
 end
 
@@ -85,11 +89,13 @@ function USERS.getUsername(uid) return db[uid].username or "" end
 function USERS.getMotto(uid) return db[uid].motto or "" end
 function USERS.updateUsername(uid,username)
     db[uid].username=username
-    fs.write("cache/user"..uid..".dat",JSON.encode{
-        username=username,
-        motto=db[uid].motto,
-        hash=db[uid].hash,
-    })
+    if not TEMP_MODE then
+        fs.write("cache/user"..uid..".dat",JSON.encode{
+            username=username,
+            motto=db[uid].motto,
+            hash=db[uid].hash,
+        })
+    end
 end
 function USERS.getAvatar(uid)
     if uid then

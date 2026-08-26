@@ -366,18 +366,28 @@ VOC.init{
 
 table.insert(_LOADTIMELIST_,("Initialize Modules: %.3fs"):format(TIME()-_LOADTIME_))
 
+-- Temp mode: no persistent saves
+TEMP_MODE=TABLE.find(arg,'--temp')
+if TEMP_MODE then
+    USER.__data.uid=false
+    USER.__data.aToken=false
+    USER.__data.oToken=false
+end
+
 -- Load settings and statistics
-if
-    not (
-        pcall(TABLE.cover, loadFile('conf/user',      '-json -canSkip') or loadFile('conf/user',      '-luaon -canSkip') or {},USER) and
-        pcall(TABLE.cover, loadFile('conf/unlock',    '-json -canSkip') or loadFile('conf/unlock',    '-luaon -canSkip') or {},RANKS) and
-        pcall(TABLE.update,loadFile('conf/settings',  '-json -canSkip') or loadFile('conf/settings',  '-luaon -canSkip') or {},SETTING) and
-        pcall(TABLE.coverR,loadFile('conf/data',      '-json -canSkip') or loadFile('conf/data',      '-luaon -canSkip') or {},STAT) and
-        pcall(TABLE.cover, loadFile('conf/key',       '-json -canSkip') or loadFile('conf/key',       '-luaon -canSkip') or {},KEY_MAP) and
-        pcall(TABLE.cover, loadFile('conf/virtualkey','-json -canSkip') or loadFile('conf/virtualkey','-luaon -canSkip') or {},VK_ORG)
-    )
-then
-    MES.new('error',"An error occured during loading, and some data was lost.")
+if not TEMP_MODE then
+    if
+        not (
+            pcall(TABLE.cover, loadFile('conf/user',      '-json -canSkip') or loadFile('conf/user',      '-luaon -canSkip') or {},USER) and
+            pcall(TABLE.cover, loadFile('conf/unlock',    '-json -canSkip') or loadFile('conf/unlock',    '-luaon -canSkip') or {},RANKS) and
+            pcall(TABLE.update,loadFile('conf/settings',  '-json -canSkip') or loadFile('conf/settings',  '-luaon -canSkip') or {},SETTING) and
+            pcall(TABLE.coverR,loadFile('conf/data',      '-json -canSkip') or loadFile('conf/data',      '-luaon -canSkip') or {},STAT) and
+            pcall(TABLE.cover, loadFile('conf/key',       '-json -canSkip') or loadFile('conf/key',       '-luaon -canSkip') or {},KEY_MAP) and
+            pcall(TABLE.cover, loadFile('conf/virtualkey','-json -canSkip') or loadFile('conf/virtualkey','-luaon -canSkip') or {},VK_ORG)
+        )
+    then
+        MES.new('error',"An error occured during loading, and some data was lost.")
+    end
 end
 
 -- Update data

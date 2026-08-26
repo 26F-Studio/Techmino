@@ -358,6 +358,7 @@ local actMap={
     online_playerJoin=      1313,
     online_playerLeave=     1314,
     player_updateElo=       1315,
+    global_chat=            1316,
     } for k,v in next,actMap do actMap[v]=k end
 
 local function wsSend(act,data)
@@ -405,6 +406,16 @@ end
 -- Global
 function NET.global_getOnlineCount()
     wsSend(actMap.global_getOnlineCount)
+end
+
+-- Global
+function NET.global_chat(text)
+    if not TASK.lock('chatLimit',1.26) then
+        MES.new('warn',text.tooFrequent)
+    elseif #text>0 then
+        wsSend(actMap.global_chat,{message=text})
+        return true
+    end
 end
 
 -- Room
@@ -525,6 +536,16 @@ end
 NET.wsCallBack={}
 function NET.wsCallBack.global_getOnlineCount(body)
     NET.onlineCount=tonumber(body.data) or "_"
+end
+function NET.wsCallBack.global_chat(body)
+    local name=USERS.getUsername(body.data.playerId)
+    if not name or #name==0 then
+        name=tostring(body.data.playerId)
+    end
+    local msg=body.data.message
+    if CHAT and CHAT.receiveMessage then
+        CHAT.receiveMessage(name,msg)
+    end
 end
 function NET.wsCallBack.room_chat(body)
     if SCN.cur~='net_game' then return end

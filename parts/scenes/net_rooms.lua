@@ -44,7 +44,7 @@ local roomList=WIDGET.newListBox{name='roomList',x=50,y=50,w=800,h=440,lineH=40,
             elseif item.state=='Playing' then
                 gc_setColor(COLOR.G)
             end
-            gc_print(item.info.name,200,-4)
+            gc_print(item.name,200,-4)
         end
     end
 end}
@@ -129,18 +129,18 @@ function scene.draw()
         gc_setLineWidth(3)
         gc_rectangle('line',0,0,385,335)
         setFont(25)
-        gc_print(R.info.type,10,25)
+        gc_print(R.type,10,25)
         gc_setColor(1,1,.7)
-        gc_printf(R.info.name,10,0,365)
+        gc_printf(R.name,10,0,365)
         setFont(20)
         gc_setColor(COLOR.lH)
-        gc_printf(R.info.description or "[No description]",10,55,365)
+        gc_printf(R.description or "[No description]",10,55,365)
         if R.start then
             gc_setColor(COLOR.lA)
             gc_print(text.started,10,300)
         end
         gc_setColor(COLOR.lN)
-        gc_printf(R.info.version,10,300,365,'right')
+        gc_printf(R.version,10,300,365,'right')
         gc_translate(-870,-220)
     end
 

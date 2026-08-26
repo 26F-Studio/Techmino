@@ -31,8 +31,6 @@ end
 
 function CHAT.sendMessage()
     if #CHAT.inputText>0 then
-        local username=USER.uid and USERS.getUsername(USER.uid) or "Guest"
-        _addMessage(username,CHAT.inputText)
         if NET.global_chat then
             NET.global_chat(CHAT.inputText)
         end
@@ -69,7 +67,14 @@ function LOBBY.init()
         if NET.onlinePlayers then
             for i,p in ipairs(NET.onlinePlayers) do
                 if y>680 then break end
-                gc_print(p.username or "Guest",30,y)
+                local name = p.username
+                if not name or #name==0 or name==p.id then
+                    name = USERS.getUsername(p.id)
+                end
+                if not name or #name==0 then
+                    name = p.id or "Guest"
+                end
+                gc_print(name,30,y)
                 if type(p.elo)=='number' then
                     gc_setColor(COLOR.lY)
                     gc_printf(tostring(p.elo),self.w-120,y,100,'right')
@@ -157,14 +162,13 @@ function LOBBY.mouseClick(x,y)
     if LOBBY.chat:checkToggleButtonClick(x,y) then return true end
     
     if LOBBY.chat.visible and LOBBY.chat.alpha>0.5 then
-        local screenX,screenY=SCR.xOy:transformPoint(x,y)
         local inputY=670
-        if screenX>=LOBBY.chat.x+10 and screenX<=LOBBY.chat.x+LOBBY.chat.w-90 and screenY>=inputY and screenY<=inputY+35 then
+        if x>=LOBBY.chat.x+10 and x<=LOBBY.chat.x+LOBBY.chat.w-90 and y>=inputY and y<=inputY+35 then
             CHAT.focused=true
             love.keyboard.setTextInput(true)
             return true
         end
-        if screenX>=LOBBY.chat.x+LOBBY.chat.w-80 and screenX<=LOBBY.chat.x+LOBBY.chat.w-10 and screenY>=inputY and screenY<=inputY+35 then
+        if x>=LOBBY.chat.x+LOBBY.chat.w-80 and x<=LOBBY.chat.x+LOBBY.chat.w-10 and y>=inputY and y<=inputY+35 then
             CHAT.sendMessage()
             return true
         end

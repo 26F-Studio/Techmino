@@ -153,28 +153,26 @@ function WINDOW.new(id)
     function win:mouseClick(mx,my)
         if not self.visible or self.alpha<0.5 then return false end
         
-        local screenX,screenY=SCR.xOy:transformPoint(mx,my)
-        
-        if screenX>=self.x+self.w-30 and screenX<=self.x+self.w-8 and
-           screenY>=self.y+5 and screenY<=self.y+27 then
+        if mx>=self.x+self.w-30 and mx<=self.x+self.w-8 and
+           my>=self.y+5 and my<=self.y+27 then
             self:close()
             return true
         end
         
-        if screenX<self.x or screenX>self.x+self.w or screenY<self.y or screenY>self.y+self.h then
+        if mx<self.x or mx>self.x+self.w or my<self.y or my>self.y+self.h then
             return false
         end
         
-        if screenY<self.y+35 then
+        if my<self.y+35 then
             self.drag=true
-            self.dragX=screenX-self.x
-            self.dragY=screenY-self.y
+            self.dragX=mx-self.x
+            self.dragY=my-self.y
             return true
         end
         
         for _,btn in ipairs(self.buttons) do
             local bx,by,bw,bh=self.x+btn.x,self.y+btn.y,btn.w,btn.h
-            if screenX>=bx and screenX<=bx+bw and screenY>=by and screenY<=by+bh then
+            if mx>=bx and mx<=bx+bw and my>=by and my<=by+bh then
                 btn.callback()
                 return true
             end
@@ -204,9 +202,8 @@ function WINDOW.new(id)
     
     function win:mouseMove(mx,my)
         if self.drag then
-            local screenX,screenY=SCR.xOy:transformPoint(mx,my)
-            self.x=screenX-self.dragX
-            self.y=screenY-self.dragY
+            self.x=mx-self.dragX
+            self.y=my-self.dragY
         end
     end
     

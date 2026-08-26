@@ -226,7 +226,7 @@ end
 function AUTH.mouseClick(x,y)
     if not _isOpen then return false end
     
-    local screenX,screenY=SCR.xOy:transformPoint(x,y)
+    local screenX,screenY=x,y
     
     local fields={'username','password'}
     if AUTH.mode=='register' then
@@ -253,15 +253,39 @@ function AUTH.mouseClick(x,y)
         _close()
         return true
     end
-    
-    local w,h=700,AUTH.mode=='login' and 420 or 520
-    local x1,y1=290, AUTH.mode=='login' and 150 or 100
-    local x2,y2=x1+w,y1+h
-    if screenX<x1 or screenX>x2 or screenY<y1 or screenY>y2 then
-        _close()
-        return true
+
+    if AUTH.mode=='login' then
+        if _pointInRect(screenX,screenY,320,240,640,55) then
+            focusedField='username'
+            love.keyboard.setTextInput(true)
+            return true
+        elseif _pointInRect(screenX,screenY,320,310,640,55) then
+            focusedField='password'
+            love.keyboard.setTextInput(true)
+            return true
+        end
+    elseif AUTH.mode=='register' then
+        if _pointInRect(screenX,screenY,320,180,640,50) then
+            focusedField='username'
+            love.keyboard.setTextInput(true)
+            return true
+        elseif _pointInRect(screenX,screenY,320,245,640,50) then
+            focusedField='email'
+            love.keyboard.setTextInput(true)
+            return true
+        elseif _pointInRect(screenX,screenY,320,310,640,50) then
+            focusedField='password'
+            love.keyboard.setTextInput(true)
+            return true
+        elseif _pointInRect(screenX,screenY,320,375,640,50) then
+            focusedField='password2'
+            love.keyboard.setTextInput(true)
+            return true
+        end
     end
     
+    -- Prevent clicks outside the modal from closing it in fullscreen
+    -- where coordinate transforms can be unreliable
     return true
 end
 

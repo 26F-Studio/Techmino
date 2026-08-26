@@ -770,6 +770,7 @@ function love.run()
                 gc_replaceTransform(SCR.xOy)
                     if SCN.draw then SCN.draw() end
                     WIDGET_draw()
+                    if SCN.overDraw then SCN.overDraw() end
                 gc_replaceTransform(SCR.xOy)
                     SYSFX_draw()
                     TEXT_draw()

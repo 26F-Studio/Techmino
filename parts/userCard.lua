@@ -13,16 +13,13 @@ local CARD={}
 
 local AUTH=require'parts.authModal'
 
-CARD.x=0
 CARD.w=310
 CARD.h=100
-CARD.slideX=0
+CARD.slideX=320
 CARD.alpha=0
 CARD.open=false
 CARD.menu=false
 CARD.menuAlpha=0
-CARD.menuY=0
-CARD.menuH=0
 CARD.playerName=""
 CARD.nameTextObj=nil
 CARD.nameScaleK=1
@@ -39,12 +36,12 @@ function CARD.reset()
     CARD.nameOffY=0
 end
 
-function CARD.enter(targetX)
+function CARD.enter(startX)
     CARD.open=true
     CARD.menu=false
     CARD.menuAlpha=0
     CARD.alpha=0
-    CARD.slideX=targetX or -320
+    CARD.slideX=startX or 320
 end
 
 function CARD.leave()
@@ -54,7 +51,7 @@ function CARD.leave()
 end
 
 function CARD.update(dt)
-    local targetX = CARD.open and 0 or -CARD.w
+    local targetX = CARD.open and 0 or CARD.w
     CARD.slideX=approach(CARD.slideX,targetX,dt*12)
     if CARD.open then
         CARD.alpha=math.min(CARD.alpha+dt*8,1)
@@ -70,24 +67,21 @@ end
 
 function CARD._isCardAbove(mx,my)
     if CARD.alpha<0.5 then return false end
-    local screenX,screenY=SCR.xOy:transformPoint(mx,my)
-    local rx,ry=SCR.xOy_ur:inverseTransformPoint(screenX,screenY)
-    local cx=CARD.slideX
-    return rx>cx-320 and rx<cx and ry>10 and ry<110
+    local cardX=1280-CARD.w-10+CARD.slideX
+    return mx>=cardX and mx<=cardX+CARD.w and my>=10 and my<=10+CARD.h
 end
 
 function CARD.mouseClick(x,y)
-    local screenX,screenY=SCR.xOy:transformPoint(x,y)
-    local rx,ry=SCR.xOy_ur:inverseTransformPoint(screenX,screenY)
+    local cardX=1280-CARD.w-10+CARD.slideX
     if CARD.menuAlpha>0 and CARD.menu then
-        local menuX=-160
-        local menuY=CARD.h+10+16
-        local menuW=160
-        local menuH=#menuItems*56+16
-        if rx>=menuX and rx<=menuX+menuW and ry>=menuY and ry<=menuY+menuH then
+        local menuW=180
+        local menuH=#menuItems*50+16
+        local menuX=1280-menuW-10+CARD.slideX
+        local menuY=CARD.h+10+10
+        if x>=menuX and x<=menuX+menuW and y>=menuY and y<=menuY+menuH then
             for i,item in ipairs(menuItems) do
-                local iy=menuY+8+(i-1)*56
-                if ry>=iy and ry<=iy+48 then
+                local iy=menuY+8+(i-1)*50
+                if y>=iy and y<=iy+44 then
                     CARD.closeMenu()
                     if item.url then
                         love.system.openURL(item.url)
@@ -128,7 +122,6 @@ function CARD.openMenu()
         table.insert(menuItems,{label="Log In",code=function() AUTH.open('login') end})
         table.insert(menuItems,{label="Register",code=function() AUTH.open('register') end})
     end
-    CARD.menuH=#menuItems*56+16
 end
 
 function CARD.closeMenu()
@@ -150,77 +143,82 @@ end
 function CARD.draw()
     if CARD.alpha<=0 and CARD.menuAlpha<=0 then return end
 
+    local cardX=1280-CARD.w-10+CARD.slideX
+    local cardY=10
+
     if CARD.alpha>0 then
         gc_push('transform')
-        gc_replaceTransform(SCR.xOy_ur)
-        gc_translate(CARD.slideX,0)
+        gc_replaceTransform(SCR.xOy)
             gc_setColor(.15,.15,.15,.85*CARD.alpha)
-            gc_rectangle('fill',-320,10,310,100,6)
+            gc_rectangle('fill',cardX,cardY,CARD.w,CARD.h,6)
             gc_setColor(1,1,1,CARD.alpha)
             gc_setLineWidth(2)
-            gc_rectangle('line',-320,10,310,100,6)
+            gc_rectangle('line',cardX,cardY,CARD.w,CARD.h,6)
 
+            -- Avatar border & avatar
             gc_setColor(1,1,1,CARD.alpha)
-            gc_rectangle('line',-308,20,74,74,3)
+            gc_rectangle('line',cardX+CARD.w-84,cardY+12,74,74,3)
 
             local isGuest = not USER.uid
             local avatar = isGuest and nil or USERS.getAvatar(USER.uid)
             if avatar then
-                gc_draw(avatar,-306,22,nil,.58)
+                gc_draw(avatar,cardX+CARD.w-82,cardY+14,nil,.58)
             end
 
+            -- Username
             local username = isGuest and "Guest" or USERS.getUsername(USER.uid)
             if username~=CARD.playerName then
                 CARD.playerName=username
                 CARD.nameTextObj=GC.newText(getFont(25),username)
                 CARD.nameWidth=CARD.nameTextObj:getWidth()
-                CARD.nameScaleK=170/math.max(CARD.nameWidth,170)
+                CARD.nameScaleK=180/math.max(CARD.nameWidth,180)
                 CARD.nameOffY=CARD.nameTextObj:getHeight()/2
             end
             gc_setColor(COLOR.Z[1],COLOR.Z[2],COLOR.Z[3],CARD.alpha)
-            gc_draw(CARD.nameTextObj,-155,32,nil,CARD.nameScaleK,nil,CARD.nameWidth,CARD.nameOffY)
+            gc_draw(CARD.nameTextObj,cardX+16,cardY+24,nil,CARD.nameScaleK)
 
-            setFont(18)
+            -- Rank and ELO
+            setFont(16)
             local rank = isGuest and 0 or (STAT.globalRank or 0)
             local rankStr = rank > 0 and ("#"..rank) or "Unranked"
             gc_setColor(COLOR.lH[1],COLOR.lH[2],COLOR.lH[3],CARD.alpha)
-            gc_print(text.globalRank.." "..rankStr,-222,58)
+            gc_print(text.globalRank.." "..rankStr,cardX+16,cardY+48)
 
             local elo = isGuest and 0 or (STAT.elo or 1200)
             gc_setColor(COLOR.lY[1],COLOR.lY[2],COLOR.lY[3],CARD.alpha)
-            gc_print(text.elo.." "..elo,-222,80)
+            gc_print(text.elo.." "..elo,cardX+16,cardY+70)
 
             -- Dropdown arrow indicator
             setFont(12)
             gc_setColor(.6,.6,.6,CARD.alpha)
-            gc_printf("▼",-310,2,100,'center')
+            gc_printf("▼",cardX+CARD.w-35,cardY+CARD.h-18,25,'center')
         gc_pop()
     end
 
     -- Dropdown menu
     if CARD.menuAlpha>0 and #menuItems>0 then
         gc_push('transform')
-        gc_replaceTransform(SCR.xOy_ur)
-        local mx=-160
-        local my=CARD.h+10+16
-        local menuW=160
-        local menuH=#menuItems*56+16
+        gc_replaceTransform(SCR.xOy)
+        local menuW=180
+        local menuH=#menuItems*50+16
+        local menuX=1280-menuW-10+CARD.slideX
+        local menuY=CARD.h+10+10
 
-        gc_setColor(.1,.1,.1,.92*CARD.menuAlpha)
-        gc_rectangle('fill',mx,my,menuW,menuH,4)
+        gc_setColor(.1,.1,.1,.95*CARD.menuAlpha)
+        gc_rectangle('fill',menuX,menuY,menuW,menuH,4)
         gc_setColor(.3,.3,.3,CARD.menuAlpha)
         gc_setLineWidth(1)
-        gc_rectangle('line',mx,my,menuW,menuH,4)
+        gc_rectangle('line',menuX,menuY,menuW,menuH,4)
 
-        setFont(22)
+        setFont(20)
         for i,item in ipairs(menuItems) do
-            local iy=my+8+(i-1)*56
-            local ih=48
+            local iy=menuY+8+(i-1)*50
+            local ih=44
             if not item.hide or not item.hide() then
                 gc_setColor(.2,.2,.2,.5*CARD.menuAlpha)
-                gc_rectangle('fill',mx+4,iy,menuW-8,ih,3)
+                gc_rectangle('fill',menuX+4,iy,menuW-8,ih,3)
                 gc_setColor(1,1,1,CARD.menuAlpha)
-                gc_print(item.label,mx+14,iy+12)
+                gc_print(item.label,menuX+14,iy+10)
             end
         end
         gc_pop()

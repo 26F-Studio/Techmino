@@ -75,6 +75,7 @@ do-- function loadFile(name,args), function saveFile(data,name,args)
         end
     end
     function saveFile(data,name,args)
+        if TEMP_MODE then return true end
         local text=text or t
         local res,mes=pcall(FILE.save,data,name,args)
         if res then
