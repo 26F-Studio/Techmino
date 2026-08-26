@@ -1,10 +1,14 @@
+local scene={}
+
+local CARD=require'parts.userCard'
+local AUTH=require'parts.authModal'
+
 local gc=love.graphics
 local gc_translate=gc.translate
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_draw=gc.draw
 local gc_rectangle=gc.rectangle
 local gc_print,gc_printf=gc.print,gc.printf
-
 
 local NET=NET
 local fetchTimer
@@ -50,21 +54,6 @@ local function _hidePW()
 end
 local passwordBox=WIDGET.newInputBox{name='password',x=350,y=505,w=500,h=50,secret=true,hideF=_hidePW,limit=64}
 
---[[roomList[n]={
-    state='Standby',
-    roomId="qwerty",
-    count={
-        Gamer=0,
-        Spectator=1,
-    },
-    info={
-        name="AkamaiShino's room",
-        description="123123123",
-        type="normal",
-        version='ver A-7',
-    },
-    capacity=5,
-}]]
 local function _fetchRoom()
     fetchTimer=10
     NET.room_fetch()
@@ -72,12 +61,20 @@ end
 local scene={}
 
 function scene.enter()
+    CARD.reset()
+    CARD.enter()
     BG.set()
     _fetchRoom()
     DiscordRPC.update("Checking room list")
 end
 
-function scene.keyDown(key)
+function scene.leave()
+    CARD.leave()
+    AUTH.close()
+end
+
+function scene.keyDown(key,rep)
+    if AUTH.isOpen() and AUTH.keyDown(key,rep) then return true end
     if TASK.getLock('enterRoom') then return true end
     if key=='r' then
         if fetchTimer<=7 then
@@ -97,7 +94,18 @@ function scene.keyDown(key)
     end
 end
 
+function scene.textInput(t)
+    if AUTH.isOpen() and AUTH.textInput(t) then return true end
+end
+
+function scene.mouseClick(x,y)
+    if AUTH.mouseClick(x,y) then return true end
+    if CARD.mouseClick(x,y) then return true end
+end
+
 function scene.update(dt)
+    CARD.update(dt)
+    AUTH.update(dt)
     if not TASK.getLock('fetchRoom') then
         fetchTimer=fetchTimer-dt
         if fetchTimer<=0 and _hidePW() then
@@ -137,10 +145,12 @@ function scene.draw()
     end
 
     -- Profile
-    drawSelfProfile()
+    CARD.draw()
 
     -- Player count
     drawOnlinePlayerCount()
+
+    AUTH.draw()
 end
 
 scene.widgetList={

@@ -30,6 +30,10 @@ local sList={
 local scene={}
 
 local function _createRoom()
+    if WS.status('game')~='running' then
+        MES.new('error',text.serverDown)
+        return
+    end
     if legalGameTime() then
         local pw=passwordBox.value
         if pw=="" then pw=nil end

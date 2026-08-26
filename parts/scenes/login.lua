@@ -1,26 +1,36 @@
 local scene={}
 
+local CARD=require'parts.userCard'
+local AUTH=require'parts.authModal'
+local CHAT=require'parts.globalChat'
+
 local gc=love.graphics
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
-local gc_draw,gc_rectangle=gc.draw,gc.rectangle
-local gc_print,gc_printf=gc.print,gc.printf
-local gc_push,gc_pop=gc.push,gc.pop
-local gc_replaceTransform=gc.replaceTransform
+local gc_rectangle=gc.rectangle
+local gc_print=gc.print
 local gc_line=gc.line
 local setFont=FONT.set
 
 local function _goCasual()
+    CARD.leave()
+    CHAT.close()
     SCN.go('net_rooms')
 end
 local function _goRanked()
-    SCN.go('net_rooms')
+    CARD.leave()
+    CHAT.close()
+    SCN.go('net_ranked')
 end
 
 local function _refreshOnline()
     NET.online_getPlayers()
 end
 
-local onlineList=WIDGET.newListBox{name='onlineList',x=680,y=230,w=500,h=340,lineH=40,drawF=function(item,id,ifSel)
+local function _toggleChat()
+    CHAT.toggle()
+end
+
+local onlineList=WIDGET.newListBox{name='onlineList',x=100,y=230,w=500,h=340,lineH=40,drawF=function(item,id,ifSel)
     setFont(30)
     if ifSel then
         gc_setColor(1,1,1,.3)
@@ -39,12 +49,27 @@ local onlineList=WIDGET.newListBox{name='onlineList',x=680,y=230,w=500,h=340,lin
 end}
 
 function scene.enter()
+    CARD.reset()
+    CARD.enter()
     NET.online_getPlayers()
+    CHAT.open()
+end
+
+function scene.leave()
+    CARD.leave()
+    AUTH.close()
+    CHAT.close()
 end
 
 function scene.keyDown(key,rep)
+    if AUTH.isOpen() and AUTH.keyDown(key,rep) then return true end
+    if CHAT.isOpen and CHAT.keyDown(key) then return true end
     if key=='escape' and not rep then
-        SCN.back()
+        if CHAT.isOpen then
+            CHAT.close()
+        else
+            SCN.back()
+        end
     elseif key=='return' or key=='kpenter' then
         _submit()
     elseif key=='v' and love.keyboard.isDown('lctrl','rctrl') then
@@ -57,12 +82,28 @@ function scene.keyDown(key,rep)
         end
     elseif key=='r' and love.keyboard.isDown('lctrl','rctrl') then
         _refreshOnline()
+    elseif key=='c' and love.keyboard.isDown('lctrl','rctrl') then
+        _toggleChat()
     else
         return true
     end
 end
 
+function scene.textInput(t)
+    if AUTH.isOpen() and AUTH.textInput(t) then return true end
+    if CHAT.isOpen and CHAT.textInput(t) then return true end
+end
+
+function scene.mouseClick(x,y)
+    if AUTH.mouseClick(x,y) then return true end
+    if CHAT.mouseClick(x,y) then return true end
+    if CARD.mouseClick(x,y) then return true end
+end
+
 function scene.update(dt)
+    CARD.update(dt)
+    AUTH.update(dt)
+    CHAT.update(dt)
     local list={}
     if NET.onlinePlayers then
         for _,p in next,NET.onlinePlayers do
@@ -72,63 +113,30 @@ function scene.update(dt)
     onlineList:setList(list)
 end
 
-local playerName=""
-local nameTextObj,nameScaleK,nameWidth,nameOffY
-
 function scene.draw()
-    -- Player tab (top-right)
-    gc_push('transform')
-    gc_replaceTransform(SCR.xOy_ur)
-        gc_setColor(.15,.15,.15,.85)
-        gc_rectangle('fill',-320,10,310,100,6)
-        gc_setColor(1,1,1)
-        gc_setLineWidth(2)
-        gc_rectangle('line',-320,10,310,100,6)
+    CARD.draw()
 
-        gc_setColor(1,1,1)
-        gc_rectangle('line',-308,20,74,74,3)
-        gc_draw(USERS.getAvatar(USER.uid),-306,22,nil,.58)
-
-        local username=USERS.getUsername(USER.uid)
-        if username~=playerName then
-            playerName=username
-            nameTextObj=GC.newText(getFont(25),username)
-            nameWidth=nameTextObj:getWidth()
-            nameScaleK=170/math.max(nameWidth,170)
-            nameOffY=nameTextObj:getHeight()/2
-        end
-        gc_setColor(COLOR.Z)
-        gc_draw(nameTextObj,-222,32,nil,nameScaleK,nil,nameWidth,nameOffY)
-
-        setFont(18)
-        gc_setColor(COLOR.lH)
-        local rankStr=STAT.globalRank>0 and ("#"..STAT.globalRank) or "Unranked"
-        gc_print(text.globalRank.." "..rankStr,-222,58)
-
-        gc_setColor(COLOR.lY)
-        gc_print(text.elo.." "..(STAT.elo or 1200),-222,80)
-    gc_pop()
-
-    -- Online players label
     setFont(35)
     gc_setColor(COLOR.Z)
-    gc_print(text.onlinePlayers or "Online Players",680,150)
+    gc_print(text.onlinePlayers or "Online Players",100,150)
     gc_setColor(1,1,1,.5)
     setFont(20)
-    gc_print(text.onlinePlayerCount:repD(NET.onlineCount),680,192)
+    gc_print(text.onlinePlayerCount:repD(NET.onlineCount),100,192)
 
     gc_setColor(1,1,1,.2)
     gc_setLineWidth(1)
-    gc_line(680,225,1180,225)
+    gc_line(100,225,680,225)
+
+    CHAT.draw()
+    AUTH.draw()
 end
 
 scene.widgetList={
     WIDGET.newText{name='title',        x=80,  y=50,font=70,align='L'},
 
-    WIDGET.newKey{name='Casual Mode',   x=200, y=600,w=240,h=80,font=35,color='lG',code=_goCasual},
-    WIDGET.newKey{name='Ranked Mode',    x=450, y=600,w=240,h=80,font=35,color='lY',code=_goRanked},
-
-    WIDGET.newKey{name='refresh',       x=1120,y=150,w=60, h=40,font=20,code=_refreshOnline},
+    WIDGET.newKey{name='Casual Mode',   x=220, y=650,w=240,h=80,font=35,color='lG',code=_goCasual},
+    WIDGET.newKey{name='Ranked Mode',    x=470, y=650,w=240,h=80,font=35,color='lY',code=_goRanked},
+    WIDGET.newKey{name='Chat',          x=720, y=650,w=120,h=80,font=30,color='lB',code=_toggleChat},
 
     WIDGET.newButton{name='back',       x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=pressKey'escape'},
 

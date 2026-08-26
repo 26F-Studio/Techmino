@@ -27,7 +27,7 @@ local NET={
 
     roomAllReady=false,
 
-    onlineCount="_",
+    onlineCount="0",
     onlinePlayers={},-- List of online players (id, username, elo)
 
     textBox=WIDGET.newTextBox{name='texts',x=20,y=110,w=980,h=500},
@@ -157,6 +157,86 @@ function NET.login(auto)
         end
         if auto then
             SCN.go('login')
+        end
+
+        WAIT.interrupt()
+    end)
+end
+function NET.loginWithPassword(username,password)
+    if not TASK.lock('login') then return end
+    TASK.new(function()
+        WAIT{
+            quit=function()
+                TASK.unlock('login')
+                HTTP.deletePool('loginPW')
+            end,
+            timeout=12.6,
+        }
+
+        local res=getMsg({
+            pool='loginPW',
+            url=AUTHHOST,
+            path='/api/login',
+            body={username=username,password=password},
+        },6.26)
+
+        if res and math.floor(res.code/100)==2 and res.data and res.data.token then
+            USER.oToken=res.data.token
+            USER.aToken=res.data.token
+            saveUser()
+            NET.ws_connect()
+            SCN.go('net_menu')
+            WAIT.interrupt()
+            return
+        elseif res then
+            MES.new('error',res.message or 'Login failed')
+        else
+            MES.new('error',text.serverDown)
+        end
+
+        WAIT.interrupt()
+    end)
+end
+function NET.register(username,email,password)
+    if not TASK.lock('register') then return end
+    TASK.new(function()
+        WAIT{
+            quit=function()
+                TASK.unlock('register')
+                HTTP.deletePool('register')
+            end,
+            timeout=12.6,
+        }
+
+        HTTP({
+            pool='register',
+            url=AUTHHOST,
+            path='/api/register',
+            body={username=username,email=email,password=password},
+        })
+
+        local totalTime=0
+        while true do
+            local msg=HTTP.pollMsg('register')
+            if msg then
+                if type(msg.body)=='string' and #msg.body>0 then
+                    if msg.code==201 then
+                        MES.new('check','Registration successful! You can now log in.')
+                        NET.loginWithPassword(username,password)
+                    else
+                        MES.new('error',msg.body)
+                    end
+                else
+                    MES.new('info',text.serverDown)
+                end
+                break
+            else
+                totalTime=totalTime+coroutine.yield()
+                if totalTime>6.26 then
+                    MES.new('info',text.serverDown)
+                    break
+                end
+            end
         end
 
         WAIT.interrupt()

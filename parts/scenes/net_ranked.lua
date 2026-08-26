@@ -1,0 +1,129 @@
+local scene={}
+
+local CARD=require'parts.userCard'
+local AUTH=require'parts.authModal'
+
+local gc=love.graphics
+local gc_translate=gc.translate
+local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
+local gc_rectangle=gc.rectangle
+local gc_print,gc_printf=gc.print,gc.printf
+
+local matchmaking=false
+local searchTimer=0
+
+local function _startMatchmaking()
+    if not USER.uid then
+        MES.new('error',text.serverDown)
+        return
+    end
+    matchmaking=true
+    searchTimer=0
+end
+
+local function _cancelMatchmaking()
+    matchmaking=false
+    searchTimer=0
+end
+
+function scene.enter()
+    CARD.reset()
+    CARD.enter()
+    BG.set()
+    matchmaking=false
+    searchTimer=0
+    DiscordRPC.update("Ranked Lobby")
+end
+
+function scene.leave()
+    CARD.leave()
+    AUTH.close()
+end
+
+function scene.keyDown(key,rep)
+    if AUTH.isOpen() and AUTH.keyDown(key,rep) then return true end
+    if key=='escape' then
+        if matchmaking then
+            _cancelMatchmaking()
+        else
+            SCN.back()
+        end
+    end
+end
+
+function scene.textInput(t)
+    if AUTH.isOpen() and AUTH.textInput(t) then return true end
+end
+
+function scene.mouseClick(x,y)
+    if AUTH.mouseClick(x,y) then return true end
+    if CARD.mouseClick(x,y) then return true end
+end
+
+function scene.update(dt)
+    CARD.update(dt)
+    AUTH.update(dt)
+    if matchmaking then
+        searchTimer=searchTimer+dt
+    end
+end
+
+function scene.draw()
+    CARD.draw()
+    drawOnlinePlayerCount()
+
+    -- Title
+    setFont(50)
+    gc_setColor(COLOR.Z)
+    gc_print(text.rankedMode or "Ranked Mode",60,40)
+
+    -- Match info panel
+    gc_translate(400,150)
+        gc_setColor(.12,.12,.12,.9)
+        gc_rectangle('fill',0,0,480,300,8)
+        gc_setColor(1,1,1)
+        gc_setLineWidth(2)
+        gc_rectangle('line',0,0,480,300,8)
+
+        setFont(30)
+        gc_setColor(COLOR.lY)
+        gc_printf("1v1",0,15,480,'center')
+
+        setFont(20)
+        gc_setColor(COLOR.lH)
+        if matchmaking then
+            local dots=string.rep('.',math.floor(searchTimer*2)%4)
+            gc_printf("Searching for opponent"..dots,0,80,480,'center')
+            gc_printf(("Search time: %.1fs"):format(searchTimer),0,120,480,'center')
+        else
+            gc_printf("Find a matched opponent",0,80,480,'center')
+            gc_printf("based on your rating",0,110,480,'center')
+        end
+
+        -- Stats
+        setFont(18)
+        gc_setColor(COLOR.lN)
+        local elo = (USER.uid and STAT.elo) or 1200
+        gc_printf(text.elo.." "..elo,20,180,200,'left')
+        local rank = (USER.uid and STAT.globalRank) or 0
+        local rankStr = rank > 0 and ("#"..rank) or "Unranked"
+        gc_printf(text.globalRank.." "..rankStr,20,210,200,'left')
+    gc_translate(-400,-150)
+
+    AUTH.draw()
+end
+
+scene.widgetList={
+    WIDGET.newKey{name='match',      x=440,y=480,w=400,h=100,font=40,color='lG',
+        code=function()
+            if matchmaking then
+                _cancelMatchmaking()
+            else
+                _startMatchmaking()
+            end
+        end,
+        hideF=function() return not USER.uid end},
+    WIDGET.newButton{name='back',    x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=pressKey'escape'},
+}
+
+return scene

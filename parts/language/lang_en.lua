@@ -534,6 +534,10 @@ C. Gamepad
             spectate="Spectate",
             cancel="Cancel ready",
         },
+        net_ranked={
+            match="Find Match",
+            cancel="Cancel",
+        },
         setting_game={
             title="Game Settings",
             graphic="←Video",
@@ -814,6 +818,9 @@ C. Gamepad
             authorize="Go Authorizing",
             paste="Paste Ticket",
             submit="Submit",
+            Casual_Mode="Casual Mode",
+            Ranked_Mode="Ranked Mode",
+            refresh="Refresh",
         },
         reset_password={
             title="Reset Password",

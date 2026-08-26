@@ -525,6 +525,10 @@ return {
             spectate="观战",
             cancel="取消准备",
         },
+        net_ranked={
+            match="寻找对局",
+            cancel="取消",
+        },
         setting_game={
             title="游戏设置",
             graphic="←画面",
@@ -804,6 +808,9 @@ return {
             authorize="获取口令",
             paste="粘贴口令",
             submit="登录",
+            Casual_Mode="休闲模式",
+            Ranked_Mode="排位模式",
+            refresh="刷新",
         },
         reset_password={
             title="重置密码",
