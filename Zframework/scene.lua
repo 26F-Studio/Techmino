@@ -32,6 +32,7 @@ local SCN={
     touchMove=false,
     keyDown=false,
     keyUp=false,
+    textInput=false,
     gamepadDown=false,
     gamepadUp=false,
     fileDropped=false,

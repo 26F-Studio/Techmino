@@ -121,6 +121,7 @@ function AUTH.open(mode)
     password2=""
     focusedField="username"
     _isOpen=true
+    love.keyboard.setTextInput(true)
 end
 
 function AUTH._submit()
@@ -226,7 +227,7 @@ end
 function AUTH.mouseClick(x,y)
     if not _isOpen then return false end
     
-    local screenX,screenY=x,y
+    love.keyboard.setTextInput(true)
     
     local fields={'username','password'}
     if AUTH.mode=='register' then
@@ -235,7 +236,7 @@ function AUTH.mouseClick(x,y)
     
     for _,fieldName in ipairs(fields) do
         local fx,fy,fw,fh=_getFieldRect(fieldName)
-        if fx and _pointInRect(screenX,screenY,fx,fy,fw,fh) then
+        if fx and _pointInRect(x,y,fx,fy,fw,fh) then
             focusedField=fieldName
             love.keyboard.setTextInput(true)
             return true
@@ -243,45 +244,23 @@ function AUTH.mouseClick(x,y)
     end
     
     local submitX,submitY,submitW,submitH=_getButtonRect('submit')
-    if submitX and _pointInRect(screenX,screenY,submitX,submitY,submitW,submitH) then
+    if submitX and _pointInRect(x,y,submitX,submitY,submitW,submitH) then
         AUTH._submit()
         return true
     end
     
     local closeX,closeY,closeW,closeH=_getButtonRect('close')
-    if closeX and _pointInRect(screenX,screenY,closeX,closeY,closeW,closeH) then
+    if closeX and _pointInRect(x,y,closeX,closeY,closeW,closeH) then
         _close()
         return true
     end
-
-    if AUTH.mode=='login' then
-        if _pointInRect(screenX,screenY,320,240,640,55) then
-            focusedField='username'
-            love.keyboard.setTextInput(true)
-            return true
-        elseif _pointInRect(screenX,screenY,320,310,640,55) then
-            focusedField='password'
-            love.keyboard.setTextInput(true)
-            return true
-        end
-    elseif AUTH.mode=='register' then
-        if _pointInRect(screenX,screenY,320,180,640,50) then
-            focusedField='username'
-            love.keyboard.setTextInput(true)
-            return true
-        elseif _pointInRect(screenX,screenY,320,245,640,50) then
-            focusedField='email'
-            love.keyboard.setTextInput(true)
-            return true
-        elseif _pointInRect(screenX,screenY,320,310,640,50) then
-            focusedField='password'
-            love.keyboard.setTextInput(true)
-            return true
-        elseif _pointInRect(screenX,screenY,320,375,640,50) then
-            focusedField='password2'
-            love.keyboard.setTextInput(true)
-            return true
-        end
+    
+    local w,h=700,AUTH.mode=='login' and 420 or 520
+    local x1,y1=290, AUTH.mode=='login' and 150 or 100
+    local x2,y2=x1+w,y1+h
+    if x<x1 or x>x2 or y<y1 or y>y2 then
+        _close()
+        return true
     end
     
     -- Prevent clicks outside the modal from closing it in fullscreen
@@ -310,7 +289,7 @@ function AUTH.keyDown(key,rep)
             end
         end
         return true
-    elseif key=='backspace' and not rep then
+    elseif key=='backspace' then
         if focusedField=='username' then
             username=username:sub(1,-2)
         elseif focusedField=='password' then
@@ -323,7 +302,7 @@ function AUTH.keyDown(key,rep)
         return true
     end
     
-    return nil
+    return true
 end
 
 function AUTH.textInput(t)

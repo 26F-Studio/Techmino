@@ -20,11 +20,13 @@ local function _startMatchmaking()
     end
     matchmaking=true
     searchTimer=0
+    NET.ranked_join()
 end
 
 local function _cancelMatchmaking()
     matchmaking=false
     searchTimer=0
+    NET.ranked_leave()
 end
 
 function scene.enter()
@@ -39,6 +41,10 @@ end
 function scene.leave()
     CARD.leave()
     AUTH.close()
+    if matchmaking then
+        NET.ranked_leave()
+        matchmaking=false
+    end
 end
 
 function scene.keyDown(key,rep)

@@ -1161,7 +1161,7 @@ function WIDGET.newTextBox(D)-- name,x,y,w,h[,font=30][,fType][,lineH][,fix],hid
         h=    D.h,
 
         font= D.font or 30,
-        lineH=D.lineH,
+        lineH=D.lineH or (D.font or 30)*7/5,
         capacity=nil,
         fType=D.fType,
         fix=  D.fix,

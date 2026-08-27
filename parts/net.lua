@@ -381,7 +381,7 @@ local function _playerLeaveRoom(uid)
     for i=1,#PLY_ALIVE do if PLY_ALIVE[i].uid==uid then table.remove(PLY_ALIVE,i) break end end
     if uid==USER.uid then
         GAME.playing=false
-        SCN.backTo('net_menu')
+        SCN.backTo('lobby')
     else
         NETPLY.remove(uid)
     end
@@ -528,6 +528,14 @@ function NET.online_getPlayers()
 end
 function NET.player_updateElo()
     wsSend(actMap.player_updateElo)
+end
+
+-- Ranked 1v1 matchmaking
+function NET.ranked_join()
+    wsSend(actMap.match_join)
+end
+function NET.ranked_leave()
+    wsSend(actMap.match_leave)
 end
 
 
@@ -756,6 +764,51 @@ function NET.wsCallBack.match_start(body)
         NET.seed=0
         MES.new("error",'No seed received')
     end
+end
+function NET.wsCallBack.match_found(body)
+    -- A ranked match was found. The server follows this with a room_enter
+    -- (1306) snapshot so the client enters net_game and uses the standard
+    -- ready/stream/finish flow, then match_start_ranked (1403).
+    MES.new('info',"Match found!")
+end
+function NET.wsCallBack.match_start_ranked(body)
+    if SCN.cur~='net_game' then return end
+    TASK.lock('netPlaying')
+    NET.seed=body.data and body.data.seed
+    if not NET.seed then
+        NET.seed=0
+        MES.new("error",'No seed received')
+    end
+end
+function NET.wsCallBack.match_finish_ranked(body)
+    if SCN.cur~='net_game' then return end
+    for _,P in next,PLAYERS do
+        NETPLY.setStat(P.uid,P.stat)
+    end
+    if body.data then
+        if type(body.data.ratingChange)=='number' then
+            STAT.elo=(STAT.elo or 1200)+body.data.ratingChange
+        end
+        if type(body.data.ratingAfter)=='number' then
+            STAT.elo=body.data.ratingAfter
+        end
+        if body.data.winnerId==USER.uid then
+            MES.new('check',"Ranked match won!")
+        else
+            MES.new('error',"Ranked match lost")
+        end
+    end
+    TASK.new(function()
+        TEST.yieldT(2.6)
+        TASK.unlock('netPlaying')
+    end)
+end
+function NET.wsCallBack.match_cancel()
+    -- Opponent left the queue before a match was formed.
+    if SCN.cur~='net_ranked' then return end
+    matchmaking=false
+    searchTimer=0
+    MES.new('info',"Matchmaking cancelled")
 end
 
 function NET.ws_connect()

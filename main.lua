@@ -26,6 +26,12 @@ SFXPACKS={'chiptune'}
 VOCPACKS={'miya','mono','xiaoya','flore','neuro','miku','zundamon'}
 FIRSTLAUNCH=false
 DAILYLAUNCH=false
+-- Launch flags (parsed manually: TABLE is loaded later via Zframework)
+do
+    local _temp=false
+    for _,v in ipairs(arg) do if v=='--temp' then _temp=true break end end
+    TEMP_MODE=_temp
+end
 
 -- System setting
 math.randomseed(os.time()*626)

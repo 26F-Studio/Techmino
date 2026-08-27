@@ -37,6 +37,19 @@ local function _loadAvatar(path)
     end
 end
 
+local function _calcAvatarIndex(uid)
+    if type(uid)=='number' then
+        return (math.floor(uid)-26)%29+1
+    elseif type(uid)=='string' and #uid>0 then
+        local sum=0
+        for i=1,#uid do
+            sum=sum+uid:byte(i)
+        end
+        return sum%29+1
+    end
+    return 1
+end
+
 local db_img={}
 local db=setmetatable({},{__index=function(self,uid)
         if not uid then return emptyUser end

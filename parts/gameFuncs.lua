@@ -106,6 +106,7 @@ function saveSettings()
     return saveFile(SETTING,'conf/settings')
 end
 function saveUser()
+    if TEMP_MODE then return true end
     return saveFile(USER.__data,'conf/user')
 end
 do-- function applySettings()
