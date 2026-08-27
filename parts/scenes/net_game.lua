@@ -14,6 +14,7 @@ local textBox=NET.textBox
 local inputBox=NET.inputBox
 
 local playing
+local paused
 local lastUpstreamTime
 local upstreamProgress
 local noTouch,noKey=false,false
@@ -62,6 +63,7 @@ local scene={}
 function scene.enter()
     noTouch=not SETTING.VKSwitch
     playing=false
+    paused=false
     lastUpstreamTime=0
     upstreamProgress=1
 
@@ -97,7 +99,7 @@ scene.mouseDown=NULL
 function scene.mouseMove(x,y) NETPLY.mouseMove(x,y) end
 function scene.touchDown(x,y)
     if not playing or GAME.replaying then NETPLY.mouseMove(x,y) return end
-    if NET.spectate or noTouch or not textBox.hide then return end
+    if NET.spectate or noTouch or not textBox.hide or paused then return end
 
     local t=VK.on(x,y)
     if t then
@@ -141,8 +143,15 @@ function scene.touchMove()
     end
 end
 function scene.keyDown(key,isRep)
+    if GAME.replaying and paused then
+        if key=='escape' then paused=false return end
+        if key=='q' then _quit() return end
+        return
+    end
     if key=='escape' then
-        if not inputBox.hide then
+        if GAME.replaying then
+            paused=not paused
+        elseif not inputBox.hide then
             _switchChat()
         else
             _quit()
@@ -199,7 +208,7 @@ function scene.keyDown(key,isRep)
         WIDGET.focus(inputBox)
         inputBox:keypress(key)
     elseif playing then
-        if NET.spectate or noKey or isRep or GAME.replaying then return end
+        if NET.spectate or noKey or isRep or GAME.replaying or paused then return end
         local k=KEY_MAP.keyboard[key]
         if k and k>0 then
             PLAYERS[1]:pressKey(k)
@@ -254,6 +263,7 @@ function scene.update(dt)
         return
     end
     if playing then
+        if paused then return end
         if not TASK.getLock('netPlaying') then
             playing=false
             BG.set()
@@ -420,6 +430,21 @@ function scene.draw()
         gc_setColor(.3,.7,1,a^2)
         gc_print(CHAR.icon.pencil,430,10)
     end
+
+    -- Replay pause overlay
+    if paused then
+        gc_setColor(0,0,0,.5)
+        gc.rectangle('fill',0,0,1280,720)
+        setFont(60)
+        gc_setColor(COLOR.Z)
+        mStr("PAUSED",640,300)
+        setFont(25)
+        gc_setColor(COLOR.lY)
+        mStr("Press ESC to resume",640,370)
+        setFont(20)
+        gc_setColor(COLOR.lR)
+        mStr("Press Q to quit replay",640,405)
+    end
 end
 local function _hideF_ready() return not (textBox.hide) or playing or (NETPLY.map[USER.uid].playMode=='Spectator' or NETPLY.map[USER.uid].readyMode=='Ready') end
 local function _hideF_standby() return not (textBox.hide) or playing or not (NETPLY.map[USER.uid].playMode=='Spectator' or NETPLY.map[USER.uid].readyMode=='Ready') end
@@ -465,8 +490,8 @@ scene.widgetList={
 --  WIDGET.newKey{x=1175,y=460,w=50,font=40,fText=CHAR.zChan.           ,code=function() inputBox:addText(                      ) end,hideF=_hideF_hideChat},
     WIDGET.newKey{x=1240,y=460,w=50,font=40,fText=CHAR.zChan.none       ,code=function() inputBox:addText(CHAR.zChan.none       ) end,hideF=_hideF_hideChat},
 
-    WIDGET.newKey{name='chat',    x=390,y=45,w=60,fText="···",                code=_switchChat},
-    WIDGET.newKey{name='quit',    x=890,y=45,w=60,font=30,fText=CHAR.icon.cross_thick,code=_quit},
+    WIDGET.newKey{name='chat',    x=390,y=45,w=60,fText="···",                code=_switchChat,hideF=function() return GAME.replaying end},
+    WIDGET.newKey{name='quit',    x=890,y=45,w=60,font=30,fText=CHAR.icon.cross_thick,code=_quit,hideF=function() return GAME.replaying end},
 }
 
 return scene

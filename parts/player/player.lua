@@ -179,11 +179,11 @@ function Player:createSplashFX(h)
     end
 end
 function Player:createBeam(R,send)
-    if self.gameEnv.atkFX and self.cur then
-        local C=self.cur
+    if self.gameEnv.atkFX then
         local power=self.gameEnv.atkFX
+        local C=self.cur
         local x1,y1,x2,y2
-        if self.miniMode then
+        if not C or self.miniMode then
             x1,y1=self.centerX,self.centerY
         else
             local sc=C.RS.centerPos[C.id][C.dir]
@@ -194,7 +194,7 @@ function Player:createBeam(R,send)
         else x2,y2=R.x+308*R.size,R.y+450*R.size
         end
 
-        local c=BLOCK_COLORS[C.color]
+        local c=BLOCK_COLORS[C and C.color or 1]
         local r,g,b=c[1]*2,c[2]*2,c[3]*2
         local a=(power+2)*.0626
         if self.type~='human' and R.type~='human' then a=a*.2 end
@@ -941,10 +941,21 @@ function Player:attack(R,send,time,line)
     -- In live net play the target is a remote player, so the local beAttacked
     -- call (which is what draws the outgoing attack beam) is skipped on the
     -- attacker's own client. Draw the send-beam here so the attacker sees
-    -- their own attack leave the board. Local/solo modes already render the
-    -- beam through beAttacked (the target is a non-remote player there), so
-    -- only do this for remote targets to avoid drawing it twice.
-    if R.type=='remote' then self:createBeam(R,send) end
+    -- their own attack leave the board. The beam is emitted whenever the
+    -- target is another player (not just when typed 'remote'), so the sender
+    -- always gets outgoing-attack feedback regardless of how the opponent
+    -- player object is typed.
+    if GAME.net and R~=self then
+        self:createBeam(R,send)
+        -- Apply the attack to the target's board locally. The opponent's input
+        -- stream only carries key presses, not the garbage itself, so without
+        -- this the attacker's view of the opponent's board would never show the
+        -- incoming lines/garbage (while the opponent, applying it on their own
+        -- machine, does see it) — and the two clients would desync. Applying it
+        -- here keeps the attacker's reconstruction in sync and renders the
+        -- outgoing trash where it belongs: on the opponent's board.
+        R:receive(self,send,time,line)
+    end
 end
 function Player:beAttacked(source,target_sid,send,time,line,seenCount)
     -- Only recieve the attack if you are the target.
@@ -967,7 +978,11 @@ function Player:beAttacked(source,target_sid,send,time,line,seenCount)
     end
 
     self:receive(source,send,time,line)
-    source:createBeam(self,send)
+    -- Draw the incoming attack beam based on the *receiver's* Attack-FX
+    -- preference (not the attacker's), so you always see incoming attacks
+    -- when you have the effect enabled, and fall back gracefully when the
+    -- attacker has no current piece to anchor the beam to.
+    if self.gameEnv.atkFX then source:createBeam(self,send) end
 end
 function Player:receive(A,send,time,line)
     self.lastRecv=A

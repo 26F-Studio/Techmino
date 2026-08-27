@@ -744,10 +744,20 @@ function NET.startRankedReplay(myRep,oppRep,myUid,oppUid)
     -- (which would otherwise keep the matchmaking state polluted).
     NET._replayRoomState=NET.roomState
     NETPLY.clear()
-    NETPLY.add{uid=myUid,  group=0,role='Admin', playMode='Gamer',readyMode='Playing',config=""}
-    NETPLY.add{uid=oppUid,group=0,role='Normal',playMode='Gamer',readyMode='Playing',config=""}
+    -- Feed each side its own match settings as the config so the remote-env
+    -- loader has a real (non-empty) config. An empty string makes
+    -- _loadRemoteEnv emit a "Bad conf" warning (and the ZFramework error
+    -- collector then dumps the loadremoteenv/newRemotePlayer/resetGameData
+    -- stack) even though this is just a local replay with no live opponent.
+    NETPLY.add{uid=myUid,  group=0,role='Admin', playMode='Gamer',readyMode='Playing',config=JSON.encode(myRep.setting or {})}
+    NETPLY.add{uid=oppUid,group=0,role='Normal',playMode='Gamer',readyMode='Playing',config=JSON.encode(oppRep.setting or {})}
 
     NET.seed=GAME.seed
+    -- This is a local replay, not a live room: suppress the chat box/overlay
+    -- and the networking-only widgets so the replay doesn't look or behave
+    -- like an active net session.
+    NET.textBox.hide=true
+    NET.inputBox.hide=true
     TASK.lock('netPlaying')
     SCN.go('net_game','fade')
 
