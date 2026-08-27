@@ -58,7 +58,7 @@ function scene.keyDown(key,rep)
             if matchmaking then
                 _cancelMatchmaking()
             else
-                SCN.back()
+                SCN.go('lobby')
             end
         end
     end

@@ -43,7 +43,7 @@ function scene.keyDown(key,rep)
             if LOBBY.chat and LOBBY.chat.visible then LOBBY.chat:toggle() end
             if LOBBY.playerList and LOBBY.playerList.visible then LOBBY.playerList:toggle() end
         else
-            SCN.back()
+            SCN.backTo('main')
         end
     elseif key=='return' or key=='kpenter' then
         CARD.openMenu()

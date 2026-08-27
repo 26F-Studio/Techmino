@@ -25,6 +25,8 @@ local NET={
     spectate=false,-- If player is spectating
     seed=false,
 
+    rankedResult=false,-- Summary of the last ranked match for the results scene
+
     roomAllReady=false,
 
     onlineCount="0",
@@ -156,6 +158,7 @@ function NET.login(auto)
                 end
                 saveUser()
                 NET.ws_connect()
+                NET.getUserInfo(USER.uid)
                 if not auto then-- Quit login menu
                     SCN.pop()
                 end
@@ -200,6 +203,7 @@ function NET.loginWithPassword(username,password)
             end
             saveUser()
             NET.ws_connect()
+            NET.getUserInfo(USER.uid)
             SCN.go('lobby')
             WAIT.interrupt()
             return
@@ -267,6 +271,13 @@ function NET.getUserInfo(uid)
 
         if res and res.code==200 and type(res.data)=='table' then
             USERS.updateUserData(res.data)
+            -- When this is our own profile, sync the competitive elo and rank
+            -- so the lobby/card reflect the values persisted on the server
+            -- (otherwise they reset to the defaults after a client restart).
+            if uid==USER.uid then
+                if type(res.data.elo)=='number' then STAT.elo=res.data.elo end
+                if type(res.data.globalRank)=='number' then STAT.globalRank=res.data.globalRank end
+            end
         end
     end)
 end
@@ -359,6 +370,12 @@ local actMap={
     online_playerLeave=     1314,
     player_updateElo=       1315,
     global_chat=            1316,
+    match_join=             1400,
+    match_leave=            1401,
+    match_found=            1402,
+    match_start_ranked=      1403,
+    match_finish_ranked=     1404,
+    match_cancel=            1405,
     } for k,v in next,actMap do actMap[v]=k end
 
 local function wsSend(act,data)
@@ -746,6 +763,12 @@ function NET.wsCallBack.player_updateElo(body)
 end
 function NET.wsCallBack.match_finish()
     if SCN.cur~='net_game' then return end
+    -- Ranked matches are finalized by match_finish_ranked, which keeps the
+    -- game on screen until the finish animation completes and then drives the
+    -- transition to the results screen. Skip the casual waiting-room flow here
+    -- so netPlaying is not unlocked early (which would briefly flash the
+    -- net_game waiting room before the results scene).
+    if NET.roomState.info and NET.roomState.info.type=='ranked' then return end
     for _,P in next,PLAYERS do
         NETPLY.setStat(P.uid,P.stat)
     end
@@ -757,7 +780,12 @@ end
 function NET.wsCallBack.match_ready()-- not used
 end
 function NET.wsCallBack.match_start(body)
-    if SCN.cur~='net_game' then return end
+    -- Note: we must set the lock/seed even if the scene hasn't finished
+    -- transitioning into net_game yet. The server sends room_enter (1306) and
+    -- match_start (1102) back-to-back, and the scene switch is applied at the
+    -- frame boundary, so a SCN.cur guard here would drop the lock and the
+    -- match would never start. net_game.update only consumes the lock once it
+    -- is actually the active scene, so this is safe.
     TASK.lock('netPlaying')
     NET.seed=body.data and body.data.seed
     if not NET.seed then
@@ -772,7 +800,8 @@ function NET.wsCallBack.match_found(body)
     MES.new('info',"Match found!")
 end
 function NET.wsCallBack.match_start_ranked(body)
-    if SCN.cur~='net_game' then return end
+    -- Same as match_start: set the lock/seed unconditionally (see note there)
+    -- so the match starts even if the net_game scene switch is still pending.
     TASK.lock('netPlaying')
     NET.seed=body.data and body.data.seed
     if not NET.seed then
@@ -786,21 +815,39 @@ function NET.wsCallBack.match_finish_ranked(body)
         NETPLY.setStat(P.uid,P.stat)
     end
     if body.data then
-        if type(body.data.ratingChange)=='number' then
-            STAT.elo=(STAT.elo or 1200)+body.data.ratingChange
-        end
-        if type(body.data.ratingAfter)=='number' then
-            STAT.elo=body.data.ratingAfter
-        end
-        if body.data.winnerId==USER.uid then
-            MES.new('check',"Ranked match won!")
-        else
-            MES.new('error',"Ranked match lost")
-        end
+        local d=body.data
+        local myDelta=type(d.ratingChange)=='number' and d.ratingChange or 0
+        local myNew=type(d.ratingAfter)=='number' and d.ratingAfter or (STAT.elo or 1200)
+        local myOld=myNew-myDelta
+        if type(d.globalRank)=='number' then STAT.globalRank=d.globalRank end
+        STAT.elo=myNew
+
+        local opp=d.opponent or {}
+        local oppId=type(opp.playerId)=='string' and opp.playerId or false
+        local oppDelta=type(opp.ratingChange)=='number' and opp.ratingChange or 0
+        local oppNew=type(opp.ratingAfter)=='number' and opp.ratingAfter or 0
+        local oppOld=oppNew-oppDelta
+
+        -- Cache the opponent's profile so their name shows on the results
+        -- screen even if we never fetched it during the match.
+        if oppId then NET.getUserInfo(oppId) end
+
+        -- Stash the summary now so the results scene has it ready.
+        NET.rankedResult={
+            winnerId=type(d.winnerId)=='string' and d.winnerId or USER.uid,
+            myOld=myOld, myNew=myNew, myDelta=myDelta, myRank=STAT.globalRank,
+            oppId=oppId, oppOld=oppOld, oppNew=oppNew, oppDelta=oppDelta, oppRank=type(opp.globalRank)=='number' and opp.globalRank or 0,
+        }
     end
+    -- Let the finish animation (e.g. the opponent's top-out) play out before
+    -- showing results. Keep netPlaying locked so net_game does not briefly drop
+    -- to the waiting room, and only then transition. net_game.leave() will
+    -- unlock netPlaying when the results scene takes over.
     TASK.new(function()
         TEST.yieldT(2.6)
-        TASK.unlock('netPlaying')
+        if SCN.cur=='net_game' then
+            SCN.go('net_rankedResult','fade')
+        end
     end)
 end
 function NET.wsCallBack.match_cancel()
@@ -863,6 +910,8 @@ function NET.ws_update()
 
     -- Initialize player setting
     NET.player_updateConf()
+    -- Sync our competitive elo/rank from the server (persists across restarts).
+    NET.getUserInfo(USER.uid)
 
     -- Websocket main loop
     local updateOnlineCD=0
