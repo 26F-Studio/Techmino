@@ -34,10 +34,53 @@ end}
 local scene={}
 local mods={}
 
+-- Ranked net replays are 1v1 and need both players' recordings. The two local
+-- files are named replay/ranked_<matchId>_<uid>.rep, so we locate the partner
+-- file and launch the combined net replay viewer.
+local function _playRankedRep(fileName)
+    local m=fileName:match("replay/ranked_(.+)%.rep$")
+    if not m then
+        MES.new('error',"Invalid ranked replay file")
+        LOG("ranked replay: bad filename "..tostring(fileName))
+        return
+    end
+    local matchId,myUid=m:match("(.+)_(.+)$")
+    if not matchId or not myUid then
+        MES.new('error',"Invalid ranked replay file")
+        LOG("ranked replay: cannot parse uids from "..tostring(fileName))
+        return
+    end
+    local oppFile,oppUid
+    local escMatch=matchId:gsub("%-","%%-")
+    for _,f in next,love.filesystem.getDirectoryItems('replay') do
+        local om=f:match("^ranked_"..escMatch.."_(.+)%.rep$")
+        if om and ("replay/"..f)~=fileName then
+            oppFile="replay/"..f
+            oppUid=om
+            break
+        end
+    end
+    if not oppFile then
+        MES.new('error',"Ranked replay needs both players' files")
+        LOG("ranked replay: missing opponent file for "..tostring(fileName))
+        return
+    end
+    local myRep=DATA.parseReplay(fileName,true)
+    local oppRep=DATA.parseReplay(oppFile,true)
+    if not (myRep and myRep.available and oppRep and oppRep.available) then
+        MES.new('error',"Replay data corrupted")
+        LOG("ranked replay: parse failed for "..tostring(fileName))
+        return
+    end
+    NET.startRankedReplay(myRep,oppRep,myUid,oppUid)
+end
+
 local function _playRep(fileName)
     local rep=DATA.parseReplay(fileName,true)
     if not rep.available then
         MES.new('error',text.replayBroken)
+    elseif rep.mode=='netBattle' then
+        _playRankedRep(fileName)
     elseif MODES[rep.mode] then
         GAME.seed=rep.seed
         GAME.setting=rep.setting

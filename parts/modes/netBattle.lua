@@ -38,11 +38,22 @@ return {
                 break
             end
         end
-        for _,p in next,L do
-            if p.playMode=='Gamer' then
-                PLY.newRemotePlayer(N,false,p)
-                N=N+1
-            end
+    for _,p in next,L do
+        if p.playMode=='Gamer' then
+            PLY.newRemotePlayer(N,false,p)
+            N=N+1
         end
-    end,
+    end
+
+    -- Recordings (and live opponent streams) are client-relative: each player
+    -- records themselves as sid 1 and the opponent as sid 2. Map every net
+    -- player's stream sids onto the canonical NET.uid_sid values so attacks
+    -- route to the correct board in both live play and replays.
+    for i=1,#PLAYERS do
+        local selfSid=PLAYERS[i].sid
+        local otherSid=selfSid
+        for j=1,#PLAYERS do if j~=i then otherSid=PLAYERS[j].sid break end end
+        PLAYERS[i].sidMap={[1]=selfSid,[2]=otherSid}
+    end
+end,
 }

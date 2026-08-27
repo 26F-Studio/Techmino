@@ -39,7 +39,7 @@ local function _gotoSetting()
 end
 local function _quit()
     if tryBack() then
-        NET.room_leave()
+        if not GAME.replaying then NET.room_leave() end
         GAME.playing=false
         SCN.back()
     end
@@ -76,12 +76,27 @@ function scene.enter()
 end
 function scene.leave()
     TASK.unlock('netPlaying')
+    -- A ranked replay borrows the live net_game/netBattle machinery and replaces
+    -- the room state with a throwaway one. Restore the real (post-match) room if
+    -- we had one, otherwise clear it so ranked matchmaking isn't left pointing at
+    -- the replay's fake "Playing" room (which would block starting a new search).
+    if GAME.replaying then
+        if NET._replayRoomState~=nil then
+            NET.roomState=NET._replayRoomState
+        else
+            NET.roomState=nil
+        end
+        NET._replayRoomState=nil
+        NETPLY.clear()
+        GAME.replaySetup=false
+        GAME.replaying=false
+    end
 end
 
 scene.mouseDown=NULL
 function scene.mouseMove(x,y) NETPLY.mouseMove(x,y) end
 function scene.touchDown(x,y)
-    if not playing then NETPLY.mouseMove(x,y) return end
+    if not playing or GAME.replaying then NETPLY.mouseMove(x,y) return end
     if NET.spectate or noTouch or not textBox.hide then return end
 
     local t=VK.on(x,y)
@@ -91,7 +106,7 @@ function scene.touchDown(x,y)
     end
 end
 function scene.touchUp(x,y)
-    if not playing or NET.spectate or noTouch or not textBox.hide then return end
+    if not playing or GAME.replaying or NET.spectate or noTouch or not textBox.hide then return end
     local n=VK.on(x,y)
     if n then
         PLAYERS[1]:releaseKey(n)
@@ -99,7 +114,7 @@ function scene.touchUp(x,y)
     end
 end
 function scene.touchMove()
-    if touchMoveLastFrame or not playing or noTouch then return end
+    if touchMoveLastFrame or not playing or noTouch or GAME.replaying then return end
     touchMoveLastFrame=true
 
     local L=tc.getTouches()
@@ -184,7 +199,7 @@ function scene.keyDown(key,isRep)
         WIDGET.focus(inputBox)
         inputBox:keypress(key)
     elseif playing then
-        if NET.spectate or noKey or isRep then return end
+        if NET.spectate or noKey or isRep or GAME.replaying then return end
         local k=KEY_MAP.keyboard[key]
         if k and k>0 then
             PLAYERS[1]:pressKey(k)
@@ -203,7 +218,7 @@ function scene.keyDown(key,isRep)
     end
 end
 function scene.keyUp(key)
-    if not playing or NET.spectate or noKey then return end
+    if not playing or NET.spectate or noKey or GAME.replaying then return end
     local k=KEY_MAP.keyboard[key]
     if k and k>0 then
         PLAYERS[1]:releaseKey(k)
@@ -214,7 +229,7 @@ function scene.gamepadDown(key)
     if key=='back' then
         scene.keyDown('escape')
     else
-        if not playing then return end
+        if not playing or GAME.replaying then return end
         local k=KEY_MAP.joystick[key]
         if k and k>0 then
             PLAYERS[1]:pressKey(k)
@@ -223,7 +238,7 @@ function scene.gamepadDown(key)
     end
 end
 function scene.gamepadUp(key)
-    if not playing then return end
+    if not playing or GAME.replaying then return end
     local k=KEY_MAP.joystick[key]
     if k and k>0 then
         PLAYERS[1]:releaseKey(k)
@@ -232,7 +247,7 @@ function scene.gamepadUp(key)
 end
 
 function scene.update(dt)
-    if WS.status('game')~='running' then
+    if not GAME.replaying and WS.status('game')~='running' then
         TASK.unlock('netPlaying')
         NET.ws_close()
         SCN.back()
@@ -262,7 +277,7 @@ function scene.update(dt)
                 checkWarning(P1,dt)
 
                 -- Upload stream
-                if not NET.spectate and P1.frameRun-lastUpstreamTime>8 then
+                if not GAME.replaying and not NET.spectate and P1.frameRun-lastUpstreamTime>8 then
                     local stream
                     if not GAME.rep[upstreamProgress] then
                         ins(GAME.rep,P1.frameRun)
@@ -322,6 +337,20 @@ function scene.draw()
 
         -- Virtual keys
         VK.draw()
+
+        -- Replay indicators: mark which board is yours and banner the mode.
+        if GAME.replaying then
+            setFont(40)
+            gc_setColor(COLOR.Z)
+            mStr("REPLAY",640,8)
+            setFont(25)
+            for p=1,#PLAYERS do
+                local P=PLAYERS[p]
+                local isYou=P.uid==USER.uid
+                gc_setColor(isYou and COLOR.lY or COLOR.lR)
+                mStr(isYou and "YOU" or (P.username or "OPPONENT"), P.centerX, P.fieldY-72)
+            end
+        end
 
         -- Add dark overlay if chat is open
         if not textBox.hide then

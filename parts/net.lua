@@ -376,6 +376,7 @@ local actMap={
     match_start_ranked=      1403,
     match_finish_ranked=     1404,
     match_cancel=            1405,
+    match_uploadReplay=      1406,
     } for k,v in next,actMap do actMap[v]=k end
 
 local function wsSend(act,data)
@@ -549,10 +550,221 @@ end
 
 -- Ranked 1v1 matchmaking
 function NET.ranked_join()
+    if WS.status('game')=='dead' then NET.ws_connect() end
     wsSend(actMap.match_join)
 end
 function NET.ranked_leave()
     wsSend(actMap.match_leave)
+end
+
+-- Build the local player's .rep bytes (zlib-compressed metadata + recording)
+-- from the in-memory GAME.rep. Returns the raw bytes string, or false.
+local function _buildLocalRepBytes()
+    if not GAME.rep or #GAME.rep==0 then return false end
+    local metadata={
+        date=os.date("%Y/%m/%d %H:%M:%S"),
+        mode=GAME.curModeName,
+        version=VERSION.string,
+        player=USERS.getUsername(USER.uid),
+        -- Store the exact seed string (NET.seed) rather than the numeric
+        -- GAME.seed: a 64-bit match seed cannot survive JSON number round-trips
+        -- as a double, and a lossy seed would make the replay's piece sequence
+        -- diverge from the live match.
+        seed=NET.seed,
+        setting=GAME.setting,
+        mod={},
+        tasUsed=GAME.tasUsed,
+    }
+    local ok,content=pcall(love.data.compress,'string','zlib',
+        JSON.encode(metadata).."\n"..DATA.dumpRecording(GAME.rep))
+    if not ok or not content then return false end
+    return content
+end
+
+-- Upload the local player's replay for a finished ranked match. The server
+-- stores it under replays/<matchId>/<playerId>.rep so both participants' runs
+-- live in the same match folder. Fire-and-forget (best effort).
+function NET.uploadRankedReplay(matchId)
+    if not matchId or not USER.uid then return end
+    local content=_buildLocalRepBytes()
+    if not content then return end
+    TASK.new(function()
+        wsSend(actMap.match_uploadReplay,{
+            matchId=matchId,
+            playerId=USER.uid,
+            data=love.data.encode('string','base64',content),
+        })
+    end)
+end
+
+-- Save both players' replays locally (under replay/ranked_<matchId>_<uid>.rep)
+-- so they appear in the replay list and can be watched later. The local file
+-- is built from GAME.rep directly; the opponent's is fetched from the server.
+function NET.saveRankedReplays(matchId,oppId)
+    if not matchId or not USER.uid then return end
+    TASK.new(function()
+        local content=_buildLocalRepBytes()
+        if content then
+            love.filesystem.write(("replay/ranked_%s_%s.rep"):format(matchId,USER.uid),content)
+        end
+        if oppId then
+            local oppRaw=_fetchRankedReplayRaw(matchId,oppId)
+            if oppRaw then
+                love.filesystem.write(("replay/ranked_%s_%s.rep"):format(matchId,oppId),oppRaw)
+            end
+        end
+    end)
+end
+
+-- Fetch a stored ranked replay's raw bytes from the server. Returns the body
+-- string (zlib-compressed .rep) or false on failure/timeout.
+local function _fetchRankedReplayRaw(matchId,playerId)
+    HTTP{
+        pool='repDL',
+        url=AUTHHOST,
+        path=("/api/match/replay?matchId=%s&playerId=%s"):format(matchId,playerId),
+        headers={['x-access-token']=USER.oToken},
+    }
+    local totalTime=0
+    while true do
+        local msg=HTTP.pollMsg('repDL')
+        if msg then
+            if type(msg.body)=='string' and #msg.body>0 then
+                return msg.body
+            end
+            return false
+        else
+            totalTime=totalTime+coroutine.yield()
+            if totalTime>6.26 then return false end
+        end
+    end
+end
+
+-- Download both players' replays for a finished ranked match, save them
+-- locally (so they persist in the replay list), and play the match back as a
+-- combined 1v1 net replay. Both clients only record their own placements, so
+-- the combined replay needs both files to be complete; we wait/poll until the
+-- opponent's replay has finished uploading before playing, so we never watch a
+-- truncated/corrupt replay.
+function NET.watchRankedReplay()
+    local R=NET.rankedResult
+    if not R or not R.matchId or not R.oppId then
+        MES.new('error',"No replay available")
+        return
+    end
+    TASK.new(function()
+        local ok,err=pcall(function()
+            MES.new('info',"Waiting for replay...")
+            local myRaw,oppRaw
+            -- Poll until both replays are available (the opponent may still be
+            -- uploading their recording when the results screen appears).
+            local waited=0
+            while true do
+                myRaw=_fetchRankedReplayRaw(R.matchId,USER.uid)
+                oppRaw=_fetchRankedReplayRaw(R.matchId,R.oppId)
+                if myRaw and oppRaw then break end
+                waited=waited+coroutine.yield()
+                if waited>15.26 then
+                    MES.new('error',"Replay not ready yet")
+                    return
+                end
+            end
+            -- Persist both original replays locally.
+            love.filesystem.write(("replay/ranked_%s_%s.rep"):format(R.matchId,USER.uid),myRaw)
+            love.filesystem.write(("replay/ranked_%s_%s.rep"):format(R.matchId,R.oppId),oppRaw)
+
+            -- Register them in the replay list (if not already) so they can also
+            -- be watched later through the standard replay scene's buttons.
+            for _,uid in next,{USER.uid,R.oppId} do
+                local fn=("replay/ranked_%s_%s.rep"):format(R.matchId,uid)
+                local exists=false
+                for _,r in next,REPLAY do
+                    if r.fileName==fn then exists=true break end
+                end
+                if not exists then
+                    local rep=DATA.parseReplay(fn)
+                    if rep and rep.available then table.insert(REPLAY,1,rep) end
+                end
+            end
+
+            local myRep=DATA.parseReplayData("ranked",myRaw,true)
+            local oppRep=DATA.parseReplayData("ranked",oppRaw,true)
+            if not (myRep and myRep.available and oppRep and oppRep.available) then
+                MES.new('error',"Replay data corrupted")
+                return
+            end
+            NET.startRankedReplay(myRep,oppRep,USER.uid,R.oppId)
+        end)
+        if not ok then
+            MES.new('error',"Replay playback failed")
+            LOG("watchRankedReplay error: "..tostring(err))
+            LOG(debug.traceback())
+        end
+    end)
+end
+
+-- Start a combined 1v1 net replay: player 1 is driven by `myRep`'s recording
+-- and player 2 (remote) by `oppRep`'s recording, reusing the live net_game
+-- streaming path. Does not affect live matchmaking.
+function NET.startRankedReplay(myRep,oppRep,myUid,oppUid)
+    myUid=myUid or USER.uid
+    oppUid=oppUid or (NET.rankedResult and NET.rankedResult.oppId)
+    if not myUid or not oppUid then
+        MES.new('error',"Missing replay player info")
+        LOG("startRankedReplay: missing player uids")
+        return
+    end
+    if not MODES.netBattle then
+        MODES.netBattle=require('parts.modes.netBattle')
+        MODES.netBattle.name='netBattle'
+    end
+
+    GAME.net=true
+    GAME.replaying=true
+    GAME.replaySetup=true
+    GAME.fromRepMenu=false
+    GAME.init=false
+    GAME.seed=myRep.seed or oppRep.seed
+    GAME.setting=myRep.setting or GAME.setting
+    GAME.curModeName='netBattle'
+    GAME.curMode=MODES.netBattle
+    GAME.modeEnv=GAME.curMode.env
+    GAME.rep={}
+
+    NET.roomState={
+        info={name="Ranked Replay",type="ranked",version="",description=""},
+        data={},
+        count={Gamer=2,Spectator=0},
+        capacity=2,
+        private=true,
+        state="Playing",
+    }
+    -- Remember the real post-match room so we can restore it once the replay
+    -- ends, instead of leaving the fake replay room cached on the client
+    -- (which would otherwise keep the matchmaking state polluted).
+    NET._replayRoomState=NET.roomState
+    NETPLY.clear()
+    NETPLY.add{uid=myUid,  group=0,role='Admin', playMode='Gamer',readyMode='Playing',config=""}
+    NETPLY.add{uid=oppUid,group=0,role='Normal',playMode='Gamer',readyMode='Playing',config=""}
+
+    NET.seed=GAME.seed
+    TASK.lock('netPlaying')
+    SCN.go('net_game','fade')
+
+    -- After net_game builds the players, feed both recordings as streams.
+    TASK.new(function()
+        while #PLAYERS<2 do coroutine.yield() end
+        local myList={}  DATA.pumpRecording(myRep.data,myList)
+        local oppList={} DATA.pumpRecording(oppRep.data,oppList)
+        GAME.rep=myList
+        GAME.replaying=true
+        GAME.replaySetup=false
+        GAME.recording=false
+        -- Stream sids are mapped onto this replay's canonical NET.uid_sid values
+        -- in netBattle.load (same as live net play), so attacks route correctly.
+        PLAYERS[1]:startStreaming(myList)
+        PLAYERS[2]:startStreaming(oppList)
+    end)
 end
 
 
@@ -816,6 +1028,7 @@ function NET.wsCallBack.match_finish_ranked(body)
     end
     if body.data then
         local d=body.data
+        local matchId=type(d.matchId)=='string' and d.matchId or false
         local myDelta=type(d.ratingChange)=='number' and d.ratingChange or 0
         local myNew=type(d.ratingAfter)=='number' and d.ratingAfter or (STAT.elo or 1200)
         local myOld=myNew-myDelta
@@ -834,18 +1047,26 @@ function NET.wsCallBack.match_finish_ranked(body)
 
         -- Stash the summary now so the results scene has it ready.
         NET.rankedResult={
+            matchId=matchId,
             winnerId=type(d.winnerId)=='string' and d.winnerId or USER.uid,
             myOld=myOld, myNew=myNew, myDelta=myDelta, myRank=STAT.globalRank,
             oppId=oppId, oppOld=oppOld, oppNew=oppNew, oppDelta=oppDelta, oppRank=type(opp.globalRank)=='number' and opp.globalRank or 0,
         }
+
+        -- Best-effort: upload this player's replay into the match folder.
+        if matchId then NET.uploadRankedReplay(matchId) end
     end
     -- Let the finish animation (e.g. the opponent's top-out) play out before
     -- showing results. Keep netPlaying locked so net_game does not briefly drop
     -- to the waiting room, and only then transition. net_game.leave() will
     -- unlock netPlaying when the results scene takes over.
+    -- Disband the live room on finish so the client isn't left sitting in a
+    -- stale room that blocks starting a new ranked search.
     TASK.new(function()
         TEST.yieldT(2.6)
         if SCN.cur=='net_game' then
+            NET.roomState=nil
+            NETPLY.clear()
             SCN.go('net_rankedResult','fade')
         end
     end)

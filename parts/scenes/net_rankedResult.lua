@@ -133,7 +133,9 @@ function scene.overDraw()
 end
 
 scene.widgetList={
-    WIDGET.newKey{name='rematch', x=640,y=620,w=360,h=90,font=35,color='lG',
+    WIDGET.newKey{name='watch',   x=640,y=520,w=360,h=90,font=35,color='lB',
+        code=function() NET.watchRankedReplay() end},
+    WIDGET.newKey{name='rematch', x=480,y=620,w=320,h=90,font=35,color='lG',
         code=function() SCN.go('net_ranked') end},
     WIDGET.newButton{name='back',    x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=pressKey'escape'},
 }

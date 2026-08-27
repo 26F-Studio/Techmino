@@ -744,6 +744,11 @@ function Player:_triggerEvent(eventName)
 end
 function Player:extraEvent(eventName,...)
     if not (self.gameEnv.extraEvent and self.gameEnv.extraEventHandler) then return end
+    -- During a replay the attack is redelivered from the recorded stream by
+    -- update_streaming (which applies it to the target player), so the live
+    -- handler loop and the recording must stay idle or attacks would be
+    -- missed or applied twice.
+    if GAME.replaying then return end
     local list=self.gameEnv.extraEvent
     local eventID
     for i=1,#list do
@@ -768,12 +773,19 @@ function Player:extraEvent(eventName,...)
         end
     end
 
-    ins(GAME.rep,SELF.frameRun)
-    ins(GAME.rep,64+eventID)
-    ins(GAME.rep,self.sid)
-    local data={...}
-    for i=1,#data do
-        ins(GAME.rep,data[i])
+    -- Only record events triggered by this client's own player. In a net match
+    -- the opponent's actions are recorded on their own client, so each .rep
+    -- ends up single-sided (its own placements/attacks only), exactly like a
+    -- normal local replay. This keeps the combined net replay free of
+    -- duplicated cross-events that would otherwise desync the boards.
+    if self.type~='remote' then
+        ins(GAME.rep,self.frameRun)
+        ins(GAME.rep,64+eventID)
+        ins(GAME.rep,self.sid)
+        local data={...}
+        for i=1,#data do
+            ins(GAME.rep,data[i])
+        end
     end
 end
 
@@ -922,9 +934,17 @@ function Player:attack(R,send,time,line)
     -- Send the attack
     -- We also send the number of seen attacks from this player.
     -- This allows that player to know which attacks are still in transit, and which have already arrived.
-    -- This is because... if a player already saw an attack before sending this one, the attacks did not cross.
     -- But if they didn't see the attack, then the attacks must have crossed (and should cancel each other)
+    -- received by the opponent.
     self:extraEvent('attack',sid,send,time,line,self.inTransitAttacks[sid].seenAttacks)
+
+    -- In live net play the target is a remote player, so the local beAttacked
+    -- call (which is what draws the outgoing attack beam) is skipped on the
+    -- attacker's own client. Draw the send-beam here so the attacker sees
+    -- their own attack leave the board. Local/solo modes already render the
+    -- beam through beAttacked (the target is a non-remote player there), so
+    -- only do this for remote targets to avoid drawing it twice.
+    if R.type=='remote' then self:createBeam(R,send) end
 end
 function Player:beAttacked(source,target_sid,send,time,line,seenCount)
     -- Only recieve the attack if you are the target.
@@ -2904,17 +2924,45 @@ local function update_streaming(P)
             for i=1,eventParamCount do
                 ins(paramList,P.stream[P.streamProgress+2+i])
             end
-            P.streamProgress=P.streamProgress+eventParamCount+1
+			-- The recorded stream already uses canonical sids (the attacker's
+			-- and target's PLAYER.sid values), which are assigned identically
+			-- on every client via NET.uid_sid and stay consistent inside a
+			-- combined replay. No client-relative translation is needed, so
+			-- route attacks directly by those sids. The P.sid==sourceSid gate
+			-- below still isolates each stream to its owner, preventing the
+			-- same attack from being applied twice.
+			P.streamProgress=P.streamProgress+eventParamCount+1
 
-            local SRC
-            for _,p in next,PLAYERS do
-                if p.sid==sourceSid then
-                    SRC=p
-                    break
+            -- In live net play the attacker's client records the event and the
+            -- opponent receives it over the network, applying it to their own
+            -- local player. In a single-client replay both streams are driven
+            -- here, and each .rep already contains *every* attack from both
+            -- sides (see Player:extraEvent / Player:attack). So the same attack
+            -- appears in both myList and oppList. To avoid applying it twice
+            -- (which would desync the garbage and corrupt the replay), only
+            -- fire it from the stream owned by the attacker (sourceSid). The
+            -- attack is still routed to its *target* player as in live play.
+            if P.sid==sourceSid then
+                local SRC
+                for _,p in next,PLAYERS do
+                    if p.sid==sourceSid then
+                        SRC=p
+                        break
+                    end
                 end
-            end
-            if SRC then
-                P.gameEnv.extraEventHandler[eventName](P,SRC,unpack(paramList))
+                local subject=P
+                if eventName=='attack' then
+                    local targetSid=paramList[1]
+                    for _,p in next,PLAYERS do
+                        if p.sid==targetSid then
+                            subject=p
+                            break
+                        end
+                    end
+                end
+                if SRC and subject then
+                    subject.gameEnv.extraEventHandler[eventName](subject,SRC,unpack(paramList))
+                end
             end
         end
         P.streamProgress=P.streamProgress+2
@@ -2952,7 +3000,7 @@ function Player:_die()
             self.visTime[i][j]=min(self.visTime[i][j],20)
         end
     end
-    if GAME.net then
+    if GAME.net and not GAME.replaying then
         if self.id==1 then
             ins(GAME.rep,self.frameRun)
             ins(GAME.rep,0)
@@ -2978,7 +3026,7 @@ function Player:update(dt)
         while self.trigFrame>=1 do
             if self.streamProgress then
                 local dataDelta -- How much data wating to be process
-                if self.type=='remote' then
+                if self.type=='remote' and not GAME.replaying then
                     if self.loseTimer then
                         self.loseTimer=self.loseTimer-1
                         if self.loseTimer==0 then
@@ -3016,6 +3064,39 @@ function Player:update(dt)
                 update_alive(self,dt)
             end
             self.trigFrame=self.trigFrame-1
+
+            -- In a net replay, once a player's recording is exhausted they have
+            -- already topped out in the live match. Stop simulating them here so
+            -- the board doesn't keep spawning/clipping pieces above the spawn,
+            -- then resolve the match (loser tops out; last player alive wins).
+            if GAME.replaying and GAME.net and self.streamProgress and not self.stream[self.streamProgress] and self.alive then
+                break
+            end
+        end
+        if GAME.replaying and GAME.net and self.streamProgress and not self.stream[self.streamProgress] and self.alive then
+            local othersAlive=false
+            for _,p in next,PLY_ALIVE do
+                if p~=self then othersAlive=true break end
+            end
+            if othersAlive then
+                self:lose(true)
+            else
+                self:win('finish')
+                -- The replay has resolved; return to the results screen (which
+                -- offers re-queue) after a short beat, the same way a live ranked
+                -- match hands off via match_finish_ranked.
+                TASK.new(function()
+                    local t=0
+                    while t<2.6 do t=t+coroutine.yield() end
+                    if GAME.replaying and SCN.cur=='net_game' then
+                        if NET.rankedResult then
+                            SCN.go('net_rankedResult','fade')
+                        else
+                            SCN.back()
+                        end
+                    end
+                end)
+            end
         end
     else
         while self.trigFrame>=1 do
@@ -3103,8 +3184,10 @@ function Player:win(result)
     else
         self:_showText(text.win,0,0,90,'beat',.5,.2)
     end
-    if self.type=='human' then
+    if self.type=='human' or GAME.replaying then
         gameOver()
+    end
+    if self.type=='human' and not GAME.replaying then
         TASK.new(task_autoPause)
     end
     self:newTask(task_finish)
@@ -3180,9 +3263,9 @@ function Player:lose(force)
         end
         gameOver()
         self:newTask(#PLAYERS>1 and task_lose or task_finish)
-        if GAME.net and not NET.spectate then
+        if GAME.net and not NET.spectate and not GAME.replaying then
             NET.player_finish({reason="lose"})
-        else
+        elseif not GAME.replaying then
             TASK.new(task_autoPause)
         end
     else

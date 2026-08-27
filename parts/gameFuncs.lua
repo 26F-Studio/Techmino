@@ -584,6 +584,12 @@ function loadGame(mode,ifQuickPlay,ifNet)-- Load a mode and go to game scene
         end
         GAME.playing=true
         GAME.init=true
+        -- Clear any stale replay-setup latch so live/local matches always
+        -- record inputs. The replay viewer (NET.startRankedReplay) sets this
+        -- true but bypasses loadGame, so it is safe to reset it here; leaving
+        -- it true would make GAME.recording=false and drop all key inputs
+        -- from the next match's recording.
+        GAME.replaySetup=false
         GAME.fromRepMenu=false
         GAME.curModeName=mode
         GAME.curMode=MODES[mode]
@@ -673,7 +679,7 @@ function gameOver()-- Save record
     end
 end
 function trySave()
-    if not GAME.statSaved and PLAYERS[1] and PLAYERS[1].type=='human' and (PLAYERS[1].frameRun>300 or GAME.result) then
+    if not GAME.statSaved and not GAME.replaying and PLAYERS[1] and PLAYERS[1].type=='human' and (PLAYERS[1].frameRun>300 or GAME.result) then
         GAME.statSaved=true
         STAT.game=STAT.game+1
         mergeStat(STAT,PLAYERS[1].stat)
@@ -685,6 +691,13 @@ do-- function freshPlayerPosition(sudden)
     local posLists=setmetatable({
         alive={
             [1]={main={340,75,1}},
+            -- 1v1 (ranked): two equal-sized boards placed side by side and
+            -- mirrored around the screen centre so neither player is favourably
+            -- centred/up-scaled while the other is shrunk to a side mini.
+            [2]={
+                main={170,110,.8},
+                {630,110,.8},
+            },
             [3]={main={340,75,1},
                 {25,210,.5},
                 {955,210,.5},
@@ -1061,14 +1074,17 @@ do-- function resetGameData(args)
             GAME.replaying=true
         else
             GAME.frameStart=args:find'n' and 0 or 180-SETTING.reTime*60
-            GAME.seed=seed or math.random(1046101471)
+            -- Match seeds are 64-bit and arrive as exact strings; tonumber keeps
+            -- the live match and the replay on the identical seed so piece
+            -- sequences don't diverge.
+            GAME.seed=tonumber(seed) or seed or math.random(1046101471)
             GAME.saved=false
             GAME.setting=_copyGameSetting()
             GAME.tasUsed=false
             GAME.rep={}
-            GAME.recording=true
+            GAME.recording=not GAME.replaySetup
             GAME.statSaved=false
-            GAME.replaying=false
+            GAME.replaying=GAME.replaySetup or false
             math.randomseed(TIME())
         end
 
