@@ -34,6 +34,13 @@ local function _getNewStatTable()
         T.clears[i]=0
         T.spins[i]=0
     end
+    -- Big pieces - Undecacrashes are possible, so need more entries
+    for i=30,58 do
+        T.clear[i]={0,0,0,0,0,0,0,0,0,0,0}
+        T.spin[i]={0,0,0,0,0,0,0,0,0,0,0,0}
+        T.clears[i]=0
+        T.spins[i]=0
+    end
     return T
 end
 local function _newEmptyPlayer(id,mini)
