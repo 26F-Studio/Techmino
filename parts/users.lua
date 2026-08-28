@@ -67,7 +67,7 @@ local USERS={}
 
 --[[userdata={
     username="MrZ",
-    motto="Techmino 好玩",
+    motto="TeBlocks 好玩",
     id=26,
     permission="Admin",
     region=0,

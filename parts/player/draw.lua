@@ -787,7 +787,7 @@ function draw.norm(P,repMode)
         gc_scale(P.size)
 
         -- Draw username
-        setFont(30)
+        setFont(GAME.replaying and 20 or 30)
         gc_setColor(GROUP_COLORS[P.group])
         GC.mStr(P.username or USERS.getUsername(P.uid),300,-60)
 

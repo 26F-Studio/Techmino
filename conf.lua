@@ -13,7 +13,7 @@ if system=='Web' then
 end
 
 function love.conf(t)
-    local identity='Techmino'
+    local identity='TeBlocks'
     local msaa=0
     local portrait=false
 

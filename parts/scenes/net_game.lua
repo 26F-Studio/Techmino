@@ -21,6 +21,96 @@ local upstreamProgress
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
 
+local function _replayFinished()
+    for p=1,#PLAYERS do
+        local P=PLAYERS[p]
+        -- A player is still "live" only if they are alive and still have an
+        -- unconsumed recording entry. Once a player tops out their stream stops
+        -- being advanced (they are dead), leaving streamProgress on a valid entry
+        -- that would otherwise make this report false forever, so dead players
+        -- count as finished.
+        if P.alive and P.stream and P.stream[P.streamProgress] then
+            return false
+        end
+    end
+    return true
+end
+local function _replaySeekTo(frame)
+    if frame<NET._replayCur then
+        -- Backward seek: re-simulate from frame 0 and fast-forward to the target.
+        NET.seekRankedReplay(frame)
+    else
+        -- Forward seek: just keep playing (fast-forward) from the current frame.
+        NET._replayFF=true
+        NET._replayFFTarget=frame
+    end
+    NET._replayEndPos=nil
+    NET._replaySettled=false
+end
+-- Once the replay ends the survivor is laid out at the full-size centred 1P
+-- position (its board bottom would sit under the seek bar at y>=664). Scale it
+-- down and lift it so it clears the slider instead of overlapping it.
+local function _replaySettleLayout()
+    local L=PLY_ALIVE
+    if #L==0 then return end
+    local size=#L==1 and .85 or .7
+    for i=1,#L do
+        local P=L[i]
+        local x=#L==1 and (640-300*size) or P.x
+        local y=664-600*size-36
+        P:movePosition(x,y,size)
+    end
+end
+local function _replayUpdate(dt)
+    -- Apply a pending seek. Honored even while paused so a frozen replay can
+    -- still be scrubbed. Debounced until the user pauses dragging.
+    if NET._replaySeekPending and (not WIDGET.sel or WIDGET.sel.type~='slider' or love.timer.getTime()-NET._replaySeekLast>0.2) then
+        _replaySeekTo(NET._replaySeekFrame)
+        NET._replaySeekPending=false
+    end
+    if NET._replayFF then
+        -- Fast-forward to the seek target, capped per frame so a long jump
+        -- spreads across a few frames instead of freezing the client.
+        local cap=400
+        while NET._replayFF and cap>0 do
+            for p=1,#PLAYERS do PLAYERS[p]:update(dt) end
+            cap=cap-1
+            if _replayFinished() or (NET._replayFFTarget>0 and PLAYERS[1].frameRun>=NET._replayFFTarget) then
+                NET._replayFF=false
+                break
+            end
+        end
+    elseif not paused then
+        local steps=GAME.replaySpeed or 1
+        for s=1,steps do
+            for p=1,#PLAYERS do PLAYERS[p]:update(dt) end
+            if _replayFinished() then break end
+        end
+    end
+    -- Track the current frame for the seek bar.
+    NET._replayCur=0
+    for p=1,#PLAYERS do
+        if PLAYERS[p].frameRun>NET._replayCur then NET._replayCur=PLAYERS[p].frameRun end
+    end
+    -- The REPLAY banner fades out once the replay ends and fades back in when
+    -- the user seeks away from the end.
+    NET._replayBannerAlpha=MATH.expApproach(NET._replayBannerAlpha,_replayFinished() and 0 or 1,dt*4)
+    -- When the replay ends, snapshot each board's end-of-replay position/size so
+    -- a later backward seek can animate it back into place instead of popping in.
+    if _replayFinished() and not NET._replayEndPos then
+        NET._replayEndPos={}
+        for p=1,#PLAYERS do
+            local P=PLAYERS[p]
+            if P.uid then NET._replayEndPos[P.uid]={P.x,P.y,P.size} end
+        end
+        -- Shrink the surviving board(s) so they clear the seek bar.
+        if not NET._replaySettled then
+            NET._replaySettled=true
+            _replaySettleLayout()
+        end
+    end
+end
+
 local function _setCancel()
     if NETPLY.map[USER.uid].playMode=='Gamer' then
         NET.player_setReady(false)
@@ -150,6 +240,7 @@ function scene.keyDown(key,isRep)
         if key=='q' then _quit() return end
         return
     end
+    if GAME.replaying and playing and key=='space' then paused=not paused return end
     if key=='escape' then
         if GAME.replaying then
             paused=not paused
@@ -278,7 +369,7 @@ function scene.update(dt)
         return
     end
     if playing then
-        if paused then return end
+        if paused and not GAME.replaying then return end
         if not TASK.getLock('netPlaying') then
             playing=false
             BG.set()
@@ -294,7 +385,11 @@ function scene.update(dt)
 
             if #PLAYERS>0 then
                 -- Update players
-                for p=1,#PLAYERS do PLAYERS[p]:update(dt) end
+                if GAME.replaying then
+                    _replayUpdate(dt)
+                else
+                    for p=1,#PLAYERS do PLAYERS[p]:update(dt) end
+                end
 
                 local P1=PLAYERS[1]
 
@@ -366,7 +461,7 @@ function scene.draw()
         -- Board labels: mark which board is yours (shown in live net matches
         -- and replays, mirroring the ranked replay presentation).
         if GAME.net then
-            setFont(25)
+            setFont(GAME.replaying and 18 or 25)
             for p=1,#PLAYERS do
                 local P=PLAYERS[p]
                 local isYou=P.uid==USER.uid
@@ -375,11 +470,26 @@ function scene.draw()
             end
         end
 
-        -- Replay banner.
+        -- Replay UI
         if GAME.replaying then
+            -- Top "REPLAY" banner: fades out when the replay ends and fades
+            -- back in when the user seeks away from the end.
             setFont(40)
-            gc_setColor(COLOR.Z)
+            gc_setColor(COLOR.Z[1],COLOR.Z[2],COLOR.Z[3],NET._replayBannerAlpha)
             mStr("REPLAY",640,8)
+
+            -- Media-player style seek bar backdrop, so the slider/buttons don't
+            -- clash with the boards behind them.
+            gc_setColor(0,0,0,.5)
+            gc.rectangle('fill',20,664,1240,56,6)
+
+            -- Current / total frame readout, left of the slider.
+            if NET._replayTotal and NET._replayTotal>0 then
+                setFont(20)
+                gc_setColor(COLOR.lY[1],COLOR.lY[2],COLOR.lY[3],1)
+                gc_print(("%d / %d"):format(NET._replayCur,NET._replayTotal),30,678)
+            end
+
         end
 
         -- Add dark overlay if chat is open
@@ -512,6 +622,13 @@ scene.widgetList={
 
     WIDGET.newKey{name='chat',    x=390,y=45,w=60,fText="···",                code=_switchChat,hideF=function() return GAME.replaying or (NET.roomState and NET.roomState.info and NET.roomState.info.type=='ranked') end},
     WIDGET.newKey{name='quit',    x=890,y=45,w=60,font=30,fText=CHAR.icon.cross_thick,code=_quit,hideF=function() return GAME.replaying or (NET.roomState and NET.roomState.info and NET.roomState.info.type=='ranked') end},
+
+    WIDGET.newKey{name='replayPause', x=40, y=50, w=60, font=40, fText=CHAR.icon.pause,   code=function() paused=not paused end,                                                                                       hideF=function() return not GAME.replaying end},
+    WIDGET.newKey{name='replaySpd1',  x=105,y=50, w=60, font=40, fText=CHAR.icon.speedOne,  code=function() GAME.replaySpeed=1  end,                                                                                       hideF=function() return not GAME.replaying end},
+    WIDGET.newKey{name='replaySpd2',  x=170,y=50, w=60, font=40, fText=CHAR.icon.speedTwo,  code=function() GAME.replaySpeed=2  end,                                                                                       hideF=function() return not GAME.replaying end},
+    WIDGET.newKey{name='replaySpd5',  x=235,y=50, w=60, font=40, fText=CHAR.icon.speedFive, code=function() GAME.replaySpeed=5  end,                                                                                       hideF=function() return not GAME.replaying end},
+    WIDGET.newKey{name='replaySpd10', x=300,y=50, w=60, font=30, fText="10x",               code=function() GAME.replaySpeed=10 end,                                                                                       hideF=function() return not GAME.replaying end},
+    WIDGET.newSlider{name='replaySeek',x=160,y=683,w=1020,axis={0,1,false},disp=function() return (NET._replayTotal and NET._replayTotal>0) and NET._replayCur/NET._replayTotal or 0 end,code=function(v) NET._replaySeekFrame=math.floor(v*(NET._replayTotal or 1)); NET._replaySeekPending=true; NET._replaySeekLast=love.timer.getTime() end,hideF=function() return not GAME.replaying end},
 }
 
 return scene

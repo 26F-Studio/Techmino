@@ -5,7 +5,7 @@ local scene={}
 function scene.enter()
     BG.set('galaxy')
     BGM.play('exploration')
-    DiscordRPC.update("Dreaming Techmino Galaxy coming out")
+    DiscordRPC.update("Dreaming TeBlocks Galaxy coming out")
 end
 
 function scene.draw()

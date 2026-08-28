@@ -226,7 +226,7 @@ function scene.keyDown(key)
         SFX.play('clear_4',.8)
         SFX.play('fall',.8)
     elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
-        CLIPBOARD.set("Techmino Field:"..DATA.copyBoard(FIELD[page]))
+        CLIPBOARD.set("TeBlocks Field:"..DATA.copyBoard(FIELD[page]))
         MES.new('check',text.exportSuccess)
     elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then
         local str=CLIPBOARD.get()

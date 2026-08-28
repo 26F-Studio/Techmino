@@ -288,7 +288,7 @@ local MyRPC={
         state="Loading...",
         details="",
         largeImageKey='',
-        largeImageText="Techmino",
+        largeImageText="TeBlocks",
         smallImageKey='',
         smallImageText="",
     },

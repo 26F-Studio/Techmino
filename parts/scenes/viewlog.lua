@@ -12,7 +12,7 @@ local logList=WIDGET.newSelector{x=305,y=640,w= 550,name='list',color='O',fText=
 
 local function updateText(noLogFound)
     if noLogFound then
-        textBox:setTexts{"Techmino is fun!", "It's good to know that there is nothing to read here! :)"}
+        textBox:setTexts{"TeBlocks is fun!", "It's good to know that there is nothing to read here! :)"}
     else
         currentLogText=fullLog[currentLogID]:split('\n')
         do

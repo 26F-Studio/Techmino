@@ -4,17 +4,9 @@ local scene={}
 
 local loading
 local progress,maxProgress
-local t1,t2,animeType
+local t1,t2
 local studioLogo-- Studio logo text object
 local logoColor1,logoColor2
-
-local titleTransform={
-    function(t) GC.translate(0,max(50-t,0)^2/25) end,
-    function(t) GC.translate(0,-max(50-t,0)^2/25) end,
-    function(t,i) local d=max(50-t,0)GC.translate(sin(TIME()*3+626*i)*d,cos(TIME()*3+626*i)*d) end,
-    function(t,i) local d=max(50-t,0)GC.translate(sin(TIME()*3+626*i)*d,-cos(TIME()*3+626*i)*d) end,
-    function(t) GC.setColor(1,1,1,min(t*.02,1)+math.random()*.2) end,
-}
 
 local loadingThread=coroutine.wrap(function()
     DAILYLAUNCH=freshDate'q'
@@ -188,11 +180,10 @@ local loadingThread=coroutine.wrap(function()
 end)
 
 function scene.enter()
-    studioLogo=GC.newText(getFont(90),"26F Studio")
+    studioLogo=GC.newText(getFont(90),"TeBlocks Studio")
     progress=0
     maxProgress=10
     t1,t2=0,0-- Timer
-    animeType={} for i=1,#SVG_TITLE_FILL do animeType[i]=math.random(#titleTransform) end-- Random animation type
     NET.launchNotice()
 end
 function scene.leave()
@@ -227,6 +218,7 @@ function scene.update(dt)
     end
 end
 
+local titleStr="TeBlocks"
 local titleColor={COLOR.P,COLOR.F,COLOR.V,COLOR.A,COLOR.M,COLOR.N,COLOR.W,COLOR.Y}
 function scene.draw()
     GC.clear(.08,.08,.084)
@@ -238,26 +230,27 @@ function scene.draw()
         GC.setLineWidth(4)
     end
     GC.push('transform')
-    GC.translate(126,100)
-    for i=1,#SVG_TITLE_FILL do
-        local triangles=love.math.triangulate(SVG_TITLE_FILL[i])
+    GC.translate(640,150)
+    local f=getFont(150)
+    local w={}
+    local total=0
+    for i=1,#titleStr do w[i]=f:getWidth(titleStr:sub(i,i)) total=total+w[i] end
+    local x=-total/2
+    local y=-f:getHeight()/2
+    GC.setFont(f)
+    for i=1,#titleStr do
+        local ch=titleStr:sub(i,i)
         local t=t1-i*15
-        if t>0 then
-            GC.push('transform')
-            titleTransform[animeType[i]](t,i)
-            local dt=(t1+62-5*i)%300
-            if dt<20 then
-                GC.translate(0,math.abs(10-dt)-10)
-            end
-            GC.setColor(titleColor[i][1],titleColor[i][2],titleColor[i][3],min(t*.025,1)*.2)
-            for j=1,#triangles do
-                GC.polygon('fill',triangles[j])
-            end
-            GC.setColor(1,1,1,min(t*.025,1))
-            GC.polygon('line',SVG_TITLE_LINE[i])
-            if i==8 then GC.polygon('line',SVG_TITLE_LINE[9]) end
-            GC.pop()
+        local a=min(t*.025,1)
+        if a>0 then
+            local dy=max(50-t,0)^2/25-- Drop-in from above
+            GC.setColor(.15,.15,.15,a)
+            GC.print(ch,x+5,y+5+dy)
+            local c=titleColor[i]
+            GC.setColor(.25+.75*c[1],.25+.75*c[2],.25+.75*c[3],a)
+            GC.print(ch,x,y+dy)
         end
+        x=x+w[i]
     end
     GC.pop()
 

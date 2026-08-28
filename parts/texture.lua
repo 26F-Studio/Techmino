@@ -78,47 +78,37 @@ end
 GC.setDefaultFilter('linear','linear')
 
 
-TEXTURE.title=NSC(1040,236)-- Title image (Middle: 580,118)
-do
-    GC.translate(10,10)
-    GC.setColor(.2,.2,.2)
-    for i=1,#SVG_TITLE_FILL do
-        local triangles=love.math.triangulate(SVG_TITLE_FILL[i])
-        for j=1,#triangles do
-            GC.polygon('fill',triangles[j])
-        end
-    end
-    GC.setLineWidth(6)
-    GC.setColor(COLOR.Z)
-    for i=1,#SVG_TITLE_LINE do
-        GC.polygon('line',SVG_TITLE_LINE[i])
-    end
-    GC.translate(-10,-10)
-end
-
-TEXTURE.title_color=NSC(1040,236)-- Title image (colored)
-do
+do-- Title image: "TeBlocks" wordmark
+    local titleStr="TeBlocks"
     local titleColor={COLOR.P,COLOR.F,COLOR.V,COLOR.A,COLOR.M,COLOR.N,COLOR.W,COLOR.Y}
-
-    GC.translate(10,10)
-    for i=1,#SVG_TITLE_FILL do
-        local triangles=love.math.triangulate(SVG_TITLE_FILL[i])
-        GC.setColor(COLOR.D)
-        for j=1,#triangles do
-            GC.polygon('fill',triangles[j])
-        end
-
-        GC.setColor(.2+.8*titleColor[i][1],.2+.8*titleColor[i][2],.2+.8*titleColor[i][3],.3)
-        for j=1,#triangles do
-            GC.polygon('fill',triangles[j])
+    local function renderTitle(canvas,colored)
+        GC.setCanvas(canvas)
+        GC.clear(1,1,1,0)
+        local f=getFont(150)
+        GC.setFont(f)
+        local w={}
+        local total=0
+        for i=1,#titleStr do w[i]=f:getWidth(titleStr:sub(i,i)) total=total+w[i] end
+        local x0=(1040-total)/2
+        local y=(236-f:getHeight())/2
+        for i=1,#titleStr do
+            local ch=titleStr:sub(i,i)
+            if colored then
+                GC.setColor(.15,.15,.15)
+                GC.print(ch,x0+5,y+5)
+            end
+            local c=titleColor[i]
+            if colored then
+                GC.setColor(.25+.75*c[1],.25+.75*c[2],.25+.75*c[3],1)
+            else
+                GC.setColor(1,1,1)
+            end
+            GC.print(ch,x0,y)
+            x0=x0+w[i]
         end
     end
-    GC.setLineWidth(6)
-    GC.setColor(COLOR.Z)
-    for i=1,#SVG_TITLE_LINE do
-        GC.polygon('line',SVG_TITLE_LINE[i])
-    end
-    GC.translate(-10,-10)
+    TEXTURE.title=NSC(1040,236)     renderTitle(TEXTURE.title,false)
+    TEXTURE.title_color=NSC(1040,236) renderTitle(TEXTURE.title_color,true)
 end
 
 TEXTURE.spiderweb=NSC(60,60)

@@ -68,7 +68,7 @@ function scene.keyDown(key)
         end
     elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
         if #MISSION>0 then
-            CLIPBOARD.set("Techmino Target:"..DATA.copyMission(MISSION))
+            CLIPBOARD.set("TeBlocks Target:"..DATA.copyMission(MISSION))
             MES.new('check',text.exportSuccess)
         end
     elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then

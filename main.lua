@@ -4,7 +4,7 @@
     #   / /  / _ \ / ___// __ \ / __ `__ \ / // __ \ / __ \ #
     #  / /  /  __// /__ / / / // / / / / // // / / // /_/ / #
     # /_/   \___/ \___//_/ /_//_/ /_/ /_//_//_/ /_/ \____/  #
-    Techmino is my first "huge project"
+    TeBlocks is my first "huge project"
     optimization is welcomed if you also love tetromino stacking game
 
     Instructions:

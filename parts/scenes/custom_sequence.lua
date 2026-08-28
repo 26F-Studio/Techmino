@@ -75,7 +75,7 @@ function scene.keyDown(key)
         scene.widgetList.sequence:scroll(kb.isDown('lshift','rshift') and -1 or 1)
     elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
         if #BAG>0 then
-            CLIPBOARD.set("Techmino SEQ:"..DATA.copySequence(BAG))
+            CLIPBOARD.set("TeBlocks SEQ:"..DATA.copySequence(BAG))
             MES.new('check',text.exportSuccess)
         end
     elseif key=='v' and kb.isDown('lctrl','rctrl') or key=='cV' then

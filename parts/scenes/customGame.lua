@@ -192,7 +192,7 @@ function scene.keyDown(key,isRep)
     elseif key=='f1' then
         SCN.go('mod','swipeD')
     elseif key=='c' and kb.isDown('lctrl','rctrl') or key=='cC' then
-        local str="Techmino Quest:"..DATA.copyQuestArgs(CUSTOMGAME_LOCAL.customenv).."!"
+        local str="TeBlocks Quest:"..DATA.copyQuestArgs(CUSTOMGAME_LOCAL.customenv).."!"
         if #CUSTOMGAME_LOCAL.bag>0 then str=str..DATA.copySequence(CUSTOMGAME_LOCAL.bag) end
         str=str.."!"
         if #CUSTOMGAME_LOCAL.mission>0 then str=str..DATA.copyMission(CUSTOMGAME_LOCAL.mission) end

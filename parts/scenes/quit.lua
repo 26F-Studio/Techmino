@@ -6,7 +6,7 @@ function scene.enter()
         Z.setPowerInfo(false)
         Z.setClickFX(false)
         VERSION.string=""
-        MES.new('error',"Please swipe up or press Home button to quit Techmino on iOS",1e99)
+        MES.new('error',"Please swipe up or press Home button to quit TeBlocks on iOS",1e99)
     else
         if math.random()>.0000626 then
             love.timer.sleep(.26)

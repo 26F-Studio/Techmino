@@ -1,4 +1,4 @@
--- Welcome to Techmino
+-- Welcome to TeBlocks
 local sin=math.sin
 local back={}
 
@@ -6,7 +6,7 @@ local t
 local textObj
 function back.init()
     t=math.random()*2600
-    textObj=GC.newText(getFont(80),"Welcome To Techmino")
+    textObj=GC.newText(getFont(80),"Welcome To TeBlocks")
 end
 function back.update(dt)
     t=t+dt

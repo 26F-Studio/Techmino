@@ -1,6 +1,6 @@
 local ins=table.insert
 
-local logs={os.date("Techmino logs  %Y/%m/%d %A")}
+local logs={os.date("TeBlocks logs  %Y/%m/%d %A")}
 
 local function log(message)
     ins(logs,os.date("[%H:%M:%S] ")..message)

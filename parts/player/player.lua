@@ -922,7 +922,7 @@ function Player:ifoverlap(bk,x,y)
 end
 function Player:attack(R,send,time,line)
     local sid=R.sid
-    if self.type=='remote' and GAME.net and not GAME.replaying then return end
+    if self.streamProgress then return end
     -- Add the attack to the list of in-transit attacks.
     -- These attacks will be able to cancel with incoming attacks that cross them.
     if not self.inTransitAttacks then

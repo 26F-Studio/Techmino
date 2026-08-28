@@ -706,6 +706,66 @@ end
 -- Start a combined 1v1 net replay: player 1 is driven by `myRep`'s recording
 -- and player 2 (remote) by `oppRep`'s recording, reusing the live net_game
 -- streaming path. Does not affect live matchmaking.
+-- Scan a recording list for its final timestamp (the replay's total frame
+-- count). Layout per event: [frameTime, eventID, ...]; key events are 2
+-- entries, the 'attack' extra event is 8 (frameTime + eventID + sourceSid +
+-- 5 attack params).
+local function _replayStreamLength(list)
+    if not list then return 0 end
+    local i=1; local last=0
+    while list[i]~=nil do
+        last=list[i]
+        local ev=list[i+1]
+        if ev==nil then break end
+        if ev<=64 then i=i+2
+        elseif ev<=128 then i=i+8
+        else i=i+2 end
+    end
+    return last
+end
+
+-- Restart the ranked replay from frame 0 and fast-forward to `frame`, used by
+-- the seek bar. Rebuilds the players/streams from the stored recordings, then
+-- lets net_game drive the simulation up to the target frame.
+function NET.seekRankedReplay(frame)
+    local reps=NET._replayReps
+    if not reps then return end
+    -- Capture where each board currently sits so a backward seek animates it
+    -- back into place instead of popping in from the center at scale 0. Prefer
+    -- the end-of-replay snapshot (covers boards that had already dropped out
+    -- and been removed from PLAYERS), falling back to the live positions.
+    local oldPos=NET._replayEndPos or {}
+    if not next(oldPos) then
+        for p=1,#PLAYERS do
+            local P=PLAYERS[p]
+            if P.uid then oldPos[P.uid]={P.x,P.y,P.size} end
+        end
+    end
+    NET._replayEndPos=nil
+    resetGameData('n',NET.seed)
+    GAME.replaying=true
+    GAME.replaySetup=false
+    GAME.recording=false
+    local myList={}  DATA.pumpRecording(reps.myRep.data,myList)
+    local oppList={} DATA.pumpRecording(reps.oppRep.data,oppList)
+    GAME.rep=myList
+    if PLAYERS[1] and PLAYERS[2] then
+        PLAYERS[1]:startStreaming(myList)
+        PLAYERS[2]:startStreaming(oppList)
+    end
+    -- Re-lay the rebuilt boards out from their previous (end-of-replay)
+    -- positions, smoothly moving and scaling them into the new layout.
+    for p=1,#PLAYERS do
+        local o=oldPos[PLAYERS[p].uid]
+        if o then PLAYERS[p]:setPosition(o[1],o[2],o[3]) end
+    end
+    freshPlayerPosition('update')
+    NET._replayFF=true
+    NET._replayFFTarget=frame or 0
+    NET._replayCur=0
+    NET._replayBannerAlpha=1
+end
+
 function NET.startRankedReplay(myRep,oppRep,myUid,oppUid)
     myUid=myUid or USER.uid
     oppUid=oppUid or (NET.rankedResult and NET.rankedResult.oppId)
@@ -730,6 +790,18 @@ function NET.startRankedReplay(myRep,oppRep,myUid,oppUid)
     GAME.curMode=MODES.netBattle
     GAME.modeEnv=GAME.curMode.env
     GAME.rep={}
+
+    NET._replayReps={myRep=myRep,oppRep=oppRep}
+    NET._replayTotal=0
+    NET._replayCur=0
+    NET._replayFF=false
+    NET._replayFFTarget=0
+    NET._replaySeekPending=false
+    NET._replaySeekFrame=0
+    NET._replayBannerAlpha=1
+    NET._replayEndPos=nil
+    NET._replaySettled=false
+    GAME.replaySpeed=1
 
     NET.roomState={
         info={name="Ranked Replay",type="ranked",version="",description=""},
@@ -774,6 +846,7 @@ function NET.startRankedReplay(myRep,oppRep,myUid,oppUid)
         -- in netBattle.load (same as live net play), so attacks route correctly.
         PLAYERS[1]:startStreaming(myList)
         PLAYERS[2]:startStreaming(oppList)
+        NET._replayTotal=math.max(_replayStreamLength(myList),_replayStreamLength(oppList))
     end)
 end
 

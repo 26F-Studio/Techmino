@@ -9,7 +9,7 @@ local outputBox=WIDGET.newTextBox{name='output',x=40,y=30,w=1200,h=610,font=25,f
 local function log(str) outputBox:push(str) end
 _SCLOG=log
 
-log{C.lP,"Techmino Console"}
+log{C.lP,"TeBlocks Console"}
 log{C.lC,"© Copyright 2019–2022 26F Studio. Some rights reserved."}
 log{C.dR,"WARNING: DO NOT RUN ANY CODE THAT YOU DON'T UNDERSTAND."}
 
@@ -744,7 +744,7 @@ local commands={} do
                         love.event.quit()
                     end)
                 end}
-                button:setObject("Techmino is fun. Bye.")
+                button:setObject("TeBlocks is fun. Bye.")
                 ins(scene.widgetList,button)
             else
                 log"Are you sure you want to reset everything?"
