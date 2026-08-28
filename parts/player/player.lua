@@ -922,6 +922,7 @@ function Player:ifoverlap(bk,x,y)
 end
 function Player:attack(R,send,time,line)
     local sid=R.sid
+    if self.type=='remote' and GAME.net and not GAME.replaying then return end
     -- Add the attack to the list of in-transit attacks.
     -- These attacks will be able to cancel with incoming attacks that cross them.
     if not self.inTransitAttacks then
@@ -954,7 +955,13 @@ function Player:attack(R,send,time,line)
         -- machine, does see it) — and the two clients would desync. Applying it
         -- here keeps the attacker's reconstruction in sync and renders the
         -- outgoing trash where it belongs: on the opponent's board.
-        R:receive(self,send,time,line)
+        -- Only mirror locally when the target is a remote player. For a local
+        -- (non-remote) target, extraEvent already delivered the attack via
+        -- beAttacked above, so applying it again here would send the trash
+        -- twice.
+        if R.type=='remote' then
+            R:receive(self,send,time,line)
+        end
     end
 end
 function Player:beAttacked(source,target_sid,send,time,line,seenCount)

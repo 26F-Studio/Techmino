@@ -15,6 +15,7 @@ local inputBox=NET.inputBox
 
 local playing
 local paused
+local abandonCount=0
 local lastUpstreamTime
 local upstreamProgress
 local noTouch,noKey=false,false
@@ -64,6 +65,7 @@ function scene.enter()
     noTouch=not SETTING.VKSwitch
     playing=false
     paused=false
+    abandonCount=0
     lastUpstreamTime=0
     upstreamProgress=1
 
@@ -153,6 +155,19 @@ function scene.keyDown(key,isRep)
             paused=not paused
         elseif not inputBox.hide then
             _switchChat()
+        elseif NET.roomState and NET.roomState.info and NET.roomState.info.type=='ranked' and playing then
+            -- Require several ESC taps so a ranked match can't be abandoned by
+            -- accident. The third tap sends player_finish, which the server
+            -- treats as this player leaving the match and settles a win for the
+            -- opponent still in the game.
+            abandonCount=abandonCount+1
+            if abandonCount>=3 then
+                abandonCount=0
+                MES.new('warn',"Abandoning match — you forfeit the win")
+                NET.player_finish()
+            else
+                MES.new('warn',"Press ESC "..(3-abandonCount).." more time(s) to abandon this match")
+            end
         else
             _quit()
         end
@@ -348,11 +363,9 @@ function scene.draw()
         -- Virtual keys
         VK.draw()
 
-        -- Replay indicators: mark which board is yours and banner the mode.
-        if GAME.replaying then
-            setFont(40)
-            gc_setColor(COLOR.Z)
-            mStr("REPLAY",640,8)
+        -- Board labels: mark which board is yours (shown in live net matches
+        -- and replays, mirroring the ranked replay presentation).
+        if GAME.net then
             setFont(25)
             for p=1,#PLAYERS do
                 local P=PLAYERS[p]
@@ -360,6 +373,13 @@ function scene.draw()
                 gc_setColor(isYou and COLOR.lY or COLOR.lR)
                 mStr(isYou and "YOU" or (P.username or "OPPONENT"), P.centerX, P.fieldY-72)
             end
+        end
+
+        -- Replay banner.
+        if GAME.replaying then
+            setFont(40)
+            gc_setColor(COLOR.Z)
+            mStr("REPLAY",640,8)
         end
 
         -- Add dark overlay if chat is open
@@ -490,8 +510,8 @@ scene.widgetList={
 --  WIDGET.newKey{x=1175,y=460,w=50,font=40,fText=CHAR.zChan.           ,code=function() inputBox:addText(                      ) end,hideF=_hideF_hideChat},
     WIDGET.newKey{x=1240,y=460,w=50,font=40,fText=CHAR.zChan.none       ,code=function() inputBox:addText(CHAR.zChan.none       ) end,hideF=_hideF_hideChat},
 
-    WIDGET.newKey{name='chat',    x=390,y=45,w=60,fText="···",                code=_switchChat,hideF=function() return GAME.replaying end},
-    WIDGET.newKey{name='quit',    x=890,y=45,w=60,font=30,fText=CHAR.icon.cross_thick,code=_quit,hideF=function() return GAME.replaying end},
+    WIDGET.newKey{name='chat',    x=390,y=45,w=60,fText="···",                code=_switchChat,hideF=function() return GAME.replaying or (NET.roomState and NET.roomState.info and NET.roomState.info.type=='ranked') end},
+    WIDGET.newKey{name='quit',    x=890,y=45,w=60,font=30,fText=CHAR.icon.cross_thick,code=_quit,hideF=function() return GAME.replaying or (NET.roomState and NET.roomState.info and NET.roomState.info.type=='ranked') end},
 }
 
 return scene
