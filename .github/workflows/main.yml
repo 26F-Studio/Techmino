@@ -42,19 +42,26 @@ jobs:
           os.execute('echo "version-code=' .. tostring(version.code) .. '" >> $GITHUB_OUTPUT')
 
           local f = io.open("updateLog.txt", 'r')
-          local note = f:read("*a")
-          f:close()
-          local p1 = note:find("\n%d") + 1
-          local p2 = note:find("\n", p1) - 1
-          os.execute('echo "update-title=' .. note:sub(p1, p2) .. '" >> $GITHUB_OUTPUT')
-          local p3 = note:find("\n", note:find("\n%d") + 1) + 1
-          local p4 = note:find("\n%d", p3 + 1)
-          updateNote = note:sub(p3, p4 - 2)
-              :gsub("                ", "- ")
-              :gsub("        ", "# ")
-          os.execute('echo "update-note<<EOF" >> $GITHUB_OUTPUT')
-          os.execute('echo "' .. updateNote .. '" >> $GITHUB_OUTPUT')
-          os.execute('echo "EOF" >> $GITHUB_OUTPUT')
+          if f then
+            local note = f:read("*a")
+            f:close()
+            local p1 = note:find("\n%d") + 1
+            local p2 = note:find("\n", p1) - 1
+            os.execute('echo "update-title=' .. note:sub(p1, p2) .. '" >> $GITHUB_OUTPUT')
+            local p3 = note:find("\n", note:find("\n%d") + 1) + 1
+            local p4 = note:find("\n%d", p3 + 1)
+            updateNote = note:sub(p3, p4 - 2)
+                :gsub("                ", "- ")
+                :gsub("        ", "# ")
+            os.execute('echo "update-note<<EOF" >> $GITHUB_OUTPUT')
+            os.execute('echo "' .. updateNote .. '" >> $GITHUB_OUTPUT')
+            os.execute('echo "EOF" >> $GITHUB_OUTPUT')
+          else
+            os.execute('echo "update-title=' .. version.name .. '" >> $GITHUB_OUTPUT')
+            os.execute('echo "update-note<<EOF" >> $GITHUB_OUTPUT')
+            os.execute('echo "See release notes." >> $GITHUB_OUTPUT')
+            os.execute('echo "EOF" >> $GITHUB_OUTPUT')
+          end
       - name: Get git info
         id: git-info
         shell: bash

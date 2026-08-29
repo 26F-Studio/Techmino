@@ -727,6 +727,7 @@ do-- Userdata tables
         {ava=false, x=1210,    y=50,     r=30},-- zangiRight
     }
     RANKS={sprint_10l=0}-- Ranks of modes
+    QUICKPLAY_MODES={'sprint_40l','sprint_100l','sprintLock'}-- Quick Play mode set (40 line, sprint, L)
     STAT={
         version=VERSION.code,
         elo=1200,-- Competitive elo rating
@@ -738,9 +739,10 @@ do-- Userdata tables
         atk=0,digatk=0,
         send=0,recv=0,pend=0,off=0,
         clear=(function() local L={} for i=1,29 do L[i]={0,0,0,0,0,0} end return L end)(),
-        spin=(function() local L={} for i=1,29 do L[i]={0,0,0,0,0,0,0} end return L end)(),
+        spin=(function() local L={} for i=1,29 do L[i]={0,0,0,0,0,0,7} end return L end)(),
         pc=0,hpc=0,b2b=0,b3b=0,score=0,
         lastPlay='sprint_10l',-- Last played mode ID
+        quickPlay=1,-- Index into QUICKPLAY_MODES
         item=setmetatable({},{__index=function(self,k)
             self[k]=0
             return 0

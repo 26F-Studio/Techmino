@@ -396,6 +396,8 @@ return {
     WidgetText={
         main={
             offline="Main Sendiri",
+            more="Mode Lain",
+            back="Kembali",
             qplay="Terakhir Dimain: ",
             online="Multipemain",
             custom="Permainan Tersesuai",

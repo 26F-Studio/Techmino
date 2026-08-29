@@ -384,6 +384,8 @@ return {
     WidgetText={
         main={
             offline="Solo",
+            more="Mais Modos",
+            back="Voltar",
             -- qplay="Last Play: ",
             online="Multi",
             custom="Custom",

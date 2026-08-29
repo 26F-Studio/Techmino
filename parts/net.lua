@@ -1267,6 +1267,30 @@ end
 
 --------------------------<OLD ONLINE API>
 -- Save
+-- Submit a Quick Play score to the server. Fire-and-forget: the result (best
+-- score + leaderboard rank) is surfaced as a message if the request succeeds.
+function NET.submitQuickPlayScore(mode,score)
+    if not USER.aToken then return end
+    TASK.new(function()
+        local res=getMsg({
+            pool='score',
+            url=AUTHHOST,
+            path='/api/score',
+            headers={['x-access-token']=USER.aToken},
+            body={mode=mode,score=score},
+        },6.26)
+        if res and res.code and math.floor(res.code/100)==2 and res.data then
+            if res.data.rank and res.data.rank>0 then
+                MES.new('check',("Score submitted! Best %d · Rank #%d"):format(res.data.best or score,res.data.rank))
+            else
+                MES.new('check',"Score submitted!")
+            end
+        elseif res then
+            MES.new('warn',"Score not submitted")
+        end
+    end)
+end
+
 function NET.uploadSave()
     if not TASK.lock('uploadSave',8) then return end
     wsSend({data={sections={

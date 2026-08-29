@@ -344,6 +344,8 @@ return {
     WidgetText={
         main={
             offline="PlaySingle();",
+            more="AllMode();",
+            back="Back();",
             qplay="QPlay.",
             online="PlayMulti();",
             custom="PlayCtm();",

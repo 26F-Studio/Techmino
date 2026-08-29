@@ -440,6 +440,8 @@ C. ゲームパッド
     WidgetText={
         main={
             offline="ソロプレイ",
+            more="その他のモード",
+            back="戻る",
             qplay="続きから: ",
             online="マルチプレイ",
             custom="カスタムプレイ",

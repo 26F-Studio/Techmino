@@ -1,4 +1,14 @@
-package.cpath=package.cpath..';'..love.filesystem.getSaveDirectory()..'/lib/?.so;'..'?.dylib'
+local ccDir
+if SYSTEM=='Linux' then
+    ccDir='ColdClear/Linux'
+elseif SYSTEM=='Windows' then
+    local arch=jit and jit.arch or 'x64'
+    ccDir='ColdClear/Windows/'..(arch=='x64' and 'x64' or 'x86')
+end
+package.cpath=package.cpath
+    ..';'..love.filesystem.getSaveDirectory()..'/lib/?.so'
+    ..';?.dylib'
+    ..(ccDir and ';'..ccDir..'/?.'..(SYSTEM=='Windows' and 'dll' or 'so') or '')
 local loaded={}
 local errorCount={}
 return function(libName)
@@ -29,7 +39,7 @@ return function(libName)
                     return 'armeabi-v7a'
                 end
             end)()
-            local data=love.filesystem.read('data','libAndroid/'..platform..'/'..libName..'.so')
+            local data=love.filesystem.read('data','ColdClear/Android/'..platform..'/'..libName..'.so')
             if data then
                 love.filesystem.write('lib/'..libName..'.so',data)
             end

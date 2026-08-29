@@ -374,6 +374,8 @@ return {
     WidgetText={
         main={
             offline="Solo",
+            more="Plus de Modes",
+            back="Retour",
             qplay="Dernier mode: ",
             online="Multijoueur",
             custom="Partie perso.",

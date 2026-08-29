@@ -652,6 +652,9 @@ function gameOver()-- Save record
                     end
                 end
                 local D=M.score(P)
+                if QUICKPLAY_MODES[M.name] then
+                    NET.submitQuickPlayScore(M.name,P.stat.score)
+                end
                 local L=M.records
                 local p=#L-- Rank-1
                 if p>0 then

@@ -430,6 +430,8 @@ return {
     WidgetText={
         main={
             offline="单机游戏",
+            more="更多模式",
+            back="返回",
             qplay="快速开始: ",
             online="联网游戏",
             custom="自定义",

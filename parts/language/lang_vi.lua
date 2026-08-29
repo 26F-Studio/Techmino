@@ -429,6 +429,8 @@ C. Tay cầm chơi game (Gamepad):
     WidgetText={
         main={
             offline="Chơi đơn",
+            more="Thêm Chế độ",
+            back="Quay lại",
             qplay="Chơi nhanh: ",
             online="Nhiều người chơi",
             custom="Chế độ Tự do",

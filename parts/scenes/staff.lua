@@ -2,7 +2,7 @@ local kb,tc=love.keyboard,love.touch
 local rnd=math.random
 local ins,rem=table.insert,table.remove
 
-local maxTime=187.5
+local maxTime,titleY,clickY,rickrolled
 
 local scene={}
 
@@ -11,12 +11,22 @@ local patron=require"parts.patron"
 local names
 local counter
 
+local function rickroll()
+    love.system.openURL("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+    rickrolled=true
+end
+
 function scene.enter()
     time=0
     v=22.6
     BG.set()
     names={}
     counter=26
+    rickrolled=false
+    local lastStaffY=950+65*#text.staff
+    titleY=lastStaffY+160
+    clickY=titleY+156
+    maxTime=math.max(0,clickY-660)/40
     DiscordRPC.update("Knowing Staffs")
 end
 
@@ -25,8 +35,8 @@ function scene.mouseDown(x,y)
     if x>330 and x<950 then
         if math.abs(y-900+T)<70 then
             loadGame('sprintLock',true)
-        elseif math.abs(y-7870+T)<70 then
-            loadGame('sprintFix',true)
+        elseif math.abs(y-titleY+T)<70 then
+            rickroll()
         end
     end
 end
@@ -36,7 +46,7 @@ function scene.keyDown(key)
     if key=='l' then
         loadGame('sprintLock',true)
     elseif key=='f' then
-        loadGame('sprintFix',true)
+        rickroll()
     elseif key=='escape' then
         SCN.back()
     end
@@ -90,9 +100,13 @@ function scene.draw()
     end
     GC.setColor(1,1,1)
     mDraw(TEXTURE.title_color,0,900,nil,.6)
-    mDraw(TEXTURE.title,0,7870,nil,.6)
+    mDraw(TEXTURE.title,0,titleY,nil,.6)
+    if rickrolled then
+        setFont(35)
+        GC.mStr("Get rickrolled bozo lel XD",0,titleY+95)
+    end
     if time>maxTime+6.26 then
-        GC.print("CLICK ME →",-526,8026,-.5)
+        GC.print("CLICK ME →",-526,clickY,-.5)
     end
 end
 

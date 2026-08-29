@@ -395,6 +395,8 @@ return {
     WidgetText={
         main={
             offline="Mapa de Modos",
+            more="Más Modos",
+            back="Atrás",
             qplay="Reciente: ",
             online="Multijugador",
             custom="Personalizado",
