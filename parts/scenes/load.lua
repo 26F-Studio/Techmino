@@ -5,19 +5,8 @@ local scene={}
 local loading
 local progress,maxProgress
 local t1,t2
-local studioLogo-- Studio logo text object
-local logoColor1,logoColor2
-
 local loadingThread=coroutine.wrap(function()
     DAILYLAUNCH=freshDate'q'
-    if DAILYLAUNCH then
-        logoColor1=COLOR.S
-        logoColor2=COLOR.lS
-    else
-        local r=math.random()*6.2832
-        logoColor1={COLOR.rainbow(r)}
-        logoColor2={COLOR.rainbow_light(r)}
-    end
     coroutine.yield()
     coroutine.yield('loadSFX')SFX.load('media/effect/'..SETTING.sfxPack..'/')
     coroutine.yield('loadSample')SFX.loadSample{name='bass',path='media/sample/bass',base='A2'}-- A2~A4
@@ -180,7 +169,7 @@ local loadingThread=coroutine.wrap(function()
 end)
 
 function scene.enter()
-    studioLogo=GC.newText(getFont(90),"TeBlocks Studio")
+
     progress=0
     maxProgress=10
     t1,t2=0,0-- Timer
@@ -238,25 +227,26 @@ function scene.draw()
     local x=-total/2
     local y=-f:getHeight()/2
     GC.setFont(f)
+    local o=4-- Outline thickness
     for i=1,#titleStr do
         local ch=titleStr:sub(i,i)
         local t=t1-i*15
         local a=min(t*.025,1)
         if a>0 then
             local dy=max(50-t,0)^2/25-- Drop-in from above
-            GC.setColor(.15,.15,.15,a)
-            GC.print(ch,x+5,y+5+dy)
             local c=titleColor[i]
-            GC.setColor(.25+.75*c[1],.25+.75*c[2],.25+.75*c[3],a)
+            GC.setColor(COLOR.D[1],COLOR.D[2],COLOR.D[3],a)-- Dark (hollow) interior
+            GC.print(ch,x,y+dy)
+            GC.setColor(c[1],c[2],c[3],a)-- Colored outline
+            for dx=-o,o do for dy2=-o,o do
+                if dx~=0 or dy2~=0 then GC.print(ch,x+dx,y+dy+dy2) end
+            end end
+            GC.setColor(COLOR.D[1],COLOR.D[2],COLOR.D[3],a)-- Restore dark interior
             GC.print(ch,x,y+dy)
         end
         x=x+w[i]
     end
     GC.pop()
-
-    GC.setColor(logoColor1[1],logoColor1[2],logoColor1[3],progress/maxProgress)mDraw(studioLogo,640,400)
-    GC.setColor(logoColor2[1],logoColor2[2],logoColor2[3],progress/maxProgress) for dx=-2,2,2 do for dy=-2,2,2 do mDraw(studioLogo,640+dx,400+dy) end end
-    GC.setColor(.2,.2,.2,progress/maxProgress)mDraw(studioLogo,640,400)
 
     GC.setColor(COLOR.Z)
     setFont(30)

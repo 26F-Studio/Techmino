@@ -74,7 +74,7 @@ function THEME.set(theme,keepBGM)
         return
     elseif theme:sub(1,6)=='season' then
         BG.setDefault(SETTING.defaultBG)
-        BGM.setDefault(({season1='null',season2='nil',season3='vacuum',season4='space'})[theme])
+        BGM.setDefault('Lumia')
     elseif theme=='xmas' then
         BG.setDefault('snow')
         BGM.setDefault('xmas')

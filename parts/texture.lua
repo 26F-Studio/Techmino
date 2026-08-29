@@ -91,18 +91,17 @@ do-- Title image: "TeBlocks" wordmark
         for i=1,#titleStr do w[i]=f:getWidth(titleStr:sub(i,i)) total=total+w[i] end
         local x0=(1040-total)/2
         local y=(236-f:getHeight())/2
+        local o=4-- Outline thickness
         for i=1,#titleStr do
             local ch=titleStr:sub(i,i)
-            if colored then
-                GC.setColor(.15,.15,.15)
-                GC.print(ch,x0+5,y+5)
-            end
-            local c=titleColor[i]
-            if colored then
-                GC.setColor(.25+.75*c[1],.25+.75*c[2],.25+.75*c[3],1)
-            else
-                GC.setColor(1,1,1)
-            end
+            local c=colored and titleColor[i] or {1,1,1}
+            GC.setColor(COLOR.D)            -- Dark (hollow) interior
+            GC.print(ch,x0,y)
+            GC.setColor(c[1],c[2],c[3],1)   -- Colored outline
+            for dx=-o,o do for dy=-o,o do
+                if dx~=0 or dy~=0 then GC.print(ch,x0+dx,y+dy) end
+            end end
+            GC.setColor(COLOR.D)            -- Restore dark interior, leaving only the outline
             GC.print(ch,x0,y)
             x0=x0+w[i]
         end

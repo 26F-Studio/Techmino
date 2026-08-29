@@ -1101,6 +1101,9 @@ do-- function resetGameData(args)
         local bg=GAME.modeEnv.bg
         BG.set(type(bg)=='string' and bg or type(bg)=='table' and bg[math.random(#bg)])
         local bgm=GAME.modeEnv.bgm
+        if NET.roomState and NET.roomState.info and NET.roomState.info.type=='ranked' then
+            bgm='Hollowdive'
+        end
         BGM.play(type(bgm)=='string' and bgm or type(bgm)=='table' and bgm[math.random(#bgm)])
 
         TEXT.clear()
