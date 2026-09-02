@@ -9,6 +9,7 @@ local ins=table.insert
 
 local SCR,VK,NET,NETPLY=SCR,VK,NET,NETPLY
 local PLAYERS,GAME=PLAYERS,GAME
+local ROLLBACK=ROLLBACK
 
 local textBox=NET.textBox
 local inputBox=NET.inputBox
@@ -34,6 +35,19 @@ local function _replayFinished()
         end
     end
     return true
+end
+
+-- _stepPlayers runs the per-player fixed-step update loop. When the rollback
+-- netcode layer is enabled (NET._rollbackEnabled), it delegates to
+-- ROLLBACK.step which adds snapshotting and server reconciliation around the
+-- same Player:update calls. Default off — visible behavior is identical to
+-- the legacy loop until the integration test (slice 4) flips the flag.
+local function _stepPlayers(dt)
+    if NET._rollbackEnabled and ROLLBACK then
+        ROLLBACK.step(PLAYERS, dt)
+    else
+        for p=1,#PLAYERS do PLAYERS[p]:update(dt) end
+    end
 end
 local function _replaySeekTo(frame)
     if frame<NET._replayCur then
@@ -73,7 +87,7 @@ local function _replayUpdate(dt)
         -- spreads across a few frames instead of freezing the client.
         local cap=400
         while NET._replayFF and cap>0 do
-            for p=1,#PLAYERS do PLAYERS[p]:update(dt) end
+            _stepPlayers(dt)
             cap=cap-1
             if _replayFinished() or (NET._replayFFTarget>0 and PLAYERS[1].frameRun>=NET._replayFFTarget) then
                 NET._replayFF=false
@@ -83,7 +97,7 @@ local function _replayUpdate(dt)
     elseif not paused then
         local steps=GAME.replaySpeed or 1
         for s=1,steps do
-            for p=1,#PLAYERS do PLAYERS[p]:update(dt) end
+            _stepPlayers(dt)
             if _replayFinished() then break end
         end
     end
@@ -388,7 +402,7 @@ function scene.update(dt)
                 if GAME.replaying then
                     _replayUpdate(dt)
                 else
-                    for p=1,#PLAYERS do PLAYERS[p]:update(dt) end
+                    _stepPlayers(dt)
                 end
 
                 local P1=PLAYERS[1]
@@ -410,6 +424,10 @@ function scene.update(dt)
                         stream=stream.."\0\0\0\0"
                     end
                     NET.player_stream(stream)
+                    -- Flush any queued authoritative-sim inputs (1413) at the
+                    -- same cadence as the legacy stream upload. No-op when
+                    -- not in a ranked room (NET._inputSubmitBuf stays empty).
+                    NET.flushInputs()
                     lastUpstreamTime=PLAYERS[1].alive and P1.frameRun or 1e99
                 end
             end

@@ -142,6 +142,7 @@ function LOBBY.update(dt)
     LOBBY.init()
     LOBBY.playerList:update(dt)
     LOBBY.chat:update(dt)
+    WIDGET.blockZone=LOBBY.isAnyOpen() and LOBBY.isInside or nil
 end
 
 function LOBBY.draw()
@@ -203,6 +204,12 @@ end
 
 function LOBBY.isAnyOpen()
     return (LOBBY.playerList and LOBBY.playerList.visible) or (LOBBY.chat and LOBBY.chat.visible)
+end
+
+function LOBBY.isInside(x,y)
+    if LOBBY.playerList and LOBBY.playerList:isInside(x,y) then return true end
+    if LOBBY.chat and LOBBY.chat:isInside(x,y) then return true end
+    return false
 end
 
 return LOBBY

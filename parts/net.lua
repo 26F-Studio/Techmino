@@ -1,4 +1,5 @@
 local WS=WS
+local ins=table.insert
 
 local NET={
     uid=false,
@@ -216,51 +217,6 @@ function NET.loginWithPassword(username,password)
         WAIT.interrupt()
     end)
 end
-function NET.register(username,email,password)
-    if not TASK.lock('register') then return end
-    TASK.new(function()
-        WAIT{
-            quit=function()
-                TASK.unlock('register')
-                HTTP.deletePool('register')
-            end,
-            timeout=12.6,
-        }
-
-        HTTP({
-            pool='register',
-            url=AUTHHOST,
-            path='/api/register',
-            body={username=username,email=email,password=password},
-        })
-
-        local totalTime=0
-        while true do
-            local msg=HTTP.pollMsg('register')
-            if msg then
-                if type(msg.body)=='string' and #msg.body>0 then
-                    if msg.code==201 then
-                        MES.new('check','Registration successful! You can now log in.')
-                        NET.loginWithPassword(username,password)
-                    else
-                        MES.new('error',msg.body)
-                    end
-                else
-                    MES.new('info',text.serverDown)
-                end
-                break
-            else
-                totalTime=totalTime+coroutine.yield()
-                if totalTime>6.26 then
-                    MES.new('info',text.serverDown)
-                    break
-                end
-            end
-        end
-
-        WAIT.interrupt()
-    end)
-end
 function NET.getUserInfo(uid)
     TASK.new(function()
         local res=getMsg({
@@ -286,7 +242,7 @@ function NET.getAvatar(uid)
         local res=getMsg({
             pool='getInfo',
             url=AUTHHOST,
-            path='/api/player/avatar?playerId='..uid,
+            path='/api/player/avatar?playerId='..uid..'&size=128',
         },6.26)
 
         if res and res.code==200 and type(res.data)=='string' then
@@ -377,6 +333,12 @@ local actMap={
     match_finish_ranked=     1404,
     match_cancel=            1405,
     match_uploadReplay=      1406,
+    -- Server-authoritative sim + rollback (plan Component 2/3)
+    auth_snapshot=           1410, -- S->C: authoritative world snapshot
+    input_ack=               1411, -- S->C: ack of last received input frame
+    rollback_trigger=        1412, -- S->C: server detected divergence
+    input_submit=            1413, -- C->S: client submits local input frame(s)
+    input_hash=              1414, -- C->S: client local sim hash at frame F
     } for k,v in next,actMap do actMap[v]=k end
 
 local function wsSend(act,data)
@@ -389,7 +351,9 @@ local function wsSend(act,data)
 end
 
 local function _getFullName(uid)
-    return USERS.getUsername(uid).."#"..uid
+    local name=USERS.getUsername(uid)
+    if name and #name>0 then return name end
+    return tostring(uid)
 end
 
 --Remove player when leave
@@ -546,6 +510,59 @@ function NET.online_getPlayers()
 end
 function NET.player_updateElo()
     wsSend(actMap.player_updateElo)
+end
+
+-- Server-authoritative sim (plan Component 3) — protocol layer.
+--
+-- The local player's inputs are pushed into NET._inputSubmitBuf by
+-- Player:pressKey/releaseKey (ranked rooms only). net_game.lua flushes the
+-- buffer to the server periodically via NET.flushInputs(); the server applies
+-- them to its authoritative sim and replies with 1411 (inputAck). This slice
+-- ships only the wire layer; snapshot/rollback consumption is a later step.
+--
+-- Buffer entry shape: {frame=integer, keyID=1..12, isRelease=boolean}.
+NET._inputSubmitBuf={}
+function NET._pushInput(frame,keyID,isRelease)
+    if type(frame)~='number' or type(keyID)~='number' then return end
+    if keyID<1 or keyID>12 then return end
+    ins(NET._inputSubmitBuf,{frame=frame,keyID=keyID,isRelease=isRelease and true or false})
+end
+function NET.flushInputs()
+    local buf=NET._inputSubmitBuf
+    if #buf==0 then return end
+    -- Send the whole batch in one frame; server coalesces by frameRun.
+    wsSend(actMap.input_submit,{frames=buf})
+    NET._inputSubmitBuf={}
+end
+function NET.submitInputs(frames)
+    if type(frames)~='table' or #frames==0 then return end
+    wsSend(actMap.input_submit,{frames=frames})
+end
+
+-- Rollback netcode control surface (plan Component 3). These are off by default
+-- — the integration test in slice 4 sets _rollbackEnabled=true and feeds
+-- confirmed inputs via NET._recordConfirmedInputs. Setting either has no effect
+-- outside ranked rooms, since Rollback.step only runs the legacy loop unless
+-- the flag is on.
+-- Rollback netcode is now the default. The client predicts locally
+-- (zero perceived input lag) and reconciles to server snapshots via
+-- Rollback._reconcile in parts/player/rollback.lua. The server-side
+-- authoritative sim (TEBLOCKS_SIM_AUTHORITATIVE=1) requires this — it
+-- rejects ranked-queue joins from clients that have never submitted a
+-- 1413 (handleMatchJoin in ws.go), so a client with rollback disabled
+-- cannot play ranked matches when the server is in authoritative mode.
+--
+-- To temporarily disable rollback (e.g. for debugging), call
+-- NET.setRollbackEnabled(false) from the LÖVE console. Production
+-- clients should leave this true.
+NET._rollbackEnabled=true
+function NET.setRollbackEnabled(b) NET._rollbackEnabled=b and true or false end
+-- NET._confirmedInputs[uid] = list of {frame, keyID, isRelease} the server has
+-- acked. Slice 4's resim loop drains these when rebuilding a frame.
+NET._confirmedInputs={}
+function NET._recordConfirmedInput(uid, frame, keyID, isRelease)
+    if not NET._confirmedInputs[uid] then NET._confirmedInputs[uid]={} end
+    ins(NET._confirmedInputs[uid], {frame=frame, keyID=keyID, isRelease=isRelease and true or false})
 end
 
 -- Ranked 1v1 matchmaking
@@ -858,6 +875,7 @@ function NET.wsCallBack.global_getOnlineCount(body)
     NET.onlineCount=tonumber(body.data) or "_"
 end
 function NET.wsCallBack.global_chat(body)
+    USERS.getAvatar(body.data.playerId)
     local name=USERS.getUsername(body.data.playerId)
     if not name or #name==0 then
         name=tostring(body.data.playerId)
@@ -871,6 +889,7 @@ function NET.wsCallBack.room_chat(body)
     if SCN.cur~='net_game' then return end
     TASK.unlock('receiveMessage')
     TASK.lock('receiveMessage',1)
+    USERS.getAvatar(body.data.playerId)
 
     local name=_getFullName(body.data.playerId).." "
     -- P/s: we need to wrap both name and message, not just only message
@@ -925,6 +944,7 @@ function NET.wsCallBack.room_enter(body)
                 readyMode=p.state,
                 config=p.config,
             }
+            USERS.getAvatar(p.playerId)
         end
         if NET.roomState.state=='Playing' then
             NET.storedStream={}
@@ -950,6 +970,7 @@ function NET.wsCallBack.room_enter(body)
             readyMode=p.state,
             config=p.config,
         }
+        USERS.getAvatar(p.playerId)
         NET.textBox:push{COLOR.Y,text.joinRoom:repD(_getFullName(p.playerId))}
         if not TASK.getLock('netPlaying') then
             SFX.play('connected')
@@ -1067,6 +1088,17 @@ function NET.wsCallBack.match_finish()
     for _,P in next,PLAYERS do
         NETPLY.setStat(P.uid,P.stat)
     end
+    local lp=PLAYERS[1]
+    if lp and lp.type=='human' then
+        NET.reportHistory({
+            mode=NET.roomState.info.type or NET.roomState.info.name or 'casual',
+            roomId=NET.roomState.id,
+            score=lp.stat.score or 0,
+            lines=lp.stat.row or 0,
+            time=lp.stat.time or 0,
+            result='play',
+        })
+    end
     TASK.new(function()
         TEST.yieldT(2.6)
         TASK.unlock('netPlaying')
@@ -1138,6 +1170,17 @@ function NET.wsCallBack.match_finish_ranked(body)
 
         -- Best-effort: upload this player's replay into the match folder.
         if matchId then NET.uploadRankedReplay(matchId) end
+
+        -- Report this match to the history endpoint so it shows on the profile.
+        NET.reportHistory({
+            mode='ranked',
+            matchId=matchId,
+            score=PLAYERS[1].stat.score or 0,
+            lines=PLAYERS[1].stat.row or 0,
+            time=PLAYERS[1].stat.time or 0,
+            result=NET.rankedResult.winnerId==USER.uid and 'win' or 'loss',
+            opponent={user_id=oppId, username=''},
+        })
     end
     -- Let the finish animation (e.g. the opponent's top-out) play out before
     -- showing results. Keep netPlaying locked so net_game does not briefly drop
@@ -1160,6 +1203,45 @@ function NET.wsCallBack.match_cancel()
     matchmaking=false
     searchTimer=0
     MES.new('info',"Matchmaking cancelled")
+end
+
+-- Inbound handlers for the authoritative-sim protocol (plan Component 2/3).
+-- These are passive consumers: they update the rollback anchor (1411), queue
+-- the latest snapshot for the next step-loop tick (1410), and log divergence
+-- (1412). The actual reconcile/resim lives in Rollback.step, wired in slice 4.
+-- Defining them now means flipping TEBLOCKS_SIM_AUTHORITATIVE in staging will
+-- not crash the client; we'll just be *not yet* consuming the data for prediction
+-- correction.
+NET._pendingSnapshot=false
+function NET.wsCallBack.input_ack(body)
+    if not body or type(body.data)~='table' then return end
+    local f=body.data.frame
+    if type(f)=='number' and ROLLBACK then
+        ROLLBACK.recordAck(f)
+    end
+end
+function NET.wsCallBack.auth_snapshot(body)
+    if not body or type(body.data)~='table' then return end
+    -- Cache for Rollback.step to consume next frame. Deep copy is unnecessary:
+    -- Rollback.step reads frameRun + per-player state and immediately turns
+    -- it into a SNAPSHOT.restore call.
+    NET._pendingSnapshot=body.data
+end
+function NET.wsCallBack.rollback_trigger(body)
+    if not body or type(body.data)~='table' then return end
+    -- Slice 4 (Rollback.step) will handle the resim. For now, advance the
+    -- anchor so we don't try to re-rollback past this frame, and log so the
+    -- event is observable from the console.
+    local f=body.data.frame
+    if type(f)=='number' and ROLLBACK then
+        ROLLBACK.recordAck(f)
+    end
+    if body.data.reason then
+        print("[rollback] server trigger frame="..tostring(f).." reason="..tostring(body.data.reason))
+    end
+end
+function NET.wsCallBack.input_hash()
+    -- Server -> client is not expected; this is a C->S message only. Ignore.
 end
 
 function NET.ws_connect()
@@ -1252,7 +1334,11 @@ function NET.ws_update()
                 -- print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno))
                 -- print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno)) print(TABLE.dump(msg),"\n")
                 if msg.errno~=0 then
-                    parseError(msg.message~=nil and msg.message or msg)
+                    local errMsg=msg.message
+                    if not errMsg and msg.data and type(msg.data)=='table' and msg.data.reason then
+                        errMsg=msg.data.reason
+                    end
+                    parseError(errMsg~=nil and errMsg or ('err '..tostring(msg.action)..'/'..tostring(msg.errno)))
                 else
                     local f=NET.wsCallBack[actMap[msg.action]]
                     if f then f(msg) end
@@ -1288,6 +1374,31 @@ function NET.submitQuickPlayScore(mode,score)
         elseif res then
             MES.new('warn',"Score not submitted")
         end
+    end)
+end
+
+function NET.reportHistory(data)
+    if not USER.aToken then return end
+    TASK.new(function()
+        local body={
+            mode=data.mode,
+            score=math.floor(data.score or 0),
+            lines=math.floor(data.lines or 0),
+            duration=math.floor(data.time or 0),
+            result=data.result or 'play',
+        }
+        if data.matchId then body.match_id=data.matchId end
+        if data.roomId then body.room_id=data.roomId end
+        if data.opponent and data.opponent.user_id then
+            body.opponent={user_id=data.opponent.user_id,username=data.opponent.username or ''}
+        end
+        getMsg({
+            pool='history',
+            url=AUTHHOST,
+            path='/api/match/history',
+            headers={['x-access-token']=USER.aToken},
+            body=body,
+        },6.26)
     end)
 end
 

@@ -680,6 +680,15 @@ function gameOver()-- Save record
             end
         end
     end
+    if not GAME.replaying and not GAME.net and USER.uid and PLAYERS[1] and PLAYERS[1].type=='human' then
+        NET.reportHistory({
+            mode=M.name,
+            score=PLAYERS[1].stat.score or 0,
+            lines=PLAYERS[1].stat.row or 0,
+            time=PLAYERS[1].stat.time or 0,
+            result=GAME.result or 'play',
+        })
+    end
 end
 function trySave()
     if not GAME.statSaved and not GAME.replaying and PLAYERS[1] and PLAYERS[1].type=='human' and (PLAYERS[1].frameRun>300 or GAME.result) then
@@ -1207,7 +1216,7 @@ function drawOnlinePlayerCount()
     gc_setColor(1,1,1)
     gc_push('transform')
     gc_replaceTransform(SCR.xOy_ur)
-    gc_printf(text.onlinePlayerCount:repD(NET.onlineCount),-600,80,594,'right')
+    gc_printf(text.onlinePlayerCount:repD(NET.onlineCount),-600,175,594,'right')
     gc_pop()
 end
 function drawWarning()

@@ -15,6 +15,19 @@ local LINE,TABLE,TEXT,TASK=LINE,TABLE,TEXT,TASK
 local PLAYERS,PLY_ALIVE,GAME=PLAYERS,PLY_ALIVE,GAME
 
 local SETTING=SETTING
+
+-- dump_state: dev/TEST ONLY golden-harness hook. No-op unless the launch
+-- flag --dump-state is set (main.lua sets DUMP_STATE). Lazily required so
+-- production builds never load it.
+local dumpState
+if DUMP_STATE then
+    dumpState=require'parts.player.dump_state'
+    if dumpState then
+        dumpState.setEnabled(true)
+        if DUMP_STATE_PREFIX then dumpState.setPrefix(DUMP_STATE_PREFIX) end
+        if DUMP_STATE_INTERVAL then dumpState.setFrameInterval(DUMP_STATE_INTERVAL) end
+    end
+end
 --------------------------<FX>--------------------------
 function Player:_showText(text,dx,dy,font,style,spd,stop)
     ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font,style,spd,stop))
@@ -570,6 +583,14 @@ local playerActions={
         elseif self.streamProgress then
             VK.press(keyID)
         end
+        -- Authoritative-sim protocol: ship local inputs to the server so its
+        -- sim can apply them. Ranked rooms only; the server's simAuthority
+        -- gate will discard inputs until TEBLOCKS_SIM_AUTHORITATIVE is on,
+        -- but collecting them now means the gate is the only thing keeping
+        -- us from authority, not client/server plumbing.
+        if NET.roomState and NET.roomState.info and NET.roomState.info.type=='ranked' then
+            NET._pushInput(self.frameRun,keyID,false)
+        end
     end
     if self.keyAvailable[keyID] and self.alive then
         if self.waiting>self.gameEnv.hurry then
@@ -591,6 +612,9 @@ function Player:releaseKey(keyID)
             ins(L,32+keyID)
         elseif self.streamProgress then
             VK.release(keyID)
+        end
+        if NET.roomState and NET.roomState.info and NET.roomState.info.type=='ranked' then
+            NET._pushInput(self.frameRun,keyID,true)
         end
     end
     self.keyPressing[keyID]=false
@@ -1912,6 +1936,7 @@ do
             local _cc,_gbcc=self:_checkClear(self.field,CY,#CB,CB,CX)
             cc,gbcc=cc+_cc,gbcc+_gbcc
         end
+        if dumpState then dumpState.write(self, "lock") end
 
         -- Create clearing FX
         for i=1,cc do
@@ -2657,6 +2682,7 @@ local function update_alive(P,dt)
     local ENV=P.gameEnv
 
     P.frameRun=P.frameRun+1
+    if dumpState then dumpState.onFrame(P) end
     if P.frameRun<=180 then
         if P.frameRun==60 then
             if P.id==1 then playReadySFX(2) end
@@ -3238,6 +3264,7 @@ function Player:lose(force)
     end
     self:_die()
     self.result='lose'
+    if dumpState then dumpState.write(self, "lose") end
     if self.gameEnv.layout=='royale' then
         self:changeAtk()
         self.modeData.place=#PLY_ALIVE+1

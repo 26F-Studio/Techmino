@@ -228,15 +228,12 @@ function NETPLY.draw()
                     end
                 end
 
-                -- UID & Username
+                -- Username
                 gc_setColor(GROUP_COLORS[p.group] or COLOR.dH)
                 if p.h>=47 then
                     setFont(40)
-                    gc_print("#"..p.uid,50,-5)
-                    gc_print(USERS.getUsername(p.uid),210,-5)
+                    gc_print(USERS.getUsername(p.uid),50,-5)
                 else
-                    setFont(15)
-                    gc_print("#"..p.uid,46,-1)
                     setFont(30)
                     gc_print(USERS.getUsername(p.uid),p.h,8)
                 end
@@ -252,10 +249,8 @@ function NETPLY.draw()
             gc_rectangle('line',0,0,400,260)
 
             gc_draw(USERS.getAvatar(selP.uid),5,5,nil,.5)
-            setFont(30)
-            gc_print("#"..selP.uid,75,0)
             setFont(35)
-            gc_print(USERS.getUsername(selP.uid),75,25)
+            gc_print(USERS.getUsername(selP.uid),75,0)
             setFont(20)
             gc_printf(USERS.getMotto(selP.uid),5,70,390)
             if selP.stat then

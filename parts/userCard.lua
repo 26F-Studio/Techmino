@@ -12,9 +12,10 @@ local approach=MATH.expApproach
 local CARD={}
 
 local AUTH=require'parts.authModal'
+local LOBBY=require'parts.lobbyPanel'
 
 CARD.w=310
-CARD.h=100
+CARD.h=120
 CARD.slideX=320
 CARD.alpha=0
 CARD.open=false
@@ -42,6 +43,7 @@ function CARD.enter(startX)
     CARD.menuAlpha=0
     CARD.alpha=0
     CARD.slideX=startX or 320
+    if USER.uid then NET.getUserInfo(USER.uid) end
 end
 
 function CARD.leave()
@@ -51,9 +53,11 @@ function CARD.leave()
 end
 
 function CARD.update(dt)
-    local targetX = CARD.open and 0 or CARD.w
+    -- The card is hidden (slid out and faded) while the global chat panel is open
+    local cardVisible = CARD.open and not (LOBBY.chat and LOBBY.chat.visible)
+    local targetX = cardVisible and 0 or CARD.w
     CARD.slideX=approach(CARD.slideX,targetX,dt*12)
-    if CARD.open then
+    if cardVisible then
         CARD.alpha=math.min(CARD.alpha+dt*8,1)
     else
         CARD.alpha=math.max(CARD.alpha-dt*8,0)
@@ -120,7 +124,7 @@ function CARD.openMenu()
         end})
     else
         table.insert(menuItems,{label="Log In",code=function() AUTH.open('login') end})
-        table.insert(menuItems,{label="Register",code=function() AUTH.open('register') end})
+        table.insert(menuItems,{label="Register",url="https://teblocks.my.id/register"})
     end
 end
 
@@ -157,12 +161,27 @@ function CARD.draw()
 
             -- Avatar border & avatar
             gc_setColor(1,1,1,CARD.alpha)
-            gc_rectangle('line',cardX+CARD.w-84,cardY+12,74,74,3)
+            gc_rectangle('line',cardX+CARD.w-106,cardY+12,96,96,3)
 
             local isGuest = not USER.uid
             local avatar = isGuest and nil or USERS.getAvatar(USER.uid)
             if avatar then
-                gc_draw(avatar,cardX+CARD.w-82,cardY+14,nil,.58)
+                local avatarBoxX,avatarBoxY,avatarBoxSize=cardX+CARD.w-106,cardY+12,96
+                local aw,ah=avatar:getDimensions()
+                local scale=math.max(avatarBoxSize/aw,avatarBoxSize/ah)
+                local drawW,drawH=aw*scale,ah*scale
+
+                gc_stencil(function()
+                    gc_rectangle('fill',avatarBoxX,avatarBoxY,avatarBoxSize,avatarBoxSize)
+                end,'replace',1)
+                gc_setStencilTest('equal',1)
+
+                gc_draw(avatar,
+                    avatarBoxX+(avatarBoxSize-drawW)/2,
+                    avatarBoxY+(avatarBoxSize-drawH)/2,
+                    nil,scale)
+
+                gc_setStencilTest()
             end
 
             -- Username
@@ -187,11 +206,6 @@ function CARD.draw()
             local elo = isGuest and 0 or (STAT.elo or 1200)
             gc_setColor(COLOR.lY[1],COLOR.lY[2],COLOR.lY[3],CARD.alpha)
             gc_print(text.elo.." "..elo,cardX+16,cardY+70)
-
-            -- Dropdown arrow indicator
-            setFont(12)
-            gc_setColor(.6,.6,.6,CARD.alpha)
-            gc_printf("▼",cardX+CARD.w-35,cardY+CARD.h-18,25,'center')
         gc_pop()
     end
 

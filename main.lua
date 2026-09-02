@@ -29,8 +29,20 @@ DAILYLAUNCH=false
 -- Launch flags (parsed manually: TABLE is loaded later via Zframework)
 do
     local _temp=false
-    for _,v in ipairs(arg) do if v=='--temp' then _temp=true break end end
+    local _dumpState=false
+    local _dumpPrefix=nil
+    local _dumpInterval=nil
+    for i,v in ipairs(arg) do
+        if v=='--temp' then _temp=true
+        elseif v=='--dump-state' then _dumpState=true
+        elseif v:sub(1,13)=='--dump-prefix' then _dumpPrefix=v:sub(15)
+        elseif v:sub(1,15)=='--dump-interval' then _dumpInterval=tonumber(v:sub(17))
+        end
+    end
     TEMP_MODE=_temp
+    DUMP_STATE=_dumpState
+    DUMP_STATE_PREFIX=_dumpPrefix
+    DUMP_STATE_INTERVAL=_dumpInterval
 end
 
 -- System setting
@@ -119,6 +131,8 @@ VK     =require'parts.virtualKey'
 BOT    =require'parts.bot'
 RSlist =require'parts.RSlist'; DSCP=RSlist.TRS.centerPos
 PLY    =require'parts.player'
+SNAPSHOT=require'parts.player.snapshot'
+ROLLBACK=require'parts.player.rollback'
 NETPLY =require'parts.netPlayer'
 MODES  =require'parts.modes'
 

@@ -28,7 +28,8 @@ local function _loadAvatar(path)
             GC.origin()
             GC.setColor(1,1,1)
             GC.setCanvas(canvas)
-            mDraw(img,64,64,nil,128/math.max(img:getWidth(),img:getHeight()))
+            local s=128/math.max(img:getWidth(),img:getHeight())
+            mDraw(img,64,64,nil,s,s,img:getWidth()/2,img:getHeight()/2)
             GC.setCanvas()
         GC.pop()
         return canvas
@@ -93,7 +94,10 @@ end
 function USERS.updateAvatar(uid,imgData)
     local hash=db[uid].hash
     if not TEMP_MODE then
-        fs.write("cache/"..hash,love.data.decode('string','base64',imgData:sub(imgData:find(",")+1)))
+        local path="cache/"..hash
+        local dir=path:match("^(.-)[^/]+$")
+        if dir and dir~="" then fs.createDirectory(dir) end
+        fs.write(path,love.data.decode('string','base64',imgData:sub(imgData:find(",")+1)))
     end
     db_img[uid]=_loadAvatar("cache/"..hash)
 end
