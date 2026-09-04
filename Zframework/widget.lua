@@ -737,7 +737,7 @@ function selector:reset()
     for i=1,#L do
         if L[i]==V then
             self.select=i
-            self.selText=self.list[i]
+            self.selText=tostring(self.list[i])
             return
         end
     end
@@ -801,7 +801,7 @@ function selector:draw()
     gc_draw(self.obj,x+w*.5,y-4,nil,min((w-20)/self.obj:getWidth(),1),1,self.obj:getWidth()*.5,0)
     gc_setColor(1,1,1)
     FONT.set(30)
-    mStr(self.selText,x+w*.5,y+22)
+    mStr(self.selText or "",x+w*.5,y+22)
 end
 function selector:getInfo()
     return("x=%d,y=%d,w=%d"):format(self.x+self.w*.5,self.y+30,self.w)
@@ -823,7 +823,7 @@ function selector:press(x)
         if self.select~=s then
             self.code(self.list[s],s)
             self.select=s
-            self.selText=self.list[s]
+            self.selText=tostring(self.list[s])
             if self.sound then
                 SFX.play('selector')
             end
@@ -843,7 +843,7 @@ function selector:scroll(n)
     end
     self.code(self.list[s])
     self.select=s
-    self.selText=self.list[s]
+    self.selText=tostring(self.list[s])
     if self.sound then
         SFX.play('selector')
     end

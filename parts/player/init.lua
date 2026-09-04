@@ -478,6 +478,7 @@ function PLY.newAIPlayer(id,AIdata,mini,p)
         uid=id,
         group=0,
     } if p then TABLE.coverR(p,pData) end
+    P.uid=pData.uid
     P.username="BOT"..pData.uid
     P.sid=NET.uid_sid[pData.uid] or pData.uid
     P.group=pData.group
@@ -489,6 +490,11 @@ function PLY.newAIPlayer(id,AIdata,mini,p)
     _applyGameEnv(P)
     AIdata._20G=P._20G
     P:loadAI(AIdata)
+    -- The bot waits for the match_start countdown like every other
+    -- player (default `countdownTask` runs for ~180 frames before
+    -- control/timing flip on). We don't override control/timing/
+    -- frameRun here — let the global spawn path drive them so the
+    -- bot's first piece appears in sync with the human's countdown.
 end
 function PLY.newPlayer(id,mini,p)
     local P=_newEmptyPlayer(id,mini)

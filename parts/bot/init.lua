@@ -61,6 +61,7 @@ local AISpeed={60,50,42,34,27,21,16,12,9,6}
     }
 ]]
 function BOT.template(arg)
+    if type(arg)~='table' then return end
     if arg.type=='CC' then
         return {
             type='CC',

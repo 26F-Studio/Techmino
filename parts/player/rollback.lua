@@ -155,6 +155,20 @@ end
 -- is set, delegate to M._reconcile. Default off — visible behavior is
 -- identical to the legacy path until the rollback layer is enabled by the
 -- integration test harness in slice 4.
+local function _inRankedRoom()
+    -- The rollback history is only useful when the server is sending
+    -- 1410 authoritative snapshots (ranked rooms only). Casual rooms
+    -- never set NET._pendingSnapshot, so saving snapshots there is
+    -- pure waste — and the deep copies are enough to cause visible
+    -- stutter with 2+ bots on the host (3 players × 20Hz × 10+ table
+    -- copies per snapshot = 600 deep copies/sec). Returning false in
+    -- casual skips Phase 3 entirely.
+    if NET and NET.roomState and NET.roomState.info then
+        return NET.roomState.info.type == 'ranked'
+    end
+    return false
+end
+
 function M.step(players, dt)
     if not players or #players==0 then return end
     -- Phase 2: advance both players in lockstep.
@@ -173,14 +187,19 @@ function M.step(players, dt)
     -- history: rollbacks beyond one snapshot interval require a full
     -- server resync anyway, and the 1412 path covers divergence within
     -- the window.
-    if players[1] and players[1].frameRun >= M.nextSnapshotFrame then
+    --
+    -- Skipped in casual rooms: snapshots are never consumed there
+    -- (no 1410/1412 traffic), so the deep copies are pure overhead.
+    if _inRankedRoom() and players[1] and players[1].frameRun >= M.nextSnapshotFrame then
         for i=1,#players do
             local P=players[i]
             if P then M.save(P) end
         end
         M.nextSnapshotFrame = players[1].frameRun + SNAPSHOT_INTERVAL
     end
-    -- Phase 4: reconcile if a server snapshot arrived.
+    -- Phase 4: reconcile if a server snapshot arrived. Also gated on
+    -- ranked: 1410/1412 never fire in casual, so this branch is dead
+    -- there and we save the function-call overhead of the check.
     if NET and NET._rollbackEnabled and NET._pendingSnapshot then
         local snap=NET._pendingSnapshot
         NET._pendingSnapshot=false

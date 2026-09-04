@@ -20,7 +20,7 @@ local function updateText(noLogFound)
             textBox:setTexts(wt)
         end
         logList.select=currentLogID
-        logList.selText=currentLogText[1]
+        logList.selText=currentLogText[1] or ""
         colorBarWidth=min((currentLogID-1)/(#fullLog-1),1)*170+1055 -- 170 is the width of full color bar, 1055 is the X of the beginning of the bar
     end
 end

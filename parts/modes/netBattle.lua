@@ -38,10 +38,49 @@ return {
                 break
             end
         end
+    -- Iterate NETPLY for real players only. Bots are in NETPLY
+    -- (so they show in the lobby) but are created via
+    -- newAIPlayer below — newRemotePlayer requires d.config which
+    -- bots don't have.
     for _,p in next,L do
-        if p.playMode=='Gamer' then
+        if p.playMode=='Gamer' and not p.isBot then
             PLY.newRemotePlayer(N,false,p)
             N=N+1
+        end
+    end
+
+    -- Create bot Players from NET.bots (added by the host via the
+    -- +Bot button). newAIPlayer creates a fresh Player with the bot
+    -- type and loads the AI (CCLoader or 9S) via P:loadAI(AIdata).
+    -- The existing game loop ticks them via PLAYERS[p]:update(dt) →
+    -- self.bot:update, so no extra wiring is needed.
+    -- Skip placeholders (botId=false means the server's botId response
+    -- hasn't arrived yet). They'll be wired in once netBattle.load
+    -- reruns, or simply won't play if we miss the frame.
+    --
+    -- serverDriven=true: the server runs CC for this bot and the
+    -- client must NOT load CCloader locally (it would race the
+    -- server's authoritative sim). The bot still appears in the
+    -- lobby via NETPLY (the 1319 mid-game join adds it), and the
+    -- server's per-bot elimination arrives as a 1201 player_finish
+    -- that NETPLY handles. The 1106 bot_frame action that replays
+    -- the bot's inputs into the local sim is a follow-up: until
+    -- that lands, the bot shows in the lobby with no local Player
+    -- (and a future 1106 PR will create the Player on demand).
+    for _,b in next,NET.bots do
+        if b.botId and not PLAYERS[b.botId] and not b.serverDriven then
+            local AIdata
+            if b.data then
+                local arg=TABLE.copy(b.data,1)
+                arg.type=b.type
+                AIdata=BOT.template(arg)
+            else
+                AIdata=BOT.template({type=b.type or 'CC'})
+            end
+            if AIdata then
+                PLY.newAIPlayer(N,AIdata,false,{uid=b.botId,group=0})
+                N=N+1
+            end
         end
     end
 

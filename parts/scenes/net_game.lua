@@ -19,6 +19,24 @@ local paused
 local abandonCount=0
 local lastUpstreamTime
 local upstreamProgress
+
+-- Bot config for the +Bot button. The host can adjust type and
+-- CCLoader level (Lv 1-5) in the room lobby before adding bots.
+-- 9S is a built-in simple bot; CC uses the CCLoader (Cold Clear)
+-- plugin. speedLV maps to the AISpeed table in parts/bot/init.lua.
+local BOT_CFG={
+    type='CC',
+    data={next=5,hold=true,speedLV=3,node=500,randomizer='bag',_20G=false},
+}
+-- The four bot presets available in the lobby. key:display.
+local BOT_PRESETS={
+    {'CC Lv1',{type='CC',data={next=5,hold=false,speedLV=1,node=100,randomizer='bag',_20G=false}}},
+    {'CC Lv2',{type='CC',data={next=5,hold=true, speedLV=2,node=200,randomizer='bag',_20G=false}}},
+    {'CC Lv3',{type='CC',data={next=5,hold=true, speedLV=3,node=500,randomizer='bag',_20G=false}}},
+    {'CC Lv4',{type='CC',data={next=6,hold=true, speedLV=4,node=2000,randomizer='bag',_20G=false}}},
+    {'CC Lv5',{type='CC',data={next=6,hold=true, speedLV=5,node=5000,randomizer='bag',_20G=false}}},
+    {'9S',  {type='9S',data={hold=true, speedLV=5}}},
+}
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
 
@@ -639,6 +657,32 @@ scene.widgetList={
     WIDGET.newKey{x=1240,y=460,w=50,font=40,fText=CHAR.zChan.none       ,code=function() inputBox:addText(CHAR.zChan.none       ) end,hideF=_hideF_hideChat},
 
     WIDGET.newKey{name='chat',    x=390,y=45,w=60,fText="···",                code=_switchChat,hideF=function() return GAME.replaying or (NET.roomState and NET.roomState.info and NET.roomState.info.type=='ranked') end},
+    -- "Add Bot" button: host only, casual rooms only. Adds a CCLoader
+    -- (Cold Clear) bot to the room. Max 5 bots per room (enforced both
+    -- client-side here and server-side in handleRoomAddBot). The bot
+    -- runs locally on the host's client and is included in the local
+    -- game simulation; the server only tracks it for lobby presence.
+    WIDGET.newSelector{name='botCfg',x=620,y=35,w=150,color='lG',list=(function() local t={} for i=1,#BOT_PRESETS do t[i]=BOT_PRESETS[i][1] end return t end)(),disp=function() for i,p in next,BOT_PRESETS do if p[2].type==BOT_CFG.type and p[2].data.speedLV==BOT_CFG.data.speedLV then return p[1] end end return BOT_PRESETS[1][1] end,code=function(_,i) BOT_CFG=BOT_PRESETS[i][2] end,hideF=function() return GAME.replaying or playing or not (NET.roomState and NET.roomState.info and NET.roomState.info.type~='ranked') or not (NETPLY.map[USER.uid] and NETPLY.map[USER.uid].role=='Admin') end},
+    WIDGET.newButton{name='addBot',x=780,y=35,w=50,font=25,fText="+Bot",code=function()
+        NET.room_addBot(BOT_CFG.type,BOT_CFG.data)
+    end,hideF=function()
+        return GAME.replaying or playing
+            or not (NET.roomState and NET.roomState.info and NET.roomState.info.type~='ranked')
+            or not (NETPLY.map[USER.uid] and NETPLY.map[USER.uid].role=='Admin')
+    end},
+    -- "Remove Bot" button: host only. Removes the most recently added
+    -- bot. The server broadcasts a 1320 room_playerLeave so all
+    -- clients remove the bot from their lobby display.
+    WIDGET.newButton{name='rmBot',x=835,y=35,w=50,font=25,fText="-Bot",code=function()
+        if #NET.bots>0 then
+            NET.room_removeBot(NET.bots[#NET.bots].botId)
+        end
+    end,hideF=function()
+        return GAME.replaying or playing
+            or not (NET.roomState and NET.roomState.info and NET.roomState.info.type~='ranked')
+            or not (NETPLY.map[USER.uid] and NETPLY.map[USER.uid].role=='Admin')
+            or #NET.bots==0
+    end},
     WIDGET.newKey{name='quit',    x=890,y=45,w=60,font=30,fText=CHAR.icon.cross_thick,code=_quit,hideF=function() return GAME.replaying or (NET.roomState and NET.roomState.info and NET.roomState.info.type=='ranked') end},
 
     WIDGET.newKey{name='replayPause', x=40, y=50, w=60, font=40, fText=CHAR.icon.pause,   code=function() paused=not paused end,                                                                                       hideF=function() return not GAME.replaying end},

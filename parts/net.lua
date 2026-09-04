@@ -317,6 +317,10 @@ local actMap={
     room_setInfo=          1305,
     room_enter=            1306,
     room_kick=             1307,
+    room_addBot=           1317,  -- C->S: add a bot to the room (host only, casual, max 5)
+    room_removeBot=        1318,  -- C->S: remove a bot from the room (host only)
+    room_playerJoin=       1319,  -- S->C: a player (or bot) joined mid-game
+    room_playerLeave=      1320,  -- S->C: a player (or bot) left mid-game
     room_leave=            1308,
     room_fetch=            1309,
     room_setPW=            1310,
@@ -452,6 +456,51 @@ function NET.room_kick(pid,rid)
     wsSend(actMap.room_kick,{
         playerId=pid,-- Host
         roomId=rid,-- Admin
+    })
+end
+
+-- NET.bots tracks bots the host has added to the current casual room.
+-- Each entry: {botId, type='CC'|'9S', data=table, serverDriven=bool}
+-- (the bot config is used by netBattle.lua to create the local bot
+-- Player via PLY.newAIPlayer → P:loadAI → CCLoader unless
+-- serverDriven=true, in which case the server runs CC and the
+-- client just receives inputs via the 1106 bot_frame action). The
+-- host's client runs the bot locally and includes the bot in the
+-- local game simulation; the server only tracks the bot for lobby
+-- presence.
+NET.bots={}
+
+-- NET.room_addBot requests the server to register a new bot in the
+-- current room. Host only, casual rooms only, max 5. The bot config
+-- is stored locally in NET.bots immediately (the server only echoes
+-- back the botId, not the config) so the local bot runner has the
+-- full config when the match starts.
+function NET.room_addBot(botType,botData)
+    if not TASK.lock('room_addBot',5) then MES.new('warn',text.tooFrequent) return end
+    if #NET.bots>=5 then
+        MES.new('warn',"max 5 bots per room")
+        print(string.format("[bot] rejected local: max 5 bots (current %d)", #NET.bots))
+        return
+    end
+    -- Pre-allocate a placeholder entry so we can match the server's
+    -- botId back to the config when the response arrives. The botId
+    -- is assigned by the server (bot-<hostID>-<n>); we patch it in
+    -- in the response callback.
+    local placeholder=#NET.bots+1
+    table.insert(NET.bots,{botId=false,type=botType or 'CC',data=botData})
+    print(string.format("[bot] host=%s sent room_addBot (type=%s, slot=%d)", USER and USER.uid or "?", botType or 'CC', placeholder))
+    wsSend(actMap.room_addBot,{
+        type=botType or 'CC',
+        data=botData,
+    })
+end
+
+-- NET.room_removeBot requests the server to remove a bot from the
+-- current room. Host only.
+function NET.room_removeBot(botId)
+    if not TASK.lock('room_removeBot',5) then MES.new('warn',text.tooFrequent) return end
+    wsSend(actMap.room_removeBot,{
+        botId=botId,
     })
 end
 function NET.room_leave()
@@ -936,6 +985,10 @@ function NET.wsCallBack.room_enter(body)
         destroyPlayers()
         loadGame('netBattle',true,true)
         for _,p in next,body.data.players do
+            -- The room_enter snapshot uses RoomPlayer fields only
+            -- (playerId/group/role/type/state/config) — no isBot
+            -- marker — so derive it from the bot-<hostID>-<n> prefix.
+            local isBot=type(p.playerId)=='string' and p.playerId:sub(1,4)=='bot-'
             NETPLY.add{
                 uid=p.playerId,
                 group=p.group,
@@ -943,6 +996,7 @@ function NET.wsCallBack.room_enter(body)
                 playMode=p.type,
                 readyMode=p.state,
                 config=p.config,
+                isBot=isBot,
             }
             USERS.getAvatar(p.playerId)
         end
@@ -969,6 +1023,7 @@ function NET.wsCallBack.room_enter(body)
             playMode=p.type,
             readyMode=p.state,
             config=p.config,
+            isBot=type(p.playerId)=='string' and p.playerId:sub(1,4)=='bot-' or false,
         }
         USERS.getAvatar(p.playerId)
         NET.textBox:push{COLOR.Y,text.joinRoom:repD(_getFullName(p.playerId))}
@@ -980,6 +1035,101 @@ function NET.wsCallBack.room_enter(body)
 end
 function NET.wsCallBack.room_kick(body)
     MES.new('info',text.playerKicked:repD(_getFullName(body.data.executorId),_getFullName(body.data.playerId)))
+    _playerLeaveRoom(body.data.playerId)
+end
+function NET.wsCallBack.room_addBot(body)
+    -- Server confirms the bot registration. The botId is patched into
+    -- the placeholder entry we pre-allocated in NET.room_addBot so the
+    -- local bot runner can find the config by botId when the match
+    -- starts. The config (node, speedLV, etc.) is stored locally;
+    -- the server only echoes back the botId.
+    if body.errno~=0 then
+        -- Roll back the placeholder.
+        table.remove(NET.bots)
+        MES.new('error',"Add bot failed: "..(body.message or "unknown error"))
+        print(string.format("[bot] add failed: errno=%d message=%s", body.errno or -1, body.message or "unknown error"))
+        return
+    end
+    local botId=body.data and body.data.botId
+    if botId then
+        -- serverDriven=true means the server is running CC for this
+        -- bot and the client must NOT spin up a local CCloader /
+        -- newAIPlayer. The server streams inputs to the client via
+        -- the 1106 bot_frame action (see parts/bot/server_driven.lua
+        -- and parts/modes/netBattle.lua). Defaults to true on the
+        -- server; we mirror the field on the local bot entry.
+        local serverDriven = body.data.serverDriven
+        if serverDriven == nil then serverDriven = true end
+        -- Find the first placeholder (botId=false) and patch it.
+        for _,b in ipairs(NET.bots) do
+            if not b.botId then
+                b.botId=botId
+                b.serverDriven=serverDriven and true or false
+                MES.new('check',("Bot added: $1 (#$2/$3)"):repD(botId,#NET.bots,5))
+                print(string.format("[bot] added botId=%s (serverDriven=%s, total %d/5)", botId, tostring(b.serverDriven), #NET.bots))
+                return
+            end
+        end
+        -- Fallback: server botId arrived but we have no placeholder
+        -- (e.g. duplicate response). Server doesn't echo back the bot
+        -- config, so store the botId with a sentinel — the host's UI
+        -- won't be able to retry-remove it without the original data,
+        -- but it will at least appear in the lobby. Use the host's
+        -- last chosen BOT_CFG as a reasonable default.
+        table.insert(NET.bots,{botId=botId,type=body.data.type or (BOT_CFG and BOT_CFG.type) or 'CC',data=(BOT_CFG and BOT_CFG.data) or {type='CC'},serverDriven=serverDriven and true or false})
+        MES.new('check',("Bot added: $1 (#$2/$3)"):repD(botId,#NET.bots,5))
+        print(string.format("[bot] added (fallback) botId=%s (total %d/5)", botId, #NET.bots, 5))
+    else
+        print("[bot] add response missing botId: "..(body.message or "no data"))
+    end
+end
+function NET.wsCallBack.room_playerJoin(body)
+    -- Mid-game player join (e.g. a bot was added). Bots are added
+    -- to NETPLY with a bot marker so they show in the lobby
+    -- alongside real players. The host's client also tracks the
+    -- bot in NET.bots (via room_addBot) for the local bot runner
+    -- at match start.
+    --
+    -- Note: do NOT gate on SCN.cur here. The server can broadcast the
+    -- mid-game join while the host is still mid-transition into
+    -- net_game (e.g. immediately after room_enter's loadGame), in
+    -- which case the bot would be dropped from the lobby and the
+    -- match-start code in netBattle.load would then treat it as a
+    -- real player and try to _loadRemoteEnv on its empty config
+    -- ("Bad conf from Bot N#bot-…" error).
+    if not body.data or not body.data.playerId then return end
+    local p=body.data
+    if NETPLY.exist(p.playerId) then return end
+    NETPLY.add{
+        uid=p.playerId,
+        group=p.group or 0,
+        role=p.role or 'Normal',
+        playMode=p.type or 'Gamer',
+        readyMode=p.state or 'Standby',
+        isBot=p.isBot==true,
+    }
+    if p.isBot then
+        USERS.getAvatar(p.playerId)
+    end
+end
+function NET.wsCallBack.room_removeBot(body)
+    -- Server confirms bot removal. Remove from local tracking.
+    if body.data and body.data.botId then
+        for i=#NET.bots,1,-1 do
+            if NET.bots[i].botId==body.data.botId then
+                table.remove(NET.bots,i)
+                MES.new('check',"Bot removed: "..body.data.botId)
+                print(string.format("[bot] removed botId=%s (remaining %d/5)", body.data.botId, #NET.bots))
+                break
+            end
+        end
+    end
+end
+function NET.wsCallBack.room_playerLeave(body)
+    -- Mid-game player leave (e.g. a bot was removed or a player
+    -- disconnected). The standard _playerLeaveRoom handles the visual
+    -- update; this is a thin wrapper for the bot case.
+    if not body.data or not body.data.playerId then return end
     _playerLeaveRoom(body.data.playerId)
 end
 function NET.wsCallBack.room_leave(body)
@@ -1099,8 +1249,14 @@ function NET.wsCallBack.match_finish()
             result='play',
         })
     end
+    -- Briefly hold the finished view (~1s) so the losing player's top-out
+    -- animation plays, then drop back to the in-room lobby (playing=false →
+    -- scene.draw renders NETPLY + ready/spectate widgets). The lobby widgets
+    -- are hidden while the match is showing (textBox.hide=false during play,
+    -- true in the lobby) so once playing=false the user sees the standard
+    -- waiting-room UI of net_game.
     TASK.new(function()
-        TEST.yieldT(2.6)
+        TEST.yieldT(1)
         TASK.unlock('netPlaying')
     end)
 end

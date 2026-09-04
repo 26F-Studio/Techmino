@@ -72,9 +72,22 @@ local backColors={
 }
 function MES.new(icon,str,time)
     local color=backColors.other
+    local iconKey=icon
     if type(icon)=='string' then
-        color=TABLE.shift(backColors[icon] or color)
+        color=backColors[icon] or backColors.other
+        iconKey=icon
         icon=mesIcon[icon]
+    end
+    -- Persist every notification to console and to conf/notifications.log so
+    -- the operator/console sees it even if the toast is missed (game crash,
+    -- alt-tab, etc). `icon` may be the enum string or a Canvas — only log
+    -- the named enum.
+    local line=string.format("[%s] %s: %s", os.date("%Y/%m/%d %H:%M:%S"), iconKey or "other", tostring(str))
+    print(line)
+    if not TEMP_MODE then
+        pcall(function()
+            love.filesystem.append("conf/notifications.log",line.."\n")
+        end)
     end
     local text=GC.newText(FONT.get(30),str)
     local w=math.max(text:getWidth()+(icon and 45 or 5),200)+15
