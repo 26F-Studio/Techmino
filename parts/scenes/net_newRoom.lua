@@ -7,28 +7,7 @@ local passwordBox=WIDGET.newInputBox{                x=40,y=300,w=540,h=60,limit
 local description=WIDGET.newText{name='description', x=650,y=55,align='L'}
 local descriptionBox=WIDGET.newInputBox{             x=650,y=100,w=550,h=160,font=25,limit=256}
 
-local sList={
-    visible={"show","easy","slow","medium","fast","none"},
-    freshLimit={0,1,2,4,6,8,10,12,15,30,1e99},
-    life={0,1,2,3,5,10,15,26,42,87,500},
-    pushSpeed={1,2,3,5,15},
-    fieldH={1,2,3,4,6,8,10,15,20,30,50,100},
-    heightLimit={2,3,4,6,8,10,15,20,30,40,70,100,150,200,1e99},
-    bufferLimit={4,6,10,15,20,40,100,1e99},
-    sequence={'bag','bagES','his','hisPool','c2','bagP1inf','rnd','mess','reverb'},
-
-    drop={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
-    lock={0,1,2,3,4,5,6,7,8,9,10,11,12,14,16,18,20,25,30,40,60,180,1e99},
-    wait={0,1,2,3,4,5,6,7,8,9,10,15,20,30,60},
-    fall={0,1,2,3,4,5,6,7,8,9,10,15,20,30,60},
-    hang={0,1,2,3,4,5,6,7,8,9,10,15,20,30,60},
-    hurry={0,1,2,3,4,5,6,7,8,9,10,1e99},
-    eventSet=EVENTSETS,
-    holdMode={'hold','swap','skip'},
-}
-
-local scene={}
-
+-- Build the room_create payload.
 local function _createRoom()
     if WS.status('game')~='running' then
         MES.new('error',text.serverDown)
@@ -54,6 +33,28 @@ local function _createRoom()
         }
     end
 end
+
+local sList={
+    visible={"show","easy","slow","medium","fast","none"},
+    freshLimit={0,1,2,4,6,8,10,12,15,30,1e99},
+    life={0,1,2,3,5,10,15,26,42,87,500},
+    pushSpeed={1,2,3,5,15},
+    fieldH={1,2,4,6,8,10,15,20,30,50,100},
+    heightLimit={2,3,4,6,8,10,15,20,30,40,70,100,150,200,1e99},
+    bufferLimit={4,6,10,15,20,40,100,1e99},
+    sequence={'bag','bagES','his','hisPool','c2','bagP1inf','rnd','mess','reverb'},
+
+    drop={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
+    lock={0,1,2,3,4,5,6,7,8,9,10,11,12,14,16,18,20,25,30,40,60,180,1e99},
+    wait={0,1,2,3,4,5,6,7,8,9,10,15,20,30,60},
+    fall={0,1,2,3,4,5,6,7,8,9,10,15,20,30,60},
+    hang={0,1,2,3,4,5,6,7,8,9,10,15,20,30,60},
+    hurry={0,1,2,3,4,5,6,7,8,9,10,1e99},
+    eventSet=EVENTSETS,
+    holdMode={'hold','swap','skip'},
+}
+
+local scene={}
 
 function scene.enter()
     sure=0
