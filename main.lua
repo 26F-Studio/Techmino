@@ -355,6 +355,8 @@ SKIN.load{
     {name="WTF (MrZ)",                      path='media/image/skin/mrz/wtf.png'},
 }
 
+SKIN.loadUser('skins')
+
 -- Initialize sound libs
 SFX.init((function() --[Warning] Not loading files here, just get the list of sound needed
     local L={}

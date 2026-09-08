@@ -19,6 +19,36 @@ function SKIN.load(list)
     end
 end
 
+function SKIN.loadUser(dir)
+    local ok,_=pcall(love.filesystem.createDirectory,dir)
+    if not ok then return end
+    local success,items=pcall(love.filesystem.getDirectoryItems,dir)
+    if not success or not items then return end
+    for _,name in next,items do
+        if name:sub(-4):lower()=='.png' then
+            local skinName='[User] '..name:sub(1,-5)
+            local path=dir..'/'..name
+            if not Skins[skinName] then
+                table.insert(skinList,skinName)
+                Skins[skinName]=path
+            end
+        end
+    end
+end
+
+function SKIN.reloadUser(dir)
+    for i=#skinList,1,-1 do
+        local name=skinList[i]
+        if name:sub(1,7)=='[User] ' then
+            table.remove(skinList,i)
+            Skins[name]=nil
+            SKIN.lib[name]=nil
+            SKIN.libMini[name]=nil
+        end
+    end
+    SKIN.loadUser(dir)
+end
+
 function SKIN.getList() return skinList end
 
 local skinMeta={__index=function(self,name)
