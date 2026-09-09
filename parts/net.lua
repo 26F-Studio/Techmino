@@ -28,6 +28,12 @@ local NET={
 
     rankedResult=false,-- Summary of the last ranked match for the results scene
 
+    matchFoundPending=false,
+    matchFoundCountdown=0,
+    matchFoundSeed=nil,
+    matchFoundOppId=nil,
+    matchFoundMatchId=nil,
+
     roomAllReady=false,
 
     onlineCount="0",
@@ -51,6 +57,21 @@ function NET.freshRoomAllReady()
         if p.playMode=='Gamer' and p.readyMode~='Ready' and TASK.lock('urgeReady',1) then
             SFX.play('warn_2',.5)
         end
+    end
+end
+
+function NET.updateMatchFoundCountdown(dt)
+    if not NET.matchFoundPending then return end
+    if NET.matchFoundCountdown<=0 then return end
+
+    NET.matchFoundCountdown=math.max(0,NET.matchFoundCountdown-dt)
+    if NET.matchFoundCountdown<=0 then
+        NET.matchFoundPending=false
+        TASK.lock('netPlaying')
+        if NET.matchFoundSeed then
+            NET.seed=NET.matchFoundSeed
+        end
+        NET.matchFoundSeed=nil
     end
 end
 
@@ -104,8 +125,17 @@ local function getMsg(request,timeout)
         local msg=HTTP.pollMsg(request.pool)
         if msg then
             if type(msg.body)=='string' and #msg.body>0 then
-                local body=JSON.decode(msg.body)
-                if body then
+                if msg.code and tostring(msg.code):sub(1,1)~='2' then
+                    local errMsg = "HTTP "..tostring(msg.code)
+                    local stripped=msg.body:gsub('^%s*<[^>]*>',''):gsub('</[^>]+>%s*',' ')
+                    if #stripped>0 and stripped~=msg.body then
+                        errMsg=errMsg..": "..stripped:sub(1,100)
+                    end
+                    parseError(errMsg)
+                    return
+                end
+                local ok,body=pcall(JSON._decode,msg.body)
+                if ok and type(body)=='table' then
                     if tostring(body.code):sub(1,1)~='2' then
                         local errMsg = body.message
                         if not errMsg and msg and msg.body then
@@ -116,6 +146,9 @@ local function getMsg(request,timeout)
                         parseError(errMsg)
                     end
                     return body
+                else
+                    MES.new('info',text.serverDown)
+                    return
                 end
             else
                 MES.new('info',text.serverDown)
@@ -1146,6 +1179,10 @@ end
 function NET.wsCallBack.match_ready()-- not used
 end
 function NET.wsCallBack.match_start(body)
+    if NET.matchFoundPending and NET.matchFoundCountdown>0 then
+        NET.matchFoundSeed=body.data and body.data.seed
+        return
+    end
     -- Note: we must set the lock/seed even if the scene hasn't finished
     -- transitioning into net_game yet. The server sends room_enter (1306) and
     -- match_start (1102) back-to-back, and the scene switch is applied at the
@@ -1160,12 +1197,27 @@ function NET.wsCallBack.match_start(body)
     end
 end
 function NET.wsCallBack.match_found(body)
-    -- A ranked match was found. The server follows this with a room_enter
-    -- (1306) snapshot so the client enters net_game and uses the standard
-    -- ready/stream/finish flow, then match_start_ranked (1403).
-    MES.new('info',"Match found!")
+    local oppId=nil
+    for i=1,#NETPLY.list do
+        if NETPLY.list[i].uid and NETPLY.list[i].uid~=USER.uid then
+            oppId=NETPLY.list[i].uid
+            break
+        end
+    end
+
+    NET.matchFoundMatchId=body.data and body.data.matchId
+    NET.matchFoundOppId=oppId
+    NET.matchFoundCountdown=15
+    NET.matchFoundPending=true
+    NET.matchFoundSeed=nil
+
+    if oppId then NET.getUserInfo(oppId) end
 end
 function NET.wsCallBack.match_start_ranked(body)
+    if NET.matchFoundPending and NET.matchFoundCountdown>0 then
+        NET.matchFoundSeed=body.data and body.data.seed
+        return
+    end
     -- Same as match_start: set the lock/seed unconditionally (see note there)
     -- so the match starts even if the net_game scene switch is still pending.
     TASK.lock('netPlaying')
@@ -1238,6 +1290,11 @@ function NET.wsCallBack.match_finish_ranked(body)
 end
 function NET.wsCallBack.match_cancel()
     -- Opponent left the queue before a match was formed.
+    NET.matchFoundPending=false
+    NET.matchFoundCountdown=0
+    NET.matchFoundSeed=nil
+    NET.matchFoundOppId=nil
+    NET.matchFoundMatchId=nil
     if SCN.cur~='net_ranked' then return end
     matchmaking=false
     searchTimer=0

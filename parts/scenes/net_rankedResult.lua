@@ -9,6 +9,7 @@ local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_rectangle=gc.rectangle
 local gc_print,gc_printf=gc.print,gc.printf
 local setFont=FONT.set
+local mStr=GC.mStr
 
 local R=false
 
@@ -33,8 +34,6 @@ end
 function scene.leave()
     CARD.leave()
     AUTH.close()
-    -- Drop the match summary so a future visit (e.g. via back-navigation)
-    -- never re-displays a previous match's results.
     NET.rankedResult=false
 end
 
@@ -71,58 +70,58 @@ end
 function scene.draw()
     local won=R and R.winnerId==USER.uid
 
-    -- Title
-    setFont(60)
+    setFont(52)
     gc_setColor(won and COLOR.lG or COLOR.lR)
-    gc_printf(won and "Victory!" or "Defeat",0,70,1280,'center')
+    mStr(won and "Victory!" or "Defeat",640,60)
 
     setFont(22)
     gc_setColor(COLOR.lH)
-    gc_printf("Ranked 1v1",0,150,1280,'center')
+    gc_printf("Ranked 1v1",0,120,1280,'center')
 
     if not R then
         setFont(25)
         gc_setColor(COLOR.Z)
-        gc_printf("No match data",0,300,1280,'center')
+        gc_printf("No match data",0,320,1280,'center')
         return
     end
 
-    -- Winner
-    setFont(30)
-    gc_setColor(won and COLOR.lG or COLOR.lR)
-    gc_printf("Winner: ".._name(R.winnerId),0,200,1280,'center')
+    local PANEL_W=380
+    local PANEL_H=240
+    local PANEL_Y=200
+    local GAP=40
+    local leftX=640-PANEL_W-GAP/2
+    local rightX=640+GAP/2
 
-    -- Player panels
     local function _panel(x,name,oldE,newE,delta,rank,isYou)
-        -- Box
         gc_setColor(.12,.12,.12,.9)
-        gc_rectangle('fill',x,280,400,300,8)
+        gc_rectangle('fill',x,PANEL_Y,PANEL_W,PANEL_H,8)
         gc_setColor(1,1,1)
         gc_setLineWidth(2)
-        gc_rectangle('line',x,280,400,300,8)
+        gc_rectangle('line',x,PANEL_Y,PANEL_W,PANEL_H,8)
+
+        setFont(24)
+        gc_setColor(isYou and COLOR.lY or COLOR.lH)
+        gc_printf(name,x,PANEL_Y+18,PANEL_W,'center')
+
+        setFont(16)
+        gc_setColor(COLOR.lN)
+        gc_printf("Rating",x,PANEL_Y+58,PANEL_W,'center')
+
+        setFont(34)
+        gc_setColor(COLOR.Z)
+        gc_printf(oldE.."  ->  "..newE,x,PANEL_Y+88,PANEL_W,'center')
 
         setFont(26)
-        gc_setColor(isYou and COLOR.lY or COLOR.lH)
-        gc_printf(name,x,300,400,'center')
-
-        setFont(18)
-        gc_setColor(COLOR.lN)
-        gc_printf("Rating",x,360,400,'center')
-
-        setFont(40)
-        gc_setColor(COLOR.Z)
-        gc_printf(oldE.."  →  "..newE,x,390,400,'center')
-
-        setFont(28)
         gc_setColor(delta>=0 and COLOR.lG or COLOR.lR)
-        gc_printf(_fmtDelta(delta).." ELO",x,450,400,'center')
+        gc_printf(_fmtDelta(delta).." ELO",x,PANEL_Y+135,PANEL_W,'center')
 
-        setFont(18)
+        setFont(16)
         gc_setColor(COLOR.lN)
-        gc_printf("Global rank #"..(rank>0 and rank or "—"),x,510,400,'center')
+        local rankStr=rank>0 and ("#"..rank) or "Unranked"
+        gc_printf("Global Rank "..rankStr,x,PANEL_Y+185,PANEL_W,'center')
     end
-    _panel(240,"You",R.myOld,R.myNew,R.myDelta,R.myRank,true)
-    _panel(640,_name(R.oppId),R.oppOld,R.oppNew,R.oppDelta,R.oppRank,false)
+    _panel(leftX,"You",R.myOld,R.myNew,R.myDelta,R.myRank,true)
+    _panel(rightX,_name(R.oppId),R.oppOld,R.oppNew,R.oppDelta,R.oppRank,false)
 end
 
 function scene.overDraw()
@@ -133,11 +132,11 @@ function scene.overDraw()
 end
 
 scene.widgetList={
-    WIDGET.newKey{name='watch',   x=640,y=520,w=360,h=90,font=35,color='lB',
+    WIDGET.newKey{name='watch',   x=470,y=520,w=340,h=80,font=34,color='lB',
         code=function() NET.watchRankedReplay() end},
-    WIDGET.newKey{name='rematch', x=480,y=620,w=320,h=90,font=35,color='lG',
+    WIDGET.newKey{name='rematch', x=490,y=620,w=300,h=80,font=34,color='lG',
         code=function() SCN.go('net_ranked') end},
-    WIDGET.newButton{name='back',    x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=pressKey'escape'},
+    WIDGET.newButton{name='back',    x=1080,y=620,w=180,h=80,sound='back',font=55,fText=CHAR.icon.back,code=pressKey'escape'},
 }
 
 return scene

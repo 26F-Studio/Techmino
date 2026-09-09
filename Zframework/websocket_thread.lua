@@ -25,7 +25,7 @@ do-- Connect
     -- WebSocket handshake
     SOCK:send(
         'GET '..path..' HTTP/1.1\r\n'..
-        'Host: '..host..':'..port..'\r\n'..
+        'Host: '..host..'\r\n'..
         'Connection: Upgrade\r\n'..
         'Upgrade: websocket\r\n'..
         'Sec-WebSocket-Version: 13\r\n'..
@@ -120,7 +120,7 @@ local function _receive(sock,len)
         elseif p then
             buffer=buffer..p
             len=len-#p
-        elseif e then
+        elseif e and e~='timeout' then
             return nil,e
         end
         if len==0 then

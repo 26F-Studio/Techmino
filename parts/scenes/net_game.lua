@@ -259,6 +259,11 @@ function scene.keyDown(key,isRep)
     if key=='escape' then
         if GAME.replaying then
             paused=not paused
+        elseif NET.matchFoundPending and NET.matchFoundCountdown>0 then
+            NET.matchFoundPending=false
+            NET.matchFoundCountdown=0
+            NET.matchFoundSeed=nil
+            NET.ranked_leave()
         elseif not inputBox.hide then
             _switchChat()
         elseif NET.roomState and NET.roomState.info and NET.roomState.info.type=='ranked' and playing then
@@ -435,6 +440,9 @@ function scene.update(dt)
         end
     else
         if not TASK.getLock('netPlaying') then
+            if NET.matchFoundPending and NET.matchFoundCountdown>0 then
+                NET.updateMatchFoundCountdown(dt)
+            end
             NETPLY.update(dt)
         else
             playing=true
@@ -528,6 +536,39 @@ function scene.draw()
             gc_print(text.spectating,940,0)
         end
     else
+        if NET.matchFoundPending and NET.matchFoundCountdown>0 then
+            gc_setColor(0,0,0,.7)
+            gc.rectangle('fill',0,0,1280,720)
+            setFont(50)
+            gc_setColor(COLOR.lG)
+            mStr(text.matchFound or "Match Found!",640,180)
+
+            local oppName="???"
+            if NET.matchFoundOppId then
+                oppName=USERS.getUsername(NET.matchFoundOppId) or "Player"
+            end
+            local myElo=STAT.elo or 1200
+            local oppElo=1200
+            for i=1,#NET.onlinePlayers do
+                if NET.onlinePlayers[i].id==NET.matchFoundOppId then
+                    oppElo=NET.onlinePlayers[i].elo or 1200
+                    break
+                end
+            end
+
+            setFont(30)
+            gc_setColor(COLOR.Z)
+            gc_printf("You  ("..myElo..")",0,280,1280,'center')
+            gc_printf(text.matchFoundVS or "VS",0,330,1280,'center')
+            gc_setColor(COLOR.lR)
+            gc_printf(oppName.."  ("..oppElo..")",0,380,1280,'center')
+
+            setFont(35)
+            gc_setColor(COLOR.lY)
+            local cd=math.ceil(NET.matchFoundCountdown)
+            mStr((text.matchFoundStarting or "Starting in %ds"):format(cd),640,480)
+        end
+
         if textBox.hide then
             -- Users
             NETPLY.draw()

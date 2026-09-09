@@ -31,9 +31,11 @@ JSON=       require'Zframework.json'
 TEST=       require'Zframework.test'
 
 do-- Add pcall & MES for JSON lib
-    local encode,decode=JSON.encode,JSON.decode
+    local _encode,_decode=JSON.encode,JSON.decode
+    JSON._encode=_encode
+    JSON._decode=_decode
     JSON.encode=function(val)
-        local a,b=pcall(encode,val)
+        local a,b=pcall(_encode,val)
         if a then
             return b
         elseif MES then
@@ -41,7 +43,7 @@ do-- Add pcall & MES for JSON lib
         end
     end
     JSON.decode=function(str)
-        local a,b=pcall(decode,str)
+        local a,b=pcall(_decode,str)
         if a then
             return b
         elseif MES then

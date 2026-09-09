@@ -568,6 +568,9 @@ C. Gamepad
         net_ranked={
             match="Find Match",
             cancel="Cancel",
+            matchFound="Match Found!",
+            matchFoundVS="VS",
+            matchFoundStarting="Starting in %ds",
         },
         setting_game={
             title="Game Settings",

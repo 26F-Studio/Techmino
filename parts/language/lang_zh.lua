@@ -530,6 +530,9 @@ return {
         net_ranked={
             match="寻找对局",
             cancel="取消",
+            matchFound="对局已找到！",
+            matchFoundVS="VS",
+            matchFoundStarting="%d秒后开始",
         },
         setting_game={
             title="游戏设置",
