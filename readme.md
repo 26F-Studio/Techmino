@@ -75,6 +75,8 @@ Validation branches upload CI artifacts without publishing GitHub Pages.
 Pages deployment remains limited to `main` and release tags. Windows, Linux,
 Android and Web builds run for this validation branch; macOS and iOS retain
 their release-tag signing/distribution requirements and are not triggered here.
+Android packaging runs pinned `cargo-ndk` from the resolved transport crate,
+not the non-Rust client root, so its initial Cargo metadata lookup succeeds.
 
 ### Galaxim boundary and feasible directions
 

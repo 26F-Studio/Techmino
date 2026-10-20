@@ -91,10 +91,14 @@ PY
     fi
     out="$artifacts/android"
     mkdir -p "$out"
-    # cargo-ndk needs its own --manifest-path (it resolves the crate from the
-    # current directory otherwise) and API level 23 to match the app's minSdk.
-    rustup run "$toolchain" cargo ndk --manifest-path "$manifest" --platform 23 \
-      -t armeabi-v7a -t arm64-v8a -o "$out" build --locked --release
+    out="$(cd "$out" && pwd)"
+    # cargo-ndk 4.1.2 loads metadata from cwd before applying --manifest-path.
+    # Keep the output absolute when entering the resolved standalone crate.
+    (
+      cd "$TRANSPORT_CRATE_ROOT"
+      rustup run "$toolchain" cargo ndk --platform 23 \
+        -t armeabi-v7a -t arm64-v8a -o "$out" build --locked --release
+    )
     llvm_nm="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-nm"
     [ -x "$llvm_nm" ] || llvm_nm="$(find "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt" -name llvm-nm -type f | head -n 1)"
     [ -x "${llvm_nm:-}" ] || fail "llvm-nm not found in $ANDROID_NDK_HOME"
