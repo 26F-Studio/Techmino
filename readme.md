@@ -71,6 +71,11 @@ over package endpoints. The vendored CI source contains only the standalone
 transport crate, its lockfile, and its platform bridges, not the game backend.
 
 
+Validation branches upload CI artifacts without publishing GitHub Pages.
+Pages deployment remains limited to `main` and release tags. Windows, Linux,
+Android and Web builds run for this validation branch; macOS and iOS retain
+their release-tag signing/distribution requirements and are not triggered here.
+
 ### Galaxim boundary and feasible directions
 
 The existing `net_galaxim` entry remains visible. Its match action already reports the game's unfinished-feature notice; this rewrite does not claim a Galaxim game or silently route that action into `netBattle`.

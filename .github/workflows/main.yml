@@ -29,6 +29,10 @@ env:
   TRANSPORT_LOVE_IOS_REF: c35356c841976eb6f370347b81eec845d5520338
   TRANSPORT_LOVE_MACOS_REF: fc3f5ee6209a0aab9a4d381ed5cd99110f9ff2f2
   TRANSPORT_IOS_BASE_PATCH: ./.github/build/iOS/love.patch
+  PUBLIC_ORIGIN: ${{ github.ref == 'refs/heads/ci-local-online-validation-20261020' && 'https://localhost:17445' || vars.PUBLIC_ORIGIN }}
+  CADENCE_PUBLIC_ORIGIN: ${{ github.ref == 'refs/heads/ci-local-online-validation-20261020' && 'https://127.0.0.1:17446' || vars.CADENCE_PUBLIC_ORIGIN }}
+  TESSERA_PUBLIC_ORIGIN: ${{ github.ref == 'refs/heads/ci-local-online-validation-20261020' && 'https://localhost:17445' || vars.TESSERA_PUBLIC_ORIGIN }}
+  GAME_WEB_REDIRECT_URI: ${{ github.ref == 'refs/heads/ci-local-online-validation-20261020' && 'https://localhost:17445/play/techmino/' || vars.GAME_WEB_REDIRECT_URI }}
 
 jobs:
   get-info:
@@ -108,11 +112,6 @@ jobs:
           commit: ${{ needs.get-info.outputs.commit-hash }}
           type: snapshot
       - name: Configure public online endpoints
-        env:
-          PUBLIC_ORIGIN: ${{ github.ref == 'refs/heads/ci-local-online-validation-20261020' && 'https://localhost:17445' || vars.PUBLIC_ORIGIN }}
-          CADENCE_PUBLIC_ORIGIN: ${{ github.ref == 'refs/heads/ci-local-online-validation-20261020' && 'https://127.0.0.1:17446' || vars.CADENCE_PUBLIC_ORIGIN }}
-          TESSERA_PUBLIC_ORIGIN: ${{ github.ref == 'refs/heads/ci-local-online-validation-20261020' && 'https://localhost:17445' || vars.TESSERA_PUBLIC_ORIGIN }}
-          GAME_WEB_REDIRECT_URI: ${{ github.ref == 'refs/heads/ci-local-online-validation-20261020' && 'https://localhost:17445/play/techmino/' || vars.GAME_WEB_REDIRECT_URI }}
         run: python3 .github/build/transport/prepare_config.py techmino
       - name: Build core love package
         uses: love-actions/love-actions-core@v1
@@ -482,11 +481,6 @@ jobs:
           commit: ${{ needs.get-info.outputs.commit-hash }}
           type: snapshot
       - name: Build fresh LÖVE 11.5 web packages
-        env:
-          PUBLIC_ORIGIN: ${{ vars.PUBLIC_ORIGIN }}
-          CADENCE_PUBLIC_ORIGIN: ${{ vars.CADENCE_PUBLIC_ORIGIN }}
-          TESSERA_PUBLIC_ORIGIN: ${{ vars.TESSERA_PUBLIC_ORIGIN }}
-          GAME_WEB_REDIRECT_URI: ${{ vars.GAME_WEB_REDIRECT_URI }}
         run: |
           python3 .github/build/transport/build_web.py --product techmino --out "${{ env.OUTPUT_FOLDER }}" --memory "${{ env.MEMORY_LIMIT }}"
       - name: Move assets
@@ -503,6 +497,7 @@ jobs:
           name: ${{ needs.get-info.outputs.base-name }}_Web
           path: ${{ env.OUTPUT_FOLDER }}
       - name: Deploy to GitHub Pages
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v'))
         uses: crazy-max/ghaction-github-pages@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
