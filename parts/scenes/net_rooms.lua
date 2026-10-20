@@ -1,158 +1,57 @@
-local gc=love.graphics
-local gc_translate=gc.translate
-local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
-local gc_draw=gc.draw
-local gc_rectangle=gc.rectangle
-local gc_print,gc_printf=gc.print,gc.printf
-
-
-local NET=NET
-local fetchTimer
-
-local roomList=WIDGET.newListBox{name='roomList',x=50,y=50,w=800,h=440,lineH=40,drawF=function(item,id,ifSel)
-    setFont(35)
-    if ifSel then
-        gc_setColor(1,1,1,.3)
-        gc_rectangle('fill',0,0,800,40)
-    end
-
-    gc_setColor(.9,.9,1)
-    gc_print(id,45,-4)
-
-    if type(item)=='table' then
-        gc_setColor(1,1,1)
-        if item.private then
-            gc_draw(IMG.lock,10,5)
-        end
-        if item.count then
-            gc_printf(
-                type(item.count.Spectator)=='number' and item.count.Spectator>0 and
-                    ("$1(+$2)/$3"):repD(item.count.Gamer or '?',item.count.Spectator or '?',item.capacity or '?')
-                    or
-                ("$1/$2"):repD(item.count.Gamer or '?',item.capacity or '?'),600,-4,180,'right')
-        end
-
-        if item.info and item.state then
-            if item.state=='Standby' then
-                gc_setColor(COLOR.Z)
-            elseif item.state=='Ready' then
-                gc_setColor(COLOR.lB)
-            elseif item.state=='Playing' then
-                gc_setColor(COLOR.G)
-            end
-            gc_print(item.info.name,200,-4)
-        end
-    end
-end}
-local function _hidePW()
-    local R=roomList:getSel()
-    return not R or not R.private
-end
-local passwordBox=WIDGET.newInputBox{name='password',x=350,y=505,w=500,h=50,secret=true,hideF=_hidePW,limit=64}
-
---[[roomList[n]={
-    state='Standby',
-    roomId="qwerty",
-    count={
-        Gamer=0,
-        Spectator=1,
-    },
-    info={
-        name="MrZ's room",
-        description="123123123",
-        type="normal",
-        version='ver A-7',
-    },
-    capacity=5,
-}]]
-local function _fetchRoom()
-    fetchTimer=10
-    NET.room_fetch()
-end
 local scene={}
-
+local serial=-1
+local timer=0
+local list=WIDGET.newListBox{name='roomList',x=40,y=90,w=800,h=435,lineH=55,drawF=function(room,index,selected)
+    if selected then love.graphics.setColor(1,1,1,.2) love.graphics.rectangle('fill',0,0,800,55) end
+    love.graphics.setColor(1,1,1)
+    FONT.set(24)
+    love.graphics.printf(index..'. '..room.name,12,3,545,'left')
+    FONT.set(18)
+    love.graphics.printf(room.track..' / '..room.phase..(room.passwordProtected and ' / password' or ''),12,32,545,'left')
+    love.graphics.printf(room.players..'/10 players + '..room.spectators..'/20 spectators',520,18,267,'right')
+end}
+local password=WIDGET.newInputBox{x=355,y=550,w=485,h=50,secret=true,limit=64,hideF=function() local room=list:getSel() return not room or not room.passwordProtected end}
+local function refresh()
+    if NET.connectionState=='ready' then NET.listRooms() timer=10 end
+end
+local function join(role)
+    local room=list:getSel()
+    if not room then return end
+    NET.enterRoom(room.id,room.passwordProtected and password:getText() or nil,role)
+end
 function scene.enter()
     BG.set()
-    _fetchRoom()
-    DiscordRPC.update("Checking room list")
+    serial=-1
+    refresh()
+    DiscordRPC.update('Browsing online rooms')
 end
-
-function scene.keyDown(key)
-    if TASK.getLock('enterRoom') then return true end
-    if key=='r' then
-        if fetchTimer<=7 then
-            _fetchRoom()
-        end
-    elseif roomList:getLen()>0 and (key=='join' or (key=='return' or key=='kpenter') and love.keyboard.isDown('lctrl','rctrl')) then
-        local R=roomList:getSel()
-        if R and not TASK.getLock('fetchRoom') then
-            if R.info.version==VERSION.room then
-                NET.room_enter(R.roomId,not _hidePW() and passwordBox.value or nil)
-            else
-                MES.new('error',text.versionNotMatch)
-            end
-        end
-    else
-        return true
-    end
+function scene.keyDown(key,rep)
+    if rep then return true end
+    if key=='escape' then SCN.back()
+    elseif key=='r' then refresh()
+    elseif key=='return' or key=='kpenter' then join(love.keyboard.isDown('lshift','rshift') and 'spectator' or 'player')
+    else return true end
 end
-
 function scene.update(dt)
-    if not TASK.getLock('fetchRoom') then
-        fetchTimer=fetchTimer-dt
-        if fetchTimer<=0 and _hidePW() then
-            _fetchRoom()
-        end
-    end
+    if serial~=NET.roomStore.listSerial then list:setList(NET.roomStore.rooms) serial=NET.roomStore.listSerial end
+    timer=timer-dt
+    if timer<=0 and not NET.roomStore.listPending then refresh() end
 end
-
 function scene.draw()
-    -- Fetching timer
-    if fetchTimer>0 then
-        gc_setColor(1,1,1,.12)
-        GC.arc('fill','pie',250,630,40,-math.pi/2,-math.pi/2-.6283*fetchTimer)
-    end
-
-    -- Room list
-    local R=roomList:getSel()
-    if R then
-        gc_translate(870,220)
-        gc_setColor(1,1,1)
-        gc_setLineWidth(3)
-        gc_rectangle('line',0,0,385,335)
-        setFont(25)
-        gc_print(R.info.type,10,25)
-        gc_setColor(1,1,.7)
-        gc_printf(R.info.name,10,0,365)
-        setFont(20)
-        gc_setColor(COLOR.lH)
-        gc_printf(R.info.description or "[No description]",10,55,365)
-        if R.start then
-            gc_setColor(COLOR.lA)
-            gc_print(text.started,10,300)
-        end
-        gc_setColor(COLOR.lN)
-        gc_printf(R.info.version,10,300,365,'right')
-        gc_translate(-870,-220)
-    end
-
-    -- Profile
     drawSelfProfile()
-
-    -- Player count
-    drawOnlinePlayerCount()
+    drawNetworkStatus()
+    local room=list:getSel()
+    FONT.set(22)
+    love.graphics.setColor(1,1,1)
+    love.graphics.printf(room and (room.track=='authoritative' and 'Server-authoritative\nDefault source netBattle / TRS\nTeams supported' or 'Casual relay\nClient-simulated results are unverified\nNo authoritative ranking') or 'Select a room to join or watch.',865,160,375,'left')
+    if NET.roomStore.listPending then love.graphics.printf('Loading rooms...',40,545,260,'left') end
 end
-
 scene.widgetList={
-    roomList,
-    passwordBox,
-    WIDGET.newKey{name='setting',    x=1200,y=160,w=90,h=90,font=60,fText=CHAR.icon.settings,code=goScene'setting_game'},
-    WIDGET.newText{name='refreshing',x=450,y=240,font=45,hideF=function() return not TASK.getLock('fetchRoom') end},
-    WIDGET.newText{name='noRoom',    x=450,y=245,font=40,hideF=function() return roomList:getLen()>0 or TASK.getLock('fetchRoom') end},
-    WIDGET.newKey{name='refresh',    x=250,y=630,w=140,h=120,code=_fetchRoom,hideF=function() return fetchTimer>7 end},
-    WIDGET.newKey{name='new',        x=510,y=630,w=260,h=120,code=goScene('net_newRoom','swipeL')},
-    WIDGET.newKey{name='join',       x=780,y=630,w=140,h=120,code=pressKey'join',hideF=function() return roomList:getLen()==0 or TASK.getLock('enterRoom') end},
-    WIDGET.newButton{name='back',    x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=pressKey'escape'},
+    WIDGET.newText{x=45,y=25,align='L',font=45,fText='Techmino rooms'},list,password,
+    WIDGET.newButton{x=170,y=635,w=220,h=90,font=28,fText='Refresh',code=refresh},
+    WIDGET.newButton{x=410,y=635,w=220,h=90,font=28,fText='Create room',code=goScene('net_newRoom','swipeL')},
+    WIDGET.newButton{x=650,y=635,w=220,h=90,font=28,fText='Join player',code=function() join('player') end},
+    WIDGET.newButton{x=890,y=635,w=220,h=90,font=28,fText='Spectate',code=function() join('spectator') end},
+    WIDGET.newButton{name='back',x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
-
 return scene

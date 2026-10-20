@@ -125,7 +125,7 @@ function scene.enter()
     page=1
 end
 function scene.leave()
-    saveFile(DATA.copyBoards(FIELD),'conf/customBoards')
+    saveFile(require('parts.online.boardStore').encode(FIELD),'conf/customBoards')
 end
 
 function scene.mouseMove(x,y)
@@ -291,7 +291,14 @@ function scene.draw()
         if B>0 then
             if B~=18 then
                 -- Normal block
-                gc.draw(texture[B],30*x-30,600-30*y)
+                if texture[B] then gc.draw(texture[B],30*x-30,600-30*y)
+                else
+                    gc.setColor(.7,.25,.6)
+                    gc.rectangle('fill',30*x-30,600-30*y,30,30)
+                    gc.setColor(1,1,1)
+                    setFont(16)
+                    gc.print(tostring(B),30*x-28,600-30*y+5)
+                end
             elseif not demo then
                 -- Invisible block
                 gc.draw(invis,30*x-30,600-30*y)

@@ -13,7 +13,7 @@ function scene.draw()
     setFont(100)
     GC.mStr("Galaxim",640,120)
     drawSelfProfile()
-    drawOnlinePlayerCount()
+    drawNetworkStatus()
 end
 scene.widgetList={
     WIDGET.newKey{name='setting',x=1200,y=160,w=90,h=90,font=60,fText=CHAR.icon.settings,code=goScene'setting_game'},

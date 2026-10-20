@@ -5,7 +5,8 @@ local gameEnv0=require"parts.player.gameEnv0"
 local rnd,max=math.random,math.max
 local ins=table.insert
 
-local ply_draw=require"parts.player.draw"
+-- Rendering is optional; authoritative players use the same simulation below.
+local ply_draw=not TECHMINO_HEADLESS and require"parts.player.draw" or {}
 local PLY={draw=ply_draw}
 
 --------------------------<Libs>--------------------------
@@ -111,7 +112,9 @@ local function _newEmptyPlayer(id,mini)
     P.atkBuffer={}
     P.atkBufferSum,P.atkBufferSum1=0,0
     P.spike,P.spikeTime=0,0
-    P.spikeText=love.graphics.newText(getFont(100))
+    if not TECHMINO_HEADLESS then
+        P.spikeText=love.graphics.newText(getFont(100))
+    end
 
     -- Attacker-related
     P.badge,P.strength=0,0
@@ -205,34 +208,6 @@ local function _loadGameEnv(P)-- Load gameEnv
                 local M=MODOPT[i]
                 M.func(P,M.list and M.list[GAME.mod[i]])
             end
-        end
-    end
-end
-local function _loadRemoteEnv(P,confStr)-- Load gameEnv
-    confStr=JSON.decode(confStr)
-    if not confStr then
-        confStr={}
-        MES.new('warn',"Bad conf from "..USERS.getUsername(P.uid).."#"..P.uid)
-    end
-
-    for i=1,#(confStr.skin or {}) do if confStr.skin[i]>16 then confStr.skin[i]=17 end end-- Filter invalid skin (bomb)
-
-    P.gameEnv={}-- Current game setting environment
-    local ENV=P.gameEnv
-    local GAME,SETTING=GAME,SETTING
-    -- Load game settings
-    for k,v in next,gameEnv0 do
-        if GAME.modeEnv[k]~=nil then
-            v=GAME.modeEnv[k]    -- Mode setting
-        elseif confStr[k]~=nil then
-            v=confStr[k]         -- Game setting
-        elseif SETTING[k]~=nil then
-            v=SETTING[k]         -- Global setting
-        end
-        if type(v)~='table' then -- Default setting
-            ENV[k]=v
-        else
-            ENV[k]=TABLE.copy(v)
         end
     end
 end
@@ -452,23 +427,6 @@ function PLY.newDemoPlayer(id)
     }
     P:spawn()
 end
-function PLY.newRemotePlayer(id,mini,p)
-    local P=_newEmptyPlayer(id,mini)
-    P.type='remote'
-
-    P.draw=ply_draw.norm
-    P:startStreaming()
-
-    P.uid=p.uid
-    P.sid=NET.uid_sid[p.uid] or p.uid
-    P.group=p.group
-    P.netAtk=0-- Sum of lines sent in stream, will be compared with P.stat.send for checking stream legal or not
-    P.loseTimer=false-- Will be set to 26 when receive player_finish signal
-    if not (P.group%1==0 and P.group>=1 and P.group<=6) then P.group=0 end
-
-    _loadRemoteEnv(P,p.config)
-    _applyGameEnv(P)
-end
 function PLY.newAIPlayer(id,AIdata,mini,p)
     local P=_newEmptyPlayer(id,mini)
     P.type='bot'
@@ -478,7 +436,7 @@ function PLY.newAIPlayer(id,AIdata,mini,p)
         group=0,
     } if p then TABLE.coverR(p,pData) end
     P.username="BOT"..pData.uid
-    P.sid=NET.uid_sid[pData.uid] or pData.uid
+    P.sid=NET.slotForAccount(pData.uid) or pData.uid
     P.group=pData.group
     if not (P.group%1==0 and P.group>=1 and P.group<=6) then P.group=0 end
 
@@ -488,6 +446,20 @@ function PLY.newAIPlayer(id,AIdata,mini,p)
     _applyGameEnv(P)
     AIdata._20G=P._20G
     P:loadAI(AIdata)
+end
+function PLY.newAuthorityPlayer(id,p)
+    assert(TECHMINO_HEADLESS and GAME.authority,"Authority players require the headless host")
+    local P=_newEmptyPlayer(id,false)
+    P.type='authority'
+    P.uid=p.uid
+    P.sid=assert(NET.slotForAccount(p.uid))
+    P.group=p.group
+    assert(P.group%1==0 and P.group>=0 and P.group<=6,"Invalid authority team")
+    local setting=GAME.setting
+    GAME.setting=p.config
+    _loadGameEnv(P)
+    GAME.setting=setting
+    _applyGameEnv(P)
 end
 function PLY.newPlayer(id,mini,p)
     local P=_newEmptyPlayer(id,mini)
@@ -505,7 +477,7 @@ function PLY.newPlayer(id,mini,p)
         P.username=""
     end
     P.uid=pData.uid
-    P.sid=NET.uid_sid[pData.uid] or pData.uid
+    P.sid=NET.slotForAccount(pData.uid) or pData.uid
     P.group=pData.group
     if not (P.group%1==0 and P.group>=1 and P.group<=6) then P.group=0 end
 

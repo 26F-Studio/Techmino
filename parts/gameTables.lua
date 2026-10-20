@@ -175,7 +175,7 @@ do-- MISSIONENUM
     for k,v in next,ENUM_MISSION do L[v]=k end
     for k,v in next,L do ENUM_MISSION[k]=v end
 end
-do-- TEXTOBJ
+if not TECHMINO_HEADLESS then-- TEXTOBJ
     local function T(s,t) return love.graphics.newText(getFont(s),t) end
     TEXTOBJ={
         modeName=T(30),
@@ -587,22 +587,7 @@ do-- Game data tables
     REPLAY={}-- Replay objects (not include stream data)
 end
 do-- Userdata tables
-    USER=setmetatable({-- User infomation
-        __data={
-            uid=false,
-            aToken=false,
-            oToken=false,
-        },
-    },{
-        __index=function(self,k)
-            return self.__data[k]
-        end,
-        __newindex=function(self,k,v)
-            if self.__data[k]~=nil and v~=nil then
-                self.__data[k]=v
-            end
-        end,
-    })
+    USER={uid=false} -- Trusted online identity is memory-only.
     SETTING={-- Settings
         -- Tuning
         das=10,arr=2,

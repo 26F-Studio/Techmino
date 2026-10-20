@@ -1,0 +1,10 @@
+{
+  "cargo-lock-sha256": "6df9548003c559b0cc3fc7a6c9de08fb0df8ff08d2dc7fde8ff5435858d9c967",
+  "crate-subdir": "transport",
+  "file-count": 18,
+  "git-remote": null,
+  "git-revision": null,
+  "mode": "vendor",
+  "origin": "/home/particleg/coding/OtherProjects/Cadence",
+  "vendored-at": "2026-10-20T13:28:53Z"
+}

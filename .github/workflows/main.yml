@@ -13,6 +13,22 @@ env:
   COLD_CLEAR_DOWNLOAD_URL: https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/11.5
   CORE_LOVE_ARTIFACT_NAME: core_love_package
   CORE_LOVE_PACKAGE_PATH: ./core.love
+  # Authoritative native transport source. TRANSPORT_SOURCE_REPO/REF are
+  # repository variables holding the Cadence repository and the full 40-character
+  # commit SHA to package (a vendored tree under .github/build/transport/vendor
+  # may be committed instead). The transport-source job fails the run when
+  # neither is configured, so a package can never ship without its transport.
+  TRANSPORT_CRATE_SUBDIR: transport
+  TRANSPORT_PRODUCT: techmino
+  TRANSPORT_PRODUCT_SCHEME: org.studio26f.techmino
+  TRANSPORT_RUST_TOOLCHAIN: ${{ vars.TRANSPORT_RUST_TOOLCHAIN || 'stable' }}
+  TRANSPORT_SOURCE_REPO: ${{ vars.TRANSPORT_SOURCE_REPO }}
+  TRANSPORT_SOURCE_REF: ${{ vars.TRANSPORT_SOURCE_REF }}
+  TRANSPORT_WEB_SOURCE: Zframework/transport_web.js
+  TRANSPORT_LOVE_ANDROID_REF: 55feb38fa144f4734c26742389f279fb07d955c0
+  TRANSPORT_LOVE_IOS_REF: c35356c841976eb6f370347b81eec845d5520338
+  TRANSPORT_LOVE_MACOS_REF: fc3f5ee6209a0aab9a4d381ed5cd99110f9ff2f2
+  TRANSPORT_IOS_BASE_PATCH: ./.github/build/iOS/love.patch
 
 jobs:
   get-info:
@@ -91,10 +107,17 @@ jobs:
         with:
           commit: ${{ needs.get-info.outputs.commit-hash }}
           type: snapshot
+      - name: Configure public online endpoints
+        env:
+          PUBLIC_ORIGIN: ${{ github.ref == 'refs/heads/ci-local-online-validation-20261020' && 'https://localhost:17445' || vars.PUBLIC_ORIGIN }}
+          CADENCE_PUBLIC_ORIGIN: ${{ github.ref == 'refs/heads/ci-local-online-validation-20261020' && 'https://127.0.0.1:17446' || vars.CADENCE_PUBLIC_ORIGIN }}
+          TESSERA_PUBLIC_ORIGIN: ${{ github.ref == 'refs/heads/ci-local-online-validation-20261020' && 'https://localhost:17445' || vars.TESSERA_PUBLIC_ORIGIN }}
+          GAME_WEB_REDIRECT_URI: ${{ github.ref == 'refs/heads/ci-local-online-validation-20261020' && 'https://localhost:17445/play/techmino/' || vars.GAME_WEB_REDIRECT_URI }}
+        run: python3 .github/build/transport/prepare_config.py techmino
       - name: Build core love package
         uses: love-actions/love-actions-core@v1
         with:
-          build-list: ./media/ ./parts/ ./Zframework/ ./conf.lua ./main.lua ./version.lua ./legals.md ./license.txt
+          build-list: ./media/ ./parts/ ./Zframework/ ./conf.lua ./main.lua ./version.lua ./legals.md ./license.txt ./online-config.json
           package-path: ${{ env.CORE_LOVE_PACKAGE_PATH }}
       - name: Upload core love package
         uses: actions/upload-artifact@v4
@@ -125,6 +148,49 @@ jobs:
           body: ${{ needs.get-info.outputs.update-note }}
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
+
+  transport-source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Locate transport source
+        id: locate
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f .github/build/transport/vendor/MANIFEST.sha256 ] \
+            && [ -d ".github/build/transport/vendor/repo/${{ env.TRANSPORT_CRATE_SUBDIR }}" ]; then
+            echo "mode=vendor" >> "$GITHUB_OUTPUT"
+            echo "Transport source: vendored tree .github/build/transport/vendor"
+            exit 0
+          fi
+          missing=""
+          if [ -z "${{ env.TRANSPORT_SOURCE_REPO }}" ]; then missing="TRANSPORT_SOURCE_REPO"; fi
+          if [ -z "${{ env.TRANSPORT_SOURCE_REF }}" ]; then missing="$missing TRANSPORT_SOURCE_REF"; fi
+          if [ -n "$missing" ]; then
+            echo "::error::Transport source is not configured (missing repository variable(s):$missing). Set TRANSPORT_SOURCE_REPO to the Cadence repository and TRANSPORT_SOURCE_REF to the full 40-character commit SHA that must be packaged, or commit a vendored source under .github/build/transport/vendor. Refusing to build without the authoritative transport source."
+            exit 1
+          fi
+          echo "mode=repo" >> "$GITHUB_OUTPUT"
+      - name: Checkout transport source
+        if: steps.locate.outputs.mode == 'repo'
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.TRANSPORT_SOURCE_REPO }}
+          ref: ${{ env.TRANSPORT_SOURCE_REF }}
+          token: ${{ secrets.TRANSPORT_SOURCE_TOKEN || github.token }}
+          path: transport-checkout
+          persist-credentials: false
+      - name: Resolve and verify transport source
+        env:
+          TRANSPORT_SOURCE_MODE: ${{ steps.locate.outputs.mode }}
+        shell: bash
+        run: python3 .github/build/transport/resolve_source.py
+      - name: Upload transport source
+        uses: actions/upload-artifact@v4
+        with:
+          name: transport_source
+          path: transport-src
 
   auto-test:
     runs-on: ubuntu-24.04
@@ -161,7 +227,7 @@ jobs:
 
   build-android:
     runs-on: ubuntu-latest
-    needs: [get-info, build-core, auto-test]
+    needs: [get-info, build-core, auto-test, transport-source]
     if: github.event_name != 'pull_request'
     env:
       COLD_CLEAR_FOLDER: ./libAndroid
@@ -193,6 +259,40 @@ jobs:
         with:
           url: ${{ env.COLD_CLEAR_DOWNLOAD_URL }}/Android.zip
           dir: ${{ env.COLD_CLEAR_FOLDER }}
+      - name: Download transport source
+        uses: actions/download-artifact@v4
+        with:
+          name: transport_source
+          path: transport-src
+      - name: Install Android NDK for the transport build
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdk_root="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-}}"
+          if [ -z "$sdk_root" ]; then
+            echo "::error::ANDROID_SDK_ROOT/ANDROID_HOME is not set on this runner; the transport needs the pinned NDK 25.2.9519653"
+            exit 1
+          fi
+          sdkmanager="$(command -v sdkmanager || echo "$sdk_root/cmdline-tools/latest/bin/sdkmanager")"
+          [ -x "$sdkmanager" ] || { echo "::error::sdkmanager not found under $sdk_root"; exit 1; }
+          yes | "$sdkmanager" --sdk_root="$sdk_root" --licenses >/dev/null 2>&1 || true
+          "$sdkmanager" --sdk_root="$sdk_root" "ndk;25.2.9519653"
+          echo "ANDROID_NDK_HOME=$sdk_root/ndk/25.2.9519653" >> "$GITHUB_ENV"
+      - name: Prepare Android bridge patch
+        shell: bash
+        run: |
+          source .github/build/transport/env.sh
+          bash .github/build/transport/prepare_mobile_patch.sh android
+      - name: Build Android transport libraries
+        shell: bash
+        run: |
+          source .github/build/transport/env.sh
+          bash .github/build/transport/build_native.sh android
+      - name: Verify Android transport libraries
+        shell: bash
+        run: |
+          source .github/build/transport/env.sh
+          bash .github/build/transport/verify_package.sh android-libs "$TRANSPORT_ARTIFACTS/android"
       - name: Build Android packages
         id: build-packages
         uses: love-actions/love-actions-android@v2
@@ -207,11 +307,18 @@ jobs:
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
           resource-path: ${{ env.BUILD_ASSETS_FOLDER }}/android/${{ env.BUILD_TYPE }}/res
           extra-assets: ${{ env.COLD_CLEAR_FOLDER }}
-          custom-scheme: studio26f://oauth
+          love-patch: transport-generated/android.patch
+          libs-path: transport-artifacts/android
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           version-string: ${{ needs.get-info.outputs.version-string }}
           version-code: ${{ needs.get-info.outputs.version-code }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
+      - name: Verify Android package
+        shell: bash
+        env:
+          TRANSPORT_VERIFY_EXTRA: libAndroid/arm64-v8a/CCloader.so libAndroid/armeabi-v7a/CCloader.so
+        run: |
+          bash .github/build/transport/verify_package.sh android-apk "${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}-release.apk"
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -235,7 +342,7 @@ jobs:
 
   build-linux:
     runs-on: ubuntu-latest
-    needs: [get-info, build-core, auto-test]
+    needs: [get-info, build-core, auto-test, transport-source]
     env:
       COLD_CLEAR_FOLDER: ./ColdClear
       OUTPUT_FOLDER: ./build
@@ -274,6 +381,27 @@ jobs:
           cd ${{ env.COLD_CLEAR_FOLDER }}
           mkdir -p ./lib/lua/5.1
           mv ./x64/CCloader.so ./lib/lua/5.1
+      - name: Download transport source
+        uses: actions/download-artifact@v4
+        with:
+          name: transport_source
+          path: transport-src
+      - name: Build Linux transport library
+        shell: bash
+        run: |
+          source .github/build/transport/env.sh
+          bash .github/build/transport/build_native.sh linux
+          # The AppImage lib dir is the loader-resolvable location (ColdClear already
+          # ships CCloader.so through the same lib-path).
+          cp "$TRANSPORT_ARTIFACTS/linux-x64/libtechmino_transport.so" "${{ env.COLD_CLEAR_FOLDER }}/lib/"
+      - name: Verify Linux package libraries
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "${{ env.COLD_CLEAR_FOLDER }}/lib/libtechmino_transport.so"
+          test -f "${{ env.COLD_CLEAR_FOLDER }}/lib/lua/5.1/CCloader.so"
+          echo "-- staged lib payload:"
+          find "${{ env.COLD_CLEAR_FOLDER }}/lib" -type f | sed 's/^/   /'
       - name: Build Linux packages
         id: build-packages
         uses: love-actions/love-actions-linux@v2
@@ -287,6 +415,24 @@ jobs:
           lib-path: ${{ env.COLD_CLEAR_FOLDER }}/lib
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           output-folder: ${{ env.OUTPUT_FOLDER }}
+      - name: Isolate packaged system-browser environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 .github/build/transport/prepare_linux_launcher.py love-actions-linux/squashfs-root
+          APPIMAGE_EXTRACT_AND_RUN=1 ARCH=x86_64 \
+            love-actions-linux/appimagetool.AppImage love-actions-linux/squashfs-root \
+            "${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.AppImage"
+          cp "${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.AppImage" \
+            "love-actions-linux/deb/usr/share/${{ steps.process-app-name.outputs.product-name }}/${{ steps.process-app-name.outputs.product-name }}.AppImage"
+          dpkg-deb -Zxz --build love-actions-linux/deb \
+            "${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.deb"
+      - name: Verify Linux AppImage package
+        shell: bash
+        env:
+          TRANSPORT_VERIFY_EXTRA: lib/lua/5.1/CCloader.so bin/xdg-open
+        run: |
+          bash .github/build/transport/verify_package.sh linux-appimage "${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.AppImage"
       - name: Upload AppImage artifact
         uses: actions/upload-artifact@v4
         with:
@@ -327,30 +473,29 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-      - name: Download core love package
-        uses: actions/download-artifact@v4
+      - uses: actions/setup-node@v4
         with:
-          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
-      - name: Build web packages
+          node-version: '24'
+      - uses: ./.github/actions/update-version
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        with:
+          commit: ${{ needs.get-info.outputs.commit-hash }}
+          type: snapshot
+      - name: Build fresh LÖVE 11.5 web packages
+        env:
+          PUBLIC_ORIGIN: ${{ vars.PUBLIC_ORIGIN }}
+          CADENCE_PUBLIC_ORIGIN: ${{ vars.CADENCE_PUBLIC_ORIGIN }}
+          TESSERA_PUBLIC_ORIGIN: ${{ vars.TESSERA_PUBLIC_ORIGIN }}
+          GAME_WEB_REDIRECT_URI: ${{ vars.GAME_WEB_REDIRECT_URI }}
         run: |
-          npx love.js ${{ env.CORE_LOVE_PACKAGE_PATH }} ${{ env.OUTPUT_FOLDER }} -t "${{ needs.get-info.outputs.app-name }}" -m ${{ env.MEMORY_LIMIT }} -c
+          python3 .github/build/transport/build_web.py --product techmino --out "${{ env.OUTPUT_FOLDER }}" --memory "${{ env.MEMORY_LIMIT }}"
       - name: Move assets
         run: |
           mv ${{ env.BUILD_ASSETS_FOLDER }}/web/${{ env.BUILD_TYPE }}/* ${{ env.OUTPUT_FOLDER }}
-      - name: Initialize Love.js Api Player
-        env:
-          LOVEJS_API_PLAYER_BASE_URL: https://raw.githubusercontent.com/MrcSnm/Love.js-Api-Player/refs/heads/master
+      - name: Add web favicon
         run: |
           pushd ${{ env.OUTPUT_FOLDER }}
           sed -i 's|</head>|  <link rel="icon" type="image/x-icon" href="favicon.ico">\n  </head>|' index.html
-          sed -i 's|</head>|  <script src="consolewrapper.js"></script>\n  </head>|' index.html
-          sed -i 's|</head>|  <script src="webdb.js"></script>\n  </head>|' index.html
-          sed -i 's|32, 37, 38, 39, 40|37, 38, 39, 40|' index.html
-          wget ${{ env.LOVEJS_API_PLAYER_BASE_URL }}/consolewrapper.js
-          wget ${{ env.LOVEJS_API_PLAYER_BASE_URL }}/globalizeFS.js
-          wget ${{ env.LOVEJS_API_PLAYER_BASE_URL }}/webdb.js
-          node globalizeFS.js
-          rm globalizeFS.js
           popd
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -368,7 +513,7 @@ jobs:
 
   build-windows:
     runs-on: windows-latest
-    needs: [get-info, build-core, auto-test]
+    needs: [get-info, build-core, auto-test, transport-source]
     env:
       COLD_CLEAR_FOLDER: ./ColdClear
       OUTPUT_FOLDER: ./build
@@ -394,6 +539,22 @@ jobs:
         with:
           url: ${{ env.COLD_CLEAR_DOWNLOAD_URL }}/Windows.zip
           dir: ${{ env.COLD_CLEAR_FOLDER }}
+      - name: Download transport source
+        uses: actions/download-artifact@v4
+        with:
+          name: transport_source
+          path: transport-src
+      - name: Build Windows transport libraries
+        shell: bash
+        run: |
+          source .github/build/transport/env.sh
+          bash .github/build/transport/build_native.sh windows
+      - name: Verify Windows transport libraries
+        shell: bash
+        run: |
+          source .github/build/transport/env.sh
+          bash .github/build/transport/verify_package.sh windows-libs "$TRANSPORT_ARTIFACTS/windows-x86"
+          bash .github/build/transport/verify_package.sh windows-libs "$TRANSPORT_ARTIFACTS/windows-x64"
       - name: Update Windows template
         shell: python3 {0}
         run: |
@@ -414,13 +575,20 @@ jobs:
           icon-path: ${{ env.BUILD_ASSETS_FOLDER }}/windows/${{ env.BUILD_TYPE }}/icon.ico
           rc-path: ${{ env.BUILD_ASSETS_FOLDER }}/windows/${{ env.BUILD_TYPE }}/template.rc
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
-          extra-assets-x86: ${{ env.COLD_CLEAR_FOLDER }}/x86/CCloader.dll ${{ env.COLD_CLEAR_FOLDER }}/x86/cold_clear.dll ${{ env.BUILD_ASSETS_FOLDER }}/extraLibs/Windows_x64/discord-rpc.dll
-          extra-assets-x64: ${{ env.COLD_CLEAR_FOLDER }}/x64/CCloader.dll ${{ env.COLD_CLEAR_FOLDER }}/x64/cold_clear.dll ${{ env.BUILD_ASSETS_FOLDER }}/extraLibs/Windows_x86/discord-rpc.dll
+          extra-assets-x86: ${{ env.COLD_CLEAR_FOLDER }}/x86/CCloader.dll ${{ env.COLD_CLEAR_FOLDER }}/x86/cold_clear.dll ${{ env.BUILD_ASSETS_FOLDER }}/extraLibs/Windows_x86/discord-rpc.dll ./transport-artifacts/windows-x86/techmino_transport.dll
+          extra-assets-x64: ${{ env.COLD_CLEAR_FOLDER }}/x64/CCloader.dll ${{ env.COLD_CLEAR_FOLDER }}/x64/cold_clear.dll ${{ env.BUILD_ASSETS_FOLDER }}/extraLibs/Windows_x64/discord-rpc.dll ./transport-artifacts/windows-x64/techmino_transport.dll
           product-name: ${{ steps.process-app-name.outputs.product-name }}
           app-id: ${{ secrets.WINDOWS_APP_ID }}
           project-website: https://www.studio26f.org/
           installer-languages: ChineseSimplified.isl ChineseTraditional.isl English.isl Spanish.isl French.isl Indonesian.isl Japanese.isl Portuguese.isl
           output-folder: ${{ env.OUTPUT_FOLDER }}
+      - name: Verify Windows packages
+        shell: bash
+        env:
+          TRANSPORT_VERIFY_EXTRA: CCloader.dll cold_clear.dll discord-rpc.dll
+        run: |
+          bash .github/build/transport/verify_package.sh windows-zip "${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_x86.zip"
+          bash .github/build/transport/verify_package.sh windows-zip "${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_x64.zip"
       - name: Upload 32-bit artifact
         uses: actions/upload-artifact@v4
         with:
@@ -457,6 +625,251 @@ jobs:
           name: ${{ needs.get-info.outputs.update-title }}
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
 
+  build-macos:
+    # Apple packaging needs Developer ID credentials and notarization, so it runs
+    # for release tags and fails fast when those secrets are not configured.
+    runs-on: macos-latest
+    needs: [get-info, build-core, auto-test, transport-source]
+    if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
+    env:
+      OUTPUT_FOLDER: ./build
+      RELEASE_FOLDER: ./release
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Process app name
+        id: process-app-name
+        shell: python3 {0}
+        run: |
+          import os
+          import re
+          product_name = re.sub(r'[^A-Za-z0-9]+', '-', '${{ needs.get-info.outputs.app-name }}').strip('-').lower()
+          with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
+            f.write('bundle-id=org.26f-studio.' + product_name + '\n')
+            f.write('product-name=' + product_name + '\n')
+      - name: Check macOS signing configuration
+        shell: bash
+        env:
+          MACOS_ACCOUNT_USERNAME: ${{ secrets.MACOS_ACCOUNT_USERNAME }}
+          MACOS_ACCOUNT_PASSWORD: ${{ secrets.MACOS_ACCOUNT_PASSWORD }}
+          MACOS_DEVELOPER_ID_APPLICATION_BASE64: ${{ secrets.MACOS_DEVELOPER_ID_APPLICATION_BASE64 }}
+          MACOS_DEVELOPER_ID_APPLICATION_PASSWORD: ${{ secrets.MACOS_DEVELOPER_ID_APPLICATION_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          set -euo pipefail
+          missing=""
+          for name in MACOS_ACCOUNT_USERNAME MACOS_ACCOUNT_PASSWORD MACOS_DEVELOPER_ID_APPLICATION_BASE64 MACOS_DEVELOPER_ID_APPLICATION_PASSWORD APPLE_TEAM_ID; do
+            if [ -z "${!name:-}" ]; then missing="$missing $name"; fi
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::macOS packaging requires Developer ID signing and notarization credentials; missing repository secret(s):$missing"
+            exit 1
+          fi
+      - name: Download core love package
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Download transport source
+        uses: actions/download-artifact@v4
+        with:
+          name: transport_source
+          path: transport-src
+      - name: Build macOS transport dylib
+        shell: bash
+        run: |
+          source .github/build/transport/env.sh
+          bash .github/build/transport/build_native.sh macos
+      - name: Stage macOS bridge libraries
+        shell: bash
+        env:
+          TRANSPORT_COLD_CLEAR_URL: ${{ env.COLD_CLEAR_DOWNLOAD_URL }}/macOS.zip
+          TRANSPORT_COLD_CLEAR_EXPECT: universal/CCloader.dylib universal/libcold_clear.a
+          TRANSPORT_COLD_CLEAR_LIBS: universal/CCloader.dylib universal/libcold_clear.a
+        run: |
+          source .github/build/transport/env.sh
+          bash .github/build/transport/stage_bridge_libs.sh macos
+      - name: Build macOS packages
+        id: build-packages
+        uses: love-actions/love-actions-macos-portable@v1
+        with:
+          app-name: ${{ needs.get-info.outputs.app-name }}
+          bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
+          copyright: Techmino is fun!
+          icon-path: ${{ env.BUILD_ASSETS_FOLDER }}/macOS/${{ env.BUILD_TYPE }}/icon.icns
+          love-ref: ${{ env.TRANSPORT_LOVE_MACOS_REF }}
+          love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+          libs-path: ./transport-libs
+          product-name: ${{ steps.process-app-name.outputs.product-name }}
+          version-string: ${{ needs.get-info.outputs.version-string }}
+          output-folder: ${{ env.OUTPUT_FOLDER }}
+          account-username: ${{ secrets.MACOS_ACCOUNT_USERNAME }}
+          account-password: ${{ secrets.MACOS_ACCOUNT_PASSWORD }}
+          developer-id-application-base64: ${{ secrets.MACOS_DEVELOPER_ID_APPLICATION_BASE64 }}
+          developer-id-application-password: ${{ secrets.MACOS_DEVELOPER_ID_APPLICATION_PASSWORD }}
+          developer-id-installer-base64: ${{ secrets.MACOS_DEVELOPER_ID_INSTALLER_BASE64 }}
+          developer-id-installer-password: ${{ secrets.MACOS_DEVELOPER_ID_INSTALLER_PASSWORD }}
+          team-id: ${{ secrets.APPLE_TEAM_ID }}
+          dmg-background-path: ${{ env.BUILD_ASSETS_FOLDER }}/macOS/${{ env.BUILD_TYPE }}/dmg.png
+          dmg-volume-icon-path: ${{ env.BUILD_ASSETS_FOLDER }}/macOS/${{ env.BUILD_TYPE }}/dmg.icns
+          dmg-volume-name: ${{ needs.get-info.outputs.app-name }}
+      - name: Verify macOS package
+        shell: bash
+        env:
+          TRANSPORT_VERIFY_EXTRA: Contents/Frameworks/CCloader.dylib
+        run: |
+          bash .github/build/transport/verify_package.sh macos-zip "${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.zip"
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_macOS
+          path: ${{ env.OUTPUT_FOLDER }}/*
+      - name: Prepare for release
+        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ${{ env.RELEASE_FOLDER }}
+          cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.zip ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS.zip
+          cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.dmg ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS.dmg
+          if [ -f "${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.pkg" ]; then
+            cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.pkg ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS.pkg
+          fi
+      - name: Upload release
+        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: |
+            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS.zip
+            ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_macOS.dmg
+          body: ${{ needs.get-info.outputs.update-note }}
+          name: ${{ needs.get-info.outputs.update-title }}
+          prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
+
+  build-ios:
+    # Apple packaging uploads to App Store Connect, so it runs for release tags
+    # and fails fast when the signing/API credentials are not configured.
+    runs-on: macos-latest
+    needs: [get-info, build-core, auto-test, transport-source]
+    if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
+    env:
+      OUTPUT_FOLDER: ./build
+      RELEASE_FOLDER: ./release
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Process app name
+        id: process-app-name
+        shell: python3 {0}
+        run: |
+          import os
+          import re
+          with open(os.getenv('GITHUB_OUTPUT'), 'a') as f:
+            if "${{ env.BUILD_TYPE }}" == "dev":
+              f.write('bundle-id=org.f26_studio.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '.snapshot\n')
+              f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '-', '${{ needs.get-info.outputs.app-name }}') + '_Snapshot\n')
+            else:
+              f.write('bundle-id=org.f26_studio.' + re.sub(r'[^A-Za-z0-9]+', '_', '${{ needs.get-info.outputs.app-name }}') + '\n')
+              f.write('product-name=' + re.sub(r'[^A-Za-z0-9]+', '-', '${{ needs.get-info.outputs.app-name }}') + '\n')
+      - name: Check iOS signing configuration
+        shell: bash
+        env:
+          IOS_APPLE_DEVELOPMENT_BASE64: ${{ secrets.IOS_APPLE_DEVELOPMENT_BASE64 }}
+          IOS_APPLE_DEVELOPMENT_PASSWORD: ${{ secrets.IOS_APPLE_DEVELOPMENT_PASSWORD }}
+          IOS_API_KEY: ${{ secrets.IOS_API_KEY }}
+          IOS_API_KEY_ID: ${{ secrets.IOS_API_KEY_ID }}
+          IOS_API_ISSUER_ID: ${{ secrets.IOS_API_ISSUER_ID }}
+          IOS_APPLE_ID: ${{ secrets.IOS_APPLE_ID }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          set -euo pipefail
+          missing=""
+          for name in IOS_APPLE_DEVELOPMENT_BASE64 IOS_APPLE_DEVELOPMENT_PASSWORD IOS_API_KEY IOS_API_KEY_ID IOS_API_ISSUER_ID IOS_APPLE_ID APPLE_TEAM_ID; do
+            if [ -z "${!name:-}" ]; then missing="$missing $name"; fi
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::iOS packaging signs, archives and uploads to App Store Connect; missing repository secret(s):$missing"
+            exit 1
+          fi
+      - name: Download core love package
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.CORE_LOVE_ARTIFACT_NAME }}
+      - name: Download transport source
+        uses: actions/download-artifact@v4
+        with:
+          name: transport_source
+          path: transport-src
+      - name: Build iOS transport static library
+        shell: bash
+        run: |
+          source .github/build/transport/env.sh
+          bash .github/build/transport/build_native.sh ios
+      - name: Prepare iOS bridge patch
+        shell: bash
+        run: |
+          source .github/build/transport/env.sh
+          bash .github/build/transport/prepare_mobile_patch.sh ios
+      - name: Stage iOS bridge libraries
+        shell: bash
+        env:
+          TRANSPORT_COLD_CLEAR_URL: ${{ env.COLD_CLEAR_DOWNLOAD_URL }}/iOS.zip
+          TRANSPORT_COLD_CLEAR_EXPECT: iOS/arm64/libCCloader.a iOS/arm64/libcold_clear.a
+          TRANSPORT_COLD_CLEAR_LIBS: iOS/arm64/libCCloader.a iOS/arm64/libcold_clear.a
+        run: |
+          source .github/build/transport/env.sh
+          bash .github/build/transport/stage_bridge_libs.sh ios
+      - name: Build iOS package
+        id: build-packages
+        uses: love-actions/love-actions-ios@v1
+        with:
+          app-name: ${{ needs.get-info.outputs.app-name }}
+          bundle-id: ${{ steps.process-app-name.outputs.bundle-id }}
+          copyright: Techmino is fun!
+          icon-path: ${{ env.BUILD_ASSETS_FOLDER }}/iOS/${{ env.BUILD_TYPE }}/icon/
+          love-ref: ${{ env.TRANSPORT_LOVE_IOS_REF }}
+          love-patch: transport-generated/ios.patch
+          love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+          libs-path: ./transport-libs
+          product-name: ${{ steps.process-app-name.outputs.product-name }}
+          version-string: ${{ needs.get-info.outputs.version-string }}
+          output-folder: ${{ env.OUTPUT_FOLDER }}
+          apple-development-base64: ${{ secrets.IOS_APPLE_DEVELOPMENT_BASE64 }}
+          apple-development-password: ${{ secrets.IOS_APPLE_DEVELOPMENT_PASSWORD }}
+          api-key: ${{ secrets.IOS_API_KEY }}
+          api-key-id: ${{ secrets.IOS_API_KEY_ID }}
+          api-issuer-id: ${{ secrets.IOS_API_ISSUER_ID }}
+          team-id: ${{ secrets.APPLE_TEAM_ID }}
+          apple-id: ${{ secrets.IOS_APPLE_ID }}
+          external-test: "false"
+          store-release: "false"
+      - name: Verify iOS package
+        shell: bash
+        run: |
+          bash .github/build/transport/verify_package.sh ios-ipa "${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.ipa"
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ needs.get-info.outputs.base-name }}_iOS
+          path: ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.ipa
+      - name: Prepare for release
+        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
+        shell: bash
+        run: |
+          mkdir -p ${{ env.RELEASE_FOLDER }}
+          cp ${{ env.OUTPUT_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}.ipa ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_iOS.ipa
+      - name: Upload release
+        if: ${{ startsWith(github.ref, 'refs/tags/pre') || startsWith(github.ref, 'refs/tags/v') }}
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: ${{ env.RELEASE_FOLDER }}/${{ steps.process-app-name.outputs.product-name }}_iOS.ipa
+          body: ${{ needs.get-info.outputs.update-note }}
+          name: ${{ needs.get-info.outputs.update-title }}
+          prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
+
   post-build:
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -465,10 +878,13 @@ jobs:
         get-info,
         auto-test,
         build-core,
+        transport-source,
         build-android,
         build-linux,
         build-web-compat,
         build-windows,
+        build-macos,
+        build-ios,
       ]
     env:
       ACTION_TYPE: ${{ fromJSON('[["Development", "Pre-release"], ["Release", "Release"]]')[startsWith(github.ref, 'refs/tags/v')][startsWith(github.ref, 'refs/tags/pre')] }}
@@ -514,7 +930,7 @@ jobs:
                   },
                   {
                     "name": "Status",
-                    "value": "**Automatic Test:** ${{ needs.auto-test.result }}\n**Core:** ${{ needs.build-core.result }}\n**Android:** ${{ needs.build-android.result }}\n**Linux:** ${{ needs.build-linux.result }}\n**Web compatible:** ${{ needs.build-web-compat.result }}\n**Windows:** ${{ needs.build-windows.result }}"
+                    "value": "**Automatic Test:** ${{ needs.auto-test.result }}\n**Core:** ${{ needs.build-core.result }}\n**Transport source:** ${{ needs.transport-source.result }}\n**Android:** ${{ needs.build-android.result }}\n**Linux:** ${{ needs.build-linux.result }}\n**Web compatible:** ${{ needs.build-web-compat.result }}\n**Windows:** ${{ needs.build-windows.result }}\n**macOS:** ${{ needs.build-macos.result }}\n**iOS:** ${{ needs.build-ios.result }}"
                   }
                 ]
               }

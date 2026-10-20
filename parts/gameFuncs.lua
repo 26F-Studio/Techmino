@@ -99,13 +99,7 @@ function saveProgress()
     return saveFile(RANKS,'conf/unlock')
 end
 function saveSettings()
-    if WS.status('game')=='running' then
-        NET.player_updateConf()
-    end
     return saveFile(SETTING,'conf/settings')
-end
-function saveUser()
-    return saveFile(USER.__data,'conf/user')
 end
 do-- function applySettings()
     local saturateValues={
@@ -571,6 +565,10 @@ function applyCustomGame()-- Apply CUSTOMENV, BAG, MISSION
     end
 end
 function loadGame(mode,ifQuickPlay,ifNet)-- Load a mode and go to game scene
+    if not ifNet and NET and NET.match and NET.match:isActive() then
+        NET.report('MATCH_ACTIVE','Leave the active online match before starting an offline game.')
+        return
+    end
     freshDate()
     if legalGameTime() then
         if not MODES[mode] and FILE.isSafe('parts/modes/'..mode) then
@@ -972,33 +970,6 @@ do-- function freshPlayerPosition(sudden)
         end
     end
 end
-do-- function dumpBasicConfig()
-    local gameSetting={
-        -- Tuning
-        'das','arr','dascut','irscut','dropcut','sddas','sdarr',
-        'ihs','irs','ims','RS',
-
-        -- System
-        'skin','face',
-
-        -- Graphic
-        'ghostType','block','ghost','center','bagLine',
-        'dropFX','moveFX','shakeFX',
-        'text','highCam','nextPos',
-
-        -- Unnecessary graphic
-        -- 'grid','smooth',
-        -- 'lockFX','clearFX','splashFX','atkFX',
-        -- 'score',
-    }
-    function dumpBasicConfig()
-        local S={}
-        for _,key in next,gameSetting do
-            S[key]=SETTING[key]
-        end
-        return JSON.encode(S)
-    end
-end
 do-- function resetGameData(args)
     local function task_showMods() -- TODO
         coroutine.yield()
@@ -1178,12 +1149,12 @@ do-- function drawSelfProfile()
         gc_pop()
     end
 end
-function drawOnlinePlayerCount()
+function drawNetworkStatus()
     setFont(20)
     gc_setColor(1,1,1)
     gc_push('transform')
     gc_replaceTransform(SCR.xOy_ur)
-    gc_printf(text.onlinePlayerCount:repD(NET.onlineCount),-600,80,594,'right')
+    gc_printf('Techmino / '..NET.connectionState,-600,80,594,'right')
     gc_pop()
 end
 function drawWarning()

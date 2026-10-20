@@ -225,12 +225,14 @@ do -- Z.setOnFocus
     end
     Z.setOnFocus(function(f)
         if f then
+            if NET and SCN.cur=='net_game' then NET.match:returnNow() end
             love.timer.step()
             if SETTING.autoMute then
                 TASK.removeTask_code(task_autoSoundOff)
                 TASK.new(task_autoSoundOn)
             end
         else
+            if NET and GAME.net then NET.match:absentNow() end
             if SCN.cur=='game' and SETTING.autoPause then
                 pauseGame()
             end
@@ -242,7 +244,7 @@ do -- Z.setOnFocus
     end)
 end
 Z.setOnBeforeQuit(function()
-    NET.ws_close()
+    NET.shutdown()
     TASK.new(function()
         TEST.yieldT(.26)
         love.event.quit()
@@ -369,7 +371,6 @@ table.insert(_LOADTIMELIST_,("Initialize Modules: %.3fs"):format(TIME()-_LOADTIM
 -- Load settings and statistics
 if
     not (
-        pcall(TABLE.cover, loadFile('conf/user',      '-json -canSkip') or loadFile('conf/user',      '-luaon -canSkip') or {},USER) and
         pcall(TABLE.cover, loadFile('conf/unlock',    '-json -canSkip') or loadFile('conf/unlock',    '-luaon -canSkip') or {},RANKS) and
         pcall(TABLE.update,loadFile('conf/settings',  '-json -canSkip') or loadFile('conf/settings',  '-luaon -canSkip') or {},SETTING) and
         pcall(TABLE.coverR,loadFile('conf/data',      '-json -canSkip') or loadFile('conf/data',      '-luaon -canSkip') or {},STAT) and
@@ -604,11 +605,7 @@ for _,fileName in next,fs.getDirectoryItems('replay') do
 end
 table.sort(REPLAY,function(a,b) return a.fileName>b.fileName end)
 
-AUTHURL="https://www.studio26f.org/oauth?product=techmino"
-AUTHHOST="www.studio26f.org:8080"
-WS.switchHost('www.studio26f.org','8081','/techmino/ws/v1')
-HTTP.setHost("www.studio26f.org:8081")
-HTTP.setThreadCount(1)
+NET.start()
 
 -- Discord RPC
 DiscordRPC=require'parts.discordRPC'

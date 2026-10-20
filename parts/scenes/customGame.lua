@@ -28,24 +28,9 @@ local scene={}
 
 function scene.initialize() -- Initialize fields, sequence, missions, gameEnv for cutsom game
     local fieldData=loadFile('conf/customBoards','-string -canSkip')
-    local fieldReinit=false
-    if not fieldData then
-        fieldReinit=true
-    else
-        fieldData=STRING.split(fieldData,"!")
-        for i=1,#fieldData do
-            local success,F=DATA.pasteBoard(fieldData[i])
-            if not success then
-                fieldReinit=true
-                break
-            end
-            CUSTOMGAME_LOCAL.field[i]=F
-        end
-    end
-    if fieldReinit then
-        TABLE.cut(CUSTOMGAME_LOCAL.field)
-        CUSTOMGAME_LOCAL.field[1]=DATA.newBoard()
-    end
+    local fields=fieldData and require('parts.online.boardStore').decode(fieldData)
+    TABLE.cut(CUSTOMGAME_LOCAL.field)
+    if fields then TABLE.cover(fields,CUSTOMGAME_LOCAL.field) else CUSTOMGAME_LOCAL.field[1]=DATA.newBoard() end
     local sequenceData=loadFile('conf/customSequence','-string -canSkip')
     if sequenceData then
         local success,bag=DATA.pasteSequence(sequenceData)
@@ -92,7 +77,7 @@ local sList={
 local modUsed
 
 function scene.enter()
-    destroyPlayers()
+    if not NET.match:isActive() then destroyPlayers() end
     BG.set(CUSTOMGAME_LOCAL.customenv.bg)
     BGM.play(CUSTOMGAME_LOCAL.customenv.bgm)
     modUsed=usingMod()
@@ -103,6 +88,14 @@ function scene.leave()
 end
 
 local function _play(mode)
+    if NET.match:isActive() then NET.report('MATCH_ACTIVE','Leave the active online match before starting an offline custom game.') return end
+    for _,board in ipairs(CUSTOMGAME_LOCAL.field) do
+        for _,row in ipairs(board) do
+            for _,cell in ipairs(row) do
+                if cell>24 then MES.new('error','This backed-up board contains cells unavailable in the local source skin. Edit them before playing.',6) return end
+            end
+        end
+    end
     if CUSTOMGAME_LOCAL.customenv.opponent~="X" then
         if mode=='puzzle' then
             MES.new('error',text.ai_puzzle)

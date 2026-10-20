@@ -1,119 +1,56 @@
-local ROOMENV=ROOMENV
-
-local roomName=WIDGET.newText{name='roomName',       x=40,y=115,align='L'}
-local roomNameBox=WIDGET.newInputBox{                x=40,y=160,w=540,h=60,limit=64}
-local password=WIDGET.newText{name='password',       x=40,y=255,align='L'}
-local passwordBox=WIDGET.newInputBox{                x=40,y=300,w=540,h=60,limit=64}
-local description=WIDGET.newText{name='description', x=650,y=55,align='L'}
-local descriptionBox=WIDGET.newInputBox{             x=650,y=100,w=550,h=160,font=25,limit=256}
-
-local sList={
-    visible={"show","easy","slow","medium","fast","none"},
-    freshLimit={0,1,2,4,6,8,10,12,15,30,1e99},
-    life={0,1,2,3,5,10,15,26,42,87,500},
-    pushSpeed={1,2,3,5,15},
-    fieldH={1,2,3,4,6,8,10,15,20,30,50,100},
-    heightLimit={2,3,4,6,8,10,15,20,30,40,70,100,150,200,1e99},
-    bufferLimit={4,6,10,15,20,40,100,1e99},
-    sequence={'bag','bagES','his','hisPool','c2','bagP1inf','rnd','mess','reverb'},
-
-    drop={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
-    lock={0,1,2,3,4,5,6,7,8,9,10,11,12,14,16,18,20,25,30,40,60,180,1e99},
-    wait={0,1,2,3,4,5,6,7,8,9,10,15,20,30,60},
-    fall={0,1,2,3,4,5,6,7,8,9,10,15,20,30,60},
-    hang={0,1,2,3,4,5,6,7,8,9,10,15,20,30,60},
-    hurry={0,1,2,3,4,5,6,7,8,9,10,1e99},
-    eventSet=EVENTSETS,
-    holdMode={'hold','swap','skip'},
-}
-
 local scene={}
-
-local function _createRoom()
-    if legalGameTime() then
-        local pw=passwordBox.value
-        if pw=="" then pw=nil end
-        local roomname=STRING.trim(roomNameBox.value)
-        if #roomname==0 then
-            roomname=(USERS.getUsername(USER.uid) or "Anonymous").."'s room"
-        end
-        NET.room_create{
-            capacity=ROOMENV.capacity,
-            info={
-                name=roomname,
-                type="normal",
-                version=VERSION.room,
-                description=descriptionBox.value,
-            },
-            data=ROOMENV,
-            password=pw,
-        }
+local options={track='authoritative',pauseOnDisconnect=true,pauseOnAbsence=true,pauseLimitSeconds=10,spectators=true}
+local editing=false
+local revision=false
+local name=WIDGET.newInputBox{x=40,y=155,w=750,h=60,limit=128}
+local password=WIDGET.newInputBox{x=40,y=300,w=750,h=60,secret=true,limit=64}
+local function settings()
+    return {pauseOnDisconnect=options.pauseOnDisconnect,pauseOnAbsence=options.pauseOnAbsence,pauseLimitSeconds=options.pauseLimitSeconds,spectators=options.spectators}
+end
+local function submit()
+    local roomName=STRING.trim(name:getText())
+    if roomName=='' then roomName=USERS.getUsername(USER.uid).."'s room" end
+    if editing then
+        NET.roomCommand('room.update',{expectedRevision=revision,name=roomName,settings=settings()},function(snapshot,err)
+            if not err and NET.roomStore:apply(snapshot) then SCN.back() end
+        end)
+    else
+        NET.createRoom{name=roomName,password=password:getText()~='' and password:getText() or nil,track=options.track,settings=settings()}
     end
 end
-
 function scene.enter()
-    sure=0
-    destroyPlayers()
-    DiscordRPC.update("Creating new room...")
+    editing=SCN.args[1]=='edit' and NET.roomStore.snapshot~=false
+    if editing then
+        local room=NET.roomStore.snapshot
+        revision=room.revision
+        name:setText(room.name)
+        options.track=room.track
+        for key,value in pairs(room.settings) do if options[key]~=nil then options[key]=value end end
+    else name:setText('') end
+    password:clear()
+    DiscordRPC.update(editing and 'Editing room settings' or 'Creating an online room')
 end
-function scene.leave()
-    BGM.play()
+function scene.keyDown(key,rep)
+    if rep then return true end
+    if key=='escape' then SCN.back() elseif key=='return' or key=='kpenter' then submit() else return true end
 end
-
-scene.widgetScrollHeight=400
+function scene.draw()
+    FONT.set(24)
+    love.graphics.setColor(1,1,1)
+    love.graphics.printf('Only the complete default source netBattle rules are enabled online.\nAuthoritative matches render trusted server state; relay results are unverified.\nCapacity: 10 players + 20 spectators. Round limit: 15 minutes.',40,590,940,'left')
+    if editing then love.graphics.printf('Editing revision '..revision,850,120,350,'left') end
+end
 scene.widgetList={
-    WIDGET.newText{name='title',x=40,y=15,font=70,align='L'},
-
-    -- Room name/password/description
-    roomName,
-    roomNameBox,
-    password,
-    passwordBox,
-    description,
-    descriptionBox,
-
-    -- Selectors
-    WIDGET.newSelector{name='life',         x=170,y=410,w=260,color='R',list=sList.life,           disp=ROOMval('life'),         code=ROOMsto('life')},
-    WIDGET.newSelector{name='pushSpeed',    x=170,y=520,w=260,color='V',list=sList.pushSpeed,      disp=ROOMval('pushSpeed'),    code=ROOMsto('pushSpeed')},
-    WIDGET.newSelector{name='garbageSpeed', x=170,y=600,w=260,color='V',list=sList.pushSpeed,      disp=ROOMval('garbageSpeed'), code=ROOMsto('garbageSpeed')},
-    WIDGET.newSelector{name='visible',      x=170,y=710,w=260,color='lB',list=sList.visible,       disp=ROOMval('visible'),      code=ROOMsto('visible')},
-    WIDGET.newSelector{name='freshLimit',   x=170,y=790,w=260,color='lB',list=sList.freshLimit,    disp=ROOMval('freshLimit'),   code=ROOMsto('freshLimit')},
-
-    WIDGET.newSelector{name='sequence',     x=450,y=410,w=260,color='F',list=sList.sequence,       disp=ROOMval('sequence'),     code=ROOMsto('sequence')},
-    WIDGET.newSelector{name='fieldH',       x=450,y=600,w=260,color='N',list=sList.fieldH,         disp=ROOMval('fieldH'),       code=ROOMsto('fieldH')},
-    WIDGET.newSelector{name='heightLimit',  x=450,y=710,w=260,color='S',list=sList.heightLimit,    disp=ROOMval('heightLimit'),  code=ROOMsto('heightLimit')},
-    WIDGET.newSelector{name='bufferLimit',  x=450,y=790,w=260,color='B',list=sList.bufferLimit,    disp=ROOMval('bufferLimit'),  code=ROOMsto('bufferLimit')},
-
-    WIDGET.newSelector{name='drop',         x=730,y=330,w=260,color='O',list=sList.drop,disp=ROOMval('drop'),code=ROOMsto('drop')},
-    WIDGET.newSelector{name='lock',         x=730,y=410,w=260,color='O',list=sList.lock,disp=ROOMval('lock'),code=ROOMsto('lock')},
-    WIDGET.newSelector{name='wait',         x=730,y=520,w=260,color='G',list=sList.wait,disp=ROOMval('wait'),code=ROOMsto('wait')},
-    WIDGET.newSelector{name='fall',         x=730,y=600,w=260,color='G',list=sList.fall,disp=ROOMval('fall'),code=ROOMsto('fall')},
-    WIDGET.newSelector{name='hurry',        x=730,y=680,w=260,color='G',list=sList.hurry,disp=ROOMval('hurry'),code=ROOMsto('hurry')},
-    WIDGET.newSelector{name='hang',         x=730,y=760,w=260,color='G',list=sList.hang,disp=ROOMval('hang'),code=ROOMsto('hang')},
-
-    -- Capacity & Create & Back
-    WIDGET.newSelector{name='capacity',     x=1070,y=330,w=310,color='lY',list={2,3,4,5,7,10,17,31,49,99},disp=ROOMval('capacity'),code=ROOMsto('capacity')},
-    WIDGET.newButton{name='create',         x=1070,y=480,w=310,h=140,color='lN',font=40,code=_createRoom},
-    WIDGET.newButton{name='back',           x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
-
-    -- Special rules
-    WIDGET.newSwitch{name='ospin',          x=850, y=850, lim=210,disp=ROOMval('ospin'),    code=ROOMrev('ospin')},
-    WIDGET.newSwitch{name='fineKill',       x=850, y=910, lim=210,disp=ROOMval('fineKill'), code=ROOMrev('fineKill')},
-    WIDGET.newSwitch{name='b2bKill',        x=850, y=970, lim=210,disp=ROOMval('b2bKill'),  code=ROOMrev('b2bKill')},
-    WIDGET.newSwitch{name='lockout',        x=850, y=1030,lim=210,disp=ROOMval('lockout'),  code=ROOMrev('lockout')},
-    WIDGET.newSwitch{name='easyFresh',      x=1170,y=850, lim=250,disp=ROOMval('easyFresh'),code=ROOMrev('easyFresh')},
-    WIDGET.newSwitch{name='deepDrop',       x=1170,y=910, lim=250,disp=ROOMval('deepDrop'), code=ROOMrev('deepDrop')},
-    WIDGET.newSwitch{name='bone',           x=1170,y=970, lim=250,disp=ROOMval('bone'),     code=ROOMrev('bone')},
-
-    -- Ruleset
-    WIDGET.newSelector{name='eventSet',     x=1050,y=760,w=340,color='H',list=sList.eventSet,disp=ROOMval('eventSet'),code=ROOMsto('eventSet')},
-
-    -- Next & Hold
-    WIDGET.newSelector{name='holdMode',     x=310, y=890, w=300,color='lY',list=sList.holdMode,disp=ROOMval('holdMode'),code=ROOMsto('holdMode'),hideF=function() return ROOMENV.holdCount==0 end},
-    WIDGET.newSlider{name='nextCount',      x=140, y=960, lim=130,w=200,axis={0,6,1},disp=ROOMval('nextCount'),code=ROOMsto('nextCount')},
-    WIDGET.newSlider{name='holdCount',      x=140, y=1030,lim=130,w=200,axis={0,6,1},disp=ROOMval('holdCount'),code=ROOMsto('holdCount')},
-    WIDGET.newSwitch{name='infHold',        x=560, y=960, lim=200,                   disp=ROOMval('infHold'),code=ROOMrev('infHold'),hideF=function() return ROOMENV.holdCount==0 end},
-    WIDGET.newSwitch{name='phyHold',        x=560, y=1030,lim=200,                   disp=ROOMval('phyHold'),code=ROOMrev('phyHold'),hideF=function() return ROOMENV.holdCount==0 end},
+    WIDGET.newText{x=40,y=35,align='L',font=50,fText='Room settings'},
+    WIDGET.newText{x=40,y=110,align='L',font=28,fText='Room name'},name,
+    WIDGET.newText{x=40,y=255,align='L',font=28,fText='Password (empty removes it)'},password,
+    WIDGET.newSelector{x=1080,y=165,w=310,font=25,fText='Track',list={'authoritative','relay'},disp=function() return options.track end,code=function(value) options.track=value end,hideF=function() return editing end},
+    WIDGET.newButton{x=1080,y=320,w=310,h=95,font=24,fText='Change password',code=function() NET.roomCommand('room.password',{password=password:getText()}) end,hideF=function() return not editing end},
+    WIDGET.newSwitch{x=340,y=440,lim=280,font=25,fText='Pause on disconnect',disp=function() return options.pauseOnDisconnect end,code=function() options.pauseOnDisconnect=not options.pauseOnDisconnect end},
+    WIDGET.newSwitch{x=730,y=440,lim=280,font=25,fText='Pause on temporary absence',disp=function() return options.pauseOnAbsence end,code=function() options.pauseOnAbsence=not options.pauseOnAbsence end},
+    WIDGET.newSwitch{x=340,y=525,lim=280,font=25,fText='Allow spectators',disp=function() return options.spectators end,code=function() options.spectators=not options.spectators end},
+    WIDGET.newSelector{x=930,y=520,w=350,font=24,fText='Single pause cap (seconds)',list={5,10,30},disp=function() return options.pauseLimitSeconds end,code=function(value) options.pauseLimitSeconds=value end},
+    WIDGET.newButton{x=1080,y=450,w=310,h=110,font=32,fText='Apply / create',code=submit},
+    WIDGET.newButton{name='back',x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
-
 return scene

@@ -6,17 +6,29 @@ local function marginTask(P)
     while true do yield() if S.frame>180*60 then P.strength=3;P:setFrameColor(3)break end end
     while true do yield() if S.frame>260*60 then P.strength=4;P:setFrameColor(4)break end end
 end
+local function registerMarginTasks()
+    for _,P in ipairs(PLAYERS) do
+        -- Authoritative client mirrors render snapshots without local simulation.
+        if P.type~='snapshot' then P:newTask(marginTask) end
+    end
+end
 return {
     env={
         bg={'bg1','bg2','blockhole','blockfall','blockrain','blockspace','cubes','fan','flink','glow','matrix','rainbow','rainbow2','tunnel'},
         bgm={'battle','beat5th','cruelty','distortion','echo','far','final','here','hope','memory','moonbeam','push','rectification','secret7th remix','secret7th','secret8th remix','secret8th','shift','shining terminal','storm','super7th','there','truth','vapor','waterfall'},
     },
     load=function()
+        if not GAME.authority then
+            for k,v in next,ROOMENV do GAME.modeEnv[k]=v end
+            GAME.modeEnv.allowMod=false
+            NET.match:loadSourcePlayers()
+            registerMarginTasks()
+            return
+        end
         for k,v in next,NET.roomState.data do
             GAME.modeEnv[k]=v
         end
         GAME.modeEnv.allowMod=false
-        GAME.modeEnv.task=marginTask
 
         local L=TABLE.shift(NETPLY.list,0)
         table.sort(L,function(a,b) return a.uid<b.uid end)
@@ -24,8 +36,8 @@ return {
         for i=#L,1,-1 do
             table.insert(NETPLY.list,table.remove(NETPLY.list,math.random(i)))
         end
-        TABLE.clear(NET.uid_sid)
-        for i=1,#L do NET.uid_sid[L[i].uid]=i end
+        TABLE.clear(NET.slotByAccount)
+        for i=1,#L do NET.slotByAccount[L[i].uid]=i end
 
         local N=1
         for i,p in next,L do
@@ -40,9 +52,10 @@ return {
         end
         for _,p in next,L do
             if p.playMode=='Gamer' then
-                PLY.newRemotePlayer(N,false,p)
+                PLY.newAuthorityPlayer(N,p)
                 N=N+1
             end
         end
+        registerMarginTasks()
     end,
 }

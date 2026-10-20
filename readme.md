@@ -41,3 +41,42 @@ Made a payment method to try it out, remember to keep a payment record, there ma
 ## 500 Stars Poster
 
 ![Techmino](.github/500stars/exported.png)
+
+## Online services
+
+Online play uses the independent Tessera account service and Cadence game service. See the [deployment guide](../../WebstormProjects/Tessera/deploy/README.md) and [client transport/package guide](../Cadence/transport/README.md). Configure exact HTTPS public origins before packaging; no account password or resource-server secret belongs in the game.
+
+Sign-in is user-triggered and uses the system browser for account login, verification and consent. Native product sessions use OS-protected refresh storage, or visibly remain memory-only when the store is unavailable or locked. Web sessions use an independent HttpOnly product cookie; access credentials remain in memory. Ordinary website sign-out does not revoke the game's grant. The account page can revoke a device, withdraw a product or sign out all devices.
+
+Rooms offer complete default `netBattle` / TRS server authority and a separately labeled casual relay. Relay results are unverified; unsupported authoritative modes are not enabled. Player tuning and participants freeze at start. Hosts can select automatic disconnect/temporary-absence pause, a 5/10/30-second single-pause ceiling and a sixty-second total pause budget. Recovery lasts at most ten seconds; leaving, kick and authorization withdrawal are terminal.
+
+Cloud save versions contain bounded strict JSON, not executable Lua or credentials. At most five versions are retained. A concurrent update requires an explicit conflict choice; restore first backs up local data. Uploaded offline statistics are not authoritative ranking evidence. Offline play, local saves and local replays remain owned by the original game.
+
+Linux AppImage packaging preserves the game's bundled libraries while restoring the host library/search environment only for the external system-browser opener. Local original AppImage consent, WSS `ready`, room directory and device logout passed after that packaging fix. Matching Debian installation and its installed LÖVE launcher were exercised separately; this is not Debian GUI/online, all-platform or production acceptance. See the package guide for the actual evidence boundaries and unlocked Secret Service prerequisite.
+
+### Local validation CI
+
+The `ci-local-online-validation-20261020` branch packages the account/website
+origin `https://localhost:17445` and the separate game origin
+`https://127.0.0.1:17446`. These overrides apply only to that exact CI branch;
+other branches and releases still require their configured public origins.
+Both services must run on the same computer as the client. These packages do
+not make a workstation's loopback services reachable from a phone or another PC.
+
+Trust the local fixture CA in the browser. Native desktop clients can add the
+same CA through `TECHMINO_TRANSPORT_CA_FILE=/absolute/path/to/ca.pem`; hostname
+verification remains enabled. Never distribute the CA private key or disable
+certificate validation. An existing saved `conf/online.json` takes precedence
+over package endpoints. The vendored CI source contains only the standalone
+transport crate, its lockfile, and its platform bridges, not the game backend.
+
+
+### Galaxim boundary and feasible directions
+
+The existing `net_galaxim` entry remains visible. Its match action already reports the game's unfinished-feature notice; this rewrite does not claim a Galaxim game or silently route that action into `netBattle`.
+
+- A social/discovery hub can reuse trusted product identity, bounded room commands and revisioned membership without introducing a simulation or authoritative ranking. The world/map state, persistence and interaction rules still need an explicit product design.
+- A cooperative or competitive Galaxim mode requires a concrete gameplay specification, its own allowlisted ruleset and deterministic state/input contract. Reuse admission, ownership, pause, settlement and replay boundaries, but do not treat the existing default `netBattle` engine as proof for another mode.
+- A launch link into Techmino Galaxy can use the distinct registered `techminoGalaxy` product authorization. Galaxy's current account integration does not imply multiplayer ZTC modes or a completed shared-world protocol.
+
+Choose the gameplay direction before enabling the existing match control. Existing account, room and transport infrastructure does not by itself define the missing game.

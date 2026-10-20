@@ -81,8 +81,6 @@ end
 
 -- Love-based modules (basic)
 CLIPBOARD=  require'Zframework.clipboard'
-HTTP=       require'Zframework.http'
-WS=         require'Zframework.websocket'
 FILE=       require'Zframework.file'
 WHEELMOV=   require'Zframework.wheelScroll'
 SCR=        require'Zframework.screen'
@@ -683,7 +681,6 @@ function love.run()
 
     local TEXT_update,TEXT_draw=TEXT.update,TEXT.draw
     local MES_update,MES_draw=MES.update,MES.draw
-    local HTTP_update,WS_update=HTTP.update,WS.update
     local TASK_update=TASK.update
     local SYSFX_update,SYSFX_draw=SYSFX.update,SYSFX.draw
     local WIDGET_update,WIDGET_draw=WIDGET.update,WIDGET.draw
@@ -745,8 +742,6 @@ function love.run()
         TEXT_update(dt)
         WAIT.update(dt)
         MES_update(dt)
-        HTTP_update(dt)
-        WS_update(dt)
         TASK_update(dt)
         SYSFX_update(dt)
         if SCN.update then SCN.update(dt) end
@@ -834,21 +829,6 @@ function love.run()
                             gc_setColor(COLOR.Z)
                             gc_print(t,x+2,y)
 
-                        gc_replaceTransform(SCR.xOy_dr)
-                            -- Websocket status
-                            local status=WS.status('game')
-                            if status=='dead' then
-                                gc_setColor(COLOR.R)
-                            elseif status=='connecting' then
-                                gc_setColor(1,1,1,.5+.3*math.sin(time*6.26))
-                            elseif status=='running' then
-                                gc_setColor(COLOR.lG)
-                            end
-                            gc.rectangle('fill',-16,-16,12,12)
-                            local t1,t2,t3=WS.getTimers('game')
-                            if t1>0 then gc_setColor(.9,.9,.9,t1)gc.rectangle('fill',-60,-2,-16,-16) end
-                            if t2>0 then gc_setColor(.3,1,.3,t2)gc.rectangle('fill',-42,-2,-16,-16) end
-                            if t3>0 then gc_setColor(1,.2,.2,t3)gc.rectangle('fill',-24,-2,-16,-16) end
                     end
                 gc_replaceTransform(SCR.origin)
                     WAIT.draw()
