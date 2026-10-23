@@ -64,23 +64,6 @@ function Render.validate(snapshot,match)
     end
     return true
 end
-function Render.position(match)
-    local ordered={}
-    local own=match.byAccount[USER.uid]
-    if own then ordered[1]=own end
-    for _,P in ipairs(PLAYERS) do if P~=own then ordered[#ordered+1]=P end end
-    if #ordered==2 then
-        ordered[1]:setPosition(35,85,1)
-        ordered[2]:setPosition(650,85,1)
-    else
-        if ordered[1] then ordered[1]:setPosition(330,85,.95) end
-        for index=2,#ordered do
-            local side=index<=5 and 35 or 1040
-            local row=index<=5 and index-2 or index-6
-            ordered[index]:setPosition(side,70+row*160,.27)
-        end
-    end
-end
 function Render.create(match)
     local setting=GAME.setting
     for _,member in ipairs(match.participants) do
@@ -122,7 +105,6 @@ function Render.create(match)
         match.bySlot[member.slot]=P
     end
     GAME.setting=setting
-    Render.position(match)
 end
 function Render.apply(snapshot,match)
     if not Render.validate(snapshot,match) then return false end

@@ -50,6 +50,15 @@ Sign-in is user-triggered and uses the system browser for account login, verific
 
 Rooms offer complete default `netBattle` / TRS server authority and a separately labeled casual relay. Relay results are unverified; unsupported authoritative modes are not enabled. Player tuning and participants freeze at start. Hosts can select automatic disconnect/temporary-absence pause, a 5/10/30-second single-pause ceiling and a sixty-second total pause budget. Recovery lasts at most ten seconds; leaving, kick and authorization withdrawal are terminal.
 
+The primary board follows the signed-in participant in both online tracks,
+without reordering the server's frozen roster or slot-to-input mapping.
+Spectators retain the source-order layout. Initial placement and later layout
+updates share the same positioning path.
+
+Run `python3 .github/tests/online_layout.py` to exercise the actual LÖVE client
+with isolated saves: either two-player perspective, the last slot in a full
+room, relay elimination/repositioning, and spectator layout.
+
 Cloud save versions contain bounded strict JSON, not executable Lua or credentials. At most five versions are retained. A concurrent update requires an explicit conflict choice; restore first backs up local data. Uploaded offline statistics are not authoritative ranking evidence. Offline play, local saves and local replays remain owned by the original game.
 
 Linux AppImage packaging preserves the game's bundled libraries while restoring the host library/search environment only for the external system-browser opener. Local original AppImage consent, WSS `ready`, room directory and device logout passed after that packaging fix. Matching Debian installation and its installed LÖVE launcher were exercised separately; this is not Debian GUI/online, all-platform or production acceptance. See the package guide for the actual evidence boundaries and unlocked Secret Service prerequisite.

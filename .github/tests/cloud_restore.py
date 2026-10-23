@@ -33,7 +33,8 @@ end
 """
 
 
-def package_client(root, destination):
+def package_client(root, destination, *, bootstrap=BOOTSTRAP, regression=None):
+    regression = regression or Path(__file__).with_suffix('.lua')
     with zipfile.ZipFile(destination, 'w', compression=zipfile.ZIP_STORED) as archive:
         for directory in ('media', 'parts', 'Zframework'):
             source = root / directory
@@ -47,9 +48,9 @@ def package_client(root, destination):
             archive.write(root / name, name)
         if (root / 'online-config.json').is_file():
             archive.write(root / 'online-config.json', 'online-config.json')
-        archive.writestr('main.lua', (root / 'main.lua').read_text() + BOOTSTRAP)
+        archive.writestr('main.lua', (root / 'main.lua').read_text() + bootstrap)
         archive.writestr('conf.lua', (root / 'conf.lua').read_text() + CONF)
-        archive.write(Path(__file__).with_suffix('.lua'), 'cloud_restore_regression.lua')
+        archive.write(regression, regression.stem + '_regression.lua')
 
 
 def main():

@@ -223,6 +223,10 @@ jobs:
         shell: bash
         run: |
             xvfb-run --auto-servernum ${{ env.APPIMAGE_PATH }} ${{ env.CORE_LOVE_PACKAGE_PATH }} --test
+      - name: Verify local player perspective
+        env:
+          LOVE_EXECUTABLE: ${{ env.APPIMAGE_PATH }}
+        run: python3 .github/tests/online_layout.py
 
   build-android:
     runs-on: ubuntu-latest

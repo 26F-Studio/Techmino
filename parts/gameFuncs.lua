@@ -922,13 +922,24 @@ do-- function freshPlayerPosition(sudden)
     function freshPlayerPosition(mode)-- Set initial position for every player, mode: 'normal'|'quick'|'update'
         assert(mode=='normal' or mode=='quick' or mode=='update',"Wrong freshPlyPos mode")
         local L=PLY_ALIVE
+        local main=PLAYERS[1]
+        if GAME.net and not GAME.authority then
+            main=NET.match.byAccount[USER.uid] or main
+            if main.alive and L[1]~=main then
+                -- Layout order is local; the source roster and slots stay frozen.
+                L={main}
+                for _,P in ipairs(PLY_ALIVE) do
+                    if P~=main then L[#L+1]=P end
+                end
+            end
+        end
         if mode~='update' then
             for i=1,#L do
                 L[i]:setPosition(640,#L<=5 and 360 or -62,0)
             end
         end
 
-        local alive=PLAYERS[1].alive
+        local alive=main.alive
 
         if mode=='update' then
             if alive then
