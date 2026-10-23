@@ -212,7 +212,7 @@ jobs:
       - name: Download love
         shell: bash
         run: |
-           curl --retry 5 https://github.com/love2d/love/releases/download/11.5/love-11.5-x86_64.AppImage -o ${{ env.APPIMAGE_PATH }}
+           curl --fail --location --retry 5 https://github.com/love2d/love/releases/download/11.5/love-11.5-x86_64.AppImage -o ${{ env.APPIMAGE_PATH }}
            chmod +x ${{ env.APPIMAGE_PATH }}
       - name: Install dependencies
         shell: bash

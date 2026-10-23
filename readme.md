@@ -58,6 +58,8 @@ updates share the same positioning path.
 Run `python3 .github/tests/online_layout.py` to exercise the actual LÖVE client
 with isolated saves: either two-player perspective, the last slot in a full
 room, relay elimination/repositioning, and spectator layout.
+CI runs this regression with LÖVE 11.5 and requires its success marker. Runtime
+downloads follow release redirects and reject HTTP errors before execution.
 
 Cloud save versions contain bounded strict JSON, not executable Lua or credentials. At most five versions are retained. A concurrent update requires an explicit conflict choice; restore first backs up local data. Uploaded offline statistics are not authoritative ranking evidence. Offline play, local saves and local replays remain owned by the original game.
 
