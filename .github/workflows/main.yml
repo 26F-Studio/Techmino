@@ -29,10 +29,10 @@ env:
   TRANSPORT_LOVE_IOS_REF: c35356c841976eb6f370347b81eec845d5520338
   TRANSPORT_LOVE_MACOS_REF: fc3f5ee6209a0aab9a4d381ed5cd99110f9ff2f2
   TRANSPORT_IOS_BASE_PATCH: ./.github/build/iOS/love.patch
-  PUBLIC_ORIGIN: ${{ github.ref == 'refs/heads/ci-local-online-validation-20261020' && 'https://localhost:17445' || vars.PUBLIC_ORIGIN }}
-  CADENCE_PUBLIC_ORIGIN: ${{ github.ref == 'refs/heads/ci-local-online-validation-20261020' && 'https://127.0.0.1:17446' || vars.CADENCE_PUBLIC_ORIGIN }}
-  TESSERA_PUBLIC_ORIGIN: ${{ github.ref == 'refs/heads/ci-local-online-validation-20261020' && 'https://localhost:17445' || vars.TESSERA_PUBLIC_ORIGIN }}
-  GAME_WEB_REDIRECT_URI: ${{ github.ref == 'refs/heads/ci-local-online-validation-20261020' && 'https://localhost:17445/play/techmino/' || vars.GAME_WEB_REDIRECT_URI }}
+  PUBLIC_ORIGIN: ${{ github.ref == 'refs/heads/ci-public-online-validation-20261110' && 'https://studio26f.org' || vars.PUBLIC_ORIGIN }}
+  CADENCE_PUBLIC_ORIGIN: ${{ github.ref == 'refs/heads/ci-public-online-validation-20261110' && 'https://game.studio26f.org' || vars.CADENCE_PUBLIC_ORIGIN }}
+  TESSERA_PUBLIC_ORIGIN: ${{ github.ref == 'refs/heads/ci-public-online-validation-20261110' && 'https://studio26f.org' || vars.TESSERA_PUBLIC_ORIGIN }}
+  GAME_WEB_REDIRECT_URI: ${{ github.ref == 'refs/heads/ci-public-online-validation-20261110' && 'https://studio26f.org/play/techmino/' || vars.GAME_WEB_REDIRECT_URI }}
 
 jobs:
   get-info:

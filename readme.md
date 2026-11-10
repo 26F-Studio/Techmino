@@ -65,21 +65,21 @@ Cloud save versions contain bounded strict JSON, not executable Lua or credentia
 
 Linux AppImage packaging preserves the game's bundled libraries while restoring the host library/search environment only for the external system-browser opener. Local original AppImage consent, WSS `ready`, room directory and device logout passed after that packaging fix. Matching Debian installation and its installed LÖVE launcher were exercised separately; this is not Debian GUI/online, all-platform or production acceptance. See the package guide for the actual evidence boundaries and unlocked Secret Service prerequisite.
 
-### Local validation CI
+### Public validation CI
 
-The `ci-local-online-validation-20261020` branch packages the account/website
-origin `https://localhost:17445` and the separate game origin
-`https://127.0.0.1:17446`. These overrides apply only to that exact CI branch;
-other branches and releases still require their configured public origins.
-Both services must run on the same computer as the client. These packages do
-not make a workstation's loopback services reachable from a phone or another PC.
+The `ci-public-online-validation-20261110` branch packages the account/website
+origin `https://studio26f.org`, the game origin `https://game.studio26f.org`,
+and the exact Web callback `https://studio26f.org/play/techmino/`.
+These overrides apply only to that exact CI branch; repository-wide variables
+and release configuration are unchanged.
 
-Trust the local fixture CA in the browser. Native desktop clients can add the
-same CA through `TECHMINO_TRANSPORT_CA_FILE=/absolute/path/to/ca.pem`; hostname
-verification remains enabled. Never distribute the CA private key or disable
-certificate validation. An existing saved `conf/online.json` takes precedence
-over package endpoints. The vendored CI source contains only the standalone
-transport crate, its lockfile, and its platform bridges, not the game backend.
+The public deployment uses publicly trusted certificates, so these packages
+do not require the local fixture CA or `TECHMINO_TRANSPORT_CA_FILE`.
+Certificate and hostname verification remain enabled. An existing saved
+`conf/online.json` takes precedence over package endpoints; update its origin
+settings when moving from a local fixture without deleting offline saves.
+The vendored CI source contains only the standalone transport crate, its
+lockfile, and its platform bridges, not the game backend.
 
 
 Validation branches upload CI artifacts without publishing GitHub Pages.
