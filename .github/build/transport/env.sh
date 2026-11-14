@@ -19,7 +19,7 @@ export TRANSPORT_ARTIFACTS_ROOT="$transport_workspace/$TRANSPORT_SRC"
 export TRANSPORT_RUST_TOOLCHAIN="${TRANSPORT_RUST_TOOLCHAIN:-stable}"
 
 # Frozen C ABI from the transport header
-# (OtherProjects/Cadence/transport/include/techmino_transport.h). Both the
+# (Cadence/transport/include/techmino_transport.h). Both the
 # native artifact check and the iOS export wiring must cover exactly this set.
 export TRANSPORT_ABI_SYMBOLS="${TRANSPORT_ABI_SYMBOLS:-tn_client_new tn_client_destroy tn_command tn_poll tn_callback_begin tn_secret tn_random tn_pkce tn_mobile_callback}"
 

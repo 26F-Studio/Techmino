@@ -44,7 +44,7 @@ Made a payment method to try it out, remember to keep a payment record, there ma
 
 ## Online services
 
-Online play uses the independent Tessera account service and Cadence game service. See the [deployment guide](../../WebstormProjects/Tessera/deploy/README.md) and [client transport/package guide](../Cadence/transport/README.md). Configure exact HTTPS public origins before packaging; no account password or resource-server secret belongs in the game.
+Online play uses the independent Tessera account service and Cadence game service. See the [deployment guide](../Tessera/deploy/README.md) and [client transport/package guide](../Cadence/transport/README.md). Configure exact HTTPS public origins before packaging; no account password or resource-server secret belongs in the game.
 
 Sign-in is user-triggered and uses the system browser for account login, verification and consent. Native product sessions use OS-protected refresh storage, or visibly remain memory-only when the store is unavailable or locked. Web sessions use an independent HttpOnly product cookie; access credentials remain in memory. Ordinary website sign-out does not revoke the game's grant. The account page can revoke a device, withdraw a product or sign out all devices.
 
