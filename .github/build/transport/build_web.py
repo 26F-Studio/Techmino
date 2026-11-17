@@ -143,6 +143,17 @@ def main():
             fail("The pinned love.js output has no browser-bridge script insertion anchor")
         html = html.replace("</head>", '<script src="consolewrapper.js"></script>\n<script src="webdb.js"></script>\n</head>', 1)
         html = html.replace("32, 37, 38, 39, 40", "37, 38, 39, 40")
+        # Leaving Emscripten fullscreen restores the canvas size it recorded via
+        # document.querySelector(canvas.id). For id "canvas" that is the first
+        # <canvas> element, so the game canvas must precede the template's
+        # 800x600 loading canvas; otherwise the game's drawing buffer becomes
+        # 800x600 while LÖVE still renders the windowed size, cropping the UI.
+        loading_canvas = '<canvas id="loadingCanvas" oncontextmenu="event.preventDefault()" width="800" height="600"></canvas>'
+        game_canvas = '<canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>'
+        template_canvases = loading_canvas + "\n        " + game_canvas
+        if html.count("<canvas") != 2 or html.count(template_canvases) != 1:
+            fail("The pinned love.js page no longer has its loading canvas directly before the game canvas")
+        html = html.replace(template_canvases, game_canvas + "\n        " + loading_canvas)
         index.write_text(html, encoding="utf-8")
         env = os.environ | {
             "TRANSPORT_WEB_SOURCE": str(root / framework / "transport_web.js"),
