@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify account-relative layout in the actual client with isolated saves."""
+"""Verify online input recovery and player layout in the actual isolated client."""
 import os
 from pathlib import Path
 import shutil
@@ -13,9 +13,9 @@ from cloud_restore import package_client
 BOOTSTRAP = r"""
 TASK.new(function()
     while not LOADED do coroutine.yield() end
-    local ok,message=pcall(require'online_layout_regression')
-    if ok then print('ONLINE_LAYOUT_PASS')
-    else print('ONLINE_LAYOUT_FAIL '..tostring(message)) end
+    local ok,message=pcall(require'online_match_regression')
+    if ok then print('ONLINE_MATCH_PASS')
+    else print('ONLINE_MATCH_FAIL '..tostring(message)) end
     love.event.quit(ok and 0 or 1)
 end)
 """
@@ -32,7 +32,7 @@ def main():
         if not xvfb:
             raise RuntimeError('An active DISPLAY or xvfb-run is required')
         launch = [xvfb, '-a', love]
-    with tempfile.TemporaryDirectory(prefix='techmino-online-layout-') as temporary:
+    with tempfile.TemporaryDirectory(prefix='techmino-online-match-') as temporary:
         fixture = Path(temporary)
         package = fixture / 'client.love'
         package_client(root, package, bootstrap=BOOTSTRAP,
@@ -47,11 +47,11 @@ def main():
         result = subprocess.run(launch + [str(package)], cwd=root, env=environment,
                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                 text=True, timeout=90)
-        if result.returncode or 'ONLINE_LAYOUT_PASS' not in result.stdout:
+        if result.returncode or 'ONLINE_MATCH_PASS' not in result.stdout:
             sys.stderr.write(result.stdout[-12000:])
-            raise RuntimeError(f'Online layout regression failed (exit {result.returncode})')
+            raise RuntimeError(f'Online match regression failed (exit {result.returncode})')
         for line in result.stdout.splitlines():
-            if line.startswith('ONLINE_LAYOUT_'):
+            if line.startswith('ONLINE_MATCH_'):
                 print(line)
 
 

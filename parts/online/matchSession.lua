@@ -156,7 +156,7 @@ end
 function MatchSession:flushAll()
     for _=1,32 do if not self:flush() then break end end
 end
-function MatchSession:ack(data)
+function MatchSession:ack(data,resend)
     if data.accountId and data.accountId~=USER.uid then return end
     local through=data.acceptedThrough
     local expected=data.expectedSeq
@@ -170,7 +170,7 @@ function MatchSession:ack(data)
     for sequence in pairs(self.pending) do if sequence<expected then self.pending[sequence]=nil end end
     self.lastSentSeq=math.max(self.lastSentSeq,expected-1)
     if data.frame then self:observeFrame(data.frame) end
-    if self.pending[expected] and expected<=self.lastSentSeq then self:flush(expected) end
+    if resend then self:flush(expected) end
 end
 function MatchSession:finishBoundary()
     if not self:isParticipant() or self.finished or not self:isActive() then return end
@@ -201,9 +201,8 @@ end
 function MatchSession:resume()
     if not self:isActive() then return end
     self.recovering=true
-    self.net.request('match.resume',{roomId=self.roomId,matchId=self.id,lastAckSeq=self.lastAckSeq},function(data,err)
+    self.net.request('match.resume',{roomId=self.roomId,matchId=self.id,lastAckSeq=self.lastAckSeq},function(_,err)
         if err then self.recovering=false self.state='aborted' self.net.report(err.code,err.message) return end
-        if data and data.expectedSeq then self:ack(data) end
     end)
 end
 function MatchSession:isolate(id,message)
@@ -282,24 +281,25 @@ function MatchSession:event(kind,data)
     elseif kind=='match.inputRejected' then
         if data.accountId==USER.uid then
             if Protocol.integer(data.expectedSeq,1,self.nextSeq) then
-                self:ack{accountId=USER.uid,acceptedThrough=data.expectedSeq-1,expectedSeq=data.expectedSeq,frame=data.frame}
+                self:ack({accountId=USER.uid,acceptedThrough=data.expectedSeq-1,expectedSeq=data.expectedSeq,frame=data.frame},data.code=='INPUT_GAP')
             end
-            self.net.report(data.code or 'INPUT_REJECTED','Input was rejected by the server; its sequence was explicitly resolved.')
+            self.net.report(data.code or 'INPUT_REJECTED','Input was rejected by the server.')
         end
     elseif kind=='match.inputs' then self:inputs(data)
     elseif kind=='match.snapshot' then
         if self.track~='authoritative' or not Render.apply(data.state,self) then self.net.report('INVALID_SNAPSHOT','The authoritative source render state was rejected.') return end
         self:observeFrame(data.frame)
+        local recovering=self.recovering
         self.recovering=false
         self:applyParticipants(data.participants)
-        if type(data.acks)=='table' and data.acks[USER.uid] then self:ack{accountId=USER.uid,acceptedThrough=data.acks[USER.uid],expectedSeq=data.acks[USER.uid]+1} end
+        if type(data.acks)=='table' and data.acks[USER.uid] then self:ack({accountId=USER.uid,acceptedThrough=data.acks[USER.uid],expectedSeq=data.acks[USER.uid]+1},recovering) end
     elseif kind=='match.catchup' then
         if self.track~='relay' or type(data.entries)~='table' or #data.entries>512 then self.net.report('INVALID_CATCHUP','The spectator catch-up chunk is invalid.') return end
         self.state='catching_up'
         for _,entry in ipairs(data.entries) do self:inputs(entry) end
     elseif kind=='match.catchupComplete' then
         self:observeFrame(data.frame)
-        if data.expectedSeq and self:isParticipant() then self:ack(data) end
+        if data.expectedSeq and self:isParticipant() then self:ack(data,self.recovering) end
         self.recovering=false
         self.adoptingAck=false
         self:applyParticipants(data.participants)

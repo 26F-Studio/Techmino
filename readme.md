@@ -55,9 +55,17 @@ without reordering the server's frozen roster or slot-to-input mapping.
 Spectators retain the source-order layout. Initial placement and later layout
 updates share the same positioning path.
 
-Run `python3 .github/tests/online_layout.py` to exercise the actual LÖVE client
-with isolated saves: either two-player perspective, the last slot in a full
-room, relay elimination/repositioning, and spectator layout.
+Ordinary input acknowledgements and periodic snapshots retire resolved inputs
+without replaying the in-flight suffix. Replay is limited to an explicit
+`INPUT_GAP` or the authoritative snapshot / relay catch-up that completes
+connection recovery; a `match.resume` room reply is not an input acknowledgement.
+Recovery retains the 64-event batch bound and continues any remaining suffix.
+The six-frame input buffer and twelve-frame future-admission limit are unchanged.
+
+Run `python3 .github/tests/online_match.py` to exercise the actual LÖVE client
+with isolated saves: acknowledgement/rejection handling, bounded recovery in
+both tracks, either two-player perspective, the last slot in a full room,
+relay elimination/repositioning, and spectator layout.
 CI runs this regression with LÖVE 11.5 and requires its success marker. Runtime
 downloads follow release redirects and reject HTTP errors before execution.
 
@@ -67,11 +75,11 @@ Linux AppImage packaging preserves the game's bundled libraries while restoring 
 
 ### Public validation CI
 
-The `ci-public-online-validation-20261110` branch packages the account/website
-origin `https://studio26f.org`, the game origin `https://game.studio26f.org`,
-and the exact Web callback `https://studio26f.org/play/techmino/`.
-These overrides apply only to that exact CI branch; repository-wide variables
-and release configuration are unchanged.
+The `ci-public-online-validation-20261110` and `ci-public-online-input-ack-fix`
+branches package the account/website origin `https://studio26f.org`, the game
+origin `https://game.studio26f.org`, and the exact Web callback
+`https://studio26f.org/play/techmino/`. These overrides apply only to those
+exact CI branches; repository-wide variables and release configuration are unchanged.
 
 The public deployment uses publicly trusted certificates, so these packages
 do not require the local fixture CA or `TECHMINO_TRANSPORT_CA_FILE`.
