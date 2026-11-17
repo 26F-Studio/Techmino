@@ -18,6 +18,7 @@ local function inputFixture(count)
     match.state,match.track='playing','authoritative'
     match.accountSlots={[USER.uid]=1}
     match.seed,match.rulesetVersion=12345,'techmino-source-v1'
+    match.terminalFrames={}
     match.participants={{accountId=USER.uid,slot=1,team=1},{accountId=id(2),slot=2,team=2}}
     match.byAccount={
         [USER.uid]={gameEnv={skinSet='Crystal (Scf)'}},
@@ -129,6 +130,50 @@ local function verifyInputAcknowledgements()
     packetRange(packets[1],42,1)
     print('ONLINE_MATCH_INPUT_PASS')
 end
+local function verifyTerminalInput()
+    USER.uid=id(1)
+    for _,kind in ipairs{'match.participantEnded','match.completed','match.aborted','match.snapshot'} do
+        local match,packets=inputFixture(0)
+        local requests={}
+        match.net.request=function(command) requests[#requests+1]=command return 'request' end
+        assert(match:press(1))
+        local event={matchId=match.id,roomId=match.roomId,accountId=USER.uid,frame=180}
+        if kind=='match.snapshot' then
+            match.recovering=true
+            event=inputSnapshot(match,0)
+            event.participants={{accountId=USER.uid,slot=1,status='ended',terminalFrame=180}}
+        end
+        match:event(kind,event)
+        match:update()
+        assert(#packets==0 and #requests==0,'A server terminal transition sent input or a new final boundary')
+        assert(next(match.pending)==nil and next(match.held)==nil and not match:press(2),
+            'A server terminal transition retained or admitted local input')
+    end
+
+    local match,packets=inputFixture(0)
+    match:event('match.participantEnded',{matchId=match.id,roomId=match.roomId,accountId=id(2),frame=180})
+    assert(match:press(1),'A peer terminal event disabled the local participant')
+    local boundary
+    match.net.request=function(command,data)
+        assert(command=='match.finish' and #packets==1,'Local completion did not flush final input before its boundary')
+        boundary=data
+        return 'finish'
+    end
+    match:finishBoundary()
+    packetRange(packets[1],1,2)
+    assert(boundary.finalSeq==2 and next(match.held)==nil,'Local completion lost its final release')
+
+    match,packets=inputFixture(0)
+    match.track='relay'
+    match.terminalFrames={}
+    assert(match:press(1))
+    match:event('match.participantEnded',{matchId=match.id,roomId=match.roomId,accountId=USER.uid,frame=180})
+    match:flush()
+    match:sendFinish()
+    assert(match.terminalFrames[USER.uid]==180 and #packets==0 and match.finishRequested==true,
+        'A relay terminal notification lost its terminal frame or reopened its input boundary')
+    print('ONLINE_MATCH_TERMINAL_PASS')
+end
 local cases={
     {track='authoritative',count=2,own=1},
     {track='authoritative',count=2,own=2},
@@ -156,6 +201,7 @@ local function verify(case,participants)
 end
 return function()
     verifyInputAcknowledgements()
+    verifyTerminalInput()
     SETTING.portrait=false
     for index,case in ipairs(cases) do
         NET.match:clear()

@@ -62,9 +62,15 @@ connection recovery; a `match.resume` room reply is not an input acknowledgement
 Recovery retains the 64-event batch bound and continues any remaining suffix.
 The six-frame input buffer and twelve-frame future-admission limit are unchanged.
 
+Server-declared participant or match termination retires pending/held input
+without sending another `match.finish`. Terminal participants in recovery
+snapshots follow the same rule. A local completion still flushes its final
+release before submitting its sequence/frame boundary.
+
 Run `python3 .github/tests/online_match.py` to exercise the actual LÖVE client
 with isolated saves: acknowledgement/rejection handling, bounded recovery in
-both tracks, either two-player perspective, the last slot in a full room,
+both tracks, terminal input retirement and local final-input ordering,
+either two-player perspective, the last slot in a full room,
 relay elimination/repositioning, and spectator layout.
 CI runs this regression with LÖVE 11.5 and requires its success marker. Runtime
 downloads follow release redirects and reject HTTP errors before execution.

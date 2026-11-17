@@ -2,6 +2,14 @@ local Protocol=require'parts.online.protocol'
 local Render=require'parts.online.render'
 local MatchSession={}
 MatchSession.__index=MatchSession
+local function retireInput(match)
+    match.finished=true
+    match.finishRequested=true
+    match.pending={}
+    match.held={}
+    match.releasePending=false
+    match.resendCursor=false
+end
 function MatchSession.new(net)
     return setmetatable({net=net,id=false,state='idle',participants={},byAccount={},bySlot={},pending={},nextSeq=1,lastAckSeq=0,lastSentSeq=0,serverFrame=0,renderFrame=0,held={},histories={},historyBytes=0,isolated={},countdown=false},MatchSession)
 end
@@ -317,18 +325,16 @@ function MatchSession:event(kind,data)
         self.pauseUntil=false
     elseif kind=='match.participantEnded' then
         if self.track=='relay' and self.accountSlots[data.accountId] and Protocol.integer(data.frame,0,54000) then self.terminalFrames[data.accountId]=data.frame end
-        if data.accountId==USER.uid then self:finishBoundary() end
+        if data.accountId==USER.uid then retireInput(self) end
     elseif kind=='match.completed' or kind=='match.aborted' then
-        self:releaseAll()
+        retireInput(self)
         self:observeFrame(data.frame)
         self.state=kind=='match.completed' and 'completed' or 'aborted'
         self.result=data.result or {code=data.code,message=data.message}
         self.replayId=data.replayId
         self.durable=data.durable==true
-        self.pending={}
         if self.track=='relay' then self.catchupTarget=data.frame self.finalState=kind=='match.completed' and 'completed' or 'aborted' end
         self.countdown=false
-        self.held={}
         if kind=='match.aborted' then self.net.report(data.code or 'MATCH_ABORTED',data.message or 'The match was aborted.') end
     end
 end
@@ -339,7 +345,8 @@ function MatchSession:applyParticipants(participants)
             if participant.status=='ended' and Protocol.integer(participant.terminalFrame,0,54000) then self.terminalFrames[participant.accountId]=participant.terminalFrame end
             if participant.accountId==USER.uid then
                 self.absent=participant.absent==true
-                if participant.status=='ended' or participant.status=='inputComplete' or participant.status=='finishing' then self.finished=true self.finishRequested=true end
+                if participant.status=='ended' then retireInput(self)
+                elseif participant.status=='inputComplete' or participant.status=='finishing' then self.finished=true self.finishRequested=true end
             end
         end
     end
