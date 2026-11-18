@@ -177,6 +177,10 @@ function MatchSession:ack(data,resend)
     self.lastAckSeq=math.max(self.lastAckSeq,through)
     for sequence in pairs(self.pending) do if sequence<expected then self.pending[sequence]=nil end end
     self.lastSentSeq=math.max(self.lastSentSeq,expected-1)
+    if self.resendCursor then
+        local first=math.max(self.resendCursor,self.lastAckSeq+1)
+        self.resendCursor=first<self.nextSeq and first or false
+    end
     if data.frame then self:observeFrame(data.frame) end
     if resend then self:flush(expected) end
 end
@@ -287,9 +291,15 @@ function MatchSession:event(kind,data)
     if type(data)~='table' or data.matchId~=self.id or data.roomId~=self.roomId then return end
     if kind=='match.inputAck' then self:ack(data)
     elseif kind=='match.inputRejected' then
-        if data.accountId==USER.uid then
-            if Protocol.integer(data.expectedSeq,1,self.nextSeq) then
+        if not data.accountId or data.accountId==USER.uid then
+            local validExpected=Protocol.integer(data.expectedSeq,1,self.nextSeq)
+            if validExpected then
                 self:ack({accountId=USER.uid,acceptedThrough=data.expectedSeq-1,expectedSeq=data.expectedSeq,frame=data.frame},data.code=='INPUT_GAP')
+            end
+            if (data.code=='CAPACITY_EXCEEDED' or data.code=='SERVICE_UNAVAILABLE') and (data.expectedSeq==nil or validExpected) then
+                -- Defer explicit retryable rejections until update, not the receipt drain.
+                local first=self.lastAckSeq+1
+                if self.pending[first] and first<=self.lastSentSeq then self.resendCursor=first end
             end
             self.net.report(data.code or 'INPUT_REJECTED','Input was rejected by the server.')
         end

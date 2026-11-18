@@ -130,6 +130,56 @@ local function verifyInputAcknowledgements()
     packetRange(packets[1],42,1)
     print('ONLINE_MATCH_INPUT_PASS')
 end
+local function verifyInputRejectionRecovery()
+    USER.uid=id(1)
+    local match,packets=inputFixture(2)
+    local rejection={
+        matchId=match.id,roomId=match.roomId,accountId=USER.uid,
+        code='CAPACITY_EXCEEDED',expectedSeq=2,frame=180,
+    }
+    match:event('match.inputRejected',rejection)
+    match:event('match.inputRejected',rejection)
+    assert(#packets==2,'Capacity rejection started an immediate retry loop')
+    match:update()
+    assert(#packets==3 and match.pending[2],'Capacity rejection stranded an unresolved input')
+    packetRange(packets[3],2,1)
+    assert(love.data.unpack('<I4',packets[3],29)==love.data.unpack('<I4',packets[2],29),
+        'Capacity recovery changed the original input frame')
+    match:update()
+    assert(#packets==3,'Capacity recovery repeated without another rejection')
+
+    match,packets=inputFixture(3)
+    match:ack{acceptedThrough=1,expectedSeq=2}
+    match:event('match.inputRejected',{
+        matchId=match.id,roomId=match.roomId,code='SERVICE_UNAVAILABLE',
+    })
+    match:ack{acceptedThrough=2,expectedSeq=3}
+    match:update()
+    assert(#packets==4 and match.pending[2]==nil and match.pending[3],
+        'A delayed acknowledgement blocked the remaining timeout recovery')
+    packetRange(packets[4],3,1)
+
+    match,packets=inputFixture(2)
+    match:event('match.inputRejected',{
+        matchId=match.id,roomId=match.roomId,code='CAPACITY_EXCEEDED',
+    })
+    match:ack{acceptedThrough=2,expectedSeq=3}
+    assert(match:queueInput(1,1,0))
+    match:update()
+    assert(#packets==3,'An acknowledgement overtaking recovery blocked new input')
+    packetRange(packets[3],3,1)
+
+    match,packets=inputFixture(2)
+    match:event('match.inputRejected',{
+        matchId=match.id,roomId=match.roomId,accountId=id(2),
+        code='CAPACITY_EXCEEDED',expectedSeq=3,frame=180,
+    })
+    match:update()
+    assert(#packets==2 and match.pending[1] and match.pending[2],
+        'Another participant rejection changed the local input stream')
+    print('ONLINE_MATCH_REJECTION_RECOVERY_PASS')
+end
+
 local function verifyTerminalInput()
     USER.uid=id(1)
     for _,kind in ipairs{'match.participantEnded','match.completed','match.aborted','match.snapshot'} do
@@ -201,6 +251,7 @@ local function verify(case,participants)
 end
 return function()
     verifyInputAcknowledgements()
+    verifyInputRejectionRecovery()
     verifyTerminalInput()
     SETTING.portrait=false
     for index,case in ipairs(cases) do

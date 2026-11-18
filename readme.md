@@ -56,9 +56,13 @@ Spectators retain the source-order layout. Initial placement and later layout
 updates share the same positioning path.
 
 Ordinary input acknowledgements and periodic snapshots retire resolved inputs
-without replaying the in-flight suffix. Replay is limited to an explicit
-`INPUT_GAP` or the authoritative snapshot / relay catch-up that completes
-connection recovery; a `match.resume` room reply is not an input acknowledgement.
+without replaying the in-flight suffix. An explicit `INPUT_GAP` or the
+authoritative snapshot / relay catch-up completing connection recovery starts
+replay; a `match.resume` room reply is not an input acknowledgement.
+`CAPACITY_EXCEEDED` and `SERVICE_UNAVAILABLE` input rejections schedule unresolved
+input for the next update, never an immediate receipt-drain retry loop. Retries
+preserve the original sequence and frame. Acknowledgements advance or cancel
+queued replay so an overtaking acknowledgement cannot block subsequent input.
 Recovery retains the 64-event batch bound and continues any remaining suffix.
 The six-frame input buffer and twelve-frame future-admission limit are unchanged.
 
@@ -81,7 +85,8 @@ Linux AppImage packaging preserves the game's bundled libraries while restoring 
 
 ### Public validation CI
 
-The `ci-public-online-validation-20261110` and `ci-public-online-input-ack-fix`
+The `ci-public-online-validation-20261110`, `ci-public-online-input-ack-fix`,
+and `ci-public-web-canvas-fix`
 branches package the account/website origin `https://studio26f.org`, the game
 origin `https://game.studio26f.org`, and the exact Web callback
 `https://studio26f.org/play/techmino/`. These overrides apply only to those
