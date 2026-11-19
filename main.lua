@@ -550,6 +550,8 @@ if FIRSTLAUNCH and MOBILE then
 end
 
 -- Apply system setting
+-- A saved preference cannot provide the browser gesture required for fullscreen.
+if SYSTEM=='Web' then SETTING.fullscreen=false end
 applySettings()
 
 -- Load replays

@@ -111,6 +111,9 @@ not the non-Rust client root, so its initial Cargo metadata lookup succeeds.
 The Web runtime uses the browser's live activation for fullscreen requests and
 restores the windowed drawing buffer and viewport if the browser rejects
 entry. A quick exit does not leave the game rendered at fullscreen dimensions.
+Web always starts windowed, even with an older saved fullscreen preference.
+Use F11 or the graphics settings switch after the game loads. Native startup
+still applies its saved window preference.
 
 ### Galaxim boundary and feasible directions
 
