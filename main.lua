@@ -16,6 +16,11 @@
 -- Var leak check
 -- setmetatable(_G,{__newindex=function(self,k,v) print('>>'..k..string.rep(" ",26-#k),debug.traceback():match("\n.-\n\t(.-): "))rawset(self,k,v) end})
 
+-- Local Lua Debugger VS Code Debug
+if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
+    require("lldebugger").start()
+end
+
 -- System Global Vars Declaration
 local fs=love.filesystem
 VERSION=require"version"

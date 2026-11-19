@@ -4,6 +4,12 @@ BLOCK_NAMES={
     'Z5','S5','P','Q','F','E',
     'T5','U','V','W','X',
     'J5','L5','R','Y','N','H','I5',
+    'I3','C','I2','O1',
+    -- Might want to add the indication that those pieces are big, or change the logic altogether.
+    'Z','S','J','L','T','O','I',
+    'Z5','S5','P','Q','F','E',
+    'T5','U','V','W','X',
+    'J5','L5','R','Y','N','H','I5',
     'I3','C','I2','O1'
 }
 BLOCK_CHARS={} for i=1,#BLOCK_NAMES do BLOCK_CHARS[i]=CHAR.mino[BLOCK_NAMES[i]] end
@@ -241,6 +247,22 @@ do-- BLOCKS
         -- Dot
         {{O}},-- O1
     }
+    local function _createBigPiece(piece)
+        local bigPiece = {}
+        local rows, columns = #piece, #piece[1]
+        for row = 1, rows * 2 do
+            bigPiece[row] = {}
+            for column = 1, columns * 2 do
+                bigPiece[row][column]=piece[math.ceil(row/2)][math.ceil(column/2)]
+            end
+        end
+        return bigPiece
+    end
+
+    for i = 30, 58 do
+        BLOCKS[i]=_createBigPiece(BLOCKS[i-29])
+    end
+
     local function _RotCW(B)
         local N={}
         local r,c=#B,#B[1]-- row,col
