@@ -86,7 +86,7 @@ Linux AppImage packaging preserves the game's bundled libraries while restoring 
 ### Public validation CI
 
 The `ci-public-online-validation-20261110`, `ci-public-online-input-ack-fix`,
-and `ci-public-web-canvas-fix`
+`ci-public-web-canvas-fix`, and `ci-public-web-fullscreen-recovery`
 branches package the account/website origin `https://studio26f.org`, the game
 origin `https://game.studio26f.org`, and the exact Web callback
 `https://studio26f.org/play/techmino/`. These overrides apply only to those
@@ -107,6 +107,10 @@ Android and Web builds run for this validation branch; macOS and iOS retain
 their release-tag signing/distribution requirements and are not triggered here.
 Android packaging runs pinned `cargo-ndk` from the resolved transport crate,
 not the non-Rust client root, so its initial Cargo metadata lookup succeeds.
+
+The Web runtime uses the browser's live activation for fullscreen requests and
+restores the windowed drawing buffer and viewport if the browser rejects
+entry. A quick exit does not leave the game rendered at fullscreen dimensions.
 
 ### Galaxim boundary and feasible directions
 

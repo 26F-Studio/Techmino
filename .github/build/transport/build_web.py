@@ -79,6 +79,51 @@ def fetch_bridge(name, destination):
     destination.write_bytes(content)
 
 
+def patch_fullscreen(runtime):
+    js = runtime.read_text(encoding="utf-8")
+    # SDL processes queued key events outside Emscripten's DOM event callback.
+    # Use the browser's still-valid transient activation instead of waiting
+    # for another input event to dispatch the request.
+    gate = "JSEvents.canPerformEventHandlerRequests();if(!canPerformRequests){if(strategy.deferUntilInEventHandler)"
+    active_gate = gate.replace("();", "()||!!(navigator.userActivation&&navigator.userActivation.isActive);", 1)
+    # The pinned runtime stages a resize before asking the browser. Reuse its
+    # windowed restore callback if the native request rejects, including the
+    # WebGL viewport and the SDL resize notification.
+    dispatch = (
+        "function _JSEvents_requestFullscreen(target,strategy){"
+        "if(strategy.scaleMode!=0||strategy.canvasResolutionScaleMode!=0){_JSEvents_resizeCanvasForFullscreen(target,strategy)}"
+        "if(target.requestFullscreen){target.requestFullscreen()}"
+    )
+    guarded_dispatch = (
+        "var pendingFullscreenEntry=null;"
+        "function _JSEvents_requestFullscreen(target,strategy){"
+        "if(target.requestFullscreen){"
+        "if(pendingFullscreenEntry){pendingFullscreenEntry.cancelled=false;return 0}"
+        "if(document.fullscreenElement===target)return 0}"
+        "var restore;if(strategy.scaleMode!=0||strategy.canvasResolutionScaleMode!=0)"
+        "{restore=_JSEvents_resizeCanvasForFullscreen(target,strategy)}"
+        "if(target.requestFullscreen){var entry={cancelled:false};pendingFullscreenEntry=entry;"
+        "target.requestFullscreen().then(function(){pendingFullscreenEntry=null;"
+        "if(entry.cancelled&&document.fullscreenElement===target)return document.exitFullscreen()}"
+        ",function(){pendingFullscreenEntry=null;if(restore)restore()})}"
+    )
+    # Exit before the entry promise settles must cancel that entry. A second
+    # request must not save the staged fullscreen dimensions as windowed size.
+    exit_gate = (
+        "JSEvents.removeDeferredCalls(_JSEvents_requestFullscreen);"
+        "var d=specialHTMLTargets[1];"
+    )
+    guarded_exit = exit_gate.replace(
+        "var d=", "if(pendingFullscreenEntry){pendingFullscreenEntry.cancelled=true;return 0}var d=", 1
+    )
+    if any(js.count(fragment) != 1 for fragment in (gate, dispatch, exit_gate)):
+        fail("The pinned love.js fullscreen hooks have changed")
+    runtime.write_text(
+        js.replace(gate, active_gate).replace(dispatch, guarded_dispatch).replace(exit_gate, guarded_exit),
+        encoding="utf-8",
+    )
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--product", choices=tuple(BUILD_LISTS), required=True)
@@ -137,6 +182,7 @@ def main():
             fetch_bridge(name, destination)
         subprocess.run(["node", "globalizeFS.cjs"], cwd=output, check=True)
         (output / "globalizeFS.cjs").unlink()
+        patch_fullscreen(output / "love.js")
         index = output / "index.html"
         html = index.read_text(encoding="utf-8")
         if "</head>" not in html:
