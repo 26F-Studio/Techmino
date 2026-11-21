@@ -344,7 +344,8 @@ jobs:
           prerelease: ${{ startsWith(github.ref, 'refs/tags/pre') }}
 
   build-linux:
-    runs-on: ubuntu-latest
+    # Link the native transport against glibc 2.35, compatible with Debian 12.
+    runs-on: ubuntu-22.04
     needs: [get-info, build-core, auto-test, transport-source]
     env:
       COLD_CLEAR_FOLDER: ./ColdClear
@@ -403,6 +404,9 @@ jobs:
           set -euo pipefail
           test -f "${{ env.COLD_CLEAR_FOLDER }}/lib/libtechmino_transport.so"
           test -f "${{ env.COLD_CLEAR_FOLDER }}/lib/lua/5.1/CCloader.so"
+          docker run --rm --network none \
+            -v "$PWD/$COLD_CLEAR_FOLDER/lib/libtechmino_transport.so:/transport.so:ro" \
+            python:3.11-slim-bookworm python -c 'import ctypes; ctypes.CDLL("/transport.so").tn_client_new'
           echo "-- staged lib payload:"
           find "${{ env.COLD_CLEAR_FOLDER }}/lib" -type f | sed 's/^/   /'
       - name: Build Linux packages

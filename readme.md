@@ -90,6 +90,10 @@ Cloud save versions contain bounded strict JSON, not executable Lua or credentia
 
 Linux AppImage packaging preserves the game's bundled libraries while restoring the host library/search environment only for the external system-browser opener. Local original AppImage consent, WSS `ready`, room directory and device logout passed after that packaging fix. Matching Debian installation and its installed LÖVE launcher were exercised separately; this is not Debian GUI/online, all-platform or production acceptance. See the package guide for the actual evidence boundaries and unlocked Secret Service prerequisite.
 
+Linux CI builds the transport on Ubuntu 22.04 and loads the staged library on
+Debian 12 before packaging it. Newer build hosts can introduce glibc symbols
+that prevent multiplayer from loading even when the offline game starts.
+
 ### Public validation CI
 
 The `ci-public-online-validation-20261110`, `ci-public-online-input-ack-fix`,
