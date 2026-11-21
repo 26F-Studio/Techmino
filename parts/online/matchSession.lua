@@ -7,6 +7,7 @@ local function retireInput(match)
     match.finishRequested=true
     match.pending={}
     match.held={}
+    match.rejectedReleases=nil
     match.releasePending=false
     match.resendCursor=false
 end
@@ -42,6 +43,7 @@ function MatchSession:clear()
     self.countdown=false
     self.historyBytes=0
     self.held={}
+    self.rejectedReleases=nil
     self.finished=false
     GAME.net=false
     GAME.playing=false
@@ -78,6 +80,7 @@ function MatchSession:start(data)
     self.historyBytes=0
     self.targetEvents={}
     self.held={}
+    self.rejectedReleases=nil
     self.finished=false
     self.finishRequested=false
     self.releasePending=false
@@ -127,6 +130,7 @@ function MatchSession:queueInput(kind,action,value,reconcile)
     self.pending[self.nextSeq]=event
     self.nextSeq=self.nextSeq+1
     self.lastInputFrame=frame
+    if self.rejectedReleases then self.rejectedReleases[action]=nil end
     return true
 end
 function MatchSession:press(action)
@@ -282,6 +286,34 @@ function MatchSession:rebuildRelay()
     end
     self.needsReplay=false
 end
+local function rememberRejectedRelease(match,seq)
+    local event=match.pending[seq]
+    if not event or event.kind~=0 or seq>match.lastSentSeq or match.held[event.action] then return end
+    for later=seq+1,match.nextSeq-1 do
+        local newer=match.pending[later]
+        if newer and newer.action==event.action then return end
+    end
+    match.rejectedReleases=match.rejectedReleases or {}
+    match.rejectedReleases[event.action]=event
+end
+local function reconcileRejectedReleases(match,snapshot)
+    local releases=match.rejectedReleases
+    if not releases or match.finished or match.state~='playing' then return end
+    local own=match.byAccount[USER.uid]
+    local through=type(snapshot.acks)=='table' and snapshot.acks[USER.uid]
+    if not own or not own.alive or not Protocol.integer(through,0,match.lastAckSeq) or snapshot.frame~=snapshot.state.frame then return end
+    for action,event in pairs(releases) do
+        if through>=event.seq and snapshot.frame>=event.frame then
+            -- The rejected sequence is final. Only correct a key still down on the authority.
+            if own.keyPressing[action]==true then
+                match:queueInput(0,action,0)
+            else
+                releases[action]=nil
+            end
+        end
+    end
+    if not next(releases) then match.rejectedReleases=nil end
+end
 function MatchSession:event(kind,data)
     if kind=='match.countdown' then
         if type(data)=='table' and self.net.roomStore.snapshot and data.roomId==self.net.roomStore.snapshot.id and data.seconds==3 then self.countdown=love.timer.getTime()+3 end
@@ -294,6 +326,10 @@ function MatchSession:event(kind,data)
         if not data.accountId or data.accountId==USER.uid then
             local validExpected=Protocol.integer(data.expectedSeq,1,self.nextSeq)
             if validExpected then
+                -- Only a per-event rejection identifies the sequence it consumed.
+                if self.track=='authoritative' and data.accountId==USER.uid and data.seq==data.expectedSeq-1 then
+                    rememberRejectedRelease(self,data.seq)
+                end
                 self:ack({accountId=USER.uid,acceptedThrough=data.expectedSeq-1,expectedSeq=data.expectedSeq,frame=data.frame},data.code=='INPUT_GAP')
             end
             if (data.code=='CAPACITY_EXCEEDED' or data.code=='SERVICE_UNAVAILABLE') and (data.expectedSeq==nil or validExpected) then
@@ -311,6 +347,7 @@ function MatchSession:event(kind,data)
         self.recovering=false
         self:applyParticipants(data.participants)
         if type(data.acks)=='table' and data.acks[USER.uid] then self:ack({accountId=USER.uid,acceptedThrough=data.acks[USER.uid],expectedSeq=data.acks[USER.uid]+1},recovering) end
+        reconcileRejectedReleases(self,data)
     elseif kind=='match.catchup' then
         if self.track~='relay' or type(data.entries)~='table' or #data.entries>512 then self.net.report('INVALID_CATCHUP','The spectator catch-up chunk is invalid.') return end
         self.state='catching_up'

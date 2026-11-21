@@ -66,6 +66,13 @@ queued replay so an overtaking acknowledgement cannot block subsequent input.
 Recovery retains the 64-event batch bound and continues any remaining suffix.
 The six-frame input buffer and twelve-frame future-admission limit are unchanged.
 
+In authoritative play, a per-event rejection identifies the input sequence
+the server consumed without applying it. For a rejected release, the client
+waits for its own snapshot to cover that sequence and its target frame. If the
+key is still down and no newer local input supersedes it, the client queues a
+fresh release. The same rule applies if that release is rejected. The client
+does not recreate rejected presses or roll back movement. Relay is unchanged.
+
 Server-declared participant or match termination retires pending/held input
 without sending another `match.finish`. Terminal participants in recovery
 snapshots follow the same rule. A local completion still flushes its final

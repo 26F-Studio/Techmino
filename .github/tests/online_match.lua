@@ -130,6 +130,84 @@ local function verifyInputAcknowledgements()
     packetRange(packets[1],42,1)
     print('ONLINE_MATCH_INPUT_PASS')
 end
+local function verifyRejectedReleases()
+    USER.uid=id(1)
+    local function released(clientFrame)
+        local match,packets=inputFixture(0)
+        assert(match:press(1)) match:flush()
+        match:ack{accountId=USER.uid,acceptedThrough=1,expectedSeq=2,frame=183}
+        if clientFrame then match:observeFrame(clientFrame) end
+        assert(match:release(1)) match:flush()
+        return match,packets
+    end
+    local function reject(match,seq,code,frame)
+        match:event('match.inputRejected',{matchId=match.id,roomId=match.roomId,accountId=USER.uid,
+            code=code or 'INPUT_TOO_LATE',seq=seq,expectedSeq=seq+1,frame=frame or 198})
+    end
+    local function snapshot(match,through,down,frame)
+        local data=inputSnapshot(match,through)
+        data.frame,data.state.frame=frame or 204,frame or 204
+        data.state.players[1].state.keyPressing[1]=down
+        match:event('match.snapshot',data)
+        match:update()
+    end
+    local function assertRelease(packet,seq,serverFrame)
+        assert(packet,'A confirmed stuck key never received a release')
+        packetRange(packet,seq,1)
+        local frame=love.data.unpack('<I4',packet,29)
+        assert(frame>serverFrame and frame<=serverFrame+12 and packet:byte(35)==0 and packet:byte(36)==1,
+            'Reconciliation did not send a fresh, admissible release for the affected key')
+        return frame
+    end
+    local match,packets=released()
+    reject(match,2)
+    snapshot(match,1,true)
+    assert(#packets==2,'A stale snapshot released a key')
+    snapshot(match,2,true)
+    local frame=assertRelease(packets[3],3,204)
+    reject(match,2) snapshot(match,2,true)
+    assert(#packets==3,'A duplicate rejection or snapshot repeated a correction')
+    reject(match,3,'INPUT_FRAME_CAPACITY',frame-1)
+    snapshot(match,2,true,frame)
+    assert(#packets==3,'A rejected correction was repeated before a covering snapshot')
+    snapshot(match,3,true,frame)
+    assertRelease(packets[4],4,frame)
+    snapshot(match,4,false,frame+12)
+    assert(#packets==4,'A settled correction was repeated')
+
+    for _,code in ipairs{'INPUT_TOO_FAR','INPUT_CAPACITY'} do
+        match,packets=released(209)
+        local target=love.data.unpack('<I4',packets[2],29)
+        local at=code=='INPUT_TOO_FAR' and target-13 or target-1
+        reject(match,2,code,at)
+        snapshot(match,2,true,at)
+        assert(#packets==2,'A release was corrected before its intended frame')
+        snapshot(match,2,true,target)
+        assertRelease(packets[3],3,target)
+    end
+
+    match,packets=released()
+    reject(match,2) snapshot(match,2,false)
+    snapshot(match,2,true)
+    assert(#packets==2,'A settled release was applied to a later hold')
+
+    match,packets=released()
+    reject(match,2)
+    assert(match:press(1)) match:flush()
+    snapshot(match,2,true)
+    assert(#packets==3 and packets[3]:byte(35)==1,'Reconciliation released a newly pressed key')
+
+    match,packets=released()
+    assert(match:press(1) and match:release(1)) match:flush()
+    reject(match,2) snapshot(match,2,true)
+    assert(#packets==3,'A superseded rejection duplicated a newer in-flight release')
+
+    match,packets=inputFixture(0)
+    assert(match:press(1)) match:flush()
+    reject(match,1) snapshot(match,1,false)
+    assert(#packets==1,'A rejected press was synthesized')
+    print('ONLINE_MATCH_REJECTED_RELEASE_PASS')
+end
 local function verifyInputRejectionRecovery()
     USER.uid=id(1)
     local match,packets=inputFixture(2)
@@ -252,6 +330,7 @@ end
 return function()
     verifyInputAcknowledgements()
     verifyInputRejectionRecovery()
+    verifyRejectedReleases()
     verifyTerminalInput()
     SETTING.portrait=false
     for index,case in ipairs(cases) do
