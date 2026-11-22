@@ -94,14 +94,14 @@ Linux CI builds the transport on Ubuntu 22.04 and loads the staged library on
 Debian 12 before packaging it. Newer build hosts can introduce glibc symbols
 that prevent multiplayer from loading even when the offline game starts.
 
-### Public validation CI
+### Online packaging and CI
 
-The `ci-public-online-validation-20261110`, `ci-public-online-input-ack-fix`,
-`ci-public-web-canvas-fix`, and `ci-public-web-fullscreen-recovery`
-branches package the account/website origin `https://studio26f.org`, the game
-origin `https://game.studio26f.org`, and the exact Web callback
-`https://studio26f.org/play/techmino/`. These overrides apply only to those
-exact CI branches; repository-wide variables and release configuration are unchanged.
+Set the GitHub Actions repository variables `PUBLIC_ORIGIN` to
+`https://studio26f.org` and `CADENCE_PUBLIC_ORIGIN` to
+`https://game.studio26f.org`. Pull requests, CI branches, and release
+builds use the same settings. `TESSERA_PUBLIC_ORIGIN` defaults to
+`PUBLIC_ORIGIN`; `GAME_WEB_REDIRECT_URI` defaults to
+`https://studio26f.org/play/techmino/` for this deployment.
 
 The public deployment uses publicly trusted certificates, so these packages
 do not require the local fixture CA or `TECHMINO_TRANSPORT_CA_FILE`.
@@ -111,11 +111,12 @@ settings when moving from a local fixture without deleting offline saves.
 The vendored CI source contains only the standalone transport crate, its
 lockfile, and its platform bridges, not the game backend.
 
-
 Validation branches upload CI artifacts without publishing GitHub Pages.
-Pages deployment remains limited to `main` and release tags. Windows, Linux,
-Android and Web builds run for this validation branch; macOS and iOS retain
-their release-tag signing/distribution requirements and are not triggered here.
+Pages deployment remains limited to `main` and release tags. The Pages build
+supports offline play; use [the registered game page](https://studio26f.org/play/techmino/)
+for Web sign-in, which requires a same-origin callback. CI branches build
+Windows, Linux, Android, and Web packages; macOS and iOS retain their
+release-tag signing and distribution requirements.
 Android packaging runs pinned `cargo-ndk` from the resolved transport crate,
 not the non-Rust client root, so its initial Cargo metadata lookup succeeds.
 
