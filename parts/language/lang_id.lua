@@ -955,7 +955,7 @@ return {
         "↑↑↓↓←→←→BA",
         "$include<studio.h>",
         "20G sebenarnya peraturan permainan baru!",
-        "Rekor dunia 40L: 13.430s dari WestL",
+        "Rekor dunia 40L WR: 13.263s dari kwikscoper",
         "Rekor dunia 1kf WR: 13.298s dari fortissim2",
         "Sistem pencapaian segera akan datang!",
         "ALL SPIN!",
