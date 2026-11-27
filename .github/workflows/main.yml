@@ -205,6 +205,7 @@ jobs:
           keystore-key-password: ${{ secrets.ANDROID_KEYSTORE_KEYPASSWORD }}
           keystore-store-password: ${{ secrets.ANDROID_KEYSTORE_STOREPASSWORD }}
           love-package: ${{ env.CORE_LOVE_PACKAGE_PATH }}
+          needs-microphone: "false"
           resource-path: ${{ env.BUILD_ASSETS_FOLDER }}/android/${{ env.BUILD_TYPE }}/res
           extra-assets: ${{ env.COLD_CLEAR_FOLDER }}
           custom-scheme: studio26f://oauth
