@@ -99,13 +99,7 @@ function saveProgress()
     return saveFile(RANKS,'conf/unlock')
 end
 function saveSettings()
-    if WS.status('game')=='running' then
-        NET.player_updateConf()
-    end
     return saveFile(SETTING,'conf/settings')
-end
-function saveUser()
-    return saveFile(USER.__data,'conf/user')
 end
 do-- function applySettings()
     local saturateValues={
@@ -571,6 +565,10 @@ function applyCustomGame()-- Apply CUSTOMENV, BAG, MISSION
     end
 end
 function loadGame(mode,ifQuickPlay,ifNet)-- Load a mode and go to game scene
+    if not ifNet and NET and NET.match and NET.match:isActive() then
+        NET.report('MATCH_ACTIVE','Leave the active online match before starting an offline game.')
+        return
+    end
     freshDate()
     if legalGameTime() then
         if not MODES[mode] and FILE.isSafe('parts/modes/'..mode) then
@@ -924,13 +922,24 @@ do-- function freshPlayerPosition(sudden)
     function freshPlayerPosition(mode)-- Set initial position for every player, mode: 'normal'|'quick'|'update'
         assert(mode=='normal' or mode=='quick' or mode=='update',"Wrong freshPlyPos mode")
         local L=PLY_ALIVE
+        local main=PLAYERS[1]
+        if GAME.net and not GAME.authority then
+            main=NET.match.byAccount[USER.uid] or main
+            if main.alive and L[1]~=main then
+                -- Layout order is local; the source roster and slots stay frozen.
+                L={main}
+                for _,P in ipairs(PLY_ALIVE) do
+                    if P~=main then L[#L+1]=P end
+                end
+            end
+        end
         if mode~='update' then
             for i=1,#L do
                 L[i]:setPosition(640,#L<=5 and 360 or -62,0)
             end
         end
 
-        local alive=PLAYERS[1].alive
+        local alive=main.alive
 
         if mode=='update' then
             if alive then
@@ -970,33 +979,6 @@ do-- function freshPlayerPosition(sudden)
                 L[i][method](L[i],unpack(posList[i]))
             end
         end
-    end
-end
-do-- function dumpBasicConfig()
-    local gameSetting={
-        -- Tuning
-        'das','arr','dascut','irscut','dropcut','sddas','sdarr',
-        'ihs','irs','ims','RS',
-
-        -- System
-        'skin','face',
-
-        -- Graphic
-        'ghostType','block','ghost','center','bagLine',
-        'dropFX','moveFX','shakeFX',
-        'text','highCam','nextPos',
-
-        -- Unnecessary graphic
-        -- 'grid','smooth',
-        -- 'lockFX','clearFX','splashFX','atkFX',
-        -- 'score',
-    }
-    function dumpBasicConfig()
-        local S={}
-        for _,key in next,gameSetting do
-            S[key]=SETTING[key]
-        end
-        return JSON.encode(S)
     end
 end
 do-- function resetGameData(args)
@@ -1178,12 +1160,12 @@ do-- function drawSelfProfile()
         gc_pop()
     end
 end
-function drawOnlinePlayerCount()
+function drawNetworkStatus()
     setFont(20)
     gc_setColor(1,1,1)
     gc_push('transform')
     gc_replaceTransform(SCR.xOy_ur)
-    gc_printf(text.onlinePlayerCount:repD(NET.onlineCount),-600,80,594,'right')
+    gc_printf('Techmino / '..NET.connectionState,-600,80,594,'right')
     gc_pop()
 end
 function drawWarning()

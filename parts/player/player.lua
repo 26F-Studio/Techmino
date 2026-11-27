@@ -17,6 +17,7 @@ local PLAYERS,PLY_ALIVE,GAME=PLAYERS,PLY_ALIVE,GAME
 local SETTING=SETTING
 --------------------------<FX>--------------------------
 function Player:_showText(text,dx,dy,font,style,spd,stop)
+    if TECHMINO_HEADLESS then return end
     ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font,style,spd,stop))
 end
 function Player:_createLockFX(x,y,t)-- Not used
@@ -51,6 +52,7 @@ function Player:checkTouchSound()
     end
 end
 function Player:showText(text,dx,dy,font,style,spd,stop)
+    if TECHMINO_HEADLESS then return end
     if self.gameEnv.text then
         ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font,style,spd,stop))
     end
@@ -757,6 +759,7 @@ function Player:extraEvent(eventName,...)
         return
     end
 
+    if GAME.authorityEvent then GAME.authorityEvent(eventName,self,...) end
     local SELF
     -- Trigger for all non-remote players
     for _,p in next,PLAYERS do
@@ -767,6 +770,9 @@ function Player:extraEvent(eventName,...)
             self.gameEnv.extraEventHandler[eventName](p,self,...)
         end
     end
+    -- The authority host already owns the accepted input journal. Delivery above
+    -- remains synchronous and source-defined; only the client replay copy is omitted.
+    if GAME.authority then return end
 
     ins(GAME.rep,SELF.frameRun)
     ins(GAME.rep,64+eventID)
@@ -2189,7 +2195,7 @@ do
         if atk>0 then
             self.spike=self.spikeTime==0 and atk or self.spike+atk
             self.spikeTime=min(self.spikeTime+atk*20,100)
-            self.spikeText:set(self.spike)
+            if not TECHMINO_HEADLESS then self.spikeText:set(self.spike) end
         end
 
         -- DropSpeed bonus
@@ -3018,6 +3024,12 @@ function Player:update(dt)
             self.trigFrame=self.trigFrame-1
         end
     else
+        -- Dead-player updates only animate the finished board and HUD. In particular
+        -- their speed dial divides by zero for a pre-start terminal forfeit.
+        if TECHMINO_HEADLESS then
+            self.trigFrame=0
+            return
+        end
         while self.trigFrame>=1 do
             update_dead(self,dt)
             self.trigFrame=self.trigFrame-1
@@ -3180,8 +3192,8 @@ function Player:lose(force)
         end
         gameOver()
         self:newTask(#PLAYERS>1 and task_lose or task_finish)
-        if GAME.net and not NET.spectate then
-            NET.player_finish({reason="lose"})
+        if GAME.net and NET.match:isParticipant() then
+            NET.match:finishBoundary()
         else
             TASK.new(task_autoPause)
         end
@@ -3190,8 +3202,10 @@ function Player:lose(force)
     end
 
     if #PLY_ALIVE>0 then
-        self:dropPosition()
-        freshPlayerPosition('update')
+        if not TECHMINO_HEADLESS then
+            self:dropPosition()
+            freshPlayerPosition('update')
+        end
 
         local finished=true
         for i=1,#PLY_ALIVE-1 do

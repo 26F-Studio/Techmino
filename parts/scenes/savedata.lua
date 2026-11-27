@@ -1,10 +1,4 @@
-local logged
-
 local scene={}
-
-function scene.enter()
-    logged=false
-end
 
 local function _dumpCB(T)
     CLIPBOARD.set(STRING.packText(TABLE.dump(T)))
@@ -85,9 +79,8 @@ scene.widgetList={
         end},
 
     WIDGET.newText{name='couldSave',  x=55,y=485,color='lB',align='L',font=50},
-    WIDGET.newText{name='notLogin',   x=55,y=550,color='C',align='L',font=30,hideF=function() return logged end},
-    WIDGET.newButton{name='upload',   x=190,y=610,w=280,h=90,color='lB',font=25,code=NET.uploadSave,hideF=function() return not logged end},
-    WIDGET.newButton{name='download', x=490,y=610,w=280,h=90,color='lB',font=25,code=NET.downloadSave,hideF=function() return not logged end},
+    WIDGET.newButton{x=190,y=610,w=280,h=90,color='lB',font=25,fText='Cloud versions / restore',code=goScene'cloud'},
+    WIDGET.newButton{x=490,y=610,w=280,h=90,color='lB',font=25,fText='Product login',code=NET.openOnline,hideF=function() return NET.session:isAuthenticated() end},
     WIDGET.newButton{name='back',     x=1140,y=640,w=170,h=80,sound='back',font=60,fText=CHAR.icon.back,code=backScene},
 }
 

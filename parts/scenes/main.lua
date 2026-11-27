@@ -39,11 +39,13 @@ function scene.enter()
     scene.resize()
 
     -- Create demo player
-    destroyPlayers()
-    GAME.modeEnv=NONE
-    GAME.setting={}
-    PLY.newDemoPlayer(1)
-    PLAYERS[1]:setPosition(520,140,.8)
+    if not NET.match:isActive() then
+        destroyPlayers()
+        GAME.modeEnv=NONE
+        GAME.setting={}
+        PLY.newDemoPlayer(1)
+        PLAYERS[1]:setPosition(520,140,.8)
+    end
 
     DiscordRPC.update("In Main Menu")
 end
@@ -78,7 +80,7 @@ function scene.keyDown(key,isRep)
         end
     elseif key=='a' then
         if _testButton(3) then
-            NET.login(true)
+            NET.openOnline()
         end
     elseif key=='z' then
         if _testButton(4) then
@@ -106,7 +108,7 @@ function scene.keyDown(key,isRep)
         end
     elseif key=='3' then
         if _testButton(10) then
-            NET.getNotice()
+            NET.announcements(true)
         end
     elseif key=='4' then
         if _testButton(11) then
@@ -135,7 +137,7 @@ end
 function scene.update(dt)
     if dt>.26 then return end
     if flash>0 then flash=flash-dt*.6 end
-    PLAYERS[1]:update(dt)
+    if PLAYERS[1] and not NET.match:isActive() then PLAYERS[1]:update(dt) end
     scrollX=scrollX-162*dt
     if scrollX<-tip:getWidth() then
         scrollX=tipLength
@@ -200,7 +202,7 @@ function scene.draw()
     end
 
     -- Player
-    PLAYERS[1]:draw()
+    if PLAYERS[1] and not NET.match:isActive() then PLAYERS[1]:draw() end
 
     if flash>0 then
         GC.replaceTransform(SCR.origin)

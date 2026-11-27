@@ -1,767 +1,321 @@
-local WS=WS
-
-local NET={
-    uid=false,
-    uid_sid={},
-    storedStream=false,
-
-    roomState={-- A copy of room structure on server
-        info={
-            name=false,
-            type=false,
-            version=false,
-            description=false,
-        },
-        data={},
-        count={
-            Gamer=0,
-            Spectator=0,
-        },
-        capacity=false,
-        private=false,
-        state='Standby',
-    },
-
-    spectate=false,-- If player is spectating
-    seed=false,
-
-    roomAllReady=false,
-
-    onlineCount="_",
-
-    textBox=WIDGET.newTextBox{name='texts',x=20,y=110,w=980,h=500},
-    inputBox=WIDGET.newInputBox{name='input',x=20,y=630,w=980,h=50,limit=256},
-}
-
-function NET.freshRoomAllReady()
-    local playCount,readyCount=0,0
-    for j=1,#NETPLY.list do
-        if NETPLY.list[j].playMode=='Gamer' then playCount=playCount+1 end
-        if NETPLY.list[j].readyMode=='Ready' then readyCount=readyCount+1 end
-    end
-
-    NET.roomAllReady=playCount>0 and playCount==readyCount
-
-    if playCount>1 and playCount-readyCount==1 then
-        local p=NETPLY.map[USER.uid]
-        if p.playMode=='Gamer' and p.readyMode~='Ready' and TASK.lock('urgeReady',1) then
-            SFX.play('warn_2',.5)
-        end
-    end
+local Json=require'parts.online.json'
+local Config=require'parts.online.config'
+local Protocol=require'parts.online.protocol'
+local Session=require'parts.online.session'
+local RoomStore=require'parts.online.roomStore'
+local MatchSession=require'parts.online.matchSession'
+local NET={connectionState='offline',socketId=false,pending={},requestSequence=0,wantOnline=false,recoverUntil=false,chatSerial=0}
+NET.textBox=WIDGET.newTextBox{name='texts',x=20,y=110,w=980,h=500}
+NET.inputBox=WIDGET.newInputBox{name='input',x=20,y=630,w=980,h=50,limit=512}
+NET.textBox.hide=true
+NET.inputBox.hide=true
+function NET.report(code,message)
+    MES.new('error',tostring(code)..': '..tostring(message),5)
 end
-
---------------------------<NEW HTTP API>
-local ignoreError={
-    ["Techrater.PlayerStream.notAvailable"]=true,
-    ["Techrater.PlayerManager.invalidAccessToken"]=true,
-    ["Techrater.PlayerManager.invalidRefreshToken"]=true,
+NET.roomStore=RoomStore.new(NET.report)
+NET.match=MatchSession.new(NET)
+NET.session=Session.new{
+    productId='techmino',transport='Zframework.transport',json=Json,config=Config.load(),
+    notify=function(kind,message) MES.new(kind,message,5) end,
+    onSession=function(session)
+        local accountId=session.user and session.user.id or false
+        if NET.cloud and (USER.uid~=accountId or NET.grantId~=session.grantId) then NET.cloud:clear() end
+        NET.grantId=session.grantId
+        USER.uid=session.user and session.user.id or false
+        if session.user then USERS.setName(session.user.id,session.user.name) end
+        if NET.socketId and NET.connectionState=='ready' and session:isAuthenticated() then
+            NET.request('connection.renew',{accessToken=session.accessToken})
+        elseif NET.wantOnline and session:isAuthenticated() then NET.connect()
+        elseif not session:isAuthenticated() and NET.socketId then NET.disconnect('Authorization ended.') end
+    end,
 }
-local availableErrorTextType={info=1,warn=1,error=1}
-local function parseError(pathStr)
-    if ignoreError[pathStr] then return end
-    LOG(pathStr)
-    if type(pathStr)~='string' then
-        MES.new('error',"<"..tostring(pathStr)..">",5)
-    elseif pathStr:find("[^0-9a-zA-Z.]") then
-        MES.new('error',"["..pathStr.."]",5)
-    else
-        local mesPath=STRING.split(pathStr,'.')
-        if mesPath[1]~='Techrater' then
-            MES.new('error',"["..pathStr.."]",5)
+function NET.slotForAccount(id)
+    return NET.match.accountSlots and NET.match.accountSlots[id]
+end
+function NET.request(operation,data,callback)
+    if NET.connectionState~='ready' or not NET.socketId then
+        NET.report('CONNECTION_REQUIRED','The authenticated game connection is not ready.')
+        if callback then callback(nil,{code='CONNECTION_REQUIRED',message='The game connection is not ready.'}) end
+        return
+    end
+    local count=0
+    for _ in pairs(NET.pending) do count=count+1 end
+    if count>=64 then
+        NET.report('REQUEST_LIMIT','Too many control requests are pending.')
+        if callback then callback(nil,{code='REQUEST_LIMIT',message='Too many control requests are pending.'}) end
+        return
+    end
+    NET.requestSequence=NET.requestSequence+1
+    local id='c'..NET.requestSequence
+    local payload=Json.encode{protocolVersion=1,kind='request',requestId=id,type=operation,data=data or {}}
+    if not payload or #payload>16384 then
+        NET.report('INVALID_CONTROL','The control request exceeds its approved limit.')
+        if callback then callback(nil,{code='INVALID_CONTROL',message='The control request exceeds its approved limit.'}) end
+        return
+    end
+    local ok,err=NET.session.client:send(NET.socketId,payload,'text')
+    if not ok then NET.session:report(err) if callback then callback(nil,err) end return end
+    NET.pending[id]={operation=operation,callback=callback,deadline=love.timer.getTime()+10}
+    return id
+end
+function NET.roomCommand(operation,data,callback)
+    local room=NET.roomStore.snapshot
+    if not room then NET.report('ROOM_REQUIRED','Join a room first.') return end
+    data=data or {}
+    data.roomId=room.id
+    return NET.request(operation,data,callback)
+end
+function NET.listRooms()
+    if NET.roomStore.listPending then return end
+    NET.roomStore.listPending=true
+    NET.request('rooms.list',{},function(data,err)
+        NET.roomStore.listPending=false
+        if err then return end
+        NET.roomStore:setList(data)
+    end)
+end
+function NET.enterRoom(id,password,role)
+    NET.request('room.join',{roomId=id,password=password,role=role or 'player'},function(data,err)
+        if err then return end
+        if NET.roomStore:apply(data) then SCN.go('net_game','swipeD') end
+    end)
+end
+function NET.createRoom(data)
+    NET.request('room.create',data,function(snapshot,err)
+        if err then return end
+        if NET.roomStore:apply(snapshot) then SCN.go('net_game','swipeD') end
+    end)
+end
+function NET.leaveRoom(callback)
+    NET.match:releaseAll()
+    NET.match:flush()
+    NET.roomCommand('room.leave',{},function(_,err)
+        if err then return end
+        NET.roomStore:clear()
+        NET.match:clear()
+        if callback then callback() end
+    end)
+end
+function NET.tuning()
+    local limits={das=60,arr=30,dascut=60,irscut=30,dropcut=30,sddas=60,sdarr=30}
+    local tuning={}
+    for key,max in pairs(limits) do tuning[key]=math.max(0,math.min(max,math.floor(SETTING[key]))) end
+    for _,key in ipairs{'ihs','irs','ims'} do tuning[key]=SETTING[key]==true end
+    return tuning
+end
+function NET.ready(ready)
+    return NET.roomCommand('room.ready',{ready=ready,tuning=NET.tuning()})
+end
+function NET.chat(message)
+    if not Protocol.string(message,512) or #message==0 then NET.report('INVALID_CHAT','Chat is limited to 512 UTF-8 bytes.') return end
+    return NET.roomCommand('room.chat',{text=message})
+end
+function NET.configure(config)
+    local ok,err=NET.session:configure(config)
+    if ok then Config.save(NET.session.config) else NET.report('INVALID_CONFIGURATION',err) end
+    return ok
+end
+function NET.beginLogin()
+    NET.wantOnline=true
+    NET.session:beginLogin()
+end
+function NET.cancelLogin() NET.session:cancelLogin() end
+function NET.openOnline()
+    NET.wantOnline=true
+    if NET.session:isAuthenticated() then
+        NET.connect()
+        SCN.go(NET.roomStore.snapshot and 'net_game' or 'net_menu')
+    elseif NET.session.refreshToken or SYSTEM=='Web' then
+        NET.session:refresh(function(ok)
+            if ok then SCN.go('net_menu') else SCN.go('login') end
+        end)
+    else SCN.go('login') end
+end
+function NET.connect()
+    if NET.connectionState=='connecting' or NET.connectionState=='ready' or not NET.session:isAuthenticated() then return end
+    NET.connectionState='connecting'
+    if SYSTEM~='Web' then
+        local url=NET.session.config.cadenceOrigin:gsub('^https:','wss:'):gsub('^http:','ws:')..'/v1/products/techmino/ws'
+        local id,err=NET.session.client:connect{url=url,headers={Authorization='Bearer '..NET.session.accessToken},timeout=8}
+        if not id then NET.connectionState='offline' NET.session:report(err) else NET.socketId=id end
+        return
+    end
+    NET.session:request('cadence','/v1/products/techmino/connections/tickets','POST',{},function(data,err)
+        if err then
+            NET.connectionState='offline'
+            NET.session:report(err)
             return
         end
-        local curText=text.Techrater
-        for i=2,#mesPath do
-            if type(curText)~='table' then break end
-            curText=curText[mesPath[i]]
+        if type(data)~='table' or not Protocol.string(data.ticket,512) or not Protocol.string(data.websocketUrl,2048) then
+            NET.connectionState='offline'
+            NET.report('INVALID_TICKET','The game server returned an invalid connection ticket.')
+            return
         end
-        if not curText then
-            curText=text.Techrater[mesPath[#mesPath]]
-        end
-
-        if type(curText)=='table' then
-            if availableErrorTextType[curText[1]] and type(curText[2])=='string' and type(curText[3])=='number' then
-                MES.new(curText[1],curText[2],math.min(curText[3],5))
-                return
-            end
-        elseif type(curText)=='string' then
-            if #curText>0 then
-                MES.new('warn',curText,5)
-                return
-            end
-        end
-        MES.new('warn',"["..pathStr.."]",5)
-    end
+        local origin=NET.session.config.cadenceOrigin:gsub('^https:','wss:'):gsub('^http:','ws:')
+        if data.websocketUrl:sub(1,#origin+1)~=origin..'/' then NET.connectionState='offline' NET.report('INVALID_SOCKET_URL','The connection URL does not match the configured game server.') return end
+        local url=data.websocketUrl
+        local id,connectError=NET.session.client:connect{url=url,headers={},timeout=8}
+        if not id then NET.connectionState='offline' NET.session:report(connectError) else NET.socketId=id end
+    end,true)
 end
-local function getMsg(request,timeout)
-    HTTP(request)
-    local totalTime=0
-    while true do
-        local msg=HTTP.pollMsg(request.pool)
-        if msg then
-            if type(msg.body)=='string' and #msg.body>0 then
-                local body=JSON.decode(msg.body)
-                if body then
-                    if tostring(body.code):sub(1,1)~='2' then
-                        parseError(body.message~=nil and body.message or msg)
+function NET.disconnect(reason)
+    NET.wantOnline=false
+    if NET.socketId then NET.session.client:close(NET.socketId,1000,reason or 'Leaving online services.') end
+    NET.socketId=false
+    NET.connectionState='offline'
+    NET.recoverUntil=false
+    NET.pending={}
+    NET.roomStore:clear()
+    NET.match:clear()
+end
+function NET.logout(callback)
+    NET.session:logout(function(ok,err)
+        if ok then NET.disconnect('Product session revoked.') if callback then callback() end
+        elseif err then NET.session:report(err) end
+    end)
+end
+function NET.website(path)
+    local host=NET.session.config.websiteOrigin
+    if host then love.system.openURL(host..(path or '/account')) else NET.report('ONLINE_NOT_CONFIGURED','Configure the account website origin first.') end
+end
+function NET.getProfile(id)
+    if not Protocol.id(id) or not NET.session.config.tesseraOrigin then return end
+    NET.session:request('tessera','/v1/profiles/'..id,'GET',nil,function(data,err)
+        if not err and type(data)=='table' and data.id==id then USERS.updateProfile(data) end
+    end)
+end
+function NET.getAvatar(id,version)
+    if not Protocol.id(id) then return end
+    NET.session:request('tessera','/v1/profiles/'..id..'/avatar','GET',nil,function(bytes,err,event)
+        if not err then USERS.updateAvatar(id,version,bytes,event.headers) end
+    end,false,true)
+end
+local languages={en='en',fr='fr',es='es',id='id',pt='pt',ru='ru',ja='ja',vi='vi',zh='zh',zh_trad='zh-TW',zh_code='zh'}
+function NET.announcements(show,cursor)
+    if not NET.session.config.cadenceOrigin then return end
+    local language=languages[SETTING.locale] or 'en'
+    NET.session:request('cadence','/v1/products/techmino/announcements?language='..language..(cursor and '&cursor='..cursor or ''),'GET',nil,function(data,err)
+        if err then return end
+        if type(data)~='table' or type(data.announcements)~='table' or #data.announcements>32 then NET.report('INVALID_ANNOUNCEMENTS','The announcement response is invalid.') return end
+        local contents={}
+        for _,item in ipairs(data.announcements) do
+            if type(item)~='table' or not Protocol.string(item.content,8192) then NET.report('INVALID_ANNOUNCEMENTS','An invalid announcement was isolated.') return end
+            contents[#contents+1]={id=item.id,content=item.content,timestamp=item.createdAt,title=item.title}
+        end
+        if show then SCN.go('notice',nil,language,contents) elseif contents[1] then MES.new('info',contents[1].content,12) end
+    end)
+end
+local function applyResponse(event)
+    local pending=NET.pending[event.requestId]
+    if not pending or pending.operation~=event.type then return end
+    NET.pending[event.requestId]=nil
+    local err
+    if not event.ok then
+        err=type(event.error)=='table' and event.error or {code='REQUEST_FAILED',message='The operation failed.'}
+        NET.report(err.code,err.message)
+    elseif pending.operation=='room.update' or pending.operation=='room.password' or pending.operation=='room.ready' or pending.operation=='room.team' or pending.operation=='room.role' or pending.operation=='room.kick' or pending.operation=='room.transfer' then
+        if Protocol.room(event.data) then NET.roomStore:apply(event.data) end
+    elseif pending.operation=='room.close' then NET.roomStore:clear() NET.match:clear() end
+    if pending.callback then pending.callback(event.data,err) end
+end
+local function control(bytes)
+    if type(bytes)~='string' or #bytes>262144 then NET.session.client:close(NET.socketId,1009,'Control response too large.') return end
+    local event=Json.decode(bytes)
+    if type(event)~='table' or event.protocolVersion~=1 or not Protocol.string(event.type,64) or (event.kind~='response' and event.kind~='event') or type(event.data)~='table' and event.ok~=false then NET.session.client:close(NET.socketId,1002,'Invalid control envelope.') return end
+    if event.kind=='response' then
+        if not Protocol.string(event.requestId,64) or type(event.ok)~='boolean' then NET.session.client:close(NET.socketId,1002,'Invalid response envelope.') return end
+        applyResponse(event)
+    elseif event.type=='connection.ready' then
+        local identity=event.data.identity
+        if type(identity)~='table' or not NET.session.user or identity.productId~='techmino' or identity.subject~=NET.session.user.id or not Protocol.id(identity.subject) then NET.session.client:close(NET.socketId,1002,'Invalid trusted identity.') return end
+        NET.identity=identity
+        NET.generation=event.data.generation
+        NET.connectionState='ready'
+        NET.recoverUntil=false
+        if event.data.room then
+            NET.roomStore:apply(event.data.room)
+        else
+            NET.roomStore:clear()
+            NET.match:clear()
+        end
+        if NET.match:isActive() then NET.match:resume() end
+    elseif event.type=='connection.renewalRequired' then NET.session:refresh()
+    elseif event.type=='connection.authorizationEnded' then NET.session:authorizationEnded() NET.disconnect('Authorization ended.')
+    elseif event.type=='connection.replaced' then NET.disconnect('Another connection replaced this device.') NET.report('CONNECTION_REPLACED','Another connection replaced this game connection.')
+    elseif event.type:sub(1,5)=='room.' then
+        local was=NET.roomStore.snapshot
+        NET.roomStore:event(event.type,event.data)
+        if was and not NET.roomStore.snapshot then NET.match:clear() end
+    elseif event.type:sub(1,6)=='match.' then NET.match:event(event.type,event.data)
+    else NET.report('UNKNOWN_EVENT','The server sent an unsupported event type.') end
+end
+function NET.update(dt)
+    if NET.session.closed then return end
+    NET.session:update()
+    if NET.session.client then
+        for _=1,128 do
+            local event=NET.session.client:poll()
+            if not event then break end
+            local ok,err=pcall(function()
+                if NET.session:handle(event) then return end
+                if event.id~=NET.socketId then return end
+                if event.kind=='ws_message' then
+                    if event.binary then NET.session.client:close(NET.socketId,1002,'Unexpected server binary frame.') else control(event.data) end
+                elseif event.kind=='ws_close' or event.kind=='error' then
+                    if NET.match:isActive() then NET.match.recovering=true NET.match.releasePending=true end
+                    NET.socketId=false
+                    NET.connectionState='offline'
+                    for _,pending in pairs(NET.pending) do if pending.callback then pending.callback(nil,{code='CONNECTION_LOST',message='The game connection was lost.'}) end end
+                    NET.pending={}
+                    local terminal=event.code==4001 or event.code==4003 or event.code==1002 or event.code==1009 or event.code==4008
+                    if terminal then
+                        NET.wantOnline=false
+                        NET.match.state='aborted'
+                        NET.roomStore:clear()
+                        if event.code==4003 then NET.session:authorizationEnded() end
+                        NET.report('CONNECTION_CLOSED',event.reason or event.message or 'The server closed this connection.')
+                    elseif NET.wantOnline and NET.session:isAuthenticated() then
+                        NET.recoverUntil=NET.recoverUntil or love.timer.getTime()+10
+                        NET.nextConnect=love.timer.getTime()+.5
                     end
-                    return body
                 end
-            else
-                MES.new('info',text.serverDown)
-                return
-            end
-        else
-            totalTime=totalTime+coroutine.yield()
-            if totalTime>timeout then
-                return
-            end
+            end)
+            if not ok then NET.report('INVALID_MESSAGE','A malformed online message was isolated.') end
         end
     end
-end
-
-function NET.login(auto)
-    if not TASK.lock('login') then return end
-    TASK.new(function()
-        WAIT{
-            quit=function()
-                TASK.unlock('login')
-                HTTP.deletePool('login')
-            end,
-            timeout=12.6,
-        }
-
-        if USER.aToken then
-            local res=getMsg({
-                pool='login',
-                url=AUTHHOST,
-                path='/studio26f/api/v1/auth/check',
-                headers={["x-access-token"]=USER.aToken},
-            },6.26)
-
-            if res and math.floor(res.code/100)==2 then
-                USER.uid=res.data.playerId
-                if res.data.accessToken then
-                    USER.aToken=res.data.accessToken
-                end
-                saveUser()
-                NET.ws_connect()
-                if not auto then-- Quit login menu
-                    SCN.pop()
-                end
-                SCN.go('net_menu')
-                WAIT.interrupt()
-                return
-            end
+    for id,pending in pairs(NET.pending) do
+        if love.timer.getTime()>pending.deadline then
+            NET.pending[id]=nil
+            local err={code='CONTROL_TIMEOUT',message='The game operation timed out.'}
+            NET.report(err.code,err.message)
+            if pending.callback then pending.callback(nil,err) end
         end
-        if auto then
-            SCN.go('login')
-        end
-
-        WAIT.interrupt()
-    end)
+    end
+    if NET.recoverUntil then
+        if love.timer.getTime()>NET.recoverUntil then
+            NET.wantOnline=false
+            NET.recoverUntil=false
+            NET.match:clear()
+            NET.roomStore:clear()
+            NET.report('RECOVERY_EXPIRED','The ten-second match recovery window expired.')
+        elseif NET.connectionState=='offline' and love.timer.getTime()>NET.nextConnect then NET.nextConnect=love.timer.getTime()+1 NET.connect() end
+    end
+    NET.match:update(dt)
 end
-function NET.getUserInfo(uid)
+function NET.start()
+    Config.removeLegacyCredentials()
     TASK.new(function()
-        local res=getMsg({
-            pool='getInfo',
-            url=AUTHHOST,
-            path='/studio26f/api/v1/player/info?playerId='..uid,
-        },6.26)
-
-        if res and res.code==200 and type(res.data)=='table' then
-            USERS.updateUserData(res.data)
+        while not NET.session.closed do
+            local dt=coroutine.yield()
+            NET.update(dt or 1/60)
         end
     end)
 end
-function NET.getAvatar(uid)
-    TASK.new(function()
-        local res=getMsg({
-            pool='getInfo',
-            url=AUTHHOST,
-            path='/studio26f/api/v1/player/avatar?playerId='..uid,
-        },6.26)
-
-        if res and res.code==200 and type(res.data)=='string' then
-            USERS.updateAvatar(uid,res.data)
-        end
-    end)
+function NET.shutdown()
+    NET.match:releaseAll()
+    NET.match:flush()
+    if NET.roomStore.snapshot and NET.connectionState=='ready' then NET.roomCommand('room.leave') end
+    NET.session:close()
 end
-
-local noticeLang={
-    en='en_us',
-    fr='en_us', -- fr_fr
-    es='en_us', -- es_es
-    id='en_us', -- id_id
-    pt='en_us', -- pt_pt
-    ru='en_us', -- ru_ru
-    ja='en_us', -- ja_jp
-    vi='en_us', -- vi_vn
-    zh='zh_cn',
-    zh_trad='zh_tw',
-    zh_code='zh_cn',
-}
-function NET.launchNotice()
-    TASK.new(function()
-        local res=getMsg({
-            pool='getNotice',
-            path='/techmino/api/v1/notice?language='..noticeLang[SETTING.locale]..'&lastCount=1',
-        },6.26)
-
-        if res and res.code==200 then
-            local opt=res.data.contents[1]
-            if opt then
-                MES.new('info',opt.content,12.6)
-            else
-                MES.new('info',text.Techrater.NoticeManager.noticeNotFound)
-            end
-        end
-    end)
-end
-function NET.getNotice(count)
-    WAIT{timeout=6.26}
-    TASK.new(function()
-        local res=getMsg({
-            pool='getNotice',
-            path='/techmino/api/v1/notice?language='..noticeLang[SETTING.locale]..'&lastCount='..(count or 5),
-        },6.26)
-
-        if res and res.code==200 then
-            WAIT.interrupt()
-            SCN.go('notice',nil,noticeLang[SETTING.locale],res.data.contents)
-        end
-    end)
-end
---------------------------<NEW WS API>
-local actMap={
-    global_getOnlineCount= 1000,
-    match_finish=          1100,
-    match_ready=           1101,
-    match_start=           1102,
-    player_updateConf=     1200,
-    player_finish=         1201,
-    player_joinGroup=      1202,
-    player_setReadyMode=   1203,
-    player_setHost=        1204,
-    player_setState=       1205,
-    player_stream=         1206,
-    player_setPlayMode=    1207,
-    room_chat=             1300,
-    room_create=           1301,
-    room_getData=          1302,
-    room_setData=          1303,
-    room_getInfo=          1304,
-    room_setInfo=          1305,
-    room_enter=            1306,
-    room_kick=             1307,
-    room_leave=            1308,
-    room_fetch=            1309,
-    room_setPW=            1310,
-    room_remove=           1311,
-} for k,v in next,actMap do actMap[v]=k end
-
-local function wsSend(act,data)
-    -- print(("Send: $1 -->"):repD(act))
-    -- print(("Send: $1 -->"):repD(act)) print(type(data)=='table' and TABLE.dump(data) or tostring(data),"\n")
-    WS.send('game',JSON.encode{
-        action=assert(act),
-        data=data,
-    })
-end
-
-local function _getFullName(uid)
-    return USERS.getUsername(uid).."#"..uid
-end
-
---Remove player when leave
-local function _playerLeaveRoom(uid)
-    if SCN.cur~='net_game' then return end
-    for i=1,#PLAYERS do if PLAYERS[i].uid==uid then table.remove(PLAYERS,i) break end end
-    for i=1,#PLY_ALIVE do if PLY_ALIVE[i].uid==uid then table.remove(PLY_ALIVE,i) break end end
-    if uid==USER.uid then
-        GAME.playing=false
-        SCN.backTo('net_menu')
-    else
-        NETPLY.remove(uid)
-    end
-end
-
---Push stream data to players
-function NET.pumpStream(d)
-    if d.playerId==USER.uid then return end
-    for _,P in next,PLAYERS do
-        if P.uid==d.playerId then
-            local res,stream=pcall(love.data.decode,'string','base64',d.data)
-            if res then
-                DATA.pumpRecording(stream,P.stream)
-            else
-                MES.new('error',"Bad stream from ".._getFullName(P.uid),.1)
-            end
-            return
-        end
-    end
-end
-
--- Global
-function NET.global_getOnlineCount()
-    wsSend(actMap.global_getOnlineCount)
-end
-
--- Room
-function NET.room_chat(msg,rid)
-    if not TASK.lock('chatLimit',1.26) then
-        MES.new('warn',text.tooFrequent)
-    elseif #msg>0 then
-        wsSend(1300,{
-            message=msg,
-            roomId=rid,-- Admin
-        })
-        return true
-    end
-end
-function NET.room_create(data)
-    if not TASK.lock('createRoom',10) then MES.new('warn',text.tooFrequent) return end
-    TABLE.coverR(data,NET.roomState)
-    WAIT{timeout=12}
-    wsSend(actMap.room_create,data)
-end
-function NET.room_getData(rid)
-    wsSend(actMap.room_getData,{
-        roomId=rid,-- Admin
-    })
-end
-function NET.room_setData(data,rid)
-    wsSend(actMap.room_setData,{
-        data=data,
-        roomId=rid,-- Admin
-    })
-end
-function NET.room_getInfo(rid)
-    wsSend(actMap.room_getInfo,{
-        roomId=rid,-- Admin
-    })
-end
-function NET.room_setInfo(info,rid)
-    wsSend(actMap.room_setInfo,{
-        info=info,
-        roomId=rid,-- Admin
-    })
-end
-function NET.room_enter(rid,password)
-    if not TASK.lock('enterRoom',6) then return end
-    SFX.play('reach',.6)
-    wsSend(actMap.room_enter,{
-        roomId=rid,
-        password=password,
-    })
-end
-function NET.room_kick(pid,rid)
-    wsSend(actMap.room_kick,{
-        playerId=pid,-- Host
-        roomId=rid,-- Admin
-    })
-end
-function NET.room_leave()
-    wsSend(actMap.room_leave)
-end
-function NET.room_fetch()
-    if not TASK.lock('fetchRoom',3) then return end
-    wsSend(actMap.room_fetch,{
-        pageIndex=0,
-        pageSize=26,
-    })
-end
-function NET.room_setPW(pw,rid)
-    if not TASK.lock('setRoomPW',2) then return end
-    wsSend(actMap.room_setPW,{
-        password=pw,
-        roomId=rid,-- Admin
-    })
-end
-function NET.room_remove(rid)
-    wsSend(actMap.room_remove,{
-        roomId=rid-- Admin
-    })
-end
-
--- Player
-function NET.player_updateConf()
-    wsSend(actMap.player_updateConf,dumpBasicConfig())
-end
-function NET.player_finish(msg)
-    wsSend(actMap.player_finish,msg)
-end
-function NET.player_joinGroup(gid)
-    wsSend(actMap.player_joinGroup,gid)
-end
-function NET.player_setReady(isReady)
-    wsSend(actMap.player_setReadyMode,isReady)
-end
-function NET.player_setHost(pid)
-    wsSend(actMap.player_setHost,{
-        playerId=pid,
-        role='Admin',
-    })
-end
-function NET.player_setState(state)-- not used
-    wsSend(actMap.player_setState,state)
-end
-function NET.player_stream(stream)
-    wsSend(actMap.player_stream,love.data.encode('string','base64',stream))
-end
-function NET.player_setPlayMode(mode)
-    wsSend(actMap.player_setPlayMode,mode)
-end
-
-
-
--- WS
-NET.wsCallBack={}
-function NET.wsCallBack.global_getOnlineCount(body)
-    NET.onlineCount=tonumber(body.data) or "_"
-end
-function NET.wsCallBack.room_chat(body)
-    if SCN.cur~='net_game' then return end
-    TASK.unlock('receiveMessage')
-    TASK.lock('receiveMessage',1)
-
-    local name=_getFullName(body.data.playerId).." "
-    -- P/s: we need to wrap both name and message, not just only message
-    local _,msgWrapped=FONT.get(NET.inputBox.font):getWrap(name..body.data.message,950)
-    -- We don't want to see the name repeat twice :skull:
-    msgWrapped[1]=string.gsub(msgWrapped[1],name,"",1)
-    -- Push the name in white and first line of message in blue first
-    NET.textBox:push{COLOR.Z,name,COLOR.N,msgWrapped[1]}
-    for i, line in ipairs(msgWrapped) do
-        if i ~= 1 then
-            NET.textBox:push{COLOR.N,msgWrapped[i]}
-        end
-    end
-end
-function NET.wsCallBack.room_create(body)
-    MES.new('check',text.createRoomSuccessed)
-    SCN.pop()
-    NET.wsCallBack.room_enter(body)
-    WAIT.interrupt()
-end
-function NET.wsCallBack.room_getData(body)
-    NET.roomState.data=body.data
-end
-function NET.wsCallBack.room_setData(body)
-    NET.wsCallBack.room_getData(body)
-end
-function NET.wsCallBack.room_getInfo(body)
-    NET.roomState.info=body.info
-end
-function NET.wsCallBack.room_setInfo(body)
-    NET.wsCallBack.room_getInfo(body)
-end
-function NET.wsCallBack.room_enter(body)
-    TASK.unlock('enterRoom')
-
-    if body.data.players then
-        NET.textBox.hide=true
-        NET.inputBox.hide=true
-        NET.textBox:clear()
-        NET.inputBox:clear()
-
-        NET.roomState=body.data
-        NETPLY.clear()
-        destroyPlayers()
-        loadGame('netBattle',true,true)
-        for _,p in next,body.data.players do
-            NETPLY.add{
-                uid=p.playerId,
-                group=p.group,
-                role=p.role,
-                playMode=p.type,
-                readyMode=p.state,
-                config=p.config,
-            }
-        end
-        if NET.roomState.state=='Playing' then
-            NET.storedStream={}
-            for _,p in next,body.data.players do
-                table.insert(NET.storedStream,{
-                    playerId=p.playerId,
-                    data=p.history,
-                })
-            end
-            NET.seed=body.data.seed
-            TASK.lock('netPlaying')
-        else
-            NET.freshRoomAllReady()
-        end
-    else
-        local p=body.data
-        if NETPLY.exist(p.playerId) then _playerLeaveRoom(p.playerId) end
-        NETPLY.add{
-            uid=p.playerId,
-            group=p.group,
-            role=p.role,
-            playMode=p.type,
-            readyMode=p.state,
-            config=p.config,
-        }
-        NET.textBox:push{COLOR.Y,text.joinRoom:repD(_getFullName(p.playerId))}
-        if not TASK.getLock('netPlaying') then
-            SFX.play('connected')
-            NET.freshRoomAllReady()
-        end
-    end
-end
-function NET.wsCallBack.room_kick(body)
-    MES.new('info',text.playerKicked:repD(_getFullName(body.data.executorId),_getFullName(body.data.playerId)))
-    _playerLeaveRoom(body.data.playerId)
-end
-function NET.wsCallBack.room_leave(body)
-    local uid=body.data and body.data.playerId or USER.uid
-    if body.data then
-        NET.textBox:push{COLOR.Y,text.leaveRoom:repD(_getFullName(uid))}
-    end
-    _playerLeaveRoom(uid)
-    NET.freshRoomAllReady()
-end
-function NET.wsCallBack.room_fetch(body)
-    TASK.unlock('fetchRoom')
-    if not body.data then body.data={} end
-    SCN.scenes.net_rooms.widgetList.roomList:setList(body.data)
-end
-function NET.wsCallBack.room_setPW()
-    if SCN.cur~='net_game' then return end
-    MES.new(text.roomPasswordChanged)
-end
-function NET.wsCallBack.room_remove()
-    if SCN.cur~='net_game' then return end
-    MES.new('info',text.roomRemoved)
-    _playerLeaveRoom(USER.uid)
-end
-function NET.wsCallBack.player_updateConf(body)
-    if SCN.cur~='net_game' then return end
-    if type(body.data)=='table' then
-        NETPLY.map[body.data.playerId].config=body.data.config
-    end
-end
-function NET.wsCallBack.player_finish(body)
-    if SCN.cur~='net_game' then return end
-    for _,P in next,PLY_ALIVE do
-        if P.uid==body.data.playerId then
-            NETPLY.setPlace(P.uid,#PLY_ALIVE)
-            P.loseTimer=26
-            break
-        end
-    end
-end
-function NET.wsCallBack.player_joinGroup(body)
-    if SCN.cur~='net_game' then return end
-    NETPLY.map[body.data.playerId].group=body.data.group
-end
-function NET.wsCallBack.player_setHost(body)
-    if SCN.cur~='net_game' then return end
-    if body.data.role=='Admin' then
-        MES.new('info',text.becomeHost:repD(_getFullName(body.data.playerId)))
-    end
-    NETPLY.map[body.data.playerId].role=body.data.role
-end
-function NET.wsCallBack.player_setState(body)-- not used
-end
-function NET.wsCallBack.player_stream(body)
-    if SCN.cur~='net_game' then return end
-    NET.pumpStream(body.data)
-end
-function NET.wsCallBack.player_setPlayMode(body)
-    if SCN.cur~='net_game' then return end
-    NETPLY.map[body.data.playerId].playMode=body.data.type
-    NET.freshRoomAllReady()
-end
-function NET.wsCallBack.player_setReadyMode(body)
-    if SCN.cur~='net_game' then return end
-    NETPLY.map[body.data.playerId].readyMode=body.data.isReady and 'Ready' or 'Standby'
-    NET.freshRoomAllReady()
-end
-function NET.wsCallBack.match_finish()
-    if SCN.cur~='net_game' then return end
-    for _,P in next,PLAYERS do
-        NETPLY.setStat(P.uid,P.stat)
-    end
-    TASK.new(function()
-        TEST.yieldT(2.6)
-        TASK.unlock('netPlaying')
-    end)
-end
-function NET.wsCallBack.match_ready()-- not used
-end
-function NET.wsCallBack.match_start(body)
-    if SCN.cur~='net_game' then return end
-    TASK.lock('netPlaying')
-    NET.seed=body.data and body.data.seed
-    if not NET.seed then
-        NET.seed=0
-        MES.new("error",'No seed received')
-    end
-end
-
-function NET.ws_connect()
-    if WS.status('game')=='dead' then
-        WS.connect('game','',{['x-access-token']=USER.oToken},6)
-        TASK.removeTask_code(NET.ws_update)
-        TASK.new(NET.ws_update)
-    end
-end
-function NET.ws_close()
-    WS.close('game')
-end
-function NET.ws_update()
-    -- Wait until connected
-    while true do
-        TEST.yieldT(1/26)
-        if WS.status('game')=='dead' then
-            USER.aToken=false
-            USER.oToken=false
-            TEST.yieldUntilNextScene()
-            GAME.playing=false
-            SCN.backTo('main')
-            return
-        elseif WS.status('game')=='running' then
-            break
-        end
-    end
-
-    do-- Get UID
-        local res=getMsg({
-            pool='getUID',
-            path='/techmino/api/v1/auth/check',
-            headers={["x-access-token"]=USER.oToken},
-        },6.26)
-
-        if res and math.floor(res.code/100)==2 then
-            USER.uid=res.data.playerId
-            if res.data.accessToken then
-                USER.oToken=res.data.accessToken
-            end
-            saveUser()
-        else
-            TEST.yieldUntilNextScene()
-            GAME.playing=false
-            SCN.backTo('main')
-            return
-        end
-    end
-
-    -- Initialize player setting
-    NET.player_updateConf()
-
-    -- Websocket main loop
-    local updateOnlineCD=0
-    while true do
-        TEST.yieldT(.01)-- Network messages, max 126 FPS is enough
-
-        if WS.status('game')=='dead' then
-            TEST.yieldUntilNextScene()
-            GAME.playing=false
-            SCN.backTo('main')
-            return
-        end
-
-        updateOnlineCD=updateOnlineCD%626+1
-        if updateOnlineCD==1 then NET.global_getOnlineCount() end
-
-        local msg,op=WS.read('game')
-        if msg then
-            if op=='ping' then
-            elseif op=='pong' then
-            elseif op=='close' then
-                msg=JSON.decode(msg)
-                if msg then
-                    MES.new('info',text.wsClose:repD(msg and msg.message or msg))
-                    if msg and msg.message then LOG(msg.message) end
-                end
-                TEST.yieldUntilNextScene()
-                GAME.playing=false
-                SCN.backTo('main')
-                return
-            elseif msg then
-                msg=JSON.decode(msg)
-                -- print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno))
-                -- print(("Recv:      <-- $1 err:$2"):repD(msg.action,msg.errno)) print(TABLE.dump(msg),"\n")
-                if msg.errno~=0 then
-                    parseError(msg.message~=nil and msg.message or msg)
-                else
-                    local f=NET.wsCallBack[actMap[msg.action]]
-                    if f then f(msg) end
-                end
-            else
-                MES.new('warn',"Wrong json: "..msg,5)
-                WS.alert('user')
-            end
-        end
-    end
-end
-
---------------------------<OLD ONLINE API>
--- Save
-function NET.uploadSave()
-    if not TASK.lock('uploadSave',8) then return end
-    wsSend({data={sections={
-        {section=1,data=STRING.packTable(STAT)},
-        {section=2,data=STRING.packTable(RANKS)},
-        {section=3,data=STRING.packTable(SETTING)},
-        {section=4,data=STRING.packTable(KEY_MAP)},
-        {section=5,data=STRING.packTable(VK_ORG)},
-        {section=6,data=STRING.packTable(loadFile('conf/vkSave1','-canSkip') or{})},
-        {section=7,data=STRING.packTable(loadFile('conf/vkSave2','-canSkip') or{})},
-    }}})
-    MES.new('info',"Uploading")
-end
-function NET.downloadSave()
-    if not TASK.lock('downloadSave',8) then return end
-    wsSend({data={sections={1,2,3,4,5,6,7}}})
-    MES.new('info',"Downloading")
-end
-function NET.loadSavedData(sections)
-    local cloudData={}
-    local secNameList={'STAT','RANKS','SETTING','keyMap','VK_org','vkSave1','vkSave2'}
-    for _,sec in next,sections do
-        cloudData[secNameList[sec.section]]=STRING.unpackTable(sec.data)
-    end
-
-    local fail
-    repeat
-        if cloudData.STAT then
-            TABLE.cover(cloudData.STAT,STAT)
-            if not saveStats() then fail=true end
-        end
-
-        if cloudData.RANKS then
-            TABLE.cover(cloudData.RANKS,RANKS)
-            if not saveProgress() then fail=true end
-        end
-
-        if cloudData.SETTING then
-            TABLE.cover(cloudData.SETTING,SETTING)
-            if not saveSettings() then fail=true end
-        end
-        applySettings()
-
-        if cloudData.keyMap then
-            TABLE.cover(cloudData.keyMap,KEY_MAP)
-            if not saveFile(KEY_MAP,'conf/key') then fail=true end
-        end
-
-        if cloudData.VK_org then
-            TABLE.cover(cloudData.VK_org,VK_ORG)
-            if not saveFile(VK_ORG,'conf/virtualkey') then fail=true end
-        end
-
-        if #cloudData.vkSave1[1] and not saveFile(cloudData.vkSave1,'conf/vkSave1') then fail=true end
-        if #cloudData.vkSave2[1] and not saveFile(cloudData.vkSave2,'conf/vkSave2') then fail=true end
-    until true
-
-    if fail then
-        MES.new('error',text.dataCorrupted)
-    else
-        MES.new('check',text.saveDone)
-    end
-end
-
+NET.cloud=require('parts.online.cloud').new(NET)
 return NET

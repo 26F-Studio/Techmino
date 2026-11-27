@@ -41,3 +41,98 @@ Made a payment method to try it out, remember to keep a payment record, there ma
 ## 500 Stars Poster
 
 ![Techmino](.github/500stars/exported.png)
+
+## Online services
+
+Online play uses the independent Tessera account service and Cadence game service. See the [deployment guide](../Tessera/deploy/README.md) and [client transport/package guide](../Cadence/transport/README.md). Configure exact HTTPS public origins before packaging; no account password or resource-server secret belongs in the game.
+
+Sign-in is user-triggered and uses the system browser for account login, verification and consent. Native product sessions use OS-protected refresh storage, or visibly remain memory-only when the store is unavailable or locked. Web sessions use an independent HttpOnly product cookie; access credentials remain in memory. Ordinary website sign-out does not revoke the game's grant. The account page can revoke a device, withdraw a product or sign out all devices.
+
+Rooms offer complete default `netBattle` / TRS server authority and a separately labeled casual relay. Relay results are unverified; unsupported authoritative modes are not enabled. Player tuning and participants freeze at start. Hosts can select automatic disconnect/temporary-absence pause, a 5/10/30-second single-pause ceiling and a sixty-second total pause budget. Recovery lasts at most ten seconds; leaving, kick and authorization withdrawal are terminal.
+
+The primary board follows the signed-in participant in both online tracks,
+without reordering the server's frozen roster or slot-to-input mapping.
+Spectators retain the source-order layout. Initial placement and later layout
+updates share the same positioning path.
+
+Ordinary input acknowledgements and periodic snapshots retire resolved inputs
+without replaying the in-flight suffix. An explicit `INPUT_GAP` or the
+authoritative snapshot / relay catch-up completing connection recovery starts
+replay; a `match.resume` room reply is not an input acknowledgement.
+`CAPACITY_EXCEEDED` and `SERVICE_UNAVAILABLE` input rejections schedule unresolved
+input for the next update, never an immediate receipt-drain retry loop. Retries
+preserve the original sequence and frame. Acknowledgements advance or cancel
+queued replay so an overtaking acknowledgement cannot block subsequent input.
+Recovery retains the 64-event batch bound and continues any remaining suffix.
+The six-frame input buffer and twelve-frame future-admission limit are unchanged.
+
+In authoritative play, a per-event rejection identifies the input sequence
+the server consumed without applying it. For a rejected release, the client
+waits for its own snapshot to cover that sequence and its target frame. If the
+key is still down and no newer local input supersedes it, the client queues a
+fresh release. The same rule applies if that release is rejected. The client
+does not recreate rejected presses or roll back movement. Relay is unchanged.
+
+Server-declared participant or match termination retires pending/held input
+without sending another `match.finish`. Terminal participants in recovery
+snapshots follow the same rule. A local completion still flushes its final
+release before submitting its sequence/frame boundary.
+
+Run `python3 .github/tests/online_match.py` to exercise the actual LÖVE client
+with isolated saves: acknowledgement/rejection handling, bounded recovery in
+both tracks, terminal input retirement and local final-input ordering,
+either two-player perspective, the last slot in a full room,
+relay elimination/repositioning, and spectator layout.
+CI runs this regression with LÖVE 11.5 and requires its success marker. Runtime
+downloads follow release redirects and reject HTTP errors before execution.
+
+Cloud save versions contain bounded strict JSON, not executable Lua or credentials. At most five versions are retained. A concurrent update requires an explicit conflict choice; restore first backs up local data. Uploaded offline statistics are not authoritative ranking evidence. Offline play, local saves and local replays remain owned by the original game.
+
+Linux AppImage packaging preserves the game's bundled libraries while restoring the host library/search environment only for the external system-browser opener. Local original AppImage consent, WSS `ready`, room directory and device logout passed after that packaging fix. Matching Debian installation and its installed LÖVE launcher were exercised separately; this is not Debian GUI/online, all-platform or production acceptance. See the package guide for the actual evidence boundaries and unlocked Secret Service prerequisite.
+
+Linux CI builds the transport on Ubuntu 22.04 and loads the staged library on
+Debian 12 before packaging it. Newer build hosts can introduce glibc symbols
+that prevent multiplayer from loading even when the offline game starts.
+
+### Online packaging and CI
+
+Set the GitHub Actions repository variables `PUBLIC_ORIGIN` to
+`https://studio26f.org` and `CADENCE_PUBLIC_ORIGIN` to
+`https://game.studio26f.org`. Pull requests, CI branches, and release
+builds use the same settings. `TESSERA_PUBLIC_ORIGIN` defaults to
+`PUBLIC_ORIGIN`; `GAME_WEB_REDIRECT_URI` defaults to
+`https://studio26f.org/play/techmino/` for this deployment.
+
+The public deployment uses publicly trusted certificates, so these packages
+do not require the local fixture CA or `TECHMINO_TRANSPORT_CA_FILE`.
+Certificate and hostname verification remain enabled. An existing saved
+`conf/online.json` takes precedence over package endpoints; update its origin
+settings when moving from a local fixture without deleting offline saves.
+The vendored CI source contains only the standalone transport crate, its
+lockfile, and its platform bridges, not the game backend.
+
+Validation branches upload CI artifacts without publishing GitHub Pages.
+Pages deployment remains limited to `main` and release tags. The Pages build
+supports offline play; use [the registered game page](https://studio26f.org/play/techmino/)
+for Web sign-in, which requires a same-origin callback. CI branches build
+Windows, Linux, Android, and Web packages; macOS and iOS retain their
+release-tag signing and distribution requirements.
+Android packaging runs pinned `cargo-ndk` from the resolved transport crate,
+not the non-Rust client root, so its initial Cargo metadata lookup succeeds.
+
+The Web runtime uses the browser's live activation for fullscreen requests and
+restores the windowed drawing buffer and viewport if the browser rejects
+entry. A quick exit does not leave the game rendered at fullscreen dimensions.
+Web always starts windowed, even with an older saved fullscreen preference.
+Use F11 or the graphics settings switch after the game loads. Native startup
+still applies its saved window preference.
+
+### Galaxim boundary and feasible directions
+
+The existing `net_galaxim` entry remains visible. Its match action already reports the game's unfinished-feature notice; this rewrite does not claim a Galaxim game or silently route that action into `netBattle`.
+
+- A social/discovery hub can reuse trusted product identity, bounded room commands and revisioned membership without introducing a simulation or authoritative ranking. The world/map state, persistence and interaction rules still need an explicit product design.
+- A cooperative or competitive Galaxim mode requires a concrete gameplay specification, its own allowlisted ruleset and deterministic state/input contract. Reuse admission, ownership, pause, settlement and replay boundaries, but do not treat the existing default `netBattle` engine as proof for another mode.
+- A launch link into Techmino Galaxy can use the distinct registered `techminoGalaxy` product authorization. Galaxy's current account integration does not imply multiplayer ZTC modes or a completed shared-world protocol.
+
+Choose the gameplay direction before enabling the existing match control. Existing account, room and transport infrastructure does not by itself define the missing game.

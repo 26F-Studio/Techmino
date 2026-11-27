@@ -888,52 +888,29 @@ local commands={} do
         description="Show a random tip",
     }
 
-    -- Network
-    commands.switchhost={
-        code=function(arg)
-            arg=arg:split(" ")
-            if arg[1] and #arg<=3 then
-                WS.switchHost(unpack(arg))
-                log{C.Y,"Host switched"}
-            else
-                log{C.A,"Usage:"}
-                log{C.A,"switchhost [host]"}
-                log{C.A,"switchhost [host] [port]"}
-                log{C.A,"switchhost [host] [port] [path]"}
-                log{C.A,"Example: switchhost 127.0.0.1 26000 /sock"}
-            end
+    -- Online configuration contains service origins only, never credentials.
+    commands.online={
+        code=function(value)
+            local origins=STRING.split(value,' ')
+            if #origins==3 then
+                if NET.configure{tesseraOrigin=origins[1],cadenceOrigin=origins[2],websiteOrigin=origins[3]} then log{C.Y,"Online origins configured"} end
+            else log{C.A,"Usage: online <Tessera origin> <Cadence origin> <account website origin>"} end
         end,
-        description="Switch to another host",
-        details={
-            "Disconnect all connections and switch to another host",
-            "",
-            "Usage:",
-            "switchhost [host]",
-            "switchhost [host] [port]",
-            "switchhost [host] [port] [path]",
-            "Example: switchhost 127.0.0.1 26000 /sock",
-        },
+        description="Configure approved online service origins",
+        details={"Configure HTTPS origins, or explicit loopback HTTP origins for isolated development.","Sign out before changing service origins.","Usage: online <Tessera origin> <Cadence origin> <account website origin>"},
     }
-    function commands.m_broadcast(str)
-        if #str>0 then
-            WS.send('game',JSON.encode{action=0,data={message=str}})
-            log{C.Y,"Request sent"}
-        else
-            log{C.R,"Format error"}
-        end
-    end
-    function commands.m_shutdown(time)
-        time=tonumber(time)
-        if time and time>1 then
-            WS.send('game',JSON.encode{action=0,data={countdown=time}})
-            log{C.Y,"Request sent"}
-        else
-            log{C.R,"Format error"}
-        end
-    end
-    function commands.m_connInfo() WS.send('game',JSON.encode{action=10}) end
-    function commands.m_playMgrInfo() WS.send('game',JSON.encode{action=11}) end
-    function commands.m_streamMgrInfo() WS.send('game',JSON.encode{action=12}) end
+    commands.netinfo={
+        code=function()
+            log("Product: techmino")
+            log("Connection: "..NET.connectionState)
+            log("Session: "..NET.session.status)
+            log(NET.session:storageNotice())
+            local room=NET.roomStore.snapshot
+            if room then log("Room: "..room.id.." / revision "..room.revision.." / "..room.phase) end
+            if NET.match.id then log("Match: "..NET.match.id.." / "..NET.match.state.." / input ack "..NET.match.lastAckSeq) end
+        end,
+        description="Show non-secret online session state",
+    }
 
     for cmd,body in next,commands do
         if type(body)=='function' then

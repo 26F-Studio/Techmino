@@ -35,6 +35,7 @@ local scene={}
 local mods={}
 
 local function _playRep(fileName)
+    if NET.match:isActive() then NET.report('MATCH_ACTIVE','Leave the active online match before playing an offline replay.') return end
     local rep=DATA.parseReplay(fileName,true)
     if not rep.available then
         MES.new('error',text.replayBroken)
